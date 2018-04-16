@@ -1,3 +1,6 @@
+## This code is slightly modified from trooper6's clock code found on the 
+## Lemma Soft forums
+
 init -2:
     style digi_clock:
         is default
