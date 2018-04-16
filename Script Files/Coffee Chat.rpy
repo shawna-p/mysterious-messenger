@@ -1,19 +1,29 @@
 label coffee_chat:
-
-
+    # You'll need to call this yourself; it's not an option in the spreadsheet
+    # Pass it the name of the background you want in quotes
+    # You can find your options in variables.rpy
+    # Usually calling chat_begin will clear the chatlog, but if you want to keep
+    # previous messages, call it with False as a second argument (e.g. call chat_begin("night", False))
     call chat_begin("earlyMorn")
     
+    # Again, look for music in variables.rpy
+    # You'll want to tell background music to loop
     play music geniusly_hacked_bebop loop
     
     call answer
     menu:
         "Do you still feel tired?":
+            # Note that MC's responses have a pv value of 0 after a menu
+            # Both 'branches' have several lines of dialogue before they 'rejoin' later
             $ addchat(m,"Do you still feel tired?",0)
             $ addchat(s,"No way.",pv)
             $ addchat(s,"One of my strengths is that I feel completely refreshed after sleeping",pv,False,True, "cloud_l")
         "Seven, get a good night's rest?":
             $ addchat("MC", "{=sser2}Seven, get a good night's rest?{/=sser2}", 0)
             $ addchat("Sev", "{=sser2}Heya [name]{/=sser2}", pv)
+            # You have to call heart icons yourself. Just pass it the variable
+            # of the name of the character whose heart icon you want
+            # (variables.rpy has the variable names if you're not sure)
             call heart_icon(s)
             $ addchat("Sev", "{=sser2}Ya. Slept like a rock.{/=sser2}", pv)
     $ addchat("Sev", "{=sser2}I don't feel tired physically...{/=sser2}", pv)
@@ -62,7 +72,8 @@ label coffee_chat:
     $ addchat(y, "What?",pv)
     $ addchat(s,"{=ser1}{size=+12}Did you already drink the coffee!?!?!?!?{/size}{/=ser1}",pv)
     $ addchat(y,"{=sser1}Yeah... Why?{/=sser1}",pv)
-    stop music
+    # Another play statement will automatically "override" the previous play statement
+    # and only one set of background music will play on the music channel at once
     play music dark_secret loop
     $ addchat(s,"{=ser1b}Big trouble...{/=ser1b}",pv)
     $ addchat(y,"{=sser1}What trouble?{/=sser1}",pv)
@@ -99,6 +110,8 @@ label coffee_chat:
             $ addchat(s,"{=ser1}I'm dead serious.{/=ser1}",pv)
             $ addchat(y,"Puppy food?",pv)
             
+            # This is a nested menu; note the indentation levels. You'll only see this menu
+            # if you choose 'Seven's just messing around lol' in the previous menu
             call answer
             menu:
                 "-_-":
@@ -319,6 +332,8 @@ label coffee_chat:
     $ addchat("msg","Yoosung★ has left the chatroom.",pv)
     stop music
     
+    # Currently this is how you return to the main menu instead of the Save & Exit sign
+    # TODO: Save & Exit sign
     call answer
     menu:
         "return?":
