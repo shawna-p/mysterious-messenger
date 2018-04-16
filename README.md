@@ -4,9 +4,9 @@ This is an ongoing project intended to give me practice experimenting with the R
 
 ## Getting Started
 
-If you want to run this code, you will need to download the Ren'Py engine: https://www.renpy.org/
-As of 2018-04-16 (the time of this writing) the version of Ren'Py used is 6.99.14.3
-In the Ren'Py launcher, start a new project. Go to the /game folder of the project you just created and place the provided .rpy files in there. Replace the existing screens.rpy options.rpy script.rpy and gui.rpy
+* If you want to run this code, you will need to download the Ren'Py engine: https://www.renpy.org/
+* As of 2018-04-16 (the time of this writing) the version of Ren'Py used is 6.99.14.3
+* In the Ren'Py launcher, start a new project. Go to the /game folder of the project you just created and place the provided .rpy files in there. Replace the existing screens.rpy options.rpy script.rpy and gui.rpy
 **The images and sound files used in this project are not included in the repository. Please contact me directly if you would like to request the assets.**
 
 
