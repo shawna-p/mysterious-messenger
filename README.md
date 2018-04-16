@@ -32,6 +32,10 @@ The code from lines 1425 to 1430 or so should look something like the following:
 
 If you've set up everything properly, from the Ren'Py Launcher you should be able to select the project you created from the column on the left and hit 'Launch'. If you don't have the images/sound files, you will likely run into a few "not found" errors until you've created your own replacements; otherwise, you should be able to go ahead and type in your desired name for the protagonist and check out the "Example Chatroom", which will walk you through some of the available features in the program.
 
+### Creating your own chatrooms
+
+Included in the repository is a file called Script Generator.xlsx This file has an instruction sheet to help you get started, and a template to facilitate turning dialogue into readable code for the program. Once you've filled out the template sheet correctly, you can simply copy-paste the code into the program and add in any outstanding features, such as choice menus or background music. I recommend you take a look at both the code for the Example Chatroom as well as the Coffee Chatroom to get an idea of how you can clean up your chatroom code after you've generated it through the spreadsheet.
+
 
 ## Built With
 
