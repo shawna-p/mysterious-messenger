@@ -105,6 +105,7 @@ define u = "Unk"
 define v = "V"
 default name = "MC"
 
+
 # These are primarily used when setting the nickname colour
 # via $ nickColour = black or $ nickColour = white
 define white = "#ffffff"

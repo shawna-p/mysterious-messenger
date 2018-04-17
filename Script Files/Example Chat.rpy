@@ -318,10 +318,8 @@ label ending:
     $ addchat(u,"I hope you find this program helpful.", pv, False, False)
     $ addchat(u,"Good luck!", pv, False, False)
     $ addchat("msg","Unknown has left the chatroom", pv, False, False)
-    call answer
-    menu:
-        "Return to main menu":
-            call start
+    # Call this at the end of a chatroom
+    call save_exit
 
     
 

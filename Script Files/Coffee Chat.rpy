@@ -330,11 +330,6 @@ label coffee_chat:
     $ addchat(y,"First, I should get some chocolate milk...",pv)
     $ addchat(y,"I'm gonna go to the supermarket~!",pv)
     $ addchat("msg","Yoosung★ has left the chatroom.",pv)
-    stop music
     
-    # Currently this is how you return to the main menu instead of the Save & Exit sign
-    # TODO: Save & Exit sign
-    call answer
-    menu:
-        "return?":
-            jump start
+    # Call this to end the chat and return to the main menu
+    call save_exit

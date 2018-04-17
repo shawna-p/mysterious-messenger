@@ -1,9 +1,8 @@
 init python:
 
+    # A function to make the Max Speed button work
     def toggle_skipping():
-        config.skipping = not config.skipping
-        
-        
+        config.skipping = not config.skipping      
 
     # Add a name & colour here if you'd like to add
     # another heart icon
@@ -18,12 +17,26 @@ init python:
                     'Unk' : "#ffffff",
                     'Sae' : "#b81d7b",
                     } 
+                    
+    
+    #************************************
+    # Heart Points
+    #************************************
+    heart_points = {'Sev': 0, 
+                    'Zen': 0, 
+                    'Ja': 0, 
+                    'Ju': 0, 
+                    'Yoo' : 0, 
+                    'Rika' : 0,
+                    'V' : 0,
+                    'Sae' : 0,
+                    } 
 
     # This is a helper function for the heart icon
     # it dynamically recolours a generic white heart
     # depending on the character
     # If you'd like to define your own character & heart icon,
-    # just add another elif statement along with the colour you want
+    # just add it to the heartcolour list
     # and when you type "call heart_icon("my custom character") it will
     # automatically recolour it
     def heart_icon_fn(st,at):
@@ -64,7 +77,12 @@ init python:
             colour = white
         return im.MatrixColor("Heart Point/HeartBreak/stat_animation_9.png", im.matrix.colorize("#000000", colour)), 0.1
 
+# This is a variable that detects if you're choosing an option from a menu
+# If so, it uses this variable to know it should darken the screen behind
+# the choices
 default choosing = False
+# Keeps track of the total number of hp (heart points) you've received per chatroom
+default chatroom_hp = 0
 
 image heart_icon = DynamicDisplayable(heart_icon_fn)
 image heartbreak1 = DynamicDisplayable(heart_break_fn1)
@@ -78,8 +96,16 @@ label heart_icon(character):
     show heart_icon onlayer heart at heart
     $ addchat("answer","",0.62)
     #hide heart_icon onlayer heart
-    # it'd be easy to do something like if heartChar == "Sev": ++sevPoint
-    # if you're counting heart points
+    # This counts heart points
+    # Ray and Saeran are counted as one person
+    if character == "Ray":
+        $ character = "Sae"
+    if character in heart_points:
+        $ points = heart_points[character]
+        $ points += 1
+        $ newVal = {character: points}
+        $ heart_points.update(newVal)
+        $ chatroom_hp += 1
     return
     
 label heart_break(character):
@@ -104,7 +130,14 @@ label heart_break(character):
     $ renpy.pause(0.12, hard=True)
     hide heartbreak5 onlayer heart
 
-    # again, could subtract heart points easily here
+    if character == "Ray":
+        $ character = "Sae"
+    if character in heart_points:
+        $ points = heart_points[character]
+        $ points -= 1
+        $ newVal = {character: points}
+        $ heart_points.update(newVal)
+        $ chatroom_hp -= 1
     return
 
 # Call this label before you show a menu
@@ -166,9 +199,11 @@ screen answer_button:
 # Note that it automatically clears the chatlog, so if you want
 # to change the background but not clear the messages on-screen,
 # you'll also have to pass it 'False' as its second argument
-label chat_begin(background=None, clearchat=True):
+label chat_begin(background=None, clearchat=True, resetHP=True):
     if clearchat:
         $ chatlog = []
+    if resetHP:
+        $ chatroom_hp = 0
     show screen phone_overlay
     show screen clock_screen
     show screen messenger_screen  
@@ -222,7 +257,6 @@ screen pause:
         
 label play:
     $ addchat("pause","",0)
-    #$ addchat("pause","",0)
     #call screen play_button
     show screen play_button
     pause
@@ -346,6 +380,60 @@ label redhack:
     $ renpy.pause(0.72, hard=True)
     hide redhack scroll
     return
+    
+# Call this label before you show a menu
+# to show the answer button
+label save_exit:
+    if config.skipping:
+        $ addchat("answer","",0)
+    else:
+        $ addchat("answer","",0.5)
+    hide screen pause
+    call screen signature_sign
+    return
+
+    
+image save_exit = "Phone UI/Save&Exit.png"  
+image signature = "Phone UI/signature01.png"
+image heart_hg = "Phone UI/heart-hg-sign.png"
+        
+screen signature_sign:
+    imagebutton:
+        xanchor 0.0
+        yanchor 0.0
+        xpos 0
+        ypos 1220
+        focus_mask True
+        idle "save_exit"
+        action [ToggleVariable("choosing", False, True), Call("press_save_and_exit"), Return()]
+        
+label press_save_and_exit:
+    call screen save_and_exit
+    return
+
+screen save_and_exit:
+    image "save_exit" ypos 1220
+    if choosing:
+        image "Phone UI/choice_dark.png"
+    image "signature" xalign 0.5 yalign 0.5
+    image "heart_hg" xalign 0.5 ypos 650
+    text "This conversation will be archived in the RFA records." style "save_exit_text" yalign 0.46
+    text "I hereby agree to treat this conversation as confidential." style "save_exit_text" yalign 0.56
+    
+    imagebutton:
+        xalign 0.5
+        yanchor 0.0
+        ypos 780
+        focus_mask True
+        idle "Phone UI/sign-button.png"
+        activate_sound "sfx/UI/end_chatroom.mp3"
+        hover "Phone UI/sign-button-clicked.png"
+        action [SetVariable("chatroom_hp", 0), Call("start")]
+    
+    text "sign" style "sign" 
+    text "[chatroom_hp]" style "points" xalign 0.385
+    text "0" style "points" xalign 0.73
+    
     
 # These are the special "banners" that crawl across the screen
 # Just call them using "call banner_well" etc

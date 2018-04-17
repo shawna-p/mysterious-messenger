@@ -161,6 +161,27 @@ init 5:
     style input_answer:
         xalign 0.5
         yalign 0.5
+        
+    style save_exit_text is text:
+        xalign 0.5         
+        text_align 0.5
+        size 25
+        xsize 600
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        
+    style sign is text:
+        xalign 0.5   
+        yalign 0.607   
+        text_align 0.5
+        size 30
+        xsize 600
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        
+    style points is text:
+        yalign 0.51
+        text_align 1.0
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        color "#ffffff"
 
 #*********************************************************************
 

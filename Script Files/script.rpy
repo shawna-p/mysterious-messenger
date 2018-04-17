@@ -171,8 +171,10 @@ label click_image:
     $ addchat(ra,"{image=cg1-small}", pv, True, False)
     $ addchat(ra,"That's how we usually post images,", pv, False, False)
     $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
-    $ addchat(ra,"cg1-small", pv, True, False)
+    #$ addchat(ra,"cg1-small", pv, True, False)
     $ addchat(ra,"Gonna try that now.", pv, False, False)
+    
+    call save_exit
     
     pause 10
     jump click_image
