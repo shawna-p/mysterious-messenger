@@ -17,11 +17,35 @@ init python:
             self.img = img
             self.bounce = bounce
             self.specBubble = specBubble
-        
+            
+    # This class just makes it simpler to type out character dialogue
+    class Chat(object):
+        def __init__(self, who):
+            self.who = who
+            
+        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble="", **kwargs):
+            addchat(self.who, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+            
            
     ##****************************
     ##DECLARE CHARACTERS HERE
     ##****************************
+    
+    ## Character declarations
+    s = Chat("Sev")
+    y = Chat("Yoo")
+    m = Chat("MC")
+    ja = Chat("Ja")
+    ju = Chat("Ju")
+    z = Chat("Zen")
+    r = Chat("Rika")
+    ra = Chat("Ray")
+    sa = Chat("Sae")
+    u = Chat("Unk")
+    v = Chat("V")
+    msg = Chat("msg")
+    answertest = Chat("answer")
+    
     chatlog = []
     # Currently these are unused
     chathistory = []    # this keeps track of old chats
@@ -195,6 +219,8 @@ screen character_animation(i):
                 pass
             else:
                 transformVar = small_CG
+                
+        global choosing
 
        
 
@@ -226,7 +252,8 @@ screen character_animation(i):
                         bottom_margin -100
                         focus_mask True
                         idle fullsizeCG
-                        action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
+                        if not choosing:
+                            action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
 
             elif i.specBubble != "":                        
                 style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
