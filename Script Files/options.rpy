@@ -64,7 +64,7 @@ define config.has_voice = True
 
 
 define config.default_afm_enable = None
-define config.layers = [ 'master', 'transient', 'screens', 'overlay', 'heart', 'heartbreak', 'notif' ]
+define config.layers = [ 'master', 'transient', 'screens', 'overlay', 'heart', 'heartbreak', 'hack' ]
 
 ## Transitions #################################################################
 ##
