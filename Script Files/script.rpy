@@ -9,30 +9,39 @@
     ## For ease of adding Chatlog entries
     ##************************************   
 
-    def addchat(who, what, pauseVar, img=False, bounce=False, specBubble=""):  
+    def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=""):  
+        global choosing
+        choosing = False
+        global pre_choosing
+        pre_choosing = False
+        renpy.show_screen("fast_slow")
+    
+        global pv
+        if pauseVal == None:
+            pauseVal = pv;
+    
         if len(chatlog) > 1:
             finalchat = chatlog[-2]
-            if finalchat.who == "answer":
+            if finalchat.who == "answer" or finalchat.who == "pause":
                 # Not supposed to display this bubble
                 del chatlog[-2]  
+                
         if who != "pause":
             pauseFailsafe()
             global chatbackup
             chatbackup = Chatentry(who, what, upTime(), img, bounce, specBubble)
             global oldPV
-            oldPV = pauseVar        
-        global choosing
-        choosing = False
-        renpy.show_screen("fast_slow")
+            oldPV = pauseVal        
+            
         
         typeTime = what.count(' ') + 1 # should be the number of words
         # Since average reading speed is 200 wpm or 3.3 wps
         typeTime = typeTime / 3
         if typeTime < 1.5:
             typeTime = 1.5
-        typeTime = typeTime * pauseVar
+        typeTime = typeTime * pauseVal
         if who == "answer" or who == "pause":
-            renpy.pause(pauseVar)#, hard=True)
+            renpy.pause(pauseVal)#, hard=True)
         else:
             renpy.pause(typeTime)#, hard=True)
         
@@ -167,41 +176,23 @@ label click_image:
 
     call chat_begin("earlyMorn")
 
-    $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
-    $ addchat(ra,"{image=cg1-small}", pv, True, False)
-    $ addchat(ra,"That's how we usually post images,", pv, False, False)
-    $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"Gonna try that now.", pv, False, False)
-    $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
-    $ addchat(ra,"That's how we usually post images,", pv, False, False)
-    $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"Gonna try that now.", pv, False, False)
-    $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
-    $ addchat(ra,"That's how we usually post images,", pv, False, False)
-    $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"Gonna try that now.", pv, False, False)
-    $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
-    $ addchat(ra,"That's how we usually post images,", pv, False, False)
-    $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"Gonna try that now.", pv, False, False)
-    $ addchat(ra,"seven_cg1", pv, True, False)
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"saeran_cg1", pv, True, False)
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"seven_cg1", pv, True, False)
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"saeran_cg1", pv, True, False)
-    $ addchat(ra,"cg1", pv, True, False)
-    $ addchat(ra,"saeran_cg1", pv, True, False)
-    #$ addchat(ra,"Gonna try that now.", pv, False, False)
+    ra "{=curly}I'm going to test posting some images!{/=curly}"
+    ra "{image=general_cg1}" (img=True)
+    ra "That's how we usually post images,"
+    ra "{=ser1}but you can't click them T_T{/=ser1}" (bounce=True, specBubble="sigh_m")
+    ra "general_cg1" (img=True)
+    ra "Gonna try that now."
+    ra "seven_cg1" (img=True)
+    ra "saeran_cg1" (img=True)
+    ra "general_cg1" (img=True)
+    ra "{image=ray cry}" (img=True)
     call answer
     menu:
         "Again?":
             jump click_image
+        "No":
+            pass
+    ra "Okay" (bounce=True)
     call save_exit
     
     pause 10
