@@ -261,7 +261,7 @@ label heart_icons:
     $ addchat(z,"{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}", pv, False, False)
     $ addchat(z,"{=sser1}It keeps track of both the total points earned during a chatroom,{/=sser1}", pv, False, False)
     $ addchat(z,"{=sser1}as well as how many points you have with each individual character{/=sser1}", pv, False, False)
-    $ addchat(z,"{=curly}Just to keep the door open for other use possibilities ^^{/=curly}", pv, False, True, "round_m")
+    $ addchat(z,"{=curly}Just to keep the door open for other uses ^^{/=curly}", pv, False, True, "round_m")
     $ addchat(z,"{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}", pv, False, False)
     $ addchat(z,"{=curly}Good luck with the rest of the program!{/=curly}", pv, False, True)
     $ addchat("msg","Zen has left the chatroom", pv, False, False)

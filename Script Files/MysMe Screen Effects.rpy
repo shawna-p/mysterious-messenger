@@ -13,7 +13,7 @@ init python:
         
     def fast_pv():
         global pv
-        if pv >= 0.54:
+        if pv >= 0.53:
             pv -= 0.09
         return
 

@@ -10,17 +10,13 @@ init python:
     ##  that should be used when displaying the text (by default is empty and a regular
     ##  bubble is used)
     class Chatentry(object):
-        calls = 0
-        def numCalls(self):
-            Chatentry.calls += 5
-        def __init__(self, who, what, thetime, img=False, bounce=False, specBubble="", anim_id=0):
+        def __init__(self, who, what, thetime, img=False, bounce=False, specBubble=""):
             self.who = who
             self.what = what
             self.thetime = thetime
             self.img = img
             self.bounce = bounce
             self.specBubble = specBubble
-            self.anim_id = Chatentry.calls
         
            
     ##****************************

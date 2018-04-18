@@ -21,11 +21,13 @@ label coffee_chat:
         "Seven, get a good night's rest?":
             $ addchat("MC", "{=sser2}Seven, get a good night's rest?{/=sser2}", 0)
             $ addchat("Sev", "{=sser2}Heya [name]{/=sser2}", pv)
+            
             # You have to call heart icons yourself. Just pass it the variable
             # of the name of the character whose heart icon you want
             # (variables.rpy has the variable names if you're not sure)
             call heart_icon(s)
             $ addchat("Sev", "{=sser2}Ya. Slept like a rock.{/=sser2}", pv)
+            
     $ addchat("Sev", "{=sser2}I don't feel tired physically...{/=sser2}", pv)
     $ addchat("Sev", "{=sser2}But{/=sser2}", pv)
     $ addchat("Sev", "{=sser1xb}{size=+12}mentally, my stress level is MAX{/size}{/=sser1xb}",pv)
@@ -61,6 +63,7 @@ label coffee_chat:
             call heart_icon(s)
             $ addchat("Yoo", "Hmm?",pv)
             $ addchat("Yoo", "{=sser1}I smell a trap somewhere...{/=sser1}",pv)
+            
     $ addchat("Sev", "{=sser1}What were u doing?{/=sser1}",pv)
     $ addchat('Sev', "{=sser1}So late at night lol{/=sser1}",pv)
     $ addchat("Yoo", "{=sser1}I was just about to drink a cup of coffee and play games.{/=sser1}",pv)
@@ -72,6 +75,7 @@ label coffee_chat:
     $ addchat(y, "What?",pv)
     $ addchat(s,"{=ser1}{size=+12}Did you already drink the coffee!?!?!?!?{/size}{/=ser1}",pv)
     $ addchat(y,"{=sser1}Yeah... Why?{/=sser1}",pv)
+    
     # Another play statement will automatically "override" the previous play statement
     # and only one set of background music will play on the music channel at once
     play music dark_secret loop
@@ -90,6 +94,7 @@ label coffee_chat:
             $ addchat(m,"What's big trouble?",0)
             $ addchat(y,"{=sser1}Yeah. What is it?{/=sser1}",pv)
             $ addchat(s,"{=ser1}It's...{/=ser1}",pv)
+            
     $ addchat(s,"{=ser1}So, I check the health reports of all the members...{/=ser1}",pv)
     $ addchat(y,"{size=+12}Okay... Ur not saying that I can't dringak coffxee, r u?{/size}",pv)
     $ addchat(y,"*drink coffee?",pv)
@@ -136,6 +141,8 @@ label coffee_chat:
     $ addchat(y,"{=sser1}For real?{/sser1}",pv)
     $ addchat(s,"{=ser1xb}Ur gonna faint. For real.{/=ser1xb}",pv)
     $ addchat(y,"Seriously?? Ur kidding right?",pv, False, True, "spike_m")
+    
+    # This is the shake animation; it plays during the previous line of dialogue
     show earlyMorn at shake
     
     call answer
@@ -151,6 +158,7 @@ label coffee_chat:
             $ addchat(s,"Shh.",pv)
             $ addchat(s,"{image=seven wow}",pv,True)
             $ addchat(s,"{=ser1}Listen carefully.{/=ser1}",pv)
+            
     $ addchat(s,"{=ser1b}You are going to faint today.{/=ser1}",pv)
     $ addchat(s,"{=ser1}And there's a chance you might never wake up again...{/=ser1}",pv)
     $ addchat(y,"{=sser1}{size=+12}Why!?{/size}{/=sser1}",pv,False, True, "spike_s")
@@ -175,6 +183,7 @@ label coffee_chat:
             $ addchat(y,"Stop saying weird things;;",pv)
             $ addchat(y,"Seven, ur joking right?",pv,False,True,"spike_m")
             $ addchat(s,"{=sser1}I am doing whatever I can to save u.{/=sser1}",pv)
+            
     $ addchat(s, "{=sser2}...Don't get so surprised.{/=sser2}",pv)
     $ addchat(y,"{=sser1}Okay...{/=sser1}",pv)
     $ addchat(s, "The disease called \"Pass Out After Drinking Caffeine Syndrome\"",pv)
@@ -200,6 +209,7 @@ label coffee_chat:
             call heart_icon(y)
             $ addchat(y,"But I can't believe I have it.",pv)
             $ addchat (y,"{image=yoosung cry}",pv,True)
+            
     $ addchat(y,"{size=+12}What's going to happen to me T_T{/size}",pv)
     $ addchat(y,"{size=+12}Am I gonna faint soon???{/size}",pv)
     $ addchat(s,"{=sser1}According to my data{/=sser1}",pv)
@@ -219,12 +229,17 @@ label coffee_chat:
                 "I wasn't crying.":
                     $ addchat(m,"I wasn't crying.",0)
                     $ addchat(y,"{=curly}I read the emoji wrong T_T{/=curly}",pv)
+                    
+                    # This is the 'heartbreak' animation; call it the same way you
+                    # would a heart icon except use heart_break(y) instead of heart_icon(y)
+                    call heart_break(y)
                     $ addchat(y,"{=curly}I thought u were crying by sweating{/=curly}",pv)
                 "T_T. You have to return.":
                     $ addchat(m,"T_T. You have to return.",0)
                     $ addchat(y,"{=curly}Yup T_T I will return!!{/=curly}",pv)
                     call heart_icon(y)
                     $ addchat(s,"Gahh... Tears r blocking my sight.",pv)
+                    
         "A stroke of good luck in this misfortune":
             $ addchat(m,"A stroke of good luck in this misfortune",0)
             $ addchat(y,"{=sser1}I should at least pass out at home T_T{/=sser1}",pv)
@@ -246,6 +261,7 @@ label coffee_chat:
             $ addchat(m,"Call me if anything happens",0) 
             $ addchat(y,"Okay. Thank you so much T_T",pv)
             call heart_icon(y)
+            
     $ addchat(s,"Oh.",pv)
     $ addchat(s,"{=sser2}I recommend drinking chocolate milk before u faint.{/=sser2}",pv)
     $ addchat(s,"{=sser2}U have to increase ur blood pressure if u want to wake up faster.{/=sser2}",pv)
@@ -265,11 +281,11 @@ label coffee_chat:
         "No need ^^":
             $ addchat(m,"No need ^^",0) 
             $ addchat(y,"{=sser1}I should know my body better.{/=sser1}",pv)
-            call heart_icon(y)
             $ addchat(y,"{=sser1}Never knew I had something like this...{/=sser1}",pv)
             $ addchat(y,"{=sser1}It's confusing but...{/=sser1}",pv)
             $ addchat(y,"I'll deal with it wisely.",pv)
             $ addchat(s,"{=sser1}Ya. Dealing with it wisely is the way to go.{/=sser1}",pv)
+            
     $ addchat(s,"...I'm glad to be of help.",pv)
     $ addchat(s,"Ur young, so u'll wake up quickly if u do faint, so don't worry too much.",pv)
     $ addchat(y,"{=curly}Okay...{/=curly}",pv)
@@ -295,6 +311,7 @@ label coffee_chat:
         ";;;":
             $ addchat(m,";;;",0) 
             $ addchat(s,"Then bye~!",pv)
+            
     $ addchat("msg","707 has left the chatroom.",pv)
     $ addchat(y,"{=curly}T_T What am I gonna do...{/=curly}",pv)
     $ addchat(y,"{=curly}[name]...{/=curly}",pv)
@@ -305,6 +322,10 @@ label coffee_chat:
     
     call answer
     menu:
+        # Note that this menu has three options; you can add as many as you like,
+        # but the screen only has room for 5 different options so if you want more
+        # you'll need to split it up into multiple menus with a Back/Next option
+        # (see Example Chat.rpy for some examples of this)
         "Don't worry... Even if you don't wake up the party will be a success.":
             $ addchat(m,"Don't worry... Even if you don't wake up the party will be a success.",0)
             $ addchat(y,"{image=yoosung puff}",pv,True)
@@ -327,6 +348,7 @@ label coffee_chat:
             $ addchat(y,"And it completely went away on the fifth day.",pv)
             $ addchat(y,"Look at that image above...",pv)
             $ addchat(y,"I'm sure it's not a lie.",pv)
+            
     $ addchat(y,"First, I should get some chocolate milk...",pv)
     $ addchat(y,"I'm gonna go to the supermarket~!",pv)
     $ addchat("msg","Yoosung★ has left the chatroom.",pv)
