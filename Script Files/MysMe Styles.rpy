@@ -182,7 +182,22 @@ init 5:
         text_align 1.0
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         color "#ffffff"
-
+        
+    style CG_close is text:
+        xalign 0.06
+        yalign 0.016
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        color "#ffffff"
+        size 45
+        
+    style speednum_style is text:
+        xalign 0.97
+        yalign 0.22
+        color "#ffffff"
+        font  "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+        size 45
+        text_align 0.5
+        
 #*********************************************************************
 
     # Code leftover from when you could add the time to characters'
@@ -229,10 +244,18 @@ init 5:
         linear 0.2 alpha 1.0 zoom 1.0
         alpha 0 zoom 0.5
         
+    transform small_CG:
+        alpha 0 zoom 0.175
+        linear 0.2 alpha 1.0 zoom 0.35
 
     #***********************************
     # These are for MysMe animation
     #***********************************
+    transform speed_msg:
+        alpha 1
+        linear 0.4 alpha 1
+        linear 0.4 alpha 0
+    
     transform anti_incoming_message:
         alpha 0 zoom 0.5
         linear 0.2 alpha 0.0 zoom 0
@@ -246,7 +269,11 @@ init 5:
         linear 0.2 alpha 0.0 zoom 0
         alpha 0 zoom 0.5
         on hide:
-            anti_hide_message      
+            anti_hide_message   
+
+    transform anti_small_CG:
+        zoom 0.165 alpha 0
+        linear 0.2 zoom 0     
         
     # Shows the heart icon
     transform heart:
