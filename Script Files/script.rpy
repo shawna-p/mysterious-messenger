@@ -14,7 +14,7 @@
         choosing = False
         global pre_choosing
         pre_choosing = False
-        renpy.show_screen("fast_slow")
+        
     
         global pv
         if pauseVal == None:
@@ -34,15 +34,18 @@
             oldPV = pauseVal        
             
         
-        typeTime = what.count(' ') + 1 # should be the number of words
-        # Since average reading speed is 200 wpm or 3.3 wps
-        typeTime = typeTime / 3
-        if typeTime < 1.5:
-            typeTime = 1.5
-        typeTime = typeTime * pauseVal
+        
         if who == "answer" or who == "pause":
             renpy.pause(pauseVal)#, hard=True)
+        elif pauseVal == 0:
+            pass
         else:
+            typeTime = what.count(' ') + 1 # should be the number of words
+            # Since average reading speed is 200 wpm or 3.3 wps
+            typeTime = typeTime / 3
+            if typeTime < 1.5:
+                typeTime = 1.5
+            typeTime = typeTime * pauseVal
             renpy.pause(typeTime)#, hard=True)
         
         if img == True:

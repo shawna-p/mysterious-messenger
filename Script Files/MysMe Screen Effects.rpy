@@ -102,6 +102,9 @@ default pre_choosing = False
 # Keeps track of the total number of hp (heart points) you've received per chatroom
 default chatroom_hp = 0
 
+#************************************
+# Heart Icons
+#************************************ 
 image heart_icon = DynamicDisplayable(heart_icon_fn)
 image heartbreak1 = DynamicDisplayable(heart_break_fn1)
 image heartbreak2 = DynamicDisplayable(heart_break_fn2)
@@ -167,7 +170,6 @@ label heart_break(character):
 label answer:
     $ addchat("answer","",0)
     hide screen viewCG
-    hide screen fast_slow
     #hide screen pause
     $ pre_choosing = True
     call screen answer_button
@@ -186,8 +188,8 @@ image answerbutton:
         repeat
         
 screen answer_button:
-    image "pausebutton"
-    image "Phone UI/pause_square.png"
+    image "pausebutton" xalign 0.96 yalign 0.16
+    image "Phone UI/pause_square.png" yalign 0.59
     image "answerbutton" ypos 1220
     imagebutton:
         xanchor 0.0
@@ -197,7 +199,7 @@ screen answer_button:
         focus_mask None
         idle "Phone UI/answer_transparent.png"
         activate_sound "sfx/UI/answer_screen.mp3"
-        action [ToggleVariable("choosing", False, True), Show("pause"), Return()]       
+        action [ToggleVariable("choosing", False, True), Return()]       
 
     
 #************************************
@@ -215,7 +217,11 @@ image pausebutton:
     0.5
     repeat
     
-# This screen shows up after you've hit the pause button
+
+image fast-slow-button = "Phone UI/fast-slow-transparent.png"
+    
+# This is the screen that shows the pause button
+# (but the chat is still playing)
 screen pause:
     imagebutton:
         xanchor 0.0
@@ -228,22 +234,38 @@ screen pause:
             action [Call("play"), Return()]
     if choosing:        
         image "Phone UI/choice_dark.png"
+     
+    if not choosing:
+        # Fast button
+        imagebutton:
+            xalign 0.985
+            yalign 0.997
+            focus_mask None
+            idle "fast-slow-button"
+            action [fast_pv, Call("speed_num_label")]#, renpy.restart_interaction] 
+                
+        # Slow button
+        imagebutton:
+            xalign 0.015
+            yalign 0.997
+            focus_mask None
+            idle "fast-slow-button"
+            action [slow_pv, Call("speed_num_label")]#, renpy.restart_interaction]
+        
           
 label play:
     $ addchat("pause","",0)
-    hide screen fast_slow
     call screen play_button
     #show screen play_button
     #pause
     hide screen play_button
-    show screen fast_slow
     return
     
 # This screen is visible when the chat isn't paused
 screen play_button:
     if not choosing:
-        image "pausebutton"
-        image "Phone UI/pause_square.png"
+        image "pausebutton" xalign 0.96 yalign 0.16
+        image "Phone UI/pause_square.png" yalign 0.59
     else:
         image "Phone UI/choice_dark.png"
     imagebutton:
@@ -253,7 +275,7 @@ screen play_button:
         ypos 1220
         focus_mask True
         idle "Phone UI/Play.png"
-        action Return()# [Hide("play"), Show("pause")]#, Return()]
+        action Return()
         
 
 #************************************
@@ -305,25 +327,6 @@ screen phone_overlay:
 #************************************
 # Chat Speed Modifiers
 #************************************ 
-
-image fast-slow-button = "Phone UI/fast-slow-transparent.png"
-screen fast_slow:
-    zorder 4
-    # Fast button
-    imagebutton:
-        xalign 0.985
-        yalign 0.997
-        focus_mask None
-        idle "fast-slow-button"
-        action [fast_pv, Call("speed_num_label")]#, renpy.restart_interaction] 
-            
-    # Slow button
-    imagebutton:
-        xalign 0.015
-        yalign 0.997
-        focus_mask None
-        idle "fast-slow-button"
-        action [slow_pv, Call("speed_num_label")]#, renpy.restart_interaction]
 
 ## This speeds up/slows down the speed of the chat
 ## FIXME: sometimes skips dialogue/slows chat flow when clicking
@@ -404,7 +407,6 @@ screen viewCG_fullsize:
 # Call this label to show the save & exit sign
 label save_exit:
     $ addchat("answer","",0)
-    hide screen fast_slow
     call screen save_and_exit
     return
 
@@ -476,7 +478,6 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     show screen phone_overlay
     show screen clock_screen
     show screen messenger_screen 
-    show screen fast_slow
     show screen pause
     # Fills the beginning of the screen with 'empty space' so the messages begin
     # showing up at the bottom of the screen (otherwise they start at the top)
