@@ -23,6 +23,7 @@
             oldPV = pauseVar        
         global choosing
         choosing = False
+        renpy.show_screen("fast_slow")
         
         typeTime = what.count(' ') + 1 # should be the number of words
         # Since average reading speed is 200 wpm or 3.3 wps
@@ -45,12 +46,12 @@
             
     ## Function that checks if an entry was successfully added to the chat
     ## A temporary fix for the pause button bug
-    ## FIXME: tends to cause the last bubble to flicker slightly when pause is activated
     ## This also technically means a character may be unable to post the exact
     ## same thing twice in a row depending on when the pause button is used
     def pauseFailsafe():
         global chatbackup
         global oldPV
+        last_entry = None
         if len(chatlog) > 0:
             last_entry = chatlog[-1]
             if last_entry.who == "answer":
@@ -59,7 +60,7 @@
                     last_entry = chatlog[-2]
         if chatbackup.who == "filler" or chatbackup.who == "answer":
             return
-        if last_entry.who == chatbackup.who and last_entry.what == chatbackup.what:
+        if last_entry != None and last_entry.who == chatbackup.who and last_entry.what == chatbackup.what:
             # Means the last entry successfully made it to the chat log
             return
         else:
@@ -79,6 +80,7 @@
                
             chatlog.append(Chatentry(chatbackup.who, chatbackup.what, upTime(), chatbackup.img, chatbackup.bounce, chatbackup.specBubble))
             
+     
         
 
     
@@ -86,9 +88,8 @@ default chatbackup = Chatentry("filler","","")
 default pv = 0.8
 default oldPV = pv
 image photo = im.FactorScale("photo.png",0.4)
-image cg1-small = "CGs/cg-1-small.png"
-image cg1 = "CGs/cg-1.png"
 image NEW = "Bubble/NEW-sign.png"
+
      
 default myClock = Clock(True, 3, 0, 150, False, False) #Analogue or Digital, hours, minutes, size, second hand, military time
 
@@ -160,20 +161,47 @@ label start:
             jump vn_mode
             
             
+# Some experiments with getting CGs to be clickable
+# works now :D
 label click_image:
 
-    call chat_begin
-    call redhack
-    call chat_begin
-    scene earlyMorn
+    call chat_begin("earlyMorn")
 
     $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
     $ addchat(ra,"{image=cg1-small}", pv, True, False)
     $ addchat(ra,"That's how we usually post images,", pv, False, False)
     $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
-    #$ addchat(ra,"cg1-small", pv, True, False)
+    $ addchat(ra,"cg1", pv, True, False)
     $ addchat(ra,"Gonna try that now.", pv, False, False)
-    
+    $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
+    $ addchat(ra,"That's how we usually post images,", pv, False, False)
+    $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
+    $ addchat(ra,"cg1", pv, True, False)
+    $ addchat(ra,"Gonna try that now.", pv, False, False)
+    $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
+    $ addchat(ra,"That's how we usually post images,", pv, False, False)
+    $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
+    $ addchat(ra,"cg1", pv, True, False)
+    $ addchat(ra,"Gonna try that now.", pv, False, False)
+    $ addchat(ra,"{=curly}I'm going to test posting some images!{/=curly}", pv, False, False)
+    $ addchat(ra,"That's how we usually post images,", pv, False, False)
+    $ addchat(ra,"{=ser1}but you can't click them T_T{/=ser1}", pv, False, True, "sigh_m")
+    $ addchat(ra,"cg1", pv, True, False)
+    $ addchat(ra,"Gonna try that now.", pv, False, False)
+    $ addchat(ra,"seven_cg1", pv, True, False)
+    $ addchat(ra,"cg1", pv, True, False)
+    $ addchat(ra,"saeran_cg1", pv, True, False)
+    $ addchat(ra,"cg1", pv, True, False)
+    $ addchat(ra,"seven_cg1", pv, True, False)
+    $ addchat(ra,"cg1", pv, True, False)
+    $ addchat(ra,"saeran_cg1", pv, True, False)
+    $ addchat(ra,"cg1", pv, True, False)
+    $ addchat(ra,"saeran_cg1", pv, True, False)
+    #$ addchat(ra,"Gonna try that now.", pv, False, False)
+    call answer
+    menu:
+        "Again?":
+            jump click_image
     call save_exit
     
     pause 10

@@ -182,7 +182,7 @@ label coffee_chat:
     $ addchat(s, "{=ser1b}exists{/=ser1b}",0.2*pv)
     $ addchat(s, "{=ser1b}for sure{/=ser1b}",0.3*pv)
     $ addchat(s,"{=sser1}I look at foreign reports every day.{/=sser1}",pv)
-    $ addchat(s,"{image=cg1-small}",pv,True)
+    $ addchat(s,"general_cg1",pv,True)
     $ addchat(y,"{=sser1b}{size=+12}!!!{/size}{/=sser1b}",pv)
     $ addchat(s,"{=ser1}...It's a rare disease.{/=ser1}",pv)
     
