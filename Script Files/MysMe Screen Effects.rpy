@@ -2,7 +2,20 @@ init python:
 
     # A function to make the Max Speed button work
     def toggle_skipping():
-        config.skipping = not config.skipping      
+        config.skipping = not config.skipping     
+
+    # So you can increase/decrease the speed of the chat
+    def slow_pv():
+        global pv
+        if pv <= 1.1:
+            pv += 0.09  
+        return
+        
+    def fast_pv():
+        global pv
+        if pv >= 0.54:
+            pv -= 0.09
+        return
 
     # Add a name & colour here if you'd like to add
     # another heart icon
@@ -83,7 +96,8 @@ init python:
 default choosing = False
 # Keeps track of the total number of hp (heart points) you've received per chatroom
 default chatroom_hp = 0
-
+# This is just the number it shows when you increase/decrease the
+# chatroom speed
 image heart_icon = DynamicDisplayable(heart_icon_fn)
 image heartbreak1 = DynamicDisplayable(heart_break_fn1)
 image heartbreak2 = DynamicDisplayable(heart_break_fn2)
@@ -143,11 +157,11 @@ label heart_break(character):
 # Call this label before you show a menu
 # to show the answer button
 label answer:
-    if config.skipping:
-        $ addchat("answer","",0)
-    else:
-        $ addchat("answer","",0.5)
+    $ addchat("answer","",0)
     hide screen pause
+    hide screen viewCG
+    hide screen fast_slow
+    $ choosing = True
     call screen answer_button
     return
 
@@ -176,10 +190,9 @@ image pausebutton:
     repeat
 
 screen answer_button:
-    if not choosing:
-        image "pausebutton"
-        image "Phone UI/pause_square.png"
-        image "answerbutton" ypos 1220
+    image "pausebutton"
+    image "Phone UI/pause_square.png"
+    image "answerbutton" ypos 1220
     imagebutton:
         xanchor 0.0
         yanchor 0.0
@@ -188,8 +201,7 @@ screen answer_button:
         focus_mask None
         idle "Phone UI/answer_transparent.png"#"answerbutton"
         activate_sound "sfx/UI/answer_screen.mp3"
-        #hover "Phone UI/Answer-Dark.png"
-        action [ToggleVariable("choosing", False, True), Show("pause"), Return()]
+        action [Show("pause"), Return]#[ToggleVariable("choosing", False, True), Show("pause"), Return()]
 
         
 # This simplifies things when you're setting up a chatroom,
@@ -206,7 +218,8 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         $ chatroom_hp = 0
     show screen phone_overlay
     show screen clock_screen
-    show screen messenger_screen  
+    show screen messenger_screen 
+    show screen fast_slow
     show screen pause
     # Fills the beginning of the screen with 'empty space' so the messages begin
     # showing up at the bottom of the screen (otherwise they start at the top)
@@ -257,9 +270,9 @@ screen pause:
         
 label play:
     $ addchat("pause","",0)
-    #call screen play_button
-    show screen play_button
-    pause
+    call screen play_button
+    #show screen play_button
+    #pause
     hide screen play_button
     return
     
@@ -318,17 +331,92 @@ screen phone_overlay:
             hover "noMaxSpeed"
             action [toggle_skipping, renpy.restart_interaction]
 
-   
-## Currently not working; this will eventually be the screen where
-## you can view a full-sized CG by clicking on it   
-screen viewCG(cg_to_view):
+    
+
+image fast-slow-button = "Phone UI/fast-slow-transparent.png"
+screen fast_slow:
+    zorder 4
+    # Fast button
     imagebutton:
-        xanchor 0.5
-        yanchor 0.5
-        #pos gui.phone_text_pos
+        xalign 0.985
+        yalign 0.997
+        focus_mask None
+        idle "fast-slow-button"
+        action [fast_pv, Call("speed_num_label")]#, renpy.restart_interaction] 
+            
+    # Slow button
+    imagebutton:
+        xalign 0.015
+        yalign 0.997
+        focus_mask None
+        idle "fast-slow-button"
+        action [slow_pv, Call("speed_num_label")]#, renpy.restart_interaction]
+
+## This speeds up/slows down the speed of the chat
+## FIXME: sometimes skips dialogue/slows chat flow when clicking
+image speed_txt = ParameterizedText(style = "speednum_style")
+label speed_num_label:
+    python:
+        global pv  
+        if pv <= 0.45:
+            speednum = "9"
+        elif pv <= 0.54:
+            speednum = "8"
+        elif pv <= 0.63:
+            speednum = "7"
+        elif pv <= 0.72:
+            speednum = "6"
+        elif pv <= 0.81:
+            speednum = "5"
+        elif pv <= 0.90:
+            speednum = "4"
+        elif pv <= 0.99:
+            speednum = "3"
+        elif pv <= 1.08:
+            speednum = "2"
+        elif pv <= 1.17:
+            speednum = "1" 
+        else:
+            speednum = "!!"
+    hide speed_txt onlayer hack
+    show speed_txt "{size=30}SPEED{/size}\n [speednum]" onlayer hack at speed_msg
+    return
+
+            
+            
+default close_visible = True
+label viewCG:
+    $ close_visible = True
+    hide screen clock_screen
+    call screen viewCG_fullsize
+    show screen clock_screen
+    return
+    
+image close_button = "CGs/close-overlay.png"
+## This is the screen where you can view a full-sized CG when you
+## click it in the chatroom. It has a working "Close" button
+## that appears/disappears when you click the CG
+## It can be fairly easily adapted to show CGs in a gallery as well
+screen viewCG_fullsize:
+    imagebutton:
+        xalign 0.5
+        yalign 0.5
         focus_mask True
-        idle cg_to_view
-        action [Hide(viewCG), Return]
+        idle fullsizeCG
+        action ToggleVariable("close_visible", False, True)
+        
+    if close_visible:
+        imagebutton:
+            xalign 0.5
+            yalign 0.0
+            focus_mask True
+            idle "close_button"
+            if choosing:
+                action [Call("answer")]
+            else:
+                action [Call("play")]
+        
+        text "Close" style "CG_close"
 
 # You can call this when you want to display the green
 # scrolled hacking effect
@@ -356,39 +444,39 @@ image redhack scroll:
 label hack:
     $ addchat("answer","",0)
     hide screen phone_overlay
-    hide screen messenger_screen 
+    #hide screen messenger_screen 
     hide screen pause
     hide screen clock_screen
-    scene black
-    show hack scroll at flicker
+    scene black onlayer hack
+    show hack scroll at flicker onlayer hack
     $ renpy.pause(0.72, hard=True)
-    show hack scroll at flicker
+    show hack scroll at flicker onlayer hack
     $ renpy.pause(0.72, hard=True)
-    hide hack scroll
+    hide hack scroll onlayer hack
+    hide black onlayer hack
     return
     
 label redhack:
     $ addchat("answer","",0)
     hide screen phone_overlay
-    hide screen messenger_screen 
+    #hide screen messenger_screen 
     hide screen pause
     hide screen clock_screen
-    scene black
-    show redhack scroll at flicker
+    scene black onlayer hack
+    show redhack scroll at flicker onlayer hack
     $ renpy.pause(0.72, hard=True)
-    show redhack scroll at flicker
+    show redhack scroll at flicker onlayer hack
     $ renpy.pause(0.72, hard=True)
-    hide redhack scroll
+    hide redhack scroll onlayer hack
+    hide black onlayer hack
     return
     
 # Call this label before you show a menu
 # to show the answer button
 label save_exit:
-    if config.skipping:
-        $ addchat("answer","",0)
-    else:
-        $ addchat("answer","",0.5)
+    $ addchat("answer","",0)
     hide screen pause
+    hide screen fast_slow
     call screen signature_sign
     return
 
