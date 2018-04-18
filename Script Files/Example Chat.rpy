@@ -1,6 +1,7 @@
 label example_chat:
 
     $ first_choice = True
+    $ choice_picked = None
     
     call hack      
     call chat_begin("hack")
@@ -36,18 +37,20 @@ label example_chat:
     call answer
     menu learn:    
     
-        "Emojis":        
+        "Images and Emojis" if not choice_picked == "emojis":
+            $ choice_picked = "emojis"
             if first_choice:
-                $ addchat(m,"I want to learn how to use emojis", 0, False, False)   
+                $ addchat(m,"I want to learn how to use emojis and images", 0, False, False)   
                 $ first_choice = False
-                $ addchat(u,"{=ser1}Emojis, huh?{/=ser1}", pv, False, False)
+                $ addchat(u,"{=ser1}Emojis and images, huh?{/=ser1}", pv, False, False)
                 $ addchat(u,"{=ser1}Okay. I'll let someone else explain this.{/=ser1}", pv, False, False)
                 $ addchat(u,"{=sser1}I'll be back later ^^{/=sser1}", pv, False, True)
                 $ addchat("msg","Unknown has left the chatroom", pv, False, False)
             $ addchat("answer","",pv*0.5)   
             jump emojis
             
-        "Banners":
+        "Banners" if not choice_picked == "banners":
+            $ choice_picked = "banners"
             if first_choice:
                 $ addchat(m,"Can you teach me about banners?", 0, False, False)
                 $ first_choice = False
@@ -58,7 +61,8 @@ label example_chat:
             $ addchat("answer","",pv*0.5)
             jump banners
             
-        "Heart Icons":
+        "Heart Icons" if not choice_picked == "heart icons":
+            $ choice_picked = "heart icons"
             if first_choice:
                 $ addchat(m,"I'd like to learn about heart icons", 0, False, False)
                 $ first_choice = False
@@ -69,11 +73,12 @@ label example_chat:
             $ addchat("answer","",pv*0.5)
             jump heart_icons
             
-        "Screen Shake and Special bubbles":
+        "Screen Shake and Special bubbles" if not choice_picked == "spec bubbles":
+            $ choice_picked = "spec bubbles"
             if first_choice:
                 $ addchat(m,"Screen shake and special bubbles, please", 0, False, False)
                 $ first_choice = False
-                $ addchat(u,"{=ser1}You want to know about special speech bubbles?{/=ser1}", pv, False, True)
+                $ addchat(u,"{=ser1}You want to know about special speech bubbles and screen shake?{/=ser1}", pv, False, True)
                 $ addchat(u,"{=ser1}Alright then. I'll let someone else explain this.{/=ser1}", pv, False, False)
                 $ addchat(u,"{=sser1}I'll be back later ^^{/=sser1}", pv, False, True)
                 $ addchat("msg","Unknown has left the chatroom", pv, False, False)
@@ -86,7 +91,7 @@ label example_chat:
 label emojis:
 
     call hack
-    call chat_begin("morning")
+    call chat_begin("morning",False,False)
     
     play music geniusly_hacked_bebop loop
     $ addchat("msg","707 has entered the chatroom", pv, False, False)
@@ -111,7 +116,8 @@ label emojis:
     $ addchat(s,"{=ser1}You'll need to add it to the emoji_lookup dictionary list as well.{/=ser1}", pv, False, False)
     $ addchat(s,"{=ser1xb}Just use the existing entries as a guide.{/=ser1xb}", pv, False, False)
     $ addchat(s,"{=curly}Now I'll let you check out the emojis currently coded into the game.{/=curly}", pv, False, False)
-    $ addchat(s,"Just select a character to see the available emojis", pv, False, True)    
+    $ addchat(s,"Just select a character to see the available emojis or \"Done\" if you're finished", pv, False, True)
+   
     
     call answer
     menu emoji:
@@ -149,7 +155,21 @@ label emojis:
         "Zen":
             jump zen_emoji
         "Done":
-            $ addchat(s,"{=curly}Hope this helped!{/=curly}", pv, False, False)
+            $ addchat(s,"The last thing I'm here to explain is how to post CGs.", pv, False, False)
+            $ addchat(s,"{=curly}That means images like this!{/=curly}", pv, False, True)
+            $ addchat(s,"seven_cg1", pv, True, False)
+            $ addchat(s,"{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}", pv, False, False)
+            $ addchat(s,"You post these a little differently from emojis. ", pv, False, False)
+            $ addchat(s,"{=ser1}You'll need to start by defining an image in variables.rpy{/=ser1}", pv, False, False)
+            $ addchat(s,"{=ser1}For example, that last image is called \"seven_cg1\"{/=ser1}", pv, False, False)
+            $ addchat(s,"{=ser1}It should be 750x1334 pixels, and it will be automatically resized for the chatroom.{/=ser1}", pv, False, False)
+            $ addchat(s,"{=ser1}Then to call it, just type the name of the image you defined and check off the \"Image\" modifier in the spreadsheet.{/=ser1}", pv, False, False)
+            $ addchat(s,"{=blocky}If you don't, it'll just show up in text, like this:{/=blocky}", pv, False, False)
+            $ addchat(s,"seven_cg1", pv, False, False)
+            $ addchat(s,"But if you check off the \"Image\" modifier, you get this:", pv, False, True, "round2_m")
+            $ addchat(s,"seven_cg1", pv, True, False)
+            $ addchat(s,"The ability to click the image/the full screen version is automatically taken care of for you.", pv, False, False)
+            $ addchat(s,"{=curly}Hope this helped!{/=curly}", pv, False, True, "round_m")
             $ addchat(s,"{=sser1}Let me know if you have any questions later~{/=sser1}", pv, False, False)
             $ addchat("msg","707 has left the chatroom", pv, False, False)
             call answer
@@ -159,7 +179,7 @@ label emojis:
 label banners:
 
     call hack
-    call chat_begin("noon")
+    call chat_begin("noon",False,False)
     play music same_old_fresh_air loop
     
     $ addchat("msg","Yoosung★ has entered the chatroom", pv, False, False)
@@ -193,7 +213,7 @@ label banners:
 label heart_icons:
 
     call hack
-    call chat_begin("evening")
+    call chat_begin("evening",False,False)
     play music narcissistic_jazz loop
     
     $ addchat("msg","Zen has entered the chatroom", pv, False, False)
@@ -238,6 +258,11 @@ label heart_icons:
     $ addchat(z,"But you don't really want to hurt any of our feelings, right?", pv, False, True)
     $ addchat(z,"{image=zen happy}", pv, True, False)
     call heart_icon(z)
+    $ addchat(z,"{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}", pv, False, False)
+    $ addchat(z,"{=sser1}It keeps track of both the total points earned during a chatroom,{/=sser1}", pv, False, False)
+    $ addchat(z,"{=sser1}as well as how many points you have with each individual character{/=sser1}", pv, False, False)
+    $ addchat(z,"{=curly}Just to keep the door open for other use possibilities ^^{/=curly}", pv, False, False, "round_m")
+    $ addchat(z,"{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}", pv, False, False)
     $ addchat(z,"{=curly}Good luck with the rest of the program!{/=curly}", pv, False, True)
     $ addchat("msg","Zen has left the chatroom", pv, False, False)
     
@@ -247,7 +272,7 @@ label heart_icons:
 label screen_shake:
     
     call hack
-    call chat_begin("night")
+    call chat_begin("night",False,False)
     play music lonesome_practicalism loop
 
     $ addchat("msg","Jaehee Kang has entered the chatroom", pv, False, False)
@@ -294,7 +319,7 @@ label screen_shake:
 
 label ending:
     call hack
-    call chat_begin("hack")
+    call chat_begin("hack",False,False)
     
     play music mystic_chat loop
     
