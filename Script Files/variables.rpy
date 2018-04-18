@@ -92,17 +92,7 @@ image bg redhack = "redhack"
 # *******Short Forms**********
 # ****************************
 
-define s = "Sev"
-define y = "Yoo"
-define m = "MC"
-define ja = "Ja"
-define ju = "Ju"
-define z = "Zen"
-define r = "Rika"
-define ra = "Ray"
-define sa = "Sae"
-define u = "Unk"
-define v = "V"
+
 default name = "MC"
 
 
