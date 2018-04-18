@@ -193,6 +193,12 @@ screen character_animation(i):
                 bubbleStyle = "square_" + i.specBubble[-1:]
             else:
                 bubbleStyle = i.specBubble
+        
+        if i.img == True:
+            if "{image=" in i.what:
+                pass
+            else:
+                transformVar = small_CG
 
        
 
@@ -216,15 +222,15 @@ screen character_animation(i):
                     style "phone_img"
                     text i.what
                 else:   # presumably it's a CG
+                    # Could have a key-dictionary here that unlocks CGs in a gallery
+                    # if i.what in gallery -> gallery[i.what] = True and then it'd display
+                    $ fullsizeCG = i.what
+                    style "phone_img"
                     imagebutton:
-                        padding (5, 10)
-                        bottom_margin gui.phone_img_bottom_margin
-                        pos gui.phone_text_pos
-                        xanchor gui.phone_text_xalign
-                        xmaximum gui.phone_text_width
+                        bottom_margin -100
                         focus_mask True
-                        idle i.what
-                        #action Show(viewCG(i.what))
+                        idle fullsizeCG
+                        action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
 
             elif i.specBubble != "":                        
                 style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
@@ -271,26 +277,33 @@ screen character_animation(i):
 #*************************************                
 screen anti_animation(i):
     
-    if i.bounce:
-        $ transformVar = anti_incoming_message_bounce
-    else:
-        $ transformVar = anti_incoming_message
-        
-    if i.bounce:
-        $ bubbleBackground = "Bubble/" + i.who + "-Glow.png"
-    else:
-        $ bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
-        
-    if i.specBubble != "":
-        if i.specBubble[:6] == "round2":
-            $ bubbleStyle = "round_" + i.specBubble[-1:]
-        elif i.specBubble[:7] == "square2":
-            $ bubbleStyle = "square_" + i.specBubble[-1:]
+    python:
+        if i.bounce:
+            transformVar = anti_incoming_message_bounce
         else:
-            $ bubbleStyle = i.specBubble
+            transformVar = anti_incoming_message
             
-    if i.specBubble != "":
-        $ bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"
+        if i.bounce:
+            bubbleBackground = "Bubble/" + i.who + "-Glow.png"
+        else:
+            bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
+            
+        if i.specBubble != "":
+            if i.specBubble[:6] == "round2":
+                bubbleStyle = "round_" + i.specBubble[-1:]
+            elif i.specBubble[:7] == "square2":
+                bubbleStyle = "square_" + i.specBubble[-1:]
+            else:
+                bubbleStyle = i.specBubble
+                
+        if i.specBubble != "":
+            bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"
+            
+        if i.img == True:
+            if "{image=" in i.what:
+                pass
+            else:
+                transformVar = anti_small_CG
         
 
     window at transformVar:
@@ -301,15 +314,8 @@ screen anti_animation(i):
                 style "phone_img"
                 text i.what
             else:   # presumably it's a CG
-                imagebutton:
-                    padding (5, 10)
-                    bottom_margin gui.phone_img_bottom_margin
-                    pos gui.phone_text_pos
-                    xanchor gui.phone_text_xalign
-                    xmaximum gui.phone_text_width
-                    focus_mask True
-                    idle i.what
-                    #action Show(viewCG(i.what))
+                style "phone_img" bottom_margin -100
+                text "{image=" + i.what + "}" #"-small}"
                 
         elif i.specBubble != "":                        
             style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
@@ -335,4 +341,5 @@ screen anti_animation(i):
                 text i.what style "bubble_text"
                 
                 
+
                 
