@@ -212,8 +212,10 @@ screen answer_button:
 # to change the background but not clear the messages on-screen,
 # you'll also have to pass it 'False' as its second argument
 label chat_begin(background=None, clearchat=True, resetHP=True):
+    $ global pv
     if clearchat:
         $ chatlog = []
+        $ pv = 0.8
     if resetHP:
         $ chatroom_hp = 0
     show screen phone_overlay

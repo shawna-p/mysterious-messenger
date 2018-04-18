@@ -37,7 +37,7 @@ label example_chat:
     call answer
     menu learn:    
     
-        "Images and Emojis" if not choice_picked == "emojis":
+        "Emojis and Images" if not choice_picked == "emojis":
             $ choice_picked = "emojis"
             if first_choice:
                 $ addchat(m,"I want to learn how to use emojis and images", 0, False, False)   
@@ -73,7 +73,7 @@ label example_chat:
             $ addchat("answer","",pv*0.5)
             jump heart_icons
             
-        "Screen Shake and Special bubbles" if not choice_picked == "spec bubbles":
+        "Screen Shake and Special Bubbles" if not choice_picked == "spec bubbles":
             $ choice_picked = "spec bubbles"
             if first_choice:
                 $ addchat(m,"Screen shake and special bubbles, please", 0, False, False)
@@ -261,7 +261,7 @@ label heart_icons:
     $ addchat(z,"{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}", pv, False, False)
     $ addchat(z,"{=sser1}It keeps track of both the total points earned during a chatroom,{/=sser1}", pv, False, False)
     $ addchat(z,"{=sser1}as well as how many points you have with each individual character{/=sser1}", pv, False, False)
-    $ addchat(z,"{=curly}Just to keep the door open for other use possibilities ^^{/=curly}", pv, False, False, "round_m")
+    $ addchat(z,"{=curly}Just to keep the door open for other use possibilities ^^{/=curly}", pv, False, True, "round_m")
     $ addchat(z,"{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}", pv, False, False)
     $ addchat(z,"{=curly}Good luck with the rest of the program!{/=curly}", pv, False, True)
     $ addchat("msg","Zen has left the chatroom", pv, False, False)
