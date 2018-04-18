@@ -110,6 +110,21 @@ default name = "MC"
 # via $ nickColour = black or $ nickColour = white
 define white = "#ffffff"
 define black = "#000000"
+
+
+
+#************************************
+# CGs
+#************************************
+
+# CGs are automatically resized in the chatroom, but you'll have to
+# make sure the original dimensions are 750x1334
+image general_cg1 = "CGs/General/cg-1.png"
+
+image seven_cg1 = "CGs/Seven/cg-1.png"
+image saeran_cg1 = "CGs/Saeran/cg-1.png"
+
+default fullsizeCG = "cg1"
          
 ## Currently unused
 image new_messages = "Phone UI/new_message_banner.png"
