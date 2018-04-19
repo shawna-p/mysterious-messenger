@@ -132,11 +132,12 @@ label start:
 
     $ chatlog = []
     scene evening
+    show screen phone_overlay
     
     $ name = renpy.call_screen("input", prompt="Please enter a username", defAnswer = "Sujin")
     $ name = name.strip()
     
-    $ mcImage = {"MC": 'Profile Pics/MC/MC-2.png'}
+    $ mcImage = {"MC": 'Profile Pics/MC/MC-2.jpg'}
     $ mcName = {"MC": "[name]"}
 
     $ chatportrait.update(mcImage)

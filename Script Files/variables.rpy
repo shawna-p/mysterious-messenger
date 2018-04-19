@@ -70,13 +70,13 @@ define xmas_urban_night_cityscape = "Music/Urban Night Cityscape (ver. X-Mas Org
 # Backgrounds
 #************************************
 
-image morning = im.Scale("Morning Sky Background.png",750,1250)
-image evening = im.Scale("Evening Background.png",750,1250)
-image night = im.Scale("Deep Night Background.png",750,1250)
-image earlyMorn = im.Scale("Night Background.png",750,1250)
-image noon = im.Scale("Noon Background.png",750,1250)
-image hack = im.Scale("Hack Background.png",750,1250)
-image redhack = "Red-Hack-Background.png"    
+image morning = "bg-morning.jpg"
+image evening = "bg-evening.jpg"
+image night = "bg-night.jpg"
+image earlyMorn = "bg-earlyMorn.jpg"
+image noon = "bg-noon.jpg"
+image hack = "bg-hack.jpg"
+image redhack = "bg-redhack.jpg"
 image black = "#000000"
 
 image bg morning = "morning"
