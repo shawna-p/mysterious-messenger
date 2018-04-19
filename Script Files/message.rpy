@@ -10,7 +10,7 @@ init python:
     ##  that should be used when displaying the text (by default is empty and a regular
     ##  bubble is used)
     class Chatentry(object):
-        def __init__(self, who, what, thetime, img=False, bounce=False, specBubble=""):
+        def __init__(self, who, what, thetime, img=False, bounce=False, specBubble=None):
             self.who = who
             self.what = what
             self.thetime = thetime
@@ -23,7 +23,7 @@ init python:
         def __init__(self, who):
             self.who = who
             
-        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble="", **kwargs):
+        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
             addchat(self.who, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
             
            
@@ -167,7 +167,7 @@ screen chat_dialogue():
  
     python:
         chatLength = len(chatlog) - 1
-        begin = chatLength - 15
+        begin = chatLength - 10
         if begin >= 0:
             pass
         else:
@@ -197,14 +197,14 @@ screen character_animation(i):
         else:
             phoneStyle = "phone_label"
         
-        if i.specBubble != "":
+        if i.specBubble != None:
             bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"    
         elif i.bounce:  # Not a special bubble; just glow
             bubbleBackground = "Bubble/" + i.who + "-Glow.png"
         elif i.who != "answer":
             bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
                 
-        if i.specBubble != "":
+        if i.specBubble != None:
             # Some characters have more than one round or square bubble
             # but they follow the same style as "round" or "square"
             if i.specBubble[:6] == "round2":
@@ -255,7 +255,7 @@ screen character_animation(i):
                         if not choosing:
                             action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
 
-            elif i.specBubble != "":                        
+            elif i.specBubble != None:                        
                 style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
                 text i.what style "special_bubble"
             else:
@@ -311,7 +311,7 @@ screen anti_animation(i):
         else:
             bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
             
-        if i.specBubble != "":
+        if i.specBubble != None:
             if i.specBubble[:6] == "round2":
                 bubbleStyle = "round_" + i.specBubble[-1:]
             elif i.specBubble[:7] == "square2":
@@ -319,7 +319,7 @@ screen anti_animation(i):
             else:
                 bubbleStyle = i.specBubble
                 
-        if i.specBubble != "":
+        if i.specBubble != None:
             bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"
             
         if i.img == True:
@@ -340,7 +340,7 @@ screen anti_animation(i):
                 style "phone_img" bottom_margin -100
                 text "{image=" + i.what + "}" #"-small}"
                 
-        elif i.specBubble != "":                        
+        elif i.specBubble != None:                        
             style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
             text i.what style "special_bubble"
         else:
