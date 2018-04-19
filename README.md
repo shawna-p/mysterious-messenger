@@ -1,6 +1,5 @@
 # mysme-generator
-A messenger program that mimics the layout of Mystic Messenger
-This is an ongoing project intended to give me practice experimenting with the Ren'Py engine and its capabilities. 
+A messenger program that mimics the layout of Mystic Messenger. This is an ongoing project intended to give me practice experimenting with the Ren'Py engine and its capabilities. 
 
 ## Getting Started
 
