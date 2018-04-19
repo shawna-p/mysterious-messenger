@@ -32,8 +32,7 @@
             chatbackup = Chatentry(who, what, upTime(), img, bounce, specBubble)
             global oldPV
             oldPV = pauseVal        
-            
-        
+                    
         
         if who == "answer" or who == "pause":
             renpy.pause(pauseVal)#, hard=True)
@@ -106,14 +105,14 @@ image NEW = "Bubble/NEW-sign.png"
 default myClock = Clock(True, 3, 0, 150, False, False) #Analogue or Digital, hours, minutes, size, second hand, military time
 
 
-    
+default player_present = True
 
 # The game starts here.
 
 label start:
     
-    $ global choosing
     $ choosing = False
+    $ player_present = True
     stop music
     #********************
     #**CLOCK*************
@@ -167,39 +166,67 @@ label start:
             jump example_chat
         #"Chapter 18":
         #    jump chapter_18
-        "Clickable Images":
-            jump click_image
+        "Timed Menus":
+            jump timed_menus
         "Visual Novel":
             jump vn_mode
+       
             
             
-# Some experiments with getting CGs to be clickable
-# works now :D
-label click_image:
+# Some experiments with timed menus; MysMe doesn't use this feature
+# See explanation below
+label timed_menus:
 
     call chat_begin("earlyMorn")
 
     ra "{=curly}I'm going to test posting some images!{/=curly}"
-    ra "{image=general_cg1}" (img=True)
-    ra "That's how we usually post images,"
-    ra "{=ser1}but you can't click them T_T{/=ser1}" (bounce=True, specBubble="sigh_m")
     ra "general_cg1" (img=True)
-    ra "Gonna try that now."
     ra "seven_cg1" (img=True)
     ra "saeran_cg1" (img=True)
-    ra "general_cg1" (img=True)
-    ra "{image=ray cry}" (img=True)
-    call answer
-    menu:
-        "Again?":
-            jump click_image
-        "No":
-            pass
-    ra "Okay" (bounce=True)
-    call save_exit
+    ra "{image=ray happy}" (img=True)
     
-    pause 10
-    jump click_image
+    # Anything after this call may or may not be seen by the player depending on
+    # how fast they reply. The second value passed to continue_answer (in this case, 8)
+    # is how long the player has to decide on an answer
+    call continue_answer("menu1", 8)
+    
+    s "This doesn't happen in-game, but"
+    s "I was hoping to have some timed menus where the chat will keep going."
+    ra "Here are some lines of dialogue you may or may not see"
+    s "Who knows where this will go~"
+    
+    # You'll need to preface the menu with 'if timed_choose:' or else the menu
+    # will simply show up after the dialogue before it is exhausted
+    # If the player chooses an option, it will finish displaying the most recent
+    # line of dialogue from above, then move on to the dialogue after the choice
+    # If nothing is chosen, it will finish displaying the above dialogue, skip
+    # over the menu, and keep going
+    if timed_choose:
+        menu menu1:
+            "Do you think it'll be more interesting with interrupts?":
+                hide answer_countdown
+                m "Do you think it'll be more interesting with interrupts?" (pauseVal=0)
+                s "Yeah!!" (bounce=True, specBubble="round2_s")
+                s "I mean it's hard to say for sure-for sure, but"
+                s "Seems like a cool feature to me."
+            "But it's not a feature in the base game":
+                hide answer_countdown
+                m "But it's not a feature in the base game" (pauseVal=0)
+                s "I know!" (bounce=True)
+                s "It's fun experimenting though, right?"
+            
+    ra "What parts of the chat did you see?"
+    s "Did it work?"
+    ra "I hope so!" (bounce=True)
+    ra "{image=ray happy}" (img=True)
+    call save_exit
+    return
+    
+label chat1:
+    ra "Did you not pick a reply?" (bounce=True, specBubble="sigh_m")
+    ra "{image=ray cry}" (img=True)
+    call save_exit
+    return
 
 
 

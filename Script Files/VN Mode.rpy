@@ -399,16 +399,17 @@ image zen front = ConditionSwitch(
         ),
         "zen_face == None", "VN Mode/Zen/zen_body_0.png")
         
-# Seven's front expressions:
+## Seven's front expressions:
 # happy, blush, neutral, surprise, serious, eyes closed,
 # sad, worried, dark, angry, hurt
-# Side expressions:
+## Side expressions:
 # happy, concern, surprise, sad, neutral, dark, angry, worried
 
-# Saeran's front expressions:
+## Saeran's front expressions:
 # happy, smile, neutral, angry, eyes closed, tense, creepy, cry,
 # blush, sob, teary, nervous, sad, worried, distant
-# Mask expressions: happy, smile, neutral, angry, eyes closed, tense, creepy
+## Mask expressions: 
+# happy, smile, neutral, angry, eyes closed, tense, creepy
 
 label vn_mode:
 
@@ -427,6 +428,21 @@ label vn_mode:
     ray "It's not perfect, but you can fit two characters on-screen."
     $ sae_face = 'happy'
     ray "With some more work, hopefully it will look like it does in-game!"
+    
+    show screen countdown("reply1")
+    menu:
+        "Choice 1":
+            hide screen countdown
+            ray "Here we are"
+        "Choice 2":
+            hide screen countdown
+            sev "Tadaa~"
+            
+    ray "This is the end of the VN mode"
+    
+label reply1:
+    ray "You didn't pick anything"
+    sev "Shame"
     
     jump vn_mode
     

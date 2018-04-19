@@ -655,7 +655,59 @@ screen input(prompt, defAnswer = ""):
         text prompt style "input_prompt"
         input id "input" default defAnswer style "input_answer"
         
+#************************************
+# Countdown Screen
+#************************************
+
+# Not actually in MysMe; this is just a screen to test out timed responses
+# Could be a neat game mechanic
+screen countdown(timer_jump, time=5): # I set a default reaction time of 5 seconds
+    timer time repeat False action [ Hide('countdown'), Jump(timer_jump) ]
+    bar value AnimatedValue(0, time, time, time) at alpha_dissolve
+
+screen hidden_countdown(time=5): # I set a default reaction time of 5 seconds
+    timer time repeat False action [ Hide('hidden_countdown'), Return ]
+    bar value AnimatedValue(0, time, time, time) at alpha_dissolve
+        
+        
+screen answer_countdown(time=5): # I set a default reaction time of 5 seconds
+    timer time repeat False action [ Hide('answer_countdown'), Hide('continue_answer_button'), ToggleVariable("timed_choose", False, True) ]
+    bar value AnimatedValue(0, time, time, time) at alpha_dissolve
+        
+#************************************
+# Continue Answer
+#************************************
+
+# Some experiments with getting the chat to continue while you come up with a response
+
+default timed_choose = False
+
+label continue_answer(themenu, time=5):
+    $ timed_choose = True
+    show screen answer_countdown(time)
+    hide screen viewCG
+    $ pre_choosing = True
+    show screen continue_answer_button(themenu)
+    return
 
         
-        
+screen continue_answer_button(themenu):
+    zorder 4
+    image "answerbutton" ypos 1220
+    imagebutton:
+        xanchor 0.0
+        yanchor 0.0
+        xpos 0
+        ypos 1220
+        focus_mask None
+        idle "Phone UI/answer_transparent.png"
+        activate_sound "sfx/UI/answer_screen.mp3"
+        action [ToggleVariable("choosing", False, True), Hide('continue_answer_button'), Jump(themenu)] 
+    
+    
+    
+    
+    
+    
+    
     
