@@ -198,6 +198,28 @@ init 5:
         size 45
         text_align 0.5
         
+    style menu_text_big is text:
+        color "#ffffff"
+        size 45
+        text_align 0.5
+        
+    style menu_text_small is text:
+        color "#ffffff"
+        size 30
+        text_align 0.5
+        
+    style greet_text is text:
+        color "#ffffff"
+        size 30
+        text_align 0.0
+        slow_cps 20
+        
+    style greet_box:
+        xpos 232
+        yalign 0.12
+        maximum (510, 120)
+        padding(5,5)
+        
 #*********************************************************************
 
     # Code leftover from when you could add the time to characters'
