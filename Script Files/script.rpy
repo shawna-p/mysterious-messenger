@@ -171,6 +171,8 @@ label start:
             jump timed_menus
         "Visual Novel":
             jump vn_mode
+        "Menu":
+            call screen main_menu
        
             
             

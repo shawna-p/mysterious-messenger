@@ -360,7 +360,7 @@ style navigation_button_text:
 screen main_menu():
 
     ## This ensures that any other menu screen is replaced.
-    tag menu
+    #tag menu
 
     style_prefix "main_menu"
 
