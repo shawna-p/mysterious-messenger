@@ -48,7 +48,7 @@ label example_chat:
             $ addchat("answer","",pv*0.5)   
             jump emojis
             
-        "Banners" if not choice_picked == "banners":
+        "Banners & Other" if not choice_picked == "banners":
             $ choice_picked = "banners"
             if first_choice:
                 m "Can you teach me about banners?" (pauseVal=0) 
@@ -201,6 +201,13 @@ label banners:
     call banner_well
     y "{=ser1}...{/=ser1}"
     y "It's for times when you're a little lost for words."
+    y "{image=yoosung thankyou}"   (img=True)
+    y "{=sser1}I have one more thing I was going to show you:{/=sser1}" 
+    y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
+    y "{=curly}You said you identify as [persistent.pronoun], right?{/=curly}"   (bounce=True, specBubble="square_m")
+    y "So we'll use pronouns like [they]/[them] whenever we talk about you."   (bounce=True)
+    y "{=sser1}You can check out script.rpy - at the start there are some variables so you know how to use pronouns when writing a script{/=sser1}" 
+    y "{=sser1}And if you ever want to change your pronouns, just go to the profile page (currently accessed from the main menu).{/=sser1}" 
     y "{=sser1}That's all from me!{/=sser1}"
     y "Good luck with the program ^^"
     y "{image=yoosung wow}" (img=True)
