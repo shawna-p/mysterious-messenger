@@ -105,14 +105,46 @@ image NEW = "Bubble/NEW-sign.png"
 default myClock = Clock(True, 3, 0, 150, False, False) #Analogue or Digital, hours, minutes, size, second hand, military time
 
 
-default player_present = True
+default they = "she"
+default them= "her"
+default their = "her"
+default theirs = "hers"
+default themself = "herself"
 
 # The game starts here.
 
 label start:
+    $ name = persistent.name    
+    
+    if persistent.pronoun == "female":
+        $ they = "she"
+        $ them = "her"
+        $ their = "her"
+        $ theirs = "hers"
+        $ themself = "herself"
+    elif persistent.pronoun == "male":
+        $ they = "he"
+        $ them = "him"
+        $ their = "his"
+        $ theirs = "his"
+        $ themself = "himself"
+    elif persistent.pronoun == "nonbinary":
+        $ they = "they"
+        $ them = "them"
+        $ their = "their"
+        $ theirs = "theirs"
+        $ themself = "themself"
+    
     
     $ choosing = False
-    $ player_present = True
+    $ thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
+    if chatportrait["MC"] != thepic:
+        $ mcImage = {"MC": thepic}
+        $ chatportrait.update(mcImage)
+        
+    if chatnick["MC"] != persistent.name:
+        $ mcName = {"MC": persistent.name}
+        $ chatnick.update(mcName)
     stop music
     #********************
     #**CLOCK*************
@@ -126,29 +158,10 @@ label start:
     $ myClock.runmode("real")
 
 
-    # ****************************
-    # *******Fetch Name***********
-    # ****************************
-
     $ chatlog = []
-    scene evening
-    show screen phone_overlay
+    show screen starry_night
     
-    $ name = renpy.call_screen("input", prompt="Please enter a username", defAnswer = "Sujin")
-    $ name = name.strip()
     
-    $ mcImage = {"MC": 'Profile Pics/MC/MC-2.jpg'}
-    $ mcName = {"MC": "[name]"}
-
-    $ chatportrait.update(mcImage)
-    $ chatnick.update(mcName)
-
-    $ stutter = name[:1]
-    $ nameLength = len(name)
-    $ nameEnd = name[nameLength - 1]
-    $ nameCaps = name.upper()
-    $ nameLow = name.lower()
-    $ nameTypo = name[:nameLength - 1]
 
    
     
@@ -158,21 +171,17 @@ label start:
     $ chatlog = []
 
     show screen clock_screen
-    scene evening
+
 
     menu navi:
         "Go to Coffee Chatroom":
             jump coffee_chat
         "Go to example chatroom":
             jump example_chat
-        #"Chapter 18":
-        #    jump chapter_18
         "Timed Menus":
             jump timed_menus
         "Visual Novel":
             jump vn_mode
-        "Menu":
-            call screen main_menu
        
             
             
