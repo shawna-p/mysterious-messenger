@@ -178,9 +178,9 @@ define gui.button_text_xalign = 0.0
 ##
 ## These customizations are used by the default interface:
 
-define gui.radio_button_borders = Borders(16, 4, 4, 4)
+define gui.radio_button_borders = Borders(40, 4, 4, 4)
 
-define gui.check_button_borders = Borders(16, 4, 4, 4)
+define gui.check_button_borders = Borders(40,4,4,4)#(16, 4, 4, 4)
 
 define gui.confirm_button_text_xalign = 0.5
 
