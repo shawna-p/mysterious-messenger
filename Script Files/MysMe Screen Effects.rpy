@@ -161,9 +161,9 @@ label heart_break(character):
         $ chatroom_hp -= 1
     return
 
-#************************************
+#####################################
 # Answer Button
-#************************************ 
+##################################### 
 
 # Call this label before you show a menu
 # to show the answer button
@@ -178,13 +178,9 @@ label answer:
 image answerbutton: 
     block:
         "Phone UI/Answer-Dark.png" with Dissolve(0.5, alpha=True)
-        0.5
-        "Phone UI/Answer-Dark.png"
-        0.5
+        1.0
         "Phone UI/Answer.png" with Dissolve(0.5, alpha=True)
-        0.5
-        "Phone UI/Answer.png"
-        0.5
+        1.0
         repeat
         
 screen answer_button:
@@ -202,19 +198,15 @@ screen answer_button:
         action [ToggleVariable("choosing", False, True), Return()]       
 
     
-#************************************
+#####################################
 # Pause/Play footers
-#************************************ 
+#####################################
 
 image pausebutton:
     "Phone UI/pause_sign.png" with Dissolve(0.5, alpha=True)
-    0.5
-    "Phone UI/pause_sign.png"
-    0.5
+    1.0
     "transparent.png" with Dissolve(0.5, alpha=True)
-    0.5
-    "transparent.png"
-    0.5
+    1.0
     repeat
     
 
@@ -278,15 +270,17 @@ screen play_button:
         action Return()
         
 
-#************************************
+#####################################
 # Chat Header Overlay
-#************************************ 
+#####################################
+
 ## This screen shows the current time in the top righthand corner
 ## It's currently just for cosmetic purposes since I wanted to 
 ## display the current time as if it were a real phone
 # The real MysMe screen doesn't technically have this
 # but eventually it will likely be adapted to show the time like
 # you see in VN sections
+
 screen clock_screen:
     zorder 3
     add myClock:
@@ -324,9 +318,9 @@ screen phone_overlay:
 
     
 
-#************************************
+#####################################
 # Chat Speed Modifiers
-#************************************ 
+#####################################
 
 ## This speeds up/slows down the speed of the chat
 ## FIXME: sometimes skips dialogue/slows chat flow when clicking
@@ -360,9 +354,10 @@ label speed_num_label:
     return
 
 
-#************************************
+#####################################
 # View CGs
-#************************************            
+#####################################
+    
 default close_visible = True
 
 label viewCG:
@@ -378,6 +373,7 @@ image close_button = "CGs/close-overlay.png"
 ## click it in the chatroom. It has a working "Close" button
 ## that appears/disappears when you click the CG
 ## It can be fairly easily adapted to show CGs in a gallery as well
+
 screen viewCG_fullsize:
     imagebutton:
         xalign 0.5
@@ -399,10 +395,10 @@ screen viewCG_fullsize:
         
         text "Close" style "CG_close"
 
-
-#************************************
+        
+#####################################
 # Save & Exit
-#************************************ 
+#####################################
    
 # Call this label to show the save & exit sign
 label save_exit:
@@ -434,6 +430,7 @@ label press_save_and_exit:
 # It shows hourglass points as well but currently there is no variable
 # tallying how many hourglasses you get in a chatroom
 # TODO: Hourglass points
+
 screen signature_screen:
     image "save_exit" ypos 1220
     if choosing:
@@ -457,9 +454,10 @@ screen signature_screen:
     text "[chatroom_hp]" style "points" xalign 0.385
     text "0" style "points" xalign 0.73
     
-#************************************
+    
+#####################################
 # Chat Setup
-#************************************ 
+#####################################
 
 # This simplifies things when you're setting up a chatroom,
 # so call it when you're about to begin
@@ -468,6 +466,7 @@ screen signature_screen:
 # Note that it automatically clears the chatlog, so if you want
 # to change the background but not clear the messages on-screen,
 # you'll also have to pass it 'False' as its second argument
+
 label chat_begin(background=None, clearchat=True, resetHP=True):
     $ global pv
     if clearchat:
@@ -475,6 +474,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         $ pv = 0.8
     if resetHP:
         $ chatroom_hp = 0
+    hide screen starry_night
     show screen phone_overlay
     show screen clock_screen
     show screen messenger_screen 
