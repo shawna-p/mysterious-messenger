@@ -8,11 +8,10 @@ init 5:
 
     ### Note: you can find most of the gui values in the gui.rpy file
     ###  if you're looking to change them
-
         
-    ##************************************
+    ####################################
     ## Custom Text Tags
-    ##************************************
+    ####################################
     
     ## Curly Font
     style curly is say_dialogue:
@@ -66,10 +65,15 @@ init 5:
     style blocky is say_dialogue:
         font "00 fonts/BM-HANNA (Bold Font).ttf"
         
-       
-
     ####################################
-    ## Other Styles
+    #***********************************
+    ## Styles
+    #***********************************
+    ####################################
+
+    
+    ####################################
+    ## Chat Styles
     ####################################
     
     style phone_window is default
@@ -132,12 +136,14 @@ init 5:
         text_align gui.phone_nameMC_xalign
         font gui.phone_name_font
 
+    # Style of the window used for the chatroom
     style phone_window:
         xfill True
         yfill True
         background "gui/nvl.png"
         padding gui.phone_borders.padding
 
+    # Text style for chatroom dialogue
     style phone_dialogue:
         pos gui.phone_text_pos
         xanchor gui.phone_text_xalign
@@ -149,19 +155,43 @@ init 5:
     style phone_message_total:
         spacing 10
         
+    ####################################
+    ## Input Styles
+    ####################################
+    
     style input_window:
         xalign 0.5
-        yalign 0.2
+        yalign 0.41
             
     style input_prompt:
-        xalign 0.5
-        yalign 0.2
+        xalign 0.1
+        yalign 0.83
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
+        color "#ffffff"
         
     style input_answer:
-        xalign 0.5
-        yalign 0.5
+        xalign 0.07
+        yalign 0.46
+        color "#ffffff"
+        text_align 0.0
         
+    style input_img_answer:
+        xalign 0.07
+        yalign 0.46
+        key_events True
+        xysize (365,55)
+        
+    style my_input:
+        is default
+        color "#fff"
+        hover_color "#d7d7d7"
+        font "00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+
+      
+    ####################################
+    ## Save & Exit Styles
+    ####################################
+    
     style save_exit_text is text:
         xalign 0.5         
         text_align 0.5
@@ -183,20 +213,28 @@ init 5:
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         color "#ffffff"
         
-    style CG_close is text:
-        xalign 0.06
-        yalign 0.016
-        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-        color "#ffffff"
-        size 45
         
-    style speednum_style is text:
-        xalign 0.97
-        yalign 0.22
-        color "#ffffff"
-        font  "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
-        size 45
-        text_align 0.5
+    ####################################
+    ## Main Menu Styles
+    ####################################
+    
+    style menu_top_left_window:
+        maximum(450,420)
+        padding (10, 10)
+        xfill True
+        yfill True
+    
+    style menu_right_window:
+        maximum(225, 210)
+        xfill True
+        yfill True
+        padding (10, 10)
+    
+    style menu_bottom_left_window:
+        maximum(450,210)
+        padding (10, 10)
+        xfill True
+        yfill True
         
     style menu_text_big is text:
         color "#ffffff"
@@ -207,23 +245,71 @@ init 5:
         color "#ffffff"
         size 30
         text_align 0.5
+
         
+    ## **********************
+    ## Main Menu -- Greeting
+    ## **********************
+    
     style greet_text is text:
         color "#ffffff"
-        size 30
+        size 27
         text_align 0.0
         slow_cps 20
-        
+        font "00 fonts/NanumBarunpenR.ttf"
+               
     style greet_box:
-        xpos 232
+        xpos 228
         yalign 0.12
         maximum (500, 120)
-        padding(10,5)
+        padding (10,5,33,5)
         
-#*********************************************************************
-
+    ## **********************
+    ## Main Menu -- Profile
+    ## **********************
+    
+    style pronoun_window:
+        background Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
+        maximum(340,400)
+        xalign 0.99
+        yalign 0.23
+        padding (20,20)
+        xfill True
+        yfill True
+        
+    style pronoun_label:
+        size 40
+        color "#fff"
+        text_align 0.5
+        
+    
+        
+    ####################################
+    ## Other Miscellaneous Styles
+    ####################################
+    
+    # Style for the Close button when viewing a fullscreen CG
+    style CG_close is text:
+        xalign 0.06
+        yalign 0.016
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        color "#ffffff"
+        size 45
+        
+    # The number that shows up when adjusting the chatroom speed
+    style speednum_style is text:
+        xalign 0.97
+        yalign 0.22
+        color "#ffffff"
+        font  "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+        size 45
+        text_align 0.5
+        
+    
+    #*************************************************************
     # Code leftover from when you could add the time to characters'
     # messages. Currently unused
+    
     style phone_time is text:
         size 14
         color "#575757"
@@ -242,9 +328,11 @@ init 5:
         xpos 160
         ypos -100
 
-
+    
     ####################################
+    #***********************************
     ## Tranforms
+    #***********************************
     ####################################
            
     # Used for animations that bounce
@@ -253,30 +341,22 @@ init 5:
         alpha 0 zoom 0.5
         linear 0.1 alpha 0.8 zoom 1.1
         linear 0.1 alpha 1.0 zoom 1.0
-        on hide:
-            hide_message
         
     # Used for most other things (bubbles,
     # emojis, etc)
     transform incoming_message:
         alpha 0 zoom 0.5
         linear 0.2 alpha 1.0 zoom 1.0
-        
-    transform hide_message:
-        linear 0.2 alpha 1.0 zoom 1.0
-        alpha 0 zoom 0.5
-        
+   
+    # Used to make full-size CGs small enough
+    # to post in a chatroom
     transform small_CG:
         alpha 0 zoom 0.175
         linear 0.2 alpha 1.0 zoom 0.35
 
     #***********************************
-    # These are for MysMe animation
+    # 'Anti' transformation for MysMe
     #***********************************
-    transform speed_msg:
-        alpha 1
-        linear 0.4 alpha 1
-        linear 0.4 alpha 0
     
     transform anti_incoming_message:
         alpha 0 zoom 0.5
@@ -287,15 +367,19 @@ init 5:
         linear 0.1 alpha 0 zoom 0.0
         linear 0.1 zoom 0.1
         
-    transform anti_hide_message:
-        linear 0.2 alpha 0.0 zoom 0
-        alpha 0 zoom 0.5
-        on hide:
-            anti_hide_message   
-
     transform anti_small_CG:
         zoom 0.165 alpha 0
-        linear 0.2 zoom 0     
+        linear 0.2 zoom 0 
+
+    #***********************************
+    # Other Transforms
+    #***********************************            
+        
+    # Used to display the chatroom speed message
+    transform speed_msg:
+        alpha 1
+        linear 0.4 alpha 1
+        linear 0.4 alpha 0
         
     # Shows the heart icon
     transform heart:
@@ -346,8 +430,5 @@ init 5:
         linear 0.5 alpha 1.0
         on hide:
             linear 0.5 alpha 0
-        # This is to fade the bar in and out, and is only required once in your script
-        
-    transform invisible:
-        alpha 0
+
 
