@@ -112,11 +112,20 @@ default new_msg_clicked = False
         
 screen messenger_screen:
 
-    if yadj.value == yadj.range:
-        $ yadj.value = yadjValue
-    elif yadj.value == 0:
-        $ yadj.value = yadjValue
-                
+    python:
+        if yadj.value == yadj.range:
+            yadj.value = yadjValue
+        elif yadj.value == 0:
+            yadj.value = yadjValue
+            
+        if len(chatlog) > 0:
+            finalchat = chatlog[-1]
+            if finalchat.who == "filler":
+                yadj.value = yadjValue
+        if len(chatlog) < 3:
+            yadj.value = yadjValue
+            
+            
     #else:
         #image "Phone UI/new_message_banner.png" ypos 170
         #$ new_msg_clicked = False
