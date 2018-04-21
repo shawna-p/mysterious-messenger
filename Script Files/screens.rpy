@@ -62,8 +62,12 @@ style vscrollbar:
 
 style slider:
     ysize gui.slider_size
-    base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
+    #base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
     thumb "gui/slider/horizontal_[prefix_]thumb.png"
+    left_gutter 10
+    right_gutter 10
+    left_bar Frame("gui/slider/left_horizontal_bar.png", gui.slider_borders, tile=gui.slider_tile)
+    right_bar Frame("gui/slider/right_horizontal_bar.png", gui.slider_borders, tile=gui.slider_tile)
 
 style vslider:
     xsize gui.slider_size
@@ -739,13 +743,6 @@ screen preferences():
                         textbutton _("Fullscreen") action Preference("display", "fullscreen")
 
                 vbox:
-                    style_prefix "radio"
-                    label _("Rollback Side")
-                    textbutton _("Disable") action Preference("rollback side", "disable")
-                    textbutton _("Left") action Preference("rollback side", "left")
-                    textbutton _("Right") action Preference("rollback side", "right")
-
-                vbox:
                     style_prefix "check"
                     label _("Skip")
                     textbutton _("Unseen Text") action Preference("skip", "toggle")
@@ -761,6 +758,7 @@ screen preferences():
                 style_prefix "slider"
                 box_wrap True
 
+                text "VN Mode" style "menu_text_big"
                 vbox:
 
                     label _("Text Speed")
@@ -771,6 +769,7 @@ screen preferences():
 
                     bar value Preference("auto-forward time")
 
+                text "{vspace=20}Sounds" style "menu_text_big"
                 vbox:
 
                     if config.has_music:
@@ -847,7 +846,7 @@ style pref_label_text:
     yalign 1.0
 
 style pref_vbox:
-    xsize 190
+    xsize 420#190
 
 style radio_vbox:
     spacing gui.pref_button_spacing
