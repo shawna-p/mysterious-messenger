@@ -168,7 +168,7 @@ screen main_menu:
         style "greet_box"
         # Could make this a variable so it changes the greeting message too
         # Would need a better way of keeping track of which character is displayed
-        text "{size=-2}프로그램에 오신 것을 환영합니다!{/size}" style "greet_text"
+        text "{size=-2}제 프로그램으로 환영합니다!{/size}" style "greet_text"
         text "Welcome to my Mystic Messenger Generator!" style "greet_text" yalign 0.5
 
     
@@ -313,6 +313,18 @@ image MC_profpic = ConditionSwitch(
 image radio_on = "Phone UI/Main Menu/menu_radio_on.png"
 image radio_off = "Phone UI/Main Menu/menu_radio_off.png"
 
+image settings_gear = "Phone UI/Main Menu/menu_settings_gear.png"
+# Just for fun, this is the animation when you hover over the settings
+# button. It makes the gear look like it's turning
+image settings_gear_rotate:
+    "Phone UI/Main Menu/menu_settings_gear.png"
+    xpos 10
+    ypos -10
+    block:
+        rotate 0
+        linear 1.0 rotate 45
+        repeat
+
 screen profile_pic:
     
     tag menu
@@ -419,6 +431,158 @@ screen profile_pic:
         action ShowMenu("load")
                 
 
+               
+## Load and Save screens #######################################################
+##
+## These screens are responsible for letting the player save the game and load
+## it again. Since they share nearly everything in common, both are implemented
+## in terms of a third screen, file_slots.
+##
+
+
+screen save():
+
+    tag menu
+
+    use file_slots(_("Save"))
+
+
+screen load():
+
+    tag menu
+
+    use file_slots(_("Load"))
+
+
+screen file_slots(title):
+
+    default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
+
+    use starry_night
+    
+    ## Header
+    window:
+        ymaximum 80
+        yalign 0.058
+        add "menu_header"
+        
+    text title color "#ffffff" size 40 xalign 0.5 text_align 0.5 yalign 0.072
+    
+    imagebutton:
+        xalign 0.013
+        yalign 0.068
+        idle "menu_back"
+        focus_mask None
+        hover im.FactorScale("Phone UI/Main Menu/menu_back_btn.png", 1.1)
+        action Return()
+        
+    imagebutton:
+        xalign 0.98
+        yalign 0.01
+        idle "settings_gear"
+        hover "settings_gear_rotate"
+        focus_mask None
+        action ShowMenu("preferences")
+        
+    
+    fixed:
+
+        ## This ensures the input will get the enter event before any of the
+        ## buttons do.
+        order_reverse True
+
+        ## The page name, which can be edited by clicking on a button.
+        button:
+            style "page_label"
+
+            key_events True
+            xalign 0.5
+            action page_name_value.Toggle()
+
+            input:
+                style "page_label_text"
+                #value page_name_value
+
+        ## The grid of file slots.
+        vpgrid:
+
+            maximum (740, 1120)
+            rows gui.file_slot_rows
+            draggable True
+            mousewheel True
+            style_prefix "slot"
+
+            xalign 0.01
+            yalign 0.8
+
+            spacing gui.slot_spacing
+
+            for i in range(gui.file_slot_cols * gui.file_slot_rows):
+
+                $ slot = i + 1
+
+                button:
+                    action FileAction(slot)
+
+                    has hbox
+                    spacing 10
+
+                    add FileScreenshot(slot) xalign 0.0
+                    
+                    window:
+                        xmaximum 435
+                        yalign 0.5
+                        has vbox
+                        text "Name of Chatroom" style "save_slot_text"
+                        spacing 40
+                        text "Today: 10th DAY" style "save_slot_text"
+                        
+                    window:
+                        xmaximum 175
+                        has vbox
+                        
+                        text FileTime(slot, format=_("{#file_time}%m/%d %H:%M"), empty=_("empty slot")):
+                            style "save_timestamp"
+                            
+                        spacing 30
+
+                        imagebutton:
+                            hover im.FactorScale("Phone UI/Main Menu/save_trash_hover.png",1.05)
+                            idle "Phone UI/Main Menu/save_trash.png"
+                            xalign 1.0
+                            action FileDelete(slot)
+
+                    key "save_delete" action FileDelete(slot)
+
+        ## Buttons to access other pages.
+        hbox:
+            style_prefix "page"
+
+            xalign 0.5
+            yalign 1.0
+
+            spacing gui.page_spacing
+
+            textbutton _("<") action FilePagePrevious()
+
+            if config.has_autosave:
+                textbutton _("{#auto_page}Auto") action FilePage("auto")
+
+            if config.has_quicksave:
+                textbutton _("{#quick_page}Quick") action FilePage("quick")
+
+            ## range(1, 10) gives the numbers from 1 to 9.
+            for page in range(1, 10):
+                textbutton "[page]" action FilePage(page)
+
+            textbutton _(">") action FilePageNext()
+
+
+
+                
+                
+                
+                
 
 # ****************************
 # *******Fetch Name***********

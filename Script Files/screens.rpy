@@ -594,21 +594,21 @@ style about_label_text:
 ## https://www.renpy.org/doc/html/screen_special.html#save https://
 ## www.renpy.org/doc/html/screen_special.html#load
 
-screen save():
+screen save_old():
 
     tag menu
 
     use file_slots(_("Save"))
 
 
-screen load():
+screen load_old():
 
     tag menu
 
     use file_slots(_("Load"))
 
 
-screen file_slots(title):
+screen file_slots_old(title):
 
     default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
 

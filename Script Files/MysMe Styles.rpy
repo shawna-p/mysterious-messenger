@@ -282,6 +282,19 @@ init 5:
         color "#fff"
         text_align 0.5
         
+    ## **********************
+    ## Main Menu -- Save/Load
+    ## **********************
+    
+    style save_timestamp:
+        size 25
+        color "#fff"
+        text_align 1.0
+        
+    style save_slot_text:
+        color "fff"
+        text_align 0.0
+        
     
         
     ####################################
