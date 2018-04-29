@@ -102,7 +102,7 @@ image photo = im.FactorScale("photo.png",0.4)
 image NEW = "Bubble/NEW-sign.png"
 
      
-default myClock = Clock(True, 3, 0, 150, False, False) #Analogue or Digital, hours, minutes, size, second hand, military time
+
 
 
 default they = "she"
@@ -146,6 +146,7 @@ label start:
         $ mcName = {"MC": persistent.name}
         $ chatnick.update(mcName)
     stop music
+    
     #********************
     #**CLOCK*************
     #********************

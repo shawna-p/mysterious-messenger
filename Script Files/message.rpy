@@ -58,15 +58,16 @@ init python:
     ## the variable (see the example when MC is changed in script.rpy)
     ## Each entry is of the style:
     ## "Short Form": "address of profile photo"
-    chatportrait = {'Sev': 'Profile Pics/Seven/sev-1.png', 
+    chatportrait = {'Ju': 'Profile Pics/Jumin/ju-1.png', 
                     'Zen': 'Profile Pics/Zen/zen-1.png', 
-                    'Ja': 'Profile Pics/Jaehee/ja-1.png', 
-                    'Ju': 'Profile Pics/Jumin/ju-1.png', 
-                    'Yoo' : 'Profile Pics/Yoosung/yoo-1.png', 
-                    'MC' : 'Profile Pics/MC/MC-1.png', 
-                    'Rika' : 'Profile Pics/Rika/rika-1.png',
-                    'Ray' : 'Profile Pics/Ray/ray-1.png',
+                    'Sev': 'Profile Pics/Seven/sev-1.png', 
+                    'Yoo' : 'Profile Pics/Yoosung/yoo-1.png',                     
+                    'Ja': 'Profile Pics/Jaehee/ja-1.png',                    
                     'V' : 'Profile Pics/V/V-1.jpg',
+                    'MC' : 'Profile Pics/MC/MC-1.png', 
+                    'Ray' : 'Profile Pics/Ray/ray-1.png',
+                    'Rika' : 'Profile Pics/Rika/rika-1.png',
+                    
                     'Unk' : 'Profile Pics/Unknown/Unknown-1.png',
                     'Sae' : 'Profile Pics/Saeran/sae-1.png',
                     'msg' : 'transparent.png', 
@@ -124,6 +125,7 @@ screen messenger_screen:
                 yadj.value = yadjValue
         if len(chatlog) < 3:
             yadj.value = yadjValue
+        yinitial = yadjValue
             
             
     #else:
