@@ -272,7 +272,7 @@ init 5:
         background Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
         maximum(340,400)
         xalign 0.99
-        yalign 0.23
+        yalign 0.32
         padding (20,20)
         xfill True
         yfill True
@@ -281,6 +281,12 @@ init 5:
         size 40
         color "#fff"
         text_align 0.5
+        
+    style point_indicator:
+        size 40
+        color "#fff"
+        text_align 0.5
+        xalign 0.5
         
     ## **********************
     ## Main Menu -- Save/Load
@@ -295,7 +301,74 @@ init 5:
         color "fff"
         text_align 0.0
         
+    ## **********************
+    ## Main Menu -- Settings
+    ## **********************
     
+    style voice_toggle_on:
+        color "#99ffea"
+        hover_color "#43ffd8"
+        
+    style voice_toggle_off:
+        color "#a3a3a3"
+        hover_color "#d0d0d0"
+        
+    style settings_style:
+        color "#ffffff"
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        
+    style sound_tags:
+        color "#ffffff"
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 25
+        text_align 0.5
+        xalign 0.5
+        
+    style hg_heart_points:
+        color "#ffffff"
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 39
+        text_align 1.0
+        
+    ## **********************
+    ## Main Menu -- Other
+    ## **********************
+    
+    style mode_select:
+        color "#fff"
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        text_align 0.5
+        xalign 0.5
+        yalign 0.5
+        
+    style confirm_text:
+        color "#eeeeee"
+        hover_color "#ffffff"
+        xalign 0.5
+        text_align 0.5
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 30
+        
+    ## **********************
+    ## Main Menu -- Loading
+    ## **********************        
+    
+    style loading_text:
+        xalign 0.5
+        yalign 0.607
+        color "#fff"
+        text_align 0.5
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 34
+        
+    style loading_tip:
+        xalign 0.5
+        text_align 0.5
+        yalign 0.4
+        color "#fff"
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 34
+        
         
     ####################################
     ## Other Miscellaneous Styles
@@ -317,6 +390,31 @@ init 5:
         font  "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         size 45
         text_align 0.5
+        
+    style chip_prize_text:
+        color "#ffffff"
+        font  "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        text_align 1.0
+        size 37
+        xalign 0.85
+        yalign 0.5
+        
+    style chip_prize_description:
+        color '#ffffff'
+        font "00 fonts/BM-HANNA (Bold Font).ttf"
+        text_align 0.5
+        size 45
+        xalign 0.5
+        yalign 0.17
+        
+    style header_clock:
+        color '#fff'
+        font  "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        text_align 1.0
+        size 42
+        xpos -110
+        yalign 0.48
+       
         
     
     #*************************************************************
@@ -443,5 +541,155 @@ init 5:
         linear 0.5 alpha 1.0
         on hide:
             linear 0.5 alpha 0
+            
+    # for the spaceship wiggle
+    transform spaceship_flight:
+        parallel:
+            linear 1.0 yoffset -15
+            linear 1.0 yoffset 15
+        parallel:
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+        parallel:
+            function spaceship_xalign_func
+            
+        block:
+            parallel:
+                linear 1.0 yoffset -15
+                linear 1.0 yoffset 15
+            parallel:
+                linear 0.5 rotate -8
+                linear 0.5 rotate 8
+                linear 0.5 rotate -8
+                linear 0.5 rotate 8
+            repeat
+            
+    transform spaceship_chips:
+        xalign 0.0
+        parallel:
+            linear 1.0 yoffset -15
+            linear 1.0 yoffset 15
+        parallel:
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+        parallel:
+            linear 0.8 xalign 0.84
+            0.8
+            linear 0.4 xalign 0.96
+            
+        block:
+            parallel:
+                linear 1.0 yoffset -15
+                linear 1.0 yoffset 15
+            parallel:
+                linear 0.5 rotate -8
+                linear 0.5 rotate 8
+                linear 0.5 rotate -8
+                linear 0.5 rotate 8
+            repeat
+            
+        
+    transform chip_anim:
+        alpha 0
+        1.91
+        alpha 1
+        block:
+            yoffset 0
+            parallel:
+                linear 0.5 yoffset -43
+                linear 0.66 yoffset -43
+            parallel:
+                alignaround(0.5,0.5)
+                linear 0.5 rotate 0
+                linear 0.33 rotate 25
+                linear 0.33 rotate 10
+            parallel:
+                zoom 1.0
+                linear 0.5 zoom 1.0
+                linear 0.33 zoom 1.15
+                linear 0.33 zoom 1.0
+            repeat
+            
+    transform chip_wobble:
+        linear 0.9 rotate 5
+        linear 0.7 rotate -5
+        repeat
+        
+    transform chip_wobble2:
+        on show:
+            linear 0.13 rotate 2
+            linear 0.13 rotate -2
+            repeat
+        on hide:
+            alpha 1.0
+            linear 1.0 alpha 0.0
+            
+
+        
+        
+    transform small_tap:
+        rotate -8
+        zoom 0.67
+        xpos 310
+        ypos -40
+        
+    transform med_tap:
+        rotate 47
+        xpos 415
+        ypos 40
+        
+    transform large_tap:
+        rotate 28
+        zoom 1.5
+        xpos 360
+        ypos -100
+        
+    transform cloud_shuffle1:
+        zoom 1.0 xanchor 1.0 yanchor 1.0
+        block:
+            linear 0.4 zoom 0.95
+            linear 0.6 zoom 1.05
+            repeat
+            
+    transform cloud_shuffle2:
+        zoom 1.0
+        block:
+            linear 0.5 zoom 1.04
+            linear 0.3 zoom 1.0
+            linear 0.3 zoom 0.94
+            repeat
+        
+    transform cloud_shuffle3:
+        zoom 1.0 yanchor 1.0
+        block:
+            linear 0.4 zoom 1.05
+            linear 0.45 zoom 0.95
+            linear 0.3 zoom 1.02
+            repeat
+        
+    transform cloud_shuffle4:
+        zoom 1.0 xanchor 1.0 yanchor 0.0
+        block:
+            linear 0.5 zoom 1.05
+            linear 0.5 zoom 0.95
+            repeat
+            
+            
+    transform cloud_shuffle5:
+        zoom 1.0
+        block:
+            linear 0.45 zoom 1.05
+            linear 0.65 zoom 0.95
+            repeat
+            
+    transform hide_dissolve:
+            alpha 1.0
+            linear 2.0 alpha 1.0
+            linear 0.5 alpha 0.0
+
 
 
