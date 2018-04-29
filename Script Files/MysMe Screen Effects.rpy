@@ -101,6 +101,8 @@ default choosing = False
 default pre_choosing = False
 # Keeps track of the total number of hp (heart points) you've received per chatroom
 default chatroom_hp = 0
+# Keeps track of the total number of hg (hourglasses) you've earned per chatroom
+default chatroom_hg = 0
 
 #************************************
 # Heart Icons
@@ -281,12 +283,15 @@ screen play_button:
 # but eventually it will likely be adapted to show the time like
 # you see in VN sections
 
+#Analogue or Digital, hours, minutes, size, second hand, military time
+default myClock = Clock(True, 3, 0, 150, False, False) 
+
 screen clock_screen:
     zorder 3
     add myClock:
         xalign 1.0
         yalign 0.0
-
+        
 image maxSpeed = im.FactorScale("Phone UI/max_speed_active.png",1.1)
 image noMaxSpeed = im.FactorScale("Phone UI/max_speed_inactive.png",1.1)
         
@@ -424,12 +429,19 @@ screen save_and_exit:
         
 label press_save_and_exit:
     call screen signature_screen
-    return
+    $ persistent.HP += chatroom_hp
+    $ persistent.HG += chatroom_hg
+    $ chatroom_hp = 0
+    $ chatroom_hg = 0
+    if config.skipping:
+        $ config.skipping = False
+    hide screen clock_screen
+    $ greeted = False
+    call screen main_menu
 
 # This shows the signature screen, which records your total heart points
-# It shows hourglass points as well but currently there is no variable
-# tallying how many hourglasses you get in a chatroom
-# TODO: Hourglass points
+# It shows hourglass points as well but currently there is no way to get
+# more hourglasses
 
 screen signature_screen:
     image "save_exit" ypos 1220
@@ -448,11 +460,11 @@ screen signature_screen:
         idle "Phone UI/sign-button.png"
         activate_sound "sfx/UI/end_chatroom.mp3"
         hover "Phone UI/sign-button-clicked.png"
-        action [SetVariable("chatroom_hp", 0), Call("start")]
+        action Return
     
     text "sign" style "sign" 
     text "[chatroom_hp]" style "points" xalign 0.385
-    text "0" style "points" xalign 0.73
+    text "[chatroom_hg]" style "points" xalign 0.73
     
     
 #####################################
