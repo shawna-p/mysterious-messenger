@@ -44,40 +44,37 @@ init python:
     u = Chat("Unk")
     v = Chat("V")
     msg = Chat("msg")
-    answertest = Chat("answer")
     
     chatlog = []
     # Currently these are unused
-    chathistory = []    # this keeps track of old chats
-                        # when chatlog[] gets too long
-    chatArchive = []    # this will be an array of chatlogs
+    chatArchive = {}    # this will be a dictionary
                         # that stores an entire chatroom per index
+                        # The idea is to store chats in this dictionary with the key as the day,
+                        # and then the value is a list of chatlog lists
                        
     ## You can declare characters here and their profile pictures
     ## As of now, you can either change profile pictures here or by updating
     ## the variable (see the example when MC is changed in script.rpy)
     ## Each entry is of the style:
     ## "Short Form": "address of profile photo"
-    chatportrait = {'Ju': 'Profile Pics/Jumin/ju-1.png', 
-                    'Zen': 'Profile Pics/Zen/zen-1.png', 
-                    'Sev': 'Profile Pics/Seven/sev-1.png', 
-                    'Yoo' : 'Profile Pics/Yoosung/yoo-1.png',                     
-                    'Ja': 'Profile Pics/Jaehee/ja-1.png',                    
-                    'V' : 'Profile Pics/V/V-1.jpg',
+    chatportrait = {'Ju': 'Profile Pics/Jumin/ju-default.png', 
+                    'Zen': 'Profile Pics/Zen/zen-default.png', 
+                    'Sev': 'Profile Pics/Seven/sev-default.png', 
+                    'Yoo' : 'Profile Pics/Yoosung/yoo-default.png',                     
+                    'Ja': 'Profile Pics/Jaehee/ja-default.png',                    
+                    'V' : 'Profile Pics/V/V-default.png',
                     'MC' : 'Profile Pics/MC/MC-1.png', 
-                    'Ray' : 'Profile Pics/Ray/ray-1.png',
-                    'Rika' : 'Profile Pics/Rika/rika-1.png',
+                    'Ray' : 'Profile Pics/Ray/ray-default.png',
+                    'Rika' : 'Profile Pics/Rika/rika-default.png',
                     
                     'Unk' : 'Profile Pics/Unknown/Unknown-1.png',
-                    'Sae' : 'Profile Pics/Saeran/sae-1.png',
-                    'msg' : 'transparent.png', 
-                    "filler" : "transparent.png",
-                    "answer" : "transparent.png"} 
+                    'Sae' : 'Profile Pics/Saeran/sae-1.png'
+                    } 
 
     ## This is where you store character nicknames so you don't
     ##  have to type out their full name every time
-    ##  To be honest this is somewhat moot as I've declared variables
-    ##  to hold the name of their nickname elsewhere, but it's still useful
+    ##  Somewhat moot as I've declared variables to hold the name of
+    ##  their nickname elsewhere, but it's still useful
     ## Format:
     ## "Nickname/Short Form": "Full Name as it should appear in the chat"
     chatnick = {'Sev': '707', 
@@ -92,8 +89,32 @@ init python:
                 'Unk' : 'Unknown',
                 "msg" : "msg", 
                 "filler" : "filler",
-                'Ray' : 'Ray',
-                "answer" : "answer"} 
+                'Ray' : 'Ray'
+                } 
+                
+    ## The characters' status as it shows up on their profile page
+    chatstatus = {'Sev': "707's status", 
+                'Zen': "Zen's status", 
+                'Ja' : "Jaehee's status", 
+                'Ju' : "Jumin's status", 
+                'Yoo' : "Yoosung's status",
+                'Rika' : "Rika's status",
+                'V' : "V's status",
+                'Sae' : "Saeran's status",
+                'Unk' : "Unknown's status",
+                'Ray' : "Ray's status"} 
+                
+    ## The characters' cover photos as it shows up on their profile page
+    chatcover = {'Sev': "Cover Photos/profile_cover_photo.png", 
+                'Zen': "Cover Photos/profile_cover_photo.png", 
+                'Ja' : "Cover Photos/profile_cover_photo.png", 
+                'Ju' : "Cover Photos/profile_cover_photo.png", 
+                'Yoo' : "Cover Photos/profile_cover_photo.png", 
+                'Rika' : "Cover Photos/profile_cover_photo.png", 
+                'V' : "Cover Photos/profile_cover_photo.png", 
+                'Sae' : "Cover Photos/profile_cover_photo.png", 
+                'Unk' : "Cover Photos/profile_cover_photo.png", 
+                'Ray' : "Cover Photos/profile_cover_photo.png"} 
                 
     ### Set a variable to infinity, to be used later -- it keeps the viewport scrolling to the bottom
     yadjValue = float("inf")
@@ -109,8 +130,6 @@ init python:
 
 default new_msg_clicked = False
 
-    
-        
 screen messenger_screen:
 
     python:
@@ -147,31 +166,28 @@ screen messenger_screen:
 
 
     window:
-        style "phone_window"
-        frame:
-            background "transparent.png"
-            align (0.5, 0.2)
-            
-            side "c r":
-                area (0, 110, 750, 1050)
-                
-                viewport yadjustment yadj: # viewport id "VP":
-                    draggable True
-                    mousewheel True
-                    
-                    has vbox: ## displays the avatar and underneath it the nickname
-                        spacing gui.phone_spacing  
-                        if gui.phone_height:
-                            vpgrid:
-                                cols 1
-                                yinitial 1.0
+        align (0.5, 0.6)
+        xfill True
+        ysize 1050
 
-                                use chat_dialogue()
-
-                        else:
-
-                            use chat_dialogue()
+        viewport yadjustment yadj: # viewport id "VP":
+            draggable True
+            mousewheel True
+            ysize 1050
                             
+            has vbox:
+                spacing gui.phone_spacing
+                if gui.phone_height:
+                    vpgrid:
+                        cols 1
+                        yinitial 1.0
+
+                        use chat_dialogue()
+
+                else:
+
+                    use chat_dialogue()
+                                
                             
 
 screen chat_dialogue():
@@ -190,31 +206,39 @@ screen chat_dialogue():
                 if begin > 0:
                     begin -= 1
                 
-    vbox:
-        for i in chatlog[begin:]:
-            use character_animation(i)
+
+    for i in chatlog[begin:]:
+        use chat_animation(i)
                       
-      
-# This screen animates the most recent dialogue bubble
-screen character_animation(i):
+                      
+                      
+screen chat_animation(i):
     python:
+        include_new = False
+    
         if i.bounce:
             transformVar = incoming_message_bounce
+            include_new = False
         else:
             transformVar = incoming_message
-
+            include_new = True
+            
         if i.who == "MC":
-            phoneStyle = "phone_label_MC"
+            nameStyle = 'chat_name_MC'
+            include_new = False
         else:
-            phoneStyle = "phone_label"
-        
+            nameStyle = 'chat_name'
+            
         if i.specBubble != None:
+            include_new = False
             bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"    
-        elif i.bounce:  # Not a special bubble; just glow
+        elif i.bounce: # Not a special bubble; just glow
+            include_new = False
             bubbleBackground = "Bubble/" + i.who + "-Glow.png"
-        elif i.who != "answer":
+        elif i.who != 'answer':
             bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
-                
+        
+        
         if i.specBubble != None:
             # Some characters have more than one round or square bubble
             # but they follow the same style as "round" or "square"
@@ -226,99 +250,146 @@ screen character_animation(i):
                 bubbleStyle = i.specBubble
         
         if i.img == True:
+            include_new = False
             if "{image=" in i.what:
                 pass
             else:
                 transformVar = small_CG
                 
-        global choosing
-
-       
-
-    if i.who != "msg" and i.who != "filler" and i.who != "answer" and i.who != "pause":
-        vbox:
-            if i.who == "MC":
-                style "phone_profpic_MC"
-            else:
-                style "phone_profpic"
+        ## This determines how long the line of text is. If it needs to wrap
+        ## it, it will pad the bubble out to the appropriate length
+        ## Otherwise each bubble would be exactly as wide as it needs to be and no more
+        t = Text(i.what)
+        z = t.size()
+        my_width = int(z[0])
+        my_height = int(z[1])
                 
-            add chatportrait[i.who] 
-            
-        text chatnick[i.who] style phoneStyle color nickColour
-        # text i.thetime style "phone_time3" (for MC) or "phone_time2" (for others)
+        global choosing
         
-        window at transformVar:
-            if i.img == True:
-                # Check if it's an emoji
-                if "{image=" in i.what:
-                    # there's an image to display
-                    style "phone_img"
-                    text i.what
-                else:   # presumably it's a CG
-                    # Could have a key-dictionary here that unlocks CGs in a gallery
-                    # if i.what in gallery -> gallery[i.what] = True and then it'd display
-                    $ fullsizeCG = i.what
-                    style "phone_img"
-                    imagebutton:
-                        bottom_margin -100
-                        focus_mask True
-                        idle fullsizeCG
-                        if not choosing:
-                            action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
-
-            elif i.specBubble != None:                        
-                style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
-                text i.what style "special_bubble"
-            else:
-                if (i.bounce):  # The bubble is supposed to bounce)
-                    if i.who == "MC":
-                        style "MC_glow"
-                    else:
-                        style "reg_glow" background Frame(bubbleBackground, 25, 25) # style (i.who + "_glow")
-                else:
-                    if i.who == "MC":
-                        style "MC_bubble"
-                    else:
-                        style "reg_bubble" background Frame(bubbleBackground, 25,18,18,18) # style (i.who + "_bubble")
-                    
-                ## This code is a bit odd, but it determines how long the line
-                ## of text is, and then decides if it needs to wrap it or not
-                ## If it does need to wrap it, it pads out a minimum width
-                ## This is how it displays in-game, otherwise each bubble would
-                ## only be exactly as wide as it needed to be
-                $ t = Text(i.what)
-                $ z = t.size()
-                $ z1 = z[0]
-                if z1 > gui.longer_than:
-                    text i.what style "bubble_text_long" min_width gui.long_line_min_width
-                else:            
-                    text i.what style "bubble_text"
-
-        use anti_animation(i)
+        
+    ## First, the profile picture and name, no animation
     
-    elif i.who == "msg" or i.who == "filler":
-        window: # Note: no animation
-            style (i.who + "_bubble")
-            text i.what style (i.who + "_bubble")
+    if i.who == 'msg' or i.who == 'filler':
+        window:
+            style i.who + '_bubble'
+            text i.what style i.who + '_bubble_text'
             
-    else:
-        pass
+    elif i.who != 'answer' and i.who != 'pause':
+        window:
+            if i.who == 'MC':
+                style 'MC_profpic'
+            else:
+                style 'profpic'
+                
+            add chatportrait[i.who]
             
+        text chatnick[i.who] style nameStyle color nickColour
+        
+        ## Now add the dialogue
+        
+        if not include_new: # Not a 'regular' dialogue bubble
+            window at transformVar:                 
+                ## Check if it's an image
+                if i.img == True:
+                    style 'img_message'
+                    # Check if it's an emoji
+                    if "{image=" in i.what:
+                        text i.what
+                    else:   # it's a CG
+                        # TODO: Could have a dictionary here that unlocks CGs in a gallery
+                        # Would need persistent variables; if i.what in gallery ->
+                        # gallery[i.what] = True and then it will be unlocked
+                        $ fullsizeCG = i.what
+                        imagebutton:
+                            bottom_margin -100
+                            focus_mask True
+                            idle fullsizeCG
+                            if not choosing:
+                                action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
+                                
+                                
+                ## Check if it's a special bubble
+                elif i.specBubble != None:
+                    style bubbleStyle 
+                    background bubbleBackground # e.g. style "sigh_m" 
+                    text i.what style "special_bubble"
+                    
+                ## Dialogue is either 'glow' or 'regular' variant
+                elif i.bounce:
+                    # Note: MC has no glowing bubble so there is no variant for them
+                    style 'glow_bubble' 
+                    background Frame(bubbleBackground, 25, 25)
+                    # This checks if the text needs to wrap or not
+                    if my_width > gui.longer_than:
+                        text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                    else:            
+                        text i.what style "bubble_text"
+                        
+                else:
+                    style 'reg_bubble_MC'
+                    if my_width > gui.longer_than:
+                        text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                    else:            
+                        text i.what style "bubble_text"
+                        
+        else:
+            if my_width > gui.longer_than:
+                fixed at transformVar:
+                    pos (138, -85)
+                    xanchor 0
+                    yanchor 0
+                    yfit True
+                    
+                    vbox:
+                        spacing -55
+                        order_reverse True
+                        add 'new_sign' xalign 1.0 yalign 0.0 yoffset 0 xoffset 40 at new_fade
+                        window:                        
+                            background Frame(bubbleBackground, 25,18,18,18)
+                            style 'reg_bubble'
+                            text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                           
+            else:
+                fixed at transformVar:
+                    pos (138, -85)
+                    xanchor 0
+                    yanchor 0
+                    ysize my_height - 20
+                    
+                    vbox:
+                        spacing -55
+                        order_reverse True
+                        add 'new_sign' xalign 1.0 yalign 0.0 yoffset 0 xoffset 40 at new_fade
+                        window:                        
+                            background Frame(bubbleBackground, 25,18,18,18)   
+                            style 'reg_bubble_short'
+                            text i.what style "bubble_text"
+                    
+        
+        use anti_animation(i)  
 
-#*************************************
-# Very silly code that is just to    *
-# cancel out the animation for MysMe *
-#*************************************                
+#******************************************
+#  This code 'cancels out' the animation  *
+#   for Mystic messenger; otherwise the   *
+# bottom of the viewport would 'slide in' *
+#******************************************           
 screen anti_animation(i):
     
     python:
+        include_new = False
         if i.bounce:
             transformVar = anti_incoming_message_bounce
+            include_new = False
         else:
             transformVar = anti_incoming_message
+            include_new = True
+            
+        if i.who == 'MC':
+            include_new = False
             
         if i.bounce:
             bubbleBackground = "Bubble/" + i.who + "-Glow.png"
+            include_new = False
         else:
             bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
             
@@ -331,49 +402,90 @@ screen anti_animation(i):
                 bubbleStyle = i.specBubble
                 
         if i.specBubble != None:
+            include_new = False
             bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"
             
         if i.img == True:
+            include_new = False
             if "{image=" in i.what:
                 pass
             else:
                 transformVar = anti_small_CG
+                
+        t = Text(i.what)
+        z = t.size()
+        my_width = int(z[0])
+        my_height = int(z[1])
         
-
-    window at transformVar:
-        if i.img == True:
-            # Check if it's an emoji
-            if "{image=" in i.what:
-                # there's an image to display
-                style "phone_img"
-                text i.what
-            else:   # presumably it's a CG
-                style "phone_img" bottom_margin -100
-                text "{image=" + i.what + "}" #"-small}"
+        global choosing
+        
+    if not include_new:
+        window at transformVar:
+            if i.img == True:
+                style "img_message"
+                # Check if it's an emoji
+                if "{image=" in i.what:
+                    # there's an image to display
+                    text i.what
+                else:   # presumably it's a CG
+                    bottom_margin -100
+                    text "{image=" + i.what + "}" #"-small}"
+                    
+            elif i.specBubble != None:                        
+                style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
+                text i.what style "special_bubble"
                 
-        elif i.specBubble != None:                        
-            style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
-            text i.what style "special_bubble"
+            ## Dialogue is either 'glow' or 'regular' variant
+            elif i.bounce:
+                style 'glow_bubble' 
+                background Frame(bubbleBackground, 25, 25)
+                if my_width > gui.longer_than:
+                    text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                else:            
+                    text i.what style "bubble_text"
+                    
+            else:
+                style 'reg_bubble_MC'
+                if my_width > gui.longer_than:
+                    text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                else:            
+                    text i.what style "bubble_text"
+
+    
+    else:
+        if my_width > gui.longer_than:
+            fixed at transformVar:
+                pos (138, -85)
+                xanchor 0
+                yanchor 0
+                yfit True
+                
+                vbox:
+                    spacing -55
+                    order_reverse True
+                    add 'new_sign' xalign 1.0 yalign 0.0 yoffset 0 xoffset 40 at new_fade
+                    window:                        
+                        background Frame(bubbleBackground, 25,18,18,18)
+                        style 'reg_bubble'
+                        text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                       
         else:
-            if (i.bounce):  # The bubble is supposed to bounce)
-                if i.who == "MC":
-                    style "MC_glow"
-                else:
-                    style "reg_glow" background Frame(bubbleBackground, 45, 45) # style (i.who + "_glow")
-            else:
-                if i.who == "MC":
-                    style "MC_bubble"
-                else:
-                    style "reg_bubble" background Frame(bubbleBackground, 25,18,18,18) # style (i.who + "_bubble")
+            fixed at transformVar:
+                pos (138, -85)
+                xanchor 0
+                yanchor 0
+                ysize my_height - 20
                 
-            $ t = Text(i.what)
-            $ z = t.size()
-            $ z1 = z[0]
-            if z1 > gui.longer_than:
-                text i.what style "bubble_text_long" min_width gui.long_line_min_width
-            else:
-                text i.what style "bubble_text"
-                
-                
+                vbox:
+                    spacing -55
+                    order_reverse True
+                    add 'new_sign' xalign 1.0 yalign 0.0 yoffset 0 xoffset 40 
+                    window:                        
+                        background Frame(bubbleBackground, 25,18,18,18)   
+                        style 'reg_bubble_short'
+                        text i.what style "bubble_text"
 
-                
+            
+            
+
+            

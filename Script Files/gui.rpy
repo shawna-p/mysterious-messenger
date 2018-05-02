@@ -55,10 +55,10 @@ define gui.interface_text_color = '#ffffff'
 ## Fonts and Font Sizes ########################################################
 
 ## The font used for in-game text.
-define gui.text_font = "00 fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+define gui.text_font = "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 
 ## The font used for character names.
-define gui.name_text_font = "00 fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+define gui.name_text_font = "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 
 ## The font used for out-of-game text.
 define gui.interface_text_font = "DejaVuSans.ttf"
@@ -409,7 +409,7 @@ define gui.nvl_button_xalign = 0.0
 define gui.nvl_button_ypos = 200
 
 
-## Phone Spacing ###############################################################
+## Chat Spacing ###############################################################
 ##
 ## Controls the spacing and look of dialogue said by characters in the messenger
 
@@ -417,103 +417,21 @@ define gui.nvl_button_ypos = 200
 ## This window is currently set to be transparent
 define gui.phone_borders = Borders(0, 0, 0, 0)
 
-## The maximum number of phone entries Ren'Py will display. When more entries
-## than this are to be show, the oldest entry will be removed.
-## FIXME: To be honest, this currently doesn't work
-define gui.phone_list_length = 20
-
-## The height of an phone-mode entry. Set this to None to have the entries
+## The height of an chat entry. Set this to None to have the entries
 ## dynamically adjust height.
-## FIXME: Not sure if this actually works
 define gui.phone_height = None
 
-## The spacing between phone-mode entries when gui.phone_height is None, and between
-## phone-mode entries and a phone-mode menu.
-## FIXME: Again, I don't think this actually works
-define gui.phone_spacing = 10
+## The spacing between chat entries when gui.phone_height is None
+define gui.phone_spacing = 0
 
-## The position, width, and alignment of the label giving the name of the
-## speaking character (Non-playable characters)
-define gui.phone_name_xpos = 148
-define gui.phone_name_ypos = -80
-define gui.phone_name_width = 500
-define gui.phone_name_xalign = 0.0
+## The font for the characters' names
 define gui.phone_name_font = "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-
-## The position, width, and alignment of the label giving the name of the
-## player character ("MC" = Main Character)
-define gui.phone_nameMC_xpos = 596
-define gui.phone_nameMC_ypos = -80
-define gui.phone_nameMC_width = 435
-define gui.phone_nameMC_xalign = 1.0
-
-## The position, width, and alignment of the dialogue text.
-## WITH TIME - if I include the time in the bubbles
-# define gui.phone_text_ypos = -90
-## WITHOUT TIME
-define gui.phone_text_pos = (138, -75)
-define gui.phone_text_width = 750
-define gui.phone_text_xalign = 0.0
-define gui.phone_text_padding = (20, 9)
-define gui.phone_text_bottom_margin = -55
 
 ## These are additional modifiers for the text specifically,
 ## separate from the speech bubbles each character has
 define gui.phone_text_line_spacing = 10
 define gui.phone_text_xalign = 0.0
 define gui.phone_text_ypos2 = 6
-
-## The position, width, and alignment of the MC's text.
-## WITH TIME
-#define gui.phone_textMC_ypos = -90
-## WITHOUT TIME
-define gui.phone_textMC_pos = (598, -75)
-define gui.phone_textMC_width = 750
-define gui.phone_textMC_xalign = 1.0
-define gui.phone_textMC_padding = (20, 9)
-define gui.phone_textMC_bottom_margin = -55
-
-## The position of phone menu_buttons.
-## TODO: I don't know what these do
-define gui.phone_button_xpos = 380
-define gui.phone_button_xalign = 0.0
-define gui.phone_button_ypos = 200
-
-# The position of any images the characters post
-# Note that this also includes standalone animated emotes
-## WITH TIME
-# define gui.phone_img_ypos = -85
-## WITHOUT TIME
-define gui.phone_img_ypos = -70
-define gui.phone_img_xpos = 198
-define gui.phone_img_xalign = 0.5
-define gui.phone_img_bottom_margin = -75
-define gui.phone_img_width = 100
-# TODO: max size? So I can scale images myself
-
-## The position of the characters' profile pics
-define gui.phone_profpic_xpos = 18
-define gui.phone_profpic_xalign = 0.0
-define gui.phone_profpic_ypos = 30
-define gui.phone_profpic_width = 64
-
-## The position of the MC's profile pics
-define gui.phone_profpicMC_xpos = 616
-define gui.phone_profpicMC_xalign = 0.0
-define gui.phone_profpicMC_ypos = 30
-define gui.phone_profpicMC_width = 64
-
-## The position of the character's glowing
-## speech bubbles
-define gui.phone_glow_margin = (0, 5, 0, -80)
-define gui.phone_glow_padding = (32, 25)
-define gui.phone_glow_xalign = 0.0
-define gui.phone_glow_xpos = 125
-define gui.phone_glow_ypos = -85
-define gui.phone_glow_pos = (122, -95)
-define gui.phone_glow_xmaximum = 750
-define gui.phone_glow_min_width = 750
-define gui.phone_glow_text_align = 0.0
 
 ## Some extra variables
 define gui.phone_text_xsize_long = 377

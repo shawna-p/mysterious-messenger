@@ -9,17 +9,14 @@
     ## Speech bubbles - GLOW variant
     ####################################
     
-    style reg_glow:
-        margin gui.phone_glow_margin
-        padding gui.phone_glow_padding
-        xpos gui.phone_glow_xpos
-        xalign gui.phone_glow_xalign 
-        ypos gui.phone_glow_ypos 
-        xmaximum gui.phone_glow_xmaximum
-        min_width gui.phone_glow_min_width
-        text_align gui.phone_glow_text_align
-        layout ("subtitle" if gui.phone_text_xalign else "tex")
-        
+    ## ****************************************
+    ## Glow Speech Bubble Style
+    style glow_bubble:
+        margin (0, 5, 0, -80)
+        padding (32, 25)
+        pos (125, -85)
+        xalign 0.0
+ 
         
     ####################################
     ## Speech bubbles - For TEXT
@@ -29,13 +26,6 @@
         line_spacing gui.phone_text_line_spacing
         xalign gui.phone_text_xalign
         ypos gui.phone_text_ypos2
-        
-    # Leftover from experiments to get the "NEW"
-    # text to show up beside speech bubbles;
-    # does nothing currently
-    style NEW_text:
-        xcenter 0.5
-        ycenter 0.5
         
     # This bubble is shown when the text wraps
     # It forces the width to be a certain length
@@ -58,48 +48,61 @@
     ## Speech bubbles - REGULAR variant
     ####################################
     
-    style reg_bubble:
-        bottom_margin gui.phone_text_bottom_margin
-        padding gui.phone_text_padding
-        pos gui.phone_text_pos
-        xanchor gui.phone_text_xalign
-        xmaximum gui.phone_text_width
-        min_width gui.phone_text_width
-        text_align gui.phone_text_xalign
-        layout ("subtitle" if gui.phone_text_xalign else "tex")
+    ## ****************************************
+    ## Regular Speech Bubble Style
+    style reg_bubble_MC:
+        background Frame("Bubble/MC-bubble.png", 18, 18, 25, 18)
+        bottom_margin -55
+        padding (20, 9)
+        pos (598, -75)
+        anchor (1.0, 0.0)
+            
+    style reg_bubble:        
+        bottom_margin -35
+        top_margin 10
+        padding (20, 9)
+        pos (0,25)
+        xanchor 0
+        xmaximum 750
+        min_width 750 
+        
+    # one-line variant (fixes spacing)
+    style reg_bubble_short:        
+        bottom_margin -60
+        top_margin 0
+        padding (20, 9)
+        pos (0, 5)
+        xanchor 0
 
-    style MC_bubble:
-        background Frame("Bubble/MC-bubble.png", 25, 18,18,18)
-        bottom_margin gui.phone_textMC_bottom_margin
-        padding gui.phone_textMC_padding
-        pos gui.phone_textMC_pos
-        xanchor gui.phone_textMC_xalign
-        xmaximum gui.phone_textMC_width
-        min_width gui.phone_textMC_width
-        text_align gui.phone_textMC_xalign
-        layout ("subtitle" if gui.phone_text_xalign else "tex")
-
-    # This is for the chatroom exit/enter message
-    style msg_bubble is text:
+    ## ****************************************
+    ## Style for the enter/exit bubble
+    style msg_bubble:
         background Frame("exit-enter.png", 0, 0)
-        bottom_margin 10
-        top_margin 5
+        margin(0, 5, 0, 10)
         padding (5, 10)
         xalign 0.5
         xfill True
+                
+    style msg_bubble_text:
         text_align 0.5
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         size gui.text_size - 10
         color "#ffffff"
+        xalign 0.5
         
-    # This is specifically used to pad out the beginning of chatrooms
-    # so that the text begins showing up at the bottom of the screen
+    ## ****************************************
+    ## Style for 'padding' dialogue that pushes
+    ## text to the bottom
     style filler_bubble:
         left_padding 100
         right_padding -100
         bottom_margin 10
         top_margin 10
         padding (5, 10)
+                
+    style filler_bubble_text:
+        size 35
+
         
     ####################################
     ## Super Special Bubbles

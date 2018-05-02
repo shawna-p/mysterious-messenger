@@ -6,7 +6,7 @@ init offset = -1
 
 init 5:
 
-    ### Note: you can find most of the gui values in the gui.rpy file
+    ### Note: you can find many of the gui values in the gui.rpy file
     ###  if you're looking to change them
         
     ####################################
@@ -14,55 +14,53 @@ init 5:
     ####################################
     
     ## Curly Font
-    style curly is say_dialogue:
+    style curly:
         size gui.text_size + 6
         font "00 fonts/Sandoll Misaeng (Curly Font).ttf"
     
     ## Serif Font 1
-    style ser1 is say_dialogue:
+    style ser1:
         font "00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
 
-    style ser1b is say_dialogue:
+    style ser1b:
         font "00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf"
  
-    style ser1xb is say_dialogue:
+    style ser1xb:
         font "00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-ExtraBold.ttf"
       
     ## Serif Font 2
-    style ser2 is say_dialogue:
+    style ser2:
         font "00 fonts/Seoul Hangang (Serif font 2)/SeoulHangangM.ttf"
         
-    style ser2b is say_dialogue:
+    style ser2b:
         font "00 fonts/Seoul Hangang (Serif font 2)/SeoulHangangB.ttf"
         
-    style ser2xb is say_dialogue:
+    style ser2xb:
         font "00 fonts/Seoul Hangang (Serif font 2)/SeoulHangangEB.ttf"
         
     ## Sans Serif Font 1
-    style sser1 is say_dialogue:
-        # this is the regular dialogue
+    style sser1:
+        # this is the regular dialogue font/the default
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         
-    style sser1b is say_dialogue:
-        # this is the regular dialogue
+    style sser1b:
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         
-    style sser1xb is say_dialogue:
-        # this is the regular dialogue
+    style sser1xb:
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
     
     ## Sans Serif Font 2
-    style sser2 is say_dialogue:
+    style sser2:
         font "00 fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
         
-    style sser2b is say_dialogue:
+    style sser2b:
         font "00 fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanB.ttf"
         
-    style sser2xb is say_dialogue:
+    style sser2xb:
         font "00 fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanEB.ttf"
       
     ## Blocky Font
-    style blocky is say_dialogue:
+    style blocky:
         font "00 fonts/BM-HANNA (Bold Font).ttf"
         
     ####################################
@@ -75,85 +73,47 @@ init 5:
     ####################################
     ## Chat Styles
     ####################################
+
     
-    style phone_window is default
-    style phone_entry is default
+    ## ****************************************
+    ## Character Names Style
+    style chat_name:
+        pos (148, -80)
+        xsize 435
+        text_align 0.0
+        font gui.phone_name_font
+        
+    style chat_name_MC:
+        pos (596, -80)
+        xsize 435
+        text_align 1.0
+        anchor (1.0, 0.0)
+        font gui.phone_name_font
+            
+    ## ****************************************
+    ## Profile Pictures Style
+    style MC_profpic:
+        pos (616, 30)
+        maximum (110,110)
+        
+    style profpic:
+        pos (18, 30)
+        maximum (110,110) 
 
-    style phone_label is say_label
-    style phone_dialogue is say_dialogue
-
-    style phone_button is button
-    style phone_button_text is button_text
-
-    # Position of images the characters post
-    style phone_img:
-        left_padding 5
-        right_padding 5
+    ## ****************************************
+    ## Style for images posted in the chatroom
+    style img_message:
         padding (5, 10)
-        bottom_margin gui.phone_img_bottom_margin
-        pos gui.phone_text_pos
-        xanchor gui.phone_text_xalign
-        xmaximum gui.phone_text_width
-        min_width gui.phone_text_width
-        text_align gui.phone_text_xalign
-        layout ("subtitle" if gui.phone_text_xalign else "tex")
-        
-    # Position of the characters' profile pictures
-    style phone_profpic:
-        xpos gui.phone_profpic_xpos
-        xanchor gui.phone_profpic_xalign
-        ypos gui.phone_profpic_ypos
-        xsize gui.phone_profpic_width
-        min_width gui.phone_profpic_width
-        text_align gui.phone_profpic_xalign
-
-    style phone_profpic_MC:
-        xpos gui.phone_profpicMC_xpos
-        xanchor gui.phone_profpicMC_xalign
-        ypos gui.phone_profpicMC_ypos
-        xsize gui.phone_profpicMC_width
-        min_width gui.phone_profpicMC_width
-        text_align gui.phone_profpicMC_xalign
-        
-    # Position of the characters' dialogue text
-    style phone_label:
-        xpos gui.phone_name_xpos
-        xanchor gui.phone_name_xalign
-        ypos gui.phone_name_ypos
-        yanchor 0.0
-        xsize gui.phone_name_width
-        min_width gui.phone_name_width
-        text_align gui.phone_name_xalign
-        font gui.phone_name_font
-
-    style phone_label_MC:
-        xpos gui.phone_nameMC_xpos
-        xanchor gui.phone_nameMC_xalign
-        ypos gui.phone_nameMC_ypos
-        yanchor 0.0
-        xsize gui.phone_nameMC_width
-        min_width gui.phone_nameMC_width
-        text_align gui.phone_nameMC_xalign
-        font gui.phone_name_font
-
-    # Style of the window used for the chatroom
-    style phone_window:
-        xfill True
-        yfill True
-        background "gui/nvl.png"
-        padding gui.phone_borders.padding
+        bottom_margin -65
+        pos (138, -70)
+        xmaximum 750   
 
     # Text style for chatroom dialogue
     style phone_dialogue:
-        pos gui.phone_text_pos
-        xanchor gui.phone_text_xalign
-        xsize gui.phone_text_width
-        min_width gui.phone_text_width
-        text_align gui.phone_text_xalign
-        layout ("subtitle" if gui.phone_text_xalign else "tex")
-
-    style phone_message_total:
-        spacing 10
+        pos (138, -75)
+        xanchor 0.0
+        xsize 750
+        text_align 0.0
         
     ####################################
     ## Input Styles
@@ -369,6 +329,26 @@ init 5:
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         size 34
         
+    ## **********************
+    ## Chat Home - Profiles
+    ## **********************  
+    
+    style profile_header_text:        
+        xalign 0.75 #0.87
+        text_align 0.5
+        yalign 0.685
+        color "#fff"
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 55
+        
+    style profile_status:
+        xalign 0.5
+        text_align 0.5
+        yalign 0.905
+        color "#fff"
+        font "00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        size 40
+        xmaximum 600
         
     ####################################
     ## Other Miscellaneous Styles
@@ -464,6 +444,13 @@ init 5:
     transform small_CG:
         alpha 0 zoom 0.175
         linear 0.2 alpha 1.0 zoom 0.35
+        
+    # Used on the 'NEW' sign for new messages
+    transform new_fade:
+        alpha 0.0
+        linear 0.2 alpha 1.0
+        0.5
+        linear 0.5 alpha 0.0
 
     #***********************************
     # 'Anti' transformation for MysMe
@@ -482,6 +469,206 @@ init 5:
         zoom 0.165 alpha 0
         linear 0.2 zoom 0 
 
+            
+    #***********************************
+    # Spaceship/Chips Transforms
+    #*********************************** 
+    
+    # for the spaceship wiggle
+    transform spaceship_flight:
+        parallel:
+            linear 1.0 yoffset -15
+            linear 1.0 yoffset 15
+        parallel:
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+        parallel:
+            function spaceship_xalign_func
+            
+        block:
+            parallel:
+                ease 1.35 yoffset -15
+                ease 1.35 yoffset 15
+                repeat
+            parallel:                
+                linear 0.35 rotate -8
+                linear 0.25 rotate 0
+                linear 0.35 rotate 8
+                linear 0.25 rotate 0
+                repeat
+            
+    # Animation that plays when the chips are available;
+    # moves the ship over to the chips, then lands on the
+    # chips
+    transform spaceship_chips:
+        xalign 0.0
+        parallel:
+            linear 1.0 yoffset -15
+            linear 1.0 yoffset 15
+        parallel:
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+            linear 0.5 rotate -8
+            linear 0.5 rotate 8
+        parallel:
+            linear 0.8 xalign 0.84
+            0.8
+            linear 0.4 xalign 0.96
+            
+        block:
+            parallel:
+                linear 1.0 yoffset -15
+                linear 1.0 yoffset 15
+                repeat
+            parallel:
+                linear 0.35 rotate -8
+                linear 0.25 rotate 0
+                linear 0.35 rotate 8
+                linear 0.25 rotate 0
+                repeat
+            
+    # Same animation as above, but without the intro
+    # A solution to the 'reshow chat_home' problem
+    transform spaceship_chips2:
+        parallel:
+            linear 1.0 yoffset -15
+            linear 1.0 yoffset 15
+            repeat
+        parallel:
+            linear 0.35 rotate -8
+            linear 0.25 rotate 0
+            linear 0.35 rotate 8
+            linear 0.25 rotate 0
+            repeat
+        
+    # Animation for the chips bursting out of the bag
+    transform chip_anim:
+        alpha 0
+        1.91
+        alpha 1
+        block:
+            yoffset 0
+            parallel:
+                linear 0.5 yoffset -43
+                linear 0.66 yoffset -43
+            parallel:
+                alignaround(0.5,0.5)
+                linear 0.5 rotate 0
+                linear 0.33 rotate 25
+                linear 0.33 rotate 10
+            parallel:
+                zoom 1.0
+                linear 0.5 zoom 1.0
+                linear 0.33 zoom 1.15
+                linear 0.33 zoom 1.0
+            repeat
+            
+    # Same as above, but without the ~2 second delay
+    transform chip_anim2:
+        yoffset 0
+        parallel:
+            linear 0.5 yoffset -43
+            linear 0.66 yoffset -43
+        parallel:
+            alignaround(0.5,0.5)
+            linear 0.5 rotate 0
+            linear 0.33 rotate 25
+            linear 0.33 rotate 10
+        parallel:
+            zoom 1.0
+            linear 0.5 zoom 1.0
+            linear 0.33 zoom 1.15
+            linear 0.33 zoom 1.0
+        repeat
+            
+    # The wobble for the chip bag when the 'chip_tap' screen
+    # is up
+    transform chip_wobble:
+        linear 0.9 rotate 5
+        linear 0.7 rotate -5
+        repeat
+        
+    # The wobble for the chip bag when the clouds are visible
+    transform chip_wobble2:
+        on show:
+            linear 0.13 rotate 2
+            linear 0.13 rotate -2
+            repeat
+        on hide:
+            alpha 1.0
+            linear 1.0 alpha 0.0
+            
+       
+    # Transform for the smallest 'tap' sign
+    transform small_tap:
+        rotate -8
+        zoom 0.67
+        xpos 310
+        ypos -40
+        
+    # transform for the medium 'tap' sign
+    transform med_tap:
+        rotate 47
+        xpos 415
+        ypos 40
+        
+    # transform for the largest 'tap' sign
+    transform large_tap:
+        rotate 28
+        zoom 1.5
+        xpos 360
+        ypos -100
+        
+    # Below are the different 'shuffle' animations for the
+    # clouds obscuring the chip bag
+    transform cloud_shuffle1:
+        zoom 1.0 xanchor 1.0 yanchor 1.0
+        block:
+            linear 0.4 zoom 0.95
+            linear 0.6 zoom 1.05
+            repeat
+            
+    transform cloud_shuffle2:
+        zoom 1.0
+        block:
+            linear 0.5 zoom 1.04
+            linear 0.3 zoom 1.0
+            linear 0.3 zoom 0.94
+            repeat
+        
+    transform cloud_shuffle3:
+        zoom 1.0 yanchor 1.0
+        block:
+            linear 0.4 zoom 1.05
+            linear 0.45 zoom 0.95
+            linear 0.3 zoom 1.02
+            repeat
+        
+    transform cloud_shuffle4:
+        zoom 1.0 xanchor 1.0 yanchor 0.0
+        block:
+            linear 0.5 zoom 1.05
+            linear 0.5 zoom 0.95
+            repeat            
+            
+    transform cloud_shuffle5:
+        zoom 1.0
+        block:
+            linear 0.45 zoom 1.05
+            linear 0.65 zoom 0.95
+            repeat
+            
+            
+    # A solution for the odd animation issues surrounding
+    # the chip bag; this hides the clouds after 2 seconds
+    transform hide_dissolve:
+            alpha 1.0
+            linear 2.0 alpha 1.0
+            linear 0.5 alpha 0.0
+            
+            
     #***********************************
     # Other Transforms
     #***********************************            
@@ -506,11 +693,6 @@ init 5:
         xalign 0.5
         yalign 0.5
         zoom 2.0
-        
-    # Haven't been able to get this to work the way I want
-    transform phone_message_NEW:
-        xoffset 0
-        yoffset 0
         
     # Used for the screen shake effect
     transform shake:    
@@ -542,154 +724,14 @@ init 5:
         on hide:
             linear 0.5 alpha 0
             
-    # for the spaceship wiggle
-    transform spaceship_flight:
-        parallel:
-            linear 1.0 yoffset -15
-            linear 1.0 yoffset 15
-        parallel:
-            linear 0.5 rotate -8
-            linear 0.5 rotate 8
-            linear 0.5 rotate -8
-            linear 0.5 rotate 8
-        parallel:
-            function spaceship_xalign_func
-            
-        block:
-            parallel:
-                linear 1.0 yoffset -15
-                linear 1.0 yoffset 15
-            parallel:
-                linear 0.5 rotate -8
-                linear 0.5 rotate 8
-                linear 0.5 rotate -8
-                linear 0.5 rotate 8
-            repeat
-            
-    transform spaceship_chips:
-        xalign 0.0
-        parallel:
-            linear 1.0 yoffset -15
-            linear 1.0 yoffset 15
-        parallel:
-            linear 0.5 rotate -8
-            linear 0.5 rotate 8
-            linear 0.5 rotate -8
-            linear 0.5 rotate 8
-        parallel:
-            linear 0.8 xalign 0.84
-            0.8
-            linear 0.4 xalign 0.96
-            
-        block:
-            parallel:
-                linear 1.0 yoffset -15
-                linear 1.0 yoffset 15
-            parallel:
-                linear 0.5 rotate -8
-                linear 0.5 rotate 8
-                linear 0.5 rotate -8
-                linear 0.5 rotate 8
-            repeat
-            
-        
-    transform chip_anim:
-        alpha 0
-        1.91
-        alpha 1
-        block:
-            yoffset 0
-            parallel:
-                linear 0.5 yoffset -43
-                linear 0.66 yoffset -43
-            parallel:
-                alignaround(0.5,0.5)
-                linear 0.5 rotate 0
-                linear 0.33 rotate 25
-                linear 0.33 rotate 10
-            parallel:
-                zoom 1.0
-                linear 0.5 zoom 1.0
-                linear 0.33 zoom 1.15
-                linear 0.33 zoom 1.0
-            repeat
-            
-    transform chip_wobble:
-        linear 0.9 rotate 5
-        linear 0.7 rotate -5
-        repeat
-        
-    transform chip_wobble2:
-        on show:
-            linear 0.13 rotate 2
-            linear 0.13 rotate -2
-            repeat
-        on hide:
-            alpha 1.0
-            linear 1.0 alpha 0.0
-            
-
+    # Makes the profile pictures bigger for the
+    # profile picture page
+    transform profile_zoom:
+        zoom 2.85
+        xalign 0.1
+        yalign 0.675
         
         
-    transform small_tap:
-        rotate -8
-        zoom 0.67
-        xpos 310
-        ypos -40
         
-    transform med_tap:
-        rotate 47
-        xpos 415
-        ypos 40
         
-    transform large_tap:
-        rotate 28
-        zoom 1.5
-        xpos 360
-        ypos -100
-        
-    transform cloud_shuffle1:
-        zoom 1.0 xanchor 1.0 yanchor 1.0
-        block:
-            linear 0.4 zoom 0.95
-            linear 0.6 zoom 1.05
-            repeat
-            
-    transform cloud_shuffle2:
-        zoom 1.0
-        block:
-            linear 0.5 zoom 1.04
-            linear 0.3 zoom 1.0
-            linear 0.3 zoom 0.94
-            repeat
-        
-    transform cloud_shuffle3:
-        zoom 1.0 yanchor 1.0
-        block:
-            linear 0.4 zoom 1.05
-            linear 0.45 zoom 0.95
-            linear 0.3 zoom 1.02
-            repeat
-        
-    transform cloud_shuffle4:
-        zoom 1.0 xanchor 1.0 yanchor 0.0
-        block:
-            linear 0.5 zoom 1.05
-            linear 0.5 zoom 0.95
-            repeat
-            
-            
-    transform cloud_shuffle5:
-        zoom 1.0
-        block:
-            linear 0.45 zoom 1.05
-            linear 0.65 zoom 0.95
-            repeat
-            
-    transform hide_dissolve:
-            alpha 1.0
-            linear 2.0 alpha 1.0
-            linear 0.5 alpha 0.0
-
-
-
+    
