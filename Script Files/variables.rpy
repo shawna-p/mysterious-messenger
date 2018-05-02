@@ -89,7 +89,7 @@ image bg redhack = "redhack"
 
 
 # ****************************
-# *******Short Forms**********
+# Short forms/Other
 # ****************************
 
 
@@ -97,6 +97,8 @@ image bg redhack = "redhack"
 # via $ nickColour = black or $ nickColour = white
 define white = "#ffffff"
 define black = "#000000"
+
+image new_sign = "Bubble/main01_new.png"
 
 #************************************
 # Menu Greeting Lookup
@@ -364,3 +366,237 @@ default fullsizeCG = "cg1"
 ## Currently unused
 image new_messages = "Phone UI/new_message_banner.png"
 
+
+##******************************
+## Image Definitions - Menu
+##******************************
+
+# Character Greetings
+image greet jaehee = "Phone UI/Main Menu/jaehee_greeting.png"
+image greet jumin = "Phone UI/Main Menu/jumin_greeting.png"
+image greet ray = "Phone UI/Main Menu/ray_greeting.png"
+image greet rika = "Phone UI/Main Menu/rika_greeting.png"
+image greet seven = "Phone UI/Main Menu/seven_greeting.png"
+image greet unknown = "Phone UI/Main Menu/unknown_greeting.png"
+image greet v = "Phone UI/Main Menu/v_greeting.png"
+image greet yoosung = "Phone UI/Main Menu/yoosung_greeting.png"
+image greet zen = "Phone UI/Main Menu/zen_greeting.png"
+    
+image greeting_bubble = Frame("Phone UI/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
+image greeting_panel = Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
+
+image rfa_greet:
+    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", color="#ffffff", size=30, slow=True, font="00 fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
+    10.0
+    "transparent.png"
+    0.2
+
+# Background Menu Squares
+image right_corner_menu = Frame("Phone UI/Main Menu/right_corner_menu.png", 45, 45)
+image left_corner_menu = Frame("Phone UI/Main Menu/left_corner_menu.png", 45, 45)
+image right_corner_menu_selected = Frame("Phone UI/Main Menu/right_corner_menu_selected.png", 45, 45)
+image left_corner_menu_selected = Frame("Phone UI/Main Menu/left_corner_menu_selected.png", 45, 45)
+
+# Menu Icons
+image menu_after_ending = "Phone UI/Main Menu/after_ending.png"
+image menu_dlc = "Phone UI/Main Menu/dlc.png"
+image menu_history = "Phone UI/Main Menu/history.png"
+image menu_save_load = "Phone UI/Main Menu/save_load.png"
+image menu_original_story = "Phone UI/Main Menu/original_story.png"
+
+# Settings panel
+image menu_settings_panel = Frame("Phone UI/Main Menu/settings_sound_panel.png",60,200,60,120)
+image menu_sound_sfx = "Phone UI/Main Menu/settings_sound_sfx.png"
+image menu_default_sounds = Frame("Phone UI/Main Menu/settings_sound_default.png",10,10)
+
+# Settings tabs
+image menu_tab_inactive = Frame("Phone UI/Main Menu/settings_tab_inactive.png",10,10)
+image menu_tab_active = Frame("Phone UI/Main Menu/settings_tab_active.png",25,25)
+image menu_tab_inactive_hover = Frame("Phone UI/Main Menu/settings_tab_inactive_hover.png",10,10)
+
+# Header Images
+image header_plus = "Phone UI/Main Menu/header_plus.png"
+image header_plus_hover = "Phone UI/Main Menu/header_plus_hover.png"
+image header_tray = "Phone UI/Main Menu/header_tray.png"
+image header_hg = "Phone UI/Main Menu/header_hg.png"
+image header_heart = "Phone UI/Main Menu/header_heart.png"
+
+# Profile Page
+image menu_header = Frame("Phone UI/Main Menu/menu_header.png", 0, 50) 
+image menu_back = "Phone UI/Main Menu/menu_back_btn.png"
+image save_btn = "Phone UI/Main Menu/menu_save_btn.png"
+image load_btn = "Phone UI/Main Menu/menu_load_btn.png"
+image name_line = "Phone UI/Main Menu/menu_underline.png"
+image menu_edit = "Phone UI/Main Menu/menu_pencil_long.png"
+image menu_check_edit = "Phone UI/Main Menu/menu_check_long.png"
+
+image MC_profpic = ConditionSwitch(
+    "persistent.MC_pic == 1", im.FactorScale("Profile Pics/MC/MC-1.png",3.3),
+    "persistent.MC_pic == 2", im.FactorScale("Profile Pics/MC/MC-2.png",3.3),
+    "persistent.MC_pic == 3", im.FactorScale("Profile Pics/MC/MC-3.png",3.3),
+    "persistent.MC_pic == 4", im.FactorScale("Profile Pics/MC/MC-4.png",3.3),
+    "persistent.MC_pic == 5", im.FactorScale("Profile Pics/MC/MC-5.png",3.3),
+    "True", "Profile Pics/MC/MC-1.png")
+          
+image radio_on = "Phone UI/Main Menu/menu_radio_on.png"
+image radio_off = "Phone UI/Main Menu/menu_radio_off.png"
+
+image settings_gear = "Phone UI/Main Menu/menu_settings_gear.png"
+
+# Just for fun, this is the animation when you hover over the settings
+# button. It makes the gear look like it's turning
+image settings_gear_rotate:
+    "Phone UI/Main Menu/menu_settings_gear.png"
+    xpos 10
+    ypos -10
+    block:
+        rotate 0
+        linear 1.0 rotate 45
+        repeat
+        
+# Other Settings
+image menu_select_btn = "Phone UI/Main Menu/menu_select_button.png"
+image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
+image menu_select_btn_hover = "Phone UI/Main Menu/menu_select_button_hover.png"
+
+## ********************************
+## Chat Home Screen ***************
+## ********************************
+image gray_chatbtn = "Phone UI/Main Menu/Original Story/main01_chatbtn.png"
+image gray_chatbtn_hover = "Phone UI/Main Menu/Original Story/main01_chatbtn_hover.png"
+image rfa_chatcircle:
+    "Phone UI/Main Menu/Original Story/main01_chatcircle.png"
+    block:
+        rotate 0
+        alignaround(.5, .5)
+        linear 13.0 rotate 360
+        repeat        
+image blue_chatcircle:
+    "Phone UI/Main Menu/Original Story/main01_chatcircle_big.png"
+    block:
+        rotate 60
+        alignaround(.5, .5)
+        linear 4 rotate 420
+        repeat
+image chat_text = "Phone UI/Main Menu/Original Story/main01_chattext.png"
+image chat_icon = "Phone UI/Main Menu/Original Story/main01_chaticon.png"
+image gray_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn.png"
+image blue_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn_lit.png"
+image gray_mainbtn_hover = "Phone UI/Main Menu/Original Story/main01_mainbtn_hover.png"
+image blue_mainbtn_hover = "Phone UI/Main Menu/Original Story/main01_mainbtn_lit_hover.png"
+image gray_maincircle:
+    "Phone UI/Main Menu/Original Story/main01_maincircle.png"
+    block:
+        rotate -120
+        alignaround(.5, .5)
+        linear 4 rotate -480
+        repeat
+image blue_maincircle:
+    "Phone UI/Main Menu/Original Story/main01_maincircle_lit.png"
+    block:
+        rotate 180
+        alignaround(.5, .5)
+        linear 4 rotate 540
+        repeat
+image call_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_call.png"
+image email_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_email.png"
+image msg_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_message.png"
+image call_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_call.png"
+image email_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_email.png"
+image msg_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_message.png"
+
+image profile_pic_select_square = "Phone UI/Main Menu/Original Story/profile_pic_select_square.png"
+
+image white_hex = "Phone UI/Main Menu/Original Story/main01_subbtn.png"
+image blue_hex = "Phone UI/Main Menu/Original Story/main01_subbtn_lit.png"
+image red_hex = "Phone UI/Main Menu/Original Story/main01_subbtn_shop.png"
+image white_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_hover.png"
+image blue_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_lit_hover.png"
+image red_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_shop_hover.png"
+
+image album_icon = "Phone UI/Main Menu/Original Story/main01_subicon_album.png"
+image guest_icon = "Phone UI/Main Menu/Original Story/main01_subicon_guest.png"
+image link_icon = "Phone UI/Main Menu/Original Story/main01_subicon_link.png"
+image notice_icon = "Phone UI/Main Menu/Original Story/main01_subicon_notice.png"
+image shop_icon = "Phone UI/Main Menu/Original Story/main01_subicon_shop.png"
+image album_text = "Phone UI/Main Menu/Original Story/main01_subtext_album.png"
+image guest_text = "Phone UI/Main Menu/Original Story/main01_subtext_guest.png"
+image link_text = "Phone UI/Main Menu/Original Story/main01_subtext_link.png"
+image notice_text = "Phone UI/Main Menu/Original Story/main01_subtext_notice.png"
+image shop_text = "Phone UI/Main Menu/Original Story/main01_subtext_shop.png"
+
+
+# Profile Picture screen
+image profile_outline = "Phone UI/Main Menu/Original Story/profile_outline.png"
+image profile_cover_photo = "Phone UI/Main Menu/Original Story/profile_cover_photo.png"
+
+### Spaceship
+image space_chip_active:
+    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_inactive.png"
+    2.7
+    block:
+        "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_active.png"
+        1.16
+        "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_glow.png"
+        1.16
+        repeat
+image space_chip_active2:
+    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_active.png"
+    1.16
+    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_glow.png"
+    1.16
+    repeat    
+image space_chip_explode = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_explode.png"
+image space_chip_inactive = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_inactive.png"
+image space_dot_line = "Phone UI/Main Menu/Original Story/Spaceship/dot_line.png"
+image space_gray_dot = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_dot_white.png"
+image space_yellow_dot = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_dot_yellow.png"
+image space_transparent_btn = "Phone UI/Main Menu/Original Story/Spaceship/space-transparent-button.png"
+image spaceship = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_craft.png"
+image space_flame:
+    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_flame_big.png"
+    0.6
+    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_flame_small.png"
+    0.6
+    repeat
+
+## Spaceship chip animation
+image space_chip = "Phone UI/Main Menu/Original Story/Spaceship/chip.png"
+image space_tap_large:
+    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
+    0.55
+    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
+    0.6
+    repeat
+image space_tap_med:
+    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
+    0.62
+    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
+    0.45
+    repeat
+image space_tap_small:
+    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
+    0.48
+    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
+    0.56
+    repeat    
+image space_tap_to_close = "Phone UI/Main Menu/Original Story/Spaceship/close.png"
+
+image cloud_1 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_1.png"
+image cloud_2 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_2.png"
+image cloud_3 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_3.png"
+image cloud_4 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_4.png"
+image cloud_5 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_5.png"
+
+image spotlight:
+    "Phone UI/Main Menu/Original Story/Spaceship/spotlight.png"
+    alpha 0.6
+    block:
+        rotate 0
+        linear 15.0 rotate 360
+        repeat
+        
+image space_prize_box = "Phone UI/Main Menu/Original Story/Spaceship/space_prize_box.png"
+image space_black_box = Frame("Phone UI/Main Menu/Original Story/Spaceship/main03_black_box.png",30,30,30,30)
+image space_continue = "Phone UI/Main Menu/Original Story/Spaceship/Continue.png"
+image space_continue_hover = "Phone UI/Main Menu/Original Story/Spaceship/Continue_hover.png"

@@ -98,3 +98,5 @@ screen splash_screen_test:
         
     add 'load_tip 'xalign 0.13 yalign 0.32
     
+
+
