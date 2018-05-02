@@ -16,8 +16,8 @@ label coffee_chat:
             # Note that MC's responses have a pv value of 0 after a menu
             # Both 'branches' have several lines of dialogue before they 'rejoin' later
             m "Do you still feel tired?" (pauseVal=0)
-            s "No way."
-            s "One of my strengths is that I feel completely refreshed after sleeping" (bounce=True, specBubble="cloud_l")
+            s "{=sser2}No way.{/=sser2}"
+            s "{=sser2}One of my strengths is that I feel completely refreshed after sleeping{/=sser2}" (bounce=True, specBubble="cloud_l")
         "Seven, get a good night's rest?":
             m "{=sser2}Seven, get a good night's rest?{/=sser2}" (pauseVal=0)
             s "{=sser2}Heya [name]{/=sser2}"
@@ -43,10 +43,10 @@ label coffee_chat:
             call heart_icon('s')
         "You should play games.":
             m "You should play games." (pauseVal=0)
-            s "{=sser1}o_o Game??{/=sser1}"
-            s "lol"
-            s "{=sser1}I'd rather make one. Playing it gets boring pretty fast lol{/=sser1}"
-    s "{=sser1}Hmm.{/=sser1}"
+            s "o_o Game??"
+            s "{=sser2}lol{/=sser2}"
+            s "I'd rather make one. Playing it gets boring pretty fast lol"
+    s "Hmm."
     s "{size=+12}I summon Yoosung! Abracadabra{/size}" (bounce=True, specBubble="spike_l")
     msg "Yoosung★ has entered the chatroom"
     
@@ -54,66 +54,66 @@ label coffee_chat:
     menu:
         "Yoosung~ I missed you.":
             m "Yoosung~ I missed you." (pauseVal=0)
-            y "Thanks for being so welcoming."
+            y "{=sser2}Thanks for being so welcoming.{/=sser2}"
             call heart_icon('y')
-            y "Hello ^^"
+            y "{=sser2}Hello ^^{/=sser2}"
         "Omg. He really came.":
             m "Omg. He really came." (pauseVal=0)
-            s "heya"
+            s "{=sser2}heya{/=sser2}"
             call heart_icon('s')
-            y "Hmm?"
-            y "{=sser1}I smell a trap somewhere...{/=sser1}"
+            y "{=sser2}Hmm?{/=sser2}"
+            y "I smell a trap somewhere..."
             
-    s "{=sser1}What were u doing?{/=sser1}"
-    s "{=sser1}So late at night lol{/=sser1}"
-    y "{=sser1}I was just about to drink a cup of coffee and play games.{/=sser1}"
-    y "{=sser1}I started learning how to brew coffee from a club yesterday.{/=sser1}"
-    s "Coffee...?"
-    s "Ur learning how to make coffee...???"
-    y "Yup ^^"
+    s "What were u doing?"
+    s "So late at night lol"
+    y "I was just about to drink a cup of coffee and play games."
+    y "I started learning how to brew coffee from a club yesterday."
+    s "{=sser2}Coffee...?{/=sser2}"
+    s "{=sser2}Ur learning how to make coffee...???{/=sser2}"
+    y "{=sser2}Yup ^^{/=sser2}"
     s "{=ser1}No way. U can't.{/=ser1}"
-    y "What?"
+    y "{=sser2}What?{/=sser2}"
     s "{=ser1}{size=+12}Did you already drink the coffee!?!?!?!?{/size}{/=ser1}"
-    y "{=sser1}Yeah... Why?{/=sser1}"
+    y "Yeah... Why?"
     
     # Another play statement will automatically "override" the previous play statement
     # and only one set of background music will play on the music channel at once
     play music dark_secret loop
     s "{=ser1b}Big trouble...{/=ser1b}"
-    y "{=sser1}What trouble?{/=sser1}"
+    y "What trouble?"
     s "{=ser1}It's...{/=ser1}"
     
     call answer
     menu:
         "Yoosung... what do we do now?":
             m "Yoosung... what do we do now?" (pauseVal=0)
-            y "Why?"
+            y "{=sser2}Why?{/=sser2}"
             y "{=sser2}Did something happen?{/=sser2}"
             s "{=ser1}Gah... I was about to tell [name].{/=ser1}"
         "What's big trouble?":
             m "What's big trouble?" (pauseVal=0)
-            y "{=sser1}Yeah. What is it?{/=sser1}"
+            y "Yeah. What is it?"
             s "{=ser1}It's...{/=ser1}"
             
     s "{=ser1}So, I check the health reports of all the members...{/=ser1}"
-    y "{size=+12}Okay... Ur not saying that I can't dringak coffxee, r u?{/size}"
-    y "*drink coffee?"
+    y "{=sser2}{size=+12}Okay... Ur not saying that I can't dringak coffxee, r u?{/size}{/=sser2}"
+    y "{=sser2}*drink coffee?{/=sser2}"
     
     call answer
     menu:
         "Ya. U'll be in trouble if u drink coffee.":
             m "Ya. U'll be in trouble if u drink coffee." (pauseVal=0)
-            s "Ya..."
+            s "{=sser2}Ya...{/=sser2}"
             call heart_icon('s')
-            s "{size=+12}U can never ever!!! drink coffee.{/size}"
-            s "Seeing ur typos above, it seems like ur symptoms are showing already."
+            s "{=sser2}{size=+12}U can never ever!!! drink coffee.{/size}{/=sser2}"
+            s "{=sser2}Seeing ur typos above, it seems like ur symptoms are showing already.{/=sser2}"
         "Seven's just messing around lol":
             m "Seven's just messing around lol" (pauseVal=0)
-            y "{=sser1}Right? lolol{/=sser1}"
+            y "Right? lolol"
             call heart_icon('y')
             s "{=ser1xb}Not joking.{/=ser1xb}"
             s "{=ser1}I'm dead serious.{/=ser1}"
-            y "Puppy food?"
+            y "{=sser2}Puppy food?{/=sser2}"
             
             # This is a nested menu; note the indentation levels. You'll only see this menu
             # if you choose 'Seven's just messing around lol' in the previous menu
@@ -122,25 +122,25 @@ label coffee_chat:
                 "-_-":
                     m "-_-" (pauseVal=0)
                     s "Cat food is serious meow"
-                    y "I have no idea what ur saying."
+                    y "{=sser2}I have no idea what ur saying.{/=sser2}"
                 "lolololol":
                     m "lolololol" (pauseVal=0)
                     s "{=ser1b}This is funny to u?{/=ser1b}"
-                    y "lololololol"                   
+                    y "{=sser2}lololololol{/=sser2}"                   
     
     s "{=ser1xb}U can never ever!!! drink coffee.{/=ser1xb}" (bounce=True, specBubble="spike_m")
     s "{=ser1xb}{size=+12}If u do, ur hands will start shaking and u'll faint eventually.{size=+12}{/=ser1xb}"
-    y "{=sser1}Nah{/=sser1}"
-    y "{=sser1}I don't have that kind of allergy.{/=sser1}"
-    y "{=sser1}No way~{/=sser1}"
-    s "..."
+    y "Nah"
+    y "I don't have that kind of allergy."
+    y "No way~"
+    s "{=sser2}...{/=sser2}"
     s "{=ser1}I'm sorry.{/=ser1}"
     s "{=ser1}U've already lost trust in me.{/=ser1}"
     s "{=ser1}so u r not listening.{/=ser1}"
-    y "?"
-    y "{=sser1}For real?{/sser1}"
+    y "{=sser2}?{/=sser2}"
+    y "For real?"
     s "{=ser1xb}Ur gonna faint. For real.{/=ser1xb}"
-    y "Seriously?? Ur kidding right?" (bounce=True, specBubble="spike_m")
+    y "{=sser2}Seriously?? Ur kidding right?{/=sser2}" (bounce=True, specBubble="spike_m")
     
     # This is the shake animation; it plays during the previous line of dialogue
     show earlyMorn at shake
@@ -149,23 +149,23 @@ label coffee_chat:
     menu:
         "You should prepare yourself.":
             m "You should prepare yourself." (pauseVal=0)
-            s "{=sser1}Ya. Go prepare to faint.{/=sser1}"
+            s "Ya. Go prepare to faint."
             call heart_icon('s')
         "I think fainting is a bit too much...":
             m "I think fainting is a bit too much..." (pauseVal=0)
-            y "What?"
-            y "{=sser1}What do u mean?{/=sser1}"
-            s "Shh."
+            y "{=sser2}What?{/=sser2}"
+            y "What do u mean?"
+            s "{=sser2}Shh.{/=sser2}"
             s "{image=seven wow}" (img=True)
             s "{=ser1}Listen carefully.{/=ser1}"
             
     s "{=ser1b}You are going to faint today.{/=ser1}"
     s "{=ser1}And there's a chance you might never wake up again...{/=ser1}"
-    y "{=sser1}{size=+12}Why!?{/size}{/=sser1}" (bounce=True, specBubble="spike_s")
+    y "{size=+12}Why!?{/size}" (bounce=True, specBubble="spike_s")
     s "{=ser1b}You have the \"Pass Out After Drinking Caffeine Syndrome\"{/=ser1b}"
-    y "{=sser1}??? What is that?{/=sser1}"
-    y "{=sser1}I don't understand what you mean.{/=sser1}"
-    y "{size=+12}A disease like that actually exists?!{/size}"
+    y "??? What is that?"
+    y "I don't understand what you mean."
+    y "{=sser2}{size=+12}A disease like that actually exists?!{/size}{/=sser2}"
     
     call answer
     menu:
@@ -173,24 +173,24 @@ label coffee_chat:
             m "Ya. It exists" (pauseVal=0)
             y "{=sser1b}!!{/=sser1b}" 
             show earlyMorn at shake
-            s "{=sser1}Ya{/=sser1}"
+            s "Ya"
             call heart_icon('s')
         "Whoever named it is a bit...;;":
             m "Whoever named it is a bit...;;" (pauseVal=0)
             s "{=blocky}It was made up at the last min so no choice.{/=blocky}"
-            y "What do u mean made up at the last min?!" (bounce=True, specBubble="spike_m")
-            s "{size=+12}Your artificial heart{/size}"
-            y "Stop saying weird things;;"
-            y "Seven, ur joking right?" (bounce=True, specBubble="spike_m")
-            s "{=sser1}I am doing whatever I can to save u.{/=sser1}"
+            y "{=sser2}What do u mean made up at the last min?!{/=sser2}" (bounce=True, specBubble="spike_m")
+            s "{=sser2}{size=+12}Your artificial heart{/size}{/=sser2}"
+            y "{=sser2}Stop saying weird things;;{/=sser2}"
+            y "{=sser2}Seven, ur joking right?{/=sser2}" (bounce=True, specBubble="spike_m")
+            s "I am doing whatever I can to save u."
             
     s "{=sser2}...Don't get so surprised.{/=sser2}"
-    y "{=sser1}Okay...{/=sser1}"
-    s "The disease called \"Pass Out After Drinking Caffeine Syndrome\""
+    y "Okay..."
+    s "{=sser2}The disease called \"Pass Out After Drinking Caffeine Syndrome\"{/=sser2}"
     s "{=ser1b}It{/=ser1b}" (pauseVal=0.2)
     s "{=ser1b}exists{/=ser1b}" (pauseVal=0.2)
     s "{=ser1b}for sure{/=ser1b}" (pauseVal=0.3)
-    s "{=sser1}I look at foreign reports every day.{/=sser1}"
+    s "I look at foreign reports every day."
     s "general_cg1" (img=True)
     y "{=sser1b}{size=+12}!!!{/size}{/=sser1b}"
     s "{=ser1}...It's a rare disease.{/=ser1}"
@@ -199,23 +199,23 @@ label coffee_chat:
     menu:
         "Last year there were about 1024 deaths in the country...":
             m "Last year there were about 1024 deaths in the country..." (pauseVal=0)
-            s "Oh! That number's nice. It's the 10th multiple of 2."
+            s "{=sser2}Oh! That number's nice. It's the 10th multiple of 2.{/=sser2}"
             call heart_icon('s')
-            y "Omg. Can't believe I have such a serious disease T_T"
-            y "I'm so svchoecked to type pertoperly T_T"
+            y "{=sser2}Omg. Can't believe I have such a serious disease T_T{/=sser2}"
+            y "{=sser2}I'm so svchoecked to type pertoperly T_T{/=sser2}"
         "What's wrong with the name lolololol A disease called Drink Caffeine and Faint lololol":
             m "What's wrong with the name lolololol A disease called Drink Caffeine and Faint lololol" (pauseVal=0)
-            y "lololol I know... It is funny T_T"
+            y "{=sser2}lololol I know... It is funny T_T{/=sser2}"
             call heart_icon('y')
-            y "But I can't believe I have it."
+            y "{=sser2}But I can't believe I have it.{/=sser2}"
             y "{image=yoosung cry}" (img=True)
             
-    y "{size=+12}What's going to happen to me T_T{/size}"
-    y "{size=+12}Am I gonna faint soon???{/size}"
-    s "{=sser1}According to my data{/=sser1}"
-    s "{=sser1}u'll faint some time between 9 and 10.{/=sser1}"
-    y "T_T..."
-    y "{=sser1}I guess it could have been worse. I don't have class in the morning.{/=sser1}"
+    y "{=sser2}{size=+12}What's going to happen to me T_T{/size}{/=sser2}"
+    y "{=sser2}{size=+12}Am I gonna faint soon???{/size}{/=sser2}"
+    s "According to my data"
+    s "u'll faint some time between 9 and 10."
+    y "{=sser2}T_T...{/=sser2}"
+    y "I guess it could have been worse. I don't have class in the morning."
     
     call answer
     menu:
@@ -238,79 +238,79 @@ label coffee_chat:
                     m "T_T. You have to return." (pauseVal=0)
                     y "{=curly}Yup T_T I will return!!{/=curly}"
                     call heart_icon('y')
-                    s "Gahh... Tears r blocking my sight."
+                    s "{=sser2}Gahh... Tears r blocking my sight.{/=sser2}"
                     
         "A stroke of good luck in this misfortune":
             m "A stroke of good luck in this misfortune" (pauseVal=0)
-            y "{=sser1}I should at least pass out at home T_T{/=sser1}"
-            s "{=sser1}Ya{/=sser1}"
+            y "I should at least pass out at home T_T"
+            s "Ya"
             call heart_icon('s')
     
     y "{image=yoosung cry}" (img=True)
-    y "{=sser1}Thanks for telling me Seven.{/=sser1}"
-    s "lol It's nothing."
+    y "Thanks for telling me Seven."
+    s "{=sser2}lol It's nothing.{/=sser2}"
     
     call answer
     menu:
         "Call Seven if something happens.":
             m "Call Seven if something happens." (pauseVal=0)
-            s "Ya. I'll always be here for u ^^"
+            s "{=sser2}Ya. I'll always be here for u ^^{/=sser2}"
             call heart_icon('s')
-            y "{=sser1}Thank you T_T{/=sser1}"
+            y "Thank you T_T"
         "Call me if anything happens":
             m "Call me if anything happens" (pauseVal=0) 
-            y "Okay. Thank you so much T_T"
+            y "{=sser2}Okay. Thank you so much T_T{/=sser2}"
             call heart_icon('y')
             
-    s "Oh."
+    s "{=sser2}Oh.{/=sser2}"
     s "{=sser2}I recommend drinking chocolate milk before u faint.{/=sser2}"
     s "{=sser2}U have to increase ur blood pressure if u want to wake up faster.{/=sser2}"
-    s "I'm worried...T_T"
-    y "Okay..."
-    y "{=sser1}Thank you. [name], you too...{/=sser1}"
+    s "{=sser2}I'm worried...T_T{/=sser2}"
+    y "{=sser2}Okay...{/=sser2}"
+    y "Thank you. [name], you too..."
     s "{image=seven yoohoo}" (img=True)
     
     call answer
     menu:
         "^^;;;":
             m "^^;;;" (pauseVal=0)
-            y "{=sser1}Why do u keep sweating...?{/=sser1}"
-            y "U must be really worried for me."
-            y "{=sser1}{size=+12}I'm touched!!{/size}{/=sser1}"
+            y "Why do u keep sweating...?"
+            y "{=sser2}U must be really worried for me.{/=sser2}"
+            y "{size=+12}I'm touched!!{/size}"
             call heart_icon('y')
         "No need ^^":
             m "No need ^^" (pauseVal=0) 
-            y "{=sser1}I should know my body better.{/=sser1}"
-            y "{=sser1}Never knew I had something like this...{/=sser1}"
-            y "{=sser1}It's confusing but...{/=sser1}"
-            y "I'll deal with it wisely."
-            s "{=sser1}Ya. Dealing with it wisely is the way to go.{/=sser1}"
+            y "I should know my body better."
+            y "Never knew I had something like this..."
+            y "It's confusing but..."
+            y "{=sser2}I'll deal with it wisely.{/=sser2}"
+            s "Ya. Dealing with it wisely is the way to go."
             
-    s "...I'm glad to be of help."
-    s "Ur young, so u'll wake up quickly if u do faint, so don't worry too much."
+    s "{=sser2}...I'm glad to be of help.{/=sser2}"
+    s "{=sser2}Ur young, so u'll wake up quickly if u do faint, so don't worry too much.{/=sser2}"
     y "{=curly}Okay...{/=curly}"
     y "{=curly}I shouldn't drink coffee anymore.{/=curly}"
-    s "{=sser1}Oh... I got work again.{/=sser1}"
-    s "Arrgghh!! Stress!!!" (bounce=True, specBubble="spike_m")
-    y "Both Jumin and u"
-    y "{=sser1}u guys r buried with work{/=sser1}"
+    s "Oh... I got work again."
+    s "{=sser2}Arrgghh!! Stress!!!{/=sser2}" (bounce=True, specBubble="spike_m")
+    y "{=sser2}Both Jumin and u{/=sser2}"
+    y "u guys r buried with work"
     y "{image=yoosung cry}" (img=True)
-    s "{=sser1}Can't do anything about it...{/=sser1}"
-    s "{=sser1}Then I'll get going.{/=sser1}"
-    y "{=sser1}Yup!{/=sser1}"
-    y "{=sser1}Have a good night!!{/=sser1}"
-    s "{=sser1}{size=+12}lol{/size}{/=sser1}"
+    s "Can't do anything about it..."
+    s "Then I'll get going."
+    y "Yup!"
+    y "Have a good night!!"
+    s "{size=+12}lol{/size}"
     
     call answer
     menu:
         "Seven, look out for my health too":
             m "Seven, look out for my health too" (pauseVal=0)
-            s "U can trust me...^^"
+            s "{=sser2}U can trust me...^^{/=sser2}"
             call heart_icon('s')
-            y "That's good thinking... [name]."
+            y "{=sser2}That's good thinking... [name].{/=sser2}"
         ";;;":
             m ";;;" (pauseVal=0) 
-            s "Then bye~!"
+            s "{=sser2}Then bye~!{/=sser2}"
             
     msg "707 has left the chatroom."
     y "{=curly}T_T What am I gonna do...{/=curly}"
@@ -327,30 +327,30 @@ label coffee_chat:
         # you'll need to split it up into multiple menus with a Back/Next option
         # (see Example Chat.rpy for some examples of this)
         "Don't worry... Even if you don't wake up the party will be a success.":
-            m "Don't worry... Even if you don't wake up the party will be a success." (pauseVal=0)
+            m "{=sser2}Don't worry... Even if you don't wake up the party will be a success.{/=sser2}" (pauseVal=0)
             y "{image=yoosung puff}" (img=True)
             y "{=curly}{size=+5}Do you mean that?{/=curly}"
             y "{=curly}I'm hurt...{/=curly}"
             call heart_break('y')
         "I'll wake you up...":
             m "I'll wake you up..." (pauseVal=0)
-            y "{=sser1}Oh...! Thank you.{/=sser1}" (bounce=True)
+            y "Oh...! Thank you." (bounce=True)
             call heart_icon('y')
             y "{image=yoosung happy}" (img=True)
         "Seven is just playing with you lolol":
-            m "Seven is just playing with you lolol" (pauseVal=0)
-            y "I know that ur worried too"
-            y "and don't want to believe what Seven said."
-            y "But Seven's probably right."
-            y "Seven is really knowledgeable."
-            y "He once knew when my cold would get better."
-            y "He said it'd be between the 3rd and 7th day"
-            y "And it completely went away on the fifth day."
-            y "Look at that image above..."
-            y "I'm sure it's not a lie."
+            m "{=sser2}Seven is just playing with you lolol{/=sser2}" (pauseVal=0)
+            y "{=sser2}I know that ur worried too{/=sser2}"
+            y "{=sser2}and don't want to believe what Seven said.{/=sser2}"
+            y "{=sser2}But Seven's probably right.{/=sser2}"
+            y "{=sser2}Seven is really knowledgeable.{/=sser2}"
+            y "{=sser2}He once knew when my cold would get better.{/=sser2}"
+            y "{=sser2}He said it'd be between the 3rd and 7th day{/=sser2}"
+            y "{=sser2}And it completely went away on the fifth day.{/=sser2}"
+            y "{=sser2}Look at that image above...{/=sser2}"
+            y "{=sser2}I'm sure it's not a lie.{/=sser2}"
             
-    y "First, I should get some chocolate milk..."
-    y "I'm gonna go to the supermarket~!"
+    y "{=sser2}First, I should get some chocolate milk...{/=sser2}"
+    y "{=sser2}I'm gonna go to the supermarket~!{/=sser2}"
     msg "Yoosung★ has left the chatroom."
     
     # Call this to end the chat and return to the main menu

@@ -17,19 +17,19 @@ label example_chat:
     menu:
         "Let's get started!":
             m "Let's get started!" (pauseVal=0)
-            u "Great! That's the kind of attitude I'm looking for ^^" 
+            u "{=sser2}Great! That's the kind of attitude I'm looking for ^^{/=sser2}"  
         
         "What if I don't know any coding?":
             m "What if I don't know any coding?" (pauseVal=0)
-            u "Don't worry! I've tried to make this as easy to use as possible." 
-            u "You can always ask me questions on my blog, {a=http://www.zentherainbowunicorn.tumblr.com}which you can find here{/a}" 
-            u "{=sser1}This project was coded in Ren'Py, so you can always check out their forums, too.{/=sser1}" 
+            u "{=sser2}Don't worry! I've tried to make this as easy to use as possible.{/=sser2}" 
+            u "{=sser2}You can always ask me questions on my blog, {a=http://www.zentherainbowunicorn.tumblr.com}which you can find here{/a}{/=sser2}" 
+            u "This project was coded in Ren'Py, so you can always check out their forums, too." 
 
-    u "{=sser1}Anyway, you can see what we just did there was a menu!{/=sser1}" 
-    u "{=sser1}It allows you to alter a conversation based on responses.{/=sser1}" 
-    u "{=sser1}If you take a look Example Chat.rpy, you can get an idea of how to use them.{/=sser1}" 
-    u "{=sser1}You'll want to type \"call answer\" before a menu.{/=sser1}" 
-    u "{=sser1}That way the answer button will show up at the bottom of the screen instead of immediately jumping to a menu.{/=sser1}" 
+    u "Anyway, you can see what we just did there was a menu!" 
+    u "It allows you to alter a conversation based on responses." 
+    u "If you take a look Example Chat.rpy, you can get an idea of how to use them." 
+    u "You'll want to type \"call answer\" before a menu." 
+    u "That way the answer button will show up at the bottom of the screen instead of immediately jumping to a menu." 
     u "{=ser1}There are lots of things to learn about!{/=ser1}" 
     u "{=ser1b}What would you like to see first?{/=ser1b}" 
        
@@ -43,7 +43,7 @@ label example_chat:
                 $ first_choice = False
                 u "{=ser1}Emojis and images, huh?{/=ser1}"
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
-                u "{=sser1}I'll be back later ^^{/=sser1}"
+                u "I'll be back later ^^"
                 msg "Unknown has left the chatroom"
             $ addchat("answer","",pv*0.5)   
             jump emojis
@@ -55,7 +55,7 @@ label example_chat:
                 $ first_choice = False
                 u "{=ser1}Oh, banners?{/=ser1}"
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
-                u "{=sser1}I'll be back later ^^{/=sser1}"
+                u "I'll be back later ^^"
                 msg "Unknown has left the chatroom"
             $ addchat("answer","",pv*0.5)
             jump banners
@@ -67,7 +67,7 @@ label example_chat:
                 $ first_choice = False
                 u "{=curly}Heart icons?{/=curly}" (bounce=True)
                 u "{=ser1}Hmm, sounds good. I'll let someone else explain this.{/=ser1}"
-                u "{=sser1}I'll be back later ^^{/=sser1}" (bounce=True)
+                u "I'll be back later ^^" (bounce=True)
                 msg "Unknown has left the chatroom"
             $ addchat("answer","",pv*0.5)
             jump heart_icons
@@ -79,7 +79,7 @@ label example_chat:
                 $ first_choice = False
                 u "{=ser1}You want to know about special speech bubbles and screen shake?{/=ser1}" (bounce=True)
                 u "{=ser1}Alright then. I'll let someone else explain this.{/=ser1}"
-                u "{=sser1}I'll be back later ^^{/=sser1}" (bounce=True)
+                u "I'll be back later ^^" (bounce=True)
                 msg "Unknown has left the chatroom"
             $ addchat("answer","",pv*0.5)
             jump screen_shake
@@ -94,29 +94,29 @@ label emojis:
     
     play music geniusly_hacked_bebop loop
     msg "707 has entered the chatroom"
-    s "{=sser1}O{/=sser1}" (pauseVal=0.1)
-    s "{=sser1}M{/=sser1}" (pauseVal=0.1)
-    s "{=sser1}G{/=sser1}" (pauseVal=0.1)
-    s "{size=+10}I get to explain emojis!!!{/size}"
-    s "{image=seven wow}" (img=True)
-    s "{size=+10}Yay!!!{/size}" (bounce=True, specBubble="spike_m")
-    s "{=sser1}Okay so what you wanna do is go find the right emoji in the emojis.rpy file.{/=sser1}"
-    s "{=sser1}Then you're gonna type {{image=seven wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet{/=sser1}"
-    s "{=sser1}The program will automatically add the right sound file for you ^^{/=sser1}"
+    s "O" (pauseVal=0.1)
+    s "M" (pauseVal=0.1)
+    s "G" (pauseVal=0.1)
+    s "{=sser2}{size=+10}I get to explain emojis!!!{/size}{/=sser2}" 
+    s "{image=seven wow}"   (img=True)
+    s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}"   (specBubble="spike_m")
+    s "Okay so what you wanna do is go find the right emoji in the emojis.rpy file."
+    s "Then you're gonna type {{image=seven wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet"
+    s "The program will automatically add the right sound file for you ^^"
     s "{=ser1b}You'll also want to tick the \"Image\" modifier in the spreadsheet{/=ser1b}"
     s "{=blocky}otherwise it'll look like this lolol{/=blocky}"
     s "{image=seven wow}"
-    s "Which is probably not what you want!"
-    s "You'll have to be careful to get the spelling right,"
-    s "{=sser1}since otherwise you'll get an \"image not found\" message.{/=sser1}"
+    s "{=sser2}Which is probably not what you want!{/=sser2}" 
+    s "{=sser2}You'll have to be careful to get the spelling right,{/=sser2}" 
+    s "since otherwise you'll get an \"image not found\" message."
     s "{=blocky}And it won't play any sound files, either!{/=blocky}" (bounce=True)
     s "{=ser1}If you want to add more emojis,{/=ser1}"
     s "{=ser1}just follow the rules you see in emojis.rpy{/=ser1}"
     s "{=ser1}You'll need to add it to the emoji_lookup dictionary list as well.{/=ser1}"
     s "{=ser1xb}Just use the existing entries as a guide.{/=ser1xb}"
     s "{=curly}Now I'll let you check out the emojis currently coded into the game.{/=curly}"
-    s "Just select a character to see the available emojis or \"Done\" if you're finished" (bounce=True)
-   
+    s "{=sser2}Just select a character to see the available emojis or \"Done\" if you're finished{/=sser2}"   (bounce=True)
+
     
     call answer
     menu emoji:
@@ -154,11 +154,11 @@ label emojis:
         "Zen":
             jump zen_emoji
         "Done":
-            s "The last thing I'm here to explain is how to post CGs."
+            s "{=sser2}The last thing I'm here to explain is how to post CGs.{/=sser2}" 
             s "{=curly}That means images like this!{/=curly}" (bounce=True)
             s "seven_cg1" (img=True)
             s "{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}"
-            s "You post these a little differently from emojis. "
+            s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
             s "{=ser1}You'll need to start by defining an image in variables.rpy{/=ser1}"
             s "{=ser1}For example, that last image is called \"seven_cg1\"{/=ser1}"
             s "{=ser1}It should be 750x1334 pixels, and it will be automatically resized for the chatroom.{/=ser1}"
@@ -167,9 +167,9 @@ label emojis:
             s "seven_cg1"
             s "But if you check off the \"Image\" modifier, you get this:" (bounce=True, specBubble="round2_m")
             s "seven_cg1" (img=True)
-            s "The ability to click the image/the full screen version is automatically taken care of for you."
+            s "{=sser2}The ability to click the image/the full screen version is automatically taken care of for you.{/=sser2}" 
             s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
-            s "{=sser1}Let me know if you have any questions later~{/=sser1}"
+            s "Let me know if you have any questions later~"
             msg "707 has left the chatroom"
             call answer
             jump learn
@@ -183,33 +183,33 @@ label banners:
     
     msg "Yoosung★ has entered the chatroom"
     y "{=curly}Hello!{/=curly}"
-    y "I'm supposed to explain banners to you."
-    y "It's pretty quick, I promise!"
-    y "{image=yoosung yahoo}" (img=True)
-    y "There are four different types of banners:"
-    y "{=sser1}The lightning banner!{/=sser1}" (bounce=True)
+    y "{=sser2}I'm supposed to explain banners to you.{/=sser2}" 
+    y "{=sser2}It's pretty quick, I promise!{/=sser2}" 
+    y "{image=yoosung happy}"   (img=True)
+    y "{=sser2}There are four different types of banners:{/=sser2}" 
+    y "The lightning banner!" (bounce=True)
     call banner_lightning
-    y "For when you're feeling angry ^^;;"
-    y "{=sser1}The heart banner!{/=sser1}" (bounce=True)
+    y "{=sser2}For when you're feeling angry ^^;;{/=sser2}"
+    y "The heart banner!" (bounce=True)
     call banner_heart
-    y "{=sser1}For happy stuff!{/=sser1}"
-    y "{=sser1}The annoy banner{/=sser1}" (bounce=True)
+    y "For happy stuff!"
+    y "The annoy banner" (bounce=True)
     call banner_annoy
-    y "For when you're irritated"
-    y "And last but not least, "
+    y "{=sser2}For when you're irritated{/=sser2}"
+    y "{=sser2}And last but not least,{/=sser2}"
     y "{=ser1}the 'well' banner!{/=ser1}" (bounce=True)
     call banner_well
     y "{=ser1}...{/=ser1}"
-    y "It's for times when you're a little lost for words."
+    y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
     y "{image=yoosung thankyou}"   (img=True)
-    y "{=sser1}I have one more thing I was going to show you:{/=sser1}" 
+    y "I have one more thing I was going to show you:" 
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
     y "{=curly}You said you identify as [persistent.pronoun], right?{/=curly}"   (bounce=True, specBubble="square_m")
-    y "So we'll use pronouns like [they]/[them] whenever we talk about you."   (bounce=True)
-    y "{=sser1}You can check out script.rpy - at the start there are some variables so you know how to use pronouns when writing a script{/=sser1}" 
-    y "{=sser1}And if you ever want to change your pronouns, just go to the profile page (currently accessed from the main menu).{/=sser1}" 
-    y "{=sser1}That's all from me!{/=sser1}"
-    y "Good luck with the program ^^"
+    y "{=sser2}So we'll use pronouns like [they]/[them] whenever we talk about you.{/=sser2}"   (bounce=True)
+    y "You can check out script.rpy - at the start there are some variables so you know how to use pronouns when writing a script" 
+    y "And if you ever want to change your pronouns, just go to the profile page (currently accessed from the main menu)." 
+    y "That's all from me!"
+    y "{=sser2}Good luck with the program ^^{/=sser2}"
     y "{image=yoosung wow}" (img=True)
     msg "Yoosung★ has left the chatroom"
 
@@ -225,48 +225,48 @@ label heart_icons:
     msg "Zen has entered the chatroom"
     z "{image=zen wink}" (img=True)
     z "{=curly}Hey cutie ^^{/=curly}" (bounce=True)
-    z "I'm here to explain heart icons!"
+    z "{=sser2}I'm here to explain heart icons!{/=sser2}"
     z "{=sser2}They look like this:{/=sser2}"
     call heart_icon('z')
     z "{=sser2}And each character has a different one{/=sser2}"
     z "{=sser1b}They all use the same white heart, this one{/=sser1b}"
     call heart_icon('u')
-    z "{=sser1}and just recolour it depending on what argument you pass via \"call heart_icon('z')\"{/=sser1}"
-    z "{=sser1}You can easily add your own colours, too, by adding the character and colour to the heartcolour list in MysMe Screen Effects.rpy{/=sser1}"
+    z "and just recolour it depending on what argument you pass via \"call heart_icon('z')\""
+    z "You can easily add your own colours, too, by adding the character and colour to the heartcolour list in MysMe Screen Effects.rpy"
     z "{=blocky}Here are the currently available colours:{/=blocky}"
-    z "{=sser1}Seven{/=sser1}"
+    z "Seven"
     call heart_icon('s')
     z "{=curly}Me!{/=curly}"
     call heart_icon('z')
-    z "{=sser1}Jaehee{/=sser1}"
+    z "Jaehee"
     call heart_icon('ja')
-    z "{=sser1}Jumin{/=sser1}"
+    z "Jumin"
     call heart_icon('ju')
-    z "{=sser1}Yoosung{/=sser1}"
+    z "Yoosung"
     call heart_icon('y')
-    z "{=sser1}Ray{/=sser1}"
+    z "Ray"
     call heart_icon('ra')
-    z "{=sser1}V{/=sser1}"
+    z "V"
     call heart_icon('v')
     z "{=ser1}and then there are a few special ones{/=ser1}"
-    z "{=sser1}The white heart I mentioned before (tied to the username 'Unknown'){/=sser1}"
+    z "The white heart I mentioned before (tied to the username 'Unknown')"
     call heart_icon('u')
-    z "{=sser1}You can also get this heart by passing heart_icon the short form for Saeran (sa or \"Sae\"){/=sser1}"
+    z "You can also get this heart by passing heart_icon the short form for Saeran (sa or \"Sae\")"
     call heart_icon('sa')
-    z "And then there is this heart"
+    z "{=sser2}And then there is this heart{/=sser2}"
     call heart_icon('r')
-    z "which is for Rika, but isn't found in-game"
-    z "{=sser1}The last thing I'm here to explain is the 'heartbreak' icon{/=sser1}"
-    z "{=sser1}It works the same as the regular heart icons -- just add a colour to the heartcolour list and call \"heart_break\" with that character{/=sser1}"
+    z "{=sser2}which is for Rika, but isn't found in-game{/=sser2}"
+    z "The last thing I'm here to explain is the 'heartbreak' icon"
+    z "It works the same as the regular heart icons -- just add a colour to the heartcolour list and call \"heart_break\" with that character"
     z "{=ser1}It will automatically colour itself{/=ser1}"
-    z "They look like this!"
+    z "{=sser2}They look like this!{/=sser2}"
     call heart_break('z')
-    z "But you don't really want to hurt any of our feelings, right?" (bounce=True)
+    z "{=sser2}But you don't really want to hurt any of our feelings, right?{/=sser2}" (bounce=True)
     z "{image=zen happy}" (img=True)
     call heart_icon('z')
     z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}"
-    z "{=sser1}It keeps track of both the total points earned during a chatroom,{/=sser1}"
-    z "{=sser1}as well as how many points you have with each individual character{/=sser1}"
+    z "It keeps track of both the total points earned during a chatroom,"
+    z "as well as how many points you have with each individual character"
     z "{=curly}Just to keep the door open for other uses ^^{/=curly}" (bounce=True, specBubble="round_m")
     z "{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}"
     z "{=curly}Good luck with the rest of the program!{/=curly}" (bounce=True)
@@ -291,21 +291,21 @@ label screen_shake:
     call banner_well
     ja "{=ser1}Mr. Han?{/=ser1}"
     ja "{image=jaehee well}" (img=True)
-    ja "{=sser1}Mr. Han.{/=sser1}"
-    ja "{=sser1}{size=+10}MR. HAN!!{/size}{/=sser1}" (bounce=True, specBubble="spike_m")
+    ja "Mr. Han."
+    ja "{size=+10}MR. HAN!!{/size}" (bounce=True, specBubble="spike_m")
     show night at shake
     ju "{=curly}Is something the matter?{/=curly}" (bounce=True, specBubble="cloud_m")
-    ja "{=sser1}Oh.{/=sser1}" (bounce=True, specBubble="sigh_s")
+    ja "Oh." (bounce=True, specBubble="sigh_s")
     ja "{=ser1}You weren't responding so I thought perhaps you were asleep.{/=ser1}"
-    ju "{=sser1}Elizabeth the 3rd was sleeping on my lap so I couldn't disturb her.{/=sser1}" (bounce=True, specBubble="cloud_l")
-    ja "Of course;;" (bounce=True, specBubble="sigh_m")
+    ju "Elizabeth the 3rd was sleeping on my lap so I couldn't disturb her." (bounce=True, specBubble="cloud_l")
+    ja "{=sser2}Of course;;{/=sser2}" (bounce=True, specBubble="sigh_m")
     ja "{=ser1}...As I was saying.{/=ser1}"
-    ja "We're supposed to teach [name] about some other chatroom features." (bounce=True)
+    ja "{=sser2}We're supposed to teach [name] about some other chatroom features.{/=sser2}" (bounce=True)
     ju "{=ser1}Like the special speech bubbles?{/=ser1}" (bounce=True, specBubble="square_m")
-    ja "Yes ^^" (bounce=True, specBubble="cloud_s")
-    ja "{=sser1}In the Script Generator spreadsheet, you'll see an option called \"special bubble\"{/=sser1}"
-    ja "{=sser1}You can look in the folder \"Bubbles/Special\" and find the correct bubble{/=sser1}"
-    ja "Most bubbles come in three sizes:" (bounce=True)
+    ja "{=sser2}Yes ^^{/=sser2}" (bounce=True, specBubble="cloud_s")
+    ja "In the Script Generator spreadsheet, you'll see an option called \"special bubble\""
+    ja "You can look in the folder \"Bubbles/Special\" and find the correct bubble"
+    ja "{=sser2}Most bubbles come in three sizes:{/=sser2}" (bounce=True)
     ja "{=sser1b}small{/=sser1b}"
     ja "{=sser1b}medium{/=sser1b}"
     ja "{=sser1b}and large{/=sser1b}"
@@ -314,8 +314,8 @@ label screen_shake:
     ja "{=ser1}As for screen shake,{/=ser1}"
     ja "{=ser1}how you use it depends on which background you're using{/=ser1}"
     ja "{=ser1xb}For example, this is the \"night\" background{/=ser1xb}"
-    ja "{=sser1}So we call \"show night at shake\"{/=sser1}"
-    ja "And it does this" (bounce=True)
+    ja "So we call \"show night at shake\""
+    ja "{=sser2}And it does this{/=sser2}" (bounce=True)
     show night at shake
     ja "{=ser1}Lastly, you can check out all of the special bubbles present in the game.{/=ser1}"
     ja "{=ser1xb}Just select \"Done\" when you're finished.{/=ser1xb}"
@@ -331,23 +331,23 @@ label ending:
     
     msg "Unknown has entered the chatroom"
     u "{=curly}You're back!{/=curly}" (bounce=True)
-    u "So what did you think?"
-    u "Are you ready to start making your own chatrooms?"
+    u "{=sser2}So what did you think?{/=sser2}"
+    u "{/=sser2}Are you ready to start making your own chatrooms?{=sser2}"
     call answer
     menu:
         "Definitely!":
             m "Definitely!" (pauseVal=0)
-            u "I'm glad! ^^"
+            u "{=sser2}I'm glad! ^^{/=sser2}"
                     
         "I don't know if I'm ready yet...":
             m "I don't know if I'm ready yet..." (pauseVal=0)
             u "{=ser1}I recommend reading through the code for this chatroom and the coffee chatroom.{/=ser1}"
             u "{=ser1}And maybe go through this example chatroom a few times and compare it with the code!{/=ser1}"
 
-    u "{=sser1}I've put a lot of work into this program, so any feedback is welcome!{/=sser1}"
-    u "And please credit me if you do use it somewhere!"
-    u "I hope you find this program helpful."
-    u "Good luck!"
+    u "I've put a lot of work into this program, so any feedback is welcome!"
+    u "{=sser2}And please credit me if you do use it somewhere!{/=sser2}"
+    u "{=sser2}I hope you find this program helpful.{/=sser2}"
+    u "{=sser2}Good luck!{/=sser2}"
     msg "Unknown has left the chatroom"
     # Call this at the end of a chatroom
     call save_exit
@@ -365,7 +365,7 @@ menu bubbles:
         ju "{=ser1}That's all from us.{/=ser1}"
         ju "{=ser1}Note that currently you can only use the bubbles associated with the speaking character{/=ser1}"
         ju "{=ser1}For example, Assistant Kang cannot use my Elizabeth the 3rd bubble.{/=ser1}" (bounce=True, specBubble="cloud_l")
-        ju "I must excuse myself."
+        ju "{=sser2}I must excuse myself.{/=sser2}"
         msg "Jumin Han has left the chatroom"
         ja "{=ser1}I'll be leaving too. Best of luck with the program.{/=ser1}"
         msg "Jaehee Kang has left the chatroom"
