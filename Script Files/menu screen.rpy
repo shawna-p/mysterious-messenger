@@ -102,50 +102,17 @@ init python:
         return spaceship_xalign
         
 
-image bg menuscreen = "Phone UI/Main Menu/menu_background.png"
-
-# Character Greetings
-image greet jaehee = "Phone UI/Main Menu/jaehee_greeting.png"
-image greet jumin = "Phone UI/Main Menu/jumin_greeting.png"
-image greet ray = "Phone UI/Main Menu/ray_greeting.png"
-image greet rika = "Phone UI/Main Menu/rika_greeting.png"
-image greet seven = "Phone UI/Main Menu/seven_greeting.png"
-image greet unknown = "Phone UI/Main Menu/unknown_greeting.png"
-image greet v = "Phone UI/Main Menu/v_greeting.png"
-image greet yoosung = "Phone UI/Main Menu/yoosung_greeting.png"
-image greet zen = "Phone UI/Main Menu/zen_greeting.png"
-    
 # This lets it randomly pick a profile picture to display        
 default greet_char = "seven"
 define character_list = ['jaehee', 'jumin', 'ray', 'rika', 'seven', 
                                  'unknown', 'v', 'yoosung', 'zen']
-
-image greeting_bubble = Frame("Phone UI/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
-image greeting_panel = Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
-
-# Background Menu Squares
-image right_corner_menu = Frame("Phone UI/Main Menu/right_corner_menu.png", 45, 45)
-image left_corner_menu = Frame("Phone UI/Main Menu/left_corner_menu.png", 45, 45)
-image right_corner_menu_selected = Frame("Phone UI/Main Menu/right_corner_menu_selected.png", 45, 45)
-image left_corner_menu_selected = Frame("Phone UI/Main Menu/left_corner_menu_selected.png", 45, 45)
-
-# Menu Icons
-image menu_after_ending = "Phone UI/Main Menu/after_ending.png"
-image menu_dlc = "Phone UI/Main Menu/dlc.png"
-image menu_history = "Phone UI/Main Menu/history.png"
-image menu_save_load = "Phone UI/Main Menu/save_load.png"
-image menu_original_story = "Phone UI/Main Menu/original_story.png"
 
 # Greeting Text
 # (thus far very sparse)
 default greet_text_korean = "제 프로그램으로 환영합니다!"
 default greet_text_english = "Welcome to my Mystic Messenger Generator!"
 
-image rfa_greet:
-    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", color="#ffffff", size=30, slow=True, font="00 fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
-    10.0
-    "transparent.png"
-    0.2
+
     repeat
 
 default greeted = False
@@ -250,7 +217,7 @@ screen main_menu:
                             focus_mask True
                             idle "right_corner_menu" 
                             hover "right_corner_menu_selected"
-                            action ShowMenu("preferences") 
+                            action Show('window_test')
             hbox:
                 window:
                     maximum(450,210)
@@ -449,9 +416,7 @@ screen file_slots(title):
 
 
             
-image menu_settings_panel = Frame("Phone UI/Main Menu/settings_sound_panel.png",60,200,60,120)
-image menu_sound_sfx = "Phone UI/Main Menu/settings_sound_sfx.png"
-image menu_default_sounds = Frame("Phone UI/Main Menu/settings_sound_default.png",10,10)
+
             
 ## Preferences screen ##########################################################
 ##
@@ -589,13 +554,7 @@ screen preferences():
             else:
                 textbutton "Off" text_style "voice_toggle_off" action SetField(persistent, "other_voice", True)
 
-  
-image header_plus = "Phone UI/Main Menu/header_plus.png"
-image header_plus_hover = "Phone UI/Main Menu/header_plus_hover.png"
-image header_tray = "Phone UI/Main Menu/header_tray.png"
-image header_hg = "Phone UI/Main Menu/header_hg.png"
-image header_heart = "Phone UI/Main Menu/header_heart.png"
-  
+    
 ########################################################
 ## Just the header that often shows up over menu items;
 ## put in a separate screen for less repeating code
@@ -625,7 +584,7 @@ screen menu_header(title):
             imagebutton:
                 idle "header_plus"
                 hover "header_plus_hover"
-                action Return
+                action Return()
             add 'header_tray'
             
         add "header_hg" yalign 0.1 xalign 0.16
@@ -651,7 +610,10 @@ screen menu_header(title):
             idle "menu_back"
             focus_mask None
             hover im.FactorScale("Phone UI/Main Menu/menu_back_btn.png", 1.1)
-            action [ToggleVariable("greeted", False, False), Return()]
+            if title == "Profile" or title == "Settings":
+                action [ToggleVariable("greeted", False, False), ShowMenu('chat_home')]
+            else:
+                action [ToggleVariable("greeted", False, False), Return()]
         
     # Settings gear
     if title != "Setings":
@@ -663,9 +625,7 @@ screen menu_header(title):
             focus_mask None
             action ShowMenu("preferences")  
       
-image menu_tab_inactive = Frame("Phone UI/Main Menu/settings_tab_inactive.png",10,10)
-image menu_tab_active = Frame("Phone UI/Main Menu/settings_tab_active.png",25,25)
-image menu_tab_inactive_hover = Frame("Phone UI/Main Menu/settings_tab_inactive_hover.png",10,10)
+
   
 ########################################################
 ## The three tabs on the Settings screen
@@ -714,43 +674,9 @@ screen settings_tabs(active_tab):
             text "Others" style "settings_style" xalign 0.5 yalign 0.5
                 
                 
-image menu_header = Frame("Phone UI/Main Menu/menu_header.png", 0, 50) 
-image menu_back = "Phone UI/Main Menu/menu_back_btn.png"
-image save_btn = "Phone UI/Main Menu/menu_save_btn.png"
-image load_btn = "Phone UI/Main Menu/menu_load_btn.png"
-image name_line = "Phone UI/Main Menu/menu_underline.png"
-image menu_edit = "Phone UI/Main Menu/menu_pencil_long.png"
-
-
-
-image MC_profpic = ConditionSwitch(
-    "persistent.MC_pic == 1", im.FactorScale("Profile Pics/MC/MC-1.png",3.3),
-    "persistent.MC_pic == 2", im.FactorScale("Profile Pics/MC/MC-2.png",3.3),
-    "persistent.MC_pic == 3", im.FactorScale("Profile Pics/MC/MC-3.png",3.3),
-    "persistent.MC_pic == 4", im.FactorScale("Profile Pics/MC/MC-4.png",3.3),
-    "persistent.MC_pic == 5", im.FactorScale("Profile Pics/MC/MC-5.png",3.3),
-    "True", "Profile Pics/MC/MC-1.png")
-     
-     
-image radio_on = "Phone UI/Main Menu/menu_radio_on.png"
-image radio_off = "Phone UI/Main Menu/menu_radio_off.png"
-
-image settings_gear = "Phone UI/Main Menu/menu_settings_gear.png"
-# Just for fun, this is the animation when you hover over the settings
-# button. It makes the gear look like it's turning
-image settings_gear_rotate:
-    "Phone UI/Main Menu/menu_settings_gear.png"
-    xpos 10
-    ypos -10
-    block:
-        rotate 0
-        linear 1.0 rotate 45
-        repeat
 
         
 default cantype = False
-
-image menu_check_edit = "Phone UI/Main Menu/menu_check_long.png"
 
 ########################################################
 ## The "Profile" tab of Settings. Allows you to change
@@ -890,9 +816,7 @@ screen profile_pic:
     
 
                 
-image menu_select_btn = "Phone UI/Main Menu/menu_select_button.png"
-image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
-image menu_select_btn_hover = "Phone UI/Main Menu/menu_select_button_hover.png"
+
 
 ########################################################
 ## The "Others" tab of the settings screen
@@ -981,114 +905,17 @@ label restart_game:
 ## The 'homepage' from which you interact with the game
 ## after the main menu
 ########################################################
-
-image gray_chatbtn = "Phone UI/Main Menu/Original Story/main01_chatbtn.png"
-image gray_chatbtn_hover = "Phone UI/Main Menu/Original Story/main01_chatbtn_hover.png"
-image rfa_chatcircle:
-    "Phone UI/Main Menu/Original Story/main01_chatcircle.png"
-    block:
-        rotate 0
-        alignaround(.5, .5)
-        linear 13.0 rotate 360
-        repeat
-        
-image blue_chatcircle:
-    "Phone UI/Main Menu/Original Story/main01_chatcircle_big.png"
-    block:
-        rotate 60
-        alignaround(.5, .5)
-        linear 4 rotate 420
-        repeat
-image chat_text = "Phone UI/Main Menu/Original Story/main01_chattext.png"
-image chat_icon = "Phone UI/Main Menu/Original Story/main01_chaticon.png"
-
-image gray_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn.png"
-image blue_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn_lit.png"
-image gray_mainbtn_hover = "Phone UI/Main Menu/Original Story/main01_mainbtn_hover.png"
-image blue_mainbtn_hover = "Phone UI/Main Menu/Original Story/main01_mainbtn_lit_hover.png"
-image gray_maincircle:
-    "Phone UI/Main Menu/Original Story/main01_maincircle.png"
-    block:
-        rotate -120
-        alignaround(.5, .5)
-        linear 4 rotate -480
-        repeat
-image blue_maincircle:
-    "Phone UI/Main Menu/Original Story/main01_maincircle_lit.png"
-    block:
-        rotate 180
-        alignaround(.5, .5)
-        linear 4 rotate 540
-        repeat
-image call_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_call.png"
-image email_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_email.png"
-image msg_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_message.png"
-image call_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_call.png"
-image email_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_email.png"
-image msg_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_message.png"
-
-image profile_pic_select_square = "Phone UI/Main Menu/Original Story/profile_pic_select_square.png"
-
-image white_hex = "Phone UI/Main Menu/Original Story/main01_subbtn.png"
-image blue_hex = "Phone UI/Main Menu/Original Story/main01_subbtn_lit.png"
-image red_hex = "Phone UI/Main Menu/Original Story/main01_subbtn_shop.png"
-image white_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_hover.png"
-image blue_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_lit_hover.png"
-image red_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_shop_hover.png"
-
-image album_icon = "Phone UI/Main Menu/Original Story/main01_subicon_album.png"
-image guest_icon = "Phone UI/Main Menu/Original Story/main01_subicon_guest.png"
-image link_icon = "Phone UI/Main Menu/Original Story/main01_subicon_link.png"
-image notice_icon = "Phone UI/Main Menu/Original Story/main01_subicon_notice.png"
-image shop_icon = "Phone UI/Main Menu/Original Story/main01_subicon_shop.png"
-image album_text = "Phone UI/Main Menu/Original Story/main01_subtext_album.png"
-image guest_text = "Phone UI/Main Menu/Original Story/main01_subtext_guest.png"
-image link_text = "Phone UI/Main Menu/Original Story/main01_subtext_link.png"
-image notice_text = "Phone UI/Main Menu/Original Story/main01_subtext_notice.png"
-image shop_text = "Phone UI/Main Menu/Original Story/main01_subtext_shop.png"
-
-### Spaceship
-
-image space_chip_active:
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_inactive.png"
-    2.7
-    block:
-        "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_active.png"
-        1.16
-        "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_glow.png"
-        1.16
-        repeat
-    
-image space_chip_explode = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_explode.png"
-image space_chip_inactive = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_inactive.png"
-image space_dot_line = "Phone UI/Main Menu/Original Story/Spaceship/dot_line.png"
-image space_gray_dot = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_dot_white.png"
-image space_yellow_dot = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_dot_yellow.png"
-image space_transparent_btn = "Phone UI/Main Menu/Original Story/Spaceship/space-transparent-button.png"
-
-image spaceship = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_craft.png"
-    
-
-image space_flame:
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_flame_big.png"
-    0.6
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_flame_small.png"
-    0.6
-    repeat
     
 default chips_available = False
 default spaceship_xalign = 0.04
 default reset_spaceship_pos = False
 
-screen chat_home:
+screen chat_home(reshow=False):
 
     tag menu     
     
-    $ mc_pic = 'Profile Pics/MC/MC-' + str(persistent.MC_pic) + '.png'
-    
+    $ mc_pic = 'Profile Pics/MC/MC-' + str(persistent.MC_pic) + '.png'   
    
-   
-    #add "Phone UI/Main Menu/Original Story/main-bkgd.png"
     use starry_night
     
     use menu_header("Original Story")
@@ -1103,7 +930,7 @@ screen chat_home:
         imagebutton:
             idle "gray_mainbtn"
             hover "gray_mainbtn_hover"
-            action Return()
+            action Show('text_menu', Dissolve(0.5))
         add "gray_maincircle" xalign 0.5 yalign 0.5
         add "msg_mainicon" xalign 0.5 yalign 0.5
         add "msg_maintext" xalign 0.5 yalign 0.85
@@ -1169,32 +996,32 @@ screen chat_home:
                     hover "profile_pic_select_square"                    
                     idle im.FactorScale(chatportrait['Ju'], 0.9)
                     background im.FactorScale(chatportrait['Ju'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='Ju')
                 imagebutton:
                     idle im.FactorScale(chatportrait['Zen'], 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(chatportrait['Zen'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='Zen')
                 imagebutton:
                     idle im.FactorScale(chatportrait['Sev'], 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(chatportrait['Sev'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='Sev')
                 imagebutton:
                     idle im.FactorScale(chatportrait['Yoo'], 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(chatportrait['Yoo'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='Yoo')
                 imagebutton:
                     idle im.FactorScale(chatportrait['Ja'], 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(chatportrait['Ja'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='Ja')
                 imagebutton:
                     idle im.FactorScale(chatportrait['V'], 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(chatportrait['V'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='V')
                 imagebutton:
                     idle im.FactorScale(mc_pic, 0.9)
                     hover "profile_pic_select_square"
@@ -1206,12 +1033,12 @@ screen chat_home:
                     idle im.FactorScale(chatportrait['Ray'], 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(chatportrait['Ray'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='Ray')
                 imagebutton:
                     idle im.FactorScale(chatportrait['Rika'], 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(chatportrait['Rika'], 0.9)
-                    action Return()
+                    action Show('chara_profile', who='Rika')
 
     window:
         maximum(140, 1000)
@@ -1275,27 +1102,50 @@ screen chat_home:
         
     #text str(reset_spaceship_pos) + ' - ' + str(spaceship_xalign) color '#fff'
     $ spaceship_xalign = spaceship_get_xalign(True)
-    
-    if chips_available:       
-        window at chip_anim:
-            maximum(90,70)
-            xalign 0.93
-            yalign 0.942
-            add "space_chip_explode"
-            
-        add "space_chip_active" xalign 0.92 yalign 0.98
         
-        window at spaceship_chips:
-            maximum (100,110)
-            xalign 0.96
-            yalign 1.0
-            add "space_flame" xalign 0.5 yalign 1.0
-            add "spaceship" xalign 0.5 yalign 0.0
-            imagebutton:
-                idle "space_transparent_btn"
-                focus_mask None
-                activate_sound 'sfx/UI/select_6.mp3'
-                action Show('chip_tap')
+    if chips_available:       
+    
+        if not reshow:
+            window at chip_anim:
+                maximum(90,70)
+                xalign 0.93
+                yalign 0.942
+                add "space_chip_explode"
+                
+            add "space_chip_active" xalign 0.92 yalign 0.98
+            
+            window at spaceship_chips:
+                maximum (100,110)
+                xalign 0.96
+                yalign 1.0
+                add "space_flame" xalign 0.5 yalign 1.0
+                add "spaceship" xalign 0.5 yalign 0.0
+                imagebutton:
+                    idle "space_transparent_btn"
+                    focus_mask None
+                    activate_sound 'sfx/UI/select_6.mp3'
+                    action Show('chip_tap')
+        
+        if reshow:
+            window at chip_anim2:
+                maximum(90,70)
+                xalign 0.93
+                yalign 0.942
+                add "space_chip_explode"
+                
+            add "space_chip_active2" xalign 0.92 yalign 0.98
+            
+            window at spaceship_chips2:
+                maximum (100,110)
+                xalign 0.96
+                yalign 1.0
+                add "space_flame" xalign 0.5 yalign 1.0
+                add "spaceship" xalign 0.5 yalign 0.0
+                imagebutton:
+                    idle "space_transparent_btn"
+                    focus_mask None
+                    activate_sound 'sfx/UI/select_6.mp3'
+                    action Show('chip_tap')
       
     else:            
         add "space_chip_inactive" xalign 0.92 yalign 0.98
@@ -1307,33 +1157,25 @@ screen chat_home:
             add "space_flame" xalign 0.5 yalign 1.0
             add "spaceship" xalign 0.5 yalign 0.0
      
-image space_chip = "Phone UI/Main Menu/Original Story/Spaceship/chip.png"
-image space_tap_large:
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
-    0.55
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
-    0.6
-    repeat
-image space_tap_med:
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
-    0.62
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
-    0.45
-    repeat
-image space_tap_small:
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
-    0.48
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
-    0.56
-    repeat
-    
-image space_tap_to_close = "Phone UI/Main Menu/Original Story/Spaceship/close.png"
+     
+########################################################
+## The Profile Screen for each of the characters
+########################################################
+        
+screen chara_profile(who=None):
 
-image cloud_1 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_1.png"
-image cloud_2 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_2.png"
-image cloud_3 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_3.png"
-image cloud_4 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_4.png"
-image cloud_5 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_5.png"
+    tag menu
+
+    use starry_night
+    use menu_header("Profile")   
+        
+    add chatcover[who] yalign 0.231
+    add chatportrait[who] at profile_zoom
+    add 'profile_outline' xalign 0.1 yalign 0.675
+    
+    text chatnick[who] style "profile_header_text"
+    text chatstatus[who] style "profile_status"
+    
 
 screen chip_tap:
 
@@ -1361,7 +1203,7 @@ label chip_prize:
     #$ spaceship_xalign = 0.04
     hide screen chip_tap
     show screen chip_cloud
-    #show screen chat_home
+    show screen chat_home(True)
     pause 2.5
     hide screen chip_cloud 
     $ chips_available = False
@@ -1371,9 +1213,7 @@ screen chip_cloud:
     modal True
 
     zorder 100
-    
-    
-    
+        
     add "Phone UI/choice_dark.png"
     window at chip_wobble2:
         maximum(481,598)
@@ -1393,18 +1233,7 @@ screen chip_cloud:
         add 'cloud_4' xpos 300 at cloud_shuffle4
         add 'cloud_5' xpos 350 ypos 20 at cloud_shuffle5
         
-image spotlight:
-    "Phone UI/Main Menu/Original Story/Spaceship/spotlight.png"
-    alpha 0.6
-    block:
-        rotate 0
-        linear 15.0 rotate 360
-        repeat
-        
-image space_prize_box = "Phone UI/Main Menu/Original Story/Spaceship/space_prize_box.png"
-image space_black_box = Frame("Phone UI/Main Menu/Original Story/Spaceship/main03_black_box.png",30,30,30,30)
-image space_continue = "Phone UI/Main Menu/Original Story/Spaceship/Continue.png"
-image space_continue_hover = "Phone UI/Main Menu/Original Story/Spaceship/Continue_hover.png"
+
 default prize_hg = 10
 
 screen chip_end:
@@ -1457,7 +1286,8 @@ screen chip_end:
             action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), Show('chat_home', Dissolve(0.5))]
         
 
-        
+
+    
     
     
 # ****************************
