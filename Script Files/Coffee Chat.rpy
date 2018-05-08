@@ -1,4 +1,9 @@
 label coffee_chat:
+
+    $ chatroom_name = 'Pass Out After Drinking Coffee Syndrome'
+    $ day_num = '4th'
+    $ route_title = 'casual'
+
     # You'll need to call this yourself; it's not an option in the spreadsheet
     # Pass it the name of the background you want in quotes
     # You can find your options in variables.rpy
@@ -353,5 +358,78 @@ label coffee_chat:
     y "{=sser2}I'm gonna go to the supermarket~!{/=sser2}"
     msg "Yoosung★ has left the chatroom."
     
+    $ post_chatroom = 'after_coffee_chat'
+    
     # Call this to end the chat and return to the main menu
     call save_exit
+    return
+
+    
+# Put anything you want to have happen after the chatroom ends here, 
+# like text messages or (in the future) phone calls
+label after_coffee_chat:
+
+    $ show_queue = []
+
+    ## Seven's text message
+    $ addtext ("Sev", "Thanks for not spoiling the secret~ ^^", "Sev")
+    $ addtext ("Sev", "You're a lot of fun to talk to meow!", "Sev")
+    $ text_msg_menu['Sev'] = 'coffee1'
+    $ recent_texts['Sev'] = False
+    $ show_queue.append('Sev')
+    #show screen text_msg_popup('Sev')
+    
+    ## Yoosung's text message
+    $ addtext ("Yoo", "[name]... what do I do...", "Yoo")
+    $ text_msg_menu['Yoo'] = 'coffee2'
+    $ recent_texts['Yoo'] = False
+    $ show_queue.append('Yoo')
+    #show screen text_msg_popup('Yoo') as msg2
+    
+    $ new_notifications = True
+    $ show_notifications()
+    
+    return
+    
+menu coffee1:
+
+    "I like talking to you too meow!":
+        $ addtext ("MC", "I like talking to you too meow!", "Sev")
+        call heart_icon('s')
+        $ addtext ("Sev", "<3 <3 <3", "Sev")
+        $ addtext ("Sev", "Agent 707 will do his best to come to the chatroom more often meow!", "Sev")
+        $ text_msg_menu["Sev"] = 'None'
+    
+    "I feel bad for Yoosung though...":
+        $ addtext ("MC", "I feel bad for Yoosung though...", "Sev")
+        call heart_icon('y')
+        $ addtext ("Sev", "Nah~ he'll be fine", "Sev")
+        $ addtext ("Sev", "I'm sure he'd be happy you're worried for him tho lolol", "Sev")
+        $ text_msg_menu['Sev'] = 'None'
+    
+menu coffee2:
+    
+    "Drink that chocolate milk!":
+        $ addtext ("MC", "Drink that chocolate milk!", "Yoo")
+        call heart_icon('y')
+        $ addtext ("Yoo", "I will!! I bought a lot of it...", "Yoo")
+        $ addtext ("Yoo", "It could be worse... I could've had classes tomorrow T_T", "Yoo")
+        $ addtext ("Yoo", "Thanks for worrying.", "Yoo")
+        $ text_msg_menu['Yoo'] = 'None'
+    
+    "You do know Seven's just teasing, right?":
+        $ addtext ("MC", "You do know Seven's just teasing, right?", "Yoo")
+        $ addtext ("Yoo", "I appreciate you trying to comfort me but...", "Yoo")
+        $ addtext ("Yoo", "You saw the news article he posted, right?", "Yoo")
+        $ addtext ("Yoo", "And he really does keep track of all the members...", "Yoo")
+        $ addtext ("Yoo", "I'm sure it's not a lie.", "Yoo")
+        $ text_msg_menu['Yoo'] = 'None'
+    
+    
+    
+    
+    
+    
+    
+    
+    
