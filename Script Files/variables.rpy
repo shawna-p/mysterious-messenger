@@ -1,8 +1,10 @@
-## MUSIC AND OTHER SHORT FORM DECLARATIONS
-
+##******************************
+## USEFUL PYTHON FUNCTIONS
+##******************************
 init python:
+    from datetime import datetime
+    
     # This defines another voice channel which the emoji sound effects play on
-    # There's also an additional slider in options.rpy 
     # This lets you adjust the volume of the emojis separately from voice, music, and sfx
     renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
     
@@ -11,6 +13,40 @@ init python:
             return MixerValue('voice_sfx')
         else:
             return SetMixer('voice_sfx', value)
+            
+    
+    # A class that makes it much easier to fetch the time for any
+    # given chat entry
+    class myTime(object):
+        def __init__(self, day=None):
+        
+            self.short_weekday = datetime.now().strftime('%a')
+            self.weekday = datetime.now().strftime('%A')
+            
+            self.short_month = datetime.now().strftime('%b')
+            self.month = datetime.now().strftime('%B')
+            self.month_num = datetime.now().strftime('%m')
+            
+            self.year = datetime.now().strftime('%y')
+            
+            if day == None:
+                self.day = datetime.now().strftime('%d')
+            else:
+                self.day = day
+            
+            self.twelve_hour = datetime.now().strftime('%I')
+            self.military_hour = datetime.now().strftime('%H')
+            self.minute = datetime.now().strftime('%M')
+            self.second = datetime.now().strftime('%S')
+            self.am_pm = datetime.now().strftime('%p')
+            
+    # Function that returns a myTime object with the current time
+    def upTime(day=None):
+        if day != None:
+            return myTime(day)
+        else:
+            return myTime()
+
 
 
 ##******************************
@@ -70,23 +106,25 @@ define xmas_urban_night_cityscape = "Music/Urban Night Cityscape (ver. X-Mas Org
 # Backgrounds
 #************************************
 
-image morning = "bg-morning.jpg"
-image evening = "bg-evening.jpg"
-image night = "bg-night.jpg"
-image earlyMorn = "bg-earlyMorn.jpg"
-image noon = "bg-noon.jpg"
-image hack = "bg-hack.jpg"
-image redhack = "bg-redhack.jpg"
+image morning = "bg-morning-shake.png"
+image evening = "bg-evening-shake.png"
+image night = "bg-night-shake.png"
+image earlyMorn = "bg-earlyMorn-shake.png"
+image noon = "bg-noon-shake.png"
+image hack = "bg-hack-shake.png"
+image redhack = "bg-redhack-shake.png"
 image black = "#000000"
 
-image bg morning = "morning"
-image bg evening = "evening"
-image bg noon = "noon"
-image bg night = "night"
-image bg earlyMorn = "earlyMorn"
-image bg hack = "hack"
-image bg redhack = "redhack"
-
+image bg morning = "bg-morning.jpg"
+image bg evening = "bg-evening.jpg"
+image bg night = "bg-night.jpg"
+image bg earlyMorn = "bg-earlyMorn.jpg"
+image bg noon = "bg-noon.jpg"
+image bg hack = "bg-hack.jpg"
+image bg redhack = "bg-redhack.jpg"
+# A starry night background with some static stars;
+# used in menu screens
+image bg starry_night = "Phone UI/bg-starry-night.png"
 
 # ****************************
 # Short forms/Other
@@ -358,6 +396,7 @@ default persistent.HG = 100
 # CGs are automatically resized in the chatroom, but you'll have to
 # make sure the original dimensions are 750x1334
 image general_cg1 = "CGs/General/cg-1.png"
+image general_cg2 = "CGs/General/cg-2.png"
 image seven_cg1 = "CGs/Seven/cg-1.png"
 image saeran_cg1 = "CGs/Saeran/cg-1.png"
 
@@ -390,6 +429,7 @@ image rfa_greet:
     10.0
     "transparent.png"
     0.2
+    repeat
 
 # Background Menu Squares
 image right_corner_menu = Frame("Phone UI/Main Menu/right_corner_menu.png", 45, 45)
@@ -455,9 +495,9 @@ image settings_gear_rotate:
         repeat
         
 # Other Settings
-image menu_select_btn = "Phone UI/Main Menu/menu_select_button.png"
+image menu_select_btn = Frame("Phone UI/Main Menu/menu_select_button.png",60,60)
 image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
-image menu_select_btn_hover = "Phone UI/Main Menu/menu_select_button_hover.png"
+image menu_select_btn_hover = Frame("Phone UI/Main Menu/menu_select_button_hover.png",60,60)
 
 ## ********************************
 ## Chat Home Screen ***************
@@ -559,6 +599,12 @@ image space_flame:
     "Phone UI/Main Menu/Original Story/Spaceship/spaceship_flame_small.png"
     0.6
     repeat
+image input_close = "Phone UI/Main Menu/main02_close_button.png"
+image input_close_hover = "Phone UI/Main Menu/main02_close_button_hover.png"
+image input_square = Frame("Phone UI/Main Menu/main02_text_input.png",40,40)
+image input_popup_bkgr = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",70,70)
+    
+    
 
 ## Spaceship chip animation
 image space_chip = "Phone UI/Main Menu/Original Story/Spaceship/chip.png"
@@ -600,3 +646,81 @@ image space_prize_box = "Phone UI/Main Menu/Original Story/Spaceship/space_prize
 image space_black_box = Frame("Phone UI/Main Menu/Original Story/Spaceship/main03_black_box.png",30,30,30,30)
 image space_continue = "Phone UI/Main Menu/Original Story/Spaceship/Continue.png"
 image space_continue_hover = "Phone UI/Main Menu/Original Story/Spaceship/Continue_hover.png"
+
+## Save & Load Images
+image save_auto = "Phone UI/Main Menu/msgsl_icon_m.png"
+image save_another = "Phone UI/Main Menu/msgsl_image_another.png"
+image save_april = "Phone UI/Main Menu/msgsl_image_april.png"
+image save_casual = "Phone UI/Main Menu/msgsl_image_casual.png"
+image save_deep = "Phone UI/Main Menu/msgsl_image_deep.png"
+image save_jaehee = "Phone UI/Main Menu/msgsl_image_jaehee.png"
+image save_jumin = "Phone UI/Main Menu/msgsl_image_jumin.png"
+image save_ray = "Phone UI/Main Menu/msgsl_image_ray.png"
+image save_empty = "Phone UI/Main Menu/msgsl_image_save.png"
+image save_seven = "Phone UI/Main Menu/msgsl_image_seven.png"
+image save_v = "Phone UI/Main Menu/msgsl_image_v.png"
+image save_xmas = "Phone UI/Main Menu/msgsl_image_xmas.png"
+image save_yoosung = "Phone UI/Main Menu/msgsl_image_yoosung.png"
+image save_zen = "Phone UI/Main Menu/msgsl_image_zen.png"
+
+
+## ********************************
+## Text Message Screen ************
+## ********************************
+
+image new_text_envelope = 'Text Messages/main03_email_unread.png'
+image read_text_envelope = 'Text Messages/main03_email_read.png'
+image new_text = 'Text Messages/new_text.png'
+image header_envelope = 'Text Messages/header_envelope.png'
+
+image message_idle_bkgr = Frame('Text Messages/message_idle_background.png',20,20,20,20)
+image message_hover_bkgr = Frame('Text Messages/message_hover_background.png',20,20,20,20)
+image unread_message_idle_bkgr = Frame('Text Messages/message_idle_background_unread.png',20,20,20,20)
+image unread_message_hover_bkgr = Frame('Text Messages/message_hover_background_unread.png',20,20,20,20)
+
+image text_msg_line = Frame('Text Messages/msgsl_line.png', 40,2)
+image text_answer_active = 'Text Messages/msgsl_button_answer_active.png'
+image text_answer_inactive = 'Text Messages/msgsl_button_answer_inactive.png'
+image text_answer_text = 'Text Messages/msgsl_text_answer.png'
+image text_answer_animation:
+    'Text Messages/answer_animation/1.png'
+    0.1
+    'Text Messages/answer_animation/2.png'
+    0.1
+    'Text Messages/answer_animation/3.png'
+    0.1
+    'Text Messages/answer_animation/4.png'
+    0.1
+    'Text Messages/answer_animation/5.png'
+    0.1
+    'Text Messages/answer_animation/6.png'
+    0.1
+    'Text Messages/answer_animation/7.png'
+    0.1
+    'Text Messages/answer_animation/8.png'
+    0.1
+    'Text Messages/answer_animation/9.png'
+    0.1
+    'Text Messages/answer_animation/10.png'
+    0.1
+    'Text Messages/answer_animation/11.png'
+    0.1
+    'Text Messages/answer_animation/12.png'
+    0.1
+    'Text Messages/answer_animation/13.png'
+    0.1
+    'Text Messages/answer_animation/14.png'
+    0.1
+    'Text Messages/answer_animation/15.png'
+    0.1
+    'Text Messages/answer_animation/16.png'
+    0.1
+    'Text Messages/answer_animation/17.png'
+    0.1
+    repeat
+    
+image text_popup_bkgr = "Text Messages/msgsl_popup_edge.png"
+image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.png", 0,0)
+image text_answer_idle = "Text Messages/chat-bg02_2.png"
+image text_answer_hover = "Text Messages/chat-bg02_3.png"
+image new_text_count = "Text Messages/new_msg_count.png"
