@@ -2,9 +2,8 @@
 init python:
 
     ## This is the object that each chat is stored in
-    ##  Who = the speaker, What = the text they're saying, thetime is a currently
-    ##  unused variable that keeps track of the current time in case you wanted
-    ##  to post that to the screen, 'bounce' indicates whether the message is
+    ##  Who = the speaker, What = the text they're saying, thetime keeps track
+    ##  of the current time, 'bounce' indicates whether the message is
     ##  supposed to animate in with a bounce or not (by default is false), and
     ##  specBubble is a variable that holds the name of any special speech bubbles
     ##  that should be used when displaying the text (by default is empty and a regular
@@ -23,8 +22,114 @@ init python:
         def __init__(self, who):
             self.who = who
             
-        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
-            addchat(self.who, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, txtmsg=False, sender=None, **kwargs):
+            if not txtmsg:
+                addchat(self.who, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+            else:
+                addtext(self.who, what, sender=sender, img=img)
+           
+           
+    ##************************************
+    ## For ease of creating text messages
+    ##************************************  
+    
+    def addtext(who, what, sender, img=False):
+        # Adds the new text to the queue
+        for msg in text_queue:
+            if msg.sender == sender:
+                msg.msg_list.append(Chatentry(who, what, upTime(), img))
+                msg.read = False
+                if who == 'MC':
+                    msg.deliver()
+                    msg.reply_label = False
+                    renpy.restart_interaction
+                    
+                
+
+    
+    ##************************************
+    ## For ease of adding Chatlog entries
+    ##************************************   
+
+    def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=""):  
+        global choosing, pre_choosing
+        choosing = False
+        pre_choosing = False
+        
+        global pv
+        if pauseVal == None:
+            pauseVal = pv;
+    
+        if len(chatlog) > 1:
+            finalchat = chatlog[-2]
+            if finalchat.who == "answer" or finalchat.who == "pause":
+                # Not supposed to display this bubble; delete it
+                # It's useful only as the most recent bubble as it
+                # stops the previous bubbles from animating
+                del chatlog[-2]  
+                
+        if who != "pause":
+            pauseFailsafe()
+            global chatbackup
+            chatbackup = Chatentry(who, what, upTime(), img, bounce, specBubble)
+            global oldPV
+            oldPV = pauseVal        
+                    
+        
+        if who == "answer" or who == "pause":
+            renpy.pause(pauseVal)#, hard=True)
+        elif pauseVal == 0:
+            pass
+        else:
+            typeTime = what.count(' ') + 1 # should be the number of words
+            # Since average reading speed is 200 wpm or 3.3 wps
+            typeTime = typeTime / 3
+            if typeTime < 1.5:
+                typeTime = 1.5
+            typeTime = typeTime * pauseVal
+            renpy.pause(typeTime)#, hard=True)
+        
+        if img == True:
+            if what in emoji_lookup:
+                renpy.play(emoji_lookup[what], channel="voice_sfx")
+           
+        chatlog.append(Chatentry(who, what, upTime(), img, bounce, specBubble))
+            
+    ## Function that checks if an entry was successfully added to the chat
+    ## A temporary fix for the pause button bug
+    ## This also technically means a character may be unable to post the exact
+    ## same thing twice in a row depending on when the pause button is used
+    def pauseFailsafe():
+        global chatbackup
+        global oldPV
+        last_entry = None
+        if len(chatlog) > 0:
+            last_entry = chatlog[-1]
+            if last_entry.who == "answer":
+                # Last entry is now two from the final entry
+                if len(chatlog) > 1:
+                    last_entry = chatlog[-2]
+        if chatbackup.who == "filler" or chatbackup.who == "answer":
+            return
+        if last_entry != None and last_entry.who == chatbackup.who and last_entry.what == chatbackup.what:
+            # Means the last entry successfully made it to the chat log
+            return
+        else:
+            # User may have paused somewhere in there and the program skipped a
+            # dialogue bubble; post it first before posting the current entry
+            typeTime = chatbackup.what.count(' ') + 1 # should be the number of words
+            # Since average reading speed is 200 wpm or 3.3 wps
+            typeTime = typeTime / 3
+            if typeTime < 1.5:
+                typeTime = 1.5
+            typeTime = typeTime * oldPV
+            renpy.pause(typeTime)
+            
+            if chatbackup.img == True:
+                if chatbackup.what in emoji_lookup:
+                    renpy.play(emoji_lookup[chatbackup.what], channel="voice_sfx")
+               
+            chatlog.append(Chatentry(chatbackup.who, chatbackup.what, upTime(), chatbackup.img, chatbackup.bounce, chatbackup.specBubble))
             
            
     ##****************************
@@ -45,77 +150,7 @@ init python:
     v = Chat("V")
     msg = Chat("msg")
     
-    chatlog = []
-    # Currently these are unused
-    chatArchive = {}    # this will be a dictionary
-                        # that stores an entire chatroom per index
-                        # The idea is to store chats in this dictionary with the key as the day,
-                        # and then the value is a list of chatlog lists
-                       
-    ## You can declare characters here and their profile pictures
-    ## As of now, you can either change profile pictures here or by updating
-    ## the variable (see the example when MC is changed in script.rpy)
-    ## Each entry is of the style:
-    ## "Short Form": "address of profile photo"
-    chatportrait = {'Ju': 'Profile Pics/Jumin/ju-default.png', 
-                    'Zen': 'Profile Pics/Zen/zen-default.png', 
-                    'Sev': 'Profile Pics/Seven/sev-default.png', 
-                    'Yoo' : 'Profile Pics/Yoosung/yoo-default.png',                     
-                    'Ja': 'Profile Pics/Jaehee/ja-default.png',                    
-                    'V' : 'Profile Pics/V/V-default.png',
-                    'MC' : 'Profile Pics/MC/MC-1.png', 
-                    'Ray' : 'Profile Pics/Ray/ray-default.png',
-                    'Rika' : 'Profile Pics/Rika/rika-default.png',
-                    
-                    'Unk' : 'Profile Pics/Unknown/Unknown-1.png',
-                    'Sae' : 'Profile Pics/Saeran/sae-1.png'
-                    } 
-
-    ## This is where you store character nicknames so you don't
-    ##  have to type out their full name every time
-    ##  Somewhat moot as I've declared variables to hold the name of
-    ##  their nickname elsewhere, but it's still useful
-    ## Format:
-    ## "Nickname/Short Form": "Full Name as it should appear in the chat"
-    chatnick = {'Sev': '707', 
-                'Zen': 'ZEN', 
-                'Ja' : 'Jaehee Kang', 
-                'Ju' : 'Jumin Han', 
-                'Yoo' : 'Yoosung★', 
-                'MC' : 'MC♥',     # This is the default name and is replaced when the user enters a custom one
-                'Rika' : 'Rika',
-                'V' : 'V',
-                'Sae' : 'Saeran',
-                'Unk' : 'Unknown',
-                "msg" : "msg", 
-                "filler" : "filler",
-                'Ray' : 'Ray'
-                } 
-                
-    ## The characters' status as it shows up on their profile page
-    chatstatus = {'Sev': "707's status", 
-                'Zen': "Zen's status", 
-                'Ja' : "Jaehee's status", 
-                'Ju' : "Jumin's status", 
-                'Yoo' : "Yoosung's status",
-                'Rika' : "Rika's status",
-                'V' : "V's status",
-                'Sae' : "Saeran's status",
-                'Unk' : "Unknown's status",
-                'Ray' : "Ray's status"} 
-                
-    ## The characters' cover photos as it shows up on their profile page
-    chatcover = {'Sev': "Cover Photos/profile_cover_photo.png", 
-                'Zen': "Cover Photos/profile_cover_photo.png", 
-                'Ja' : "Cover Photos/profile_cover_photo.png", 
-                'Ju' : "Cover Photos/profile_cover_photo.png", 
-                'Yoo' : "Cover Photos/profile_cover_photo.png", 
-                'Rika' : "Cover Photos/profile_cover_photo.png", 
-                'V' : "Cover Photos/profile_cover_photo.png", 
-                'Sae' : "Cover Photos/profile_cover_photo.png", 
-                'Unk' : "Cover Photos/profile_cover_photo.png", 
-                'Ray' : "Cover Photos/profile_cover_photo.png"} 
-                
+   
     ### Set a variable to infinity, to be used later -- it keeps the viewport scrolling to the bottom
     yadjValue = float("inf")
     ### Create a ui.adjustment object and assign it to a variable so that we can reference it later. 
@@ -128,9 +163,9 @@ init python:
     nickColour = "#000000"   
 
 
-default new_msg_clicked = False
-
 screen messenger_screen:
+
+    tag menu
 
     python:
         if yadj.value == yadj.range:
