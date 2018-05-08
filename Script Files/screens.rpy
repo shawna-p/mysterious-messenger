@@ -216,11 +216,28 @@ style input:
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
 screen choice(items):
+    zorder 150
     style_prefix "choice"
-
-    vbox:
-        for i in items:
-            textbutton i.caption action i.action
+    
+    if reply_screen: # or draft_screen
+        use text_message_screen(current_message)
+        add "Phone UI/choice_dark.png"
+        vbox:
+            for i in items:
+                if not observing or i.chosen:
+                    textbutton i.caption:
+                        background 'text_answer_idle'
+                        hover_background 'text_answer_hover'
+                        text_idle_color '#fff'
+                        text_hover_color '#fff'
+                        action [i.action]
+    
+    else:
+        add 'Phone UI/choice_dark.png'
+        vbox:
+            for i in items:
+                if not observing or i.chosen:
+                    textbutton i.caption action i.action
 
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
@@ -1146,6 +1163,7 @@ style help_label_text:
 
 image menu_popup_bkgrd = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",60,60,60,60)
 image menu_popup_btn = Frame("Phone UI/Main Menu/menu_popup_btn.png",20,20,20,20)
+image menu_popup_btn_hover = Frame("Phone UI/Main Menu/menu_popup_btn_hover.png",20,20,20,20)
 
 screen confirm(message, yes_action, no_action):
 
@@ -1177,11 +1195,13 @@ screen confirm(message, yes_action, no_action):
                     text_style "confirm_text"
                     xsize 200
                     background "menu_popup_btn" padding(20,20)
+                    hover_background "menu_popup_btn_hover"
                     action yes_action
                 textbutton _("Cancel"): 
                     text_style "confirm_text"
                     xsize 200
                     background "menu_popup_btn" padding(20,20)
+                    hover_background "menu_popup_btn_hover"
                     action no_action
 
     ## Right-click and escape answer "no".
@@ -1278,11 +1298,11 @@ screen notify(message):
 
     zorder 100
     style_prefix "notify"
+    if message != 'blank':
+        frame at notify_appear:
+            text "[message!tq]"
 
-    frame at notify_appear:
-        text "[message!tq]"
-
-    timer 3.25 action Hide('notify')
+        timer 3.25 action Hide('notify')
 
 
 transform notify_appear:
