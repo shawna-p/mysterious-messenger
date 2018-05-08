@@ -6,9 +6,6 @@ init -1 python:
         trans.xpos = renpy.random.random()
         return None
         
-# A starry night background with some static stars
-image bg starry_night = "Phone UI/bg-starry-night.png"
-
 # These are the stars that will be animated
 image small star:
     function star_func
@@ -33,22 +30,20 @@ image medium star:
 
 # This makes it easier to call the starry night background
 screen starry_night:
-    image "bg starry_night"
-    image "small star"
-    image "small star"
-    image "small star"
-    image "small star"
-    image "small star"
-    image "small star"
-    image "small star"
-    image "medium star"
-    image "medium star"
-    image "medium star"
-    image "medium star"
-    image "medium star"
-    image "medium star"
-    
-#label splashscreen:
+    add "bg starry_night"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "medium star"
+    add "medium star"
+    add "medium star"
+    add "medium star"
+    add "medium star"
+    add "medium star"
 
 image load_circle:
     "Phone UI/Main Menu/loading_circle.png"
@@ -62,13 +57,16 @@ image load_close = "Phone UI/Main Menu/loading_close.png"
 image load_tip_panel = Frame("Phone UI/Main Menu/loading_tip_panel.png", 300,100,80,80)
 
 label splashscreen:
-    show screen splash_screen_test
+    if persistent.first_boot:
+        call define_variables
+    show screen loading_screen
     pause 1.0
-    hide screen splash_screen_test
+    hide screen loading_screen
     return
     
-screen splash_screen_test:
+screen loading_screen:
 
+    zorder 90
     tag menu
     
     use starry_night
