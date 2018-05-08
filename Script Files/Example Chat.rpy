@@ -3,6 +3,10 @@ label example_chat:
     $ first_choice = True
     $ choice_picked = None
     
+    $ chatroom_name = 'Example Chatroom'
+    $ day_num = 'Tutorial'
+    $ route_title = 'auto'
+    
     call hack      
     call chat_begin("hack")
     
@@ -332,7 +336,7 @@ label ending:
     msg "Unknown has entered the chatroom"
     u "{=curly}You're back!{/=curly}" (bounce=True)
     u "{=sser2}So what did you think?{/=sser2}"
-    u "{/=sser2}Are you ready to start making your own chatrooms?{=sser2}"
+    u "{=sser2}Are you ready to start making your own chatrooms?{/=sser2}"
     call answer
     menu:
         "Definitely!":
