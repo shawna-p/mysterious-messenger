@@ -8,25 +8,27 @@ init python:
                 
                 if not hasattr(store, var):
                     setattr(store, var, default)
-                    mcName = {"MC": "Wrong"}
-                    chatnick.update(mcName)
-                    
+                                        
             def get_text(self):
                 return getattr(store, self.var)
                 
             def set_text(self, s):
+                global name
+            
                 s = s.strip()
                 setattr(store, self.var, s)  
                 persistent.name = s
-                mcName = {"MC": "Wrong"}
-                chatnick.update(mcName)
                 renpy.save_persistent()
+                name = persistent.name  
+
+                mcName = {"MC": name}
+                chatnick.update(mcName) 
+                renpy.retain_after_load()                
+                
                 
             def enter(self):
-                global cantype
-                cantype = False
-                #renpy.run(self.Disable())                
-                #raise renpy.IgnoreEvent()
+                renpy.run(self.Disable())                
+                raise renpy.IgnoreEvent()
                
     # This lets you change the MC's profile picture by clicking on it
     # Currently you can only use the pre-set images, not upload your own
@@ -39,12 +41,12 @@ init python:
         thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
         mcImage = {"MC": thepic}
         chatportrait.update(mcImage)
+        renpy.retain_after_load()
         
+    ## This picks a greeting depending on the time of day and plays it
     def chat_greet(hour, greet_char):  
-        global greeted
+        global greeted, greet_text_english, greet_text_korean
         greeted = True
-        global greet_text_english
-        global greet_text_korean        
         greet_text_english = "Welcome to my Mystic Messenger Generator!"
         
         if hour >= 6 and hour < 12:  # morning
@@ -82,6 +84,7 @@ init python:
             the_greeting = renpy.random.randint(1, num_greetings) - 1
             renpy.play(late_night_greeting[greet_char][the_greeting], channel="voice_sfx")
         
+    # This is used to make the spaceship float to a random location on the line
     def spaceship_xalign_func(trans,st,at):
         if st > 1.0:
             trans.xalign = spaceship_xalign
@@ -94,12 +97,37 @@ init python:
         trans.xalign = spaceship_xalign
         return None
         
+    # Returns a random position along the spaceship line at the bottom
+    # of the screen
     def spaceship_get_xalign(new_num=False):
         global spaceship_xalign
         if new_num:
             spaceship_xalign = renpy.random.random()
             spaceship_xalign = spaceship_xalign * 0.8 + 0.04
         return spaceship_xalign
+        
+    # Sets the player's pronouns, if they change them
+    def set_pronouns():
+        global they, them, their, theirs, themself
+        if persistent.pronoun == "female":
+            they = "she"
+            them = "her"
+            their = "her"
+            theirs = "hers"
+            themself = "herself"
+        elif persistent.pronoun == "male":
+            they = "he"
+            them = "him"
+            their = "his"
+            theirs = "his"
+            themself = "himself"
+        elif persistent.pronoun == "nonbinary":
+            they = "they"
+            them = "them"
+            their = "their"
+            theirs = "theirs"
+            themself = "themself"
+        renpy.retain_after_load()
         
 
 # This lets it randomly pick a profile picture to display        
@@ -112,9 +140,8 @@ define character_list = ['jaehee', 'jumin', 'ray', 'rika', 'seven',
 default greet_text_korean = "제 프로그램으로 환영합니다!"
 default greet_text_english = "Welcome to my Mystic Messenger Generator!"
 
-
-    repeat
-
+# A variable that keeps track of whether or not the player has been "greeted"
+# in order to prevent it from constantly greeting you when you switch screens
 default greeted = False
 
 
@@ -128,7 +155,7 @@ screen main_menu:
 
     tag menu
     
-    $ renpy.play(mystic_chat, channel="music")
+    $ renpy.music.play(mystic_chat, loop=True)
     
     python:
         thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
@@ -151,14 +178,16 @@ screen main_menu:
     # You can see them defined in 'starry night bg.rpy'
     use starry_night
         
-    add "rfa_greet" yalign 0.01 xalign 0.25
-    
+        
+    ## Greeting Bubble/Dialogue
+    add "rfa_greet" yalign 0.01 xalign 0.25   
     
     window:
         maximum(670,140)
         xpos 380
         ypos 260
         add "greeting_panel"
+        
     hbox:
         window:
             maximum(143,127)
@@ -177,7 +206,7 @@ screen main_menu:
         text "[greet_text_english]" style "greet_text" yalign 0.5
 
     
-    # Note that most of these don't actually take you to the kind of screen you want >.<
+    # The main menu buttons. Note that many currently don't take you to the screen you'd want
     window:
         maximum(695, 650)
         xalign 0.6
@@ -189,69 +218,16 @@ screen main_menu:
                     padding (10, 10)
                     # Original Story
                     # Top left
-                    imagebutton:
+                    button:
                         focus_mask True
-                        idle "left_corner_menu"
-                        hover "left_corner_menu_selected"
+                        background "left_corner_menu"
+                        hover_background "left_corner_menu_selected"
                         activate_sound "sfx/UI/select_4.mp3"
-                        action Show('chat_home')
-                
-                vbox:
-                    window:
-                        maximum(225, 210)
-                        padding (10, 10)
-                        # Save and Load
-                        # Top Right
-                        imagebutton:
-                            focus_mask True
-                            idle "right_corner_menu" 
-                            hover "right_corner_menu_selected"
-                            action ShowMenu("load")    
-                            
-                    window:
-                        maximum(225, 210)
-                        padding (10, 10)
-                        # After Ending
-                        # Mid Right
-                        imagebutton:
-                            focus_mask True
-                            idle "right_corner_menu" 
-                            hover "right_corner_menu_selected"
-                            action Show('window_test')
-            hbox:
-                window:
-                    maximum(450,210)
-                    padding (10, 10)
-                    # History
-                    # Bottom Left
-                    imagebutton:
-                        focus_mask True
-                        idle "left_corner_menu"
-                        hover "left_corner_menu_selected"
-                        action Start()#ShowMenu("history")
-                    
-                window:
-                    maximum(225, 210)
-                    padding (10, 10)
-                    # DLC
-                    # Bottom Right
-                    imagebutton:
-                        focus_mask True
-                        idle "right_corner_menu" 
-                        hover "right_corner_menu_selected"
-                        action ToggleVariable('chips_available', False, True) #Jump("splashscreen")
-                    
-                    
-    window:
-        maximum(695, 650)
-        xalign 0.6
-        yalign 0.61
-        vbox:
-            hbox:
-                window:
-                    style "menu_top_left_window"
-                    # Original Story
-                    # Top left
+                        if persistent.on_route:
+                            action [QuickLoad(False)]
+                        else:
+                            action Show('route_select_screen') #TODO: This screen
+                        
                     vbox:    
                         align(0.5, 0.5)
                         add "menu_original_story" xpos 20
@@ -259,17 +235,32 @@ screen main_menu:
                 
                 vbox:
                     window:
-                        style "menu_right_window"
-                        # Save and load
+                        maximum(225, 210)
+                        padding (10, 10)
+                        # Save and Load
                         # Top Right
+                        button:
+                            focus_mask True
+                            background "right_corner_menu" 
+                            hover_background "right_corner_menu_selected"
+                            action ShowMenu("load")    
+                            
                         vbox:                               
                             align(0.5, 0.5)
                             add "menu_save_load" xpos 25
                             text "Save & Load" style "menu_text_small" ypos 10
+                            
                     window:
-                        style "menu_right_window"
+                        maximum(225, 210)
+                        padding (10, 10)
                         # After Ending
                         # Mid Right
+                        button:
+                            focus_mask True
+                            background "right_corner_menu" 
+                            hover_background "right_corner_menu_selected"
+                            action Return
+                            
                         vbox:                               
                             xcenter 0.5
                             ycenter 0.5
@@ -277,25 +268,64 @@ screen main_menu:
                             text "After Ending" style "menu_text_small" ypos 20
             hbox:
                 window:
-                    style "menu_bottom_left_window"
+                    maximum(450,210)
+                    padding (10, 10)
                     # History
                     # Bottom Left
+                    button:
+                        focus_mask True
+                        background "left_corner_menu"
+                        hover_background "left_corner_menu_selected"
+                        action ToggleField(persistent, 'on_route', False)
+                        
                     vbox:                               
                         align(0.5, 0.5)
                         add "menu_history" xpos 15 ypos 3
                         text "History" style "menu_text_big" ypos 13
                     
                 window:
-                    style "menu_right_window"
+                    maximum(225, 210)
+                    padding (10, 10)
                     # DLC
                     # Bottom Right
+                    button:
+                        focus_mask True
+                        background "right_corner_menu" 
+                        hover_background "right_corner_menu_selected"
+                        action ToggleVariable('chips_available', False, True)
+                        
                     vbox:                               
                         align(0.5, 0.5)
                         add "menu_dlc"
                         text "DLC" style "menu_text_small" xpos 25 ypos 15
-                        
- 
-              
+                    
+                    
+    
+## A short, not completely implemented screen where you select
+## which route you'd like to start on
+screen route_select_screen:
+
+    tag menu
+    
+    use starry_night
+    
+    use menu_header("Mode Select")
+
+    window:
+        maximum(700, 350)
+        padding (10, 10)
+        xalign 0.5
+        yalign 0.5
+        button:
+            focus_mask True
+            background "right_corner_menu" 
+            hover_background "right_corner_menu_selected"
+            action [ToggleField(persistent, 'on_route', True), Start()] 
+            
+        text "Start Game" style "menu_text_small" xalign 0.5 yalign 0.5
+    
+
+  
 ## Load and Save screens #######################################################
 ##
 ## These screens are responsible for letting the player save the game and load
@@ -325,8 +355,7 @@ screen file_slots(title):
     use starry_night
     
     use menu_header(title)
-        
-    
+                            
     fixed:
 
         ## This ensures the input will get the enter event before any of the
@@ -355,39 +384,68 @@ screen file_slots(title):
             for i in range(gui.file_slot_cols * gui.file_slot_rows):
 
                 $ slot = i + 1
+                
+                
+                $ save_title = route_title + '|' + day_num + '|' + chatroom_name
+                if '|' in FileSaveName(slot):
+                    $ rt, dn, cn = FileSaveName(slot).split('|')
+                else:                    
+                    $ rt, dn, cn = save_title.split('|')
+               
 
                 button:
-                    action FileAction(slot)
+                    if title == "Save":
+                        action [SetVariable('save_name', save_title), FileAction(slot)]
+                    else:
+                        action FileAction(slot)
 
-                    has hbox
-                    spacing 10
-
-                    # TODO: Implement a variable that keeps track of whose route you're on
-                    # Then the appropriate picture can be appended to the save file instead
-                    add FileScreenshot(slot) xalign 0.0
-                    
-                    window:
-                        xmaximum 435
-                        yalign 0.5
-                        has vbox
-                        text "Name of Chatroom" style "save_slot_text"
-                        spacing 40
-                        text "Today: 10th DAY" style "save_slot_text"
+                    hbox:
+                        spacing 10
                         
-                    window:
-                        xmaximum 175
-                        has vbox
+                        window:
+                            maximum(120, 120)
+                            if FileLoadable(slot):
+                                add 'save_' + rt xalign 0.5 yalign 0.5
+                            else:
+                                add 'save_empty' xalign 0.5 yalign 0.5
                         
-                        text FileTime(slot, format=_("{#file_time}%m/%d %H:%M"), empty=_("empty slot")):
-                            style "save_timestamp"
+                        window:
+                            xmaximum 415
+                            ysize 120
+                            yalign 0.0
+                            has vbox
+                            spacing 8
+                            if FileLoadable(slot):
+                                fixed:
+                                    ysize 75
+                                    text "[cn]" style "save_slot_text" yalign 0.0
+                                text "Today: [dn] DAY" style "save_slot_text" yalign 1.0
+                            else:
+                                fixed:
+                                    ysize 75
+                                    text "Empty Slot" style "save_slot_text" yalign 0.0
+                                text "Tap an empty slot to save" style 'save_slot_text' yalign 1.0
                             
-                        spacing 30
+                        window:
+                            maximum (155,120)
+                            has vbox
+                            
+                            fixed:
+                                xsize 155
+                                yfit True
+                                text FileTime(slot, format=_("{#file_time}%m/%d %H:%M"), empty=_("empty slot")):
+                                    style "save_timestamp"
+                                
+                            spacing 30
 
-                        imagebutton:
-                            hover im.FactorScale("Phone UI/Main Menu/save_trash_hover.png",1.05)
-                            idle "Phone UI/Main Menu/save_trash.png"
-                            xalign 1.0
-                            action FileDelete(slot)
+                            fixed:
+                                xsize 155
+                                yfit True
+                                imagebutton:
+                                    hover im.FactorScale("Phone UI/Main Menu/save_trash_hover.png",1.05)
+                                    idle "Phone UI/Main Menu/save_trash.png"
+                                    xalign 1.0
+                                    action FileDelete(slot)
 
                     key "save_delete" action FileDelete(slot)
 
@@ -564,7 +622,7 @@ screen preferences():
 #Analogue or Digital, hours, minutes, size, second hand, military time
 default my_menu_clock = Clock(False, 0, 0, 230, False, False) 
     
-screen menu_header(title):
+screen menu_header(title, envelope=False):
 
     $ my_menu_clock.runmode("real")
     hbox:
@@ -573,25 +631,27 @@ screen menu_header(title):
         text am_pm style 'header_clock' 
     
     
-    window:
-        maximum(600, 80)
-        yalign 0.01
-        xalign 0.86
-        hbox:
+    if not persistent.first_boot:
+        window:
+            maximum(600, 80)
             yalign 0.01
-            xalign 0.5
-            add 'header_tray'
-            imagebutton:
-                idle "header_plus"
-                hover "header_plus_hover"
-                action Return()
-            add 'header_tray'
+            xalign 0.86
+            hbox:
+                yalign 0.01
+                xalign 0.5
+                add 'header_tray'
+                imagebutton:
+                    idle "header_plus"
+                    hover "header_plus_hover"
+                    if not renpy.get_screen("choice"):
+                        action Return()
+                add 'header_tray'
+                
+            add "header_hg" yalign 0.1 xalign 0.16
+            add "header_heart" yalign 0.1 xalign 0.65
             
-        add "header_hg" yalign 0.1 xalign 0.16
-        add "header_heart" yalign 0.1 xalign 0.65
-        
-        text "[persistent.HG]" style "hg_heart_points" xalign 0.35 yalign 0.01
-        text "[persistent.HP]" style "hg_heart_points" xalign 0.83 yalign 0.01
+            text "[persistent.HG]" style "hg_heart_points" xalign 0.35 yalign 0.01
+            text "[persistent.HP]" style "hg_heart_points" xalign 0.83 yalign 0.01
         
         
     ## Header
@@ -601,7 +661,15 @@ screen menu_header(title):
             yalign 0.058
             add "menu_header"
             
-        text title color "#ffffff" size 40 xalign 0.5 text_align 0.5 yalign 0.072
+        if not envelope:
+            text title color "#ffffff" size 40 xalign 0.5 text_align 0.5 yalign 0.072
+        else:
+            hbox:
+                xalign 0.5 
+                yalign 0.072
+                spacing 15
+                add 'header_envelope' xalign 0.5 yalign 0.5
+                text title color "#ffffff" size 40 text_align 0.5
         
         # Back button
         imagebutton:
@@ -610,20 +678,28 @@ screen menu_header(title):
             idle "menu_back"
             focus_mask None
             hover im.FactorScale("Phone UI/Main Menu/menu_back_btn.png", 1.1)
-            if title == "Profile" or title == "Settings":
-                action [ToggleVariable("greeted", False, False), ShowMenu('chat_home')]
-            else:
-                action [ToggleVariable("greeted", False, False), Return()]
+            if not renpy.get_screen("choice"):
+                if title == "Profile" or title == "Settings" or title == "Text Message" or title == "Load" or title == "Save":
+                    action [Show('chat_home', Dissolve(0.5))]
+                elif envelope:
+                    action Show('text_message_hub', Dissolve(0.5))
+                elif persistent.first_boot or not persistent.on_route:
+                    action MainMenu(False)
+                else:
+                    action [ToggleVariable("greeted", False, False), Return()]
+                
         
-    # Settings gear
-    if title != "Setings":
-        imagebutton:
-            xalign 0.98
-            yalign 0.01
-            idle "settings_gear"
-            hover "settings_gear_rotate"
-            focus_mask None
-            action ShowMenu("preferences")  
+    if not persistent.first_boot:
+        # Settings gear
+        if title != "Setings":
+            imagebutton:
+                xalign 0.98
+                yalign 0.01
+                idle "settings_gear"
+                hover "settings_gear_rotate"
+                focus_mask None
+                if not renpy.get_screen("choice"):
+                    action Show("preferences", Dissolve(0.5))  
       
 
   
@@ -641,43 +717,41 @@ screen settings_tabs(active_tab):
         has hbox
         spacing 10
         # Account / Sound / Others tab
-        window:
-            maximum(231,57)
-            imagebutton:
-                if active_tab == "Profile":
-                    idle "menu_tab_active"
-                else:
-                    idle "menu_tab_inactive"
-                    hover "menu_tab_inactive_hover"
-                    action Show("profile_pic", Dissolve(0.5))
-            text "Profile" style "settings_style" xalign 0.5 yalign 0.5
-        window:
-            maximum(231,57)
-            imagebutton:
-                if active_tab == "Sound":
-                    idle "menu_tab_active"
-                else:
-                    idle "menu_tab_inactive"
-                    hover "menu_tab_inactive_hover"
-                    action Show("preferences", Dissolve(0.5))
-            text "Sound" style "settings_style" xalign 0.5 yalign 0.5
+        textbutton _('Profile'):
+            text_style "settings_tabs" 
+            xsize 231
+            ysize 57
+            if active_tab == "Profile":
+                background "menu_tab_active"
+            else:
+                background "menu_tab_inactive"
+                hover_background "menu_tab_inactive_hover"
+                action Show("profile_pic", Dissolve(0.5))
                 
-        window:
-            maximum(231,57)
-            imagebutton:
-                if active_tab == "Others":
-                    idle "menu_tab_active"
-                else:
-                    idle "menu_tab_inactive"
-                    hover "menu_tab_inactive_hover"
-                    action Show("other_settings",Dissolve(0.5))
-            text "Others" style "settings_style" xalign 0.5 yalign 0.5
-                
+        textbutton _('Sound'):
+            text_style "settings_tabs" 
+            xsize 231
+            ysize 57
+            if active_tab == "Sound":
+                background "menu_tab_active"
+            else:
+                background "menu_tab_inactive"
+                hover_background "menu_tab_inactive_hover"
+                action Show("preferences", Dissolve(0.5))
+            
+        textbutton _('Others'):
+            text_style "settings_tabs"  
+            xsize 231
+            ysize 57
+            if active_tab == "Others":
+                background "menu_tab_active"
+            else:
+                background "menu_tab_inactive"
+                hover_background "menu_tab_inactive_hover"
+                action Show("other_settings", Dissolve(0.5))              
                 
 
         
-default cantype = False
-
 ########################################################
 ## The "Profile" tab of Settings. Allows you to change
 ## your profile pic, name, and preferred pronouns
@@ -691,7 +765,8 @@ screen profile_pic:
     # You can see them defined in 'starry night bg.rpy'
     use starry_night
 
-    use settings_tabs("Profile")  
+    if not persistent.first_boot:
+        use settings_tabs("Profile")  
     
     window:
         yalign 0.7
@@ -700,29 +775,15 @@ screen profile_pic:
         ## Edit MC's Name
         add "name_line" xalign 0.079 yalign 0.475
         
-        $ input = Input(value=MyInputValue("persistent.name", persistent.name), style="my_input", length=20)
-            
-        button:        
-            style "input_img_answer"
-            action ToggleVariable('cantype', False, True)        
-            if cantype:
-                add input
-            else:
-                text persistent.name style "my_input"
+        text persistent.name style "my_name"
         
         imagebutton:
-            if not cantype:
-                idle "menu_edit"
-            else:
-                idle "menu_check_edit"
+            idle "menu_edit"
             focus_mask None
             xalign 0.06 #0.475
             yalign 0.453 #0.457
-            if not cantype:
-                hover im.FactorScale("Phone UI/Main Menu/menu_pencil_long.png",1.03)
-            else:
-                hover im.FactorScale("Phone UI/Main Menu/menu_check_long.png",1.03)
-            action ToggleVariable('cantype', False, True)  
+            hover im.FactorScale("Phone UI/Main Menu/menu_pencil_long.png",1.03)
+            action Show('input_popup', prompt='Please input a name.') 
 
         ## MC's profile picture
         imagebutton:
@@ -741,81 +802,129 @@ screen profile_pic:
         xalign 0.5
         yalign 0.5
         text "Preferred Pronouns" style "pronoun_label"
-        hbox:
+        button:     
+            action [SetField(persistent, "pronoun", "female"), set_pronouns, renpy.restart_interaction]
+            has hbox
             spacing 10
             if persistent.pronoun == "female":
                 add "radio_on"
+                text 'she/her' color '#fff' hover_color '#ddd'
             else:
-                add "radio_off"
-            textbutton _("she/her") action [SetField(persistent, "pronoun", "female"), renpy.restart_interaction]
-        hbox:
+                add "radio_off"            
+                text 'she/her' hover_color '#fff' color '#ddd'
+            
+        button:
+            action [SetField(persistent, "pronoun", "male"), set_pronouns, renpy.restart_interaction]
+            has hbox
             spacing 10
             if persistent.pronoun == "male":
                 add "radio_on"
+                text 'he/him' color '#fff' hover_color '#ddd'
             else:
                 add "radio_off"
-            textbutton _("he/him") action [SetField(persistent, "pronoun", "male"), renpy.restart_interaction]
+                text 'he/him' hover_color '#fff' color '#ddd'
             
-        hbox:
+            
+        button:
+            action [SetField(persistent, "pronoun", "nonbinary"), set_pronouns, renpy.restart_interaction]
+            has hbox
             spacing 10
             if persistent.pronoun == "nonbinary":
                 add "radio_on"
+                text 'they/them' color '#fff' hover_color '#ddd'
             else:
                 add "radio_off"
-            textbutton _("they/them") action [SetField(persistent, "pronoun", "nonbinary"), renpy.restart_interaction]
-                       
+                text 'they/them' hover_color '#fff' color '#ddd'
+             
         
         
-    use menu_header("Settings")
-    
+    if not persistent.first_boot:
+        use menu_header("Settings")
+    else:
+        use menu_header("Customize your Profile")
+        
+    if not persistent.first_boot:            
+        ## Save / Load
+        imagebutton:
+            yalign 0.978
+            xalign 0.66
+            idle "save_btn"
+            hover im.FactorScale("Phone UI/Main Menu/menu_save_btn.png",1.1)
+            action Show("save", Dissolve(0.5))
             
-    ## Save / Load
-    imagebutton:
-        yalign 0.978
-        xalign 0.66
-        idle "save_btn"
-        hover im.FactorScale("Phone UI/Main Menu/menu_save_btn.png",1.1)
-        if main_menu:
-            action ShowMenu("load")
-        else:
-            action ShowMenu("save")
-        
-    imagebutton:
-        yalign 0.978
-        xalign 0.974
-        idle "load_btn"
-        hover im.FactorScale("Phone UI/Main Menu/menu_load_btn.png",1.1)
-        action ShowMenu("load")
+        imagebutton:
+            yalign 0.978
+            xalign 0.974
+            idle "load_btn"
+            hover im.FactorScale("Phone UI/Main Menu/menu_load_btn.png",1.1)
+            action Show("load", Dissolve(0.5))
         
         
-    ## Possibly temporary, but shows how many heart points you've earned
-    ## with each character
-    
-    grid 4 4:
-        xalign 0.5
-        yalign 0.95
-        add 'greet jaehee'
-        add 'greet jumin'
-        add 'greet ray'
-        add 'greet rika'
+        ## Possibly temporary, but shows how many heart points you've earned
+        ## with each character
         
-        text str(heart_points['ja']) + " {image=header_heart}" style "point_indicator"
-        text str(heart_points['ju']) + " {image=header_heart}" style "point_indicator"
-        text str(heart_points['sa']) + " {image=header_heart}" style "point_indicator"
-        text str(heart_points['r']) + " {image=header_heart}" style "point_indicator"
-        
-        add 'greet seven'
-        add 'greet v'
-        add 'greet yoosung'
-        add 'greet zen'
-        
-        text str(heart_points['s']) + " {image=header_heart}" style "point_indicator"
-        text str(heart_points['v']) + " {image=header_heart}" style "point_indicator"
-        text str(heart_points['y']) + " {image=header_heart}" style "point_indicator"
-        text str(heart_points['z']) + " {image=header_heart}" style "point_indicator" 
+        grid 4 4:
+            xalign 0.5
+            yalign 0.95
+            add 'greet jaehee'
+            add 'greet jumin'
+            add 'greet ray'
+            add 'greet rika'
+            
+            text str(heart_points['Ja']) + " {image=header_heart}" style "point_indicator"
+            text str(heart_points['Ju']) + " {image=header_heart}" style "point_indicator"
+            text str(heart_points['Sae']) + " {image=header_heart}" style "point_indicator"
+            text str(heart_points['Rika']) + " {image=header_heart}" style "point_indicator"
+            
+            add 'greet seven'
+            add 'greet v'
+            add 'greet yoosung'
+            add 'greet zen'
+            
+            text str(heart_points['Sev']) + " {image=header_heart}" style "point_indicator"
+            text str(heart_points['V']) + " {image=header_heart}" style "point_indicator"
+            text str(heart_points['Yoo']) + " {image=header_heart}" style "point_indicator"
+            text str(heart_points['Zen']) + " {image=header_heart}" style "point_indicator" 
     
 
                 
+screen input_popup(prompt=''):
+
+    zorder 100
+    modal True
+    
+    $ old_name = persistent.name
+    $ input = Input(value=MyInputValue("persistent.name", persistent.name), style="my_input", length=20)
+    
+    window:
+        maximum(550,313)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.4
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action [Hide('input_popup'), SetDict(chatnick, 'MC', old_name), SetVariable('name', old_name), SetField(persistent, 'name', old_name), renpy.retain_after_load, Show('profile_pic')]
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.5
+            text prompt color '#fff' xalign 0.5 text_align 0.5
+            fixed:
+                xsize 500 
+                ysize 75
+                xalign 0.5
+                add 'input_square'
+                add input  xalign 0.5 yalign 0.5
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 80
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Hide('input_popup'), Show('profile_pic')]
 
 
 ########################################################
@@ -861,31 +970,28 @@ screen other_settings():
             ## Additional vboxes of type "radio_pref" or "check_pref" can be
             ## added here, to add additional creator-defined preferences.
             
+        
+        
         window:
-            maximum (517, 116)
+            maximum (520, 130)
             xalign 0.5
             has hbox
             spacing 40
-            imagebutton:
-                idle "menu_select_btn"
-                hover "menu_select_btn_hover"
-                action [ToggleVariable("greeted", False, False), ShowMenu("main_menu")]
-            imagebutton:
-                idle "menu_select_btn"
-                hover "menu_select_btn_hover"
+            textbutton _('Go to Mode Select'):
+                text_style 'mode_select'
+                xsize 240
+                ysize 120
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [ToggleVariable("greeted", False, False), renpy.full_restart]
+                
+            textbutton _('Start Over'):
+                text_style 'mode_select'
+                xsize 240
+                ysize 120
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
                 action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", yes_action=[Hide('confirm'), Jump("restart_game")], no_action=Hide('confirm'))
-
-    hbox:
-        spacing 90
-        xalign 0.45
-        yalign 0.812
-        window:
-            maximum(190,100)
-            text "Go to Mode Select" style "mode_select"
-            
-        window:
-            maximum(190,100)
-            text "Start Over" style "mode_select"
             
             
 # *********************************
@@ -898,8 +1004,10 @@ label restart_game:
             newVal = {key: 0}
             heart_points.update(newVal)
         
-    # presumably some more resets here
-    call screen main_menu
+        # presumably some more resets here
+        persistent.on_route = False
+        renpy.full_restart()
+        
 
 ########################################################
 ## The 'homepage' from which you interact with the game
@@ -914,63 +1022,81 @@ screen chat_home(reshow=False):
 
     tag menu     
     
+    $ renpy.music.play(mystic_chat, loop=True)
     $ mc_pic = 'Profile Pics/MC/MC-' + str(persistent.MC_pic) + '.png'   
    
     use starry_night
     
     use menu_header("Original Story")
+
+    on 'show':
+        action [QuickSave('blank'), deliver_next]
+
+            
+    on 'replace':
+        action [QuickSave('blank'), deliver_next]
+
   
     
     # Text Messages
-    window:
+    button:
         maximum(168,168)
         xalign 0.62
         yalign 0.195
-        # if new_texts:
-        imagebutton:
-            idle "gray_mainbtn"
-            hover "gray_mainbtn_hover"
-            action Show('text_menu', Dissolve(0.5))
-        add "gray_maincircle" xalign 0.5 yalign 0.5
+        if new_message_count() > 0:
+            background 'blue_mainbtn'
+            hover_background 'blue_mainbtn_hover'
+        else:
+            background "gray_mainbtn"
+            hover_background "gray_mainbtn_hover"
+        action Show('text_message_hub', Dissolve(0.5))
+        if new_message_count() > 0:
+            add 'blue_maincircle' xalign 0.5 yalign 0.5
+            window:
+                maximum(45,45)
+                xalign 1.0
+                yalign 0.0
+                background 'new_text_count' 
+                text str(new_message_count()) style 'text_num'
+        else:
+            add "gray_maincircle" xalign 0.5 yalign 0.5
         add "msg_mainicon" xalign 0.5 yalign 0.5
         add "msg_maintext" xalign 0.5 yalign 0.85
         
     # Calls
-    window:
+    button:
         maximum(168,168) 
         xalign 0.91
         yalign 0.35
         # if new_call:
-        imagebutton:
-            idle "blue_mainbtn"
-            hover "blue_mainbtn_hover"
-            action Return()
+        background "blue_mainbtn"
+        hover_background "blue_mainbtn_hover"
+        action Call('add_texts')
         add "blue_maincircle" xalign 0.5 yalign 0.5
         add "call_mainicon" xalign 0.5 yalign 0.5
         add "call_maintext" xalign 0.5 yalign 0.85
      
     # Emails
-    window:
+    button:
         maximum(168,168)
         xalign 0.342
         yalign 0.33
         # if new_email:
-        imagebutton:
-            idle "gray_mainbtn"
-            hover "gray_mainbtn_hover"
-            action ToggleVariable('chips_available', False, True)
+        background "gray_mainbtn"
+        hover_background "gray_mainbtn_hover"
+        action ToggleVariable('chips_available', False, True)
         add "gray_maincircle" xalign 0.5 yalign 0.5
         add "email_mainicon" xalign 0.5 yalign 0.5
         add "email_maintext" xalign 0.5 yalign 0.85
         
-    window:
+    # Main Chatroom
+    button:
         maximum(305,305)
         xalign 0.65
         yalign 0.722
-        imagebutton:
-            idle "gray_chatbtn"
-            hover "gray_chatbtn_hover"
-            action Return()
+        background "gray_chatbtn"
+        hover_background "gray_chatbtn_hover"
+        action [deliver_all, Hide('chat_home'), Call('navi')]
         add "rfa_chatcircle" yalign 0.5 xalign 0.5
         add "blue_chatcircle" xalign 0.5 yalign 0.5
         add "chat_icon" xalign 0.5 yalign 0.5
@@ -1026,7 +1152,7 @@ screen chat_home(reshow=False):
                     idle im.FactorScale(mc_pic, 0.9)
                     hover "profile_pic_select_square"
                     background im.FactorScale(mc_pic, 0.9)
-                    action ShowMenu('profile_pic')
+                    action Show('profile_pic')
             hbox:
                 spacing 8
                 imagebutton:
@@ -1047,53 +1173,49 @@ screen chat_home(reshow=False):
         has vbox
         spacing 20
         # Album
-        window:
+        button:
             maximum(130,149)
-            imagebutton:
-                idle "white_hex"
-                hover "white_hex_hover"
-                action Return()
-            add "album_icon" xalign 0.5 yalign 0.4
+            background "white_hex"
+            hover_background "white_hex_hover"
+            action Return()
+            add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
         # Guest
-        window:
+        button:
             maximum(130,149)
-            imagebutton:
-                idle "white_hex"
-                hover "white_hex_hover"
-                action Return()
-            add "guest_icon" xalign 0.5 yalign 0.4
+            background "white_hex"
+            hover_background "white_hex_hover"
+            action SetVariable('route_title', 'seven')
+            add "guest_icon" xalign 0.5 yalign 0.3
             add "guest_text" xalign 0.5 yalign 0.8
             
         # Shop
-        window:
+        button:
             maximum(130,149)
-            imagebutton:
-                idle "red_hex"
-                hover "red_hex_hover"
-                action Show("chip_tap")
-            add "shop_icon" xalign 0.55 yalign 0.4
+            background "red_hex"
+            hover_background "red_hex_hover"
+            action Jump('chapter_select1')
+            add "shop_icon" xalign 0.55 yalign 0.35
             add "shop_text" xalign 0.5 yalign 0.8
             
         # Notice
-        window:
+        button:
             maximum(130,149)
-            imagebutton:
-                idle "white_hex"
-                hover "white_hex_hover"
-                action Return()
-            add "notice_icon" xalign 0.5 yalign 0.4
+            background "white_hex"
+            hover_background "white_hex_hover"
+            action Show('text_msg_popup', who='Ju')
+            add "notice_icon" xalign 0.5 yalign 0.3
             add "notice_text" xalign 0.5 yalign 0.8
             
-        # Link
-        window:
+        # Link            
+        button:
             maximum(130,149)
-            imagebutton:
-                idle "white_hex"
-                hover "white_hex_hover"
-                action Return()
-            add "link_icon" xalign 0.5 yalign 0.4
+            background "white_hex"
+            hover_background "white_hex_hover"
+            action Show('heart_icon_screen', character='V')
+            
+            add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
             
             
@@ -1285,33 +1407,7 @@ screen chip_end:
             yalign 0.85
             action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), Show('chat_home', Dissolve(0.5))]
         
-
-
-    
-    
-    
-# ****************************
-# *******Fetch Name***********
-# ****************************
-label fetch_name:
-    
-    #$ name = renpy.call_screen("input", prompt="Please enter a username", defAnswer = "Sujin")
-    $ name = name.strip()
-    
-    $ mcImage = {"MC": 'Profile Pics/MC/MC-2.jpg'}
-    $ mcName = {"MC": "[name]"}
-
-    $ chatportrait.update(mcImage)
-    $ chatnick.update(mcName)
-
-    $ stutter = name[:1]
-    $ nameLength = len(name)
-    $ nameEnd = name[nameLength - 1]
-    $ nameCaps = name.upper()
-    $ nameLow = name.lower()
-    $ nameTypo = name[:nameLength - 1]
-        
-        
+   
         
         
         
