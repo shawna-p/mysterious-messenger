@@ -51,7 +51,7 @@
     ## ****************************************
     ## Regular Speech Bubble Style
     style reg_bubble_MC:
-        background Frame("Bubble/MC-bubble.png", 18, 18, 25, 18)
+        background Frame("Bubble/m-bubble.png", 18, 18, 25, 18)
         bottom_margin -55
         padding (20, 9)
         pos (598, -75)
