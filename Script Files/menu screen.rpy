@@ -13,7 +13,7 @@ init python:
                 return getattr(store, self.var)
                 
             def set_text(self, s):
-                global name
+                global name, m
             
                 s = s.strip()
                 setattr(store, self.var, s)  
@@ -21,8 +21,7 @@ init python:
                 renpy.save_persistent()
                 name = persistent.name  
 
-                mcName = {"MC": name}
-                chatnick.update(mcName) 
+                m.name = name 
                 renpy.retain_after_load()                
                 
                 
@@ -38,9 +37,9 @@ init python:
         else:
             persistent.MC_pic += 1
             
+        global m
         thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
-        mcImage = {"MC": thepic}
-        chatportrait.update(mcImage)
+        m.prof_pic = thepic
         renpy.retain_after_load()
         
     ## This picks a greeting depending on the time of day and plays it
@@ -132,7 +131,7 @@ init python:
 
 # This lets it randomly pick a profile picture to display        
 default greet_char = "seven"
-define character_list = ['jaehee', 'jumin', 'ray', 'rika', 'seven', 
+define greet_list = ['jaehee', 'jumin', 'ray', 'rika', 'seven', 
                                  'unknown', 'v', 'yoosung', 'zen']
 
 # Greeting Text
@@ -159,17 +158,15 @@ screen main_menu:
     
     python:
         thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
-        if chatportrait["MC"] != thepic:
-            mcImage = {"MC": thepic}
-            chatportrait.update(mcImage)
+        if m.prof_pic != thepic:
+            m.prof_pic = thepic
             
-        if chatnick["MC"] != persistent.name:
-            mcName = {"MC": persistent.name}
-            chatnick.update(mcName)
+        if m.name != persistent.name:
+            m.name = persistent.name
             
         hour = time.strftime('%H', time.localtime())
         hour = int(hour)    # gets the hour, makes it an int
-        greet_char = renpy.random.choice(character_list)
+        greet_char = renpy.random.choice(greet_list)
         if not greeted:
             chat_greet(hour, greet_char)
         
@@ -320,7 +317,7 @@ screen route_select_screen:
             focus_mask True
             background "right_corner_menu" 
             hover_background "right_corner_menu_selected"
-            action [ToggleField(persistent, 'on_route', True), Start()] 
+            action [ToggleField(persistent, 'on_route', True), ToggleField(chat_archive[0].archive_list[0], 'available', True), Start()] 
             
         text "Start Game" style "menu_text_small" xalign 0.5 yalign 0.5
     
@@ -386,7 +383,7 @@ screen file_slots(title):
                 $ slot = i + 1
                 
                 
-                $ save_title = route_title + '|' + day_num + '|' + chatroom_name
+                $ save_title = current_chatroom.route + '|' + current_chatroom.day + '|' + current_chatroom.title
                 if '|' in FileSaveName(slot):
                     $ rt, dn, cn = FileSaveName(slot).split('|')
                 else:                    
@@ -871,20 +868,20 @@ screen profile_pic:
             add 'greet ray'
             add 'greet rika'
             
-            text str(heart_points['Ja']) + " {image=header_heart}" style "point_indicator"
-            text str(heart_points['Ju']) + " {image=header_heart}" style "point_indicator"
-            text str(heart_points['Sae']) + " {image=header_heart}" style "point_indicator"
-            text str(heart_points['Rika']) + " {image=header_heart}" style "point_indicator"
+            text str(ja.heart_points) + " {image=header_heart}" style "point_indicator"
+            text str(ju.heart_points) + " {image=header_heart}" style "point_indicator"
+            text str(sa.heart_points) + " {image=header_heart}" style "point_indicator"
+            text str(ri.heart_points) + " {image=header_heart}" style "point_indicator"
             
             add 'greet seven'
             add 'greet v'
             add 'greet yoosung'
             add 'greet zen'
             
-            text str(heart_points['Sev']) + " {image=header_heart}" style "point_indicator"
-            text str(heart_points['V']) + " {image=header_heart}" style "point_indicator"
-            text str(heart_points['Yoo']) + " {image=header_heart}" style "point_indicator"
-            text str(heart_points['Zen']) + " {image=header_heart}" style "point_indicator" 
+            text str(s.heart_points) + " {image=header_heart}" style "point_indicator"
+            text str(v.heart_points) + " {image=header_heart}" style "point_indicator"
+            text str(y.heart_points) + " {image=header_heart}" style "point_indicator"
+            text str(z.heart_points) + " {image=header_heart}" style "point_indicator" 
     
 
                 
@@ -905,7 +902,7 @@ screen input_popup(prompt=''):
             align (1.0, 0.0)
             idle 'input_close'
             hover 'input_close_hover'
-            action [Hide('input_popup'), SetDict(chatnick, 'MC', old_name), SetVariable('name', old_name), SetField(persistent, 'name', old_name), renpy.retain_after_load, Show('profile_pic')]
+            action [Hide('input_popup'), SetField(m, 'name', old_name), SetVariable('name', old_name), SetField(persistent, 'name', old_name), renpy.retain_after_load, Show('profile_pic')]
         vbox:
             spacing 20
             xalign 0.5
@@ -1000,9 +997,8 @@ screen other_settings():
 label restart_game:
     python:
         # removes heart points from all the characters
-        for key in heart_points:
-            newVal = {key: 0}
-            heart_points.update(newVal)
+        for person in character_list:
+            person.reset_heart()
         
         # presumably some more resets here
         persistent.on_route = False
@@ -1036,6 +1032,7 @@ screen chat_home(reshow=False):
     on 'replace':
         action [QuickSave('blank'), deliver_next]
 
+    timer 3.5 action deliver_next repeat
   
     
     # Text Messages
@@ -1071,7 +1068,7 @@ screen chat_home(reshow=False):
         # if new_call:
         background "blue_mainbtn"
         hover_background "blue_mainbtn_hover"
-        action Call('add_texts')
+        action Show('chat_select')
         add "blue_maincircle" xalign 0.5 yalign 0.5
         add "call_mainicon" xalign 0.5 yalign 0.5
         add "call_maintext" xalign 0.5 yalign 0.85
@@ -1118,53 +1115,26 @@ screen chat_home(reshow=False):
                 spacing 8
                 xalign 0.0
                 yalign 0.0
+                for person in character_list[:6]:
+                    imagebutton:
+                        hover "profile_pic_select_square"
+                        idle im.FactorScale(person.prof_pic, 0.9)
+                        background im.FactorScale(person.prof_pic, 0.9)
+                        action Show('chara_profile', who=person)
+                        
                 imagebutton:
-                    hover "profile_pic_select_square"                    
-                    idle im.FactorScale(chatportrait['Ju'], 0.9)
-                    background im.FactorScale(chatportrait['Ju'], 0.9)
-                    action Show('chara_profile', who='Ju')
-                imagebutton:
-                    idle im.FactorScale(chatportrait['Zen'], 0.9)
                     hover "profile_pic_select_square"
-                    background im.FactorScale(chatportrait['Zen'], 0.9)
-                    action Show('chara_profile', who='Zen')
-                imagebutton:
-                    idle im.FactorScale(chatportrait['Sev'], 0.9)
-                    hover "profile_pic_select_square"
-                    background im.FactorScale(chatportrait['Sev'], 0.9)
-                    action Show('chara_profile', who='Sev')
-                imagebutton:
-                    idle im.FactorScale(chatportrait['Yoo'], 0.9)
-                    hover "profile_pic_select_square"
-                    background im.FactorScale(chatportrait['Yoo'], 0.9)
-                    action Show('chara_profile', who='Yoo')
-                imagebutton:
-                    idle im.FactorScale(chatportrait['Ja'], 0.9)
-                    hover "profile_pic_select_square"
-                    background im.FactorScale(chatportrait['Ja'], 0.9)
-                    action Show('chara_profile', who='Ja')
-                imagebutton:
-                    idle im.FactorScale(chatportrait['V'], 0.9)
-                    hover "profile_pic_select_square"
-                    background im.FactorScale(chatportrait['V'], 0.9)
-                    action Show('chara_profile', who='V')
-                imagebutton:
                     idle im.FactorScale(mc_pic, 0.9)
-                    hover "profile_pic_select_square"
                     background im.FactorScale(mc_pic, 0.9)
                     action Show('profile_pic')
             hbox:
                 spacing 8
-                imagebutton:
-                    idle im.FactorScale(chatportrait['Ray'], 0.9)
-                    hover "profile_pic_select_square"
-                    background im.FactorScale(chatportrait['Ray'], 0.9)
-                    action Show('chara_profile', who='Ray')
-                imagebutton:
-                    idle im.FactorScale(chatportrait['Rika'], 0.9)
-                    hover "profile_pic_select_square"
-                    background im.FactorScale(chatportrait['Rika'], 0.9)
-                    action Show('chara_profile', who='Rika')
+                for person in character_list[7:]:
+                    imagebutton:
+                            hover "profile_pic_select_square"
+                            idle im.FactorScale(person.prof_pic, 0.9)
+                            background im.FactorScale(person.prof_pic, 0.9)
+                            action Show('chara_profile', who=person)
 
     window:
         maximum(140, 1000)
@@ -1186,7 +1156,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action SetVariable('route_title', 'seven')
+            action Return
             add "guest_icon" xalign 0.5 yalign 0.3
             add "guest_text" xalign 0.5 yalign 0.8
             
@@ -1284,19 +1254,19 @@ screen chat_home(reshow=False):
 ## The Profile Screen for each of the characters
 ########################################################
         
-screen chara_profile(who=None):
+screen chara_profile(who):
 
     tag menu
 
     use starry_night
     use menu_header("Profile")   
         
-    add chatcover[who] yalign 0.231
-    add chatportrait[who] at profile_zoom
+    add who.cover_pic yalign 0.231
+    add who.prof_pic at profile_zoom
     add 'profile_outline' xalign 0.1 yalign 0.675
     
-    text chatnick[who] style "profile_header_text"
-    text chatstatus[who] style "profile_status"
+    text who.name style "profile_header_text"
+    text who.status style "profile_status"
     
 
 screen chip_tap:

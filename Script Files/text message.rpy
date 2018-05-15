@@ -28,8 +28,9 @@ init python:
                         self.msg_list = []
                         text_messages.remove(msg)
                         text_messages.insert(0, msg)
-                        if msg.msg_list[-1].who != 'MC':
+                        if msg.msg_list[-1].who != m:
                             msg.read = False
+                            renpy.restart_interaction()
                             renpy.show_screen('text_msg_popup', the_msg=msg)
                         else:
                             msg.read = True
@@ -99,6 +100,11 @@ init python:
             if msg.msg_list:
                 msg.deliver()
                 break               
+    def who_deliver():
+        global text_queue
+        for msg in text_queue:
+            if msg.msg_list:
+                return msg.sender
         
     def new_message_count():
         unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
@@ -119,12 +125,12 @@ screen text_message_hub:
     fixed:
         viewport:
             xsize 725
-            ysize 1000
+            ysize 1150
             draggable True
             mousewheel True
 
             xalign 0.5
-            yalign 0.55
+            yalign 0.95
             
             vbox:
                 spacing 10
@@ -150,13 +156,13 @@ screen text_message_hub:
                                         xsize 135
                                         ysize 135
                                         yalign 0.02
-                                        add chatportrait[last_text.who] yalign 0.5 xalign 0.5 at text_zoom
+                                        add last_text.who.prof_pic yalign 0.5 xalign 0.5 at text_zoom
                                     
                                     window:
                                         xmaximum 320
                                         yalign 0.5
                                         has vbox
-                                        text chatnick[last_text.who] style "save_slot_text"
+                                        text last_text.who.name style "save_slot_text"
                                         spacing 40                                    
                                         text last_text.what[:16] + '...' style "save_slot_text"
                                         
@@ -184,13 +190,13 @@ screen text_message_hub:
                                         xsize 135
                                         ysize 135
                                         yalign 0.02
-                                        add chatportrait[last_text.who] yalign 0.5 xalign 0.5 at text_zoom
+                                        add last_text.who.prof_pic yalign 0.5 xalign 0.5 at text_zoom
                                     
                                     window:
                                         xmaximum 320
                                         yalign 0.5
                                         has vbox
-                                        text chatnick[last_text.who] style "save_slot_text"
+                                        text last_text.who.name style "save_slot_text"
                                         spacing 40                                    
                                         text last_text.what[:16] + '...' style "save_slot_text"
                                         
@@ -230,7 +236,7 @@ screen text_msg_popup(the_msg):
             align (1.0, 0.22)
             idle 'input_close'
             hover 'input_close_hover'
-            action [Hide('text_msg_popup')]
+            action [Hide('text_msg_popup'), deliver_next]
             
         hbox:
             yalign 0.05
@@ -245,11 +251,11 @@ screen text_msg_popup(the_msg):
             spacing 20
             hbox:
                 spacing 20                
-                add chatportrait[the_msg.sender]
+                add the_msg.sender.prof_pic
                 
                 vbox:
                     spacing 10
-                    text "From: " + chatnick[the_msg.sender] color '#fff'
+                    text "From: " + the_msg.sender.name color '#fff'
                     
                     window:
                         maximum(420,130)
@@ -269,7 +275,7 @@ screen text_msg_popup(the_msg):
                 hover_background 'menu_select_btn_hover'
                 action [Hide('text_msg_popup'), SetScreenVariable("current_message", the_msg), the_msg.mark_read, Show('text_message_screen', the_msg=the_msg)]
                 
-    timer 3.25 action Hide('text_msg_popup', Dissolve(0.25))
+    timer 3.25 action [Hide('text_msg_popup', Dissolve(0.25)), deliver_next]
         
                                             
 # Includes the 'answer' button at the bottom
@@ -322,15 +328,19 @@ screen text_message_screen(the_msg):
     tag menu
     
     on 'show':
-        if the_msg.heart:
+        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
             action [Show('heart_icon_screen', character=the_msg.sender), SetField(the_msg, 'heart', False)]
     on 'replace':
-        if the_msg.heart:
+        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
             action [Show('heart_icon_screen', character=the_msg.sender), SetField(the_msg, 'heart', False)]
         
     use starry_night
     
     use text_message_footer(the_msg)
+    
+    timer 1.0:
+        if who_deliver != the_msg.sender:
+            action deliver_next
     
     python:
         if yadj.value == yadj.range:
@@ -340,13 +350,13 @@ screen text_message_screen(the_msg):
             
         if len(chatlog) > 0:
             finalchat = chatlog[-1]
-            if finalchat.who == "filler":
+            if finalchat.who.name == "filler":
                 yadj.value = yadjValue
         if len(chatlog) < 3:
             yadj.value = yadjValue
         yinitial = yadjValue
 
-    use menu_header(chatnick[the_msg.sender], True)
+    use menu_header(the_msg.sender.name, True)
             
     window:
         align (0.5, 0.54)
@@ -416,25 +426,25 @@ screen text_animation(i):
     
     if i.who != 'answer' and i.who != 'pause':
         window:
-            if i.who == 'MC':
+            if i.who == m:
                 style 'MC_profpic_text'
             else:
                 style 'profpic_text'
                 
-            add chatportrait[i.who]
+            add i.who.prof_pic
         
         ## Now add the dialogue
              
 
         fixed:
-            if i.who != 'MC':
+            if i.who != m:
                 style 'text_msg_npc_fixed'
             else:
                 style 'text_msg_mc_fixed'
             
             hbox:
                 spacing 5 
-                if i.who != 'MC':
+                if i.who != m:
                     ypos -10
                     
                 else:
@@ -462,7 +472,7 @@ screen text_animation(i):
             
                     
                     else:        
-                        if i.who != 'MC':
+                        if i.who != m:
                             style 'reg_bubble_text'
                         else:
                             style 'reg_bubble_MC_text'
@@ -471,7 +481,7 @@ screen text_animation(i):
                         else:            
                             text i.what style "bubble_text" color '#fff'
                             
-                if i.who != 'MC':
+                if i.who != m:
                     text text_time color "#fff" yalign 1.0 size 23
                                             
         

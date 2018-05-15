@@ -17,17 +17,32 @@ init python:
             self.bounce = bounce
             self.specBubble = specBubble
             
-    # This class just makes it simpler to type out character dialogue
-    class Chat(object):
-        def __init__(self, who):
-            self.who = who
+    # Class to store characters along with their profile picture and a 'file_id'
+    # that's appended to things like their special bubble names and saves you from
+    # typing out the full name every time
+    class Chat(store.object):
+        def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, cover_pic=False, status=False):
+            self.name = name            
+            self.file_id = file_id
+            self.prof_pic = prof_pic
+            self.participant_pic = participant_pic
+            self.cover_pic = cover_pic
+            self.status = status
+            self.heart_points = 0  
+
+        def add_heart(self):
+            self.heart_points += 1
             
-        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, txtmsg=False, sender=None, **kwargs):
-            if not txtmsg:
-                addchat(self.who, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
-            else:
-                addtext(self.who, what, sender=sender, img=img)
-           
+        def lose_heart(self):
+            self.heart_points -= 1
+            
+        def reset_heart(self):
+            self.heart_points = 0
+
+        # This function makes it simpler to type out character dialogue
+        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
+            addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+            
            
     ##************************************
     ## For ease of creating text messages
@@ -39,7 +54,7 @@ init python:
             if msg.sender == sender:
                 msg.msg_list.append(Chatentry(who, what, upTime(), img))
                 msg.read = False
-                if who == 'MC':
+                if who == m:
                     msg.deliver()
                     msg.reply_label = False
                     renpy.restart_interaction
@@ -50,75 +65,69 @@ init python:
     ##************************************
     ## For ease of adding Chatlog entries
     ##************************************   
-
-    def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=""):  
-        global choosing, pre_choosing
-        choosing = False
-        pre_choosing = False
-        
-        global pv
-        if pauseVal == None:
-            pauseVal = pv;
     
+    def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
+        global choosing, pre_choosing, pv, chatbackup, oldPV
+        choosing = pre_choosing = False
+        
+        if pauseVal == None:
+            pauseVal = pv
+            
         if len(chatlog) > 1:
             finalchat = chatlog[-2]
-            if finalchat.who == "answer" or finalchat.who == "pause":
-                # Not supposed to display this bubble; delete it
-                # It's useful only as the most recent bubble as it
-                # stops the previous bubbles from animating
-                del chatlog[-2]  
+            if finalchat.who.file_id == 'delete':
+                # This bubble doesn't display; delete it
+                del chatlog[-2]
                 
-        if who != "pause":
+        if who.file_id != 'delete':
             pauseFailsafe()
-            global chatbackup
             chatbackup = Chatentry(who, what, upTime(), img, bounce, specBubble)
-            global oldPV
-            oldPV = pauseVal        
-                    
-        
-        if who == "answer" or who == "pause":
-            renpy.pause(pauseVal)#, hard=True)
-        elif pauseVal == 0:
+            oldPV = pauseVal
+            
+        if pauseVal == 0:
             pass
+        elif who.file_id == 'delete':
+            renpy.pause(pv)
         else:
-            typeTime = what.count(' ') + 1 # should be the number of words
+            typeTime = what.count(' ') + 1 # equal to the number of words
             # Since average reading speed is 200 wpm or 3.3 wps
             typeTime = typeTime / 3
             if typeTime < 1.5:
                 typeTime = 1.5
             typeTime = typeTime * pauseVal
-            renpy.pause(typeTime)#, hard=True)
-        
+            renpy.pause(typeTime)
+            
         if img == True:
             if what in emoji_lookup:
                 renpy.play(emoji_lookup[what], channel="voice_sfx")
-           
+        
         chatlog.append(Chatentry(who, what, upTime(), img, bounce, specBubble))
+        
+    
             
     ## Function that checks if an entry was successfully added to the chat
     ## A temporary fix for the pause button bug
     ## This also technically means a character may be unable to post the exact
     ## same thing twice in a row depending on when the pause button is used
     def pauseFailsafe():
-        global chatbackup
-        global oldPV
-        last_entry = None
         if len(chatlog) > 0:
-            last_entry = chatlog[-1]
-            if last_entry.who == "answer":
-                # Last entry is now two from the final entry
-                if len(chatlog) > 1:
-                    last_entry = chatlog[-2]
-        if chatbackup.who == "filler" or chatbackup.who == "answer":
+            last_chat = chatlog[-1]
+        else:
             return
-        if last_entry != None and last_entry.who == chatbackup.who and last_entry.what == chatbackup.what:
-            # Means the last entry successfully made it to the chat log
+        if last_chat.who.file_id == 'delete':
+            if len(chatlog) > 1:
+                last_chat = chatlog[-2]
+            else:
+                return
+        elif last_chat.who == filler:
+            return
+                
+        if last_chat.who.file_id == chatbackup.who.file_id and last_chat.what == chatbackup.what:
+            # the last entry was successfully added; we're done
             return
         else:
-            # User may have paused somewhere in there and the program skipped a
-            # dialogue bubble; post it first before posting the current entry
-            typeTime = chatbackup.what.count(' ') + 1 # should be the number of words
-            # Since average reading speed is 200 wpm or 3.3 wps
+            # add the backup entry
+            typeTime = chatbackup.what.count(' ') + 1
             typeTime = typeTime / 3
             if typeTime < 1.5:
                 typeTime = 1.5
@@ -130,26 +139,7 @@ init python:
                     renpy.play(emoji_lookup[chatbackup.what], channel="voice_sfx")
                
             chatlog.append(Chatentry(chatbackup.who, chatbackup.what, upTime(), chatbackup.img, chatbackup.bounce, chatbackup.specBubble))
-            
-           
-    ##****************************
-    ##DECLARE CHARACTERS HERE
-    ##****************************
-    
-    ## Character declarations
-    s = Chat("Sev")
-    y = Chat("Yoo")
-    m = Chat("MC")
-    ja = Chat("Ja")
-    ju = Chat("Ju")
-    z = Chat("Zen")
-    r = Chat("Rika")
-    ra = Chat("Ray")
-    sa = Chat("Sae")
-    u = Chat("Unk")
-    v = Chat("V")
-    msg = Chat("msg")
-    
+
    
     ### Set a variable to infinity, to be used later -- it keeps the viewport scrolling to the bottom
     yadjValue = float("inf")
@@ -162,25 +152,28 @@ init python:
     # individual basis this is the colour of the characters' nicknames
     nickColour = "#000000"   
 
+default chatbackup = Chatentry(filler,"","")
+default pv = 0.8
+default oldPV = pv
 
 screen messenger_screen:
 
     tag menu
 
     python:
-        if yadj.value == yadj.range:
-            yadj.value = yadjValue
-        elif yadj.value == 0:
-            yadj.value = yadjValue
+        #if yadj.value == yadj.range:
+        #    yadj.value = yadjValue
+        #elif yadj.value == 0:
+        #    yadj.value = yadjValue
             
-        if len(chatlog) > 0:
-            finalchat = chatlog[-1]
-            if finalchat.who == "filler":
-                yadj.value = yadjValue
-        if len(chatlog) < 3:
-            yadj.value = yadjValue
-        yinitial = yadjValue
-            
+        #if len(chatlog) > 0:
+        #    finalchat = chatlog[-1]
+        #    if finalchat.who == filler:
+        #        yadj.value = yadjValue
+        #if len(chatlog) < 3:
+        #    yadj.value = yadjValue
+        #yinitial = yadjValue
+        yadj.value = yadjValue   
             
     #else:
         #image "Phone UI/new_message_banner.png" ypos 170
@@ -237,7 +230,7 @@ screen chat_dialogue():
         
         if chatLength > 0:
             finalchat = chatlog[-1]
-            if finalchat.who == "answer":
+            if finalchat.who == answer:
                 if begin > 0:
                     begin -= 1
                 
@@ -248,9 +241,10 @@ screen chat_dialogue():
                       
                       
 screen chat_animation(i):
+
     python:
         include_new = False
-    
+        
         if i.bounce:
             transformVar = incoming_message_bounce
             include_new = False
@@ -258,67 +252,68 @@ screen chat_animation(i):
             transformVar = incoming_message
             include_new = True
             
-        if i.who == "MC":
+        if i.who == m:
             nameStyle = 'chat_name_MC'
             include_new = False
         else:
             nameStyle = 'chat_name'
             
-        if i.specBubble != None:
-            include_new = False
-            bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"    
-        elif i.bounce: # Not a special bubble; just glow
-            include_new = False
-            bubbleBackground = "Bubble/" + i.who + "-Glow.png"
-        elif i.who != 'answer':
-            bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
-        
-        
-        if i.specBubble != None:
-            # Some characters have more than one round or square bubble
-            # but they follow the same style as "round" or "square"
-            if i.specBubble[:6] == "round2":
-                bubbleStyle = "round_" + i.specBubble[-1:]
-            elif i.specBubble[:7] == "square2":
-                bubbleStyle = "square_" + i.specBubble[-1:]
-            else:
-                bubbleStyle = i.specBubble
-        
-        if i.img == True:
-            include_new = False
-            if "{image=" in i.what:
-                pass
-            else:
-                transformVar = small_CG
-                
-        ## This determines how long the line of text is. If it needs to wrap
-        ## it, it will pad the bubble out to the appropriate length
-        ## Otherwise each bubble would be exactly as wide as it needs to be and no more
-        t = Text(i.what)
-        z = t.size()
-        my_width = int(z[0])
-        my_height = int(z[1])
-                
-        global choosing
-        
+            
+        if i.who.file_id:
+            if i.specBubble != None:
+                include_new = False
+                bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"    
+            elif i.bounce: # Not a special bubble; just glow
+                include_new = False
+                bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
+            elif i.who != 'answer':
+                bubbleBackground = "Bubble/" + i.who.file_id + "-Bubble.png"
+            
+            
+            if i.specBubble != None:
+                # Some characters have more than one round or square bubble
+                # but they follow the same style as "round" or "square"
+                if i.specBubble[:6] == "round2":
+                    bubbleStyle = "round_" + i.specBubble[-1:]
+                elif i.specBubble[:7] == "square2":
+                    bubbleStyle = "square_" + i.specBubble[-1:]
+                else:
+                    bubbleStyle = i.specBubble
+            
+            if i.img == True:
+                include_new = False
+                if "{image=" in i.what:
+                    pass
+                else:
+                    transformVar = small_CG
+                    
+            ## This determines how long the line of text is. If it needs to wrap
+            ## it, it will pad the bubble out to the appropriate length
+            ## Otherwise each bubble would be exactly as wide as it needs to be and no more
+            t = Text(i.what)
+            z = t.size()
+            my_width = int(z[0])
+            my_height = int(z[1])
+                    
+            global choosing
+            
         
     ## First, the profile picture and name, no animation
-    
-    if i.who == 'msg' or i.who == 'filler':
+    if i.who.name == 'msg' or i.who.name == 'filler':
         window:
-            style i.who + '_bubble'
-            text i.what style i.who + '_bubble_text'
+            style i.who.name + '_bubble'
+            text i.what style i.who.name + '_bubble_text'
             
-    elif i.who != 'answer' and i.who != 'pause':
+    elif i.who.file_id != 'delete':#i.who != answer and i.who != chat_pause:
         window:
-            if i.who == 'MC':
+            if i.who == m:
                 style 'MC_profpic'
             else:
                 style 'profpic'
                 
-            add chatportrait[i.who]
+            add i.who.prof_pic
             
-        text chatnick[i.who] style nameStyle color nickColour
+        text i.who.name style nameStyle color nickColour
         
         ## Now add the dialogue
         
@@ -419,14 +414,14 @@ screen anti_animation(i):
             transformVar = anti_incoming_message
             include_new = True
             
-        if i.who == 'MC':
+        if i.who == m:
             include_new = False
             
         if i.bounce:
-            bubbleBackground = "Bubble/" + i.who + "-Glow.png"
+            bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
             include_new = False
         else:
-            bubbleBackground = "Bubble/" + i.who + "-Bubble.png"
+            bubbleBackground = "Bubble/" + i.who.file_id + "-Bubble.png"
             
         if i.specBubble != None:
             if i.specBubble[:6] == "round2":
@@ -438,7 +433,7 @@ screen anti_animation(i):
                 
         if i.specBubble != None:
             include_new = False
-            bubbleBackground = "Bubble/Special/" + i.who + "_" + i.specBubble + ".png"
+            bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"
             
         if i.img == True:
             include_new = False

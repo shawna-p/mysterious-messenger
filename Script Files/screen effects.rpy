@@ -19,16 +19,16 @@ init python:
 
     # Add a name & colour here if you'd like to add
     # another heart icon
-    heartcolour = {'Sev' : "#ff2626", 
-                    'Zen' : "#c9c9c9", 
-                    'Ja' : "#d0b741", 
-                    'Ju' : "#a59aef", 
-                    'Yoo' : "#31ff26", 
-                    'Rika' : "#fcef5a",
-                    'Ray' : "#b81d7b",
-                    'V' : "#50b2bc",
-                    'Unk' : "#ffffff",
-                    'Sae' : "#b81d7b",
+    heartcolour = {'s' : "#ff2626", 
+                    'z' : "#c9c9c9", 
+                    'ja' : "#d0b741", 
+                    'ju' : "#a59aef", 
+                    'y' : "#31ff26", 
+                    'ri' : "#fcef5a",
+                    'r' : "#b81d7b",
+                    'v' : "#50b2bc",
+                    'u' : "#ffffff",
+                    'sa' : "#b81d7b",
                     } 
                     
 
@@ -37,7 +37,7 @@ init python:
     # depending on the character
     # If you'd like to define your own character & heart icon,
     # just add it to the heartcolour list
-    # and when you type "call heart_icon("my custom character") it will
+    # and when you type "call heart_icon(my_custom_character) it will
     # automatically recolour it
     def heart_icon_fn(st,at):
         if heartChar in heartcolour:
@@ -78,8 +78,7 @@ init python:
         return im.MatrixColor("Heart Point/HeartBreak/stat_animation_9.png", im.matrix.colorize("#000000", colour)), 0.1
 
 # This is a variable that detects if you're choosing an option from a menu
-# If so, it uses this variable to know it should darken the screen behind
-# the choices
+# If so, it uses this variable to know it should disable most buttons
 default choosing = False
 # Variable that detects if the answer screen should be
 # showing. Largely only useful if you view a CG when you should
@@ -101,76 +100,68 @@ image heartbreak4 = DynamicDisplayable(heart_break_fn4)
 image heartbreak5 = "Heart Point/HeartBreak/stat_animation_10.png"
 
 label heart_icon(character):
-    if not observing:
-        $ heartChar = character
-        show heart_icon onlayer heart at heart
-        $ addchat("answer","",0)
-        #hide heart_icon onlayer heart
-        # This counts heart points
-        # Ray and Saeran are counted as one person
-        if character == 'ra':
-            $ character = 'sa'
-        if character in heart_points:
-            $ points = heart_points[character]
-            $ points += 1
-            $ newVal = {character: points}
-            $ heart_points.update(newVal)
-            $ chatroom_hp += 1
+    show screen heart_icon_screen(character)
     return
     
 screen heart_icon_screen(character):
     zorder 20
     python:
-        global heartChar
-        heartChar = character
-        if character == 'Ray':
-            character = 'Sae'
-        if character in heart_points:
-            points = heart_points[character]
-            points += 1
-            newVal = {character: points}
-            heart_points.update(newVal)
+        global heartChar, chatroom_hp
+        heartChar = character.file_id
+        if character == r:
+            character = sa
+        character.add_heart()
+        chatroom_hp += 1
+        persistent.HP += 1
             
-    fixed at heart:
-        yfit True
-        xfit True
-        add 'heart_icon'
+    if not observing:
+        fixed at heart:
+            yfit True
+            xfit True
+            add 'heart_icon'
         
     timer 0.62 action [Hide('heart_icon_screen')]
         
     
 label heart_break(character):
-    if not observing:
-        $ heartChar = character
-        show heartbreak1 onlayer heart at heartbreak
-        $ addchat("answer", "",0.12)
-        hide heartbreak1 onlayer heart
-
-        show heartbreak2 onlayer heart at heartbreak
-        $ renpy.pause(0.12, hard=True)
-        hide heartbreak2 onlayer heart
-
-        show heartbreak3 onlayer heart at heartbreak
-        $ renpy.pause(0.12, hard=True)
-        hide heartbreak3 onlayer heart
-
-        show heartbreak4 onlayer heart at heartbreak
-        $ renpy.pause(0.12, hard=True)
-        hide heartbreak4 onlayer heart
-
-        show heartbreak5 onlayer heart at heartbreak
-        $ renpy.pause(0.12, hard=True)
-        hide heartbreak5 onlayer heart
-
-        if character == 'ra':
-            $ character = 'sa'
-        if character in heart_points:
-            $ points = heart_points[character]
-            $ points -= 1
-            $ newVal = {character: points}
-            $ heart_points.update(newVal)
-            $ chatroom_hp -= 1
+    show screen heart_break_screen(character)
     return
+    
+    
+screen heart_break_screen(character):
+    zorder 20
+    python:
+        global heartChar, chatroom_hp
+        heartChar = character.file_id
+        if character == r:
+            character = sa
+        character.lose_heart()
+        chatroom_hp -= 1
+        persistent.HP -= 1
+            
+    if not observing:
+        fixed at heartbreak1:
+            yfit True
+            xfit True
+            add 'heartbreak1'
+        fixed at heartbreak2:
+            yfit True
+            xfit True
+            add 'heartbreak2'
+        fixed at heartbreak3:
+            yfit True
+            xfit True
+            add 'heartbreak3'
+        fixed at heartbreak4:
+            yfit True
+            xfit True
+            add 'heartbreak4'
+        fixed at heartbreak5:
+            yfit True
+            xfit True
+            add 'heartbreak5'
+        
+    timer 0.6 action [Hide('heart_break_screen')]
 
 #####################################
 # Answer Button
@@ -179,26 +170,22 @@ label heart_break(character):
 # Call this label before you show a menu
 # to show the answer button
 label answer:
-    $ addchat("answer","",0)
+    #pause 0.2
+    #$ chatlog.append(Chatentry(answer,'',upTime))
+    $ addchat(answer, '', 0.2)
     hide screen viewCG
-    #hide screen pause
     $ pre_choosing = True
     call screen answer_button
+    show screen pause_button
     return
-
-image answerbutton: 
-    block:
-        "Phone UI/Answer-Dark.png" with Dissolve(0.5, alpha=True)
-        1.0
-        "Phone UI/Answer.png" with Dissolve(0.5, alpha=True)
-        1.0
-        repeat
         
 screen answer_button:
     zorder 4
+    tag chat_footer
     add "pausebutton" xalign 0.96 yalign 0.16
     add "Phone UI/pause_square.png" yalign 0.59
     add "answerbutton" ypos 1220
+        
     imagebutton:
         xanchor 0.0
         yanchor 0.0
@@ -207,26 +194,16 @@ screen answer_button:
         focus_mask None
         idle "Phone UI/answer_transparent.png"
         activate_sound "sfx/UI/answer_screen.mp3"
-        action [ToggleVariable("choosing", False, True), Return()]       
+        action [Show('pause_button'), Return]   
 
     
 #####################################
 # Pause/Play footers
 #####################################
-
-image pausebutton:
-    "Phone UI/pause_sign.png" with Dissolve(0.5, alpha=True)
-    1.0
-    "transparent.png" with Dissolve(0.5, alpha=True)
-    1.0
-    repeat
-    
-
-image fast-slow-button = "Phone UI/fast-slow-transparent.png"
-    
+   
 # This is the screen that shows the pause button
 # (but the chat is still playing)
-screen pause:
+screen pause_button:
     zorder 4
     tag chat_footer
     imagebutton:
@@ -238,8 +215,6 @@ screen pause:
         idle "Phone UI/Pause.png"
         if not choosing:
             action [Call("play"), Return()]
-    if choosing:        
-        add "Phone UI/choice_dark.png"
      
     if not choosing:
         # Fast button
@@ -248,7 +223,7 @@ screen pause:
             yalign 0.997
             focus_mask None
             idle "fast-slow-button"
-            action [fast_pv, Call("speed_num_label")]#, renpy.restart_interaction] 
+            action [fast_pv, Show("speed_num")]
                 
         # Slow button
         imagebutton:
@@ -256,15 +231,12 @@ screen pause:
             yalign 0.997
             focus_mask None
             idle "fast-slow-button"
-            action [slow_pv, Call("speed_num_label")]#, renpy.restart_interaction]
-        
+            action [slow_pv, Show('speed_num')]
           
 label play:
-    $ addchat("pause","",0)
+    $ chatlog.append(Chatentry(chat_pause,'',upTime))
     call screen play_button
-    #show screen play_button
-    #pause
-    hide screen play_button
+    show screen pause_button
     return
     
 # This screen is visible when the chat isn't paused
@@ -274,8 +246,6 @@ screen play_button:
     if not choosing:
         add "pausebutton" xalign 0.96 yalign 0.16
         add "Phone UI/pause_square.png" yalign 0.59
-    else:
-        add "Phone UI/choice_dark.png"
     imagebutton:
         xanchor 0.0
         yanchor 0.0
@@ -283,7 +253,7 @@ screen play_button:
         ypos 1220
         focus_mask True
         idle "Phone UI/Play.png"
-        action Return()
+        action [Show('pause_button'), Return]
         
 
 #####################################
@@ -302,10 +272,7 @@ screen clock_screen:
     add myClock:
         xalign 1.0
         yalign 0.0
-        
-image maxSpeed = im.FactorScale("Phone UI/max_speed_active.png",1.1)
-image noMaxSpeed = im.FactorScale("Phone UI/max_speed_inactive.png",1.1)
-        
+                
 ## This screen just shows the header/footer above the chat
 screen phone_overlay:  
     zorder 2
@@ -319,9 +286,10 @@ screen phone_overlay:
             focus_mask True
             idle "Phone UI/max_speed_active.png"
             hover "maxSpeed"
-            action [toggle_skipping, renpy.restart_interaction]
-            # The restart_interaction makes it so the Max Speed button
-            # is visibly toggled after you press it
+            if not choosing:
+                action [toggle_skipping, renpy.restart_interaction]
+                # The restart_interaction makes it so the Max Speed button
+                # is visibly toggled after you press it
     else:
         imagebutton:
             xanchor 0.0
@@ -331,7 +299,8 @@ screen phone_overlay:
             focus_mask True
             idle "Phone UI/max_speed_inactive.png"
             hover "noMaxSpeed"
-            action [toggle_skipping, renpy.restart_interaction]
+            if not choosing:
+                action [toggle_skipping, renpy.restart_interaction]
 
     
 
@@ -340,10 +309,8 @@ screen phone_overlay:
 #####################################
 
 ## This speeds up/slows down the speed of the chat
-## FIXME: sometimes skips dialogue/slows chat flow when clicking
-image speed_txt = ParameterizedText(style = "speednum_style")
 
-label speed_num_label:
+screen speed_num:
     python:
         global pv  
         if pv <= 0.45:
@@ -366,9 +333,10 @@ label speed_num_label:
             speednum = "1" 
         else:
             speednum = "!!"
-    hide speed_txt onlayer hack
-    show speed_txt "{size=30}SPEED{/size}\n [speednum]" onlayer hack at speed_msg
-    return
+            
+    text "{size=30}SPEED{/size}\n [speednum]" style 'speednum_style'
+    
+    timer 0.4 action Hide('speed_num', Dissolve(0.4))
 
 
 #####################################
@@ -384,8 +352,6 @@ label viewCG:
     show screen clock_screen
     return
     
-image close_button = "CGs/close-overlay.png"
-
 ## This is the screen where you can view a full-sized CG when you
 ## click it in the chatroom. It has a working "Close" button
 ## that appears/disappears when you click the CG
@@ -420,7 +386,7 @@ screen viewCG_fullsize:
    
 # Call this label to show the save & exit sign
 label save_exit:
-    $ addchat("answer","",0)
+    #answer "" (pauseVal=0)
     if observing:
         if config.skipping:
             $ config.skipping = False
@@ -433,11 +399,6 @@ label save_exit:
     call screen save_and_exit
     return
 
-    
-image save_exit = "Phone UI/Save&Exit.png"  
-image signature = "Phone UI/signature01.png"
-image heart_hg = "Phone UI/heart-hg-sign.png"
-        
 # This is the screen that shows Save & Exit at the bottom
 screen save_and_exit:
     zorder 4
@@ -449,27 +410,26 @@ screen save_and_exit:
         ypos 1220
         focus_mask True
         idle "save_exit"
-        action [ToggleVariable("choosing", False, True), Jump("press_save_and_exit")]
+        action [Jump("press_save_and_exit")]
         
 label press_save_and_exit:
     call screen signature_screen
-    $ persistent.HP += chatroom_hp
     $ persistent.HG += chatroom_hg
     $ chatroom_hp = 0
     $ chatroom_hg = 0
-    if config.skipping:
-        $ config.skipping = False
-    hide screen clock_screen
+    $ config.skipping = False   
     $ greeted = False
-    if post_chatroom:
-        $ renpy.call(post_chatroom)
+    if current_chatroom.text_label and not current_chatroom.played:
+        $ renpy.call(current_chatroom.text_label)
     $ choosing = False
+    hide screen clock_screen
     hide screen phone_overlay
     hide screen messenger_screen
     hide screen save_and_exit
+    $ current_chatroom.played = True
+    $ renpy.retain_after_load()
     call screen chat_home
-    #$ renpy.call_screen(renpy.get_screen(menu_list))
-    #return
+
     
 # This shows the signature screen, which records your total heart points
 # It shows hourglass points as well but currently there is no way to get
@@ -477,27 +437,54 @@ label press_save_and_exit:
 
 screen signature_screen:
     zorder 5
+    modal True
     add "save_exit" ypos 1220
-    if choosing:
-        add "Phone UI/choice_dark.png"
-    add "signature" xalign 0.5 yalign 0.5
-    add "heart_hg" xalign 0.5 ypos 650
-    text "This conversation will be archived in the RFA records." style "save_exit_text" yalign 0.46
-    text "I hereby agree to treat this conversation as confidential." style "save_exit_text" yalign 0.56
-    
-    imagebutton:
+    add "Phone UI/choice_dark.png"
+    #add "signature" xalign 0.5 yalign 0.5
+    window:
         xalign 0.5
-        yanchor 0.0
-        ypos 780
-        focus_mask True
-        idle "Phone UI/sign-button.png"
-        activate_sound "sfx/UI/end_chatroom.mp3"
-        hover "Phone UI/sign-button-clicked.png"
-        action Return
-    
-    text "sign" style "sign" 
-    text "[chatroom_hp]" style "points" xalign 0.385
-    text "[chatroom_hg]" style "points" xalign 0.73
+        yalign 0.5
+        xsize 682
+        ysize 471
+        background 'signature'
+        has vbox
+        spacing 10
+        null height 140 width 682
+        text "This conversation will be archived in the RFA records." style "save_exit_text" xalign 0.5     
+        fixed:
+            xalign 0.5
+            ysize 60
+            xfit True
+            add "heart_hg" 
+            hbox:
+                spacing 170
+                yalign 0.5
+                xoffset 65
+                window:
+                    xsize 70
+                    ysize 40
+                    text "[chatroom_hp]" style "points" xalign 1.0
+                window:
+                    xsize 80
+                    ysize 40
+                    text "[chatroom_hg]" style "points" xalign 1.0
+        
+        text "I hereby agree to treat this conversation as confidential." style "save_exit_text"
+        
+        textbutton _('sign'):
+            xsize 211
+            ysize 52
+            text_style 'sign'
+            xalign 0.5
+            yalign 0.842
+            focus_mask True
+            background "Phone UI/sign-button.png" padding(20,20)
+            activate_sound "sfx/UI/end_chatroom.mp3"
+            hover_background "Phone UI/sign-button-clicked.png"
+            action Return
+
+
+        
     
     
 #####################################
@@ -523,12 +510,12 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     show screen phone_overlay
     show screen clock_screen
     show screen messenger_screen 
-    show screen pause
+    show screen pause_button
     # Fills the beginning of the screen with 'empty space' so the messages begin
     # showing up at the bottom of the screen (otherwise they start at the top)
     if clearchat:
-        $ addchat("filler","\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",0)
-    
+        $ chatlog.append(Chatentry(filler,"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",upTime))
+        
     # Sets the correct background and nickname colour
     # You'll need to add other backgrounds here if you define
     # new ones
@@ -563,42 +550,27 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 # Don't forget to show your desired background after calling
 # the hack screen or pass the background name to chat_begin
 
-image hack scroll: 
-    "Hack-Long.png"
-    subpixel True
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    
-image redhack scroll:
-    "Hack-Red-Long.png"
-    subpixel True
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    yalign 0.0
-    linear 1.0 yalign 1.0
+screen hack_screen(hack):
+    zorder 10
+    modal True
+    add 'black'
+    window at flicker:
+        xysize (750,1334)
+        background hack
+        
+    timer 3.0 action Hide('hack_screen')
+        
     
 label hack:
-    $ addchat("answer","",0)
-    scene black onlayer hack
-    show hack scroll at flicker onlayer hack
-    $ renpy.pause(0.72, hard=True)
-    show hack scroll at flicker onlayer hack
-    $ renpy.pause(0.72, hard=True)
-    hide hack scroll onlayer hack
-    hide black onlayer hack
+    $ chatlog.append(Chatentry(answer,'',upTime))
+    show screen hack_screen('hack scroll')
+    pause 3.0
     return
     
 label redhack:
-    $ addchat("answer","",0)
-    scene black onlayer hack
-    show redhack scroll at flicker onlayer hack
-    $ renpy.pause(0.72, hard=True)
-    show redhack scroll at flicker onlayer hack
-    $ renpy.pause(0.72, hard=True)
-    hide redhack scroll onlayer hack
-    hide black onlayer hack
+    $ chatlog.append(Chatentry(answer,'',upTime))
+    show screen hack_screen('redhack scroll')
+    pause 3.0
     return
     
 # These are the special "banners" that crawl across the screen
@@ -607,86 +579,18 @@ label redhack:
 #************************************
 # Banners
 #************************************
-image banner annoy:
-    "Banners/Annoy/annoy_0.png"
-    0.12
-    "Banners/Annoy/annoy_1.png"
-    0.12
-    "Banners/Annoy/annoy_2.png"
-    0.12
-    "Banners/Annoy/annoy_3.png"
-    0.12
-    "Banners/Annoy/annoy_4.png"
-    0.12
-    "Banners/Annoy/annoy_5.png"
-    0.12
+
+label banner(banner):
+    show screen banner_screen(banner)
+    return
     
-image banner heart:
-    "Banners/Heart/heart_0.png"
-    0.12
-    "Banners/Heart/heart_1.png"
-    0.12
-    "Banners/Heart/heart_2.png"
-    0.12
-    "Banners/Heart/heart_3.png"
-    0.12
-    "Banners/Heart/heart_4.png"
-    0.12
-    "Banners/Heart/heart_5.png"
-    0.12
+screen banner_screen(banner):
+    zorder 10
+    window at truecenter:
+        add 'banner ' + banner
         
-image banner lightning:
-    "Banners/Lightning/lightning_0.png"
-    0.12
-    "Banners/Lightning/lightning_1.png"
-    0.12
-    "Banners/Lightning/lightning_2.png"
-    0.12
-    "Banners/Lightning/lightning_3.png"
-    0.12
-    "Banners/Lightning/lightning_4.png"
-    0.12
-    "Banners/Lightning/lightning_5.png"
-    0.12
-    
-image banner well:
-    "Banners/Well/well_0.png"
-    0.12
-    "Banners/Well/well_1.png"
-    0.12
-    "Banners/Well/well_2.png"
-    0.12
-    "Banners/Well/well_3.png"
-    0.12
-    "Banners/Well/well_4.png"
-    0.12
-    "Banners/Well/well_5.png"
-    0.12
-    
-label banner_lightning:
-    show banner lightning at truecenter onlayer heart
-    $ addchat("answer","",0.72)
-    hide banner lightning onlayer heart
-    return
-    
-label banner_heart:
-    show banner heart at truecenter onlayer heart
-    $ addchat("answer","",0.72)
-    hide banner heart onlayer heart
-    return
-    
-label banner_well:
-    show banner well at truecenter onlayer heart
-    $ addchat("answer","",0.72)
-    hide banner well onlayer heart
-    return
-    
-label banner_annoy:
-    show banner annoy at truecenter onlayer heart
-    $ addchat("answer","",0.72)
-    hide banner annoy onlayer heart
-    return
-    
+    timer 0.72 action Hide('banner_screen')
+        
     
 #************************************
 # Input Screen

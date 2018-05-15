@@ -46,8 +46,73 @@ init python:
             return myTime(day)
         else:
             return myTime()
+            
+    # This class stores past chatrooms that you've visited
+    # day/title/route is pretty self-explanatory, chatroom_label is the name of
+    # the label you jump to for the chatroom, trigger_time is the time (24h notation)
+    # that you want the chatroom to trigger, text_label is the name of the label to jump
+    # to if there are text messages after the chatroom, phone_call a phone_calls object with
+    # the relevant phone call information, vn_obj is a VN_Mode object with the relevant VN
+    # information, played is True if the player has played through the chatroom, participated is
+    # True if the player was present during the conversation (so you can define two versions of
+    # a chatroom, one where participated=True and one where participated=False), available is
+    # True if the chatroom is available to be played, and expired is True if the chatroom is expired
+    class Chat_History(store.object):
+        def __init__(self, day, title, route, chatroom_label, trigger_time, participants=None,
+                        text_label=False, phone_call=False, vn_obj=False, played=False, 
+                        participated=True, available=False, expired=False):
+            self.day = day
+            self.title = title
+            self.route = route
+            self.chatroom_label = chatroom_label
+            self.trigger_time = trigger_time
+            self.participants = participants
+            self.text_label = text_label
+            self.phone_call = phone_call
+            self.vn_obj = vn_obj
+            self.played = played
+            self.participated = participated
+            self.available = available
+            self.expired = expired
+        
+    class VN_Mode(store.object):
+        def __init__(self, vn_label, who, played=False, available=False):
+            self.vn_label = vn_label
+            self.who = who
+            self.played = False
+            self.available = False
+            
+    class phone_calls(store.object):
+        def __init__(self, caller, phone_label, viewed=False, available=False):
+            self.caller = caller
+            self.phone_label = phone_label
+            self.viewed = viewed
+            self.available = available
+            
+    # This object stores all the chatrooms you've viewed in the game. 
+    class Archive(store.object):
+        def __init__(self, day, archive_list=[], route='day_common1'):
+            self.day = day
+            self.archive_list = archive_list
+            self.route = route
 
-
+default chat_archive = [Archive('Tutorial', [Chat_History('Tutorial', 'Example Chatroom', 'auto', 'example_chat', '00:01'),
+                                    Chat_History('Tutorial', 'Pass Out After Drinking Coffee Syndrome', 'auto', 'coffee_chat', '01:05', [s], 'after_coffee_chat'),
+                                    Chat_History('Tutorial', 'Text Test', 'auto', 'text_msg_test', '02:11', [r], 'after_msg_test', False, VN_Mode('vn_mode', r))]),
+                        Archive('1st'),
+                        Archive('2nd'),
+                        Archive('3rd'),
+                        Archive('4th'),
+                        Archive('5th'),
+                        Archive('6th'),
+                        Archive('7th'),
+                        Archive('8th'),
+                        Archive('9th'),
+                        Archive('10th'),
+                        Archive('Final')]
+                        
+                        
+                        
 
 ##******************************
 ## BACKGROUND MUSIC DEFINITIONS
@@ -135,7 +200,6 @@ image bg starry_night = "Phone UI/bg-starry-night.png"
 # via $ nickColour = black or $ nickColour = white
 define white = "#ffffff"
 define black = "#000000"
-
 image new_sign = "Bubble/main01_new.png"
 
 #************************************
@@ -384,7 +448,7 @@ default persistent.jaehee_voice = True
 default persistent.other_voice = True
 
 default persistent.MC_pic = 1
-default persistent.name = "Song"
+default persistent.name = "Rainbow"
 
 default persistent.HP = 0
 default persistent.HG = 100
@@ -405,6 +469,113 @@ default fullsizeCG = "cg1"
 ## Currently unused
 image new_messages = "Phone UI/new_message_banner.png"
 
+
+## ********************************
+## Chatroom Images
+## ********************************
+
+
+image answerbutton: 
+    block:
+        "Phone UI/Answer-Dark.png" with Dissolve(0.5, alpha=True)
+        1.0
+        "Phone UI/Answer.png" with Dissolve(0.5, alpha=True)
+        1.0
+        repeat
+        
+image pausebutton:
+    "Phone UI/pause_sign.png" with Dissolve(0.5, alpha=True)
+    1.0
+    "transparent.png" with Dissolve(0.5, alpha=True)
+    1.0
+    repeat
+    
+
+image fast-slow-button = "Phone UI/fast-slow-transparent.png"
+image maxSpeed = im.FactorScale("Phone UI/max_speed_active.png",1.1)
+image noMaxSpeed = im.FactorScale("Phone UI/max_speed_inactive.png",1.1)
+image speed_txt = ParameterizedText(style = "speednum_style")
+image close_button = "CGs/close-overlay.png"
+
+image save_exit = "Phone UI/Save&Exit.png"  
+image signature = "Phone UI/signature01.png"
+image heart_hg = "Phone UI/heart-hg-sign.png"
+
+image hack scroll: 
+    "Hack-Long.png"
+    subpixel True
+    yalign 0.0
+    linear 1.0 yalign 1.0
+    yalign 0.0
+    linear 1.0 yalign 1.0
+    yalign 0.0
+    linear 1.0 yalign 1.0
+    
+image redhack scroll:
+    "Hack-Red-Long.png"
+    subpixel True
+    yalign 0.0
+    linear 1.0 yalign 1.0
+    yalign 0.0
+    linear 1.0 yalign 1.0
+    yalign 0.0
+    linear 1.0 yalign 1.0
+    
+image banner annoy:
+    "Banners/Annoy/annoy_0.png"
+    0.12
+    "Banners/Annoy/annoy_1.png"
+    0.12
+    "Banners/Annoy/annoy_2.png"
+    0.12
+    "Banners/Annoy/annoy_3.png"
+    0.12
+    "Banners/Annoy/annoy_4.png"
+    0.12
+    "Banners/Annoy/annoy_5.png"
+    0.12
+    
+image banner heart:
+    "Banners/Heart/heart_0.png"
+    0.12
+    "Banners/Heart/heart_1.png"
+    0.12
+    "Banners/Heart/heart_2.png"
+    0.12
+    "Banners/Heart/heart_3.png"
+    0.12
+    "Banners/Heart/heart_4.png"
+    0.12
+    "Banners/Heart/heart_5.png"
+    0.12
+        
+image banner lightning:
+    "Banners/Lightning/lightning_0.png"
+    0.12
+    "Banners/Lightning/lightning_1.png"
+    0.12
+    "Banners/Lightning/lightning_2.png"
+    0.12
+    "Banners/Lightning/lightning_3.png"
+    0.12
+    "Banners/Lightning/lightning_4.png"
+    0.12
+    "Banners/Lightning/lightning_5.png"
+    0.12
+    
+image banner well:
+    "Banners/Well/well_0.png"
+    0.12
+    "Banners/Well/well_1.png"
+    0.12
+    "Banners/Well/well_2.png"
+    0.12
+    "Banners/Well/well_3.png"
+    0.12
+    "Banners/Well/well_4.png"
+    0.12
+    "Banners/Well/well_5.png"
+    0.12
 
 ##******************************
 ## Image Definitions - Menu
@@ -499,9 +670,11 @@ image menu_select_btn = Frame("Phone UI/Main Menu/menu_select_button.png",60,60)
 image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
 image menu_select_btn_hover = Frame("Phone UI/Main Menu/menu_select_button_hover.png",60,60)
 
+
 ## ********************************
-## Chat Home Screen ***************
+## Chat Home Screen 
 ## ********************************
+
 image gray_chatbtn = "Phone UI/Main Menu/Original Story/main01_chatbtn.png"
 image gray_chatbtn_hover = "Phone UI/Main Menu/Original Story/main01_chatbtn_hover.png"
 image rfa_chatcircle:
@@ -509,7 +682,7 @@ image rfa_chatcircle:
     block:
         rotate 0
         alignaround(.5, .5)
-        linear 13.0 rotate 360
+        linear 13.0 rotate -360
         repeat        
 image blue_chatcircle:
     "Phone UI/Main Menu/Original Story/main01_chatcircle_big.png"
@@ -566,7 +739,9 @@ image notice_text = "Phone UI/Main Menu/Original Story/main01_subtext_notice.png
 image shop_text = "Phone UI/Main Menu/Original Story/main01_subtext_shop.png"
 
 
-# Profile Picture screen
+## ********************************
+## Profile Picture Screen
+## ********************************
 image profile_outline = "Phone UI/Main Menu/Original Story/profile_outline.png"
 image profile_cover_photo = "Phone UI/Main Menu/Original Story/profile_cover_photo.png"
 
@@ -606,7 +781,10 @@ image input_popup_bkgr = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",70,70)
     
     
 
-## Spaceship chip animation
+## ********************************
+## Spaceship chip animations
+## ********************************
+
 image space_chip = "Phone UI/Main Menu/Original Story/Spaceship/chip.png"
 image space_tap_large:
     "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
@@ -647,7 +825,9 @@ image space_black_box = Frame("Phone UI/Main Menu/Original Story/Spaceship/main0
 image space_continue = "Phone UI/Main Menu/Original Story/Spaceship/Continue.png"
 image space_continue_hover = "Phone UI/Main Menu/Original Story/Spaceship/Continue_hover.png"
 
+## ********************************
 ## Save & Load Images
+## ********************************
 image save_auto = "Phone UI/Main Menu/msgsl_icon_m.png"
 image save_another = "Phone UI/Main Menu/msgsl_image_another.png"
 image save_april = "Phone UI/Main Menu/msgsl_image_april.png"
@@ -665,7 +845,7 @@ image save_zen = "Phone UI/Main Menu/msgsl_image_zen.png"
 
 
 ## ********************************
-## Text Message Screen ************
+## Text Message Screen
 ## ********************************
 
 image new_text_envelope = 'Text Messages/main03_email_unread.png'
@@ -724,3 +904,60 @@ image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.png", 0,0)
 image text_answer_idle = "Text Messages/chat-bg02_2.png"
 image text_answer_hover = "Text Messages/chat-bg02_3.png"
 image new_text_count = "Text Messages/new_msg_count.png"
+
+## ********************************
+## Chat Select Screen
+## ********************************
+
+image day_common1 = 'Phone UI/Day Select/day_common1.png'
+image day_common2 = 'Phone UI/Day Select/day_common2.png'
+image day_ja = 'Phone UI/Day Select/day_ja.png'
+image day_ju = 'Phone UI/Day Select/day_ju.png'
+image day_r = 'Phone UI/Day Select/day_r.png'
+image day_s = 'Phone UI/Day Select/day_s.png'
+image day_v = 'Phone UI/Day Select/day_v.png'
+image day_y = 'Phone UI/Day Select/day_y.png'
+image day_z = 'Phone UI/Day Select/day_z.png'
+image day_selected = Frame('Phone UI/Day Select/daychat01_day_mint.png', 50, 50)
+image day_selected_hover = Frame('Phone UI/Day Select/daychat01_day_mint_hover.png', 50, 50)
+image day_inactive = Frame('Phone UI/Day Select/daychat01_day_inactive.png', 50, 50)
+image day_active = Frame('Phone UI/Day Select/daychat01_day_active.png', 50, 50)
+image day_active_hover = Frame('Phone UI/Day Select/daychat01_day_active_hover.png', 50, 50)
+image day_today:
+    'Phone UI/Day Select/daychat_today.png'
+    block:
+        easein 0.5 yoffset -20
+        easeout 0.5 yoffset 0
+        repeat
+image final_day = 'Phone UI/Day Select/daychat_finalday.png'
+image day_percent = Frame('Phone UI/Day Select/daychat_percent.png', 15, 15)
+image day_percent_bg = Frame('Phone UI/Day Select/daychat_percent_bg.png', 15, 15)
+image day_percent_border = Frame('Phone UI/Day Select/daychat_percent_border.png', 15, 15)
+image day_hlink = 'Phone UI/Day Select/daychat_hlink.png'
+
+image day_vlink = im.Tile('Phone UI/Day Select/daychat_vlink.png',(15,1180))
+image vn_inactive = 'Phone UI/Day Select/vn_inactive.png'
+image vn_selected = 'Phone UI/Day Select/daychat01_vn_mint.png'
+image vn_active = 'Phone UI/Day Select/vn_active.png'
+image vn_selected_hover = 'Phone UI/Day Select/daychat01_vn_mint_hover.png'
+image vn_active_hover = 'Phone UI/Day Select/vn_active_hover.png'
+image vn_marker = 'Phone UI/Day Select/daychat01_vn_marker.png'
+image vn_time_bg = 'Phone UI/Day Select/daychat01_chat_timebg.png'
+
+image chat_active = Frame('Phone UI/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
+image chat_inactive = Frame('Phone UI/Day Select/daychat01_chat_inactive.png',190, 50, 40, 50)
+image chat_selected = Frame('Phone UI/Day Select/daychat01_chat_mint.png',190, 50, 40, 50)
+image chat_active_hover = Frame('Phone UI/Day Select/daychat01_chat_active_hover.png',190, 70, 40, 50)
+image chat_selected_hover = Frame('Phone UI/Day Select/daychat01_chat_mint_hover.png',190, 50, 40, 50)
+image chat_hover_box = Frame('Phone UI/Day Select/daychat_vn_selectable.png', 0,0,0,0)
+
+image vn_other = 'Phone UI/Day Select/vn_other.png'
+image vn_ja = 'Phone UI/Day Select/vn_ja.png'
+image vn_ju = 'Phone UI/Day Select/vn_ju.png'
+image vn_r = 'Phone UI/Day Select/vn_r.png'
+image vn_ri = 'Phone UI/Day Select/vn_ri.png'
+image vn_sa = 'Phone UI/Day Select/vn_sa.png'
+image vn_s = 'Phone UI/Day Select/vn_s.png'
+image vn_v = 'Phone UI/Day Select/vn_v.png'
+image vn_y = 'Phone UI/Day Select/vn_y.png'
+image vn_z = 'Phone UI/Day Select/vn_z.png'
