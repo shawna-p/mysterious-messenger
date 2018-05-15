@@ -175,7 +175,6 @@ init 5:
         yalign 0.607   
         text_align 0.5
         size 30
-        xsize 600
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         
     style points is text:
@@ -405,6 +404,19 @@ init 5:
         yalign 0.5
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         
+    ## **********************
+    ## Chat Select
+    ## **********************
+    style day_title:
+        xalign 0.5
+        text_align 0.5
+        color '#fff'
+        size 37
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        yalign 0.5
+    
+        
+        
     ####################################
     ## Other Miscellaneous Styles
     ####################################
@@ -449,7 +461,6 @@ init 5:
         size 42
         xpos -110
         yalign 0.48
-       
         
     
     #*************************************************************
@@ -743,12 +754,50 @@ init 5:
         linear 0.02 alpha 0 xalign .35 yalign .55
            
     # The heartbreak icon
-    transform heartbreak:
+    transform heartbreak1:
         alpha 0.7
         xalign 0.5
         yalign 0.5
         zoom 2.0
-        
+        pause 0.12
+        alpha 0
+    transform heartbreak2:
+        alpha 0
+        linear 0.12 alpha 0
+        alpha 0.7
+        xalign 0.5
+        yalign 0.5
+        zoom 2.0
+        pause 0.12
+        alpha 0
+    transform heartbreak3:
+        alpha 0
+        linear 0.24 alpha 0
+        alpha 0.7
+        xalign 0.5
+        yalign 0.5
+        zoom 2.0
+        pause 0.12
+        alpha 0
+    transform heartbreak4:
+        alpha 0
+        linear 0.36 alpha 0
+        alpha 0.7
+        xalign 0.5
+        yalign 0.5
+        zoom 2.0
+        pause 0.12
+        alpha 0
+    transform heartbreak5:
+        alpha 0
+        linear 0.48 alpha 0
+        alpha 0.7
+        xalign 0.5
+        yalign 0.5
+        zoom 2.0 
+        pause 0.12
+        alpha 0        
+    
     # Used for the screen shake effect
     transform shake:    
         linear 0.12 xoffset -150 yoffset -200
@@ -770,7 +819,12 @@ init 5:
         linear 0.18 alpha 0.0
         linear 0.18 alpha 1.0
         linear 0.18 alpha 0.0
-        linear 0.02 alpha 1.0
+        linear 0.18 alpha 1.0
+        linear 0.18 alpha 0.0
+        linear 0.18 alpha 1.0
+        linear 0.18 alpha 0.0
+        linear 0.18 alpha 1.0
+        linear 0.12 alpha 0.0
         
     # For timed menus
     transform alpha_dissolve:
@@ -788,6 +842,22 @@ init 5:
         
     transform text_zoom:
         zoom 1.15
+        
+    transform chat_title_scroll:
+        pause 3.5
+        linear 5.0 xalign 1.0 xoffset -420
+        xalign 0.0 xoffset 0
+        repeat
+        
+    transform participant_scroll:
+        pause 3.5
+        linear 2.0 xalign 1.0
+        pause 3.5
+        linear 2.0 xalign 0.0
+        repeat
+        
+    transform null_anim:
+        pass
         
         
         
