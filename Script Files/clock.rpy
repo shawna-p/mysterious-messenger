@@ -73,7 +73,7 @@ init -1 python:
             #Variables for determining the clock modes
             self.analogue = ana
             self.auto_run = False
-            self.realtime_run = False
+            self.realtime_run = True
             self.forward = True
             self.mil_time = mil_time
 
