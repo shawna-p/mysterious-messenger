@@ -1,9 +1,5 @@
 label coffee_chat:
 
-    $ chatroom_name = 'Pass Out After Drinking Coffee Syndrome'
-    $ day_num = '4th'
-    $ route_title = 'casual'
-
     # You'll need to call this yourself; it's not an option in the spreadsheet
     # Pass it the name of the background you want in quotes
     # You can find your options in variables.rpy
@@ -29,8 +25,8 @@ label coffee_chat:
             
             # You have to call heart icons yourself. Just pass it the variable
             # of the name of the character whose heart icon you want
-            # (variables.rpy has the variable names if you're not sure)
-            call heart_icon('s')
+            # (variables.rpy has the variable names if you're not sure) 
+            call heart_icon(s)
             s "{=sser2}Ya. Slept like a rock.{/=sser2}"
             
     s "{=sser2}I don't feel tired physically...{/=sser2}"
@@ -45,7 +41,7 @@ label coffee_chat:
             m "Just take it out on Yoosung." (pauseVal=0)
             s "{=sser2}[name]...{/=sser2}"
             s "{=sser2}Ur pretty smart lol{/=sser2}" (bounce=True, specBubble="cloud_m")
-            call heart_icon('s')
+            call heart_icon(s)
         "You should play games.":
             m "You should play games." (pauseVal=0)
             s "o_o Game??"
@@ -60,12 +56,12 @@ label coffee_chat:
         "Yoosung~ I missed you.":
             m "Yoosung~ I missed you." (pauseVal=0)
             y "{=sser2}Thanks for being so welcoming.{/=sser2}"
-            call heart_icon('y')
+            call heart_icon(y)
             y "{=sser2}Hello ^^{/=sser2}"
         "Omg. He really came.":
             m "Omg. He really came." (pauseVal=0)
             s "{=sser2}heya{/=sser2}"
-            call heart_icon('s')
+            call heart_icon(s)
             y "{=sser2}Hmm?{/=sser2}"
             y "I smell a trap somewhere..."
             
@@ -109,13 +105,13 @@ label coffee_chat:
         "Ya. U'll be in trouble if u drink coffee.":
             m "Ya. U'll be in trouble if u drink coffee." (pauseVal=0)
             s "{=sser2}Ya...{/=sser2}"
-            call heart_icon('s')
+            call heart_icon(s)
             s "{=sser2}{size=+12}U can never ever!!! drink coffee.{/size}{/=sser2}"
             s "{=sser2}Seeing ur typos above, it seems like ur symptoms are showing already.{/=sser2}"
         "Seven's just messing around lol":
             m "Seven's just messing around lol" (pauseVal=0)
             y "Right? lolol"
-            call heart_icon('y')
+            call heart_icon(y)
             s "{=ser1xb}Not joking.{/=ser1xb}"
             s "{=ser1}I'm dead serious.{/=ser1}"
             y "{=sser2}Puppy food?{/=sser2}"
@@ -155,7 +151,7 @@ label coffee_chat:
         "You should prepare yourself.":
             m "You should prepare yourself." (pauseVal=0)
             s "Ya. Go prepare to faint."
-            call heart_icon('s')
+            call heart_icon(s)
         "I think fainting is a bit too much...":
             m "I think fainting is a bit too much..." (pauseVal=0)
             y "{=sser2}What?{/=sser2}"
@@ -179,7 +175,7 @@ label coffee_chat:
             y "{=sser1b}!!{/=sser1b}" 
             show earlyMorn at shake
             s "Ya"
-            call heart_icon('s')
+            call heart_icon(s)
         "Whoever named it is a bit...;;":
             m "Whoever named it is a bit...;;" (pauseVal=0)
             s "{=blocky}It was made up at the last min so no choice.{/=blocky}"
@@ -205,13 +201,13 @@ label coffee_chat:
         "Last year there were about 1024 deaths in the country...":
             m "Last year there were about 1024 deaths in the country..." (pauseVal=0)
             s "{=sser2}Oh! That number's nice. It's the 10th multiple of 2.{/=sser2}"
-            call heart_icon('s')
+            call heart_icon(s)
             y "{=sser2}Omg. Can't believe I have such a serious disease T_T{/=sser2}"
             y "{=sser2}I'm so svchoecked to type pertoperly T_T{/=sser2}"
         "What's wrong with the name lolololol A disease called Drink Caffeine and Faint lololol":
             m "What's wrong with the name lolololol A disease called Drink Caffeine and Faint lololol" (pauseVal=0)
             y "{=sser2}lololol I know... It is funny T_T{/=sser2}"
-            call heart_icon('y')
+            call heart_icon(y)
             y "{=sser2}But I can't believe I have it.{/=sser2}"
             y "{image=yoosung cry}" (img=True)
             
@@ -237,19 +233,19 @@ label coffee_chat:
                     
                     # This is the 'heartbreak' animation; call it the same way you
                     # would a heart icon except use heart_break(y) instead of heart_icon(y)
-                    call heart_break('y')
+                    call heart_break(y)
                     y "{=curly}I thought u were crying by sweating{/=curly}"
                 "T_T. You have to return.":
                     m "T_T. You have to return." (pauseVal=0)
                     y "{=curly}Yup T_T I will return!!{/=curly}"
-                    call heart_icon('y')
+                    call heart_icon(y)
                     s "{=sser2}Gahh... Tears r blocking my sight.{/=sser2}"
                     
         "A stroke of good luck in this misfortune":
             m "A stroke of good luck in this misfortune" (pauseVal=0)
             y "I should at least pass out at home T_T"
             s "Ya"
-            call heart_icon('s')
+            call heart_icon(s)
     
     y "{image=yoosung cry}" (img=True)
     y "Thanks for telling me Seven."
@@ -260,12 +256,12 @@ label coffee_chat:
         "Call Seven if something happens.":
             m "Call Seven if something happens." (pauseVal=0)
             s "{=sser2}Ya. I'll always be here for u ^^{/=sser2}"
-            call heart_icon('s')
+            call heart_icon(s)
             y "Thank you T_T"
         "Call me if anything happens":
             m "Call me if anything happens" (pauseVal=0) 
             y "{=sser2}Okay. Thank you so much T_T{/=sser2}"
-            call heart_icon('y')
+            call heart_icon(y)
             
     s "{=sser2}Oh.{/=sser2}"
     s "{=sser2}I recommend drinking chocolate milk before u faint.{/=sser2}"
@@ -282,7 +278,7 @@ label coffee_chat:
             y "Why do u keep sweating...?"
             y "{=sser2}U must be really worried for me.{/=sser2}"
             y "{size=+12}I'm touched!!{/size}"
-            call heart_icon('y')
+            call heart_icon(y)
         "No need ^^":
             m "No need ^^" (pauseVal=0) 
             y "I should know my body better."
@@ -311,7 +307,7 @@ label coffee_chat:
         "Seven, look out for my health too":
             m "Seven, look out for my health too" (pauseVal=0)
             s "{=sser2}U can trust me...^^{/=sser2}"
-            call heart_icon('s')
+            call heart_icon(s)
             y "{=sser2}That's good thinking... [name].{/=sser2}"
         ";;;":
             m ";;;" (pauseVal=0) 
@@ -336,11 +332,11 @@ label coffee_chat:
             y "{image=yoosung puff}" (img=True)
             y "{=curly}{size=+5}Do you mean that?{/=curly}"
             y "{=curly}I'm hurt...{/=curly}"
-            call heart_break('y')
+            call heart_break(y)
         "I'll wake you up...":
             m "I'll wake you up..." (pauseVal=0)
             y "Oh...! Thank you." (bounce=True)
-            call heart_icon('y')
+            call heart_icon(y)
             y "{image=yoosung happy}" (img=True)
         "Seven is just playing with you lolol":
             m "{=sser2}Seven is just playing with you lolol{/=sser2}" (pauseVal=0)
@@ -358,8 +354,6 @@ label coffee_chat:
     y "{=sser2}I'm gonna go to the supermarket~!{/=sser2}"
     msg "Yoosung★ has left the chatroom."
     
-    $ post_chatroom = 'after_coffee_chat'
-    
     # Call this to end the chat and return to the main menu
     call save_exit
     return
@@ -369,61 +363,53 @@ label coffee_chat:
 # like text messages or (in the future) phone calls
 label after_coffee_chat:
 
-    $ show_queue = []
-
     ## Seven's text message
-    $ addtext ("Sev", "Thanks for not spoiling the secret~ ^^", "Sev")
-    $ addtext ("Sev", "You're a lot of fun to talk to meow!", "Sev")
-    $ text_msg_menu['Sev'] = 'coffee1'
-    $ recent_texts['Sev'] = False
-    $ show_queue.append('Sev')
-    #show screen text_msg_popup('Sev')
+    $ addtext (s, "Thanks for not spoiling the secret~ ^^", s)
+    $ addtext (s, "You're a lot of fun to talk to meow!", s)
+    $ add_reply_label(s, 'coffee1')
     
     ## Yoosung's text message
-    $ addtext ("Yoo", "[name]... what do I do...", "Yoo")
-    $ text_msg_menu['Yoo'] = 'coffee2'
-    $ recent_texts['Yoo'] = False
-    $ show_queue.append('Yoo')
-    #show screen text_msg_popup('Yoo') as msg2
-    
-    $ new_notifications = True
-    $ show_notifications()
+    $ addtext (y, "[name]... what do I do...", y)
+    $ add_reply_label(y, 'coffee2')
     
     return
     
-menu coffee1:
+label coffee1(current_message):
 
-    "I like talking to you too meow!":
-        $ addtext ("MC", "I like talking to you too meow!", "Sev")
-        call heart_icon('s')
-        $ addtext ("Sev", "<3 <3 <3", "Sev")
-        $ addtext ("Sev", "Agent 707 will do his best to come to the chatroom more often meow!", "Sev")
-        $ text_msg_menu["Sev"] = 'None'
+    menu:
+        "I like talking to you too meow!":
+            $ addtext (m, "I like talking to you too meow!", s)
+            $ add_heart(current_message)
+            $ addtext (s, "<3 <3 <3", s)
+            $ addtext (s, "Agent 707 will do his best to come to the chatroom more often meow!", s)
+        
+        "I feel bad for Yoosung though...":
+            $ addtext (m, "I feel bad for Yoosung though...", s)
+            $ addtext (s, "Nah~ he'll be fine", s)
+            $ addtext (s, "I'm sure he'd be happy you're worried for him tho lolol", s)
+
+    $ renpy.retain_after_load()
+    return
     
-    "I feel bad for Yoosung though...":
-        $ addtext ("MC", "I feel bad for Yoosung though...", "Sev")
-        call heart_icon('y')
-        $ addtext ("Sev", "Nah~ he'll be fine", "Sev")
-        $ addtext ("Sev", "I'm sure he'd be happy you're worried for him tho lolol", "Sev")
-        $ text_msg_menu['Sev'] = 'None'
+label coffee2(current_message):
     
-menu coffee2:
-    
-    "Drink that chocolate milk!":
-        $ addtext ("MC", "Drink that chocolate milk!", "Yoo")
-        call heart_icon('y')
-        $ addtext ("Yoo", "I will!! I bought a lot of it...", "Yoo")
-        $ addtext ("Yoo", "It could be worse... I could've had classes tomorrow T_T", "Yoo")
-        $ addtext ("Yoo", "Thanks for worrying.", "Yoo")
-        $ text_msg_menu['Yoo'] = 'None'
-    
-    "You do know Seven's just teasing, right?":
-        $ addtext ("MC", "You do know Seven's just teasing, right?", "Yoo")
-        $ addtext ("Yoo", "I appreciate you trying to comfort me but...", "Yoo")
-        $ addtext ("Yoo", "You saw the news article he posted, right?", "Yoo")
-        $ addtext ("Yoo", "And he really does keep track of all the members...", "Yoo")
-        $ addtext ("Yoo", "I'm sure it's not a lie.", "Yoo")
-        $ text_msg_menu['Yoo'] = 'None'
+    menu:
+        "Drink that chocolate milk!":
+            $ addtext (m, "Drink that chocolate milk!", y)
+            $ add_heart(current_message)
+            $ addtext (y, "I will!! I bought a lot of it...", y)
+            $ addtext (y, "It could be worse... I could've had classes tomorrow T_T", y)
+            $ addtext (y, "Thanks for worrying.", y)
+        
+        "You do know Seven's just teasing, right?":
+            $ addtext (m, "You do know Seven's just teasing, right?", y)
+            $ addtext (y, "I appreciate you trying to comfort me but...", y)
+            $ addtext (y, "You saw the news article he posted, right?", y)
+            $ addtext (y, "And he really does keep track of all the members...", y)
+            $ addtext (y, "I'm sure it's not a lie.", y)
+
+    $ renpy.retain_after_load()
+    return
     
     
     

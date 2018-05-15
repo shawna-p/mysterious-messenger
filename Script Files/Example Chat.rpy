@@ -3,10 +3,6 @@ label example_chat:
     $ first_choice = True
     $ choice_picked = None
     
-    $ chatroom_name = 'Example Chatroom'
-    $ day_num = 'Tutorial'
-    $ route_title = 'auto'
-    
     call hack      
     call chat_begin("hack")
     
@@ -49,7 +45,7 @@ label example_chat:
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^"
                 msg "Unknown has left the chatroom"
-            $ addchat("answer","",pv*0.5)   
+            pause 0.5  
             jump emojis
             
         "Banners & Other" if not choice_picked == "banners":
@@ -61,7 +57,7 @@ label example_chat:
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^"
                 msg "Unknown has left the chatroom"
-            $ addchat("answer","",pv*0.5)
+            pause 0.5
             jump banners
             
         "Heart Icons" if not choice_picked == "heart icons":
@@ -73,7 +69,7 @@ label example_chat:
                 u "{=ser1}Hmm, sounds good. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^" (bounce=True)
                 msg "Unknown has left the chatroom"
-            $ addchat("answer","",pv*0.5)
+            pause 0.5
             jump heart_icons
             
         "Screen Shake and Special Bubbles" if not choice_picked == "spec bubbles":
@@ -85,7 +81,7 @@ label example_chat:
                 u "{=ser1}Alright then. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^" (bounce=True)
                 msg "Unknown has left the chatroom"
-            $ addchat("answer","",pv*0.5)
+            pause 0.5
             jump screen_shake
             
         "I'm done for now" if not first_choice:
@@ -192,17 +188,17 @@ label banners:
     y "{image=yoosung happy}"   (img=True)
     y "{=sser2}There are four different types of banners:{/=sser2}" 
     y "The lightning banner!" (bounce=True)
-    call banner_lightning
+    call banner('lightning')
     y "{=sser2}For when you're feeling angry ^^;;{/=sser2}"
     y "The heart banner!" (bounce=True)
-    call banner_heart
+    call banner('heart')
     y "For happy stuff!"
     y "The annoy banner" (bounce=True)
-    call banner_annoy
+    call banner('annoy')
     y "{=sser2}For when you're irritated{/=sser2}"
     y "{=sser2}And last but not least,{/=sser2}"
     y "{=ser1}the 'well' banner!{/=ser1}" (bounce=True)
-    call banner_well
+    call banner('well')
     y "{=ser1}...{/=ser1}"
     y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
     y "{image=yoosung thankyou}"   (img=True)
@@ -231,43 +227,43 @@ label heart_icons:
     z "{=curly}Hey cutie ^^{/=curly}" (bounce=True)
     z "{=sser2}I'm here to explain heart icons!{/=sser2}"
     z "{=sser2}They look like this:{/=sser2}"
-    call heart_icon('z')
+    call heart_icon(z)
     z "{=sser2}And each character has a different one{/=sser2}"
     z "{=sser1b}They all use the same white heart, this one{/=sser1b}"
-    call heart_icon('u')
-    z "and just recolour it depending on what argument you pass via \"call heart_icon('z')\""
+    call heart_icon(u)
+    z "and just recolour it depending on what argument you pass via \"call heart_icon(z)\""
     z "You can easily add your own colours, too, by adding the character and colour to the heartcolour list in MysMe Screen Effects.rpy"
     z "{=blocky}Here are the currently available colours:{/=blocky}"
     z "Seven"
-    call heart_icon('s')
+    call heart_icon(s)
     z "{=curly}Me!{/=curly}"
-    call heart_icon('z')
+    call heart_icon(z)
     z "Jaehee"
-    call heart_icon('ja')
+    call heart_icon(ja)
     z "Jumin"
-    call heart_icon('ju')
+    call heart_icon(ju)
     z "Yoosung"
-    call heart_icon('y')
+    call heart_icon(y)
     z "Ray"
-    call heart_icon('ra')
+    call heart_icon(r)
     z "V"
-    call heart_icon('v')
+    call heart_icon(v)
     z "{=ser1}and then there are a few special ones{/=ser1}"
     z "The white heart I mentioned before (tied to the username 'Unknown')"
-    call heart_icon('u')
+    call heart_icon(u)
     z "You can also get this heart by passing heart_icon the short form for Saeran (sa or \"Sae\")"
-    call heart_icon('sa')
+    call heart_icon(sa)
     z "{=sser2}And then there is this heart{/=sser2}"
-    call heart_icon('r')
+    call heart_icon(ri)
     z "{=sser2}which is for Rika, but isn't found in-game{/=sser2}"
     z "The last thing I'm here to explain is the 'heartbreak' icon"
     z "It works the same as the regular heart icons -- just add a colour to the heartcolour list and call \"heart_break\" with that character"
     z "{=ser1}It will automatically colour itself{/=ser1}"
     z "{=sser2}They look like this!{/=sser2}"
-    call heart_break('z')
+    call heart_break(z)
     z "{=sser2}But you don't really want to hurt any of our feelings, right?{/=sser2}" (bounce=True)
     z "{image=zen happy}" (img=True)
-    call heart_icon('z')
+    call heart_icon(z)
     z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}"
     z "It keeps track of both the total points earned during a chatroom,"
     z "as well as how many points you have with each individual character"
@@ -292,7 +288,7 @@ label screen_shake:
     ja "{=curly}Ah, right on time.{/=curly}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}Shall we get started then?{/=ser1}"
     ja "{=ser1}...{/=ser1}"
-    call banner_well
+    call banner('well')
     ja "{=ser1}Mr. Han?{/=ser1}"
     ja "{image=jaehee well}" (img=True)
     ja "Mr. Han."
@@ -437,24 +433,24 @@ label jumin_emoji:
 
 
 label ray_emoji:
-    ra "{image=ray cry}" (img=True)
-    ra "{image=ray happy}" (img=True)
-    ra "{image=ray huff}" (img=True)
-    ra "{image=ray question}" (img=True)
-    ra "{image=ray smile}" (img=True)
-    ra "{image=ray well}" (img=True)
-    ra "{image=ray wink}" (img=True)
+    r "{image=ray cry}" (img=True)
+    r "{image=ray happy}" (img=True)
+    r "{image=ray huff}" (img=True)
+    r "{image=ray question}" (img=True)
+    r "{image=ray smile}" (img=True)
+    r "{image=ray well}" (img=True)
+    r "{image=ray wink}" (img=True)
     call answer
     jump emoji
 
 label saeran2_emoji:
-    ra "{image=saeran2 cry}" (img=True)
-    ra "{image=saeran2 happy}" (img=True)
-    ra "{image=saeran2 huff}" (img=True)
-    ra "{image=saeran2 question}" (img=True)
-    ra "{image=saeran2 smile}" (img=True)
-    ra "{image=saeran2 well}" (img=True)
-    ra "{image=saeran2 wink}" (img=True)
+    r "{image=saeran2 cry}" (img=True)
+    r "{image=saeran2 happy}" (img=True)
+    r "{image=saeran2 huff}" (img=True)
+    r "{image=saeran2 question}" (img=True)
+    r "{image=saeran2 smile}" (img=True)
+    r "{image=saeran2 well}" (img=True)
+    r "{image=saeran2 wink}" (img=True)
     call answer
     jump emoji
 
@@ -481,9 +477,9 @@ label seven_emoji:
     jump emoji
 
 label rika_emoji:
-    r "{image=rika happy}" (img=True)
-    r "{image=rika cry}" (img=True)
-    r "{image=rika pout}" (img=True)
+    ri "{image=rika happy}" (img=True)
+    ri "{image=rika cry}" (img=True)
+    ri "{image=rika pout}" (img=True)
     call answer
     jump emoji
 
@@ -529,7 +525,7 @@ label cloud_s:
     ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
     ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
     s "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    ra "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
+    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
     sa "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
     v "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
     y "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
@@ -542,7 +538,7 @@ label sigh_s:
     ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
     ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
     s "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
-    ra "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
+    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
     v "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
     y "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
 
@@ -554,7 +550,7 @@ label round_s:
     ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
     ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
     s "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
-    ra "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
+    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
     s "Some small text" (pauseVal=0.5, bounce=True, specBubble="round2_s")
     v "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
     y "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
@@ -566,8 +562,8 @@ label square_s:
     z "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
     ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
     ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
-    ra "Some small text" (pauseVal=0.5, bounce=True, specBubble="square2_s")
-    ra "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
+    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="square2_s")
+    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
     sa "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
     v "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
     y "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
@@ -592,7 +588,7 @@ label cloud_m:
     ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    ra "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
     sa "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
@@ -605,7 +601,7 @@ label sigh_m:
     ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
-    ra "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
 
@@ -617,7 +613,7 @@ label round_m:
     ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
-    ra "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round2_m")
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
@@ -629,8 +625,8 @@ label square_m:
     z "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
     ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
-    ra "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square2_m")
-    ra "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square2_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
     sa "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
@@ -655,7 +651,7 @@ label cloud_l:
     ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    ra "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
     sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
@@ -668,7 +664,7 @@ label sigh_l:
     ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
-    ra "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
 
@@ -680,7 +676,7 @@ label round_l:
     ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
-    ra "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round2_l")
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
@@ -692,8 +688,8 @@ label square_l:
     z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
     ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
-    ra "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square2_l")
-    ra "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square2_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
     sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
