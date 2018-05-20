@@ -110,9 +110,10 @@ screen heart_icon_screen(character):
         heartChar = character.file_id
         if character == r:
             character = sa
-        character.add_heart()
-        chatroom_hp += 1
-        persistent.HP += 1
+        if not observing:
+            character.add_heart()
+            chatroom_hp += 1
+            persistent.HP += 1
             
     if not observing:
         fixed at heart:
@@ -126,7 +127,7 @@ screen heart_icon_screen(character):
 label heart_break(character):
     show screen heart_break_screen(character)
     return
-    
+      
     
 screen heart_break_screen(character):
     zorder 20
@@ -135,9 +136,10 @@ screen heart_break_screen(character):
         heartChar = character.file_id
         if character == r:
             character = sa
-        character.lose_heart()
-        chatroom_hp -= 1
-        persistent.HP -= 1
+        if not observing:
+            character.lose_heart()
+            chatroom_hp -= 1
+            persistent.HP -= 1
             
     if not observing:
         fixed at heartbreak1:
@@ -301,6 +303,8 @@ screen phone_overlay:
             hover "noMaxSpeed"
             if not choosing:
                 action [toggle_skipping, renpy.restart_interaction]
+                
+    use clock_screen
 
     
 
@@ -347,9 +351,7 @@ default close_visible = True
 
 label viewCG:
     $ close_visible = True
-    hide screen clock_screen
     call screen viewCG_fullsize
-    show screen clock_screen
     return
     
 ## This is the screen where you can view a full-sized CG when you
@@ -387,15 +389,6 @@ screen viewCG_fullsize:
 # Call this label to show the save & exit sign
 label save_exit:
     #answer "" (pauseVal=0)
-    if observing:
-        if config.skipping:
-            $ config.skipping = False
-        hide screen clock_screen
-        $ greeted = False
-        $ choosing = False
-        hide screen phone_overlay
-        hide screen messenger_screen
-        return # call history_select_screen etc
     call screen save_and_exit
     return
 
@@ -412,33 +405,44 @@ screen save_and_exit:
         idle "save_exit"
         action [Jump("press_save_and_exit")]
         
-label press_save_and_exit:
-    call screen signature_screen
-    $ persistent.HG += chatroom_hg
-    $ chatroom_hp = 0
-    $ chatroom_hg = 0
-    $ config.skipping = False   
-    $ greeted = False
-    if current_chatroom.text_label and not current_chatroom.played:
-        $ renpy.call(current_chatroom.text_label)
-    $ choosing = False
-    hide screen clock_screen
-    hide screen phone_overlay
-    hide screen messenger_screen
-    hide screen save_and_exit
-    $ current_chatroom.played = True
-    $ renpy.retain_after_load()
-    call screen chat_home
+label press_save_and_exit(phone=True):
+    if observing:
+        $ config.skipping = False
+        $ greeted = False
+        $ choosing = False
+        hide screen phone_overlay
+        hide screen messenger_screen
+        call screen chat_select # call history_select_screen etc
+    else:
+        call screen signature_screen(phone)
+        $ persistent.HG += chatroom_hg
+        $ chatroom_hp = 0
+        $ chatroom_hg = 0
+        $ config.skipping = False   
+        $ greeted = False
+        if current_chatroom.text_label and not current_chatroom.played:
+            $ renpy.call(current_chatroom.text_label)
+        $ choosing = False
+        hide screen phone_overlay
+        hide screen messenger_screen
+        hide screen save_and_exit
+        $ current_chatroom.played = True
+        if not phone:
+            $ current_chatroom.vn_obj.played = True
+        $ next_chatroom()
+        $ renpy.retain_after_load()
+        call screen chat_home
 
     
 # This shows the signature screen, which records your total heart points
 # It shows hourglass points as well but currently there is no way to get
 # more hourglasses
 
-screen signature_screen:
+screen signature_screen(phone=True):
     zorder 5
     modal True
-    add "save_exit" ypos 1220
+    if phone:
+        add "save_exit" ypos 1220
     add "Phone UI/choice_dark.png"
     #add "signature" xalign 0.5 yalign 0.5
     window:
@@ -508,7 +512,6 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         $ chatroom_hp = 0
     hide screen starry_night
     show screen phone_overlay
-    show screen clock_screen
     show screen messenger_screen 
     show screen pause_button
     # Fills the beginning of the screen with 'empty space' so the messages begin
@@ -540,6 +543,12 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     elif background == "redhack":
         scene bg redhack
         $ nickColour = white
+        
+    if current_chatroom.played:
+        $ observing = True
+    else:
+        $ observing = False
+        
     return
         
 #************************************
@@ -547,8 +556,6 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 #************************************
 # You can call this when you want to display the green
 # scrolled hacking effect
-# Don't forget to show your desired background after calling
-# the hack screen or pass the background name to chat_begin
 
 screen hack_screen(hack):
     zorder 10
@@ -590,8 +597,28 @@ screen banner_screen(banner):
         add 'banner ' + banner
         
     timer 0.72 action Hide('banner_screen')
-        
     
+    
+#************************************
+# Chatroom Enter/Exit
+#************************************
+# This does some of the code for you when you want a character
+# to enter/exit a chatroom
+
+label enter(chara):
+
+    $ mystring = chara.name + " has entered the chatroom."
+    
+    $ addchat(msg, mystring, pv)
+    if not observing:    
+        $ current_chatroom.add_participant(chara)
+    return
+    
+label exit(chara):
+    $ mystring = chara.name + " has left the chatroom."    
+    $ addchat(msg, mystring, pv)
+    return
+
 #************************************
 # Input Screen
 #************************************
