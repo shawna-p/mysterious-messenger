@@ -7,7 +7,7 @@ screen chat_select():
 
     use starry_night()
     
-    use menu_header("Day List")
+    use menu_header("Day List", Show('chat_home', Dissolve(0.5)))
     
     fixed:
         viewport:
@@ -124,7 +124,7 @@ screen chatroom_timeline(day):
 
     use starry_night()
     
-    use menu_header(day.day)
+    use menu_header(day.day, Show('chat_select', Dissolve(0.5)))
     
     fixed:   
         xysize (720, 1180)
@@ -140,22 +140,47 @@ screen chatroom_timeline(day):
                 xsize 720
                 spacing 20
                 for chatroom in day.archive_list:
-                    use chatroom_display(chatroom)
+                    if chatroom.available:
+                        use chatroom_display(chatroom)
                 null height 40
                     
                     
 screen chatroom_display(mychat):
 
-    $ my_vn = mychat.vn_obj
-    if mychat.participants:
-        if len(mychat.participants) > 5 and mychat.participated:
-            $ part_anim = participant_scroll
-        elif len(mychat.participants) > 6 and not mychat.participated:
-            $ part_anim = participant_scroll
+    python:
+
+        my_vn = mychat.vn_obj
+        if my_vn:
+            if my_vn.played:
+                vn_foreground = 'vn_active'
+                vn_hover = 'vn_active_hover'
+            elif my_vn.available:
+                vn_foreground = 'vn_selected'
+                vn_hover = 'vn_selected_hover'
+            else:
+                vn_foreground = 'vn_inactive'
+                vn_hover = 'vn_inactive'
+                
+        if mychat.played:
+            chat_bkgr = 'chat_active'
+            chat_hover = 'chat_active_hover'
+        elif mychat.available:
+            chat_bkgr = 'chat_selected'
+            chat_hover = 'chat_selected_hover'
         else:
-            $ part_anim = null_anim
-    else:
-        $ part_anim = null_anim
+            chat_bkgr = 'chat_inactive'
+            chat_hover = 'chat_inactive'
+        
+        
+        if mychat.participants:
+            if len(mychat.participants) > 5 and mychat.participated:
+                part_anim = participant_scroll
+            elif len(mychat.participants) > 6 and not mychat.participated:
+                part_anim = participant_scroll
+            else:
+                part_anim = null_anim
+        else:
+            part_anim = null_anim
     
     null height 10
                       
@@ -173,9 +198,8 @@ screen chatroom_display(mychat):
         xysize (620, 160)
         xoffset 70
         xalign 0.0
-        background 'chat_active'
-        hover_foreground 'chat_active_hover'
-        focus_mask 'chat_hover_box'
+        background chat_bkgr
+        hover_foreground chat_hover
         action [SetVariable('current_chatroom', mychat), Jump(mychat.chatroom_label)]
         
         has vbox
@@ -225,10 +249,13 @@ screen chatroom_display(mychat):
             
             button:
                 xysize(555, 126)
-                foreground 'vn_active'
-                hover_foreground 'vn_active_hover'
+                foreground vn_foreground
+                hover_foreground vn_hover
                 action Jump(my_vn.vn_label)
-                add 'vn_' + my_vn.who.file_id xoffset -5
+                if my_vn.who:
+                    add 'vn_' + my_vn.who.file_id xoffset -5
+                else:
+                    add 'vn_other' xoffset -5
                     
                 
                 
