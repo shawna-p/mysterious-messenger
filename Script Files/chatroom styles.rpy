@@ -415,7 +415,28 @@ init 5:
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         yalign 0.5
     
+    ## **********************
+    ## Phone Calls
+    ## **********************
+    style contact_text:
+        color '#fff' 
+        xalign 0.5 
+        text_align 0.5
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         
+    style caller_id:
+        color '#fff'
+        xalign 0.5
+        text_align 0.5
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 60
+        
+    style call_text:
+        color '#fff'
+        xalign 0.5
+        yalign 0.5
+        text_align 0.5
+        font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         
     ####################################
     ## Other Miscellaneous Styles
@@ -858,6 +879,19 @@ init 5:
         
     transform null_anim:
         pass
+        
+    transform delayed_blink2(delay, cycle):
+        alpha 0.0
+
+        pause delay
+
+        block:
+            linear .2 alpha 1.0
+            pause .2
+            linear (cycle - .6) alpha 0.0
+            pause .4
+            #pause (cycle - .4)
+            repeat
         
         
         
