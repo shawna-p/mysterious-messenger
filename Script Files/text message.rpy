@@ -1,5 +1,7 @@
 init python:
 
+    from random import randint
+
     ## This code is adapted from saguaro's email message system with contributions from
     ## xavimat, found at http://lemmasoft.renai.us/forums/viewtopic.php?f=51&t=19295 and
     ## is used under the CC0 1.0 Universal license
@@ -17,6 +19,7 @@ init python:
             self.delay = delay
             self.read = read
             self.heart = False
+            self.heart_person = sender
     
         def deliver(self):
             global text_messages
@@ -46,8 +49,13 @@ init python:
             reply_screen = False             
             self.reply_label = False
             
-        def heart_point(self):
-            self.heart = True
+        def heart_point(self, person=False):
+            if not person:
+                self.heart = True
+                self.heart_person = self.sender
+            else:
+                self.heart = True
+                self.heart_person = person
 
     class Contact(store.object):
         def __init__(self, name, draft_label):
@@ -70,9 +78,11 @@ init python:
     def add_message(sender, msg_list, reply_label=False, delay=True):
         message = Text_Message(sender, msg_list, reply_label, delay)
         
-    def add_heart(msg):
-        msg.heart_point()
-        
+    def add_heart(msg, person=False):
+        if not person:
+            msg.heart_point()
+        else:
+            msg.heart_point(person)
     def check(sender):
         for item in text_messages:
             if item.sender == sender:
@@ -95,11 +105,15 @@ init python:
             msg.deliver()
         
     def deliver_next():
-        global text_queue
+        global text_queue, incoming_call, available_calls, current_call
         for msg in text_queue:
             if msg.msg_list:
                 msg.deliver()
-                break               
+                break             
+        if incoming_call:
+            current_call = incoming_call
+            incoming_call = False
+            renpy.call_in_new_context('new_incoming_call', phonecall=current_call)
     def who_deliver():
         global text_queue
         for msg in text_queue:
@@ -110,6 +124,8 @@ init python:
         unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
         return len(unread_messages)
 
+label new_incoming_call(phonecall):
+    call screen incoming_call(phonecall=phonecall)
 
 screen text_message_hub:
 
@@ -120,7 +136,7 @@ screen text_message_hub:
         
     use starry_night
     
-    use menu_header('Text Message')
+    use menu_header('Text Message', Show('chat_home', Dissolve(0.5)))
             
     fixed:
         viewport:
@@ -236,7 +252,10 @@ screen text_msg_popup(the_msg):
             align (1.0, 0.22)
             idle 'input_close'
             hover 'input_close_hover'
-            action [Hide('text_msg_popup'), deliver_next]
+            if randint(0,1):
+                action [Hide('text_msg_popup'), deliver_next]
+            else:
+                action Hide('text_msg_popup')
             
         hbox:
             yalign 0.05
@@ -275,7 +294,11 @@ screen text_msg_popup(the_msg):
                 hover_background 'menu_select_btn_hover'
                 action [Hide('text_msg_popup'), SetScreenVariable("current_message", the_msg), the_msg.mark_read, Show('text_message_screen', the_msg=the_msg)]
                 
-    timer 3.25 action [Hide('text_msg_popup', Dissolve(0.25)), deliver_next]
+    timer 3.25:
+        if randint(0,1):
+            action [Hide('text_msg_popup', Dissolve(0.25)), deliver_next]
+        else:
+            action Hide('text_msg_popup', Dissolve(0.25))
         
                                             
 # Includes the 'answer' button at the bottom
@@ -329,10 +352,10 @@ screen text_message_screen(the_msg):
     
     on 'show':
         if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
-            action [Show('heart_icon_screen', character=the_msg.sender), SetField(the_msg, 'heart', False)]
+            action [Show('heart_icon_screen', character=the_msg.heart_person), SetField(the_msg, 'heart', False)]
     on 'replace':
         if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
-            action [Show('heart_icon_screen', character=the_msg.sender), SetField(the_msg, 'heart', False)]
+            action [Show('heart_icon_screen', character=the_msg.heart_person), SetField(the_msg, 'heart', False)]
         
     use starry_night
     
@@ -356,7 +379,7 @@ screen text_message_screen(the_msg):
             yadj.value = yadjValue
         yinitial = yadjValue
 
-    use menu_header(the_msg.sender.name, True)
+    use menu_header(the_msg.sender.name, Show('text_message_hub', Dissolve(0.5)), True)
             
     window:
         align (0.5, 0.54)
@@ -369,7 +392,7 @@ screen text_message_screen(the_msg):
             ysize 1040
                             
             has vbox:
-                spacing -30 #gui.phone_spacing
+                spacing -30
                 use text_dialogue(the_msg.msg_list)
                                 
                             
