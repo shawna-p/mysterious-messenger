@@ -11,6 +11,7 @@ label coffee_chat:
     # You'll want to tell background music to loop
     play music geniusly_hacked_bebop loop
     
+    # use 'call answer' before any menu to bring up the answer button
     call answer
     menu:
         "Do you still feel tired?":
@@ -25,9 +26,11 @@ label coffee_chat:
             
             # You have to call heart icons yourself. Just pass it the variable
             # of the name of the character whose heart icon you want
-            # (variables.rpy has the variable names if you're not sure) 
+            # (script.rpy has the variable names if you're not sure) 
             call heart_icon(s)
             s "{=sser2}Ya. Slept like a rock.{/=sser2}"
+        "Jump to end":
+            jump coffee_last
             
     s "{=sser2}I don't feel tired physically...{/=sser2}"
     s "{=sser2}But{/=sser2}"
@@ -49,7 +52,11 @@ label coffee_chat:
             s "I'd rather make one. Playing it gets boring pretty fast lol"
     s "Hmm."
     s "{size=+12}I summon Yoosung! Abracadabra{/size}" (bounce=True, specBubble="spike_l")
-    msg "Yoosung★ has entered the chatroom"
+    
+    # Use this to display the message "Yoosung★ has entered the chatroom"
+    # Just pass the variable for the character who's entering
+    # This adds them to the 'participant' list you see on the chatroom select
+    call enter(y)
     
     call answer
     menu:
@@ -313,7 +320,9 @@ label coffee_chat:
             m ";;;" (pauseVal=0) 
             s "{=sser2}Then bye~!{/=sser2}"
             
-    msg "707 has left the chatroom."
+    # Similar to the 'enter' function, call this when a character leaves the chatroom
+    # Passing it the name of the character will cause it to display '707 has left the chatroom.'
+    call exit(s)
     y "{=curly}T_T What am I gonna do...{/=curly}"
     y "{=curly}[name]...{/=curly}"
     y "{=curly}If I faint and don't wake up...{/=curly}"
@@ -322,7 +331,7 @@ label coffee_chat:
     y "{=curly}I just want to wake up and help open the party...{/=curly}"
     
     call answer
-    menu:
+    menu coffee_last:
         # Note that this menu has three options; you can add as many as you like,
         # but the screen only has room for 5 different options so if you want more
         # you'll need to split it up into multiple menus with a Back/Next option
@@ -352,7 +361,7 @@ label coffee_chat:
             
     y "{=sser2}First, I should get some chocolate milk...{/=sser2}"
     y "{=sser2}I'm gonna go to the supermarket~!{/=sser2}"
-    msg "Yoosung★ has left the chatroom."
+    call exit(y)
     
     # Call this to end the chat and return to the main menu
     call save_exit
@@ -363,28 +372,124 @@ label coffee_chat:
 # like text messages or (in the future) phone calls
 label after_coffee_chat:
 
-    ## Seven's text message
-    $ addtext (s, "Thanks for not spoiling the secret~ ^^", s)
-    $ addtext (s, "You're a lot of fun to talk to meow!", s)
-    $ add_reply_label(s, 'coffee1')
+    python: 
+        ## Seven's text message
+        addtext (s, "Thanks for not spoiling the secret~ ^^", s)
+        addtext (s, "You're a lot of fun to talk to meow!", s)
+        add_reply_label(s, 'coffee1')
+        
+        ## Yoosung's text message
+        addtext (y, "[name]... what do I do...", y)
+        add_reply_label(y, 'coffee2')
+        
+        ## Zen's Phone Call (incoming)
+        incoming_call = Phone_Call(z, 'coffee_phone_zen', "Did you sleep well?", 'incoming')
+        
+        ## Yoosung's Phone Call (outgoing)
+        available_calls.append(Phone_Call(y, 'coffee_phone_yoosung', 'I must drink chocolate milk...', 'outgoing'))
     
-    ## Yoosung's text message
-    $ addtext (y, "[name]... what do I do...", y)
-    $ add_reply_label(y, 'coffee2')
+        ## Set everyone else's voicemails appropriately
+        ## (In this case, everyone gets the same label)
+        for char in character_list:
+            char.update_voicemail = 'voicemail_1'
     
     return
+    
+    
+label coffee_phone_zen:
+    hide screen incoming_call
+    show screen in_call
+    
+    z_phone "Good morning, hon~"
+    z_phone "Gahh~ (Stretches) I haven't slept this well in a while. I feel really good."
+    z_phone "When I don't sleep that well, just moving my neck in the morning can hurt."
+    z_phone "Did you sleep well?"
+    
+    menu:
+        z_phone "Did you sleep well?"
+        "Yeah, I didn't even dream.":
+            m_phone "Yeah, I didn't even dream."
+            z_phone "That's good."
+            z_phone "I'm a bit sad to hear you didn't dream."
+            z_phone "I was waiting for you... looking like prince charming."
+        "I didn't sleep very well.":
+            m_phone "I didn't sleep very well."
+            z_phone "You didn't? You must be tired then."
+            z_phone "Call me next time you can't sleep."
+            z_phone "I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams."
+            z_phone "Two birds with one stone, no?"
+            z_phone "I can sing anything you want, so tell me whenever. I'll practice just for you."
+    
+    z_phone "Aw yeah~! Starting my day with hearing your voice gives me so much energy."
+    z_phone "I have to leave early for work. I hope only good things happen today! To you and to me, haha."
+    z_phone "Then I'll call you later."
+    z_phone "Bye bye."
+    
+    if not observing:
+        $ current_call.finished()
+    $ current_call = False    
+    call screen phone_calls
+    
+label coffee_phone_yoosung:
+    show screen in_call
+    
+    y_phone "I have not died."
+    y_phone "I will not die."
+    y_phone "To live, I must drink chocolate milk..."
+    
+    menu:
+        y_phone "To live, I must drink chocolate milk..."
+        "The ones who wish to live will die and those who wish to die will live!":
+            m_phone "The ones who wish to live will die and those who wish to die will live!"
+            y_phone "Uh-uh I know there's a super intelligent saying on that!"
+            y_phone "What was it...!!!!! I think Shakespears said it."
+            y_phone "Whatever... noo... that's not what's important..."
+        "Yoo-Yoosung?":
+            m_phone "Yoo-Yoosung?"
+            y_phone "nooooooooooooooooooooooooo"
+            y_phone "haaaaaaaaaaaaaaaaaaaaarggh"
+            
+    y_phone "I went to the convenience store but I didn't bring my loyalty card so I didn't get a discount on the chocolate milk."
+    y_phone "This is a bad sign!!!"
+    y_phone "Huahhhh......"
+    y_phone "noooooooooooooo....."
+    y_phone "I'm sorry... I can't talk to you right now."
+    y_phone "My heart's about to explode..."
+    y_phone "Even if you don't hear from me... it'll be fine..."
+    y_phone "Even if I faint, I'll faint at home."
+    y_phone "...Even if I faint... I'll resurrect myself..."
+    y_phone "Please... God of Games... Let me play LOLOL tonight..."
+    y_phone "Please cure me of this strange disease...!!!"
+    y_phone "I... (sniffling) I have to go wipe off my snot. Bye..."    
+    
+    if not observing:
+        $ current_call.finished()
+    $ current_call = False    
+    call screen phone_calls
+    
+label voicemail_1:
+    show screen in_call
+    vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
+    $ current_call.finished()
+    $ current_call = False    
+    call screen phone_calls
     
 label coffee1(current_message):
 
     menu:
         "I like talking to you too meow!":
             $ addtext (m, "I like talking to you too meow!", s)
+            # This will award the player a heart point when they view the message reply
+            # By default the heart point belongs to the character whose conversation you're viewing
             $ add_heart(current_message)
             $ addtext (s, "<3 <3 <3", s)
             $ addtext (s, "Agent 707 will do his best to come to the chatroom more often meow!", s)
         
         "I feel bad for Yoosung though...":
             $ addtext (m, "I feel bad for Yoosung though...", s)
+            # If you want to give the player a different heart point than the person whose
+            # conversation you're viewing, pass it as a second argument like this
+            $ add_heart(current_message, y)
             $ addtext (s, "Nah~ he'll be fine", s)
             $ addtext (s, "I'm sure he'd be happy you're worried for him tho lolol", s)
 
