@@ -306,7 +306,7 @@ screen route_select_screen:
     
     use starry_night
     
-    use menu_header("Mode Select")
+    use menu_header("Mode Select", MainMenu)
 
     window:
         maximum(700, 350)
@@ -317,7 +317,7 @@ screen route_select_screen:
             focus_mask True
             background "right_corner_menu" 
             hover_background "right_corner_menu_selected"
-            action [ToggleField(persistent, 'on_route', True), ToggleField(chat_archive[0].archive_list[0], 'available', True), Start()] 
+            action [ToggleField(persistent, 'on_route', True), next_chatroom, Start()] 
             
         text "Start Game" style "menu_text_small" xalign 0.5 yalign 0.5
     
@@ -351,7 +351,7 @@ screen file_slots(title):
 
     use starry_night
     
-    use menu_header(title)
+    use menu_header(title, Show('profile_pic', Dissolve(0.5)))
                             
     fixed:
 
@@ -485,7 +485,7 @@ screen preferences():
 
     #add "Phone UI/Main Menu/menu_settings_bg.png"
     use starry_night
-    use menu_header("Settings")
+    use menu_header("Settings", Show('chat_home', Dissolve(0.5)))
     use settings_tabs("Sound")
     
     window:
@@ -619,7 +619,7 @@ screen preferences():
 #Analogue or Digital, hours, minutes, size, second hand, military time
 default my_menu_clock = Clock(False, 0, 0, 230, False, False) 
     
-screen menu_header(title, envelope=False):
+screen menu_header(title, return_action=NullAction, envelope=False):
 
     $ my_menu_clock.runmode("real")
     hbox:
@@ -641,7 +641,7 @@ screen menu_header(title, envelope=False):
                     idle "header_plus"
                     hover "header_plus_hover"
                     if not renpy.get_screen("choice"):
-                        action Return()
+                        action NullAction
                 add 'header_tray'
                 
             add "header_hg" yalign 0.1 xalign 0.16
@@ -652,7 +652,7 @@ screen menu_header(title, envelope=False):
         
         
     ## Header
-    if title != "Original Story":
+    if title != "Original Story" and title != "In Call":
         window:
             ymaximum 80
             yalign 0.058
@@ -675,15 +675,13 @@ screen menu_header(title, envelope=False):
             idle "menu_back"
             focus_mask None
             hover im.FactorScale("Phone UI/Main Menu/menu_back_btn.png", 1.1)
-            if not renpy.get_screen("choice"):
-                if title == "Profile" or title == "Settings" or title == "Text Message" or title == "Load" or title == "Save":
-                    action [Show('chat_home', Dissolve(0.5))]
-                elif envelope:
+            if not renpy.get_screen("choice"):                
+                if envelope:
                     action Show('text_message_hub', Dissolve(0.5))
                 elif persistent.first_boot or not persistent.on_route:
-                    action MainMenu(False)
+                    action [SetField(persistent, 'first_boot', False), MainMenu(False)]
                 else:
-                    action [ToggleVariable("greeted", False, False), Return()]
+                    action return_action
                 
         
     if not persistent.first_boot:
@@ -836,7 +834,7 @@ screen profile_pic:
         
         
     if not persistent.first_boot:
-        use menu_header("Settings")
+        use menu_header("Settings", Show('chat_home', Dissolve(0.5)))
     else:
         use menu_header("Customize your Profile")
         
@@ -935,7 +933,7 @@ screen other_settings():
 
     #add "Phone UI/Main Menu/menu_settings_bg.png"
     use starry_night
-    use menu_header("Settings")
+    use menu_header("Settings", Show('chat_home', Dissolve(0.5)))
     use settings_tabs("Others")
         
     window:
@@ -1026,13 +1024,13 @@ screen chat_home(reshow=False):
     use menu_header("Original Story")
 
     on 'show':
-        action [QuickSave('blank'), deliver_next]
+        action [QuickSave(False), deliver_next]
 
             
     on 'replace':
-        action [QuickSave('blank'), deliver_next]
+        action [QuickSave(False), deliver_next]
 
-    timer 3.5 action deliver_next repeat
+    timer 3.5 action If(randint(0,1), deliver_next, NullAction) repeat True
   
     
     # Text Messages
@@ -1065,11 +1063,24 @@ screen chat_home(reshow=False):
         maximum(168,168) 
         xalign 0.91
         yalign 0.35
-        # if new_call:
-        background "blue_mainbtn"
-        hover_background "blue_mainbtn_hover"
-        action Show('chat_select')
-        add "blue_maincircle" xalign 0.5 yalign 0.5
+        if unseen_calls > 0:
+            background "blue_mainbtn"
+            hover_background "blue_mainbtn_hover"
+        else:
+            background "gray_mainbtn"
+            hover_background "gray_mainbtn_hover"
+        action Show('phone_calls')        
+        if unseen_calls > 0:
+            add "blue_maincircle" xalign 0.5 yalign 0.5  
+            window:
+                maximum(45,45)
+                xalign 1.0
+                yalign 0.0
+                background 'new_text_count' 
+                text "[unseen_calls]" style 'text_num'
+        else:
+            add "gray_maincircle" xalign 0.5 yalign 0.5
+        
         add "call_mainicon" xalign 0.5 yalign 0.5
         add "call_maintext" xalign 0.5 yalign 0.85
      
@@ -1093,7 +1104,7 @@ screen chat_home(reshow=False):
         yalign 0.722
         background "gray_chatbtn"
         hover_background "gray_chatbtn_hover"
-        action [deliver_all, Hide('chat_home'), Call('navi')]
+        action [deliver_all, Show('chat_select')]
         add "rfa_chatcircle" yalign 0.5 xalign 0.5
         add "blue_chatcircle" xalign 0.5 yalign 0.5
         add "chat_icon" xalign 0.5 yalign 0.5
@@ -1147,7 +1158,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Return()
+            action Jump('say_phone_test')
             add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
@@ -1183,7 +1194,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Show('heart_icon_screen', character='V')
+            action Jump('call_test')
             
             add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
@@ -1259,7 +1270,7 @@ screen chara_profile(who):
     tag menu
 
     use starry_night
-    use menu_header("Profile")   
+    use menu_header("Profile", Show('chat_home', Dissolve(0.5)))   
         
     add who.cover_pic yalign 0.231
     add who.prof_pic at profile_zoom
