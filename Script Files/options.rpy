@@ -74,13 +74,13 @@ define config.layers = [ 'master', 'transient', 'screens', 'overlay', 'heart', '
 
 ## Entering or exiting the game menu.
 
-define config.enter_transition = dissolve
-define config.exit_transition = dissolve
+define config.enter_transition = None #dissolve
+define config.exit_transition = None #dissolve
 
 
 ## Between screens of the game menu.
 
-define config.intra_transition = dissolve
+define config.intra_transition = None #dissolve
 
 
 ## A transition that is used after a game has been loaded.
