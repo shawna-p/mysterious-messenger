@@ -413,6 +413,8 @@ image zen front = ConditionSwitch(
 
 label vn_mode:
 
+    call vn_setup
+
     scene bg mint_eye_room
 
     $ sev_body = 'normal'
@@ -429,20 +431,19 @@ label vn_mode:
     $ sae_face = 'happy'
     ray "With some more work, hopefully it will look like it does in-game!"
     
-    show screen countdown("reply1")
-    menu:
-        "Choice 1":
-            hide screen countdown
-            ray "Here we are"
-        "Choice 2":
-            hide screen countdown
-            sev "Tadaa~"
-            
-    ray "This is the end of the VN mode"
+    call press_save_and_exit(False)
     
-label reply1:
-    ray "You didn't pick anything"
-    sev "Shame"
-    
-    jump vn_mode
-    
+label vn_setup:
+    $ chatroom_hp = 0
+    hide screen starry_night
+    hide screen phone_overlay
+    hide screen messenger_screen 
+    hide screen pause_button
+    hide screen chatroom_timeline
+    $ vn_choice = True
+        
+    if current_chatroom.vn_obj.played:
+        $ observing = True
+    else:
+        $ observing = False
+        
