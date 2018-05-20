@@ -4,7 +4,7 @@ label text_msg_test:
     
     r "{=sser2}Here's a quick test ^^{/=sser2}"
     r "Bye!"
-    msg "Ray has left the chatroom."
+    call exit(r)
     
     #if renpy.seen_label('after_msg_test'):
     #    $ post_chatroom = False
