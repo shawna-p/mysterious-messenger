@@ -77,6 +77,7 @@ default text_queue = [Text_Message(ju, []),
 default contacts = []  
 default chatlog = []
 default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
+default name = 'Rainbow'
 
 label define_variables:
 
@@ -129,6 +130,8 @@ label define_variables:
             m.prof_pic = thepic
         if m.name != persistent.name:
             m.name = persistent.name
+            
+        # next_chatroom()
 
         renpy.retain_after_load()
 
