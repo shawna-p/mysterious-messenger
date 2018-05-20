@@ -21,14 +21,23 @@ init python:
     # that's appended to things like their special bubble names and saves you from
     # typing out the full name every time
     class Chat(store.object):
-        def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, cover_pic=False, status=False):
+        def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, 
+                cover_pic=False, status=False, voicemail=False):               
+                
             self.name = name            
             self.file_id = file_id
             self.prof_pic = prof_pic
             self.participant_pic = participant_pic
             self.cover_pic = cover_pic
             self.status = status
+            if voicemail:
+                self.voicemail = voicemail
+            else:
+                self.voicemail = Phone_Call(self, 'voicemail_1', False, 'voicemail', 2, True)
             self.heart_points = 0  
+            
+        def update_voicemail(self, new_label):
+            self.voicemail.phone_label = new_label
 
         def add_heart(self):
             self.heart_points += 1
