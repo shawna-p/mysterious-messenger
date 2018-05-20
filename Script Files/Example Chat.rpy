@@ -7,7 +7,7 @@ label example_chat:
     call chat_begin("hack")
     
     play music mystic_chat loop
-    msg "Unknown has entered the chatroom" 
+    call enter(u)
     u "{=curly}Hello, [name] ^^{/=curly}" 
     u "I thought you might come by." 
     u "{=curly}You want to learn more about how to make a chatroom, right?{/=curly}" (bounce=True)
@@ -44,7 +44,7 @@ label example_chat:
                 u "{=ser1}Emojis and images, huh?{/=ser1}"
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^"
-                msg "Unknown has left the chatroom"
+                call exit(u)
             pause 0.5  
             jump emojis
             
@@ -56,7 +56,7 @@ label example_chat:
                 u "{=ser1}Oh, banners?{/=ser1}"
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^"
-                msg "Unknown has left the chatroom"
+                call exit(u)
             pause 0.5
             jump banners
             
@@ -68,7 +68,7 @@ label example_chat:
                 u "{=curly}Heart icons?{/=curly}" (bounce=True)
                 u "{=ser1}Hmm, sounds good. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^" (bounce=True)
-                msg "Unknown has left the chatroom"
+                call exit(u)
             pause 0.5
             jump heart_icons
             
@@ -80,7 +80,7 @@ label example_chat:
                 u "{=ser1}You want to know about special speech bubbles and screen shake?{/=ser1}" (bounce=True)
                 u "{=ser1}Alright then. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^" (bounce=True)
-                msg "Unknown has left the chatroom"
+                call exit(u)
             pause 0.5
             jump screen_shake
             
@@ -93,7 +93,7 @@ label emojis:
     call chat_begin("morning",False,False)
     
     play music geniusly_hacked_bebop loop
-    msg "707 has entered the chatroom"
+    call enter(s)
     s "O" (pauseVal=0.1)
     s "M" (pauseVal=0.1)
     s "G" (pauseVal=0.1)
@@ -170,7 +170,7 @@ label emojis:
             s "{=sser2}The ability to click the image/the full screen version is automatically taken care of for you.{/=sser2}" 
             s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
             s "Let me know if you have any questions later~"
-            msg "707 has left the chatroom"
+            call exit(s)
             call answer
             jump learn
 
@@ -181,11 +181,13 @@ label banners:
     call chat_begin("noon",False,False)
     play music same_old_fresh_air loop
     
-    msg "Yoosung★ has entered the chatroom"
+    call enter(y)
     y "{=curly}Hello!{/=curly}"
     y "{=sser2}I'm supposed to explain banners to you.{/=sser2}" 
     y "{=sser2}It's pretty quick, I promise!{/=sser2}" 
     y "{image=yoosung happy}"   (img=True)
+    y "You call them with \"call banner('__')\","
+    y "where '__' is the name of the banner you want."
     y "{=sser2}There are four different types of banners:{/=sser2}" 
     y "The lightning banner!" (bounce=True)
     call banner('lightning')
@@ -211,7 +213,7 @@ label banners:
     y "That's all from me!"
     y "{=sser2}Good luck with the program ^^{/=sser2}"
     y "{image=yoosung wow}" (img=True)
-    msg "Yoosung★ has left the chatroom"
+    call exit(y)
 
     call answer
     jump learn
@@ -222,7 +224,7 @@ label heart_icons:
     call chat_begin("evening",False,False)
     play music narcissistic_jazz loop
     
-    msg "Zen has entered the chatroom"
+    call enter(z)
     z "{image=zen wink}" (img=True)
     z "{=curly}Hey cutie ^^{/=curly}" (bounce=True)
     z "{=sser2}I'm here to explain heart icons!{/=sser2}"
@@ -251,7 +253,7 @@ label heart_icons:
     z "{=ser1}and then there are a few special ones{/=ser1}"
     z "The white heart I mentioned before (tied to the username 'Unknown')"
     call heart_icon(u)
-    z "You can also get this heart by passing heart_icon the short form for Saeran (sa or \"Sae\")"
+    z "You can also get this heart by passing heart_icon the short form for Saeran (sa)"
     call heart_icon(sa)
     z "{=sser2}And then there is this heart{/=sser2}"
     call heart_icon(ri)
@@ -270,7 +272,7 @@ label heart_icons:
     z "{=curly}Just to keep the door open for other uses ^^{/=curly}" (bounce=True, specBubble="round_m")
     z "{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}"
     z "{=curly}Good luck with the rest of the program!{/=curly}" (bounce=True)
-    msg "Zen has left the chatroom"
+    call exit(z)
     
     call answer
     jump learn
@@ -281,12 +283,13 @@ label screen_shake:
     call chat_begin("night",False,False)
     play music lonesome_practicalism loop
 
-    msg "Jaehee Kang has entered the chatroom"
+    call enter(ja)
     ja "{=ser1}Hello, [name].{/=ser1}"
     ja "{=ser1}Mr. Han will be with us shortly. {/=ser1}"
-    msg "Jumin Han has entered the chatroom"
+    call enter(ju)
     ja "{=curly}Ah, right on time.{/=curly}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}Shall we get started then?{/=ser1}"
+    pause 1
     ja "{=ser1}...{/=ser1}"
     call banner('well')
     ja "{=ser1}Mr. Han?{/=ser1}"
@@ -329,7 +332,7 @@ label ending:
     
     play music mystic_chat loop
     
-    msg "Unknown has entered the chatroom"
+    call enter(u)
     u "{=curly}You're back!{/=curly}" (bounce=True)
     u "{=sser2}So what did you think?{/=sser2}"
     u "{=sser2}Are you ready to start making your own chatrooms?{/=sser2}"
@@ -348,7 +351,7 @@ label ending:
     u "{=sser2}And please credit me if you do use it somewhere!{/=sser2}"
     u "{=sser2}I hope you find this program helpful.{/=sser2}"
     u "{=sser2}Good luck!{/=sser2}"
-    msg "Unknown has left the chatroom"
+    call exit(u)
     # Call this at the end of a chatroom
     call save_exit
 
@@ -366,9 +369,9 @@ menu bubbles:
         ju "{=ser1}Note that currently you can only use the bubbles associated with the speaking character{/=ser1}"
         ju "{=ser1}For example, Assistant Kang cannot use my Elizabeth the 3rd bubble.{/=ser1}" (bounce=True, specBubble="cloud_l")
         ju "{=sser2}I must excuse myself.{/=sser2}"
-        msg "Jumin Han has left the chatroom"
+        call exit(ju)
         ja "{=ser1}I'll be leaving too. Best of luck with the program.{/=ser1}"
-        msg "Jaehee Kang has left the chatroom"
+        call exit(ja)
         call answer
         jump learn
         
