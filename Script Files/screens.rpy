@@ -111,21 +111,31 @@ transform bubble:
 screen say(who, what):
     style_prefix "say"
     
-    window:
-        id "window"
+    if not in_phone_call:
+    
+        window:
+            id "window"
 
-        if who is not None:
+            if who is not None:
 
-            window:
-                style "namebox"
-                text who id "who"
+                window:
+                    style "namebox"
+                    text who id "who"
 
-        text what id "what"
+            text what id "what"
 
-    ## If there's a side image, display it above the text. Do not display on the
-    ## phone variant - there's no room.
-    if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
+        ## If there's a side image, display it above the text. Do not display on the
+        ## phone variant - there's no room.
+        if not renpy.variant("small"):
+            add SideImage() xalign 0.0 yalign 1.0
+            
+    else:   # In a phone call        
+        window:
+            xfill True
+            ysize 500
+            yalign 0.5
+            background 'call_overlay' padding(50,50)
+            text what id "what" #style 'call_text'
 
 
 ## Make the namebox available for styling through the Character object.
@@ -217,6 +227,7 @@ style input:
 
 screen choice(items):
     zorder 150
+    modal True
     style_prefix "choice"
     
     if reply_screen: # or draft_screen
@@ -230,6 +241,26 @@ screen choice(items):
                         hover_background 'text_answer_hover'
                         text_idle_color '#fff'
                         text_hover_color '#fff'
+                        action [i.action]
+    
+    elif in_phone_call:
+        #use in_call(True)
+        add "Phone UI/choice_dark.png"
+        vbox:
+            spacing 20
+            for i in items:
+                if not observing or i.chosen:
+                    textbutton i.caption:
+                        xysize (740, 180)
+                        background 'call_choice' padding(45,45)
+                        hover_background 'call_choice_hover'
+                        text_idle_color '#f9f9f9'
+                        text_hover_color '#fff'
+                        text_align 0.5
+                        text_text_align 0.5
+                        text_xalign 0.5
+                        text_yalign 0.5
+                        align (0.5, 0.5)
                         action [i.action]
     
     else:
@@ -1298,7 +1329,7 @@ screen notify(message):
 
     zorder 100
     style_prefix "notify"
-    if message != 'blank':
+    if message != False:
         frame at notify_appear:
             text "[message!tq]"
 
