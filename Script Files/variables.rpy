@@ -1,11 +1,12 @@
 ##******************************
 ## USEFUL PYTHON FUNCTIONS
 ##******************************
-init python:
+init -6 python:
     from datetime import datetime
+    import copy
     
     # This defines another voice channel which the emoji sound effects play on
-    # This lets you adjust the volume of the emojis separately from voice, music, and sfx
+    # It lets you adjust the volume of the emojis separately from voice, music, and sfx
     renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
     
     def set_voicesfx_volume(value=None):
@@ -49,7 +50,7 @@ init python:
             
     # This class stores past chatrooms that you've visited
     # day/title/route is pretty self-explanatory, chatroom_label is the name of
-    # the label you jump to for the chatroom, trigger_time is the time (24h notation)
+    # the label you jump to for the chatroom, trigger_time is the time (24h notation e.g. 01:04)
     # that you want the chatroom to trigger, text_label is the name of the label to jump
     # to if there are text messages after the chatroom, phone_call a phone_calls object with
     # the relevant phone call information, vn_obj is a VN_Mode object with the relevant VN
@@ -58,9 +59,9 @@ init python:
     # a chatroom, one where participated=True and one where participated=False), available is
     # True if the chatroom is available to be played, and expired is True if the chatroom is expired
     class Chat_History(store.object):
-        def __init__(self, day, title, route, chatroom_label, trigger_time, participants=None,
-                        text_label=False, phone_call=False, vn_obj=False, played=False, 
-                        participated=True, available=False, expired=False):
+        def __init__(self, day, title, route, chatroom_label, trigger_time, participants=[],
+                        text_label=False, phone_calls=[], incoming_call=False, vn_obj=False, 
+                        played=False, participated=True, available=False, expired=False):
             self.day = day
             self.title = title
             self.route = route
@@ -68,26 +69,61 @@ init python:
             self.trigger_time = trigger_time
             self.participants = participants
             self.text_label = text_label
-            self.phone_call = phone_call
+            self.phone_calls = phone_calls
+            self.incoming_call = incoming_call
             self.vn_obj = vn_obj
             self.played = played
             self.participated = participated
             self.available = available
             self.expired = expired
+            
+        def add_participant(self, chara):
+            if not chara in self.participants:
+                self.participants.append(chara)
         
     class VN_Mode(store.object):
-        def __init__(self, vn_label, who, played=False, available=False):
+        def __init__(self, vn_label, who=None, played=False, available=False):
             self.vn_label = vn_label
             self.who = who
             self.played = False
             self.available = False
             
-    class phone_calls(store.object):
-        def __init__(self, caller, phone_label, viewed=False, available=False):
+    class Phone_Call(store.object):
+        def __init__(self, caller, phone_label=False, title=False, call_status='incoming',
+                avail_timeout=2, voicemail=False, playback=False, call_time=False):
             self.caller = caller
             self.phone_label = phone_label
-            self.viewed = viewed
-            self.available = available
+            self.title = title
+            self.call_time = call_time
+            if call_status == 'incoming' or call_status == 'outgoing' or call_status == 'missed' or call_status == 'voicemail':
+                self.call_status = call_status
+            else:
+                self.call_status = 'incoming'
+            self.voicemail = voicemail
+            self.playback = playback
+            self.avail_timeout = avail_timeout
+            
+        def decrease_time(self):
+            global available_calls
+            self.avail_timeout -= 1
+            if self.avail_timeout == 0:
+                available_calls.remove(self)
+            
+        def finished(self):
+            global available_calls, call_history, observing            
+            self.playback = True
+            self.call_time = upTime()
+            if self.voicemail:
+                self.call_status = 'voicemail'
+            else:
+                if self in available_calls:
+                    available_calls.remove(self)
+                
+            if self.call_status == 'missed':
+                self.call_status = 'outgoing'
+            call_history.insert(0, self)
+            observing = False
+            
             
     # This object stores all the chatrooms you've viewed in the game. 
     class Archive(store.object):
@@ -95,6 +131,21 @@ init python:
             self.day = day
             self.archive_list = archive_list
             self.route = route
+            
+    def next_chatroom():
+        global chat_archive, available_calls
+        for archive in chat_archive:
+            if archive.archive_list:
+                for chatroom in archive.archive_list:
+                    if chatroom.vn_obj and not chatroom.vn_obj.available:
+                        chatroom.vn_obj.available = True
+                        break
+                    elif not chatroom.available:
+                        chatroom.available = True
+                        for phonecall in available_calls:
+                            phonecall.decrease_time()
+                        break
+            
 
 default chat_archive = [Archive('Tutorial', [Chat_History('Tutorial', 'Example Chatroom', 'auto', 'example_chat', '00:01'),
                                     Chat_History('Tutorial', 'Pass Out After Drinking Coffee Syndrome', 'auto', 'coffee_chat', '01:05', [s], 'after_coffee_chat'),
@@ -112,7 +163,14 @@ default chat_archive = [Archive('Tutorial', [Chat_History('Tutorial', 'Example C
                         Archive('Final')]
                         
                         
-                        
+default available_calls = []
+default call_history = []
+default incoming_call = False #e.g. Phone_Call(ju)
+default vn_choice = False
+default current_call = False
+
+default original_afm_time = 15
+default preferences.afm_time = 15
 
 ##******************************
 ## BACKGROUND MUSIC DEFINITIONS
@@ -192,10 +250,37 @@ image bg redhack = "bg-redhack.jpg"
 image bg starry_night = "Phone UI/bg-starry-night.png"
 
 # ****************************
-# Short forms/Other
+# Phone Call Characters
 # ****************************
 
-
+define ja_phone = Character("Jaehee Kang", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define ju_phone = Character("Jumin Han", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define s_phone = Character("707", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define sa_phone = Character("Saeran", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define r_phone = Character("Ray", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define ri_phone = Character("Rika", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define y_phone = Character("Yoosung★", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define v_phone = Character("V", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define u_phone = Character("Unknown", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define z_phone = Character("Zen", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define m_phone = Character("MC", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+define vmail_phone = Character('', what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+                            
+# ****************************
+# Short forms/Other
+# ****************************
 # These are primarily used when setting the nickname colour
 # via $ nickColour = black or $ nickColour = white
 define white = "#ffffff"
@@ -945,10 +1030,10 @@ image vn_marker = 'Phone UI/Day Select/daychat01_vn_marker.png'
 image vn_time_bg = 'Phone UI/Day Select/daychat01_chat_timebg.png'
 
 image chat_active = Frame('Phone UI/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
-image chat_inactive = Frame('Phone UI/Day Select/daychat01_chat_inactive.png',190, 50, 40, 50)
-image chat_selected = Frame('Phone UI/Day Select/daychat01_chat_mint.png',190, 50, 40, 50)
+image chat_inactive = Frame('Phone UI/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)
+image chat_selected = Frame('Phone UI/Day Select/daychat01_chat_mint.png',190, 70, 40, 50)
 image chat_active_hover = Frame('Phone UI/Day Select/daychat01_chat_active_hover.png',190, 70, 40, 50)
-image chat_selected_hover = Frame('Phone UI/Day Select/daychat01_chat_mint_hover.png',190, 50, 40, 50)
+image chat_selected_hover = Frame('Phone UI/Day Select/daychat01_chat_mint_hover.png',190, 70, 40, 50)
 image chat_hover_box = Frame('Phone UI/Day Select/daychat_vn_selectable.png', 0,0,0,0)
 
 image vn_other = 'Phone UI/Day Select/vn_other.png'
@@ -961,3 +1046,94 @@ image vn_s = 'Phone UI/Day Select/vn_s.png'
 image vn_v = 'Phone UI/Day Select/vn_v.png'
 image vn_y = 'Phone UI/Day Select/vn_y.png'
 image vn_z = 'Phone UI/Day Select/vn_z.png'
+
+## ********************************
+## Phone Call Screen
+## ********************************
+
+image call_back = 'Phone UI/Phone Calls/call.png'
+
+image call_signal_sl:
+    im.Flip('Phone UI/Phone Calls/call_ani_0.png', horizontal=True)
+    block:
+        alpha 0.0
+        1.0
+        alpha 0.8
+        3.0
+        repeat
+image call_signal_ml:
+    im.Flip('Phone UI/Phone Calls/call_ani_1.png', horizontal=True)
+    block:
+        alpha 0.0
+        2.0
+        alpha 0.8
+        2.0
+        repeat
+image call_signal_ll:
+    im.Flip('Phone UI/Phone Calls/call_ani_2.png', horizontal=True)
+    block:
+        alpha 0.0
+        3.0
+        alpha 0.8
+        1.0
+        repeat
+image call_signal_sr:
+    'Phone UI/Phone Calls/call_ani_0.png'
+    block:
+        alpha 0.0
+        1.0
+        alpha 0.8
+        3.0
+        repeat
+image call_signal_mr:
+    'Phone UI/Phone Calls/call_ani_1.png'
+    block:
+        alpha 0.0
+        2.0
+        alpha 0.8
+        2.0
+        repeat
+image call_signal_lr:
+    'Phone UI/Phone Calls/call_ani_2.png'
+    block:
+        alpha 0.0
+        3.0
+        alpha 0.8
+        1.0
+        repeat
+
+image call_overlay = Frame('Phone UI/Phone Calls/call_back_screen.png', 0, 0)
+image call_answer = 'Phone UI/Phone Calls/call_button_answer.png'
+image call_hang_up = 'Phone UI/Phone Calls/call_button_hang_up.png'
+image call_pause = 'Phone UI/Phone Calls/call_button_pause.png'
+image call_play = 'Phone UI/Phone Calls/call_button_play.png'
+image call_replay_active = 'Phone UI/Phone Calls/call_button_replay_active.png'
+image call_replay_inactive = 'Phone UI/Phone Calls/call_button_replay_inactive.png'
+image call_connect_triangle = 'Phone UI/Phone Calls/call_connect_waiting.png'
+
+image sa_contact = 'Phone UI/Phone Calls/call_contact_saeran.png'
+image s_contact = 'Phone UI/Phone Calls/call_contact_707.png'
+image empty_contact = 'Phone UI/Phone Calls/call_contact_empty.png'
+image ja_contact = 'Phone UI/Phone Calls/call_contact_jaehee.png'
+image ju_contact = 'Phone UI/Phone Calls/call_contact_jumin.png'
+image r_contact = 'Phone UI/Phone Calls/call_contact_ray.png'
+image v_contact = 'Phone UI/Phone Calls/call_contact_v.png'
+image y_contact = 'Phone UI/Phone Calls/call_contact_yoosung.png'
+image z_contact = 'Phone UI/Phone Calls/call_contact_zen.png'
+image ri_contact = 'Phone UI/Phone Calls/call_contact_rika.png'
+
+image contact_icon = 'Phone UI/Phone Calls/call_icon_contacts.png'
+image call_headphones = 'Phone UI/Phone Calls/call_icon_earphone_en.png'
+image call_history_icon = 'Phone UI/Phone Calls/call_icon_history.png'
+image call_incoming = 'Phone UI/Phone Calls/call_icon_incoming.png'
+image call_missed = 'Phone UI/Phone Calls/call_icon_missed.png'
+image call_outgoing = 'Phone UI/Phone Calls/call_icon_outgoing.png'
+image call_voicemail = 'Phone UI/Phone Calls/call_icon_voicemail.png'
+
+image call_choice = Frame('Phone UI/Phone Calls/call_select_button.png', 70, 70)
+image call_choice_hover = Frame('Phone UI/Phone Calls/call_select_button_hover.png', 90, 90)
+
+
+
+
+
