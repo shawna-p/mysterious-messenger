@@ -1,5 +1,5 @@
 
-init python:
+init -4 python:
 
     ## This is the object that each chat is stored in
     ##  Who = the speaker, What = the text they're saying, thetime keeps track
