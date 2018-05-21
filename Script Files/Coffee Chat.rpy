@@ -26,7 +26,7 @@ label coffee_chat:
             
             # You have to call heart icons yourself. Just pass it the variable
             # of the name of the character whose heart icon you want
-            # (script.rpy has the variable names if you're not sure) 
+            # (character definitions.rpy has the variable names if you're not sure) 
             call heart_icon(s)
             s "{=sser2}Ya. Slept like a rock.{/=sser2}"
         "Jump to end":
@@ -369,13 +369,18 @@ label coffee_chat:
 
     
 # Put anything you want to have happen after the chatroom ends here, 
-# like text messages or (in the future) phone calls
+# like text messages or (in the future) phone calls. You'll have to call
+# this label whatever you've defined the afterchat_label to be when setting
+# up the chat_archive
 label after_coffee_chat:
 
     python: 
         ## Seven's text message
         addtext (s, "Thanks for not spoiling the secret~ ^^", s)
         addtext (s, "You're a lot of fun to talk to meow!", s)
+        # This is the name of the label to jump to when you reply to Seven's
+        # text message. You can leave this out if you don't want the player
+        # to be able to reply anymore
         add_reply_label(s, 'coffee1')
         
         ## Yoosung's text message
@@ -383,22 +388,28 @@ label after_coffee_chat:
         add_reply_label(y, 'coffee2')
         
         ## Zen's Phone Call (incoming)
+        # It takes a character, the name of the label to jump to for the phone
+        # call, the title of the call (eventually this will be displayed in the History
+        # section) and the type of call (in this case, incoming)
         incoming_call = Phone_Call(z, 'coffee_phone_zen', "Did you sleep well?", 'incoming')
         
         ## Yoosung's Phone Call (outgoing)
+        # You'll always want to append calls to this list so it doesn't overwrite
+        # previous calls
         available_calls.append(Phone_Call(y, 'coffee_phone_yoosung', 'I must drink chocolate milk...', 'outgoing'))
     
         ## Set everyone else's voicemails appropriately
-        ## (In this case, everyone gets the same label)
+        # (In this case, everyone gets the same label)
+        # The different voicemails are defined in phone screen.rpy
         for char in character_list:
             char.update_voicemail = 'voicemail_1'
     
     return
     
-    
+## This is the label you jump to for the phone call with Zen
 label coffee_phone_zen:
-    hide screen incoming_call
-    show screen in_call
+    # Call this before the phone call begins
+    call phone_begin
     
     z_phone "Good morning, hon~"
     z_phone "Gahh~ (Stretches) I haven't slept this well in a while. I feel really good."
@@ -406,6 +417,8 @@ label coffee_phone_zen:
     z_phone "Did you sleep well?"
     
     menu:
+        # If you want the previous dialogue to show up behind the choice menu,
+        # you'll need to copy the last line of dialogue here, right after the menu
         z_phone "Did you sleep well?"
         "Yeah, I didn't even dream.":
             m_phone "Yeah, I didn't even dream."
@@ -425,13 +438,13 @@ label coffee_phone_zen:
     z_phone "Then I'll call you later."
     z_phone "Bye bye."
     
-    if not observing:
-        $ current_call.finished()
-    $ current_call = False    
-    call screen phone_calls
+    # Call this when the call is finished
+    call phone_end
     
+## This is the label you jump to for the phone call with Yoosung
 label coffee_phone_yoosung:
-    show screen in_call
+    
+    call phone_begin
     
     y_phone "I have not died."
     y_phone "I will not die."
@@ -462,26 +475,19 @@ label coffee_phone_yoosung:
     y_phone "Please cure me of this strange disease...!!!"
     y_phone "I... (sniffling) I have to go wipe off my snot. Bye..."    
     
-    if not observing:
-        $ current_call.finished()
-    $ current_call = False    
-    call screen phone_calls
+    call phone_end
+ 
     
-label voicemail_1:
-    show screen in_call
-    vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
-    $ current_call.finished()
-    $ current_call = False    
-    call screen phone_calls
-    
-label coffee1(current_message):
+## This should be the label you told the program to go to if they
+## reply to a text message (in this case, Seven's text)
+label coffee1():
 
     menu:
         "I like talking to you too meow!":
             $ addtext (m, "I like talking to you too meow!", s)
             # This will award the player a heart point when they view the message reply
-            # By default the heart point belongs to the character whose conversation you're viewing
-            $ add_heart(current_message)
+            # You'll need to pass it the variable of the character whose conversation you're viewing
+            $ add_heart(s)
             $ addtext (s, "<3 <3 <3", s)
             $ addtext (s, "Agent 707 will do his best to come to the chatroom more often meow!", s)
         
@@ -489,19 +495,20 @@ label coffee1(current_message):
             $ addtext (m, "I feel bad for Yoosung though...", s)
             # If you want to give the player a different heart point than the person whose
             # conversation you're viewing, pass it as a second argument like this
-            $ add_heart(current_message, y)
+            $ add_heart(s, y)
             $ addtext (s, "Nah~ he'll be fine", s)
             $ addtext (s, "I'm sure he'd be happy you're worried for him tho lolol", s)
 
     $ renpy.retain_after_load()
     return
     
-label coffee2(current_message):
+## This is the label to go to when replying to Yoosung's message
+label coffee2():
     
     menu:
         "Drink that chocolate milk!":
             $ addtext (m, "Drink that chocolate milk!", y)
-            $ add_heart(current_message)
+            $ add_heart(y)
             $ addtext (y, "I will!! I bought a lot of it...", y)
             $ addtext (y, "It could be worse... I could've had classes tomorrow T_T", y)
             $ addtext (y, "Thanks for worrying.", y)
