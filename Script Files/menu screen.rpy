@@ -1230,7 +1230,7 @@ screen chat_home(reshow=False):
                     action Show('chip_tap')
         
         if reshow:
-            window at chip_anim2:
+            window at chip_anim(False):
                 maximum(90,70)
                 xalign 0.93
                 yalign 0.942
@@ -1238,7 +1238,7 @@ screen chat_home(reshow=False):
                 
             add "space_chip_active2" xalign 0.92 yalign 0.98
             
-            window at spaceship_chips2:
+            window at spaceship_chips(False):
                 maximum (100,110)
                 xalign 0.96
                 yalign 1.0
