@@ -1,84 +1,5 @@
 ﻿
 
-#********************
-#**CLOCK*************
-#********************
-#Analogue or Digital, hours, minutes, size, second hand, military time
-default myClock = Clock(False, 0, 0, 150, False, False) 
-
-default they = "she"
-default them= "her"
-default their = "her"
-default theirs = "hers"
-default themself = "herself"
-
-# Variable that checks if you're on a route or not
-default persistent.on_route = False
-# Variable that checks if it's the first time you've started the game
-default persistent.first_boot = True
-
-# This variable is set to True if you're viewing a chatroom
-# in 'history'
-default observing = False
-
-##****************************
-##DECLARE CHARACTERS HERE
-##****************************
-
-## Character declarations
-default s = Chat("707", "s", 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "Cover Photos/profile_cover_photo.png", "707's status")
-default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "Cover Photos/profile_cover_photo.png", "Yoosung's status")
-default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png')
-default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 'Profile Pics/ja_chat.png', "Cover Photos/profile_cover_photo.png", "Jaehee's status")
-default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 'Profile Pics/ju_chat.png', "Cover Photos/profile_cover_photo.png", "Jumin's status")
-default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "Cover Photos/profile_cover_photo.png", "Zen's status")
-default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "Cover Photos/profile_cover_photo.png", "Rika's status")
-default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 'Profile Pics/r_chat.png', "Cover Photos/profile_cover_photo.png", "Ray's status")
-default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 'Profile Pics/sa_chat.png', "Cover Photos/profile_cover_photo.png", "Saeran's status")
-default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 'Profile Pics/u_chat.png', "Cover Photos/profile_cover_photo.png", "Unknown's status")
-default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 'Profile Pics/v_chat.png', "Cover Photos/profile_cover_photo.png", "V's status")
-   
-define msg = Chat("msg")
-define filler = Chat("filler")
-define answer = Chat('answer', 'delete')
-define chat_pause = Chat('pause', 'delete')
-
-default character_list = [ju, z, s, y, ja, v, m, r, ri]
-
-default menu_list = ['chat_home', 'profile_pic', 'other_settings', 
-                    'chara_profile', 'save', 'load', 'preferences', 
-                    'text_message_hub', 'text_message_screen']
-                    
-default text_messages = [Text_Message(ju, []),
-                        Text_Message(ja, []),
-                        Text_Message(r, []),
-                        Text_Message(ri, []),
-                        Text_Message(s, []),
-                        Text_Message(v, []),
-                        Text_Message(y, []),
-                        Text_Message(z, []),
-                        
-                        Text_Message(u, []),
-                        Text_Message(sa, [])
-                        ]
-default text_later = []
-default text_queue = [Text_Message(ju, []),
-                        Text_Message(ja, []),
-                        Text_Message(r, []),
-                        Text_Message(ri, []),
-                        Text_Message(s, []),
-                        Text_Message(v, []),
-                        Text_Message(y, []),
-                        Text_Message(z, []),
-                        
-                        Text_Message(u, []),
-                        Text_Message(sa, [])
-                        ]
-default contacts = []  
-default chatlog = []
-default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
-default name = 'Rainbow'
-
 label define_variables:
 
     # Several variables are defined here so that Ren'Py
@@ -93,11 +14,7 @@ label define_variables:
     python:
     
         persistent.first_boot = False
-        name = persistent.name    
-        
-        menu_list = ['chat_home', 'profile_pic', 'other_settings', 
-                    'chara_profile', 'save', 'load', 'preferences', 
-                    'text_message_hub', 'text_message_screen']
+        name = persistent.name
 
         if persistent.pronoun == "female":
             they = "she"
