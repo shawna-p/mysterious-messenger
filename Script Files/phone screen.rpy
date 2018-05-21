@@ -1,5 +1,8 @@
 init python:
 
+    # If you hang up on a character who is calling you or
+    # miss their phone call, you can still call them back
+    # This creates a 'missed' phone call entry
     def call_hang_up_incoming(phonecall):    
         global call_history, available_calls        
         phonecall.call_status = 'missed'
@@ -12,11 +15,15 @@ init python:
             available_calls.append(phonecall)
         renpy.retain_after_load
         
+    # If you hang up on a character, the conversation is
+    # no longer available
     def call_hang_up(phonecall):
         global available_calls
         if phonecall in available_calls:
             available_calls.remove(phonecall)
         
+    # Checks if a character has any available calls and
+    # returns the phonecall if so
     def call_available(who):
         global available_calls
         for phonecall in available_calls:
@@ -50,7 +57,7 @@ screen phone_calls:
         has hbox
         xalign 0.5
         spacing 40
-        # Account / Sound / Others tab
+        # History/Contacts tabs
         textbutton _('{image=call_history_icon}  History'):
             text_style "settings_tabs" 
             xsize 290
@@ -128,18 +135,7 @@ screen phone_calls:
                             if call_available(i.caller):
                                 action Show('outgoing_call', phonecall=call_available(i.caller))
                             else:
-                                action Show('outgoing_call', phonecall=i.caller.voicemail, voicemail=True)
-
-
-label call_test:
-    $ call_history = [Phone_Call(s, phone_label='call_test', title='POADCS', call_time=upTime()),
-                        Phone_Call(y, phone_label='call_test', title='POADCS', call_time=upTime()),
-                        Phone_Call(ju, phone_label='call_test', title='POADCS', call_time=upTime()),
-                        Phone_Call(r, phone_label='call_test', title='POADCS', call_time=upTime())]
-                        
-    $ renpy.retain_after_load()
-    call screen phone_calls   
-        
+                                action Show('outgoing_call', phonecall=i.caller.voicemail, voicemail=True)       
 
     
 ########################################################
@@ -160,7 +156,7 @@ screen phone_contacts:
         has hbox
         xalign 0.5
         spacing 40
-        # Account / Sound / Others tab
+        # Call History/Contacts tabs
         textbutton _('{image=call_history_icon}  History'):
             text_style "settings_tabs" 
             xsize 290
@@ -176,8 +172,6 @@ screen phone_contacts:
             background "menu_tab_active"
             
     
-    $ call_status = 'call_incoming'
-
     viewport:    
         xysize (725, 1070)
         draggable True
@@ -214,6 +208,8 @@ screen phone_contacts:
             add 'empty_contact'
         
     
+# This label ensures the rest of the phone conversation will
+# not play out if you hang up
 label hang_up:
     $ observing = False
     $ call_hang_up(phonecall=current_call)
@@ -430,9 +426,28 @@ screen outgoing_call(phonecall, voicemail=False):
                 action Show('phone_calls')
        
     if voicemail:
-        timer 10 action If(phonecall, [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)], Show('chat_home'))
+        timer randint(8, 10) action If(phonecall, [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)], Show('chat_home'))
     else:
         timer randint(2, 10) action [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
     
+ 
+## This label sets up the appropriate variables/actions when you begin
+## a phone call
+label phone_begin:
+    hide screen incoming_call
+    show screen in_call
     
+## This label sets the appropriate variables/actions when you finish
+## a phone call
+label phone_end:
+    if not observing:
+        $ current_call.finished()
+    $ current_call = False    
+    call screen phone_calls
+    
+## For ease of keeping track of the different voicemails, they are defined here
+label voicemail_1:
+    call phone_begin
+    vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
+    call phone_end
     
