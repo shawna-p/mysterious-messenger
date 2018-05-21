@@ -2,6 +2,7 @@ init python:
 
     import time
 
+    # Used to get the player's name from input
     class MyInputValue(InputValue):
             def __init__(self, var, default=""):
                 self.var = var
@@ -53,35 +54,36 @@ init python:
             
             num_greetings = len(morning_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(morning_greeting[greet_char][the_greeting], channel="voice_sfx")
+            renpy.play(morning_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
             
         elif hour >=12 and hour < 18:    # afternoon
             greet_text_english = "Good afternoon! " + greet_text_english
             
             num_greetings = len(afternoon_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(afternoon_greeting[greet_char][the_greeting], channel="voice_sfx")
+            renpy.play(afternoon_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
             
         elif hour >= 18 and hour < 22:  # evening
             greet_text_english = "Good evening! " + greet_text_english
             
             num_greetings = len(evening_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(evening_greeting[greet_char][the_greeting], channel="voice_sfx")
+            renpy.play(evening_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
             
         elif hour >= 22 or hour < 2: # night
             greet_text_english = "It's getting late! " + greet_text_english
             
             num_greetings = len(night_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(night_greeting[greet_char][the_greeting], channel="voice_sfx")
+            renpy.play(night_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
             
         else:   # late night/early morning
             greet_text_english = "You're up late! " + greet_text_english
             
             num_greetings = len(late_night_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(late_night_greeting[greet_char][the_greeting], channel="voice_sfx")
+            renpy.play(late_night_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
+        
         
     # This is used to make the spaceship float to a random location on the line
     def spaceship_xalign_func(trans,st,at):
@@ -135,7 +137,8 @@ define greet_list = ['jaehee', 'jumin', 'ray', 'rika', 'seven',
                                  'unknown', 'v', 'yoosung', 'zen']
 
 # Greeting Text
-# (thus far very sparse)
+# (Eventually these will be stored in the Day_Greet object to be
+# pulled alongside the sound file)
 default greet_text_korean = "제 프로그램으로 환영합니다!"
 default greet_text_english = "Welcome to my Mystic Messenger Generator!"
 
@@ -197,8 +200,6 @@ screen main_menu:
     
     window:
         style "greet_box"
-        # Could make this a variable so it changes the greeting message too
-        # Would need a better way of keeping track of which character is displayed
         text "{size=-2}" + "[greet_text_korean]" + "{/size}" style "greet_text"
         text "[greet_text_english]" style "greet_text" yalign 0.5
 
@@ -330,7 +331,6 @@ screen route_select_screen:
 ## in terms of a third screen, file_slots.
 ##
 
-
 screen save():
 
     tag menu
@@ -352,7 +352,7 @@ screen file_slots(title):
     use starry_night
     
     use menu_header(title, Show('profile_pic', Dissolve(0.5)))
-                            
+
     fixed:
 
         ## This ensures the input will get the enter event before any of the
@@ -1025,12 +1025,12 @@ screen chat_home(reshow=False):
 
     on 'show':
         action [QuickSave(False), deliver_next]
-
-            
+ 
     on 'replace':
         action [QuickSave(False), deliver_next]
 
-    timer 3.5 action If(randint(0,1), deliver_next, NullAction) repeat True
+    if num_undelivered():
+        timer 3.5 action If(randint(0,1), deliver_next, NullAction) repeat True
   
     
     # Text Messages
@@ -1167,7 +1167,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Return
+            action NullAction
             add "guest_icon" xalign 0.5 yalign 0.3
             add "guest_text" xalign 0.5 yalign 0.8
             
