@@ -774,50 +774,16 @@ init 5:
         linear 0.6 xalign .4 yalign .6 clockwise circles 0 alpha 1
         linear 0.02 alpha 0 xalign .35 yalign .55
            
+           
     # The heartbreak icon
-    transform heartbreak1:
+    transform heartbreak(wait_time):
+        alpha 0.0
+        pause wait_time
         alpha 0.7
-        xalign 0.5
-        yalign 0.5
+        align (0.5, 0.5)
         zoom 2.0
         pause 0.12
-        alpha 0
-    transform heartbreak2:
-        alpha 0
-        linear 0.12 alpha 0
-        alpha 0.7
-        xalign 0.5
-        yalign 0.5
-        zoom 2.0
-        pause 0.12
-        alpha 0
-    transform heartbreak3:
-        alpha 0
-        linear 0.24 alpha 0
-        alpha 0.7
-        xalign 0.5
-        yalign 0.5
-        zoom 2.0
-        pause 0.12
-        alpha 0
-    transform heartbreak4:
-        alpha 0
-        linear 0.36 alpha 0
-        alpha 0.7
-        xalign 0.5
-        yalign 0.5
-        zoom 2.0
-        pause 0.12
-        alpha 0
-    transform heartbreak5:
-        alpha 0
-        linear 0.48 alpha 0
-        alpha 0.7
-        xalign 0.5
-        yalign 0.5
-        zoom 2.0 
-        pause 0.12
-        alpha 0        
+        alpha 0    
     
     # Used for the screen shake effect
     transform shake:    
