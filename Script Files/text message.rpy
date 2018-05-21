@@ -11,6 +11,8 @@ init python:
     reply_screen = False
     draft_screen = False
 
+    # The Text_Message class keeps track of a text message conversation for each character.
+    # The actual messages are stored in msg_list
     class Text_Message(store.object):
         def __init__(self, sender, msg_list, reply_label=False, delay=True, read=False, heart=False):
             self.sender = sender
@@ -27,13 +29,16 @@ init python:
             for msg in text_messages:
                 if msg.sender == self.sender:
                     if self.msg_list:
-                        msg.msg_list.extend(self.msg_list)                        
+                        msg.msg_list.extend(self.msg_list) 
+                        # Clear the queued message; it's been delivered
                         self.msg_list = []
+                        # Move the delivered message to the top of the list (newest)
                         text_messages.remove(msg)
                         text_messages.insert(0, msg)
                         if msg.msg_list[-1].who != m:
                             msg.read = False
                             renpy.restart_interaction()
+                            # Notify the player of the delivered message
                             renpy.show_screen('text_msg_popup', the_msg=msg)
                         else:
                             msg.read = True
@@ -42,13 +47,17 @@ init python:
             self.read = True 
             renpy.restart_interaction()         
             
+        # This takes you to the correct message reply label
+        # and indicates that the message has been read
         def reply(self):
             global reply_screen
             reply_screen = True
-            renpy.call_in_new_context(self.reply_label, current_message=self)                
+            renpy.call_in_new_context(self.reply_label)                
             reply_screen = False             
             self.reply_label = False
             
+        # Lets the program know that the person's response will trigger
+        # a heart when they view the next reply
         def heart_point(self, person=False):
             if not person:
                 self.heart = True
@@ -57,32 +66,20 @@ init python:
                 self.heart = True
                 self.heart_person = person
 
-    class Contact(store.object):
-        def __init__(self, name, draft_label):
-            self.name = name
-            self.draft_label = draft_label  
-            self.add_contact()
-            
-        def add_contact(self):
-            contacts.append(self)
-
-        def draft(self):
-            global draft_screen
-            draft_screen = True
-            renpy.call_in_new_context(self.draft_label, contact=self)            
-            draft_screen = False
-            
-        def delete(self):
-            contacts.remove(self)
-
+    # Creates a new text message; rarely used
     def add_message(sender, msg_list, reply_label=False, delay=True):
         message = Text_Message(sender, msg_list, reply_label, delay)
         
-    def add_heart(msg, person=False):
-        if not person:
-            msg.heart_point()
-        else:
-            msg.heart_point(person)
+    # Lets the program know the response will trigger a heart point
+    def add_heart(who, person=False):
+        for msg in text_messages:
+            if msg.sender == who:
+                if not person:
+                    msg.heart_point()
+                else:
+                    msg.heart_point(person)
+          
+    # Returns whether or not the message has been read
     def check(sender):
         for item in text_messages:
             if item.sender == sender:
@@ -90,7 +87,8 @@ init python:
                     return True
                 else:
                     return False
-                    
+           
+    # Updates the message's reply label
     def add_reply_label(sender, reply_label):
         for item in text_messages:
             if item.sender == sender:
@@ -98,12 +96,15 @@ init python:
         for item in text_queue:
             if item.sender == sender:
                 item.reply_label = reply_label
-                    
+             
+    # Delivers all of the text messages at once
     def deliver_all(): 
         global text_queue
         for msg in text_queue:
             msg.deliver()
         
+    # Delivers the next available text message and triggers an incoming
+    # phone call, if applicable
     def deliver_next():
         global text_queue, incoming_call, available_calls, current_call
         for msg in text_queue:
@@ -114,16 +115,24 @@ init python:
             current_call = incoming_call
             incoming_call = False
             renpy.call_in_new_context('new_incoming_call', phonecall=current_call)
+            
+    # Checks who the sender of the next text message to be delivered is
     def who_deliver():
         global text_queue
         for msg in text_queue:
             if msg.msg_list:
                 return msg.sender
         
+    # Returns the number of unread messages in text_messages
     def new_message_count():
         unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
         return len(unread_messages)
+        
+    def num_undelivered():
+        undelivered = [ x for x in text_queue if x.msg_list ]
+        return len(undelivered)
 
+        
 label new_incoming_call(phonecall):
     call screen incoming_call(phonecall=phonecall)
 
@@ -132,7 +141,6 @@ screen text_message_hub:
     tag menu
     
     default current_message = None
-    # available drafts?
         
     use starry_night
     
@@ -167,17 +175,18 @@ screen text_message_hub:
                                 xsize 725
 
                                 hbox:
+                                    align (0.5, 0.5)
                                     spacing 10                                
                                     window:
-                                        xsize 135
-                                        ysize 135
-                                        yalign 0.02
-                                        add last_text.who.prof_pic yalign 0.5 xalign 0.5 at text_zoom
+                                        xysize (135, 135)
+                                        align (0.0, 0.5)
+                                        add last_text.who.prof_pic align(0.5,0.5) at text_zoom
                                     
                                     window:
-                                        xmaximum 320
+                                        xysize(320,135)
                                         yalign 0.5
                                         has vbox
+                                        align (0.0, 0.5)
                                         text last_text.who.name style "save_slot_text"
                                         spacing 40                                    
                                         text last_text.what[:16] + '...' style "save_slot_text"
@@ -185,9 +194,9 @@ screen text_message_hub:
                                     window:
                                         xmaximum 230
                                         has vbox
+                                        align (0.5, 0.5)
                                         spacing 30
-                                        text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"                                        
-                                        
+                                        text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"
                                         add 'read_text_envelope' xalign 1.0
                                         
                                             
@@ -201,17 +210,18 @@ screen text_message_hub:
                                 xsize 725
 
                                 hbox:
+                                    align (0.5, 0.5)
                                     spacing 10                                
                                     window:
-                                        xsize 135
-                                        ysize 135
-                                        yalign 0.02
+                                        xysize(135,135)
+                                        align (0.0, 0.5)
                                         add last_text.who.prof_pic yalign 0.5 xalign 0.5 at text_zoom
                                     
                                     window:
-                                        xmaximum 320
+                                        xysize (320, 135)
                                         yalign 0.5
                                         has vbox
+                                        align (0.0, 0.5)
                                         text last_text.who.name style "save_slot_text"
                                         spacing 40                                    
                                         text last_text.what[:16] + '...' style "save_slot_text"
@@ -219,6 +229,7 @@ screen text_message_hub:
                                     window:
                                         xmaximum 230
                                         has vbox
+                                        align (0.5, 0.5)
                                         spacing 50
                                         text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"                                   
                                         
