@@ -77,3 +77,33 @@ define m_phone = Character("MC", what_font= "00 fonts/NanumGothic (Sans Serif Fo
 define vmail_phone = Character('', what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
                             
+# ****************************
+# Text Messages
+# ****************************         
+
+# If you want a character to be able to send messages, define
+# a Text_Message object with their Chat variable in the list below                 
+default text_messages = [Text_Message(ju, []),
+                        Text_Message(ja, []),
+                        Text_Message(r, []),
+                        Text_Message(ri, []),
+                        Text_Message(s, []),
+                        Text_Message(v, []),
+                        Text_Message(y, []),
+                        Text_Message(z, []),
+                        
+                        Text_Message(u, []),
+                        Text_Message(sa, [])
+                        ]
+default text_queue = [Text_Message(ju, []),
+                        Text_Message(ja, []),
+                        Text_Message(r, []),
+                        Text_Message(ri, []),
+                        Text_Message(s, []),
+                        Text_Message(v, []),
+                        Text_Message(y, []),
+                        Text_Message(z, []),
+                        
+                        Text_Message(u, []),
+                        Text_Message(sa, [])
+                        ]
