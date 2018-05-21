@@ -17,94 +17,38 @@ init python:
             pv -= 0.09
         return
 
-    # Add a name & colour here if you'd like to add
-    # another heart icon
-    heartcolour = {'s' : "#ff2626", 
-                    'z' : "#c9c9c9", 
-                    'ja' : "#d0b741", 
-                    'ju' : "#a59aef", 
-                    'y' : "#31ff26", 
-                    'ri' : "#fcef5a",
-                    'r' : "#b81d7b",
-                    'v' : "#50b2bc",
-                    'u' : "#ffffff",
-                    'sa' : "#b81d7b",
-                    } 
-                    
-
-    # This is a helper function for the heart icon
-    # it dynamically recolours a generic white heart
-    # depending on the character
-    # If you'd like to define your own character & heart icon,
-    # just add it to the heartcolour list
-    # and when you type "call heart_icon(my_custom_character) it will
-    # automatically recolour it
+    # This is a helper function for the heart icon that dynamically recolours a 
+    # generic white heart depending on the character
+    # See character definitions.rpy to define your own character & heart point
     def heart_icon_fn(st,at):
         if heartChar in heartcolour:
             colour = heartcolour[heartChar]
         else:
             colour = white
-        return im.MatrixColor("Heart Point/Unknown Heart Point.png", im.matrix.colorize("#000000", colour)), 0.1
+        return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
+                                im.matrix.colorize("#000000", colour)), 0.1
         
     # Similarly, this recolours the heartbreak animation
-    # It has multiple frames, so there are a lot of 
-    # similar functions defined below
-    def heart_break_fn1(st,at):    
+    def heart_break_fn(st,at, picture):    
         if heartChar in heartcolour:
             colour = heartcolour[heartChar]
         else:
             colour = white
-        return im.MatrixColor("Heart Point/HeartBreak/stat_animation_6.png", im.matrix.colorize("#000000", colour)), 0.1
-        
-    def heart_break_fn2(st,at):   
-        if heartChar in heartcolour:
-            colour = heartcolour[heartChar]
-        else:
-            colour = white
-        return im.MatrixColor("Heart Point/HeartBreak/stat_animation_7.png", im.matrix.colorize("#000000", colour)), 0.1
-        
-    def heart_break_fn3(st,at):   
-        if heartChar in heartcolour:
-            colour = heartcolour[heartChar]
-        else:
-            colour = white
-        return im.MatrixColor("Heart Point/HeartBreak/stat_animation_8.png", im.matrix.colorize("#000000", colour)), 0.1
-        
-    def heart_break_fn4(st,at):   
-        if heartChar in heartcolour:
-            colour = heartcolour[heartChar]
-        else:
-            colour = white
-        return im.MatrixColor("Heart Point/HeartBreak/stat_animation_9.png", im.matrix.colorize("#000000", colour)), 0.1
+        return im.MatrixColor(picture, im.matrix.colorize("#000000", colour)), 0.1
 
-# This is a variable that detects if you're choosing an option from a menu
-# If so, it uses this variable to know it should disable most buttons
-default choosing = False
-# Variable that detects if the answer screen should be
-# showing. Largely only useful if you view a CG when you should
-# be answering a prompt
-default pre_choosing = False
-# Keeps track of the total number of hp (heart points) you've received per chatroom
-default chatroom_hp = 0
-# Keeps track of the total number of hg (hourglasses) you've earned per chatroom
-default chatroom_hg = 0
+
 
 #************************************
 # Heart Icons
 #************************************ 
 image heart_icon = DynamicDisplayable(heart_icon_fn)
-image heartbreak1 = DynamicDisplayable(heart_break_fn1)
-image heartbreak2 = DynamicDisplayable(heart_break_fn2)
-image heartbreak3 = DynamicDisplayable(heart_break_fn3)
-image heartbreak4 = DynamicDisplayable(heart_break_fn4)
+image heartbreak1 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_6.png")
+image heartbreak2 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_7.png")
+image heartbreak3 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_8.png")
+image heartbreak4 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_9.png")
 image heartbreak5 = "Heart Point/HeartBreak/stat_animation_10.png"
 
 label heart_icon(character):
-    show screen heart_icon_screen(character)
-    return
-    
-screen heart_icon_screen(character):
-    zorder 20
     python:
         global heartChar, chatroom_hp
         heartChar = character.file_id
@@ -114,23 +58,22 @@ screen heart_icon_screen(character):
             character.add_heart()
             chatroom_hp += 1
             persistent.HP += 1
-            
     if not observing:
-        fixed at heart:
-            yfit True
-            xfit True
-            add 'heart_icon'
+        show screen heart_icon_screen(character)
+    return
+    
+screen heart_icon_screen(character):
+    zorder 20   
+
+    fixed at heart:
+        yfit True
+        xfit True
+        add 'heart_icon'
         
     timer 0.62 action [Hide('heart_icon_screen')]
         
     
 label heart_break(character):
-    show screen heart_break_screen(character)
-    return
-      
-    
-screen heart_break_screen(character):
-    zorder 20
     python:
         global heartChar, chatroom_hp
         heartChar = character.file_id
@@ -139,32 +82,39 @@ screen heart_break_screen(character):
         if not observing:
             character.lose_heart()
             chatroom_hp -= 1
-            persistent.HP -= 1
-            
+            persistent.HP -= 1     
     if not observing:
-        fixed at heartbreak1:
-            yfit True
-            xfit True
-            add 'heartbreak1'
-        fixed at heartbreak2:
-            yfit True
-            xfit True
-            add 'heartbreak2'
-        fixed at heartbreak3:
-            yfit True
-            xfit True
-            add 'heartbreak3'
-        fixed at heartbreak4:
-            yfit True
-            xfit True
-            add 'heartbreak4'
-        fixed at heartbreak5:
-            yfit True
-            xfit True
-            add 'heartbreak5'
+        show screen heart_break_screen(character)
+    return
+
+    
+screen heart_break_screen(character):
+    zorder 20
+   
+    fixed at heartbreak(0.0):
+        yfit True
+        xfit True
+        add 'heartbreak1'
+    fixed at heartbreak(0.12):
+        yfit True
+        xfit True
+        add 'heartbreak2'
+    fixed at heartbreak(0.24):
+        yfit True
+        xfit True
+        add 'heartbreak3'
+    fixed at heartbreak(0.36):
+        yfit True
+        xfit True
+        add 'heartbreak4'
+    fixed at heartbreak(0.48):
+        yfit True
+        xfit True
+        add 'heartbreak5'
         
     timer 0.6 action [Hide('heart_break_screen')]
 
+    
 #####################################
 # Answer Button
 ##################################### 
@@ -172,8 +122,6 @@ screen heart_break_screen(character):
 # Call this label before you show a menu
 # to show the answer button
 label answer:
-    #pause 0.2
-    #$ chatlog.append(Chatentry(answer,'',upTime))
     $ addchat(answer, '', 0.2)
     hide screen viewCG
     $ pre_choosing = True
@@ -189,9 +137,6 @@ screen answer_button:
     add "answerbutton" ypos 1220
         
     imagebutton:
-        xanchor 0.0
-        yanchor 0.0
-        xpos 0
         ypos 1220
         focus_mask None
         idle "Phone UI/answer_transparent.png"
@@ -208,10 +153,8 @@ screen answer_button:
 screen pause_button:
     zorder 4
     tag chat_footer
+    
     imagebutton:
-        xanchor 0.0
-        yanchor 0.0
-        xpos 0
         ypos 1220
         focus_mask True
         idle "Phone UI/Pause.png"
@@ -225,7 +168,7 @@ screen pause_button:
             yalign 0.997
             focus_mask None
             idle "fast-slow-button"
-            action [fast_pv, Show("speed_num")]
+            action [Function(fast_pv), Show("speed_num")]
                 
         # Slow button
         imagebutton:
@@ -233,7 +176,7 @@ screen pause_button:
             yalign 0.997
             focus_mask None
             idle "fast-slow-button"
-            action [slow_pv, Show('speed_num')]
+            action [Function(slow_pv), Show('speed_num')]
           
 label play:
     $ chatlog.append(Chatentry(chat_pause,'',upTime))
@@ -262,27 +205,12 @@ screen play_button:
 # Chat Header Overlay
 #####################################
 
-## This screen shows the current time in the top righthand corner
-## It's currently just for cosmetic purposes since I wanted to 
-## display the current time as if it were a real phone
-# The real MysMe screen doesn't technically have this
-# but eventually it will likely be adapted to show the time like
-# you see in VN sections
-
-screen clock_screen:
-    zorder 3
-    add myClock:
-        xalign 1.0
-        yalign 0.0
-                
 ## This screen just shows the header/footer above the chat
 screen phone_overlay:  
     zorder 2
     add "Phone UI/Phone-UI.png"   # You can set this to your own image
     if config.skipping:
         imagebutton:
-            xanchor 0.0
-            yanchor 0.0
             xpos 100
             ypos 73
             focus_mask True
@@ -294,8 +222,6 @@ screen phone_overlay:
                 # is visibly toggled after you press it
     else:
         imagebutton:
-            xanchor 0.0
-            yanchor 0.0
             xpos 100
             ypos 73
             focus_mask True
@@ -304,7 +230,7 @@ screen phone_overlay:
             if not choosing:
                 action [toggle_skipping, renpy.restart_interaction]
                 
-    use clock_screen
+    add myClock align(1.0, 0.0)
 
     
 
@@ -388,7 +314,7 @@ screen viewCG_fullsize:
    
 # Call this label to show the save & exit sign
 label save_exit:
-    #answer "" (pauseVal=0)
+    $ addchat(answer, '', 0.2)
     call screen save_and_exit
     return
 
@@ -420,8 +346,8 @@ label press_save_and_exit(phone=True):
         $ chatroom_hg = 0
         $ config.skipping = False   
         $ greeted = False
-        if current_chatroom.text_label and not current_chatroom.played:
-            $ renpy.call(current_chatroom.text_label)
+        if current_chatroom.afterchat_label and not current_chatroom.played:
+            $ renpy.call(current_chatroom.afterchat_label)
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
@@ -437,14 +363,12 @@ label press_save_and_exit(phone=True):
 # This shows the signature screen, which records your total heart points
 # It shows hourglass points as well but currently there is no way to get
 # more hourglasses
-
 screen signature_screen(phone=True):
     zorder 5
     modal True
     if phone:
         add "save_exit" ypos 1220
     add "Phone UI/choice_dark.png"
-    #add "signature" xalign 0.5 yalign 0.5
     window:
         xalign 0.5
         yalign 0.5
@@ -476,11 +400,9 @@ screen signature_screen(phone=True):
         text "I hereby agree to treat this conversation as confidential." style "save_exit_text"
         
         textbutton _('sign'):
-            xsize 211
-            ysize 52
+            xysize (211, 52)
             text_style 'sign'
-            xalign 0.5
-            yalign 0.842
+            align (0.5, 0.842)
             focus_mask True
             background "Phone UI/sign-button.png" padding(20,20)
             activate_sound "sfx/UI/end_chatroom.mp3"
@@ -504,7 +426,6 @@ screen signature_screen(phone=True):
 # you'll also have to pass it 'False' as its second argument
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
-    $ global pv
     if clearchat:
         $ chatlog = []
         $ pv = 0.8
@@ -517,7 +438,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     # Fills the beginning of the screen with 'empty space' so the messages begin
     # showing up at the bottom of the screen (otherwise they start at the top)
     if clearchat:
-        $ chatlog.append(Chatentry(filler,"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",upTime))
+        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
         
     # Sets the correct background and nickname colour
     # You'll need to add other backgrounds here if you define
@@ -544,6 +465,10 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         scene bg redhack
         $ nickColour = white
         
+    # If you've already played this chatroom in your current runthrough,
+    # viewing it again causes this variable to be True. It prevents you
+    # from receiving heart points again and only lets you select choices
+    # you've selected on this or previous playthroughs
     if current_chatroom.played:
         $ observing = True
     else:
@@ -572,20 +497,22 @@ label hack:
     $ chatlog.append(Chatentry(answer,'',upTime))
     show screen hack_screen('hack scroll')
     pause 3.0
+    hide screen hack_screen
     return
     
 label redhack:
     $ chatlog.append(Chatentry(answer,'',upTime))
     show screen hack_screen('redhack scroll')
     pause 3.0
+    hide screen hack_screen
     return
     
-# These are the special "banners" that crawl across the screen
-# Just call them using "call banner_well" etc
-
 #************************************
 # Banners
 #************************************
+
+# These are the special "banners" that crawl across the screen
+# Just call them using "call banner('well')" etc
 
 label banner(banner):
     show screen banner_screen(banner)
@@ -603,7 +530,8 @@ screen banner_screen(banner):
 # Chatroom Enter/Exit
 #************************************
 # This does some of the code for you when you want a character
-# to enter/exit a chatroom
+# to enter/exit a chatroom. It adds characters to the chatroom's
+# participant list if they enter during a chatroom.
 
 label enter(chara):
 
@@ -619,18 +547,7 @@ label exit(chara):
     $ addchat(msg, mystring, pv)
     return
 
-#************************************
-# Input Screen
-#************************************
     
-# This is just the screen you see when the program
-# prompts you to enter a username
-screen input(prompt, defAnswer = ""):
-
-    window style "input_window":
-        text prompt style "input_prompt"
-        input id "input" default defAnswer style "input_answer"
-        
 #************************************
 # Countdown Screen
 #************************************
@@ -666,14 +583,10 @@ label continue_answer(themenu, time=5):
     show screen continue_answer_button(themenu)
     return
 
-        
 screen continue_answer_button(themenu):
     zorder 4
     image "answerbutton" ypos 1220
     imagebutton:
-        xanchor 0.0
-        yanchor 0.0
-        xpos 0
         ypos 1220
         focus_mask None
         idle "Phone UI/answer_transparent.png"
