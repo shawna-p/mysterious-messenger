@@ -81,7 +81,14 @@ init -6 python:
         def add_participant(self, chara):
             if not chara in self.participants:
                 self.participants.append(chara)
-        
+            
+        # This 'delivers' any phone calls available after the chatroom
+        def deliver_calls(self):
+            global incoming_call, available_calls
+            if self.incoming_call:
+                incoming_call = self.incoming_call
+            available_calls.extend(self.phone_calls)
+            
     # This class stores the information needed for the Visual Novel portions of the game
     class VN_Mode(store.object):
         def __init__(self, vn_label, who=None, played=False, available=False):
@@ -92,18 +99,18 @@ init -6 python:
             
     # This class stores the information needed for phone calls
     class Phone_Call(store.object):
-        def __init__(self, caller, phone_label=False, title=False, call_status='incoming',
-                avail_timeout=2, voicemail=False, playback=False, call_time=False):
+        def __init__(self, caller, phone_label, title, call_status='incoming',
+                avail_timeout=2, voicemail=False):
             self.caller = caller
             self.phone_label = phone_label
             self.title = title
-            self.call_time = call_time
+            self.call_time = False
             if call_status == 'incoming' or call_status == 'outgoing' or call_status == 'missed' or call_status == 'voicemail':
                 self.call_status = call_status
             else:
                 self.call_status = 'incoming'
             self.voicemail = voicemail
-            self.playback = playback
+            self.playback = False
             self.avail_timeout = avail_timeout
             
         # Phone calls will slowly expire if you don't call the characters. The default
@@ -728,6 +735,7 @@ image menu_default_sounds = Frame("Phone UI/Main Menu/settings_sound_default.png
 
 # Settings tabs
 image menu_tab_inactive = Frame("Phone UI/Main Menu/settings_tab_inactive.png",10,10)
+image menu_tab_inactive_hover2 = Frame("Phone UI/Main Menu/settings_tab_inactive_hover2.png",10,10)
 image menu_tab_active = Frame("Phone UI/Main Menu/settings_tab_active.png",25,25)
 image menu_tab_inactive_hover = Frame("Phone UI/Main Menu/settings_tab_inactive_hover.png",10,10)
 
@@ -1154,7 +1162,10 @@ image call_voicemail = 'Phone UI/Phone Calls/call_icon_voicemail.png'
 image call_choice = Frame('Phone UI/Phone Calls/call_select_button.png', 70, 70)
 image call_choice_hover = Frame('Phone UI/Phone Calls/call_select_button_hover.png', 90, 90)
 
+## ********************************
+## Create-A-Chatroom/Route
+## ********************************
 
-
+image char_foreground = 'Phone UI/char_select_foreground.png'
 
 

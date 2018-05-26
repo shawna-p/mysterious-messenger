@@ -290,7 +290,7 @@ screen main_menu:
                         focus_mask True
                         background "right_corner_menu" 
                         hover_background "right_corner_menu_selected"
-                        action ToggleVariable('chips_available', False, True)
+                        action Show('create_archive')
                         
                     vbox:                               
                         align(0.5, 0.5)
@@ -549,8 +549,8 @@ screen preferences():
             bar value set_voicesfx_volume() ypos 15
             
         textbutton _("Mute All"):
-                    action Preference("all mute", "toggle")
-                    style "mute_all_button" xalign 0.45
+            action Preference("all mute", "toggle")
+            style "mute_all_button" xalign 0.45
             
 
     
@@ -1217,7 +1217,7 @@ screen chat_home(reshow=False):
                 
             add "space_chip_active" xalign 0.92 yalign 0.98
             
-            window at spaceship_chips:
+            window at spaceship_chips(1.0):
                 maximum (100,110)
                 xalign 0.96
                 yalign 1.0
@@ -1230,7 +1230,7 @@ screen chat_home(reshow=False):
                     action Show('chip_tap')
         
         if reshow:
-            window at chip_anim(False):
+            window at chip_anim(0):
                 maximum(90,70)
                 xalign 0.93
                 yalign 0.942
@@ -1238,7 +1238,7 @@ screen chat_home(reshow=False):
                 
             add "space_chip_active2" xalign 0.92 yalign 0.98
             
-            window at spaceship_chips(False):
+            window at spaceship_chips:
                 maximum (100,110)
                 xalign 0.96
                 yalign 1.0
@@ -1271,13 +1271,23 @@ screen chara_profile(who):
 
     use starry_night
     use menu_header("Profile", Show('chat_home', Dissolve(0.5)))   
-        
-    add who.cover_pic yalign 0.231
-    add who.prof_pic at profile_zoom
-    add 'profile_outline' xalign 0.1 yalign 0.675
     
-    text who.name style "profile_header_text"
-    text who.status style "profile_status"
+    add who.cover_pic yalign 0.231
+    
+    fixed:
+        xfit True yfit True
+        xalign 0.1 yalign 0.675
+        add Transform(who.prof_pic, zoom=2.85)
+        add 'profile_outline'    
+    window:
+        maximum (350,75)
+        xalign 0.96
+        yalign 0.685
+        text who.name style "profile_header_text"
+    window:  
+        maximum (700, 260)
+        yalign 0.97
+        text who.status style "profile_status"
     
 
 screen chip_tap:
