@@ -22,7 +22,8 @@ init -4 python:
     # typing out the full name every time
     class Chat(store.object):
         def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, 
-                cover_pic=False, status=False, voicemail=False):               
+                heart_color='#000000', emote_list=False, cover_pic=False, status=False,
+                voicemail=False):               
                 
             self.name = name            
             self.file_id = file_id
@@ -35,6 +36,8 @@ init -4 python:
             else:
                 self.voicemail = Phone_Call(self, 'voicemail_1', False, 'voicemail', 2, True)
             self.heart_points = 0  
+            self.heart_color = heart_color
+            self.emote_list = emote_list
             
         def update_voicemail(self, new_label):
             self.voicemail.phone_label = new_label
@@ -249,7 +252,7 @@ screen chat_dialogue():
                       
                       
                       
-screen chat_animation(i):
+screen chat_animation(i, animate=True):
 
     python:
         include_new = False
@@ -306,23 +309,38 @@ screen chat_animation(i):
                     
             global choosing
             
+        if not animate:
+            global f_style_begin, f_style_end
+            transformVar = null_anim
+            nickColour = white
+            dialogue = f_style_begin + i.what + f_style_end
+        else:
+            dialogue = i.what
+            
         
     ## First, the profile picture and name, no animation
     if i.who.name == 'msg' or i.who.name == 'filler':
         window:
             style i.who.name + '_bubble'
-            text i.what style i.who.name + '_bubble_text'
+            text dialogue style i.who.name + '_bubble_text'
             
     elif i.who.file_id != 'delete':#i.who != answer and i.who != chat_pause:
         window:
             if i.who == m:
                 style 'MC_profpic'
+                if not animate:
+                    xoffset -40
             else:
                 style 'profpic'
                 
             add i.who.prof_pic
             
-        text i.who.name style nameStyle color nickColour
+        if animate:
+            text i.who.name style nameStyle color nickColour
+        elif i.who == m:
+            text i.who.name style nameStyle color nickColour xoffset -30 yoffset 102
+        else:
+            text i.who.name style nameStyle color nickColour yoffset 102
         
         ## Now add the dialogue
         
@@ -331,6 +349,8 @@ screen chat_animation(i):
                 ## Check if it's an image
                 if i.img == True:
                     style 'img_message'
+                    if not animate:
+                        yoffset 135
                     # Check if it's an emoji
                     if "{image=" in i.what:
                         text i.what
@@ -350,26 +370,32 @@ screen chat_animation(i):
                 ## Check if it's a special bubble
                 elif i.specBubble != None:
                     style bubbleStyle 
+                    if not animate:
+                        yoffset 125
                     background bubbleBackground # e.g. style "sigh_m" 
-                    text i.what style "special_bubble"
+                    text dialogue style "special_bubble"
                     
                 ## Dialogue is either 'glow' or 'regular' variant
                 elif i.bounce:
                     # Note: MC has no glowing bubble so there is no variant for them
                     style 'glow_bubble' 
+                    if not animate:
+                        yoffset 138
                     background Frame(bubbleBackground, 25, 25)
                     # This checks if the text needs to wrap or not
                     if my_width > gui.longer_than:
-                        text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                        text dialogue style "bubble_text_long" min_width gui.long_line_min_width
                     else:            
-                        text i.what style "bubble_text"
+                        text dialogue style "bubble_text"
                         
                 else:
                     style 'reg_bubble_MC'
+                    if not animate:
+                        yoffset 138 xoffset -35
                     if my_width > gui.longer_than:
-                        text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                        text dialogue style "bubble_text_long" min_width gui.long_line_min_width
                     else:            
-                        text i.what style "bubble_text"
+                        text dialogue style "bubble_text"
                         
         else:
             if my_width > gui.longer_than:
@@ -378,6 +404,8 @@ screen chat_animation(i):
                     xanchor 0
                     yanchor 0
                     yfit True
+                    if not animate:
+                        yoffset 135
                     
                     vbox:
                         spacing -55
@@ -385,8 +413,8 @@ screen chat_animation(i):
                         add 'new_sign' xalign 1.0 yalign 0.0 yoffset 0 xoffset 40 at new_fade
                         window:                        
                             background Frame(bubbleBackground, 25,18,18,18)
-                            style 'reg_bubble'
-                            text i.what style "bubble_text_long" min_width gui.long_line_min_width
+                            style 'reg_bubble'                            
+                            text dialogue style "bubble_text_long" min_width gui.long_line_min_width
                            
             else:
                 fixed at transformVar:
@@ -394,18 +422,20 @@ screen chat_animation(i):
                     xanchor 0
                     yanchor 0
                     ysize my_height - 20
+                    if not animate:
+                        yoffset 135
                     
                     vbox:
                         spacing -55
                         order_reverse True
                         add 'new_sign' xalign 1.0 yalign 0.0 yoffset 0 xoffset 40 at new_fade
                         window:                        
-                            background Frame(bubbleBackground, 25,18,18,18)   
-                            style 'reg_bubble_short'
-                            text i.what style "bubble_text"
+                            background Frame(bubbleBackground, 25,18,18,18)                          
+                            style 'reg_bubble_short'                            
+                            text dialogue style "bubble_text"
                     
-        
-        use anti_animation(i)  
+        if animate:
+            use anti_animation(i)  
 
 #******************************************
 #  This code 'cancels out' the animation  *
