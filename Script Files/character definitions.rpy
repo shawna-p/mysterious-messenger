@@ -8,17 +8,17 @@
 ##  participant_pic - pic show show they're present in a chatroom; cover_pic/status  - as stated;
 ##  voicemail - generally set at the end of a chatroom, not during definition time
 
-default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "Cover Photos/profile_cover_photo.png", "707's status")
-default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "Cover Photos/profile_cover_photo.png", "Yoosung's status")
+default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "#ff2626", seven_emotes, "Cover Photos/profile_cover_photo.png", "707's status")
+default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "#31ff26", yoosung_emotes, "Cover Photos/profile_cover_photo.png", "Yoosung's status")
 default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png')
-default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 'Profile Pics/ja_chat.png', "Cover Photos/profile_cover_photo.png", "Jaehee's status")
-default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 'Profile Pics/ju_chat.png', "Cover Photos/profile_cover_photo.png", "Jumin's status")
-default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "Cover Photos/profile_cover_photo.png", "Zen's status")
-default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "Cover Photos/profile_cover_photo.png", "Rika's status")
-default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 'Profile Pics/r_chat.png', "Cover Photos/profile_cover_photo.png", "Ray's status")
-default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 'Profile Pics/sa_chat.png', "Cover Photos/profile_cover_photo.png", "Saeran's status")
-default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 'Profile Pics/u_chat.png', "Cover Photos/profile_cover_photo.png", "Unknown's status")
-default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 'Profile Pics/v_chat.png', "Cover Photos/profile_cover_photo.png", "V's status")
+default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 'Profile Pics/ja_chat.png', "#d0b741", jaehee_emotes, "Cover Photos/profile_cover_photo.png", "Jaehee's status")
+default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 'Profile Pics/ju_chat.png', "#a59aef", jumin_emotes, "Cover Photos/profile_cover_photo.png", "Jumin's status")
+default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "#c9c9c9", zen_emotes, "Cover Photos/profile_cover_photo.png", "Zen's status")
+default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "#fcef5a", rika_emotes, "Cover Photos/profile_cover_photo.png", "Rika's status")
+default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 'Profile Pics/r_chat.png', "#b81d7b", ray_emotes, "Cover Photos/profile_cover_photo.png", "Ray's status")
+default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 'Profile Pics/sa_chat.png', "#b81d7b", saeran_emotes, "Cover Photos/profile_cover_photo.png", "Saeran's status")
+default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 'Profile Pics/u_chat.png', "#ffffff")
+default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 'Profile Pics/v_chat.png', "#50b2bc", v_emotes, "Cover Photos/profile_cover_photo.png", "V's status")
    
 # These are special 'characters' for additional features
 define msg = Chat("msg")
@@ -29,20 +29,6 @@ define chat_pause = Chat('pause', 'delete')
 # You'll want to add a new character to this list so they show up
 # in things like the profiles at the top of the screen
 default character_list = [ju, z, s, y, ja, v, m, r, ri]
-
-# Add a name & colour here if you'd like to add another heart icon
-# The 'key' should be equal to the character's file_id
-default heartcolour = {'s' : "#ff2626", 
-                        'z' : "#c9c9c9", 
-                        'ja' : "#d0b741", 
-                        'ju' : "#a59aef", 
-                        'y' : "#31ff26", 
-                        'ri' : "#fcef5a",
-                        'r' : "#b81d7b",
-                        'v' : "#50b2bc",
-                        'u' : "#ffffff",
-                        'sa' : "#b81d7b",
-                        } 
                         
                         
 # ****************************
