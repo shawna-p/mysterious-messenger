@@ -21,8 +21,8 @@ init python:
     # generic white heart depending on the character
     # See character definitions.rpy to define your own character & heart point
     def heart_icon_fn(st,at):
-        if heartChar in heartcolour:
-            colour = heartcolour[heartChar]
+        if heartColor:
+            colour = heartColor
         else:
             colour = white
         return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
@@ -30,8 +30,8 @@ init python:
         
     # Similarly, this recolours the heartbreak animation
     def heart_break_fn(st,at, picture):    
-        if heartChar in heartcolour:
-            colour = heartcolour[heartChar]
+        if heartColor:
+            colour = heartColor
         else:
             colour = white
         return im.MatrixColor(picture, im.matrix.colorize("#000000", colour)), 0.1
@@ -48,10 +48,11 @@ image heartbreak3 = DynamicDisplayable(heart_break_fn, picture="Heart Point/Hear
 image heartbreak4 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_9.png")
 image heartbreak5 = "Heart Point/HeartBreak/stat_animation_10.png"
 
+default heartColor = '#000000'
+
 label heart_icon(character):
     python:
-        global heartChar, chatroom_hp
-        heartChar = character.file_id
+        heartColor = character.heart_color
         if character == r:
             character = sa
         if not observing:
@@ -75,8 +76,7 @@ screen heart_icon_screen(character):
     
 label heart_break(character):
     python:
-        global heartChar, chatroom_hp
-        heartChar = character.file_id
+        heartColor = character.heart_color
         if character == r:
             character = sa
         if not observing:
