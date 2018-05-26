@@ -1167,5 +1167,6 @@ image call_choice_hover = Frame('Phone UI/Phone Calls/call_select_button_hover.p
 ## ********************************
 
 image char_foreground = 'Phone UI/char_select_foreground.png'
+image char_foreground2 = 'Phone UI/char_select_foreground2.png'
 
 

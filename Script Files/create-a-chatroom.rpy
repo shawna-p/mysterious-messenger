@@ -1,3 +1,4 @@
+init offset = 5
 init python:
 
     def open_file(thefile):
@@ -27,7 +28,9 @@ init python:
             return getattr(store, self.var)
             
         def set_text(self, s):                
-            setattr(store, self.var, s)      
+            setattr(store, self.var, s)  
+            global the_entry
+            the_entry.what = s
 
         def enter(self):
             renpy.run(self.Disable())                
@@ -160,7 +163,11 @@ default font_styles = [ ['curly', 'blocky', 'big'], ['ser1', 'ser1b', 'ser1xb'],
 default f_style_begin = ''
 default f_style_end = ''
 default f_font_style = Fonts()
+
+default the_entry = Chatentry(ju, 'Some sample text', upTime())#Chatentry(ju, 'Input dialogue here', pv)
     
+default bubble_background = "Bubble/" + the_entry.who.file_id + "-Glow.png"
+
 screen create_archive:
 
     tag menu
@@ -216,34 +223,77 @@ screen create_archive:
                         spacing 10
                         for i in character_list:
                             if i.participant_pic:
-                                add i.participant_pic
+                                imagebutton:
+                                    hover_foreground 'char_foreground2'
+                                    selected_foreground 'char_foreground'
+                                    idle i.participant_pic
+                                    selected (the_entry.who == i)
+                                    action [SetField(the_entry, 'who', i),
+                                            SetField(the_entry, 'specBubble', None)]
                             elif i == m:
-                                add Transform('Profile Pics/MC/MC-1.png', zoom=0.725)
+                                imagebutton:
+                                    hover_foreground 'char_foreground2'
+                                    selected_foreground 'char_foreground'
+                                    selected (the_entry.who == i)
+                                    idle Transform('Profile Pics/MC/MC-1.png', zoom=0.725)
+                                    action [SetField(the_entry, 'who', i),
+                                            SetField(the_entry, 'bounce', False),
+                                            SetField(the_entry, 'specBubble', None)]
                 
                 bar value XScrollValue('character_select') style 'creator_hscroll'
         
+            null height 30
+        
             ## Dialogue Input
-            window:                
-                vbox:
+            window:   
+                xysize (730, 370)
+                align (0.5, 0.5)
+                hbox:
                     spacing 20
                     xalign 0.5
                     yalign 0.5
                     button:
-                        xysize (680, 250)
-                        xalign 0.5
+                        xysize (500, 300)
+                        xalign 0.1
+                        yalign 0.5
                         background 'input_square' padding(40, 40)
                         viewport:
                             mousewheel True
-                            xysize (630,230)
-                            xalign 0.5
+                            xysize (650,230)
+                            xalign 0.1
                             yalign 0.5
-                            text f_style_begin + f_dialogue + f_style_end
+                            text f_style_begin + the_entry.what + f_style_end
                         action Show('dialogue_input_popup', width=680, height=500)
+                    
+                    vbox:
+                        align (0.5, 0.5)
+                        spacing 20
+                        textbutton _('Emojis'):
+                            text_style 'mode_select'
+                            xysize (170,80)
+                            background 'menu_select_btn' padding(20,20)
+                            hover_background 'menu_select_btn_hover'
+                            action Show("pick_emoji", character=the_entry.who)
+                            
+                        textbutton _('Exit/Enter'):
+                            text_style 'mode_select'
+                            xysize (170,110)
+                            background 'menu_select_btn' padding(20,20)
+                            hover_background 'menu_select_btn_hover'
+                            action Show("pick_emoji", character=the_entry.who)
+                            
+                        textbutton _('Speech Bubbles'):
+                            text_style 'mode_select'
+                            xysize (170,110)
+                            background 'menu_select_btn' padding(20,20)
+                            hover_background 'menu_select_btn_hover'
+                            action Show("pick_bubble", character=the_entry.who)
+                
         
             text "Font Options" style 'creator_title'
 
             window:
-                xysize(700, 250)
+                xysize(700, 220)
                 align (0.5, 0.5)
                 hbox:
                     spacing 10
@@ -253,7 +303,7 @@ screen create_archive:
                             spacing 10
                             for f_var in f:
                                 if f_var != 'big':
-                                    textbutton _('Test'):
+                                    textbutton _('Text'):
                                         text_style f_var
                                         text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
                                         text_color '#fff'
@@ -267,7 +317,7 @@ screen create_archive:
                                         text_size gui.text_size + 10
                                         text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
                                         text_color '#fff'
-                                        xysize (90, 70)
+                                        xysize (90, 60)
                                         if not f_font_style.big:
                                             background "menu_tab_inactive"
                                             hover_background "menu_tab_inactive_hover"
@@ -281,7 +331,7 @@ screen create_archive:
                                                     renpy.retain_after_load]
 
                     window:
-                        xysize(220, 240)
+                        xysize(220, 200)
                         align (0.5, 0.5)
                         text '<- Regular' color '#fff' yalign 0.1
                         text '<- {=sser1b}{color=#fff}Bold{/color}{/=sser1b}' color '#fff' yalign 0.5
@@ -294,17 +344,26 @@ screen create_archive:
                 style 'creator_button'
                 action [Function(reset_fonts, font_obj=f_font_style), renpy.retain_after_load]
         
+            text "Preview" style 'creator_title'
+        
+            $ bubbleBackground = "Bubble/" + the_entry.who.file_id + "-Bubble.png"
+        
+            window:
+                xysize (700, 450)
+                background Transform("bg-earlyMorn.jpg", crop=(50,300,700,450))
+                viewport:
+                    draggable True
+                    xysize (700, 450)
+                    use chat_animation(the_entry, False)
         
         
         
         
         
-        
-        
-        
+            null height 300
             hbox:
                 align (0.5, 0.5)
-                style 'creator_vbox'
+                style 'creator_hbox'
                 textbutton _('Test writing to file'):
                     text_style 'creator_button_text'
                     style 'creator_button'
@@ -336,8 +395,8 @@ screen dialogue_input_popup(width=550, height=313):
     zorder 100
     modal True
     
-    $ old_dialogue = f_dialogue
-    $ d_input = Input(value=InputDialogue("f_dialogue", f_dialogue), style="dialogue_text")
+    $ old_dialogue = the_entry.what
+    $ d_input = Input(value=InputDialogue("the_entry.what", the_entry.what), style="dialogue_text")
     $ yadj.value = yadjValue  
     
     window:
@@ -349,7 +408,7 @@ screen dialogue_input_popup(width=550, height=313):
             align (1.0, 0.0)
             idle 'input_close'
             hover 'input_close_hover'
-            action [Hide('dialogue_input_popup'), SetVariable('f_dialogue', old_dialogue), renpy.retain_after_load, Show('create_archive')]
+            action [Hide('dialogue_input_popup'), SetField(the_entry, 'what', old_dialogue), renpy.retain_after_load, Show('create_archive')]
         vbox:
             spacing 20
             xalign 0.5
@@ -371,7 +430,135 @@ screen dialogue_input_popup(width=550, height=313):
                 ysize 80
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [Hide('dialogue_input_popup'), Show('create_archive')]
+                action [Hide('dialogue_input_popup'), SetField(the_entry, 'img', False), Show('create_archive')]
+                
+screen pick_emoji(character):
+
+    zorder 100
+    modal True
+    
+    window:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action [Hide('pick_emoji'), renpy.retain_after_load, Show('create_archive')]
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6            
+            window:
+                xysize (630,780)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,760)
+                    align (0.5, 0.5)
+                    cols 2
+                    for emote in character.emote_list:
+                        button:
+                            xysize(290,290)
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            selected (the_entry.what == emote)
+                            text emote align (0.5, 0.5)
+                            action [SetField(the_entry, 'what', emote), 
+                                    SetField(the_entry, 'img', True)]
+                            
+                    
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 80
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Hide('pick_emoji'), Show('create_archive')]
+                
+                
+                
+screen pick_bubble(character):
+
+    zorder 100
+    modal True
+    
+    window:
+        maximum(780, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action [Hide('pick_bubble'), renpy.retain_after_load, Show('create_archive')]
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6            
+            window:
+                xysize (730,780)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (690,760)
+                    align (0.5, 0.5)
+                    cols 2
+                    for bubble in bubble_list[:2]:
+                        if renpy.loadable(bubble[0] + character.file_id + bubble[1]):
+                            $ thebubble = bubble[0] + character.file_id + bubble[1]
+                            $ bubblename = bubble[1][1:-4]
+                            if bubblename == 'Glow':
+                                $ bounces = True
+                            else:
+                                $ bounces = False
+                            button:
+                                xysize(350,225)
+                                hover_background '#e0e0e0'
+                                selected_background '#a8a8a8'
+                                selected ((the_entry.bounce == bounces) and (the_entry.specBubble == None))
+                                align (0.5, 0.5)
+                                window:
+                                    xysize (300, 180)
+                                    align (0.5, 0.5)
+                                    background Frame(thebubble, 25, 25)
+                                action [SetField(the_entry, 'specBubble', None), 
+                                            SetField(the_entry, 'img', False),
+                                            SetField(the_entry, 'bounce', bounces)]
+               
+                    for bubble in bubble_list[2:]:
+                        if renpy.loadable(bubble[0] + character.file_id + bubble[1]):
+                            $ thebubble = bubble[0] + character.file_id + bubble[1]
+                            $ bubblename = bubble[1][1:-4]
+                            button:
+                                xysize(350,225)
+                                hover_background '#e0e0e0'
+                                selected_background '#a8a8a8'
+                                selected (the_entry.specBubble == bubblename)
+                                align (0.5, 0.5)
+                                add Transform(thebubble, zoom=0.5) align (0.5, 0.5)
+                                    
+                                    
+                                action [SetField(the_entry, 'specBubble', bubblename), 
+                                        SetField(the_entry, 'img', False),
+                                        SetField(the_entry, 'bounce', True)]
+                            
+                    
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 80
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Hide('pick_bubble'), Show('create_archive')]
+    
     
 style creator_vbox is vbox
 style creator_button is button
@@ -396,9 +583,9 @@ style creator_hbox:
     spacing 10
     
 style creator_title:
-    color '#000'
+    color '#fff'
     size 35
-    outlines [ (1, '#1be8d7', 0, 0) ]
+    outlines [ (1, '#277177', 3, 2) ]
     font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
 
 style creator_button is default:    
@@ -408,7 +595,7 @@ style creator_button is default:
     hover_background "menu_tab_inactive_hover"
 
 style creator_font_button:    
-    xysize (90, 70)
+    xysize (90, 60)
     background "menu_tab_inactive"
     hover_background "menu_tab_inactive_hover"
     selected_idle_background "menu_tab_inactive_hover2"
