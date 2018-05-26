@@ -348,6 +348,7 @@ label press_save_and_exit(phone=True):
         $ greeted = False
         if current_chatroom.afterchat_label and not current_chatroom.played:
             $ renpy.call(current_chatroom.afterchat_label)
+        $ current_chatroom.deliver_calls()
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
