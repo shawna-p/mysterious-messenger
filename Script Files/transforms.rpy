@@ -51,6 +51,24 @@ init 5:
         zoom 0.165 alpha 0
         linear 0.2 zoom 0 
 
+    #***********************************
+    # Choice button enter/exit animation
+    # (Not in MysMe)
+    #***********************************
+    
+    transform choice_anim(delay=0.0):
+        alpha 0.0
+        pause delay
+        yoffset 15 alpha 0.3
+        linear 2.5 yoffset 0 alpha 1.0
+                        
+        on hover:
+            ease 0.5 yoffset 5
+            ease 0.5 yoffset -5
+            repeat
+            
+        on idle:
+            linear 0.3 yoffset 0
             
     #***********************************
     # Spaceship/Chips Transforms
@@ -84,21 +102,20 @@ init 5:
     # Animation that plays when the chips are available;
     # moves the ship over to the chips, then lands on the
     # chips
-    transform spaceship_chips(intro=True):
-        if intro:
-            xalign 0.0
-            parallel:
-                linear 1.0 yoffset -15
-                linear 1.0 yoffset 15
-            parallel:
-                linear 0.5 rotate -8
-                linear 0.5 rotate 8
-                linear 0.5 rotate -8
-                linear 0.5 rotate 8
-            parallel:
-                linear 0.8 xalign 0.84
-                0.8
-                linear 0.4 xalign 0.96
+    transform spaceship_chips(intro=0.0):
+        xalign 0.0
+        parallel:
+            linear 1.0*intro yoffset -15
+            linear 1.0*intro yoffset 15
+        parallel:
+            linear 0.5*intro rotate -8
+            linear 0.5*intro rotate 8
+            linear 0.5*intro rotate -8
+            linear 0.5*intro rotate 8
+        parallel:
+            linear 0.8*intro xalign 0.84
+            0.8*intro
+            linear 0.4*intro xalign 0.96
             
         block:
             parallel:
@@ -113,11 +130,10 @@ init 5:
                 repeat
         
     # Animation for the chips bursting out of the bag
-    transform chip_anim(delay=True):
-        if delay:
-            alpha 0
-            1.91
-            alpha 1
+    transform chip_anim(delay=1):
+        alpha 0
+        pause 1.91*delay
+        alpha 1
         block:
             yoffset 0
             parallel:
@@ -144,10 +160,9 @@ init 5:
         
     # The wobble for the chip bag when the clouds are visible
     transform chip_wobble2:
-        on show:
-            linear 0.13 rotate 2
-            linear 0.13 rotate -2
-            repeat
+        linear 0.13 rotate 2
+        linear 0.13 rotate -2
+        repeat
         on hide:
             alpha 1.0
             linear 1.0 alpha 0.0
@@ -271,13 +286,8 @@ init 5:
         on hide:
             linear 0.5 alpha 0
             
-    # Makes the profile pictures bigger for the
-    # profile picture page
-    transform profile_zoom:
-        zoom 2.85
-        xalign 0.1
-        yalign 0.675
-        
+    # Zooms the profile pictures on the text message screen
+    # to be a little bigger
     transform text_zoom:
         zoom 1.15
         
@@ -300,9 +310,9 @@ init 5:
     transform null_anim:
         pass
         
+    # Used for the outgoing call arrows
     transform delayed_blink2(delay, cycle):
         alpha 0.0
-
         pause delay
 
         block:

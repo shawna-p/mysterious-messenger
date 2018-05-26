@@ -62,7 +62,7 @@ init 5:
     ## Blocky Font
     style blocky:
         font "00 fonts/BM-HANNA (Bold Font).ttf"
-        
+
     ####################################
     #***********************************
     ## Styles
@@ -361,17 +361,15 @@ init 5:
     ## **********************  
     
     style profile_header_text:        
-        xalign 0.75 #0.87
+        align (0.5, 0.5)
         text_align 0.5
-        yalign 0.685
         color "#fff"
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         size 55
         
     style profile_status:
-        xalign 0.5
         text_align 0.5
-        yalign 0.905
+        align (0.5, 0.5)
         color "#fff"
         font "00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
         size 40

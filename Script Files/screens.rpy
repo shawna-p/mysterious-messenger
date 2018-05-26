@@ -230,7 +230,7 @@ screen choice(items):
     modal True
     style_prefix "choice"
     
-    if reply_screen: # or draft_screen
+    if reply_screen:
         use text_message_screen(current_message)
         add "Phone UI/choice_dark.png"
         vbox:
@@ -244,7 +244,6 @@ screen choice(items):
                         action [i.action]
     
     elif in_phone_call:
-        #use in_call(True)
         add "Phone UI/choice_dark.png"
         vbox:
             spacing 20
@@ -266,10 +265,12 @@ screen choice(items):
     else:
         add 'Phone UI/choice_dark.png'
         vbox:
-            for i in items:
+            for num, i in enumerate(items):
                 if not observing or i.chosen:
-                    textbutton i.caption action i.action
-
+                    $ fnum = float(num*0.2)
+                    textbutton i.caption: # at choice_anim(fnum): # if you want to modify the button
+                        action i.action                           # animation you can uncomment this
+                            
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
 ## menu captions will be displayed as empty buttons.
@@ -557,7 +558,7 @@ style game_menu_outer_frame:
     top_padding 102
 
     background "gui/overlay/game_menu.png"
-
+    
 style game_menu_navigation_frame:
     xsize 237
     yfill True
