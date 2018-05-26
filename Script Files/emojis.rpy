@@ -1,6 +1,7 @@
 #************************************
 # Emotes
 #************************************
+init offset = -10
 
 init python:
 
@@ -86,7 +87,81 @@ init python:
                     '{image=zen wink}': 'sfx/Emotes/Zen/zen_wink.wav'
                     }
 
+default jaehee_emotes = ['{image=jaehee angry}', 
+                    '{image=jaehee happy}',
+                    '{image=jaehee hehe}', 
+                    '{image=jaehee huff}', 
+                    '{image=jaehee oops}',
+                    '{image=jaehee question}',
+                    '{image=jaehee sad}',
+                    '{image=jaehee well}',
+                    '{image=jaehee wow}'] 
                     
+default jumin_emotes = [ '{image=jumin angry}',
+                    '{image=jumin sad}', 
+                    '{image=jumin smile}',
+                    '{image=jumin well}']
+                    
+default rika_emotes = ['{image=rika happy}','{image=rika pout}','{image=rika cry}']
+                    
+default ray_emotes = ['{image=ray cry}', 
+                    '{image=ray happy}', 
+                    '{image=ray huff}', 
+                    '{image=ray question}', 
+                    '{image=ray smile}', 
+                    '{image=ray well}', 
+                    '{image=ray wink}',
+                    
+                    '{image=saeran2 cry}', 
+                    '{image=saeran2 happy}', 
+                    '{image=saeran2 huff}', 
+                    '{image=saeran2 question}', 
+                    '{image=saeran2 smile}', 
+                    '{image=saeran2 well}', 
+                    '{image=saeran2 wink}']
+                    
+default saeran_emotes = ['{image=saeran expecting}', 
+                    '{image=saeran happy}', 
+                    '{image=saeran questioning}', 
+                    '{image=saeran well}']                  
+                    
+default seven_emotes = ['{image=seven cry}', 
+                    '{image=seven huff}', 
+                    '{image=seven khee}', 
+                    '{image=seven love}', 
+                    '{image=seven question}', 
+                    '{image=seven what}', 
+                    '{image=seven wow}', 
+                    '{image=seven yahoo}', 
+                    '{image=seven yoohoo}']
+
+default v_emotes = ['{image=v shock}', 
+                    '{image=v smile}',
+                    '{image=v well}',
+                    '{image=v wink}']
+                    
+default yoosung_emotes = ['{image=yoosung angry}',
+                    '{image=yoosung cry}',
+                    '{image=yoosung happy}',
+                    '{image=yoosung huff}',
+                    '{image=yoosung puff}',
+                    '{image=yoosung question}',
+                    '{image=yoosung thankyou}',
+                    '{image=yoosung what}',
+                    '{image=yoosung wow}',
+                    '{image=yoosung yahoo}']
+                    
+default zen_emotes = ['{image=zen angry}',
+                    '{image=zen happy}',
+                    '{image=zen hmm}',
+                    '{image=zen oyeah}',
+                    '{image=zen question}',
+                    '{image=zen sad}',
+                    '{image=zen shock}',
+                    '{image=zen well}',
+                    '{image=zen wink}']
+                    
+default all_emotes = jaehee_emotes + jumin_emotes + rika_emotes + ray_emotes + seven_emotes + saeran_emotes + v_emotes + yoosung_emotes + zen_emotes
 
 # ******** JAEHEE ******************
 
