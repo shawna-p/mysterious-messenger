@@ -310,6 +310,18 @@ init 5:
     transform null_anim:
         pass
         
+    transform dropdown_menu:
+        yoffset -30
+        easein 0.5 yoffset 0
+        on hide, replaced:
+            easeout 0.5 yoffset -30 alpha 0
+            
+    transform dropdown_horizontal:
+        xoffset -30
+        easein 0.5 xoffset 0
+        on hide, replaced:
+            easeout 0.5 xoffset -30 alpha 0
+        
     # Used for the outgoing call arrows
     transform delayed_blink2(delay, cycle):
         alpha 0.0

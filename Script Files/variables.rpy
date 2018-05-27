@@ -781,6 +781,7 @@ image settings_gear_rotate:
         
 # Other Settings
 image menu_select_btn = Frame("Phone UI/Main Menu/menu_select_button.png",60,60)
+image menu_select_btn_inactive = Frame("Phone UI/Main Menu/menu_select_button_inactive.png",60,60)
 image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
 image menu_select_btn_hover = Frame("Phone UI/Main Menu/menu_select_button_hover.png",60,60)
 

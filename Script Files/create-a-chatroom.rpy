@@ -1,6 +1,8 @@
 init offset = 5
 init python:
 
+    ## Several functions that allow the program to open a file and write
+    ## dialogue to it
     def open_file(thefile):
         global myfile, file_path
         myfile = open(file_path + thefile, 'a') # opens file for appending
@@ -9,14 +11,40 @@ init python:
         global myfile
         myfile.close()
         
-    def write_file(the_string):
-        global myfile
-        myfile.write(the_string)
+    def write_file():
+        global myfile, the_entry, f_char, f_style_begin, f_style_end
+        
+        if the_entry.who == msg:
+            if 'entered' in the_entry.what:
+                myfile.write("call enter(" + f_char.file_id + ")\n")
+            elif 'left' in the_entry.what:
+                myfile.write("call exit(" + f_char.file_id + ")\n")
+            return
+                
+        else:
+            myfile.write(the_entry.who.file_id + " \"" + f_style_begin + the_entry.what + f_style_end + "\"")
+            
+            if the_entry.img or the_entry.specBubble or the_entry.bounce:
+                myfile.write(" (")
+                if the_entry.img:
+                    myfile.write("img=True")
+                    if the_entry.specBubble or the_entry.bounce:
+                        myfile.write(", ")
+                if the_entry.bounce:
+                    myfile.write("bounce=True")
+                    if the_entry.specBubble:
+                        myfile.write(", ")
+                if the_entry.specBubble:
+                    myfile.write("specBubble=\"" + the_entry.specBubble + "\"")
+                myfile.write (")")
+            myfile.write("\n")
+            return
         
     def file_endl():
         global myfile
         myfile.write('\n')
         
+    ## InputValue that lets the user type dialogue to the program
     class InputDialogue(InputValue):
         def __init__(self, var, default="Insert Text Here"):
             self.var = var
@@ -35,7 +63,9 @@ init python:
         def enter(self):
             renpy.run(self.Disable())                
             raise renpy.IgnoreEvent()
-                
+          
+    ## A class that makes it easier to manage the different font
+    ## styles as applied to the text
     class Fonts(object):
         def __init__(self):
             self.reset()
@@ -78,7 +108,9 @@ init python:
             self.sser2xb = False
             
         def update(self):
-            global f_style_begin, f_style_end            
+            global f_style_begin, f_style_end
+            f_style_begin = ''
+            f_style_end = ''
             if self.curly:
                 f_style_begin += '{=curly}'
                 f_style_end = '{/=curly}' + f_style_end
@@ -159,21 +191,27 @@ default f_char = False
 default font_styles = [ ['curly', 'blocky', 'big'], ['ser1', 'ser1b', 'ser1xb'],
                         ['ser2', 'ser2b', 'ser2xb'], ['sser1', 'sser1b', 'sser1xb'],
                         ['sser2', 'sser2b', 'sser2xb'] ]
-                        
+                                                
 default f_style_begin = ''
 default f_style_end = ''
 default f_font_style = Fonts()
 
-default the_entry = Chatentry(ju, 'Some sample text', upTime())#Chatentry(ju, 'Input dialogue here', pv)
-    
-default bubble_background = "Bubble/" + the_entry.who.file_id + "-Glow.png"
+default the_entry = Chatentry(ju, 'Input dialogue by clicking here', upTime())
+   
+default font_dropdown = False
 
+########################################################
+## This screen is intended to make it easier for the
+## user to visualize how to put together a chatroom/
+## easier to generate the code needed for chatrooms
+########################################################
 screen create_archive:
 
     tag menu
     
     use starry_night
-    use menu_header('Create a Chatroom', MainMenu())
+    use menu_header('Create a Chatroom', ShowMenu('main_menu'))
+        
         
     window:
         xalign 0.5
@@ -199,18 +237,15 @@ screen create_archive:
  
 
     viewport:
-        xsize 725
-        ysize 1070
+        xysize (725, 1070)
         draggable True
         mousewheel True
-
-        xalign 0.5
-        yalign 0.95
-        
+        align (0.5, 0.95)       
         
         vbox:
             align (0.1, 0.0)
             text "Select a Character" style 'creator_title'
+            ## A horizontal viewport where you select the speaking character
             side ('t b'):
                 spacing 20
                 xysize(700, 90)
@@ -219,6 +254,7 @@ screen create_archive:
                     mousewheel "horizontal"
                     xysize(700, 85)
                     align (0.5, 0.5)
+                    
                     hbox:
                         spacing 10
                         for i in character_list:
@@ -244,130 +280,88 @@ screen create_archive:
         
             null height 30
         
-            ## Dialogue Input
-            window:   
-                xysize (730, 370)
+            ## Dialogue Input and Preview
+            fixed:   
+                xsize 730
+                yfit True
                 align (0.5, 0.5)
-                hbox:
+                vbox:
+                    text "Preview" style 'creator_title'
+        
                     spacing 20
-                    xalign 0.5
-                    yalign 0.5
+                    xalign 0.5                    
                     button:
-                        xysize (500, 300)
-                        xalign 0.1
-                        yalign 0.5
-                        background 'input_square' padding(40, 40)
+                        xysize (700, 450)
+                        background Transform("bg-earlyMorn.jpg", crop=(50,300,700,450))
                         viewport:
-                            mousewheel True
-                            xysize (650,230)
-                            xalign 0.1
-                            yalign 0.5
-                            text f_style_begin + the_entry.what + f_style_end
-                        action Show('dialogue_input_popup', width=680, height=500)
+                            xysize (700, 450)
+                            ## Uses the same screen that displays the text in chatrooms
+                            use chat_animation(the_entry, False)                            
+                        action Show('dialogue_input_popup', width=680, height=500)                    
                     
-                    vbox:
+                    
+                    ## Extra buttons for various customizations
+                    ## e.g. emojis and speech bubbles
+                    hbox:
                         align (0.5, 0.5)
-                        spacing 20
+                        spacing 10
+                        
+                        fixed:
+                            xfit True
+                            yfit True
+                            vbox:
+                                spacing 10                               
+                                textbutton _('Fonts'):
+                                    text_style 'mode_select'
+                                    xysize (160,110)
+                                    background 'menu_select_btn' padding(20,20)
+                                    hover_background 'menu_select_btn_hover'
+                                    action ToggleVariable('font_dropdown', False, True)
+                                    
+                                if font_dropdown:  
+                                    fixed:
+                                        xsize(160)
+                                        yfit True
+                                        vbox at dropdown_menu:
+                                            spacing 10
+                                            use font_screen
+                                    
+                        
                         textbutton _('Emojis'):
                             text_style 'mode_select'
-                            xysize (170,80)
+                            xysize (160,110)
                             background 'menu_select_btn' padding(20,20)
                             hover_background 'menu_select_btn_hover'
-                            action Show("pick_emoji", character=the_entry.who)
+                            if the_entry.who != m:                                
+                                action Show("pick_emoji", character=the_entry.who)
+                            else:
+                                foreground 'menu_select_btn_inactive'
                             
                         textbutton _('Exit/Enter'):
                             text_style 'mode_select'
-                            xysize (170,110)
+                            xysize (160,110)
                             background 'menu_select_btn' padding(20,20)
                             hover_background 'menu_select_btn_hover'
-                            action Show("pick_emoji", character=the_entry.who)
+                            action Show("exit_enter", character=the_entry.who)
                             
                         textbutton _('Speech Bubbles'):
                             text_style 'mode_select'
-                            xysize (170,110)
+                            xysize (160,110)
                             background 'menu_select_btn' padding(20,20)
                             hover_background 'menu_select_btn_hover'
-                            action Show("pick_bubble", character=the_entry.who)
+                            if the_entry.who != m:                                
+                                action Show("pick_bubble", character=the_entry.who)
+                            else:
+                                foreground 'menu_select_btn_inactive'
                 
-        
-            text "Font Options" style 'creator_title'
-
-            window:
-                xysize(700, 220)
-                align (0.5, 0.5)
-                hbox:
-                    spacing 10
-                    align (0.5, 0.5)
-                    for f in font_styles:                            
-                        vbox:
-                            spacing 10
-                            for f_var in f:
-                                if f_var != 'big':
-                                    textbutton _('Text'):
-                                        text_style f_var
-                                        text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
-                                        text_color '#fff'
-                                        style 'creator_font_button'
-                                        action [Function(clear_fonts, font_obj=f_font_style),
-                                                SetField(f_font_style, f_var, True),
-                                                Function(update_font, font_obj=f_font_style),
-                                                renpy.retain_after_load]
-                                else:
-                                    textbutton _('Big'):
-                                        text_size gui.text_size + 10
-                                        text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
-                                        text_color '#fff'
-                                        xysize (90, 60)
-                                        if not f_font_style.big:
-                                            background "menu_tab_inactive"
-                                            hover_background "menu_tab_inactive_hover"
-                                            action [SetField(f_font_style, f_var, True),
-                                                    Function(update_font, font_obj=f_font_style),
-                                                    renpy.retain_after_load]
-                                        else:
-                                            background "menu_tab_inactive_hover2"
-                                            action [SetField(f_font_style, f_var, False),
-                                                    Function(reduce_size, font_obj=f_font_style),
-                                                    renpy.retain_after_load]
-
-                    window:
-                        xysize(220, 200)
-                        align (0.5, 0.5)
-                        text '<- Regular' color '#fff' yalign 0.1
-                        text '<- {=sser1b}{color=#fff}Bold{/color}{/=sser1b}' color '#fff' yalign 0.5
-                        text '<- {=sser1xb}{color=#fff}Extra Bold{/color}{/=sser1xb}' color '#fff' yalign 0.9
-        
-            textbutton _('Reset Font to Default'):                    
-                text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
-                align (0.5, 0.5)
-                text_color '#fff'
-                style 'creator_button'
-                action [Function(reset_fonts, font_obj=f_font_style), renpy.retain_after_load]
-        
-            text "Preview" style 'creator_title'
-        
-            $ bubbleBackground = "Bubble/" + the_entry.who.file_id + "-Bubble.png"
-        
-            window:
-                xysize (700, 450)
-                background Transform("bg-earlyMorn.jpg", crop=(50,300,700,450))
-                viewport:
-                    draggable True
-                    xysize (700, 450)
-                    use chat_animation(the_entry, False)
-        
-        
-        
-        
-        
-            null height 300
+            null height 20
             hbox:
                 align (0.5, 0.5)
                 style 'creator_hbox'
-                textbutton _('Test writing to file'):
+                textbutton _('Add line to file'):
                     text_style 'creator_button_text'
                     style 'creator_button'
-                    action [Function(write_file, the_string='Hello World'), Show('notify', message="Success 2")]
+                    action [Function(write_file), Show('notify', message="Line written to file")]
                 
                 textbutton _('End Line'):
                     text_style 'creator_button_text'
@@ -382,14 +376,83 @@ screen create_archive:
             
         
             
-    #on 'show' action [Function(open_file, thefile=thefile), Show('notify', message="File Opened")]
-    #on 'replace' action [Function(open_file, thefile=thefile), Show('notify', message="File Opened")]
-    #on 'hide' action [Function(close_file), Show('notify', message="File Closed")]
-    #on 'replaced' action [Function(close_file), Show('notify', message="File Closed")]
+    on 'show' action [Function(open_file, thefile=thefile), Show('notify', message="File Opened")]
+    on 'replace' action [Function(open_file, thefile=thefile), Show('notify', message="File Opened")]
+    on 'hide' action [Function(close_file), Show('notify', message="File Closed")]
+    on 'replaced' action [Function(close_file), Show('notify', message="File Closed")]
     
     #timer 60.0 action [Function(close_file), Function(open_file, thefile=thefile), Show('notify', message="Autosaved")] repeat True
     
     
+########################################################
+## This screen displays the different font options in
+## a dropdown menu. Put in a separate screen to avoid
+## excessive indentation/clutter
+########################################################
+
+default font_styles2 = [ [ 'Serif 1', [ ['Regular', 'ser1'] , ['Bold', 'ser1b'], ['Extra Bold', 'ser1xb'] ] ],
+                        [ 'Serif 2', [ ['Regular', 'ser2'] , ['Bold', 'ser2b'], ['Extra Bold', 'ser2xb'] ] ],
+                        [ 'Sans Serif 1', [ ['Regular', 'sser1'] , ['Bold', 'sser1b'], ['Extra Bold', 'sser1xb'] ] ],
+                        [ 'Sans Serif 2', [ ['Regular', 'sser2'] , ['Bold', 'sser2b'], ['Extra Bold', 'sser2xb'] ] ],
+                        [ 'Other', [ ['Curly', 'curly'] , ['Blocky', 'blocky'], ['Big', 'big'] ] ] ]
+                   
+default font_dict = { 'Serif 1' : False, 'Serif 2' : False, 'Sans Serif 1' : False, 'Sans Serif 2' : False, 'Other' : False }
+                   
+screen font_screen:
+
+    for item in font_styles2: #e.g. ['Serif 1', [...], False]
+        $ the_key = item[0]
+        hbox:
+            spacing 10
+            textbutton _(item[0]) at dropdown_menu:
+                text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
+                text_color '#fff'
+                style 'creator_font_button'
+                selected (font_dict[the_key])
+                action ToggleDict(font_dict, the_key, False, True)        
+        
+            if font_dict[the_key]:
+                for thestyle in item[1]: #e.g. 'Regular', 'ser1'
+                    if thestyle[0] != 'Big':
+                        textbutton _(thestyle[0]) at dropdown_horizontal:
+                            text_style thestyle[1]
+                            text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
+                            text_color '#fff'
+                            style 'creator_font_button'
+                            action [Function(clear_fonts, font_obj=f_font_style),
+                                    SetField(f_font_style, thestyle[1], True),
+                                    Function(update_font, font_obj=f_font_style),
+                                    renpy.retain_after_load]
+                    else:
+                        textbutton _(thestyle[0]) at dropdown_horizontal:
+                            text_size gui.text_size + 10
+                            text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
+                            text_color '#fff'
+                            xysize (140, 75)
+                            if not f_font_style.big:
+                                background "menu_tab_inactive"
+                                hover_background "menu_tab_inactive_hover"
+                                action [SetField(f_font_style, thestyle[1], True),
+                                        Function(update_font, font_obj=f_font_style),
+                                        renpy.retain_after_load]
+                            else:
+                                background "menu_tab_inactive_hover2"
+                                action [SetField(f_font_style, thestyle[1], False),
+                                        Function(reduce_size, font_obj=f_font_style),
+                                        renpy.retain_after_load]
+    textbutton _('Reset Font') at dropdown_menu:              
+                text_text_align 0.5 text_xalign 0.5 text_yalign 0.5
+                text_color '#fff'
+                style 'creator_font_button'
+                action [Function(reset_fonts, font_obj=f_font_style), renpy.retain_after_load]
+               
+
+##########################################################
+## Since I haven't had any luck with disabling InputValues
+## with the enter button, this is a separate screen to
+## input the dialogue text
+##########################################################  
+
 screen dialogue_input_popup(width=550, height=313):
 
     zorder 100
@@ -423,15 +486,31 @@ screen dialogue_input_popup(width=550, height=313):
                     xalign 0.5
                     yalign 0.5
                     add d_input xalign 0.5 yalign 0.5
-            textbutton _('Confirm'):
-                text_style 'mode_select'
+                    
+            hbox:
+                spacing 30
                 xalign 0.5
-                xsize 240
-                ysize 80
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
-                action [Hide('dialogue_input_popup'), SetField(the_entry, 'img', False), Show('create_archive')]
-                
+                textbutton _('Clear Text'):
+                    text_style 'mode_select'
+                    xalign 0.5
+                    xsize 240
+                    ysize 80
+                    background 'menu_select_btn' padding(20,20)
+                    hover_background 'menu_select_btn_hover'
+                    action [SetField(the_entry, 'what', ''), renpy.restart_interaction]
+                textbutton _('Confirm'):
+                    text_style 'mode_select'
+                    xalign 0.5
+                    xsize 240
+                    ysize 80
+                    background 'menu_select_btn' padding(20,20)
+                    hover_background 'menu_select_btn_hover'
+                    action [Hide('dialogue_input_popup'), SetField(the_entry, 'img', False), Show('create_archive')]
+               
+########################################################
+## This screen displays the selected character's emojis
+######################################################## 
+  
 screen pick_emoji(character):
 
     zorder 100
@@ -481,7 +560,10 @@ screen pick_emoji(character):
                 action [Hide('pick_emoji'), Show('create_archive')]
                 
                 
-                
+########################################################
+## This screen displays any special bubbles available
+## to the character. Most come in three different sizes
+########################################################
 screen pick_bubble(character):
 
     zorder 100
@@ -558,6 +640,57 @@ screen pick_bubble(character):
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
                 action [Hide('pick_bubble'), Show('create_archive')]
+                
+       
+########################################################
+## This screen lets you add the 'X has entered/left the
+## chatroom' messages to your script.
+########################################################
+screen exit_enter(character):
+
+    zorder 100
+    modal True
+    
+    window:
+        maximum(550,313)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.4
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action [Hide('exit_enter'), Show('create_archive')]
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.5
+            textbutton _('Enter Chatroom'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 110
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Hide('exit_enter'), SetField(the_entry, 'bounce', False),
+                        SetField(the_entry, 'img', False), SetField(the_entry, 'specBubble', None),
+                        SetField(the_entry, 'who', msg),
+                        SetField(the_entry, 'what', character.name + " has entered the chatroom."), 
+                        SetVariable('f_char', character),
+                        Show('create_archive')]
+            textbutton _('Exit Chatroom'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 110
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Hide('exit_enter'), SetField(the_entry, 'bounce', False),
+                        SetField(the_entry, 'img', False), SetField(the_entry, 'specBubble', None),
+                        SetField(the_entry, 'who', msg),
+                        SetField(the_entry, 'what', character.name + " has left the chatroom."), 
+                        SetVariable('f_char', character),                        
+                        Show('create_archive')]
     
     
 style creator_vbox is vbox
@@ -595,7 +728,7 @@ style creator_button is default:
     hover_background "menu_tab_inactive_hover"
 
 style creator_font_button:    
-    xysize (90, 60)
+    xysize (140, 75)
     background "menu_tab_inactive"
     hover_background "menu_tab_inactive_hover"
     selected_idle_background "menu_tab_inactive_hover2"
