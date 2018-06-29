@@ -489,126 +489,128 @@ screen preferences():
     use settings_tabs("Sound")
     
     window:
-        maximum(700, 800)
+        xysize(700, 1070)
         xalign 0.5
-        yalign 0.45
+        yalign 0.95
         has vbox
         spacing 30
-            
-        window:
-            maximum(675,350)
-            add "menu_settings_panel"
-            text "Sound" style "settings_style" xpos 55 ypos 5
-            
-        window:
-            maximum(675,320)
-            add "menu_settings_panel"
-            text "Voice" style "settings_style" xpos 55 ypos 5
-            
-    window:
         xalign 0.5
-        yalign 0.34
-        maximum(580,350)
-        has vbox        
-        spacing 10
-        hbox:
+        
+  
+        window:
+            maximum(675,480)
+            background "menu_settings_panel" padding(10,10)
+            xalign 0.5
+            has vbox
             spacing 30
-            textbutton _("BGM"):
-                background "menu_sound_sfx"
-                text_style "sound_tags"
-                xsize 163
-                ysize 50
-            bar value Preference("music volume") ypos 15
-        hbox:
-            spacing 30
-            textbutton _("SFX"):
-                background "menu_sound_sfx"
-                text_style "sound_tags"
-                xsize 163
-                ysize 50
-            bar value Preference("sound volume") ypos 15
-            if config.sample_sound:
-                        textbutton _("Test") action Play("sound", config.sample_sound)
-        hbox:
-            spacing 30
-            textbutton _("Voice"):
-                background "menu_sound_sfx"
-                text_style "sound_tags"
-                xsize 163
-                ysize 50
-            bar value Preference("voice volume") ypos 15
-            if config.sample_voice:
-                        textbutton _("Test") action Play("voice", config.sample_voice)
-        hbox:
-            spacing 30
-            textbutton _("Voice SFX"):
-                background "menu_sound_sfx"
-                text_style "sound_tags"
-                xsize 163
-                ysize 50
-            bar value set_voicesfx_volume() ypos 15
+            xalign 0.5
+            yalign 0.34
+            text "Sound" style "settings_style" xpos 55 ypos -5
             
-        textbutton _("Mute All"):
-            action Preference("all mute", "toggle")
-            style "mute_all_button" xalign 0.45
+            vbox:      
+                spacing 15
+                xsize 625
+                hbox:
+                    spacing 30
+                    textbutton _("BGM"):
+                        background "menu_sound_sfx"
+                        text_style "sound_tags"
+                        xsize 163
+                        ysize 50
+                    bar value Preference("music volume") ypos 15
+                hbox:
+                    spacing 30
+                    textbutton _("SFX"):
+                        background "menu_sound_sfx"
+                        text_style "sound_tags"
+                        xsize 163
+                        ysize 50
+                    bar value Preference("sound volume") ypos 15
+                    if config.sample_sound:
+                                textbutton _("Test") action Play("sound", config.sample_sound)
+                hbox:
+                    spacing 30
+                    textbutton _("Voice"):
+                        background "menu_sound_sfx"
+                        text_style "sound_tags"
+                        xsize 163
+                        ysize 50
+                    bar value Preference("voice volume") ypos 15
+                    if config.sample_voice:
+                                textbutton _("Test") action Play("voice", config.sample_voice)
+                hbox:
+                    spacing 30
+                    textbutton _("Voice SFX"):
+                        background "menu_sound_sfx"
+                        text_style "sound_tags"
+                        xsize 163
+                        ysize 50
+                    bar value set_voicesfx_volume() ypos 15
+                    
+                textbutton _("Mute All"):
+                    action Preference("all mute", "toggle")
+                    style "mute_all_button" xalign 0.45
             
+        window:
+            maximum(675,620)
+            background "menu_settings_panel" padding(10,10)
+            has vbox
+            xalign 0.5
+            yalign 0.5
+            spacing 15
+            text "Voice" style "settings_style" xpos 185 ypos -5
+            
+            ## There are no actual voiced lines in this program, so right
+            ## now all you get to do is toggle the button from on to off 
+            hbox:
+                xalign 0.5
+                yalign 0.5
+                spacing -35
+                null width 165            
+                grid 2 5:                
+                    transpose True
+                    spacing 40
+                    align (0.5, 0.0)
+                    
+                    text "Jumin Han" style "settings_style"
+                    text "ZEN" style "settings_style"
+                    text "707" style "settings_style"
+                    text "Ray" style "settings_style"
+                    text "Others" style "settings_style"
+                    
+                    use voice_buttons('jumin')
+                    use voice_buttons('zen')
+                    use voice_buttons('seven')
+                    use voice_buttons('saeran')
+                    use voice_buttons('other')
+                    
+                
+                grid 2 4:
+                    spacing 40
+                    transpose True
+                    align (0.5, 0.0)
+                    text "Yoosung★" style "settings_style"
+                    text "Jaehee Kang" style "settings_style"
+                    text "V" style "settings_style"
+                    text "Rika" style "settings_style"
+                    
+                    use voice_buttons('yoosung')
+                    use voice_buttons('jaehee')
+                    use voice_buttons('v')
+                    use voice_buttons('rika')
 
     
-    ## There are no actual voiced lines in this program, so right
-    ## now all you get to do is toggle the button from on to off 
-    window:
-        maximum(675,300)
-        yalign 0.72
-        xalign 1.2
-        grid 2 3:
-            xpos -30
-            transpose True
-            spacing 40
-            
-            text "Jumin Han" style "settings_style"
-            text "ZEN" style "settings_style"
-            text "707" style "settings_style"
-            
-            if persistent.jumin_voice:
-                textbutton "On" text_style "voice_toggle_on" action SetField(persistent, "jumin_voice", False)
-            else:
-                textbutton "Off" text_style "voice_toggle_off" action SetField(persistent, "jumin_voice", True)
+screen voice_buttons(voice_char):
 
-            if persistent.zen_voice:
-                textbutton "On" text_style "voice_toggle_on" action SetField(persistent, "zen_voice", False)
-            else:
-                textbutton "Off" text_style "voice_toggle_off" action SetField(persistent, "zen_voice", True)
-                
-            if persistent.seven_voice:
-                textbutton "On" text_style "voice_toggle_on" action SetField(persistent, "seven_voice", False)
-            else:
-                textbutton "Off" text_style "voice_toggle_off" action SetField(persistent, "seven_voice", True)
-
-
+    $ voice_char = voice_char + '_voice'
+    
+    button:
+        xysize (120, 30)
+        idle_child Text("On", style="voice_toggle_on")
+        hover_child Text("On", style="voice_toggle_on")
+        selected_child Text("Off", style="voice_toggle_off")
+        action ToggleVoiceMute(voice_char)
         
-        grid 2 3:
-            xpos 300
-            spacing 40
-            transpose True
-            text "Yoosung★" style "settings_style"
-            text "Jaehee Kang" style "settings_style"
-            text "Others" style "settings_style"
-
-            if persistent.yoosung_voice:
-                textbutton "On" text_style "voice_toggle_on" action SetField(persistent, "yoosung_voice", False)
-            else:
-                textbutton "Off" text_style "voice_toggle_off" action SetField(persistent, "yoosung_voice", True)
-
-            if persistent.jaehee_voice:
-                textbutton "On" text_style "voice_toggle_on" action SetField(persistent, "jaehee_voice", False)
-            else:
-                textbutton "Off" text_style "voice_toggle_off" action SetField(persistent, "jaehee_voice", True)
-                
-            if persistent.other_voice:
-                textbutton "On" text_style "voice_toggle_on" action SetField(persistent, "other_voice", False)
-            else:
-                textbutton "Off" text_style "voice_toggle_off" action SetField(persistent, "other_voice", True)
-
     
 ########################################################
 ## Just the header that often shows up over menu items;
@@ -947,6 +949,21 @@ screen other_settings():
             maximum(675,350)
             add "menu_settings_panel"
             text "Ringtone" style "settings_style" xpos 55 ypos 5
+            
+            hbox:
+                align (0.2, 0.5)
+                style_prefix "slider"
+                box_wrap True
+
+                vbox:
+
+                    label _("Text Speed")
+
+                    bar value Preference("text speed")
+
+                    label _("Auto-Forward Time")
+
+                    bar value Preference("auto-forward time")
             
         window:
             maximum(675,320)
