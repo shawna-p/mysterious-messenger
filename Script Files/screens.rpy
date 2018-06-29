@@ -243,7 +243,7 @@ screen choice(items):
                         text_hover_color '#fff'
                         action [i.action]
     
-    elif in_phone_call:
+    elif in_phone_call or vn_choice:
         add "Phone UI/choice_dark.png"
         vbox:
             spacing 20
@@ -261,7 +261,7 @@ screen choice(items):
                         text_yalign 0.5
                         align (0.5, 0.5)
                         action [i.action]
-    
+
     else:
         add 'Phone UI/choice_dark.png'
         vbox:
@@ -940,7 +940,7 @@ style slider_vbox:
 ##
 ## https://www.renpy.org/doc/html/history.html
 
-screen history():
+screen history_old():
 
     tag menu
 
