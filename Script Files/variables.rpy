@@ -87,15 +87,16 @@ init -6 python:
             global incoming_call, available_calls
             if self.incoming_call:
                 incoming_call = self.incoming_call
-            available_calls.extend(self.phone_calls)
+            if self.phone_calls:
+                available_calls.extend(self.phone_calls)
             
     # This class stores the information needed for the Visual Novel portions of the game
     class VN_Mode(store.object):
         def __init__(self, vn_label, who=None, played=False, available=False):
             self.vn_label = vn_label
             self.who = who
-            self.played = False
-            self.available = False
+            self.played = played
+            self.available = available
             
     # This class stores the information needed for phone calls
     class Phone_Call(store.object):
@@ -149,7 +150,7 @@ init -6 python:
     # Currently they are available in sequence but the program could be modified
     # to make chatrooms available at the correct real-life times
     def next_chatroom():
-        global chat_archive, available_calls
+        global chat_archive, available_calls, current_chatroom
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
@@ -158,6 +159,7 @@ init -6 python:
                         break
                     elif not chatroom.available:
                         chatroom.available = True
+                        current_chatroom = chatroom
                         for phonecall in available_calls:
                             phonecall.decrease_time()
                         break
@@ -167,7 +169,7 @@ init -6 python:
 # for you
 default chat_archive = [Archive('Tutorial', [Chat_History('Tutorial', 'Example Chatroom', 'auto', 'example_chat', '00:01'),
                                     Chat_History('Tutorial', 'Pass Out After Drinking Coffee Syndrome', 'auto', 'coffee_chat', '01:05', [s], 'after_coffee_chat'),
-                                    Chat_History('Tutorial', 'Text Test', 'auto', 'text_msg_test', '02:11', [r], 'after_msg_test', False, VN_Mode('vn_mode', r))]),
+                                    Chat_History('Tutorial', 'Text Test', 'auto', 'text_msg_test', '02:11', [r], 'after_msg_test', [], False, VN_Mode('vn_mode', r, False, True), False, False, True)]),
                         Archive('1st'),
                         Archive('2nd'),
                         Archive('3rd'),
