@@ -369,7 +369,7 @@ label coffee_chat:
 
     
 # Put anything you want to have happen after the chatroom ends here, 
-# like text messages or (in the future) phone calls. You'll have to call
+# like text messages, phone calls or (in the future) emails. You'll have to call
 # this label whatever you've defined the afterchat_label to be when setting
 # up the chat_archive
 label after_coffee_chat:

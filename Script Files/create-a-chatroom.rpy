@@ -363,15 +363,11 @@ screen create_archive:
                     style 'creator_button'
                     action [Function(write_file), Show('notify', message="Line written to file")]
                 
-                textbutton _('End Line'):
-                    text_style 'creator_button_text'
-                    style 'creator_button'
-                    action [Function(file_endl), Show('notify', message="Success 2")]
                     
                 textbutton _('Save Changes'):
                     text_style 'creator_button_text'
                     style 'creator_button'
-                    action [Function(close_file), Function(open_file, thefile=thefile), Show('notify', message="Success3")]  
+                    action [Function(close_file), Function(open_file, thefile=thefile), Show('notify', message="Saved")]  
 
             
         
@@ -459,7 +455,7 @@ screen dialogue_input_popup(width=550, height=313):
     modal True
     
     $ old_dialogue = the_entry.what
-    $ d_input = Input(value=InputDialogue("the_entry.what", the_entry.what), style="dialogue_text")
+    $ d_input = Input(value=InputDialogue("the_entry.what", ""), style="dialogue_text")
     $ yadj.value = yadjValue  
     
     window:
@@ -487,25 +483,15 @@ screen dialogue_input_popup(width=550, height=313):
                     yalign 0.5
                     add d_input xalign 0.5 yalign 0.5
                     
-            hbox:
-                spacing 30
+            
+            textbutton _('Confirm'):
+                text_style 'mode_select'
                 xalign 0.5
-                textbutton _('Clear Text'):
-                    text_style 'mode_select'
-                    xalign 0.5
-                    xsize 240
-                    ysize 80
-                    background 'menu_select_btn' padding(20,20)
-                    hover_background 'menu_select_btn_hover'
-                    action [SetField(the_entry, 'what', ''), renpy.restart_interaction]
-                textbutton _('Confirm'):
-                    text_style 'mode_select'
-                    xalign 0.5
-                    xsize 240
-                    ysize 80
-                    background 'menu_select_btn' padding(20,20)
-                    hover_background 'menu_select_btn_hover'
-                    action [Hide('dialogue_input_popup'), SetField(the_entry, 'img', False), Show('create_archive')]
+                xsize 240
+                ysize 80
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Hide('dialogue_input_popup'), SetField(the_entry, 'img', False), Show('create_archive')]
                
 ########################################################
 ## This screen displays the selected character's emojis
@@ -713,7 +699,7 @@ style creator_vbox:
     
 style creator_hbox:
     align (0.5, 0.5)
-    spacing 10
+    spacing 50
     
 style creator_title:
     color '#fff'
