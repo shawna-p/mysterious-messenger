@@ -247,7 +247,8 @@ screen chat_dialogue():
                     begin -= 1
                 
 
-    for i in chatlog[begin:]:
+    #for i in chatlog[begin:]:
+    for i index id(i) in chatlog[begin:]:
         use chat_animation(i)
                       
                       
