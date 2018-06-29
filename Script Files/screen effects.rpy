@@ -217,7 +217,7 @@ screen phone_overlay:
             idle "Phone UI/max_speed_active.png"
             hover "maxSpeed"
             if not choosing:
-                action [toggle_skipping, renpy.restart_interaction]
+                action Function(toggle_skipping)
                 # The restart_interaction makes it so the Max Speed button
                 # is visibly toggled after you press it
     else:
@@ -228,7 +228,7 @@ screen phone_overlay:
             idle "Phone UI/max_speed_inactive.png"
             hover "noMaxSpeed"
             if not choosing:
-                action [toggle_skipping, renpy.restart_interaction]
+                action Function(toggle_skipping)
                 
     add myClock align(1.0, 0.0)
 
@@ -345,17 +345,18 @@ label press_save_and_exit(phone=True):
         $ chatroom_hp = 0
         $ chatroom_hg = 0
         $ config.skipping = False   
-        $ greeted = False
+        $ greeted = False        
         if current_chatroom.afterchat_label and not current_chatroom.played:
             $ renpy.call(current_chatroom.afterchat_label)
-        $ current_chatroom.deliver_calls()
+        $ current_chatroom.deliver_calls() # FIXME: What happens if you hang up the incoming call
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
+        hide screen vn_overlay
         $ current_chatroom.played = True
         if not phone:
-            $ current_chatroom.vn_obj.played = True
+            $ current_chatroom.vn_obj.played = True 
         $ next_chatroom()
         $ renpy.retain_after_load()
         call screen chat_home
