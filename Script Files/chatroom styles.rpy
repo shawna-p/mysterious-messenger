@@ -310,6 +310,7 @@ init 5:
         size 25
         text_align 0.5
         xalign 0.5
+        yalign 0.5
         
     style hg_heart_points:
         color "#ffffff"
@@ -335,6 +336,20 @@ init 5:
         text_align 0.5
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         size 30
+        
+    style vn_button:
+        color '#76D0B7'
+        font "00 fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+        size 55
+        outlines [(absolute(1), '#000', absolute(0), absolute(0))]
+        kerning -1
+        
+    style vn_button_hover:
+        color "#999999"
+        font "00 fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+        size 55
+        outlines [(absolute(1), '#000', absolute(0), absolute(0))]
+        kerning -1
         
     ## **********************
     ## Main Menu -- Loading
