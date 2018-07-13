@@ -191,6 +191,7 @@ default current_call = False
 
 default original_afm_time = 15
 default preferences.afm_time = 15
+default mm_auto = "mm_auto_save"
 
 ##******************************
 ## BACKGROUND MUSIC DEFINITIONS
@@ -769,6 +770,10 @@ image radio_on = "Phone UI/Main Menu/menu_radio_on.png"
 image radio_off = "Phone UI/Main Menu/menu_radio_off.png"
 
 image settings_gear = "Phone UI/Main Menu/menu_settings_gear.png"
+
+# Save/Load
+image save_auto_idle = Frame("Phone UI/Main Menu/save_auto_idle.png", 20, 20)
+image save_auto_hover = Frame("Phone UI/Main Menu/save_auto_hover.png", 20, 20)
 
 # Just for fun, this is the animation when you hover over the settings
 # button. It makes the gear look like it's turning
