@@ -523,11 +523,206 @@ label coffee2():
     $ renpy.retain_after_load()
     return
     
+   
+    class Guest(store.object):
+        def __init__(self, name, start_msg,
+                        msg1_good, reply1_good, msg1_bad, reply1_bad,
+                        msg2_good, reply2_good, msg2_bad, reply2_bad,
+                        msg3_good, reply3_good, msg3_bad, reply3_bad):
+            
+            # msg_good means it's the correct reply for that message, and
+            # reply_good is what the guest will send after that message
+            # msg_bad is the incorrect reply; reply_bad is the same as above but for the bad message
+            # name is a string of the name of the guest
+            # start_msg is the initial message you are sent after agreeing to invite them
+            
+            self.start_msg = start_msg
+            self.msg1_good = msg1_good
+            self.msg2_good = msg2_good
+            self.msg3_good = msg3_good
+            
+            self.msg1_bad = msg1_bad
+            self.msg2_bad = msg2_bad
+            self.msg3_bad = msg3_bad
+            
+            self.label1 = guest + 'reply1'
+            self.label2 = guest + 'reply2'
+            self.label3 = guest + 'reply3'
+            
+default rainbow = Guest("Rainbow",
+
+## Initial Message
+"""Hi [name]!
+
+Really excited to hear about this party you're holding! Can't wait to see how things will turn out for you.
+Seven told me to make sure your inbox is working, and well, if you're reading this, I guess it is! So that's good.
+I did have one quick question though -- will the party be held inside or outside? Please let me know as soon as possible!
+
+Thanks,
+
+Rainbow Unicorn""",
+
+## FIRST MESSAGE
+
+## Answer -> Indoor Party
+## First Message (correct)
+
+"""Dear Rainbow,
+
+I'm pleased to inform you that the party will be indoors. No need for umbrellas or sunscreen!
+Hope to see you there,
+
+Sincerely,
+
+[name], the party coordinator""",
+
+## Reply to correct message
+
+"""Hi again,
+
+Oh, how wonderful! I was worried about what the weather would be like on the day of the party.
+I thought of another question: what kind of music will there be at the party?
+
+Hope to hear from you soon,
+
+Rainbow Unicorn""",
+
+## Answer -> Outdoor Party
+## First Message (incorrect)
+
+"""Dear Rainbow,
+
+We're planning for an outdoor party! There are gardens at the venue that will be perfect for an elegant party.
+Hope to see you there!
+
+Sincerely,
+
+[name], the party coordinator""",
+
+## Reply to incorrect message
     
-    
-    
-    
-    
-    
-    
+"""Hi again,
+
+Oh dear, I'm afraid I have terrible allergies and that may not work out well for me. I appreciate the time you've taken to email me but I may have to decline.
+
+Thank you for the invitation, and best of luck to you and the party.
+
+Rainbow Unicorn""",
+
+## SECOND MESSAGE
+
+## Answer -> Smooth Jazz
+## Second Message (correct)
+
+"""Dear Rainbow,
+
+We've got a wonderful playlist full of smooth jazz songs to play at the party. We're also looking into the possibility of a live band!
+Hope that answers your question.
+
+Sincerely,
+
+[name]""",
+
+## Reply to correct message
+
+"""Dear [name],
+
+Oh, that's just fantastic news. Jazz is such a lovely music genre, isn't it? Just between the two of us, I'm also quite partial to video game soundtrack music. But I don't expect you to play that at the party!
+You've been so kind with your answers, and if you don't mind, I had one last question -- what sort of food will there be at the party? Please let me know when you can!
+
+From, Rainbow""",
+
+## Answer -> Heavy Metal
+## Second Message (incorrect)
+
+"""Hi Rainbow,
+
+I've found some wonderful heavy metal music to play at the party! Screaming vocals really set the mood, don't you think? I hope you'll enjoy the music!
+
+Sincerely,
+
+[name], the party coordinator""",
+
+## Reply to incorrect message
+
+"""Hi again,
+
+Oh dear, heavy metal? I can't say I enjoy that sort of music. I appreciate the invitation, but now that I know you'll be playing heavy metal music... I'll have to think more on it.
+
+Thank you for your help.
+
+Rainbow""",
+
+## THIRD MESSAGE
+
+## Answer -> Spicy Food
+## Third Message (correct)
+
+"""To the lovely Rainbow,
+
+There will be a delicious selection of spicy food at the party! In particular there will be experienced chefs from places such as India and Mexico who will be catering. I hope your taste buds are ready!
+
+Sincerely,
+
+[name]""",
+
+## Reply to correct message
+
+"""To [name],
+
+Wow! I adore spicy foods; it's almost as though you read my mind! I will most certainly have to come and sample the dishes you've described.
+Thank you very much for taking the time to answer my questions. I'll see you at the party!
+
+Best,
+
+Rainbow""",
+
+## Answer -> Seafood
+## Third Message (incorrect)
+
+"""To the lovely Rainbow,
+
+We're planning to serve a variety of seafood at the party! There will be plenty of dishes to try, like fried octopus, shrimp tempura, and caviar. Hope you come with an appetite!
+
+From,
+
+[name]""",
+
+## Reply to incorrect message
+
+
+"""To [name],
+
+That certainly sounds... interesting! I can't really consider myself a fan of seafood, however, so you'll have to excuse me for my lack of enthusiasm.
+That said, I do appreciate you taking the time to answer me. I'm a bit undecided on whether or not to attend, but wish you the best of luck with the preparations!
+
+Sincerely,
+
+Rainbow Unicorn""")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
