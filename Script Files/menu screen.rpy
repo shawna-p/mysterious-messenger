@@ -222,7 +222,7 @@ screen main_menu:
                         hover_background "left_corner_menu_selected"
                         activate_sound "sfx/UI/select_4.mp3"
                         if persistent.on_route:
-                            action [QuickLoad(False)]
+                            action FileLoad(mm_auto) #[QuickLoad(False)]
                         else:
                             action Show('route_select_screen') #TODO: This screen
                         
@@ -359,24 +359,82 @@ screen file_slots(title):
         ## buttons do.
         order_reverse True
 
-
-        ## The grid of file slots.
-        vpgrid:
+        #side ('l r'):
+        #    spacing 10
+        #    xysize(740, 1100)
+        #    xalign 0.01
+        #    yalign 0.68
+            ## The grid of file slots.
+        vpgrid id 'save_load_vp':
             # This is a vpgrid since originally you could scroll it down to 12 slots
             # (see the commented out numbers below), but it looks cleaner if I restrict
             # it to 7 rows and a page select vs. 12 scrollable columns and a page select
             # If you wanted to *just* have a very long viewport of saves, then you could just
             # remove the code for the page select and increase the number of rows
-            maximum (740,1100) #(740, 1120)
-            rows 7 #gui.file_slot_rows
+            xysize (745,1170) #(740, 1120)
+            rows gui.file_slot_rows
             draggable True
             mousewheel True
             style_prefix "slot"
+            scrollbars "vertical"
+            side_spacing 12
 
             xalign 0.01
-            yalign 0.68 #0.8
+            yalign 1.0 #0.8
 
             spacing gui.slot_spacing
+            
+            # This adds the 'backup' save slot to the top when loading
+            if title == "Load" and FileLoadable(mm_auto):
+                $ save_title = current_chatroom.route + '|' + current_chatroom.day + '|' + current_chatroom.title
+                if '|' in FileSaveName(mm_auto):
+                    $ rt, dn, cn = FileSaveName(mm_auto).split('|')
+                else:                    
+                    $ rt, dn, cn = save_title.split('|')
+            
+                button:
+                    background 'save_auto_idle'
+                    hover_background 'save_auto_hover'
+                    action FileAction(mm_auto)
+
+                    hbox:
+                        spacing 8
+                        xsize 695
+                        
+                        window:
+                            align (0.5, 0.5)
+                            maximum(120, 120)
+                            add 'save_' + rt xalign 0.5 yalign 0.5
+                        
+                        window:
+                            xysize (400, 120)
+                            yalign 0.0
+                            has vbox
+                            spacing 8
+                            fixed:
+                                ysize 75
+                                text "This is a backup file that is auto-generated" style "save_slot_text" yalign 0.0
+                            text "Today: [dn] DAY" style "save_slot_text" yalign 1.0
+
+                        window:
+                            maximum (155,120)
+                            has vbox                            
+                            fixed:
+                                xsize 155
+                                yfit True
+                                text FileTime(mm_auto, format=_("{#file_time}%m/%d %H:%M"), empty=_("empty slot")):
+                                    style "save_timestamp"                                
+                            spacing 30
+                            fixed:
+                                xsize 155
+                                yfit True
+                                imagebutton:
+                                    hover im.FactorScale("Phone UI/Main Menu/save_trash_hover.png",1.05)
+                                    idle "Phone UI/Main Menu/save_trash.png"
+                                    xalign 1.0
+                                    action FileDelete(mm_auto)
+
+                    key "save_delete" action FileDelete(mm_auto)
 
             for i in range(gui.file_slot_cols * gui.file_slot_rows):
 
@@ -397,21 +455,24 @@ screen file_slots(title):
                         action FileAction(slot)
 
                     hbox:
-                        spacing 10
+                        spacing 8
+                        xsize 695
                         
                         window:
                             maximum(120, 120)
+                            align (0.5, 0.5)
+                            # Adds the correct route image to the left
                             if FileLoadable(slot):
                                 add 'save_' + rt xalign 0.5 yalign 0.5
                             else:
                                 add 'save_empty' xalign 0.5 yalign 0.5
                         
                         window:
-                            xmaximum 415
-                            ysize 120
+                            xysize (400, 120)
                             yalign 0.0
                             has vbox
                             spacing 8
+                            # Displays the most recent chatroom title + day
                             if FileLoadable(slot):
                                 fixed:
                                     ysize 75
@@ -426,7 +487,7 @@ screen file_slots(title):
                         window:
                             maximum (155,120)
                             has vbox
-                            
+                            # Displays the time the save was created and the delete button
                             fixed:
                                 xsize 155
                                 yfit True
@@ -446,28 +507,7 @@ screen file_slots(title):
 
                     key "save_delete" action FileDelete(slot)
 
-        ## Buttons to access other pages.
-        hbox:
-            style_prefix "page"
 
-            xalign 0.5
-            yalign 1.0
-
-            spacing gui.page_spacing
-
-            textbutton _("<") action FilePagePrevious()
-
-            if config.has_autosave:
-                textbutton _("{#auto_page}Auto") action FilePage("auto")
-
-            if config.has_quicksave:
-                textbutton _("{#quick_page}Quick") action FilePage("quick")
-
-            ## range(1, 10) gives the numbers from 1 to 9.
-            for page in range(1, 10):
-                textbutton "[page]" action FilePage(page)
-
-            textbutton _(">") action FilePageNext()
 
 
             
@@ -1041,10 +1081,12 @@ screen chat_home(reshow=False):
     use menu_header("Original Story")
 
     on 'show':
-        action [QuickSave(False), deliver_next]
+        action [FileSave(mm_auto, confirm=False), deliver_next] 
+        #[QuickSave(False), deliver_next]
  
     on 'replace':
-        action [QuickSave(False), deliver_next]
+        action [FileSave(mm_auto, confirm=False), deliver_next] 
+        #action [QuickSave(False), deliver_next]
 
     if num_undelivered():
         timer 3.5 action If(randint(0,1), deliver_next, NullAction) repeat True
@@ -1109,7 +1151,7 @@ screen chat_home(reshow=False):
         # if new_email:
         background "gray_mainbtn"
         hover_background "gray_mainbtn_hover"
-        action ToggleVariable('chips_available', False, True)
+        action Show('email_hub', Dissolve(0.5))
         add "gray_maincircle" xalign 0.5 yalign 0.5
         add "email_mainicon" xalign 0.5 yalign 0.5
         add "email_maintext" xalign 0.5 yalign 0.85
@@ -1184,7 +1226,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action NullAction
+            action Jump('email_test')
             add "guest_icon" xalign 0.5 yalign 0.3
             add "guest_text" xalign 0.5 yalign 0.8
             
@@ -1202,7 +1244,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Show('text_msg_popup', who='Ju')
+            action Function(deliver_emails())
             add "notice_icon" xalign 0.5 yalign 0.3
             add "notice_text" xalign 0.5 yalign 0.8
             
@@ -1211,7 +1253,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Jump('call_test')
+            action NullAction
             
             add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
