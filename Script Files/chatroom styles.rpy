@@ -281,6 +281,12 @@ init 5:
         color "fff"
         text_align 0.0
         
+    style vscroll_bar:
+        base_bar Frame('gui/scrollbar/vertical_hover_bar.png',0,0)
+        xsize 110
+        thumb 'gui/scrollbar/vertical_hover_thumb.png'
+        #yoffset 15
+        
     ## **********************
     ## Main Menu -- Settings
     ## **********************
