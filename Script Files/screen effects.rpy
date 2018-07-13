@@ -437,6 +437,11 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     show screen phone_overlay
     show screen messenger_screen 
     show screen pause_button
+    window hide
+    $ reply_screen = False
+    $ in_phone_call = False
+    $ vn_choice = False
+    $ email_reply = False
     # Fills the beginning of the screen with 'empty space' so the messages begin
     # showing up at the bottom of the screen (otherwise they start at the top)
     if clearchat:
