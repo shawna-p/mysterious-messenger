@@ -620,6 +620,7 @@ transform vn_midleft:
     xoffset -50
     
 label vn_setup:
+    window auto
     $ chatroom_hp = 0
     hide screen starry_night
     hide screen phone_overlay
