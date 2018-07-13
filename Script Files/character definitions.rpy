@@ -116,40 +116,40 @@ default text_queue = [Text_Message(ja, []),
 
 define ja_vn = Character("Jaehee", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_4.png",
-                            who_color="#fff5eb", who_size=40, voice_tag="jaehee_voice")
+                            who_color="#fff5eb", who_size=40, voice_tag="jaehee_voice", image="jaehee vn")
 define ju_vn = Character("Jumin", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_0.png",
-                            who_color="#d2e6f7", who_size=40, voice_tag="jumin_voice")
+                            who_color="#d2e6f7", who_size=40, voice_tag="jumin_voice", image="jumin")
 define r_vn = Character("Ray", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice")
+                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
 define ri_vn = Character("Rika", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_7.png",
-                            who_color="#fff9db", who_size=40, voice_tag="rika_voice")
+                            who_color="#fff9db", who_size=40, voice_tag="rika_voice", image="rika vn")
 define s_vn = Character("707", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_2.png",
-                            who_color="#fff1f1", who_size=40, voice_tag="seven_voice")
+                            who_color="#fff1f1", who_size=40, voice_tag="seven_voice", image="seven")
 define sa_vn = Character("Saeran", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_8.png",
-                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice")
+                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
 define u_vn = Character("???",what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice")
+                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
 define v_vn = Character("V", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_5.png",
-                            who_color="#cbfcfc", who_size=40, voice_tag="v_voice")
+                            who_color="#cbfcfc", who_size=40, voice_tag="v_voice", image="v vn")
 define y_vn = Character("Yoosung", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_3.png",
-                            who_color="#effff3", who_size=40, voice_tag="yoosung_voice")
+                            who_color="#effff3", who_size=40, voice_tag="yoosung_voice", image="yoosung vn")
 define z_vn = Character("Zen", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_1.png",
-                            who_color="#d8e9f9", who_size=40, voice_tag="zen_voice")
+                            who_color="#d8e9f9", who_size=40, voice_tag="zen_voice", image="zen")
                             
 ## Note: The MC's name will show up in VN mode in this program. If you'd like it to be blank,
 ## just replace "[name]" with None
 define m_vn = Character("[name]", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#ffffed", who_size=40)
+                            who_color="#ffffed", who_size=40, dynamic=True)
 ## This is the 'generic' template character -- if you want a side character like Echo Girl, copy this 
 ## character and replace None with their name.
 define narrator = Character(None, what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
