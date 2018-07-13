@@ -136,11 +136,13 @@ init python:
 label new_incoming_call(phonecall):
     call screen incoming_call(phonecall=phonecall)
 
+default current_message = None
+    
 screen text_message_hub:
 
     tag menu
     
-    default current_message = None
+    
         
     use starry_night
     
@@ -169,7 +171,7 @@ screen text_message_hub:
                             button:                                                       
                                 background 'message_idle_bkgr'
                                 hover_background 'message_hover_bkgr'   
-                                action [SetScreenVariable("current_message", i), i.mark_read, Show('text_message_screen', the_msg=i)]
+                                action [SetVariable("current_message", i), i.mark_read, Show('text_message_screen', the_msg=i)]
                                 
                                 ysize 150
                                 xsize 725
@@ -204,7 +206,7 @@ screen text_message_hub:
                             button:                                                       
                                 background 'unread_message_idle_bkgr'
                                 hover_background 'unread_message_hover_bkgr' 
-                                action [SetScreenVariable("current_message", i), i.mark_read, Show('text_message_screen', the_msg=i)]
+                                action [SetVariable("current_message", i), i.mark_read, Show('text_message_screen', the_msg=i)]
                                 
                                 ysize 150
                                 xsize 725
