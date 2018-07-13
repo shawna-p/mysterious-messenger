@@ -228,15 +228,17 @@ style input:
 screen choice(items):
     zorder 150
     modal True
-    style_prefix "choice"
     
     if reply_screen:
         use text_message_screen(current_message)
         add "Phone UI/choice_dark.png"
         vbox:
+            style 'choice_vbox'
             for i in items:
                 if not observing or i.chosen:
                     textbutton i.caption:
+                        style 'choice_button'
+                        text_style 'choice_button_text'
                         background 'text_answer_idle'
                         hover_background 'text_answer_hover'
                         text_idle_color '#fff'
@@ -246,10 +248,13 @@ screen choice(items):
     elif in_phone_call or vn_choice:
         add "Phone UI/choice_dark.png"
         vbox:
+            style 'choice_vbox'
             spacing 20
             for i in items:
                 if not observing or i.chosen:
                     textbutton i.caption:
+                        style 'choice_button'
+                        text_style 'choice_button_text'
                         xysize (740, 180)
                         background 'call_choice' padding(45,45)
                         hover_background 'call_choice_hover'
@@ -262,30 +267,46 @@ screen choice(items):
                         align (0.5, 0.5)
                         action [i.action]
 
+    elif email_reply:
+        use email_hub
+        use open_email(current_email)
+        add 'Phone UI/choice_dark.png'
+        vbox:
+            style 'choice_vbox'
+            for i in items:
+                textbutton i.caption:
+                    style 'choice_button'
+                    text_style 'choice_button_text'
+                    background 'text_answer_idle'
+                    hover_background 'text_answer_hover'
+                    text_idle_color '#fff'
+                    text_hover_color '#fff'
+                    text_xalign 0.5
+                    text_yalign 0.5
+                    text_text_align 0.5
+                    action [i.action]
+                        
     else:
         add 'Phone UI/choice_dark.png'
         vbox:
+            style 'choice_vbox'
             for num, i in enumerate(items):
                 if not observing or i.chosen:
                     $ fnum = float(num*0.2)
                     textbutton i.caption: # at choice_anim(fnum): # if you want to modify the button
-                        action i.action                           # animation you can uncomment this
+                        style 'choice_button'                     # animation you can uncomment this
+                        text_style 'choice_button_text'
+                        action i.action                           
                             
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
 ## menu captions will be displayed as empty buttons.
 define config.narrator_menu = True
 
-
-style choice_vbox is vbox
-style choice_button is button
-style choice_button_text is button_text
-
 style choice_vbox:
     xalign 0.5
     ypos 600
     yanchor 0.40
-
     spacing gui.choice_spacing
 
 style choice_button is default:
