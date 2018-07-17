@@ -60,35 +60,23 @@ init -6 python:
     # A more complete explanation of how to use it to set up chatrooms can be found
     # in the accompanying Script Generator spreadsheet
     class Chat_History(store.object):
-        def __init__(self, day, title, route, chatroom_label, trigger_time, participants=[],
-                        afterchat_label=False, phone_calls=[], incoming_call=False, vn_obj=False, 
-                        played=False, participated=True, available=False, expired=False):
-            self.day = day
+        def __init__(self, title, route, chatroom_label, trigger_time, participants=[],
+                        vn_obj=False):
             self.title = title
             self.route = route
             self.chatroom_label = chatroom_label
             self.trigger_time = trigger_time
             self.participants = participants
-            self.afterchat_label = afterchat_label
-            self.phone_calls = phone_calls
-            self.incoming_call = incoming_call
             self.vn_obj = vn_obj
-            self.played = played
-            self.participated = participated
-            self.available = available
-            self.expired = expired
+            self.played = False
+            self.participated = True
+            self.available = False
+            self.expired = False
             
         def add_participant(self, chara):
             if not chara in self.participants:
                 self.participants.append(chara)
             
-        # This 'delivers' any phone calls available after the chatroom
-        def deliver_calls(self):
-            global incoming_call, available_calls
-            if self.incoming_call:
-                incoming_call = self.incoming_call
-            if self.phone_calls:
-                available_calls.extend(self.phone_calls)
             
     # This class stores the information needed for the Visual Novel portions of the game
     class VN_Mode(store.object):
@@ -100,11 +88,10 @@ init -6 python:
             
     # This class stores the information needed for phone calls
     class Phone_Call(store.object):
-        def __init__(self, caller, phone_label, title, call_status='incoming',
+        def __init__(self, caller, phone_label, call_status='incoming',
                 avail_timeout=2, voicemail=False):
             self.caller = caller
             self.phone_label = phone_label
-            self.title = title
             self.call_time = False
             if call_status == 'incoming' or call_status == 'outgoing' or call_status == 'missed' or call_status == 'voicemail':
                 self.call_status = call_status
@@ -150,26 +137,33 @@ init -6 python:
     # Currently they are available in sequence but the program could be modified
     # to make chatrooms available at the correct real-life times
     def next_chatroom():
-        global chat_archive, available_calls, current_chatroom
+        global chat_archive, available_calls, current_chatroom, test_ran
+        test_ran = "Next_chatroom"
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
-                    if chatroom.vn_obj and not chatroom.vn_obj.available:
+                    test_ran = "Inner loop"
+                    if chatroom.available and chatroom.vn_obj and not chatroom.vn_obj.available:
                         chatroom.vn_obj.available = True
+                        test_ran = "vn_obj"
                         break
-                    elif not chatroom.available:
+                    if not chatroom.available:
                         chatroom.available = True
                         current_chatroom = chatroom
                         for phonecall in available_calls:
                             phonecall.decrease_time()
-                        break
+                        test_ran = "chatroom_avail"
+                        break               
+        deliver_emails()
             
+default test_ran = False
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
 # for you
-default chat_archive = [Archive('Tutorial', [Chat_History('Tutorial', 'Example Chatroom', 'auto', 'example_chat', '00:01'),
-                                    Chat_History('Tutorial', 'Pass Out After Drinking Coffee Syndrome', 'auto', 'coffee_chat', '01:05', [s], 'after_coffee_chat'),
-                                    Chat_History('Tutorial', 'Text Test', 'auto', 'text_msg_test', '02:11', [r], 'after_msg_test', [], False, VN_Mode('vn_mode', r, False, True), False, False, True)]),
+default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01'),                                    
+                                    Chat_History('Text Message Example', 'auto', 'example_text', '02:11', [r], VN_Mode('vn_mode_tutorial', r)),
+                                    Chat_History('Inviting Guests', 'auto', 'example_email', '03:53', [z]),
+                                    Chat_History('Pass Out After Drinking Coffee Syndrome', 'auto', 'tutorial_chat', '04:05', [s])]),
                         Archive('1st'),
                         Archive('2nd'),
                         Archive('3rd'),
@@ -189,7 +183,6 @@ default incoming_call = False #e.g. Phone_Call(ju)
 default vn_choice = False
 default current_call = False
 
-default original_afm_time = 15
 default preferences.afm_time = 15
 default mm_auto = "mm_auto_save"
 
@@ -1177,4 +1170,23 @@ image call_choice_hover = Frame('Phone UI/Phone Calls/call_select_button_hover.p
 image char_foreground = 'Phone UI/char_select_foreground.png'
 image char_foreground2 = 'Phone UI/char_select_foreground2.png'
 
+## ********************************
+## Email Screen
+## ********************************
+
+image email_completed = "Email/main03_email_completed_01.png"
+image email_failed = "Email/main03_email_failed.png"
+image email_timeout = "Email/main03_email_timeout.png"
+image email_good = "Email/main03_email_good.png"
+image email_bad = "Email/main03_email_bad.png"
+image email_inactive = "Email/main03_email_inactive.png"
+image email_panel = "Email/main03_email_panel.png"
+image email_read = "Email/main03_email_read.png"
+image email_replied = "Email/main03_email_replied.png"
+image email_unread = "Email/main03_email_unread.png"
+image email_next = "Email/main03_email_next_button.png"
+image email_mint = "Email/main03_email_mint.png"
+image white_transparent = Frame("Email/white_transparent.png", 0, 0)
+image email_open_transparent = Frame("Email/email_open_transparent.png", 0, 0)
+image left_corner_menu_dark = Frame("Email/left_corner_menu_dark.png", 45, 45)
 
