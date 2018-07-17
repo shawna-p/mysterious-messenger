@@ -37,6 +37,8 @@ screen day_select(day):
                 played = True
             if i.available and not i.played:
                 is_today = True
+            if i.vn_obj and i.vn_obj.available and not i.vn_obj.played:
+                is_today = True
         
         if day.archive_list:
             chat_percent = str(completed_chatrooms * 100 // num_chatrooms)
@@ -251,7 +253,8 @@ screen chatroom_display(mychat):
                 xysize(555, 126)
                 foreground vn_foreground
                 hover_foreground vn_hover
-                action Jump(my_vn.vn_label)
+                if my_vn.available:
+                    action Jump(my_vn.vn_label)
                 if my_vn.who:
                     add 'vn_' + my_vn.who.file_id xoffset -5
                 else:
