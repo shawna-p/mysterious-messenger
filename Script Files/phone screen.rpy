@@ -31,6 +31,63 @@ init python:
                 return phonecall
         return False
         
+    _preferences.afm_enable = False
+     
+    if not persistent.set_afm:
+        _preferences.afm_time = 0 # Or something. 
+        persistent.set_afm = True
+    
+    def toggle_afm():
+        _preferences.afm_enable = not _preferences.afm_enable
+        renpy.restart_interaction()
+
+    ## Makes any phonecalls associated with the current chatroom available as appropriate
+    def deliver_calls(lbl):
+        global available_calls, incoming_call
+        ## Adds available calls
+        if renpy.has_label(lbl + '_phone_ja'):
+            available_calls.append(Phone_Call(ja, lbl + '_phone_ja', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_ju'):
+            available_calls.append(Phone_Call(ju, lbl + '_phone_ju', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_r'):
+            available_calls.append(Phone_Call(r, lbl + '_phone_r', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_ri'):
+            available_calls.append(Phone_Call(ri, lbl + '_phone_ri', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_s'):
+            available_calls.append(Phone_Call(s, lbl + '_phone_s', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_sa'):
+            available_calls.append(Phone_Call(sa, lbl + '_phone_sa', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_u'):
+            available_calls.append(Phone_Call(u, lbl + '_phone_u', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_v'):
+            available_calls.append(Phone_Call(v, lbl + '_phone_v', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_y'):
+            available_calls.append(Phone_Call(y, lbl + '_phone_y', 'outgoing'))
+        if renpy.has_label(lbl + '_phone_z'):
+            available_calls.append(Phone_Call(z, lbl + '_phone_z', 'outgoing'))
+            
+        ## Updates the incoming_call
+        if renpy.has_label(lbl + '_incoming_ja'):
+            incoming_call = Phone_Call(ja, lbl + '_incoming_ja', 'incoming')
+        if renpy.has_label(lbl + '_incoming_ju'):
+            incoming_call = Phone_Call(ju, lbl + '_incoming_ju', 'incoming')
+        if renpy.has_label(lbl + '_incoming_r'):
+            incoming_call = Phone_Call(r, lbl + '_incoming_r', 'incoming')
+        if renpy.has_label(lbl + '_incoming_ri'):
+            incoming_call = Phone_Call(ri, lbl + '_incoming_ri', 'incoming')
+        if renpy.has_label(lbl + '_incoming_s'):
+            incoming_call = Phone_Call(s, lbl + '_incoming_s', 'incoming')
+        if renpy.has_label(lbl + '_incoming_sa'):
+            incoming_call = Phone_Call(sa, lbl + '_incoming_sa', 'incoming')
+        if renpy.has_label(lbl + '_incoming_u'):
+            incoming_call = Phone_Call(u, lbl + '_incoming_u', 'incoming')
+        if renpy.has_label(lbl + '_incoming_v'):
+            incoming_call = Phone_Call(v, lbl + '_incoming_v', 'incoming')
+        if renpy.has_label(lbl + '_incoming_y'):
+            incoming_call = Phone_Call(y, lbl + '_incoming_y', 'incoming')
+        if renpy.has_label(lbl + '_incoming_z'):
+            incoming_call = Phone_Call(z, lbl + '_incoming_z', 'incoming')
+        
         
 default unseen_calls = 0
 default in_phone_call = False
@@ -229,11 +286,11 @@ screen in_call():
     add 'call_headphones' yalign 0.12 xalign 0.5
     
     on 'show' action [SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
-    on 'hide' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable'), 
-                        Preference('auto-forward time', original_afm_time)]
+    on 'hide' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')] 
+                        #Preference('auto-forward time', original_afm_time)]
     on 'replace' action [SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
-    on 'replaced' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable'), 
-                        Preference('auto-forward time', original_afm_time)]
+    on 'replaced' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')] 
+                        #Preference('auto-forward time', original_afm_time)]
 
     window:
         xysize(710, 200)
@@ -251,12 +308,13 @@ screen in_call():
             align (0.5, 0.5)
             imagebutton:
                 align (0.5, 0.5)
-                if preferences.afm_time > 0:
+                if _preferences.afm_enable: #preferences.afm_time > 0:
                     idle 'call_pause'
-                    action Preference('auto-forward time', 0)
+                    action Function(toggle_afm) #Preference('auto-forward time', 0)
+                    
                 else:
                     idle 'call_play'
-                    action Preference('auto-forward time', original_afm_time)
+                    action Function(toggle_afm) #Preference('auto-forward time', original_afm_time)
         null width 100
         window:
             xysize(160,160)
@@ -265,7 +323,7 @@ screen in_call():
                 align (0.5, 0.5)
                 idle 'call_hang_up'
                 hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
-                action [Hide('say'), Preference('auto-forward time', original_afm_time), Jump('hang_up')]
+                action [Hide('say'), Jump('hang_up')]#Preference('auto-forward time', original_afm_time), Jump('hang_up')]
                 
                 
 
@@ -436,6 +494,7 @@ screen outgoing_call(phonecall, voicemail=False):
 label phone_begin:
     hide screen incoming_call
     show screen in_call
+    return
     
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call
@@ -444,10 +503,11 @@ label phone_end:
         $ current_call.finished()
     $ current_call = False    
     call screen phone_calls
+    return
     
 ## For ease of keeping track of the different voicemails, they are defined here
 label voicemail_1:
     call phone_begin
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
     call phone_end
-    
+    return 
