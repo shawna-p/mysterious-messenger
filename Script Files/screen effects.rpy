@@ -35,6 +35,11 @@ init python:
         else:
             colour = white
         return im.MatrixColor(picture, im.matrix.colorize("#000000", colour)), 0.1
+        
+    
+            
+        
+        
 
 
 
@@ -56,7 +61,7 @@ label heart_icon(character):
         if character == r:
             character = sa
         if not observing:
-            character.add_heart()
+            character.increase_heart()
             chatroom_hp += 1
             persistent.HP += 1
     if not observing:
@@ -80,7 +85,7 @@ label heart_break(character):
         if character == r:
             character = sa
         if not observing:
-            character.lose_heart()
+            character.decrease_heart()
             chatroom_hp -= 1
             persistent.HP -= 1     
     if not observing:
@@ -346,16 +351,16 @@ label press_save_and_exit(phone=True):
         $ chatroom_hg = 0
         $ config.skipping = False   
         $ greeted = False        
-        if current_chatroom.afterchat_label and not current_chatroom.played:
-            $ renpy.call(current_chatroom.afterchat_label)
-        $ current_chatroom.deliver_calls() # FIXME: What happens if you hang up the incoming call
+        if renpy.has_label('after_' + current_chatroom.chatroom_label): # Checks for a post-chatroom label
+            $ renpy.call('after_' + current_chatroom.chatroom_label)
+        $ deliver_calls(current_chatroom.chatroom_label) # FIXME: What happens if you hang up the incoming call
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
         hide screen vn_overlay
         $ current_chatroom.played = True
-        if not phone:
+        if not phone and current_chatroom.vn_obj:
             $ current_chatroom.vn_obj.played = True 
         $ next_chatroom()
         $ renpy.retain_after_load()
