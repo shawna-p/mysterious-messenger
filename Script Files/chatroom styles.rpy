@@ -457,6 +457,15 @@ init 5:
         text_align 0.5
         font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
         
+    ## **********************
+    ## Emails
+    ## **********************
+    style email_address:
+        font "00 fonts/NanumBarunpenR.ttf"
+        color '#fff'
+        size 27
+
+        
     ####################################
     ## Other Miscellaneous Styles
     ####################################
