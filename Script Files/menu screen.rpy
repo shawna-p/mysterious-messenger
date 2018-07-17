@@ -1148,11 +1148,23 @@ screen chat_home(reshow=False):
         maximum(168,168)
         xalign 0.342
         yalign 0.33
-        # if new_email:
-        background "gray_mainbtn"
-        hover_background "gray_mainbtn_hover"
+        if unread_emails() > 0:
+            background "blue_mainbtn"
+            hover_background "blue_mainbtn_hover"
+        else:
+            background "gray_mainbtn"
+            hover_background "gray_mainbtn_hover"
         action Show('email_hub', Dissolve(0.5))
-        add "gray_maincircle" xalign 0.5 yalign 0.5
+        if unread_emails() > 0:
+            add "blue_maincircle" xalign 0.5 yalign 0.5
+            window:
+                maximum(45, 45)
+                xalign 1.0
+                yalign 0.0
+                background 'new_text_count'
+                text str(unread_emails()) style 'text_num'
+        else:
+            add "gray_maincircle" xalign 0.5 yalign 0.5
         add "email_mainicon" xalign 0.5 yalign 0.5
         add "email_maintext" xalign 0.5 yalign 0.85
         
@@ -1217,7 +1229,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Jump('say_phone_test')
+            action Jump('tutorial_chat_incoming_z')
             add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
