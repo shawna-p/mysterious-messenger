@@ -34,7 +34,7 @@ init -4 python:
             if voicemail:
                 self.voicemail = voicemail
             else:
-                self.voicemail = Phone_Call(self, 'voicemail_1', False, 'voicemail', 2, True)
+                self.voicemail = Phone_Call(self, 'voicemail_1', 'voicemail', 2, True)
             self.heart_points = 0  
             self.heart_color = heart_color
             self.emote_list = emote_list
@@ -42,10 +42,10 @@ init -4 python:
         def update_voicemail(self, new_label):
             self.voicemail.phone_label = new_label
 
-        def add_heart(self):
+        def increase_heart(self):
             self.heart_points += 1
             
-        def lose_heart(self):
+        def decrease_heart(self):
             self.heart_points -= 1
             
         def reset_heart(self):
