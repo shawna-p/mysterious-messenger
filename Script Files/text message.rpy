@@ -305,7 +305,7 @@ screen text_msg_popup(the_msg):
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [Hide('text_msg_popup'), SetScreenVariable("current_message", the_msg), the_msg.mark_read, Show('text_message_screen', the_msg=the_msg)]
+                action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), the_msg.mark_read, Show('text_message_screen', the_msg=the_msg)]
                 
     timer 3.25:
         if randint(0,1):
@@ -363,12 +363,37 @@ screen text_message_screen(the_msg):
 
     tag menu
     
+    default HeartChar = the_msg.heart_person
+    
+    ## This looks a bit complicated, but it's just code to say "if this text message is
+    ## supposed to trigger a heart icon, display the correctly-coloured heart, award
+    ## a heart point, and increase the appropriate totals"
     on 'show':
-        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
-            action [Show('heart_icon_screen', character=the_msg.heart_person), SetField(the_msg, 'heart', False)]
+        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m and HeartChar != r:
+            action [SetVariable('heartColor', HeartChar.heart_color),
+                    SetField(HeartChar, 'heart_points', HeartChar.heart_points+1),
+                    SetField(persistent, 'HP', persistent.HP+1),
+                    Show('heart_icon_screen', character=HeartChar), 
+                    SetField(the_msg, 'heart', False)]
+        elif the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
+            action [SetVariable('heartColor', sa.heart_color),
+                    SetField(sa, 'heart_points', sa.heart_points+1),
+                    SetField(persistent, 'HP', persistent.HP+1),
+                    Show('heart_icon_screen', character=sa), 
+                    SetField(the_msg, 'heart', False)]
     on 'replace':
-        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
-            action [Show('heart_icon_screen', character=the_msg.heart_person), SetField(the_msg, 'heart', False)]
+        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m and HeartChar != r:
+            action [SetVariable('heartColor', HeartChar.heart_color),
+                    SetField(HeartChar, 'heart_points', HeartChar.heart_points+1),
+                    SetField(persistent, 'HP', persistent.HP+1),
+                    Show('heart_icon_screen', character=HeartChar), 
+                    SetField(the_msg, 'heart', False)]
+        elif the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
+            action [SetVariable('heartColor', sa.heart_color),
+                    SetField(sa, 'heart_points', sa.heart_points+1),
+                    SetField(persistent, 'HP', persistent.HP+1),
+                    Show('heart_icon_screen', character=sa), 
+                    SetField(the_msg, 'heart', False)]
         
     use starry_night
     
