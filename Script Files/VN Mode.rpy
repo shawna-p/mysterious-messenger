@@ -12,7 +12,7 @@ image bg mint_eye_room = "VN Mode/Backgrounds/mint_eye_room.png"
         
 default menutext = ''
         
-label vn_mode:
+label vn_mode_tutorial:
 
     call vn_setup
     
@@ -62,6 +62,8 @@ label vn_tutorial():
             
         "That's enough explanation, thanks.":
             m_vn "That's enough explanation, thanks."
+            r_vn "Alright! Hope this helped you."
+            call press_save_and_exit(False)
             
     show saeran vn happy
     
@@ -151,7 +153,7 @@ label vn_position:
     $ menutext = "Anything else you'd like to learn about?"
     jump vn_tutorial
     
-    call press_save_and_exit(False)
+    
  
 menu vn_showcase:
 
@@ -629,13 +631,13 @@ label vn_setup:
     hide screen chatroom_timeline
     show screen vn_overlay
     $ vn_choice = True
-        
-    $ current_chatroom = chat_archive[0].archive_list[2]
-        
+    
     if current_chatroom.vn_obj.played:
         $ observing = True
     else:
         $ observing = False
+        
+    return
         
 screen vn_overlay:
 
