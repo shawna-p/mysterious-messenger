@@ -1,4 +1,4 @@
-label text_msg_test:
+label example_text:
 
     call chat_begin("morning")  
     
@@ -12,7 +12,7 @@ label text_msg_test:
     
 # Put anything you want to have happen after the chatroom ends here, 
 # like text messages or (in the future) phone calls
-label after_msg_test:
+label after_example_text:
 
     python:
         ## Ray's text message
@@ -33,7 +33,6 @@ label after_msg_test:
         #addtext (u, "You'll be fine ^^", u)
         #addtext (z, "I took a selfie this morning", z)
         #addtext (ri, "Weren't you curious, too?", ri)
-        #addtext (sa, "You're mine", sa)
     
     return
     

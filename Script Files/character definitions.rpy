@@ -77,8 +77,8 @@ define vmail_phone = Character('', what_font= "00 fonts/NanumGothic (Sans Serif 
 # Text Messages
 # ****************************         
 
-# If you want a character to be able to send messages, define
-# a Text_Message object with their Chat variable in the list below                 
+# If you want a character to be able to send messages, define a
+# Text_Message object with their Chat variable in the lists below                 
 default text_messages = [Text_Message(ja, []),
                         Text_Message(ju, []),
                         Text_Message(r, []),
@@ -149,7 +149,7 @@ define z_vn = Character("Zen", what_font="00 fonts/NanumMyeongjo (Serif font 1)/
 ## just replace "[name]" with None
 define m_vn = Character("[name]", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#ffffed", who_size=40, dynamic=True)
+                            who_color="#ffffed", who_size=40)
 ## This is the 'generic' template character -- if you want a side character like Echo Girl, copy this 
 ## character and replace None with their name.
 define narrator = Character(None, what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 

@@ -49,7 +49,9 @@ label define_variables:
             m.name = persistent.name
             
         # next_chatroom()
-
+        #_quit_slot = "quitsave" # TODO: unlink quitsave at the end
+                                # renpy.unlink_save("quitsave")
+                                # _quit_slot = None
         renpy.retain_after_load()
 
     return
@@ -57,6 +59,7 @@ label define_variables:
 label start:
 
     call define_variables
+    
     # Presumably an intro chat here
 
     call screen chat_home
