@@ -30,18 +30,6 @@ init python:
             if self.deliver_reply != "wait":
                 self.deliver_reply -= 1
                 
-            # If the timer <= 0 and there's a reply to be delivered, deliver it
-            if self.deliver_reply != "wait" and self.deliver_reply <= 0 and self.reply:
-                self.read = False
-                self.reply += "\n\n------------------------------------------------\n\n"
-                self.msg = self.reply + self.msg
-                self.reply = False
-                self.sent_time = upTime()
-                self.timeout_count = 25 # Sets the timeout counter
-                self.deliver_reply = "wait"
-                email_list.remove(self)
-                email_list.insert(0, self) # Moves to the front of the list
-                
             # If it's your turn to reply, decrease the timeout counter,
             # Unless this is the final message and there's no need to reply
             if self.deliver_reply == "wait" and self.msg_num <= 2:
@@ -50,6 +38,21 @@ init python:
             # If the timeout counter reaches 0, timeout becomes True
             if self.timeout_count == 0 and self.msg_num <= 2 and not self.failed:
                 self.timeout = True
+                
+            # If the timer <= 0 and there's a reply to be delivered, deliver it
+            if self.deliver_reply != "wait" and self.deliver_reply <= 0 and self.reply:
+                self.read = False
+                self.reply += "\n\n------------------------------------------------\n\n"
+                self.msg = self.reply + self.msg
+                self.reply = False
+                self.sent_time = upTime()
+                self.timeout_count = 25 # resets the timeout counter
+                self.deliver_reply = "wait"
+                email_list.remove(self)
+                email_list.insert(0, self) # Moves to the front of the list
+                # Notify the player of the delivered message
+                renpy.show_screen('email_popup', e=self)
+                           
          
         # Sets the guest's reply and randomly decides when it should be delivered
         def set_reply(self, iscorrect, deliver_reply=False):
@@ -221,6 +224,62 @@ label invite(guest):
     return
     
 default current_email = None  
+
+
+########################################################
+## This screen shows a popup to notify you when you
+## have a new email
+########################################################            
+screen email_popup(e):
+
+    #modal True
+    zorder 100
+    default current_email = None
+    
+    
+    window:
+        maximum(510,290)
+        background 'left_corner_menu_dark'
+        xalign 0.5
+        yalign 0.4
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('email_popup')
+            
+        hbox:
+            yalign 0.09
+            xalign 0.05
+            spacing 15
+            add 'new_text_envelope'
+            text 'NEW' color '#73f1cf' yalign 1.0 font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+        
+        vbox:
+            align (0.5, 0.8)
+            spacing 15
+            hbox:
+                align (0.5, 0.5)
+                xsize 470
+                spacing 10               
+                add Transform(e.guest.pic, zoom=0.6)
+                text "You have a new message from @" + e.guest.name color '#fff' size 25 align(0.5, 0.5)
+                
+            # This button isn't in the actual game, and the main reason I can get
+            # away with adding it here is because emails only get delivered on the main
+            # menu. It would mess things up if you could jump to the message in the middle
+            # of a chatroom so they aren't delivered then
+            textbutton _('Go to'): 
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 220
+                ysize 70
+                text_size 28
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Hide('email_popup'), Show('email_hub')]
+                    
+    timer 3.25 action Hide('email_popup', Dissolve(0.25))
 
 ########################################################
 ## This screen shows a list of the emails you've 
