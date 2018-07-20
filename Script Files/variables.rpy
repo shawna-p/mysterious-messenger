@@ -154,9 +154,20 @@ init -6 python:
                             phonecall.decrease_time()
                         test_ran = "chatroom_avail"
                         break               
-        deliver_emails()
+        
+    # Delivers the next available text message and triggers an incoming
+    # phone call, if applicable
+    def deliver_next():
+        global text_queue, incoming_call, available_calls, current_call
+        for msg in text_queue:
+            if msg.msg_list:
+                msg.deliver()
+                break             
+        if incoming_call:
+            current_call = incoming_call
+            incoming_call = False
+            renpy.jump('new_incoming_call', phonecall=current_call)
             
-default test_ran = False
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
 # for you

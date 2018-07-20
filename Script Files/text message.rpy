@@ -102,20 +102,7 @@ init python:
         global text_queue
         for msg in text_queue:
             msg.deliver()
-        
-    # Delivers the next available text message and triggers an incoming
-    # phone call, if applicable
-    def deliver_next():
-        global text_queue, incoming_call, available_calls, current_call
-        for msg in text_queue:
-            if msg.msg_list:
-                msg.deliver()
-                break             
-        if incoming_call:
-            current_call = incoming_call
-            incoming_call = False
-            renpy.call_in_new_context('new_incoming_call', phonecall=current_call)
-            
+                
     # Checks who the sender of the next text message to be delivered is
     def who_deliver():
         global text_queue
@@ -132,18 +119,13 @@ init python:
         undelivered = [ x for x in text_queue if x.msg_list ]
         return len(undelivered)
 
-        
-label new_incoming_call(phonecall):
-    call screen incoming_call(phonecall=phonecall)
-
+  
 default current_message = None
     
 screen text_message_hub:
 
     tag menu
     
-    
-        
     use starry_night
     
     use menu_header('Text Message', Show('chat_home', Dissolve(0.5)))
@@ -241,12 +223,13 @@ screen text_message_hub:
                                             add 'new_text'
                                             add 'new_text_envelope'
                                             
-               
+########################################################               
 ## This screen takes care of the popups that notify
-## the user when there is a new text message               
+## the user when there is a new text message   
+########################################################            
 screen text_msg_popup(the_msg):
 
-    modal True
+    #modal True
     zorder 100
     default current_message = None
     
@@ -305,7 +288,8 @@ screen text_msg_popup(the_msg):
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), the_msg.mark_read, Show('text_message_screen', the_msg=the_msg)]
+                action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), 
+                        the_msg.mark_read, Show('text_message_screen', the_msg=the_msg)]
                 
     timer 3.25:
         if randint(0,1):
@@ -313,8 +297,9 @@ screen text_msg_popup(the_msg):
         else:
             action Hide('text_msg_popup', Dissolve(0.25))
         
-                                            
-# Includes the 'answer' button at the bottom
+########################################################  
+## Includes the 'answer' button at the bottom
+########################################################
 screen text_message_footer(the_msg):       
     
     vbox:
@@ -358,7 +343,11 @@ screen text_date_separator(text_time):
             xsize 240
             background 'text_msg_line'
         
-    
+########################################################
+## This is the screen that actually displays the
+## message, though it mostly borrows from the chatroom
+## display screen
+########################################################
 screen text_message_screen(the_msg):
 
     tag menu
@@ -399,7 +388,7 @@ screen text_message_screen(the_msg):
     
     use text_message_footer(the_msg)
     
-    timer 1.0:
+    timer 3.0:
         if who_deliver != the_msg.sender:
             action deliver_next
     

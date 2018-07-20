@@ -488,11 +488,15 @@ screen outgoing_call(phonecall, voicemail=False):
     else:
         timer randint(2, 10) action [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
     
+## Allows the program to jump to the incoming call
+label new_incoming_call(phonecall):
+    call screen incoming_call(phonecall=phonecall)
  
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
 label phone_begin:
     hide screen incoming_call
+    hide screen outgoing_call
     show screen in_call
     return
     

@@ -1082,11 +1082,9 @@ screen chat_home(reshow=False):
 
     on 'show':
         action [FileSave(mm_auto, confirm=False), deliver_next] 
-        #[QuickSave(False), deliver_next]
  
     on 'replace':
         action [FileSave(mm_auto, confirm=False), deliver_next] 
-        #action [QuickSave(False), deliver_next]
 
     if num_undelivered():
         timer 3.5 action If(randint(0,1), deliver_next, NullAction) repeat True
@@ -1229,7 +1227,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Jump('tutorial_chat_incoming_z')
+            action Show('email_popup', e=Email(rainbow, rainbow.start_msg, rainbow.label1))
             add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
@@ -1238,7 +1236,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Jump('email_test')
+            action Jump('example_email')
             add "guest_icon" xalign 0.5 yalign 0.3
             add "guest_text" xalign 0.5 yalign 0.8
             
@@ -1256,7 +1254,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Function(deliver_emails())
+            #action Function(deliver_emails())
             add "notice_icon" xalign 0.5 yalign 0.3
             add "notice_text" xalign 0.5 yalign 0.8
             

@@ -404,7 +404,6 @@ label tutorial_chat_incoming_z:
     call phone_begin
     
     z_phone "Good morning, hon~"
-    pause 5
     z_phone "Gahh~ (Stretches) I haven't slept this well in a while. I feel really good."
     z_phone "When I don't sleep that well, just moving my neck in the morning can hurt."
     z_phone "Did you sleep well?"

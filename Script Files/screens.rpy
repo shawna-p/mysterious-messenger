@@ -235,15 +235,14 @@ screen choice(items):
         vbox:
             style 'choice_vbox'
             for i in items:
-                if not observing or i.chosen:
-                    textbutton i.caption:
-                        style 'choice_button'
-                        text_style 'choice_button_text'
-                        background 'text_answer_idle'
-                        hover_background 'text_answer_hover'
-                        text_idle_color '#fff'
-                        text_hover_color '#fff'
-                        action [i.action]
+                textbutton i.caption:
+                    style 'choice_button'
+                    text_style 'choice_button_text'
+                    background 'text_answer_idle'
+                    hover_background 'text_answer_hover'
+                    text_idle_color '#fff'
+                    text_hover_color '#fff'
+                    action [i.action]
     
     elif in_phone_call or vn_choice:
         add "Phone UI/choice_dark.png"

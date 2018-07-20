@@ -361,7 +361,10 @@ label press_save_and_exit(phone=True):
         hide screen vn_overlay
         $ current_chatroom.played = True
         if not phone and current_chatroom.vn_obj:
-            $ current_chatroom.vn_obj.played = True 
+            $ current_chatroom.vn_obj.played = True
+            $ deliver_emails()
+        elif phone and not current_chatroom.vn_obj:
+            $ deliver_emails()
         $ next_chatroom()
         $ renpy.retain_after_load()
         call screen chat_home
