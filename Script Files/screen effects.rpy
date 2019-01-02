@@ -37,11 +37,13 @@ init python:
         return im.MatrixColor(picture, im.matrix.colorize("#000000", colour)), 0.1
         
     
-            
-        
-        
 
-
+## Note: There is also a custom version of the chat footers
+## (pause/play/save & exit/answer) that you can use by setting
+## this variable to True. Otherwise, it will use the original assets
+## If you change the variable here, you'll need to start the game over
+## Otherwise it can also be changed from the Settings menu
+default custom_footers = False
 
 #************************************
 # Heart Icons
@@ -55,6 +57,7 @@ image heartbreak5 = "Heart Point/HeartBreak/stat_animation_10.png"
 
 default heartColor = '#000000'
 
+# You call this to display the heart icon for a given character
 label heart_icon(character):
     python:
         heartColor = character.heart_color
@@ -68,6 +71,7 @@ label heart_icon(character):
         show screen heart_icon_screen(character)
     return
     
+# Displays the heart on-screen
 screen heart_icon_screen(character):
     zorder 20   
 
@@ -78,7 +82,7 @@ screen heart_icon_screen(character):
         
     timer 0.62 action [Hide('heart_icon_screen')]
         
-    
+# Like the heart icon, call this to display the heart break   
 label heart_break(character):
     python:
         heartColor = character.heart_color
@@ -92,7 +96,7 @@ label heart_break(character):
         show screen heart_break_screen(character)
     return
 
-    
+# Displays the heartbreak on-screen
 screen heart_break_screen(character):
     zorder 20
    
@@ -137,9 +141,16 @@ label answer:
 screen answer_button:
     zorder 4
     tag chat_footer
-    add "pausebutton" xalign 0.96 yalign 0.16
-    add "Phone UI/pause_square.png" yalign 0.59
-    add "answerbutton" ypos 1220
+    if custom_footers:
+        add "custom_pausebutton" xalign 0.96 yalign 0.16
+        add "custom_pause_square" yalign 0.59
+    else:
+        add "pausebutton" xalign 0.96 yalign 0.16
+        add "Phone UI/pause_square.png" yalign 0.59
+    if custom_footers:
+        add "custom_answerbutton" ypos 1220
+    else:
+        add "answerbutton" ypos 1220
         
     imagebutton:
         ypos 1220
@@ -162,7 +173,10 @@ screen pause_button:
     imagebutton:
         ypos 1220
         focus_mask True
-        idle "Phone UI/Pause.png"
+        if custom_footers:
+            idle "custom_pause"
+        else:
+            idle "Phone UI/Pause.png"
         if not choosing:
             action [Call("play"), Return()]
      
@@ -182,27 +196,37 @@ screen pause_button:
             focus_mask None
             idle "fast-slow-button"
             action [Function(slow_pv), Show('speed_num')]
-          
+        
+# This is automatically called when you pause the chat;
+# it makes sure no messages are skipped        
 label play:
     $ chatlog.append(Chatentry(chat_pause,'',upTime))
     call screen play_button
     show screen pause_button
     return
     
-# This screen is visible when the chat isn't paused
+# This screen is visible when the chat is paused;
+# shows the play button
 screen play_button:
     zorder 4
     tag chat_footer
     if not choosing:
-        add "pausebutton" xalign 0.96 yalign 0.16
-        add "Phone UI/pause_square.png" yalign 0.59
+        if custom_footers:
+            add "custom_pausebutton" xalign 0.96 yalign 0.16
+            add "custom_pause_square" yalign 0.59
+        else:
+            add "pausebutton" xalign 0.96 yalign 0.16
+            add "Phone UI/pause_square.png" yalign 0.59
     imagebutton:
         xanchor 0.0
         yanchor 0.0
         xpos 0
         ypos 1220
         focus_mask True
-        idle "Phone UI/Play.png"
+        if custom_footers:
+            idle "custom_play"
+        else:
+            idle "Phone UI/Play.png"
         action [Show('pause_button'), Return]
         
 
@@ -210,32 +234,37 @@ screen play_button:
 # Chat Header Overlay
 #####################################
 
-## This screen just shows the header/footer above the chat
+## This screen shows the header/footer above the chat
 screen phone_overlay:  
     zorder 2
     add "Phone UI/Phone-UI.png"   # You can set this to your own image
-    if config.skipping:
+
+    fixed:
+        xysize(150,80)
+        align (0.16, 0.055)
         imagebutton:
-            xpos 100
-            ypos 73
-            focus_mask True
-            idle "Phone UI/max_speed_active.png"
-            hover "maxSpeed"
-            if not choosing:
-                action Function(toggle_skipping)
-                # The restart_interaction makes it so the Max Speed button
-                # is visibly toggled after you press it
-    else:
-        imagebutton:
-            xpos 100
-            ypos 73
+            align (0.5, 0.5)
             focus_mask True
             idle "Phone UI/max_speed_inactive.png"
             hover "noMaxSpeed"
+            selected config.skipping
+            selected_idle "Phone UI/max_speed_active.png"
+            selected_hover "maxSpeed"
             if not choosing:
                 action Function(toggle_skipping)
+
+
                 
     add myClock align(1.0, 0.0)
+    
+    fixed:
+        xysize (40,50)
+        align (0.05, 0.065)
+        imagebutton:
+            align (0.5, 0.5)
+            idle "Phone UI/back-arrow.png"
+            hover Transform("Phone UI/back-arrow.png", zoom=1.2)
+            action Return()
 
     
 
@@ -333,7 +362,10 @@ screen save_and_exit:
         xpos 0
         ypos 1220
         focus_mask True
-        idle "save_exit"
+        if custom_footers:
+            idle "custom_save_exit"
+        else:
+            idle "save_exit"
         action [Jump("press_save_and_exit")]
         
 label press_save_and_exit(phone=True):
@@ -350,18 +382,23 @@ label press_save_and_exit(phone=True):
         $ chatroom_hp = 0
         $ chatroom_hg = 0
         $ config.skipping = False   
-        $ greeted = False        
-        if renpy.has_label('after_' + current_chatroom.chatroom_label): # Checks for a post-chatroom label
+        $ greeted = False 
+        # Checks for a post-chatroom label; won't trigger if there's a VN section
+        # Otherwise delivers phone calls/texts/etc
+        if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
             $ renpy.call('after_' + current_chatroom.chatroom_label)
-        $ deliver_calls(current_chatroom.chatroom_label) # FIXME: What happens if you hang up the incoming call
+            $ deliver_calls(current_chatroom.chatroom_label)
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
         hide screen vn_overlay
         $ current_chatroom.played = True
-        if not phone and current_chatroom.vn_obj:
+        if not phone and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
             $ current_chatroom.vn_obj.played = True
+            if renpy.has_label('after_' + current_chatroom.chatroom_label):
+                $ renpy.call('after_' + current_chatroom.chatroom_label)
+            $ deliver_calls(current_chatroom.chatroom_label)
             $ deliver_emails()
         elif phone and not current_chatroom.vn_obj:
             $ deliver_emails()
@@ -376,8 +413,10 @@ label press_save_and_exit(phone=True):
 screen signature_screen(phone=True):
     zorder 5
     modal True
-    if phone:
+    if phone and not custom_footers:
         add "save_exit" ypos 1220
+    elif phone and custom_footers:
+        add "custom_save_exit" ypos 1220
     add "Phone UI/choice_dark.png"
     window:
         xalign 0.5
