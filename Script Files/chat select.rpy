@@ -59,14 +59,16 @@ screen day_select(day):
 
     vbox:
         spacing 10
-        if is_today:
-            null height 200
-            add 'day_today' xalign 0.5
-        elif day.day == 'Final':
-            null height 152
-            add 'final_day' xalign 0.5
-        else:
-            null height 235
+        vbox:
+            xysize (265,235)
+            if is_today and day.day != 'Final':
+                add 'day_today' xalign 0.5 yalign 1.0
+            elif is_today and day.day == 'Final':
+                add 'day_today' xalign 0.5 yalign 1.0 yoffset 50
+                add 'final_day' xalign 0.5 yalign 1.0
+            if day.day == 'Final':
+                add 'final_day' xalign 0.5 yalign 1.0
+                
         textbutton _(day.day + " Day"):
             text_style 'day_title'
             xysize (265,152)
@@ -254,7 +256,7 @@ screen chatroom_display(mychat):
                 foreground vn_foreground
                 hover_foreground vn_hover
                 if my_vn.available:
-                    action Jump(my_vn.vn_label)
+                    action [SetVariable('current_chatroom', mychat), Jump(my_vn.vn_label)]
                 if my_vn.who:
                     add 'vn_' + my_vn.who.file_id xoffset -5
                 else:
