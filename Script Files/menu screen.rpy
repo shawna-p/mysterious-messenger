@@ -44,6 +44,8 @@ init python:
         renpy.retain_after_load()
         
     ## This picks a greeting depending on the time of day and plays it
+    ## Makes use of a class called Day_Greeting to find sound clips and the 
+    ## corresponding translations
     def chat_greet(hour, greet_char):  
         global greeted, greet_text_english, greet_text_korean
         greeted = True
@@ -54,6 +56,9 @@ init python:
             
             num_greetings = len(morning_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
+            # If translations were included, the text would be set like this
+            # greet_text_english = morning_greeting[greet_char][the_greeting].english
+            # greet_text_korean = morning_greeting[greet_char][the_greeting].korean
             renpy.play(morning_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
             
         elif hour >=12 and hour < 18:    # afternoon
@@ -174,8 +179,8 @@ screen main_menu:
             chat_greet(hour, greet_char)
         
     
-    # This defines the 'starry night' background with a few animated stars
-    # You can see them defined in 'starry night bg.rpy'
+    # This adds the 'starry night' background with a few animated stars
+    # You can see the background defined in 'starry night bg.rpy'
     use starry_night
         
         
@@ -204,7 +209,8 @@ screen main_menu:
         text "[greet_text_english]" style "greet_text" yalign 0.5
 
     
-    # The main menu buttons. Note that many currently don't take you to the screen you'd want
+    # The main menu buttons. Note that some currently don't take you to the screen you'd want
+    # as those features have yet to be added
     window:
         maximum(695, 650)
         xalign 0.6
@@ -222,9 +228,11 @@ screen main_menu:
                         hover_background "left_corner_menu_selected"
                         activate_sound "sfx/UI/select_4.mp3"
                         if persistent.on_route:
-                            action FileLoad(mm_auto) #[QuickLoad(False)]
+                            action FileLoad(mm_auto) # This is the auto save that gets loaded every 
+                                                     # time you load the game
                         else:
-                            action Show('route_select_screen') #TODO: This screen
+                            action Show('route_select_screen') # Note: this screen only has a placeholder
+                                                               # but can easily be customized (see below)
                         
                     vbox:    
                         align(0.5, 0.5)
@@ -290,7 +298,7 @@ screen main_menu:
                         focus_mask True
                         background "right_corner_menu" 
                         hover_background "right_corner_menu_selected"
-                        action Show('create_archive')
+                        action Show('create_archive') # Leads to the create-a-chatroom screens
                         
                     vbox:                               
                         align(0.5, 0.5)
@@ -300,7 +308,9 @@ screen main_menu:
                     
     
 ## A short, not completely implemented screen where you select
-## which route you'd like to start on
+## which route you'd like to start on. Can be customized to lead
+## the player to a route to select, but as of now simply starts
+## the game
 screen route_select_screen:
 
     tag menu
@@ -352,26 +362,23 @@ screen file_slots(title):
     use starry_night
     
     use menu_header(title, Show('profile_pic', Dissolve(0.5)))
-
+    
+    default the_day = "1st"
+    python:        
+        for day in chat_archive:
+            if current_chatroom in day.archive_list:
+                the_day = day.day
+    
     fixed:
 
         ## This ensures the input will get the enter event before any of the
         ## buttons do.
         order_reverse True
 
-        #side ('l r'):
-        #    spacing 10
-        #    xysize(740, 1100)
-        #    xalign 0.01
-        #    yalign 0.68
-            ## The grid of file slots.
+        ## Contains the save slots. I've added many more than were originally
+        ## available, but it's personal preference
         vpgrid id 'save_load_vp':
-            # This is a vpgrid since originally you could scroll it down to 12 slots
-            # (see the commented out numbers below), but it looks cleaner if I restrict
-            # it to 7 rows and a page select vs. 12 scrollable columns and a page select
-            # If you wanted to *just* have a very long viewport of saves, then you could just
-            # remove the code for the page select and increase the number of rows
-            xysize (745,1170) #(740, 1120)
+            xysize (745,1170)
             rows gui.file_slot_rows
             draggable True
             mousewheel True
@@ -380,13 +387,13 @@ screen file_slots(title):
             side_spacing 12
 
             xalign 0.01
-            yalign 1.0 #0.8
+            yalign 1.0
 
             spacing gui.slot_spacing
             
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto):
-                $ save_title = current_chatroom.route + '|' + current_chatroom.day + '|' + current_chatroom.title
+                $ save_title = current_chatroom.route + '|' + the_day + '|' + current_chatroom.title
                 if '|' in FileSaveName(mm_auto):
                     $ rt, dn, cn = FileSaveName(mm_auto).split('|')
                 else:                    
@@ -436,12 +443,13 @@ screen file_slots(title):
 
                     key "save_delete" action FileDelete(mm_auto)
 
+            ## This displays all the regular save slots
             for i in range(gui.file_slot_cols * gui.file_slot_rows):
 
                 $ slot = i + 1
                 
                 
-                $ save_title = current_chatroom.route + '|' + current_chatroom.day + '|' + current_chatroom.title
+                $ save_title = current_chatroom.route + '|' + the_day + '|' + current_chatroom.title
                 if '|' in FileSaveName(slot):
                     $ rt, dn, cn = FileSaveName(slot).split('|')
                 else:                    
@@ -523,7 +531,6 @@ screen preferences():
 
     tag menu
 
-    #add "Phone UI/Main Menu/menu_settings_bg.png"
     use starry_night
     use menu_header("Settings", Show('chat_home', Dissolve(0.5)))
     use settings_tabs("Sound")
@@ -651,6 +658,7 @@ screen voice_buttons(voice_char):
         selected_child Text("Off", style="voice_toggle_off")
         action ToggleVoiceMute(voice_char)
         
+    
     
 ########################################################
 ## Just the header that often shows up over menu items;
@@ -797,9 +805,7 @@ screen settings_tabs(active_tab):
 screen profile_pic:
     
     tag menu
-        
-    # This defines the 'starry night' background with a few animated stars
-    # You can see them defined in 'starry night bg.rpy'
+
     use starry_night
 
     if not persistent.first_boot:
@@ -810,15 +816,14 @@ screen profile_pic:
         xalign 0.05
         maximum(325, 900)
         ## Edit MC's Name
-        add "name_line" xalign 0.079 yalign 0.475
-        
+        add "name_line" xalign 0.079 yalign 0.475        
         text persistent.name style "my_name"
         
         imagebutton:
             idle "menu_edit"
             focus_mask None
-            xalign 0.06 #0.475
-            yalign 0.453 #0.457
+            xalign 0.06
+            yalign 0.453
             hover im.FactorScale("Phone UI/Main Menu/menu_pencil_long.png",1.03)
             action Show('input_popup', prompt='Please input a name.') 
 
@@ -826,11 +831,10 @@ screen profile_pic:
         imagebutton:
             idle "MC_profpic"
             xalign 0.055
-            #yalign 0.212
-            action [MC_pic_change, renpy.restart_interaction]
+            action [Function(MC_pic_change), renpy.restart_interaction]
             focus_mask True
       
-    ## Not in MysMe; pick your pronouns
+    ## Pick your pronouns
     window:
         style "pronoun_window"
         
@@ -924,13 +928,16 @@ screen profile_pic:
             text str(z.heart_points) + " {image=header_heart}" style "point_indicator" 
     
 
+########################################################
+## The Input Prompt to get text from the user
+########################################################
                 
 screen input_popup(prompt=''):
 
     zorder 100
     modal True
     
-    $ old_name = persistent.name
+    $ old_name = persistent.name    # We save this so we can reset it if they don't want to change it
     $ input = Input(value=MyInputValue("persistent.name", persistent.name), style="my_input", length=20)
     
     window:
@@ -942,7 +949,9 @@ screen input_popup(prompt=''):
             align (1.0, 0.0)
             idle 'input_close'
             hover 'input_close_hover'
-            action [Hide('input_popup'), SetField(m, 'name', old_name), SetVariable('name', old_name), SetField(persistent, 'name', old_name), renpy.retain_after_load, Show('profile_pic')]
+            action [Hide('input_popup'), SetField(m, 'name', old_name), 
+                    SetVariable('name', old_name), SetField(persistent, 'name', old_name), 
+                    renpy.retain_after_load, Show('profile_pic')]
         vbox:
             spacing 20
             xalign 0.5
@@ -988,7 +997,7 @@ screen other_settings():
         window:
             maximum(675,350)
             add "menu_settings_panel"
-            text "Ringtone" style "settings_style" xpos 55 ypos 5
+            text "Other Settings" style "settings_style" xpos 55 ypos 5
             
             hbox:
                 align (0.2, 0.5)
@@ -1004,6 +1013,18 @@ screen other_settings():
                     label _("Auto-Forward Time")
 
                     bar value Preference("auto-forward time")
+                    
+                    null height 10
+                    hbox:
+                        window:
+                            xysize (25,25)
+                            background "#515151"
+                            if custom_footers:
+                                add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
+                            
+                        textbutton _("Custom Chat Footers"):
+                            align (0.5, 1.0)
+                            action ToggleVariable("custom_footers")
             
         window:
             maximum(675,320)
@@ -1043,7 +1064,8 @@ screen other_settings():
                 ysize 120
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", yes_action=[Hide('confirm'), Jump("restart_game")], no_action=Hide('confirm'))
+                action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", 
+                        yes_action=[Hide('confirm'), Jump("restart_game")], no_action=Hide('confirm'))
             
             
 # *********************************
@@ -1055,7 +1077,7 @@ label restart_game:
         for person in character_list:
             person.reset_heart()
         
-        # presumably some more resets here
+        # presumably some more resets here as needed
         persistent.on_route = False
         renpy.full_restart()
         
@@ -1072,20 +1094,27 @@ default reset_spaceship_pos = False
 screen chat_home(reshow=False):
 
     tag menu     
-    
-    $ renpy.music.play(mystic_chat, loop=True)
-    $ mc_pic = 'Profile Pics/MC/MC-' + str(persistent.MC_pic) + '.png'   
+   
+    python:
+        # This if statement just makes sure the menu music isn't constantly restarting
+        if renpy.music.get_playing(channel='music') != mystic_chat:
+            renpy.music.play(mystic_chat, loop=True)
+        mc_pic = 'Profile Pics/MC/MC-' + str(persistent.MC_pic) + '.png'   
    
     use starry_night
     
     use menu_header("Original Story")
 
+    # Every time you go back to this screen, the game will auto-save
     on 'show':
         action [FileSave(mm_auto, confirm=False), deliver_next] 
  
     on 'replace':
         action [FileSave(mm_auto, confirm=False), deliver_next] 
 
+    # This has a 50/50 chance of automatically delivering any outstanding 
+    # text messages every 3.5 seconds
+    # It's random so you're not just bombarded with new messages constantly
     if num_undelivered():
         timer 3.5 action If(randint(0,1), deliver_next, NullAction) repeat True
   
@@ -1183,8 +1212,8 @@ screen chat_home(reshow=False):
     # whether you're in Another Story or Casual/Deep Story,
     # but here I've chosen to include all the characters
     # Also usually the characters have "generic" profile
-    # pictures, but I've chosen to simply include their actual
-    # profile picture at the time
+    # pictures, but I've chosen to simply include their current
+    # profile picture
     window:
         maximum(741, 206)
         xalign 0.5
@@ -1201,7 +1230,8 @@ screen chat_home(reshow=False):
                         idle im.FactorScale(person.prof_pic, 0.9)
                         background im.FactorScale(person.prof_pic, 0.9)
                         action Show('chara_profile', who=person)
-                        
+                    
+                # MC has to be displayed a bit differently
                 imagebutton:
                     hover "profile_pic_select_square"
                     idle im.FactorScale(mc_pic, 0.9)
@@ -1216,6 +1246,7 @@ screen chat_home(reshow=False):
                             background im.FactorScale(person.prof_pic, 0.9)
                             action Show('chara_profile', who=person)
 
+    # Links/etc on the left side of the screen
     window:
         maximum(140, 1000)
         xalign 0.03
@@ -1272,7 +1303,6 @@ screen chat_home(reshow=False):
     ## Spaceship    
     add "dot_line" xalign 0.5 yalign .97
         
-    #text str(reset_spaceship_pos) + ' - ' + str(spaceship_xalign) color '#fff'
     $ spaceship_xalign = spaceship_get_xalign(True)
         
     if chips_available:       
@@ -1346,7 +1376,10 @@ screen chara_profile(who):
     fixed:
         xfit True yfit True
         xalign 0.1 yalign 0.675
-        add Transform(who.prof_pic, zoom=2.85)
+        add Transform(who.prof_pic, zoom=2.85)  # In an ideal world, I'd recommend having
+                                                # larger pictures that are simply resized
+                                                # smaller for chatrooms, but the images I
+                                                # have are already very small so I zoom in
         add 'profile_outline'    
     window:
         maximum (350,75)
@@ -1359,6 +1392,9 @@ screen chara_profile(who):
         text who.status style "profile_status"
     
 
+#########################################################
+## Additional screens for the Honey Buddha Chip animation
+#########################################################
 screen chip_tap:
 
     modal True
@@ -1402,8 +1438,6 @@ screen chip_cloud:
         xalign 0.5
         yalign 0.6
         add "space_chip"
-        
-    #add "Phone UI/Main Menu/Original Story/Spaceship/cloud_bkgd.png"
     
     window at hide_dissolve:
         maximum(750,640)
@@ -1423,8 +1457,11 @@ screen chip_end:
 
     zorder 100
     
+    # Picks a number between 1 and 130 for the chip prize
     $ prize_heart = renpy.random.randint(1, 130)
     $ new_hp_total = persistent.HP + prize_heart
+    # Picks a phrase for the item
+    $ prize_text = chip_prize_list[renpy.random.randint(0, len(chip_prize_list) - 1)]
     
     add "Phone UI/choice_dark.png"   
 
@@ -1455,11 +1492,14 @@ screen chip_end:
             window:
                 maximum(200,60)
                 background 'space_black_box'
+                # You could give out hourglasses here too, but since I've
+                # never gotten one from the HBC animation I've just left
+                # it permanently at 0
                 text '0' style 'chip_prize_text'
                 add 'header_hg' xalign 0.15 yalign 0.5
                 
                 
-        text 'A clump of cat hair.' style 'chip_prize_description'
+        text prize_text style 'chip_prize_description'
         imagebutton:
             idle 'space_continue'
             hover 'space_continue_hover'
@@ -1468,9 +1508,10 @@ screen chip_end:
             action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), Show('chat_home', Dissolve(0.5))]
         
    
-        
-        
-        
-        
-        
+default chip_prize_list = ['A clump of cat hair.',
+    "Jumin's old toothbrush.",
+    "Some Honey Buddha Chip crumbs.",
+    "Jaehee's old pair of glasses.",
+    "Yoosung's left sock."]
+    # Feel free to add more things
         
