@@ -1,4 +1,43 @@
-init python:
+init -6 python:
+
+    # This class stores the information needed for phone calls
+    class Phone_Call(store.object):
+        def __init__(self, caller, phone_label, call_status='incoming',
+                avail_timeout=2, voicemail=False):
+            self.caller = caller
+            self.phone_label = phone_label
+            self.call_time = False
+            if call_status == 'incoming' or call_status == 'outgoing' or call_status == 'missed' or call_status == 'voicemail':
+                self.call_status = call_status
+            else:
+                self.call_status = 'incoming'
+            self.voicemail = voicemail
+            self.playback = False
+            self.avail_timeout = avail_timeout
+            
+        # Phone calls will slowly expire if you don't call the characters. The default
+        # expiry is after two chatrooms
+        def decrease_time(self):
+            global available_calls
+            self.avail_timeout -= 1
+            if self.avail_timeout == 0:
+                available_calls.remove(self)
+            
+        # Moves the call from 'available_calls' to 'call_history'
+        def finished(self):
+            global available_calls, call_history, observing            
+            self.playback = True
+            self.call_time = upTime()
+            if self.voicemail:
+                self.call_status = 'voicemail'
+            else:
+                if self in available_calls:
+                    available_calls.remove(self)
+                
+            if self.call_status == 'missed':
+                self.call_status = 'outgoing'
+            call_history.insert(0, self)
+            observing = False
 
     # If you hang up on a character who is calling you or
     # miss their phone call, you can still call them back
@@ -34,7 +73,7 @@ init python:
     _preferences.afm_enable = False
      
     if not persistent.set_afm:
-        _preferences.afm_time = 0 # Or something. 
+        _preferences.afm_time = 15 # Or something. 
         persistent.set_afm = True
     
     def toggle_afm():
@@ -310,11 +349,11 @@ screen in_call():
                 align (0.5, 0.5)
                 if _preferences.afm_enable: #preferences.afm_time > 0:
                     idle 'call_pause'
-                    action Function(toggle_afm) #Preference('auto-forward time', 0)
+                    action Function(toggle_afm) #Preference("auto-forward", "toggle")
                     
                 else:
                     idle 'call_play'
-                    action Function(toggle_afm) #Preference('auto-forward time', original_afm_time)
+                    action Function(toggle_afm) #Preference("auto-forward", "toggle")
         null width 100
         window:
             xysize(160,160)
@@ -486,7 +525,7 @@ screen outgoing_call(phonecall, voicemail=False):
     if voicemail:
         timer randint(8, 10) action If(phonecall, [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)], Show('chat_home'))
     else:
-        timer randint(2, 10) action [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
+        timer randint(2, 8) action [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
     
 ## Allows the program to jump to the incoming call
 label new_incoming_call(phonecall):
@@ -506,6 +545,7 @@ label phone_end:
     if not observing:
         $ current_call.finished()
     $ current_call = False    
+    $ observing = False
     call screen phone_calls
     return
     
