@@ -11,11 +11,11 @@ label tutorial_chat:
     # You'll want to tell background music to loop
     play music geniusly_hacked_bebop loop
     
-    # use 'call answer' before any menu to bring up the answer button
+    # Use 'call answer' before any menu to bring up the answer button
     call answer
     menu:
         "Do you still feel tired?":
-            # Note that MC's responses have a pv value of 0 after a menu
+            # Note that MC's responses have a pauseVal of 0 after a menu
             # Both 'branches' have several lines of dialogue before they 'rejoin' later
             m "Do you still feel tired?" (pauseVal=0)
             s "{=sser2}No way.{/=sser2}"
@@ -29,7 +29,7 @@ label tutorial_chat:
             # (character definitions.rpy has the variable names if you're not sure) 
             call heart_icon(s)
             s "{=sser2}Ya. Slept like a rock.{/=sser2}"
-        "Jump to end":
+        "(Jump to end)":
             jump coffee_last
             
     s "{=sser2}I don't feel tired physically...{/=sser2}"

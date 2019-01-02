@@ -68,9 +68,9 @@ define u_phone = Character("Unknown", what_font= "00 fonts/NanumGothic (Sans Ser
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="saeran_voice")
 define z_phone = Character("Zen", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="zen_voice")
-define m_phone = Character("MC", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define m_phone = Character("[name]", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
-define vmail_phone = Character('', what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define vmail_phone = Character('Voicemail', what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="other_voice")
                             
 # ****************************

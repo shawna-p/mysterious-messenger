@@ -2,8 +2,8 @@
 
 label define_variables:
 
-    # Several variables are defined here so that Ren'Py
-    # will save them after you begin a game
+    # Several variables are defined here to ensure they're
+    # set properly when you begin a game
     
     python:                        
         myClock.runmode('real')
@@ -48,10 +48,6 @@ label define_variables:
         if m.name != persistent.name:
             m.name = persistent.name
             
-        # next_chatroom()
-        #_quit_slot = "quitsave" # TODO: unlink quitsave at the end
-                                # renpy.unlink_save("quitsave")
-                                # _quit_slot = None
         renpy.retain_after_load()
 
     return
@@ -60,27 +56,16 @@ label start:
 
     call define_variables
     
-    # Presumably an intro chat here
+    # Presumably an intro chat here if you so desired; as it is,
+    # the program just jumps right to the chat hub screen with
+    # no preamble
+    # TODO: If you do this, you'll need to modify the save/load button
+    # so it doesn't load the next chatroom when clicked 
 
     call screen chat_home
-
-    menu navi:
-        "Go to Coffee Chatroom":
-            jump coffee_chat
-        "Go to example chatroom":
-            jump example_chat
-        "Timed Menus":
-            jump timed_menus
-        #"Visual Novel":
-        #    jump vn_mode
-        "Text test":
-            jump text_msg_test
-        "Chapter select":
-            jump chapter_select1
-       
             
             
-# Some experiments with timed menus; MysMe doesn't use this feature
+# Some experiments with timed menus; Left in in case there is interest
 # See explanation below
 label timed_menus:
 
