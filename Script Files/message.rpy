@@ -55,24 +55,6 @@ init -4 python:
         def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
             addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
             
-           
-    ##************************************
-    ## For ease of creating text messages
-    ##************************************  
-    
-    def addtext(who, what, sender, img=False):
-        # Adds the new text to the queue
-        for msg in text_queue:
-            if msg.sender == sender:
-                msg.msg_list.append(Chatentry(who, what, upTime(), img))
-                msg.read = False
-                if who == m:
-                    msg.deliver()
-                    msg.reply_label = False
-                    renpy.restart_interaction
-                    
-                
-
     
     ##************************************
     ## For ease of adding Chatlog entries
