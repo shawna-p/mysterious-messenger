@@ -23,25 +23,26 @@ init python:
             self.heart = False
             self.heart_person = sender
     
-        def deliver(self):
+        def deliver(self, instant=False):
             global text_messages
             # Move messages to 'inbox'
             for msg in text_messages:
                 if msg.sender == self.sender:
                     if self.msg_list:
-                        msg.msg_list.extend(self.msg_list) 
-                        # Clear the queued message; it's been delivered
-                        self.msg_list = []
-                        # Move the delivered message to the top of the list (newest)
-                        text_messages.remove(msg)
-                        text_messages.insert(0, msg)
-                        if msg.msg_list[-1].who != m:
-                            msg.read = False
-                            renpy.restart_interaction()
-                            # Notify the player of the delivered message
-                            renpy.show_screen('text_msg_popup', the_msg=msg)
-                        else:
-                            msg.read = True
+                        if instant or not renpy.get_screen('text_message_screen'):
+                            msg.msg_list.extend(self.msg_list) 
+                            # Clear the queued message; it's been delivered
+                            self.msg_list = []
+                            # Move the delivered message to the top of the list (newest)
+                            text_messages.remove(msg)
+                            text_messages.insert(0, msg)
+                            if msg.msg_list[-1].who != m:
+                                msg.read = False
+                                renpy.restart_interaction()
+                                # Notify the player of the delivered message
+                                renpy.show_screen('text_msg_popup', the_msg=msg)
+                            else:
+                                msg.read = True
             
         def mark_read(self):
             self.read = True 
@@ -118,6 +119,21 @@ init python:
     def num_undelivered():
         undelivered = [ x for x in text_queue if x.msg_list ]
         return len(undelivered)
+        
+    ##************************************
+    ## For ease of creating text messages
+    ##************************************  
+    
+    def addtext(who, what, sender, img=False):
+        # Adds the new text to the queue
+        for msg in text_queue:
+            if msg.sender == sender:
+                msg.msg_list.append(Chatentry(who, what, upTime(), img))
+                msg.read = False
+                if who == m:
+                    msg.deliver(True)
+                    msg.reply_label = False
+                    renpy.restart_interaction
 
   
 default current_message = None
