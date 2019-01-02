@@ -21,15 +21,17 @@ init -6 python:
     class myTime(object):
         def __init__(self, day=None):
         
-            self.short_weekday = datetime.now().strftime('%a')
-            self.weekday = datetime.now().strftime('%A')
+            self.short_weekday = datetime.now().strftime('%a')  #e.g. Mon
+            self.weekday = datetime.now().strftime('%A')        #e.g. Monday
             
-            self.short_month = datetime.now().strftime('%b')
-            self.month = datetime.now().strftime('%B')
-            self.month_num = datetime.now().strftime('%m')
+            self.short_month = datetime.now().strftime('%b')    #e.g. Aug
+            self.month = datetime.now().strftime('%B')          #e.g. August
+            self.month_num = datetime.now().strftime('%m')      #e.g. 8
             
-            self.year = datetime.now().strftime('%y')
+            self.year = datetime.now().strftime('%y')           #e.g.2018
             
+            # This small function is so you can set the day
+            # manually for testing purposes
             if day == None:
                 self.day = datetime.now().strftime('%d')
             else:
@@ -50,6 +52,8 @@ init -6 python:
             return myTime()
             
     # This class makes it easier to keep track of the different daily greetings
+    # Since I currently don't have translations for all the greetings, they
+    # primarily default to a generic text message
     class Day_Greeting(object):
         def __init__(self, sound_file, english=False, korean=False):
             self.sound_file = sound_file
@@ -86,44 +90,7 @@ init -6 python:
             self.played = played
             self.available = available
             
-    # This class stores the information needed for phone calls
-    class Phone_Call(store.object):
-        def __init__(self, caller, phone_label, call_status='incoming',
-                avail_timeout=2, voicemail=False):
-            self.caller = caller
-            self.phone_label = phone_label
-            self.call_time = False
-            if call_status == 'incoming' or call_status == 'outgoing' or call_status == 'missed' or call_status == 'voicemail':
-                self.call_status = call_status
-            else:
-                self.call_status = 'incoming'
-            self.voicemail = voicemail
-            self.playback = False
-            self.avail_timeout = avail_timeout
-            
-        # Phone calls will slowly expire if you don't call the characters. The default
-        # expiry is after two chatrooms
-        def decrease_time(self):
-            global available_calls
-            self.avail_timeout -= 1
-            if self.avail_timeout == 0:
-                available_calls.remove(self)
-            
-        # Moves the call from 'available_calls' to 'call_history'
-        def finished(self):
-            global available_calls, call_history, observing            
-            self.playback = True
-            self.call_time = upTime()
-            if self.voicemail:
-                self.call_status = 'voicemail'
-            else:
-                if self in available_calls:
-                    available_calls.remove(self)
-                
-            if self.call_status == 'missed':
-                self.call_status = 'outgoing'
-            call_history.insert(0, self)
-            observing = False
+    
             
             
     # This object stores all the chatrooms you've viewed in the game. 
@@ -138,7 +105,7 @@ init -6 python:
     # to make chatrooms available at the correct real-life times
     def next_chatroom():
         global chat_archive, available_calls, current_chatroom, test_ran
-        test_ran = "Next_chatroom"
+        test_ran = "Next_chatroom"  # This is for debugging
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
@@ -166,7 +133,7 @@ init -6 python:
         if incoming_call:
             current_call = incoming_call
             incoming_call = False
-            renpy.jump('new_incoming_call', phonecall=current_call)
+            renpy.call('new_incoming_call', phonecall=current_call)
             
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
@@ -244,14 +211,14 @@ define the_compass_piano1 = "Music/The Compass (ver. Piano part 1).mp3"
 define the_compass_piano2 = "Music/The Compass (ver. Piano part 2).mp3"
 
 ## Christmas
-define xmax_life_with_masks = "Music/Life with Masks (ver. X-Mas Orgol).mp3"
+define xmas_life_with_masks = "Music/Life with Masks (ver. X-Mas Orgol).mp3"
 define xmas_lonesome_practicalism = "Music/Lonesome Practicalism (ver. X-Mas Orgol).mp3"
 define xmas_narcissistic_jazz = "Music/Narcissistic Jazz (ver. X-Mas Orgol).mp3"
 define xmas_same_old_fresh_air = "Music/Same Old Fresh Air (ver. X-Mas Orgol).mp3"
 define xmas_urban_night_cityscape = "Music/Urban Night Cityscape (ver. X-Mas Orgol).mp3"
 
 #************************************
-# Backgrounds
+# Chatroom Backgrounds
 #************************************
 
 image morning = "bg-morning-shake.png"
@@ -620,6 +587,27 @@ image close_button = "CGs/close-overlay.png"
 image save_exit = "Phone UI/Save&Exit.png"  
 image signature = "Phone UI/signature01.png"
 image heart_hg = "Phone UI/heart-hg-sign.png"
+
+## Custom Chat Footers
+image custom_answerbutton:
+    block:
+        "Phone UI/custom-answer.png" with Dissolve(1.0, alpha=True)
+        1.3
+        "Phone UI/custom-answer-dark.png" with Dissolve(1.0, alpha=True)
+        1.0
+        repeat
+        
+image custom_pause = "Phone UI/custom-pause.png"
+image custom_play = "Phone UI/custom-play.png"
+image custom_save_exit = "Phone UI/custom-save-exit.png"
+image custom_pausebutton:
+    "Phone UI/custom-pause-sign.png" with Dissolve(0.5, alpha=True)
+    1.0
+    "transparent.png" with Dissolve(0.5, alpha=True)
+    1.0
+    repeat
+image custom_pause_square = "Phone UI/custom-pause-square.png"
+## End custom chat footers
 
 image hack scroll: 
     "Hack-Long.png"
