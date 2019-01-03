@@ -74,7 +74,7 @@ screen day_select(day):
             xysize (265,152)
             background day_bkgr padding(-80, 0)
             hover_background day_bkgr_hover
-            if day.archive_list:
+            if day.archive_list and day.archive_list[0].available:
                 action Show('chatroom_timeline', day=day)
             xalign 0.5
         
