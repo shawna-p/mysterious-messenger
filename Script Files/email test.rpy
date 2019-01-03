@@ -21,6 +21,13 @@ label example_email:
             m "I'll pass." (pauseVal=0)
             z "Oh, okay. No problem!"    
             
+        "I'd like to increase the delivery chatroom by 5.":
+            m "I'd like to increase the delivery chatroom by 5." (pauseVal=0)
+            z "Oh, okay! I can take care of that."
+            python:
+                for email in email_list:
+                    email.send_sooner()
+            
     z "If you ever want to learn about inviting guests in the game,"
     z "you should look at {b}email test.rpy{/b}"
     z "It shows how this invitation works,"
