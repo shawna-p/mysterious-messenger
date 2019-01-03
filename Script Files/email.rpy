@@ -22,6 +22,7 @@ init python:
             self.reply = reply   # This contains the message to be delivered when the guest replies to you
             self.timeout = timeout
             self.sent_time = upTime()
+            self.notified = False
                                    
         def deliver(self):
             global email_list
@@ -32,8 +33,13 @@ init python:
                 
             # If it's your turn to reply, decrease the timeout counter,
             # Unless this is the final message and there's no need to reply
+            # If this is the first message, show a popup
             if self.deliver_reply == "wait" and self.msg_num <= 2:
                 self.timeout_count -= 1
+                if not self.notified:
+                    # Notify the player of the delivered message
+                    renpy.show_screen('email_popup', e=self)
+                    self.notified = True
                 
             # If the timeout counter reaches 0, timeout becomes True
             if self.timeout_count == 0 and self.msg_num <= 2 and not self.failed:
@@ -160,6 +166,12 @@ init python:
             email_reply = True
             renpy.call_in_new_context(self.reply_label)
             email_reply = False
+            
+        # For testing; increases timeout and deliver_reply counters
+        def send_sooner(self):
+            if self.deliver_reply != "wait":
+                self.deliver_reply -= 5
+            self.timeout_count -= 5
        
     ## This class stores necessary information about the guest, including
     ## all of their email replies as well as their image thumbnail and name
