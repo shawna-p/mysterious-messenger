@@ -106,6 +106,7 @@ init -6 python:
     def next_chatroom():
         global chat_archive, available_calls, current_chatroom, test_ran
         test_ran = "Next_chatroom"  # This is for debugging
+        triggered_next = False
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
@@ -113,6 +114,7 @@ init -6 python:
                     if chatroom.available and chatroom.vn_obj and not chatroom.vn_obj.available:
                         chatroom.vn_obj.available = True
                         test_ran = "vn_obj"
+                        triggered_next = True
                         break
                     if not chatroom.available:
                         chatroom.available = True
@@ -120,7 +122,10 @@ init -6 python:
                         for phonecall in available_calls:
                             phonecall.decrease_time()
                         test_ran = "chatroom_avail"
+                        triggered_next = True
                         break               
+            if triggered_next:
+                break
         
     # Delivers the next available text message and triggers an incoming
     # phone call, if applicable
