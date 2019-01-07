@@ -13,7 +13,7 @@ image small star:
         "transparent.png" with Dissolve(1.0, alpha=True)
         0.9
         "Phone UI/small-star.png" with Dissolve(1.0, alpha=True)
-        # This just tells the program to pick a number between 6 and 12
+        # This just tells the program to pick a number between 5 and 9
         # and then wait that many seconds before continuing with the animation
         renpy.random.randint(5, 9)
         repeat
@@ -22,7 +22,7 @@ image medium star:
     function star_func
     block:
         "Phone UI/medium-star.png" with Dissolve(1.0, alpha=True)
-        renpy.random.randint(5, 10)
+        renpy.random.randint(5, 11)
         "transparent.png" with Dissolve(1.0, alpha=True)
         1.3
         repeat
@@ -38,6 +38,16 @@ screen starry_night:
     add "small star"
     add "small star"
     add "small star"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "small star"
+    add "medium star"
+    add "medium star"
+    add "medium star"
+    add "medium star"
+    add "medium star"
     add "medium star"
     add "medium star"
     add "medium star"
