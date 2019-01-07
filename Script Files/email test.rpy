@@ -14,19 +14,26 @@ label example_email:
     menu:
         "That sounds great!":
             m 'That sounds great!' (pauseVal=0)
-            call invite(rainbow)
+            call invite(rainbow) # Use this to invite your guest
             z "Great! I'll tell her to send you a message."
         
         "I'll pass":
             m "I'll pass." (pauseVal=0)
             z "Oh, okay. No problem!"    
             
-        "I'd like to increase the delivery chatroom by 5.":
-            m "I'd like to increase the delivery chatroom by 5." (pauseVal=0)
-            z "Oh, okay! I can take care of that."
+        # This is for testing; it both makes any emails you haven't replied to
+        # timeout faster, and if you're waiting for the guest to email you, it
+        # makes them reply more quickly. 
+        "I'd like to deliver my email replies more quickly.":
+            m "I'd like to deliver my email replies more quickly." (pauseVal=0)
+            z "Sure, I can take care of that."
             python:
                 for email in email_list:
                     email.send_sooner()
+            z "So what this does is decreases both the timeout countdown by 5,"
+            z "And also decreases the number of chatrooms you need to go through to deliver the next email by 5."
+            z "They'll decrease by an additional 1 when you exit this chatroom."
+            z "In other words, guests will reply to you more quickly!"
             
     z "If you ever want to learn about inviting guests in the game,"
     z "you should look at {b}email test.rpy{/b}"
@@ -243,11 +250,15 @@ default example_guest = Guest("example", "Email/Thumbnails/guest_unlock_icon.png
 ## we will write: call invite(example_guest)
 
 ## Initial Message
-"""You can write whatever you want in here. It is the first message that is sent
+"""Dear [name],
+
+You can write whatever you want in here. It is the first message that is sent
 to you after you invite the guest. Note that any new lines you write here will
 be new lines in the actual email; you can look to the previous guest for ideas
 on formatting. This example simply has breaks in the middle of lines to make
-it easier to read when editing code.""", # don't forget the comma after the quotes
+it easier to read when editing code.
+
+From, your guest""", # don't forget the comma after the quotes
 
 ## FIRST MESSAGE - *Question the guest asked here*
 
@@ -324,6 +335,8 @@ label example_reply1: # We called the guest "example", so the reply labels will 
         "Answer 1":
             # Passing 'True' indicates that this is the correct reply
             # Either answer can be correct, not necessarily the first option
+            # So, you could change this answer to say (False) and the second
+            # to say (True)
             $ current_email.set_reply(True) 
         
         "Answer 2":
