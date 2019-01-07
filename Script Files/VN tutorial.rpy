@@ -1,6 +1,6 @@
 
 default menutext = ''
-        
+  
 
 label vn_mode_tutorial:
 
@@ -28,7 +28,10 @@ label vn_mode_tutorial:
     # text during the menu, even though the options are the same
     $ menutext = "There are a couple of things to show you about VN mode. What would you like to learn about first?"
     jump vn_tutorial
-    
+  
+##************************************
+## Tutorial Menu
+##************************************    
 label vn_tutorial():
     menu:
         r_vn '[menutext]{fast}'
@@ -60,26 +63,49 @@ label vn_tutorial():
         "That's enough explanation, thanks.":
             m_vn "That's enough explanation, thanks."
             r_vn "Alright! Hope this helped you."
-            call press_save_and_exit(False)
+            call vn_end # Call this to end the VN Mode section
             
     show saeran vn happy
     
+##************************************
+## Writing a VN mode section
+##************************************  
 label vn_writing:
     show saeran vn saeran neutral
-    r_vn "Writing a VN section is pretty straightforward."
-    r_vn "First, you'll define a label, and then you can start adding dialogue and characters!"
-    r_vn "This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,"
-    extend " I'd recommend checking out the LemmaSoft forums and looking through the code in VN Mode.rpy"
+    r_vn """
+    Writing a VN section is pretty straightforward.
+    
+    First, you'll define a label, and then you can start adding dialogue and characters!
+    
+    This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,
+    
+    I'd recommend checking out the LemmaSoft forums and looking through the code in VN Mode.rpy
+    
+    If you don't plan to change the speaking character's expression for a while,
+    
+    you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this VN section.
+    """
     show saeran vn saeran smile
-    r_vn "Other than that, there are three buttons on the screen in VN mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}."
-    r_vn "{b}Auto{/b} is unique to this program. When selected, it will automatically advance the text for you."
-    r_vn "You can adjust the auto-forward speed in Settings."
-    r_vn "Keep in mind that this will also affect how fast phone call text will auto-advance."
-    r_vn "{b}Skip{/b} will start fast-forwarding you through the text,"
-    extend " and {b}Log{/b} will show you a log of the dialogue history."
-            
+    r_vn """
+    Other than that, there are three buttons on the screen in VN mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}.
     
+    {b}Auto{/b} is unique to this program. When selected, it will automatically advance the text for you.
     
+    You can adjust the auto-forward speed in Settings.
+    
+    Keep in mind that this will also affect how fast phone call text will auto-advance.
+    
+    {b}Skip{/b} will start fast-forwarding you through the text,
+    
+    and {b}Log{/b} will show you a log of the dialogue history.
+    """
+    show saeran vn thinking
+    $ menutext = "Is there anything else you'd like to learn more about?"
+    jump vn_tutorial
+    
+##************************************
+## Changing Expressions & Outfits
+##************************************  
 label vn_layeredimage:
 
     show saeran vn happy
@@ -89,7 +115,7 @@ label vn_layeredimage:
     show saeran vn mask happy
     r_vn "For example, the attributes used to display this sprite are {b}mask{/b} and {b}happy{/b}."
     show saeran vn unknown blush
-    r_vn "Not all expressions are available with the mask on, however."
+    r_vn "Not all expressions are available with the mask on, however, like this one."
     show saeran vn suit nervous
     r_vn "Some characters have many outfits, and some have multiple poses as well."
     show saeran vn at vn_left with ease
@@ -97,7 +123,7 @@ label vn_layeredimage:
     r_vn "Some characters also have 'accessories' like glasses."
     hide saeran vn with easeoutleft
     show v side at default with ease
-    extend "We'll show you what I mean with V."
+    r_vn "We'll show you what I mean with V."
     
     show v side happy
     pause 1.0
@@ -121,19 +147,22 @@ label vn_layeredimage:
     show v front mint_eye hood_up
     v_vn "The attribute {b}hood_up{/b}, when used with the {b}mint_eye{/b} attribute, will put the hood up."
     show v front arm talking
-    v_vn "You'll get an error if you try to use the hood attribute when I'm not wearing my mint eye cloak, however."
+    v_vn "You'll get an error if you try to use the hood attribute when I'm not wearing my Mint Eye cloak, however."
     
     hide v with easeoutright
-    show saeran vn with easeinleft
+    show saeran vn happy with easeinleft
     
     r_vn "You'll want to take a look at the 'cheat sheet' in {b}character definitions.rpy{/b} that tells you all the expressions and accessories available to each character."
     r_vn "Anything else you'd like to know about?"
     $ menutext = "Anything else you'd like to know about?"
     jump vn_tutorial
     
+##************************************
+## Positioning Characters
+##************************************  
 label vn_position:
     r_vn "You might have noticed before, but you can position the characters in the middle,"
-    extend " or to the left and right sides of the screen."
+    r_vn "or to the left and right sides of the screen."
     show saeran vn at vn_left with ease
     r_vn "This position is called {b}vn_left{/b}."
     show saeran vn at vn_right with ease
@@ -146,7 +175,7 @@ label vn_position:
     r_vn "The default position is just called {b}default{/b}, and characters will appear there if you don't specify a different location."
     show saeran vn thinking
     r_vn "Know that not all positions will look right for each character;"
-    extend " sometimes they'll be too far off-screen if you use {b}vn_left{/b}, so you'll need to use {b}vn_midleft{/b} instead."
+    r_vn "sometimes they'll be too far off-screen if you use {b}vn_left{/b}, so you'll need to use {b}vn_midleft{/b} instead."
     r_vn "You can always define your own transforms to position the characters exactly how you want, too."
     show saeran vn neutral
     r_vn "Anything else you'd like to learn about?"
@@ -154,7 +183,10 @@ label vn_position:
     jump vn_tutorial
     
     
- 
+##************************************
+## Changing Outfits/Expressions:
+## Examples
+##************************************  
 menu vn_showcase:
 
     "Who would you like to see?"
@@ -241,7 +273,10 @@ menu vn_showcase_minor2:
     "Vanderwood":
         jump vanderwood_showcase
         
-        
+#************************
+# Major Characters
+#************************
+
 label jaehee_showcase:
     hide saeran vn
     show jaehee vn glasses
@@ -398,38 +433,67 @@ label seven_showcase:
     s_vn "Hey hey hey~! I get to show off my expressions, hmm~?"
     s_vn "Here they are!"
     show seven front happy
+    pause 0.8
     show seven front blush
+    pause 0.8
     show seven front neutral
+    pause 0.8
     show seven front surprised
+    pause 0.8
     show seven front serious
+    pause 0.8
     show seven front thinking
+    pause 0.8
     show seven front sad
+    pause 0.8
     show seven front worried
+    pause 0.8
     show seven front dark
+    pause 0.8
     show seven front angry
+    pause 0.8
     show seven front hurt
+    pause 0.8
     show seven front neutral
+    pause 0.8
     s_vn "And here are my outfits~"
     show seven front normal
+    pause 0.8
     show seven front arm
+    pause 0.8
     show seven front party
+    pause 0.8
     s_vn "I have another pose, too!"
     show seven side
+    pause 0.8
     s_vn "Here are the expressions for this pose."
     show seven side happy
+    pause 0.8
     show seven side concern
+    pause 0.8
     show seven side surprised
+    pause 0.8
     show seven side thinking
+    pause 0.8
     show seven side sad
+    pause 0.8
     show seven side neutral
+    pause 0.8
     show seven side dark
+    pause 0.8
     show seven side angry
+    pause 0.8
     show seven side worried
+    pause 0.8
     show seven side neutral
+    pause 0.8
     s_vn "And here are the outfits."
     show seven side normal
+    pause 0.8
     show seven side arm
+    pause 0.8
     show seven side suit
+    pause 0.8
     s_vn "That's it! Enjoy the rest of the program~"
     hide seven side
     jump vn_showcase
@@ -438,35 +502,63 @@ label saeran_showcase:
     r_vn "Oh, me?"
     r_vn "Okay. I have several different expressions."
     show saeran vn happy
+    pause 0.8
     show saeran vn smile
+    pause 0.8
     show saeran vn neutral
+    pause 0.8
     show saeran vn angry
+    pause 0.8
     show saeran vn thinking
+    pause 0.8
     show saeran vn tense
+    pause 0.8
     show saeran vn creepy
+    pause 0.8
     show saeran vn cry
+    pause 0.8
     show saeran vn blush
+    pause 0.8
     show saeran vn sob
+    pause 0.8
     show saeran vn teary
+    pause 0.8
     show saeran vn nervous
+    pause 0.8
     show saeran vn sad
+    pause 0.8
     show saeran vn worried
+    pause 0.8
     show saeran vn distant
+    pause 0.8
     show saeran vn neutral
+    pause 0.8
     r_vn "And then I have many outfits, too."
     show saeran vn ray
+    pause 0.8
     show saeran vn saeran
+    pause 0.8
     show saeran vn suit
+    pause 0.8
     show saeran vn unknown
+    pause 0.8
     show saeran vn mask
+    pause 0.8
     r_vn "This outfit has fewer expressions than the other outfits since my face is partially covered"
     show saeran vn happy mask
+    pause 0.8
     show saeran vn smile mask
+    pause 0.8
     show saeran vn neutral mask
+    pause 0.8
     show saeran vn angry mask
+    pause 0.8
     show saeran vn thinking mask
+    pause 0.8
     show saeran vn tense mask
+    pause 0.8
     show saeran vn creepy mask
+    pause 0.8
     show saeran vn ray smile
     r_vn "Hope that's what you were looking for!"
     jump vn_showcase
@@ -477,65 +569,120 @@ label v_showcase:
     v_vn "Hello there."
     v_vn "I'm told I'm supposed to show you my expressions."
     show v front neutral
+    pause 0.8
     show v front happy
+    pause 0.8
     show v front angry
+    pause 0.8
     show v front worried
+    pause 0.8
     show v front thinking
+    pause 0.8
     show v front talking
+    pause 0.8
     show v front surprised
+    pause 0.8
     show v front tense
+    pause 0.8
     show v front sweating
+    pause 0.8
     show v front sad
+    pause 0.8
     show v front upset
+    pause 0.8
     show v front concerned
+    pause 0.8
     show v front regret
+    pause 0.8
     show v front unsure
+    pause 0.8
     show v front afraid
+    pause 0.8
     show v front neutral
+    pause 0.8
     v_vn "And then here are my outfits."
     show v front normal
+    pause 0.8
     show v front arm
+    pause 0.8
     show v front hair_normal
+    pause 0.8
     show v front hair_arm
+    pause 0.8
     show v front mint_eye
+    pause 0.8
     v_vn "I also have a hood accessory with this outfit."
     show v front mint_eye hood_down
+    pause 0.8
     show v front mint_eye hood_up
+    pause 0.8
     show v front mint_eye hood_down
+    pause 0.8
     v_vn "And then I have a side pose, too."
     show v side
+    pause 0.8
     v_vn "Here are the poses for this pose."
+    pause 0.8
     show v side happy
+    pause 0.8
     show v side angry
+    pause 0.8
     show v side neutral
+    pause 0.8
     show v side surprised
+    pause 0.8
     show v side thinking
+    pause 0.8
     show v side worried
+    pause 0.8
     show v side sweat
+    pause 0.8
     show v side shock
+    pause 0.8
     show v side afraid
+    pause 0.8
     show v side blush
+    pause 0.8
     show v side sad
+    pause 0.8
     show v side unsure
+    pause 0.8
     show v side neutral
+    pause 0.8
     v_vn "All of these expressions also have a version with sunglasses."
     show v side glasses happy
+    pause 0.8
     show v side glasses angry
+    pause 0.8
     show v side glasses neutral
+    pause 0.8
     show v side glasses surprised
+    pause 0.8
     show v side glasses thinking
+    pause 0.8
     show v side glasses worried
+    pause 0.8
     show v side glasses sweat
+    pause 0.8
     show v side glasses shock
+    pause 0.8
     show v side glasses afraid
+    pause 0.8
     show v side glasses blush
+    pause 0.8
     show v side glasses sad
+    pause 0.8
     show v side glasses unsure
+    pause 0.8
     show v side glasses neutral
+    pause 0.8
     v_vn "And then I have different outfits for this position."
     show v side normal
+    pause 0.8
     show v side short_hair
+    pause 0.8
     show v side long_hair
+    pause 0.8
     v_vn "And that's all. Please enjoy the program."
     hide v side
     jump vn_showcase
@@ -546,35 +693,62 @@ label yoosung_showcase:
     y_vn "Hi! It's nice to see you~"
     y_vn "I can show you the expressions I have in VN mode."
     show yoosung vn happy
+    pause 0.8
     show yoosung vn neutral
+    pause 0.8
     show yoosung vn thinking
+    pause 0.8
     show yoosung vn surprised
+    pause 0.8
     show yoosung vn sparkle
+    pause 0.8
     show yoosung vn angry
+    pause 0.8
     show yoosung vn sad
+    pause 0.8
     show yoosung vn dark
+    pause 0.8
     show yoosung vn tired
+    pause 0.8
     show yoosung vn upset
+    pause 0.8
     show yoosung vn happy
+    pause 0.8
     y_vn "I've also got a set of expressions when I'm wearing glasses."
     show yoosung vn glasses happy
+    pause 0.8
     show yoosung vn glasses neutral
+    pause 0.8
     show yoosung vn glasses thinking
+    pause 0.8
     show yoosung vn glasses surprised
+    pause 0.8
     show yoosung vn glasses sparkle
+    pause 0.8
     show yoosung vn happy -glasses
+    pause 0.8
     y_vn "And here are my outfits!"
     show yoosung vn normal
+    pause 0.8
     show yoosung vn arm
+    pause 0.8
     show yoosung vn sweater
+    pause 0.8
     show yoosung vn suit
+    pause 0.8
     show yoosung vn party
+    pause 0.8
     show yoosung vn bandage
+    pause 0.8
     y_vn "I've only got a few expressions when I have the bandage."
     show yoosung vn bandage happy
+    pause 0.8
     show yoosung vn bandage neutral
+    pause 0.8
     show yoosung vn bandage thinking
+    pause 0.8
     show yoosung vn normal happy
+    pause 0.8
     y_vn "That's all! Have fun with the program~!"
     hide yoosung vn
     jump vn_showcase
@@ -585,17 +759,198 @@ label zen_showcase:
     z_vn "Hey babe~ Glad you came by!"
     z_vn "Here are my available expressions!"
     show zen front happy
+    pause 0.8
     show zen front angry
+    pause 0.8
     show zen front blush
+    pause 0.8
     show zen front wink
+    pause 0.8
     show zen front neutral
+    pause 0.8
     show zen front surprised
+    pause 0.8
     show zen front thinking
+    pause 0.8
     show zen front worried
+    pause 0.8
     show zen front oh
+    pause 0.8
     show zen front upset
+    pause 0.8
     show zen front neutral
+    pause 0.8
+    z_vn "I've got a few outfits for this front pose, too."
+    show zen front arm
+    pause 0.8
+    show zen front party
+    pause 0.8
+    show zen front normal
+    pause 0.8
+    z_vn "Handsome, aren't I?"
+    z_vn "Anyway, here are my side expressions."
+    show zen side happy
+    pause 0.8
+    show zen side angry
+    pause 0.8
+    show zen side blush
+    pause 0.8
+    show zen side wink
+    pause 0.8
+    show zen side surprised
+    pause 0.8
+    show zen side thinking
+    pause 0.8
+    show zen side worried
+    pause 0.8
+    show zen side upset
+    pause 0.8
+    show zen side neutral
+    pause 0.8
+    z_vn "And then a few more outfits."
+    show zen side suit
+    pause 0.8
+    show zen side normal
+    pause 0.8
+    z_vn "And that's it! Enjoy the program, hon~"
+    hide zen side
+    jump vn_showcase
+    
+#************************
+# Minor Characters
+#************************
+    
+label bodyguards_showcase:
+    hide saeran vn
+    show bodyguard_front at vn_left
+    show bodyguard_side at vn_right
+    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "The bodyguards only have two other expressions:"
+    show bodyguard_front thinking
+    show bodyguard_side thinking
+    pause 1.0
+    show bodyguard_front stressed
+    show bodyguard_side stressed
+    pause 1.0
+    "And that's all."
+    hide bodyguard_side
+    hide bodyguard_front
+    jump vn_showcase
     
     
+label chairman_showcase:
+    hide saeran vn
+    show chairman_han 
+    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "Chairman Han has the following expressions:"
+    show chairman_han happy
+    pause 0.8
+    show chairman_han thinking
+    pause 0.8
+    show chairman_han stressed
+    pause 0.8
+    show chairman_han neutral
+    pause 0.8
+    "That's all."
+    hide chairman_han
+    jump vn_showcase
+
+label echo_showcase:
+    hide saeran vn
+    show echo_girl 
+    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "Echo Girl has the following expressions:"
+    show echo_girl happy
+    pause 0.8
+    show echo_girl angry
+    pause 0.8
+    show echo_girl smile
+    pause 0.8
+    show echo_girl surprised
+    pause 0.8
+    show echo_girl neutral
+    pause 0.8
+    "That's all."
+    hide echo_girl
+    jump vn_showcase
     
+    
+label glam_showcase:  
+    hide saeran vn
+    show glam_choi 
+    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "Glam Choi has the following expressions:"
+    show glam_choi happy
+    pause 0.8
+    show glam_choi smirk
+    pause 0.8
+    show glam_choi thinking
+    pause 0.8
+    show glam_choi stressed
+    pause 0.8
+    show glam_choi worried
+    pause 0.8
+    show glam_choi neutral
+    pause 0.8
+    "And that's all."
+    hide glam_choi
+    jump vn_showcase
+    
+label minister_showcase:    
+    hide saeran vn
+    show prime_minister
+    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "The Prime Minister only has one expression, the one currently showing."
+    "That's all."
+    hide prime_minister
+    jump vn_showcase    
+    
+label sarah_showcase:    
+    hide saeran vn
+    show sarah 
+    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "Sarah has the following expressions:"
+    show sarah happy
+    pause 0.8
+    show sarah excited
+    pause 0.8
+    show sarah smirk
+    pause 0.8
+    show sarah stressed
+    pause 0.8
+    show sarah sad
+    pause 0.8
+    show sarah neutral
+    pause 0.8
+    "That's all."
+    hide sarah
+    jump vn_showcase
+    
+label vanderwood_showcase:
+    hide saeran vn
+    show vanderwood 
+    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "Vanderwood has the following expressions:"
+    show vanderwood unamused
+    pause 0.8
+    show vanderwood unsure
+    pause 0.8
+    show vanderwood determined
+    pause 0.8
+    show vanderwood ouch
+    pause 0.8
+    show vanderwood angry
+    pause 0.8
+    show vanderwood neutral
+    pause 0.8
+    "And that's all."
+    hide vanderwood
+    jump vn_showcase
     
