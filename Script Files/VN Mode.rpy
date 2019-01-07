@@ -9,7 +9,8 @@
 #####################################
 
 image bg mint_eye_room = "VN Mode/Backgrounds/mint_eye_room.png"
-
+image bg rika_apartment = "VN Mode/Backgrounds/rika_apartment.png"
+image bg cr_meeting_room = "VN Mode/Backgrounds/cr_meeting_room.png"
 
 #####################################
 ## Transforms/VN Positions
@@ -56,6 +57,10 @@ label vn_setup:
         $ observing = False
         
     return
+        
+label vn_end:
+    hide screen vn_overlay
+    call press_save_and_exit(False)
         
 #####################################
 ## This screen shows the "Skip", 
