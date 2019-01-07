@@ -156,6 +156,14 @@ define narrator = Character(None, what_font="00 fonts/NanumMyeongjo (Serif font 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
                             who_color="#fff5ca", who_size=40, voice_tag="other_voice")
                             
+
+define sarah_vn = Character("Sarah", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+                            who_color="#fff5ca", who_size=40, voice_tag="other_voice")
+
+define chief_vn = Character("Chief Han", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+                            who_color="#fff5ca", who_size=40, voice_tag="other_voice")
 ## *************************************
 ## Character VN Expressions Cheat Sheet
 ## *************************************
@@ -625,7 +633,7 @@ layeredimage zen side:
 ## Bodyguards
 ## ****************************
 
-layeredimage bodyguard front:
+layeredimage bodyguard_front:
     yoffset 50
     group body:
         attribute normal default "VN Mode/B01/b01_body_0.png"
@@ -635,7 +643,7 @@ layeredimage bodyguard front:
         attribute thinking "VN Mode/B01/b01_face_1.png" align(0.397, 0.083)
         attribute stressed "VN Mode/B01/b01_face_2.png" align(0.397, 0.083)
         
-layeredimage bodyguard side:
+layeredimage bodyguard_side:
     yoffset 40
     group body:
         attribute normal default "VN Mode/B02/b02_body_0.png"
@@ -670,11 +678,11 @@ layeredimage echo_girl:
         attribute normal default "VN Mode/Echo girl/eco_body_0.png"
         
     group face:
-        attribute neutral default "VN Mode/Echo girl/eco_face_0.png" align(1.007, 0.09)
-        attribute happy "VN Mode/Echo girl/eco_face_1.png" align(1.007, 0.09)
-        attribute angry "VN Mode/Echo girl/eco_face_2.png" align(1.007, 0.09)
-        attribute smile "VN Mode/Echo girl/eco_face_3.png" align(1.007, 0.09)
-        attribute surprised "VN Mode/Echo girl/eco_face_4.png" align(1.007, 0.09)
+        attribute neutral default "VN Mode/Echo girl/eco_face_0.png" align(0.508, 0.09)
+        attribute happy "VN Mode/Echo girl/eco_face_1.png" align(0.508, 0.09)
+        attribute angry "VN Mode/Echo girl/eco_face_2.png" align(0.508, 0.09)
+        attribute smile "VN Mode/Echo girl/eco_face_3.png" align(0.508, 0.09)
+        attribute surprised "VN Mode/Echo girl/eco_face_4.png" align(0.508, 0.09)
         
         
 ## ****************************
@@ -730,12 +738,12 @@ layeredimage vanderwood:
         attribute normal default "VN Mode/Vanderwood/van_body_0.png"
    
     group face:
-        attribute neutral default "VN Mode/Vanderwood/ven_face_0.png" align(1.065, 0.112)
-        attribute unamused "VN Mode/Vanderwood/ven_face_1.png" align(1.065, 0.112)
-        attribute unsure "VN Mode/Vanderwood/ven_face_2.png" align(1.065, 0.112)
-        attribute determined "VN Mode/Vanderwood/ven_face_3.png" align(1.065, 0.112)
-        attribute ouch "VN Mode/Vanderwood/ven_face_4.png" align(1.065, 0.112)
-        attribute angry "VN Mode/Vanderwood/ven_face_5.png" align(1.065, 0.112)
+        attribute neutral default "VN Mode/Vanderwood/ven_face_0.png" align(0.57, 0.112)
+        attribute unamused "VN Mode/Vanderwood/ven_face_1.png" align(0.57, 0.112)
+        attribute unsure "VN Mode/Vanderwood/ven_face_2.png" align(0.57, 0.112)
+        attribute determined "VN Mode/Vanderwood/ven_face_3.png" align(0.57, 0.112)
+        attribute ouch "VN Mode/Vanderwood/ven_face_4.png" align(0.57, 0.112)
+        attribute angry "VN Mode/Vanderwood/ven_face_5.png" align(0.57, 0.112)
         
         
         
