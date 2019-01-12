@@ -364,8 +364,7 @@ label tutorial_chat:
     call exit(y)
     
     # Call this to end the chat and return to the main menu
-    call save_exit
-    return
+    call chat_end
 
     
 # Put anything you want to have happen after the chatroom ends here, 
@@ -391,7 +390,7 @@ label after_tutorial_chat:
         # (In this case, everyone gets the same label)
         # The different voicemails are defined in phone screen.rpy
         for char in character_list:
-            char.update_voicemail = 'voicemail_1'
+            char.update_voicemail('voicemail_1')
     
     return
     
@@ -410,8 +409,8 @@ label tutorial_chat_incoming_z:
     
     menu:
         # If you want the previous dialogue to show up behind the choice menu,
-        # you'll need to copy the last line of dialogue here, right after the menu
-        z_phone "Did you sleep well?"
+        # you'll want to add "extend ''" just after the menu
+        extend ''
         "Yeah, I didn't even dream.":
             m_phone "Yeah, I didn't even dream."
             z_phone "That's good."
@@ -445,7 +444,7 @@ label tutorial_chat_phone_y:
     y_phone "To live, I must drink chocolate milk..."
     
     menu:
-        y_phone "To live, I must drink chocolate milk..."
+        extend ''
         "The ones who wish to live will die and those who wish to die will live!":
             m_phone "The ones who wish to live will die and those who wish to die will live!"
             y_phone "Uh-uh I know there's a super intelligent saying on that!"
@@ -455,19 +454,37 @@ label tutorial_chat_phone_y:
             m_phone "Yoo-Yoosung?"
             y_phone "nooooooooooooooooooooooooo"
             y_phone "haaaaaaaaaaaaaaaaaaaaarggh"
-            
-    y_phone "I went to the convenience store but I didn't bring my loyalty card so I didn't get a discount on the chocolate milk."
-    y_phone "This is a bad sign!!!"
-    y_phone "Huahhhh......"
-    y_phone "noooooooooooooo....."
-    y_phone "I'm sorry... I can't talk to you right now."
-    y_phone "My heart's about to explode..."
-    y_phone "Even if you don't hear from me... it'll be fine..."
-    y_phone "Even if I faint, I'll faint at home."
-    y_phone "...Even if I faint... I'll resurrect myself..."
-    y_phone "Please... God of Games... Let me play LOLOL tonight..."
-    y_phone "Please cure me of this strange disease...!!!"
-    y_phone "I... (sniffling) I have to go wipe off my snot. Bye..."    
+                    
+    # This is 'monologue mode'; it's most useful here during phone calls.
+    # Since you won't be changing expressions or speakers very often, this can be
+    # faster than writing out 'y_phone' before every line of dialogue
+    y_phone """
+    
+    I went to the convenience store but I didn't bring my loyalty card so I didn't get a discount on the chocolate milk.
+    
+    This is a bad sign!!!
+    
+    Huahhhh......
+    
+    noooooooooooooo.....
+    
+    I'm sorry... I can't talk to you right now.
+    
+    My heart's about to explode...
+    
+    Even if you don't hear from me... it'll be fine...
+    
+    Even if I faint, I'll faint at home.
+    
+    ...Even if I faint... I'll resurrect myself...
+    
+    Please... God of Games... Let me play LOLOL tonight...
+    
+    Please cure me of this strange disease...!!!
+    
+    I... (sniffling) I have to go wipe off my snot. Bye...
+
+    """
     
     call phone_end
  
