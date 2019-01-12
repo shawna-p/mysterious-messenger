@@ -117,6 +117,14 @@ init 5:
         bottom_margin -65
         pos (138, -70)
         xmaximum 750   
+        
+    ## ****************************************
+    ## Style for images posted in text messages
+    style img_text_message:
+        padding (5, 10)
+        bottom_margin -65
+        pos (10, 5)
+        xmaximum 750 
 
     # Text style for chatroom dialogue
     style phone_dialogue:
