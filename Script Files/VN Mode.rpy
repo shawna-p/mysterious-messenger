@@ -11,38 +11,72 @@
 image bg mint_eye_room = "VN Mode/Backgrounds/mint_eye_room.png"
 image bg rika_apartment = "VN Mode/Backgrounds/rika_apartment.png"
 image bg cr_meeting_room = "VN Mode/Backgrounds/cr_meeting_room.png"
+image bg black = '#000000'
+
+#####################################
+## Extra Sound Effects
+#####################################
+
+define car_moving_sfx = "sfx/car moving.mp3"
+
 
 #####################################
 ## Transforms/VN Positions
 #####################################
+
+# In order from leftmost to rightmost pose
+transform vn_farleft:
+    xalign 0.0
+    yalign 1.0
+    xoffset -300
+    yoffset 0
 
 transform vn_left:
     xalign 0.0
     yalign 1.0
     xoffset -100
     
-transform vn_right:
-    xalign 1.0
+transform vn_midleft:
+    xalign 0.0
     yalign 1.0
-    xoffset 100
+    xoffset -50
+    
+transform vn_center:
+    xalign 0.5
+    yalign 0.5
+    zoom 1.15
+    yoffset 280
+    xoffset 0
+    xanchor 0.5
+    yanchor 0.5
     
 transform vn_midright:
     xalign 1.0
     yalign 1.0
     xoffset 50
     
-transform vn_midleft:
-    xalign 0.0
+transform vn_right:
+    xalign 1.0
     yalign 1.0
-    xoffset -50
+    xoffset 100
+
+transform vn_farright:
+    xalign 1.0
+    yalign 1.0
+    yoffset 0
+    xoffset 300    
+
+    
     
 #####################################
 ## VN Setup
 #####################################
 
-label vn_setup:
+label vn_begin:
     window auto
     $ chatroom_hp = 0
+    scene bg black
+    stop music
     hide screen starry_night
     hide screen phone_overlay
     hide screen messenger_screen 
@@ -60,6 +94,7 @@ label vn_setup:
         
 label vn_end:
     hide screen vn_overlay
+    $ renpy.retain_after_load()
     call press_save_and_exit(False)
         
 #####################################
@@ -74,31 +109,7 @@ screen vn_overlay:
         add my_menu_clock xalign 0.0 yalign 0.0 xpos -50
         $ am_pm = time.strftime('%p', time.localtime())
         text am_pm style 'header_clock' 
-        
-    hbox:
-        yalign 0.74
-        xalign 0.90
-        spacing 20
-        imagebutton:
-            idle Text("Auto", style="vn_button_hover")
-            hover Text("Auto", style="vn_button")
-            selected_idle Text("Auto", style="vn_button")
-            selected_hover Text("Auto", style="vn_button_hover")
-            action Preference("auto-forward", "toggle")
-    
-        imagebutton:
-            idle Text("Skip", style="vn_button")
-            hover Text("Skip", style="vn_button_hover")
-            selected config.skipping
-            selected_idle Text("Stop", style="vn_button")
-            selected_hover Text("Stop", style="vn_button_hover")
-            action Function(toggle_skipping)
-            
-        imagebutton:
-            idle Text("Log", style="vn_button")
-            hover Text("Log", style="vn_button_hover")
-            action ShowMenu('history')
-        
+
         
 #####################################
 ## This is the custom history screen
