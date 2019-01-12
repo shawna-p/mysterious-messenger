@@ -114,25 +114,51 @@ init python:
         
     # Sets the player's pronouns, if they change them
     def set_pronouns():
-        global they, them, their, theirs, themself
+        global they, them, their, theirs, themself, they_re
+        global They, Them, Their, Theirs, Themself, They_re
+        global is_are
         if persistent.pronoun == "female":
             they = "she"
             them = "her"
             their = "her"
             theirs = "hers"
             themself = "herself"
+            they_re = "she's"
+            They_re = "She's"
+            They = "She"
+            Them = "Her"
+            Their = "Her"
+            Theirs = "Hers"
+            Themself = "Herself"   
+            is_are = "is"
         elif persistent.pronoun == "male":
             they = "he"
             them = "him"
             their = "his"
             theirs = "his"
             themself = "himself"
+            they_re = "he's"
+            They_re = "He's"
+            They = "He"
+            Them = "Him"
+            Their = "His"
+            Theirs = "His"
+            Themself = "Himself"
+            is_are = "is"
         elif persistent.pronoun == "nonbinary":
             they = "they"
             them = "them"
             their = "their"
             theirs = "theirs"
             themself = "themself"
+            they_re = "they're"
+            They_re = "They're"
+            They = "They"
+            Them = "Them"
+            Their = "Their"
+            Theirs = "Theirs"
+            Themself = "Themself"
+            is_are = "are"
         renpy.retain_after_load()
         
 
@@ -411,7 +437,7 @@ screen file_slots(title):
                         window:
                             align (0.5, 0.5)
                             maximum(120, 120)
-                            add 'save_' + rt xalign 0.5 yalign 0.5
+                            add 'save_auto' xalign 0.5 yalign 0.5
                         
                         window:
                             xysize (400, 120)
@@ -1012,7 +1038,7 @@ screen other_settings():
 
                     label _("Auto-Forward Time")
 
-                    bar value Preference("auto-forward time")
+                    bar value Preference("auto-forward time") bar_invert True
                     
                     null height 10
                     hbox:
@@ -1107,10 +1133,10 @@ screen chat_home(reshow=False):
 
     # Every time you go back to this screen, the game will auto-save
     on 'show':
-        action [FileSave(mm_auto, confirm=False), deliver_next] 
+        action [renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next] 
  
     on 'replace':
-        action [FileSave(mm_auto, confirm=False), deliver_next] 
+        action [renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next] 
 
     # This has a 50/50 chance of automatically delivering any outstanding 
     # text messages every 3.5 seconds
