@@ -17,44 +17,6 @@ init -4 python:
             self.bounce = bounce
             self.specBubble = specBubble
             
-    # Class to store characters along with their profile picture and a 'file_id'
-    # that's appended to things like their special bubble names and saves you from
-    # typing out the full name every time
-    class Chat(store.object):
-        def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, 
-                heart_color='#000000', emote_list=False, cover_pic=False, status=False,
-                voicemail=False):               
-                
-            self.name = name            
-            self.file_id = file_id
-            self.prof_pic = prof_pic
-            self.participant_pic = participant_pic
-            self.cover_pic = cover_pic
-            self.status = status
-            if voicemail:
-                self.voicemail = voicemail
-            else:
-                self.voicemail = Phone_Call(self, 'voicemail_1', 'voicemail', 2, True)
-            self.heart_points = 0  
-            self.heart_color = heart_color
-            self.emote_list = emote_list
-            
-        def update_voicemail(self, new_label):
-            self.voicemail.phone_label = new_label
-
-        def increase_heart(self):
-            self.heart_points += 1
-            
-        def decrease_heart(self):
-            self.heart_points -= 1
-            
-        def reset_heart(self):
-            self.heart_points = 0
-
-        # This function makes it simpler to type out character dialogue
-        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
-            addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
-            
     
     ##************************************
     ## For ease of adding Chatlog entries
@@ -149,6 +111,80 @@ init -4 python:
 default chatbackup = Chatentry(filler,"","")
 default pv = 0.8
 default oldPV = pv
+
+#####################################
+# Chat Setup
+#####################################
+
+# This simplifies things when you're setting up a chatroom,
+# so call it when you're about to begin
+# If you pass it the name of the background you want (enclosed in
+# single ' or double " quotes) it'll set that up too
+# Note that it automatically clears the chatlog, so if you want
+# to change the background but not clear the messages on-screen,
+# you'll also have to pass it 'False' as its second argument
+
+label chat_begin(background=None, clearchat=True, resetHP=True):
+    if clearchat:
+        $ chatlog = []
+        $ pv = 0.8
+    if resetHP:
+        $ chatroom_hp = 0
+    hide screen starry_night
+    show screen phone_overlay
+    show screen messenger_screen 
+    show screen pause_button
+    window hide
+    $ reply_screen = False
+    $ in_phone_call = False
+    $ vn_choice = False
+    $ email_reply = False
+    # Fills the beginning of the screen with 'empty space' so the messages begin
+    # showing up at the bottom of the screen (otherwise they start at the top)
+    if clearchat:
+        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+        
+    # Sets the correct background and nickname colour
+    # You'll need to add other backgrounds here if you define
+    # new ones
+    if background == "morning":
+        scene bg morning
+        $ nickColour = black
+    elif background == "noon":
+        scene bg noon
+        $ nickColour = black
+    elif background == "evening":
+        scene bg evening
+        $ nickColour = black
+    elif background == "night":
+        scene bg night
+        $ nickColour = white
+    elif background == "earlyMorn":
+        scene bg earlyMorn
+        $ nickColour = white
+    elif background == "hack":
+        scene bg hack
+        $ nickColour = white
+    elif background == "redhack":
+        scene bg redhack
+        $ nickColour = white
+        
+    # If you've already played this chatroom in your current runthrough,
+    # viewing it again causes this variable to be True. It prevents you
+    # from receiving heart points again and only lets you select choices
+    # you've selected on this or previous playthroughs
+    if current_chatroom.played:
+        $ observing = True
+    else:
+        $ observing = False
+        
+    return
+
+# Call this label to show the save & exit sign
+label chat_end:
+    $ addchat(answer, '', 0.2)
+    call screen save_and_exit
+    return
 
 screen messenger_screen:
 
