@@ -1,4 +1,15 @@
-﻿
+﻿label start:
+
+    call define_variables
+    
+    # Presumably an intro chat here if you so desired; as it is,
+    # the program just jumps right to the chat hub screen with
+    # no preamble
+    # TODO: If you do this, you'll need to modify the save/load button
+    # so it doesn't load the next chatroom when clicked 
+
+    call screen chat_home
+            
 
 label define_variables:
 
@@ -16,24 +27,7 @@ label define_variables:
         persistent.first_boot = False
         name = persistent.name
 
-        if persistent.pronoun == "female":
-            they = "she"
-            them = "her"
-            their = "her"
-            theirs = "hers"
-            themself = "herself"
-        elif persistent.pronoun == "male":
-            they = "he"
-            them = "him"
-            their = "his"
-            theirs = "his"
-            themself = "himself"
-        elif persistent.pronoun == "nonbinary":
-            they = "they"
-            them = "them"
-            their = "their"
-            theirs = "theirs"
-            themself = "themself"
+        set_pronouns()
         
         chatlog = []
 
@@ -52,18 +46,7 @@ label define_variables:
 
     return
         
-label start:
 
-    call define_variables
-    
-    # Presumably an intro chat here if you so desired; as it is,
-    # the program just jumps right to the chat hub screen with
-    # no preamble
-    # TODO: If you do this, you'll need to modify the save/load button
-    # so it doesn't load the next chatroom when clicked 
-
-    call screen chat_home
-            
             
 # Some experiments with timed menus; Left in in case there is interest
 # See explanation below
