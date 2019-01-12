@@ -9,6 +9,10 @@ screen chat_select():
     
     use menu_header("Day List", Show('chat_home', Dissolve(0.5)))
     
+    python:
+        if renpy.music.get_playing(channel='music') != mystic_chat:
+            renpy.music.play(mystic_chat, loop=True)
+    
     fixed:
         viewport:
             xysize (720, 1100)
