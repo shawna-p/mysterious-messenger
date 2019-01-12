@@ -25,25 +25,34 @@ init python:
             self.notified = False
                                    
         def deliver(self):
-            global email_list
+            global email_list, test_em
+            test_em = "F a l s e"
             
             # If you're waiting on a reply, decrease the timer
             if self.deliver_reply != "wait":
                 self.deliver_reply -= 1
+                #renpy.retain_after_load()
+                test_em = "1"
                 
             # If it's your turn to reply, decrease the timeout counter,
             # Unless this is the final message and there's no need to reply
             # If this is the first message, show a popup
-            if self.deliver_reply == "wait" and self.msg_num <= 2:
+            elif self.deliver_reply == "wait" and self.msg_num <= 2 and not self.timeout:
                 self.timeout_count -= 1
-                if not self.notified:
+                test_em = "2a"
+                if not self.notified and self.msg_num == 0 and not self.read:
+                    renpy.restart_interaction()
                     # Notify the player of the delivered message
-                    renpy.show_screen('email_popup', e=self)
-                    self.notified = True
+                    #renpy.show_screen('email_popup', e=self)
+                    self.notified = True                    
+                    renpy.retain_after_load()
+                    test_em = "2b"
                 
             # If the timeout counter reaches 0, timeout becomes True
             if self.timeout_count == 0 and self.msg_num <= 2 and not self.failed:
                 self.timeout = True
+                #renpy.retain_after_load()
+                test_em = "3"
                 
             # If the timer <= 0 and there's a reply to be delivered, deliver it
             if self.deliver_reply != "wait" and self.deliver_reply <= 0 and self.reply:
@@ -56,12 +65,18 @@ init python:
                 self.deliver_reply = "wait"
                 email_list.remove(self)
                 email_list.insert(0, self) # Moves to the front of the list
+                renpy.restart_interaction()
                 # Notify the player of the delivered message
-                renpy.show_screen('email_popup', e=self)
+                renpy.show_screen('email_popup', e=self)                   
+                renpy.retain_after_load()
+                test_em = "4"
                            
          
         # Sets the guest's reply and randomly decides when it should be delivered
         def set_reply(self, iscorrect, deliver_reply=False):
+        
+            test = True
+        
             if iscorrect:
                 if self.msg_num == 0:                    
                     self.reply = self.guest.reply1_good
@@ -85,11 +100,28 @@ init python:
                 self.reply_label = False
 
             # If a number is given, the reply will be delivered within that many
-            # chatrooms. Otherwise, it will be delivered within the next 5-16 chatrooms
+            # chatrooms. Otherwise, the program calculates a number range for the 
+            # email so it can be delivered before the party
             if deliver_reply != False:
                 self.deliver_reply = deliver_reply
             else:
-                self.deliver_reply = renpy.random.randint(5, 16)
+                if not test:
+                    max_num = num_future_chatrooms()
+                    min_num = 1
+                    msg_remain = 3 - self.msg_num
+                    if msg_remain == 0:
+                        msg_remain = 1
+                    ## Here we want to ensure there are enough chatrooms left to finish
+                    ## delivering our emails e.g. if there are 30 chatrooms left and we
+                    ## have another 3 replies to deliver, max_num will be 10 and min_num
+                    ## will be 3, so the message will be delivered sometime after the next
+                    ## 3-10 chatrooms
+                    max_num = min(max_num / msg_remain, 13)
+                    min_num = max(max_num-7, 1)
+                        
+                    self.deliver_reply = renpy.random.randint(min_num, max_num)
+                else:
+                    self.deliver_reply = renpy.random.randint(5, 10)
                 
             self.sent_time = upTime()
             self.timeout_count = 2
@@ -117,6 +149,7 @@ init python:
             self.msg_num += 1
             the_msg += "\n\n------------------------------------------------\n\n"
             self.msg = the_msg + self.msg
+            renpy.retain_after_load()
             
         # Returns True if the email chain has been successfully completed
         def completed(self):
@@ -236,7 +269,7 @@ label invite(guest):
     return
     
 default current_email = None  
-
+default test_em = True
 
 ########################################################
 ## This screen shows a popup to notify you when you
