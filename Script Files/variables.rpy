@@ -105,15 +105,18 @@ init -6 python:
     # to make chatrooms available at the correct real-life times
     def next_chatroom():
         global chat_archive, available_calls, current_chatroom, test_ran
-        test_ran = "Next_chatroom"  # This is for debugging
         triggered_next = False
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
-                    test_ran = "Inner loop"
-                    if chatroom.available and chatroom.vn_obj and not chatroom.vn_obj.available:
+                    if chatroom.available and not chatroom.played:
+                        triggered_next = True
+                        break
+                    if chatroom.played and chatroom.vn_obj and not chatroom.vn_obj.available:
                         chatroom.vn_obj.available = True
-                        test_ran = "vn_obj"
+                        triggered_next = True
+                        break
+                    if chatroom.played and chatroom.vn_obj and chatroom.vn_obj.available and not chatroom.vn_obj.played:
                         triggered_next = True
                         break
                     if not chatroom.available:
@@ -121,11 +124,23 @@ init -6 python:
                         current_chatroom = chatroom
                         for phonecall in available_calls:
                             phonecall.decrease_time()
-                        test_ran = "chatroom_avail"
                         triggered_next = True
                         break               
             if triggered_next:
                 break
+                
+    # A quick function to see how many chatrooms there are left to be played through
+    # This is used so emails will always be delivered before the party
+    def num_future_chatrooms():
+        global chat_archive
+        total = 0
+        for archive in chat_archive:
+            if archive.archive_list:
+                for chatroom in archive.archive_list:
+                    if not chatroom.played: 
+                        total += 1
+        return total
+                
         
     # Delivers the next available text message and triggers an incoming
     # phone call, if applicable
@@ -146,7 +161,8 @@ init -6 python:
 default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01'),                                    
                                     Chat_History('Text Message Example', 'auto', 'example_text', '02:11', [r], VN_Mode('vn_mode_tutorial', r)),
                                     Chat_History('Inviting Guests', 'auto', 'example_email', '03:53', [z]),
-                                    Chat_History('Pass Out After Drinking Coffee Syndrome', 'auto', 'tutorial_chat', '04:05', [s])]),
+                                    Chat_History('Pass Out After Drinking Coffee Syndrome', 'auto', 'tutorial_chat', '04:05', [s]),
+                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '07:07', [ja, ju], VN_Mode('popcorn_vn', ju))]),
                         Archive('1st'),
                         Archive('2nd'),
                         Archive('3rd'),
@@ -177,6 +193,7 @@ default mm_auto = "mm_auto_save"
 define mystic_chat = "Music/03 Mystic Chat.mp3"
 define mystic_chat2 = "Music/04 Mystic Chat Ver.2.mp3"
 define mysterious_clues = "Music/05 Mysterious Clues.mp3"
+define mysterious_clues_v2 = "Music/Mysterious Clues ver 2.mp3"
 define urban_night_cityscape = "Music/06 Urban Night Cityscape.mp3"
 define urban_night_cityscape_v2 = "Music/07 Urban Night Cityscape Ver.2.mp3"
 define narcissistic_jazz = "Music/08 Narcissistic Jazz.mp3"
@@ -258,7 +275,14 @@ default them = "her"
 default their = "her"
 default theirs = "hers"
 default themself = "herself"
-
+default they_re = "she's"
+default They_re = "She's"
+default They = "She"
+default Them = "Her"
+default Their = "Her"
+default Theirs = "Hers"
+default Themself = "Herself" 
+default is_are = "is"
 
 default chatlog = []
 default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
@@ -556,7 +580,7 @@ image general_cg2 = "CGs/General/cg-2.png"
 image seven_cg1 = "CGs/Seven/cg-1.png"
 image saeran_cg1 = "CGs/Saeran/cg-1.png"
 
-default fullsizeCG = "cg1"
+default fullsizeCG = "general_cg1"
          
 ## Currently unused
 image new_messages = "Phone UI/new_message_banner.png"
