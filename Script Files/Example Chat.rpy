@@ -363,7 +363,7 @@ label ending:
     u "{=sser2}Good luck!{/=sser2}"
     call exit(u)
     # Call this at the end of a chatroom
-    call save_exit
+    call chat_end
 
     
 
