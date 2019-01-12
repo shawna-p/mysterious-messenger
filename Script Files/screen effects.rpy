@@ -308,9 +308,14 @@ screen speed_num:
 #####################################
     
 default close_visible = True
+default textmsg_CG = False
+default CG_who = text_messages[0]
 
-label viewCG:
+label viewCG(textmsg=False):
     $ close_visible = True
+    $ textmsg_CG = textmsg
+    # This is a good spot to include code for
+    # a gallery/unlockable CGs
     call screen viewCG_fullsize
     return
     
@@ -334,8 +339,10 @@ screen viewCG_fullsize:
             yalign 0.0
             focus_mask True
             idle "close_button"
-            if pre_choosing:
+            if pre_choosing and not textmsg_CG:
                 action [Call("answer")]
+            elif textmsg_CG:
+                action [Hide("viewCG_fullsize"), Show("text_message_screen", the_msg=CG_who)]
             else:
                 action [Call("play")]
         
@@ -346,12 +353,6 @@ screen viewCG_fullsize:
 # Save & Exit
 #####################################
    
-# Call this label to show the save & exit sign
-label save_exit:
-    $ addchat(answer, '', 0.2)
-    call screen save_and_exit
-    return
-
 # This is the screen that shows Save & Exit at the bottom
 screen save_and_exit:
     zorder 4
@@ -375,6 +376,7 @@ label press_save_and_exit(phone=True):
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
+        stop music
         call screen chat_select # call history_select_screen etc
     else:
         call screen signature_screen(phone)
@@ -382,28 +384,28 @@ label press_save_and_exit(phone=True):
         $ chatroom_hp = 0
         $ chatroom_hg = 0
         $ config.skipping = False   
-        $ greeted = False 
-        # Checks for a post-chatroom label; won't trigger if there's a VN section
-        # Otherwise delivers phone calls/texts/etc
-        if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
-            $ renpy.call('after_' + current_chatroom.chatroom_label)
-            $ deliver_calls(current_chatroom.chatroom_label)
+        $ greeted = False         
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
         hide screen vn_overlay
         $ current_chatroom.played = True
+        # Checks for a post-chatroom label; won't trigger if there's a VN section
+        # Otherwise delivers phone calls/texts/etc
+        if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
+            $ renpy.call('after_' + current_chatroom.chatroom_label)
+        # If you just finished a VN section, mark it as played and deliver emails/phone calls
         if not phone and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
             $ current_chatroom.vn_obj.played = True
             if renpy.has_label('after_' + current_chatroom.chatroom_label):
                 $ renpy.call('after_' + current_chatroom.chatroom_label)
-            $ deliver_calls(current_chatroom.chatroom_label)
-            $ deliver_emails()
-        elif phone and not current_chatroom.vn_obj:
-            $ deliver_emails()
+                
+        $ deliver_calls(current_chatroom.chatroom_label)
+        $ deliver_emails()   
         $ next_chatroom()
         $ renpy.retain_after_load()
+        stop music
         call screen chat_home
 
     
@@ -459,76 +461,6 @@ screen signature_screen(phone=True):
             action Return
 
 
-        
-    
-    
-#####################################
-# Chat Setup
-#####################################
-
-# This simplifies things when you're setting up a chatroom,
-# so call it when you're about to begin
-# If you pass it the name of the background you want (enclosed in
-# single ' or double " quotes) it'll set that up too
-# Note that it automatically clears the chatlog, so if you want
-# to change the background but not clear the messages on-screen,
-# you'll also have to pass it 'False' as its second argument
-
-label chat_begin(background=None, clearchat=True, resetHP=True):
-    if clearchat:
-        $ chatlog = []
-        $ pv = 0.8
-    if resetHP:
-        $ chatroom_hp = 0
-    hide screen starry_night
-    show screen phone_overlay
-    show screen messenger_screen 
-    show screen pause_button
-    window hide
-    $ reply_screen = False
-    $ in_phone_call = False
-    $ vn_choice = False
-    $ email_reply = False
-    # Fills the beginning of the screen with 'empty space' so the messages begin
-    # showing up at the bottom of the screen (otherwise they start at the top)
-    if clearchat:
-        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
-        
-    # Sets the correct background and nickname colour
-    # You'll need to add other backgrounds here if you define
-    # new ones
-    if background == "morning":
-        scene bg morning
-        $ nickColour = black
-    elif background == "noon":
-        scene bg noon
-        $ nickColour = black
-    elif background == "evening":
-        scene bg evening
-        $ nickColour = black
-    elif background == "night":
-        scene bg night
-        $ nickColour = white
-    elif background == "earlyMorn":
-        scene bg earlyMorn
-        $ nickColour = white
-    elif background == "hack":
-        scene bg hack
-        $ nickColour = white
-    elif background == "redhack":
-        scene bg redhack
-        $ nickColour = white
-        
-    # If you've already played this chatroom in your current runthrough,
-    # viewing it again causes this variable to be True. It prevents you
-    # from receiving heart points again and only lets you select choices
-    # you've selected on this or previous playthroughs
-    if current_chatroom.played:
-        $ observing = True
-    else:
-        $ observing = False
-        
-    return
         
 #************************************
 # Hack Scrolls
