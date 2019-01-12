@@ -43,50 +43,9 @@ label example_email:
     
     call exit(z)
             
-    call save_exit
-            
+    call chat_end
 
 
-label rainbow_reply1: # This needs to be the name of the guest + _reply + the reply number
-                      # For example, if my guest is named Bob (with the capital B) and this
-                      # is the first reply, it would be called Bob_reply1
-                      # Be sure to pay attention to any capitals you have in the guest's name
-                      # or the program won't be able to find the right label
-
-    menu:
-        'Indoor party.':
-            # Passing 'True' indicates that this is the correct reply
-            $ current_email.set_reply(True) 
-        
-        'Outdoor party.':
-            # Similarly, passing 'False' indicates this was the wrong reply
-            # and will fail the email chain
-            $ current_email.set_reply(False)            
-        
-    $ renpy.retain_after_load()
-    return
-
-label rainbow_reply2():
-    menu:
-        'Heavy Metal.':
-            $ current_email.set_reply(False)
-        'Smooth Jazz.':
-            $ current_email.set_reply(True)
-    $ renpy.retain_after_load()        
-    return
-    
-label rainbow_reply3():
-    menu:
-        'Spicy Food.':
-            # You can also pass set_reply a number after True/False
-            # If you do, that will be the number of chatrooms after which the reply
-            # to your email will be sent to you. Otherwise, the program randomly
-            # generates a number between 5 and 16
-            $ current_email.set_reply(True, 4)
-        'Seafood.':
-            $ current_email.set_reply(False)
-    $ renpy.retain_after_load()        
-    return
 
 
 ## This is how you will set up guests for the party. A template follows this definition    
@@ -241,11 +200,59 @@ Sincerely,
 
 Rainbow Unicorn""")
 
+label rainbow_reply1: # This needs to be the name of the guest + _reply + the reply number
+                      # For example, if my guest is named Bob (with the capital B) and this
+                      # is the first reply, it would be called Bob_reply1
+                      # Be sure to pay attention to any capitals you have in the guest's name
+                      # or the program won't be able to find the right label
+
+    menu:
+        'Indoor party.':
+            # Passing 'True' indicates that this is the correct reply
+            $ current_email.set_reply(True) 
+        
+        'Outdoor party.':
+            # Similarly, passing 'False' indicates this was the wrong reply
+            # and will fail the email chain
+            $ current_email.set_reply(False)            
+        
+    $ renpy.retain_after_load()
+    return
+
+label rainbow_reply2():
+    menu:
+        'Heavy Metal.':
+            $ current_email.set_reply(False)
+        'Smooth Jazz.':
+            $ current_email.set_reply(True)
+    $ renpy.retain_after_load()        
+    return
+    
+label rainbow_reply3():
+    menu:
+        'Spicy Food.':
+            # You can also pass set_reply a number after True/False
+            # If you do, that will be the number of chatrooms after which the reply
+            # to your email will be sent to you. Otherwise, the program randomly
+            # generates a number between 5 and 13 or calculates an appropriate number
+            # based on how many chatrooms are yet to be played
+            $ current_email.set_reply(True, 4)
+        'Seafood.':
+            $ current_email.set_reply(False)
+    $ renpy.retain_after_load()        
+    return
+    
+
 ## ****************************************************
 ## A TEMPLATE EMAIL GUEST
 ## ****************************************************
 
 default example_guest = Guest("example", "Email/Thumbnails/guest_unlock_icon.png",
+## The first string, "example", is what will show up in the email chain as the
+## guest's 'email' e.g. "longcat" shows up as "@longcat" in the email chain
+## This is also the variable we use for reply labels, not the name of the variable
+## The second string is the image to use for the guest's thumbnail. It should be
+## 155x155px
 ## Because the variable is 'example_guest', when we want to invite this person,
 ## we will write: call invite(example_guest)
 
@@ -258,7 +265,7 @@ be new lines in the actual email; you can look to the previous guest for ideas
 on formatting. This example simply has breaks in the middle of lines to make
 it easier to read when editing code.
 
-From, your guest""", # don't forget the comma after the quotes
+From, your example guest""", # don't forget the comma after the quotes
 
 ## FIRST MESSAGE - *Question the guest asked here*
 
