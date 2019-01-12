@@ -1,3 +1,43 @@
+init -5 python:
+
+    # Class to store characters along with their profile picture and a 'file_id'
+    # that's appended to things like their special bubble names and saves you from
+    # typing out the full name every time
+    class Chat(store.object):
+        def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, 
+                heart_color='#000000', emote_list=False, cover_pic=False, status=False,
+                voicemail=False):               
+                
+            self.name = name            
+            self.file_id = file_id
+            self.prof_pic = prof_pic
+            self.participant_pic = participant_pic
+            self.cover_pic = cover_pic
+            self.status = status
+            if voicemail:
+                self.voicemail = voicemail
+            else:
+                self.voicemail = Phone_Call(self, 'voicemail_1', 'voicemail', 2, True)
+            self.heart_points = 0  
+            self.heart_color = heart_color
+            self.emote_list = emote_list
+            
+        def update_voicemail(self, new_label):
+            self.voicemail.phone_label = new_label
+
+        def increase_heart(self):
+            self.heart_points += 1
+            
+        def decrease_heart(self):
+            self.heart_points -= 1
+            
+        def reset_heart(self):
+            self.heart_points = 0
+
+        # This function makes it simpler to type out character dialogue
+        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
+            addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+
 ##****************************
 ## Chatroom Characters
 ##****************************
@@ -315,15 +355,15 @@ layeredimage jumin front:
         attribute party "VN Mode/Jumin/jumin_body_2.png"
         
     group face:
-        attribute happy "VN Mode/Jumin/jumin_face_0.png" align(0.326, 0.121)
-        attribute upset "VN Mode/Jumin/jumin_face_1.png" align(0.326, 0.121)
-        attribute blush "VN Mode/Jumin/jumin_face_2.png" align(0.326, 0.121)
-        attribute neutral default "VN Mode/Jumin/jumin_face_3.png" align(0.326, 0.121)
-        attribute surprised "VN Mode/Jumin/jumin_face_4.png" align(0.326, 0.121)
-        attribute angry "VN Mode/Jumin/jumin_face_5.png" align(0.326, 0.121)
-        attribute sad "VN Mode/Jumin/jumin_face_6.png" align(0.326, 0.121)
-        attribute unsure "VN Mode/Jumin/jumin_face_7.png" align(0.326, 0.121)
-        attribute thinking "VN Mode/Jumin/jumin_face_8.png" align(0.326, 0.121)
+        attribute happy "VN Mode/Jumin/jumin_face_0.png" align(0.39, 0.121)
+        attribute upset "VN Mode/Jumin/jumin_face_1.png" align(0.39, 0.121)
+        attribute blush "VN Mode/Jumin/jumin_face_2.png" align(0.39, 0.121)
+        attribute neutral default "VN Mode/Jumin/jumin_face_3.png" align(0.39, 0.121)
+        attribute surprised "VN Mode/Jumin/jumin_face_4.png" align(0.39, 0.121)
+        attribute angry "VN Mode/Jumin/jumin_face_5.png" align(0.39, 0.121)
+        attribute sad "VN Mode/Jumin/jumin_face_6.png" align(0.39, 0.121)
+        attribute unsure "VN Mode/Jumin/jumin_face_7.png" align(0.39, 0.121)
+        attribute thinking "VN Mode/Jumin/jumin_face_8.png" align(0.39, 0.121)
         
 layeredimage jumin side:
 
@@ -334,14 +374,14 @@ layeredimage jumin side:
         attribute suit "VN Mode/Jumin/jumin_sidebody_1.png."
             
     group face:
-        attribute happy "VN Mode/Jumin/jumin_sideface_0.png" align(0.177, 0.097)
-        attribute upset "VN Mode/Jumin/jumin_sideface_1.png" align(0.172, 0.094)
-        attribute blush "VN Mode/Jumin/jumin_sideface_2.png" align(0.177, 0.097)
-        attribute neutral default "VN Mode/Jumin/jumin_sideface_3.png" align(0.177, 0.097)
-        attribute surprised "VN Mode/Jumin/jumin_sideface_4.png" align(0.177, 0.097)
-        attribute angry "VN Mode/Jumin/jumin_sideface_5.png" align(0.177, 0.097)
-        attribute thinking "VN Mode/Jumin/jumin_sideface_6.png" align(0.177, 0.097)
-        attribute worried "VN Mode/Jumin/jumin_sideface_7.png" align(0.177, 0.097)
+        attribute happy "VN Mode/Jumin/jumin_sideface_0.png" align(0.633, 0.097)
+        attribute upset "VN Mode/Jumin/jumin_sideface_1.png" align(0.633, 0.097)
+        attribute blush "VN Mode/Jumin/jumin_sideface_2.png" align(0.633, 0.097)
+        attribute neutral default "VN Mode/Jumin/jumin_sideface_3.png" align(0.633, 0.097)
+        attribute surprised "VN Mode/Jumin/jumin_sideface_4.png" align(0.633, 0.097)
+        attribute angry "VN Mode/Jumin/jumin_sideface_5.png" align(0.633, 0.097)
+        attribute thinking "VN Mode/Jumin/jumin_sideface_6.png" align(0.633, 0.097)
+        attribute worried "VN Mode/Jumin/jumin_sideface_7.png" align(0.633, 0.097)
         
         
 ## ****************************
@@ -356,18 +396,18 @@ layeredimage rika vn:
         attribute dress "VN Mode/Rika/rika01_body_2.png"
         
     group face:
-        attribute happy "VN Mode/Rika/rika01_face_0.png" align(0.21, 0.097)
-        attribute sad "VN Mode/Rika/rika01_face_1.png" align(0.21, 0.097)
-        attribute neutral default "VN Mode/Rika/rika01_face_2.png" align(0.21, 0.097)
-        attribute thinking "VN Mode/Rika/rika01_face_3.png" align(0.21, 0.097)
-        attribute worried "VN Mode/Rika/rika01_face_4.png" align(0.21, 0.097)
-        attribute dark "VN Mode/Rika/rika01_face_5.png" align(0.21, 0.097)
-        attribute angry "VN Mode/Rika/rika01_face_6.png" align(0.21, 0.097)
-        attribute sob "VN Mode/Rika/rika01_face_7.png" align(0.21, 0.097)
-        attribute crazy "VN Mode/Rika/rika01_face_8.png" align(0.21, 0.097)
+        attribute happy "VN Mode/Rika/rika01_face_0.png" align(0.666, 0.097)
+        attribute sad "VN Mode/Rika/rika01_face_1.png" align(0.666, 0.097)
+        attribute neutral default "VN Mode/Rika/rika01_face_2.png" align(0.666, 0.097)
+        attribute thinking "VN Mode/Rika/rika01_face_3.png" align(0.666, 0.097)
+        attribute worried "VN Mode/Rika/rika01_face_4.png" align(0.666, 0.097)
+        attribute dark "VN Mode/Rika/rika01_face_5.png" align(0.666, 0.097)
+        attribute angry "VN Mode/Rika/rika01_face_6.png" align(0.666, 0.097)
+        attribute sob "VN Mode/Rika/rika01_face_7.png" align(0.666, 0.097)
+        attribute crazy "VN Mode/Rika/rika01_face_8.png" align(0.666, 0.097)
         
     group head:
-        attribute mask "VN Mode/Rika/rika01_head_0.png" align(0.172, 0.05)
+        attribute mask "VN Mode/Rika/rika01_head_0.png" align(0.715, 0.05)
         
         
 ## ****************************
@@ -382,17 +422,17 @@ layeredimage seven front:
         attribute party "VN Mode/707/seven_party_0.png"
             
     group face:
-        attribute happy "VN Mode/707/seven_face_0.png" align(0.383, 0.139)
-        attribute blush "VN Mode/707/seven_face_1.png" align(0.383, 0.139)
-        attribute neutral default "VN Mode/707/seven_face_2.png" align(0.383, 0.139)
-        attribute surprised "VN Mode/707/seven_face_3.png" align(0.383, 0.139)
-        attribute serious "VN Mode/707/seven_face_4.png" align(0.383, 0.139)
-        attribute thinking "VN Mode/707/seven_face_5.png" align(0.383, 0.139)
-        attribute sad "VN Mode/707/seven_face_6.png" align(0.383, 0.139)
-        attribute worried "VN Mode/707/seven_face_7.png" align(0.383, 0.139)
-        attribute dark "VN Mode/707/seven_face_8.png" align(0.383, 0.139)
-        attribute angry "VN Mode/707/seven_face_9.png" align(0.383, 0.139)
-        attribute hurt "VN Mode/707/seven_face_10.png" align(0.383, 0.139)
+        attribute happy "VN Mode/707/seven_face_0.png" align(0.427, 0.139)
+        attribute blush "VN Mode/707/seven_face_1.png" align(0.427, 0.139)
+        attribute neutral default "VN Mode/707/seven_face_2.png" align(0.427, 0.139)
+        attribute surprised "VN Mode/707/seven_face_3.png" align(0.427, 0.139)
+        attribute serious "VN Mode/707/seven_face_4.png" align(0.427, 0.139)
+        attribute thinking "VN Mode/707/seven_face_5.png" align(0.427, 0.139)
+        attribute sad "VN Mode/707/seven_face_6.png" align(0.427, 0.139)
+        attribute worried "VN Mode/707/seven_face_7.png" align(0.427, 0.139)
+        attribute dark "VN Mode/707/seven_face_8.png" align(0.427, 0.139)
+        attribute angry "VN Mode/707/seven_face_9.png" align(0.427, 0.139)
+        attribute hurt "VN Mode/707/seven_face_10.png" align(0.427, 0.139)
         
 layeredimage seven side:
     yoffset 160
