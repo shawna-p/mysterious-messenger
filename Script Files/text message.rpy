@@ -138,6 +138,10 @@ init python:
   
 default current_message = None
     
+########################################################               
+## This is the text message hub, where you can click
+## on any of your ongoing text conversations
+########################################################
 screen text_message_hub:
 
     tag menu
@@ -169,7 +173,8 @@ screen text_message_hub:
                             button:                                                       
                                 background 'message_idle_bkgr'
                                 hover_background 'message_hover_bkgr'   
-                                action [SetVariable("current_message", i), i.mark_read, Show('text_message_screen', the_msg=i)]
+                                action [SetVariable("current_message", i), i.mark_read,
+                                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
                                 
                                 ysize 150
                                 xsize 725
@@ -188,8 +193,11 @@ screen text_message_hub:
                                         has vbox
                                         align (0.0, 0.5)
                                         text last_text.who.name style "save_slot_text"
-                                        spacing 40                                    
-                                        text last_text.what[:16] + '...' style "save_slot_text"
+                                        spacing 40     
+                                        if "{image=" in last_text.what or last_text.img:
+                                            text "[last_text.who.name] sent an image." style "save_slot_text"
+                                        else:
+                                            text last_text.what[:16] + '...' style "save_slot_text"
                                         
                                     window:
                                         xmaximum 230
@@ -204,7 +212,8 @@ screen text_message_hub:
                             button:                                                       
                                 background 'unread_message_idle_bkgr'
                                 hover_background 'unread_message_hover_bkgr' 
-                                action [SetVariable("current_message", i), i.mark_read, Show('text_message_screen', the_msg=i)]
+                                action [SetVariable("current_message", i), i.mark_read, 
+                                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
                                 
                                 ysize 150
                                 xsize 725
@@ -223,8 +232,11 @@ screen text_message_hub:
                                         has vbox
                                         align (0.0, 0.5)
                                         text last_text.who.name style "save_slot_text"
-                                        spacing 40                                    
-                                        text last_text.what[:16] + '...' style "save_slot_text"
+                                        spacing 40      
+                                        if "{image=" in last_text.what or last_text.img:
+                                            text "[last_text.who.name] sent an image." style "save_slot_text"   
+                                        else:
+                                            text last_text.what[:16] + '...' style "save_slot_text"
                                         
                                     window:
                                         xmaximum 230
@@ -290,8 +302,10 @@ screen text_msg_popup(the_msg):
                     
                     window:
                         maximum(420,130)
-                        background 'text_popup_msg'                        
-                        if last_msg and len(last_msg.what) > 48:
+                        background 'text_popup_msg'       
+                        if last_msg and ("{image=" in last_msg.what or last_msg.img):
+                            text "[last_msg.who.name] sent an image." size 30 xalign 0.5 yalign 0.5 text_align 0.5 
+                        elif last_msg and len(last_msg.what) > 48:
                             text last_msg.what[:48] + '...' size 30 xalign 0.5 yalign 0.5 text_align 0.5
                         elif last_msg:
                             text last_msg.what[:48] size 30 xalign 0.5 yalign 0.5 text_align 0.5
@@ -305,7 +319,8 @@ screen text_msg_popup(the_msg):
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
                 action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), 
-                        the_msg.mark_read, Show('text_message_screen', the_msg=the_msg)]
+                        the_msg.mark_read, SetVariable("CG_who", the_msg), 
+                        Show('text_message_screen', the_msg=the_msg)]
                 
     timer 3.25:
         if randint(0,1):
@@ -480,10 +495,11 @@ screen text_animation(i):
         ## This determines how long the line of text is. If it needs to wrap
         ## it, it will pad the bubble out to the appropriate length
         ## Otherwise each bubble would be exactly as wide as it needs to be and no more
-        t = Text(i.what)
-        z = t.size()
-        my_width = int(z[0])
-        my_height = int(z[1])
+        if not i.img:
+            t = Text(i.what)
+            z = t.size()
+            my_width = int(z[0])
+            my_height = int(z[1])
         
         text_time = i.thetime.twelve_hour + ':' + i.thetime.minute + ' ' + i.thetime.am_pm
         
@@ -520,21 +536,22 @@ screen text_animation(i):
                 window:# at transformVar:                 
                     ## Check if it's an image
                     if i.img == True:
-                        style 'img_message'
+                        style 'img_text_message'
                         # Check if it's an emoji
                         if "{image=" in i.what:
-                            text i.what
+                            style 'reg_bubble_text'
+                            text i.what style "bubble_text"
                         else:   # it's a CG
                             # TODO: Could have a dictionary here that unlocks CGs in a gallery
                             # Would need persistent variables; if i.what in gallery ->
                             # gallery[i.what] = True and then it will be unlocked
                             $ fullsizeCG = i.what
-                            imagebutton:
-                                bottom_margin -100
+                            imagebutton at small_CG_text:
+                                bottom_margin 50
                                 focus_mask True
                                 idle fullsizeCG
                                 if not choosing:
-                                    action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
+                                    action [SetVariable("fullsizeCG", i.what), Call("viewCG", textmsg=True), Return]
             
                     
                     else:        
@@ -548,6 +565,9 @@ screen text_animation(i):
                             text i.what style "bubble_text" color '#fff'
                             
                 if i.who != m:
-                    text text_time color "#fff" yalign 1.0 size 23
+                    if i.img == True and not "{image=" in i.what:
+                        text text_time color '#fff' yalign 1.0 size 23 yoffset 40 xoffset 10
+                    else:
+                        text text_time color "#fff" yalign 1.0 size 23
                                             
         
