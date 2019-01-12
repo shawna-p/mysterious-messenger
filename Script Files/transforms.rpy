@@ -26,6 +26,11 @@ init 5:
     transform small_CG:
         alpha 0 zoom 0.175
         linear 0.2 alpha 1.0 zoom 0.35
+    
+    # Used to make full-size CGs small enough
+    # to post in a text message conversation   
+    transform small_CG_text:
+        zoom 0.35
         
     # Used on the 'NEW' sign for new messages
     transform new_fade:
