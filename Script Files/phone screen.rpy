@@ -546,12 +546,16 @@ label phone_end:
         $ current_call.finished()
     $ current_call = False    
     $ observing = False
+    $ renpy.retain_after_load()
     call screen phone_calls
     return
     
-## For ease of keeping track of the different voicemails, they are defined here
+##*************************************************
+## VOICEMAILS
+##*************************************************
+## For ease of keeping track of the different voicemails,
+## they are defined here
 label voicemail_1:
     call phone_begin
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
     call phone_end
-    return 
