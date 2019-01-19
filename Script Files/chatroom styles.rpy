@@ -503,14 +503,22 @@ init 5:
         xalign 0.85
         yalign 0.5
         
-    style chip_prize_description:
+    style chip_prize_description_short:
         color '#ffffff'
         font "00 fonts/BM-HANNA (Bold Font).ttf"
         text_align 0.5
         size 45
         xalign 0.5
-        yalign 0.17
-        
+        yalign 0.5
+
+    style chip_prize_description_long:
+        color '#ffffff'
+        font "00 fonts/BM-HANNA (Bold Font).ttf"
+        text_align 0.5
+        size 37
+        xalign 0.5
+        yalign 0.5
+    
     style header_clock:
         color '#fff'
         font  "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
