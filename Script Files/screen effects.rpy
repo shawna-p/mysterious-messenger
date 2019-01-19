@@ -264,7 +264,7 @@ screen phone_overlay:
             align (0.5, 0.5)
             idle "Phone UI/back-arrow.png"
             hover Transform("Phone UI/back-arrow.png", zoom=1.2)
-            action Return()
+            action NullAction()
 
     
 
@@ -405,6 +405,8 @@ label press_save_and_exit(phone=True):
         $ deliver_emails()   
         $ next_chatroom()
         $ renpy.retain_after_load()
+        if not chips_available:
+            $ chips_available = hbc_bag.draw()
         stop music
         call screen chat_home
 
