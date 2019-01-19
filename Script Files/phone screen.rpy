@@ -146,6 +146,10 @@ screen phone_calls:
     
     on 'show' action SetVariable('unseen_calls', 0)
     
+    on 'show':
+       if renpy.music.get_playing(channel='music') != mystic_chat:
+           action renpy.music.play(mystic_chat, loop=True)
+    
     window:
         xalign 0.5
         yalign 0.13
@@ -167,6 +171,7 @@ screen phone_calls:
             background "menu_tab_inactive"
             hover_background "menu_tab_inactive_hover"
             action Show("phone_contacts", Dissolve(0.5))
+            activate_sound 'sfx/UI/phone_tab_switch.mp3'
  
 
     viewport:
@@ -260,6 +265,7 @@ screen phone_contacts:
             background "menu_tab_inactive"
             hover_background "menu_tab_inactive_hover"
             action Show("phone_calls", Dissolve(0.5))
+            activate_sound 'sfx/UI/phone_tab_switch.mp3'
                 
         textbutton _('{image=contact_icon}  Contacts'):
             text_style "settings_tabs" 
@@ -324,12 +330,13 @@ screen in_call():
     
     add 'call_headphones' yalign 0.12 xalign 0.5
     
-    on 'show' action [SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
+    on 'show' action [renpy.music.stop(), SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
     on 'hide' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')] 
                         #Preference('auto-forward time', original_afm_time)]
-    on 'replace' action [SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
+    on 'replace' action [renpy.music.stop(), SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
     on 'replaced' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')] 
                         #Preference('auto-forward time', original_afm_time)]
+                        
 
     window:
         xysize(710, 200)
@@ -462,10 +469,18 @@ label incoming_hang_up:
 ## This is the screen when you're making a phone call
 ## to another character
 ########################################################
+
+define phone_dial_sfx = "sfx/phone ring.mp3"
+
 screen outgoing_call(phonecall, voicemail=False):
     tag menu
     use starry_night()
     use menu_header("In Call")
+    
+    
+    on 'show' action renpy.music.play(["<silence 1.5>", phone_dial_sfx, "<silence 1.5>"])
+    on 'replace' action renpy.music.play(["<silence 1.5>", phone_dial_sfx, "<silence 1.5>"])
+    
     
     window:
         xfill True
@@ -520,12 +535,16 @@ screen outgoing_call(phonecall, voicemail=False):
                 align (0.5, 0.5)
                 idle 'call_hang_up'
                 hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
-                action Show('phone_calls')
+                action [renpy.music.stop, Show('phone_calls')]
        
     if voicemail:
-        timer randint(8, 10) action If(phonecall, [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)], Show('chat_home'))
+        timer randint(8, 10) action If(phonecall, [renpy.music.stop, 
+                                        SetVariable('current_call', phonecall), 
+                                        Jump(phonecall.phone_label)], Show('chat_home'))
     else:
-        timer randint(2, 8) action [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
+        timer randint(2, 8) action [renpy.music.stop, 
+                                    SetVariable('current_call', phonecall), 
+                                    Jump(phonecall.phone_label)]
     
 ## Allows the program to jump to the incoming call
 label new_incoming_call(phonecall):
@@ -557,5 +576,6 @@ label phone_end:
 ## they are defined here
 label voicemail_1:
     call phone_begin
+    voice "Phone UI/Phone Calls/Voicemail/voicemail_1.ogg"
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
     call phone_end
