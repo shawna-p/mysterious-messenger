@@ -175,6 +175,7 @@ screen text_message_hub:
                                 hover_background 'message_hover_bkgr'   
                                 action [SetVariable("current_message", i), i.mark_read,
                                         SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
+                                activate_sound 'sfx/UI/email_next_arrow.mp3'
                                 
                                 ysize 150
                                 xsize 725
@@ -214,6 +215,7 @@ screen text_message_hub:
                                 hover_background 'unread_message_hover_bkgr' 
                                 action [SetVariable("current_message", i), i.mark_read, 
                                         SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
+                                activate_sound 'sfx/UI/email_next_arrow.mp3'
                                 
                                 ysize 150
                                 xsize 725
@@ -348,6 +350,7 @@ screen text_message_footer(the_msg):
                 hover_background 'text_answer_animation'  
                 if not renpy.get_screen("choice"):
                     action the_msg.reply
+                    activate_sound "sfx/UI/answer_screen.mp3"
             else:
                 background 'text_answer_inactive'
             add 'text_answer_text' xalign 0.5 yalign 0.5
