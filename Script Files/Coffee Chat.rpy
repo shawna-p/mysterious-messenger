@@ -402,9 +402,20 @@ label tutorial_chat_incoming_z:
     # Call this before the phone call begins
     call phone_begin
     
+    # This is how you'll add voice acting for your phone calls,
+    # if you have it. If not, see the phone call after this one
+    # for what the call will look like without voicing
+    # It's recommended you either come up with a good sorting
+    # system for your voice files, or use Ren'Pys automatic 
+    # tagging system when you're done
+    # see: https://www.renpy.org/doc/html/voice.html
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_01.mp3'
     z_phone "Good morning, hon~"
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_02.mp3'
     z_phone "Gahh~ (Stretches) I haven't slept this well in a while. I feel really good."
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_03.mp3'
     z_phone "When I don't sleep that well, just moving my neck in the morning can hurt."
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_04.mp3'
     z_phone "Did you sleep well?"
     
     menu:
@@ -413,20 +424,32 @@ label tutorial_chat_incoming_z:
         extend ''
         "Yeah, I didn't even dream.":
             m_phone "Yeah, I didn't even dream."
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_05a.mp3'
             z_phone "That's good."
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_06a.mp3'
             z_phone "I'm a bit sad to hear you didn't dream."
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_07a.mp3'
             z_phone "I was waiting for you... looking like prince charming."
         "I didn't sleep very well.":
             m_phone "I didn't sleep very well."
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_05b.mp3'
             z_phone "You didn't? You must be tired then."
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_06b.mp3'
             z_phone "Call me next time you can't sleep."
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_07b.mp3'
             z_phone "I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams."
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_08b.mp3'
             z_phone "Two birds with one stone, no?"
+            voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_09b.mp3'
             z_phone "I can sing anything you want, so tell me whenever. I'll practice just for you."
     
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_10.mp3'
     z_phone "Aw yeah~! Starting my day with hearing your voice gives me so much energy."
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_11.mp3'
     z_phone "I have to leave early for work. I hope only good things happen today! To you and to me, haha."
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_12.mp3'
     z_phone "Then I'll call you later."
+    voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_13.mp3'
     z_phone "Bye bye."
     
     # Call this when the call is finished
