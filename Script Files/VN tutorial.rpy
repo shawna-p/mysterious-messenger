@@ -12,6 +12,10 @@ label vn_mode_tutorial:
     # the background to your desired image
     scene bg mint_eye_room
     
+    # This will play music during the VN. You'll want to put 'loop' 
+    # so that the music repeats
+    play music mint_eye loop
+    
     # You'll generally never want to mess with the 'observing' variable yourself, 
     # but since this is a tutorial chatroom we want the user to be able to play
     # it over and over and not be restricted to the choices they've already made
