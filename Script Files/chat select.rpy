@@ -80,6 +80,7 @@ screen day_select(day):
             hover_background day_bkgr_hover
             if day.archive_list and day.archive_list[0].available:
                 action Show('chatroom_timeline', day=day)
+                activate_sound 'sfx/UI/select_day.mp3'
             xalign 0.5
         
         viewport:
@@ -259,8 +260,10 @@ screen chatroom_display(mychat):
                 xysize(555, 126)
                 foreground vn_foreground
                 hover_foreground vn_hover
+                activate_sound 'sfx/UI/select_vn_mode.mp3'
                 if my_vn.available:
-                    action [SetVariable('current_chatroom', mychat), Jump(my_vn.vn_label)]
+                    # Note: afm is ~30 at its slowest, 0 when it's off, and 1 at its fastest
+                    action [Preference("auto-forward", "disable"), SetVariable('current_chatroom', mychat), Jump(my_vn.vn_label)]                    
                 if my_vn.who:
                     add 'vn_' + my_vn.who.file_id xoffset -5
                 else:
