@@ -160,7 +160,26 @@ init python:
             Themself = "Themself"
             is_are = "are"
         renpy.retain_after_load()
+      
+    # This code is used to create a 'random' function that
+    # will occasionally activate the Honey Buddha Chip bag
+    class RandomBag(object):
+
+        def __init__(self, choices):
+            self.choices = choices                        # The choices that go into the bag.
+            self.bag = [ ]                                # A shuffled list of things in the bag.
+
+        def draw(self):
+            if not self.bag:                              # If the bag is empty,
+                self.bag = list(self.choices)             # Replace it with a copy of choices,
+                renpy.random.shuffle(self.bag)            # Then randomize those choices.
+
+            return self.bag.pop(0)                        # Return something from the bag.
         
+
+# Variable to help determine when there should be Honey Buddha
+# Chips available
+default hbc_bag = RandomBag([ False, False, False, True, True ])
 
 # This lets it randomly pick a profile picture to display        
 default greet_char = "seven"
@@ -369,17 +388,17 @@ screen route_select_screen:
 
 screen save():
 
-    tag menu
+    tag save_load
 
     use file_slots(_("Save"))
-
+    use menu_header("Save", Hide('save', Dissolve(0.5)))
 
 screen load():
 
-    tag menu
-
+    tag save_load
+    
     use file_slots(_("Load"))
-
+    use menu_header("Load", Hide('load', Dissolve(0.5)))
 
 screen file_slots(title):
 
@@ -387,7 +406,7 @@ screen file_slots(title):
 
     use starry_night
     
-    use menu_header(title, Show('profile_pic', Dissolve(0.5)))
+    #use menu_header(title, Hide('file_slots', Dissolve(0.5)))
     
     default the_day = "1st"
     python:        
@@ -555,10 +574,10 @@ screen file_slots(title):
 
 screen preferences():
 
-    tag menu
+    tag settings_screen
 
     use starry_night
-    use menu_header("Settings", Show('chat_home', Dissolve(0.5)))
+    use menu_header("Settings", Hide('preferences', Dissolve(0.5)))
     use settings_tabs("Sound")
     
     window:
@@ -751,6 +770,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
             idle "menu_back"
             focus_mask None
             hover im.FactorScale("Phone UI/Main Menu/menu_back_btn.png", 1.1)
+            activate_sound 'sfx/UI/back_button.mp3'
             if not renpy.get_screen("choice"):                
                 if envelope:
                     action Show('text_message_hub', Dissolve(0.5))
@@ -798,6 +818,7 @@ screen settings_tabs(active_tab):
                 background "menu_tab_inactive"
                 hover_background "menu_tab_inactive_hover"
                 action Show("profile_pic", Dissolve(0.5))
+                activate_sound 'sfx/UI/settings_tab_switch.mp3'
                 
         textbutton _('Sound'):
             text_style "settings_tabs" 
@@ -809,6 +830,7 @@ screen settings_tabs(active_tab):
                 background "menu_tab_inactive"
                 hover_background "menu_tab_inactive_hover"
                 action Show("preferences", Dissolve(0.5))
+                activate_sound 'sfx/UI/settings_tab_switch.mp3'
             
         textbutton _('Others'):
             text_style "settings_tabs"  
@@ -819,7 +841,8 @@ screen settings_tabs(active_tab):
             else:
                 background "menu_tab_inactive"
                 hover_background "menu_tab_inactive_hover"
-                action Show("other_settings", Dissolve(0.5))              
+                action Show("other_settings", Dissolve(0.5))  
+                activate_sound 'sfx/UI/settings_tab_switch.mp3'                
                 
 
         
@@ -830,7 +853,7 @@ screen settings_tabs(active_tab):
 
 screen profile_pic:
     
-    tag menu
+    tag settings_screen
 
     use starry_night
 
@@ -906,7 +929,7 @@ screen profile_pic:
         
         
     if not persistent.first_boot:
-        use menu_header("Settings", Show('chat_home', Dissolve(0.5)))
+        use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
     else:
         use menu_header("Customize your Profile")
         
@@ -975,9 +998,9 @@ screen input_popup(prompt=''):
             align (1.0, 0.0)
             idle 'input_close'
             hover 'input_close_hover'
-            action [Hide('input_popup'), SetField(m, 'name', old_name), 
+            action [SetField(m, 'name', old_name), 
                     SetVariable('name', old_name), SetField(persistent, 'name', old_name), 
-                    renpy.retain_after_load, Show('profile_pic')]
+                    renpy.retain_after_load, Hide('input_popup')]
         vbox:
             spacing 20
             xalign 0.5
@@ -996,7 +1019,7 @@ screen input_popup(prompt=''):
                 ysize 80
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [Hide('input_popup'), Show('profile_pic')]
+                action [Hide('input_popup')]
 
 
 ########################################################
@@ -1006,11 +1029,11 @@ screen input_popup(prompt=''):
               
 screen other_settings():
 
-    tag menu
+    tag settings_screen
 
     #add "Phone UI/Main Menu/menu_settings_bg.png"
     use starry_night
-    use menu_header("Settings", Show('chat_home', Dissolve(0.5)))
+    use menu_header("Settings", Hide('other_settings', Dissolve(0.5)))
     use settings_tabs("Others")
         
     window:
@@ -1157,6 +1180,7 @@ screen chat_home(reshow=False):
             background "gray_mainbtn"
             hover_background "gray_mainbtn_hover"
         action Show('text_message_hub', Dissolve(0.5))
+        activate_sound 'sfx/UI/select_phone_text.mp3'
         if new_message_count() > 0:
             add 'blue_maincircle' xalign 0.5 yalign 0.5
             window:
@@ -1181,7 +1205,8 @@ screen chat_home(reshow=False):
         else:
             background "gray_mainbtn"
             hover_background "gray_mainbtn_hover"
-        action Show('phone_calls')        
+        action Show('phone_calls')     
+        activate_sound 'sfx/UI/select_phone_text.mp3'        
         if unseen_calls > 0:
             add "blue_maincircle" xalign 0.5 yalign 0.5  
             window:
@@ -1208,6 +1233,7 @@ screen chat_home(reshow=False):
             background "gray_mainbtn"
             hover_background "gray_mainbtn_hover"
         action Show('email_hub', Dissolve(0.5))
+        activate_sound 'sfx/UI/select_email.mp3'
         if unread_emails() > 0:
             add "blue_maincircle" xalign 0.5 yalign 0.5
             window:
@@ -1229,6 +1255,7 @@ screen chat_home(reshow=False):
         background "gray_chatbtn"
         hover_background "gray_chatbtn_hover"
         action [deliver_all, Show('chat_select')]
+        activate_sound "sfx/UI/chatroom_select.mp3"
         add "rfa_chatcircle" yalign 0.5 xalign 0.5
         add "blue_chatcircle" xalign 0.5 yalign 0.5
         add "chat_icon" xalign 0.5 yalign 0.5
@@ -1256,6 +1283,7 @@ screen chat_home(reshow=False):
                         idle im.FactorScale(person.prof_pic, 0.9)
                         background im.FactorScale(person.prof_pic, 0.9)
                         action Show('chara_profile', who=person)
+                        activate_sound 'sfx/UI/profile_screen_select.mp3'
                     
                 # MC has to be displayed a bit differently
                 imagebutton:
@@ -1320,7 +1348,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action NullAction
+            action SetVariable('chips_available',True)
             
             add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
@@ -1392,10 +1420,10 @@ screen chat_home(reshow=False):
         
 screen chara_profile(who):
 
-    tag menu
+    tag settings_screen
 
     use starry_night
-    use menu_header("Profile", Show('chat_home', Dissolve(0.5)))   
+    use menu_header("Profile", Hide('chara_profile', Dissolve(0.5)))   
     
     add who.cover_pic yalign 0.231
     
@@ -1487,7 +1515,7 @@ screen chip_end:
     $ prize_heart = renpy.random.randint(1, 130)
     $ new_hp_total = persistent.HP + prize_heart
     # Picks a phrase for the item
-    $ prize_text = chip_prize_list[renpy.random.randint(0, len(chip_prize_list) - 1)]
+    $ prize_text = chip_prize_list.draw()
     
     add "Phone UI/choice_dark.png"   
 
@@ -1524,8 +1552,13 @@ screen chip_end:
                 text '0' style 'chip_prize_text'
                 add 'header_hg' xalign 0.15 yalign 0.5
                 
-                
-        text prize_text style 'chip_prize_description'
+        window:
+            maximum(600,100)
+            align(0.5, 0.05)
+            if len(prize_text) > 50:
+                text prize_text style 'chip_prize_description_long'
+            else:
+                text prize_text style 'chip_prize_description_short'
         imagebutton:
             idle 'space_continue'
             hover 'space_continue_hover'
@@ -1534,10 +1567,10 @@ screen chip_end:
             action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), Show('chat_home', Dissolve(0.5))]
         
    
-default chip_prize_list = ['A clump of cat hair.',
+default chip_prize_list = RandomBag( ['A clump of cat hair.',
     "Jumin's old toothbrush.",
     "Some Honey Buddha Chip crumbs.",
-    "Jaehee's old pair of glasses.",
-    "Yoosung's left sock."]
+    "Jaehee's spare pair of glasses.",
+    "Yoosung's left sock."] )
     # Feel free to add more things
         
