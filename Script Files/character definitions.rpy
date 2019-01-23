@@ -19,20 +19,38 @@ init -5 python:
             else:
                 self.voicemail = Phone_Call(self, 'voicemail_1', 'voicemail', 2, True)
             self.heart_points = 0  
+            self.good_heart = 0
+            self.bad_heart = 0
             self.heart_color = heart_color
             self.emote_list = emote_list
             
         def update_voicemail(self, new_label):
             self.voicemail.phone_label = new_label
 
-        def increase_heart(self):
+        def increase_heart(self, bad=False):
             self.heart_points += 1
+            if not bad:
+                self.good_heart += 1
+            else:
+                self.bad_heart -= 1
             
         def decrease_heart(self):
             self.heart_points -= 1
+            self.good_heart -= 1
             
         def reset_heart(self):
             self.heart_points = 0
+            self.good_heart = 0
+            self.bad_heart = 0
+            
+        def set_prof_pic(self, new_img):
+            self.prof_pic = new_img
+            
+        def set_cover_pic(self, new_img):
+            self.cover_pic = new_img
+            
+        def set_status(self, new_status):
+            self.status = new_status
 
         # This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
@@ -53,18 +71,18 @@ init -5 python:
 ##  cover_pic/status  - as stated
 ##  voicemail - generally set at the end of a chatroom, not during definition time
 
-default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "#ff2626", seven_emotes, "Cover Photos/profile_cover_photo.png", "707's status")
-default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "#31ff26", yoosung_emotes, "Cover Photos/profile_cover_photo.png", "Yoosung's status")
-default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png')
 default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 'Profile Pics/ja_chat.png', "#d0b741", jaehee_emotes, "Cover Photos/profile_cover_photo.png", "Jaehee's status")
 default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 'Profile Pics/ju_chat.png', "#a59aef", jumin_emotes, "Cover Photos/profile_cover_photo.png", "Jumin's status")
-default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "#c9c9c9", zen_emotes, "Cover Photos/profile_cover_photo.png", "Zen's status")
-default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "#fcef5a", rika_emotes, "Cover Photos/profile_cover_photo.png", "Rika's status")
+default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png')
 default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 'Profile Pics/r_chat.png', "#b81d7b", ray_emotes, "Cover Photos/profile_cover_photo.png", "Ray's status")
+default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "#fcef5a", rika_emotes, "Cover Photos/profile_cover_photo.png", "Rika's status")
+default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "#ff2626", seven_emotes, "Cover Photos/profile_cover_photo.png", "707's status")
 default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 'Profile Pics/sa_chat.png', "#b81d7b", saeran_emotes, "Cover Photos/profile_cover_photo.png", "Saeran's status")
 default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 'Profile Pics/u_chat.png', "#ffffff")
 default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 'Profile Pics/v_chat.png', "#50b2bc", v_emotes, "Cover Photos/profile_cover_photo.png", "V's status")
-   
+default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "#31ff26", yoosung_emotes, "Cover Photos/profile_cover_photo.png", "Yoosung's status")
+default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "#c9c9c9", zen_emotes, "Cover Photos/profile_cover_photo.png", "Zen's status")
+
 # These are special 'characters' for additional features
 define msg = Chat("msg")
 define filler = Chat("filler")
@@ -459,6 +477,7 @@ layeredimage seven side:
 ## ****************************
 layeredimage saeran vn:   
     yoffset 170
+    xoffset 70
 
     group body:
         attribute unknown "VN Mode/Unknown/unknown_body_unknown.png"
