@@ -1,7 +1,4 @@
 
-default menutext = ''
-  
-
 label vn_mode_tutorial:
 
     # Make sure you call this at the start of a VN section
@@ -27,10 +24,6 @@ label vn_mode_tutorial:
     r_vn "This mode is most similar to what you'll find in the majority of Ren'Py projects."
     show saeran vn happy
     r_vn "There are a couple of things to show you about VN mode. What would you like to learn about first?"
-    
-    # This menutext variable is a sort of work-around so that I can show different
-    # text during the menu, even though the options are the same
-    $ menutext = "There are a couple of things to show you about VN mode. What would you like to learn about first?"
     jump vn_tutorial
   
 ##************************************
@@ -38,7 +31,9 @@ label vn_mode_tutorial:
 ##************************************    
 label vn_tutorial():
     menu:
-        r_vn '[menutext]{fast}'
+        # This makes the previous line before the menu stay
+        # on-screen while the player is making their choice
+        extend ''
         
         "How do I get different expressions and outfits?":
             m_vn "How do I get different expressions and outfits?"
@@ -66,8 +61,9 @@ label vn_tutorial():
             
         "That's enough explanation, thanks.":
             m_vn "That's enough explanation, thanks."
+            show saeran vn smile
             r_vn "Alright! Hope this helped you."
-            call vn_end # Call this to end the VN Mode section
+            jump vn_end # Use this to end the VN Mode section
             
     show saeran vn happy
     
@@ -104,7 +100,7 @@ label vn_writing:
     and {b}Log{/b} will show you a log of the dialogue history.
     """
     show saeran vn thinking
-    $ menutext = "Is there anything else you'd like to learn more about?"
+    r_vn "Is there anything else you'd like to learn more about?"
     jump vn_tutorial
     
 ##************************************
@@ -130,19 +126,19 @@ label vn_layeredimage:
     r_vn "We'll show you what I mean with V."
     
     show v side happy
-    pause 1.0
+    pause 0.7
     show v side happy short_hair
-    pause 1.0
+    pause 0.7
     show v side happy long_hair glasses
-    pause 1.0
+    pause 0.7
     show v side happy long_hair -glasses
-    pause 1.0
+    pause 0.7
     show v side thinking glasses
-    pause 1.0
+    pause 0.7
     show v side thinking -glasses
-    pause 1.0
+    pause 0.7
     show v side neutral glasses
-    pause 1.0
+    pause 0.7
     show v side neutral -glasses
     
     v_vn "As you can see, there are several expressions both with and without my sunglasses."
@@ -158,7 +154,6 @@ label vn_layeredimage:
     
     r_vn "You'll want to take a look at the 'cheat sheet' in {b}character definitions.rpy{/b} that tells you all the expressions and accessories available to each character."
     r_vn "Anything else you'd like to know about?"
-    $ menutext = "Anything else you'd like to know about?"
     jump vn_tutorial
     
 ##************************************
@@ -167,6 +162,10 @@ label vn_layeredimage:
 label vn_position:
     r_vn "You might have noticed before, but you can position the characters in the middle,"
     r_vn "or to the left and right sides of the screen."
+    show saeran vn at vn_farleft with ease
+    r_vn "This is {b}vn_farleft{/b}."
+    show saeran vn at vn_farright with ease
+    r_vn "And this is {b}vn_farright{/b}."
     show saeran vn at vn_left with ease
     r_vn "This position is called {b}vn_left{/b}."
     show saeran vn at vn_right with ease
@@ -177,13 +176,20 @@ label vn_position:
     r_vn "And this is {b}vn_midright{/b}."
     show saeran vn at default with ease
     r_vn "The default position is just called {b}default{/b}, and characters will appear there if you don't specify a different location."
-    show saeran vn thinking
+    show saeran vn at vn_center
+    r_vn "There's also this position, {b}vn_center{/b}."
+    r_vn "It puts the character a bit closer to the screen, to imply they're talking directly to you."
+    # If you use vn_center and want to put the character back to a different
+    # position, you'll need to 'hide' them first
+    hide saeran vn
+    show saeran vn thinking at default
+    r_vn "If you do use the {b}vn_center{/b} position, you'll need to {b}hide{/b} the character before you put them in a new position."
+    show saeran vn neutral
     r_vn "Know that not all positions will look right for each character;"
     r_vn "sometimes they'll be too far off-screen if you use {b}vn_left{/b}, so you'll need to use {b}vn_midleft{/b} instead."
     r_vn "You can always define your own transforms to position the characters exactly how you want, too."
     show saeran vn neutral
     r_vn "Anything else you'd like to learn about?"
-    $ menutext = "Anything else you'd like to learn about?"
     jump vn_tutorial
     
     
@@ -193,7 +199,7 @@ label vn_position:
 ##************************************  
 menu vn_showcase:
 
-    "Who would you like to see?"
+    "Who would you like to see?{fast}"
     
     "Major Characters":
         jump vn_showcase_major1
@@ -206,7 +212,7 @@ menu vn_showcase:
     
 menu vn_showcase_major1:
 
-    "Who would you like to see?"
+    "Who would you like to see?{fast}"
     
     "Jaehee":
         jump jaehee_showcase
@@ -225,7 +231,7 @@ menu vn_showcase_major1:
     
 menu vn_showcase_major2:
     
-    "Who would you like to see?"
+    "Who would you like to see?{fast}"
     
     "<- Back":
         jump vn_showcase_major1
@@ -244,7 +250,7 @@ menu vn_showcase_major2:
     
 menu vn_showcase_minor1:
 
-    "Who would you like to see?"
+    "Who would you like to see?{fast}"
     
     "Bodyguards":
         jump bodyguards_showcase
@@ -263,7 +269,7 @@ menu vn_showcase_minor1:
     
 menu vn_showcase_minor2:
 
-    "Who would you like to see?"
+    "Who would you like to see?{fast}"
     
     "<- Back":
         jump vn_showcase_minor1
@@ -503,6 +509,7 @@ label seven_showcase:
     jump vn_showcase
     
 label saeran_showcase:
+    show saeran vn neutral
     r_vn "Oh, me?"
     r_vn "Okay. I have several different expressions."
     show saeran vn happy
@@ -846,9 +853,8 @@ label bodyguards_showcase:
 label chairman_showcase:
     hide saeran vn
     show chairman_han 
-    "If you'd like the minor characters to speak, you'll need to define your own character for them."
-    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
-    "Chairman Han has the following expressions:"
+    chief_vn "I already have a character defined so I can speak."
+    chief_vn "These are my expressions:"
     show chairman_han happy
     pause 0.8
     show chairman_han thinking
@@ -917,9 +923,8 @@ label minister_showcase:
 label sarah_showcase:    
     hide saeran vn
     show sarah 
-    "If you'd like the minor characters to speak, you'll need to define your own character for them."
-    "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
-    "Sarah has the following expressions:"
+    sarah_vn "I already have a character defined so I can talk, haha~"
+    sarah_vn "These are my expressions!"
     show sarah happy
     pause 0.8
     show sarah excited
