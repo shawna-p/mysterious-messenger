@@ -438,7 +438,7 @@ screen file_slots(title):
             
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto):
-                $ save_title = current_chatroom.route + '|' + the_day + '|' + current_chatroom.title
+                $ save_title = current_chatroom.save_img + '|' + the_day + '|' + current_chatroom.title
                 if '|' in FileSaveName(mm_auto):
                     $ rt, dn, cn = FileSaveName(mm_auto).split('|')
                 else:                    
@@ -494,7 +494,7 @@ screen file_slots(title):
                 $ slot = i + 1
                 
                 
-                $ save_title = current_chatroom.route + '|' + the_day + '|' + current_chatroom.title
+                $ save_title = current_chatroom.save_img + '|' + the_day + '|' + current_chatroom.title
                 if '|' in FileSaveName(slot):
                     $ rt, dn, cn = FileSaveName(slot).split('|')
                 else:                    
@@ -514,7 +514,7 @@ screen file_slots(title):
                         window:
                             maximum(120, 120)
                             align (0.5, 0.5)
-                            # Adds the correct route image to the left
+                            # Adds the correct save image to the left
                             if FileLoadable(slot):
                                 add 'save_' + rt xalign 0.5 yalign 0.5
                             else:
