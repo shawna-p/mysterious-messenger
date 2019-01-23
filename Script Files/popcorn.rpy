@@ -6,6 +6,13 @@ label popcorn_chat:
 
     call chat_begin("morning")
 
+    # This sets new profile pictures for Jaehee and
+    # Jumin. There are similar functions for changing
+    # cover photos (e.g. ja.set_cover_pic) and status
+    # updates (e.g. ja.set_status)
+    $ ja.set_prof_pic('Profile Pics/Jaehee/jae-2.jpg')
+    $ ju.set_prof_pic('Profile Pics/Jumin/ju-18.jpg')
+    
     play music urban_night_cityscape loop
     
     ju "Zen's written some strange things." 
@@ -93,7 +100,7 @@ label popcorn_chat:
     ja "Please let me know as soon as you're there."
     call exit(ja)   
     
-    call chat_end   
+    jump chat_end   
     
 
 
@@ -175,7 +182,7 @@ label popcorn_vn:
     ja_vn "...Should I write all this down?"
     show jumin front angry at vn_right
     ju_vn "Every single word."
-    # KNOCK SFX
+    play sound door_knock_sfx
     "(!!)"
     
     # Now that Jaehee is on screen, we don't need to repeat the 'glasses' attribute if we change her expression
@@ -184,7 +191,7 @@ label popcorn_vn:
     ju_vn "I can't let anyone interfere with such an important meeting."
     show jaehee vn worried
     ja_vn "Something could have occurred in your home. I'll open the door."
-    # DOOR OPEN SFX
+    play sound door_open_sfx
     "(Door opened)"
     show jaehee vn serious
     ja_vn "Come in..."
@@ -368,7 +375,7 @@ label popcorn_vn:
     pause 
     
     # Use this to end the VN section
-    call vn_end
+    jump vn_end
         
         
         

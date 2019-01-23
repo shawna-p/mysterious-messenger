@@ -43,7 +43,7 @@ label example_email:
     
     call exit(z)
             
-    call chat_end
+    jump chat_end
 
 
 

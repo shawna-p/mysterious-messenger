@@ -362,8 +362,8 @@ label ending:
     u "{=sser2}I hope you find this program helpful.{/=sser2}"
     u "{=sser2}Good luck!{/=sser2}"
     call exit(u)
-    # Call this at the end of a chatroom
-    call chat_end
+    # Use this at the end of a chatroom
+    jump chat_end
 
     
 

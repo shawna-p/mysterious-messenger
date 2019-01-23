@@ -6,8 +6,8 @@ label example_text:
     r "Bye!"
     call exit(r)
     
-    # Call this to end the chat and return to the main menu
-    call chat_end
+    # Use this to end the chat and return to the main menu
+    jump chat_end
 
     
 # Put anything you want to have happen after the chatroom ends here, 
