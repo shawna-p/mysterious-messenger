@@ -125,6 +125,7 @@ default oldPV = pv
 # you'll also have to pass it 'False' as its second argument
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
+    stop music
     if clearchat:
         $ chatlog = []
         $ pv = 0.8

@@ -18,6 +18,8 @@ image bg black = '#000000'
 #####################################
 
 define car_moving_sfx = "sfx/car moving.mp3"
+define door_knock_sfx = "sfx/door knock.mp3"
+define door_open_sfx = "sfx/door open.mp3"
 
 
 #####################################
@@ -30,16 +32,19 @@ transform vn_farleft:
     yalign 1.0
     xoffset -300
     yoffset 0
+    zoom 1.0
 
 transform vn_left:
     xalign 0.0
     yalign 1.0
     xoffset -100
+    zoom 1.0
     
 transform vn_midleft:
     xalign 0.0
     yalign 1.0
     xoffset -50
+    zoom 1.0
     
 transform vn_center:
     xalign 0.5
@@ -54,18 +59,20 @@ transform vn_midright:
     xalign 1.0
     yalign 1.0
     xoffset 50
+    zoom 1.0
     
 transform vn_right:
     xalign 1.0
     yalign 1.0
     xoffset 100
-
+    zoom 1.0
+    
 transform vn_farright:
     xalign 1.0
     yalign 1.0
     yoffset 0
     xoffset 300    
-
+    zoom 1.0
     
     
 #####################################

@@ -526,7 +526,7 @@ label enter(chara):
     $ mystring = chara.name + " has entered the chatroom."
     
     $ addchat(msg, mystring, pv)
-    if not observing:    
+    if not observing:
         $ current_chatroom.add_participant(chara)
     return
     

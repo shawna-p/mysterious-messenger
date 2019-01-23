@@ -553,6 +553,7 @@ label new_incoming_call(phonecall):
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
 label phone_begin:
+    stop music
     hide screen incoming_call
     hide screen outgoing_call
     show screen in_call
