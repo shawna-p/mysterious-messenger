@@ -363,8 +363,8 @@ label tutorial_chat:
     y "{=sser2}I'm gonna go to the supermarket~!{/=sser2}"
     call exit(y)
     
-    # Call this to end the chat and return to the main menu
-    call chat_end
+    # Use this to end the chat and return to the main menu
+    jump chat_end
 
     
 # Put anything you want to have happen after the chatroom ends here, 
@@ -452,8 +452,8 @@ label tutorial_chat_incoming_z:
     voice 'Phone Voicefiles/Zen/tutorial_chat_incoming_z_13.mp3'
     z_phone "Bye bye."
     
-    # Call this when the call is finished
-    call phone_end
+    # Use this when the call is finished
+    jump phone_end
     
 ## This is the label you jump to for the phone call with Yoosung
 ## It should be the name of the chatroom's label + _phone_ + the variable
@@ -509,7 +509,7 @@ label tutorial_chat_phone_y:
 
     """
     
-    call phone_end
+    jump phone_end
  
     
 ## This should be the label you told the program to go to if they
