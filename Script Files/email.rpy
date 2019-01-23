@@ -255,7 +255,32 @@ init python:
         global email_list
         for e in email_list:
             e.deliver()
-                
+            
+    # Returns the number of guests attending the party
+    # If a guest's email chain is successfully completed, 
+    # they are guaranteed to come. If you got the first two
+    # messages right but not the third, the guest has a 67%
+    # chance of coming. If you got only the first message
+    # correct, the guest has a 33% chance of coming. Guests
+    # will only attend if all of their messages have been
+    # replied to and if you've read the final email in the chain
+    def attending_guests():
+        global email_list
+        num_guests = 0
+        for e in email_list:
+            if e.completed():
+                # 3/3 messages correct
+                num_guests += 1
+            elif e.is_failed():
+                # 2/3 messages correct
+                if e.second_msg() == 'email_good':
+                    if renpy.random.choice([True, True, False]):
+                        num_guests += 1
+                # 1/3 messages correct
+                elif e.first_msg() == 'email_good':
+                    if renpy.random.choice([True, False, False]):
+                        num_guests += 1
+        return num_guests
                 
 default email_list = []
             
