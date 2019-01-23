@@ -291,7 +291,7 @@ screen chatroom_display(mychat):
                         Jump(mychat.chatroom_label + '_branch')], no_action=Hide('confirm'))                 
             else:
                 action Show("confirm", message="Please proceed after completing the unseen old conversations.",
-                        yes_action=Hide('confirm'), no_action=False)
+                        yes_action=Hide('confirm'))
                 
     
 # This is used to continue the game after a plot branch    

@@ -1242,7 +1242,7 @@ image menu_popup_bkgrd = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",60,60,6
 image menu_popup_btn = Frame("Phone UI/Main Menu/menu_popup_btn.png",20,20,20,20)
 image menu_popup_btn_hover = Frame("Phone UI/Main Menu/menu_popup_btn_hover.png",20,20,20,20)
 
-screen confirm(message, yes_action, no_action):
+screen confirm(message, yes_action, no_action=False):
 
     ## Ensure other screens do not get input while this screen is displayed.
     modal True
@@ -1267,19 +1267,21 @@ screen confirm(message, yes_action, no_action):
             hbox:
                 xalign 0.5
                 spacing 100
-
+                
                 textbutton _("Confirm"):
                     text_style "confirm_text"
                     xsize 200
                     background "menu_popup_btn" padding(20,20)
                     hover_background "menu_popup_btn_hover"
                     action yes_action
-                textbutton _("Cancel"): 
-                    text_style "confirm_text"
-                    xsize 200
-                    background "menu_popup_btn" padding(20,20)
-                    hover_background "menu_popup_btn_hover"
-                    action no_action
+                if no_action:
+                    textbutton _("Cancel"): 
+                        text_style "confirm_text"
+                        xsize 200
+                        background "menu_popup_btn" padding(20,20)
+                        hover_background "menu_popup_btn_hover"
+                        action no_action
+                
 
     ## Right-click and escape answer "no".
     key "game_menu" action no_action
