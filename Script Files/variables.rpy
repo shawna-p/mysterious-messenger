@@ -64,10 +64,10 @@ init -6 python:
     # A more complete explanation of how to use it to set up chatrooms can be found
     # in the accompanying Script Generator spreadsheet
     class Chat_History(store.object):
-        def __init__(self, title, route, chatroom_label, trigger_time, participants=[],
+        def __init__(self, title, save_img, chatroom_label, trigger_time, participants=[],
                         vn_obj=False):
             self.title = title
-            self.route = route
+            self.save_img = save_img
             self.chatroom_label = chatroom_label
             self.trigger_time = trigger_time
             self.participants = participants
@@ -109,16 +109,26 @@ init -6 python:
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
+                    # Edge case; if they haven't played the currently
+                    # available chatroom, don't make anything new
+                    # available and stop
                     if chatroom.available and not chatroom.played:
                         triggered_next = True
                         break
+                    # If the next thing is a plot branch, stop
+                    if chatroom.played and chatroom.vn_obj == 'PLOT BRANCH':
+                        break
+                    # If the chatroom has an unavailable VN after it, make that available and stop
                     if chatroom.played and chatroom.vn_obj and not chatroom.vn_obj.available:
                         chatroom.vn_obj.available = True
                         triggered_next = True
                         break
+                    # If they haven't played the VN yet, don't make anything new available and stop
                     if chatroom.played and chatroom.vn_obj and chatroom.vn_obj.available and not chatroom.vn_obj.played:
                         triggered_next = True
                         break
+                    # If the current chatroom isn't available, make it available and stop
+                    # Also decrease the time old phone calls are available
                     if not chatroom.available:
                         chatroom.available = True
                         current_chatroom = chatroom
@@ -154,6 +164,26 @@ init -6 python:
             current_call = incoming_call
             incoming_call = False
             renpy.call('new_incoming_call', phonecall=current_call)
+    
+    # This function takes a route (new_route) and merges it with the
+    # current route
+    def merge_routes(new_route, is_vn=False):
+        global chat_archive
+        current_chatroom.vn_obj = False
+        for archive in chat_archive:
+            for archive2 in new_route:
+                if archive2.day == archive.day:
+                    # If there is a conditional VN object
+                    if is_vn:
+                        # replace the old VN obj with the new one
+                        archive.archive_list[-1].vn_obj = archive2.archive_list[0].vn_obj
+                        del archive2.archive_list[0]
+                        is_vn = False
+                    
+                    archive.archive_list += archive2.archive_list
+                    archive.route = archive2.route
+                    
+        
             
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
@@ -162,7 +192,8 @@ default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'a
                                     Chat_History('Text Message Example', 'auto', 'example_text', '02:11', [r], VN_Mode('vn_mode_tutorial', r)),
                                     Chat_History('Inviting Guests', 'auto', 'example_email', '03:53', [z]),
                                     Chat_History('Pass Out After Drinking Coffee Syndrome', 'auto', 'tutorial_chat', '04:05', [s]),
-                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '07:07', [ja, ju], VN_Mode('popcorn_vn', ju))]),
+                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '07:07', [ja, ju], VN_Mode('popcorn_vn', ju)),
+                                    Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], 'PLOT BRANCH')]),
                         Archive('1st'),
                         Archive('2nd'),
                         Archive('3rd'),
@@ -174,6 +205,18 @@ default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'a
                         Archive('9th'),
                         Archive('10th'),
                         Archive('Final')]
+                        
+default tutorial_bad_end = [Archive('Tutorial', [Chat_History('An Unfinished Task', 'auto', 'tutorial_bad_end', '13:26', [v])] )]
+default tutorial_good_end = [Archive('Tutorial', [ Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], VN_Mode('plot_branch_vn')),
+                                                   Chat_History('Onwards!', 'auto', 'tutorial_good_end', '13:26', [u])] )]
+                        
+default seven_route = [ Archive('5th', [], 'day_s'),
+                        Archive('6th', [], 'day_s'),
+                        Archive('7th', [], 'day_s'),
+                        Archive('8th', [], 'day_s'),
+                        Archive('9th', [], 'day_s'),
+                        Archive('10th', [], 'day_s'),
+                        Archive('Final', [], 'day_s')]
                         
                         
 default available_calls = []
@@ -921,6 +964,7 @@ image input_close = "Phone UI/Main Menu/main02_close_button.png"
 image input_close_hover = "Phone UI/Main Menu/main02_close_button_hover.png"
 image input_square = Frame("Phone UI/Main Menu/main02_text_input.png",40,40)
 image input_popup_bkgr = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",70,70)
+image input_popup_bkgr_hover = Frame("Phone UI/Main Menu/menu_popup_bkgrd_hover.png",70,70)
     
     
 
@@ -1077,6 +1121,7 @@ image day_percent = Frame('Phone UI/Day Select/daychat_percent.png', 15, 15)
 image day_percent_bg = Frame('Phone UI/Day Select/daychat_percent_bg.png', 15, 15)
 image day_percent_border = Frame('Phone UI/Day Select/daychat_percent_border.png', 15, 15)
 image day_hlink = 'Phone UI/Day Select/daychat_hlink.png'
+image plot_lock = 'Phone UI/Day Select/plot_lock.png'
 
 image day_vlink = im.Tile('Phone UI/Day Select/daychat_vlink.png',(15,1180))
 image vn_inactive = 'Phone UI/Day Select/vn_inactive.png'
