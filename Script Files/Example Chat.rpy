@@ -3,6 +3,10 @@ label example_chat:
     $ first_choice = True
     $ choice_picked = None
        
+    # This sets up a very specific phone call which will never expire
+    # You'll generally never want to add phone calls this way
+    $ available_calls.append(Phone_Call(r, 'test_call', 'outgoing', 'test'))
+       
     call hack      
     call chat_begin("hack")
     
@@ -365,6 +369,41 @@ label ending:
     # Use this at the end of a chatroom
     jump chat_end
 
+label test_call:
+
+    call phone_begin
+    
+    r_phone "Hello?"
+    
+    menu:
+        extend ''
+        "Ray, it's me.":
+            m_phone "Ray, it's me."
+            r_phone "Oh! It's nice to hear from you, [name]."
+            
+        "Hello? Can you hear me?":
+            m_phone "Hello? Can you hear me?"
+            r_phone "Yes! [name], right? It's nice to hear from you."
+            
+    r_phone """
+    
+    Looks like you figured out the phone call function, huh?
+    
+    This is a test call for the program. It's always available on Tutorial Day.
+    
+    That means you'll never hear my voicemail message, but you can try calling the other characters to hear their voicemail.
+    
+    Usually, phone calls will timeout two chatrooms after it's first 'activated'.
+    
+    That means you won't be able to phone that character anymore to get that conversation. So be sure to call the characters often!
+    
+    You can find much more explanation on this feature and more in the User Guide.
+    
+    It was nice talking with you! Have a great day~
+    
+    """                       
+    
+    jump phone_end
     
 
 menu bubbles:
