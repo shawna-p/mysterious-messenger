@@ -55,8 +55,7 @@ label menu_a1:
             $ addtext (r, "{image=ray happy}", r, True)
             $ addtext (r, "Thank you ^^", r)
 
-    $ renpy.retain_after_load()
-    return
+    jump text_end
     
 label menu_a2:
 
@@ -73,8 +72,7 @@ label menu_a2:
             $ addtext (v, "It's up to you whether to use them or not.", v)
             $ addtext (v, "I hope you enjoy the rest of the program.", v)
         
-    $ renpy.retain_after_load()
-    return
+    jump text_end
     
     
     
