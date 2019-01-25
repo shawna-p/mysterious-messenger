@@ -36,6 +36,11 @@ label popcorn_chat:
             m "Shouldn't you think of a plan to protect Elizabeth the 3rd just in case?"   (pauseVal=0)
             
     ju "Fantastic idea."   (bounce=True)
+    # This adds a 'bad' heart point for Jumin -- it still awards
+    # the player a heart point, but you can use this to count 'bad'
+    # responses while still giving heart points so you can make a
+    # plot branch later and count the 'bad' responses
+    call heart_icon(ju, True)
     ja "{image=jaehee well}" (img=True)
     ja "This is not the time for that..." 
     ju "Perhaps Zen had that dream last night" 
@@ -53,6 +58,7 @@ label popcorn_chat:
     ja "{image=jaehee question}" (img=True)
     ju "Oh..." 
     ju "{size=+10}Good idea!{/size}"   (bounce=True)
+    call heart_icon(ju, True)
     ja "What...;;??" 
     ju "I feel like [name] understands me very well."   (bounce=True, specBubble="cloud_l")
     ju "{image=jumin smile}" (img=True)
@@ -72,6 +78,7 @@ label popcorn_chat:
             m "Hahaha~ of course. You should listen to my excellent ideas."   (pauseVal=0)
             
     ju "{=sser2}You're very quick to understand.{/=sser2}" 
+    call heart_icon(ju, True)
     ju "{=sser2}Come to the C&R building right away.{/=sser2}" 
     ja "-_-" 
     ja "{image=jaehee well}" (img=True)
