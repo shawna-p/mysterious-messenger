@@ -311,7 +311,8 @@ screen text_msg_popup(the_msg):
                             text last_msg.what[:48] + '...' size 30 xalign 0.5 yalign 0.5 text_align 0.5
                         elif last_msg:
                             text last_msg.what[:48] size 30 xalign 0.5 yalign 0.5 text_align 0.5
-                        
+            
+            
             textbutton _('Go to'):
                 text_style 'mode_select'
                 xalign 0.5
@@ -320,10 +321,10 @@ screen text_msg_popup(the_msg):
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), 
-                        the_msg.mark_read, SetVariable("CG_who", the_msg), 
-                        Show('text_message_screen', the_msg=the_msg)]
-                
+                if not (renpy.get_screen('in_call') or renpy.get_screen('incoming_call') or renpy.get_screen('outgoing call')):
+                    action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), 
+                            the_msg.mark_read, SetVariable("CG_who", the_msg), 
+                            Show('text_message_screen', the_msg=the_msg)]
     timer 3.25:
         if randint(0,1):
             action [Hide('text_msg_popup', Dissolve(0.25)), deliver_next]
@@ -573,4 +574,8 @@ screen text_animation(i):
                     else:
                         text text_time color "#fff" yalign 1.0 size 23
                                             
+                                            
+label text_end:
+    $ renpy.retain_after_load()
+    return
         
