@@ -373,25 +373,26 @@ label tutorial_chat:
 # label was tutorial_chat, so this label is after_tutorial_chat)
 label after_tutorial_chat:
 
-    python: 
-        ## Seven's text message
-        addtext (s, "Thanks for not spoiling the secret~ ^^", s)
-        addtext (s, "You're a lot of fun to talk to meow!", s)
-        # This is the name of the label to jump to when you reply to Seven's
-        # text message. You can leave this out if you don't want the player
-        # to be able to reply anymore
-        add_reply_label(s, 'coffee1')
-        
-        ## Yoosung's text message
-        addtext (y, "[name]... what do I do...", y)
-        add_reply_label(y, 'coffee2')
-        
-        ## Set everyone else's voicemails appropriately
-        # (In this case, everyone gets the same label)
-        # The different voicemails are defined in phone screen.rpy
+    ## Seven's text message
+    $ addtext (s, "Thanks for not spoiling the secret~ ^^", s)
+    $ addtext (s, "You're a lot of fun to talk to meow!", s)
+    # This is the name of the label to jump to when you reply to Seven's
+    # text message. You can leave this out if you don't want the player
+    # to be able to reply anymore
+    $ add_reply_label(s, 'coffee1')
+    
+    ## Yoosung's text message
+    $ addtext (y, "[name]... what do I do...", y)
+    $ add_reply_label(y, 'coffee2')
+    
+    ## Set everyone else's voicemails appropriately
+    # (In this case, everyone gets the same label)
+    # The different voicemails are defined in phone screen.rpy
+    python:
         for char in character_list:
             char.update_voicemail('voicemail_1')
     
+    # Use this to end the after_ label
     return
     
 ## This is the label you jump to for the phone call with Zen
@@ -534,8 +535,7 @@ label coffee1():
             $ addtext (s, "I'm sure he'd be happy you're worried for him tho lolol", s)
 
     # You should have this line after a text message so Ren'Py saves the conversation
-    $ renpy.retain_after_load()
-    return
+    jump text_end
     
 ## This is the label to go to when replying to Yoosung's message
 label coffee2():
@@ -555,8 +555,7 @@ label coffee2():
             $ addtext (y, "And he really does keep track of all the members...", y)
             $ addtext (y, "I'm sure it's not a lie.", y)
 
-    $ renpy.retain_after_load()
-    return
+    jump text_end
     
    
     
