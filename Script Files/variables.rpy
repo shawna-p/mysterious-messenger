@@ -65,7 +65,7 @@ init -6 python:
     # in the accompanying Script Generator spreadsheet
     class Chat_History(store.object):
         def __init__(self, title, save_img, chatroom_label, trigger_time, participants=[],
-                        vn_obj=False):
+                        vn_obj=False, plot_branch=False):
             self.title = title
             self.save_img = save_img
             self.chatroom_label = chatroom_label
@@ -76,6 +76,7 @@ init -6 python:
             self.participated = True
             self.available = False
             self.expired = False
+            self.plot_branch = plot_branch
             
         def add_participant(self, chara):
             if not chara in self.participants:
@@ -84,14 +85,13 @@ init -6 python:
             
     # This class stores the information needed for the Visual Novel portions of the game
     class VN_Mode(store.object):
-        def __init__(self, vn_label, who=None, played=False, available=False):
+        def __init__(self, vn_label, who=None, party=False):
             self.vn_label = vn_label
             self.who = who
-            self.played = played
-            self.available = available
-            
-    
-            
+            self.played = False
+            self.available = False
+            self.party = party
+              
             
     # This object stores all the chatrooms you've viewed in the game. 
     class Archive(store.object):
@@ -115,9 +115,6 @@ init -6 python:
                     if chatroom.available and not chatroom.played:
                         triggered_next = True
                         break
-                    # If the next thing is a plot branch, stop
-                    if chatroom.played and chatroom.vn_obj == 'PLOT BRANCH':
-                        break
                     # If the chatroom has an unavailable VN after it, make that available and stop
                     if chatroom.played and chatroom.vn_obj and not chatroom.vn_obj.available:
                         chatroom.vn_obj.available = True
@@ -126,7 +123,7 @@ init -6 python:
                     # If they haven't played the VN yet, don't make anything new available and stop
                     if chatroom.played and chatroom.vn_obj and chatroom.vn_obj.available and not chatroom.vn_obj.played:
                         triggered_next = True
-                        break
+                        break              
                     # If the current chatroom isn't available, make it available and stop
                     # Also decrease the time old phone calls are available
                     if not chatroom.available:
@@ -169,7 +166,7 @@ init -6 python:
     # current route
     def merge_routes(new_route, is_vn=False):
         global chat_archive
-        current_chatroom.vn_obj = False
+        current_chatroom.plot_branch = False
         for archive in chat_archive:
             for archive2 in new_route:
                 if archive2.day == archive.day:
@@ -193,7 +190,7 @@ default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'a
                                     Chat_History('Inviting Guests', 'auto', 'example_email', '03:53', [z]),
                                     Chat_History('Pass Out After Drinking Coffee Syndrome', 'auto', 'tutorial_chat', '04:05', [s]),
                                     Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '07:07', [ja, ju], VN_Mode('popcorn_vn', ju)),
-                                    Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], 'PLOT BRANCH')]),
+                                    Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], False, True)]),
                         Archive('1st'),
                         Archive('2nd'),
                         Archive('3rd'),
@@ -208,7 +205,7 @@ default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'a
                         
 default tutorial_bad_end = [Archive('Tutorial', [Chat_History('An Unfinished Task', 'auto', 'tutorial_bad_end', '13:26', [v])] )]
 default tutorial_good_end = [Archive('Tutorial', [ Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], VN_Mode('plot_branch_vn')),
-                                                   Chat_History('Onwards!', 'auto', 'tutorial_good_end', '13:26', [u])] )]
+                                                   Chat_History('Onwards!', 'auto', 'tutorial_good_end', '13:26', [u], VN_Mode('good_end_party', None, True))] )]
                         
 default seven_route = [ Archive('5th', [], 'day_s'),
                         Archive('6th', [], 'day_s'),
@@ -1149,6 +1146,8 @@ image vn_s = 'Phone UI/Day Select/vn_s.png'
 image vn_v = 'Phone UI/Day Select/vn_v.png'
 image vn_y = 'Phone UI/Day Select/vn_y.png'
 image vn_z = 'Phone UI/Day Select/vn_z.png'
+image vn_party = 'Phone UI/Day Select/vn_party.png'
+image vn_party_inactive = 'Phone UI/Day Select/vn_party_inactive.png'
 
 ## ********************************
 ## Phone Call Screen
