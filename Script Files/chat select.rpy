@@ -41,9 +41,9 @@ screen day_select(day):
                 played = True
             if i.available and not i.played:
                 is_today = True
-            if i.played and i.vn_obj == 'PLOT BRANCH':
+            if i.played and i.plot_branch:
                 is_today = True
-            elif i.vn_obj and not i.vn_obj == 'PLOT BRANCH' and i.vn_obj.available and not i.vn_obj.played:
+            elif i.vn_obj and i.vn_obj.available and not i.vn_obj.played:
                 is_today = True
         
         if day.archive_list:
@@ -161,7 +161,7 @@ screen chatroom_display(mychat):
     python:
 
         my_vn = mychat.vn_obj
-        if my_vn and not my_vn == 'PLOT BRANCH':
+        if my_vn and not my_vn.party:
             if my_vn.played:
                 vn_foreground = 'vn_active'
                 vn_hover = 'vn_active_hover'
@@ -171,8 +171,11 @@ screen chatroom_display(mychat):
             else:
                 vn_foreground = 'vn_inactive'
                 vn_hover = 'vn_inactive'
-        elif my_vn == 'PLOT BRANCH':
-            pass
+        elif my_vn and my_vn.party:
+            if my_vn.available:
+                vn_background = 'vn_party'
+            elif not my_vn.available:
+                vn_background = 'vn_party_inactive'
                 
         if mychat.played:
             chat_bkgr = 'chat_active'
@@ -251,7 +254,7 @@ screen chatroom_display(mychat):
                     if mychat.participated and mychat.played:
                         add Transform(m.prof_pic, zoom=.725)
                 
-    if my_vn and my_vn != 'PLOT BRANCH':
+    if my_vn and not my_vn.party:
         window:
             xysize(700, 160)
             xalign 0.0
@@ -272,9 +275,27 @@ screen chatroom_display(mychat):
                     add 'vn_' + my_vn.who.file_id xoffset -5
                 else:
                     add 'vn_other' xoffset -5
+    
+    # It's the VN that leads to the party
+    if my_vn and my_vn.party:
+        window:
+            xysize(600, 300)
+            xalign 1.0
+           
+            button:
+                xysize(463, 185)
+                xalign 0.5
+                yalign 0.5
+                background vn_background                
+                activate_sound 'sfx/UI/select_vn_mode.mp3'
+                if my_vn.available:
+                    hover_foreground vn_background
+                    # Note: afm is ~30 at its slowest, 0 when it's off, and 1 at its fastest
+                    action [Preference("auto-forward", "disable"), SetVariable('current_chatroom', mychat), Jump(my_vn.vn_label)]                    
+            
         
     # There's a plot branch
-    elif my_vn == "PLOT BRANCH":
+    if mychat.plot_branch:
         button:
             xysize(330, 85)
             background 'input_popup_bkgr'
@@ -285,7 +306,7 @@ screen chatroom_display(mychat):
                 align (0.5, 0.5)
                 add 'plot_lock'
                 text 'Tap to unlock' color '#fff' xalign 0.5 yalign 0.5
-            if mychat.available and mychat.played:
+            if mychat.available and mychat.played and (not mychat.vn_obj or mychat.vn_obj.played):
                 action Show("confirm", message="The game branches here. Continue?", # Missed chatrooms may appear depending on the time right now 
                         yes_action=[Hide('confirm'), SetVariable('current_chatroom', mychat),
                         Jump(mychat.chatroom_label + '_branch')], no_action=Hide('confirm'))                 
@@ -296,12 +317,28 @@ screen chatroom_display(mychat):
     
 # This is used to continue the game after a plot branch    
 label plot_branch_end:
-    # Checks for a post-chatroom label; won't trigger if there's a VN section
-    # Otherwise delivers phone calls/texts/etc
-    if renpy.has_label('after_' + current_chatroom.chatroom_label) and (not current_chatroom.vn_obj or current_chatroom.vn_obj == 'PLOT BRANCH'): 
-        $ renpy.call('after_' + current_chatroom.chatroom_label)            
+    # CASE 1
+    # Plot branch is just a chatroom, has an after label
+    if not current_chatroom.vn_obj:
+        if renpy.has_label('after_' + current_chatroom.chatroom_label):
+            $ renpy.call('after_' + current_chatroom.chatroom_label)
+        # Deliver calls/texts/etc
         $ deliver_calls(current_chatroom.chatroom_label)
         $ deliver_emails()   
+    # CASE 2
+    # Plot branch is after a chatroom, after branching there's a VN
+    elif current_chatroom.vn_obj and not current_chatroom.vn_obj.played:
+        # Don't deliver anything yet
+        pass
+    # CASE 3
+    # Plot branch is after a chatroom with a VN
+    elif current_chatroom.vn_obj and current_chatroom.vn_obj.played:
+        if renpy.has_label('after_' + current_chatroom.chatroom_label):
+            $ renpy.call('after_' + current_chatroom.chatroom_label)
+        # Deliver calls/texts/etc
+        $ deliver_calls(current_chatroom.chatroom_label)
+        $ deliver_emails()
+
     $ next_chatroom()
     $ renpy.retain_after_load
     call screen chat_home
