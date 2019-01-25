@@ -186,6 +186,25 @@ label chat_end:
     $ addchat(answer, '', 0.2)
     call screen save_and_exit
     return
+    
+label chat_end_route(type='good'):
+    $ addchat(answer, '', 0.2)
+    call screen save_and_exit(True)
+    $ config.skipping = False
+    $ greeted = False
+    $ choosing = False
+    hide screen phone_overlay
+    hide screen messenger_screen
+    stop music
+    
+    if type == 'good':
+        scene bg good_end
+    elif type == 'normal':
+        scene bg normal_end
+    elif type == 'bad':
+        scene bg bad_end
+    pause
+    return
 
 screen messenger_screen:
 
