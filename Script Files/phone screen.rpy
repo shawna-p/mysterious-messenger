@@ -19,9 +19,14 @@ init -6 python:
         # expiry is after two chatrooms
         def decrease_time(self):
             global available_calls
-            self.avail_timeout -= 1
-            if self.avail_timeout == 0:
-                available_calls.remove(self)
+            if self.avail_timeout == 'test':
+                # You generally don't want to mess with this, but it
+                # lets me make a call 'infinitely' available for testing
+                pass
+            else:
+                self.avail_timeout -= 1
+                if self.avail_timeout == 0:
+                    available_calls.remove(self)
             
         # Moves the call from 'available_calls' to 'call_history'
         def finished(self):
@@ -32,7 +37,8 @@ init -6 python:
                 self.call_status = 'voicemail'
             else:
                 if self in available_calls:
-                    available_calls.remove(self)
+                    if self.avail_timeout != 'test':
+                        available_calls.remove(self)
                 
             if self.call_status == 'missed':
                 self.call_status = 'outgoing'
@@ -302,9 +308,9 @@ screen phone_contacts:
                             idle person.file_id + '_contact'
                             hover_foreground person.file_id + '_contact'
                             if call_available(person):
-                                action Show('outgoing_call', phonecall=call_available(person))
+                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=call_available(person))]
                             else:
-                                action Show('outgoing_call', phonecall=person.voicemail, voicemail=True)
+                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=person.voicemail, voicemail=True)]
                         text person.name style 'contact_text'
                     
             add 'empty_contact'
@@ -444,7 +450,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 align (0.5, 0.5)
                 idle 'call_answer'
                 hover Transform('Phone UI/Phone Calls/call_button_answer.png', zoom=1.1)
-                action [SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
+                action [Preference("auto-forward", "enable"), SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
         null width 100
         add 'call_headphones' yalign 1.0
         null width 100
