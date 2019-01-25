@@ -1,7 +1,7 @@
 ## This is a short chatroom explaining how plot
 ## branching works
 label plot_branch_tutorial:
-
+    stop music
     call hack
     call chat_begin("hack")
     play music mystic_chat loop
@@ -41,6 +41,12 @@ label plot_branch_tutorial:
     # This is one way you can alter responses based on certain conditions
     # In this case, we check if the player has invited enough guests,
     # and change the dialogue accordingly
+    # Note: sometimes Unknown will say you've invited a guest and you'll
+    # still get the Bad End; this only happens when you've failed the second
+    # or third response in an email since the guest will have a 33% or 67% chance
+    # of attending the party, respectively. Sometimes this statement will calculate
+    # that they're coming, but the when the plot branch calculates the number
+    # of guests attending, the guest won't come
     if attending_guests() >= 1:
         u "It looks like you've managed to invite at least one guest!" 
         u "{=curly}So you'll get the Good End.{/=curly}" 
@@ -145,7 +151,14 @@ label tutorial_bad_end:
     v "I hope you have a good day." 
     v "{image=v smile}"   (img=True)
     call exit(v)
-    jump chat_end
+    
+    # This brings up the Save & Exit screen, after which
+    # it will show either the 'good', 'normal', or 'bad'
+    # ending screens depending on which variable you pass
+    call chat_end_route('bad')
+    # Use this to start the game over and return to the main menu
+    jump restart_game
+    
 
 
 ## You'll get this VN after the Plot Branch Tutorial
@@ -212,7 +225,7 @@ label plot_branch_vn:
 ## This is the chatroom you'll get if you get the Good End
 ## of the Tutorial Day
 label tutorial_good_end:
-
+    stop music
     call hack
     call chat_begin('hack')
     play music mystic_chat loop
@@ -223,5 +236,28 @@ label tutorial_good_end:
     u "See you later!" 
     call exit(u)
     jump chat_end
+
+## And this is a very brief VN for the party    
+label good_end_party:
+    call vn_begin
+    scene bg rika_apartment with fade
+    pause
+    show saeran vn unknown
+    u_vn "I don't really have a party here."
+    show saeran vn sad
+    u_vn "So this is all filler."
+    show saeran vn smile
+    u_vn "Hope you liked the program!"
+    show saeran vn worried
+    u_vn "I probably say that too much..."
+    
+    # For VN modes, we can just manually show which
+    # ending screen we like
+    scene bg good_end
+    pause
+    # This is the end of the Tutorial Day; we
+    # restart the game to indicate this
+    jump restart_game
+
 
 
