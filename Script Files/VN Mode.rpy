@@ -11,6 +11,9 @@
 image bg mint_eye_room = "VN Mode/Backgrounds/mint_eye_room.png"
 image bg rika_apartment = "VN Mode/Backgrounds/rika_apartment.png"
 image bg cr_meeting_room = "VN Mode/Backgrounds/cr_meeting_room.png"
+image bg good_end = "VN Mode/Backgrounds/good_end.jpg"
+image bg normal_end = "VN Mode/Backgrounds/normal_end.jpg"
+image bg bad_end = "VN Mode/Backgrounds/bad_end.jpg"
 image bg black = '#000000'
 
 #####################################
