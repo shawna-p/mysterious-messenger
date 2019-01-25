@@ -58,16 +58,16 @@ image heartbreak5 = "Heart Point/HeartBreak/stat_animation_10.png"
 default heartColor = '#000000'
 
 # You call this to display the heart icon for a given character
-label heart_icon(character):
+label heart_icon(character, bad=False):
     python:
         heartColor = character.heart_color
         if character == r:
             character = sa
-        if not observing:
-            character.increase_heart()
+        if not observing and not no_heart:
+            character.increase_heart(bad)
             chatroom_hp += 1
             persistent.HP += 1
-    if not observing:
+    if not observing and not no_heart:
         show screen heart_icon_screen(character)
     return
     
@@ -88,11 +88,11 @@ label heart_break(character):
         heartColor = character.heart_color
         if character == r:
             character = sa
-        if not observing:
+        if not observing and not no_heart:
             character.decrease_heart()
             chatroom_hp -= 1
             persistent.HP -= 1     
-    if not observing:
+    if not observing and not no_heart:
         show screen heart_break_screen(character)
     return
 
@@ -234,6 +234,8 @@ screen play_button:
 # Chat Header Overlay
 #####################################
 
+default no_heart = False
+
 ## This screen shows the header/footer above the chat
 screen phone_overlay:  
     zorder 2
@@ -264,7 +266,44 @@ screen phone_overlay:
             align (0.5, 0.5)
             idle "Phone UI/back-arrow.png"
             hover Transform("Phone UI/back-arrow.png", zoom=1.2)
-            action NullAction()
+            action Jump('chat_back')
+            
+label chat_back:
+    if observing:
+        $ config.skipping = False
+        $ greeted = False
+        $ choosing = False
+        hide screen phone_overlay
+        hide screen messenger_screen
+        hide screen save_and_exit
+        hide screen play_button
+        hide screen answer_button
+        hide screen pause_button
+        stop music
+        call screen chat_select # call history_select_screen etc
+    else:
+        # If you back out of a chatroom, when you go through it again
+        # you won't be able to collect hearts
+        # The program currently doesn't have "expired" chatrooms,
+        # so this is the solution
+        $ no_heart = True        
+        
+        $ chatroom_hp = 0
+        $ chatroom_hg = 0
+        $ config.skipping = False   
+        $ greeted = False         
+        $ choosing = False
+        hide screen phone_overlay
+        hide screen messenger_screen
+        hide screen save_and_exit
+        hide screen play_button
+        hide screen answer_button
+        hide screen pause_button
+        hide screen vn_overlay
+        $ renpy.retain_after_load()
+        stop music
+        call screen chat_select
+
 
     
 
@@ -354,7 +393,7 @@ screen viewCG_fullsize:
 #####################################
    
 # This is the screen that shows Save & Exit at the bottom
-screen save_and_exit:
+screen save_and_exit(end_route=False):
     zorder 4
     tag chat_footer
     imagebutton:
@@ -367,7 +406,10 @@ screen save_and_exit:
             idle "custom_save_exit"
         else:
             idle "save_exit"
-        action [Jump("press_save_and_exit")]
+        if not end_route:
+            action [Jump("press_save_and_exit")]
+        else:
+            action Return
         
 label press_save_and_exit(phone=True):
     if observing:
@@ -375,6 +417,10 @@ label press_save_and_exit(phone=True):
         $ greeted = False
         $ choosing = False
         hide screen phone_overlay
+        hide screen save_and_exit
+        hide screen play_button
+        hide screen answer_button
+        hide screen pause_button
         hide screen messenger_screen
         stop music
         call screen chat_select # call history_select_screen etc
@@ -386,20 +432,25 @@ label press_save_and_exit(phone=True):
         $ config.skipping = False   
         $ greeted = False         
         $ choosing = False
+        $ no_heart = False
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
         hide screen vn_overlay
         $ current_chatroom.played = True
-        # Checks for a post-chatroom label; won't trigger if there's a VN section
-        # Otherwise delivers phone calls/texts/etc
-        if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
-            $ renpy.call('after_' + current_chatroom.chatroom_label)
-        # If you just finished a VN section, mark it as played and deliver emails/phone calls
-        if not phone and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
-            $ current_chatroom.vn_obj.played = True
-            if renpy.has_label('after_' + current_chatroom.chatroom_label):
+        
+        if not current_chatroom.plot_branch:
+            # Checks for a post-chatroom label; won't trigger if there's a VN section
+            # Otherwise delivers phone calls/texts/etc
+            if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
                 $ renpy.call('after_' + current_chatroom.chatroom_label)
+            # If you just finished a VN section, mark it as played and deliver emails/phone calls
+            if not phone and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
+                $ current_chatroom.vn_obj.played = True
+                if renpy.has_label('after_' + current_chatroom.chatroom_label):
+                    $ renpy.call('after_' + current_chatroom.chatroom_label)
+        elif current_chatroom.plot_branch and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
+            $ current_chatroom.vn_obj.played = True
                 
         $ deliver_calls(current_chatroom.chatroom_label)
         $ deliver_emails()   
