@@ -128,7 +128,11 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     stop music
     if clearchat:
         $ chatlog = []
-        $ pv = 0.8
+        # $ pv = 0.8    # This resets the chatroom "speed"
+                        # Ordinarily it would reset for every
+                        # new chatroom, and if you want that
+                        # functionality you can un-comment this
+                        # line
     if resetHP:
         $ chatroom_hp = 0
     hide screen starry_night
@@ -184,6 +188,9 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 # Call this label to show the save & exit sign
 label chat_end:
     $ addchat(answer, '', 0.2)
+    if starter_story:
+        $ starter_story = False
+        $ persistent.first_boot = False
     call screen save_and_exit
     return
     
@@ -309,9 +316,12 @@ screen chat_animation(i, animate=True):
             
             
         if i.who.file_id:
-            if i.specBubble != None:
+            if i.specBubble != None and i.specBubble != 'glow2':
                 include_new = False
                 bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"    
+            elif i.specBubble != None and i.specBubble == 'glow2':
+                include_new = False
+                bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"
             elif i.bounce: # Not a special bubble; just glow
                 include_new = False
                 bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
@@ -326,6 +336,8 @@ screen chat_animation(i, animate=True):
                     bubbleStyle = "round_" + i.specBubble[-1:]
                 elif i.specBubble[:7] == "square2":
                     bubbleStyle = "square_" + i.specBubble[-1:]
+                elif i.specBubble == "glow2":
+                    bubbleStyle = 'glow_bubble'
                 else:
                     bubbleStyle = i.specBubble
             
@@ -405,7 +417,7 @@ screen chat_animation(i, animate=True):
                                 
                                 
                 ## Check if it's a special bubble
-                elif i.specBubble != None:
+                elif i.specBubble != None and i.specBubble != 'glow2':
                     style bubbleStyle 
                     if not animate:
                         yoffset 125
@@ -494,20 +506,26 @@ screen anti_animation(i):
             include_new = False
             
         if i.bounce:
-            bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
+            if i.specBubble and i.specBubble == 'glow 2':
+                bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"
+            else:
+                bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
             include_new = False
         else:
             bubbleBackground = "Bubble/" + i.who.file_id + "-Bubble.png"
+            
             
         if i.specBubble != None:
             if i.specBubble[:6] == "round2":
                 bubbleStyle = "round_" + i.specBubble[-1:]
             elif i.specBubble[:7] == "square2":
                 bubbleStyle = "square_" + i.specBubble[-1:]
+            elif i.specBubble == "glow2":
+                bubbleStyle = 'glow_bubble'
             else:
                 bubbleStyle = i.specBubble
                 
-        if i.specBubble != None:
+        if i.specBubble != None and i.specBubble != 'glow2':
             include_new = False
             bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"
             
@@ -537,7 +555,7 @@ screen anti_animation(i):
                     bottom_margin -100
                     text "{image=" + i.what + "}" #"-small}"
                     
-            elif i.specBubble != None:                        
+            elif i.specBubble != None and i.specBubble != 'glow2':                        
                 style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
                 text i.what style "special_bubble"
                 
