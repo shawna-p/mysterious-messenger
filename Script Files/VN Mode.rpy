@@ -94,6 +94,8 @@ label vn_begin:
     hide screen chatroom_timeline
     show screen vn_overlay
     $ vn_choice = True
+    $ _history_list = [] # This clears the History screen
+    $ _history = True
     
     if current_chatroom.vn_obj.played:
         $ observing = True
