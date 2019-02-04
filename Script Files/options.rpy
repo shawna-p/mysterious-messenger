@@ -12,7 +12,7 @@
 ##
 ## The _() surrounding the string marks it as eligible for translation.
 
-define config.name = _("Messenger Test")
+define config.name = _("Mysterious Messenger")
 
 ## Determines if the title given above is shown on the main menu screen. Set
 ## this to False to hide the title.
@@ -22,7 +22,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "1.0"
+define config.version = "2.02"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -36,7 +36,7 @@ define gui.about = _p("""
 ## distribution. This must be ASCII-only, and must not contain spaces, colons,
 ## or semicolons.
 
-define build.name = "MessengerTest"
+define build.name = "MysteriousMessenger"
 
 
 ## Sounds and music ############################################################
@@ -52,15 +52,16 @@ define config.has_voice = True
 ## To allow the user to play a test sound on the sound or voice channel,
 ## uncomment a line below and use it to set a sample sound to play.
 
-# define config.sample_sound = "sample-sound.ogg"
-# define config.sample_voice = "sample-voice.ogg"
+define config.sample_sound = "sfx/Ringtones etc/text_1.wav"
+define config.sample_voice = "sfx/Main Menu Greetings/Unknown/Late Night/u-ln-3.wav"
+define sample_voice_sfx = "sfx/Emotes/Seven/seven_wow.wav"
 
 
 ## Uncomment the following line to set an audio file that will be played while
 ## the player is at the main menu. This file will continue playing into the
 ## game, until it is stopped or another file is played.
 
-# define config.main_menu_music = "main-menu-theme.ogg"
+define config.main_menu_music = "Music/03 Mystic Chat.mp3"
 
 
 define config.default_afm_enable = None
@@ -144,7 +145,7 @@ default preferences.afm_time = 15
 ## This generally should not be changed, and if it is, should always be a
 ## literal string, not an expression.
 
-define config.save_directory = "MessengerTest-1520899129"
+define config.save_directory = "MysteriousMessenger-1520899129"
 
 
 ## Icon ########################################################################
