@@ -145,7 +145,7 @@ init python:
             Theirs = "His"
             Themself = "Himself"
             is_are = "is"
-        elif persistent.pronoun == "nonbinary":
+        elif persistent.pronoun == "non binary":
             they = "they"
             them = "them"
             their = "their"
@@ -179,7 +179,7 @@ init python:
 
 # Variable to help determine when there should be Honey Buddha
 # Chips available
-default hbc_bag = RandomBag([ False, False, False, True, True ])
+default hbc_bag = RandomBag([ False, False, False, False, False, True, True ])
 
 # This lets it randomly pick a profile picture to display        
 default greet_char = "seven"
@@ -294,7 +294,7 @@ screen main_menu:
                             focus_mask True
                             background "right_corner_menu" 
                             hover_background "right_corner_menu_selected"
-                            action ShowMenu("load")    
+                            action Show("load")    
                             
                         vbox:                               
                             align(0.5, 0.5)
@@ -310,7 +310,7 @@ screen main_menu:
                             focus_mask True
                             background "right_corner_menu" 
                             hover_background "right_corner_menu_selected"
-                            action Return
+                            #action NullAction
                             
                         vbox:                               
                             xcenter 0.5
@@ -327,7 +327,7 @@ screen main_menu:
                         focus_mask True
                         background "left_corner_menu"
                         hover_background "left_corner_menu_selected"
-                        action ToggleField(persistent, 'on_route', False)
+                        #action NullAction
                         
                     vbox:                               
                         align(0.5, 0.5)
@@ -343,7 +343,8 @@ screen main_menu:
                         focus_mask True
                         background "right_corner_menu" 
                         hover_background "right_corner_menu_selected"
-                        action Show('create_archive') # Leads to the create-a-chatroom screens
+                        #action NullAction
+                        # action Show('create_archive') # Leads to the create-a-chatroom screens
                         
                     vbox:                               
                         align(0.5, 0.5)
@@ -373,7 +374,7 @@ screen route_select_screen:
             focus_mask True
             background "right_corner_menu" 
             hover_background "right_corner_menu_selected"
-            action [ToggleField(persistent, 'on_route', True), next_chatroom, Start()] 
+            action [ToggleField(persistent, 'on_route', True), Start()] 
             
         text "Start Game" style "menu_text_small" xalign 0.5 yalign 0.5
     
@@ -609,35 +610,44 @@ screen preferences():
                         text_style "sound_tags"
                         xsize 163
                         ysize 50
+                        action ToggleMute("music")
                     bar value Preference("music volume") ypos 15
                 hbox:
                     spacing 30
+                    xsize 520
                     textbutton _("SFX"):
                         background "menu_sound_sfx"
                         text_style "sound_tags"
                         xsize 163
                         ysize 50
+                        action ToggleMute("sfx")
                     bar value Preference("sound volume") ypos 15
                     if config.sample_sound:
                                 textbutton _("Test") action Play("sound", config.sample_sound)
                 hbox:
                     spacing 30
+                    xsize 520
                     textbutton _("Voice"):
                         background "menu_sound_sfx"
                         text_style "sound_tags"
                         xsize 163
                         ysize 50
+                        action ToggleMute("voice")
                     bar value Preference("voice volume") ypos 15
                     if config.sample_voice:
                                 textbutton _("Test") action Play("voice", config.sample_voice)
                 hbox:
                     spacing 30
+                    xsize 520
                     textbutton _("Voice SFX"):
                         background "menu_sound_sfx"
                         text_style "sound_tags"
                         xsize 163
                         ysize 50
+                        action ToggleMute("voice_sfx")
                     bar value set_voicesfx_volume() ypos 15
+                    if sample_voice_sfx:
+                                textbutton _("Test") action Play("voice_sfx", sample_voice_sfx)
                     
                 textbutton _("Mute All"):
                     action Preference("all mute", "toggle")
@@ -652,8 +662,8 @@ screen preferences():
             spacing 15
             text "Voice" style "settings_style" xpos 185 ypos -5
             
-            ## There are no actual voiced lines in this program, so right
-            ## now all you get to do is toggle the button from on to off 
+            ## There are few voiced lines in this program, so currently
+            ## the effects of these buttons will not be very noticeable
             hbox:
                 xalign 0.5
                 yalign 0.5
@@ -735,8 +745,8 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 imagebutton:
                     idle "header_plus"
                     hover "header_plus_hover"
-                    if not renpy.get_screen("choice"):
-                        action NullAction
+                    #if not renpy.get_screen("choice"):
+                    #    action NullAction
                 add 'header_tray'
                 
             add "header_hg" yalign 0.1 xalign 0.16
@@ -751,7 +761,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
         window:
             ymaximum 80
             yalign 0.058
-            add "menu_header"
+            add "menu_header"                
             
         if not envelope:
             text title color "#ffffff" size 40 xalign 0.5 text_align 0.5 yalign 0.072
@@ -775,7 +785,9 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 if envelope:
                     action Show('text_message_hub', Dissolve(0.5))
                 elif persistent.first_boot or not persistent.on_route:
-                    action [SetField(persistent, 'first_boot', False), MainMenu(False)]
+                    action [SetField(persistent, 'first_boot', False), return_action]
+                elif main_menu:
+                    action MainMenu(False)
                 else:
                     action return_action
                 
@@ -789,8 +801,12 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 idle "settings_gear"
                 hover "settings_gear_rotate"
                 focus_mask None
-                if not renpy.get_screen("choice"):
-                    action Show("preferences", Dissolve(0.5))  
+                # Eventually I'd like to get the settings button working during phone
+                # calls, but there are too many bugs so it's commented out
+                #if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
+                #    action [Preference("auto-forward", "disable"), Show("preferences")]
+                if not renpy.get_screen("choice") and not renpy.get_screen("in_call"):
+                    action Show("preferences")  
       
 
   
@@ -916,10 +932,10 @@ screen profile_pic:
             
             
         button:
-            action [SetField(persistent, "pronoun", "nonbinary"), set_pronouns, renpy.restart_interaction]
+            action [SetField(persistent, "pronoun", "non binary"), set_pronouns, renpy.restart_interaction]
             has hbox
             spacing 10
-            if persistent.pronoun == "nonbinary":
+            if persistent.pronoun == "non binary":
                 add "radio_on"
                 text 'they/them' color '#fff' hover_color '#ddd'
             else:
@@ -931,7 +947,7 @@ screen profile_pic:
     if not persistent.first_boot:
         use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
     else:
-        use menu_header("Customize your Profile")
+        use menu_header("Customize your Profile", MainMenu(False))
         
     if not persistent.first_boot:            
         ## Save / Load
@@ -1291,6 +1307,7 @@ screen chat_home(reshow=False):
                     idle im.FactorScale(mc_pic, 0.9)
                     background im.FactorScale(mc_pic, 0.9)
                     action Show('profile_pic')
+                    activate_sound 'sfx/UI/profile_screen_select.mp3'
             hbox:
                 spacing 8
                 for person in character_list[7:]:
@@ -1312,7 +1329,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Show('email_popup', e=Email(rainbow, rainbow.start_msg, rainbow.label1))
+            action NullAction
             add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
@@ -1321,7 +1338,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action Jump('example_email')
+            action NullAction
             add "guest_icon" xalign 0.5 yalign 0.3
             add "guest_text" xalign 0.5 yalign 0.8
             
@@ -1330,7 +1347,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "red_hex"
             hover_background "red_hex_hover"
-            action Jump('chapter_select1')
+            action NullAction
             add "shop_icon" xalign 0.55 yalign 0.35
             add "shop_text" xalign 0.5 yalign 0.8
             
@@ -1339,7 +1356,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            #action Function(deliver_emails())
+            action NullAction
             add "notice_icon" xalign 0.5 yalign 0.3
             add "notice_text" xalign 0.5 yalign 0.8
             
@@ -1348,7 +1365,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action SetVariable('chips_available',True)
+            action NullAction
             
             add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
@@ -1564,7 +1581,7 @@ screen chip_end:
             hover 'space_continue_hover'
             xalign 0.5
             yalign 0.85
-            action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), Show('chat_home', Dissolve(0.5))]
+            action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), SetVariable('chips_available', False)]
         
    
 default chip_prize_list = RandomBag( ['A clump of cat hair.',
