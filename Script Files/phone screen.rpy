@@ -362,20 +362,21 @@ screen in_call():
                 align (0.5, 0.5)
                 if _preferences.afm_enable: #preferences.afm_time > 0:
                     idle 'call_pause'
-                    action Function(toggle_afm) #Preference("auto-forward", "toggle")
+                    action [PauseAudio('voice', value=True), Function(toggle_afm)] #Preference("auto-forward", "toggle")
                     
                 else:
                     idle 'call_play'
-                    action Function(toggle_afm) #Preference("auto-forward", "toggle")
+                    action [PauseAudio('voice', value=False), Function(toggle_afm)] #Preference("auto-forward", "toggle")
         null width 100
         window:
             xysize(160,160)
             align (0.5, 0.5)
-            imagebutton:
-                align (0.5, 0.5)
-                idle 'call_hang_up'
-                hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
-                action [Hide('say'), Jump('hang_up')]#Preference('auto-forward time', original_afm_time), Jump('hang_up')]
+            if not starter_story:
+                imagebutton:
+                    align (0.5, 0.5)
+                    idle 'call_hang_up'
+                    hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
+                    action [Hide('say'), Jump('hang_up')]#Preference('auto-forward time', original_afm_time), Jump('hang_up')]
                 
                 
 
@@ -387,6 +388,8 @@ screen incoming_call(phonecall, countdown_time=10):
     tag menu
     use starry_night()
     use menu_header("In Call")
+    
+    on 'hide' action Function(renpy.music.stop)
         
     window:
         xfill True
@@ -433,7 +436,8 @@ screen incoming_call(phonecall, countdown_time=10):
         align (0.5, 0.5)
         spacing 10
         text "Incoming Call" color '#fff' xalign 0.5 size 40
-        text "[call_countdown]" xalign 0.5  color '#fff' size 80
+        if not starter_story:
+            text "[call_countdown]" xalign 0.5  color '#fff' size 80
         
         
     window:
@@ -450,22 +454,28 @@ screen incoming_call(phonecall, countdown_time=10):
                 align (0.5, 0.5)
                 idle 'call_answer'
                 hover Transform('Phone UI/Phone Calls/call_button_answer.png', zoom=1.1)
-                action [Preference("auto-forward", "enable"), SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
+                if starter_story:
+                    action Return
+                else:
+                    action [Function(renpy.music.stop), Preference("auto-forward", "enable"), 
+                            SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
         null width 100
         add 'call_headphones' yalign 1.0
         null width 100
         window:
             xysize(160,160)
             align (0.5, 0.5)
-            imagebutton:
-                align (0.5, 0.5)
-                idle 'call_hang_up'
-                hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
-                action Jump('incoming_hang_up')
+            if not starter_story:
+                imagebutton:
+                    align (0.5, 0.5)
+                    idle 'call_hang_up'
+                    hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
+                    action [Function(renpy.music.stop), Jump('incoming_hang_up')]
                 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
-    timer 1.0 action If(call_countdown>1, SetScreenVariable("call_countdown", call_countdown-1), Jump('incoming_hang_up')) repeat True
+    if not starter_story:
+        timer 1.0 action If(call_countdown>1, SetScreenVariable("call_countdown", call_countdown-1), Jump('incoming_hang_up')) repeat True
     
 label incoming_hang_up:
     $ call_hang_up_incoming(current_call)
@@ -552,14 +562,19 @@ screen outgoing_call(phonecall, voicemail=False):
                                     SetVariable('current_call', phonecall), 
                                     Jump(phonecall.phone_label)]
     
+
+default persistent.phone_tone = 'sfx/Ringtones etc/phone_1.wav'
+
 ## Allows the program to jump to the incoming call
 label new_incoming_call(phonecall):
+    play music persistent.phone_tone loop
     call screen incoming_call(phonecall=phonecall)
  
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
 label phone_begin:
     stop music
+    $ _history = False
     hide screen incoming_call
     hide screen outgoing_call
     show screen in_call
@@ -568,12 +583,14 @@ label phone_begin:
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call
 label phone_end:
-    if not observing:
-        $ current_call.finished()
-    $ current_call = False    
-    $ observing = False
-    $ renpy.retain_after_load()
-    call screen phone_calls
+    if not starter_story:
+        if not observing:
+            $ current_call.finished()
+        $ current_call = False    
+        $ observing = False
+        $ _history = True
+        $ renpy.retain_after_load()
+        call screen phone_calls
     return
     
 ##*************************************************
