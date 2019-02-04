@@ -2,8 +2,37 @@ label example_text:
 
     call chat_begin("morning")  
     
-    r "{=sser2}Here's a quick test ^^{/=sser2}"
-    r "Bye!"
+    # You'll generally never want to mess with the 'observing' variable yourself, 
+    # but since this is a tutorial chatroom we want the user to be able to play
+    # it over and over and not be restricted to the choices they've already made
+    $ observing = False
+    
+    play music mint_eye loop
+    
+    r "{=curly}Hi there!{/=curly}"   (bounce=True, specBubble="square2_s")
+    r "This chatroom is here to demonstrate how text messages are sent." 
+    r "You might have noticed that there's a Story Mode section after this chatroom, right?"   (bounce=True)
+    
+    call answer
+    menu:
+        "Does that mean anything specific?":
+            m "Does that mean anything specific?"   (pauseVal=0)
+            r "It does!" 
+            r "Since there's a story mode VN," 
+            r "{=sser2b}any incoming phone calls or text message won't be delivered until after the VN.{/=sser2b}" 
+        "Yes, and I can't play it until after this chatroom, right?":
+            m "Yes, and I can't play it until after this chatroom, right?"   (pauseVal=0)
+            r "{=curly}Right! ^^{/=curly}"   (bounce=True, specBubble="round_s")
+            r "Any incoming phone calls or text message won't be delivered until after the VN, too." 
+            
+    r "So even though there are text messages to be delivered after this chatroom," 
+    r "{=ser1}{size=+10}you won't see them right away.{/size}{/=ser1}" 
+    r "{=ser1}You can set up text messages using an {b}after_{/b} chatroom label.{/=ser1}" 
+    r "See the User Guide for more ^^" 
+    r "{image=ray happy}"   (img=True)
+    r "Anyway, I won't keep you." 
+    r "See you soon!" 
+
     call exit(r)
     
     # Use this to end the chat and return to the main menu
