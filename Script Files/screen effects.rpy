@@ -131,7 +131,8 @@ screen heart_break_screen(character):
 # Call this label before you show a menu
 # to show the answer button
 label answer:
-    $ addchat(answer, '', 0.2)
+    $ pauseFailsafe()
+    $ addchat(answer, '', 0.2)    
     hide screen viewCG
     $ pre_choosing = True
     call screen answer_button
@@ -259,14 +260,15 @@ screen phone_overlay:
                 
     add myClock align(1.0, 0.0)
     
-    fixed:
-        xysize (40,50)
-        align (0.05, 0.065)
-        imagebutton:
-            align (0.5, 0.5)
-            idle "Phone UI/back-arrow.png"
-            hover Transform("Phone UI/back-arrow.png", zoom=1.2)
-            action Jump('chat_back')
+    if not starter_story:
+        fixed:
+            xysize (40,50)
+            align (0.05, 0.065)
+            imagebutton:
+                align (0.5, 0.5)
+                idle "Phone UI/back-arrow.png"
+                hover Transform("Phone UI/back-arrow.png", zoom=1.2)
+                action Jump('chat_back')
             
 label chat_back:
     if observing:
