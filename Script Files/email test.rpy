@@ -2,6 +2,7 @@
 label example_email:
 
     call chat_begin('evening')
+    play music narcissistic_jazz loop
     $ observing = False # Generally you don't want to do this; however, for 
                         # tutorial and testing purposes, making sure observing
                         # is never True allows you to endlessly redo this chatroom
@@ -24,7 +25,7 @@ label example_email:
         # This is for testing; it both makes any emails you haven't replied to
         # timeout faster, and if you're waiting for the guest to email you, it
         # makes them reply more quickly. 
-        "I'd like to deliver my email replies more quickly.":
+        "I'd like to deliver my email replies more quickly." if email_list:
             m "I'd like to deliver my email replies more quickly." (pauseVal=0)
             z "Sure, I can take care of that."
             python:
@@ -36,7 +37,8 @@ label example_email:
             z "In other words, guests will reply to you more quickly!"
             
     z "If you ever want to learn about inviting guests in the game,"
-    z "you should look at {b}email test.rpy{/b}"
+    z "there's a whole section on emails in the User Guide."
+    z "You can also look at {b}email test.rpy{/b}"
     z "It shows how this invitation works,"
     z "and has a template to invite other people."
     z "Anyway, enjoy~!"
@@ -49,13 +51,16 @@ label example_email:
 
 
 ## This is how you will set up guests for the party. A template follows this definition    
+## The first variable is the name of the guest aka what shows up in the email hub as
+## @guestname The second variable is the path to the image you'd like to use as the guest
+## icon. It should be 155x155 pixels
 default rainbow = Guest("rainbow", "Email/Thumbnails/rainbow_unicorn_guest_icon.png",
 
 ## Initial Message
 """Hi [name]!
 
 Really excited to hear about this party you're holding! Can't wait to see how things will turn out for you.
-Seven told me to make sure your inbox is working, and well, if you're reading this, I guess it is! So that's good.
+Zen told me to make sure your inbox is working, and well, if you're reading this, I guess it is! So that's good.
 I did have one quick question though -- will the party be held inside or outside? Please let me know as soon as possible!
 
 Thanks,
@@ -216,8 +221,8 @@ label rainbow_reply1: # This needs to be the name of the guest + _reply + the re
             # and will fail the email chain
             $ current_email.set_reply(False)            
         
-    $ renpy.retain_after_load()
-    return
+    jump email_end
+    
 
 label rainbow_reply2():
     menu:
@@ -225,8 +230,7 @@ label rainbow_reply2():
             $ current_email.set_reply(False)
         'Smooth Jazz.':
             $ current_email.set_reply(True)
-    $ renpy.retain_after_load()        
-    return
+    jump email_end
     
 label rainbow_reply3():
     menu:
@@ -239,8 +243,7 @@ label rainbow_reply3():
             $ current_email.set_reply(True, 4)
         'Seafood.':
             $ current_email.set_reply(False)
-    $ renpy.retain_after_load()        
-    return
+    jump email_end
     
 
 ## ****************************************************
@@ -351,8 +354,7 @@ label example_reply1: # We called the guest "example", so the reply labels will 
             # and will fail the email chain
             $ current_email.set_reply(False)            
         
-    $ renpy.retain_after_load() # This ensures your response is saved after you reply
-    return
+    jump email_end # This ensures your response is saved after you reply
     
 label example_reply2: 
 
@@ -363,8 +365,7 @@ label example_reply2:
         "Answer 2":
             $ current_email.set_reply(False)          
         
-    $ renpy.retain_after_load()
-    return
+    jump email_end
     
 label example_reply3: 
 
@@ -373,9 +374,8 @@ label example_reply3:
             $ current_email.set_reply(True) 
         
         "Answer 2":
-            $ current_email.set_reply(False)           
-        
-    $ renpy.retain_after_load()
-    return
+            $ current_email.set_reply(False)    
+            
+    jump email_end
 
 
