@@ -40,6 +40,7 @@ init python:
                                 msg.read = False
                                 renpy.restart_interaction()
                                 # Notify the player of the delivered message
+                                renpy.music.play(persistent.text_tone, 'sound')
                                 renpy.show_screen('text_msg_popup', the_msg=msg)
                             else:
                                 msg.read = True
@@ -137,6 +138,7 @@ init python:
 
   
 default current_message = None
+default persistent.text_tone = "sfx/Ringtones etc/text_1.wav"
     
 ########################################################               
 ## This is the text message hub, where you can click
@@ -268,6 +270,8 @@ screen text_msg_popup(the_msg):
         $ last_msg = the_msg.msg_list[-1]
     else:
         $ last_msg = False
+        
+    #on 'show' action Function(renpy.music.play(persistent.text_tone, 'sound'))
     
     window:
         maximum(621,373)
@@ -288,7 +292,7 @@ screen text_msg_popup(the_msg):
             xalign 0.03
             spacing 15
             add 'new_text_envelope'
-            text 'NEW' color '#73f1cf' yalign 1.0 font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+            text 'NEW' color '#73f1cf' yalign 1.0 font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         
         vbox:
             xalign 0.3
