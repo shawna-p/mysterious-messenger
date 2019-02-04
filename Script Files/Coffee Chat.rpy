@@ -137,7 +137,7 @@ label tutorial_chat:
                     y "{=sser2}lololololol{/=sser2}"                   
     
     s "{=ser1xb}U can never ever!!! drink coffee.{/=ser1xb}" (bounce=True, specBubble="spike_m")
-    s "{=ser1xb}{size=+12}If u do, ur hands will start shaking and u'll faint eventually.{size=+12}{/=ser1xb}"
+    s "{=ser1xb}{size=+12}If u do, ur hands will start shaking and u'll faint eventually.{/size}{/=ser1xb}"
     y "Nah"
     y "I don't have that kind of allergy."
     y "No way~"
@@ -339,7 +339,7 @@ label tutorial_chat:
         "Don't worry... Even if you don't wake up the party will be a success.":
             m "{=sser2}Don't worry... Even if you don't wake up the party will be a success.{/=sser2}" (pauseVal=0)
             y "{image=yoosung puff}" (img=True)
-            y "{=curly}{size=+5}Do you mean that?{/=curly}"
+            y "{=curly}{size=+5}Do you mean that?{/size}{/=curly}"
             y "{=curly}I'm hurt...{/=curly}"
             call heart_break(y)
         "I'll wake you up...":
