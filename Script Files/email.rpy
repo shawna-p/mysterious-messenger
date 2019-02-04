@@ -67,6 +67,7 @@ init python:
                 email_list.insert(0, self) # Moves to the front of the list
                 renpy.restart_interaction()
                 # Notify the player of the delivered message
+                renpy.music.play(persistent.email_tone, 'sound')
                 renpy.show_screen('email_popup', e=self)                   
                 renpy.retain_after_load()
                 test_em = "4"
@@ -295,6 +296,7 @@ label invite(guest):
     
 default current_email = None  
 default test_em = True
+default persistent.email_tone = 'sfx/Ringtones etc/email_1.wav'
 
 ########################################################
 ## This screen shows a popup to notify you when you
@@ -306,6 +308,7 @@ screen email_popup(e):
     zorder 100
     default current_email = None
     
+    #on 'show' action Function(renpy.music.play(persistent.email_tone, 'sound'))
     
     window:
         maximum(510,290)
@@ -323,7 +326,7 @@ screen email_popup(e):
             xalign 0.05
             spacing 15
             add 'new_text_envelope'
-            text 'NEW' color '#73f1cf' yalign 1.0 font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+            text 'NEW' color '#73f1cf' yalign 1.0 font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         
         vbox:
             align (0.5, 0.8)
@@ -347,7 +350,8 @@ screen email_popup(e):
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [Hide('email_popup'), Show('email_hub')]
+                if not (renpy.get_screen('in_call') or renpy.get_screen('incoming_call') or renpy.get_screen('outgoing call')):
+                    action [Hide('email_popup'), Show('email_hub')]
                     
     timer 3.25 action Hide('email_popup', Dissolve(0.25))
 
@@ -452,12 +456,22 @@ screen email_button(e):
                 xysize(240,111)
                 align (0.0, 0.0)
                 if e.completed():
-                    add 'email_completed' align(0.5, 0.5)
+                    # 3/3 messages correct
+                    add 'email_completed_3' align(0.5, 0.5)
                 elif e.is_failed():
-                    add 'email_failed' align(0.5, 0.5)
+                    # 2/3 messages correct
+                    if e.second_msg() == 'email_good':
+                        add 'email_completed_2' align(0.5, 0.5)
+                    # 1/3 messages correct
+                    elif e.first_msg() == 'email_good':
+                        add 'email_completed_1' align(0.5, 0.5)
+                    # 0/3 messages correct
+                    else:
+                        add 'email_failed' align(0.5, 0.5)
                 elif e.timeout:
                     add 'email_timeout' align(0.5, 0.5)
-     
+                    
+                    
 ########################################################    
 ## This is the screen that displays the email you've 
 ## selected, and lets you reply
@@ -524,8 +538,12 @@ screen open_email(e):
                     draggable True
                     
                     text e.msg size 28
-            
-
+  
+## This is the label you'll call at the end of
+## an email choice menu
+label email_end:
+    $ renpy.retain_after_load()
+    return
 
 
 
