@@ -71,7 +71,7 @@ label vn_tutorial():
 ## Writing a VN mode section
 ##************************************  
 label vn_writing:
-    show saeran vn saeran neutral
+    show saeran vn neutral
     r_vn """
     Writing a VN section is pretty straightforward.
     
@@ -79,13 +79,13 @@ label vn_writing:
     
     This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,
     
-    I'd recommend checking out the LemmaSoft forums and looking through the code in VN Mode.rpy
+    I'd recommend checking out the LemmaSoft forums and looking through the VN section in the User Guide.
     
     If you don't plan to change the speaking character's expression for a while,
     
     you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this VN section.
     """
-    show saeran vn saeran smile
+    show saeran vn smile
     r_vn """
     Other than that, there are three buttons on the screen in VN mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}.
     
@@ -126,21 +126,16 @@ label vn_layeredimage:
     r_vn "We'll show you what I mean with V."
     
     show v side happy
-    pause 0.7
+    pause 0.5
     show v side happy short_hair
-    pause 0.7
+    pause 0.5
     show v side happy long_hair glasses
-    pause 0.7
-    show v side happy long_hair -glasses
-    pause 0.7
-    show v side thinking glasses
-    pause 0.7
+    pause 0.5
     show v side thinking -glasses
-    pause 0.7
-    show v side neutral glasses
-    pause 0.7
-    show v side neutral -glasses
-    
+    pause 0.5
+    show v side thinking glasses short_hair
+    pause 0.5
+    show v front neutral    
     v_vn "As you can see, there are several expressions both with and without my sunglasses."
     show v front mint_eye
     v_vn "I also have a 'hood' accessory for the {b}mint_eye{/b} outfit."
