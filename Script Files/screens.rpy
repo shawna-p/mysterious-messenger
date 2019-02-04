@@ -126,8 +126,8 @@ screen say(who, what):
 
         ## If there's a side image, display it above the text. Do not display on the
         ## phone variant - there's no room.
-        if not renpy.variant("small"):
-            add SideImage() xalign 0.0 yalign 1.0
+        #if not renpy.variant("small"):
+        #    add SideImage() xalign 0.0 yalign 1.0
             
         ## This is the overlay for VN mode that shows the Auto/Skip/Log buttons
         hbox:
@@ -148,6 +148,7 @@ screen say(who, what):
                 selected_idle Text("Stop", style="vn_button")
                 selected_hover Text("Stop", style="vn_button_hover")
                 action Function(toggle_skipping)
+                activate_sound 'sfx/UI/vn_skip.mp3'
                 
             imagebutton:
                 idle Text("Log", style="vn_button")
@@ -371,10 +372,10 @@ screen quick_menu():
 
 ## This code ensures that the quick_menu screen is displayed in-game, whenever
 ## the player has not explicitly hidden the interface.
-init python:
-    config.overlay_screens.append("quick_menu")
+# init python:
+#    config.overlay_screens.append("quick_menu")
 
-default quick_menu = True
+default quick_menu = False
 
 style quick_button is default
 style quick_button_text is button_text
