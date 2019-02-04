@@ -106,29 +106,29 @@ default character_list = [ju, z, s, y, ja, v, m, r, ri]
 # For ease of remembering, Phone Call characters are just their Chat variables + '_phone' e.g.
 #  ja -> ja_phone
 
-define ja_phone = Character("Jaehee Kang", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define ja_phone = Character("Jaehee Kang", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="jaehee_voice")
-define ju_phone = Character("Jumin Han", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define ju_phone = Character("Jumin Han", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="jumin_voice")
-define s_phone = Character("707", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define s_phone = Character("707", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="seven_voice")
-define sa_phone = Character("Saeran", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define sa_phone = Character("Saeran", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="saeran_voice")
-define r_phone = Character("Ray", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define r_phone = Character("Ray", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="saeran_voice")
-define ri_phone = Character("Rika", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define ri_phone = Character("Rika", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="rika_voice")
-define y_phone = Character("Yoosung★", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define y_phone = Character("Yoosung★", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="yoosung_voice")
-define v_phone = Character("V", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define v_phone = Character("V", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="v_voice")
-define u_phone = Character("Unknown", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define u_phone = Character("Unknown", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="saeran_voice")
-define z_phone = Character("Zen", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define z_phone = Character("Zen", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="zen_voice")
-define m_phone = Character("[name]", what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define m_phone = Character("[name]", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
-define vmail_phone = Character('Voicemail', what_font= "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+define vmail_phone = Character('Voicemail', what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="other_voice")
                             
 # ****************************
@@ -172,54 +172,54 @@ default text_queue = [Text_Message(ja, []),
 # For ease of remembering, VN characters are just their Chat variables + "_vn" e.g. s -> s_vn
 # I've also changed the who_color from MysMe's #fff5ca to the background of the characters' speech bubbles
 
-define ja_vn = Character("Jaehee", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define ja_vn = Character("Jaehee", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_4.png",
                             who_color="#fff5eb", who_size=40, voice_tag="jaehee_voice", image="jaehee vn")
-define ju_vn = Character("Jumin", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define ju_vn = Character("Jumin", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_0.png",
                             who_color="#d2e6f7", who_size=40, voice_tag="jumin_voice", image="jumin")
-define r_vn = Character("Ray", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define r_vn = Character("Ray", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
                             who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
-define ri_vn = Character("Rika", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define ri_vn = Character("Rika", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_7.png",
                             who_color="#fff9db", who_size=40, voice_tag="rika_voice", image="rika vn")
-define s_vn = Character("707", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define s_vn = Character("707", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_2.png",
                             who_color="#fff1f1", who_size=40, voice_tag="seven_voice", image="seven")
-define sa_vn = Character("Saeran", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define sa_vn = Character("Saeran", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_8.png",
                             who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
-define u_vn = Character("???",what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define u_vn = Character("???",what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
                             who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
-define v_vn = Character("V", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define v_vn = Character("V", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_5.png",
                             who_color="#cbfcfc", who_size=40, voice_tag="v_voice", image="v vn")
-define y_vn = Character("Yoosung", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define y_vn = Character("Yoosung", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_3.png",
                             who_color="#effff3", who_size=40, voice_tag="yoosung_voice", image="yoosung vn")
-define z_vn = Character("Zen", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define z_vn = Character("Zen", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_1.png",
                             who_color="#d8e9f9", who_size=40, voice_tag="zen_voice", image="zen")
                             
 ## Note: The MC's name will show up in VN mode in this program. If you'd like it to be blank,
 ## just replace "[name]" with None
-define m_vn = Character("[name]", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define m_vn = Character("[name]", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
                             who_color="#ffffed", who_size=40)
 ## This is the 'generic' template character -- if you want a side character like Echo Girl, copy this 
 ## character and replace None with their name.
-define narrator = Character(None, what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define narrator = Character(None, what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
                             who_color="#fff5ca", who_size=40, voice_tag="other_voice")
                             
 
-define sarah_vn = Character("Sarah", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define sarah_vn = Character("Sarah", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
                             who_color="#fff5ca", who_size=40, voice_tag="other_voice")
 
-define chief_vn = Character("Chief Han", what_font="00 fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+define chief_vn = Character("Chief Han", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
                             what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
                             who_color="#fff5ca", who_size=40, voice_tag="other_voice")
 ## *************************************
@@ -333,11 +333,12 @@ layeredimage jaehee vn:
         attribute apron "VN Mode/Jaehee/jaehee_body_4.png"
         
     group face:
-        attribute happy "VN Mode/Jaehee/jaehee_face_1.png" align(0.298, 0.108)
-        attribute sad "VN Mode/Jaehee/jaehee_face_3.png" align(0.298, 0.108)
-        attribute neutral default "VN Mode/Jaehee/jaehee_face_5.png" align(0.298, 0.108)
-        attribute thinking "VN Mode/Jaehee/jaehee_face_7.png" align(0.298, 0.108)
-        attribute worried "VN Mode/Jaehee/jaehee_face_9.png" align(0.298, 0.108)
+        align (0.298, 0.108)
+        attribute happy "VN Mode/Jaehee/jaehee_face_1.png"
+        attribute sad "VN Mode/Jaehee/jaehee_face_3.png" 
+        attribute neutral default "VN Mode/Jaehee/jaehee_face_5.png"
+        attribute thinking "VN Mode/Jaehee/jaehee_face_7.png" 
+        attribute worried "VN Mode/Jaehee/jaehee_face_9.png" 
         
 layeredimage jaehee vn glasses:
     yoffset 70
@@ -350,15 +351,16 @@ layeredimage jaehee vn glasses:
         attribute apron "VN Mode/Jaehee/jaehee_body_4.png"
         
     group face:
-        attribute happy "VN Mode/Jaehee/jaehee_face_0.png" align(0.299, 0.108)
-        attribute angry "VN Mode/Jaehee/jaehee_face_2.png" align(0.299, 0.108)
-        attribute sad "VN Mode/Jaehee/jaehee_face_4.png" align(0.299, 0.108)
-        attribute sparkle "VN Mode/Jaehee/jaehee_face_6.png" align(0.299, 0.108)
-        attribute neutral default "VN Mode/Jaehee/jaehee_face_8.png" align(0.299, 0.108)
-        attribute thinking "VN Mode/Jaehee/jaehee_face_10.png" align(0.299, 0.108)
-        attribute serious "VN Mode/Jaehee/jaehee_face_11.png" align(0.299, 0.108)
-        attribute worried "VN Mode/Jaehee/jaehee_face_12.png" align(0.299, 0.108)
-        attribute surprised "VN Mode/Jaehee/jaehee_face_13.png" align(0.299, 0.108)
+        align(0.299, 0.108)
+        attribute happy "VN Mode/Jaehee/jaehee_face_0.png" 
+        attribute angry "VN Mode/Jaehee/jaehee_face_2.png"
+        attribute sad "VN Mode/Jaehee/jaehee_face_4.png"
+        attribute sparkle "VN Mode/Jaehee/jaehee_face_6.png"
+        attribute neutral default "VN Mode/Jaehee/jaehee_face_8.png"
+        attribute thinking "VN Mode/Jaehee/jaehee_face_10.png"
+        attribute serious "VN Mode/Jaehee/jaehee_face_11.png"
+        attribute worried "VN Mode/Jaehee/jaehee_face_12.png"
+        attribute surprised "VN Mode/Jaehee/jaehee_face_13.png"
         
         
 ## ****************************
@@ -373,15 +375,16 @@ layeredimage jumin front:
         attribute party "VN Mode/Jumin/jumin_body_2.png"
         
     group face:
-        attribute happy "VN Mode/Jumin/jumin_face_0.png" align(0.39, 0.121)
-        attribute upset "VN Mode/Jumin/jumin_face_1.png" align(0.39, 0.121)
-        attribute blush "VN Mode/Jumin/jumin_face_2.png" align(0.39, 0.121)
-        attribute neutral default "VN Mode/Jumin/jumin_face_3.png" align(0.39, 0.121)
-        attribute surprised "VN Mode/Jumin/jumin_face_4.png" align(0.39, 0.121)
-        attribute angry "VN Mode/Jumin/jumin_face_5.png" align(0.39, 0.121)
-        attribute sad "VN Mode/Jumin/jumin_face_6.png" align(0.39, 0.121)
-        attribute unsure "VN Mode/Jumin/jumin_face_7.png" align(0.39, 0.121)
-        attribute thinking "VN Mode/Jumin/jumin_face_8.png" align(0.39, 0.121)
+        align(0.39, 0.121)
+        attribute happy "VN Mode/Jumin/jumin_face_0.png"
+        attribute upset "VN Mode/Jumin/jumin_face_1.png"
+        attribute blush "VN Mode/Jumin/jumin_face_2.png"
+        attribute neutral default "VN Mode/Jumin/jumin_face_3.png"
+        attribute surprised "VN Mode/Jumin/jumin_face_4.png"
+        attribute angry "VN Mode/Jumin/jumin_face_5.png"
+        attribute sad "VN Mode/Jumin/jumin_face_6.png"
+        attribute unsure "VN Mode/Jumin/jumin_face_7.png"
+        attribute thinking "VN Mode/Jumin/jumin_face_8.png"
         
 layeredimage jumin side:
 
@@ -392,14 +395,15 @@ layeredimage jumin side:
         attribute suit "VN Mode/Jumin/jumin_sidebody_1.png."
             
     group face:
-        attribute happy "VN Mode/Jumin/jumin_sideface_0.png" align(0.633, 0.097)
-        attribute upset "VN Mode/Jumin/jumin_sideface_1.png" align(0.633, 0.097)
-        attribute blush "VN Mode/Jumin/jumin_sideface_2.png" align(0.633, 0.097)
-        attribute neutral default "VN Mode/Jumin/jumin_sideface_3.png" align(0.633, 0.097)
-        attribute surprised "VN Mode/Jumin/jumin_sideface_4.png" align(0.633, 0.097)
-        attribute angry "VN Mode/Jumin/jumin_sideface_5.png" align(0.633, 0.097)
-        attribute thinking "VN Mode/Jumin/jumin_sideface_6.png" align(0.633, 0.097)
-        attribute worried "VN Mode/Jumin/jumin_sideface_7.png" align(0.633, 0.097)
+        align(0.633, 0.097)
+        attribute happy "VN Mode/Jumin/jumin_sideface_0.png"
+        attribute upset "VN Mode/Jumin/jumin_sideface_1.png"
+        attribute blush "VN Mode/Jumin/jumin_sideface_2.png"
+        attribute neutral default "VN Mode/Jumin/jumin_sideface_3.png"
+        attribute surprised "VN Mode/Jumin/jumin_sideface_4.png"
+        attribute angry "VN Mode/Jumin/jumin_sideface_5.png"
+        attribute thinking "VN Mode/Jumin/jumin_sideface_6.png"
+        attribute worried "VN Mode/Jumin/jumin_sideface_7.png" 
         
         
 ## ****************************
@@ -414,15 +418,16 @@ layeredimage rika vn:
         attribute dress "VN Mode/Rika/rika01_body_2.png"
         
     group face:
-        attribute happy "VN Mode/Rika/rika01_face_0.png" align(0.666, 0.097)
-        attribute sad "VN Mode/Rika/rika01_face_1.png" align(0.666, 0.097)
-        attribute neutral default "VN Mode/Rika/rika01_face_2.png" align(0.666, 0.097)
-        attribute thinking "VN Mode/Rika/rika01_face_3.png" align(0.666, 0.097)
-        attribute worried "VN Mode/Rika/rika01_face_4.png" align(0.666, 0.097)
-        attribute dark "VN Mode/Rika/rika01_face_5.png" align(0.666, 0.097)
-        attribute angry "VN Mode/Rika/rika01_face_6.png" align(0.666, 0.097)
-        attribute sob "VN Mode/Rika/rika01_face_7.png" align(0.666, 0.097)
-        attribute crazy "VN Mode/Rika/rika01_face_8.png" align(0.666, 0.097)
+        align(0.666, 0.097)
+        attribute happy "VN Mode/Rika/rika01_face_0.png"
+        attribute sad "VN Mode/Rika/rika01_face_1.png"
+        attribute neutral default "VN Mode/Rika/rika01_face_2.png"
+        attribute thinking "VN Mode/Rika/rika01_face_3.png"
+        attribute worried "VN Mode/Rika/rika01_face_4.png"
+        attribute dark "VN Mode/Rika/rika01_face_5.png"
+        attribute angry "VN Mode/Rika/rika01_face_6.png"
+        attribute sob "VN Mode/Rika/rika01_face_7.png"
+        attribute crazy "VN Mode/Rika/rika01_face_8.png" 
         
     group head:
         attribute mask "VN Mode/Rika/rika01_head_0.png" align(0.715, 0.05)
@@ -440,17 +445,18 @@ layeredimage seven front:
         attribute party "VN Mode/707/seven_party_0.png"
             
     group face:
-        attribute happy "VN Mode/707/seven_face_0.png" align(0.427, 0.139)
-        attribute blush "VN Mode/707/seven_face_1.png" align(0.427, 0.139)
-        attribute neutral default "VN Mode/707/seven_face_2.png" align(0.427, 0.139)
-        attribute surprised "VN Mode/707/seven_face_3.png" align(0.427, 0.139)
-        attribute serious "VN Mode/707/seven_face_4.png" align(0.427, 0.139)
-        attribute thinking "VN Mode/707/seven_face_5.png" align(0.427, 0.139)
-        attribute sad "VN Mode/707/seven_face_6.png" align(0.427, 0.139)
-        attribute worried "VN Mode/707/seven_face_7.png" align(0.427, 0.139)
-        attribute dark "VN Mode/707/seven_face_8.png" align(0.427, 0.139)
-        attribute angry "VN Mode/707/seven_face_9.png" align(0.427, 0.139)
-        attribute hurt "VN Mode/707/seven_face_10.png" align(0.427, 0.139)
+        align(0.427, 0.139)
+        attribute happy "VN Mode/707/seven_face_0.png" 
+        attribute blush "VN Mode/707/seven_face_1.png"
+        attribute neutral default "VN Mode/707/seven_face_2.png"
+        attribute surprised "VN Mode/707/seven_face_3.png"
+        attribute serious "VN Mode/707/seven_face_4.png"
+        attribute thinking "VN Mode/707/seven_face_5.png"
+        attribute sad "VN Mode/707/seven_face_6.png"
+        attribute worried "VN Mode/707/seven_face_7.png"
+        attribute dark "VN Mode/707/seven_face_8.png"
+        attribute angry "VN Mode/707/seven_face_9.png"
+        attribute hurt "VN Mode/707/seven_face_10.png"
         
 layeredimage seven side:
     yoffset 160
@@ -461,15 +467,16 @@ layeredimage seven side:
         attribute suit "VN Mode/707/seven_valentines_0.png"
         
     group face:
-        attribute happy "VN Mode/707/seven_sideface_0.png" align(0.435, 0.13)
-        attribute concern "VN Mode/707/seven_sideface_1.png" align(0.435, 0.13)
-        attribute surprised "VN Mode/707/seven_sideface_2.png" align(0.435, 0.13)
-        attribute thinking  "VN Mode/707/seven_sideface_3.png" align(0.435, 0.13)
-        attribute sad "VN Mode/707/seven_sideface_4.png" align(0.435, 0.13)
-        attribute neutral default "VN Mode/707/seven_sideface_5.png" align(0.435, 0.13)
-        attribute dark "VN Mode/707/seven_sideface_6.png" align(0.435, 0.13)
-        attribute angry "VN Mode/707/seven_sideface_7.png" align(0.435, 0.13)
-        attribute worried "VN Mode/707/seven_sideface_8.png" align(0.435, 0.13)
+        align(0.435, 0.13)
+        attribute happy "VN Mode/707/seven_sideface_0.png" 
+        attribute concern "VN Mode/707/seven_sideface_1.png"
+        attribute surprised "VN Mode/707/seven_sideface_2.png"
+        attribute thinking  "VN Mode/707/seven_sideface_3.png"
+        attribute sad "VN Mode/707/seven_sideface_4.png"
+        attribute neutral default "VN Mode/707/seven_sideface_5.png"
+        attribute dark "VN Mode/707/seven_sideface_6.png"
+        attribute angry "VN Mode/707/seven_sideface_7.png"
+        attribute worried "VN Mode/707/seven_sideface_8.png"
     
     
 ## ****************************
@@ -487,32 +494,34 @@ layeredimage saeran vn:
         attribute suit "VN Mode/Unknown/unknown_body_suit.png"
     
     group face:
+        align(0.41, 0.142)
         if_not "mask"        
-        attribute happy "VN Mode/Unknown/unknown_face_0.png" align(0.41, 0.142)
-        attribute smile "VN Mode/Unknown/unknown_face_1.png" align(0.41, 0.142)
-        attribute neutral default "VN Mode/Unknown/unknown_face_2.png" align(0.41, 0.142)
-        attribute angry "VN Mode/Unknown/unknown_face_3.png" align(0.41, 0.142)
-        attribute thinking "VN Mode/Unknown/unknown_face_4.png" align(0.41, 0.142)
-        attribute tense "VN Mode/Unknown/unknown_face_5.png" align(0.41, 0.142)
-        attribute creepy "VN Mode/Unknown/unknown_face_6.png" align(0.41, 0.142)
-        attribute cry "VN Mode/Unknown/unknown_face_7.png" align(0.41, 0.142)
-        attribute blush "VN Mode/Unknown/unknown_face_15.png" align(0.41, 0.142)
-        attribute sob "VN Mode/Unknown/unknown_face_16.png" align(0.41, 0.142)
-        attribute teary "VN Mode/Unknown/unknown_face_17.png" align(0.41, 0.142)
-        attribute nervous "VN Mode/Unknown/unknown_face_18.png" align(0.41, 0.142)
-        attribute sad "VN Mode/Unknown/unknown_face_19.png" align(0.41, 0.142)
-        attribute worried "VN Mode/Unknown/unknown_face_20.png" align(0.41, 0.142)
-        attribute distant "VN Mode/Unknown/unknown_face_21.png" align(0.41, 0.142)
+        attribute happy "VN Mode/Unknown/unknown_face_0.png" 
+        attribute smile "VN Mode/Unknown/unknown_face_1.png"
+        attribute neutral default "VN Mode/Unknown/unknown_face_2.png"
+        attribute angry "VN Mode/Unknown/unknown_face_3.png"
+        attribute thinking "VN Mode/Unknown/unknown_face_4.png"
+        attribute tense "VN Mode/Unknown/unknown_face_5.png"
+        attribute creepy "VN Mode/Unknown/unknown_face_6.png"
+        attribute cry "VN Mode/Unknown/unknown_face_7.png"
+        attribute blush "VN Mode/Unknown/unknown_face_15.png"
+        attribute sob "VN Mode/Unknown/unknown_face_16.png"
+        attribute teary "VN Mode/Unknown/unknown_face_17.png"
+        attribute nervous "VN Mode/Unknown/unknown_face_18.png"
+        attribute sad "VN Mode/Unknown/unknown_face_19.png"
+        attribute worried "VN Mode/Unknown/unknown_face_20.png"
+        attribute distant "VN Mode/Unknown/unknown_face_21.png"
         
     group face:
+        align(0.41, 0.142)
         if_any "mask"        
-        attribute happy "VN Mode/Unknown/unknown_face_8.png" align(0.41, 0.142)
-        attribute smile "VN Mode/Unknown/unknown_face_9.png" align(0.41, 0.142)
-        attribute neutral default "VN Mode/Unknown/unknown_face_10.png" align(0.41, 0.142)
-        attribute angry "VN Mode/Unknown/unknown_face_11.png" align(0.41, 0.142)
-        attribute thinking "VN Mode/Unknown/unknown_face_12.png" align(0.41, 0.142)
-        attribute tense "VN Mode/Unknown/unknown_face_13.png" align(0.41, 0.142)
-        attribute creepy "VN Mode/Unknown/unknown_face_14.png" align(0.41, 0.142)
+        attribute happy "VN Mode/Unknown/unknown_face_8.png" 
+        attribute smile "VN Mode/Unknown/unknown_face_9.png"
+        attribute neutral default "VN Mode/Unknown/unknown_face_10.png"
+        attribute angry "VN Mode/Unknown/unknown_face_11.png"
+        attribute thinking "VN Mode/Unknown/unknown_face_12.png"
+        attribute tense "VN Mode/Unknown/unknown_face_13.png"
+        attribute creepy "VN Mode/Unknown/unknown_face_14.png"
         
         
 ## ****************************
@@ -529,21 +538,22 @@ layeredimage v front:
         attribute mint_eye "VN Mode/V/v02_body_4.png"
         
     group face:
-        attribute neutral default "VN Mode/V/v02_face_0.png" align(0.4345, 0.111)
-        attribute happy "VN Mode/V/v02_face_1.png" align(0.4345, 0.111)
-        attribute angry "VN Mode/V/v02_face_2.png" align(0.4345, 0.111)
-        attribute worried "VN Mode/V/v02_face_3.png" align(0.4345, 0.111)
-        attribute thinking "VN Mode/V/v02_face_4.png" align(0.4345, 0.111)
-        attribute talking "VN Mode/V/v02_face_5.png" align(0.4345, 0.111)
-        attribute surprised "VN Mode/V/v02_face_6.png" align(0.4345, 0.111)
-        attribute tense "VN Mode/V/v02_face_7.png" align(0.4345, 0.111)
-        attribute sweating "VN Mode/V/v02_face_8.png" align(0.4345, 0.111)
-        attribute sad "VN Mode/V/v02_face_9.png" align(0.4345, 0.111)
-        attribute upset "VN Mode/V/v02_face_10.png" align(0.4345, 0.111)
-        attribute concerned "VN Mode/V/v02_face_11.png" align(0.4345, 0.111)
-        attribute regret "VN Mode/V/v02_face_12.png" align(0.4345, 0.111)
-        attribute unsure "VN Mode/V/v02_face_13.png" align(0.4345, 0.111)
-        attribute afraid "VN Mode/V/v02_face_14.png" align(0.4345, 0.111)
+        align(0.4345, 0.111)
+        attribute neutral default "VN Mode/V/v02_face_0.png" 
+        attribute happy "VN Mode/V/v02_face_1.png"
+        attribute angry "VN Mode/V/v02_face_2.png"
+        attribute worried "VN Mode/V/v02_face_3.png"
+        attribute thinking "VN Mode/V/v02_face_4.png"
+        attribute talking "VN Mode/V/v02_face_5.png"
+        attribute surprised "VN Mode/V/v02_face_6.png"
+        attribute tense "VN Mode/V/v02_face_7.png"
+        attribute sweating "VN Mode/V/v02_face_8.png"
+        attribute sad "VN Mode/V/v02_face_9.png"
+        attribute upset "VN Mode/V/v02_face_10.png"
+        attribute concerned "VN Mode/V/v02_face_11.png"
+        attribute regret "VN Mode/V/v02_face_12.png"
+        attribute unsure "VN Mode/V/v02_face_13.png"
+        attribute afraid "VN Mode/V/v02_face_14.png"
         
     group head:
         if_any "mint_eye"
@@ -582,18 +592,19 @@ layeredimage v side glasses:
         attribute long_hair "VN Mode/V/v_body_2.png"
         
     group face:
-        attribute happy "VN Mode/V/v_face_0.png" align(0.411, 0.108)
-        attribute angry "VN Mode/V/v_face_2.png" align(0.411, 0.108)
-        attribute neutral "VN Mode/V/v_face_4.png" align(0.411, 0.1072)
-        attribute surprised "VN Mode/V/v_face_6.png" align(0.411, 0.108)
-        attribute thinking "VN Mode/V/v_face_8.png" align(0.411, 0.108)
-        attribute worried "VN Mode/V/v_face_10.png" align(0.411, 0.108)
-        attribute sweat "VN Mode/V/v_face_12.png" align(0.411, 0.108)
-        attribute shock "VN Mode/V/v_face_14.png" align(0.411, 0.108)
-        attribute afraid "VN Mode/V/v_face_16.png" align(0.411, 0.108)
-        attribute blush "VN Mode/V/v_face_18.png" align(0.411, 0.108)
-        attribute sad "VN Mode/V/v_face_20.png" align(0.411, 0.108)
-        attribute unsure "VN Mode/V/v_face_22.png" align(0.411, 0.108)
+        align(0.411, 0.108)
+        attribute happy "VN Mode/V/v_face_0.png" 
+        attribute angry "VN Mode/V/v_face_2.png"
+        attribute neutral "VN Mode/V/v_face_4.png"
+        attribute surprised "VN Mode/V/v_face_6.png"
+        attribute thinking "VN Mode/V/v_face_8.png"
+        attribute worried "VN Mode/V/v_face_10.png"
+        attribute sweat "VN Mode/V/v_face_12.png"
+        attribute shock "VN Mode/V/v_face_14.png"
+        attribute afraid "VN Mode/V/v_face_16.png"
+        attribute blush "VN Mode/V/v_face_18.png"
+        attribute sad "VN Mode/V/v_face_20.png"
+        attribute unsure "VN Mode/V/v_face_22.png"
         
         
 ## ****************************
@@ -610,24 +621,26 @@ layeredimage yoosung vn:
         attribute bandage "VN Mode/Yoosung/yoosung_body_4.png"
         
     group face:
+        align(0.256, 0.111)
         if_not "bandage"
-        attribute happy "VN Mode/Yoosung/yoosung_face_0.png" align(0.256, 0.111)
-        attribute angry "VN Mode/Yoosung/yoosung_face_2.png" align(0.256, 0.111)
-        attribute sparkle "VN Mode/Yoosung/yoosung_face_4.png" align(0.256, 0.111)
-        attribute neutral default "VN Mode/Yoosung/yoosung_face_6.png" align(0.256, 0.111)
-        attribute surprised "VN Mode/Yoosung/yoosung_face_7.png" align(0.256, 0.111)
-        attribute thinking "VN Mode/Yoosung/yoosung_face_8.png" align(0.256, 0.111)
-        attribute sad "VN Mode/Yoosung/yoosung_face_9.png" align(0.259, 0.111)
-        attribute grin "VN Mode/Yoosung/yoosung_face_10.png" align(0.256, 0.111)
-        attribute dark "VN Mode/Yoosung/yoosung_face_11.png" align(0.256, 0.111)
-        attribute tired "VN Mode/Yoosung/yoosung_face_12.png" align(0.256, 0.111)
-        attribute upset "VN Mode/Yoosung/yoosung_face_13.png" align(0.256, 0.111)
+        attribute happy "VN Mode/Yoosung/yoosung_face_0.png"
+        attribute angry "VN Mode/Yoosung/yoosung_face_2.png"
+        attribute sparkle "VN Mode/Yoosung/yoosung_face_4.png"
+        attribute neutral default "VN Mode/Yoosung/yoosung_face_6.png"
+        attribute surprised "VN Mode/Yoosung/yoosung_face_7.png"
+        attribute thinking "VN Mode/Yoosung/yoosung_face_8.png"
+        attribute sad "VN Mode/Yoosung/yoosung_face_9.png"
+        attribute grin "VN Mode/Yoosung/yoosung_face_10.png"
+        attribute dark "VN Mode/Yoosung/yoosung_face_11.png"
+        attribute tired "VN Mode/Yoosung/yoosung_face_12.png"
+        attribute upset "VN Mode/Yoosung/yoosung_face_13.png"
         
     group face:
+        align(0.256, 0.111)
         if_any "bandage"
-        attribute happy  "VN Mode/Yoosung/yoosung_face_1.png" align(0.256, 0.111)
-        attribute neutral default  "VN Mode/Yoosung/yoosung_face_3.png" align(0.256, 0.111)
-        attribute thinking  "VN Mode/Yoosung/yoosung_face_5.png" align(0.256, 0.111)
+        attribute happy  "VN Mode/Yoosung/yoosung_face_1.png" 
+        attribute neutral default  "VN Mode/Yoosung/yoosung_face_3.png"
+        attribute thinking  "VN Mode/Yoosung/yoosung_face_5.png"
         
 layeredimage yoosung vn glasses:
     
@@ -639,12 +652,13 @@ layeredimage yoosung vn glasses:
         attribute party "VN Mode/Yoosung/yoosung_body_5.png"
         
     group face:      
-        attribute happy "VN Mode/Yoosung/yoosung_face_14.png" align(0.256, 0.111)
-        attribute sparkle "VN Mode/Yoosung/yoosung_face_15.png" align(0.256, 0.111)
-        attribute neutral default "VN Mode/Yoosung/yoosung_face_16.png" align(0.256, 0.111)
-        attribute surprised "VN Mode/Yoosung/yoosung_face_17.png" align(0.256, 0.111)
-        attribute thinking "VN Mode/Yoosung/yoosung_face_18.png" align(0.256, 0.111)
-        attribute grin "VN Mode/Yoosung/yoosung_face_19.png" align(0.256, 0.111)
+        align(0.256, 0.111)
+        attribute happy "VN Mode/Yoosung/yoosung_face_14.png" 
+        attribute sparkle "VN Mode/Yoosung/yoosung_face_15.png"
+        attribute neutral default "VN Mode/Yoosung/yoosung_face_16.png"
+        attribute surprised "VN Mode/Yoosung/yoosung_face_17.png"
+        attribute thinking "VN Mode/Yoosung/yoosung_face_18.png"
+        attribute grin "VN Mode/Yoosung/yoosung_face_19.png"
         
 ## ****************************
 ## Zen
@@ -657,16 +671,17 @@ layeredimage zen front:
         attribute normal default "VN Mode/Zen/zen_body_pocket.png"
         
     group face:    
-        attribute happy "VN Mode/Zen/zen_face_0.png" align(0.428, 0.121)
-        attribute angry "VN Mode/Zen/zen_face_1.png" align(0.428, 0.121)
-        attribute blush "VN Mode/Zen/zen_face_2.png" align(0.428, 0.121)
-        attribute wink "VN Mode/Zen/zen_face_3.png" align(0.428, 0.121)
-        attribute neutral default "VN Mode/Zen/zen_face_4.png" align(0.428, 0.121)
-        attribute surprised "VN Mode/Zen/zen_face_5.png" align(0.428, 0.121)
-        attribute thinking "VN Mode/Zen/zen_face_6.png" align(0.428, 0.121)
-        attribute worried "VN Mode/Zen/zen_face_7.png" align(0.428, 0.121)
-        attribute oh "VN Mode/Zen/zen_face_8.png" align(0.428, 0.121)
-        attribute upset "VN Mode/Zen/zen_face_9.png" align(0.428, 0.121)
+        align(0.428, 0.121)
+        attribute happy "VN Mode/Zen/zen_face_0.png" 
+        attribute angry "VN Mode/Zen/zen_face_1.png"
+        attribute blush "VN Mode/Zen/zen_face_2.png" 
+        attribute wink "VN Mode/Zen/zen_face_3.png"
+        attribute neutral default "VN Mode/Zen/zen_face_4.png"
+        attribute surprised "VN Mode/Zen/zen_face_5.png"
+        attribute thinking "VN Mode/Zen/zen_face_6.png"
+        attribute worried "VN Mode/Zen/zen_face_7.png"
+        attribute oh "VN Mode/Zen/zen_face_8.png"
+        attribute upset "VN Mode/Zen/zen_face_9.png"
         
 layeredimage zen side:
     
@@ -698,9 +713,10 @@ layeredimage bodyguard_front:
         attribute normal default "VN Mode/B01/b01_body_0.png"
         
     group face:
-        attribute neutral default "VN Mode/B01/b01_face_0.png" align(0.397, 0.083)
-        attribute thinking "VN Mode/B01/b01_face_1.png" align(0.397, 0.083)
-        attribute stressed "VN Mode/B01/b01_face_2.png" align(0.397, 0.083)
+        align(0.397, 0.083)
+        attribute neutral default "VN Mode/B01/b01_face_0.png" 
+        attribute thinking "VN Mode/B01/b01_face_1.png"
+        attribute stressed "VN Mode/B01/b01_face_2.png"
         
 layeredimage bodyguard_side:
     yoffset 40
@@ -708,9 +724,10 @@ layeredimage bodyguard_side:
         attribute normal default "VN Mode/B02/b02_body_0.png"
         
     group face:
-        attribute neutral default "VN Mode/B02/b02_face_0.png" align(0.239, 0.105)
-        attribute thinking "VN Mode/B02/b02_face_1.png" align(0.239, 0.105)
-        attribute stressed "VN Mode/B02/b02_face_2.png" align(0.239, 0.105)
+        align(0.239, 0.105)
+        attribute neutral default "VN Mode/B02/b02_face_0.png" 
+        attribute thinking "VN Mode/B02/b02_face_1.png"
+        attribute stressed "VN Mode/B02/b02_face_2.png"
         
 ## ****************************
 ## Chairman Han
@@ -722,10 +739,11 @@ layeredimage chairman_han:
         attribute normal default "VN Mode/Mr Chairman/han_body_0.png"
     
     group face:
-        attribute happy "VN Mode/Mr Chairman/han_face_0.png" align(0.263, 0.088)
-        attribute thinking "VN Mode/Mr Chairman/han_face_1.png" align(0.263, 0.088)
-        attribute neutral default "VN Mode/Mr Chairman/han_face_2.png" align(0.263, 0.088)
-        attribute stressed "VN Mode/Mr Chairman/han_face_3.png" align(0.263, 0.088)
+        align(0.263, 0.088)
+        attribute happy "VN Mode/Mr Chairman/han_face_0.png"
+        attribute thinking "VN Mode/Mr Chairman/han_face_1.png" 
+        attribute neutral default "VN Mode/Mr Chairman/han_face_2.png"
+        attribute stressed "VN Mode/Mr Chairman/han_face_3.png"
         
 ## ****************************
 ## Echo Girl
@@ -737,11 +755,12 @@ layeredimage echo_girl:
         attribute normal default "VN Mode/Echo girl/eco_body_0.png"
         
     group face:
-        attribute neutral default "VN Mode/Echo girl/eco_face_0.png" align(0.508, 0.09)
-        attribute happy "VN Mode/Echo girl/eco_face_1.png" align(0.508, 0.09)
-        attribute angry "VN Mode/Echo girl/eco_face_2.png" align(0.508, 0.09)
-        attribute smile "VN Mode/Echo girl/eco_face_3.png" align(0.508, 0.09)
-        attribute surprised "VN Mode/Echo girl/eco_face_4.png" align(0.508, 0.09)
+        align(0.508, 0.09)
+        attribute neutral default "VN Mode/Echo girl/eco_face_0.png" 
+        attribute happy "VN Mode/Echo girl/eco_face_1.png"
+        attribute angry "VN Mode/Echo girl/eco_face_2.png"
+        attribute smile "VN Mode/Echo girl/eco_face_3.png"
+        attribute surprised "VN Mode/Echo girl/eco_face_4.png"
         
         
 ## ****************************
@@ -754,12 +773,13 @@ layeredimage glam_choi:
         attribute normal default "VN Mode/Glam Choi/glam_body_0.png"
         
     group face:
-        attribute happy "VN Mode/Glam Choi/glam_face_0.png" align(0.4585, 0.099)
-        attribute smirk "VN Mode/Glam Choi/glam_face_1.png" align(0.4585, 0.098)
-        attribute thinking "VN Mode/Glam Choi/glam_face_2.png" align(0.4585, 0.098)
-        attribute neutral default "VN Mode/Glam Choi/glam_face_3.png" align(0.4585, 0.098)
-        attribute stressed "VN Mode/Glam Choi/glam_face_4.png" align(0.4585, 0.098)
-        attribute worried "VN Mode/Glam Choi/glam_face_5.png" align(0.4585, 0.098)
+        align(0.4585, 0.099)
+        attribute happy "VN Mode/Glam Choi/glam_face_0.png" 
+        attribute smirk "VN Mode/Glam Choi/glam_face_1.png"
+        attribute thinking "VN Mode/Glam Choi/glam_face_2.png"
+        attribute neutral default "VN Mode/Glam Choi/glam_face_3.png"
+        attribute stressed "VN Mode/Glam Choi/glam_face_4.png"
+        attribute worried "VN Mode/Glam Choi/glam_face_5.png"
         
         
 ## ****************************
@@ -780,12 +800,13 @@ layeredimage sarah:
         attribute normal default "VN Mode/Sarah Choi/sarah_body_0.png"
     
     group face:
-        attribute happy "VN Mode/Sarah Choi/sara_face_0.png" align(0.233, 0.097)
-        attribute excited "VN Mode/Sarah Choi/sara_face_1.png" align(0.233, 0.097)
-        attribute smirk "VN Mode/Sarah Choi/sara_face_2.png" align(0.233, 0.097)
-        attribute neutral default "VN Mode/Sarah Choi/sara_face_3.png" align(0.233, 0.097)
-        attribute stressed "VN Mode/Sarah Choi/sara_face_4.png" align(0.233, 0.097)
-        attribute sad "VN Mode/Sarah Choi/sara_face_5.png" align(0.233, 0.097)
+        align(0.233, 0.097)
+        attribute happy "VN Mode/Sarah Choi/sara_face_0.png" 
+        attribute excited "VN Mode/Sarah Choi/sara_face_1.png"
+        attribute smirk "VN Mode/Sarah Choi/sara_face_2.png"
+        attribute neutral default "VN Mode/Sarah Choi/sara_face_3.png"
+        attribute stressed "VN Mode/Sarah Choi/sara_face_4.png"
+        attribute sad "VN Mode/Sarah Choi/sara_face_5.png"
         
 ## ****************************
 ## Vanderwood
@@ -797,12 +818,13 @@ layeredimage vanderwood:
         attribute normal default "VN Mode/Vanderwood/van_body_0.png"
    
     group face:
-        attribute neutral default "VN Mode/Vanderwood/ven_face_0.png" align(0.57, 0.112)
-        attribute unamused "VN Mode/Vanderwood/ven_face_1.png" align(0.57, 0.112)
-        attribute unsure "VN Mode/Vanderwood/ven_face_2.png" align(0.57, 0.112)
-        attribute determined "VN Mode/Vanderwood/ven_face_3.png" align(0.57, 0.112)
-        attribute ouch "VN Mode/Vanderwood/ven_face_4.png" align(0.57, 0.112)
-        attribute angry "VN Mode/Vanderwood/ven_face_5.png" align(0.57, 0.112)
+        align(0.57, 0.112)
+        attribute neutral default "VN Mode/Vanderwood/ven_face_0.png" 
+        attribute unamused "VN Mode/Vanderwood/ven_face_1.png"
+        attribute unsure "VN Mode/Vanderwood/ven_face_2.png"
+        attribute determined "VN Mode/Vanderwood/ven_face_3.png"
+        attribute ouch "VN Mode/Vanderwood/ven_face_4.png"
+        attribute angry "VN Mode/Vanderwood/ven_face_5.png"
         
         
         

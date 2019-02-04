@@ -4,16 +4,16 @@
 init -2:
     style digi_clock:
         is default
-        font "00 fonts/SamsungSans-Light.ttf"
+        font "fonts/SamsungSans-Light.ttf"
         color "#ffffff"
         yalign 0.5
 
 init -1 python:
     from datetime import datetime #This is to get the real world datetime
     
-    img = ["00 images/VintageClockBase450x450.png", "00 images/VintageClockHour450x450.png", 
-        "00 images/VintageClockMinute450x450.png", "00 images/VintageClockSecond400x400.png", 
-        "00 images/DigitalClockBase460x200.png"]
+    img = ["transparent.png", "transparent.png", 
+        "transparent.png", "transparent.png", 
+        "transparent.png"]
     """
     Use your own clock images here, or use the ones I provided.
     Note: your analogue clock images need to be square, your digital base can be 
@@ -56,7 +56,7 @@ init -1 python:
             self.hour_hand_image = im.Scale(img[1], resize, resize)
             self.minute_hand_image = im.Scale(img[2], resize, resize)
             self.second_hand_image = im.Scale(img[3], resize, resize)
-            self.digital_base_image = im.Scale("00 images/DigitalClockBase460x200.png", 
+            self.digital_base_image = im.Scale("transparent.png", 
                 self.width, self.d_height)
             self.offset = (resize*2**0.5-resize)/2
             self.second_hand_visible = sH
@@ -309,9 +309,7 @@ init -1 python:
                 self.second_sound_on = secOn
                 self.chime_on = chOn
                 if self.second_sound_on:
-                    if renpy.music.is_playing(channel='TockBG'):
-                        renpy.music.stop(channel='TockBG', fadeout=0.1)
-                    renpy.music.play("00 sounds/ClockTick1.flac", channel='TockBG')
+                    pass
                 else:
                     renpy.music.stop(channel='TockBG')
                 if not self.chime_on:
@@ -353,9 +351,6 @@ init -1 python:
                 h = 12
             elif h > 12:
                 h = h%12
-            ch = ["00 sounds/ChimePart.ogg",]*(h-1)
-            ch.append("00 sounds/Chime1.ogg")
-            return ch
         
         #Plays clock chimes on the hour
         def start_chime(self): 
@@ -363,8 +358,6 @@ init -1 python:
                 if not self.play_chime:
                     if self.minutes%60 == 0:
                         self.play_chime = True
-                        cf = self.chime_looper()
-                        renpy.music.queue(cf, channel='ChimeBG')
         
         #Plays the alarm when the time has arrived
         def start_alarm(self): 
@@ -373,10 +366,7 @@ init -1 python:
                     h, m, s = self.get_time()
                     if self.alarm_hr == h and self.alarm_min == m:
                         self.play_alarm = True
-                        if self.analogue:
-                            renpy.music.play("00 sounds/BellAlarm.wav", channel='Alarm')
-                        else:
-                            renpy.music.play("00 sounds/digital-alarm.wav", channel='Alarm')   
+ 
                             
         #Make sure the time is within the 0-24hr range
         def fix_time(self, h,m):

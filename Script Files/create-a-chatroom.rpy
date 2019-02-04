@@ -705,7 +705,7 @@ style creator_title:
     color '#fff'
     size 35
     outlines [ (1, '#277177', 3, 2) ]
-    font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
+    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
 
 style creator_button is default:    
     xsize 231
@@ -722,7 +722,7 @@ style creator_font_button:
 style creator_button_text is default:
     color '#fff'
     size 28
-    font "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
     text_align 0.5
     xalign 0.5
     yalign 0.5

@@ -33,7 +33,7 @@ define gui.idle_color = '#888888'
 define gui.idle_small_color = '#aaaaaa'
 
 ## The color that is used for buttons and bars that are hovered.
-define gui.hover_color = '#e066a3'
+define gui.hover_color = '#3e8478'
 
 ## The color used for a text button when it is selected but not focused. A
 ## button is selected if it is the current screen or preference value.
@@ -55,10 +55,10 @@ define gui.interface_text_color = '#ffffff'
 ## Fonts and Font Sizes ########################################################
 
 ## The font used for in-game text.
-define gui.text_font = "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+define gui.text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 
 ## The font used for character names.
-define gui.name_text_font = "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+define gui.name_text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 
 ## The font used for out-of-game text.
 define gui.interface_text_font = "DejaVuSans.ttf"
@@ -206,7 +206,7 @@ define gui.choice_button_width = 740
 define gui.choice_button_height = 221
 define gui.choice_button_tile = False
 define gui.choice_button_borders = Borders(40, 30, 40, 30)
-define gui.choice_button_text_font = "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+define gui.choice_button_text_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.0
 define gui.choice_button_text_idle_color = "#000000"
@@ -425,7 +425,7 @@ define gui.phone_height = None
 define gui.phone_spacing = 0
 
 ## The font for the characters' names
-define gui.phone_name_font = "00 fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+define gui.phone_name_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
 
 ## These are additional modifiers for the text specifically,
 ## separate from the speech bubbles each character has
