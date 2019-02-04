@@ -95,7 +95,7 @@ init -6 python:
             
     # This object stores all the chatrooms you've viewed in the game. 
     class Archive(store.object):
-        def __init__(self, day, archive_list=[], route='day_common1'):
+        def __init__(self, day, archive_list=[], route='day_common2'):
             self.day = day
             self.archive_list = archive_list
             self.route = route
@@ -185,9 +185,9 @@ init -6 python:
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
 # for you
-default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01'),                                    
-                                    Chat_History('Text Message Example', 'auto', 'example_text', '02:11', [r], VN_Mode('vn_mode_tutorial', r)),
-                                    Chat_History('Inviting Guests', 'auto', 'example_email', '03:53', [z]),
+default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01'),                                     
+                                    Chat_History('Inviting Guests', 'auto', 'example_email', '02:11', [z]),
+                                    Chat_History('Text Message Example', 'auto', 'example_text', '03:53', [r], VN_Mode('vn_mode_tutorial', r)),
                                     Chat_History('Pass Out After Drinking Coffee Syndrome', 'auto', 'tutorial_chat', '04:05', [s]),
                                     Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '07:07', [ja, ju], VN_Mode('popcorn_vn', ju)),
                                     Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], False, True)]),
@@ -221,6 +221,7 @@ default call_history = []
 default incoming_call = False #e.g. Phone_Call(ju)
 default vn_choice = False
 default current_call = False
+default starter_story = False
 
 default preferences.afm_time = 15
 default mm_auto = "mm_auto_save"
@@ -310,19 +311,21 @@ image bg starry_night = "Phone UI/bg-starry-night.png"
 #Analogue or Digital, hours, minutes, size, second hand, military time
 default myClock = Clock(False, 0, 0, 150, False, False) 
 
-default they = "she"
-default them = "her"
-default their = "her"
-default theirs = "hers"
-default themself = "herself"
-default they_re = "she's"
-default They_re = "She's"
-default They = "She"
-default Them = "Her"
-default Their = "Her"
-default Theirs = "Hers"
-default Themself = "Herself" 
-default is_are = "is"
+# Extra variables since the player can
+# choose their pronouns
+default they = "they"
+default them = "them"
+default their = "their"
+default theirs = "theirs"
+default themself = "themself"
+default they_re = "they're"
+default They_re = "They're"
+default They = "They"
+default Them = "Them"
+default Their = "Their"
+default Theirs = "Theirs"
+default Themself = "Themself" 
+default is_are = "are"
 
 default chatlog = []
 default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
@@ -594,7 +597,7 @@ define late_night_greeting = {'jaehee': [ Day_Greeting('sfx/Main Menu Greetings/
 # Persistent Variables
 #************************************
 
-default persistent.pronoun = "nonbinary"
+default persistent.pronoun = "non binary"
 
 default persistent.jumin_voice = True
 default persistent.zen_voice = True
@@ -621,9 +624,6 @@ image seven_cg1 = "CGs/Seven/cg-1.png"
 image saeran_cg1 = "CGs/Saeran/cg-1.png"
 
 default fullsizeCG = "general_cg1"
-         
-## Currently unused
-image new_messages = "Phone UI/new_message_banner.png"
 
 
 ## ********************************
@@ -773,7 +773,7 @@ image greeting_bubble = Frame("Phone UI/Main Menu/greeting_bubble.png", 40, 10, 
 image greeting_panel = Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
 
 image rfa_greet:
-    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", color="#ffffff", size=30, slow=True, font="00 fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
+    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", color="#ffffff", size=30, slow=True, font="fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
     10.0
     "transparent.png"
     0.2
@@ -926,7 +926,7 @@ image shop_text = "Phone UI/Main Menu/Original Story/main01_subtext_shop.png"
 ## Profile Picture Screen
 ## ********************************
 image profile_outline = "Phone UI/Main Menu/Original Story/profile_outline.png"
-image profile_cover_photo = "Phone UI/Main Menu/Original Story/profile_cover_photo.png"
+image profile_cover_photo = "Cover Photos/profile_cover_photo.png"
 
 ### Spaceship
 image space_chip_active:
@@ -1246,7 +1246,9 @@ image char_foreground2 = 'Phone UI/char_select_foreground2.png'
 ## Email Screen
 ## ********************************
 
-image email_completed = "Email/main03_email_completed_01.png"
+image email_completed_3 = "Email/main03_email_completed_01.png"
+image email_completed_2 = "Email/main03_completed_02.png"
+image email_completed_1 = "Email/main03_completed_03.png"
 image email_failed = "Email/main03_email_failed.png"
 image email_timeout = "Email/main03_email_timeout.png"
 image email_good = "Email/main03_email_good.png"
