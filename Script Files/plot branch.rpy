@@ -243,13 +243,16 @@ label good_end_party:
     scene bg rika_apartment with fade
     pause
     show saeran vn unknown
-    u_vn "I don't really have a party here."
-    show saeran vn sad
-    u_vn "So this is all filler."
+    u_vn "This is where you'd likely put a VN section for a party."
+    show saeran vn distant
+    u_vn "It works the same way as any other VN section; the only thing that's different is the icon."
+    show saeran vn neutral
+    u_vn "As this is probably the end of your game though, you'll want to make sure you show the user which ending they got."
+    u_vn "Then you can reset the game so they can play through it again."
     show saeran vn smile
-    u_vn "Hope you liked the program!"
-    show saeran vn worried
-    u_vn "I probably say that too much..."
+    u_vn "As always, there's more information on that in the User Guide."
+    show saeran vn happy
+    u_vn "Thanks for playing through Tutorial Day!"
     
     # For VN modes, we can just manually show which
     # ending screen we like
