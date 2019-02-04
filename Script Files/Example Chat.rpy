@@ -32,12 +32,13 @@ label example_chat:
         "What if I don't know any coding?":
             m "What if I don't know any coding?" (pauseVal=0)
             u "{=sser2}Don't worry! I've tried to make this as easy to use as possible.{/=sser2}" 
-            u "{=sser2}You can always ask me questions on my blog, {a=http://www.zentherainbowunicorn.tumblr.com}which you can find here{/a}{/=sser2}" 
+            u "{=sser2}There's an extensive {b}User Guide{/b} included with the program to look at,{/=sser2}"
+            u "{=sser2}and I'll also be monitoring the{a=https://discord.gg/BPbPcpk} Mysterious Messenger Discord server{/a} if you have questions.{/=sser2}" 
             u "This project was coded in Ren'Py, so you can always check out their forums, too." 
 
     u "Anyway, you can see what we just did there was a menu!" 
     u "It allows you to alter a conversation based on responses." 
-    u "If you take a look Example Chat.rpy, you can get an idea of how to use them." 
+    u "If you take a look {b}Example Chat.rpy{/b}, you can get an idea of how to use them." 
     u "You'll want to type \"call answer\" before a menu." 
     u "That way the answer button will show up at the bottom of the screen instead of immediately jumping to a menu." 
     u "{=ser1}There are lots of things to learn about!{/=ser1}" 
@@ -110,11 +111,12 @@ label emojis:
     s "G" (pauseVal=0.1)
     s "{=sser2}{size=+10}I get to explain emojis!!!{/size}{/=sser2}" 
     s "{image=seven wow}"   (img=True)
-    s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}"   (specBubble="spike_m")
-    s "Okay so what you wanna do is go find the right emoji in the emojis.rpy file."
+    s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}"   (bounce=True, specBubble="spike_m")
+    s "Okay, so what you wanna do is go find the right emoji in the {b}images/Gifs{/b} folder,"
+    s "and find its corresponding name in the {b}emojis.rpy{/b} file."
     s "Then you're gonna type {{image=seven wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet"
     s "The program will automatically add the right sound file for you ^^"
-    s "{=ser1b}You'll also want to tick the \"Image\" modifier in the spreadsheet{/=ser1b}"
+    s "{=ser1b}You'll also want to make sure the \"Image\" modifier in the spreadsheet is checked,{/=ser1b}"
     s "{=blocky}otherwise it'll look like this lolol{/=blocky}"
     s "{image=seven wow}"
     s "{=sser2}Which is probably not what you want!{/=sser2}" 
@@ -122,9 +124,7 @@ label emojis:
     s "since otherwise you'll get an \"image not found\" message."
     s "{=blocky}And it won't play any sound files, either!{/=blocky}" (bounce=True)
     s "{=ser1}If you want to add more emojis,{/=ser1}"
-    s "{=ser1}just follow the rules you see in emojis.rpy{/=ser1}"
-    s "{=ser1}You'll need to add it to the emoji_lookup dictionary list as well.{/=ser1}"
-    s "{=ser1xb}Just use the existing entries as a guide.{/=ser1xb}"
+    s "{=ser1}there's a whole section on just that in the User Guide.{/=ser1}"
     s "{=curly}Now I'll let you check out the emojis currently coded into the game.{/=curly}"
     s "{=sser2}Just select a character to see the available emojis or \"Done\" if you're finished{/=sser2}"   (bounce=True)
 
@@ -170,7 +170,7 @@ label emojis:
             s "seven_cg1" (img=True)
             s "{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}"
             s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
-            s "{=ser1}You'll need to start by defining an image in variables.rpy{/=ser1}"
+            s "{=ser1}You'll need to start by defining an image in {b}variables.rpy{/b}, under the {b}CGs{/b} header.{/=ser1}"
             s "{=ser1}For example, that last image is called \"seven_cg1\"{/=ser1}"
             s "{=ser1}It should be 750x1334 pixels, and it will be automatically resized for the chatroom.{/=ser1}"
             s "{=ser1}Then to call it, just type the name of the image you defined and check off the \"Image\" modifier in the spreadsheet.{/=ser1}"
@@ -220,7 +220,8 @@ label banners:
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
     y "{=curly}You said you identify as [persistent.pronoun], right?{/=curly}"   (bounce=True, specBubble="square_m")
     y "{=sser2}So we'll use pronouns like [they]/[them] whenever we talk about you.{/=sser2}"   (bounce=True)
-    y "You can check out script.rpy - at the start there are some variables so you know how to use pronouns when writing a script" 
+    y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script" 
+    y "If you want to add any new variables, there's a section in the User Guide about doing just that."
     y "And if you ever want to change your pronouns, just go to the profile page (currently accessed from the main menu)." 
     y "That's all from me!"
     y "{=sser2}Good luck with the program ^^{/=sser2}"
@@ -282,7 +283,8 @@ label heart_icons:
     z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}"
     z "It keeps track of both the total points earned during a chatroom,"
     z "as well as how many points you have with each individual character"
-    z "{=curly}Just to keep the door open for other uses ^^{/=curly}" (bounce=True, specBubble="round_m")
+    z "There's also a second argument you can pass it to have heart points count towards a bad end."
+    z "Check out the User Guide for more on that!"
     z "{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}"
     z "{=curly}Good luck with the rest of the program!{/=curly}" (bounce=True)
     call exit(z)
@@ -323,10 +325,10 @@ label screen_shake:
     ja "In the Script Generator spreadsheet, you'll see an option called \"special bubble\""
     ja "You can look in the folder \"Bubbles/Special\" and find the correct bubble"
     ja "{=sser2}Most bubbles come in three sizes:{/=sser2}" (bounce=True)
-    ja "{=sser1b}small{/=sser1b}"
-    ja "{=sser1b}medium{/=sser1b}"
-    ja "{=sser1b}and large{/=sser1b}"
-    ja "{=ser1}The text should usually resize itself to fit, but it might be finicky sometimes, since most bubbles have to be adjusted individually{/=ser1}"
+    ja "{=sser1b}small{/=sser1b}" (bounce=True, specBubble="spike_s")
+    ja "{=sser1b}medium{/=sser1b}" (bounce=True, specBubble="spike_m")
+    ja "{=sser1b}and large{/=sser1b}" (bounce=True, specBubble="spike_l")
+    ja "{=ser1}The text should usually resize itself to fit, but you need to choose the size yourself.{/=ser1}"
     ja "{color=#f00}For example, this bubble might be too small.{/color}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}As for screen shake,{/=ser1}"
     ja "{=ser1}how you use it depends on which background you're using{/=ser1}"
@@ -358,13 +360,15 @@ label ending:
                     
         "I don't know if I'm ready yet...":
             m "I don't know if I'm ready yet..." (pauseVal=0)
-            u "{=ser1}I recommend reading through the code for this chatroom and the coffee chatroom.{/=ser1}"
-            u "{=ser1}And maybe go through this example chatroom a few times and compare it with the code!{/=ser1}"
+            u "{=ser1}I recommend checking out the User Guide, which will walk you through creating a chatroom.{/=ser1}"
+            u "{=ser1}You can also go through these example chatrooms a few times and compare it with the code.{/=ser1}"
 
     u "I've put a lot of work into this program, so any feedback is welcome!"
-    u "{=sser2}And please credit me if you do use it somewhere!{/=sser2}"
-    u "{=sser2}I hope you find this program helpful.{/=sser2}"
-    u "{=sser2}Good luck!{/=sser2}"
+    u "{=sser2}If you decide you'd like to use it somewhere,{/=sser2}"
+    u "{=sser2}you must include credit and a link back to my GitHub in your project.{/=sser2}"
+    u "{=sser2}Feel free to contact me if you have any questions.{/=sser2}"
+    u "I hope you find this program helpful."
+    u "Good luck!"
     call exit(u)
     # Use this at the end of a chatroom
     jump chat_end
@@ -496,6 +500,7 @@ label ray_emoji:
     jump emoji
 
 label saeran2_emoji:
+    s "These Saeran sweater emotes were edited by {b}Manami{/b} from saeran-sexual.tumblr.com, used with permission."
     r "{image=saeran2 cry}" (img=True)
     r "{image=saeran2 happy}" (img=True)
     r "{image=saeran2 huff}" (img=True)
@@ -529,6 +534,7 @@ label seven_emoji:
     jump emoji
 
 label rika_emoji:
+    s "These Rika emotes were created by {b}Sakekobomb{/b} on Tumblr, used with permission."
     ri "{image=rika happy}" (img=True)
     ri "{image=rika cry}" (img=True)
     ri "{image=rika pout}" (img=True)
@@ -573,62 +579,62 @@ label zen_emoji:
 ## SMALL BUBBLES
 label cloud_s:
     
-    z "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    s "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    sa "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    v "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
-    y "Some small text" (pauseVal=0.5, bounce=True, specBubble="cloud_s")
+    z "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    ju "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    s "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    r "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    sa "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    v "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    y "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
     
     call answer
     jump bubbles
     
 label sigh_s:
-    z "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
-    ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
-    ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
-    s "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
-    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
-    v "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
-    y "Some small text" (pauseVal=0.5, bounce=True, specBubble="sigh_s")
+    z "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
+    ju "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
+    ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
+    s "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
+    r "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
+    v "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
+    y "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
 
     call answer
     jump bubbles
     
 label round_s:    
-    z "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
-    ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
-    ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
-    s "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
-    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
-    s "Some small text" (pauseVal=0.5, bounce=True, specBubble="round2_s")
-    v "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
-    y "Some small text" (pauseVal=0.5, bounce=True, specBubble="round_s")
+    z "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    ju "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    s "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    r "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    s "Some small text" (pauseVal=0.35, bounce=True, specBubble="round2_s")
+    v "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    y "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
 
     call answer
     jump bubbles
     
 label square_s:  
-    z "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
-    ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
-    ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
-    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="square2_s")
-    r "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
-    sa "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
-    v "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
-    y "Some small text" (pauseVal=0.5, bounce=True, specBubble="square_s")
+    z "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
+    ju "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
+    ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
+    r "Some small text" (pauseVal=0.35, bounce=True, specBubble="square2_s")
+    r "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
+    sa "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
+    v "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
+    y "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
     
     call answer
     jump bubbles
     
 label spike_s:  
-    z "Some small text" (pauseVal=0.5, bounce=True, specBubble="spike_s")
-    ju "Some small text" (pauseVal=0.5, bounce=True, specBubble="spike_s")
-    ja "Some small text" (pauseVal=0.5, bounce=True, specBubble="spike_s")
-    s "Some small text" (pauseVal=0.5, bounce=True, specBubble="spike_s")
-    y "Some small text" (pauseVal=0.5, bounce=True, specBubble="spike_s")
+    z "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
+    ju "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
+    ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
+    s "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
+    y "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
     call answer
     jump bubbles
     
@@ -636,62 +642,62 @@ label spike_s:
     
 label cloud_m:
     
-    z "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    sa "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
-    y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="cloud_m")
+    z "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    sa "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
     
     call answer
     jump bubbles
     
 label sigh_m:
-    z "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
-    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
-    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
-    s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
-    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
-    v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
-    y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="sigh_m")
+    z "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
+    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
+    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
+    s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
+    v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
+    y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
 
     call answer
     jump bubbles
     
 label round_m:    
-    z "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
-    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
-    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
-    s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
-    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
-    s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round2_m")
-    v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
-    y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="round_m")
+    z "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round2_m")
+    v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
 
     call answer
     jump bubbles
     
 label square_m:  
-    z "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
-    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
-    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
-    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square2_m")
-    r "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
-    sa "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
-    v "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
-    y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="square_m")
+    z "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
+    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
+    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square2_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
+    sa "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
+    v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
+    y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
     
     call answer
     jump bubbles
     
 label spike_m:  
-    z "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="spike_m")
-    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="spike_m")
-    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="spike_m")
-    s "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="spike_m")
-    y "Longer text because this is a medium-sized bubble" (pauseVal=0.35, bounce=True, specBubble="spike_m")
+    z "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
+    ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
+    ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
+    s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
+    y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     call answer
     jump bubbles
 
@@ -699,62 +705,62 @@ label spike_m:
 ## LARGE BUBBLES
 label cloud_l:
     
-    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
-    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_l")
+    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
     
     call answer
     jump bubbles
     
 label sigh_l:
-    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
-    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
-    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
-    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
-    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
-    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
-    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_l")
+    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
+    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
+    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
+    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
+    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
+    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
 
     call answer
     jump bubbles
     
 label round_l:    
-    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
-    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
-    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
-    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
-    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
-    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round2_l")
-    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
-    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="round_l")
+    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round2_l")
+    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
 
     call answer
     jump bubbles
     
 label square_l:  
-    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
-    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
-    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
-    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square2_l")
-    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
-    sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
-    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
-    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="square_l")
+    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
+    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
+    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square2_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
+    sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
+    v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
+    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
     
     call answer
     jump bubbles
     
 label spike_l:  
-    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="spike_l")
-    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="spike_l")
-    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="spike_l")
-    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="spike_l")
-    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.2, bounce=True, specBubble="spike_l")
+    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
+    ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
+    ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
+    s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
+    y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     call answer
     jump bubbles
     
