@@ -111,10 +111,8 @@ screen day_select(day):
         fixed:
             xfit True
             yfit True
-            if is_today or played or day.route != 'day_common1':
-                add day.route
-            else:
-                add 'day_common2'
+            add day.route
+
 
             
     
