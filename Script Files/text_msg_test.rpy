@@ -1,6 +1,6 @@
 label example_text:
 
-    call chat_begin("morning")  
+    call chat_begin("morning")
     
     # You'll generally never want to mess with the 'observing' variable yourself, 
     # but since this is a tutorial chatroom we want the user to be able to play

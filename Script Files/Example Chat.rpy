@@ -7,8 +7,8 @@ label example_chat:
     # You'll generally never want to add phone calls this way
     $ available_calls.append(Phone_Call(r, 'test_call', 'outgoing', 'test'))
        
-    call hack      
-    call chat_begin("hack")
+    call hack 
+    call chat_begin("hack") 
     
     $ observing = False     # Normally you don't want to include this statement
                             # It gets automatically set during the chat_begin call
@@ -17,13 +17,13 @@ label example_chat:
                             # However, this is a tutorial chatroom, so you can replay it
     
     play music mystic_chat loop
-    call enter(u)
+    call enter(u) 
     u "{=curly}Hello, [name] ^^{/=curly}" 
     u "I thought you might come by." 
     u "{=curly}You want to learn more about how to make a chatroom, right?{/=curly}" (bounce=True)
     u "I've come to show off a few of its features." 
     
-    call answer
+    call answer 
     menu:
         "Let's get started!":
             m "Let's get started!" (pauseVal=0)
@@ -44,7 +44,7 @@ label example_chat:
     u "{=ser1}There are lots of things to learn about!{/=ser1}" 
     u "{=ser1b}What would you like to see first?{/=ser1b}" 
        
-    call answer
+    call answer 
     menu learn:    
     
         "Emojis and Images" if not choice_picked == "emojis":
@@ -55,7 +55,7 @@ label example_chat:
                 u "{=ser1}Emojis and images, huh?{/=ser1}"
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^"
-                call exit(u)
+                call exit(u) 
             pause 0.5  
             jump emojis
             
@@ -67,7 +67,7 @@ label example_chat:
                 u "{=ser1}Oh, banners?{/=ser1}"
                 u "{=ser1}Okay. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^"
-                call exit(u)
+                call exit(u) 
             pause 0.5
             jump banners
             
@@ -79,7 +79,7 @@ label example_chat:
                 u "{=curly}Heart icons?{/=curly}" (bounce=True)
                 u "{=ser1}Hmm, sounds good. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^" (bounce=True)
-                call exit(u)
+                call exit(u) 
             pause 0.5
             jump heart_icons
             
@@ -91,7 +91,7 @@ label example_chat:
                 u "{=ser1}You want to know about special speech bubbles and screen shake?{/=ser1}" (bounce=True)
                 u "{=ser1}Alright then. I'll let someone else explain this.{/=ser1}"
                 u "I'll be back later ^^" (bounce=True)
-                call exit(u)
+                call exit(u) 
             pause 0.5
             jump screen_shake
             
@@ -100,12 +100,12 @@ label example_chat:
             
 label emojis:
 
-    call hack
-    call chat_begin("morning",False,False)
+    call hack 
+    call chat_begin("morning",False,False) 
     $ observing = False # Again, this is for tutorial purposes
     
     play music geniusly_hacked_bebop loop
-    call enter(s)
+    call enter(s) 
     s "O" (pauseVal=0.1)
     s "M" (pauseVal=0.1)
     s "G" (pauseVal=0.1)
@@ -129,7 +129,7 @@ label emojis:
     s "{=sser2}Just select a character to see the available emojis or \"Done\" if you're finished{/=sser2}"   (bounce=True)
 
     
-    call answer
+    call answer 
     menu emoji:
         "Jaehee":
             jump jaehee_emoji
@@ -181,19 +181,19 @@ label emojis:
             s "{=sser2}The ability to click the image/the full screen version is automatically taken care of for you.{/=sser2}" 
             s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
             s "Let me know if you have any questions later~"
-            call exit(s)
-            call answer
+            call exit(s) 
+            call answer 
             jump learn
 
 
 label banners:
 
-    call hack
-    call chat_begin("noon",False,False)
+    call hack 
+    call chat_begin("noon",False,False) 
     $ observing = False # Again, this is for tutorial purposes
     play music same_old_fresh_air loop
     
-    call enter(y)
+    call enter(y) 
     y "{=curly}Hello!{/=curly}"
     y "{=sser2}I'm supposed to explain banners to you.{/=sser2}" 
     y "{=sser2}It's pretty quick, I promise!{/=sser2}" 
@@ -202,17 +202,17 @@ label banners:
     y "where '__' is the name of the banner you want."
     y "{=sser2}There are four different types of banners:{/=sser2}" 
     y "The lightning banner!" (bounce=True)
-    call banner('lightning')
+    call banner('lightning') 
     y "{=sser2}For when you're feeling angry ^^;;{/=sser2}"
     y "The heart banner!" (bounce=True)
-    call banner('heart')
+    call banner('heart') 
     y "For happy stuff!"
     y "The annoy banner" (bounce=True)
-    call banner('annoy')
+    call banner('annoy') 
     y "{=sser2}For when you're irritated{/=sser2}"
     y "{=sser2}And last but not least,{/=sser2}"
     y "{=ser1}the 'well' banner!{/=ser1}" (bounce=True)
-    call banner('well')
+    call banner('well') 
     y "{=ser1}...{/=ser1}"
     y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
     y "{image=yoosung thankyou}"   (img=True)
@@ -226,60 +226,60 @@ label banners:
     y "That's all from me!"
     y "{=sser2}Good luck with the program ^^{/=sser2}"
     y "{image=yoosung wow}" (img=True)
-    call exit(y)
+    call exit(y) 
 
-    call answer
+    call answer 
     jump learn
     
 label heart_icons:
 
-    call hack
-    call chat_begin("evening",False,False)
+    call hack 
+    call chat_begin("evening",False,False) 
     $ observing = False # Again, this is for tutorial purposes
     play music narcissistic_jazz loop
     
-    call enter(z)
+    call enter(z) 
     z "{image=zen wink}" (img=True)
     z "{=curly}Hey cutie ^^{/=curly}" (bounce=True)
     z "{=sser2}I'm here to explain heart icons!{/=sser2}"
     z "{=sser2}They look like this:{/=sser2}"
-    call heart_icon(z)
+    call heart_icon(z) 
     z "{=sser2}And each character has a different one{/=sser2}"
     z "{=sser1b}They all use the same white heart, this one{/=sser1b}"
-    call heart_icon(u)
+    call heart_icon(u) 
     z "and just recolour it depending on what argument you pass via \"call heart_icon(z)\""
     z "You can easily add your own colours, too, by adding the character and colour to the heartcolour list in MysMe Screen Effects.rpy"
     z "{=blocky}Here are the currently available colours:{/=blocky}"
     z "Seven"
-    call heart_icon(s)
+    call heart_icon(s) 
     z "{=curly}Me!{/=curly}"
-    call heart_icon(z)
+    call heart_icon(z) 
     z "Jaehee"
-    call heart_icon(ja)
+    call heart_icon(ja) 
     z "Jumin"
-    call heart_icon(ju)
+    call heart_icon(ju) 
     z "Yoosung"
-    call heart_icon(y)
+    call heart_icon(y) 
     z "Ray"
-    call heart_icon(r)
+    call heart_icon(r) 
     z "V"
-    call heart_icon(v)
+    call heart_icon(v) 
     z "{=ser1}and then there are a few special ones{/=ser1}"
     z "The white heart I mentioned before (tied to the username 'Unknown')"
-    call heart_icon(u)
+    call heart_icon(u) 
     z "You can also get this heart by passing heart_icon the short form for Saeran (sa)"
-    call heart_icon(sa)
+    call heart_icon(sa) 
     z "{=sser2}And then there is this heart{/=sser2}"
-    call heart_icon(ri)
+    call heart_icon(ri) 
     z "{=sser2}which is for Rika, but isn't found in-game{/=sser2}"
     z "The last thing I'm here to explain is the 'heartbreak' icon"
     z "It works the same as the regular heart icons -- just add a colour to the heartcolour list and call \"heart_break\" with that character"
     z "{=ser1}It will automatically colour itself{/=ser1}"
     z "{=sser2}They look like this!{/=sser2}"
-    call heart_break(z)
+    call heart_break(z) 
     z "{=sser2}But you don't really want to hurt any of our feelings, right?{/=sser2}" (bounce=True)
     z "{image=zen happy}" (img=True)
-    call heart_icon(z)
+    call heart_icon(z) 
     z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}"
     z "It keeps track of both the total points earned during a chatroom,"
     z "as well as how many points you have with each individual character"
@@ -287,27 +287,27 @@ label heart_icons:
     z "Check out the User Guide for more on that!"
     z "{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}"
     z "{=curly}Good luck with the rest of the program!{/=curly}" (bounce=True)
-    call exit(z)
+    call exit(z) 
     
-    call answer
+    call answer 
     jump learn
     
 label screen_shake:
     
-    call hack
-    call chat_begin("night",False,False)
+    call hack 
+    call chat_begin("night",False,False) 
     $ observing = False # Again, this is for tutorial purposes
     play music lonesome_practicalism loop
 
-    call enter(ja)
+    call enter(ja) 
     ja "{=ser1}Hello, [name].{/=ser1}"
     ja "{=ser1}Mr. Han will be with us shortly. {/=ser1}"
-    call enter(ju)
+    call enter(ju) 
     ja "{=curly}Ah, right on time.{/=curly}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}Shall we get started then?{/=ser1}"
     pause 1
     ja "{=ser1}...{/=ser1}"
-    call banner('well')
+    call banner('well') 
     ja "{=ser1}Mr. Han?{/=ser1}"
     ja "{image=jaehee well}" (img=True)
     ja "Mr. Han."
@@ -338,21 +338,21 @@ label screen_shake:
     show night at shake
     ja "{=ser1}Lastly, you can check out all of the special bubbles present in the game.{/=ser1}"
     ja "{=ser1xb}Just select \"Done\" when you're finished.{/=ser1xb}"
-    call answer
+    call answer 
     jump bubbles
     
 
 label ending:
-    call hack
-    call chat_begin("hack",False,False)
+    call hack 
+    call chat_begin("hack",False,False) 
     $ observing = False # Again, this is for tutorial purposes
     play music mystic_chat loop
     
-    call enter(u)
+    call enter(u) 
     u "{=curly}You're back!{/=curly}" (bounce=True)
     u "{=sser2}So what did you think?{/=sser2}"
     u "{=sser2}Are you ready to start making your own chatrooms?{/=sser2}"
-    call answer
+    call answer 
     menu:
         "Definitely!":
             m "Definitely!" (pauseVal=0)
@@ -369,13 +369,13 @@ label ending:
     u "{=sser2}Feel free to contact me if you have any questions.{/=sser2}"
     u "I hope you find this program helpful."
     u "Good luck!"
-    call exit(u)
+    call exit(u) 
     # Use this at the end of a chatroom
     jump chat_end
 
 label test_call:
 
-    call phone_begin
+    call phone_begin 
     
     r_phone "Hello?"
     
@@ -422,10 +422,10 @@ menu bubbles:
         ju "{=ser1}Note that currently you can only use the bubbles associated with the speaking character{/=ser1}"
         ju "{=ser1}For example, Assistant Kang cannot use my Elizabeth the 3rd bubble.{/=ser1}" (bounce=True, specBubble="cloud_l")
         ju "{=sser2}I must excuse myself.{/=sser2}"
-        call exit(ju)
+        call exit(ju) 
         ja "{=ser1}I'll be leaving too. Best of luck with the program.{/=ser1}"
-        call exit(ja)
-        call answer
+        call exit(ja) 
+        call answer 
         jump learn
         
 menu small_bubbles:
@@ -475,7 +475,7 @@ label jaehee_emoji:
     ja "{image=jaehee sad}" (img=True)
     ja "{image=jaehee well}" (img=True)
     ja "{image=jaehee wow}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 
@@ -484,7 +484,7 @@ label jumin_emoji:
     ju "{image=jumin sad}" (img=True)
     ju "{image=jumin smile}" (img=True)
     ju "{image=jumin well}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 
@@ -496,7 +496,7 @@ label ray_emoji:
     r "{image=ray smile}" (img=True)
     r "{image=ray well}" (img=True)
     r "{image=ray wink}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 label saeran2_emoji:
@@ -508,7 +508,7 @@ label saeran2_emoji:
     r "{image=saeran2 smile}" (img=True)
     r "{image=saeran2 well}" (img=True)
     r "{image=saeran2 wink}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 label saeran_emoji:
@@ -516,7 +516,7 @@ label saeran_emoji:
     sa "{image=saeran happy}" (img=True)
     sa "{image=saeran well}" (img=True)
     sa "{image=saeran questioning}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 
@@ -530,7 +530,7 @@ label seven_emoji:
     s "{image=seven wow}" (img=True)
     s "{image=seven yahoo}" (img=True)
     s "{image=seven yoohoo}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 label rika_emoji:
@@ -538,7 +538,7 @@ label rika_emoji:
     ri "{image=rika happy}" (img=True)
     ri "{image=rika cry}" (img=True)
     ri "{image=rika pout}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 label v_emoji:
@@ -546,7 +546,7 @@ label v_emoji:
     v "{image=v smile}" (img=True)
     v "{image=v well}" (img=True)
     v "{image=v wink}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 label yoosung_emoji:
@@ -560,7 +560,7 @@ label yoosung_emoji:
     y "{image=yoosung what}" (img=True)
     y "{image=yoosung wow}" (img=True)
     y "{image=yoosung yahoo}" (img=True)
-    call answer
+    call answer 
     jump emoji
 
 label zen_emoji:
@@ -573,7 +573,7 @@ label zen_emoji:
     z "{image=zen shock}" (img=True)
     z "{image=zen well}" (img=True)
     z "{image=zen wink}" (img=True)
-    call answer
+    call answer 
     jump emoji
         
 ## SMALL BUBBLES
@@ -588,7 +588,7 @@ label cloud_s:
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
     
-    call answer
+    call answer 
     jump bubbles
     
 label sigh_s:
@@ -600,7 +600,7 @@ label sigh_s:
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
 
-    call answer
+    call answer 
     jump bubbles
     
 label round_s:    
@@ -613,7 +613,7 @@ label round_s:
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
 
-    call answer
+    call answer 
     jump bubbles
     
 label square_s:  
@@ -626,7 +626,7 @@ label square_s:
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
     
-    call answer
+    call answer 
     jump bubbles
     
 label spike_s:  
@@ -635,7 +635,7 @@ label spike_s:
     ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
     s "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
-    call answer
+    call answer 
     jump bubbles
     
 ## MEDIUM BUBBLES
@@ -651,7 +651,7 @@ label cloud_m:
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
     
-    call answer
+    call answer 
     jump bubbles
     
 label sigh_m:
@@ -663,7 +663,7 @@ label sigh_m:
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
 
-    call answer
+    call answer 
     jump bubbles
     
 label round_m:    
@@ -676,7 +676,7 @@ label round_m:
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
 
-    call answer
+    call answer 
     jump bubbles
     
 label square_m:  
@@ -689,7 +689,7 @@ label square_m:
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
     
-    call answer
+    call answer 
     jump bubbles
     
 label spike_m:  
@@ -698,7 +698,7 @@ label spike_m:
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
-    call answer
+    call answer 
     jump bubbles
 
     
@@ -714,7 +714,7 @@ label cloud_l:
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
     
-    call answer
+    call answer 
     jump bubbles
     
 label sigh_l:
@@ -726,7 +726,7 @@ label sigh_l:
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
 
-    call answer
+    call answer 
     jump bubbles
     
 label round_l:    
@@ -739,7 +739,7 @@ label round_l:
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
 
-    call answer
+    call answer 
     jump bubbles
     
 label square_l:  
@@ -752,7 +752,7 @@ label square_l:
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
     
-    call answer
+    call answer 
     jump bubbles
     
 label spike_l:  
@@ -761,7 +761,7 @@ label spike_l:
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
-    call answer
+    call answer 
     jump bubbles
     
     

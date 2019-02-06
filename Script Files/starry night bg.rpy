@@ -68,7 +68,7 @@ image load_tip_panel = Frame("Phone UI/Main Menu/loading_tip_panel.png", 300,100
 
 label splashscreen:
     if persistent.first_boot:
-        call define_variables
+        call define_variables 
     show screen loading_screen
     pause 1.0
     hide screen loading_screen

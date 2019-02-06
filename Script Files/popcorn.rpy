@@ -4,7 +4,7 @@
 ## Otherwise, scroll down to the popcorn_vn label
 label popcorn_chat:
 
-    call chat_begin("morning")
+    call chat_begin("morning") 
 
     # This sets new profile pictures for Jaehee and
     # Jumin. There are similar functions for changing
@@ -30,7 +30,7 @@ label popcorn_chat:
     ju "I didn't see you here." 
     ja "Hello, [name]." 
     
-    call answer
+    call answer 
     menu:
         "Shouldn't you think of a plan to protect Elizabeth the 3rd just in case?":
             m "Shouldn't you think of a plan to protect Elizabeth the 3rd just in case?"   (pauseVal=0)
@@ -40,7 +40,7 @@ label popcorn_chat:
     # the player a heart point, but you can use this to count 'bad'
     # responses while still giving heart points so you can make a
     # plot branch later and count the 'bad' responses
-    call heart_icon(ju, True)
+    call heart_icon(ju, True) 
     ja "{image=jaehee well}" (img=True)
     ja "This is not the time for that..." 
     ju "Perhaps Zen had that dream last night" 
@@ -49,7 +49,7 @@ label popcorn_chat:
     ju "If he has a problem, I'll consider referring him to a therapist." 
     ja "{=curly}I don't think there's a need for that. We are free to imagine whatever we want, after all;;{/=curly}" 
     
-    call answer
+    call answer 
     menu:
         "Why don't you gift a luxurious cage for Elizabeth the 3rd?":
             m "Why don't you gift a luxurious cage for Elizabeth the 3rd?"   (pauseVal=0)
@@ -58,7 +58,7 @@ label popcorn_chat:
     ja "{image=jaehee question}" (img=True)
     ju "Oh..." 
     ju "{size=+10}Good idea!{/size}"   (bounce=True)
-    call heart_icon(ju, True)
+    call heart_icon(ju, True) 
     ja "What...;;??" 
     ju "I feel like [name] understands me very well."   (bounce=True, specBubble="cloud_l")
     ju "{image=jumin smile}" (img=True)
@@ -72,13 +72,13 @@ label popcorn_chat:
     ju "That's not what's important." 
     ju "I don't think you understand very well, so I'll need to hear [name]'s opinion."   (bounce=True)
     
-    call answer
+    call answer 
     menu:
         "Hahaha~ of course. You should listen to my excellent ideas.":
             m "Hahaha~ of course. You should listen to my excellent ideas."   (pauseVal=0)
             
     ju "{=sser2}You're very quick to understand.{/=sser2}" 
-    call heart_icon(ju, True)
+    call heart_icon(ju, True) 
     ju "{=sser2}Come to the C&R building right away.{/=sser2}" 
     ja "-_-" 
     ja "{image=jaehee well}" (img=True)
@@ -92,20 +92,20 @@ label popcorn_chat:
     ju "Good." 
     ju "Then I'll have to go and get ready." 
     ju "[name]... I'll look forward to your wonderful ideas."   (bounce=True)
-    call exit(ju)
+    call exit(ju) 
     ja "{image=jaehee huff}" (img=True)
     ja "{=curly}There's not even an hour left until the meeting and he wants to cancel his appointment...{/=curly}" 
     ja "Haha..." 
     ja "So the three of us will have a meeting..." 
     ja "Weren't you flustered by Mr. Han's sudden suggestion?" 
     
-    call answer
+    call answer 
     menu:
         "Not at all~ See ya later.":
             m "Not at all~ See ya later."   (pauseVal=0)
     ja "Yes..." 
     ja "Please let me know as soon as you're there."
-    call exit(ja)   
+    call exit(ja) 
     
     jump chat_end   
     
@@ -118,7 +118,7 @@ label popcorn_vn:
 
     # Call this when you start a VN section. It sets some
     # variables for you and shows the right screens
-    call vn_begin
+    call vn_begin 
     
     # You'll generally never want to mess with the 'observing' variable yourself, 
     # but since this is a tutorial chatroom we want the user to be able to play

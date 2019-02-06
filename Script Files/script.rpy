@@ -1,6 +1,6 @@
 ﻿label start:
 
-    call define_variables
+    call define_variables 
     
     # This variable is set here simply so you can use the Save & Exit
     # function after your intro chatroom. You don't need to change these
@@ -17,10 +17,10 @@
     # If you'd like to begin with a phone call, this is
     # how you'll do it. Just replace 'u' with whatever
     # character you want to call you
-    call new_incoming_call(Phone_Call(u, 'n/a'))
+    call new_incoming_call(Phone_Call(u, 'n/a')) 
     
     # Begin and end the phone call like you would anywhere else
-    call phone_begin
+    call phone_begin 
     
     u_phone """
     
@@ -69,26 +69,26 @@
     # Note that this is 'call' instead of 'jump'; this
     # allows us to continue on with a chatroom instead of
     # ending the introduction here
-    call phone_end
+    call phone_end 
     scene bg black
     
     # Instead of ending the label here, we'll continue with
     # a chatroom. If you don't want the phonecall beforehand,
     # just delete that section
     # Feel free to modify the chatroom beyond this point
-    call hack
-    call chat_begin('hack')
+    call hack 
+    call chat_begin('hack') 
         
     play music mystic_chat loop
     
-    call enter(u)
+    call enter(u) 
     u "You're here!" 
     u "Thank you for helping me ^^" 
     u "As you can see, this is a sort of \"introductory\" chatroom. It works a lot like the other chatrooms," 
     u "but with a couple of changes you can see in {b}script.rpy{/b}" 
     u "I recommend you get familiar with how regular chatrooms and phonecalls work before you look at this chat, though!" 
     
-    call answer
+    call answer 
     menu:
         "What should I look at first?":
             m "What should I look at first?"   (pauseVal=0)
@@ -98,11 +98,11 @@
         "I've actually already seen this; can you take me to the home screen?" if persistent.HP:
             m "I've actually already seen this; can you take me to the home screen?"   (pauseVal=0)
             u "Of course! See you later~" 
-            call exit(u)
+            call exit(u) 
             jump chat_end
     
     u "I won't keep you much longer. Enjoy the program!" 
-    call exit(u)
+    call exit(u) 
     
     jump chat_end
 
@@ -149,7 +149,7 @@ label define_variables:
 # See explanation below
 label timed_menus:
 
-    call chat_begin("earlyMorn")
+    call chat_begin("earlyMorn") 
 
     r "{=curly}I'm going to test posting some images!{/=curly}"
     r "general_cg1" (img=True)
@@ -160,7 +160,7 @@ label timed_menus:
     # Anything after this call may or may not be seen by the player depending on
     # how fast they reply. The second value passed to continue_answer (in this case, 8)
     # is how long the player has to decide on an answer
-    call continue_answer("menu1", 8)
+    call continue_answer("menu1", 8) 
     
     s "This doesn't happen in-game, but"
     s "I was hoping to have some timed menus where the chat will keep going."

@@ -2,7 +2,7 @@
 label vn_mode_tutorial:
 
     # Make sure you call this at the start of a VN section
-    call vn_begin
+    call vn_begin 
     
     # You use the "scene" command to set up the background of the VN section
     # It clears away any character sprites you have left showing and sets

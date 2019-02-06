@@ -2,16 +2,16 @@
 ## branching works
 label plot_branch_tutorial:
     stop music
-    call hack
-    call chat_begin("hack")
+    call hack 
+    call chat_begin("hack") 
     play music mystic_chat loop
-    call enter(u)
+    call enter(u) 
 
     u "{=curly}Hello again!{/=curly}"   (bounce=True)
     u "{=ser2}You're getting close to the end of the Tutorial day, huh?{/=ser2}" 
     u "What do you think of the program so far?" 
     
-    call answer
+    call answer 
     menu:
         "It seems quite complicated.":
             m "It seems quite complicated."   (pauseVal=0)
@@ -29,7 +29,7 @@ label plot_branch_tutorial:
     u "{=ser1}and then it'll put you on a path based on the results.{/=ser1}" 
     u "{=ser1}In this case, we're going to check whether or not you've successfully invited at least one guest to the party.{/=ser1}" 
     
-    call answer
+    call answer 
     menu:
         "I'm not sure how to invite guests.":
             m "I'm not sure how to invite guests." (pauseVal=0)
@@ -57,7 +57,7 @@ label plot_branch_tutorial:
         
     u "Anyway, that's enough from me." 
     u "{=curly}Click the Plot Branch icon to see what happens next!{/=curly}"   (bounce=True)
-    call exit(u)
+    call exit(u) 
     jump chat_end
 
 
@@ -126,7 +126,7 @@ label plot_branch_tutorial_branch:
 ## of the Tutorial Day
 label tutorial_bad_end:
 
-    call chat_begin('noon')
+    call chat_begin('noon') 
     play music i_miss_happy_rika loop
 
     v "Hello, [name]." 
@@ -134,7 +134,7 @@ label tutorial_bad_end:
     v "It doesn't look like we'll be able to have the party after all," 
     v "since we don't have enough guests."   (bounce=True, specBubble="sigh_m")
     
-    call answer
+    call answer 
     menu:
         "That's terrible!":
             m "That's terrible!"   (pauseVal=0)
@@ -143,19 +143,19 @@ label tutorial_bad_end:
         "I'm really sorry, V.":
             m "I'm really sorry, V."   (pauseVal=0)
             v "No need to apologize, [name]."   (bounce=True)
-            call heart_icon(v)
+            call heart_icon(v) 
             v "I'm sure you did the best you could." 
             v "{=sser2}We simply didn't have enough time...{/=sser2}" 
             
     v "Anyway, that's all I had to say." 
     v "I hope you have a good day." 
     v "{image=v smile}"   (img=True)
-    call exit(v)
+    call exit(v) 
     
     # This brings up the Save & Exit screen, after which
     # it will show either the 'good', 'normal', or 'bad'
     # ending screens depending on which variable you pass
-    call chat_end_route('bad')
+    call chat_end_route('bad') 
     # Use this to start the game over and return to the main menu
     jump restart_game
     
@@ -164,7 +164,7 @@ label tutorial_bad_end:
 ## You'll get this VN after the Plot Branch Tutorial
 ## chatroom if you got the Good End
 label plot_branch_vn:
-    call vn_begin
+    call vn_begin 
     
     # You'll generally never want to mess with the 'observing' variable yourself, 
     # but since this is a tutorial chatroom we want the user to be able to play
@@ -226,20 +226,20 @@ label plot_branch_vn:
 ## of the Tutorial Day
 label tutorial_good_end:
     stop music
-    call hack
-    call chat_begin('hack')
+    call hack 
+    call chat_begin('hack') 
     play music mystic_chat loop
     u "{=curly}Thanks very much for playing through this first day!{/=curly}" 
     u "I hope it makes you excited to try programming your own things." 
     u "Be sure to contact me if you run into any problems or bugs," 
     u "and I'll do my best to take care of it ^^"   (bounce=True)
     u "See you later!" 
-    call exit(u)
+    call exit(u) 
     jump chat_end
 
 ## And this is a very brief VN for the party    
 label good_end_party:
-    call vn_begin
+    call vn_begin 
     scene bg rika_apartment with fade
     pause
     show saeran vn unknown

@@ -76,7 +76,7 @@ init python:
         # Sets the guest's reply and randomly decides when it should be delivered
         def set_reply(self, iscorrect, deliver_reply=False):
         
-            test = True
+            test = False
         
             if iscorrect:
                 if self.msg_num == 0:                    

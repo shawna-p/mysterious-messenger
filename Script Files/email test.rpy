@@ -1,7 +1,7 @@
 
 label example_email:
 
-    call chat_begin('evening')
+    call chat_begin('evening') 
     play music narcissistic_jazz loop
     $ observing = False # Generally you don't want to do this; however, for 
                         # tutorial and testing purposes, making sure observing
@@ -11,7 +11,7 @@ label example_email:
     z 'Hey, [name], I had an idea for a guest we should invite.'
     z 'Can we invite zentherainbowunicorn?'
     
-    call answer
+    call answer 
     menu:
         "That sounds great!":
             m 'That sounds great!' (pauseVal=0)
@@ -43,7 +43,7 @@ label example_email:
     z "and has a template to invite other people."
     z "Anyway, enjoy~!"
     
-    call exit(z)
+    call exit(z) 
             
     jump chat_end
 

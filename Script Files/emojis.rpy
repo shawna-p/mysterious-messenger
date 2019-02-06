@@ -312,7 +312,7 @@ image ray wink:
     repeat   
     
 # ******** RIKA ******************
-# Credit to Sakebobomb for the emotes
+# Credit to Sakekobomb for the emotes
 # Used with permission
 
 image rika happy:
