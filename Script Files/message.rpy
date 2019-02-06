@@ -173,13 +173,19 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     elif background == "redhack":
         scene bg redhack
         $ nickColour = white
+    else:
+        scene bg black
+        $ nickColour = white
         
     # If you've already played this chatroom in your current runthrough,
     # viewing it again causes this variable to be True. It prevents you
     # from receiving heart points again and only lets you select choices
     # you've selected on this or previous playthroughs
     if current_chatroom.played:
-        $ observing = True
+        if not testing_mode:
+            $ observing = True
+        else:
+            pass
     else:
         $ observing = False
         
@@ -191,6 +197,7 @@ label chat_end:
     if starter_story:
         $ starter_story = False
         $ persistent.first_boot = False
+        $ persistent.on_route = True
     call screen save_and_exit
     return
     
