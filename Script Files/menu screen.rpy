@@ -207,9 +207,11 @@ screen main_menu:
 
     tag menu
     
-    $ renpy.music.play(mystic_chat, loop=True)
-    
-    python:
+    python:    
+        # This if statement just makes sure the menu music isn't constantly restarting
+        if renpy.music.get_playing(channel='music') != mystic_chat:
+            renpy.music.play(mystic_chat, loop=True)
+            
         thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
         if m.prof_pic != thepic:
             m.prof_pic = thepic
@@ -350,8 +352,14 @@ screen main_menu:
                         align(0.5, 0.5)
                         add "menu_dlc"
                         text "DLC" style "menu_text_small" xpos 25 ypos 15
-                    
-                    
+                        
+label after_load:
+    if not renpy.get_screen('chat_home'):
+        hide screen phone_calls
+        hide screen text_message_hub
+        hide screen email_hub
+        call screen chat_home                   
+    return
     
 ## A short, not completely implemented screen where you select
 ## which route you'd like to start on. Can be customized to lead
@@ -374,7 +382,7 @@ screen route_select_screen:
             focus_mask True
             background "right_corner_menu" 
             hover_background "right_corner_menu_selected"
-            action [ToggleField(persistent, 'on_route', True), Start()] 
+            action [Start()] 
             
         text "Start Game" style "menu_text_small" xalign 0.5 yalign 0.5
     
@@ -448,7 +456,7 @@ screen file_slots(title):
                 button:
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
-                    action FileAction(mm_auto)
+                    action [SetField(persistent, 'on_route', True), FileAction(mm_auto)]
 
                     hbox:
                         spacing 8
@@ -481,11 +489,7 @@ screen file_slots(title):
                             fixed:
                                 xsize 155
                                 yfit True
-                                imagebutton:
-                                    hover im.FactorScale("Phone UI/Main Menu/save_trash_hover.png",1.05)
-                                    idle "Phone UI/Main Menu/save_trash.png"
-                                    xalign 1.0
-                                    action FileDelete(mm_auto)
+                                # Can't delete this file
 
                     key "save_delete" action FileDelete(mm_auto)
 
@@ -506,7 +510,7 @@ screen file_slots(title):
                     if title == "Save":
                         action [SetVariable('save_name', save_title), FileAction(slot)]
                     else:
-                        action FileAction(slot)
+                        action [SetField(persistent, 'on_route', True), FileAction(slot)]
 
                     hbox:
                         spacing 8
@@ -786,8 +790,6 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                     action Show('text_message_hub', Dissolve(0.5))
                 elif persistent.first_boot or not persistent.on_route:
                     action [SetField(persistent, 'first_boot', False), return_action]
-                elif main_menu:
-                    action MainMenu(False)
                 else:
                     action return_action
                 
@@ -1084,6 +1086,7 @@ screen other_settings():
                         window:
                             xysize (25,25)
                             background "#515151"
+                            yalign 0.5
                             if custom_footers:
                                 add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
                             
@@ -1092,19 +1095,39 @@ screen other_settings():
                             action ToggleVariable("custom_footers")
             
         window:
-            maximum(675,320)
+            maximum(675,250)
             add "menu_settings_panel"
             text "VN Settings" style "settings_style" xpos 55 ypos 5
 
             vbox:
                 xalign 0.2
-                yalign 0.5
+                yalign 0.75
                 style_prefix "check"
                 label _("Skip")
                 textbutton _("Unseen Text") action Preference("skip", "toggle")
                 textbutton _("After Choices") action Preference("after choices", "toggle")
                 textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
+                
+        window:
+            maximum(675,175)
+            add "menu_settings_panel"
+            text "Variables for testing" style "settings_style" xpos 55 ypos 5
 
+            hbox:
+                xalign 0.2
+                yalign 0.75
+                spacing 10
+                window:
+                    xysize (25,25)
+                    yalign 0.5
+                    background "#515151"
+                    if testing_mode:
+                        add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
+                    
+                textbutton _("Testing Mode"):
+                    align (0.5, 1.0)
+                    action ToggleVariable("testing_mode")
+                
             ## Additional vboxes of type "radio_pref" or "check_pref" can be
             ## added here, to add additional creator-defined preferences.
             
@@ -1172,10 +1195,14 @@ screen chat_home(reshow=False):
 
     # Every time you go back to this screen, the game will auto-save
     on 'show':
-        action [renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next] 
+        action If(renpy.get_screen('chip_tap') or renpy.get_screen('chip_cloud') or renpy.get_screen('chip_end'),
+                NullAction(),
+                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next]) 
  
     on 'replace':
-        action [renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next] 
+        action If(renpy.get_screen('chip_tap') or renpy.get_screen('chip_cloud') or renpy.get_screen('chip_end'),
+                NullAction(),
+                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next]) 
 
     # This has a 50/50 chance of automatically delivering any outstanding 
     # text messages every 3.5 seconds
@@ -1329,7 +1356,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action NullAction
+            #action NullAction
             add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
@@ -1338,7 +1365,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action NullAction
+            #action NullAction
             add "guest_icon" xalign 0.5 yalign 0.3
             add "guest_text" xalign 0.5 yalign 0.8
             
@@ -1347,7 +1374,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "red_hex"
             hover_background "red_hex_hover"
-            action NullAction
+            #action NullAction
             add "shop_icon" xalign 0.55 yalign 0.35
             add "shop_text" xalign 0.5 yalign 0.8
             
@@ -1356,7 +1383,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action NullAction
+            #action NullAction
             add "notice_icon" xalign 0.5 yalign 0.3
             add "notice_text" xalign 0.5 yalign 0.8
             
@@ -1365,7 +1392,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action NullAction
+            action SetVariable('chips_available', True)
             
             add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
@@ -1496,7 +1523,7 @@ label chip_prize:
     pause 2.5
     hide screen chip_cloud 
     $ chips_available = False
-    call screen chip_end
+    jump hbc_helper
  
 screen chip_cloud:
     modal True
@@ -1521,18 +1548,18 @@ screen chip_cloud:
         add 'cloud_5' xpos 350 ypos 20 at cloud_shuffle5
         
 
-default prize_hg = 10
-
-screen chip_end:
-    modal True
-
-    zorder 100
-    
+label hbc_helper:
     # Picks a number between 1 and 130 for the chip prize
     $ prize_heart = renpy.random.randint(1, 130)
     $ new_hp_total = persistent.HP + prize_heart
     # Picks a phrase for the item
     $ prize_text = chip_prize_list.draw()
+    call screen chip_end(prize_heart, new_hp_total, prize_text)
+
+screen chip_end(prize_heart, new_hp_total, prize_text):
+    modal True
+
+    zorder 100
     
     add "Phone UI/choice_dark.png"   
 
@@ -1581,7 +1608,8 @@ screen chip_end:
             hover 'space_continue_hover'
             xalign 0.5
             yalign 0.85
-            action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), SetVariable('chips_available', False)]
+            action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), 
+                    SetVariable('chips_available', False), renpy.retain_after_load]
         
    
 default chip_prize_list = RandomBag( ['A clump of cat hair.',
