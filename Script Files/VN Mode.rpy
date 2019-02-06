@@ -98,7 +98,10 @@ label vn_begin:
     $ _history = True
     
     if current_chatroom.vn_obj.played:
-        $ observing = True
+        if not testing_mode:
+            $ observing = True
+        else:
+            pass
     else:
         $ observing = False
         
@@ -107,7 +110,7 @@ label vn_begin:
 label vn_end:
     hide screen vn_overlay
     $ renpy.retain_after_load()
-    call press_save_and_exit(False)
+    call press_save_and_exit(False) 
         
 #####################################
 ## This screen shows the "Skip", 
