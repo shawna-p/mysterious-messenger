@@ -148,13 +148,16 @@ screen chatroom_timeline(day):
             vbox:
                 xsize 720
                 spacing 20
-                for chatroom in day.archive_list:
+                for index, chatroom in enumerate(day.archive_list):
                     if chatroom.available:
-                        use chatroom_display(chatroom)
+                        if index > 0 and chatroom.trigger_time[:2] == day.archive_list[index-1].trigger_time[:2]:
+                            use chatroom_display(chatroom, True)
+                        else:
+                            use chatroom_display(chatroom)
                 null height 40
                     
                     
-screen chatroom_display(mychat):
+screen chatroom_display(mychat, sametime=False):
 
     python:
 
@@ -198,15 +201,16 @@ screen chatroom_display(mychat):
     
     null height 10
                       
-    textbutton _(mychat.trigger_time[:2] + ':00'):
-        xysize (181,62)
-        text_color '#fff'
-        text_size 40
-        text_xalign 0.5
-        xalign 0.05
-        text_align 0.5
-        yalign 0.5
-        background 'vn_time_bg' padding (20,20)
+    if not sametime:
+        textbutton _(mychat.trigger_time[:2] + ':00'):
+            xysize (181,62)
+            text_color '#fff'
+            text_size 40
+            text_xalign 0.5
+            xalign 0.05
+            text_align 0.5
+            yalign 0.5
+            background 'vn_time_bg' padding (20,20)
         
     button:
         xysize (620, 160)
