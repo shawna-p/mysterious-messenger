@@ -187,7 +187,7 @@ init -6 python:
 # for you
 default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01'),                                     
                                     Chat_History('Inviting Guests', 'auto', 'example_email', '02:11', [z]),
-                                    Chat_History('Text Message Example', 'auto', 'example_text', '03:53', [r], VN_Mode('vn_mode_tutorial', r)),
+                                    Chat_History('Text Message Example', 'auto', 'example_text', '02:53', [r], VN_Mode('vn_mode_tutorial', r)),
                                     Chat_History('Pass Out After Drinking Coffee Syndrome', 'auto', 'tutorial_chat', '04:05', [s]),
                                     Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '07:07', [ja, ju], VN_Mode('popcorn_vn', ju)),
                                     Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], False, True)]),
@@ -224,7 +224,11 @@ default current_call = False
 default starter_story = False
 
 default preferences.afm_time = 15
+default preferences.skip_unseen = True
+default preferences.skip_after_choices = True
+
 default mm_auto = "mm_auto_save"
+default testing_mode = False
 
 ##******************************
 ## BACKGROUND MUSIC DEFINITIONS
