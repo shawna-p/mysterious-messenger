@@ -148,14 +148,12 @@ screen phone_calls:
 
     use starry_night()
     
-    use menu_header("Call History", Show('chat_home', Dissolve(0.5)))
+    use menu_header("Call History", [Show('chat_home', Dissolve(0.5)), FileSave(mm_auto, confirm=False)])
     
-    on 'show' action SetVariable('unseen_calls', 0)
-    
-    on 'show':
-       if renpy.music.get_playing(channel='music') != mystic_chat:
-           action renpy.music.play(mystic_chat, loop=True)
-    
+    on 'show' action If(renpy.music.get_playing(channel='music') != mystic_chat, 
+                [renpy.music.play(mystic_chat, loop=True), SetVariable('unseen_calls', 0)],
+                SetVariable('unseen_calls', 0))
+                
     window:
         xalign 0.5
         yalign 0.13
@@ -599,7 +597,7 @@ label phone_end:
 ## For ease of keeping track of the different voicemails,
 ## they are defined here
 label voicemail_1:
-    call phone_begin
-    voice "Phone UI/Phone Calls/Voicemail/voicemail_1.ogg"
+    call phone_begin 
+    voice "Phone UI/Phone Calls/Voicemail/voicemail_1.mp3"
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
-    call phone_end
+    call phone_end 
