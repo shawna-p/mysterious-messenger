@@ -38,6 +38,9 @@ define gui.about = _p("""
 
 define build.name = "MysteriousMessenger"
 
+## Don't autosave on quit
+define config.autosave_on_quit = False
+
 
 ## Sounds and music ############################################################
 
