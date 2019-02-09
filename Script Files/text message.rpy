@@ -126,6 +126,7 @@ init python:
     ##************************************  
     
     def addtext(who, what, sender, img=False):
+        global observing
         # Adds the new text to the queue
         for msg in text_queue:
             if msg.sender == sender:
@@ -134,7 +135,21 @@ init python:
                 if who == m:
                     msg.deliver(True)
                     msg.reply_label = False
-                    renpy.restart_interaction
+            if img and "{image=" not in what and not observing:
+                # We want to unlock the CG in the gallery
+                # First, we split up the text
+                cg_filepath = cg_helper(what)
+                album, cg_name = what.split('/')
+                if album[-6:] != '_album':
+                    album += '_album'
+                
+                # Now we need to search for that CG
+                cg_list = getattr(persistent, album)
+                for photo in cg_list:
+                    if Album(cg_filepath) == photo:
+                        photo.unlock()
+                        break
+        renpy.restart_interaction
 
   
 default current_message = None
@@ -198,7 +213,10 @@ screen text_message_hub:
                                         text last_text.who.name style "save_slot_text"
                                         spacing 40     
                                         if "{image=" in last_text.what or last_text.img:
-                                            text "[last_text.who.name] sent an image." style "save_slot_text"
+                                            if last_text.who == m:
+                                                text "You sent an image." style "save_slot_text"
+                                            else:
+                                                text "[last_text.who.name] sent an image." style "save_slot_text"
                                         else:
                                             text last_text.what[:16] + '...' style "save_slot_text"
                                         
@@ -539,27 +557,33 @@ screen text_animation(i):
                     
                 else:
                     ypos 5    
-                    text text_time color "#fff" yalign 1.0 size 23                    
+                    if i.img and not "{image=" in i.what:
+                        text text_time color '#fff' yalign 1.0 size 23 yoffset 25
+                    else:
+                        text text_time color "#fff" yalign 1.0 size 23                    
                 
                 window:# at transformVar:                 
                     ## Check if it's an image
                     if i.img == True:
-                        style 'img_text_message'
+                        if i.who != m:
+                            style 'img_text_message'
+                        else:
+                            style 'mc_img_text_message'
                         # Check if it's an emoji
                         if "{image=" in i.what:
-                            style 'reg_bubble_text'
+                            if i.who != m:
+                                style 'reg_bubble_text'
+                            else:
+                                style 'reg_bubble_MC_text'
                             text i.what style "bubble_text"
                         else:   # it's a CG
-                            # TODO: Could have a dictionary here that unlocks CGs in a gallery
-                            # Would need persistent variables; if i.what in gallery ->
-                            # gallery[i.what] = True and then it will be unlocked
-                            $ fullsizeCG = i.what
+                            $ fullsizeCG = cg_helper(i.what)
                             imagebutton at small_CG_text:
                                 bottom_margin 50
                                 focus_mask True
                                 idle fullsizeCG
                                 if not choosing:
-                                    action [SetVariable("fullsizeCG", i.what), Call("viewCG", textmsg=True), Return]
+                                    action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG", textmsg=True), Return]
             
                     
                     else:        
