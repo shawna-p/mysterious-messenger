@@ -165,20 +165,37 @@ label emojis:
         "Zen":
             jump zen_emoji
         "Done":
-            s "{=sser2}The last thing I'm here to explain is how to post CGs.{/=sser2}" 
+            s "{=sser2}The last thing I'm here to explain is how to post CGs.{/=sser2}" (pauseVal=0)
             s "{=curly}That means images like this!{/=curly}" (bounce=True)
-            s "seven_cg1" (img=True)
+            s "s/cg-1.png" (img=True)
             s "{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}"
+            s "You can post CGs too!"
+            call answer
+            menu:
+                "I can?":
+                    m "I can?" (pauseVal=0)
+                    s "Yeah! Give it a try!" 
+                    m "s/cg-1.png" (img=True)                    
+                "(Try posting)":
+                    m "s/cg-1.png" (img=True, pauseVal=0)
+            m "{image=seven wow}" (img=True)
+            s "Yeah, just like that!"
             s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
-            s "{=ser1}You'll need to start by defining an image in {b}variables.rpy{/b}, under the {b}CGs{/b} header.{/=ser1}"
-            s "{=ser1}For example, that last image is called \"seven_cg1\"{/=ser1}"
-            s "{=ser1}It should be 750x1334 pixels, and it will be automatically resized for the chatroom.{/=ser1}"
-            s "{=ser1}Then to call it, just type the name of the image you defined and check off the \"Image\" modifier in the spreadsheet.{/=ser1}"
-            s "{=blocky}If you don't, it'll just show up in text, like this:{/=blocky}"
-            s "seven_cg1"
+            s "{=ser1}You'll need to start by putting the image in the right album in the CGs folder.{/=ser1}"
+            s "{=ser1}Then, you can define an Album object in {b}gallery.rpy{/b} using the file path.{/=ser1}"
+            s "{=ser1}It should be in the list of the person whose gallery the image will be unlocked in.{/=ser1}"
+            s "{=ser1}For example, that last image is defined under \"s_album\" as {b}Album(\"s_album/cg-1.png\"){/b}{/=ser1}"
+            s "{=ser1}The CG should be 750x1334 pixels, and it will be automatically resized for the chatroom.{/=ser1}"
+            s "{=ser1}Then to use it, you type in a simplified version of the path to the dialogue column,{/=ser1}"
+            s "{=ser1}and check off the \"Image\" modifier in the spreadsheet.{/=ser1}"
+            s "{=ser1}Simplified path just means {b}album ID/{/b} + {b}name of your cg{/b}.{/=ser1}"
+            s "{=ser1}To use the example from before, we write {b}s/cg-1.png{/b} into the Dialogue column.{/=ser1}"
+            s "{=blocky}If you don't also check off \"Image\", it'll just show up in text, like this:{/=blocky}"
+            s "s/cg-1.png"
             s "But if you check off the \"Image\" modifier, you get this:" (bounce=True, specBubble="round2_m")
-            s "seven_cg1" (img=True)
+            s "s/cg-1.png" (img=True)
             s "{=sser2}The ability to click the image/the full screen version is automatically taken care of for you.{/=sser2}" 
+            s "{=sser2}It'll also unlock it in the Album if it's your first time seeing the CG!{/=sser2}" 
             s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
             s "Let me know if you have any questions later~"
             call exit(s) 
