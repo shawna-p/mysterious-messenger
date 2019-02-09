@@ -199,7 +199,7 @@ label tutorial_chat:
     s "{=ser1b}exists{/=ser1b}" (pauseVal=0.2)
     s "{=ser1b}for sure{/=ser1b}" (pauseVal=0.3)
     s "I look at foreign reports every day."
-    s "general_cg1" (img=True)
+    s "common/cg-1" (img=True)
     y "{=sser1b}{size=+12}!!!{/size}{/=sser1b}"
     s "{=ser1}...It's a rare disease.{/=ser1}"
     
