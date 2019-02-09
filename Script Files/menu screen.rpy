@@ -1215,7 +1215,10 @@ screen chat_home(reshow=False):
     button:
         maximum(168,168)
         xalign 0.62
-        yalign 0.195
+        if len(character_list) > 10:
+            yalign 0.295
+        else:
+            yalign 0.195
         if new_message_count() > 0:
             background 'blue_mainbtn'
             hover_background 'blue_mainbtn_hover'
@@ -1241,7 +1244,10 @@ screen chat_home(reshow=False):
     button:
         maximum(168,168) 
         xalign 0.91
-        yalign 0.35
+        if len(character_list) > 10:
+            yalign 0.45
+        else:
+            yalign 0.35
         if unseen_calls > 0:
             background "blue_mainbtn"
             hover_background "blue_mainbtn_hover"
@@ -1268,7 +1274,10 @@ screen chat_home(reshow=False):
     button:
         maximum(168,168)
         xalign 0.342
-        yalign 0.33
+        if len(character_list) > 10:
+            yalign 0.43
+        else:
+            yalign 0.33
         if unread_emails() > 0:
             background "blue_mainbtn"
             hover_background "blue_mainbtn_hover"
@@ -1320,21 +1329,22 @@ screen chat_home(reshow=False):
                 spacing 8
                 xalign 0.0
                 yalign 0.0
-                for person in character_list[:6]:
-                    imagebutton:
-                        hover "profile_pic_select_square"
-                        idle im.FactorScale(person.prof_pic, 0.9)
-                        background im.FactorScale(person.prof_pic, 0.9)
-                        action Show('chara_profile', who=person)
-                        activate_sound 'sfx/UI/profile_screen_select.mp3'
-                    
-                # MC has to be displayed a bit differently
-                imagebutton:
-                    hover "profile_pic_select_square"
-                    idle im.FactorScale(mc_pic, 0.9)
-                    background im.FactorScale(mc_pic, 0.9)
-                    action Show('profile_pic')
-                    activate_sound 'sfx/UI/profile_screen_select.mp3'
+                for person in character_list[:7]:
+                    if person != m:
+                        imagebutton:
+                            hover "profile_pic_select_square"
+                            idle im.FactorScale(person.prof_pic, 0.9)
+                            background im.FactorScale(person.prof_pic, 0.9)
+                            action Show('chara_profile', who=person)
+                            activate_sound 'sfx/UI/profile_screen_select.mp3'
+                    else:                    
+                        # MC has to be displayed a bit differently
+                        imagebutton:
+                            hover "profile_pic_select_square"
+                            idle im.FactorScale(mc_pic, 0.9)
+                            background im.FactorScale(mc_pic, 0.9)
+                            action Show('profile_pic')
+                            activate_sound 'sfx/UI/profile_screen_select.mp3'
             hbox:
                 spacing 8
                 for person in character_list[7:]:
@@ -1354,9 +1364,14 @@ screen chat_home(reshow=False):
         # Album
         button:
             maximum(130,149)
-            background "white_hex"
-            hover_background "white_hex_hover"
-            #action NullAction
+            if new_cg:
+                background "blue_hex"
+                hover_background "blue_hex_hover"
+                add 'new_text' align (1.0, 0.1) xoffset 15
+            else:
+                background "white_hex"
+                hover_background "white_hex_hover"
+            action [SetVariable('new_cg', False), Show('photo_album', Dissolve(0.5))]
             add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
