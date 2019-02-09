@@ -22,8 +22,18 @@ init -4 python:
     ## For ease of adding Chatlog entries
     ##************************************   
     
+    ## This corrects the dialogue into a filepath for the program
+    def cg_helper(what):
+        album, cg_name = what.split('/')
+        if album[-6:] != '_album':
+            album += '_album'
+        # These will be equal to a path like
+        # CGs/common_album/cg-1.png
+        return 'CGs/' + album + '/' + cg_name
+    
     def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
-        global choosing, pre_choosing, pv, chatbackup, oldPV
+        global choosing, pre_choosing, pv, chatbackup, oldPV, observing
+        global persistent, cg_testing
         choosing = pre_choosing = False
         
         if pauseVal == None:
@@ -56,6 +66,25 @@ init -4 python:
         if img == True:
             if what in emoji_lookup:
                 renpy.play(emoji_lookup[what], channel="voice_sfx")
+            elif "{image=" not in what and not observing:
+                # We want to unlock the CG in the gallery
+                # These will be equal to a path like
+                # CGs/common_album/cg-1.png
+                cg_filepath = cg_helper(what)
+                album, cg_name = what.split('/')
+                if album[-6:] != '_album':
+                    album += '_album'
+                cg_testing = ""
+                cg_testing += album + " "
+                cg_testing += cg_filepath
+                # Now we need to search for that CG
+                for photo in getattr(persistent, album):
+                    if cg_filepath == photo.img:
+                        cg_testing += "found it "
+                        photo.unlock()
+                        break
+                    else:
+                        cg_testing += "didn't find it "
         
         chatlog.append(Chatentry(who, what, upTime(), img, bounce, specBubble))
         
@@ -111,6 +140,7 @@ init -4 python:
 default chatbackup = Chatentry(filler,"","")
 default pv = 0.8
 default oldPV = pv
+default cg_testing = False
 
 #####################################
 # Chat Setup
@@ -194,11 +224,10 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 # Call this label to show the save & exit sign
 label chat_end:
     $ addchat(answer, '', 0.2)
-    if starter_story:
-        $ starter_story = False
+    if starter_story:        
         $ persistent.first_boot = False
         $ persistent.on_route = True
-    call screen save_and_exit
+    call screen save_and_exit    
     return
     
 label chat_end_route(type='good'):
@@ -404,23 +433,23 @@ screen chat_animation(i, animate=True):
             window at transformVar:                 
                 ## Check if it's an image
                 if i.img == True:
-                    style 'img_message'
+                    if i.who == m:
+                        style 'mc_img_message'
+                    else:
+                        style 'img_message'
                     if not animate:
                         yoffset 135
                     # Check if it's an emoji
                     if "{image=" in i.what:
                         text i.what
                     else:   # it's a CG
-                        # TODO: Could have a dictionary here that unlocks CGs in a gallery
-                        # Would need persistent variables; if i.what in gallery ->
-                        # gallery[i.what] = True and then it will be unlocked
-                        $ fullsizeCG = i.what
+                        $ fullsizeCG = cg_helper(i.what)
                         imagebutton:
                             bottom_margin -100
                             focus_mask True
                             idle fullsizeCG
                             if not choosing:
-                                action [SetVariable("fullsizeCG", i.what), Call("viewCG"), Return]
+                                action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG"), Return]
                                 
                                 
                 ## Check if it's a special bubble
@@ -560,7 +589,8 @@ screen anti_animation(i):
                     text i.what
                 else:   # presumably it's a CG
                     bottom_margin -100
-                    text "{image=" + i.what + "}" #"-small}"
+                    $ fullsizeCG = cg_helper(i.what)
+                    add fullsizeCG
                     
             elif i.specBubble != None and i.specBubble != 'glow2':                        
                 style bubbleStyle background bubbleBackground # e.g. style "sigh_m" 
