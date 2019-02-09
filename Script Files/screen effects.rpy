@@ -350,20 +350,21 @@ screen speed_num:
     
 default close_visible = True
 default textmsg_CG = False
+default album_CG = False
 default CG_who = text_messages[0]
 
-label viewCG(textmsg=False):
+label viewCG(textmsg=False, album=False, album_info=[]):
     $ close_visible = True
     $ textmsg_CG = textmsg
-    # This is a good spot to include code for
-    # a gallery/unlockable CGs
+    $ album_CG = album
     call screen viewCG_fullsize
+    if album:
+        call screen character_gallery(album_info[0], album_info[1], album_info[2])
     return
     
 ## This is the screen where you can view a full-sized CG when you
-## click it in the chatroom. It has a working "Close" button
-## that appears/disappears when you click the CG
-## It can be fairly easily adapted to show CGs in a gallery as well
+## click it. It has a working "Close" button that appears/disappears 
+## when you click the CG
 
 screen viewCG_fullsize:
     zorder 5
@@ -380,10 +381,12 @@ screen viewCG_fullsize:
             yalign 0.0
             focus_mask True
             idle "close_button"
-            if pre_choosing and not textmsg_CG:
+            if pre_choosing and not textmsg_CG and not album_CG:
                 action [Call("answer")]
             elif textmsg_CG:
                 action [Hide("viewCG_fullsize"), Show("text_message_screen", the_msg=CG_who)]
+            elif album_CG:
+                action [Hide('viewCG_fullsize'), Return]
             else:
                 action [Call("play")]
         
@@ -428,6 +431,8 @@ label press_save_and_exit(phone=True):
         call screen chat_select # call history_select_screen etc
     else:
         call screen signature_screen(phone)
+        if starter_story:
+            $ starter_story = False
         $ persistent.HG += chatroom_hg
         $ chatroom_hp = 0
         $ chatroom_hg = 0
