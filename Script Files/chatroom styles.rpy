@@ -118,13 +118,27 @@ init 5:
         pos (138, -70)
         xmaximum 750   
         
+    style mc_img_message:
+        padding (5, 10)
+        bottom_margin -65
+        pos (600, -70)
+        xmaximum 750
+        xalign 1.0
+        
     ## ****************************************
     ## Style for images posted in text messages
     style img_text_message:
         padding (5, 10)
         bottom_margin -65
         pos (10, 5)
-        xmaximum 750 
+        xmaximum 750
+
+    style mc_img_text_message:
+        padding (5, 10)
+        bottom_margin -65
+        pos (270, -15)
+        xmaximum 750
+        xalign 1.0
 
     # Text style for chatroom dialogue
     style phone_dialogue:
@@ -403,6 +417,24 @@ init 5:
         font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
         size 40
         xmaximum 600
+        
+    ## **********************
+    ## Chat Home - Album
+    ## ********************** 
+        
+    style album_text_short:
+        align (0.5, 0.5)
+        text_align 0.5
+        color '#fff'
+        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 30
+        
+    style album_text_long:
+        align (0.5, 0.5)
+        text_align 0.5
+        color '#fff'
+        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        size 25
         
         
     ## **********************
