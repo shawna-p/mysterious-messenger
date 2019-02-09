@@ -338,3 +338,8 @@ init 5:
             linear (cycle - .6) alpha 0.0
             pause .4
             repeat
+            
+    # Used for one of the images in the CG album
+    transform album_tilt:
+        rotate 7
+    
