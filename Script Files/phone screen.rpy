@@ -289,28 +289,38 @@ screen phone_contacts:
         has vbox
         xysize (725, 1070)       
         
-        grid 3 3:        
+        if len(character_list) > 10:
+            use phone_contacts_grid(3, -(-len(character_list) // 3))
+        else:
+            use phone_contacts_grid(3, 3)
             
-            align (0.5, 0.3)
-            xspacing 60
-            yspacing 100
             
-            for person in character_list:
-                if person == m:
-                    pass
-                else:
-                    vbox:
-                        spacing 25
-                        imagebutton:
-                            background person.file_id + '_contact'
-                            idle person.file_id + '_contact'
-                            hover_foreground person.file_id + '_contact'
-                            if call_available(person):
-                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=call_available(person))]
-                            else:
-                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=person.voicemail, voicemail=True)]
-                        text person.name style 'contact_text'
-                    
+## This makes the phone contacts screen "flexible" so you can
+## have as many or as few characters as you like
+screen phone_contacts_grid(x_num, y_num):
+
+    grid x_num y_num:        
+            
+        align (0.5, 0.3)
+        xspacing 60
+        yspacing 100
+        for person in character_list:
+            if person == m:
+                pass
+            else:
+                vbox:
+                    spacing 25
+                    imagebutton:
+                        background person.file_id + '_contact'
+                        idle person.file_id + '_contact'
+                        hover_foreground person.file_id + '_contact'
+                        if call_available(person):
+                            action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=call_available(person))]
+                        else:
+                            action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=person.voicemail, voicemail=True)]
+                    text person.name style 'contact_text'
+        
+        for i in range((x_num*y_num + 1) - len(character_list)):
             add 'empty_contact'
         
     
