@@ -48,7 +48,7 @@ label after_example_text:
     $ addtext (r, "Here's a test text message, to show you how they work!", r)
     $ addtext (r, "Did you know you can also post photos?", r)
     $ addtext (r, "It will look like this:", r)
-    $ addtext (r, "saeran_cg1", r, True)
+    $ addtext (r, "r/cg-1.png", r, True)
 
     $ add_reply_label(r, 'menu_a1')
             
@@ -65,7 +65,8 @@ label after_example_text:
     #$ addtext (ja, "I hope this ordeal hasn't been too difficult on you.", ja)
     #$ addtext (s, "I miss you!", s)
     #$ addtext (u, "You'll be fine ^^", u)
-    #$ addtext (z, "I took a selfie this morning", z)
+    $ addtext (z, "You know, you never send us any photos...", z)
+    $ add_reply_label(z, 'menu_a3')
     #$ addtext (ri, "Weren't you curious, too?", ri)
     
     return
@@ -88,8 +89,7 @@ label menu_a1:
     
 label menu_a2:
 
-    menu:
-    
+    menu:    
         "Thanks for showing me this.":
             $ addtext (m, "Thanks for showing me this.", v)
             $ add_heart(v)
@@ -103,6 +103,20 @@ label menu_a2:
         
     jump text_end
     
-    
-    
+label menu_a3:
+    menu:
+        "(Post a photo)":
+            $ addtext (m, "common/cg-2.png", z, True)
+            $ addtext (m, "You mean like this?", z)
+        "(Post an emoji)":
+            $ addtext (m, "{image=zen oyeah}", z, True)
+            $ addtext (m, "How's this?", z)
+        "(Post both)":
+            $ addtext (m, "common/cg-2.png", z, True)
+            $ addtext (m, "{image=zen oyeah}", z, True)
+            $ addtext (m, "What do you think?", z)
+    $ addtext (z, "Wow! I've never seen that before.", z)
+    $ addtext (z, "You're pretty cool", z)
+    $ addtext (z, "{image=zen wink}", z, True)
+    jump text_end
     
