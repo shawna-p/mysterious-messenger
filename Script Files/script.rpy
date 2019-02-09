@@ -130,6 +130,16 @@ label define_variables:
         # is making a choice/on a choice menu
         choosing = False
         
+        merge_albums(persistent.ja_album, ja_album)
+        merge_albums(persistent.ju_album, ju_album)
+        merge_albums(persistent.r_album, r_album)
+        merge_albums(persistent.s_album, s_album)
+        merge_albums(persistent.u_album, u_album)
+        merge_albums(persistent.v_album, v_album)
+        merge_albums(persistent.y_album, y_album)
+        merge_albums(persistent.z_album, z_album)
+        merge_albums(persistent.common_album, common_album)
+        
         # The code below updates MC's profile picture and name
         thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
         if m.prof_pic != thepic:
