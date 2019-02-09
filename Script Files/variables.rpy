@@ -622,12 +622,39 @@ default persistent.HG = 100
 
 # CGs are automatically resized in the chatroom, but you'll have to
 # make sure the original dimensions are 750x1334
-image general_cg1 = "CGs/General/cg-1.png"
-image general_cg2 = "CGs/General/cg-2.png"
-image seven_cg1 = "CGs/Seven/cg-1.png"
-image saeran_cg1 = "CGs/Saeran/cg-1.png"
+image general_cg1 = "CGs/common_album/cg-1.png"
+image general_cg2 = "CGs/common_album/cg-2.png"
+image seven_cg1 = "CGs/s_album/cg-1.png"
+image saeran_cg1 = "CGs/r_album/cg-1.png"
 
 default fullsizeCG = "general_cg1"
+# This lets you know if there are new CGs in
+# the album
+default new_cg = False
+
+image cg_frame = 'CGs/photo_frame.png'
+image cg_frame_dark = 'CGs/photo_frame_dark.png'
+image cg_label_common = 'CGs/label_bg_common.png'  
+image cg_label_ja = 'CGs/label_bg_ja.png'  
+image cg_label_ju = 'CGs/label_bg_ju.png'  
+image cg_label_other = 'CGs/label_bg_other.png'  
+image cg_label_r = 'CGs/label_bg_r.png'  
+image cg_label_s = 'CGs/label_bg_s.png'  
+image cg_label_u = 'CGs/label_bg_u.png'  
+image cg_label_v = 'CGs/label_bg_v.png'  
+image cg_label_y = 'CGs/label_bg_y.png'  
+image cg_label_z = 'CGs/label_bg_z.png' 
+
+image ja_album_cover = 'CGs/ja_album_cover.png'
+image ju_album_cover = 'CGs/ju_album_cover.png'
+image r_album_cover = 'CGs/r_album_cover.png'
+image s_album_cover = 'CGs/s_album_cover.png'
+image u_album_cover = 'CGs/u_album_cover.png'
+image v_album_cover = 'CGs/v_album_cover.png'
+image y_album_cover = 'CGs/y_album_cover.png'
+image z_album_cover = 'CGs/z_album_cover.png'
+image common_album_cover = 'CGs/common_album_cover.png'
+
 
 
 ## ********************************
