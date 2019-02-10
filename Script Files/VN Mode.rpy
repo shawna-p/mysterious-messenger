@@ -109,6 +109,7 @@ label vn_begin:
         
 label vn_end:
     hide screen vn_overlay
+    $ vn_choice = False
     $ renpy.retain_after_load()
     call press_save_and_exit(False) 
         
