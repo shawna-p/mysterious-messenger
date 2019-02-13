@@ -90,28 +90,6 @@ init python:
             renpy.play(late_night_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
         
         
-    # This is used to make the spaceship float to a random location on the line
-    def spaceship_xalign_func(trans,st,at):
-        if st > 1.0:
-            trans.xalign = spaceship_xalign
-            return None
-        else:
-            trans.xalign = spaceship_xalign * st
-            return 0
-    
-        global spaceship_xalign
-        trans.xalign = spaceship_xalign
-        return None
-        
-    # Returns a random position along the spaceship line at the bottom
-    # of the screen
-    def spaceship_get_xalign(new_num=False):
-        global spaceship_xalign
-        if new_num:
-            spaceship_xalign = renpy.random.random()
-            spaceship_xalign = spaceship_xalign * 0.8 + 0.04
-        return spaceship_xalign
-        
     # Sets the player's pronouns, if they change them
     def set_pronouns():
         global they, them, their, theirs, themself, they_re
@@ -161,21 +139,7 @@ init python:
             is_are = "are"
         renpy.retain_after_load()
       
-    # This code is used to create a 'random' function that
-    # will occasionally activate the Honey Buddha Chip bag
-    class RandomBag(object):
-
-        def __init__(self, choices):
-            self.choices = choices                        # The choices that go into the bag.
-            self.bag = [ ]                                # A shuffled list of things in the bag.
-
-        def draw(self):
-            if not self.bag:                              # If the bag is empty,
-                self.bag = list(self.choices)             # Replace it with a copy of choices,
-                renpy.random.shuffle(self.bag)            # Then randomize those choices.
-
-            return self.bag.pop(0)                        # Return something from the bag.
-        
+            
 
 # Variable to help determine when there should be Honey Buddha
 # Chips available
@@ -353,11 +317,13 @@ screen main_menu:
                         add "menu_dlc"
                         text "DLC" style "menu_text_small" xpos 25 ypos 15
                         
-label after_load:
+label after_load:    
+    $ renpy.hide_screen('settings_screen')
+    $ renpy.hide_screen('save_load')
+    $ renpy.hide_screen('menu')
+    $ renpy.hide_screen('chat_footer')
+    $ renpy.hide_screen('phone_overlay')
     if not renpy.get_screen('chat_home'):
-        hide screen phone_calls
-        hide screen text_message_hub
-        hide screen email_hub
         call screen chat_home                   
     return
     
@@ -371,7 +337,7 @@ screen route_select_screen:
     
     use starry_night
     
-    use menu_header("Mode Select", MainMenu)
+    use menu_header("Mode Select", Show('main_menu', Dissolve(0.5)))
 
     window:
         maximum(700, 350)
@@ -568,156 +534,7 @@ screen file_slots(title):
 
 
 
-            
-
-            
-## Preferences screen ##########################################################
-##
-## The preferences screen allows the player to configure the game to better suit
-## themselves.
-##
-
-screen preferences():
-
-    tag settings_screen
-
-    use starry_night
-    use menu_header("Settings", Hide('preferences', Dissolve(0.5)))
-    use settings_tabs("Sound")
-    
-    window:
-        xysize(700, 1070)
-        xalign 0.5
-        yalign 0.95
-        has vbox
-        spacing 30
-        xalign 0.5
         
-  
-        window:
-            maximum(675,480)
-            background "menu_settings_panel" padding(10,10)
-            xalign 0.5
-            has vbox
-            spacing 30
-            xalign 0.5
-            yalign 0.34
-            text "Sound" style "settings_style" xpos 55 ypos -5
-            
-            vbox:      
-                spacing 15
-                xsize 625
-                hbox:
-                    spacing 30
-                    textbutton _("BGM"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("music")
-                    bar value Preference("music volume") ypos 15
-                hbox:
-                    spacing 30
-                    xsize 520
-                    textbutton _("SFX"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("sfx")
-                    bar value Preference("sound volume") ypos 15
-                    if config.sample_sound:
-                                textbutton _("Test") action Play("sound", config.sample_sound)
-                hbox:
-                    spacing 30
-                    xsize 520
-                    textbutton _("Voice"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("voice")
-                    bar value Preference("voice volume") ypos 15
-                    if config.sample_voice:
-                                textbutton _("Test") action Play("voice", config.sample_voice)
-                hbox:
-                    spacing 30
-                    xsize 520
-                    textbutton _("Voice SFX"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("voice_sfx")
-                    bar value set_voicesfx_volume() ypos 15
-                    if sample_voice_sfx:
-                                textbutton _("Test") action Play("voice_sfx", sample_voice_sfx)
-                    
-                textbutton _("Mute All"):
-                    action Preference("all mute", "toggle")
-                    style "mute_all_button" xalign 0.45
-            
-        window:
-            maximum(675,620)
-            background "menu_settings_panel" padding(10,10)
-            has vbox
-            xalign 0.5
-            yalign 0.5
-            spacing 15
-            text "Voice" style "settings_style" xpos 185 ypos -5
-            
-            ## There are few voiced lines in this program, so currently
-            ## the effects of these buttons will not be very noticeable
-            hbox:
-                xalign 0.5
-                yalign 0.5
-                spacing -35
-                null width 165            
-                grid 2 5:                
-                    transpose True
-                    spacing 40
-                    align (0.5, 0.0)
-                    
-                    text "Jumin Han" style "settings_style"
-                    text "ZEN" style "settings_style"
-                    text "707" style "settings_style"
-                    text "Ray" style "settings_style"
-                    text "Others" style "settings_style"
-                    
-                    use voice_buttons('jumin')
-                    use voice_buttons('zen')
-                    use voice_buttons('seven')
-                    use voice_buttons('saeran')
-                    use voice_buttons('other')
-                    
-                
-                grid 2 4:
-                    spacing 40
-                    transpose True
-                    align (0.5, 0.0)
-                    text "Yoosung★" style "settings_style"
-                    text "Jaehee Kang" style "settings_style"
-                    text "V" style "settings_style"
-                    text "Rika" style "settings_style"
-                    
-                    use voice_buttons('yoosung')
-                    use voice_buttons('jaehee')
-                    use voice_buttons('v')
-                    use voice_buttons('rika')
-
-    
-screen voice_buttons(voice_char):
-
-    $ voice_char = voice_char + '_voice'
-    
-    button:
-        xysize (120, 30)
-        idle_child Text("On", style="voice_toggle_on")
-        hover_child Text("On", style="voice_toggle_on")
-        selected_child Text("Off", style="voice_toggle_off")
-        action ToggleVoiceMute(voice_char)
-        
-    
     
 ########################################################
 ## Just the header that often shows up over menu items;
@@ -808,367 +625,14 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 #if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
                 #    action [Preference("auto-forward", "disable"), Show("preferences")]
                 if not renpy.get_screen("choice") and not renpy.get_screen("in_call"):
-                    action Show("preferences")  
+                    if renpy.get_screen('settings_screen'):
+                        action [Hide('preferences'), Hide('profile_pic'), 
+                                Hide('other_settings'), Show('preferences')]
+                    else:
+                        action Show("preferences")  
       
 
   
-########################################################
-## The three tabs on the Settings screen
-########################################################
-
-screen settings_tabs(active_tab):
-
-    # "Backgrounds" of the different panels
-    window:
-        xalign 0.5
-        yalign 0.14
-        maximum(700,70)
-        has hbox
-        spacing 10
-        # Account / Sound / Others tab
-        textbutton _('Profile'):
-            text_style "settings_tabs" 
-            xsize 231
-            ysize 57
-            if active_tab == "Profile":
-                background "menu_tab_active"
-            else:
-                background "menu_tab_inactive"
-                hover_background "menu_tab_inactive_hover"
-                action Show("profile_pic", Dissolve(0.5))
-                activate_sound 'sfx/UI/settings_tab_switch.mp3'
-                
-        textbutton _('Sound'):
-            text_style "settings_tabs" 
-            xsize 231
-            ysize 57
-            if active_tab == "Sound":
-                background "menu_tab_active"
-            else:
-                background "menu_tab_inactive"
-                hover_background "menu_tab_inactive_hover"
-                action Show("preferences", Dissolve(0.5))
-                activate_sound 'sfx/UI/settings_tab_switch.mp3'
-            
-        textbutton _('Others'):
-            text_style "settings_tabs"  
-            xsize 231
-            ysize 57
-            if active_tab == "Others":
-                background "menu_tab_active"
-            else:
-                background "menu_tab_inactive"
-                hover_background "menu_tab_inactive_hover"
-                action Show("other_settings", Dissolve(0.5))  
-                activate_sound 'sfx/UI/settings_tab_switch.mp3'                
-                
-
-        
-########################################################
-## The "Profile" tab of Settings. Allows you to change
-## your profile pic, name, and preferred pronouns
-########################################################
-
-screen profile_pic:
-    
-    tag settings_screen
-
-    use starry_night
-
-    if not persistent.first_boot:
-        use settings_tabs("Profile")  
-    
-    window:
-        yalign 0.7
-        xalign 0.05
-        maximum(325, 900)
-        ## Edit MC's Name
-        add "name_line" xalign 0.079 yalign 0.475        
-        text persistent.name style "my_name"
-        
-        imagebutton:
-            idle "menu_edit"
-            focus_mask None
-            xalign 0.06
-            yalign 0.453
-            hover im.FactorScale("Phone UI/Main Menu/menu_pencil_long.png",1.03)
-            action Show('input_popup', prompt='Please input a name.') 
-
-        ## MC's profile picture
-        imagebutton:
-            idle "MC_profpic"
-            xalign 0.055
-            action [Function(MC_pic_change), renpy.restart_interaction]
-            focus_mask True
-      
-    ## Pick your pronouns
-    window:
-        style "pronoun_window"
-        
-        has vbox
-        spacing 15
-        xalign 0.5
-        yalign 0.5
-        text "Preferred Pronouns" style "pronoun_label"
-        button:     
-            action [SetField(persistent, "pronoun", "female"), set_pronouns, renpy.restart_interaction]
-            has hbox
-            spacing 10
-            if persistent.pronoun == "female":
-                add "radio_on"
-                text 'she/her' color '#fff' hover_color '#ddd'
-            else:
-                add "radio_off"            
-                text 'she/her' hover_color '#fff' color '#ddd'
-            
-        button:
-            action [SetField(persistent, "pronoun", "male"), set_pronouns, renpy.restart_interaction]
-            has hbox
-            spacing 10
-            if persistent.pronoun == "male":
-                add "radio_on"
-                text 'he/him' color '#fff' hover_color '#ddd'
-            else:
-                add "radio_off"
-                text 'he/him' hover_color '#fff' color '#ddd'
-            
-            
-        button:
-            action [SetField(persistent, "pronoun", "non binary"), set_pronouns, renpy.restart_interaction]
-            has hbox
-            spacing 10
-            if persistent.pronoun == "non binary":
-                add "radio_on"
-                text 'they/them' color '#fff' hover_color '#ddd'
-            else:
-                add "radio_off"
-                text 'they/them' hover_color '#fff' color '#ddd'
-             
-        
-        
-    if not persistent.first_boot:
-        use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
-    else:
-        use menu_header("Customize your Profile", MainMenu(False))
-        
-    if not persistent.first_boot:            
-        ## Save / Load
-        imagebutton:
-            yalign 0.978
-            xalign 0.66
-            idle "save_btn"
-            hover im.FactorScale("Phone UI/Main Menu/menu_save_btn.png",1.1)
-            action Show("save", Dissolve(0.5))
-            
-        imagebutton:
-            yalign 0.978
-            xalign 0.974
-            idle "load_btn"
-            hover im.FactorScale("Phone UI/Main Menu/menu_load_btn.png",1.1)
-            action Show("load", Dissolve(0.5))
-        
-        
-        ## Possibly temporary, but shows how many heart points you've earned
-        ## with each character
-        
-        grid 4 4:
-            xalign 0.5
-            yalign 0.95
-            add 'greet jaehee'
-            add 'greet jumin'
-            add 'greet ray'
-            add 'greet rika'
-            
-            text str(ja.heart_points) + " {image=header_heart}" style "point_indicator"
-            text str(ju.heart_points) + " {image=header_heart}" style "point_indicator"
-            text str(sa.heart_points) + " {image=header_heart}" style "point_indicator"
-            text str(ri.heart_points) + " {image=header_heart}" style "point_indicator"
-            
-            add 'greet seven'
-            add 'greet v'
-            add 'greet yoosung'
-            add 'greet zen'
-            
-            text str(s.heart_points) + " {image=header_heart}" style "point_indicator"
-            text str(v.heart_points) + " {image=header_heart}" style "point_indicator"
-            text str(y.heart_points) + " {image=header_heart}" style "point_indicator"
-            text str(z.heart_points) + " {image=header_heart}" style "point_indicator" 
-    
-
-########################################################
-## The Input Prompt to get text from the user
-########################################################
-                
-screen input_popup(prompt=''):
-
-    zorder 100
-    modal True
-    
-    $ old_name = persistent.name    # We save this so we can reset it if they don't want to change it
-    $ input = Input(value=MyInputValue("persistent.name", persistent.name), style="my_input", length=20)
-    
-    window:
-        maximum(550,313)
-        background 'input_popup_bkgr'
-        xalign 0.5
-        yalign 0.4
-        imagebutton:
-            align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
-            action [SetField(m, 'name', old_name), 
-                    SetVariable('name', old_name), SetField(persistent, 'name', old_name), 
-                    renpy.retain_after_load, Hide('input_popup')]
-        vbox:
-            spacing 20
-            xalign 0.5
-            yalign 0.5
-            text prompt color '#fff' xalign 0.5 text_align 0.5
-            fixed:
-                xsize 500 
-                ysize 75
-                xalign 0.5
-                add 'input_square'
-                add input  xalign 0.5 yalign 0.5
-            textbutton _('Confirm'):
-                text_style 'mode_select'
-                xalign 0.5
-                xsize 240
-                ysize 80
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
-                action [Hide('input_popup')]
-
-
-########################################################
-## The "Others" tab of the settings screen
-## Includes VN options and Ringtone selection
-########################################################
-              
-screen other_settings():
-
-    tag settings_screen
-
-    #add "Phone UI/Main Menu/menu_settings_bg.png"
-    use starry_night
-    use menu_header("Settings", Hide('other_settings', Dissolve(0.5)))
-    use settings_tabs("Others")
-        
-    window:
-        maximum(700, 800)
-        xalign 0.5
-        yalign 0.5
-        has vbox
-        spacing 30
-            
-        window:
-            maximum(675,350)
-            add "menu_settings_panel"
-            text "Other Settings" style "settings_style" xpos 55 ypos 5
-            
-            hbox:
-                align (0.2, 0.5)
-                style_prefix "slider"
-                box_wrap True
-
-                vbox:
-
-                    label _("Text Speed")
-
-                    bar value Preference("text speed")
-
-                    label _("Auto-Forward Time")
-
-                    bar value Preference("auto-forward time") bar_invert True
-                    
-                    null height 10
-                    hbox:
-                        window:
-                            xysize (25,25)
-                            background "#515151"
-                            yalign 0.5
-                            if custom_footers:
-                                add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
-                            
-                        textbutton _("Custom Chat Footers"):
-                            align (0.5, 1.0)
-                            action ToggleVariable("custom_footers")
-            
-        window:
-            maximum(675,250)
-            add "menu_settings_panel"
-            text "VN Settings" style "settings_style" xpos 55 ypos 5
-
-            vbox:
-                xalign 0.2
-                yalign 0.75
-                style_prefix "check"
-                label _("Skip")
-                textbutton _("Unseen Text") action Preference("skip", "toggle")
-                textbutton _("After Choices") action Preference("after choices", "toggle")
-                textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
-                
-        window:
-            maximum(675,175)
-            add "menu_settings_panel"
-            text "Variables for testing" style "settings_style" xpos 55 ypos 5
-
-            hbox:
-                xalign 0.2
-                yalign 0.75
-                spacing 10
-                window:
-                    xysize (25,25)
-                    yalign 0.5
-                    background "#515151"
-                    if testing_mode:
-                        add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
-                    
-                textbutton _("Testing Mode"):
-                    align (0.5, 1.0)
-                    action ToggleVariable("testing_mode")
-                
-            ## Additional vboxes of type "radio_pref" or "check_pref" can be
-            ## added here, to add additional creator-defined preferences.
-            
-        
-        
-        window:
-            maximum (520, 130)
-            xalign 0.5
-            has hbox
-            spacing 40
-            textbutton _('Go to Mode Select'):
-                text_style 'mode_select'
-                xsize 240
-                ysize 120
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
-                action [ToggleVariable("greeted", False, False), renpy.full_restart]
-                
-            textbutton _('Start Over'):
-                text_style 'mode_select'
-                xsize 240
-                ysize 120
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
-                action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", 
-                        yes_action=[Hide('confirm'), Jump("restart_game")], no_action=Hide('confirm'))
-            
-            
-# *********************************
-# Restart Game -- resets variables
-# *********************************       
-label restart_game:
-    python:
-        # removes heart points from all the characters
-        for person in character_list:
-            person.reset_heart()
-        
-        # presumably some more resets here as needed
-        persistent.on_route = False
-        renpy.full_restart()
-        
 
 ########################################################
 ## The 'homepage' from which you interact with the game
@@ -1197,18 +661,18 @@ screen chat_home(reshow=False):
     on 'show':
         action If(renpy.get_screen('chip_tap') or renpy.get_screen('chip_cloud') or renpy.get_screen('chip_end'),
                 NullAction(),
-                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next]) 
+                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False)]) 
  
     on 'replace':
         action If(renpy.get_screen('chip_tap') or renpy.get_screen('chip_cloud') or renpy.get_screen('chip_end'),
                 NullAction(),
-                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False), deliver_next]) 
+                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False)]) 
 
     # This has a 50/50 chance of automatically delivering any outstanding 
     # text messages every 3.5 seconds
     # It's random so you're not just bombarded with new messages constantly
     if num_undelivered():
-        timer 3.5 action If(randint(0,1), deliver_next, NullAction) repeat True
+        timer 3.5 action If(randint(0,1), deliver_next, []) repeat True
   
     
     # Text Messages
@@ -1407,7 +871,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            action SetVariable('chips_available', True)
+            #action SetVariable('chips_available', True)
             
             add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
@@ -1471,6 +935,11 @@ screen chat_home(reshow=False):
             yalign 1.0
             add "space_flame" xalign 0.5 yalign 1.0
             add "spaceship" xalign 0.5 yalign 0.0
+            imagebutton:
+                    idle "space_transparent_btn"
+                    focus_mask None
+                    activate_sound 'sfx/UI/select_6.mp3'
+                    action Show('spaceship_thoughts', Dissolve(0.5))
      
      
 ########################################################
@@ -1505,132 +974,4 @@ screen chara_profile(who):
         text who.status style "profile_status"
     
 
-#########################################################
-## Additional screens for the Honey Buddha Chip animation
-#########################################################
-screen chip_tap:
-
-    modal True
-
-    zorder 100
-    
-    add "Phone UI/choice_dark.png"
-    window at chip_wobble:
-        maximum(481,598)
-        xalign 0.5
-        yalign 0.6
-        imagebutton:
-            idle "space_chip"
-            activate_sound 'sfx/UI/select_6.mp3'
-            action Jump('chip_prize')
-        add 'space_tap_large' at large_tap
-        add 'space_tap_med' at med_tap
-        add 'space_tap_small' at small_tap
-        
-    
- 
-label chip_prize:
-    #$ reset_spaceship_pos = True
-    #$ spaceship_xalign = 0.04
-    hide screen chip_tap
-    show screen chip_cloud
-    show screen chat_home(True)
-    pause 2.5
-    hide screen chip_cloud 
-    $ chips_available = False
-    jump hbc_helper
- 
-screen chip_cloud:
-    modal True
-
-    zorder 100
-        
-    add "Phone UI/choice_dark.png"
-    window at chip_wobble2:
-        maximum(481,598)
-        xalign 0.5
-        yalign 0.6
-        add "space_chip"
-    
-    window at hide_dissolve:
-        maximum(750,640)
-        xalign 0.5
-        yalign 0.6
-        add 'cloud_1' xpos 735 ypos 500 at cloud_shuffle1
-        add 'cloud_2' xpos -20 ypos 310 at cloud_shuffle2
-        add 'cloud_3' xpos 10 ypos 300 at cloud_shuffle3
-        add 'cloud_4' xpos 300 at cloud_shuffle4
-        add 'cloud_5' xpos 350 ypos 20 at cloud_shuffle5
-        
-
-label hbc_helper:
-    # Picks a number between 1 and 130 for the chip prize
-    $ prize_heart = renpy.random.randint(1, 130)
-    $ new_hp_total = persistent.HP + prize_heart
-    # Picks a phrase for the item
-    $ prize_text = chip_prize_list.draw()
-    call screen chip_end(prize_heart, new_hp_total, prize_text)
-
-screen chip_end(prize_heart, new_hp_total, prize_text):
-    modal True
-
-    zorder 100
-    
-    add "Phone UI/choice_dark.png"   
-
-    add 'spotlight' xalign 0.5 yalign 0.0
-    
-    window:
-        maximum(481,598)
-        xalign 0.5
-        yalign 0.6
-        add "space_chip"
-        
-    window:
-        maximum(647,270)
-        xalign 0.5 yalign 0.55
-        background 'space_prize_box'
-            
-        hbox:
-            spacing 70
-            xalign 0.5
-            yalign 0.55
-            window:
-                maximum(200,60)
-                background 'space_black_box'
-                text str(prize_heart) style 'chip_prize_text'
-                add 'header_heart' xalign 0.15 yalign 0.5
-                
-                
-            window:
-                maximum(200,60)
-                background 'space_black_box'
-                # You could give out hourglasses here too, but since I've
-                # never gotten one from the HBC animation I've just left
-                # it permanently at 0
-                text '0' style 'chip_prize_text'
-                add 'header_hg' xalign 0.15 yalign 0.5
-                
-        window:
-            maximum(600,100)
-            align(0.5, 0.05)
-            if len(prize_text) > 50:
-                text prize_text style 'chip_prize_description_long'
-            else:
-                text prize_text style 'chip_prize_description_short'
-        imagebutton:
-            idle 'space_continue'
-            hover 'space_continue_hover'
-            xalign 0.5
-            yalign 0.85
-            action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), 
-                    SetVariable('chips_available', False), renpy.retain_after_load]
-        
-   
-default chip_prize_list = RandomBag( ['A clump of cat hair.',
-    "Jumin's old toothbrush.",
-    "Some Honey Buddha Chip crumbs.",
-    "Jaehee's spare pair of glasses.",
-    "Yoosung's left sock."] )
-    # Feel free to add more things
         
