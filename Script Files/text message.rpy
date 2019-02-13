@@ -22,6 +22,7 @@ init python:
             self.read = read
             self.heart = False
             self.heart_person = sender
+            self.cg_unlock_list = []
     
         def deliver(self, instant=False):
             global text_messages
@@ -33,6 +34,10 @@ init python:
                             msg.msg_list.extend(self.msg_list) 
                             # Clear the queued message; it's been delivered
                             self.msg_list = []
+                            # Transfer cg_unlock_list
+                            msg.cg_unlock_list = self.cg_unlock_list
+                            # Clear queued cg_unlock_list
+                            self.cg_unlock_list = []
                             # Move the delivered message to the top of the list (newest)
                             text_messages.remove(msg)
                             text_messages.insert(0, msg)
@@ -47,6 +52,13 @@ init python:
             
         def mark_read(self):
             self.read = True 
+            for pair in self.cg_unlock_list:
+                # pair[0] is persistent.??_album
+                # pair[1] is the Album(filepath)   
+                for photo in pair[0]:
+                    if pair[1] == photo:
+                        photo.unlock()
+            self.cg_unlock_list = []
             renpy.restart_interaction()         
             
         # This takes you to the correct message reply label
@@ -147,13 +159,15 @@ init python:
                 cg_list = getattr(persistent, album)
                 for photo in cg_list:
                     if Album(cg_filepath) == photo:
-                        photo.unlock()
+                        if who == m:
+                            photo.unlock()
+                        else:
+                            msg.cg_unlock_list.append([cg_list, photo])
                         break
         renpy.restart_interaction
 
   
 default current_message = None
-default persistent.text_tone = "sfx/Ringtones etc/text_1.wav"
     
 ########################################################               
 ## This is the text message hub, where you can click
@@ -300,7 +314,7 @@ screen text_msg_popup(the_msg):
             align (1.0, 0.22)
             idle 'input_close'
             hover 'input_close_hover'
-            if randint(0,1):
+            if not randint(0,3):
                 action [Hide('text_msg_popup'), deliver_next]
             else:
                 action Hide('text_msg_popup')
