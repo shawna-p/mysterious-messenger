@@ -16,9 +16,10 @@ python early:
             
         def unlock(self):
             global new_cg
-            self.unlocked = True
-            # Set a var so Album shows "NEW"
-            new_cg = True
+            if not self.unlocked:
+                self.unlocked = True
+                # Set a var so Album shows "NEW"
+                new_cg = True            
             renpy.retain_after_load
             
         def return_thumbnail(self):
