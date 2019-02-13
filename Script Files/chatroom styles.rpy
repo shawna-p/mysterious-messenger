@@ -346,6 +346,20 @@ init 5:
         size 39
         text_align 1.0
         
+    style ringtone_change:
+        color '#fff'
+        size 28
+        xalign 0.5
+        text_align 0.5
+        yalign 0.5
+        
+    style ringtone_description:
+        color '#fff'
+        size 20
+        xalign 0.5
+        text_align 0.5
+        yalign 0.5
+        
     ## **********************
     ## Main Menu -- Other
     ## **********************
@@ -504,6 +518,31 @@ init 5:
         font "fonts/NanumBarunpenR.ttf"
         color '#fff'
         size 27
+        
+    ## **********************
+    ## Spaceship Thoughts
+    ## **********************
+    style space_title1:
+        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        size 25
+        text_align 0.5
+        align (0.5, 0.12)
+        color '#ff0'
+        
+    style space_thought_mid:
+        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        text_align 0.5
+        align (0.5, 0.5)
+        color '#fff'
+        
+    style space_title2:
+        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        size 22
+        text_align 0.5
+        align (0.5, 0.95)
+        outlines [(absolute(1), '#743801', absolute(0), absolute(0))]
+        color '#fff'
+        
 
         
     ####################################
