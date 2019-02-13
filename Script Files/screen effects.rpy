@@ -133,8 +133,8 @@ screen heart_break_screen(character):
 label answer:
     $ pauseFailsafe()
     $ addchat(answer, '', 0.2)    
-    hide screen viewCG
     $ pre_choosing = True
+    hide screen viewCG    
     call screen answer_button
     show screen pause_button
     return
@@ -428,11 +428,10 @@ label press_save_and_exit(phone=True):
         hide screen pause_button
         hide screen messenger_screen
         stop music
-        call screen chat_select # call history_select_screen etc
+        call screen chatroom_timeline(current_day)
+        # call screen chat_select # call history_select_screen etc
     else:
-        call screen signature_screen(phone)
-        if starter_story:
-            $ starter_story = False
+        call screen signature_screen(phone)        
         $ persistent.HG += chatroom_hg
         $ chatroom_hp = 0
         $ chatroom_hg = 0
@@ -466,7 +465,14 @@ label press_save_and_exit(phone=True):
         if not chips_available:
             $ chips_available = hbc_bag.draw()
         stop music
-        call screen chat_home
+        if starter_story:
+            $ starter_story = False
+            call screen chat_home
+        else:
+            $ deliver_next()
+            show screen chat_home
+            hide screen chat_home
+            call screen chatroom_timeline(current_day)
 
     
 # This shows the signature screen, which records your total heart points
