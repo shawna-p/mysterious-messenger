@@ -81,7 +81,7 @@ screen day_select(day):
             background day_bkgr padding(-80, 0)
             hover_background day_bkgr_hover
             if day.archive_list and day.archive_list[0].available:
-                action Show('chatroom_timeline', day=day)
+                action [SetVariable('current_day', day), Show('chatroom_timeline', day=day)]
                 activate_sound 'sfx/UI/select_day.mp3'
             xalign 0.5
         
@@ -130,17 +130,19 @@ screen day_select(day):
 screen chatroom_timeline(day):
 
     tag menu
-
+    
     use starry_night()
     
     use menu_header(day.day, Show('chat_select', Dissolve(0.5)))
+    
+    $ yadj.value = yadjValue
     
     fixed:   
         xysize (720, 1180)
         yalign 1.0
         xalign 0.5   
         add 'day_vlink' xalign 0.15
-        viewport:
+        viewport yadjustment yadj:
             
             mousewheel True
             draggable True
@@ -198,6 +200,12 @@ screen chatroom_display(mychat, sametime=False):
                 part_anim = null_anim
         else:
             part_anim = null_anim
+            
+        # Ensure the trigger time is set up properly
+        # This doesn't work all the time, but it corrects times
+        # like 3:45 to 03:45
+        if ':' in mychat.trigger_time[:2]:
+            mychat.trigger_time = '0' + mychat.trigger_time
     
     null height 10
                       
