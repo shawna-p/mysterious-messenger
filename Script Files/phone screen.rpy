@@ -238,9 +238,9 @@ screen phone_calls:
                             xysize(96,85)
                             hover Transform('Phone UI/Phone Calls/call.png', zoom=1.1)
                             if call_available(i.caller):
-                                action Show('outgoing_call', phonecall=call_available(i.caller))
+                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=call_available(i.caller))]
                             else:
-                                action Show('outgoing_call', phonecall=i.caller.voicemail, voicemail=True)       
+                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=i.caller.voicemail, voicemail=True)]     
 
     
 ########################################################
@@ -571,7 +571,6 @@ screen outgoing_call(phonecall, voicemail=False):
                                     Jump(phonecall.phone_label)]
     
 
-default persistent.phone_tone = 'sfx/Ringtones etc/phone_1.wav'
 
 ## Allows the program to jump to the incoming call
 label new_incoming_call(phonecall):

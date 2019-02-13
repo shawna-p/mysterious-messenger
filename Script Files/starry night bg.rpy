@@ -30,6 +30,9 @@ image medium star:
 
 # This makes it easier to call the starry night background
 screen starry_night:
+    window:
+        xysize (750,1334)
+        background '#000'
     add "bg starry_night"
     add "small star"
     add "small star"

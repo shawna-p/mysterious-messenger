@@ -296,7 +296,6 @@ label invite(guest):
     
 default current_email = None  
 default test_em = True
-default persistent.email_tone = 'sfx/Ringtones etc/email_1.wav'
 
 ########################################################
 ## This screen shows a popup to notify you when you
