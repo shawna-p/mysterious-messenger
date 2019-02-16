@@ -40,6 +40,7 @@ init python:
             
         def new_choices(self, choices):                   # Reset the bag with new choices
             self.choices = choices
+            self.bag = [ ]
             
     # This class keeps track of "Space Thoughts" in 
     # order to show the correct image + text combo
@@ -52,12 +53,15 @@ init python:
             
 # This is what a list of thoughts for the spaceship will 
 # look like
-default space_thoughts = RandomBag( [ SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
+default space_thoughts = RandomBag( [
+                        SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
                         SpaceThought(ju, "I wonder how Elizabeth the 3rd is doing at home."),
                         SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
                         SpaceThought(y, "Yes! Chocolate milk is on sale!"),
                         SpaceThought(z, "Maybe I should learn how to braid my hair..."),
                         SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
+                        SpaceThought(ri, "Hmm... the soup tastes different today."),
+                        SpaceThought(sa, "So... sleepy..."),
                         SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk.") 
                         ] )
         
