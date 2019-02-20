@@ -119,8 +119,10 @@ init python:
                     ## 3-10 chatrooms
                     max_num = min(max_num / msg_remain, 13)
                     min_num = max(max_num-7, 1)
-                        
-                    self.deliver_reply = renpy.random.randint(min_num, max_num)
+                    if max_num <= min_num:
+                        self.deliver_reply = min_num
+                    else:
+                        self.deliver_reply = renpy.random.randint(min_num, max_num)
                 else:
                     self.deliver_reply = renpy.random.randint(5, 10)
                 
