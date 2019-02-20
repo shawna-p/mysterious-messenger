@@ -52,6 +52,9 @@ default ringtone_list = [ ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang', '707
 default persistent.phone_tone = 'sfx/Ringtones etc/phone_basic_1.wav'
 default persistent.text_tone = "sfx/Ringtones etc/text_basic_1.wav"
 default persistent.email_tone = 'sfx/Ringtones etc/email_basic_1.wav'
+default persistent.phone_tone_name = "Default"
+default persistent.text_tone_name = "Default"
+default persistent.email_tone_name = "Default 1"
 
 
 ########################################################
@@ -351,24 +354,47 @@ screen other_settings():
                 textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
                 
         window:
-            maximum(675,175)
-            add "menu_settings_panel"
+            xysize (675,180)
+            background "menu_settings_panel"
             text "Variables for testing" style "settings_style" xpos 55 ypos 5
 
-            hbox:
-                xalign 0.2
-                yalign 0.75
+            window:
+                xysize (660, 120)
+                yoffset 50
+                align (0.5, 0.0)
+                has hbox
+                xysize (660, 120)
+                align (0.5, 0.0)
                 spacing 10
-                window:
-                    xysize (25,25)
+                hbox:
+                    xalign 0.2
                     yalign 0.5
-                    background "#515151"
-                    if testing_mode:
-                        add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
-                    
-                textbutton _("Testing Mode"):
-                    align (0.5, 1.0)
-                    action ToggleVariable("testing_mode")
+                    spacing 10
+                    window:
+                        xysize (25,25)
+                        yalign 0.5
+                        background "#515151"
+                        if testing_mode:
+                            add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
+                        
+                    textbutton _("Testing Mode"):
+                        align (0.5, 1.0)
+                        action ToggleVariable("testing_mode")
+                        
+                hbox:
+                    xalign 0.2
+                    yalign 0.5
+                    spacing 10
+                    window:
+                        xysize (25,25)
+                        yalign 0.5
+                        background "#515151"
+                        if persistent.real_time:
+                            add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
+                        
+                    textbutton _("Real-Time Mode"):
+                        align (0.5, 1.0)
+                        action ToggleField(persistent, "real_time")
                 
             ## Additional vboxes of type "radio_pref" or "check_pref" can be
             ## added here, to add additional creator-defined preferences.
@@ -573,7 +599,7 @@ screen preferences():
                     vbox:
                         align (0.5, 0.5)
                         text "Text Sound" style 'ringtone_change'
-                        text "The ringtone name" style 'ringtone_description'
+                        text persistent.text_tone_name style 'ringtone_description'
                     action Show('ringtone_dropdown', title='Text Sound', tone='text')
                 
                 button:
@@ -583,7 +609,7 @@ screen preferences():
                     vbox:
                         align (0.5, 0.5)
                         text "Email Sound" style 'ringtone_change'
-                        text "The ringtone name" style 'ringtone_description'
+                        text persistent.email_tone_name style 'ringtone_description'
                     action Show('ringtone_dropdown', title='Email Sound', tone='text')
                     
                 button:
@@ -593,7 +619,7 @@ screen preferences():
                     vbox:
                         align (0.5, 0.5)
                         text "Ringtone" style 'ringtone_change'
-                        text "The ringtone name" style 'ringtone_description'
+                        text persistent.phone_tone_name style 'ringtone_description'
                     action Show('ringtone_dropdown', title='Ringtone', tone='text')
 
 ## A helper screen to display the buttons for toggling
@@ -678,11 +704,13 @@ screen ringtone_dropdown(title, tone):
                         selected getattr(persistent, p_field) == the_dict[tone]
                         if title != "Ringtone":
                             activate_sound the_dict[tone]
-                            action SetField(persistent, p_field, the_dict[tone])
+                            action [SetField(persistent, p_field, the_dict[tone]),
+                                    SetField(persistent, p_field + '_name', tone)]
                         else:
                             activate_sound "<from 0 to 2>" + the_dict[tone]
                             action [renpy.music.stop(channel=config.play_channel),
-                                    SetField(persistent, p_field, the_dict[tone])]
+                                    SetField(persistent, p_field, the_dict[tone]),
+                                    SetField(persistent, p_field + '_name', tone)]
                     
                     
                     
