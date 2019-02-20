@@ -87,8 +87,10 @@ init -6 python:
         renpy.restart_interaction()
 
     ## Makes any phonecalls associated with the current chatroom available as appropriate
-    def deliver_calls(lbl):
-        global available_calls, incoming_call
+    def deliver_calls(lbl, expired=False, call_time=False):
+        global available_calls, incoming_call, call_history, unseen_calls
+        missed_call = False
+        phonecall = False
         ## Adds available calls
         if renpy.has_label(lbl + '_phone_ja'):
             available_calls.append(Phone_Call(ja, lbl + '_phone_ja', 'outgoing'))
@@ -111,28 +113,84 @@ init -6 python:
         if renpy.has_label(lbl + '_phone_z'):
             available_calls.append(Phone_Call(z, lbl + '_phone_z', 'outgoing'))
             
-        ## Updates the incoming_call
+        ## Updates the incoming_call, or missed calls
         if renpy.has_label(lbl + '_incoming_ja'):
-            incoming_call = Phone_Call(ja, lbl + '_incoming_ja', 'incoming')
+            if expired:
+                phonecall = Phone_Call(ja, lbl + '_incoming_ja', 'outgoing')
+                missed_call = Phone_Call(ja, lbl + '_incoming_ja', 'missed')
+            else:
+                incoming_call = Phone_Call(ja, lbl + '_incoming_ja', 'incoming')
         if renpy.has_label(lbl + '_incoming_ju'):
-            incoming_call = Phone_Call(ju, lbl + '_incoming_ju', 'incoming')
+            if expired:
+                phonecall = Phone_Call(ju, lbl + '_incoming_ju', 'outgoing')
+                missed_call = Phone_Call(ju, lbl + '_incoming_ju', 'missed')
+            else:
+                incoming_call = Phone_Call(ju, lbl + '_incoming_ju', 'incoming')
         if renpy.has_label(lbl + '_incoming_r'):
-            incoming_call = Phone_Call(r, lbl + '_incoming_r', 'incoming')
+            if expired:
+                phonecall = Phone_Call(r, lbl + '_incoming_r', 'outgoing')
+                missed_call = Phone_Call(r, lbl + '_incoming_r', 'missed')
+            else:
+                incoming_call = Phone_Call(r, lbl + '_incoming_r', 'incoming')
         if renpy.has_label(lbl + '_incoming_ri'):
-            incoming_call = Phone_Call(ri, lbl + '_incoming_ri', 'incoming')
+            if expired:
+                phonecall = Phone_Call(ri, lbl + '_incoming_ri', 'outgoing')
+                missed_call = Phone_Call(ri, lbl + '_incoming_ri', 'missed')
+            else:
+                incoming_call = Phone_Call(ri, lbl + '_incoming_ri', 'incoming')
         if renpy.has_label(lbl + '_incoming_s'):
-            incoming_call = Phone_Call(s, lbl + '_incoming_s', 'incoming')
+            if expired:
+                phonecall = Phone_Call(s, lbl + '_incoming_s', 'outgoing')
+                missed_call = Phone_Call(s, lbl + '_incoming_s', 'missed')
+            else:
+                incoming_call = Phone_Call(s, lbl + '_incoming_s', 'incoming')
         if renpy.has_label(lbl + '_incoming_sa'):
-            incoming_call = Phone_Call(sa, lbl + '_incoming_sa', 'incoming')
+            if expired:
+                phonecall = Phone_Call(sa, lbl + '_incoming_sa', 'outgoing')
+                missed_call = Phone_Call(sa, lbl + '_incoming_sa', 'missed')
+            else:
+                incoming_call = Phone_Call(sa, lbl + '_incoming_sa', 'incoming')
         if renpy.has_label(lbl + '_incoming_u'):
-            incoming_call = Phone_Call(u, lbl + '_incoming_u', 'incoming')
+            if expired:
+                phonecall = Phone_Call(u, lbl + '_incoming_u', 'outgoing')
+                missed_call = Phone_Call(u, lbl + '_incoming_u', 'missed')
+            else:
+                incoming_call = Phone_Call(u, lbl + '_incoming_u', 'incoming')
         if renpy.has_label(lbl + '_incoming_v'):
-            incoming_call = Phone_Call(v, lbl + '_incoming_v', 'incoming')
+            if expired:
+                phonecall = Phone_Call(v, lbl + '_incoming_v', 'outgoing')
+                missed_call = Phone_Call(v, lbl + '_incoming_v', 'missed')
+            else:
+                incoming_call = Phone_Call(v, lbl + '_incoming_v', 'incoming')
         if renpy.has_label(lbl + '_incoming_y'):
-            incoming_call = Phone_Call(y, lbl + '_incoming_y', 'incoming')
+            if expired:
+                phonecall = Phone_Call(y, lbl + '_incoming_y', 'outgoing')
+                missed_call = Phone_Call(y, lbl + '_incoming_y', 'missed')
+            else:
+                incoming_call = Phone_Call(y, lbl + '_incoming_y', 'incoming')
         if renpy.has_label(lbl + '_incoming_z'):
-            incoming_call = Phone_Call(z, lbl + '_incoming_z', 'incoming')
+            if expired:
+                phonecall = Phone_Call(z, lbl + '_incoming_z', 'outgoing')
+                missed_call = Phone_Call(z, lbl + '_incoming_z', 'missed')
+            else:
+                incoming_call = Phone_Call(z, lbl + '_incoming_z', 'incoming')
         
+        # They backed out of a chatroom; no missed call but we should
+        # add it to the outgoing calls list
+        if expired and not call_time and missed_call and phonecall:
+            if phonecall not in available_calls:
+                available_calls.append(phonecall)   
+        # Otherwise, the chatroom expired so add the missed call as well
+        # as an outgoing call
+        elif expired and missed_call and phonecall:
+            missed_call.playback = False
+            missed_call.call_time = call_time                  
+            if missed_call not in call_history:
+                call_history.insert(0, missed_call)
+            if phonecall not in available_calls:
+                available_calls.append(phonecall)
+            unseen_calls += 1
+        renpy.retain_after_load
         
 default unseen_calls = 0
 default in_phone_call = False
@@ -151,8 +209,8 @@ screen phone_calls:
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)), FileSave(mm_auto, confirm=False)])
     
     on 'show' action If(renpy.music.get_playing(channel='music') != mystic_chat, 
-                [renpy.music.play(mystic_chat, loop=True), SetVariable('unseen_calls', 0)],
-                SetVariable('unseen_calls', 0))
+                renpy.music.play(mystic_chat, loop=True),
+                [])
                 
     window:
         xalign 0.5
