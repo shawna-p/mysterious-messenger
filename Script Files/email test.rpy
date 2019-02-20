@@ -47,7 +47,17 @@ label example_email:
             
     jump chat_end
 
-
+## This is the 'expired' version of the chatroom
+label example_email_expired:
+    call chat_begin('evening')
+    play music narcissistic_jazz loop
+    z "Hey, [name], I had an idea for a guest we should invite." 
+    z "Oh... [they_re] not here."   (bounce=True, specBubble="sigh_m")
+    z "Hmm." 
+    z "Well, you can always buy back this chatroom and let me know if you want to invite them or not!" 
+    z "I'll see you around~"   (bounce=True, specBubble="round_m")
+    call exit(z)
+    jump chat_end
 
 
 ## This is how you will set up guests for the party. A template follows this definition    

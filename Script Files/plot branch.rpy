@@ -60,6 +60,32 @@ label plot_branch_tutorial:
     call exit(u) 
     jump chat_end
 
+## This is the label we jump to if this chatroom
+## has expired
+label plot_branch_tutorial_expired:
+    stop music
+    call hack 
+    call chat_begin("hack") 
+    play music mystic_chat loop
+    call enter(u)
+    u "It seems [name] is getting close to the end of Tutorial day," 
+    u "but [they_re] not here right now T_T" 
+    u "This is the last day before a plot branch" 
+    u "{=curly}so some exciting things might happen!{/=curly}"   (bounce=True)
+    u "{=ser1}Once you click the plot branch button,{/=ser1}" 
+    u "{=ser1}the program will calculate whether or not you've fulfilled certain conditions,{/=ser1}" 
+    u "{=ser1}and then it'll set you on a path based on the results.{/=ser1}" 
+    u "{=ser1}In this case, we're going to check whether or not you've successfully invited 1 guest to the party.{/=ser1}" 
+    u "If you haven't been getting emails, " 
+    u "make sure you buy back the \"Inviting Guests\" chatroom!"   (bounce=True)
+    u "It'll let you invite Rainbow," 
+    u "and if you talk to Zen while you're working on an email chain, he'll make the guests send you replies faster." 
+    u "{=ser1}You can go through the \"Inviting Guests\" chatroom as many times as you like to finish the email chain and invite Rainbow.{/=ser1}" 
+    u "Well, I guess that's all from me. " 
+    u "{=curly}You'll log in later to talk to us though, right? ^^{/=curly}"   (bounce=True)
+    u "See you~" 
+    call exit(u)
+    jump chat_end
 
 ## This is how the program knows what to do when
 ## it gets to a plot branch. It's the label of the
@@ -101,12 +127,22 @@ label plot_branch_tutorial_branch:
     # else:
         # Normal End
         
+    # Checking to see if the player has participated
+    # in enough chatrooms across days 1-4 (really only 
+    # relevant for real-time mode)
+    # The function returns a percentage, so we're checking
+    # if they participated in more than 32% of the chatrooms
+    # if participated_percentage(1, 4) > 32:
+        # Good End
+    # else:
+        # Bad Relationship End
+        
     # For the purposes of this program, we will check whether
     # or not you managed to successfully invite one guest to 
     # the party
     if attending_guests() >= 1:
         # Good End
-        # tutorial_good_end is defined back in variables.rpy
+        # tutorial_good_end is defined back in route_setup.rpy
         # We also pass the function a second argument, True, 
         # to tell it that there's a VN right after the chatroom
         # where the plot branch was
@@ -159,7 +195,21 @@ label tutorial_bad_end:
     # Use this to start the game over and return to the main menu
     jump restart_game
     
-
+## This is the label you'll see if the previous chatroom
+## has expired
+label tutorial_bad_end_expired:
+    call chat_begin('noon')
+    play music i_miss_happy_rika loop
+    v "Hello, everyone." 
+    v "{=ser2}I came to make an announcement.{/=ser2}" 
+    v "It doesn't look like we'll be able to have the party after all," 
+    v "since we don't have enough guests."   (bounce=True, specBubble="sigh_m")
+    v "Anyway, that's all I had to say." 
+    v "I hope you have a good day." 
+    v "{image=v smile}"   (img=True)
+    call exit(v)
+    call chat_end_route('bad')
+    jump restart_game
 
 ## You'll get this VN after the Plot Branch Tutorial
 ## chatroom if you got the Good End
@@ -236,6 +286,13 @@ label tutorial_good_end:
     u "See you later!" 
     call exit(u) 
     jump chat_end
+    
+## This is the label the program jumps to if
+## the previous chatroom expires. However, in this
+## case it's the same as the original chatroom,
+## so to save code we'll just jump to it
+label tutorial_good_end_expired:
+    jump tutorial_good_end
 
 ## And this is a very brief VN for the party    
 label good_end_party:

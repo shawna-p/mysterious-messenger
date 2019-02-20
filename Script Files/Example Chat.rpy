@@ -426,7 +426,32 @@ label test_call:
     
     jump phone_end
     
-
+## This is the chatroom you'll play through if this chatroom
+## has expired
+label example_chat_expired:
+    # This sets up a very specific phone call which will never expire
+    # You'll generally never want to add phone calls this way
+    $ available_calls.append(Phone_Call(r, 'test_call', 'outgoing', 'test'))   
+    call hack 
+    call chat_begin("hack") 
+    play music mystic_chat loop
+    call enter(u) 
+    u "Oh, [name]'s not here." 
+    u "It looks like you let this chatroom expire, huh?" 
+    u "When you're running the game in real-time, sometimes chatrooms will expire." 
+    u "You can always buy them back, though, by clicking the icon next to the expired chatroom." 
+    u "It doesn't even cost anything!"   (bounce=True)
+    u "{=ser1}You can also use the \"Continue...\" button at the bottom of the timeline screen,{/=ser1}" 
+    u "{=ser1}which lets you buy the next 24 hours of chatrooms in advance.{/=ser1}" 
+    u "That way you can be sure you're not missing any chatrooms!" 
+    u "{=curly}(Or if you're just tired of waiting...){/=curly}" 
+    u "{=ser1}You can switch real-time mode off from the Settings screen.{/=ser1}" 
+    u "Anyway, you'll need to buy this chatroom back to go through the tutorial!" 
+    u "Give it a shot ^^" 
+    u "I'll see you soon!" 
+    call exit(u)
+    jump chat_end
+    
 menu bubbles:
     "Small bubbles":
         jump small_bubbles

@@ -199,7 +199,7 @@ label tutorial_chat:
     s "{=ser1b}exists{/=ser1b}" (pauseVal=0.2)
     s "{=ser1b}for sure{/=ser1b}" (pauseVal=0.3)
     s "I look at foreign reports every day."
-    s "common/cg-1" (img=True)
+    s "common/cg-1.png" (img=True)
     y "{=sser1b}{size=+12}!!!{/size}{/=sser1b}"
     s "{=ser1}...It's a rare disease.{/=ser1}"
     
@@ -557,9 +557,106 @@ label coffee2():
 
     jump text_end
     
-   
-    
-     
+## This is the chatroom the player will see if the chatroom
+## is expired. It's much the same as the original chatroom,
+## but with several lines changed since the MC is no longer
+## present
+label tutorial_chat_expired:
+
+    call chat_begin("earlyMorn") 
+    play music geniusly_hacked_bebop loop
+    s "Phew... I almost died." 
+    call enter(y)
+    s "The insane amount of work I have is making me so stressed..." 
+    s "How do I get rid of this stress...?!" 
+    y "Hey Seven" 
+    s "heya" 
+    y "Try learning how to make coffee like me." 
+    y "I think it can help you to de-stress." 
+    s "Coffee...?" 
+    s "Ur learning how to make coffee...???" 
+    y "Yup^^" 
+    s "{=ser1b}No way. U can't.{/=ser1b}" 
+    play music dark_secret loop
+    y "What?" 
+    s "{=ser1b}Did u drink the coffee already!?!?!?!?{/=ser1b}" 
+    y "Yeah... Why?" 
+    s "{=ser1}Big trouble...{/=ser1}" 
+    y "What trouble?" 
+    s "It's..." 
+    s "So I check the health reports of all the members, yeah...?" 
+    y "{size=+10}Okay... Ur not saying that I can't dringak coffxee, r u?{/size}" 
+    y "*drink coffee ?" 
+    s "No... U can never ever!!! drink coffee." 
+    s "{=sser1xb}Seeing ur typos above, ur symptoms are showing already.{/=sser1xb}" 
+    y "Nah" 
+    y "I don't have that kind of allergy." 
+    y "No way~" 
+    s "..." 
+    s "I'm sorry." 
+    s "U've already lost trust in me" 
+    s "so u r not listening." 
+    y "?" 
+    y "For real?" 
+    s "{=ser1xb}{size=+10}Ur gonna faint. For real.{/size}{/=ser1xb}" 
+    y "What??" 
+    s "{=ser1xb}{size=+10}You are going to faint today.{/size}{/=ser1xb}" 
+    y "Just by drinking coffee?" 
+    s "You have the \"Pass Out After Drinking Caffeine Syndrome\"" 
+    y "{size=+10}Yeah right, that doesn't actually exist!!{/size}" 
+    s "...Don't get so surprised." 
+    y "Okay..." 
+    s "Pass Out After Drinking Caffeine Syndrome" 
+    s "{=ser1b}It{/=ser1b}"   (pauseVal=0.2)
+    s "{=ser1b}exists{/=ser1b}"   (pauseVal=0.2)
+    s "{=ser1b}for sure.{/=ser1b}"   (pauseVal=0.3)
+    s "I look at reports from all over the globe every day." 
+    s "common/cg-1.png"   (img=True)
+    y "{size=+10}!!!{/size}" 
+    s "...It's a rare disease." 
+    y "{size=+10}Oh man{/size}" 
+    y "{size=+10}What am I gonna do?{/size}" 
+    y "{image=yoosung huff}"   (img=True)
+    y "When will I pass out then?" 
+    s "u'll faint sometime between 9 and 10." 
+    y "T_T..." 
+    y "I guess it could have been worse. I don't have class in the morning." 
+    y "I should be home when I pass out at least T_T" 
+    s "Every cloud has a silver lining." 
+    y "{image=yoosung cry}"   (img=True)
+    y "Thanks for telling me Seven." 
+    s "lol it's nothing." 
+    s "Call me if something happens." 
+    s "Oh." 
+    s "I recommend drinking chocolate milk before u faint." 
+    s "U have to increase ur blood pressure if u want to wake up faster." 
+    s "{=curly}I'm srsly worried too{/=curly}" 
+    y "Okay..." 
+    y "Thank you." 
+    s "{image=seven yoohoo}"   (img=True)
+    s "{=curly}...I'm glad to be of help.{/=curly}" 
+    s "{=curly}Ur young, so u'll wake up quickly if u do faint, so don't worry too much.{/=curly}" 
+    y "Okay..." 
+    y "I shouldn't drink coffee anymore." 
+    s "Oh... I got work again." 
+    s "Arrgghh!! Stress!!!" 
+    y "Both Jumin and you," 
+    y "you guys are buried with work." 
+    y "{image=yoosung cry}"   (img=True)
+    s "Can't do anything about it... ^^" 
+    s "Then I'll get going." 
+    y "Yup!" 
+    y "Have a good night!!" 
+    s "{=blocky}{size=+10}lol{/size}{/=blocky}" 
+    call exit(s)
+    y "T_T What am I gonna do..." 
+    y "[name]" 
+    y "If I pass out and don't wake up..." 
+    y "Please work hard on my behalf" 
+    y "and host the party again.... T_T" 
+    y "I'd better go buy some chocolate milk." 
+    call exit(y)
+    jump chat_end
 
 
 

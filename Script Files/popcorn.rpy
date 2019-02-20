@@ -108,6 +108,71 @@ label popcorn_chat:
     call exit(ja) 
     
     jump chat_end   
+    
+## This is the expired version of the chatroom
+## It's very similar to the regular version, but with
+## a few dialogue changes since MC is not present
+label popcorn_chat_expired:
+    call chat_begin("morning") 
+    $ ja.set_prof_pic('Profile Pics/Jaehee/jae-2.jpg')
+    $ ju.set_prof_pic('Profile Pics/Jumin/ju-18.jpg')    
+    play music urban_night_cityscape loop
+    ju "Zen's written some strange things." 
+    ja "{image=jaehee happy}"   (img=True)
+    ja "There is a meeting with the Women Artists group today." 
+    ja "I'm telling you this before you come to the office..." 
+    ja "The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting." 
+    ju "{=sser1xb}He's not in his right mind to dream about Elizabeth the 3rd going missing.{/=sser1xb}" 
+    ja "Isn't it up to him to dream about whatever he wants?" 
+    ja "{image=jaehee well}"   (img=True)
+    ju "Don't tell me you believe in his \"psychic\" dream." 
+    ja "I don't believe in it..." 
+    ju "Even if it isn't true..." 
+    ju "It might be good to come up with a plan to protect Elizabeth the 3rd just in case." 
+    ja "{image=jaehee well}"   (img=True)
+    ja "This is not the time for that..." 
+    ju "Perhaps Zen had that dream last night" 
+    ju "because he harbors feelings towards her." 
+    ja "{=blocky}I doubt that is the case, as he left the chatroom saying his nose got itchy.{/=blocky}" 
+    ju "If he has a problem, I'll consider referring him to a therapist." 
+    ja "{=curly}I don't think there's a need for that. We are free to imagine whatever we want, after all;;{/=curly}" 
+    ju "Hmm" 
+    ju "I wish [name] was here." 
+    ju "I feel like [they] understand[s_verb] me very well." 
+    ju "{image=jumin smile}"   (img=True)
+    ju "Assistant Kang." 
+    ju "{=sser1xb}I'd like to invite [name] to the morning meeting today.{/=sser1xb}" 
+    ja "What do you mean?" 
+    ju "{u}Cancel the meeting that was planned and you, me, and [name], the three of us will discuss a plan that will ensure Elizabeth the 3rd's safety.{/u}" 
+    ja "I don't think you should cancel a meeting that was already planned because of one dream." 
+    ju "It's not because of the dream. I've always been bothered by how free she was to roam around the house..." 
+    ja "{=blocky}The number of security cameras and guards in your penthouse is probably higher than the employees here.{/=blocky}" 
+    ju "That's not what's important." 
+    ju "I don't think you understand very well, so I'll need to hear [name]'s opinion."   (bounce=True)
+    ja "But [they_re] not even here...;;" 
+    ju "{=sser2}I'm sure [they]'ll read the messenger soon. Call [them] if you must.{/=sser2}" 
+    ju "{=sser2}Tell [them] to come to the C&R building right away.{/=sser2}" 
+    ja "-_-" 
+    ja "{image=jaehee well}"   (img=True)
+    ja "{=curly}Why are we talking about this now?;;{/=curly}" 
+    ja "{=curly}I don't feel good about this...{/=curly}" 
+    ju "{=sser1xb}Stop talking about something else and prepare for the meeting.{/=sser1xb}" 
+    ja "Yes, Mr. Han..." 
+    ja "[name], when you read this," 
+    ja "The C&R building is the second tallest building in the city so I'll assume you know where it is." 
+    ja "Please go to the information desk and say your name and that you're an RFA member. I will tell them to show you to the conference room." 
+    ju "Good." 
+    ju "Then I'll have to go and get ready." 
+    ju "[name]... I'll look forward to your wonderful ideas."   (bounce=True)
+    call exit(ju)
+    ja "{image=jaehee huff}"   (img=True)
+    ja "{=curly}There's not even an hour left until the meeting and he wants to cancel his appointment...{/=curly}" 
+    ja "Haha..." 
+    ja "So the three of us will have a meeting..." 
+    ja "I must go as well." 
+    call exit(ja)
+    jump chat_end
+
 
 ##*****************************
 ## This is where we change the
