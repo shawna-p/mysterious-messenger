@@ -23,28 +23,25 @@ screen chat_select():
             
             hbox:
                 spacing 3
-                for day in chat_archive:
-                    use day_select(day)
+                for day_num, day in enumerate(chat_archive):
+                    use day_select(day, day_num)
                 
                 
                 
-screen day_select(day):
+screen day_select(day, day_num):
 
     python:
         num_chatrooms = len(day.archive_list)
         completed_chatrooms = 0
         is_today = False
-        played = False
-        for i in day.archive_list:
-            if i.played:
+        playable = False
+        for index, i in enumerate(day.archive_list):
+            if i.played and not i.expired:
                 completed_chatrooms += 1
-                played = True
-            if i.available and not i.played:
-                is_today = True
-            if i.played and i.plot_branch:
-                is_today = True
-            elif i.vn_obj and i.vn_obj.available and not i.vn_obj.played:
-                is_today = True
+            if i.available:
+                playable = True
+        if day_num == today_day_num:
+            is_today = True
         
         if day.archive_list:
             chat_percent = str(completed_chatrooms * 100 // num_chatrooms)
@@ -55,7 +52,7 @@ screen day_select(day):
         if is_today:
             day_bkgr = 'day_selected'
             day_bkgr_hover = 'day_selected_hover'
-        elif played:
+        elif playable:
             day_bkgr = 'day_active'
             day_bkgr_hover = 'day_active_hover'
         else:
@@ -81,7 +78,8 @@ screen day_select(day):
             background day_bkgr padding(-80, 0)
             hover_background day_bkgr_hover
             if day.archive_list and day.archive_list[0].available:
-                action [SetVariable('current_day', day), Show('chatroom_timeline', day=day)]
+                action [SetVariable('current_day', day), SetVariable('current_day_num', day_num),
+                        Show('chatroom_timeline', day=day, day_num=day_num)]
                 activate_sound 'sfx/UI/select_day.mp3'
             xalign 0.5
         
@@ -119,7 +117,7 @@ screen day_select(day):
     fixed:
         xysize (104,32)
         yalign 0.4
-        if not is_today and played:
+        if not is_today and day.archive_list and day.archive_list[-1].available:
             add 'day_hlink' xalign 0.5
         
         
@@ -127,7 +125,7 @@ screen day_select(day):
 ## This screen shows a timeline of the chatrooms on
 ## each particular day
 ########################################################
-screen chatroom_timeline(day):
+screen chatroom_timeline(day, day_num):
 
     tag menu
     
@@ -135,7 +133,8 @@ screen chatroom_timeline(day):
     
     use menu_header(day.day, Show('chat_select', Dissolve(0.5)))
     
-    $ yadj.value = yadjValue
+    #$ yadj.value = yadjValue
+    $ chat_time = next_chat_time()
     
     fixed:   
         xysize (720, 1180)
@@ -149,43 +148,110 @@ screen chatroom_timeline(day):
             
             vbox:
                 xsize 720
-                spacing 20
+                spacing 20                
                 for index, chatroom in enumerate(day.archive_list):
+                    $ same_time = False
+                    $ was_played = False
                     if chatroom.available:
-                        if index > 0 and chatroom.trigger_time[:2] == day.archive_list[index-1].trigger_time[:2]:
-                            use chatroom_display(chatroom, True)
-                        else:
-                            use chatroom_display(chatroom)
-                null height 40
+                        if index > 0:
+                            if chatroom.trigger_time[:2] == day.archive_list[index-1].trigger_time[:2]:
+                                $ same_time = True
+                            if day.archive_list[index-1].played:
+                                if day.archive_list[index-1].vn_obj:
+                                    $ was_played = day.archive_list[index-1].vn_obj.played
+                                else:
+                                    $ was_played = True
+                        elif index == 0:
+                            if day_num == 0:
+                                $ was_played = True
+                            else:
+                                $ was_played = chat_archive[day_num-1].archive_list[-1].played
+                        
+                        use chatroom_display(chatroom, same_time, was_played)
+                if persistent.real_time and day_num == today_day_num and not (day.archive_list[-1].plot_branch and day.archive_list[-1].available) and not chat_time == 'Unknown Time':
+                    hbox:
+                        xysize (620, 110)
+                        xoffset 70
+                        xalign 0.0
+                        button:
+                            xysize (620, 110)
+                            xalign 0.0
+                            background 'chat_continue'
+                            hover_foreground 'chat_continue'
+                            action Show("confirm", message="Would you like to purchase the next day? You can participate in all the chat conversations for the next 24 hours.", 
+                                    yes_action=[Function(chat_24_available), renpy.retain_after_load, renpy.restart_interaction, Hide('confirm')], 
+                                    no_action=Hide('confirm'))    
+                                        
+                            vbox:
+                                spacing 18
+                                hbox:
+                                    spacing 30
+                                    window:
+                                        xysize (75,27)
+                                        xoffset 77
+                                        yoffset 13
+                                        add Transform("Phone UI/Main Menu/header_hg.png", zoom=0.8) xalign 0.5 yalign 0.5
+                                    viewport:
+                                        yoffset 13
+                                        xoffset 77                
+                                        xysize(400,27)
+                                        text "Continue..." color '#fff' size 25 xalign 0.0 yalign 0.5 text_align 0.0 layout 'nobreak'
+                                window:
+                                    xysize(430, 35)
+                                    yoffset 13
+                                    xoffset 50        
+                                    yalign 0.5
+                                    text "Next chatroom opens at " + chat_time color '#fff' size 25 yalign 0.5 text_align 0.0
+                null height 40                    
                     
                     
-screen chatroom_display(mychat, sametime=False):
+screen chatroom_display(mychat, sametime=False, wasplayed=False):
 
     python:
 
         my_vn = mychat.vn_obj
+        can_play = False
+        chat_title_width = 400
+        chat_box_width = 620
+        partic_viewport_width = 530
+        if mychat.expired:
+            chat_title_width = 300
+            chat_box_width = 520
+            partic_viewport_width = 430
+            
         if my_vn and not my_vn.party:
             if my_vn.played:
                 vn_foreground = 'vn_active'
-                vn_hover = 'vn_active_hover'
-            elif my_vn.available:
+                vn_hover = 'vn_active_hover'   
+                can_play = True
+            elif my_vn.available and wasplayed and mychat.played:
                 vn_foreground = 'vn_selected'
                 vn_hover = 'vn_selected_hover'
+                can_play = True
+            elif mychat.expired:
+                vn_foreground = 'vn_inactive'
+                vn_hover = 'vn_inactive'
             else:
                 vn_foreground = 'vn_inactive'
                 vn_hover = 'vn_inactive'
         elif my_vn and my_vn.party:
             if my_vn.available:
                 vn_background = 'vn_party'
+                can_play = True
             elif not my_vn.available:
                 vn_background = 'vn_party_inactive'
                 
         if mychat.played:
             chat_bkgr = 'chat_active'
-            chat_hover = 'chat_active_hover'
-        elif mychat.available:
+            chat_hover = 'chat_active_hover'  
+            can_play = True            
+        elif mychat.available and wasplayed:
             chat_bkgr = 'chat_selected'
             chat_hover = 'chat_selected_hover'
+            can_play = True
+        elif mychat.expired:
+            chat_bkgr = 'chat_inactive'
+            chat_hover = 'chat_inactive'
         else:
             chat_bkgr = 'chat_inactive'
             chat_hover = 'chat_inactive'
@@ -201,11 +267,7 @@ screen chatroom_display(mychat, sametime=False):
         else:
             part_anim = null_anim
             
-        # Ensure the trigger time is set up properly
-        # This doesn't work all the time, but it corrects times
-        # like 3:45 to 03:45
-        if ':' in mychat.trigger_time[:2]:
-            mychat.trigger_time = '0' + mychat.trigger_time
+        
     
     null height 10
                       
@@ -220,49 +282,69 @@ screen chatroom_display(mychat, sametime=False):
             yalign 0.5
             background 'vn_time_bg' padding (20,20)
         
-    button:
+    hbox:
         xysize (620, 160)
         xoffset 70
         xalign 0.0
-        background chat_bkgr
-        hover_foreground chat_hover
-        action [SetVariable('current_chatroom', mychat), Jump(mychat.chatroom_label)]
-        
-        has vbox
-        spacing 18
-        hbox:
-            spacing 30
-            window:
-                xysize (75,27)
-                xoffset 77
-                yoffset 13
-                text mychat.trigger_time color '#fff' size 27 xalign 0.5 yalign 0.5 text_align 0.5
-            viewport:
-                yoffset 13
-                xoffset 77                
-                xysize(400,27)
-                if len(mychat.title) > 30: 
-                    window:
-                        xysize(400,27)
-                        text mychat.title color '#fff' size 25 xalign 0.0 yalign 0.5 text_align 0.0 layout 'nobreak' at chat_title_scroll
+        button:
+            xysize (chat_box_width, 160)
+            xalign 0.0
+            background chat_bkgr
+            hover_foreground chat_hover
+            if can_play and wasplayed:
+                if mychat.expired:
+                    action [SetVariable('current_chatroom', mychat), Jump(mychat.expired_chat)]
                 else:
-                    text mychat.title color '#fff' size 25 xalign 0.0 yalign 0.5 text_align 0.0 layout 'nobreak'
-        viewport:
-            xysize(530, 85)
-            yoffset 13
-            xoffset 77            
-            yalign 0.5
-            window:
-                xysize(530, 85)
-                hbox at part_anim:
-                    spacing 5
-                    if mychat.participants:
-                        for person in mychat.participants:
-                            if person.participant_pic:
-                                add person.participant_pic
+                    action [SetVariable('current_chatroom', mychat), Jump(mychat.chatroom_label)]
                         
-                    if mychat.participated and mychat.played:
-                        add Transform(m.prof_pic, zoom=.725)
+            vbox:
+                spacing 18
+                hbox:
+                    spacing 30
+                    window:
+                        xysize (75,27)
+                        xoffset 77
+                        yoffset 13
+                        text mychat.trigger_time color '#fff' size 27 xalign 0.5 yalign 0.5 text_align 0.5
+                    viewport:
+                        yoffset 13
+                        xoffset 77                
+                        xysize(chat_title_width,27)
+                        if len(mychat.title) > 30: 
+                            window:
+                                xysize(chat_title_width,27)
+                                text mychat.title color '#fff' size 25 xalign 0.0 yalign 0.5 text_align 0.0 layout 'nobreak' at chat_title_scroll
+                        else:
+                            text mychat.title color '#fff' size 25 xalign 0.0 yalign 0.5 text_align 0.0 layout 'nobreak'
+                viewport:
+                    xysize(partic_viewport_width, 85)
+                    yoffset 13
+                    xoffset 77            
+                    yalign 0.5
+                    window:
+                        xysize(partic_viewport_width, 85)
+                        hbox at part_anim:
+                            spacing 5
+                            if mychat.participants:
+                                for person in mychat.participants:
+                                    if person.participant_pic:
+                                        add person.participant_pic
+                                
+                            if mychat.participated and mychat.played:
+                                add Transform(m.prof_pic, zoom=.725)
+        if mychat.expired and not mychat.buyback:
+            imagebutton:
+                yalign 0.9
+                xalign 0.5
+                idle 'expired_chat'
+                hover_foreground 'expired_chat'
+                if mychat.available:
+                    action [SetField(mychat, 'expired', False),
+                            SetField(mychat, 'buyback', True),
+                            SetField(mychat, 'played', False),
+                            renpy.retain_after_load,
+                            renpy.restart_interaction]
+                
                 
     if my_vn and not my_vn.party:
         window:
@@ -278,7 +360,7 @@ screen chatroom_display(mychat, sametime=False):
                 foreground vn_foreground
                 hover_foreground vn_hover
                 activate_sound 'sfx/UI/select_vn_mode.mp3'
-                if my_vn.available:
+                if my_vn.available and can_play and mychat.played:
                     # Note: afm is ~30 at its slowest, 0 when it's off, and 1 at its fastest
                     action [Preference("auto-forward", "disable"), SetVariable('current_chatroom', mychat), Jump(my_vn.vn_label)]                    
                 if my_vn.who:
@@ -298,7 +380,7 @@ screen chatroom_display(mychat, sametime=False):
                 yalign 0.5
                 background vn_background                
                 activate_sound 'sfx/UI/select_vn_mode.mp3'
-                if my_vn.available:
+                if my_vn.available and can_play:
                     hover_foreground vn_background
                     # Note: afm is ~30 at its slowest, 0 when it's off, and 1 at its fastest
                     action [Preference("auto-forward", "disable"), SetVariable('current_chatroom', mychat), Jump(my_vn.vn_label)]                    
@@ -316,8 +398,14 @@ screen chatroom_display(mychat, sametime=False):
                 align (0.5, 0.5)
                 add 'plot_lock'
                 text 'Tap to unlock' color '#fff' xalign 0.5 yalign 0.5
-            if mychat.available and mychat.played and (not mychat.vn_obj or mychat.vn_obj.played):
-                action Show("confirm", message="The game branches here. Continue?", # Missed chatrooms may appear depending on the time right now 
+            #if mychat.available and mychat.played and (not mychat.vn_obj or mychat.vn_obj.played):
+            if can_branch():
+                if persistent.real_time:
+                    action Show("confirm", message="The game branches here. Missed chatrooms may appear depending on the time right now. Continue?", 
+                            yes_action=[Hide('confirm'), SetVariable('current_chatroom', mychat),
+                            Jump(mychat.chatroom_label + '_branch')], no_action=Hide('confirm'))           
+                else:
+                    action Show("confirm", message="The game branches here. Continue?", 
                         yes_action=[Hide('confirm'), SetVariable('current_chatroom', mychat),
                         Jump(mychat.chatroom_label + '_branch')], no_action=Hide('confirm'))                 
             else:
