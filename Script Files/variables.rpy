@@ -58,7 +58,10 @@ init -6 python:
             self.korean = korean
             
                         
-default current_day = False                 
+default current_day = False     
+default current_day_num = 0   
+default today_day_num = 0         
+default days_to_expire = 1
 default available_calls = []
 default call_history = []
 default incoming_call = False #e.g. Phone_Call(ju)
@@ -173,6 +176,8 @@ default Their = "Their"
 default Theirs = "Theirs"
 default Themself = "Themself" 
 default is_are = "are"
+default has_have = "have"
+default s_verb = ""
 
 default chatlog = []
 default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
@@ -182,6 +187,8 @@ default name = 'Rainbow'
 default persistent.on_route = False
 # Variable that checks if it's the first time you've started the game
 default persistent.first_boot = True
+# Variable that determines if the program should run in real-time or not
+default persistent.real_time = False
 
 # This variable is set to True if you're viewing a chatroom
 # in 'history'
@@ -1009,6 +1016,7 @@ image day_percent_bg = Frame('Phone UI/Day Select/daychat_percent_bg.png', 15, 1
 image day_percent_border = Frame('Phone UI/Day Select/daychat_percent_border.png', 15, 15)
 image day_hlink = 'Phone UI/Day Select/daychat_hlink.png'
 image plot_lock = 'Phone UI/Day Select/plot_lock.png'
+image expired_chat = 'Phone UI/Day Select/daychat_hg.png'
 
 image day_vlink = im.Tile('Phone UI/Day Select/daychat_vlink.png',(15,1180))
 image vn_inactive = 'Phone UI/Day Select/vn_inactive.png'
@@ -1023,6 +1031,7 @@ image chat_active = Frame('Phone UI/Day Select/daychat01_chat_active.png',190, 7
 image chat_inactive = Frame('Phone UI/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)
 image chat_selected = Frame('Phone UI/Day Select/daychat01_chat_mint.png',190, 70, 40, 50)
 image chat_active_hover = Frame('Phone UI/Day Select/daychat01_chat_active_hover.png',190, 70, 40, 50)
+image chat_continue = Frame('Phone UI/Day Select/daychat01_chat_continue.png',190, 70, 40, 20)
 image chat_selected_hover = Frame('Phone UI/Day Select/daychat01_chat_mint_hover.png',190, 70, 40, 50)
 image chat_hover_box = Frame('Phone UI/Day Select/daychat_vn_selectable.png', 0,0,0,0)
 
