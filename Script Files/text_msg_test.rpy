@@ -37,7 +37,22 @@ label example_text:
     
     # Use this to end the chat and return to the main menu
     jump chat_end
-
+    
+## This is the label you jump to if the chatroom
+## is expired
+label example_text_expired:
+    call chat_begin('morning')
+    play music mint_eye loop
+    r "{=curly}Hi there!{/=curly}"   (bounce=True, specBubble="square2_s")
+    r "This chatroom is here to demonstrate how text messages are sent." 
+    r "But, well, since this chatroom is expired it won't act the same way." 
+    r "You'll have already received the text messages and any missed phone calls." 
+    r "Even if you buy this chatroom back, you won't receive the calls or messages again." 
+    r "But you can often call characters back if not much time has passed since they called!" 
+    r "Anyway, you can buy this chatroom back for some alternative information too." 
+    r "Talk to you soon!" 
+    call exit(r)
+    jump chat_end
     
 # Put anything you want to have happen after the chatroom ends here, 
 # like text messages or (in the future) phone calls
