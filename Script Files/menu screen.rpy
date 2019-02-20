@@ -94,7 +94,7 @@ init python:
     def set_pronouns():
         global they, them, their, theirs, themself, they_re
         global They, Them, Their, Theirs, Themself, They_re
-        global is_are
+        global is_are, has_have, s_verb
         if persistent.pronoun == "female":
             they = "she"
             them = "her"
@@ -109,6 +109,8 @@ init python:
             Theirs = "Hers"
             Themself = "Herself"   
             is_are = "is"
+            has_have = "has"
+            s_verb = "s"
         elif persistent.pronoun == "male":
             they = "he"
             them = "him"
@@ -123,6 +125,8 @@ init python:
             Theirs = "His"
             Themself = "Himself"
             is_are = "is"
+            has_have = "has"
+            s_verb = "s"
         elif persistent.pronoun == "non binary":
             they = "they"
             them = "them"
@@ -137,6 +141,8 @@ init python:
             Theirs = "Theirs"
             Themself = "Themself"
             is_are = "are"
+            has_have = "have"
+            s_verb = ""
         renpy.retain_after_load()
       
             
@@ -547,6 +553,13 @@ default my_menu_clock = Clock(False, 0, 0, 230, False, False)
     
 screen menu_header(title, return_action=NullAction, envelope=False):
 
+    # If we're on real-time, check once a minute if it's time for the
+    # next chatroom
+    if persistent.real_time and not main_menu and not starter_story:
+        timer 60 action Function(next_chatroom) repeat True
+        on 'show' action Function(next_chatroom)
+        on 'reshow' action Function(next_chatroom)
+
     $ my_menu_clock.runmode("real")
     hbox:
         add my_menu_clock xalign 0.0 yalign 0.0 xpos -50
@@ -673,7 +686,8 @@ screen chat_home(reshow=False):
     # It's random so you're not just bombarded with new messages constantly
     if num_undelivered():
         timer 3.5 action If(randint(0,1), deliver_next, []) repeat True
-  
+        
+     
     
     # Text Messages
     button:
@@ -718,7 +732,7 @@ screen chat_home(reshow=False):
         else:
             background "gray_mainbtn"
             hover_background "gray_mainbtn_hover"
-        action Show('phone_calls')     
+        action [SetVariable('unseen_calls', 0), Show('phone_calls')]  
         activate_sound 'sfx/UI/select_phone_text.mp3'        
         if unseen_calls > 0:
             add "blue_maincircle" xalign 0.5 yalign 0.5  
@@ -854,6 +868,7 @@ screen chat_home(reshow=False):
             background "red_hex"
             hover_background "red_hex_hover"
             #action NullAction
+            action Function(next_chatroom)
             add "shop_icon" xalign 0.55 yalign 0.35
             add "shop_text" xalign 0.5 yalign 0.8
             
