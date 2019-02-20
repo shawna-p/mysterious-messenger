@@ -268,10 +268,16 @@ screen phone_overlay:
                 align (0.5, 0.5)
                 idle "Phone UI/back-arrow.png"
                 hover Transform("Phone UI/back-arrow.png", zoom=1.2)
-                action Jump('chat_back')
+                if observing or current_chatroom.expired:
+                    action Jump('chat_back')
+                else:
+                    action Show("confirm", message="Do you really want to exit this chatroom? Please note that you cannot participate once you leave. If you want to enter this chatroom again, you will need to buy it back.", 
+                                    yes_action=[Hide('confirm'), Jump('chat_back')], 
+                                    no_action=Hide('confirm'))    
+                                        
             
 label chat_back:
-    if observing:
+    if observing or current_chatroom.expired:
         $ config.skipping = False
         $ greeted = False
         $ choosing = False
@@ -282,14 +288,13 @@ label chat_back:
         hide screen answer_button
         hide screen pause_button
         stop music
-        call screen chat_select # call history_select_screen etc
+        show screen chat_home
+        hide screen chat_home
+        call screen chatroom_timeline(current_day, current_day_num)
     else:
-        # If you back out of a chatroom, when you go through it again
-        # you won't be able to collect hearts
-        # The program currently doesn't have "expired" chatrooms,
-        # so this is the solution
-        $ no_heart = True        
-        
+        # If you back out of a chatroom, it expires
+        $ current_chatroom.expired = True
+        $ current_chatroom.participated = False
         $ chatroom_hp = 0
         $ chatroom_hg = 0
         $ config.skipping = False   
@@ -302,9 +307,19 @@ label chat_back:
         hide screen answer_button
         hide screen pause_button
         hide screen vn_overlay
+        # Deliver text and calls        
+        if not current_chatroom.plot_branch:
+            # Checks for a post-chatroom label; triggers even if there's a VN
+            # Otherwise delivers texts etc
+            if renpy.has_label('after_' + current_chatroom.chatroom_label): 
+                $ renpy.call('after_' + current_chatroom.chatroom_label)
+            $ deliver_all()
+            $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
         stop music
-        call screen chat_select
+        show screen chat_home
+        hide screen chat_home
+        call screen chatroom_timeline(current_day, current_day_num)
 
 
     
@@ -428,7 +443,7 @@ label press_save_and_exit(phone=True):
         hide screen pause_button
         hide screen messenger_screen
         stop music
-        call screen chatroom_timeline(current_day)
+        call screen chatroom_timeline(current_day, current_day_num)
         # call screen chat_select # call history_select_screen etc
     else:
         call screen signature_screen(phone)        
@@ -445,7 +460,7 @@ label press_save_and_exit(phone=True):
         hide screen vn_overlay
         $ current_chatroom.played = True
         
-        if not current_chatroom.plot_branch:
+        if not current_chatroom.plot_branch and not current_chatroom.expired and not current_chatroom.buyback:
             # Checks for a post-chatroom label; won't trigger if there's a VN section
             # Otherwise delivers phone calls/texts/etc
             if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
@@ -457,22 +472,33 @@ label press_save_and_exit(phone=True):
                     $ renpy.call('after_' + current_chatroom.chatroom_label)
         elif current_chatroom.plot_branch and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
             $ current_chatroom.vn_obj.played = True
+        elif not current_chatroom.plot_branch and not phone and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
+            $ current_chatroom.vn_obj.played = True
                 
-        $ deliver_calls(current_chatroom.chatroom_label)
+        if not current_chatroom.expired and not current_chatroom.buyback:
+            $ deliver_calls(current_chatroom.chatroom_label)
+            
+        if current_chatroom.expired and not current_chatroom.buyback:
+            $ current_chatroom.participated = False
+        else:
+            $ current_chatroom.participated = True
         $ deliver_emails()   
         $ next_chatroom()
         $ renpy.retain_after_load()
         if not chips_available:
             $ chips_available = hbc_bag.draw()
+        
         stop music
         if starter_story:
             $ starter_story = False
             call screen chat_home
+            return
         else:
             $ deliver_next()
             show screen chat_home
             hide screen chat_home
-            call screen chatroom_timeline(current_day)
+            call screen chatroom_timeline(current_day, current_day_num)
+            return
 
     
 # This shows the signature screen, which records your total heart points
