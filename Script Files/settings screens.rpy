@@ -374,12 +374,12 @@ screen other_settings():
                         xysize (25,25)
                         yalign 0.5
                         background "#515151"
-                        if testing_mode:
+                        if persistent.testing_mode:
                             add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
                         
                     textbutton _("Testing Mode"):
                         align (0.5, 1.0)
-                        action ToggleVariable("testing_mode")
+                        action ToggleField(persistent, "testing_mode")
                         
                 hbox:
                     xalign 0.2
