@@ -1256,10 +1256,12 @@ screen confirm(message, yes_action, no_action=False):
 
     frame:
         background "menu_popup_bkgrd"
+        xmaximum 700
         vbox:
             xalign .5
             yalign .5
             spacing 26
+            xmaximum 700
 
             label _(message):
                 style "confirm_prompt"
