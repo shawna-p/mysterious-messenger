@@ -1,5 +1,6 @@
 init -6 python:
     from datetime import datetime
+    from datetime import date
     import copy
     
     # This defines another voice channel which the emoji sound effects play on
@@ -57,16 +58,37 @@ init -6 python:
             self.english = english
             self.korean = korean
             
-                        
+# Name of the currently played day, e.g. '1st'
 default current_day = False     
+# Number of the day the player is currently
+# going through
 default current_day_num = 0   
-default today_day_num = 0         
+# Number of the day considered 'today'
+default today_day_num = 0    
+# Useful when unlocking the next 24 hours
+# of chats in real-time mode
+default unlock_24_time = False
+# Keeps track of how far the game should
+# continue expiring chatrooms until
 default days_to_expire = 1
+# Keeps a record of the current time to compare
+# with load times so it knows when to make days
+# available
+default current_game_day = date.today()
+# Lets the program know how to advance days when loading
+default persistent.load_instr = False
+# List of calls the player can make (outgoing)
 default available_calls = []
+# History of phone calls
 default call_history = []
+# If there's an incoming call after a chatroom,
+# it will be defined here
 default incoming_call = False #e.g. Phone_Call(ju)
+# Lets the program know we're in VN mode
 default vn_choice = False
+# Keeps track of the current call the player is in
 default current_call = False
+# True if the player is beginning a new game
 default starter_story = False
 
 default preferences.afm_time = 15
@@ -74,7 +96,7 @@ default preferences.skip_unseen = True
 default preferences.skip_after_choices = True
 
 default mm_auto = "mm_auto_save"
-default testing_mode = False
+default persistent.testing_mode = False
 
 ##******************************
 ## BACKGROUND MUSIC DEFINITIONS
@@ -181,6 +203,7 @@ default s_verb = ""
 
 default chatlog = []
 default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
+default most_recent_chat = None
 default name = 'Rainbow'
 
 # Variable that checks if you're on a route or not
