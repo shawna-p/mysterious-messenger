@@ -212,7 +212,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     # from receiving heart points again and only lets you select choices
     # you've selected on this or previous playthroughs
     if current_chatroom.played:
-        if not testing_mode:
+        if not persistent.testing_mode:
             $ observing = True
         else:
             pass
