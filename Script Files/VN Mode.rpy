@@ -98,7 +98,7 @@ label vn_begin:
     $ _history = True
     
     if current_chatroom.vn_obj.played:
-        if not testing_mode:
+        if not persistent.testing_mode:
             $ observing = True
         else:
             pass
