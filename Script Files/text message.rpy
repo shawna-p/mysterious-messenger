@@ -458,11 +458,7 @@ screen text_message_screen(the_msg):
     use starry_night
     
     use text_message_footer(the_msg)
-    
-    timer 3.0:
-        if who_deliver != the_msg.sender:
-            action deliver_next
-    
+        
     python:
         if yadj.value == yadj.range:
             yadj.value = yadjValue
