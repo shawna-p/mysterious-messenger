@@ -324,6 +324,19 @@ screen main_menu:
                         text "DLC" style "menu_text_small" xpos 25 ypos 15
                         
 label after_load:    
+    if persistent.real_time:
+        if persistent.load_instr == '+1 day':
+            $ days_to_expire += 1
+            $ current_game_day = date.today()
+            $ persistent.load_instr = False
+        elif persistent.load_instr == 'Same day':
+            $ current_game_day = date.today()
+            $ persistent.load_instr = False
+        elif persistent.load_instr == 'Auto':
+            $ date_diff = date.today() - current_game_day
+            $ days_to_expire += date_diff.days
+            $ current_game_day = date.today()
+            $ persistent.load_instr = False
     $ renpy.hide_screen('settings_screen')
     $ renpy.hide_screen('save_load')
     $ renpy.hide_screen('menu')
@@ -390,10 +403,15 @@ screen file_slots(title):
     #use menu_header(title, Hide('file_slots', Dissolve(0.5)))
     
     default the_day = "1st"
+    
     python:        
+        if most_recent_chat == None:
+            most_recent_chat = chat_archive[0].archive_list[0]
         for day in chat_archive:
-            if current_chatroom in day.archive_list:
+            if most_recent_chat in day.archive_list:
                 the_day = day.day
+                
+        
     
     fixed:
 
@@ -419,7 +437,7 @@ screen file_slots(title):
             
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto):
-                $ save_title = current_chatroom.save_img + '|' + the_day + '|' + current_chatroom.title
+                $ save_title = most_recent_chat.save_img + '|' + the_day + '|' + most_recent_chat.title
                 if '|' in FileSaveName(mm_auto):
                     $ rt, dn, cn = FileSaveName(mm_auto).split('|')
                 else:                    
@@ -428,8 +446,10 @@ screen file_slots(title):
                 button:
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
-                    action [SetField(persistent, 'on_route', True), FileAction(mm_auto)]
-
+                    if persistent.real_time:
+                        action [SetField(persistent, 'on_route', True), SetField(persistent, 'load_instr', 'Auto'), FileAction(mm_auto)]
+                    else:
+                        action [SetField(persistent, 'on_route', True), FileAction(mm_auto)]
                     hbox:
                         spacing 8
                         xsize 695
@@ -463,26 +483,79 @@ screen file_slots(title):
                                 yfit True
                                 # Can't delete this file
 
-                    key "save_delete" action FileDelete(mm_auto)
-
             ## This displays all the regular save slots
             for i in range(gui.file_slot_cols * gui.file_slot_rows):
 
                 $ slot = i + 1
                 
                 
-                $ save_title = current_chatroom.save_img + '|' + the_day + '|' + current_chatroom.title
+                $ save_title = most_recent_chat.save_img + '|' + the_day + '|' + most_recent_chat.title
                 if '|' in FileSaveName(slot):
                     $ rt, dn, cn = FileSaveName(slot).split('|')
                 else:                    
                     $ rt, dn, cn = save_title.split('|')
+                    
+                $ file_time = FileTime(slot, empty="00:00")[-5:]
+                $ file_hour = file_time[:2]
+                $ file_min = file_time[-2:]
+                $ next_day_name = False
+                
+                python:
+                    # Compare file times to now
+                    # E.g. if we saved at 20:30, if now is 20:29 or earlier,
+                    # we want it to be the next day
+                    if int(file_hour) > int(datetime.now().strftime('%H')):
+                        # Hour of save is greater; proceed to next day
+                        # Gets the name of the next day for loading purposes
+                        for index, archive in enumerate(chat_archive):
+                            if dn == archive.day:
+                                if index+1 < len(chat_archive):
+                                    next_day_name = chat_archive[index+1].day
+                                    break
+                    elif int(file_hour) == int(datetime.now().strftime('%H')):
+                        # Check minutes
+                        if int(file_min) > int(datetime.now().strftime('%M')):
+                            # Minutes of save are greater; proceed to next day
+                            # Gets the name of the next day for loading purposes
+                            for index, archive in enumerate(chat_archive):
+                                if dn == archive.day:
+                                    if index+1 < len(chat_archive):
+                                        next_day_name = chat_archive[index+1].day
+                                        break
+                    else:
+                        next_day_name = False
+                
+                    
+                    
+                    
+                    
+                if next_day_name:
+                    $ long_msg = "There is a difference between the save time and the present time. It may cause missed conversations or phone calls during the time gap. Would you like to continue?\n\nSave Time: " + dn + " DAY " + file_time + "\n\nLoad Time: " + next_day_name + " DAY " + datetime.now().strftime('%H') + ":" + datetime.now().strftime('%M')
+                else:
+                    $ long_msg = "There is a difference between the save time and the present time. It may cause missed conversations or phone calls during the time gap. Would you like to continue?\n\nSave Time: " + dn + " DAY " + file_time + "\n\nLoad Time: " + dn + " DAY " + datetime.now().strftime('%H') + ":" + datetime.now().strftime('%M')
                
 
                 button:
                     if title == "Save":
                         action [SetVariable('save_name', save_title), FileAction(slot)]
-                    else:
-                        action [SetField(persistent, 'on_route', True), FileAction(slot)]
+                    else: # title == "Load"
+                        if next_day_name and FileLoadable(slot) and persistent.real_time:
+                            action [Show("confirm", message=long_msg, 
+                                        yes_action=[
+                                        SetField(persistent, 'on_route', True), 
+                                        SetField(persistent, 'load_instr', '+1 day'), 
+                                        FileLoad(slot)], 
+                                        no_action=Hide('confirm'))]
+                        elif FileLoadable(slot) and persistent.real_time:
+                            action [Show("confirm", message=long_msg, 
+                                        yes_action=[
+                                        SetField(persistent, 'on_route', True), 
+                                        SetField(persistent, 'load_instr', 'Same day'),
+                                        FileLoad(slot)], 
+                                        no_action=Hide('confirm'))]
+                        elif not persistent.real_time and FileLoadable(slot):
+                            action [SetField(persistent, 'on_route', True), 
+                                    FileAction(slot)]
 
                     hbox:
                         spacing 8
@@ -559,6 +632,9 @@ screen menu_header(title, return_action=NullAction, envelope=False):
         timer 60 action Function(next_chatroom) repeat True
         on 'show' action Function(next_chatroom)
         on 'reshow' action Function(next_chatroom)
+        
+    if not renpy.get_screen('text_message_screen') and not main_menu and not starter_story and num_undelivered():
+        timer 3.5 action If(randint(0,1), deliver_next, []) repeat True
 
     $ my_menu_clock.runmode("real")
     hbox:
@@ -680,15 +756,7 @@ screen chat_home(reshow=False):
         action If(renpy.get_screen('chip_tap') or renpy.get_screen('chip_cloud') or renpy.get_screen('chip_end'),
                 NullAction(),
                 [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False)]) 
-
-    # This has a 50/50 chance of automatically delivering any outstanding 
-    # text messages every 3.5 seconds
-    # It's random so you're not just bombarded with new messages constantly
-    if num_undelivered():
-        timer 3.5 action If(randint(0,1), deliver_next, []) repeat True
-        
-     
-    
+          
     # Text Messages
     button:
         maximum(168,168)
@@ -868,7 +936,6 @@ screen chat_home(reshow=False):
             background "red_hex"
             hover_background "red_hex_hover"
             #action NullAction
-            action Function(next_chatroom)
             add "shop_icon" xalign 0.55 yalign 0.35
             add "shop_text" xalign 0.5 yalign 0.8
             
