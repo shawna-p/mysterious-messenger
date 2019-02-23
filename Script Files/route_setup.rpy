@@ -28,6 +28,7 @@ init -6 python:
             self.expired_chat = chatroom_label + '_expired'
             self.plot_branch = plot_branch
             self.buyback = False
+            self.buyahead = False
             
         def add_participant(self, chara):
             if not chara in self.participants:
@@ -56,7 +57,7 @@ init -6 python:
     # to make chatrooms available at the correct real-life times
     def next_chatroom():
         global chat_archive, available_calls, current_chatroom, test_ran
-        global today_day_num, days_to_expire
+        global today_day_num, days_to_expire, current_game_day
         triggered_next = False
         notify_player = False
         if not persistent.real_time:
@@ -90,9 +91,18 @@ init -6 python:
                 if triggered_next:
                     break
         else:   # We're using real-time mode
-            # First, check what time it is
+            if days_to_expire > len(chat_archive):
+                days_to_expire = len(chat_archive)
+                return
+            # First, check if any days have passed
+            date_diff = date.today() - current_game_day
+            if date_diff.days > 0:
+                # At least one day has passed; increase 
+                # days_to_expire accordingly
+                days_to_expire += date_diff.days
+            current_game_day = date.today()
+            # Next, check what time it is
             current_time = upTime()
-            last_avail = True
             # Now, go through the list of chatrooms and find out if
             # there's a new one to be triggered
             for day_index, archive in enumerate(chat_archive[:days_to_expire]):
@@ -103,8 +113,7 @@ init -6 python:
                         if chatroom.played and chatroom.vn_obj and not chatroom.vn_obj.available:
                             chatroom.vn_obj.available = True
                         # If this chatroom isn't available, check if it's time to make it available
-                        if not chatroom.available:
-                            last_avail = False
+                        if not chatroom.available:                            
                             # Check the time on the chatroom
                             if int(current_time.military_hour) < int(chatroom.trigger_time[:2]):
                                 # Too early; not time for this chatroom to trigger yet
@@ -119,9 +128,7 @@ init -6 python:
                                 else:
                                     # Time for the chatroom to trigger
                                     # First, check if it's the last chatroom of the day
-                                    if chat_index-1 == len(archive.archive_list):
-                                        # If so, we increase the number of days to expire
-                                        days_to_expire += 1
+                                    if chat_index-1 == len(archive.archive_list) and not chatroom.plot_branch:
                                         triggered_next = True
                                     if chat_index == 0 and day_index == 0:
                                         # If this is the first chatroom of the route, there's
@@ -153,9 +160,7 @@ init -6 python:
                                 # Current hour is later than the chatroom trigger time
                                 # Time to trigger the chatroom
                                 # First, check if it's the last chatroom of the day
-                                if chat_index+1 == len(archive.archive_list):
-                                    # If so, we increase the number of days to expire
-                                    days_to_expire += 1
+                                if chat_index+1 == len(archive.archive_list) and not chatroom.plot_branch:
                                     triggered_next = True
                                 if chat_index == 0 and day_index == 0:
                                     # If this is the first chatroom of the route, there's
@@ -183,8 +188,6 @@ init -6 python:
                                     today_day_num = day_index
                 if triggered_next:
                     break
-            if last_avail:
-                days_to_expire += 1
             if notify_player:
                 # Let the player know a new chatroom is open
                 the_msg = "[[new chatroom] " + current_chatroom.title
@@ -195,8 +198,10 @@ init -6 python:
     ## text messages available
     def expire_chatroom(prev_chatroom, current_chatroom):
         # The previous chatroom expires if not played
-        if not prev_chatroom.played and not prev_chatroom.buyback:
+        if not prev_chatroom.played and not prev_chatroom.buyback and not prev_chatroom.buyahead:
             prev_chatroom.expired = True
+        else:
+            return
             
         # We need to set a time for the missed call; should be
         # equal to the trigger time for the current chatroom
@@ -253,8 +258,8 @@ init -6 python:
     # This function takes a route (new_route) and merges it with the
     # current route
     def merge_routes(new_route, is_vn=False):
-        global chat_archive, current_chatroom
-        current_chatroom.plot_branch = False
+        global chat_archive, most_recent_chat
+        most_recent_chat.plot_branch = False
         for archive in chat_archive:
             for archive2 in new_route:
                 if archive2.day == archive.day:
@@ -321,36 +326,50 @@ init -6 python:
         
     ## Makes the chatrooms for the next 24 hours available
     def chat_24_available():
-        global chat_archive, today_day_num, days_to_expire
+        global chat_archive, today_day_num, days_to_expire, unlock_24_time
         current_time = upTime()
+        unlock_24_time = current_time
         days_to_expire += 1
+        is_branch = False
         # Check chatrooms for the current day
         for chatroom in chat_archive[today_day_num].archive_list:
             # Hour for this chatroom is greater than now; make available
             if int(current_time.military_hour) < int(chatroom.trigger_time[:2]):
+                if chatroom.plot_branch:
+                    is_branch = True
                 chatroom.available = True
-                chatroom.buyback = True
+                chatroom.buyahead = True
             # Hour is the same; check minute
             elif int(current_time.military_hour) == int(chatroom.trigger_time[:2]):            
                 if int(current_time.minute) < int(chatroom.trigger_time[-2:]):
+                    if chatroom.plot_branch:
+                        is_branch = True
                     # Minute is greater; make available
                     chatroom.available = True
-                    chatroom.buyback = True
+                    chatroom.buyahead = True
         # Now check chatrooms for the next day
         if chat_archive[today_day_num+1].archive_list:
             for chatroom in chat_archive[today_day_num+1].archive_list:
                 # Hour for this chatroom is smaller than now; make available
                 if int(current_time.military_hour) > int(chatroom.trigger_time[:2]):
+                    if chatroom.plot_branch:
+                        is_branch = True
                     chatroom.available = True
-                    chatroom.buyback = True
+                    chatroom.buyahead = True
                 # Hour is the same; check minute
                 elif int(current_time.military_hour) == int(chatroom.trigger_time[:2]):            
                     if int(current_time.minute) > int(chatroom.trigger_time[-2:]):
+                        if chatroom.plot_branch:
+                            is_branch = True
                         # Minute is smaller; make available
                         chatroom.available = True
-                        chatroom.buyback = True
+                        chatroom.buyahead = True
         # Increase the day number
         today_day_num += 1
+        # If we were able to make everything available,
+        # unlock_24_time can be reset
+        if not is_branch:
+            unlock_24_time = False 
                     
                     
         
@@ -359,12 +378,12 @@ init -6 python:
 # the program will automatically set variables and make chatrooms available
 # for you
 default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01'),                                     
-                                    Chat_History('Inviting Guests', 'auto', 'example_email', '02:11', [z]),
-                                    Chat_History('Text Message Example', 'auto', 'example_text', '02:53', [r], VN_Mode('vn_mode_tutorial', r)),
-                                    Chat_History('Pass Out After Drinking Caffeine Syndrome', 'auto', 'tutorial_chat', '04:05', [s]),
-                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '07:07', [ja, ju], VN_Mode('popcorn_vn', ju)),
-                                    Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '18:44', [], False, True)]),                                    
-                        Archive('1st'),                                    
+                                    Chat_History('Inviting Guests', 'auto', 'example_email', '09:11', [z]),
+                                    Chat_History('Text Message Example', 'auto', 'example_text', '09:53', [r], VN_Mode('vn_mode_tutorial', r)),
+                                    Chat_History('Pass Out After Drinking Caffeine Syndrome', 'auto', 'tutorial_chat', '15:05', [s]),
+                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '18:07', [ja, ju], VN_Mode('popcorn_vn', ju)),
+                                    Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], False, True)]),                                    
+                        Archive('1st'),                        
                         Archive('2nd'),
                         Archive('3rd'),
                         Archive('4th'),
@@ -376,9 +395,9 @@ default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'a
                         Archive('10th'),
                         Archive('Final')]
                         
-default tutorial_bad_end = [Archive('Tutorial', [Chat_History('An Unfinished Task', 'auto', 'tutorial_bad_end', '13:26', [v])] )]
-default tutorial_good_end = [Archive('Tutorial', [ Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '10:44', [], VN_Mode('plot_branch_vn')),
-                                                   Chat_History('Onwards!', 'auto', 'tutorial_good_end', '13:26', [u], VN_Mode('good_end_party', None, True))] )]
+default tutorial_bad_end = [Archive('Tutorial', [Chat_History('An Unfinished Task', 'auto', 'tutorial_bad_end', '23:26', [v])] )]
+default tutorial_good_end = [Archive('Tutorial', [ Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], VN_Mode('plot_branch_vn')),
+                                                   Chat_History("Onwards!", 'auto', 'tutorial_good_end', '23:26', [u], VN_Mode('good_end_party', None, True))])]
                         
 default seven_route = [ Archive('5th', [], 'day_s'),
                         Archive('6th', [], 'day_s'),
