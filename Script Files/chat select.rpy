@@ -33,14 +33,43 @@ screen day_select(day, day_num):
     python:
         num_chatrooms = len(day.archive_list)
         completed_chatrooms = 0
+        played_chatrooms = 0
         is_today = False
         playable = False
+        most_recent_day = False
         for index, i in enumerate(day.archive_list):
             if i.played and not i.expired:
                 completed_chatrooms += 1
+            if i.played:
+                played_chatrooms += 1
             if i.available:
                 playable = True
         if day_num == today_day_num:
+            most_recent_day = True
+        # Do they still have chats to play on this day?
+        # If so, it's "today"
+        if played_chatrooms == len(day.archive_list):
+            # All the chatrooms in this day are played;
+            # it's not the current day unless there's
+            # a plot branch or an unplayed VN
+            if day.archive_list:
+                if day.archive_list[-1].plot_branch:
+                    is_today = True
+                elif day.archive_list[-1].vn_obj and not day.archive_list[-1].vn_obj.played:
+                    is_today = True
+        elif played_chatrooms == 0:
+            # None of the chatrooms in this day have been
+            # played; it's only today if all the chatrooms
+            # from the previous day are played
+            # If this is the first day, it's today
+            if day_num == 0:
+                is_today = True
+            # Last chat in the previous day is played; it's today
+            elif chat_archive[day_num-1].archive_list and chat_archive[day_num-1].archive_list[-1].played and (not chat_archive[day_num-1].archive_list[-1].vn_obj or chat_archive[day_num-1].archive_list[-1].vn_obj.played):
+                is_today = True
+            else:
+                is_today = False
+        elif played_chatrooms < len(day.archive_list):
             is_today = True
         
         if day.archive_list:
@@ -117,7 +146,7 @@ screen day_select(day, day_num):
     fixed:
         xysize (104,32)
         yalign 0.4
-        if not is_today and day.archive_list and day.archive_list[-1].available:
+        if not most_recent_day and day.archive_list and day.archive_list[-1].available:
             add 'day_hlink' xalign 0.5
         
         
@@ -165,10 +194,13 @@ screen chatroom_timeline(day, day_num):
                             if day_num == 0:
                                 $ was_played = True
                             else:
-                                $ was_played = chat_archive[day_num-1].archive_list[-1].played
+                                if chat_archive[day_num-1].archive_list[-1].vn_obj:
+                                    $ was_played = chat_archive[day_num-1].archive_list[-1].vn_obj.played
+                                else:
+                                    $ was_played = chat_archive[day_num-1].archive_list[-1].played
                         
                         use chatroom_display(chatroom, same_time, was_played)
-                if persistent.real_time and day_num == today_day_num and not (day.archive_list[-1].plot_branch and day.archive_list[-1].available) and not chat_time == 'Unknown Time':
+                if persistent.real_time and day_num == today_day_num and not (day.archive_list[-1].plot_branch and day.archive_list[-1].available) and not unlock_24_time and not chat_time == 'Unknown Time':
                     hbox:
                         xysize (620, 110)
                         xoffset 70
@@ -339,11 +371,12 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                 idle 'expired_chat'
                 hover_foreground 'expired_chat'
                 if mychat.available:
-                    action [SetField(mychat, 'expired', False),
+                    action Show('confirm', message="Would you like to participate in the chat conversation that has passed?",
+                            yes_action=[SetField(mychat, 'expired', False),
                             SetField(mychat, 'buyback', True),
                             SetField(mychat, 'played', False),
                             renpy.retain_after_load,
-                            renpy.restart_interaction]
+                            renpy.restart_interaction, Hide('confirm')], no_action=Hide('confirm'))
                 
                 
     if my_vn and not my_vn.party:
@@ -437,10 +470,54 @@ label plot_branch_end:
         $ deliver_calls(current_chatroom.chatroom_label)
         $ deliver_emails()
 
+    # Now we need to check if the player unlocked the next 24 hours
+    # of chatrooms, and make those available
+    if unlock_24_time:
+        python:
+            is_branch = False
+            # Check chatrooms for the previous day
+            for chatroom in chat_archive[today_day_num-1].archive_list:
+                # Hour for this chatroom is greater than now; make available
+                if int(unlock_24_time.military_hour) < int(chatroom.trigger_time[:2]) and not is_branch:
+                    if chatroom.plot_branch:
+                        is_branch = True
+                    chatroom.available = True
+                    chatroom.buyahead = True
+                # Hour is the same; check minute
+                elif int(unlock_24_time.military_hour) == int(chatroom.trigger_time[:2]):            
+                    if int(unlock_24_time.minute) < int(chatroom.trigger_time[-2:]) and not is_branch:
+                        if chatroom.plot_branch:
+                            is_branch = True
+                        # Minute is greater; make available
+                        chatroom.available = True
+                        chatroom.buyahead = True
+            # Now check chatrooms for today
+            if chat_archive[today_day_num].archive_list:
+                for chatroom in chat_archive[today_day_num].archive_list:
+                    # Hour for this chatroom is smaller than now; make available
+                    if int(unlock_24_time.military_hour) > int(chatroom.trigger_time[:2]) and not is_branch:
+                        if chatroom.plot_branch:
+                            is_branch = True
+                        chatroom.available = True
+                        chatroom.buyahead = True
+                    # Hour is the same; check minute
+                    elif int(unlock_24_time.military_hour) == int(chatroom.trigger_time[:2]):            
+                        if int(unlock_24_time.minute) > int(chatroom.trigger_time[-2:]) and not is_branch:
+                            if chatroom.plot_branch:
+                                is_branch = True
+                            # Minute is smaller; make available
+                            chatroom.available = True
+                            chatroom.buyahead = True
+            # 24-hour buy-ahead is done; reset the variable
+            # *unless* there was a plot branch, in which case
+            # we're not done unlocking
+            if not is_branch:
+                unlock_24_time = False            
     $ next_chatroom()
     $ renpy.retain_after_load
-    call screen chat_home
-    
+    show screen chat_home
+    hide screen chat_home
+    call screen chat_select
                 
                 
                 
