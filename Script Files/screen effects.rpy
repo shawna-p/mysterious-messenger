@@ -277,6 +277,8 @@ screen phone_overlay:
                                         
             
 label chat_back:
+    # If you're replaying a chatroom or it's already
+    # expired, you can back out without repercussions
     if observing or current_chatroom.expired:
         $ config.skipping = False
         $ greeted = False
@@ -300,6 +302,7 @@ label chat_back:
         $ config.skipping = False   
         $ greeted = False         
         $ choosing = False
+        $ most_recent_chat = current_chatroom
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
@@ -308,13 +311,13 @@ label chat_back:
         hide screen pause_button
         hide screen vn_overlay
         # Deliver text and calls        
-        if not current_chatroom.plot_branch:
-            # Checks for a post-chatroom label; triggers even if there's a VN
-            # Otherwise delivers texts etc
-            if renpy.has_label('after_' + current_chatroom.chatroom_label): 
-                $ renpy.call('after_' + current_chatroom.chatroom_label)
-            $ deliver_all()
-            $ deliver_calls(current_chatroom.chatroom_label, True)
+        # if not current_chatroom.plot_branch:
+        # Checks for a post-chatroom label; triggers even if there's a VN
+        # Otherwise delivers texts etc
+        if renpy.has_label('after_' + current_chatroom.chatroom_label): 
+            $ renpy.call('after_' + current_chatroom.chatroom_label)
+        $ deliver_all()
+        $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
         stop music
         show screen chat_home
@@ -458,9 +461,12 @@ label press_save_and_exit(phone=True):
         hide screen messenger_screen
         hide screen save_and_exit
         hide screen vn_overlay
-        $ current_chatroom.played = True
+        if not current_chatroom.played:
+            $ current_chatroom.played = True
+            if not starter_story and not current_chatroom.buyback:
+                $ most_recent_chat = current_chatroom
         
-        if not current_chatroom.plot_branch and not current_chatroom.expired and not current_chatroom.buyback:
+        if not current_chatroom.expired and not current_chatroom.buyback:
             # Checks for a post-chatroom label; won't trigger if there's a VN section
             # Otherwise delivers phone calls/texts/etc
             if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
