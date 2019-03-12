@@ -147,6 +147,13 @@ init 5:
         xsize 750
         text_align 0.0
         
+    style in_chat_list_style:
+        text_align 0.5
+        xalign 0.5
+        yalign 0.5
+        color '#fff'
+        size 23
+        
     ####################################
     ## Input Styles
     ####################################
