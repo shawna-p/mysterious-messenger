@@ -11,8 +11,8 @@ init python:
     reply_screen = False
     draft_screen = False
 
-    # The Text_Message class keeps track of a text message conversation for each character.
-    # The actual messages are stored in msg_list
+    ## The Text_Message class keeps track of a text message conversation for each character.
+    ## The actual messages are stored in msg_list
     class Text_Message(store.object):
         def __init__(self, sender, msg_list, reply_label=False, delay=True, read=False, heart=False):
             self.sender = sender
@@ -23,7 +23,10 @@ init python:
             self.heart = False
             self.heart_person = sender
             self.cg_unlock_list = []
+            self.notified = True
     
+        ## Transfers messages from the text_queue to 
+        ## the player's inbox
         def deliver(self, instant=False):
             global text_messages
             # Move messages to 'inbox'
@@ -38,18 +41,23 @@ init python:
                             msg.cg_unlock_list = self.cg_unlock_list
                             # Clear queued cg_unlock_list
                             self.cg_unlock_list = []
+                            # Player has been notified
+                            msg.notified = True
                             # Move the delivered message to the top of the list (newest)
                             text_messages.remove(msg)
                             text_messages.insert(0, msg)
                             if msg.msg_list[-1].who != m:
                                 msg.read = False
                                 renpy.restart_interaction()
-                                # Notify the player of the delivered message
+                                # Notify the player of the delivered message                                
                                 renpy.music.play(persistent.text_tone, 'sound')
-                                renpy.show_screen('text_msg_popup', the_msg=msg)
+                                renpy.show_screen('text_msg_popup', the_msg=msg)                                
                             else:
                                 msg.read = True
+                            renpy.retain_after_load()
             
+        ## Marks the message as read and unlocks
+        ## the appropriate CGs, if applicable
         def mark_read(self):
             self.read = True 
             for pair in self.cg_unlock_list:
@@ -61,17 +69,21 @@ init python:
             self.cg_unlock_list = []
             renpy.restart_interaction()         
             
-        # This takes you to the correct message reply label
-        # and indicates that the message has been read
+        ## This takes you to the correct message reply label
+        ## and indicates that the message has been read
         def reply(self):
             global reply_screen
             reply_screen = True
-            renpy.call_in_new_context(self.reply_label)                
-            reply_screen = False             
-            self.reply_label = False
+            old_reply = self.reply_label
+            renpy.call_in_new_context(self.reply_label)
+            # If we've updated the reply label, then we don't
+            # erase it. Otherwise, the player shouldn't be able
+            # to reply twice
+            if self.reply_label == old_reply:
+                self.reply_label = False
+            reply_screen = False  
             
-        # Lets the program know that the person's response will trigger
-        # a heart when they view the next reply
+        ## Determines who to award the heart point to
         def heart_point(self, person=False):
             if not person:
                 self.heart = True
@@ -79,12 +91,8 @@ init python:
             else:
                 self.heart = True
                 self.heart_person = person
-
-    # Creates a new text message; rarely used
-    def add_message(sender, msg_list, reply_label=False, delay=True):
-        message = Text_Message(sender, msg_list, reply_label, delay)
         
-    # Lets the program know the response will trigger a heart point
+    ## Lets the program know the response will trigger a heart point
     def add_heart(who, person=False):
         for msg in text_messages:
             if msg.sender == who:
@@ -93,7 +101,7 @@ init python:
                 else:
                     msg.heart_point(person)
           
-    # Returns whether or not the message has been read
+    ## Returns whether or not the message has been read
     def check(sender):
         for item in text_messages:
             if item.sender == sender:
@@ -102,7 +110,7 @@ init python:
                 else:
                     return False
            
-    # Updates the message's reply label
+    ## Updates the message's reply label
     def add_reply_label(sender, reply_label):
         for item in text_messages:
             if item.sender == sender:
@@ -111,24 +119,25 @@ init python:
             if item.sender == sender:
                 item.reply_label = reply_label
              
-    # Delivers all of the text messages at once
+    ## Delivers all of the text messages at once
     def deliver_all(): 
         global text_queue
         for msg in text_queue:
             msg.deliver()
                 
-    # Checks who the sender of the next text message to be delivered is
+    ## Checks who the sender of the next text message to be delivered is
     def who_deliver():
         global text_queue
         for msg in text_queue:
             if msg.msg_list:
                 return msg.sender
         
-    # Returns the number of unread messages in text_messages
+    ## Returns the number of unread messages in text_messages
     def new_message_count():
         unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
         return len(unread_messages)
-        
+    
+    ## Returns the number of undelivered messages in text_queue
     def num_undelivered():
         undelivered = [ x for x in text_queue if x.msg_list ]
         return len(undelivered)
@@ -147,6 +156,8 @@ init python:
                 if who == m:
                     msg.deliver(True)
                     msg.reply_label = False
+                else:
+                    msg.notified = False
             if img and "{image=" not in what and not observing:
                 # We want to unlock the CG in the gallery
                 # First, we split up the text
@@ -217,7 +228,7 @@ screen text_message_hub:
                                     window:
                                         xysize (135, 135)
                                         align (0.0, 0.5)
-                                        add last_text.who.prof_pic align(0.5,0.5) at text_zoom
+                                        add Transform(last_text.who.prof_pic, size=(127,127)) align(0.5,0.5)
                                     
                                     window:
                                         xysize(320,135)
@@ -260,7 +271,7 @@ screen text_message_hub:
                                     window:
                                         xysize(135,135)
                                         align (0.0, 0.5)
-                                        add last_text.who.prof_pic yalign 0.5 xalign 0.5 at text_zoom
+                                        add Transform(last_text.who.prof_pic, size=(127, 127)) yalign 0.5 xalign 0.5
                                     
                                     window:
                                         xysize (320, 135)
@@ -332,7 +343,7 @@ screen text_msg_popup(the_msg):
             spacing 20
             hbox:
                 spacing 20                
-                add the_msg.sender.prof_pic
+                add Transform(the_msg.sender.prof_pic, size=(110,110))
                 
                 vbox:
                     spacing 10
@@ -360,12 +371,14 @@ screen text_msg_popup(the_msg):
                 if not (renpy.get_screen('in_call') or renpy.get_screen('incoming_call') or renpy.get_screen('outgoing call')):
                     action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), 
                             the_msg.mark_read, SetVariable("CG_who", the_msg), 
+                            Hide('save_load'),
+                            Hide('menu'),
+                            Hide('chat_footer'), 
+                            Hide('phone_overlay'), 
+                            Hide('settings_screen'),
                             Show('text_message_screen', the_msg=the_msg)]
     timer 3.25:
-        if randint(0,1):
-            action [Hide('text_msg_popup', Dissolve(0.25)), deliver_next]
-        else:
-            action Hide('text_msg_popup', Dissolve(0.25))
+        action If(randint(0,1), [Hide('text_msg_popup', Dissolve(0.25)), deliver_next], Hide('text_msg_popup', Dissolve(0.25)))
         
 ########################################################  
 ## Includes the 'answer' button at the bottom
@@ -382,7 +395,7 @@ screen text_message_footer(the_msg):
             xsize 468
             ysize 95
             xalign 0.5
-            if the_msg and the_msg.reply_label:
+            if the_msg and the_msg.reply_label and not the_msg.msg_list[-1].who == m:
                 background 'text_answer_active'
                 hover_background 'text_answer_animation'  
                 if not renpy.get_screen("choice"):
@@ -391,7 +404,9 @@ screen text_message_footer(the_msg):
             else:
                 background 'text_answer_inactive'
             add 'text_answer_text' xalign 0.5 yalign 0.5
-            
+   
+## Displays the date separator between two messages that
+## have a time difference of one day or more
 screen text_date_separator(text_time):
 
     $ the_time = '20' + text_time.year + '.' + text_time.month_num + '.'
@@ -549,7 +564,7 @@ screen text_animation(i):
             else:
                 style 'profpic_text'
                 
-            add i.who.prof_pic
+            add Transform(i.who.prof_pic, size=(110,110))
         
         ## Now add the dialogue
              
@@ -612,7 +627,8 @@ screen text_animation(i):
                     else:
                         text text_time color "#fff" yalign 1.0 size 23
                                             
-                                            
+ 
+## Sets end variables when a text message menu is completed 
 label text_end:
     $ renpy.retain_after_load()
     return
