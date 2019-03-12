@@ -9,13 +9,7 @@ label example_chat:
        
     call hack 
     call chat_begin("hack") 
-    
-    $ observing = False     # Normally you don't want to include this statement
-                            # It gets automatically set during the chat_begin call
-                            # so that you can replay chatrooms but can only pick options
-                            # you've already seen/won't get heart icons again/etc
-                            # However, this is a tutorial chatroom, so you can replay it
-    
+        
     play music mystic_chat loop
     call enter(u) 
     u "{=curly}Hello, [name] ^^{/=curly}" 
@@ -102,7 +96,6 @@ label emojis:
 
     call hack 
     call chat_begin("morning",False,False) 
-    $ observing = False # Again, this is for tutorial purposes
     
     play music geniusly_hacked_bebop loop
     call enter(s) 
@@ -207,7 +200,6 @@ label banners:
 
     call hack 
     call chat_begin("noon",False,False) 
-    $ observing = False # Again, this is for tutorial purposes
     play music same_old_fresh_air loop
     
     call enter(y) 
@@ -252,7 +244,6 @@ label heart_icons:
 
     call hack 
     call chat_begin("evening",False,False) 
-    $ observing = False # Again, this is for tutorial purposes
     play music narcissistic_jazz loop
     
     call enter(z) 
@@ -313,7 +304,6 @@ label screen_shake:
     
     call hack 
     call chat_begin("night",False,False) 
-    $ observing = False # Again, this is for tutorial purposes
     play music lonesome_practicalism loop
 
     call enter(ja) 
@@ -362,7 +352,6 @@ label screen_shake:
 label ending:
     call hack 
     call chat_begin("hack",False,False) 
-    $ observing = False # Again, this is for tutorial purposes
     play music mystic_chat loop
     
     call enter(u) 
