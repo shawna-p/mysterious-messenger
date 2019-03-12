@@ -36,6 +36,18 @@ init python:
             colour = white
         return im.MatrixColor(picture, im.matrix.colorize("#000000", colour)), 0.1
         
+    # An experiment to recolour speech bubbles
+    def glow_bubble_fn(st,at, glow_color='#000'):
+        colour = glow_color
+        return im.MatrixColor('Bubble/Special/sa_glow2.png', 
+                            im.matrix.colorize(colour, '#fff')), 0.1
+                            
+    # An experiment to recolour speech bubbles
+    def reg_bubble_fn(st,at, bubble_color='#000'):
+        colour = bubble_color
+        return im.MatrixColor('Bubble/white-Bubble.png', 
+                            im.matrix.colorize('#000', colour)), 0.1
+        
     
 
 ## Note: There is also a custom version of the chat footers
@@ -43,7 +55,7 @@ init python:
 ## this variable to True. Otherwise, it will use the original assets
 ## If you change the variable here, you'll need to start the game over
 ## Otherwise it can also be changed from the Settings menu
-default custom_footers = False
+default persistent.custom_footers = False
 
 #************************************
 # Heart Icons
@@ -54,6 +66,9 @@ image heartbreak2 = DynamicDisplayable(heart_break_fn, picture="Heart Point/Hear
 image heartbreak3 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_8.png")
 image heartbreak4 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_9.png")
 image heartbreak5 = "Heart Point/HeartBreak/stat_animation_10.png"
+
+image glow_bkgr_colorized = DynamicDisplayable(glow_bubble_fn)
+#default glow_color = '#0ff'
 
 default heartColor = '#000000'
 
@@ -130,11 +145,13 @@ screen heart_break_screen(character):
 
 # Call this label before you show a menu
 # to show the answer button
-label answer:
-    $ pauseFailsafe()
-    $ addchat(answer, '', 0.2)    
+label answer(from_cg=False):
+    if from_cg:
+        hide screen viewCG
+    else:
+        $ pauseFailsafe()
+        $ addchat(answer, '', 0.2)    
     $ pre_choosing = True
-    hide screen viewCG    
     call screen answer_button
     show screen pause_button
     return
@@ -142,13 +159,13 @@ label answer:
 screen answer_button:
     zorder 4
     tag chat_footer
-    if custom_footers:
+    if persistent.custom_footers:
         add "custom_pausebutton" xalign 0.96 yalign 0.16
         add "custom_pause_square" yalign 0.59
     else:
         add "pausebutton" xalign 0.96 yalign 0.16
         add "Phone UI/pause_square.png" yalign 0.59
-    if custom_footers:
+    if persistent.custom_footers:
         add "custom_answerbutton" ypos 1220
     else:
         add "answerbutton" ypos 1220
@@ -174,7 +191,7 @@ screen pause_button:
     imagebutton:
         ypos 1220
         focus_mask True
-        if custom_footers:
+        if persistent.custom_footers:
             idle "custom_pause"
         else:
             idle "Phone UI/Pause.png"
@@ -212,7 +229,7 @@ screen play_button:
     zorder 4
     tag chat_footer
     if not choosing:
-        if custom_footers:
+        if persistent.custom_footers:
             add "custom_pausebutton" xalign 0.96 yalign 0.16
             add "custom_pause_square" yalign 0.59
         else:
@@ -224,7 +241,7 @@ screen play_button:
         xpos 0
         ypos 1220
         focus_mask True
-        if custom_footers:
+        if persistent.custom_footers:
             idle "custom_play"
         else:
             idle "Phone UI/Play.png"
@@ -241,6 +258,13 @@ default no_heart = False
 screen phone_overlay:  
     zorder 2
     add "Phone UI/Phone-UI.png"   # You can set this to your own image
+    
+    python:
+        list_of_char = ''
+        for index, chara in enumerate(in_chat):
+            list_of_char += chara
+            if index+1 < len(in_chat):
+                list_of_char += ', '
 
     fixed:
         xysize(150,80)
@@ -255,6 +279,12 @@ screen phone_overlay:
             selected_hover "maxSpeed"
             if not choosing:
                 action Function(toggle_skipping)
+                
+    if not observing:
+        window:
+            align (0.75, 0.055)
+            xysize (400, 80)
+            text list_of_char style 'in_chat_list_style'
 
 
                 
@@ -275,7 +305,9 @@ screen phone_overlay:
                                     yes_action=[Hide('confirm'), Jump('chat_back')], 
                                     no_action=Hide('confirm'))    
                                         
-            
+          
+## This label takes care of what happens when the
+## player hits the back button during a chatroom
 label chat_back:
     # If you're replaying a chatroom or it's already
     # expired, you can back out without repercussions
@@ -296,7 +328,12 @@ label chat_back:
     else:
         # If you back out of a chatroom, it expires
         $ current_chatroom.expired = True
+        # And if you bought it back, it still expires
+        $ current_chatroom.buyback = False
+        $ current_chatroom.buyahead = False
         $ current_chatroom.participated = False
+        # Reset participants
+        $ current_chatroom.reset_participants()
         $ chatroom_hp = 0
         $ chatroom_hg = 0
         $ config.skipping = False   
@@ -400,7 +437,7 @@ screen viewCG_fullsize:
             focus_mask True
             idle "close_button"
             if pre_choosing and not textmsg_CG and not album_CG:
-                action [Call("answer")]
+                action [Call("answer", from_cg=True)]
             elif textmsg_CG:
                 action [Hide("viewCG_fullsize"), Show("text_message_screen", the_msg=CG_who)]
             elif album_CG:
@@ -425,7 +462,7 @@ screen save_and_exit(end_route=False):
         xpos 0
         ypos 1220
         focus_mask True
-        if custom_footers:
+        if persistent.custom_footers:
             idle "custom_save_exit"
         else:
             idle "save_exit"
@@ -513,9 +550,9 @@ label press_save_and_exit(phone=True):
 screen signature_screen(phone=True):
     zorder 5
     modal True
-    if phone and not custom_footers:
+    if phone and not persistent.custom_footers:
         add "save_exit" ypos 1220
-    elif phone and custom_footers:
+    elif phone and persistent.custom_footers:
         add "custom_save_exit" ypos 1220
     add "Phone UI/choice_dark.png"
     window:
@@ -559,6 +596,9 @@ screen signature_screen(phone=True):
             action Return
 
 
+#####################################
+# Hack scrolls, banners, enter/exit
+#####################################
         
 #************************************
 # Hack Scrolls
@@ -621,14 +661,23 @@ label enter(chara):
 
     $ mystring = chara.name + " has entered the chatroom."
     
-    $ addchat(msg, mystring, pv)
+    $ addchat(special_msg, mystring, pv)
+    if chara.name not in in_chat:
+        $ in_chat.append(chara.name)
+    
     if not observing:
         $ current_chatroom.add_participant(chara)
+    
+    $ renpy.restart_interaction
     return
     
 label exit(chara):
+    
     $ mystring = chara.name + " has left the chatroom."    
-    $ addchat(msg, mystring, pv)
+    $ addchat(special_msg, mystring, pv)
+    if chara.name in in_chat:
+        $ in_chat.remove(chara.name)
+    $ renpy.restart_interaction
     return
 
     
@@ -638,18 +687,20 @@ label exit(chara):
 
 # Not actually in MysMe; this is just a screen to test out timed responses
 # Could be a neat game mechanic
-screen countdown(timer_jump, time=5): # I set a default reaction time of 5 seconds
-    timer time repeat False action [ Hide('countdown'), Jump(timer_jump) ]
-    bar value AnimatedValue(0, time, time, time) at alpha_dissolve
+screen countdown(timer_jump, count_time=5): # I set a default reaction time of 5 seconds
+    timer count_time repeat False action [ Hide('countdown'), Jump(timer_jump) ]
+    bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve
 
-screen hidden_countdown(time=5): # I set a default reaction time of 5 seconds
-    timer time repeat False action [ Hide('hidden_countdown'), Return ]
-    bar value AnimatedValue(0, time, time, time) at alpha_dissolve
+screen hidden_countdown(count_time=5): # I set a default reaction time of 5 seconds
+    timer count_time repeat False action [ Hide('hidden_countdown'), Return ]
+    bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve
         
         
-screen answer_countdown(time=5): # I set a default reaction time of 5 seconds
-    timer time repeat False action [ Hide('answer_countdown'), Hide('continue_answer_button'), ToggleVariable("timed_choose", False, True) ]
-    bar value AnimatedValue(0, time, time, time) at alpha_dissolve
+screen answer_countdown(count_time=5): # I set a default reaction time of 5 seconds
+    zorder 5
+    timer count_time repeat False action [ Hide('answer_countdown'), Hide('continue_answer_button'), 
+                                    Show('pause_button'), SetVariable("timed_choose", False) ]
+    bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve style 'answer_bar'
         
 #************************************
 # Continue Answer
@@ -658,25 +709,99 @@ screen answer_countdown(time=5): # I set a default reaction time of 5 seconds
 # Some experiments with getting the chat to continue while you come up with a response
 
 default timed_choose = False
+default reply_instant = False
+default using_timed_menus = False
 
-label continue_answer(themenu, time=5):
-    $ timed_choose = True
-    show screen answer_countdown(time)
-    hide screen viewCG
-    $ pre_choosing = True
-    show screen continue_answer_button(themenu)
+label continue_answer(themenu, count_time=5):
+
+    # We want the timed answers to speed up/slow
+    # down based on how fast the player has the
+    # chat speed set to. Default is 0.8, increased/
+    # decreased by 0.09 (aka increased/decreased by
+    # 11.25% each time)
+    python:
+        modifier = 1.00
+        if config.skipping:
+            # Max Speed active
+            modifier = 0.0
+        elif pv <= 0.45:
+            # speednum = "9"
+            modifier = 0.1125*-4
+        elif pv <= 0.54:
+            # speednum = "8"
+            modifier = 0.1125*-3
+        elif pv <= 0.63:
+            # speednum = "7"
+            modifier = 0.1125*-2
+        elif pv <= 0.72:
+            # speednum = "6"
+            modifier = 0.1125*-1
+        elif pv <= 0.81:
+            # speednum = "5"
+            modifier = 0.00
+        elif pv <= 0.90:
+            # speednum = "4"
+            modifier = 0.1125*1
+        elif pv <= 0.99:
+            # speednum = "3"
+            modifier = 0.1125*2
+        elif pv <= 1.08:
+            # speednum = "2"
+            modifier = 0.1125*3
+        elif pv <= 1.17:
+            # speednum = "1" 
+            modifier = 0.1125*4
+        else:
+            # speednum = "!!"
+            modifier = 0.00
+        # So if the player has speed 9, which is pv=0.44 or 
+        # 145% as fast as regular speed, the time should also
+        # decrease by 45%
+        count_time += count_time * modifier
+        test_em = count_time
+
+    # Here we make it so that timed menus don't show
+    # up for players who are skipping through entire
+    # conversations or who are replaying an existing
+    # chatroom. Not allowing 'observing' players to 
+    # choose an answer avoids the problem of players
+    # who didn't initially choose an answer being unable
+    # to continue
+    if not config.skipping and not observing:
+        $ using_timed_menus = True
+        show screen answer_countdown(count_time)
+        hide screen viewCG
+        $ pre_choosing = True
+        show screen continue_answer_button(themenu)
+    else:
+        $ timed_choose = False
     return
 
 screen continue_answer_button(themenu):
     zorder 4
-    image "answerbutton" ypos 1220
+    tag chat_footer
+    if persistent.custom_footers:
+        add "custom_answerbutton" ypos 1220
+    else:
+        add "answerbutton" ypos 1220
+    
     imagebutton:
         ypos 1220
         focus_mask None
         idle "Phone UI/answer_transparent.png"
         activate_sound "sfx/UI/answer_screen.mp3"
-        action [ToggleVariable("choosing", False, True), Hide('continue_answer_button'), Jump(themenu)] 
-    
+        action [SetVariable("choosing", True), SetVariable('timed_choose', True), 
+                Hide('continue_answer_button'), Show('pause_button'), Jump(themenu)] 
+        
+style answer_bar:
+    bar_invert True
+    thumb 'gui/slider/horizontal_idle_thumb.png'
+    left_bar Frame('gui/slider/left_horizontal_bar.png',4,4)
+    right_bar Frame('gui/slider/right_horizontal_bar.png',4,4)
+    left_gutter 18
+    right_gutter 18
+    thumb_offset 18
+    ypos 1210
     
     
     
