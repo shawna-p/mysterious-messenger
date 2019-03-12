@@ -3,6 +3,8 @@ init python:
     
     email_reply = False
     
+    ## This class holds the information the email needs for delivery,
+    ## timeout, failure, etc
     class Email(store.object):
         def __init__(self, guest, msg, reply_label, read=False, msg_num=0,
                         failed=False, timeout_count=25, deliver_reply="wait",
@@ -23,36 +25,33 @@ init python:
             self.timeout = timeout
             self.sent_time = upTime()
             self.notified = False
-                                   
+                        
+        ## This will deliver the next email in the chain to the
+        ## player, and show a popup to notify them
         def deliver(self):
-            global email_list, test_em
-            test_em = "F a l s e"
+            global email_list
             
             # If you're waiting on a reply, decrease the timer
             if self.deliver_reply != "wait":
                 self.deliver_reply -= 1
-                #renpy.retain_after_load()
-                test_em = "1"
-                
+                renpy.retain_after_load()
+                                
             # If it's your turn to reply, decrease the timeout counter,
             # Unless this is the final message and there's no need to reply
             # If this is the first message, show a popup
             elif self.deliver_reply == "wait" and self.msg_num <= 2 and not self.timeout:
                 self.timeout_count -= 1
-                test_em = "2a"
                 if not self.notified and self.msg_num == 0 and not self.read:
-                    renpy.restart_interaction()
                     # Notify the player of the delivered message
-                    #renpy.show_screen('email_popup', e=self)
+                    renpy.show_screen('email_popup', e=self)
                     self.notified = True                    
                     renpy.retain_after_load()
-                    test_em = "2b"
+                    renpy.restart_interaction()
                 
             # If the timeout counter reaches 0, timeout becomes True
             if self.timeout_count == 0 and self.msg_num <= 2 and not self.failed:
                 self.timeout = True
-                #renpy.retain_after_load()
-                test_em = "3"
+                renpy.retain_after_load()
                 
             # If the timer <= 0 and there's a reply to be delivered, deliver it
             if self.deliver_reply != "wait" and self.deliver_reply <= 0 and self.reply:
@@ -67,13 +66,13 @@ init python:
                 email_list.insert(0, self) # Moves to the front of the list
                 renpy.restart_interaction()
                 # Notify the player of the delivered message
+                self.notified = True
                 renpy.music.play(persistent.email_tone, 'sound')
                 renpy.show_screen('email_popup', e=self)                   
                 renpy.retain_after_load()
-                test_em = "4"
                            
          
-        # Sets the guest's reply and randomly decides when it should be delivered
+        ## Sets the guest's reply and randomly decides when it should be delivered
         def set_reply(self, iscorrect, deliver_reply=False):
         
             test = False
@@ -130,7 +129,7 @@ init python:
             self.timeout_count = 2
             renpy.retain_after_load()
                 
-        # Adds the player's message to the guest to the email
+        ## Adds the player's message to the guest to the email
         def add_msg(self, iscorrect):        
             the_msg = ""
         
@@ -154,7 +153,7 @@ init python:
             self.msg = the_msg + self.msg
             renpy.retain_after_load()
             
-        # Returns True if the email chain has been successfully completed
+        ## Returns True if the email chain has been successfully completed
         def completed(self):
             if self.failed or not self.read:
                 return False            
@@ -163,15 +162,15 @@ init python:
             else:
                 return False
                 
-        # Returns True if the email chain was failed
+        ## Returns True if the email chain was failed
         def is_failed(self):
             if self.failed and self.read and not self.reply:
                 return True
             else:
                 return False
                 
-        # These next three functions determine the icon for the three
-        # email icons under the sender's name
+        ## These next three functions determine the icon for the three
+        ## email icons under the sender's name
         def first_msg(self):
             if self.msg_num <= 0:
                 return 'email_inactive'
@@ -196,14 +195,14 @@ init python:
             else:
                 return 'email_good'
                 
-        # Sends the email reply
+        ## Sends the email reply
         def send_reply(self):
             global email_reply
             email_reply = True
             renpy.call_in_new_context(self.reply_label)
             email_reply = False
             
-        # For testing; increases timeout and deliver_reply counters
+        ## For testing; increases timeout and deliver_reply counters
         def send_sooner(self):
             if self.deliver_reply != "wait":
                 self.deliver_reply -= 5
@@ -248,25 +247,27 @@ init python:
             self.label2 = name + '_reply2'
             self.label3 = name + '_reply3'
                 
-            
+    ## Returns the number of unread emails in the
+    ## player's inbox
     def unread_emails():
         global email_list
         unread = [ x for x in email_list if not x.read]
         return len(unread)
-                
+       
+    ## Delivers the emails in email_list
     def deliver_emails():
         global email_list
         for e in email_list:
             e.deliver()
             
-    # Returns the number of guests attending the party
-    # If a guest's email chain is successfully completed, 
-    # they are guaranteed to come. If you got the first two
-    # messages right but not the third, the guest has a 67%
-    # chance of coming. If you got only the first message
-    # correct, the guest has a 33% chance of coming. Guests
-    # will only attend if all of their messages have been
-    # replied to and if you've read the final email in the chain
+    ## Returns the number of guests attending the party
+    ## If a guest's email chain is successfully completed, 
+    ## they are guaranteed to come. If you got the first two
+    ## messages right but not the third, the guest has a 67%
+    ## chance of coming. If you got only the first message
+    ## correct, the guest has a 33% chance of coming. Guests
+    ## will only attend if all of their messages have been
+    ## replied to and if you've read the final email in the chain
     def attending_guests():
         global email_list
         num_guests = 0
@@ -287,9 +288,9 @@ init python:
                 
 default email_list = []
             
-# The idea here is that if the user picks the option to invite
-# this guest, you'll include a line `call invite(guest_var)` and
-# it will trigger them to email you
+## The idea here is that if the user picks the option to invite
+## this guest, you'll include a line `call invite(guest_var)` and
+## it will trigger them to email you
 label invite(guest):
     if not observing: # So you can't re-invite someone when replaying a chatroom
         $ guest.sent_time = upTime()
@@ -297,7 +298,7 @@ label invite(guest):
     return
     
 default current_email = None  
-default test_em = True
+default test_em = False
 
 ########################################################
 ## This screen shows a popup to notify you when you
@@ -308,8 +309,6 @@ screen email_popup(e):
     #modal True
     zorder 100
     default current_email = None
-    
-    #on 'show' action Function(renpy.music.play(persistent.email_tone, 'sound'))
     
     window:
         maximum(510,290)
@@ -352,7 +351,13 @@ screen email_popup(e):
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
                 if not (renpy.get_screen('in_call') or renpy.get_screen('incoming_call') or renpy.get_screen('outgoing call')):
-                    action [Hide('email_popup'), Show('email_hub')]
+                    action [Hide('email_popup'), 
+                            Hide('save_load'),
+                            Hide('menu'),
+                            Hide('chat_footer'), 
+                            Hide('phone_overlay'), 
+                            Hide('settings_screen'),
+                            Show('email_hub')]
                     
     timer 3.25 action Hide('email_popup', Dissolve(0.25))
 
