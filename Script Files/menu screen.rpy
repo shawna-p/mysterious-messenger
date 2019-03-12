@@ -29,19 +29,7 @@ init python:
             def enter(self):
                 renpy.run(self.Disable())                
                 raise renpy.IgnoreEvent()
-               
-    # This lets you change the MC's profile picture by clicking on it
-    # Currently you can only use the pre-set images, not upload your own
-    def MC_pic_change():   
-        if persistent.MC_pic == 5:
-            persistent.MC_pic = 1
-        else:
-            persistent.MC_pic += 1
-            
-        global m
-        thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
-        m.prof_pic = thepic
-        renpy.retain_after_load()
+
         
     ## This picks a greeting depending on the time of day and plays it
     ## Makes use of a class called Day_Greeting to find sound clips and the 
@@ -322,7 +310,13 @@ screen main_menu:
                         align(0.5, 0.5)
                         add "menu_dlc"
                         text "DLC" style "menu_text_small" xpos 25 ypos 15
-                        
+     
+     
+########################################################
+## This directs the player back to the chat hub after
+## loading. It also advances the game day if real-time
+## mode is active
+########################################################     
 label after_load:    
     if persistent.real_time:
         if persistent.load_instr == '+1 day':
@@ -337,6 +331,20 @@ label after_load:
             $ days_to_expire += date_diff.days
             $ current_game_day = date.today()
             $ persistent.load_instr = False
+    python:        
+        no_email_notif = True
+        for email in email_list:
+            if not email.notified:
+                no_email_notif = False
+        if no_email_notif:
+            renpy.hide_screen('email_popup')
+        no_text_notif = True
+        for msg in text_messages:
+            if not msg.notified:
+                no_text_notif = False
+        if no_text_notif:
+            renpy.hide_screen('text_msg_popup')
+            
     $ renpy.hide_screen('settings_screen')
     $ renpy.hide_screen('save_load')
     $ renpy.hide_screen('menu')
@@ -365,11 +373,10 @@ screen route_select_screen:
         yalign 0.5
         button:
             focus_mask True
-            background "right_corner_menu" 
-            hover_background "right_corner_menu_selected"
-            action [Start()] 
-            
-        text "Start Game" style "menu_text_small" xalign 0.5 yalign 0.5
+            background 'right_corner_menu'
+            hover_background 'right_corner_menu_selected'
+            action [Start()]         
+        text 'Start Game' style 'menu_text_small' xalign 0.5 yalign 0.5
     
 
   
@@ -383,6 +390,7 @@ screen route_select_screen:
 screen save():
 
     tag save_load
+    modal True
 
     use file_slots(_("Save"))
     use menu_header("Save", Hide('save', Dissolve(0.5)))
@@ -390,6 +398,7 @@ screen save():
 screen load():
 
     tag save_load
+    modal True
     
     use file_slots(_("Load"))
     use menu_header("Load", Hide('load', Dissolve(0.5)))
@@ -634,7 +643,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
         on 'reshow' action Function(next_chatroom)
         
     if not renpy.get_screen('text_message_screen') and not main_menu and not starter_story and num_undelivered():
-        timer 3.5 action If(randint(0,1), deliver_next, []) repeat True
+        timer 3.5 action If(randint(0,2), deliver_next, []) repeat True
 
     $ my_menu_clock.runmode("real")
     hbox:
@@ -735,6 +744,7 @@ default reset_spaceship_pos = False
 screen chat_home(reshow=False):
 
     tag menu     
+    modal True
    
     python:
         # This if statement just makes sure the menu music isn't constantly restarting
@@ -852,7 +862,10 @@ screen chat_home(reshow=False):
         yalign 0.722
         background "gray_chatbtn"
         hover_background "gray_chatbtn_hover"
-        action [deliver_all, Show('chat_select')]
+        if persistent.real_time:
+            action [Function(next_chatroom), Function(deliver_all), Show('chat_select')]
+        else:
+            action [Function(deliver_all), Show('chat_select')]
         activate_sound "sfx/UI/chatroom_select.mp3"
         add "rfa_chatcircle" yalign 0.5 xalign 0.5
         add "blue_chatcircle" xalign 0.5 yalign 0.5
@@ -879,16 +892,16 @@ screen chat_home(reshow=False):
                     if person != m:
                         imagebutton:
                             hover "profile_pic_select_square"
-                            idle im.FactorScale(person.prof_pic, 0.9)
-                            background im.FactorScale(person.prof_pic, 0.9)
+                            idle Transform(person.prof_pic, size=(99,99))
+                            background Transform(person.prof_pic, size=(99,99))
                             action Show('chara_profile', who=person)
                             activate_sound 'sfx/UI/profile_screen_select.mp3'
                     else:                    
                         # MC has to be displayed a bit differently
                         imagebutton:
                             hover "profile_pic_select_square"
-                            idle im.FactorScale(mc_pic, 0.9)
-                            background im.FactorScale(mc_pic, 0.9)
+                            idle Transform(mc_pic, size=(99,99))
+                            background Transform(mc_pic, size=(99,99))
                             action Show('profile_pic')
                             activate_sound 'sfx/UI/profile_screen_select.mp3'
             hbox:
@@ -896,9 +909,10 @@ screen chat_home(reshow=False):
                 for person in character_list[7:]:
                     imagebutton:
                             hover "profile_pic_select_square"
-                            idle im.FactorScale(person.prof_pic, 0.9)
-                            background im.FactorScale(person.prof_pic, 0.9)
+                            idle Transform(person.prof_pic, size=(99,99))
+                            background Transform(person.prof_pic, size=(99,99))
                             action Show('chara_profile', who=person)
+                            activate_sound 'sfx/UI/profile_screen_select.mp3'
 
     # Links/etc on the left side of the screen
     window:
@@ -953,8 +967,7 @@ screen chat_home(reshow=False):
             maximum(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
-            #action SetVariable('chips_available', True)
-            
+            #action SetVariable('chips_available', True)            
             add "link_icon" xalign 0.5 yalign 0.3
             add "link_text" xalign 0.5 yalign 0.8
             
@@ -1022,7 +1035,8 @@ screen chat_home(reshow=False):
                     focus_mask None
                     activate_sound 'sfx/UI/select_6.mp3'
                     action Show('spaceship_thoughts', Dissolve(0.5))
-     
+                    
+             
      
 ########################################################
 ## The Profile Screen for each of the characters
@@ -1031,6 +1045,7 @@ screen chat_home(reshow=False):
 screen chara_profile(who):
 
     tag settings_screen
+    modal True
 
     use starry_night
     use menu_header("Profile", Hide('chara_profile', Dissolve(0.5)))   
@@ -1040,10 +1055,7 @@ screen chara_profile(who):
     fixed:
         xfit True yfit True
         xalign 0.1 yalign 0.675
-        add Transform(who.prof_pic, zoom=2.85)  # In an ideal world, I'd recommend having
-                                                # larger pictures that are simply resized
-                                                # smaller for chatrooms, but the images I
-                                                # have are already very small so I zoom in
+        add Transform(who.prof_pic, size=(314,314))
         add 'profile_outline'    
     window:
         maximum (350,75)
