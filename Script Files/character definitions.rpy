@@ -1,12 +1,12 @@
 init -5 python:
 
-    # Class to store characters along with their profile picture and a 'file_id'
-    # that's appended to things like their special bubble names and saves you from
-    # typing out the full name every time
+    ## Class to store characters along with their profile picture and a 'file_id'
+    ## that's appended to things like their special bubble names and saves you from
+    ## typing out the full name every time
     class Chat(store.object):
         def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, 
-                heart_color='#000000', emote_list=False, cover_pic=False, status=False,
-                voicemail=False):               
+                heart_color='#000000', cover_pic=False, status=False,
+                bubble_color=False, glow_color=False, emote_list=False, voicemail=False,):               
                 
             self.name = name            
             self.file_id = file_id
@@ -22,6 +22,8 @@ init -5 python:
             self.good_heart = 0
             self.bad_heart = 0
             self.heart_color = heart_color
+            self.glow_color = glow_color
+            self.bubble_color = bubble_color
             self.emote_list = emote_list
             
         def update_voicemail(self, new_label):
@@ -52,7 +54,7 @@ init -5 python:
         def set_status(self, new_status):
             self.status = new_status
 
-        # This function makes it simpler to type out character dialogue
+        ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
             addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
 
@@ -71,20 +73,20 @@ init -5 python:
 ##  cover_pic/status  - as stated
 ##  voicemail - generally set at the end of a chatroom, not during definition time
 
-default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 'Profile Pics/ja_chat.png', "#d0b741", jaehee_emotes, "Cover Photos/profile_cover_photo.png", "Jaehee's status")
-default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 'Profile Pics/ju_chat.png', "#a59aef", jumin_emotes, "Cover Photos/profile_cover_photo.png", "Jumin's status")
+default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 'Profile Pics/ja_chat.png', "#d0b741", "Cover Photos/profile_cover_photo.png", "Jaehee's status", False, False, jaehee_emotes)
+default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 'Profile Pics/ju_chat.png', "#a59aef", "Cover Photos/profile_cover_photo.png", "Jumin's status", False, False, jumin_emotes)
 default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png')
-default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 'Profile Pics/r_chat.png', "#b81d7b", ray_emotes, "Cover Photos/profile_cover_photo.png", "Ray's status")
-default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "#fcef5a", rika_emotes, "Cover Photos/profile_cover_photo.png", "Rika's status")
-default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "#ff2626", seven_emotes, "Cover Photos/profile_cover_photo.png", "707's status")
-default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 'Profile Pics/sa_chat.png', "#b81d7b", saeran_emotes, "Cover Photos/profile_cover_photo.png", "Saeran's status")
+default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 'Profile Pics/r_chat.png', "#b81d7b", "Cover Photos/profile_cover_photo.png", "Ray's status", False, False, ray_emotes)
+default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "#fcef5a", "Cover Photos/profile_cover_photo.png", "Rika's status", False, False, rika_emotes)
+default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "#ff2626", "Cover Photos/profile_cover_photo.png", "707's status", False, False, seven_emotes)
+default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 'Profile Pics/sa_chat.png', "#b81d7b", "Cover Photos/profile_cover_photo.png", "Saeran's status", False, False, saeran_emotes)
 default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 'Profile Pics/u_chat.png', "#ffffff")
-default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 'Profile Pics/v_chat.png', "#50b2bc", v_emotes, "Cover Photos/profile_cover_photo.png", "V's status")
-default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "#31ff26", yoosung_emotes, "Cover Photos/profile_cover_photo.png", "Yoosung's status")
-default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "#c9c9c9", zen_emotes, "Cover Photos/profile_cover_photo.png", "Zen's status")
+default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 'Profile Pics/v_chat.png', "#50b2bc", "Cover Photos/profile_cover_photo.png", "V's status", False, False, v_emotes)
+default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "#31ff26", "Cover Photos/profile_cover_photo.png", "Yoosung's status", False, False, yoosung_emotes)
+default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "#c9c9c9", "Cover Photos/profile_cover_photo.png", "Zen's status", False, False, zen_emotes)
 
 # These are special 'characters' for additional features
-define msg = Chat("msg")
+define special_msg = Chat("msg")
 define filler = Chat("filler")
 define answer = Chat('answer', 'delete')
 define chat_pause = Chat('pause', 'delete')
