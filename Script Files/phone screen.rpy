@@ -1,6 +1,6 @@
 init -6 python:
 
-    # This class stores the information needed for phone calls
+    ## This class stores the information needed for phone calls
     class Phone_Call(store.object):
         def __init__(self, caller, phone_label, call_status='incoming',
                 avail_timeout=2, voicemail=False):
@@ -15,8 +15,8 @@ init -6 python:
             self.playback = False
             self.avail_timeout = avail_timeout
             
-        # Phone calls will slowly expire if you don't call the characters. The default
-        # expiry is after two chatrooms
+        ## Phone calls will slowly expire if you don't call the characters. The default
+        ## expiry is after two chatrooms
         def decrease_time(self):
             global available_calls
             if self.avail_timeout == 'test':
@@ -28,7 +28,7 @@ init -6 python:
                 if self.avail_timeout == 0:
                     available_calls.remove(self)
             
-        # Moves the call from 'available_calls' to 'call_history'
+        ## Moves the call from 'available_calls' to 'call_history'
         def finished(self):
             global available_calls, call_history, observing            
             self.playback = True
@@ -45,9 +45,9 @@ init -6 python:
             call_history.insert(0, self)
             observing = False
 
-    # If you hang up on a character who is calling you or
-    # miss their phone call, you can still call them back
-    # This creates a 'missed' phone call entry
+    ## If you hang up on a character who is calling you or
+    ## miss their phone call, you can still call them back
+    ## This creates a 'missed' phone call entry
     def call_hang_up_incoming(phonecall):    
         global call_history, available_calls        
         phonecall.call_status = 'missed'
@@ -58,17 +58,17 @@ init -6 python:
             call_history.insert(0, missed_call)
         if phonecall not in available_calls:
             available_calls.append(phonecall)
-        renpy.retain_after_load
+        renpy.retain_after_load()
         
-    # If you hang up on a character, the conversation is
-    # no longer available
+    ## If you hang up on a character, the conversation is
+    ## no longer available
     def call_hang_up(phonecall):
         global available_calls
         if phonecall in available_calls:
             available_calls.remove(phonecall)
         
-    # Checks if a character has any available calls and
-    # returns the phonecall if so
+    ## Checks if a character has any available calls and
+    ## returns the phonecall if so
     def call_available(who):
         global available_calls
         for phonecall in available_calls:
@@ -88,10 +88,10 @@ init -6 python:
 
     ## Makes any phonecalls associated with the current chatroom available as appropriate
     def deliver_calls(lbl, expired=False, call_time=False):
-        global available_calls, incoming_call, call_history, unseen_calls
+        global available_calls, incoming_call, call_history, unseen_calls, test_em
         missed_call = False
         phonecall = False
-        ## Adds available calls
+        # Adds available calls
         if renpy.has_label(lbl + '_phone_ja'):
             available_calls.append(Phone_Call(ja, lbl + '_phone_ja', 'outgoing'))
         if renpy.has_label(lbl + '_phone_ju'):
@@ -113,7 +113,8 @@ init -6 python:
         if renpy.has_label(lbl + '_phone_z'):
             available_calls.append(Phone_Call(z, lbl + '_phone_z', 'outgoing'))
             
-        ## Updates the incoming_call, or missed calls
+        # Updates the incoming_call, or missed calls if the chatroom
+        # has expired
         if renpy.has_label(lbl + '_incoming_ja'):
             if expired:
                 phonecall = Phone_Call(ja, lbl + '_incoming_ja', 'outgoing')
@@ -190,7 +191,7 @@ init -6 python:
             if phonecall not in available_calls:
                 available_calls.append(phonecall)
             unseen_calls += 1
-        renpy.retain_after_load
+        renpy.retain_after_load()
         
 default unseen_calls = 0
 default in_phone_call = False
@@ -265,7 +266,7 @@ screen phone_calls:
                     window:
                         xysize (135, 135)
                         align (0.5, 0.5)
-                        add i.caller.prof_pic yalign 0.5 xalign 0.5 at text_zoom
+                        add Transform(i.caller.prof_pic, size=(127,127)) yalign 0.5 xalign 0.5
                     
                     window:
                         xmaximum 320
@@ -357,6 +358,8 @@ screen phone_contacts:
 ## have as many or as few characters as you like
 screen phone_contacts_grid(x_num, y_num):
 
+    $ has_mc = 0
+
     grid x_num y_num:        
             
         align (0.5, 0.3)
@@ -364,7 +367,7 @@ screen phone_contacts_grid(x_num, y_num):
         yspacing 100
         for person in character_list:
             if person == m:
-                pass
+                $ has_mc = 1
             else:
                 vbox:
                     spacing 25
@@ -378,12 +381,12 @@ screen phone_contacts_grid(x_num, y_num):
                             action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=person.voicemail, voicemail=True)]
                     text person.name style 'contact_text'
         
-        for i in range((x_num*y_num + 1) - len(character_list)):
+        for i in range((x_num*y_num + has_mc) - len(character_list)):
             add 'empty_contact'
         
     
-# This label ensures the rest of the phone conversation will
-# not play out if you hang up
+## This label ensures the rest of the phone conversation will
+## not play out if you hang up
 label hang_up:
     $ observing = False
     $ call_hang_up(phonecall=current_call)
@@ -404,10 +407,8 @@ screen in_call():
     
     on 'show' action [renpy.music.stop(), SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
     on 'hide' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')] 
-                        #Preference('auto-forward time', original_afm_time)]
     on 'replace' action [renpy.music.stop(), SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
-    on 'replaced' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')] 
-                        #Preference('auto-forward time', original_afm_time)]
+    on 'replaced' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')]
                         
 
     window:
@@ -442,7 +443,7 @@ screen in_call():
                     align (0.5, 0.5)
                     idle 'call_hang_up'
                     hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
-                    action [Hide('say'), Jump('hang_up')]#Preference('auto-forward time', original_afm_time), Jump('hang_up')]
+                    action [Hide('say'), Jump('hang_up')]
                 
                 
 
@@ -482,7 +483,7 @@ screen incoming_call(phonecall, countdown_time=10):
             has vbox
             align (0.5, 0.5)
             spacing 15
-            add Transform(phonecall.caller.prof_pic, zoom=2.15) align (0.5, 0.5)
+            add Transform(phonecall.caller.prof_pic, size=(237,237)) align (0.5, 0.5)
             text phonecall.caller.name style 'caller_id'
         window:
             xysize(120,220)
@@ -543,6 +544,8 @@ screen incoming_call(phonecall, countdown_time=10):
     if not starter_story:
         timer 1.0 action If(call_countdown>1, SetScreenVariable("call_countdown", call_countdown-1), Jump('incoming_hang_up')) repeat True
     
+## If you hang up an incoming call, you can
+## still call that character back
 label incoming_hang_up:
     $ call_hang_up_incoming(current_call)
     call screen chat_home
@@ -580,7 +583,7 @@ screen outgoing_call(phonecall, voicemail=False):
             has vbox
             align (0.5, 0.5)
             spacing 15
-            add Transform(phonecall.caller.prof_pic, zoom=2.15) align (0.5, 0.5)
+            add Transform(phonecall.caller.prof_pic, size=(237,237)) align (0.5, 0.5)
             text phonecall.caller.name style 'caller_id'
             
     window:
@@ -622,7 +625,7 @@ screen outgoing_call(phonecall, voicemail=False):
     if voicemail:
         timer randint(8, 10) action If(phonecall, [renpy.music.stop, 
                                         SetVariable('current_call', phonecall), 
-                                        Jump(phonecall.phone_label)], Show('chat_home'))
+                                        Jump(phonecall.phone_label)], Show('phone_calls'))
     else:
         timer randint(2, 8) action [renpy.music.stop, 
                                     SetVariable('current_call', phonecall), 
@@ -639,6 +642,8 @@ label new_incoming_call(phonecall):
 ## a phone call
 label phone_begin:
     stop music
+    # This stops it from recording the dialogue
+    # from the phone call in the history log
     $ _history = False
     hide screen incoming_call
     hide screen outgoing_call
