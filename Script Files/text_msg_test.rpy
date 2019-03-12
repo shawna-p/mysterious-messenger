@@ -1,12 +1,7 @@
 label example_text:
 
     call chat_begin("morning")
-    
-    # You'll generally never want to mess with the 'observing' variable yourself, 
-    # but since this is a tutorial chatroom we want the user to be able to play
-    # it over and over and not be restricted to the choices they've already made
-    $ observing = False
-    
+        
     play music mint_eye loop
     
     r "{=curly}Hi there!{/=curly}"   (bounce=True, specBubble="square2_s")
@@ -54,12 +49,12 @@ label example_text_expired:
     call exit(r)
     jump chat_end
     
-# Put anything you want to have happen after the chatroom ends here, 
-# like text messages or (in the future) phone calls
+## Put anything you want to have happen after the chatroom ends here, 
+## like text messages or (in the future) phone calls
 label after_example_text:
 
 
-    ## Ray's text message
+    # Ray's text message
     $ addtext (r, "Here's a test text message, to show you how they work!", r)
     $ addtext (r, "Did you know you can also post photos?", r)
     $ addtext (r, "It will look like this:", r)
@@ -67,7 +62,7 @@ label after_example_text:
 
     $ add_reply_label(r, 'menu_a1')
             
-    ## V's text message
+    # V's text message
     $ addtext (v, "Hello, [name].", v)
     $ addtext (v, "I'm supposed to demonstrate how to make a character post an emoji during a text message.", v)
     $ addtext (v, "{image=v smile}", v, True)
@@ -75,7 +70,7 @@ label after_example_text:
     $ addtext (v, "But they can still be fun to use in a conversation, don't you think?", v)
     $ add_reply_label(v, 'menu_a2')
     
-    ## Some extra messages
+    # Some extra messages
     #$ addtext (ju, "What do you think about adding Elizabeth the 3rd as a member?", ju)
     #$ addtext (ja, "I hope this ordeal hasn't been too difficult on you.", ja)
     #$ addtext (s, "I miss you!", s)
