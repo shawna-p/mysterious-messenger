@@ -11,6 +11,20 @@
 ##     screen ringtone_drowdown
 ########################################################
 
+init python:
+
+    ## This lets you change the MC's profile picture by clicking on it
+    ## Currently you can only use the pre-set images, not upload your own
+    def MC_pic_change():   
+        if persistent.MC_pic == 5:
+            persistent.MC_pic = 1
+        else:
+            persistent.MC_pic += 1
+            
+        global m
+        thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
+        m.prof_pic = thepic
+        renpy.retain_after_load()
     
 default email_tone_dict = { 'Default 1': 'sfx/Ringtones etc/email_basic_1.wav', 
                             'Default 2': 'sfx/Ringtones etc/email_basic_2.wav',     
@@ -117,6 +131,7 @@ screen settings_tabs(active_tab):
 screen profile_pic:
     
     tag settings_screen
+    modal True
 
     use starry_night
 
@@ -127,7 +142,7 @@ screen profile_pic:
         yalign 0.7
         xalign 0.05
         maximum(325, 900)
-        ## Edit MC's Name
+        # Edit MC's Name
         add "name_line" xalign 0.079 yalign 0.475        
         text persistent.name style "my_name"
         
@@ -136,17 +151,17 @@ screen profile_pic:
             focus_mask None
             xalign 0.06
             yalign 0.453
-            hover im.FactorScale("Phone UI/Main Menu/menu_pencil_long.png",1.03)
+            hover Transform("Phone UI/Main Menu/menu_pencil_long.png", zoom=1.03)
             action Show('input_popup', prompt='Please input a name.') 
 
-        ## MC's profile picture
+        # MC's profile picture
         imagebutton:
             idle "MC_profpic"
             xalign 0.055
             action [Function(MC_pic_change), renpy.restart_interaction]
             focus_mask True
       
-    ## Pick your pronouns
+    # Pick your pronouns
     window:
         style "pronoun_window"
         
@@ -197,7 +212,7 @@ screen profile_pic:
         use menu_header("Customize your Profile", MainMenu(False))
         
     if not persistent.first_boot:            
-        ## Save / Load
+        # Save / Load
         imagebutton:
             yalign 0.978
             xalign 0.66
@@ -213,8 +228,8 @@ screen profile_pic:
             action Show("load", Dissolve(0.5))
         
         
-        ## Possibly temporary, but shows how many heart points you've earned
-        ## with each character
+        # Possibly temporary, but shows how many heart points you've earned
+        # with each character
         
         grid 4 4:
             xalign 0.5
@@ -293,6 +308,7 @@ screen input_popup(prompt=''):
 screen other_settings():
 
     tag settings_screen
+    modal True
 
     #add "Phone UI/Main Menu/menu_settings_bg.png"
     use starry_night
@@ -332,12 +348,12 @@ screen other_settings():
                             xysize (25,25)
                             background "#515151"
                             yalign 0.5
-                            if custom_footers:
+                            if persistent.custom_footers:
                                 add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
                             
                         textbutton _("Custom Chat Footers"):
                             align (0.5, 1.0)
-                            action ToggleVariable("custom_footers")
+                            action ToggleField(persistent, "custom_footers")
             
         window:
             maximum(675,250)
@@ -395,9 +411,26 @@ screen other_settings():
                     textbutton _("Real-Time Mode"):
                         align (0.5, 1.0)
                         action ToggleField(persistent, "real_time")
+                        
+            hbox:
+                xalign 0.2
+                yalign 0.5
+                spacing 10
+                yoffset 90
+                xoffset -65
+                window:
+                    xysize (25,25)
+                    yalign 0.5
+                    background "#515151"
+                    if hacked_effect:
+                        add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
+                    
+                textbutton _("Hacked Effect"):
+                    align (0.5, 1.0)
+                    action ToggleVariable('hacked_effect')
                 
-            ## Additional vboxes of type "radio_pref" or "check_pref" can be
-            ## added here, to add additional creator-defined preferences.
+            # Additional vboxes of type "radio_pref" or "check_pref" can be
+            # added here, to add additional creator-defined preferences.
             
         
         
@@ -449,6 +482,7 @@ label restart_game:
 screen preferences():
 
     tag settings_screen
+    modal True
 
     use starry_night
     use menu_header("Settings", Hide('preferences', Dissolve(0.5)))
@@ -490,7 +524,7 @@ screen preferences():
                         xsize 163
                         ysize 50
                         action ToggleMute("music")
-                    bar value Preference("music volume") ypos 15
+                    bar value Preference("music volume") ypos 15 thumb_offset 18 left_gutter 18
                 hbox:
                     spacing 30
                     xsize 520
@@ -500,7 +534,7 @@ screen preferences():
                         xsize 163
                         ysize 50
                         action ToggleMute("sfx")
-                    bar value Preference("sound volume") ypos 15
+                    bar value Preference("sound volume") ypos 15 thumb_offset 18
                     if config.sample_sound:
                                 textbutton _("Test") action Play("sound", config.sample_sound)
                 hbox:
@@ -512,7 +546,7 @@ screen preferences():
                         xsize 163
                         ysize 50
                         action ToggleMute("voice")
-                    bar value Preference("voice volume") ypos 15
+                    bar value Preference("voice volume") ypos 15 thumb_offset 18
                     if config.sample_voice:
                                 textbutton _("Test") action Play("voice", config.sample_voice)
                 hbox:
@@ -524,7 +558,7 @@ screen preferences():
                         xsize 163
                         ysize 50
                         action ToggleMute("voice_sfx")
-                    bar value set_voicesfx_volume() ypos 15
+                    bar value set_voicesfx_volume() ypos 15 thumb_offset 18
                     if sample_voice_sfx:
                                 textbutton _("Test") action Play("voice_sfx", sample_voice_sfx)
                     
