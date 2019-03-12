@@ -34,11 +34,12 @@ init -4 python:
     def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
         global choosing, pre_choosing, pv, chatbackup, oldPV, observing
         global persistent, cg_testing
-        choosing = pre_choosing = False
-        
+        choosing = False
+        pre_choosing = False
+                
         if pauseVal == None:
             pauseVal = pv
-            
+                        
         if len(chatlog) > 1:
             finalchat = chatlog[-2]
             if finalchat.who.file_id == 'delete':
@@ -95,6 +96,7 @@ init -4 python:
     ## This also technically means a character may be unable to post the exact
     ## same thing twice in a row depending on when the pause button is used
     def pauseFailsafe():
+        global reply_instant
         if len(chatlog) > 0:
             last_chat = chatlog[-1]
         else:
@@ -112,12 +114,15 @@ init -4 python:
             return
         else:
             # add the backup entry
-            typeTime = chatbackup.what.count(' ') + 1
-            typeTime = typeTime / 3
-            if typeTime < 1.5:
-                typeTime = 1.5
-            typeTime = typeTime * oldPV
-            renpy.pause(typeTime)
+            if reply_instant:
+                reply_instant = False
+            else:
+                typeTime = chatbackup.what.count(' ') + 1
+                typeTime = typeTime / 3
+                if typeTime < 1.5:
+                    typeTime = 1.5
+                typeTime = typeTime * oldPV
+                renpy.pause(typeTime)
             
             if chatbackup.img == True:
                 if chatbackup.what in emoji_lookup:
@@ -218,6 +223,19 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
             pass
     else:
         $ observing = False
+        
+        
+    if resetHP:
+        $ in_chat = []
+        python:
+            for person in current_chatroom.participants:
+                if person.name not in in_chat:
+                    in_chat.append(person.name)
+            
+        # If the player is participating, add them to the list of
+        # people in the chat
+        if not current_chatroom.expired or current_chatroom.buyback or current_chatroom.buyahead:
+            $ in_chat.append(m.name)
         
     return
 
@@ -360,10 +378,15 @@ screen chat_animation(i, animate=True):
                 bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"
             elif i.bounce: # Not a special bubble; just glow
                 include_new = False
-                bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
+                if not i.who.glow_color:
+                    bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
+                else:
+                    bubbleBackground = DynamicDisplayable(glow_bubble_fn, glow_color=i.who.glow_color)
             elif i.who != 'answer':
-                bubbleBackground = "Bubble/" + i.who.file_id + "-Bubble.png"
-            
+                if not i.who.bubble_color:
+                    bubbleBackground = "Bubble/" + i.who.file_id + "-Bubble.png"
+                else:
+                    bubbleBackground = DynamicDisplayable(reg_bubble_fn, bubble_color=i.who.bubble_color)
             
             if i.specBubble != None:
                 # Some characters have more than one round or square bubble
@@ -418,7 +441,7 @@ screen chat_animation(i, animate=True):
             else:
                 style 'profpic'
                 
-            add i.who.prof_pic
+            add Transform(i.who.prof_pic, size=(110,110))
             
         if animate:
             text i.who.name style nameStyle color nickColour
@@ -545,10 +568,16 @@ screen anti_animation(i):
             if i.specBubble and i.specBubble == 'glow 2':
                 bubbleBackground = "Bubble/Special/" + i.who.file_id + "_" + i.specBubble + ".png"
             else:
-                bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
+                if not i.who.glow_color:
+                    bubbleBackground = "Bubble/" + i.who.file_id + "-Glow.png"
+                else:
+                    bubbleBackground = DynamicDisplayable(glow_bubble_fn, glow_color=i.who.glow_color)
             include_new = False
         else:
-            bubbleBackground = "Bubble/" + i.who.file_id + "-Bubble.png"
+            if not i.who.bubble_color:
+                bubbleBackground = "Bubble/" + i.who.file_id + "-Bubble.png"
+            else:
+                bubbleBackground = DynamicDisplayable(reg_bubble_fn, bubble_color=i.who.bubble_color)
             
             
         if i.specBubble != None:
