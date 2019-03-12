@@ -4,7 +4,8 @@
 screen chat_select():
 
     tag menu
-
+    modal True
+    
     use starry_night()
     
     use menu_header("Day List", Show('chat_home', Dissolve(0.5)))
@@ -148,6 +149,7 @@ screen day_select(day, day_num):
         yalign 0.4
         if not most_recent_day and day.archive_list and day.archive_list[-1].available:
             add 'day_hlink' xalign 0.5
+            
         
         
 ########################################################
@@ -157,6 +159,7 @@ screen day_select(day, day_num):
 screen chatroom_timeline(day, day_num):
 
     tag menu
+    modal True
     
     use starry_night()
     
@@ -164,7 +167,8 @@ screen chatroom_timeline(day, day_num):
     
     #$ yadj.value = yadjValue
     $ chat_time = next_chat_time()
-    
+   
+        
     fixed:   
         xysize (720, 1180)
         yalign 1.0
@@ -213,7 +217,8 @@ screen chatroom_timeline(day, day_num):
                             action Show("confirm", message="Would you like to purchase the next day? You can participate in all the chat conversations for the next 24 hours.", 
                                     yes_action=[Function(chat_24_available), renpy.retain_after_load, renpy.restart_interaction, Hide('confirm')], 
                                     no_action=Hide('confirm'))    
-                                        
+                            if hacked_effect:
+                                add Transform('Phone UI/Day Select/chatlist_hacking_long.png', yzoom=0.75) xoffset -210 yoffset -120            
                             vbox:
                                 spacing 18
                                 hbox:
@@ -234,13 +239,23 @@ screen chatroom_timeline(day, day_num):
                                     xoffset 50        
                                     yalign 0.5
                                     text "Next chatroom opens at " + chat_time color '#fff' size 25 yalign 0.5 text_align 0.0
+                            
                 null height 40                    
+    
+    if hacked_effect:        
+        timer 10:
+            action [Show('tear', number=10, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10, offsetMax=30, w_timer=0.3),
+                    Show('white_squares', w_timer=1.0)] repeat True
                     
+        timer 3.0 action [Show('tear', number=10, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10, offsetMax=30, w_timer=0.3),
+                            Show('white_squares', w_timer=1.0)] repeat False
                     
 screen chatroom_display(mychat, sametime=False, wasplayed=False):
 
     python:
-
+        anim = null_anim
+        if hacked_effect:
+            anim = hacked_anim
         my_vn = mychat.vn_obj
         can_play = False
         chat_title_width = 400
@@ -318,7 +333,7 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
         xysize (620, 160)
         xoffset 70
         xalign 0.0
-        button:
+        button at anim(10):
             xysize (chat_box_width, 160)
             xalign 0.0
             background chat_bkgr
@@ -328,7 +343,12 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                     action [SetVariable('current_chatroom', mychat), Jump(mychat.expired_chat)]
                 else:
                     action [SetVariable('current_chatroom', mychat), Jump(mychat.chatroom_label)]
-                        
+                    
+            if hacked_effect and mychat.expired:
+                add 'day_reg_hacked' xoffset -185 yoffset -178
+            elif hacked_effect:
+                add 'day_reg_hacked_long' xoffset -210 yoffset -170
+                
             vbox:
                 spacing 18
                 hbox:
@@ -363,7 +383,9 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                                         add person.participant_pic
                                 
                             if mychat.participated and mychat.played:
-                                add Transform(m.prof_pic, zoom=.725)
+                                add Transform(m.prof_pic, size=(80,80))
+
+            
         if mychat.expired and not mychat.buyback:
             imagebutton:
                 yalign 0.9
@@ -375,9 +397,9 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                             yes_action=[SetField(mychat, 'expired', False),
                             SetField(mychat, 'buyback', True),
                             SetField(mychat, 'played', False),
+                            Function(mychat.reset_participants),
                             renpy.retain_after_load,
                             renpy.restart_interaction, Hide('confirm')], no_action=Hide('confirm'))
-                
                 
     if my_vn and not my_vn.party:
         window:
@@ -446,7 +468,7 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                         yes_action=Hide('confirm'))
                 
     
-# This is used to continue the game after a plot branch    
+## This is used to continue the game after a plot branch    
 label plot_branch_end:
     # CASE 1
     # Plot branch is just a chatroom, has an after label
