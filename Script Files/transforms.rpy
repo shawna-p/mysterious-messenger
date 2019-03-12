@@ -8,31 +8,31 @@ init 5:
     #***********************************
     ####################################
            
-    # Used for animations that bounce
-    # (glowing and special speech bubbles)
+    ## Used for animations that bounce
+    ## (glowing and special speech bubbles)
     transform incoming_message_bounce:
         alpha 0 zoom 0.5
         linear 0.1 alpha 0.8 zoom 1.1
         linear 0.1 alpha 1.0 zoom 1.0
         
-    # Used for most other things (bubbles,
-    # emojis, etc)
+    ## Used for most other things (bubbles,
+    ## emojis, etc)
     transform incoming_message:
         alpha 0 zoom 0.5
         linear 0.2 alpha 1.0 zoom 1.0
    
-    # Used to make full-size CGs small enough
-    # to post in a chatroom
+    ## Used to make full-size CGs small enough
+    ## to post in a chatroom
     transform small_CG:
         alpha 0 zoom 0.175
         linear 0.2 alpha 1.0 zoom 0.35
     
-    # Used to make full-size CGs small enough
-    # to post in a text message conversation   
+    ## Used to make full-size CGs small enough
+    ## to post in a text message conversation   
     transform small_CG_text:
         zoom 0.35
         
-    # Used on the 'NEW' sign for new messages
+    ## Used on the 'NEW' sign for new messages
     transform new_fade:
         alpha 0.0
         linear 0.2 alpha 1.0
@@ -40,7 +40,8 @@ init 5:
         linear 0.5 alpha 0.0
 
     #***********************************
-    # 'Anti' transformation for MysMe
+    # 'Anti' transformation to cancel
+    # the expanding effect of scrolling
     #***********************************
     
     transform anti_incoming_message:
@@ -58,14 +59,14 @@ init 5:
 
     #***********************************
     # Choice button enter/exit animation
-    # (Not in MysMe)
     #***********************************
     
     transform choice_anim(delay=0.0):
         alpha 0.0
-        pause delay
+        pause delay - 0.1
         yoffset 15 alpha 0.3
-        linear 2.5 yoffset 0 alpha 1.0
+        ease 0.3 yoffset -10 alpha 1.0
+        ease 0.1 yoffset 0
                         
         on hover:
             ease 0.5 yoffset 5
@@ -74,12 +75,12 @@ init 5:
             
         on idle:
             linear 0.3 yoffset 0
-            
+                        
     #***********************************
     # Spaceship/Chips Transforms
     #*********************************** 
     
-    # for the spaceship wiggle
+    ## For the spaceship wiggle
     transform spaceship_flight:
         parallel:
             linear 1.0 yoffset -15
@@ -104,9 +105,9 @@ init 5:
                 linear 0.25 rotate 0
                 repeat
             
-    # Animation that plays when the chips are available;
-    # moves the ship over to the chips, then lands on the
-    # chips
+    ## Animation that plays when the chips are available;
+    ## moves the ship over to the chips, then lands on the
+    ## chips
     transform spaceship_chips(intro=0.0):
         xalign 0.0
         parallel:
@@ -134,7 +135,7 @@ init 5:
                 linear 0.25 rotate 0
                 repeat
         
-    # Animation for the chips bursting out of the bag
+    ## Animation for the chips bursting out of the bag
     transform chip_anim(delay=1):
         alpha 0
         pause 1.91*delay
@@ -156,14 +157,14 @@ init 5:
                 linear 0.33 zoom 1.0
             repeat
             
-    # The wobble for the chip bag when the 'chip_tap' screen
-    # is up
+    ## The wobble for the chip bag when the 'chip_tap' screen
+    ## is up
     transform chip_wobble:
         linear 0.9 rotate 5
         linear 0.7 rotate -5
         repeat
         
-    # The wobble for the chip bag when the clouds are visible
+    ## The wobble for the chip bag when the clouds are visible
     transform chip_wobble2:
         linear 0.13 rotate 2
         linear 0.13 rotate -2
@@ -173,28 +174,28 @@ init 5:
             linear 1.0 alpha 0.0
             
        
-    # Transform for the smallest 'tap' sign
+    ## Transform for the smallest 'tap' sign
     transform small_tap:
         rotate -8
         zoom 0.67
         xpos 310
         ypos -40
         
-    # transform for the medium 'tap' sign
+    ## transform for the medium 'tap' sign
     transform med_tap:
         rotate 47
         xpos 415
         ypos 40
         
-    # transform for the largest 'tap' sign
+    ## transform for the largest 'tap' sign
     transform large_tap:
         rotate 28
         zoom 1.5
         xpos 360
         ypos -100
         
-    # Below are the different 'shuffle' animations for the
-    # clouds obscuring the chip bag
+    ## Below are the different 'shuffle' animations for the
+    ## clouds obscuring the chip bag
     transform cloud_shuffle1:
         zoom 1.0 xanchor 1.0 yanchor 1.0
         block:
@@ -233,8 +234,8 @@ init 5:
             repeat
             
             
-    # A solution for the odd animation issues surrounding
-    # the chip bag; this hides the clouds after 2 seconds
+    ## A solution for the odd animation issues surrounding
+    ## the chip bag; this hides the clouds after 2 seconds
     transform hide_dissolve:
             alpha 1.0
             linear 2.0 alpha 1.0
@@ -245,13 +246,13 @@ init 5:
     # Other Transforms
     #***********************************            
         
-    # Used to display the chatroom speed message
+    ## Used to display the chatroom speed message
     transform speed_msg:
         alpha 1
         0.4
         linear 0.4 alpha 0
         
-    # Shows the heart icon
+    ## Shows the heart icon
     transform heart:
         alpha 0.3
         xalign 0.3 yalign 0.3
@@ -260,7 +261,7 @@ init 5:
         linear 0.02 alpha 0 xalign .35 yalign .55
            
            
-    # The heartbreak icon
+    ## The heartbreak icon
     transform heartbreak(wait_time):
         alpha 0.0
         pause wait_time
@@ -270,7 +271,7 @@ init 5:
         pause 0.12
         alpha 0    
     
-    # Used for the screen shake effect
+    ## Used for the screen shake effect
     transform shake:    
         linear 0.12 xoffset -150 yoffset -200
         linear 0.12 xoffset 80 yoffset 60
@@ -278,42 +279,75 @@ init 5:
         linear 0.14 xoffset 80 yoffset 60
         linear 0.16 xoffset 0 yoffset 0
         
-    # Used for the hacker screen effect
+    ## Used for the hacker screen effect
     transform flicker:
         linear 0.18 alpha 0.0
         linear 0.18 alpha 1.0
         repeat
         
-    # For timed menus
+    ## For timed menus
     transform alpha_dissolve:
         alpha 0.0
         linear 0.5 alpha 1.0
         on hide:
             linear 0.5 alpha 0
-            
-    # Zooms the profile pictures on the text message screen
-    # to be a little bigger
-    transform text_zoom:
-        zoom 1.15
         
-    # Scrolls the title of chatrooms that are too long
+    ## Scrolls the title of chatrooms that are too long
     transform chat_title_scroll:
         pause 3.5
         linear 5.0 xalign 1.0 xoffset -420
         xalign 0.0 xoffset 0
         repeat
         
-    # Shuffles the participants list on a chatroom so you can
-    # see all the participants
+    ## Shuffles the participants list on a chatroom so you can
+    ## see all the participants
     transform participant_scroll:
         pause 3.5
         linear 2.0 xalign 1.0
         pause 3.5
         linear 2.0 xalign 0.0
         repeat
-        
-    transform null_anim:
+    
+    ## Usually used when the transform is a variable
+    transform null_anim(num=0):
         pass
+        
+    ## Used to keep the full background of the
+    ## chat timeline icons
+    transform hacked_anim(cycle_time=10):
+        xoffset 0 yoffset 0
+        linear 0.01 alpha 1.0 xzoom 1.000001
+        pause 0.01
+        linear 0.01 alpha 1.0 xzoom 0.999999
+        pause cycle_time
+        
+    transform hacked_anim_old(delay=0, meh=0):
+        xoffset 0 yoffset 0
+        pause delay
+        parallel:
+            linear 0.05  xzoom 1.03
+            ease 0.08 xzoom 0.97
+            pause 0.1
+            linear 0.02 xzoom 1.02
+            linear 0.023  xzoom 0.98
+            pause 0.1
+            linear 0.02 xzoom 1.01
+            linear 0.01 xzoom 0.99
+        #parallel:
+        #    linear 0.05 xoffset -5 
+        #    ease 0.08 xoffset 5 
+        #    pause 0.1
+        #    linear 0.02 xoffset -3 
+        #    linear 0.023 xoffset 2 
+        #    pause 0.1
+        #    linear 0.02 xoffset -1 
+        #    linear 0.01 xoffset 0 
+        #parallel:
+        #    linear 0.5 xzoom 0.9999
+        #    ease 0.5 xzoom 1.000001
+        pause 5.0
+        #pause repeat_delay
+        repeat
         
     transform dropdown_menu:
         yoffset -30
@@ -327,7 +361,7 @@ init 5:
         on hide, replaced:
             easeout 0.5 xoffset -30 alpha 0
         
-    # Used for the outgoing call arrows
+    ## Used for the outgoing call arrows
     transform delayed_blink2(delay, cycle):
         alpha 0.0
         pause delay
@@ -339,7 +373,6 @@ init 5:
             pause .4
             repeat
             
-    # Used for one of the images in the CG album
+    ## Used for one of the images in the CG album
     transform album_tilt:
         rotate 7
-    
