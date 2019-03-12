@@ -255,6 +255,7 @@ screen choice(items):
     zorder 150
     modal True
     
+    # For text messages
     if reply_screen:
         use text_message_screen(current_message)
         add "Phone UI/choice_dark.png"
@@ -270,6 +271,7 @@ screen choice(items):
                     text_hover_color '#fff'
                     action [i.action]
     
+    # For VN mode and phone calls
     elif in_phone_call or vn_choice:
         add "Phone UI/choice_dark.png"
         vbox:
@@ -291,7 +293,9 @@ screen choice(items):
                         text_yalign 0.5
                         align (0.5, 0.5)
                         action [i.action]
+            
 
+    # For emails
     elif email_reply:
         use email_hub
         use open_email(current_email)
@@ -310,18 +314,70 @@ screen choice(items):
                     text_yalign 0.5
                     text_text_align 0.5
                     action [i.action]
-                        
+    
+    # For everything else (e.g. chatrooms)
     else:
+        $ can_see_answer = 0
         add 'Phone UI/choice_dark.png'
         vbox:
             style 'choice_vbox'
+            if persistent.custom_footers:
+                spacing 20
             for num, i in enumerate(items):
                 if not observing or i.chosen:
+                    $ can_see_answer += 1
                     $ fnum = float(num*0.2)
-                    textbutton i.caption: # at choice_anim(fnum): # if you want to modify the button
-                        style 'choice_button'                     # animation you can uncomment this
-                        text_style 'choice_button_text'
-                        action i.action                           
+                    if persistent.custom_footers:
+                        textbutton i.caption at choice_anim(fnum):
+                            style 'choice_button'
+                            text_style 'choice_button_text'
+                            xysize (740, 180)
+                            background 'call_choice' padding(45,45)
+                            hover_background 'call_choice_hover'
+                            text_idle_color '#f9f9f9'
+                            text_hover_color '#fff'
+                            text_align 0.5
+                            text_text_align 0.5
+                            text_xalign 0.5
+                            text_yalign 0.5
+                            align (0.5, 0.5)
+                            if using_timed_menus:
+                                action [SetVariable('reply_instant', True), 
+                                        SetVariable('using_timed_menus', False),
+                                        Hide('answer_countdown'),
+                                        i.action]
+                            else:
+                                action i.action
+                    else:
+                        textbutton i.caption: # at choice_anim(fnum): # if you want to modify the button
+                            style 'choice_button'                     # animation you can uncomment this
+                            text_style 'choice_button_text'
+                            if using_timed_menus:
+                                action [SetVariable('reply_instant', True), 
+                                        SetVariable('using_timed_menus', False),
+                                        Hide('answer_countdown'),
+                                        i.action]
+                            else:
+                                action i.action     
+            # Not a perfect solution, but hopefully provides an 'out'
+            # to players who somehow didn't choose a menu option and
+            # are now in observing mode
+            if can_see_answer == 0:
+                textbutton _("(Continue)"):
+                    style 'choice_button'
+                    text_style 'choice_button_text'
+                    if persistent.custom_footers:
+                        xysize (740, 180)
+                        background 'call_choice' padding(45,45)
+                        hover_background 'call_choice_hover'
+                        text_idle_color '#f9f9f9'
+                        text_hover_color '#fff'
+                        text_align 0.5
+                        text_text_align 0.5
+                        text_xalign 0.5
+                        text_yalign 0.5
+                        align (0.5, 0.5)
+                    action [SetVariable('timed_choose', False), Return()]
                             
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
