@@ -3,9 +3,9 @@
 ##******************************
 init -6 python:
     
-    # This class stores past chatrooms that you've visited
-    # A more complete explanation of how to use it to set up chatrooms can be found
-    # in the accompanying Script Generator spreadsheet
+    ## This class stores past chatrooms that you've visited
+    ## A more complete explanation of how to use it to set up chatrooms can be found
+    ## in the accompanying Script Generator spreadsheet
     class Chat_History(store.object):
         def __init__(self, title, save_img, chatroom_label, trigger_time, participants=[],
                         vn_obj=False, plot_branch=False):
@@ -20,6 +20,7 @@ init -6 python:
             else:
                 self.trigger_time = trigger_time
             self.participants = participants
+            self.original_participants = copy.copy(participants)
             self.vn_obj = vn_obj
             self.played = False
             self.participated = False
@@ -33,9 +34,12 @@ init -6 python:
         def add_participant(self, chara):
             if not chara in self.participants:
                 self.participants.append(chara)
+                
+        def reset_participants(self):
+            self.participants = copy.copy(self.original_participants)
             
             
-    # This class stores the information needed for the Visual Novel portions of the game
+    ## This class stores the information needed for the Visual Novel portions of the game
     class VN_Mode(store.object):
         def __init__(self, vn_label, who=None, party=False):
             self.vn_label = vn_label
@@ -45,19 +49,20 @@ init -6 python:
             self.party = party
               
             
-    # This object stores all the chatrooms you've viewed in the game. 
+    ## This object stores a day's worth of chatrooms
     class Archive(store.object):
         def __init__(self, day, archive_list=[], route='day_common2'):
             self.day = day
             self.archive_list = archive_list
             self.route = route
             
-    # This function ensures the next chatroom or VN section becomes available
-    # Currently they are available in sequence but the program could be modified
-    # to make chatrooms available at the correct real-life times
+    ## This function ensures the next chatroom or VN section becomes available
+    ## By default it unlocks chatrooms in sequence, but when persistent.real_time
+    ## is active it unlocks chatrooms according to real-time
     def next_chatroom():
         global chat_archive, available_calls, current_chatroom, test_ran
         global today_day_num, days_to_expire, current_game_day
+        global incoming_call, current_call
         triggered_next = False
         notify_player = False
         if not persistent.real_time:
@@ -115,13 +120,16 @@ init -6 python:
                         # If this chatroom isn't available, check if it's time to make it available
                         if not chatroom.available:                            
                             # Check the time on the chatroom
-                            if int(current_time.military_hour) < int(chatroom.trigger_time[:2]):
+                            # If we're loading a file, we might need to make lots of
+                            # chatrooms unavailable in a row. So we check if this is eligible
+                            # for expiry
+                            if int(current_time.military_hour) < int(chatroom.trigger_time[:2]) and (day_index+1) == days_to_expire:
                                 # Too early; not time for this chatroom to trigger yet
                                 triggered_next = True
                                 break
-                            elif int(current_time.military_hour) == int(chatroom.trigger_time[:2]):
+                            elif int(current_time.military_hour) == int(chatroom.trigger_time[:2]) and (day_index+1) == days_to_expire:
                                 # Hour is the same; check the minutes
-                                if int(current_time.minute) < int(chatroom.trigger_time[-2:]):
+                                if int(current_time.minute) < int(chatroom.trigger_time[-2:]):                                    
                                     # Too early; not time for this chatroom to trigger yet
                                     triggered_next = True
                                     break
@@ -141,7 +149,15 @@ init -6 python:
                                         chatroom.available = True
                                         current_chatroom = chatroom
                                         prev_chatroom = archive.archive_list[chat_index - 1]
-                                        expire_chatroom(prev_chatroom, current_chatroom)                                           
+                                        # If this chatroom has *just* triggered, we also want
+                                        # to deliver incoming phone calls to the player, so we
+                                        # check for that now. It's given a grace period of 1 min
+                                        # so if the trigger time is 2:00 and it's 2:01 it'll still
+                                        # notify the player
+                                        if (day_index+1) == days_to_expire and (int(current_time.minute) == int(chatroom.trigger_time[-2:]) or int(current_time.minute) - 1 == int(chatroom.trigger_time[-2:])):
+                                            expire_chatroom(prev_chatroom, current_chatroom, True)
+                                        else:
+                                            expire_chatroom(prev_chatroom, current_chatroom)                                           
                                         notify_player = True
                                         today_day_num = day_index
                                         # We don't set triggered_next to True so it makes
@@ -153,14 +169,17 @@ init -6 python:
                                         chatroom.available = True
                                         current_chatroom = chatroom
                                         prev_chatroom = chat_archive[day_index - 1].archive_list[-1]
-                                        expire_chatroom(prev_chatroom, current_chatroom)                                          
+                                        if (day_index+1) == days_to_expire and (int(current_time.minute) == int(chatroom.trigger_time[-2:]) or int(current_time.minute) - 1 == int(chatroom.trigger_time[-2:])):
+                                            expire_chatroom(prev_chatroom, current_chatroom, True)
+                                        else:
+                                            expire_chatroom(prev_chatroom, current_chatroom)                                               
                                         notify_player = True
                                         today_day_num = day_index
-                            elif int(current_time.military_hour) > int(chatroom.trigger_time[:2]):
+                            elif int(current_time.military_hour) > int(chatroom.trigger_time[:2]) or (day_index+1) < days_to_expire:
                                 # Current hour is later than the chatroom trigger time
                                 # Time to trigger the chatroom
                                 # First, check if it's the last chatroom of the day
-                                if chat_index+1 == len(archive.archive_list) and not chatroom.plot_branch:
+                                if chat_index+1 == len(archive.archive_list) and not chatroom.plot_branch and not (day_index+1) < days_to_expire:
                                     triggered_next = True
                                 if chat_index == 0 and day_index == 0:
                                     # If this is the first chatroom of the route, there's
@@ -193,10 +212,15 @@ init -6 python:
                 the_msg = "[[new chatroom] " + current_chatroom.title
                 renpy.music.play('sfx/Ringtones etc/text_basic_1.wav', 'sound')
                 renpy.show_screen('confirm', message=the_msg, yes_action=Hide('confirm'))
+            # We also deliver any incoming calls in the event that the player *just* missed one
+            if incoming_call:
+                current_call = incoming_call
+                incoming_call = False
+                renpy.call('new_incoming_call', phonecall=current_call)
             
     ## A helper function that expires chatrooms and makes their phonecalls/
     ## text messages available
-    def expire_chatroom(prev_chatroom, current_chatroom):
+    def expire_chatroom(prev_chatroom, current_chatroom, deliver_incoming=False):
         # The previous chatroom expires if not played
         if not prev_chatroom.played and not prev_chatroom.buyback and not prev_chatroom.buyahead:
             prev_chatroom.expired = True
@@ -216,7 +240,13 @@ init -6 python:
         else:
             time_for_call.am_pm = 'AM'                                    
         time_for_call.minute = current_chatroom.trigger_time[-2:]
-        deliver_calls(prev_chatroom.chatroom_label, True, time_for_call) 
+        
+        # There's a rare case where we want to trigger an incoming call
+        # because this chatroom has *just* expired
+        if deliver_incoming:
+            deliver_calls(prev_chatroom.chatroom_label, False, time_for_call)
+        else:
+            deliver_calls(prev_chatroom.chatroom_label, True, time_for_call) 
         
         # Checks for a post-chatroom label
         if renpy.has_label('after_' + prev_chatroom.chatroom_label): 
@@ -229,8 +259,8 @@ init -6 python:
         # This delivers the text messages
         deliver_all()
                 
-    # A quick function to see how many chatrooms there are left to be played through
-    # This is used so emails will always be delivered before the party
+    ## A quick function to see how many chatrooms there are left to be played through
+    ## This is used so emails will always be delivered before the party
     def num_future_chatrooms():
         global chat_archive
         total = 0
@@ -242,8 +272,8 @@ init -6 python:
         return total
                 
         
-    # Delivers the next available text message and triggers an incoming
-    # phone call, if applicable
+    ## Delivers the next available text message and triggers an incoming
+    ## phone call, if applicable
     def deliver_next():
         global text_queue, incoming_call, available_calls, current_call
         for msg in text_queue:
@@ -255,8 +285,8 @@ init -6 python:
             incoming_call = False
             renpy.call('new_incoming_call', phonecall=current_call)
     
-    # This function takes a route (new_route) and merges it with the
-    # current route
+    ## This function takes a route (new_route) and merges it with the
+    ## current route
     def merge_routes(new_route, is_vn=False):
         global chat_archive, most_recent_chat
         most_recent_chat.plot_branch = False
@@ -377,11 +407,12 @@ init -6 python:
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
 # for you
-default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01'),                                     
+default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01', []),                                     
                                     Chat_History('Inviting Guests', 'auto', 'example_email', '09:11', [z]),
                                     Chat_History('Text Message Example', 'auto', 'example_text', '09:53', [r], VN_Mode('vn_mode_tutorial', r)),
+                                    Chat_History('Timed Menus', 'auto', 'timed_menus', '10:53', [s]),
                                     Chat_History('Pass Out After Drinking Caffeine Syndrome', 'auto', 'tutorial_chat', '15:05', [s]),
-                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '18:07', [ja, ju], VN_Mode('popcorn_vn', ju)),
+                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '18:25', [ja, ju], VN_Mode('popcorn_vn', ju)),
                                     Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], False, True)]),                                    
                         Archive('1st'),                        
                         Archive('2nd'),
