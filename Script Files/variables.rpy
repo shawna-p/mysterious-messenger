@@ -202,9 +202,13 @@ default has_have = "have"
 default s_verb = ""
 
 default chatlog = []
+# A list of the characters currently
+# in the chatroom
+default in_chat = []
 default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
 default most_recent_chat = None
 default name = 'Rainbow'
+default hacked_effect = False
 
 # Variable that checks if you're on a route or not
 default persistent.on_route = False
@@ -726,12 +730,12 @@ image menu_edit = "Phone UI/Main Menu/menu_pencil_long.png"
 image menu_check_edit = "Phone UI/Main Menu/menu_check_long.png"
 
 image MC_profpic = ConditionSwitch(
-    "persistent.MC_pic == 1", im.FactorScale("Profile Pics/MC/MC-1.png",3.3),
-    "persistent.MC_pic == 2", im.FactorScale("Profile Pics/MC/MC-2.png",3.3),
-    "persistent.MC_pic == 3", im.FactorScale("Profile Pics/MC/MC-3.png",3.3),
-    "persistent.MC_pic == 4", im.FactorScale("Profile Pics/MC/MC-4.png",3.3),
-    "persistent.MC_pic == 5", im.FactorScale("Profile Pics/MC/MC-5.png",3.3),
-    "True", "Profile Pics/MC/MC-1.png")
+    "persistent.MC_pic == 1", Transform("Profile Pics/MC/MC-1.png",size=(363,363)),
+    "persistent.MC_pic == 2", Transform("Profile Pics/MC/MC-2.png",size=(363,363)),
+    "persistent.MC_pic == 3", Transform("Profile Pics/MC/MC-3.png",size=(363,363)),
+    "persistent.MC_pic == 4", Transform("Profile Pics/MC/MC-4.png",size=(363,363)),
+    "persistent.MC_pic == 5", Transform("Profile Pics/MC/MC-5.png",size=(363,363)),
+    "True", Transform("Profile Pics/MC/MC-1.png", size=(363,363)))
           
 image radio_on = "Phone UI/Main Menu/menu_radio_on.png"
 image radio_off = "Phone UI/Main Menu/menu_radio_off.png"
@@ -1027,6 +1031,130 @@ image day_selected_hover = Frame('Phone UI/Day Select/daychat01_day_mint_hover.p
 image day_inactive = Frame('Phone UI/Day Select/daychat01_day_inactive.png', 50, 50)
 image day_active = Frame('Phone UI/Day Select/daychat01_day_active.png', 50, 50)
 image day_active_hover = Frame('Phone UI/Day Select/daychat01_day_active_hover.png', 50, 50)
+image day_reg_hacked = 'Phone UI/Day Select/chatlist_hacking.png'#, 341,220,277,125)
+image day_reg_hacked_long = 'Phone UI/Day Select/chatlist_hacking_long.png'#, 341,220,277,125)
+
+image hacked_white_squares:
+    #'Phone UI/Day Select/chat_hacking_thick.png'
+    #'Phone UI/Day Select/chat_hacking_thin.png'
+    #'Phone UI/Day Select/chat-hacking_filled.png'
+
+    block:
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+    block:
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            pause 0.03
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.3, alpha=0.8, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.0, yalign=0.5)
+            pause 0.04
+    block:
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            pause 0.05
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            pause 0.02
+    block:
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            pause 0.1
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            pause 0.05
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
+            pause 0.02
+    block:
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            pause 0.1
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            pause 0.05
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
+            pause 0.02
+    block:
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            pause 0.05
+            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            pause 0.02
+    block:
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            pause 0.02
+        choice:
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            pause 0.02
+            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+    Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.0, yalign=0.85)
+            
+  
+    
 image day_today:
     'Phone UI/Day Select/daychat_today.png'
     block:
