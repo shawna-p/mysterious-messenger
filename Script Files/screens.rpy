@@ -255,14 +255,21 @@ screen choice(items):
     zorder 150
     modal True
     
+    python:
+        if persistent.custom_footers and not config.skipping:
+            the_anim = choice_anim
+        else:
+            the_anim = null_anim
+    
     # For text messages
     if reply_screen:
         use text_message_screen(current_message)
         add "Phone UI/choice_dark.png"
         vbox:
             style 'choice_vbox'
-            for i in items:
-                textbutton i.caption:
+            for num, i in enumerate(items):
+                $ fnum = float(num*0.2)
+                textbutton i.caption at the_anim(fnum):
                     style 'choice_button'
                     text_style 'choice_button_text'
                     background 'text_answer_idle'
@@ -277,9 +284,10 @@ screen choice(items):
         vbox:
             style 'choice_vbox'
             spacing 20
-            for i in items:
+            for num, i in enumerate(items):
+                $ fnum = float(num*0.2)
                 if not observing or i.chosen:
-                    textbutton i.caption:
+                    textbutton i.caption at the_anim(fnum):
                         style 'choice_button'
                         text_style 'choice_button_text'
                         xysize (740, 180)
@@ -302,8 +310,9 @@ screen choice(items):
         add 'Phone UI/choice_dark.png'
         vbox:
             style 'choice_vbox'
-            for i in items:
-                textbutton i.caption:
+            for num, i in enumerate(items):
+                $ fnum = float(num*0.2)
+                textbutton i.caption at the_anim(fnum):
                     style 'choice_button'
                     text_style 'choice_button_text'
                     background 'text_answer_idle'
@@ -328,7 +337,7 @@ screen choice(items):
                     $ can_see_answer += 1
                     $ fnum = float(num*0.2)
                     if persistent.custom_footers:
-                        textbutton i.caption at choice_anim(fnum):
+                        textbutton i.caption at the_anim(fnum):
                             style 'choice_button'
                             text_style 'choice_button_text'
                             xysize (740, 180)
@@ -349,8 +358,8 @@ screen choice(items):
                             else:
                                 action i.action
                     else:
-                        textbutton i.caption: # at choice_anim(fnum): # if you want to modify the button
-                            style 'choice_button'                     # animation you can uncomment this
+                        textbutton i.caption at the_anim:
+                            style 'choice_button'
                             text_style 'choice_button_text'
                             if using_timed_menus:
                                 action [SetVariable('reply_instant', True), 
