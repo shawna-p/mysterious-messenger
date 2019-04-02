@@ -49,6 +49,75 @@ init python:
             if photo not in p_album:
                 p_album.append(photo)
         return p_album
+        
+    ## This is a callback for the translucent image displayed
+    ## on top of the CGs. It is draggable to the left and right
+    ## of the screen, and if successful, displays the next or 
+    ## previous available image to the player
+    def drag_box(drags, drop):
+        global album_info_for_CG, fullsizeCG, swipe_anim
+        global prev_cg_left, prev_cg_right
+        al = album_info_for_CG[0]
+        ind = album_info_for_CG[3]
+        
+        # If the player somehow didn't swipe far enough, ignore
+        # their swipe
+        if not drop:
+            for item in drags:
+                item.snap(0, 0)
+
+        else:
+            for item in drags:
+                # Moves the translucent image back to its
+                # default position
+                item.snap(0, 0)
+                
+            if drop.drag_name == "Right":
+                # We're going back one item
+                # First check if it's the first item
+                found_item = False
+                if len(al) > 0 and ind > 0:
+                    # Now we go backwards until we hit the beginning of
+                    # the album or an unlocked CG
+                    for i in range(ind-1, -1, -1):
+                        if al[i].unlocked:
+                            prev_cg_right = fullsizeCG
+                            fullsizeCG = al[i].img
+                            album_info_for_CG[3] = i
+                            found_item = True
+                            if swipe_anim == "right":
+                                swipe_anim = "right2"
+                            else:
+                                swipe_anim = "right"
+                            break
+                
+            elif drop.drag_name == "Left":
+                # Go forward one item
+                # Check if it's the last item
+                found_item = False
+                if len(al) - 1 > ind:
+                    # Now we go forwards until we hit the end of the album
+                    # or an unlocked CG
+                    for i in range(ind+1, len(al)):
+                        if al[i].unlocked:
+                            prev_cg_left = fullsizeCG
+                            fullsizeCG = al[i].img
+                            album_info_for_CG[3] = i
+                            found_item = True
+                            if swipe_anim == "left":
+                                swipe_anim = "left2"
+                            else:
+                                swipe_anim = "left"
+                            break
+                            
+            renpy.restart_interaction()
+                
+    ## This is a simple callback to hide or show
+    ## the "Close" sign when the image is clicked
+    def toggle_close_drag():
+        global close_visible
+        close_visible = not close_visible
+        renpy.restart_interaction()
 
     
 ## These are the persistent photo album variables
@@ -163,7 +232,7 @@ screen character_gallery(album, caption, name):
     use starry_night()
     use menu_header('Photo Album', Show('photo_album', Dissolve(0.5)))
     
-    $ num_rows = max(len(album)/4, 1)
+    $ num_rows = max(len(album) // 4 + (len(album) % 4 > 0), 1)
     
     vbox:
         align (0.5, 1.0)
@@ -193,11 +262,11 @@ screen character_gallery(album, caption, name):
             spacing 20
             
 
-            for photo in album:
+            for index, photo in enumerate(album):
                 imagebutton:
                     idle photo.return_thumbnail()
                     if photo.unlocked:                        
-                        action [SetVariable("fullsizeCG", photo.img), Call("viewCG", album=True, album_info=[album, caption, name])]
+                        action [SetVariable("fullsizeCG", photo.img), Call("view_album_CG", album_info=[album, caption, name, index])]
                     else:
                         action Show("confirm", message="This image is not yet unlocked",
                     yes_action=Hide('confirm'))                    
@@ -206,6 +275,100 @@ screen character_gallery(album, caption, name):
             for i in range((4*num_rows) - len(album)):
                 null
  
+## Some additional variables specifically used
+## for the next label and screen
+default album_info_for_CG = []
+default swipe_anim = False
+default prev_cg_right = False
+default prev_cg_left = False
+
+## This label facilitates viewing CGs fullsize and returning
+## to the Album screen when finished
+label view_album_CG(album_info=[]):
+    $ close_visible = True
+    $ album_info_for_CG = album_info
+    call screen viewCG_fullsize_album
+    call screen character_gallery(album_info[0], album_info[1], album_info[2])
+
+    
+## This is the screen where you can view a full-sized CG when you
+## click it. It has a working "Close" button that appears/disappears 
+## when you click the CG. This particular variant lets the user
+## "swipe" to view the various images without backing out to the 
+## album screen proper
+screen viewCG_fullsize_album:
+    zorder 5
+    tag menu
+    
+    use starry_night
+       
+    # This draggroup defines two hotspots on the left and
+    # right side of the screen to detect which direction
+    # the CG has been dragged. 'the_CG' is actually just a
+    # nearly-transparent overlay that the player drags onto
+    # the left or right side of the screen
+    draggroup:
+        drag:
+            drag_name "Left"
+            child Transform('translucent.png', size=(70,1334))
+            draggable False
+            xalign 0.0
+        drag:
+            drag_name "Right"
+            draggable False
+            child Transform('translucent.png', size=(70, 1334))
+            xalign 1.0
+        drag:
+            drag_name "the_CG"
+            drag_handle (0, 0, 750, 1334)
+            child 'translucent.png'
+            dragged drag_box
+            droppable False
+            clicked toggle_close_drag
+            drag_offscreen True
+            xalign 0.5
+            yalign 0.5
+     
+    # This slightly repetitive code makes the program
+    # animate in the "swipes" as the player goes through
+    # the album
+    if swipe_anim == "left":
+        if prev_cg_left:
+            add prev_cg_left at cg_swipe_left_hide
+            add fullsizeCG at cg_swipe_left
+        else:
+            add fullsizeCG
+    elif swipe_anim == "right":
+        if prev_cg_right:
+            add prev_cg_right at cg_swipe_right_hide
+            add fullsizeCG at cg_swipe_right
+        else:
+            add fullsizeCG
+    elif swipe_anim == "left2":
+        if prev_cg_left:
+            add prev_cg_left at cg_swipe_left_hide
+            add fullsizeCG at cg_swipe_left2
+        else:
+            add fullsizeCG
+    elif swipe_anim == "right2":
+        if prev_cg_right:
+            add prev_cg_right at cg_swipe_right_hide
+            add fullsizeCG at cg_swipe_right2
+        else:
+            add fullsizeCG
+    else:
+        add fullsizeCG
         
+    # Toggles whether or not the close button is visible
+    if close_visible:
+        imagebutton:
+            xalign 0.5
+            yalign 0.0
+            focus_mask True
+            idle "close_button"
+            action [SetVariable('prev_cg_left', False), SetVariable('prev_cg_right', False),
+                    Hide('viewCG_fullsize'), Return]
+        
+        text "Close" style "CG_close"        
         
         
