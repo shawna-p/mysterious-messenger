@@ -241,6 +241,46 @@ init 5:
             linear 2.0 alpha 1.0
             linear 0.5 alpha 0.0
             
+    #***********************************
+    # CG Album Transforms
+    #*********************************** 
+            
+    ## Used for one of the images in the CG album
+    transform album_tilt:
+        rotate 7
+        
+    transform cg_swipe_left:
+        xalign 0.0 xoffset 750 zoom 0.9 alpha 0.6 yalign 0.5
+        linear 0.3 xoffset 0 xalign 0.0 zoom 1.0 alpha 1.0
+        on hide:
+            linear 0.3 xalign 1.0 xoffset 325 alpha 0.0
+            
+    transform cg_swipe_left2:
+        xalign 0.0 xoffset 750 zoom 0.9 alpha 0.6 yalign 0.5
+        linear 0.3 xoffset 0 xalign 0.0 zoom 1.0 alpha 1.0
+        on hide:
+            linear 0.3 xalign 1.0 xoffset 325 alpha 0.0
+            
+    transform cg_swipe_right:
+        xalign 0.0 xoffset -750 zoom 0.9 alpha 0.6 yalign 0.5
+        linear 0.3 xalign 0.0 xoffset 0 zoom 1.0 alpha 1.0
+        on hide:
+            linear 0.3 xalign 0.0 xoffset -325 alpha 0.0
+            
+    transform cg_swipe_right2:
+        xalign 0.0 xoffset -750 zoom 0.9 alpha 0.6 yalign 0.5
+        linear 0.3 xalign 0.0 xoffset 0 zoom 1.0 alpha 1.0
+        on hide:
+            linear 0.3 xalign 0.0 xoffset -325 alpha 0.0
+            
+    transform cg_swipe_right_hide:
+        xalign 0.0 xoffset 0 alpha 1.0 zoom 1.0 yalign 0.5
+        linear 0.3 xalign 0.0 xoffset 750 alpha 0.6 zoom 0.9
+        
+    transform cg_swipe_left_hide:
+        xalign 0.0 xoffset 0 alpha 1.0 zoom 1.0 yalign 0.5
+        linear 0.3 xalign 0.5 xoffset -750 alpha 0.6 zoom 0.9
+
             
     #***********************************
     # Other Transforms
@@ -373,6 +413,4 @@ init 5:
             pause .4
             repeat
             
-    ## Used for one of the images in the CG album
-    transform album_tilt:
-        rotate 7
+    
