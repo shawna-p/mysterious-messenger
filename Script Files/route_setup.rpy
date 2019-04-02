@@ -234,8 +234,10 @@ init -6 python:
         if time_for_call.twelve_hour == '00':
             time_for_call.twelve_hour = '12'
             time_for_call.am_pm = 'AM'
+        elif time_for_call.twelve_hour == '12':
+            time_for_call.am_pm = 'PM'
         elif int(time_for_call.twelve_hour) > 12:
-            time_for_call.twelve_hour = str(12 - int(time_for_call.twelve_hour))
+            time_for_call.twelve_hour = str(abs(12 - int(time_for_call.twelve_hour)))
             time_for_call.am_pm = 'PM'
         else:
             time_for_call.am_pm = 'AM'                                    
@@ -410,9 +412,10 @@ init -6 python:
 default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01', []),                                     
                                     Chat_History('Inviting Guests', 'auto', 'example_email', '09:11', [z]),
                                     Chat_History('Text Message Example', 'auto', 'example_text', '09:53', [r], VN_Mode('vn_mode_tutorial', r)),
-                                    Chat_History('Timed Menus', 'auto', 'timed_menus', '10:53', [s]),
+                                    Chat_History('Timed Menus', 'auto', 'timed_menus', '11:28', [s]),
                                     Chat_History('Pass Out After Drinking Caffeine Syndrome', 'auto', 'tutorial_chat', '15:05', [s]),
                                     Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '18:25', [ja, ju], VN_Mode('popcorn_vn', ju)),
+                                    Chat_History('Hacking', 'auto', 'hack_example', '20:41', []),
                                     Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], False, True)]),                                    
                         Archive('1st'),                        
                         Archive('2nd'),
