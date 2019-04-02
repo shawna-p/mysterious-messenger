@@ -704,6 +704,7 @@ image menu_original_story = "Phone UI/Main Menu/original_story.png"
 image menu_settings_panel = Frame("Phone UI/Main Menu/settings_sound_panel.png",60,200,60,120)
 image menu_settings_panel_bright = Frame("Phone UI/Main Menu/settings_sound_panel_bright.png",60,200,60,120)
 image menu_sound_sfx = "Phone UI/Main Menu/settings_sound_sfx.png"
+image menu_other_box = Frame("Phone UI/Main Menu/settings_sound_sfx.png", 10, 10)
 image menu_default_sounds = Frame("Phone UI/Main Menu/settings_sound_default.png",10,10)
 image menu_ringtone_box = Frame("Phone UI/Main Menu/daychat01_3.png", 35, 35)
 
