@@ -315,12 +315,17 @@ screen other_settings():
     use menu_header("Settings", Hide('other_settings', Dissolve(0.5)))
     use settings_tabs("Others")
         
-    window:
-        maximum(700, 800)
+    viewport:
+        xysize(700, 1070)
         xalign 0.5
-        yalign 0.5
+        yalign 0.95
+        draggable True
+        mousewheel True
+        #scrollbars "vertical"
+        side_spacing 5
         has vbox
         spacing 30
+        xalign 0.5
             
         window:
             maximum(675,350)
@@ -328,32 +333,40 @@ screen other_settings():
             text "Other Settings" style "settings_style" xpos 55 ypos 5
             
             hbox:
-                align (0.2, 0.5)
+                align (0.2, 0.7)
                 style_prefix "slider"
                 box_wrap True
 
-                vbox:
-
-                    label _("Text Speed")
-
-                    bar value Preference("text speed")
-
-                    label _("Auto-Forward Time")
-
-                    bar value Preference("auto-forward time") bar_invert True
+                vbox:      
+                    spacing 15
+                    xsize 625
+                    hbox:
+                        spacing 20
+                        xsize 600
+                        textbutton _("Text Speed"):
+                            background "menu_other_box"
+                            text_style "sound_tags"
+                            xsize 200
+                            ysize 70
+                        bar value Preference("text speed") xsize 380 yalign 0.5 thumb_offset 18 left_gutter 18 
+                        
+                    hbox:
+                        spacing 20
+                        xsize 600
+                        textbutton _("Auto-Forward Time"):
+                            background "menu_other_box"
+                            text_style "sound_tags"
+                            xsize 200
+                            ysize 70
+                        bar value Preference("auto-forward time") xsize 380 yalign 0.5 thumb_offset 18 left_gutter 18 bar_invert True
                     
                     null height 10
-                    hbox:
-                        window:
-                            xysize (25,25)
-                            background "#515151"
-                            yalign 0.5
-                            if persistent.custom_footers:
-                                add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
-                            
-                        textbutton _("Custom Chat Footers"):
-                            align (0.5, 1.0)
-                            action ToggleField(persistent, "custom_footers")
+                    fixed:
+                        yfit True
+                        xfit True
+                        xalign 0.15
+                        style_prefix "check"
+                        textbutton _("Custom UI changes") action ToggleField(persistent, "custom_footers")
             
         window:
             maximum(675,250)
@@ -363,6 +376,7 @@ screen other_settings():
             vbox:
                 xalign 0.2
                 yalign 0.75
+                spacing 6
                 style_prefix "check"
                 label _("Skip")
                 textbutton _("Unseen Text") action Preference("skip", "toggle")
@@ -370,64 +384,20 @@ screen other_settings():
                 textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
                 
         window:
-            xysize (675,180)
-            background "menu_settings_panel"
+            maximum(675,250)
+            add "menu_settings_panel"
             text "Variables for testing" style "settings_style" xpos 55 ypos 5
 
-            window:
-                xysize (660, 120)
-                yoffset 50
-                align (0.5, 0.0)
-                has hbox
-                xysize (660, 120)
-                align (0.5, 0.0)
-                spacing 10
-                hbox:
-                    xalign 0.2
-                    yalign 0.5
-                    spacing 10
-                    window:
-                        xysize (25,25)
-                        yalign 0.5
-                        background "#515151"
-                        if persistent.testing_mode:
-                            add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
-                        
-                    textbutton _("Testing Mode"):
-                        align (0.5, 1.0)
-                        action ToggleField(persistent, "testing_mode")
-                        
-                hbox:
-                    xalign 0.2
-                    yalign 0.5
-                    spacing 10
-                    window:
-                        xysize (25,25)
-                        yalign 0.5
-                        background "#515151"
-                        if persistent.real_time:
-                            add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
-                        
-                    textbutton _("Real-Time Mode"):
-                        align (0.5, 1.0)
-                        action ToggleField(persistent, "real_time")
-                        
-            hbox:
+            vbox:
                 xalign 0.2
-                yalign 0.5
-                spacing 10
-                yoffset 90
-                xoffset -65
-                window:
-                    xysize (25,25)
-                    yalign 0.5
-                    background "#515151"
-                    if hacked_effect:
-                        add Transform("Phone UI/Main Menu/main02_tick.png", zoom=0.65) align (0.0,1.0) yoffset -5
-                    
-                textbutton _("Hacked Effect"):
-                    align (0.5, 1.0)
-                    action ToggleVariable('hacked_effect')
+                yalign 0.75
+                spacing 6
+                style_prefix "check"
+                textbutton _("Testing Mode") action ToggleField(persistent, "testing_mode")
+                textbutton _("Real-Time Mode") action ToggleField(persistent, "real_time")
+                textbutton _("Hacked Effect") action ToggleVariable('hacked_effect')
+                
+        
                 
             # Additional vboxes of type "radio_pref" or "check_pref" can be
             # added here, to add additional creator-defined preferences.
