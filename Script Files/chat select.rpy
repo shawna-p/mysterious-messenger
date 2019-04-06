@@ -11,8 +11,10 @@ screen chat_select():
     use menu_header("Day List", Show('chat_home', Dissolve(0.5)))
     
     python:
-        if renpy.music.get_playing(channel='music') != mystic_chat:
+        if renpy.music.get_playing(channel='music') != mystic_chat and not hacked_effect:
             renpy.music.play(mystic_chat, loop=True)
+        elif hacked_effect and renpy.music.get_playing(channel='music') != mystic_chat_hacked:
+            renpy.music.play(mystic_chat_hacked, loop=True)
     
     fixed:
         viewport:
