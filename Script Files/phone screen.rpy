@@ -209,9 +209,14 @@ screen phone_calls:
     
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)), FileSave(mm_auto, confirm=False)])
     
-    on 'show' action If(renpy.music.get_playing(channel='music') != mystic_chat, 
-                renpy.music.play(mystic_chat, loop=True),
-                [])
+    if not hacked_effect:
+        on 'show' action If(renpy.music.get_playing(channel='music') != mystic_chat, 
+                    renpy.music.play(mystic_chat, loop=True),
+                    [])
+    else:
+        on 'show' action If(renpy.music.get_playing(channel='music') != mystic_chat_hacked, 
+                    renpy.music.play(mystic_chat_hacked, loop=True),
+                    [])
                 
     window:
         xalign 0.5
