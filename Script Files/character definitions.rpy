@@ -129,7 +129,7 @@ define u_phone = Character("Unknown", what_font= "fonts/NanumGothic (Sans Serif 
 define z_phone = Character("Zen", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="zen_voice")
 define m_phone = Character("[name]", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5)
+                            what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, what_suffix="{w=0.8}{nw}")
 define vmail_phone = Character('Voicemail', what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
                             what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="other_voice")
                             
