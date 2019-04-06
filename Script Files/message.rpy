@@ -208,6 +208,9 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     elif background == "redhack":
         scene bg redhack
         $ nickColour = white
+    elif background == "redcrack":
+        scene bg redcrack
+        $ nickColour = white
     else:
         scene bg black
         $ nickColour = white
