@@ -1352,7 +1352,8 @@ screen confirm(message, yes_action, no_action=False):
                 
 
     ## Right-click and escape answer "no".
-    key "game_menu" action no_action
+    if no_action:
+        key "game_menu" action no_action
 
 
 style confirm_frame is gui_frame
