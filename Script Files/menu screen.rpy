@@ -233,8 +233,9 @@ screen main_menu:
                         hover_background "left_corner_menu_selected"
                         activate_sound "sfx/UI/select_4.mp3"
                         if persistent.on_route:
-                            action FileLoad(mm_auto) # This is the auto save that gets loaded every 
-                                                     # time you load the game
+                            action [SetField(persistent, 'manual_load', False), 
+                                    FileLoad(mm_auto)]  # This is the auto save that gets loaded every 
+                                                        # time you load the game
                         else:
                             action Show('route_select_screen') # Note: this screen only has a placeholder
                                                                # but can easily be customized (see below)
@@ -350,9 +351,51 @@ label after_load:
     $ renpy.hide_screen('menu')
     $ renpy.hide_screen('chat_footer')
     $ renpy.hide_screen('phone_overlay')
-    if not renpy.get_screen('chat_home'):
+    
+    # This determines the content of the "you have x missed calls"
+    # etc message upon loading
+    python:
+        popup_msg = ""
+        n_email = unread_emails()
+        n_text = new_message_count()
+        n_call = unseen_calls
+        
+        if n_email + n_text + n_call > 0:
+            # We should show the player a message
+            popup_msg += "You have "
+        
+            if n_email > 0:
+                popup_msg += str(n_email) + " unread email"
+                if n_email > 1:
+                    popup_msg += "s"
+                    
+            if n_text > 0 and n_email > 0 and n_call > 0:
+                popup_msg += ", "
+            elif n_text > 0 and n_email > 0 and n_call <= 0:
+                popup_msg += " and "
+                
+            if n_text > 0:
+                popup_msg += str(n_text) + " unread text message"
+                if n_text > 1:
+                    popup_msg += "s"
+            
+            if n_call > 0 and n_text > 0 and n_email > 0:
+                popup_msg += ", and "
+            elif (n_call > 0 and n_text > 0) or (n_call > 0 and n_email > 0):
+                popup_msg += " and "
+                
+            if n_call > 0:
+                popup_msg += str(n_call) + " missed call"
+                if n_call > 1:
+                    popup_msg += "s"
+            
+            popup_msg += "."            
+    if popup_msg != "":
+        show screen confirm(yes_action=Hide('confirm'), message=popup_msg)
+    if persistent.manual_load:#not renpy.get_screen('chat_home'):
         call screen chat_home                   
     return
+    
     
 ## A short, not completely implemented screen where you select
 ## which route you'd like to start on. Can be customized to lead
@@ -456,9 +499,10 @@ screen file_slots(title):
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
                     if persistent.real_time:
-                        action [SetField(persistent, 'on_route', True), SetField(persistent, 'load_instr', 'Auto'), FileAction(mm_auto)]
+                        action [SetField(persistent, 'on_route', True), SetField(persistent, 'load_instr', 'Auto'), 
+                                SetField(persistent, 'manual_load', False), FileAction(mm_auto)]
                     else:
-                        action [SetField(persistent, 'on_route', True), FileAction(mm_auto)]
+                        action [SetField(persistent, 'on_route', True), SetField(persistent, 'manual_load', False), FileAction(mm_auto)]
                     hbox:
                         spacing 8
                         xsize 695
@@ -551,6 +595,7 @@ screen file_slots(title):
                         if next_day_name and FileLoadable(slot) and persistent.real_time:
                             action [Show("confirm", message=long_msg, 
                                         yes_action=[
+                                        SetField(persistent, 'manual_load', True),
                                         SetField(persistent, 'on_route', True), 
                                         SetField(persistent, 'load_instr', '+1 day'), 
                                         FileLoad(slot)], 
@@ -558,12 +603,14 @@ screen file_slots(title):
                         elif FileLoadable(slot) and persistent.real_time:
                             action [Show("confirm", message=long_msg, 
                                         yes_action=[
+                                        SetField(persistent, 'manual_load', True),
                                         SetField(persistent, 'on_route', True), 
                                         SetField(persistent, 'load_instr', 'Same day'),
                                         FileLoad(slot)], 
                                         no_action=Hide('confirm'))]
                         elif not persistent.real_time and FileLoadable(slot):
                             action [SetField(persistent, 'on_route', True), 
+                                    SetField(persistent, 'manual_load', True),
                                     FileAction(slot)]
 
                     hbox:
@@ -748,8 +795,10 @@ screen chat_home(reshow=False):
    
     python:
         # This if statement just makes sure the menu music isn't constantly restarting
-        if renpy.music.get_playing(channel='music') != mystic_chat:
+        if renpy.music.get_playing(channel='music') != mystic_chat and not hacked_effect:
             renpy.music.play(mystic_chat, loop=True)
+        elif hacked_effect and renpy.music.get_playing(channel='music') != mystic_chat_hacked:
+            renpy.music.play(mystic_chat_hacked, loop=True)
         mc_pic = 'Profile Pics/MC/MC-' + str(persistent.MC_pic) + '.png'   
    
     use starry_night
