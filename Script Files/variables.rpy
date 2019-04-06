@@ -105,6 +105,7 @@ default persistent.testing_mode = False
 ## Casual/Deep Story
 define mystic_chat = "Music/03 Mystic Chat.mp3"
 define mystic_chat2 = "Music/04 Mystic Chat Ver.2.mp3"
+define mystic_chat_hacked = "Music/Mystic Chat (ver. hacked).mp3"
 define mysterious_clues = "Music/05 Mysterious Clues.mp3"
 define mysterious_clues_v2 = "Music/Mysterious Clues ver 2.mp3"
 define urban_night_cityscape = "Music/06 Urban Night Cityscape.mp3"
@@ -163,6 +164,7 @@ image earlyMorn = "bg-earlyMorn-shake.png"
 image noon = "bg-noon-shake.png"
 image hack = "bg-hack-shake.png"
 image redhack = "bg-redhack-shake.png"
+image redcrack = "be-redhack-crack-shake.png"
 image black = "#000000"
 
 image bg morning = "bg-morning.jpg"
@@ -172,6 +174,7 @@ image bg earlyMorn = "bg-earlyMorn.jpg"
 image bg noon = "bg-noon.jpg"
 image bg hack = "bg-hack.jpg"
 image bg redhack = "bg-redhack.jpg"
+image bg redcrack = "bg-redhack-crack.png"
 # A starry night background with some static stars;
 # used in menu screens
 image bg starry_night = "Phone UI/bg-starry-night.png"
@@ -216,6 +219,9 @@ default persistent.on_route = False
 default persistent.first_boot = True
 # Variable that determines if the program should run in real-time or not
 default persistent.real_time = False
+# Variable to check if we need to manually load the chat home screen
+default persistent.manual_load = False
+
 
 # This variable is set to True if you're viewing a chatroom
 # in 'history'
