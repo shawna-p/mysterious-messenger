@@ -41,6 +41,9 @@ define build.name = "MysteriousMessenger"
 ## Don't autosave on quit
 define config.autosave_on_quit = False
 
+## Some voice files are automatically located
+define config.auto_voice = "voice files/{id}.mp3"
+
 
 ## Sounds and music ############################################################
 
