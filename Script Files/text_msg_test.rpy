@@ -53,31 +53,56 @@ label example_text_expired:
 ## like text messages or (in the future) phone calls
 label after_example_text:
 
+    # There are two different versions of texting; this first one
+    # is the 'regular' variant. You'll notice they're typed differently
+    # as well. You will only ever see one or the other
+    if not persistent.instant_texting:
+        # Ray's text message
+        $ addtext (r, "Here's a test text message, to show you how they work!", r)
+        $ addtext (r, "Did you know you can also post photos?", r)
+        $ addtext (r, "It will look like this:", r)
+        $ addtext (r, "r/cg-1.png", r, True)
 
-    # Ray's text message
-    $ addtext (r, "Here's a test text message, to show you how they work!", r)
-    $ addtext (r, "Did you know you can also post photos?", r)
-    $ addtext (r, "It will look like this:", r)
-    $ addtext (r, "r/cg-1.png", r, True)
-
-    $ add_reply_label(r, 'menu_a1')
-            
-    # V's text message
-    $ addtext (v, "Hello, [name].", v)
-    $ addtext (v, "I'm supposed to demonstrate how to make a character post an emoji during a text message.", v)
-    $ addtext (v, "{image=v smile}", v, True)
-    $ addtext (v, "They won't play audio like they do in the chatrooms,", v)
-    $ addtext (v, "But they can still be fun to use in a conversation, don't you think?", v)
-    $ add_reply_label(v, 'menu_a2')
+        $ add_reply_label(r, 'menu_a1')
+                
+        # V's text message
+        $ addtext (v, "Hello, [name].", v)
+        $ addtext (v, "I'm supposed to demonstrate how to make a character post an emoji during a text message.", v)
+        $ addtext (v, "{image=v smile}", v, True)
+        $ addtext (v, "They won't play audio like they do in the chatrooms,", v)
+        $ addtext (v, "But they can still be fun to use in a conversation, don't you think?", v)
+        $ add_reply_label(v, 'menu_a2')
+        
+        # Some extra messages
+        #$ addtext (ju, "What do you think about adding Elizabeth the 3rd as a member?", ju)
+        #$ addtext (ja, "I hope this ordeal hasn't been too difficult on you.", ja)
+        #$ addtext (s, "I miss you!", s)
+        #$ addtext (u, "You'll be fine ^^", u)
+        $ addtext (z, "You know, you never send us any photos...", z)
+        $ add_reply_label(z, 'menu_a3')
+        #$ addtext (ri, "Weren't you curious, too?", ri)
     
-    # Some extra messages
-    #$ addtext (ju, "What do you think about adding Elizabeth the 3rd as a member?", ju)
-    #$ addtext (ja, "I hope this ordeal hasn't been too difficult on you.", ja)
-    #$ addtext (s, "I miss you!", s)
-    #$ addtext (u, "You'll be fine ^^", u)
-    $ addtext (z, "You know, you never send us any photos...", z)
-    $ add_reply_label(z, 'menu_a3')
-    #$ addtext (ri, "Weren't you curious, too?", ri)
+    else:
+        # Ray's instant text message
+        call inst_text_begin(r)
+        r "Here's a test text message, to show you how they work!"
+        r "Did you know you can also post photos?"
+        $ r.update_text('menu_a1_inst')
+        call inst_text_end
+        
+        # V's instant text message
+        call inst_text_begin(v)
+        v "Hello, [name]."
+        v "I'm supposed to demonstrate how to make a character post an emoji during a text message."
+        v "{image=v smile}" (img=True)
+        $ v.update_text('menu_a2_inst')
+        call inst_text_end
+        
+        # Zen's instant text message
+        call inst_text_begin(z)
+        z "You know, you never send us any photos..."
+        $ z.update_text('menu_a3_inst')
+        call inst_text_end    
     
     return
     
@@ -128,5 +153,68 @@ label menu_a3:
     $ addtext (z, "Wow! I've never seen that before.", z)
     $ addtext (z, "You're pretty cool", z)
     $ addtext (z, "{image=zen wink}", z, True)
+    jump text_end
+    
+## These are the menus for instant text messaging
+label menu_a1_inst:
+    # You need to pass text_begin the variable of the character
+    # whom the MC is texting
+    call text_begin(r)
+    
+    r "It will look like this:"
+    r "r/cg-1.png" (img=True)
+    
+    # You'll notice these are written just like chatrooms
+    call answer
+    menu:
+        "I'm not sure how I'll remember all this...":
+            m "I'm not sure how I'll remember all this..." (pauseVal=0)
+            r "Don't worry! There are lots of resources to help."
+            r "Let's do our best ^^"
+        "That's a nice picture of you!":
+            m "That's a nice picture of you!" (pauseVal=0)
+            r "{image=ray happy}" (img=True)
+            call heart_icon(r)
+            r "Thank you ^^"
+            
+    # Instant text messages end the same way as regular ones
+    jump text_end
+
+label menu_a2_inst:
+    call text_begin(v)
+    v "Because this is 'instant text messaging',"
+    v "these emojis will have audio, unlike regular texts."
+    call answer
+    menu:
+        "Thanks for showing me this.":
+            m "Thanks for showing me this." (pauseVal=0)
+            v "You're very welcome!"
+            call heart_icon(v)
+            v "Hope to talk to you again soon."
+
+        "I'm not sure if they'll be useful...":
+            m "I'm not sure if they'll be useful..." (pauseVal=0)
+            v "It's up to you whether to use them or not."
+            v "I hope you enjoy the rest of the program."
+    jump text_end
+
+label menu_a3_inst:
+    call text_begin(z)
+    call answer
+    menu:
+        "(Post a photo)":
+            m "common/cg-2.png" (pauseVal=0, img=True)
+            m "You mean like this?"
+        "(Post an emoji)":
+            m "{image=zen oyeah}" (pauseVal=0, img=True)
+            m "How's this?"
+        "(Post both)":
+            m "common/cg-2.png" (pauseVal=0, img=True)
+            m "{image=zen oyeah}" (img=True)
+            m "What do you think?"
+
+    z "Wow! I've never seen that before."
+    z "You're pretty cool"
+    z "{image=zen wink}" (img=True)
     jump text_end
     

@@ -413,4 +413,15 @@ init 5:
             pause .4
             repeat
             
+    ## Used for instant text messaging footers
+    transform text_footer_disappear:
+        yoffset 0 alpha 1.0
+        on hide:
+            easein 0.2 yoffset -15
+            easeout 0.5 yoffset 150 alpha 0.6
+            linear 0.1 alpha 0.0
+            
+    
+    
+            
     

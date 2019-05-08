@@ -134,8 +134,13 @@ init python:
         
     ## Returns the number of unread messages in text_messages
     def new_message_count():
-        unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
-        return len(unread_messages)
+        global persistent
+        if not persistent.instant_texting:
+            unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
+            return len(unread_messages)
+        else:
+            unread_messages = [ c for c in character_list if not c == m and c.private_text and not c.private_text_read ]
+            return len(unread_messages)
     
     ## Returns the number of undelivered messages in text_queue
     def num_undelivered():
@@ -177,7 +182,32 @@ init python:
                         break
         renpy.restart_interaction
 
-  
+    ## This simplifies some of the code that parses what's in the text message
+    ## so it can display a preview of the appropriate length
+    def text_popup_preview(last_msg):
+        global name
+        name_cut = 54 - len(name)
+        
+        if "[" in last_msg.what:
+            # Means we have to do some cleanup to ensure
+            # variables aren't cut up
+            # First check if the variable is [name]
+            if "[name]" in last_msg.what:
+                msg = last_msg.what[:name_cut]
+            else:
+                msg = last_msg.what[:48]
+            n = msg.rfind(' ')
+            if n > 0:
+                msg = msg[:n]
+        
+        if last_msg and ("{image=" in last_msg.what or last_msg.img):
+            return "[last_msg.who.name] sent an image."
+        elif last_msg and len(last_msg.what) > 48:
+            return last_msg.what[:48] + '...'
+        elif last_msg:
+            return last_msg.what[:48]
+            
+            
 default current_message = None
     
 ########################################################               
@@ -204,99 +234,120 @@ screen text_message_hub:
             
             vbox:
                 spacing 10
+                if persistent.instant_texting:
+                    for i in character_list:
+                        # First we display unread messages
+                        if i.private_text and not i.private_text_read:
+                            use text_hub_display(persistent.instant_texting, i.private_text, i)
+                    for i in character_list:
+                        # Now we display read messages
+                        if i.private_text and i.private_text_read: # if it's not empty                        
+                            use text_hub_display(persistent.instant_texting, i.private_text, i)
+                else:
+                    for i in text_messages:
+                        if i.msg_list:    # if it's not empty
+                            use text_hub_display(persistent.instant_texting, i.msg_list, i)
+                
+screen text_hub_display(instant_texting_on=False, text_log, i):
+    $ last_text = text_log[len(text_log) - 1]
+    $ text_time = last_text.thetime
 
-                for i in text_messages:
-                    if i.msg_list != []:    # if it's not empty
-                        $ text_log = i.msg_list
-                        $ last_text = text_log[len(text_log) - 1]
-                        $ text_time = last_text.thetime
+    if (not instant_texting_on and i.read) or (instant_texting_on and i.private_text_read):
+        button:                                                       
+            background 'message_idle_bkgr'
+            hover_background 'message_hover_bkgr'  
+            if instant_texting_on and i.private_text_label:
+                action [SetField(i, 'private_text_read', True), Jump(i.private_text_label)]
+            elif instant_texting_on:
+                action [SetField(i, 'private_text_read', True), Show('inst_text_message_screen', the_sender=i)]
+            else:
+                action [SetVariable("current_message", i), i.mark_read,
+                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
+            activate_sound 'sfx/UI/email_next_arrow.mp3'
+            
+            ysize 150
+            xsize 725
 
-                        if i.read:
-                            button:                                                       
-                                background 'message_idle_bkgr'
-                                hover_background 'message_hover_bkgr'   
-                                action [SetVariable("current_message", i), i.mark_read,
-                                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
-                                activate_sound 'sfx/UI/email_next_arrow.mp3'
-                                
-                                ysize 150
-                                xsize 725
-
-                                hbox:
-                                    align (0.5, 0.5)
-                                    spacing 10                                
-                                    window:
-                                        xysize (135, 135)
-                                        align (0.0, 0.5)
-                                        add Transform(last_text.who.prof_pic, size=(127,127)) align(0.5,0.5)
-                                    
-                                    window:
-                                        xysize(320,135)
-                                        yalign 0.5
-                                        has vbox
-                                        align (0.0, 0.5)
-                                        text last_text.who.name style "save_slot_text"
-                                        spacing 40     
-                                        if "{image=" in last_text.what or last_text.img:
-                                            if last_text.who == m:
-                                                text "You sent an image." style "save_slot_text"
-                                            else:
-                                                text "[last_text.who.name] sent an image." style "save_slot_text"
-                                        else:
-                                            text last_text.what[:16] + '...' style "save_slot_text"
-                                        
-                                    window:
-                                        xmaximum 230
-                                        has vbox
-                                        align (0.5, 0.5)
-                                        spacing 30
-                                        text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"
-                                        add 'read_text_envelope' xalign 1.0
-                                        
-                                            
+            hbox:
+                align (0.5, 0.5)
+                spacing 10                                
+                window:
+                    xysize (135, 135)
+                    align (0.0, 0.5)
+                    add Transform(last_text.who.prof_pic, size=(127,127)) align(0.5,0.5)
+                
+                window:
+                    xysize(320,135)
+                    yalign 0.5
+                    has vbox
+                    align (0.0, 0.5)
+                    text last_text.who.name style "save_slot_text"
+                    spacing 40     
+                    if "{image=" in last_text.what or last_text.img:
+                        if last_text.who == m:
+                            text "You sent an image." style "save_slot_text"
                         else:
-                            button:                                                       
-                                background 'unread_message_idle_bkgr'
-                                hover_background 'unread_message_hover_bkgr' 
-                                action [SetVariable("current_message", i), i.mark_read, 
-                                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
-                                activate_sound 'sfx/UI/email_next_arrow.mp3'
-                                
-                                ysize 150
-                                xsize 725
+                            text "[last_text.who.name] sent an image." style "save_slot_text"
+                    else:
+                        text last_text.what[:16] + '...' style "save_slot_text"
+                    
+                window:
+                    xmaximum 230
+                    has vbox
+                    align (0.5, 0.5)
+                    spacing 30
+                    text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"
+                    add 'read_text_envelope' xalign 1.0
+                    
+                        
+    else:
+        button:                                                       
+            background 'unread_message_idle_bkgr'
+            hover_background 'unread_message_hover_bkgr' 
+            if instant_texting_on and i.private_text_label:
+                action [SetField(i, 'private_text_read', True), Jump(i.private_text_label)]
+            elif instant_texting_on:
+                action [SetField(i, 'private_text_read', True), Show('inst_text_message_screen', the_sender=i)]
+            else:
+                action [SetVariable("current_message", i), i.mark_read, 
+                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
+            activate_sound 'sfx/UI/email_next_arrow.mp3'
+            
+            ysize 150
+            xsize 725
 
-                                hbox:
-                                    align (0.5, 0.5)
-                                    spacing 10                                
-                                    window:
-                                        xysize(135,135)
-                                        align (0.0, 0.5)
-                                        add Transform(last_text.who.prof_pic, size=(127, 127)) yalign 0.5 xalign 0.5
-                                    
-                                    window:
-                                        xysize (320, 135)
-                                        yalign 0.5
-                                        has vbox
-                                        align (0.0, 0.5)
-                                        text last_text.who.name style "save_slot_text"
-                                        spacing 40      
-                                        if "{image=" in last_text.what or last_text.img:
-                                            text "[last_text.who.name] sent an image." style "save_slot_text"   
-                                        else:
-                                            text last_text.what[:16] + '...' style "save_slot_text"
-                                        
-                                    window:
-                                        xmaximum 230
-                                        has vbox
-                                        align (0.5, 0.5)
-                                        spacing 50
-                                        text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"                                   
-                                        
-                                        hbox:
-                                            spacing 10
-                                            xalign 1.0
-                                            add 'new_text'
-                                            add 'new_text_envelope'
+            hbox:
+                align (0.5, 0.5)
+                spacing 10                                
+                window:
+                    xysize(135,135)
+                    align (0.0, 0.5)
+                    add Transform(last_text.who.prof_pic, size=(127, 127)) yalign 0.5 xalign 0.5
+                
+                window:
+                    xysize (320, 135)
+                    yalign 0.5
+                    has vbox
+                    align (0.0, 0.5)
+                    text last_text.who.name style "save_slot_text"
+                    spacing 40      
+                    if "{image=" in last_text.what or last_text.img:
+                        text "[last_text.who.name] sent an image." style "save_slot_text"   
+                    else:
+                        text last_text.what[:16] + '...' style "save_slot_text"
+                    
+                window:
+                    xmaximum 230
+                    has vbox
+                    align (0.5, 0.5)
+                    spacing 50
+                    text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"                                   
+                    
+                    hbox:
+                        spacing 10
+                        xalign 1.0
+                        add 'new_text'
+                        add 'new_text_envelope'
                                             
 ########################################################               
 ## This screen takes care of the popups that notify
@@ -352,12 +403,7 @@ screen text_msg_popup(the_msg):
                     window:
                         maximum(420,130)
                         background 'text_popup_msg'       
-                        if last_msg and ("{image=" in last_msg.what or last_msg.img):
-                            text "[last_msg.who.name] sent an image." size 30 xalign 0.5 yalign 0.5 text_align 0.5 
-                        elif last_msg and len(last_msg.what) > 48:
-                            text last_msg.what[:48] + '...' size 30 xalign 0.5 yalign 0.5 text_align 0.5
-                        elif last_msg:
-                            text last_msg.what[:48] size 30 xalign 0.5 yalign 0.5 text_align 0.5
+                        text text_popup_preview(last_msg) size 30 xalign 0.5 yalign 0.5 text_align 0.5
             
             
             textbutton _('Go to'):
@@ -629,7 +675,20 @@ screen text_animation(i):
                                             
  
 ## Sets end variables when a text message menu is completed 
-label text_end:
-    $ renpy.retain_after_load()
-    return
+label text_end():
+    if inst_text:
+        $ inst_text.finished_text()
+        $ who = inst_text
+        $ inst_text = False
+        $ chatroom_hp == 0
+        $ textbackup = Chatentry(filler,"","")
+        $ renpy.retain_after_load()
+        hide screen text_answer
+        hide screen inactive_text_answer
+        hide screen text_play_button
+        hide screen text_pause_button
+        call screen inst_text_message_screen(who)         
+    else:
+        $ renpy.retain_after_load()
+        return
         
