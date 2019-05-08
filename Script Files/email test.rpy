@@ -59,7 +59,6 @@ label example_email_expired:
     call exit(z)
     jump chat_end
 
-
 ## This is how you will set up guests for the party. A template follows this definition    
 ## The first variable is the name of the guest aka what shows up in the email hub as
 ## @guestname The second variable is the path to the image you'd like to use as the guest
