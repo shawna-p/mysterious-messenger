@@ -170,9 +170,10 @@ screen main_menu:
         if renpy.music.get_playing(channel='music') != mystic_chat:
             renpy.music.play(mystic_chat, loop=True)
             
-        thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
-        if m.prof_pic != thepic:
-            m.prof_pic = thepic
+        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
+            m.prof_pic = persistent.MC_pic
+        else:
+            m.prof_pic = 'Profile Pics/MC/MC-1.png'
             
         if m.name != persistent.name:
             m.name = persistent.name
@@ -345,6 +346,9 @@ label after_load:
                 no_text_notif = False
         if no_text_notif:
             renpy.hide_screen('text_msg_popup')
+            
+        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
+            m.prof_pic = persistent.MC_pic
             
     $ renpy.hide_screen('settings_screen')
     $ renpy.hide_screen('save_load')
@@ -748,10 +752,15 @@ screen menu_header(title, return_action=NullAction, envelope=False):
             hover im.FactorScale("Phone UI/Main Menu/menu_back_btn.png", 1.1)
             activate_sound 'sfx/UI/back_button.mp3'
             if not renpy.get_screen("choice"):                
-                if envelope:
+                if envelope and not inst_text:
                     action Show('text_message_hub', Dissolve(0.5))
                 elif persistent.first_boot or not persistent.on_route:
                     action [SetField(persistent, 'first_boot', False), return_action]
+                # If we're instant texting, leaving text messages works differently
+                elif inst_text:
+                     action Show("confirm", message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
+                                yes_action=[Hide('confirm'), Jump('leave_inst_text')], 
+                                no_action=Hide('confirm'))    
                 else:
                     action return_action
                 
@@ -769,7 +778,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 # calls, but there are too many bugs so it's commented out
                 #if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
                 #    action [Preference("auto-forward", "disable"), Show("preferences")]
-                if not renpy.get_screen("choice") and not renpy.get_screen("in_call"):
+                if not renpy.get_screen("choice") and not renpy.get_screen("in_call") and not inst_text:
                     if renpy.get_screen('settings_screen'):
                         action [Hide('preferences'), Hide('profile_pic'), 
                                 Hide('other_settings'), Show('preferences')]
@@ -798,8 +807,7 @@ screen chat_home(reshow=False):
         if renpy.music.get_playing(channel='music') != mystic_chat and not hacked_effect:
             renpy.music.play(mystic_chat, loop=True)
         elif hacked_effect and renpy.music.get_playing(channel='music') != mystic_chat_hacked:
-            renpy.music.play(mystic_chat_hacked, loop=True)
-        mc_pic = 'Profile Pics/MC/MC-' + str(persistent.MC_pic) + '.png'   
+            renpy.music.play(mystic_chat_hacked, loop=True) 
    
     use starry_night
     
@@ -937,22 +945,17 @@ screen chat_home(reshow=False):
                 spacing 8
                 xalign 0.0
                 yalign 0.0
-                for person in character_list[:7]:
-                    if person != m:
-                        imagebutton:
-                            hover "profile_pic_select_square"
-                            idle Transform(person.prof_pic, size=(99,99))
-                            background Transform(person.prof_pic, size=(99,99))
-                            action Show('chara_profile', who=person)
-                            activate_sound 'sfx/UI/profile_screen_select.mp3'
-                    else:                    
-                        # MC has to be displayed a bit differently
-                        imagebutton:
-                            hover "profile_pic_select_square"
-                            idle Transform(mc_pic, size=(99,99))
-                            background Transform(mc_pic, size=(99,99))
+                for person in character_list[:7]:    
+                    imagebutton:
+                        hover "profile_pic_select_square"
+                        idle Transform(person.prof_pic, size=(99,99))
+                        background Transform(person.prof_pic, size=(99,99))
+                        if person == m:
                             action Show('profile_pic')
-                            activate_sound 'sfx/UI/profile_screen_select.mp3'
+                        else:
+                            action Show('chara_profile', who=person)
+                        activate_sound 'sfx/UI/profile_screen_select.mp3'
+
             hbox:
                 spacing 8
                 for person in character_list[7:]:
