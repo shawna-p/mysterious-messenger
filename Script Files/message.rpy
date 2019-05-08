@@ -174,6 +174,13 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     show screen phone_overlay
     show screen messenger_screen 
     show screen pause_button
+    
+    # Hide all the popup screens
+    hide screen text_msg_popup
+    hide screen text_msg_popup_instant
+    hide screen email_popup
+    
+    $ inst_text = False
     window hide
     $ reply_screen = False
     $ in_phone_call = False
