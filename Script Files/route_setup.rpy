@@ -278,6 +278,8 @@ init -6 python:
     ## phone call, if applicable
     def deliver_next():
         global text_queue, incoming_call, available_calls, current_call
+        global persistent, inst_text, character_list
+        
         for msg in text_queue:
             if msg.msg_list:
                 msg.deliver()
@@ -286,6 +288,18 @@ init -6 python:
             current_call = incoming_call
             incoming_call = False
             renpy.call('new_incoming_call', phonecall=current_call)
+            
+        # If instant texting is turned on, we deliver 
+        # text messages differently
+        # These are delivered all at the same time
+        if persistent.instant_texting:
+            small_char_list = [ c for c in character_list if not c == m and c.private_text ]
+            for character in small_char_list:
+                if not character.private_text_read:
+                    # New messages were delivered/written; popup needed
+                    character.private_text_read = False
+                    renpy.music.play(persistent.text_tone, 'sound')
+                    renpy.show_screen('text_msg_popup_instant', the_char=character) 
     
     ## This function takes a route (new_route) and merges it with the
     ## current route
