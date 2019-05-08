@@ -6,7 +6,7 @@ init -5 python:
     class Chat(store.object):
         def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, 
                 heart_color='#000000', cover_pic=False, status=False,
-                bubble_color=False, glow_color=False, emote_list=False, voicemail=False,):               
+                bubble_color=False, glow_color=False, emote_list=False, voicemail=False):               
                 
             self.name = name            
             self.file_id = file_id
@@ -26,8 +26,18 @@ init -5 python:
             self.bubble_color = bubble_color
             self.emote_list = emote_list
             
+            self.private_text = []
+            self.private_text_read = True
+            self.private_text_label = False
+            
         def update_voicemail(self, new_label):
             self.voicemail.phone_label = new_label
+            
+        def update_text(self, new_label):
+            self.private_text_label = new_label
+            
+        def finished_text(self):
+            self.private_text_label = False
 
         def increase_heart(self, bad=False):
             self.heart_points += 1
@@ -56,7 +66,11 @@ init -5 python:
 
         ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
-            addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+            global inst_text
+            if inst_text:
+                addtext_instant(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+            else:
+                addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
 
 ##****************************
 ## Chatroom Characters
