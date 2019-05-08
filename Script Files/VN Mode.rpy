@@ -92,6 +92,12 @@ label vn_begin:
     hide screen messenger_screen 
     hide screen pause_button
     hide screen chatroom_timeline
+    
+    # Hide all the popup screens
+    hide screen text_msg_popup
+    hide screen text_msg_popup_instant
+    hide screen email_popup
+    
     show screen vn_overlay
     $ vn_choice = True
     $ _history_list = [] # This clears the History screen
@@ -108,7 +114,7 @@ label vn_begin:
     return
         
 label vn_end:
-    hide screen vn_overlay
+    hide screen vn_overlay    
     $ vn_choice = False
     $ renpy.retain_after_load()
     call press_save_and_exit(False) 
