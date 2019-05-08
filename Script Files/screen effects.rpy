@@ -145,15 +145,26 @@ screen heart_break_screen(character):
 
 # Call this label before you show a menu
 # to show the answer button
-label answer(from_cg=False):
-    if from_cg:
-        hide screen viewCG
+label answer(from_cg=False): 
+    if not inst_text:
+        if from_cg:
+            hide screen viewCG
+        else:
+            $ pauseFailsafe()
+            $ addchat(answer, '', 0.2)    
+        $ pre_choosing = True
+        call screen answer_button
+        show screen pause_button
     else:
-        $ pauseFailsafe()
-        $ addchat(answer, '', 0.2)    
-    $ pre_choosing = True
-    call screen answer_button
-    show screen pause_button
+        if from_cg:
+            hide screen viewCG
+        else:
+            $ text_pauseFailsafe(inst_text.private_text)
+            $ addtext_instant(answer, '', 0.2)
+        $ pre_choosing = True
+        call screen text_answer
+        show screen text_pause_button
+            
     return
         
 screen answer_button:
@@ -218,9 +229,14 @@ screen pause_button:
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped        
 label play:
-    $ chatlog.append(Chatentry(chat_pause,'',upTime))
-    call screen play_button
-    show screen pause_button
+    if not inst_text:
+        $ chatlog.append(Chatentry(chat_pause,'',upTime()))
+        call screen play_button
+        show screen pause_button
+    else:
+        $ inst_text.private_text.append(Chatentry(chat_pause, '', upTime()))
+        call screen text_play_button
+        show screen text_pause_button
     return
     
 # This screen is visible when the chat is paused;
@@ -438,8 +454,10 @@ screen viewCG_fullsize:
             idle "close_button"
             if pre_choosing and not textmsg_CG and not album_CG:
                 action [Call("answer", from_cg=True)]
-            elif textmsg_CG:
+            elif textmsg_CG and not persistent.instant_texting:
                 action [Hide("viewCG_fullsize"), Show("text_message_screen", the_msg=CG_who)]
+            elif textmsg_CG:
+                action [Hide("viewCG_fullsize"), Show("inst_text_message_screen", the_sender=CG_who)]
             elif album_CG:
                 action [Hide('viewCG_fullsize'), Return]
             else:
