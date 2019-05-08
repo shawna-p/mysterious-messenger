@@ -652,6 +652,12 @@ label phone_begin:
     $ _history = False
     hide screen incoming_call
     hide screen outgoing_call
+    
+    # Hide all the popup screens
+    hide screen text_msg_popup
+    hide screen text_msg_popup_instant
+    hide screen email_popup
+    
     show screen in_call
     return
     
