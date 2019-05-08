@@ -58,6 +58,8 @@ init -6 python:
             self.english = english
             self.korean = korean
             
+
+            
 # Name of the currently played day, e.g. '1st'
 default current_day = False     
 # Number of the day the player is currently
@@ -247,6 +249,7 @@ define white = "#ffffff"
 define black = "#000000"
 
 image new_sign = "Bubble/main01_new.png"
+
 
 #************************************
 # Menu Greeting Lookup
@@ -493,7 +496,7 @@ default persistent.yoosung_voice = True
 default persistent.jaehee_voice = True
 default persistent.other_voice = True
 
-default persistent.MC_pic = 1
+default persistent.MC_pic = 'Profile Pics/MC/MC-1.png'
 default persistent.name = "Rainbow"
 
 default persistent.HP = 0
@@ -735,14 +738,6 @@ image load_btn = "Phone UI/Main Menu/menu_load_btn.png"
 image name_line = "Phone UI/Main Menu/menu_underline.png"
 image menu_edit = "Phone UI/Main Menu/menu_pencil_long.png"
 image menu_check_edit = "Phone UI/Main Menu/menu_check_long.png"
-
-image MC_profpic = ConditionSwitch(
-    "persistent.MC_pic == 1", Transform("Profile Pics/MC/MC-1.png",size=(363,363)),
-    "persistent.MC_pic == 2", Transform("Profile Pics/MC/MC-2.png",size=(363,363)),
-    "persistent.MC_pic == 3", Transform("Profile Pics/MC/MC-3.png",size=(363,363)),
-    "persistent.MC_pic == 4", Transform("Profile Pics/MC/MC-4.png",size=(363,363)),
-    "persistent.MC_pic == 5", Transform("Profile Pics/MC/MC-5.png",size=(363,363)),
-    "True", Transform("Profile Pics/MC/MC-1.png", size=(363,363)))
           
 image radio_on = "Phone UI/Main Menu/menu_radio_on.png"
 image radio_off = "Phone UI/Main Menu/menu_radio_off.png"
@@ -1013,6 +1008,9 @@ image text_answer_animation:
     'Text Messages/answer_animation/17.png'
     0.1
     repeat
+    
+image text_pause_button = 'Text Messages/msgsl_text_pause.png'
+image text_play_button = 'Text Messages/msgsl_text_play.png'
     
 image text_popup_bkgr = "Text Messages/msgsl_popup_edge.png"
 image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.png", 0,0)

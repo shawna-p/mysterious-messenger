@@ -14,17 +14,51 @@
 init python:
 
     ## This lets you change the MC's profile picture by clicking on it
-    ## Currently you can only use the pre-set images, not upload your own
-    def MC_pic_change():   
-        if persistent.MC_pic == 5:
-            persistent.MC_pic = 1
-        else:
-            persistent.MC_pic += 1
+    ## The player can upload their own images as well
+    def MC_pic_change():
+        global m, persistent
+        
+        # If we're not using a custom pic, check if one's available
+        # Populate the list with the file names
+        file_list = renpy.list_files()
+        # This now has a list of the available images
+        user_pic_list = [ pic for pic in file_list if 'Drop Your Profile Picture Here/' in pic and isImg(pic)]
             
-        global m
-        thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
-        m.prof_pic = thepic
+        
+        # Now we check if there are indeed available files
+        if user_pic_list:
+            if m.prof_pic in user_pic_list:
+                # Now we go through the pics and set the pic to the
+                # next available image
+                # We assume the image provided is square (this is
+                # the responsibility of the user)
+                for i, pic in enumerate(user_pic_list):
+                    if m.prof_pic == pic:
+                        if i < len(user_pic_list) - 1:
+                            m.prof_pic = user_pic_list[i+1]
+                            break
+                        elif i == len(user_pic_list) - 1:
+                            m.prof_pic = user_pic_list[0]
+                            break
+            else:
+                m.prof_pic = user_pic_list[0]
+        else:
+            m.prof_pic = 'Profile Pics/MC/MC-1.png'
+            
+        persistent.MC_pic = m.prof_pic
+            
         renpy.retain_after_load()
+            
+    
+    ## Checks for common image extensions
+    def isImg(pic):
+        if '.png' or '.PNG' or '.jpg' or '.jpeg' in pic:
+            return True
+        elif '.JPG' or '.JPEG' or '.gif' or '.GIF' in pic:
+            return True
+        else:
+            return False
+        
     
 default email_tone_dict = { 'Default 1': 'sfx/Ringtones etc/email_basic_1.wav', 
                             'Default 2': 'sfx/Ringtones etc/email_basic_2.wav',     
@@ -156,7 +190,7 @@ screen profile_pic:
 
         # MC's profile picture
         imagebutton:
-            idle "MC_profpic"
+            idle Transform(m.prof_pic, size=(363,363))
             xalign 0.055
             action [Function(MC_pic_change), renpy.restart_interaction]
             focus_mask True
@@ -328,7 +362,7 @@ screen other_settings():
         xalign 0.5
             
         window:
-            maximum(675,350)
+            maximum(675,320)
             add "menu_settings_panel"
             text "Other Settings" style "settings_style" xpos 55 ypos 5
             
@@ -384,7 +418,7 @@ screen other_settings():
                 textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
                 
         window:
-            maximum(675,250)
+            maximum(675,280)
             add "menu_settings_panel"
             text "Variables for testing" style "settings_style" xpos 55 ypos 5
 
@@ -396,6 +430,7 @@ screen other_settings():
                 textbutton _("Testing Mode") action ToggleField(persistent, "testing_mode")
                 textbutton _("Real-Time Mode") action ToggleField(persistent, "real_time")
                 textbutton _("Hacked Effect") action ToggleVariable('hacked_effect')
+                #textbutton _("Real-Time Texts") action ToggleField(persistent,'instant_texting')
                 
         
                 

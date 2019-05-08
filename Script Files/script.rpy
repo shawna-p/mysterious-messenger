@@ -139,9 +139,10 @@ label define_variables:
         merge_albums(persistent.common_album, common_album)
         
         # The code below updates MC's profile picture and name
-        thepic = 'Profile Pics/MC/MC-[persistent.MC_pic].png'
-        if m.prof_pic != thepic:
-            m.prof_pic = thepic
+        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
+            m.prof_pic = persistent.MC_pic
+        else:
+            m.prof_pic = 'Profile Pics/MC/MC-1.png'
         if m.name != persistent.name:
             m.name = persistent.name
             
