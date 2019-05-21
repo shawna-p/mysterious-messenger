@@ -111,7 +111,8 @@ transform bubble:
 screen say(who, what):
     style_prefix "say"
     
-    if not in_phone_call and not inst_text:
+    # In VN mode
+    if not in_phone_call and not inst_text and vn_choice:
     
         window:
             id "window"
@@ -155,7 +156,7 @@ screen say(who, what):
                 hover Text("Log", style="vn_button_hover")
                 action ShowMenu('history')
             
-    elif not inst_text:   # In a phone call        
+    elif not inst_text and in_phone_call:   # In a phone call        
         window:
             xfill True
             ysize 500
