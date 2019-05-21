@@ -250,6 +250,7 @@ define black = "#000000"
 
 image new_sign = "Bubble/main01_new.png"
 
+define _preferences.show_empty_window = False
 
 #************************************
 # Menu Greeting Lookup

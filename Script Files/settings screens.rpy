@@ -430,7 +430,7 @@ screen other_settings():
                 textbutton _("Testing Mode") action ToggleField(persistent, "testing_mode")
                 textbutton _("Real-Time Mode") action ToggleField(persistent, "real_time")
                 textbutton _("Hacked Effect") action ToggleVariable('hacked_effect')
-                #textbutton _("Real-Time Texts") action ToggleField(persistent,'instant_texting')
+                textbutton _("Real-Time Texts") action ToggleField(persistent,'instant_texting')
                 
         
                 

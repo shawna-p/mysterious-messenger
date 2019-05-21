@@ -297,7 +297,7 @@ init -6 python:
             for character in small_char_list:
                 if not character.private_text_read:
                     # New messages were delivered/written; popup needed
-                    character.private_text_read = False
+                    character.private_text_read = "Notified"
                     renpy.music.play(persistent.text_tone, 'sound')
                     renpy.show_screen('text_msg_popup_instant', the_char=character) 
     

@@ -183,7 +183,7 @@ label menu_a1_inst:
 label menu_a2_inst:
     call text_begin(v)
     v "Because this is 'instant text messaging',"
-    v "these emojis will have audio, unlike regular texts."
+    v "these emojis will have audio when posted, unlike regular texts."
     call answer
     menu:
         "Thanks for showing me this.":
