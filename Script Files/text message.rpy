@@ -139,7 +139,7 @@ init python:
             unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
             return len(unread_messages)
         else:
-            unread_messages = [ c for c in character_list if not c == m and c.private_text and not c.private_text_read ]
+            unread_messages = [ c for c in character_list if not c == m and c.private_text and (not c.private_text_read or c.private_text_read == "Notified") ]
             return len(unread_messages)
     
     ## Returns the number of undelivered messages in text_queue
@@ -184,9 +184,9 @@ init python:
 
     ## This simplifies some of the code that parses what's in the text message
     ## so it can display a preview of the appropriate length
-    def text_popup_preview(last_msg):
+    def text_popup_preview(last_msg, num_char=48):
         global name
-        name_cut = 54 - len(name)
+        name_cut = num_char + 6 - len(name)
         
         if "[" in last_msg.what:
             # Means we have to do some cleanup to ensure
@@ -195,17 +195,20 @@ init python:
             if "[name]" in last_msg.what:
                 msg = last_msg.what[:name_cut]
             else:
-                msg = last_msg.what[:48]
+                msg = last_msg.what[:num_char]
             n = msg.rfind(' ')
             if n > 0:
                 msg = msg[:n]
         
         if last_msg and ("{image=" in last_msg.what or last_msg.img):
-            return "[last_msg.who.name] sent an image."
+            if last_msg.who == m:
+                return "You sent an image."
+            else:
+                return last_msg.who.name + " sent an image."
         elif last_msg and len(last_msg.what) > 48:
-            return last_msg.what[:48] + '...'
+            return last_msg.what[:num_char] + '...'
         elif last_msg:
-            return last_msg.what[:48]
+            return last_msg.what[:num_char]
             
             
 default current_message = None
@@ -237,11 +240,11 @@ screen text_message_hub:
                 if persistent.instant_texting:
                     for i in character_list:
                         # First we display unread messages
-                        if i.private_text and not i.private_text_read:
+                        if i.private_text and (not i.private_text_read or i.private_text_read == "Notified"):
                             use text_hub_display(persistent.instant_texting, i.private_text, i)
                     for i in character_list:
                         # Now we display read messages
-                        if i.private_text and i.private_text_read: # if it's not empty                        
+                        if i.private_text and i.private_text_read != "Notified" and i.private_text_read: # if it's not empty                        
                             use text_hub_display(persistent.instant_texting, i.private_text, i)
                 else:
                     for i in text_messages:
@@ -249,10 +252,16 @@ screen text_message_hub:
                             use text_hub_display(persistent.instant_texting, i.msg_list, i)
                 
 screen text_hub_display(instant_texting_on=False, text_log, i):
-    $ last_text = text_log[len(text_log) - 1]
-    $ text_time = last_text.thetime
+        
+    if len(text_log) > 0:
+        $ last_text = text_log[-1]
+        $ text_time = last_text.thetime
+    else:
+        $ last_text = False
+        $ text_time = False
+    
 
-    if (not instant_texting_on and i.read) or (instant_texting_on and i.private_text_read):
+    if last_text and ((not instant_texting_on and i.read) or (instant_texting_on and i.private_text_read and not i.private_text_read == "Notified")):
         button:                                                       
             background 'message_idle_bkgr'
             hover_background 'message_hover_bkgr'  
@@ -283,13 +292,7 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
                     align (0.0, 0.5)
                     text last_text.who.name style "save_slot_text"
                     spacing 40     
-                    if "{image=" in last_text.what or last_text.img:
-                        if last_text.who == m:
-                            text "You sent an image." style "save_slot_text"
-                        else:
-                            text "[last_text.who.name] sent an image." style "save_slot_text"
-                    else:
-                        text last_text.what[:16] + '...' style "save_slot_text"
+                    text text_popup_preview(last_text, 16) style "save_slot_text"
                     
                 window:
                     xmaximum 230
@@ -300,7 +303,7 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
                     add 'read_text_envelope' xalign 1.0
                     
                         
-    else:
+    elif last_text:
         button:                                                       
             background 'unread_message_idle_bkgr'
             hover_background 'unread_message_hover_bkgr' 
@@ -331,10 +334,7 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
                     align (0.0, 0.5)
                     text last_text.who.name style "save_slot_text"
                     spacing 40      
-                    if "{image=" in last_text.what or last_text.img:
-                        text "[last_text.who.name] sent an image." style "save_slot_text"   
-                    else:
-                        text last_text.what[:16] + '...' style "save_slot_text"
+                    text text_popup_preview(last_text, 16) style "save_slot_text"
                     
                 window:
                     xmaximum 230
@@ -677,16 +677,18 @@ screen text_animation(i):
 ## Sets end variables when a text message menu is completed 
 label text_end():
     if inst_text:
+        $ addtext_instant(filler, "", 0.5)
         $ inst_text.finished_text()
         $ who = inst_text
         $ inst_text = False
         $ chatroom_hp == 0
         $ textbackup = Chatentry(filler,"","")
-        $ renpy.retain_after_load()
+        $ renpy.retain_after_load()        
         hide screen text_answer
         hide screen inactive_text_answer
         hide screen text_play_button
-        hide screen text_pause_button
+        hide screen text_pause_button       
+        #hide screen inst_text_message_screen      
         call screen inst_text_message_screen(who)         
     else:
         $ renpy.retain_after_load()
