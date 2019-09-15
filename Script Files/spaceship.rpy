@@ -108,7 +108,7 @@ screen chip_tap:
     
     add "Phone UI/choice_dark.png"
     window at chip_wobble:
-        maximum(481,598)
+        xysize(481,598)
         xalign 0.5
         yalign 0.6
         imagebutton:
@@ -139,13 +139,13 @@ screen chip_cloud:
         
     add "Phone UI/choice_dark.png"
     window at chip_wobble2:
-        maximum(481,598)
+        xysize(481,598)
         xalign 0.5
         yalign 0.6
         add "space_chip"
     
     window at hide_dissolve:
-        maximum(750,640)
+        xysize(750,640)
         xalign 0.5
         yalign 0.6
         add 'cloud_1' xpos 735 ypos 500 at cloud_shuffle1
@@ -173,13 +173,13 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
     add 'spotlight' xalign 0.5 yalign 0.0
     
     window:
-        maximum(481,598)
+        xysize(481,598)
         xalign 0.5
         yalign 0.6
         add "space_chip"
         
     window:
-        maximum(647,270)
+        xysize(647,270)
         xalign 0.5 yalign 0.55
         background 'space_prize_box'
             
@@ -188,14 +188,14 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
             xalign 0.5
             yalign 0.55
             window:
-                maximum(200,60)
+                xysize(200,60)
                 background 'space_black_box'
                 text str(prize_heart) style 'chip_prize_text'
                 add 'header_heart' xalign 0.15 yalign 0.5
                 
                 
             window:
-                maximum(200,60)
+                xysize(200,60)
                 background 'space_black_box'
                 # You could give out hourglasses here too, but since I've
                 # never gotten one from the HBC animation I've just left
@@ -204,7 +204,7 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
                 add 'header_hg' xalign 0.15 yalign 0.5
                 
         window:
-            maximum(600,100)
+            xysize(600,100)
             align(0.5, 0.05)
             if len(prize_text) > 50:
                 text prize_text style 'chip_prize_description_long'

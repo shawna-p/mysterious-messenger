@@ -367,7 +367,7 @@ screen viewCG_fullsize_album:
             focus_mask True
             idle "close_button"
             action [SetVariable('prev_cg_left', False), SetVariable('prev_cg_right', False),
-                    Hide('viewCG_fullsize'), Return]
+                    Hide('viewCG_fullsize'), Return()]
         
         text "Close" style "CG_close"        
         

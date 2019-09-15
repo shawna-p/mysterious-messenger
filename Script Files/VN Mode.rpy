@@ -153,7 +153,7 @@ screen history():
         yalign 0.0
         focus_mask True
         idle "close_button"
-        action Return
+        action Return()
         
     text "Close" style "CG_close"
     

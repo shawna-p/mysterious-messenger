@@ -654,7 +654,7 @@ screen text_animation(i):
                                 focus_mask True
                                 idle fullsizeCG
                                 if not choosing:
-                                    action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG", textmsg=True), Return]
+                                    action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG", textmsg=True), Return()]
             
                     
                     else:        

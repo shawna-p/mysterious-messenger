@@ -186,7 +186,7 @@ screen answer_button:
         focus_mask None
         idle "Phone UI/answer_transparent.png"
         activate_sound "sfx/UI/answer_screen.mp3"
-        action [Show('pause_button'), Return]   
+        action [Show('pause_button'), Return()]   
 
     
 #####################################
@@ -261,7 +261,7 @@ screen play_button:
             idle "custom_play"
         else:
             idle "Phone UI/Play.png"
-        action [Show('pause_button'), Return]
+        action [Show('pause_button'), Return()]
         
 
 #####################################
@@ -469,7 +469,7 @@ screen viewCG_fullsize:
                 action [Hide("viewCG_fullsize"), Show("inst_text_message_screen", the_sender=CG_who)]
             # From the album
             elif album_CG:
-                action [Hide('viewCG_fullsize'), Return]
+                action [Hide('viewCG_fullsize'), Return()]
             # From the chatroom, not before an answer button
             else:
                 action [Call("play")]
@@ -498,7 +498,7 @@ screen save_and_exit(end_route=False):
         if not end_route:
             action [Jump("press_save_and_exit")]
         else:
-            action Return
+            action Return()
         
 label press_save_and_exit(phone=True):
     if observing:
@@ -622,7 +622,7 @@ screen signature_screen(phone=True):
             background "Phone UI/sign-button.png" padding(20,20)
             activate_sound "sfx/UI/end_chatroom.mp3"
             hover_background "Phone UI/sign-button-clicked.png"
-            action Return
+            action Return()
 
 
 #####################################
@@ -721,7 +721,7 @@ screen countdown(timer_jump, count_time=5): # I set a default reaction time of 5
     bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve
 
 screen hidden_countdown(count_time=5): # I set a default reaction time of 5 seconds
-    timer count_time repeat False action [ Hide('hidden_countdown'), Return ]
+    timer count_time repeat False action [ Hide('hidden_countdown'), Return() ]
     bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve
         
         

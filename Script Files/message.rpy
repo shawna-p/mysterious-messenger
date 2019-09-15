@@ -482,7 +482,7 @@ screen chat_animation(i, animate=True):
                             focus_mask True
                             idle fullsizeCG
                             if not choosing:
-                                action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG"), Return]
+                                action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG"), Return()]
                                 
                                 
                 ## Check if it's a special bubble

@@ -115,7 +115,7 @@ screen settings_tabs(active_tab):
     window:
         xalign 0.5
         yalign 0.14
-        maximum(700,70)
+        xysize(700,70)
         has hbox
         spacing 10
         # Account / Sound / Others tab
@@ -175,7 +175,7 @@ screen profile_pic:
     window:
         yalign 0.7
         xalign 0.05
-        maximum(325, 900)
+        xysize(325, 900)
         # Edit MC's Name
         add "name_line" xalign 0.079 yalign 0.475        
         text persistent.name style "my_name"
@@ -302,7 +302,7 @@ screen input_popup(prompt=''):
     $ input = Input(value=MyInputValue("persistent.name", persistent.name), style="my_input", length=20)
     
     window:
-        maximum(550,313)
+        xysize(550,313)
         background 'input_popup_bkgr'
         xalign 0.5
         yalign 0.4
@@ -362,7 +362,7 @@ screen other_settings():
         xalign 0.5
             
         window:
-            maximum(675,320)
+            xysize(675,320)
             add "menu_settings_panel"
             text "Other Settings" style "settings_style" xpos 55 ypos 5
             
@@ -403,7 +403,7 @@ screen other_settings():
                         textbutton _("Custom UI changes") action ToggleField(persistent, "custom_footers")
             
         window:
-            maximum(675,250)
+            xysize(675,250)
             add "menu_settings_panel"
             text "VN Settings" style "settings_style" xpos 55 ypos 5
 
@@ -418,7 +418,7 @@ screen other_settings():
                 textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
                 
         window:
-            maximum(675,280)
+            xysize(675,280)
             add "menu_settings_panel"
             text "Variables for testing" style "settings_style" xpos 55 ypos 5
 
@@ -440,7 +440,7 @@ screen other_settings():
         
         
         window:
-            maximum (520, 130)
+            xysize (520, 130)
             xalign 0.5
             has hbox
             spacing 40
@@ -508,7 +508,7 @@ screen preferences():
         
   
         window:
-            maximum(675,480)
+            xysize(675,400)
             background "menu_settings_panel" padding(10,10)
             xalign 0.5
             has vbox
@@ -572,7 +572,7 @@ screen preferences():
                     style "mute_all_button" xalign 0.45
             
         window:
-            maximum(675,620)
+            xysize(675,390)
             background "menu_settings_panel" padding(10,10)
             has vbox
             xalign 0.5
@@ -621,7 +621,7 @@ screen preferences():
                     
                     
         window:
-            maximum(675,360)
+            xysize(675,360)
             background "menu_settings_panel"
             align (0.5, 0.34)
             text "Ringtone" style "settings_style" xpos 55 ypos 5
