@@ -191,20 +191,20 @@ screen main_menu:
         
         
     ## Greeting Bubble/Dialogue
-    add "rfa_greet" yalign 0.01 xalign 0.25   
+    add "rfa_greet" yalign 0.01 xalign 0.25 
     
     window:
-        maximum(670,140)
+        xysize(670,140)
         xpos 380
         ypos 260
         add "greeting_panel"
         
     hbox:
         window:
-            maximum(143,127)
+            xysize(143,127)
             add "Phone UI/Main Menu/[greet_char]_greeting.png" xpos 65 ypos 140
         window:
-            maximum(500,120)
+            xysize(500,120)
             xpos 305
             ypos 250
             add "greeting_bubble"
@@ -218,13 +218,13 @@ screen main_menu:
     # The main menu buttons. Note that some currently don't take you to the screen you'd want
     # as those features have yet to be added
     window:
-        maximum(695, 650)
+        xysize(695, 650)
         xalign 0.6
         yalign 0.62
         vbox:
             hbox:
                 window:
-                    maximum(450,420)
+                    xysize(450,420)
                     padding (10, 10)
                     # Original Story
                     # Top left
@@ -248,7 +248,7 @@ screen main_menu:
                 
                 vbox:
                     window:
-                        maximum(225, 210)
+                        xysize(225, 210)
                         padding (10, 10)
                         # Save and Load
                         # Top Right
@@ -264,7 +264,7 @@ screen main_menu:
                             text "Save & Load" style "menu_text_small" ypos 10
                             
                     window:
-                        maximum(225, 210)
+                        xysize(225, 210)
                         padding (10, 10)
                         # After Ending
                         # Mid Right
@@ -281,7 +281,7 @@ screen main_menu:
                             text "After Ending" style "menu_text_small" ypos 20
             hbox:
                 window:
-                    maximum(450,210)
+                    xysize(450,210)
                     padding (10, 10)
                     # History
                     # Bottom Left
@@ -297,7 +297,7 @@ screen main_menu:
                         text "History" style "menu_text_big" ypos 13
                     
                 window:
-                    maximum(225, 210)
+                    xysize(225, 210)
                     padding (10, 10)
                     # DLC
                     # Bottom Right
@@ -414,7 +414,7 @@ screen route_select_screen:
     use menu_header("Mode Select", Show('main_menu', Dissolve(0.5)))
 
     window:
-        maximum(700, 350)
+        xysize(700, 350)
         padding (10, 10)
         xalign 0.5
         yalign 0.5
@@ -513,7 +513,7 @@ screen file_slots(title):
                         
                         window:
                             align (0.5, 0.5)
-                            maximum(120, 120)
+                            xysize(120, 120)
                             add 'save_auto' xalign 0.5 yalign 0.5
                         
                         window:
@@ -527,7 +527,7 @@ screen file_slots(title):
                             text "Today: [dn] DAY" style "save_slot_text" yalign 1.0
 
                         window:
-                            maximum (155,120)
+                            xysize (155,120)
                             has vbox                            
                             fixed:
                                 xsize 155
@@ -622,7 +622,7 @@ screen file_slots(title):
                         xsize 695
                         
                         window:
-                            maximum(120, 120)
+                            xysize(120, 120)
                             align (0.5, 0.5)
                             # Adds the correct save image to the left
                             if FileLoadable(slot):
@@ -648,7 +648,7 @@ screen file_slots(title):
                                 text "Tap an empty slot to save" style 'save_slot_text' yalign 1.0
                             
                         window:
-                            maximum (155,120)
+                            xysize (155,120)
                             has vbox
                             # Displays the time the save was created and the delete button
                             fixed:
@@ -705,7 +705,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
     
     if not persistent.first_boot:
         window:
-            maximum(600, 80)
+            xysize(600, 80)
             yalign 0.01
             xalign 0.86
             hbox:
@@ -719,8 +719,8 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                     #    action NullAction
                 add 'header_tray'
                 
-            add "header_hg" yalign 0.1 xalign 0.16
-            add "header_heart" yalign 0.1 xalign 0.65
+            add "header_hg" yalign 0.03 xalign 0.16
+            add "header_heart" yalign 0.03 xalign 0.65
             
             text "[persistent.HG]" style "hg_heart_points" xalign 0.35 yalign 0.01
             text "[persistent.HP]" style "hg_heart_points" xalign 0.83 yalign 0.01
@@ -729,7 +729,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
     ## Header
     if title != "Original Story" and title != "In Call":
         window:
-            ymaximum 80
+            ysize 80
             yalign 0.058
             add "menu_header"                
             
@@ -826,7 +826,7 @@ screen chat_home(reshow=False):
           
     # Text Messages
     button:
-        maximum(168,168)
+        xysize(168,168)
         xalign 0.62
         if len(character_list) > 10:
             yalign 0.295
@@ -843,7 +843,7 @@ screen chat_home(reshow=False):
         if new_message_count() > 0:
             add 'blue_maincircle' xalign 0.5 yalign 0.5
             window:
-                maximum(45,45)
+                xysize(45,45)
                 xalign 1.0
                 yalign 0.0
                 background 'new_text_count' 
@@ -855,7 +855,7 @@ screen chat_home(reshow=False):
         
     # Calls
     button:
-        maximum(168,168) 
+        xysize(168,168) 
         xalign 0.91
         if len(character_list) > 10:
             yalign 0.45
@@ -872,7 +872,7 @@ screen chat_home(reshow=False):
         if unseen_calls > 0:
             add "blue_maincircle" xalign 0.5 yalign 0.5  
             window:
-                maximum(45,45)
+                xysize(45,45)
                 xalign 1.0
                 yalign 0.0
                 background 'new_text_count' 
@@ -885,7 +885,7 @@ screen chat_home(reshow=False):
      
     # Emails
     button:
-        maximum(168,168)
+        xysize(168,168)
         xalign 0.342
         if len(character_list) > 10:
             yalign 0.43
@@ -902,7 +902,7 @@ screen chat_home(reshow=False):
         if unread_emails() > 0:
             add "blue_maincircle" xalign 0.5 yalign 0.5
             window:
-                maximum(45, 45)
+                xysize(45, 45)
                 xalign 1.0
                 yalign 0.0
                 background 'new_text_count'
@@ -914,7 +914,7 @@ screen chat_home(reshow=False):
         
     # Main Chatroom
     button:
-        maximum(305,305)
+        xysize(305,305)
         xalign 0.65
         yalign 0.722
         background "gray_chatbtn"
@@ -936,7 +936,7 @@ screen chat_home(reshow=False):
     # pictures, but I've chosen to simply include their current
     # profile picture
     window:
-        maximum(741, 206)
+        xysize(741, 206)
         xalign 0.5
         yalign 0.08
         vbox:
@@ -968,14 +968,14 @@ screen chat_home(reshow=False):
 
     # Links/etc on the left side of the screen
     window:
-        maximum(140, 1000)
+        xysize(140, 1000)
         xalign 0.03
-        yalign 0.62
+        yalign 0.98
         has vbox
         spacing 20
         # Album
         button:
-            maximum(130,149)
+            xysize(130,149)
             if new_cg:
                 background "blue_hex"
                 hover_background "blue_hex_hover"
@@ -989,7 +989,7 @@ screen chat_home(reshow=False):
             
         # Guest
         button:
-            maximum(130,149)
+            xysize(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
             #action NullAction
@@ -998,7 +998,7 @@ screen chat_home(reshow=False):
             
         # Shop
         button:
-            maximum(130,149)
+            xysize(130,149)
             background "red_hex"
             hover_background "red_hex_hover"
             #action NullAction
@@ -1007,7 +1007,7 @@ screen chat_home(reshow=False):
             
         # Notice
         button:
-            maximum(130,149)
+            xysize(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
             #action NullAction
@@ -1016,7 +1016,7 @@ screen chat_home(reshow=False):
             
         # Link            
         button:
-            maximum(130,149)
+            xysize(130,149)
             background "white_hex"
             hover_background "white_hex_hover"
             #action SetVariable('chips_available', True)            
@@ -1033,7 +1033,7 @@ screen chat_home(reshow=False):
     
         if not reshow:
             window at chip_anim:
-                maximum(90,70)
+                xysize(90,70)
                 xalign 0.93
                 yalign 0.942
                 add "space_chip_explode"
@@ -1041,7 +1041,7 @@ screen chat_home(reshow=False):
             add "space_chip_active" xalign 0.92 yalign 0.98
             
             window at spaceship_chips(1.0):
-                maximum (100,110)
+                xysize (100,110)
                 xalign 0.96
                 yalign 1.0
                 add "space_flame" xalign 0.5 yalign 1.0
@@ -1054,7 +1054,7 @@ screen chat_home(reshow=False):
         
         if reshow:
             window at chip_anim(0):
-                maximum(90,70)
+                xysize(90,70)
                 xalign 0.93
                 yalign 0.942
                 add "space_chip_explode"
@@ -1062,7 +1062,7 @@ screen chat_home(reshow=False):
             add "space_chip_active2" xalign 0.92 yalign 0.98
             
             window at spaceship_chips:
-                maximum (100,110)
+                xysize (100,110)
                 xalign 0.96
                 yalign 1.0
                 add "space_flame" xalign 0.5 yalign 1.0
@@ -1077,7 +1077,7 @@ screen chat_home(reshow=False):
         add "space_chip_inactive" xalign 0.92 yalign 0.98
         
         window at spaceship_flight:
-            maximum (100,110)
+            xysize (100,110)
             xalign 0.04#spaceship_xalign
             yalign 1.0
             add "space_flame" xalign 0.5 yalign 1.0
@@ -1110,12 +1110,12 @@ screen chara_profile(who):
         add Transform(who.prof_pic, size=(314,314))
         add 'profile_outline'    
     window:
-        maximum (350,75)
+        xysize (350,75)
         xalign 0.96
         yalign 0.685
         text who.name style "profile_header_text"
     window:  
-        maximum (700, 260)
+        xysize (700, 260)
         yalign 0.97
         text who.status style "profile_status"
     

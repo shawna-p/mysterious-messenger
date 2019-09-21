@@ -527,7 +527,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 idle 'call_answer'
                 hover Transform('Phone UI/Phone Calls/call_button_answer.png', zoom=1.1)
                 if starter_story:
-                    action Return
+                    action Return()
                 else:
                     action [Function(renpy.music.stop), Preference("auto-forward", "enable"), 
                             SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
@@ -650,6 +650,7 @@ label phone_begin:
     # This stops it from recording the dialogue
     # from the phone call in the history log
     $ _history = False
+    $ in_phone_call = True
     hide screen incoming_call
     hide screen outgoing_call
     
@@ -667,6 +668,7 @@ label phone_end:
     if not starter_story:
         if not observing:
             $ current_call.finished()
+        $ in_phone_call = False
         $ current_call = False    
         $ observing = False
         $ _history = True

@@ -230,7 +230,7 @@ screen text_answer():
             background 'text_answer_active'
             hover_background 'text_answer_animation'  
             if not renpy.get_screen("choice"):
-                action [Show('text_pause_button'), Return]
+                action [Show('text_pause_button'), Return()]
                 activate_sound "sfx/UI/answer_screen.mp3"
             add 'text_answer_text' xalign 0.5 yalign 0.5
             
@@ -289,7 +289,7 @@ screen text_play_button:
             xalign 0.5
             focus_mask True
             idle "text_play_button"
-            action [Show('text_pause_button'), Return]
+            action [Show('text_pause_button'), Return()]
         
 ########################################################
 ## This is the screen that actually displays the
@@ -433,7 +433,7 @@ screen text_animation_instant(i):
                                 focus_mask True
                                 idle fullsizeCG
                                 if not choosing:
-                                    action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG", textmsg=True), Return]
+                                    action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG", textmsg=True), Return()]
             
                     
                     else:        

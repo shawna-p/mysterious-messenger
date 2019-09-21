@@ -1,0 +1,18 @@
+*.rpyc
+Drop Your Profile Picture Here/
+cache/
+saves/
+fonts/
+gui/
+tl/
+sfx/
+Music/
+voice files/
+images/
+errors.txt
+log.txt
+project.json
+traceback.txt
+.android.json
+dialogue.tab
+_config.yml
