@@ -446,98 +446,83 @@ define gui.longer_than = 420
 
 ## SPIKE
 ## Small Spike Bubble
-define gui.spike_s_padding = (52, 0, 52, 40)
-define gui.spike_s_bottom_margin = -90
-define gui.spike_s_pos = (120, -90)
-define gui.spike_s_xysize = (240, 120)
+define gui.spike_s_padding = (42, 0, 62, 0)
+define gui.spike_s_pos = (120, 38)
+define gui.spike_s_xysize = (282,219)
 
 ## Medium Spike Bubble
-define gui.spike_m_padding = (50, 0, 50, 15)
-define gui.spike_m_bottom_margin = -55
-define gui.spike_m_pos = (120, -85)
-define gui.spike_m_xysize = (320, 155)#160)
+define gui.spike_m_padding = (50, 0, 50, 0)
+define gui.spike_m_pos = (120, 38)
+define gui.spike_m_xysize = (340,242)
 
 ## Large Spike Bubble
-define gui.spike_l_bottom_margin = -55
-define gui.spike_l_padding = (55, 0, 55, 30)
-define gui.spike_l_pos = (140, -100)
-define gui.spike_l_xysize = (500, 270)#280)
+define gui.spike_l_padding = (55, 0, 55, 5)
+define gui.spike_l_pos = (140, 38)
+define gui.spike_l_xysize = (511,376)
 
 ## CLOUD
 ## Small Cloud Bubble
-define gui.cloud_s_padding = (44, 0, 44, 40)
-define gui.cloud_s_bottom_margin = -90
-define gui.cloud_s_pos = (120, -90)
-define gui.cloud_s_xysize = (280, 110)#130)
+define gui.cloud_s_padding = (50, 0, 44, 0)
+define gui.cloud_s_pos = (120, 38)
+define gui.cloud_s_xysize = (266,202)
 
 ## Medium Cloud Bubble
 define gui.cloud_m_padding = (90, 0, 90, 0)
-define gui.cloud_m_pos = (85, -115)
-define gui.cloud_m_xysize = (475,200)#210)
-define gui.cloud_m_bottom_margin = -75
+define gui.cloud_m_pos = (85, 38)
+define gui.cloud_m_xysize = (457,324)
 
 ## Large Cloud Bubble
-define gui.cloud_l_padding = (120, 20, 70, 0)
-define gui.cloud_l_pos = (70, -130)
-define gui.cloud_l_xysize = (620,330)#350)
-define gui.cloud_l_bottom_margin = -75
+define gui.cloud_l_padding = (120, 20, 70, 10)
+define gui.cloud_l_pos = (70, 38)
+define gui.cloud_l_xysize = (680,478)
 
 ## SPECIAL 1 (Round)
 ## Small Special 1 Bubble
-define gui.round_s_padding = (60, 70, 60, 0)
-define gui.round_s_bottom_margin = -90
-define gui.round_s_pos = (110,-130)
-define gui.round_s_xysize = (320, 120)#120)
+define gui.round_s_padding = (60, 70, 60, 20)
+define gui.round_s_pos = (110,38)
+define gui.round_s_xysize = (320, 250)
 
 ## Medium Special 1 Bubble
 define gui.round_m_padding = (75, 0, 75, 0)
-define gui.round_m_pos = (120,-110)
-define gui.round_m_xysize = (440,210)#210)
-define gui.round_m_bottom_margin = -75
+define gui.round_m_pos = (120,38)
+define gui.round_m_xysize = (442,329)
 
 ## Large Special 1 Bubble
 define gui.round_l_padding = (80, 0, 80, 0)
-define gui.round_l_pos = (110,-125)
-define gui.round_l_xysize = (540, 270)#280)
-define gui.round_l_bottom_margin = -75
+define gui.round_l_pos = (110,38)
+define gui.round_l_xysize = (553,399)
 
 ## SPECIAL 2 (Square)
 ## Small Special 2 Bubble
-define gui.square_s_padding = (50, 0, 50, 10)
-define gui.square_s_bottom_margin = -90
-define gui.square_s_pos = (120, -105)
-define gui.square_s_xysize = (255, 110)#130)
+define gui.square_s_padding = (50, 0, 50, 30)
+define gui.square_s_pos = (120, 38)
+define gui.square_s_xysize = (272, 255)
 
 ## Medium Special 2 Bubble
-define gui.square_m_padding = (85, 0, 60, 20)
-define gui.square_m_pos = (105, -100)
-define gui.square_m_xysize = (400, 200)#210)
-define gui.square_m_bottom_margin = -75
+define gui.square_m_padding = (70, 0, 70, 20)
+define gui.square_m_pos = (105, 38)
+define gui.square_m_xysize = (428, 323)
 
 ## Large Special 2 Bubble
-define gui.square_l_padding = (110, 10, 110, 0)
-define gui.square_l_pos = (90,-125)
-define gui.square_l_xysize = (590,275)
-define gui.square_l_bottom_margin = -75
+define gui.square_l_padding = (110, 0, 110, 0)
+define gui.square_l_pos = (90,0)
+define gui.square_l_xysize = (626,459)
 
 ## SIGH
 ## Small Sigh Bubble
-define gui.sigh_s_padding = (20, 0, 20, 30)
-define gui.sigh_s_bottom_margin = -70
-define gui.sigh_s_pos = (140, -80)
-define gui.sigh_s_xysize = (210, 120)#110)
+define gui.sigh_s_padding = (10, 0, 20, 30)
+define gui.sigh_s_pos = (140, 38)
+define gui.sigh_s_xysize = (228, 224)
 
 ## Medium Sigh Bubble 
-define gui.sigh_m_padding = (20, 0, 20, 60)
-define gui.sigh_m_pos = (130, -80)
-define gui.sigh_m_xysize = (310, 200)
-define gui.sigh_m_bottom_margin = -75
+define gui.sigh_m_padding = (10, 0, 20, 60)
+define gui.sigh_m_pos = (130, 38)
+define gui.sigh_m_xysize = (335,292)
 
 ## Large Sigh Bubble
 define gui.sigh_l_padding = (65, 0, 65, 100)
-define gui.sigh_l_pos = (110, -75)
-define gui.sigh_l_xysize = (520, 325)#340)
-define gui.sigh_l_bottom_margin = -75
+define gui.sigh_l_pos = (110, 38)
+define gui.sigh_l_xysize = (529,418)
 
 
 ## Localization ################################################################

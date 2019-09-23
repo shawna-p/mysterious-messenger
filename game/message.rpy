@@ -8,14 +8,14 @@ init -4 python:
     ##  specBubble is a variable that holds the name of any special speech bubbles
     ##  that should be used when displaying the text (by default is empty and a regular
     ##  bubble is used)
-    class Chatentry(object):
-        def __init__(self, who, what, thetime, img=False, bounce=False, specBubble=None):
-            self.who = who
-            self.what = what
-            self.thetime = thetime
-            self.img = img
-            self.bounce = bounce
-            self.specBubble = specBubble
+    # class Chatentry(object):
+    #     def __init__(self, who, what, thetime, img=False, bounce=False, specBubble=None):
+    #         self.who = who
+    #         self.what = what
+    #         self.thetime = thetime
+    #         self.img = img
+    #         self.bounce = bounce
+    #         self.specBubble = specBubble
             
     
     ##************************************
@@ -23,7 +23,7 @@ init -4 python:
     ##************************************   
     
     ## This corrects the dialogue into a filepath for the program
-    def cg_helper(what):
+    def cg_helper_OLD(what):
         album, cg_name = what.split('/')
         if album[-6:] != '_album':
             album += '_album'
@@ -31,7 +31,7 @@ init -4 python:
         # CGs/common_album/cg-1.png
         return 'CGs/' + album + '/' + cg_name
     
-    def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
+    def addchat_OLD(who, what, pauseVal, img=False, bounce=False, specBubble=None):
         global choosing, pre_choosing, pv, chatbackup, oldPV, observing
         global persistent, cg_testing
         choosing = False
@@ -95,7 +95,7 @@ init -4 python:
     ## A temporary fix for the pause button bug
     ## This also technically means a character may be unable to post the exact
     ## same thing twice in a row depending on when the pause button is used
-    def pauseFailsafe():
+    def pauseFailsafe_OLD():
         global reply_instant
         if len(chatlog) > 0:
             last_chat = chatlog[-1]
@@ -131,21 +131,21 @@ init -4 python:
             chatlog.append(Chatentry(chatbackup.who, chatbackup.what, upTime(), chatbackup.img, chatbackup.bounce, chatbackup.specBubble))
 
    
-    ### Set a variable to infinity, to be used later -- it keeps the viewport scrolling to the bottom
-    yadjValue = float("inf")
-    ### Create a ui.adjustment object and assign it to a variable so that we can reference it later. 
-    # I'll assign it to the yadjustment property of our viewport later.
-    yadj = ui.adjustment()
+#     ### Set a variable to infinity, to be used later -- it keeps the viewport scrolling to the bottom
+#     yadjValue = float("inf")
+#     ### Create a ui.adjustment object and assign it to a variable so that we can reference it later. 
+#     # I'll assign it to the yadjustment property of our viewport later.
+#     yadj = ui.adjustment()
     
-    # This is mostly changed automatically for you when you call
-    # chat_begin("night") etc, but if you want to change it on an
-    # individual basis this is the colour of the characters' nicknames
-    nickColour = "#000000"   
+#     # This is mostly changed automatically for you when you call
+#     # chat_begin("night") etc, but if you want to change it on an
+#     # individual basis this is the colour of the characters' nicknames
+#     nickColour = "#000000"   
 
-default chatbackup = Chatentry(filler,"","")
-default pv = 0.8
-default oldPV = pv
-default cg_testing = False
+# default chatbackup = Chatentry(filler,"","")
+# default pv = 0.8
+# default oldPV = pv
+# default cg_testing = False
 
 #####################################
 # Chat Setup
@@ -159,7 +159,7 @@ default cg_testing = False
 # to change the background but not clear the messages on-screen,
 # you'll also have to pass it 'False' as its second argument
 
-label chat_begin(background=None, clearchat=True, resetHP=True):
+label chat_begin_OLD(background=None, clearchat=True, resetHP=True):
     stop music
     if clearchat:
         $ chatlog = []
@@ -250,7 +250,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     return
 
 # Call this label to show the save & exit sign
-label chat_end:
+label chat_end_OLD:
     $ addchat(answer, '', 0.2)
     if starter_story:        
         $ persistent.first_boot = False
@@ -258,7 +258,7 @@ label chat_end:
     call screen save_and_exit    
     return
     
-label chat_end_route(type='good'):
+label chat_end_route_OLD(type='good'):
     $ addchat(answer, '', 0.2)
     call screen save_and_exit(True)
     $ config.skipping = False
@@ -277,7 +277,7 @@ label chat_end_route(type='good'):
     pause
     return
 
-screen messenger_screen:
+screen messenger_screen_old:
 
     tag menu
 
@@ -331,15 +331,15 @@ screen messenger_screen:
                         cols 1
                         yinitial 1.0
 
-                        use chat_dialogue()
+                        use chat_dialogue_old()
 
                 else:
 
-                    use chat_dialogue()
+                    use chat_dialogue_old()
                                 
                             
 
-screen chat_dialogue():
+screen chat_dialogue_old():
  
     python:
         chatLength = len(chatlog) - 1
@@ -360,7 +360,7 @@ screen chat_dialogue():
                       
                       
                       
-screen chat_animation(i, animate=True):
+screen chat_animation_old(i, animate=True):
 
     python:
         include_new = False
@@ -553,14 +553,14 @@ screen chat_animation(i, animate=True):
                             text dialogue style "bubble_text"
                     
         if animate:
-            use anti_animation(i)  
+            use anti_animation_old(i)  
 
 #******************************************
 #  This code 'cancels out' the animation  *
 #   for Mystic messenger; otherwise the   *
 # bottom of the viewport would 'slide in' *
 #******************************************           
-screen anti_animation(i):
+screen anti_animation_old(i):
     
     python:
         include_new = False

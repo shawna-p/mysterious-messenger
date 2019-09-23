@@ -351,6 +351,12 @@ init 5:
     ## Usually used when the transform is a variable
     transform null_anim(num=0):
         pass
+
+    transform invisible():
+        alpha 0.0
+    
+    transform invisible_bounce():
+        alpha 0.0 zoom 1.1
         
     ## Used to keep the full background of the
     ## chat timeline icons

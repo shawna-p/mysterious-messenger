@@ -151,7 +151,7 @@ label answer(from_cg=False):
             hide screen viewCG
         else:
             $ pauseFailsafe()
-            $ addchat(answer, '', 0.2)    
+            #$ addchat(answer, '', 0.2)    
         $ pre_choosing = True
         call screen answer_button
         show screen pause_button
@@ -160,7 +160,7 @@ label answer(from_cg=False):
             hide screen viewCG
         else:
             $ text_pauseFailsafe(inst_text.private_text)
-            $ addtext_instant(answer, '', 0.2)
+            #$ addtext_instant(answer, '', 0.2)
         $ pre_choosing = True
         call screen text_answer
         show screen text_pause_button
@@ -230,11 +230,11 @@ screen pause_button:
 # it makes sure no messages are skipped        
 label play:
     if not inst_text:
-        $ chatlog.append(Chatentry(chat_pause,'',upTime()))
+        #$ chatlog.append(Chatentry(chat_pause,'',upTime()))
         call screen play_button
         show screen pause_button
     else:
-        $ inst_text.private_text.append(Chatentry(chat_pause, '', upTime()))
+        #$ inst_text.private_text.append(Chatentry(chat_pause, '', upTime()))
         call screen text_play_button
         show screen text_pause_button
     return

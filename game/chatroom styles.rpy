@@ -78,13 +78,13 @@ init 5:
     ## ****************************************
     ## Character Names Style
     style chat_name:
-        pos (148, -80)
+        pos (148, 0)
         xsize 435
         text_align 0.0
         font gui.phone_name_font
         
     style chat_name_MC:
-        pos (596, -80)
+        pos (596, 0)
         xsize 435
         text_align 1.0
         anchor (1.0, 0.0)
@@ -93,11 +93,11 @@ init 5:
     ## ****************************************
     ## Profile Pictures Style
     style MC_profpic:
-        pos (616, 30)
+        pos (616, 0)
         maximum (110,110)
         
     style profpic:
-        pos (18, 30)
+        pos (18, 0)
         maximum (110,110) 
         
     ## ****************************************
@@ -114,14 +114,14 @@ init 5:
     ## Style for images posted in the chatroom
     style img_message:
         padding (5, 10)
-        bottom_margin -65
-        pos (138, -70)
+        #bottom_margin -65
+        pos (138, 30)
         xmaximum 750   
         
     style mc_img_message:
         padding (5, 10)
-        bottom_margin -65
-        pos (600, -70)
+        #bottom_margin -65
+        pos (600, 0)
         xmaximum 750
         xalign 1.0
         
@@ -142,7 +142,8 @@ init 5:
 
     # Text style for chatroom dialogue
     style phone_dialogue:
-        pos (138, -75)
+        #pos (138, -75)
+        pos (138, 0)
         xanchor 0.0
         xsize 750
         text_align 0.0
