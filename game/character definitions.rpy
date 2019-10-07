@@ -77,18 +77,44 @@ init -5 python:
             self.heart_points = 0
             self.good_heart = 0
             self.bad_heart = 0
+
+        @property
+        def prof_pic(self):
+            return self.__prof_pic
             
         @prof_pic.setter
         def prof_pic(self, new_img):
-            self.prof_pic = new_img
-            
+            if new_img == False:
+                self.__prof_pic = False
+            elif ".png" in new_img:
+                self.__prof_pic = new_img
+            elif ".jpg" in new_img:
+                self.__prof_pic = new_img
+            elif ".gif" in new_img:
+                self.__prof_pic = new_img
+        
+        @property
+        def cover_pic(self):
+            return self.__cover_pic
+
         @cover_pic.setter
         def cover_pic(self, new_img):
-            self.cover_pic = new_img
+            if new_img == False:
+                self.__cover_pic = False
+            elif ".png" in new_img:
+                self.__cover_pic = new_img
+            elif ".jpg" in new_img:
+                self.__cover_pic = new_img
+            elif ".gif" in new_img:
+                self.__cover_pic = new_img
             
+        @property
+        def status(self):
+            return self.__status 
+
         @status.setter
         def status(self, new_status):
-            self.status = new_status
+            self.__status = new_status
 
         ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, 
