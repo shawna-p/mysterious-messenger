@@ -1,31 +1,54 @@
 init -5 python:
 
-    ## Class to store characters along with their profile picture and a 'file_id'
-    ## that's appended to things like their special bubble names and saves you from
-    ## typing out the full name every time
+    ## Class to store characters along with their profile picture
+    ## and a 'file_id' that's appended to things like their special 
+    ## bubble names and saves you from typing out the full name 
+    ## every time
     class Chat(store.object):
-        def __init__(self, name, file_id=False, prof_pic=False, participant_pic=False, 
-                heart_color='#000000', cover_pic=False, status=False,
-                bubble_color=False, glow_color=False, emote_list=False, voicemail=False):               
+        def __init__(self, name, file_id=False, prof_pic=False, 
+                participant_pic=False, heart_color='#000000', 
+                cover_pic=False, status=False, bubble_color=False, 
+                glow_color=False, emote_list=False, voicemail=False):               
                 
+            # The name used in the chatroom e.g. '707'
             self.name = name            
+            # Used to append to filenames for things like
+            # speech bubbles
             self.file_id = file_id
+            # Character's profile picture
             self.prof_pic = prof_pic
+            # Picture that shows up in the timeline screen
+            # to show if a character has participated in
+            # this chat
             self.participant_pic = participant_pic
+            # This character's cover picture
             self.cover_pic = cover_pic
+            # Their status
             self.status = status
+            # What their current voicemail is set to
             if voicemail:
                 self.voicemail = voicemail
             else:
-                self.voicemail = Phone_Call(self, 'voicemail_1', 'voicemail', 2, True)
+                self.voicemail = Phone_Call(self, 
+                                    'voicemail_1', 'voicemail', 2, True)
+            # All heart points start at 0
             self.heart_points = 0  
             self.good_heart = 0
             self.bad_heart = 0
+            # The program will colour a heart point based
+            # on the hex code given here
             self.heart_color = heart_color
+            # If given a colour, the program will automatically
+            # colour the glow on this character's glow bubbles
             self.glow_color = glow_color
+            # Similarly, this colours their regular text bubbles
             self.bubble_color = bubble_color
+            # Entirely optional; this is a list of this character's
+            # available emotes, used for the (incomplete) 
+            # chatroom generator
             self.emote_list = emote_list
             
+            # Used for instant text messaging
             self.private_text = []
             self.private_text_read = True
             self.private_text_label = False
@@ -55,22 +78,28 @@ init -5 python:
             self.good_heart = 0
             self.bad_heart = 0
             
-        def set_prof_pic(self, new_img):
+        @prof_pic.setter
+        def prof_pic(self, new_img):
             self.prof_pic = new_img
             
-        def set_cover_pic(self, new_img):
+        @cover_pic.setter
+        def cover_pic(self, new_img):
             self.cover_pic = new_img
             
-        def set_status(self, new_status):
+        @status.setter
+        def status(self, new_status):
             self.status = new_status
 
         ## This function makes it simpler to type out character dialogue
-        def __call__(self, what, pauseVal=None, img=False, bounce=False, specBubble=None, **kwargs):
+        def __call__(self, what, pauseVal=None, img=False, 
+                    bounce=False, specBubble=None, **kwargs):
             global inst_text
             if inst_text:
-                addtext_instant(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+                addtext_instant(self, what, pauseVal=pauseVal, 
+                            img=img, bounce=bounce, specBubble=specBubble)
             else:
-                addchat(self, what, pauseVal=pauseVal, img=img, bounce=bounce, specBubble=specBubble)
+                addchat(self, what, pauseVal=pauseVal, img=img, 
+                            bounce=bounce, specBubble=specBubble)
 
 ##****************************
 ## Chatroom Characters
@@ -80,24 +109,54 @@ init -5 python:
 ## Format is: 
 ##  name - nickname for the chatrooms
 ##  file_id - short form appended to file names like speech bubbles
-##  prof_pic - profile pic (110x110)
+##  prof_pic - profile pic (110x110 - 314x314)
 ##  participant_pic - pic that shows they're present in a chatroom
 ##  heart_color - hex number of their heart colour
-##  emoji_list - used for chatroom creation (can be left False if you don't need it/don't know what to do with it)
 ##  cover_pic/status  - as stated
-##  voicemail - generally set at the end of a chatroom, not during definition time
+##  voicemail - generally set at the end of a chatroom, 
+##              not during definition time
+##  emoji_list - used for chatroom creation (can be left False
+##               if you don't need it/don't know what to do with it)
 
-default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 'Profile Pics/ja_chat.png', "#d0b741", "Cover Photos/profile_cover_photo.png", "Jaehee's status", False, False, jaehee_emotes)
-default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 'Profile Pics/ju_chat.png', "#a59aef", "Cover Photos/profile_cover_photo.png", "Jumin's status", False, False, jumin_emotes)
+default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 
+                    'Profile Pics/ja_chat.png', "#d0b741", 
+                    "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
+                    False, False, jaehee_emotes)
+default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 
+                    'Profile Pics/ju_chat.png', "#a59aef", 
+                    "Cover Photos/profile_cover_photo.png", "Jumin's status", 
+                    False, False, jumin_emotes)
 default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png')
-default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 'Profile Pics/r_chat.png', "#b81d7b", "Cover Photos/profile_cover_photo.png", "Ray's status", False, False, ray_emotes)
-default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 'Profile Pics/ri_chat.png', "#fcef5a", "Cover Photos/profile_cover_photo.png", "Rika's status", False, False, rika_emotes)
-default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 'Profile Pics/s_chat.png', "#ff2626", "Cover Photos/profile_cover_photo.png", "707's status", False, False, seven_emotes)
-default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 'Profile Pics/sa_chat.png', "#b81d7b", "Cover Photos/profile_cover_photo.png", "Saeran's status", False, False, saeran_emotes)
-default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 'Profile Pics/u_chat.png', "#ffffff")
-default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 'Profile Pics/v_chat.png', "#50b2bc", "Cover Photos/profile_cover_photo.png", "V's status", False, False, v_emotes)
-default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 'Profile Pics/y_chat.png', "#31ff26", "Cover Photos/profile_cover_photo.png", "Yoosung's status", False, False, yoosung_emotes)
-default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 'Profile Pics/z_chat.png', "#c9c9c9", "Cover Photos/profile_cover_photo.png", "Zen's status", False, False, zen_emotes)
+default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
+                'Profile Pics/r_chat.png', "#b81d7b", 
+                "Cover Photos/profile_cover_photo.png", "Ray's status", 
+                False, False, ray_emotes)
+default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
+                    'Profile Pics/ri_chat.png', "#fcef5a", 
+                    "Cover Photos/profile_cover_photo.png", "Rika's status", 
+                    False, False, rika_emotes)
+default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 
+                'Profile Pics/s_chat.png', "#ff2626", 
+                "Cover Photos/profile_cover_photo.png", "707's status", 
+                False, False, seven_emotes)
+default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
+                    'Profile Pics/sa_chat.png', "#b81d7b", 
+                    "Cover Photos/profile_cover_photo.png", "Saeran's status", 
+                    False, False, saeran_emotes)
+default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
+                'Profile Pics/u_chat.png', "#ffffff")
+default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 
+                'Profile Pics/v_chat.png', "#50b2bc", 
+                "Cover Photos/profile_cover_photo.png", "V's status", 
+                False, False, v_emotes)
+default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 
+                'Profile Pics/y_chat.png', "#31ff26", 
+                "Cover Photos/profile_cover_photo.png", "Yoosung's status", 
+                False, False, yoosung_emotes)
+default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
+                'Profile Pics/z_chat.png', "#c9c9c9", 
+                "Cover Photos/profile_cover_photo.png", "Zen's status", 
+                False, False, zen_emotes)
 
 # These are special 'characters' for additional features
 define special_msg = Chat("msg")
@@ -114,38 +173,63 @@ default character_list = [ju, z, s, y, ja, v, m, r, ri]
 # Phone Call Characters
 # ****************************
 
-# These are separate from the characters above since they display more like VN mode
-# You won't actually see their name in-game. For most purposes, you can just copy any character
-# besides m_phone and replace the name with the name you want
-# The main difference is in the voice tags, so that if you mute a character you won't hear their
+# These are separate from the characters above since they display 
+# more like VN mode. You won't actually see their name in-game. 
+# For most purposes, you can just copy any character besides m_phone 
+# and replace the name with the name you want. The main difference is 
+# in the voice tags, so that if you mute a character you won't hear their
 # voice during phone calls or VN mode
-# For ease of remembering, Phone Call characters are just their Chat variables + '_phone' e.g.
-#  ja -> ja_phone
+# For ease of remembering, Phone Call characters are just their 
+# Chat variables + '_phone' e.g. ja -> ja_phone
 
-define ja_phone = Character("Jaehee Kang", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="jaehee_voice")
-define ju_phone = Character("Jumin Han", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="jumin_voice")
-define s_phone = Character("707", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="seven_voice")
-define sa_phone = Character("Saeran", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="saeran_voice")
-define r_phone = Character("Ray", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="saeran_voice")
-define ri_phone = Character("Rika", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="rika_voice")
-define y_phone = Character("Yoosung★", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="yoosung_voice")
-define v_phone = Character("V", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="v_voice")
-define u_phone = Character("Unknown", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="saeran_voice")
-define z_phone = Character("Zen", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="zen_voice")
-define m_phone = Character("[name]", what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, what_suffix="{w=0.8}{nw}")
-define vmail_phone = Character('Voicemail', what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-                            what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, voice_tag="other_voice")
+define ja_phone = Character("Jaehee Kang", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="jaehee_voice")
+define ju_phone = Character("Jumin Han", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="jumin_voice")
+define s_phone = Character("707", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="seven_voice")
+define sa_phone = Character("Saeran", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="saeran_voice")
+define r_phone = Character("Ray", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="saeran_voice")
+define ri_phone = Character("Rika", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="rika_voice")
+define y_phone = Character("Yoosung★", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="yoosung_voice")
+define v_phone = Character("V", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="v_voice")
+define u_phone = Character("Unknown", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="saeran_voice")
+define z_phone = Character("Zen", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="zen_voice")
+define m_phone = Character("[name]", 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, 
+    what_text_align=0.5, what_suffix="{w=0.8}{nw}")
+define vmail_phone = Character('Voicemail', 
+    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
+    voice_tag="other_voice")
                             
 # ****************************
 # Text Messages
@@ -188,56 +272,82 @@ default text_queue = [Text_Message(ja, []),
 # For ease of remembering, VN characters are just their Chat variables + "_vn" e.g. s -> s_vn
 # I've also changed the who_color from MysMe's #fff5ca to the background of the characters' speech bubbles
 
-define ja_vn = Character("Jaehee", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_4.png",
-                            who_color="#fff5eb", who_size=40, voice_tag="jaehee_voice", image="jaehee vn")
-define ju_vn = Character("Jumin", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_0.png",
-                            who_color="#d2e6f7", who_size=40, voice_tag="jumin_voice", image="jumin")
-define r_vn = Character("Ray", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
-define ri_vn = Character("Rika", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_7.png",
-                            who_color="#fff9db", who_size=40, voice_tag="rika_voice", image="rika vn")
-define s_vn = Character("707", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_2.png",
-                            who_color="#fff1f1", who_size=40, voice_tag="seven_voice", image="seven")
-define sa_vn = Character("Saeran", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_8.png",
-                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
-define u_vn = Character("???",what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", image="saeran vn")
-define v_vn = Character("V", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_5.png",
-                            who_color="#cbfcfc", who_size=40, voice_tag="v_voice", image="v vn")
-define y_vn = Character("Yoosung", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_3.png",
-                            who_color="#effff3", who_size=40, voice_tag="yoosung_voice", image="yoosung vn")
-define z_vn = Character("Zen", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_1.png",
-                            who_color="#d8e9f9", who_size=40, voice_tag="zen_voice", image="zen")
+define ja_vn = Character("Jaehee", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_4.png",
+    who_color="#fff5eb", who_size=40, voice_tag="jaehee_voice", 
+    image="jaehee vn")
+define ju_vn = Character("Jumin", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_0.png",
+    who_color="#d2e6f7", who_size=40, voice_tag="jumin_voice", 
+    image="jumin")
+define r_vn = Character("Ray", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", 
+    image="saeran vn")
+define ri_vn = Character("Rika", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_7.png",
+    who_color="#fff9db", who_size=40, voice_tag="rika_voice", 
+    image="rika vn")
+define s_vn = Character("707", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_2.png",
+    who_color="#fff1f1", who_size=40, voice_tag="seven_voice", 
+    image="seven")
+define sa_vn = Character("Saeran", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_8.png",
+    who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", 
+    image="saeran vn")
+define u_vn = Character("???",
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", 
+    image="saeran vn")
+define v_vn = Character("V", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_5.png",
+    who_color="#cbfcfc", who_size=40, voice_tag="v_voice", 
+    image="v vn")
+define y_vn = Character("Yoosung", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_3.png",
+    who_color="#effff3", who_size=40, voice_tag="yoosung_voice", 
+    image="yoosung vn")
+define z_vn = Character("Zen", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_1.png",
+    who_color="#d8e9f9", who_size=40, voice_tag="zen_voice", 
+    image="zen")
                             
-## Note: The MC's name will show up in VN mode in this program. If you'd like it to be blank,
-## just replace "[name]" with None
-define m_vn = Character("[name]", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#ffffed", who_size=40)
-## This is the 'generic' template character -- if you want a side character like Echo Girl, copy this 
-## character and replace None with their name.
-define narrator = Character(None, what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#fff5ca", who_size=40, voice_tag="other_voice")
+## Note: The MC's name will show up in VN mode in this program. 
+## If you'd like it to be blank, just replace "[name]" with None
+define m_vn = Character("[name]", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#ffffed", who_size=40)
+
+## This is the 'generic' template character -- if you want a 
+## side character like Echo Girl, copy this character and 
+## replace None with their name.
+define narrator = Character(None, 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#fff5ca", who_size=40, voice_tag="other_voice")
                             
+define sarah_vn = Character("Sarah", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#fff5ca", who_size=40, voice_tag="other_voice")
 
-define sarah_vn = Character("Sarah", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#fff5ca", who_size=40, voice_tag="other_voice")
+define chief_vn = Character("Chief Han", 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#fff5ca", who_size=40, voice_tag="other_voice")
 
-define chief_vn = Character("Chief Han", what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-                            what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-                            who_color="#fff5ca", who_size=40, voice_tag="other_voice")
 ## *************************************
 ## Character VN Expressions Cheat Sheet
 ## *************************************
@@ -250,40 +360,48 @@ define chief_vn = Character("Chief Han", what_font="fonts/NanumMyeongjo (Serif f
 # OUTFITS: normal (default), arm, party, dress, apron
 
 ## Jumin:
-# FRONT: happy, upset, blush, neutral (default), surprised, angry, sad, unsure, thinking
+# FRONT: happy, upset, blush, neutral (default), surprised, 
+#        angry, sad, unsure, thinking
 # FRONT OUTFITS: normal (default), arm, party
-# SIDE: happy, upset, blush, neutral (default), surprised, angry, thinking, worried
+# SIDE: happy, upset, blush, neutral (default), surprised, 
+#       angry, thinking, worried
 # SIDE OUTFITS: normal (default), suit
 
 ## Rika:
-# EXPRESSIONS: happy, sad, neutral (default), thinking, worried, dark, angry, sob, crazy
+# EXPRESSIONS: happy, sad, neutral (default), thinking, 
+#              worried, dark, angry, sob, crazy
 # OUTFITS: normal (default), savior, dress
 # ACCESSORIES: mask
 
 ## Seven:
-# FRONT: happy, blush, neutral (default), surprised, serious, thinking, sad, worried,
-#        dark, angry, hurt
+# FRONT: happy, blush, neutral (default), surprised, serious, 
+#        thinking, sad, worried, dark, angry, hurt
 # FRONT OUTFITS: normal (default), arm, party
-# SIDE: happy, concern, surprised, thinking, sad, neutral (default), dark, angry, worried
+# SIDE: happy, concern, surprised, thinking, sad, neutral (default), 
+#       dark, angry, worried
 # SIDE OUTFITS: normal (default), arm, suit
 
 ## Saeran:
-# WITH OR WITHOUT MASK: happy, smile, neutral (default), angry, thinking, tense, creepy
+# WITH OR WITHOUT MASK: happy, smile, neutral (default), 
+#                       angry, thinking, tense, creepy
 # WITHOUT MASK: cry, blush, sob, teary, nervous, sad, worried, distant
 # OUTFITS: unknown, mask, ray (default), saeran, suit
 
 ## V:
-# FRONT: neutral (default), happy, angry, worried, thinking, talking, surprised,
-#        tense, sweating, sad, upset, concerned, regret, unsure, afraid
+# FRONT: neutral (default), happy, angry, worried, thinking, 
+#        talking, surprised, tense, sweating, sad, upset, 
+#        concerned, regret, unsure, afraid
 # FRONT OUTFITS: normal (default), arm, hair_normal, hair_arm, mint_eye
 # ACCESSORIES **mint_eye outfit only**: hood_up, hood_down (default)
-# SIDE, WITH OR WITHOUT GLASSES: happy, angry, neutral (default), surprised, thinking,
-#        worried, sweat, shock, afraid, blush, sad, unsure
+# SIDE, WITH OR WITHOUT GLASSES: happy, angry, neutral (default),
+#                                surprised, thinking, worried, sweat, 
+#                                shock, afraid, blush, sad, unsure
 # SIDE OUTFITS: normal (default), short_hair, long_hair
 
 ## Yoosung:
 # WITH OR WITHOUT BANDAGE: happy, neutral (default), thinking
-# WITH OR WITHOUT GLASSES: happy, neutral (default), thinking, surprised, sparkle, grin
+# WITH OR WITHOUT GLASSES: happy, neutral (default), thinking, 
+#                          surprised, sparkle, grin
 # WITHOUT GLASSES OR BANDAGE: angry, sad, dark, tired, upset
 # OUTFITS: normal (default), arm, sweater, suit, party, bandage
 
@@ -291,7 +409,8 @@ define chief_vn = Character("Chief Han", what_font="fonts/NanumMyeongjo (Serif f
 # FRONT: happy, angry, blush, wink, neutral (default), surprised, thinking,
 #        worried, oh, upset
 # FRONT OUTFITS: arm, party, normal (default)
-# SIDE: happy, angry, blush, wink, neutral (default), surprised, thinking, worried, upset
+# SIDE: happy, angry, blush, wink, neutral (default), surprised, 
+#       thinking, worried, upset
 # SIDE OUTFITS: normal (default), suit
 
 
@@ -327,13 +446,14 @@ define chief_vn = Character("Chief Han", what_font="fonts/NanumMyeongjo (Serif f
 ## ********* MAIN CHARACTERS *********
 
 ## TO DECLARE YOUR OWN CHARACTER:
-# For starters, I would really recommend keeping accessories like glasses separate
-# from facial expressions, so you can avoid doing what I've done here, which is have
-# two separate 'glasses' and 'regular' layeredimage variants. That aside, characters
-# are generally declared with a body and face group, and sometimes have a 'yoffset' value
-# that simply puts their sprite lower down on the screen (so the characters have the 
-# correct relative heights to one another). Other than that, everything is the same as
-# you'll find in Ren'Py's layeredimage documentation
+# For starters, I would really recommend keeping accessories like 
+# glasses separate from facial expressions, so you can avoid doing 
+# what I've done here, which is have two separate 'glasses' and 'regular' 
+# layeredimage variants. That aside, characters are generally declared 
+# with a body and face group, and sometimes have a 'yoffset' value that 
+# simply puts their sprite lower down on the screen (so the characters 
+# have the correct relative heights to one another). Other than that, 
+# everything is the same as you'll find in Ren'Py's layeredimage documentation
 
 ## ****************************
 ## Jaehee
