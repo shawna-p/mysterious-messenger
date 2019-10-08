@@ -251,14 +251,14 @@ screen profile_pic:
             yalign 0.978
             xalign 0.66
             idle "save_btn"
-            hover im.FactorScale("Phone UI/Main Menu/menu_save_btn.png",1.1)
+            hover Transform("Phone UI/Main Menu/menu_save_btn.png",zoom=1.1)
             action Show("save", Dissolve(0.5))
             
         imagebutton:
             yalign 0.978
             xalign 0.974
             idle "load_btn"
-            hover im.FactorScale("Phone UI/Main Menu/menu_load_btn.png",1.1)
+            hover Transform("Phone UI/Main Menu/menu_load_btn.png",zoom=1.1)
             action Show("load", Dissolve(0.5))
         
         

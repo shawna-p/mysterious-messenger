@@ -128,16 +128,16 @@ screen white_squares(w_timer=False):
 # Little black squares
 image m_rectstatic:
     #RectStatic(Solid("#000"), 32).sm
-    RectStatic(im.Crop('Hack-Long.png', 0,0,renpy.random.randint(20, 60), renpy.random.randint(20, 40)), 32).sm
+    RectStatic(Crop('Hack-Long.png', 0,0,renpy.random.randint(20, 60), renpy.random.randint(20, 40)), 32).sm
     pos (0, 0)
     size (32,32)
 # Little squares with a part of the logo
 image m_rectstatic2:
-    RectStatic(Transform(im.Crop("Phone UI/Day Select/daychat01_chat_mint.png", 0,0,32,32), size=(32,32)), 2).sm
+    RectStatic(Transform(Crop("Phone UI/Day Select/daychat01_chat_mint.png", 0,0,32,32), size=(32,32)), 2).sm
     size (32, 32)
 # Little squares with a part of the menu
 image m_rectstatic3:
-    RectStatic(Transform(im.Crop("Phone UI/Day Select/daychat01_day_mint.png", 0,0,64,64), size=(32, 32)), 2).sm
+    RectStatic(Transform(Crop("Phone UI/Day Select/daychat01_day_mint.png", 0,0,64,64), size=(32, 32)), 2).sm
     size (32, 32)
 
 init python:

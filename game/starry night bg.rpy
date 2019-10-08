@@ -103,7 +103,7 @@ screen loading_screen:
         xalign 0.966 
         yalign 0.018
         idle 'load_close'
-        hover im.FactorScale("Phone UI/Main Menu/loading_close.png", 1.05)
+        hover Transform("Phone UI/Main Menu/loading_close.png", zoom=1.05)
         action [ToggleVariable("greeted", False, True), Hide('splash_screen_test'), Return()]
         
         

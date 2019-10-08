@@ -568,8 +568,8 @@ image pausebutton:
     
 
 image fast-slow-button = "Phone UI/fast-slow-transparent.png"
-image maxSpeed = im.FactorScale("Phone UI/max_speed_active.png",1.1)
-image noMaxSpeed = im.FactorScale("Phone UI/max_speed_inactive.png",1.1)
+image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
+image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
 image speed_txt = ParameterizedText(style = "speednum_style")
 image close_button = "CGs/close-overlay.png"
 
@@ -1214,7 +1214,7 @@ image vn_party_inactive = 'Phone UI/Day Select/vn_party_inactive.png'
 image call_back = 'Phone UI/Phone Calls/call.png'
 
 image call_signal_sl:
-    im.Flip('Phone UI/Phone Calls/call_ani_0.png', horizontal=True)
+    Transform('Phone UI/Phone Calls/call_ani_0.png', xzoom=-1)
     block:
         alpha 0.0
         1.0
@@ -1222,7 +1222,7 @@ image call_signal_sl:
         3.0
         repeat
 image call_signal_ml:
-    im.Flip('Phone UI/Phone Calls/call_ani_1.png', horizontal=True)
+    Transform('Phone UI/Phone Calls/call_ani_1.png', xzoom=-1)
     block:
         alpha 0.0
         2.0
@@ -1230,7 +1230,7 @@ image call_signal_ml:
         2.0
         repeat
 image call_signal_ll:
-    im.Flip('Phone UI/Phone Calls/call_ani_2.png', horizontal=True)
+    Transform('Phone UI/Phone Calls/call_ani_2.png', xzoom=-1)
     block:
         alpha 0.0
         3.0
