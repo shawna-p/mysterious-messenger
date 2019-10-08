@@ -137,7 +137,8 @@ init python:
 
 # Variable to help determine when there should be Honey Buddha
 # Chips available
-default hbc_bag = RandomBag([ False, False, False, False, False, True, True ])
+default hbc_bag = RandomBag([ False, False, False, 
+                              False, False, True, True ])
 
 # This lets it randomly pick a profile picture to display        
 default greet_char = "seven"
@@ -166,7 +167,8 @@ screen main_menu:
     tag menu
     
     python:    
-        # This if statement just makes sure the menu music isn't constantly restarting
+        # This if statement just makes sure the menu music isn't
+        # constantly restarting
         if renpy.music.get_playing(channel='music') != mystic_chat:
             renpy.music.play(mystic_chat, loop=True)
             
@@ -202,7 +204,8 @@ screen main_menu:
     hbox:
         window:
             xysize(143,127)
-            add "Phone UI/Main Menu/[greet_char]_greeting.png" xpos 65 ypos 140
+            add "Phone UI/Main Menu/[greet_char]_greeting.png":
+                xpos 65 ypos 140
         window:
             xysize(500,120)
             xpos 305
@@ -215,8 +218,8 @@ screen main_menu:
         text "[greet_text_english]" style "greet_text" yalign 0.5
 
     
-    # The main menu buttons. Note that some currently don't take you to the screen you'd want
-    # as those features have yet to be added
+    # The main menu buttons. Note that some currently don't take
+    # you to the screen you'd want as those features have yet to be added
     window:
         xysize(695, 650)
         xalign 0.6
@@ -229,22 +232,27 @@ screen main_menu:
                     # Original Story
                     # Top left
                     button:
+                        xysize(430,400)
                         focus_mask True
                         background "left_corner_menu"
                         hover_background "left_corner_menu_selected"
                         activate_sound "sfx/UI/select_4.mp3"
                         if persistent.on_route:
+                            # This is the auto save that gets loaded every 
+                            # time you load the game
                             action [SetField(persistent, 'manual_load', False), 
-                                    FileLoad(mm_auto)]  # This is the auto save that gets loaded every 
-                                                        # time you load the game
+                                    FileLoad(mm_auto)]  
                         else:
-                            action Show('route_select_screen') # Note: this screen only has a placeholder
-                                                               # but can easily be customized (see below)
+                            # Note: this screen only has a placeholder
+                            # but can easily be customized (see below)
+                            action Show('route_select_screen') 
                         
-                    vbox:    
-                        align(0.5, 0.5)
-                        add "menu_original_story" xpos 20
-                        text "Original\nStory" style "menu_text_big"  ypos 15
+                        vbox:    
+                            align(0.5, 0.5)
+                            add "menu_original_story" xpos 20
+                            text "Original\nStory":
+                                style "menu_text_big"  
+                                ypos 15
                 
                 vbox:
                     window:
@@ -253,15 +261,18 @@ screen main_menu:
                         # Save and Load
                         # Top Right
                         button:
+                            xysize(205, 190)
                             focus_mask True
                             background "right_corner_menu" 
                             hover_background "right_corner_menu_selected"
                             action Show("load")    
                             
-                        vbox:                               
-                            align(0.5, 0.5)
-                            add "menu_save_load" xpos 25
-                            text "Save & Load" style "menu_text_small" ypos 10
+                            vbox:                               
+                                align(0.5, 0.5)
+                                add "menu_save_load" xpos 25
+                                text "Save & Load":
+                                    style "menu_text_small" 
+                                    ypos 10
                             
                     window:
                         xysize(225, 210)
@@ -269,16 +280,18 @@ screen main_menu:
                         # After Ending
                         # Mid Right
                         button:
+                            xysize(205, 190)
                             focus_mask True
                             background "right_corner_menu" 
                             hover_background "right_corner_menu_selected"
-                            #action NullAction
-                            
-                        vbox:                               
-                            xcenter 0.5
-                            ycenter 0.5
-                            add "menu_after_ending" xpos 40
-                            text "After Ending" style "menu_text_small" ypos 20
+                            # action NullAction                            
+                            vbox:                               
+                                xcenter 0.5
+                                ycenter 0.5
+                                add "menu_after_ending" xpos 40
+                                text "After Ending":
+                                    style "menu_text_small" 
+                                    ypos 20
             hbox:
                 window:
                     xysize(450,210)
@@ -286,15 +299,15 @@ screen main_menu:
                     # History
                     # Bottom Left
                     button:
+                        xysize(430,190)
                         focus_mask True
                         background "left_corner_menu"
                         hover_background "left_corner_menu_selected"
-                        #action NullAction
-                        
-                    vbox:                               
-                        align(0.5, 0.5)
-                        add "menu_history" xpos 15 ypos 3
-                        text "History" style "menu_text_big" ypos 13
+                        # action NullAction                        
+                        vbox:                               
+                            align(0.5, 0.5)
+                            add "menu_history" xpos 15 ypos 3
+                            text "History" style "menu_text_big" ypos 13
                     
                 window:
                     xysize(225, 210)
@@ -302,16 +315,17 @@ screen main_menu:
                     # DLC
                     # Bottom Right
                     button:
+                        xysize (205,190)
                         focus_mask True
                         background "right_corner_menu" 
                         hover_background "right_corner_menu_selected"
-                        #action NullAction
-                        # action Show('create_archive') # Leads to the create-a-chatroom screens
+                        # action Show('create_archive') 
+                        # Leads to the create-a-chatroom screens
                         
-                    vbox:                               
-                        align(0.5, 0.5)
-                        add "menu_dlc"
-                        text "DLC" style "menu_text_small" xpos 25 ypos 15
+                        vbox:                               
+                            align(0.5, 0.5)
+                            add "menu_dlc"
+                            text "DLC" style "menu_text_small" xpos 25 ypos 15
      
      
 ########################################################
@@ -320,20 +334,19 @@ screen main_menu:
 ## mode is active
 ########################################################     
 label after_load:    
-    if persistent.real_time:
-        if persistent.load_instr == '+1 day':
-            $ days_to_expire += 1
-            $ current_game_day = date.today()
-            $ persistent.load_instr = False
-        elif persistent.load_instr == 'Same day':
-            $ current_game_day = date.today()
-            $ persistent.load_instr = False
-        elif persistent.load_instr == 'Auto':
-            $ date_diff = date.today() - current_game_day
-            $ days_to_expire += date_diff.days
-            $ current_game_day = date.today()
-            $ persistent.load_instr = False
-    python:        
+    python:
+        if persistent.real_time:
+            if persistent.load_instr == '+1 day':
+                days_to_expire += 1
+                current_game_day = date.today()
+            elif persistent.load_instr == 'Same day':
+                current_game_day = date.today()
+            elif persistent.load_instr == 'Auto':
+                date_diff = date.today() - current_game_day
+                days_to_expire += date_diff.days
+                current_game_day = date.today()
+            persistent.load_instr = False
+    
         no_email_notif = True
         for email in email_list:
             if not email.notified:
@@ -350,15 +363,14 @@ label after_load:
         if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
             m.prof_pic = persistent.MC_pic
             
-    $ renpy.hide_screen('settings_screen')
-    $ renpy.hide_screen('save_load')
-    $ renpy.hide_screen('menu')
-    $ renpy.hide_screen('chat_footer')
-    $ renpy.hide_screen('phone_overlay')
+        renpy.hide_screen('settings_screen')
+        renpy.hide_screen('save_load')
+        renpy.hide_screen('menu')
+        renpy.hide_screen('chat_footer')
+        renpy.hide_screen('phone_overlay')
     
-    # This determines the content of the "you have x missed calls"
-    # etc message upon loading
-    python:
+        # This determines the content of the "you have x missed calls"
+        # etc message upon loading
         popup_msg = ""
         n_email = unread_emails()
         n_text = new_message_count()
@@ -452,12 +464,11 @@ screen load():
 
 screen file_slots(title):
 
-    default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
+    default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), 
+                        auto=_("Automatic saves"), quick=_("Quick saves"))
 
     use starry_night
-    
-    #use menu_header(title, Hide('file_slots', Dissolve(0.5)))
-    
+        
     default the_day = "1st"
     
     python:        
@@ -493,7 +504,8 @@ screen file_slots(title):
             
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto):
-                $ save_title = most_recent_chat.save_img + '|' + the_day + '|' + most_recent_chat.title
+                $ save_title = (most_recent_chat.save_img + '|' 
+                                + the_day + '|' + most_recent_chat.title)
                 if '|' in FileSaveName(mm_auto):
                     $ rt, dn, cn = FileSaveName(mm_auto).split('|')
                 else:                    
@@ -503,10 +515,14 @@ screen file_slots(title):
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
                     if persistent.real_time:
-                        action [SetField(persistent, 'on_route', True), SetField(persistent, 'load_instr', 'Auto'), 
-                                SetField(persistent, 'manual_load', False), FileAction(mm_auto)]
+                        action [SetField(persistent, 'on_route', True), 
+                                SetField(persistent, 'load_instr', 'Auto'), 
+                                SetField(persistent, 'manual_load', False), 
+                                FileAction(mm_auto)]
                     else:
-                        action [SetField(persistent, 'on_route', True), SetField(persistent, 'manual_load', False), FileAction(mm_auto)]
+                        action [SetField(persistent, 'on_route', True), 
+                                SetField(persistent, 'manual_load', False), 
+                                FileAction(mm_auto)]
                     hbox:
                         spacing 8
                         xsize 695
@@ -523,8 +539,13 @@ screen file_slots(title):
                             spacing 8
                             fixed:
                                 ysize 75
-                                text "This is a backup file that is auto-generated" style "save_slot_text" yalign 0.0
-                            text "Today: [dn] DAY" style "save_slot_text" yalign 1.0
+                                text ("This is a backup file that"
+                                        + " is auto-generated"):
+                                    style "save_slot_text" 
+                                    yalign 0.0
+                            text "Today: [dn] DAY":
+                                style "save_slot_text" 
+                                yalign 1.0
 
                         window:
                             xysize (155,120)
@@ -532,7 +553,9 @@ screen file_slots(title):
                             fixed:
                                 xsize 155
                                 yfit True
-                                text FileTime(mm_auto, format=_("{#file_time}%m/%d %H:%M"), empty=_("empty slot")):
+                                text FileTime(mm_auto, 
+                                    format=_("{#file_time}%m/%d %H:%M"), 
+                                    empty=_("empty slot")):
                                     style "save_timestamp"                                
                             spacing 30
                             fixed:
@@ -546,7 +569,8 @@ screen file_slots(title):
                 $ slot = i + 1
                 
                 
-                $ save_title = most_recent_chat.save_img + '|' + the_day + '|' + most_recent_chat.title
+                $ save_title = (most_recent_chat.save_img + '|' 
+                                + the_day + '|' + most_recent_chat.title)
                 if '|' in FileSaveName(slot):
                     $ rt, dn, cn = FileSaveName(slot).split('|')
                 else:                    
@@ -572,12 +596,14 @@ screen file_slots(title):
                     elif int(file_hour) == int(datetime.now().strftime('%H')):
                         # Check minutes
                         if int(file_min) > int(datetime.now().strftime('%M')):
-                            # Minutes of save are greater; proceed to next day
-                            # Gets the name of the next day for loading purposes
+                            # Minutes of save are greater; proceed to
+                            # next day. Gets the name of the next day
+                            # for loading purposes
                             for index, archive in enumerate(chat_archive):
                                 if dn == archive.day:
                                     if index+1 < len(chat_archive):
-                                        next_day_name = chat_archive[index+1].day
+                                        next_day_name = (chat_archive[index+1].
+                                                                            day)
                                         break
                     else:
                         next_day_name = False
@@ -587,29 +613,52 @@ screen file_slots(title):
                     
                     
                 if next_day_name:
-                    $ long_msg = "There is a difference between the save time and the present time. It may cause missed conversations or phone calls during the time gap. Would you like to continue?\n\nSave Time: " + dn + " DAY " + file_time + "\n\nLoad Time: " + next_day_name + " DAY " + datetime.now().strftime('%H') + ":" + datetime.now().strftime('%M')
+                    $ long_msg = ("There is a difference between the save"
+                                  + " time and the present time. It may cause"
+                                  + " missed conversations or phone calls"
+                                  + " during the time gap. Would you like to"
+                                  + " continue?\n\nSave Time: " + dn 
+                                  + " DAY " + file_time + "\n\nLoad Time: " 
+                                  + next_day_name + " DAY " 
+                                  + datetime.now().strftime('%H') + ":" 
+                                  + datetime.now().strftime('%M'))
                 else:
-                    $ long_msg = "There is a difference between the save time and the present time. It may cause missed conversations or phone calls during the time gap. Would you like to continue?\n\nSave Time: " + dn + " DAY " + file_time + "\n\nLoad Time: " + dn + " DAY " + datetime.now().strftime('%H') + ":" + datetime.now().strftime('%M')
+                    $ long_msg = ("There is a difference between the save"
+                                  + " time and the present time. It may cause"
+                                  + " missed conversations or phone calls"
+                                  + " during the time gap. Would you like to"
+                                  + " continue?\n\nSave Time: " + dn + " DAY " 
+                                  + file_time + "\n\nLoad Time: " + dn 
+                                  + " DAY " + datetime.now().strftime('%H') 
+                                  + ":" + datetime.now().strftime('%M'))
                
 
                 button:
                     if title == "Save":
-                        action [SetVariable('save_name', save_title), FileAction(slot)]
+                        action [SetVariable('save_name', save_title), 
+                                FileAction(slot)]
                     else: # title == "Load"
-                        if next_day_name and FileLoadable(slot) and persistent.real_time:
+                        if (next_day_name and FileLoadable(slot) 
+                                and persistent.real_time):
                             action [Show("confirm", message=long_msg, 
                                         yes_action=[
-                                        SetField(persistent, 'manual_load', True),
-                                        SetField(persistent, 'on_route', True), 
-                                        SetField(persistent, 'load_instr', '+1 day'), 
+                                        SetField(persistent, 'manual_load',
+                                                     True),
+                                        SetField(persistent, 'on_route',
+                                                     True), 
+                                        SetField(persistent, 'load_instr',
+                                                     '+1 day'), 
                                         FileLoad(slot)], 
                                         no_action=Hide('confirm'))]
                         elif FileLoadable(slot) and persistent.real_time:
                             action [Show("confirm", message=long_msg, 
                                         yes_action=[
-                                        SetField(persistent, 'manual_load', True),
-                                        SetField(persistent, 'on_route', True), 
-                                        SetField(persistent, 'load_instr', 'Same day'),
+                                        SetField(persistent, 'manual_load',
+                                                                     True),
+                                        SetField(persistent, 'on_route',
+                                                                     True), 
+                                        SetField(persistent, 'load_instr',
+                                                                 'Same day'),
                                         FileLoad(slot)], 
                                         no_action=Hide('confirm'))]
                         elif not persistent.real_time and FileLoadable(slot):
@@ -639,22 +688,33 @@ screen file_slots(title):
                             if FileLoadable(slot):
                                 fixed:
                                     ysize 75
-                                    text "[cn]" style "save_slot_text" yalign 0.0
-                                text "Today: [dn] DAY" style "save_slot_text" yalign 1.0
+                                    text "[cn]":
+                                        style "save_slot_text" 
+                                        yalign 0.0
+                                text "Today: [dn] DAY":
+                                    style "save_slot_text" 
+                                    yalign 1.0
                             else:
                                 fixed:
                                     ysize 75
-                                    text "Empty Slot" style "save_slot_text" yalign 0.0
-                                text "Tap an empty slot to save" style 'save_slot_text' yalign 1.0
+                                    text "Empty Slot":
+                                        style "save_slot_text"
+                                        yalign 0.0
+                                text "Tap an empty slot to save":
+                                    style 'save_slot_text'
+                                    yalign 1.0
                             
                         window:
                             xysize (155,120)
                             has vbox
-                            # Displays the time the save was created and the delete button
+                            # Displays the time the save was created
+                            # and the delete button
                             fixed:
                                 xsize 155
                                 yfit True
-                                text FileTime(slot, format=_("{#file_time}%m/%d %H:%M"), empty=_("empty slot")):
+                                text FileTime(slot, 
+                                        format=_("{#file_time}%m/%d %H:%M"), 
+                                        empty=_("empty slot")):
                                     style "save_timestamp"
                                 
                             spacing 30
@@ -663,7 +723,7 @@ screen file_slots(title):
                                 xsize 155
                                 yfit True
                                 imagebutton:
-                                    hover im.FactorScale("Phone UI/Main Menu/save_trash_hover.png",1.05)
+                                    hover Transform("Phone UI/Main Menu/save_trash_hover.png",zoom=1.05)
                                     idle "Phone UI/Main Menu/save_trash.png"
                                     xalign 1.0
                                     action FileDelete(slot)
@@ -693,7 +753,10 @@ screen menu_header(title, return_action=NullAction, envelope=False):
         on 'show' action Function(next_chatroom)
         on 'reshow' action Function(next_chatroom)
         
-    if not renpy.get_screen('text_message_screen') and not main_menu and not starter_story and num_undelivered():
+    if (not renpy.get_screen('text_message_screen') 
+            and not main_menu 
+            and not starter_story 
+            and num_undelivered()):
         timer 3.5 action If(randint(0,2), deliver_next, []) repeat True
 
     $ my_menu_clock.runmode("real")
@@ -722,8 +785,12 @@ screen menu_header(title, return_action=NullAction, envelope=False):
             add "header_hg" yalign 0.03 xalign 0.16
             add "header_heart" yalign 0.03 xalign 0.65
             
-            text "[persistent.HG]" style "hg_heart_points" xalign 0.35 yalign 0.01
-            text "[persistent.HP]" style "hg_heart_points" xalign 0.83 yalign 0.01
+            text "[persistent.HG]":
+                style "hg_heart_points" 
+                xalign 0.35 yalign 0.01
+            text "[persistent.HP]":
+                style "hg_heart_points" 
+                xalign 0.83 yalign 0.01
         
         
     ## Header
@@ -734,7 +801,11 @@ screen menu_header(title, return_action=NullAction, envelope=False):
             add "menu_header"                
             
         if not envelope:
-            text title color "#ffffff" size 40 xalign 0.5 text_align 0.5 yalign 0.072
+            text title:
+                color "#ffffff" 
+                size 40 
+                xalign 0.5 yalign 0.072
+                text_align 0.5 
         else:
             hbox:
                 xalign 0.5 
@@ -749,17 +820,21 @@ screen menu_header(title, return_action=NullAction, envelope=False):
             yalign 0.068
             idle "menu_back"
             focus_mask None
-            hover im.FactorScale("Phone UI/Main Menu/menu_back_btn.png", 1.1)
+            hover Transform("Phone UI/Main Menu/menu_back_btn.png", zoom=1.1)
             activate_sound 'sfx/UI/back_button.mp3'
             if not renpy.get_screen("choice"):                
                 if envelope and not inst_text:
                     action Show('text_message_hub', Dissolve(0.5))
                 elif persistent.first_boot or not persistent.on_route:
-                    action [SetField(persistent, 'first_boot', False), return_action]
-                # If we're instant texting, leaving text messages works differently
+                    action [SetField(persistent, 'first_boot', False), 
+                            return_action]
+                # If we're instant texting, leaving text messages 
+                # works differently
                 elif inst_text:
-                     action Show("confirm", message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
-                                yes_action=[Hide('confirm'), Jump('leave_inst_text')], 
+                     action Show("confirm", 
+                                message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
+                                yes_action=[Hide('confirm'), 
+                                Jump('leave_inst_text')], 
                                 no_action=Hide('confirm'))    
                 else:
                     action return_action
@@ -774,14 +849,19 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 idle "settings_gear"
                 hover "settings_gear_rotate"
                 focus_mask None
-                # Eventually I'd like to get the settings button working during phone
-                # calls, but there are too many bugs so it's commented out
-                #if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
-                #    action [Preference("auto-forward", "disable"), Show("preferences")]
-                if not renpy.get_screen("choice") and not renpy.get_screen("in_call") and not inst_text:
+                # Eventually I'd like to get the settings button 
+                # working during phone calls, but there are too 
+                # many bugs so it's commented out
+                # if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
+                #     action [Preference("auto-forward", "disable"), Show("preferences")]
+                if (not renpy.get_screen("choice") 
+                        and not renpy.get_screen("in_call") 
+                        and not inst_text):
                     if renpy.get_screen('settings_screen'):
-                        action [Hide('preferences'), Hide('profile_pic'), 
-                                Hide('other_settings'), Show('preferences')]
+                        action [Hide('preferences'), 
+                                Hide('profile_pic'), 
+                                Hide('other_settings'), 
+                                Show('preferences')]
                     else:
                         action Show("preferences")  
       
@@ -803,10 +883,13 @@ screen chat_home(reshow=False):
     modal True
    
     python:
-        # This if statement just makes sure the menu music isn't constantly restarting
-        if renpy.music.get_playing(channel='music') != mystic_chat and not hacked_effect:
+        # This if statement just makes sure the menu 
+        # music isn't constantly restarting
+        if (renpy.music.get_playing(channel='music') != mystic_chat 
+                and not hacked_effect):
             renpy.music.play(mystic_chat, loop=True)
-        elif hacked_effect and renpy.music.get_playing(channel='music') != mystic_chat_hacked:
+        elif (hacked_effect and renpy.music.get_playing(channel='music') 
+                != mystic_chat_hacked):
             renpy.music.play(mystic_chat_hacked, loop=True) 
    
     use starry_night
@@ -815,14 +898,20 @@ screen chat_home(reshow=False):
 
     # Every time you go back to this screen, the game will auto-save
     on 'show':
-        action If(renpy.get_screen('chip_tap') or renpy.get_screen('chip_cloud') or renpy.get_screen('chip_end'),
+        action If(renpy.get_screen('chip_tap') 
+                    or renpy.get_screen('chip_cloud')
+                    or renpy.get_screen('chip_end'),
                 NullAction(),
-                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False)]) 
+                [Hide('chip_end'), renpy.retain_after_load, 
+                FileSave(mm_auto, confirm=False)]) 
  
     on 'replace':
-        action If(renpy.get_screen('chip_tap') or renpy.get_screen('chip_cloud') or renpy.get_screen('chip_end'),
+        action If(renpy.get_screen('chip_tap') 
+                    or renpy.get_screen('chip_cloud') 
+                    or renpy.get_screen('chip_end'),
                 NullAction(),
-                [Hide('chip_end'), renpy.retain_after_load, FileSave(mm_auto, confirm=False)]) 
+                [Hide('chip_end'), renpy.retain_after_load, 
+                FileSave(mm_auto, confirm=False)]) 
           
     # Text Messages
     button:
@@ -920,7 +1009,9 @@ screen chat_home(reshow=False):
         background "gray_chatbtn"
         hover_background "gray_chatbtn_hover"
         if persistent.real_time:
-            action [Function(next_chatroom), Function(deliver_all), Show('chat_select')]
+            action [Function(next_chatroom), 
+                    Function(deliver_all), 
+                    Show('chat_select')]
         else:
             action [Function(deliver_all), Show('chat_select')]
         activate_sound "sfx/UI/chatroom_select.mp3"
@@ -983,7 +1074,8 @@ screen chat_home(reshow=False):
             else:
                 background "white_hex"
                 hover_background "white_hex_hover"
-            action [SetVariable('new_cg', False), Show('photo_album', Dissolve(0.5))]
+            action [SetVariable('new_cg', False), 
+                    Show('photo_album', Dissolve(0.5))]
             add "album_icon" xalign 0.5 yalign 0.35
             add "album_text" xalign 0.5 yalign 0.8
             
