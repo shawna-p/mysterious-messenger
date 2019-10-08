@@ -20,29 +20,43 @@ init python:
     # This is a helper function for the heart icon that dynamically recolours a 
     # generic white heart depending on the character
     # See character definitions.rpy to define your own character & heart point
-    def heart_icon_fn(st,at):
-        if heartColor:
-            colour = heartColor
-        else:
+    def heart_icon_fn(st,at, colour=False):
+        if not colour:
             colour = white
         return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
                                 im.matrix.colorize("#000000", colour)), 0.1
+
+    ## This lets the screen call this image to display to the user
+    def heart_icon(character):
+        if character.heart_color:
+            return DynamicDisplayable(heart_icon_fn,
+                            colour=character.heart_color)
+        else:
+            return "Heart Point/Unknown Heart Point.png"
         
     # Similarly, this recolours the heartbreak animation
-    def heart_break_fn(st,at, picture):    
-        if heartColor:
-            colour = heartColor
-        else:
+    def heart_break_fn(st,at, picture, colour=False):    
+        if not colour:
             colour = white
-        return im.MatrixColor(picture, im.matrix.colorize("#000000", colour)), 0.1
+        return im.MatrixColor(picture, 
+                    im.matrix.colorize("#000000", colour)), 0.1
+
+    def heart_break_img(picture, character):
+        if character.heart_color:
+            return DynamicDisplayable(heart_break_fn,
+                            picture=picture,
+                            colour=character.heart_color)
+        else:
+            return "Heart Point/HeartBreak/stat_animation_6.png"
         
-    # An experiment to recolour speech bubbles
+    ## These next two functions recolour "generic" speech bubbles
+    ## so you can have custom glow/regular bubbles
     def glow_bubble_fn(st,at, glow_color='#000'):
         colour = glow_color
         return im.MatrixColor('Bubble/Special/sa_glow2.png', 
                             im.matrix.colorize(colour, '#fff')), 0.1
                             
-    # An experiment to recolour speech bubbles
+    
     def reg_bubble_fn(st,at, bubble_color='#000'):
         colour = bubble_color
         return im.MatrixColor('Bubble/white-Bubble.png', 
@@ -60,22 +74,11 @@ default persistent.custom_footers = False
 #************************************
 # Heart Icons
 #************************************ 
-image heart_icon = DynamicDisplayable(heart_icon_fn)
-image heartbreak1 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_6.png")
-image heartbreak2 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_7.png")
-image heartbreak3 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_8.png")
-image heartbreak4 = DynamicDisplayable(heart_break_fn, picture="Heart Point/HeartBreak/stat_animation_9.png")
-image heartbreak5 = "Heart Point/HeartBreak/stat_animation_10.png"
-
-image glow_bkgr_colorized = DynamicDisplayable(glow_bubble_fn)
-#default glow_color = '#0ff'
-
-default heartColor = '#000000'
+    
 
 # You call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
     python:
-        heartColor = character.heart_color
         if character == r:
             character = sa
         if not observing and not no_heart:
@@ -93,14 +96,13 @@ screen heart_icon_screen(character):
     fixed at heart:
         yfit True
         xfit True
-        add 'heart_icon'
+        add heart_icon(character)
         
     timer 0.62 action [Hide('heart_icon_screen')]
         
 # Like the heart icon, call this to display the heart break   
 label heart_break(character):
     python:
-        heartColor = character.heart_color
         if character == r:
             character = sa
         if not observing and not no_heart:
@@ -118,23 +120,28 @@ screen heart_break_screen(character):
     fixed at heartbreak(0.0):
         yfit True
         xfit True
-        add 'heartbreak1'
+        add heart_break_img("Heart Point/HeartBreak/stat_animation_6.png",
+                             character)
     fixed at heartbreak(0.12):
         yfit True
         xfit True
-        add 'heartbreak2'
+        add heart_break_img("Heart Point/HeartBreak/stat_animation_7.png",
+                             character)
     fixed at heartbreak(0.24):
         yfit True
         xfit True
-        add 'heartbreak3'
+        add heart_break_img("Heart Point/HeartBreak/stat_animation_8.png",
+                             character)
     fixed at heartbreak(0.36):
         yfit True
         xfit True
-        add 'heartbreak4'
+        add heart_break_img("Heart Point/HeartBreak/stat_animation_9.png",
+                             character)
     fixed at heartbreak(0.48):
         yfit True
         xfit True
-        add 'heartbreak5'
+        add heart_break_img("Heart Point/HeartBreak/stat_animation_10.png",
+                             character)
         
     timer 0.6 action [Hide('heart_break_screen')]
 
@@ -318,7 +325,8 @@ screen phone_overlay:
                     action Jump('chat_back')
                 else:
                     action Show("confirm", message="Do you really want to exit this chatroom? Please note that you cannot participate once you leave. If you want to enter this chatroom again, you will need to buy it back.", 
-                                    yes_action=[Hide('confirm'), Jump('chat_back')], 
+                                    yes_action=[Hide('confirm'), 
+                                    Jump('chat_back')], 
                                     no_action=Hide('confirm'))    
                                         
           
@@ -430,7 +438,9 @@ label viewCG(textmsg=False, album=False, album_info=[]):
     $ album_CG = album
     call screen viewCG_fullsize
     if album:
-        call screen character_gallery(album_info[0], album_info[1], album_info[2])
+        call screen character_gallery(album_info[0], 
+                                        album_info[1], 
+                                        album_info[2])
     return
     
 ## This is the screen where you can view a full-sized CG when you
@@ -457,16 +467,24 @@ screen viewCG_fullsize:
                 action [Call("answer", from_cg=True)]
             # From a text message, not instant texting
             elif textmsg_CG and not persistent.instant_texting:
-                action [Hide("viewCG_fullsize"), Show("text_message_screen", the_msg=CG_who)]
+                action [Hide("viewCG_fullsize"), Show("text_message_screen", 
+                                                            the_msg=CG_who)]
             # From an instant text message, before an answer button
             elif textmsg_CG and pre_choosing:
-                action [Hide("viewCG_fullsize"), Show("inst_text_message_screen", the_sender=CG_who), Call("answer", from_cg=True)] #[Hide("viewCG_fullsize"), Show("inst_text_message_screen", the_sender=CG_who)]
+                action [Hide("viewCG_fullsize"), 
+                        Show("inst_text_message_screen", 
+                            the_sender=CG_who), 
+                        Call("answer", from_cg=True)]
+                
             # From an instant text message, not before an answer button
             elif textmsg_CG and inst_text:
-                action [Hide("viewCG_fullsize"), Show("inst_text_message_screen", the_sender=CG_who), Call('play')]
+                action [Hide("viewCG_fullsize"), 
+                        Show("inst_text_message_screen", 
+                            the_sender=CG_who), Call('play')]
             # Convo is over, just viewing CGs in a text message
             elif textmsg_CG:
-                action [Hide("viewCG_fullsize"), Show("inst_text_message_screen", the_sender=CG_who)]
+                action [Hide("viewCG_fullsize"), 
+                        Show("inst_text_message_screen", the_sender=CG_who)]
             # From the album
             elif album_CG:
                 action [Hide('viewCG_fullsize'), Return()]
@@ -535,16 +553,26 @@ label press_save_and_exit(phone=True):
         if not current_chatroom.expired and not current_chatroom.buyback:
             # Checks for a post-chatroom label; won't trigger if there's a VN section
             # Otherwise delivers phone calls/texts/etc
-            if renpy.has_label('after_' + current_chatroom.chatroom_label) and not current_chatroom.vn_obj: 
+            if (renpy.has_label('after_' + current_chatroom.chatroom_label) 
+                    and not current_chatroom.vn_obj): 
                 $ renpy.call('after_' + current_chatroom.chatroom_label)
             # If you just finished a VN section, mark it as played and deliver emails/phone calls
-            if not phone and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
+            if (not phone 
+                    and current_chatroom.vn_obj 
+                    and not current_chatroom.vn_obj.played 
+                    and current_chatroom.vn_obj.available):
                 $ current_chatroom.vn_obj.played = True
                 if renpy.has_label('after_' + current_chatroom.chatroom_label):
                     $ renpy.call('after_' + current_chatroom.chatroom_label)
-        elif current_chatroom.plot_branch and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
+        elif (current_chatroom.plot_branch 
+                and current_chatroom.vn_obj 
+                and not current_chatroom.vn_obj.played 
+                and current_chatroom.vn_obj.available):
             $ current_chatroom.vn_obj.played = True
-        elif not current_chatroom.plot_branch and not phone and current_chatroom.vn_obj and not current_chatroom.vn_obj.played and current_chatroom.vn_obj.available:
+        elif (not current_chatroom.plot_branch 
+                and not phone and current_chatroom.vn_obj 
+                and not current_chatroom.vn_obj.played 
+                and current_chatroom.vn_obj.available):
             $ current_chatroom.vn_obj.played = True
                 
         if not current_chatroom.expired and not current_chatroom.buyback:
@@ -593,7 +621,8 @@ screen signature_screen(phone=True):
         has vbox
         spacing 10
         null height 140 width 682
-        text "This conversation will be archived in the RFA records." style "save_exit_text" xalign 0.5     
+        text "This conversation will be archived in the RFA records.":
+            style "save_exit_text" xalign 0.5     
         fixed:
             xalign 0.5
             ysize 60
@@ -612,7 +641,8 @@ screen signature_screen(phone=True):
                     ysize 40
                     text "[chatroom_hg]" style "points" xalign 1.0
         
-        text "I hereby agree to treat this conversation as confidential." style "save_exit_text"
+        text "I hereby agree to treat this conversation as confidential.":
+            style "save_exit_text"
         
         textbutton _('sign'):
             xysize (211, 52)
@@ -716,20 +746,28 @@ label exit(chara):
 
 # Not actually in MysMe; this is just a screen to test out timed responses
 # Could be a neat game mechanic
-screen countdown(timer_jump, count_time=5): # I set a default reaction time of 5 seconds
-    timer count_time repeat False action [ Hide('countdown'), Jump(timer_jump) ]
-    bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve
+ # I set a default reaction time of 5 seconds
+screen countdown(timer_jump, count_time=5):
+    timer count_time repeat False action [ Hide('countdown'), 
+                                            Jump(timer_jump) ]
+    bar value AnimatedValue(0, count_time, count_time, count_time):
+        at alpha_dissolve
 
-screen hidden_countdown(count_time=5): # I set a default reaction time of 5 seconds
+screen hidden_countdown(count_time=5): 
     timer count_time repeat False action [ Hide('hidden_countdown'), Return() ]
-    bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve
+    bar value AnimatedValue(0, count_time, count_time, count_time):
+        at alpha_dissolve
         
         
-screen answer_countdown(count_time=5): # I set a default reaction time of 5 seconds
+screen answer_countdown(count_time=5):
     zorder 5
-    timer count_time repeat False action [ Hide('answer_countdown'), Hide('continue_answer_button'), 
-                                    Show('pause_button'), SetVariable("timed_choose", False) ]
-    bar value AnimatedValue(0, count_time, count_time, count_time) at alpha_dissolve style 'answer_bar'
+    timer count_time repeat False action [ Hide('answer_countdown'), 
+                                    Hide('continue_answer_button'), 
+                                    Show('pause_button'), 
+                                    SetVariable("timed_choose", False) ]
+    bar value AnimatedValue(0, count_time, count_time, count_time):
+        at alpha_dissolve 
+        style 'answer_bar'
         
 #************************************
 # Continue Answer
@@ -819,8 +857,11 @@ screen continue_answer_button(themenu):
         focus_mask None
         idle "Phone UI/answer_transparent.png"
         activate_sound "sfx/UI/answer_screen.mp3"
-        action [SetVariable("choosing", True), SetVariable('timed_choose', True), 
-                Hide('continue_answer_button'), Show('pause_button'), Jump(themenu)] 
+        action [SetVariable("choosing", True), 
+                SetVariable('timed_choose', True), 
+                Hide('continue_answer_button'), 
+                Show('pause_button'), 
+                Jump(themenu)] 
         
 style answer_bar:
     bar_invert True
