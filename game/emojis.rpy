@@ -10,82 +10,83 @@ init python:
     ## (e.g. {image=jaehee angry}) then it will play the sound effect on the right
     ## If you add your own custom emojis, you'll need to add them to this list
     ## so that they play the correct sound effect
-    emoji_lookup = {'{image=jaehee angry}': 'sfx/Emotes/Jaehee/jaehee_angry.wav', 
-                    '{image=jaehee happy}': 'sfx/Emotes/Jaehee/jaehee_happy.wav', 
-                    '{image=jaehee hehe}': 'sfx/Emotes/Jaehee/jaehee_hehe.wav', 
-                    '{image=jaehee huff}': 'sfx/Emotes/Jaehee/jaehee_huff.wav', 
-                    '{image=jaehee oops}': 'sfx/Emotes/Jaehee/jaehee_oops.wav', 
-                    '{image=jaehee question}': 'sfx/Emotes/Jaehee/jaehee_question.wav', 
-                    '{image=jaehee sad}': 'sfx/Emotes/Jaehee/jaehee_sad.wav', 
-                    '{image=jaehee well}': 'sfx/Emotes/Jaehee/jaehee_well.wav', 
-                    '{image=jaehee wow}': 'sfx/Emotes/Jaehee/jaehee_wow.wav', 
-                    
-                    '{image=jumin angry}': 'sfx/Emotes/Jumin/jumin_angry.wav', 
-                    '{image=jumin sad}': 'sfx/Emotes/Jumin/jumin_sad.wav', 
-                    '{image=jumin smile}': 'sfx/Emotes/Jumin/jumin_smile.wav', 
-                    '{image=jumin well}': 'sfx/Emotes/Jumin/jumin_well.wav', 
-                    
-                    '{image=rika happy}': 'sfx/Emotes/Rika/rika_happy.mp3',
-                    '{image=rika pout}': 'sfx/Emotes/Rika/rika_pout.mp3',
-                    '{image=rika cry}': 'sfx/Emotes/Rika/rika_cry.mp3',
-                    
-                    '{image=ray cry}': 'sfx/Emotes/Ray/ray_cry.wav', 
-                    '{image=ray happy}': 'sfx/Emotes/Ray/ray_happy.wav', 
-                    '{image=ray huff}': 'sfx/Emotes/Ray/ray_huff.wav', 
-                    '{image=ray question}': 'sfx/Emotes/Ray/ray_question.wav', 
-                    '{image=ray smile}': 'sfx/Emotes/Ray/ray_smile.wav', 
-                    '{image=ray well}': 'sfx/Emotes/Ray/ray_well.wav', 
-                    '{image=ray wink}': 'sfx/Emotes/Ray/ray_wink.wav', 
-                    
-                    '{image=saeran2 cry}': 'sfx/Emotes/Ray/ray_cry.wav', 
-                    '{image=saeran2 happy}': 'sfx/Emotes/Ray/ray_happy.wav', 
-                    '{image=saeran2 huff}': 'sfx/Emotes/Ray/ray_huff.wav', 
-                    '{image=saeran2 question}': 'sfx/Emotes/Ray/ray_question.wav', 
-                    '{image=saeran2 smile}': 'sfx/Emotes/Ray/ray_smile.wav', 
-                    '{image=saeran2 well}': 'sfx/Emotes/Ray/ray_well.wav', 
-                    '{image=saeran2 wink}': 'sfx/Emotes/Ray/ray_wink.wav',
-                    
-                    '{image=saeran expecting}': 'sfx/Emotes/Saeran/saeran_expecting.wav', 
-                    '{image=saeran happy}': 'sfx/Emotes/Saeran/saeran_happy.wav', 
-                    '{image=saeran questioning}': 'sfx/Emotes/Saeran/saeran_questioning.wav', 
-                    '{image=saeran well}': 'sfx/Emotes/Saeran/saeran_well.wav',                     
-                    
-                    '{image=seven cry}': 'sfx/Emotes/Seven/seven_cry.wav', 
-                    '{image=seven huff}': 'sfx/Emotes/Seven/seven_huff.wav', 
-                    '{image=seven khee}': 'sfx/Emotes/Seven/seven_khee.wav', 
-                    '{image=seven love}': 'sfx/Emotes/Seven/seven_love.wav', 
-                    '{image=seven question}': 'sfx/Emotes/Seven/seven_question.wav', 
-                    '{image=seven what}': 'sfx/Emotes/Seven/seven_what.wav', 
-                    '{image=seven wow}': 'sfx/Emotes/Seven/seven_wow.wav', 
-                    '{image=seven yahoo}': 'sfx/Emotes/Seven/seven_yahoo.wav', 
-                    '{image=seven yoohoo}': 'sfx/Emotes/Seven/seven_yoohoo.wav',
+    emoji_lookup = {
+        '{image=jaehee angry}': 'sfx/Emotes/Jaehee/jaehee_angry.mp3', 
+        '{image=jaehee happy}': 'sfx/Emotes/Jaehee/jaehee_happy.mp3', 
+        '{image=jaehee hehe}': 'sfx/Emotes/Jaehee/jaehee_hehe.mp3', 
+        '{image=jaehee huff}': 'sfx/Emotes/Jaehee/jaehee_huff.mp3', 
+        '{image=jaehee oops}': 'sfx/Emotes/Jaehee/jaehee_oops.mp3', 
+        '{image=jaehee question}': 'sfx/Emotes/Jaehee/jaehee_question.mp3', 
+        '{image=jaehee sad}': 'sfx/Emotes/Jaehee/jaehee_sad.mp3', 
+        '{image=jaehee well}': 'sfx/Emotes/Jaehee/jaehee_well.mp3', 
+        '{image=jaehee wow}': 'sfx/Emotes/Jaehee/jaehee_wow.mp3', 
+        
+        '{image=jumin angry}': 'sfx/Emotes/Jumin/jumin_angry.mp3', 
+        '{image=jumin sad}': 'sfx/Emotes/Jumin/jumin_sad.mp3', 
+        '{image=jumin smile}': 'sfx/Emotes/Jumin/jumin_smile.mp3', 
+        '{image=jumin well}': 'sfx/Emotes/Jumin/jumin_well.mp3', 
+        
+        '{image=rika happy}': 'sfx/Emotes/Rika/rika_happy.mp3',
+        '{image=rika pout}': 'sfx/Emotes/Rika/rika_pout.mp3',
+        '{image=rika cry}': 'sfx/Emotes/Rika/rika_cry.mp3',
+        
+        '{image=ray cry}': 'sfx/Emotes/Ray/ray_cry.mp3', 
+        '{image=ray happy}': 'sfx/Emotes/Ray/ray_happy.mp3', 
+        '{image=ray huff}': 'sfx/Emotes/Ray/ray_huff.mp3', 
+        '{image=ray question}': 'sfx/Emotes/Ray/ray_question.mp3', 
+        '{image=ray smile}': 'sfx/Emotes/Ray/ray_smile.mp3', 
+        '{image=ray well}': 'sfx/Emotes/Ray/ray_well.mp3', 
+        '{image=ray wink}': 'sfx/Emotes/Ray/ray_wink.mp3', 
+        
+        '{image=saeran2 cry}': 'sfx/Emotes/Ray/ray_cry.mp3', 
+        '{image=saeran2 happy}': 'sfx/Emotes/Ray/ray_happy.mp3', 
+        '{image=saeran2 huff}': 'sfx/Emotes/Ray/ray_huff.mp3', 
+        '{image=saeran2 question}': 'sfx/Emotes/Ray/ray_question.mp3', 
+        '{image=saeran2 smile}': 'sfx/Emotes/Ray/ray_smile.mp3', 
+        '{image=saeran2 well}': 'sfx/Emotes/Ray/ray_well.mp3', 
+        '{image=saeran2 wink}': 'sfx/Emotes/Ray/ray_wink.mp3',
+        
+        '{image=saeran expecting}': 'sfx/Emotes/Saeran/saeran_expecting.mp3', 
+        '{image=saeran happy}': 'sfx/Emotes/Saeran/saeran_happy.mp3', 
+        '{image=saeran questioning}': 'sfx/Emotes/Saeran/saeran_questioning.mp3', 
+        '{image=saeran well}': 'sfx/Emotes/Saeran/saeran_well.mp3',                     
+        
+        '{image=seven cry}': 'sfx/Emotes/Seven/seven_cry.mp3', 
+        '{image=seven huff}': 'sfx/Emotes/Seven/seven_huff.mp3', 
+        '{image=seven khee}': 'sfx/Emotes/Seven/seven_khee.mp3', 
+        '{image=seven love}': 'sfx/Emotes/Seven/seven_love.mp3', 
+        '{image=seven question}': 'sfx/Emotes/Seven/seven_question.mp3', 
+        '{image=seven what}': 'sfx/Emotes/Seven/seven_what.mp3', 
+        '{image=seven wow}': 'sfx/Emotes/Seven/seven_wow.mp3', 
+        '{image=seven yahoo}': 'sfx/Emotes/Seven/seven_yahoo.mp3', 
+        '{image=seven yoohoo}': 'sfx/Emotes/Seven/seven_yoohoo.mp3',
 
-                    '{image=v shock}': 'sfx/Emotes/V/v_shock.wav', 
-                    '{image=v smile}': 'sfx/Emotes/V/v_smile.wav',
-                    '{image=v well}': 'sfx/Emotes/V/v_well.wav',
-                    '{image=v wink}': 'sfx/Emotes/V/v_wink.wav',
-                    
-                    '{image=yoosung angry}': 'sfx/Emotes/Yoosung/yoosung_angry.wav',
-                    '{image=yoosung cry}': 'sfx/Emotes/Yoosung/yoosung_cry.wav',
-                    '{image=yoosung happy}': 'sfx/Emotes/Yoosung/yoosung_happy.wav',
-                    '{image=yoosung huff}': 'sfx/Emotes/Yoosung/yoosung_huff.wav',
-                    '{image=yoosung puff}': 'sfx/Emotes/Yoosung/yoosung_puff.wav',
-                    '{image=yoosung question}': 'sfx/Emotes/Yoosung/yoosung_question.wav',
-                    '{image=yoosung thankyou}': 'sfx/Emotes/Yoosung/yoosung_thankyou.wav',
-                    '{image=yoosung what}': 'sfx/Emotes/Yoosung/yoosung_what.wav',
-                    '{image=yoosung wow}': 'sfx/Emotes/Yoosung/yoosung_wow.wav',
-                    '{image=yoosung yahoo}': 'sfx/Emotes/Yoosung/yoosung_yahoo.wav',
-                    
-                    '{image=zen angry}': 'sfx/Emotes/Zen/zen_angry.wav',
-                    '{image=zen happy}': 'sfx/Emotes/Zen/zen_happy.wav',
-                    '{image=zen hmm}': 'sfx/Emotes/Zen/zen_hmm.wav',
-                    '{image=zen oyeah}': 'sfx/Emotes/Zen/zen_oyeah.wav',
-                    '{image=zen question}': 'sfx/Emotes/Zen/zen_question.wav',
-                    '{image=zen sad}': 'sfx/Emotes/Zen/zen_sad.wav',
-                    '{image=zen shock}': 'sfx/Emotes/Zen/zen_shock.wav',
-                    '{image=zen well}': 'sfx/Emotes/Zen/zen_well.wav',
-                    '{image=zen wink}': 'sfx/Emotes/Zen/zen_wink.wav'
-                    }
+        '{image=v shock}': 'sfx/Emotes/V/v_shock.mp3', 
+        '{image=v smile}': 'sfx/Emotes/V/v_smile.mp3',
+        '{image=v well}': 'sfx/Emotes/V/v_well.mp3',
+        '{image=v wink}': 'sfx/Emotes/V/v_wink.mp3',
+        
+        '{image=yoosung angry}': 'sfx/Emotes/Yoosung/yoosung_angry.mp3',
+        '{image=yoosung cry}': 'sfx/Emotes/Yoosung/yoosung_cry.mp3',
+        '{image=yoosung happy}': 'sfx/Emotes/Yoosung/yoosung_happy.mp3',
+        '{image=yoosung huff}': 'sfx/Emotes/Yoosung/yoosung_huff.mp3',
+        '{image=yoosung puff}': 'sfx/Emotes/Yoosung/yoosung_puff.mp3',
+        '{image=yoosung question}': 'sfx/Emotes/Yoosung/yoosung_question.mp3',
+        '{image=yoosung thankyou}': 'sfx/Emotes/Yoosung/yoosung_thankyou.mp3',
+        '{image=yoosung what}': 'sfx/Emotes/Yoosung/yoosung_what.mp3',
+        '{image=yoosung wow}': 'sfx/Emotes/Yoosung/yoosung_wow.mp3',
+        '{image=yoosung yahoo}': 'sfx/Emotes/Yoosung/yoosung_yahoo.mp3',
+        
+        '{image=zen angry}': 'sfx/Emotes/Zen/zen_angry.mp3',
+        '{image=zen happy}': 'sfx/Emotes/Zen/zen_happy.mp3',
+        '{image=zen hmm}': 'sfx/Emotes/Zen/zen_hmm.mp3',
+        '{image=zen oyeah}': 'sfx/Emotes/Zen/zen_oyeah.mp3',
+        '{image=zen question}': 'sfx/Emotes/Zen/zen_question.mp3',
+        '{image=zen sad}': 'sfx/Emotes/Zen/zen_sad.mp3',
+        '{image=zen shock}': 'sfx/Emotes/Zen/zen_shock.mp3',
+        '{image=zen well}': 'sfx/Emotes/Zen/zen_well.mp3',
+        '{image=zen wink}': 'sfx/Emotes/Zen/zen_wink.mp3'
+        }
 
 default jaehee_emotes = ['{image=jaehee angry}', 
                     '{image=jaehee happy}',
@@ -102,7 +103,9 @@ default jumin_emotes = [ '{image=jumin angry}',
                     '{image=jumin smile}',
                     '{image=jumin well}']
                     
-default rika_emotes = ['{image=rika happy}','{image=rika pout}','{image=rika cry}']
+default rika_emotes = ['{image=rika happy}',
+                        '{image=rika pout}',
+                        '{image=rika cry}']
                     
 default ray_emotes = ['{image=ray cry}', 
                     '{image=ray happy}', 
@@ -161,7 +164,9 @@ default zen_emotes = ['{image=zen angry}',
                     '{image=zen well}',
                     '{image=zen wink}']
                     
-default all_emotes = jaehee_emotes + jumin_emotes + rika_emotes + ray_emotes + seven_emotes + saeran_emotes + v_emotes + yoosung_emotes + zen_emotes
+default all_emotes = (jaehee_emotes + jumin_emotes + rika_emotes 
+                    + ray_emotes + seven_emotes + saeran_emotes 
+                    + v_emotes + yoosung_emotes + zen_emotes)
 
 # ******** JAEHEE ******************
 
