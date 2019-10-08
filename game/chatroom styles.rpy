@@ -115,13 +115,13 @@ init 5:
     style img_message:
         padding (5, 10)
         #bottom_margin -65
-        pos (138, 30)
+        pos (138, 35)
         xmaximum 750   
         
     style mc_img_message:
         padding (5, 10)
         #bottom_margin -65
-        pos (600, 0)
+        pos (600, 35)
         xmaximum 750
         xalign 1.0
         
