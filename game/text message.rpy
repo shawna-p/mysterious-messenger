@@ -490,28 +490,32 @@ screen text_message_screen(the_msg):
     ## supposed to trigger a heart icon, display the correctly-coloured heart, award
     ## a heart point, and increase the appropriate totals"
     on 'show':
-        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m and HeartChar != r:
-            action [SetVariable('heartColor', HeartChar.heart_color),
-                    SetField(HeartChar, 'heart_points', HeartChar.heart_points+1),
+        if (the_msg.heart and len(the_msg.msg_list) > 0 
+                and the_msg.msg_list[-1].who != m 
+                and HeartChar != r):
+            action SetField(HeartChar, 'heart_points', 
+                                HeartChar.heart_points+1),
                     SetField(persistent, 'HP', persistent.HP+1),
                     Show('heart_icon_screen', character=HeartChar), 
                     SetField(the_msg, 'heart', False)]
-        elif the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
-            action [SetVariable('heartColor', sa.heart_color),
-                    SetField(sa, 'heart_points', sa.heart_points+1),
+        elif (the_msg.heart and len(the_msg.msg_list) > 0 
+                and the_msg.msg_list[-1].who != m):
+            action [SetField(sa, 'heart_points', sa.heart_points+1),
                     SetField(persistent, 'HP', persistent.HP+1),
                     Show('heart_icon_screen', character=sa), 
                     SetField(the_msg, 'heart', False)]
     on 'replace':
-        if the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m and HeartChar != r:
-            action [SetVariable('heartColor', HeartChar.heart_color),
-                    SetField(HeartChar, 'heart_points', HeartChar.heart_points+1),
+        if (the_msg.heart and len(the_msg.msg_list) > 0 
+                and the_msg.msg_list[-1].who != m 
+                and HeartChar != r):
+            action [SetField(HeartChar, 'heart_points', 
+                                HeartChar.heart_points+1),
                     SetField(persistent, 'HP', persistent.HP+1),
                     Show('heart_icon_screen', character=HeartChar), 
                     SetField(the_msg, 'heart', False)]
-        elif the_msg.heart and len(the_msg.msg_list) > 0 and the_msg.msg_list[-1].who != m:
-            action [SetVariable('heartColor', sa.heart_color),
-                    SetField(sa, 'heart_points', sa.heart_points+1),
+        elif (the_msg.heart and len(the_msg.msg_list) > 0 
+                and the_msg.msg_list[-1].who != m):
+            action [SetField(sa, 'heart_points', sa.heart_points+1),
                     SetField(persistent, 'HP', persistent.HP+1),
                     Show('heart_icon_screen', character=sa), 
                     SetField(the_msg, 'heart', False)]
@@ -534,7 +538,8 @@ screen text_message_screen(the_msg):
             yadj.value = yadjValue
         yinitial = yadjValue
 
-    use menu_header(the_msg.sender.name, Show('text_message_hub', Dissolve(0.5)), True)
+    use menu_header(the_msg.sender.name, 
+                Show('text_message_hub', Dissolve(0.5)), True)
             
     window:
         align (0.5, 0.54)

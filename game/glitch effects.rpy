@@ -9,13 +9,15 @@ init python:
     def screenshot_srf():
         srf = renpy.display.draw.screenshot(None, False)
         s_w, s_h = renpy.get_physical_size()
-        if srf.get_width != s_w: srf = renpy.display.scale.smoothscale(srf, (s_w, s_h))
+        if srf.get_width != s_w: srf = renpy.display.scale.smoothscale(srf,
+                                                                (s_w, s_h))
         return srf
 
     ## Invert the colors of the current screen.
     def invert():
         srf = screenshot_srf()
-        inv = renpy.Render(srf.get_width(), srf.get_height()).canvas().get_surface()
+        inv = (renpy.Render(srf.get_width(), 
+                srf.get_height()).canvas().get_surface())
         inv.fill((255,255,255,255))
         inv.blit(srf, (0,0), None, 2) #pygame.BLEND_RGB_SUB enum is 2
         return inv
@@ -41,16 +43,19 @@ screen invert(length=False):
     if length:
         timer length action Hide("invert")
 
-########## tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0, offsetMax=50, srf=None)
-# This screen is called using a statement like `show screen tear(20, 0.1, 0.1, 0, 40)`
-# Cut the screen up into some number of pieces and make them offset from each other
-# at random. 
+## tear(number=10, offtimeMult=1, ontimeMult=1, 
+##      offsetMin=0, offsetMax=50, srf=None)
+## This screen is called using a statement like 
+## `show screen tear(20, 0.1, 0.1, 0, 40)`
+## Cut the screen up into some number of pieces and 
+## make them offset from each other at random. 
 
 ## Define some python stuff
 init python:
     ## This class defines the little blinking pieces of the screen tear effect
     class TearPiece:
-        def __init__(self, startY, endY, offtimeMult, ontimeMult, offsetMin, offsetMax):
+        def __init__(self, startY, endY, offtimeMult, ontimeMult, 
+                        offsetMin, offsetMax):
             self.startY = startY
             self.endY = endY
             self.offTime = (random.random() * 0.2 + 0.2) * offtimeMult
@@ -66,11 +71,13 @@ init python:
             elif st <= self.offTime and self.offset != 0:
                 self.offset = 0
 
-    ## This class defines a renpy displayable made up of `number` of screen tear
-    ## sections, that bounce back and forth, based on ontimeMult & offtimeMult
-    ## and each piece is randomly offset by an amount between offsetMin & offsetMax
+    ## This class defines a renpy displayable made up of `number`
+    ## of screen tear sections, that bounce back and forth, based 
+    ## on ontimeMult & offtimeMult and each piece is randomly offset
+    ## by an amount between offsetMin & offsetMax
     class Tear(renpy.Displayable):
-        def __init__(self, number, offtimeMult, ontimeMult, offsetMin, offsetMax, srf=None):
+        def __init__(self, number, offtimeMult, ontimeMult, 
+                        offsetMin, offsetMax, srf=None):
             super(Tear, self).__init__()
             self.width, self.height = renpy.get_physical_size()
             # Force screen to 9:16 ratio
@@ -79,7 +86,8 @@ init python:
             else:
                 self.height = self.width * 16 / 9
             self.number = number
-            # Use a special image if specified, or tear current screen by default
+            # Use a special image if specified, or tear
+            # current screen by default
             if not srf: self.srf = screenshot_srf()
             else: self.srf = srf
 
@@ -90,7 +98,9 @@ init python:
                 tearpoints.append(random.randint(10, self.height - 10))
             tearpoints.sort()
             for i in range(number+1):
-                self.pieces.append(TearPiece(tearpoints[i], tearpoints[i+1], offtimeMult, ontimeMult, offsetMin, offsetMax))
+                self.pieces.append(TearPiece(tearpoints[i], 
+                                    tearpoints[i+1], offtimeMult, 
+                                    ontimeMult, offsetMin, offsetMax))
 
         ## Render the displayable
         def render(self, width, height, st, at):
@@ -99,15 +109,21 @@ init python:
             # Render each piece
             for piece in self.pieces:
                 piece.update(st)
-                subsrf = self.srf.subsurface((0, max(0, piece.startY - 1), self.width, max(0, piece.endY - piece.startY)))#.pygame_surface()
+                subsrf = (self.srf.subsurface((0, 
+                            max(0, piece.startY - 1), 
+                            self.width, 
+                            max(0, piece.endY - piece.startY))))
+                            #.pygame_surface()
                 render.blit(subsrf, (piece.offset, piece.startY))
             renpy.redraw(self, 0)
             return render
 
 ## Define the screen for Ren'Py; by default, tear the screen into 10 pieces
-screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0, offsetMax=50, w_timer=False, srf=None):
+screen tear(number=10, offtimeMult=1, ontimeMult=1, offsetMin=0, 
+                            offsetMax=50, w_timer=False, srf=None):
     zorder 150 #Screen tear appears above pretty much everything
-    add Tear(number, offtimeMult, ontimeMult, offsetMin, offsetMax, srf) size (750,1334)
+    add Tear(number, offtimeMult, ontimeMult, offsetMin, 
+                                offsetMax, srf) size (750,1334)
     if w_timer:
         timer w_timer action Hide('tear')
         
@@ -121,23 +137,26 @@ screen white_squares(w_timer=False):
     
 
 ########## rectstatic
-# These are three displayables (m_rectstatic, m_rectstatic2, m_rectstatic3) and
-# one displayable effect RectStatic() that make a bunch of little boxes on the screen
-# that blink on and off.
+# These are three displayables (m_rectstatic, m_rectstatic2, m_rectstatic3) 
+# and one displayable effect RectStatic() that make a bunch of little 
+# boxes on the screen that blink on and off.
 
 # Little black squares
 image m_rectstatic:
     #RectStatic(Solid("#000"), 32).sm
-    RectStatic(Crop('Hack-Long.png', 0,0,renpy.random.randint(20, 60), renpy.random.randint(20, 40)), 32).sm
+    RectStatic(Crop('Hack-Long.png', 0,0,renpy.random.randint(20, 60), 
+                                    renpy.random.randint(20, 40)), 32).sm
     pos (0, 0)
     size (32,32)
 # Little squares with a part of the logo
 image m_rectstatic2:
-    RectStatic(Transform(Crop("Phone UI/Day Select/daychat01_chat_mint.png", 0,0,32,32), size=(32,32)), 2).sm
+    RectStatic(Transform(Crop("Phone UI/Day Select/daychat01_chat_mint.png", 
+                            0,0,32,32), size=(32,32)), 2).sm
     size (32, 32)
 # Little squares with a part of the menu
 image m_rectstatic3:
-    RectStatic(Transform(Crop("Phone UI/Day Select/daychat01_day_mint.png", 0,0,64,64), size=(32, 32)), 2).sm
+    RectStatic(Transform(Crop("Phone UI/Day Select/daychat01_day_mint.png", 
+                                        0,0,64,64), size=(32, 32)), 2).sm
     size (32, 32)
 
 init python:
@@ -147,7 +166,8 @@ init python:
     ## RectStatic(Solid("#000"), 32, 32, 32) would make 32 32x32 black squares
     ## That show up randomly on the screen
     class RectStatic(object):
-        def __init__(self, theDisplayable, numRects=12, rectWidth = False, rectHeight = False):
+        def __init__(self, theDisplayable, numRects=12, rectWidth = False, 
+                        rectHeight = False):
             self.sm = SpriteManager(update=self.update)
             self.rects = [ ]
             self.timers = [ ]

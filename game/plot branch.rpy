@@ -43,10 +43,10 @@ label plot_branch_tutorial:
     # and change the dialogue accordingly
     # Note: sometimes Unknown will say you've invited a guest and you'll
     # still get the Bad End; this only happens when you've failed the second
-    # or third response in an email since the guest will have a 33% or 67% chance
-    # of attending the party, respectively. Sometimes this statement will calculate
-    # that they're coming, but the when the plot branch calculates the number
-    # of guests attending, the guest won't come
+    # or third response in an email since the guest will have a 33% or 67% 
+    # chance of attending the party, respectively. Sometimes this statement
+    # will calculate that they're coming, but the when the plot branch 
+    # calculates the number of guests attending, the guest won't come
     if attending_guests() >= 1:
         u "It looks like you've managed to invite at least one guest!" 
         u "{=curly}So you'll get the Good End.{/=curly}" 
@@ -216,9 +216,10 @@ label tutorial_bad_end_expired:
 label plot_branch_vn:
     call vn_begin 
     
-    # You'll generally never want to mess with the 'observing' variable yourself, 
-    # but since this is a tutorial chatroom we want the user to be able to play
-    # it over and over and not be restricted to the choices they've already made
+    # You'll generally never want to mess with the 'observing' variable 
+    # yourself, but since this is a tutorial chatroom we want the user 
+    # to be able to play it over and over and not be restricted to the 
+    # choices they've already made
     $ observing = False
 
     scene bg rika_apartment with fade

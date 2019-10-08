@@ -3,10 +3,11 @@ label example_email:
 
     call chat_begin('evening') 
     play music narcissistic_jazz loop
-    $ observing = False # Generally you don't want to do this; however, for 
-                        # tutorial and testing purposes, making sure observing
-                        # is never True allows you to endlessly redo this chatroom
-                        # and thus invite Rainbow multiple times
+    # Generally you don't want to do this; however, for 
+    # tutorial and testing purposes, making sure observing
+    # is never True allows you to endlessly redo this chatroom
+    # and thus invite Rainbow multiple times
+    $ observing = False 
     
     z 'Hey, [name], I had an idea for a guest we should invite.'
     z 'Can we invite zentherainbowunicorn?'
@@ -22,9 +23,9 @@ label example_email:
             m "I'll pass." (pauseVal=0)
             z "Oh, okay. No problem!"    
             
-        # This is for testing; it both makes any emails you haven't replied to
-        # timeout faster, and if you're waiting for the guest to email you, it
-        # makes them reply more quickly. 
+        # This is for testing; it both makes any emails you haven't
+        # replied to timeout faster, and if you're waiting for the 
+        # guest to email you, it makes them reply more quickly. 
         "I'd like to deliver my email replies more quickly." if email_list:
             m "I'd like to deliver my email replies more quickly." (pauseVal=0)
             z "Sure, I can take care of that."
@@ -214,11 +215,12 @@ Sincerely,
 
 Rainbow Unicorn""")
 
-label rainbow_reply1: # This needs to be the name of the guest + _reply + the reply number
-                      # For example, if my guest is named Bob (with the capital B) and this
-                      # is the first reply, it would be called Bob_reply1
-                      # Be sure to pay attention to any capitals you have in the guest's name
-                      # or the program won't be able to find the right label
+# This needs to be the name of the guest + _reply + the reply number
+# For example, if my guest is named Bob (with the capital B) and this
+# is the first reply, it would be called Bob_reply1
+# Be sure to pay attention to any capitals you have in the guest's name
+# or the program won't be able to find the right label
+label rainbow_reply1: 
 
     menu:
         'Indoor party.':
@@ -245,9 +247,10 @@ label rainbow_reply3():
     menu:
         'Spicy Food.':
             # You can also pass set_reply a number after True/False
-            # If you do, that will be the number of chatrooms after which the reply
-            # to your email will be sent to you. Otherwise, the program randomly
-            # generates a number between 5 and 13 or calculates an appropriate number
+            # If you do, that will be the number of chatrooms after 
+            # which the reply to your email will be sent to you.
+            # Otherwise, the program randomly generates a number 
+            # between 5 and 13 or calculates an appropriate number
             # based on how many chatrooms are yet to be played
             $ current_email.set_reply(True, 4)
         'Seafood.':
@@ -260,13 +263,14 @@ label rainbow_reply3():
 ## ****************************************************
 
 default example_guest = Guest("example", "Email/Thumbnails/guest_unlock_icon.png",
-## The first string, "example", is what will show up in the email chain as the
-## guest's 'email' e.g. "longcat" shows up as "@longcat" in the email chain
-## This is also the variable we use for reply labels, not the name of the variable
-## The second string is the image to use for the guest's thumbnail. It should be
-## 155x155px
-## Because the variable is 'example_guest', when we want to invite this person,
-## we will write: call invite(example_guest)
+## The first string, "example", is what will show up in the 
+## email chain as the guest's 'email' e.g. "longcat" shows up
+## as "@longcat" in the email chain. This is also the variable
+## we use for reply labels, not the name of the variable
+## The second string is the image to use for the guest's 
+## thumbnail. It should be 155x155px
+## Because the variable is 'example_guest', when we want to 
+## invite this person, we will write: call invite(example_guest)
 
 ## Initial Message
 """Dear [name],
@@ -297,12 +301,14 @@ to their first email correctly""",
 ## Answer -> INCORRECT ANSWER HERE
 ## First Message (incorrect)
 
-"""This is what your character writes to the guest when they choose the wrong response""",
+"""This is what your character writes to the guest when they 
+choose the wrong response""",
 
 ## Reply to incorrect message
     
-"""And this is the response the guest will write you after you choose the incorrect
-response. Usually they say something that indicates they don't want to go to the party""",
+"""And this is the response the guest will write you after you choose
+the incorrect response. Usually they say something that indicates they 
+don't want to go to the party""",
 
 ## SECOND MESSAGE - *Question the guest asked here*
 
@@ -313,7 +319,8 @@ response. Usually they say something that indicates they don't want to go to the
 
 ## Reply to correct message
 
-"""This is the guest's reply to your message after you chose the correct response""",
+"""This is the guest's reply to your message after you chose the 
+correct response""",
 
 ## Answer -> INCORRECT ANSWER HERE
 ## Second Message (incorrect)
@@ -322,7 +329,8 @@ response. Usually they say something that indicates they don't want to go to the
 
 ## Reply to incorrect message
 
-"""This is the guest's reply to your message after you chose the wrong response""",
+"""This is the guest's reply to your message after you chose the 
+wrong response""",
 
 ## THIRD MESSAGE - *Question the guest asked here*
 
@@ -333,8 +341,9 @@ response. Usually they say something that indicates they don't want to go to the
 
 ## Reply to correct message
 
-"""This is the guest's reply to your message after you chose the correct response.
-It usually says something about seeing you at the party, as this is the final message""",
+"""This is the guest's reply to your message after you chose the 
+correct response. It usually says something about seeing you at 
+the party, as this is the final message""",
 
 ## Answer -> INCORRECT ANSWER HERE
 ## Third Message (incorrect)
@@ -347,7 +356,8 @@ It usually says something about seeing you at the party, as this is the final me
 the wrong response.""") # Don't forget a closing bracket at the end
 
 
-label example_reply1: # We called the guest "example", so the reply labels will be called
+label example_reply1: # We called the guest "example", so the
+                      # reply labels will be called
                       # example_reply1, example_reply2, and example_reply3
 
     menu:

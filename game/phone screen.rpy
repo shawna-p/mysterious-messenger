@@ -7,7 +7,10 @@ init -6 python:
             self.caller = caller
             self.phone_label = phone_label
             self.call_time = False
-            if call_status == 'incoming' or call_status == 'outgoing' or call_status == 'missed' or call_status == 'voicemail':
+            if (call_status == 'incoming' 
+                    or call_status == 'outgoing' 
+                    or call_status == 'missed' 
+                    or call_status == 'voicemail'):
                 self.call_status = call_status
             else:
                 self.call_status = 'incoming'
@@ -15,8 +18,8 @@ init -6 python:
             self.playback = False
             self.avail_timeout = avail_timeout
             
-        ## Phone calls will slowly expire if you don't call the characters. The default
-        ## expiry is after two chatrooms
+        ## Phone calls will slowly expire if you don't call 
+        ## the characters. The default expiry is after two chatrooms
         def decrease_time(self):
             global available_calls
             if self.avail_timeout == 'test':
@@ -86,32 +89,44 @@ init -6 python:
         _preferences.afm_enable = not _preferences.afm_enable
         renpy.restart_interaction()
 
-    ## Makes any phonecalls associated with the current chatroom available as appropriate
+    ## Makes any phonecalls associated with the current 
+    ## chatroom available as appropriate
     def deliver_calls(lbl, expired=False, call_time=False):
-        global available_calls, incoming_call, call_history, unseen_calls, test_em
+        global available_calls, incoming_call, call_history
+        global unseen_calls, test_em
         missed_call = False
         phonecall = False
         # Adds available calls
         if renpy.has_label(lbl + '_phone_ja'):
-            available_calls.append(Phone_Call(ja, lbl + '_phone_ja', 'outgoing'))
+            available_calls.append(Phone_Call(ja, 
+                                lbl + '_phone_ja', 'outgoing'))
         if renpy.has_label(lbl + '_phone_ju'):
-            available_calls.append(Phone_Call(ju, lbl + '_phone_ju', 'outgoing'))
+            available_calls.append(Phone_Call(ju, 
+                                lbl + '_phone_ju', 'outgoing'))
         if renpy.has_label(lbl + '_phone_r'):
-            available_calls.append(Phone_Call(r, lbl + '_phone_r', 'outgoing'))
+            available_calls.append(Phone_Call(r, 
+                                lbl + '_phone_r', 'outgoing'))
         if renpy.has_label(lbl + '_phone_ri'):
-            available_calls.append(Phone_Call(ri, lbl + '_phone_ri', 'outgoing'))
+            available_calls.append(Phone_Call(ri,
+                                 lbl + '_phone_ri', 'outgoing'))
         if renpy.has_label(lbl + '_phone_s'):
-            available_calls.append(Phone_Call(s, lbl + '_phone_s', 'outgoing'))
+            available_calls.append(Phone_Call(s, 
+                                lbl + '_phone_s', 'outgoing'))
         if renpy.has_label(lbl + '_phone_sa'):
-            available_calls.append(Phone_Call(sa, lbl + '_phone_sa', 'outgoing'))
+            available_calls.append(Phone_Call(sa, 
+                                lbl + '_phone_sa', 'outgoing'))
         if renpy.has_label(lbl + '_phone_u'):
-            available_calls.append(Phone_Call(u, lbl + '_phone_u', 'outgoing'))
+            available_calls.append(Phone_Call(u, 
+                                lbl + '_phone_u', 'outgoing'))
         if renpy.has_label(lbl + '_phone_v'):
-            available_calls.append(Phone_Call(v, lbl + '_phone_v', 'outgoing'))
+            available_calls.append(Phone_Call(v, 
+                                lbl + '_phone_v', 'outgoing'))
         if renpy.has_label(lbl + '_phone_y'):
-            available_calls.append(Phone_Call(y, lbl + '_phone_y', 'outgoing'))
+            available_calls.append(Phone_Call(y, 
+                                lbl + '_phone_y', 'outgoing'))
         if renpy.has_label(lbl + '_phone_z'):
-            available_calls.append(Phone_Call(z, lbl + '_phone_z', 'outgoing'))
+            available_calls.append(Phone_Call(z, 
+                                lbl + '_phone_z', 'outgoing'))
             
         # Updates the incoming_call, or missed calls if the chatroom
         # has expired
@@ -207,14 +222,17 @@ screen phone_calls:
 
     use starry_night()
     
-    use menu_header("Call History", [Show('chat_home', Dissolve(0.5)), FileSave(mm_auto, confirm=False)])
+    use menu_header("Call History", [Show('chat_home', Dissolve(0.5)), 
+                                     FileSave(mm_auto, confirm=False)])
     
     if not hacked_effect:
-        on 'show' action If(renpy.music.get_playing(channel='music') != mystic_chat, 
+        on 'show' action If(renpy.music.get_playing(channel='music') 
+                    != mystic_chat, 
                     renpy.music.play(mystic_chat, loop=True),
                     [])
     else:
-        on 'show' action If(renpy.music.get_playing(channel='music') != mystic_chat_hacked, 
+        on 'show' action If(renpy.music.get_playing(channel='music') 
+                    != mystic_chat_hacked, 
                     renpy.music.play(mystic_chat_hacked, loop=True),
                     [])
                 
@@ -271,16 +289,21 @@ screen phone_calls:
                     window:
                         xysize (135, 135)
                         align (0.5, 0.5)
-                        add Transform(i.caller.prof_pic, size=(127,127)) yalign 0.5 xalign 0.5
+                        add Transform(i.caller.prof_pic, size=(127,127)):
+                            yalign 0.5 xalign 0.5
                     
                     window:
                         xmaximum 320
                         yalign 0.5
                         has vbox
                         align (0.0, 0.5)
-                        text i.caller.name + ' {image=[call_status]}' style "save_slot_text"
+                        text i.caller.name + ' {image=[call_status]}':
+                            style "save_slot_text"
                         spacing 40                                    
-                        text "[i.call_time.twelve_hour]:[i.call_time.minute] [i.call_time.am_pm], [i.call_time.day]/[i.call_time.month_num]" style "save_slot_text"
+                        text ("[i.call_time.twelve_hour]:[i.call_time.minute]"
+                                + " [i.call_time.am_pm], [i.call_time.day]/"
+                                + "[i.call_time.month_num]"):
+                            style "save_slot_text"
                         
                     window:
                         xysize (230, 135) 
@@ -294,17 +317,24 @@ screen phone_calls:
                             xysize(96,85)
                             hover Transform(replay_bkgr, zoom=1.1)
                             if i.playback:
-                                action [SetVariable('observing', True), Jump(i.phone_label)]
+                                action [SetVariable('observing', True), 
+                                        Jump(i.phone_label)]
 
                         imagebutton:                        
                             idle 'call_back' 
                             align(0.5, 0.5)
                             xysize(96,85)
-                            hover Transform('Phone UI/Phone Calls/call.png', zoom=1.1)
+                            hover Transform('Phone UI/Phone Calls/call.png', 
+                                                                    zoom=1.1)
                             if call_available(i.caller):
-                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=call_available(i.caller))]
+                                action [Preference("auto-forward", "enable"), 
+                                Show('outgoing_call', 
+                                    phonecall=call_available(i.caller))]
                             else:
-                                action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=i.caller.voicemail, voicemail=True)]     
+                                action [Preference("auto-forward", "enable"), 
+                                Show('outgoing_call', 
+                                    phonecall=i.caller.voicemail, 
+                                    voicemail=True)]     
 
     
 ########################################################
@@ -381,9 +411,14 @@ screen phone_contacts_grid(x_num, y_num):
                         idle person.file_id + '_contact'
                         hover_foreground person.file_id + '_contact'
                         if call_available(person):
-                            action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=call_available(person))]
+                            action [Preference("auto-forward", "enable"), 
+                                    Show('outgoing_call', 
+                                        phonecall=call_available(person))]
                         else:
-                            action [Preference("auto-forward", "enable"), Show('outgoing_call', phonecall=person.voicemail, voicemail=True)]
+                            action [Preference("auto-forward", "enable"), 
+                                    Show('outgoing_call', 
+                                        phonecall=person.voicemail, 
+                                        voicemail=True)]
                     text person.name style 'contact_text'
         
         for i in range((x_num*y_num + has_mc) - len(character_list)):
@@ -410,10 +445,16 @@ screen in_call():
     
     add 'call_headphones' yalign 0.12 xalign 0.5
     
-    on 'show' action [renpy.music.stop(), SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
-    on 'hide' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')] 
-    on 'replace' action [renpy.music.stop(), SetVariable('in_phone_call', True), Preference('auto-forward after click', 'enable')]
-    on 'replaced' action [SetVariable('in_phone_call', False), Preference('auto-forward after click', 'disable')]
+    on 'show' action [renpy.music.stop(), 
+                        SetVariable('in_phone_call', True), 
+                        Preference('auto-forward after click', 'enable')]
+    on 'hide' action [SetVariable('in_phone_call', False),
+                        Preference('auto-forward after click', 'disable')] 
+    on 'replace' action [renpy.music.stop(), 
+                        SetVariable('in_phone_call', True), 
+                        Preference('auto-forward after click', 'enable')]
+    on 'replaced' action [SetVariable('in_phone_call', False), 
+                        Preference('auto-forward after click', 'disable')]
                         
 
     window:
@@ -434,11 +475,13 @@ screen in_call():
                 align (0.5, 0.5)
                 if _preferences.afm_enable: #preferences.afm_time > 0:
                     idle 'call_pause'
-                    action [PauseAudio('voice', value=True), Function(toggle_afm)] #Preference("auto-forward", "toggle")
+                    action [PauseAudio('voice', value=True), 
+                            Function(toggle_afm)] #Preference("auto-forward", "toggle")
                     
                 else:
                     idle 'call_play'
-                    action [PauseAudio('voice', value=False), Function(toggle_afm)] #Preference("auto-forward", "toggle")
+                    action [PauseAudio('voice', value=False), 
+                            Function(toggle_afm)] #Preference("auto-forward", "toggle")
         null width 100
         window:
             xysize(160,160)
@@ -447,7 +490,8 @@ screen in_call():
                 imagebutton:
                     align (0.5, 0.5)
                     idle 'call_hang_up'
-                    hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
+                    hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', 
+                                                                    zoom=1.1)
                     action [Hide('say'), Jump('hang_up')]
                 
                 
@@ -488,7 +532,8 @@ screen incoming_call(phonecall, countdown_time=10):
             has vbox
             align (0.5, 0.5)
             spacing 15
-            add Transform(phonecall.caller.prof_pic, size=(237,237)) align (0.5, 0.5)
+            add Transform(phonecall.caller.prof_pic, size=(237,237)):
+                align (0.5, 0.5)
             text phonecall.caller.name style 'caller_id'
         window:
             xysize(120,220)
@@ -525,12 +570,15 @@ screen incoming_call(phonecall, countdown_time=10):
             imagebutton:
                 align (0.5, 0.5)
                 idle 'call_answer'
-                hover Transform('Phone UI/Phone Calls/call_button_answer.png', zoom=1.1)
+                hover Transform('Phone UI/Phone Calls/call_button_answer.png', 
+                                                                    zoom=1.1)
                 if starter_story:
                     action Return()
                 else:
-                    action [Function(renpy.music.stop), Preference("auto-forward", "enable"), 
-                            SetVariable('current_call', phonecall), Jump(phonecall.phone_label)]
+                    action [Function(renpy.music.stop), 
+                            Preference("auto-forward", "enable"), 
+                            SetVariable('current_call', phonecall), 
+                            Jump(phonecall.phone_label)]
         null width 100
         add 'call_headphones' yalign 1.0
         null width 100
@@ -541,13 +589,18 @@ screen incoming_call(phonecall, countdown_time=10):
                 imagebutton:
                     align (0.5, 0.5)
                     idle 'call_hang_up'
-                    hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
-                    action [Function(renpy.music.stop), Jump('incoming_hang_up')]
+                    hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', 
+                                                                    zoom=1.1)
+                    action [Function(renpy.music.stop), 
+                            Jump('incoming_hang_up')]
                 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
     if not starter_story:
-        timer 1.0 action If(call_countdown>1, SetScreenVariable("call_countdown", call_countdown-1), Jump('incoming_hang_up')) repeat True
+        timer 1.0 action If(call_countdown>1, 
+                            SetScreenVariable("call_countdown", 
+                            call_countdown-1), 
+                            Jump('incoming_hang_up')) repeat True
     
 ## If you hang up an incoming call, you can
 ## still call that character back
@@ -568,8 +621,10 @@ screen outgoing_call(phonecall, voicemail=False):
     use menu_header("In Call")
     
     
-    on 'show' action renpy.music.play(["<silence 1.5>", phone_dial_sfx, "<silence 1.5>"])
-    on 'replace' action renpy.music.play(["<silence 1.5>", phone_dial_sfx, "<silence 1.5>"])
+    on 'show' action renpy.music.play(["<silence 1.5>", 
+                        phone_dial_sfx, "<silence 1.5>"])
+    on 'replace' action renpy.music.play(["<silence 1.5>", 
+                        phone_dial_sfx, "<silence 1.5>"])
     
     
     window:
@@ -588,7 +643,8 @@ screen outgoing_call(phonecall, voicemail=False):
             has vbox
             align (0.5, 0.5)
             spacing 15
-            add Transform(phonecall.caller.prof_pic, size=(237,237)) align (0.5, 0.5)
+            add Transform(phonecall.caller.prof_pic, size=(237,237)):
+                align (0.5, 0.5)
             text phonecall.caller.name style 'caller_id'
             
     window:
@@ -624,13 +680,15 @@ screen outgoing_call(phonecall, voicemail=False):
             imagebutton:
                 align (0.5, 0.5)
                 idle 'call_hang_up'
-                hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', zoom=1.1)
+                hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', 
+                                                                    zoom=1.1)
                 action [renpy.music.stop, Show('phone_calls')]
        
     if voicemail:
         timer randint(8, 10) action If(phonecall, [renpy.music.stop, 
                                         SetVariable('current_call', phonecall), 
-                                        Jump(phonecall.phone_label)], Show('phone_calls'))
+                                        Jump(phonecall.phone_label)], 
+                                        Show('phone_calls'))
     else:
         timer randint(2, 8) action [renpy.music.stop, 
                                     SetVariable('current_call', phonecall), 

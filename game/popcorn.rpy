@@ -203,9 +203,10 @@ label popcorn_vn:
     # variables for you and shows the right screens
     call vn_begin 
     
-    # You'll generally never want to mess with the 'observing' variable yourself, 
-    # but since this is a tutorial chatroom we want the user to be able to play
-    # it over and over and not be restricted to the choices they've already made
+    # You'll generally never want to mess with the 'observing' 
+    # variable yourself, but since this is a tutorial chatroom 
+    # we want the user to be able to play it over and over and 
+    # not be restricted to the choices they've already made
     $ observing = False
     
     # Use the 'scene' statement to set a background. Here it's also given the
@@ -221,7 +222,8 @@ label popcorn_vn:
     scene bg black
     pause
     
-    # This is how you'll play sound effects during a VN. Some are already defined in VN Mode.rpy
+    # This is how you'll play sound effects during a VN. 
+    # Some are already defined in VN Mode.rpy
     play sound car_moving_sfx
     # If you don't specify a speaker, the 'narrator' will say this line
     "(Moving...)"
@@ -232,42 +234,51 @@ label popcorn_vn:
     # You'll set the background music the same way you do for chatrooms
     play music urban_night_cityscape loop
     
-    # This is how we show the characters. Some, like Jumin, have both 'front' and 'side' positions,
-    # so we need to specify which one. If a major character only has one pose, we generally follow it
+    # This is how we show the characters. Some, like Jumin, have both
+    # 'front' and 'side' positions, so we need to specify which one. 
+    # If a major character only has one pose, we generally follow it 
     # with 'vn' as in 'jaehee vn'. 
-    # In this case, we're showing Jumin in his front pose ('jumin front') with his arm up ('arm') and
-    # the happy expression ('happy'). We say 'at vn_right' to put him on the right of the screen
-    # Check out 'character definitions.rpy' for a cheat-sheet on the different expressions and poses
-    # available for each character
+    # In this case, we're showing Jumin in his front pose ('jumin front') 
+    # with his arm up ('arm') and the happy expression ('happy'). We say 
+    # 'at vn_right' to put him on the right of the screen
+    # Check out 'character definitions.rpy' for a cheat-sheet on 
+    # the different expressions and poses available for each character
     show jumin front arm happy at vn_right
     ju_vn "You're here on time, [name]."
     
-    # This is an example where Jaehee looks a little too far off-screen if we use vn_left,
-    # so instead we put her at vn_midleft. You might need some trial and error for this
+    # This is an example where Jaehee looks a little too far off-screen 
+    # if we use vn_left, so instead we put her at vn_midleft. 
+    # You might need some trial and error for this
     show jaehee vn glasses at vn_midleft
     
-    # Note the capitalization of the variable [They] so you get a capitalized pronoun
+    # Note the capitalization of the variable [They] 
+    # so you get a capitalized pronoun
     ja_vn "[They] arrived much earlier than expected..."
-    show jumin front upset  # since Jumin is already on the screen, we don't have to specify 'at' for this expression
+    show jumin front upset  # since Jumin is already on the screen, 
+                            # we don't have to specify 'at' for this expression
     ju_vn "That's good. Then let's proceed with the meeting."
     hide jaehee vn
     
-    # The program will recognize that Jumin is already showing and will hide him from his previous position at
-    # vn_right and show him at vn_center so we don't need to hide Jumin's portrait like we did Jaehee
+    # The program will recognize that Jumin is already showing and will
+    # hide him from his previous position at vn_right and show him at
+    # vn_center so we don't need to hide Jumin's portrait like we did Jaehee
     show jumin front angry at vn_center 
     ju_vn "There are three large issues concerning Elizabeth the 3rd's safety."
     show jumin front upset
     ju_vn "First, under the sofa. The maid cleans that spot every day, but if some unforeseen danger occurs beneath the sofa, I won't be able to know right away."
     
-    # By adding a '-' in front of arm, we 'subtract' that attribute from his image. Another way to write this
-    # might have been 'show jumin front normal angry', since we want his 'normal' outfit instead of his 'arm' one
-    # However, since his 'normal' outfit is also the default, it suffices to write '-arm'
+    # By adding a '-' in front of arm, we 'subtract' that attribute from
+    # his image. Another way to write this might have been 'show jumin 
+    # front normal angry', since we want his 'normal' outfit instead of
+    # his 'arm' one. However, since his 'normal' outfit is also the 
+    # default, it suffices to write '-arm'
     show jumin front -arm angry
     ju_vn "Second, the gate. The gate needs to be redesigned so that a human can pass through but not a cat. Elizabeth might run out when the door is open. I'm thinking of installing a double door system."
     ju_vn "And lastly, the kitchen. She's climbing up to the bar more and more often. Look at the graph here. Last week, she climbed up there 6.25 times every day on average. I think I need [name]'s opinions on this."
     hide jumin front
     
-    # Each time we show Jaehee we'll need to add the 'glasses' attribute if we want her to wear them.
+    # Each time we show Jaehee we'll need to add the 
+    # 'glasses' attribute if we want her to wear them.
     show jaehee vn glasses worried at vn_midleft
     ja_vn "...Should I write all this down?"
     show jumin front angry at vn_right
@@ -275,7 +286,8 @@ label popcorn_vn:
     play sound door_knock_sfx
     "(!!)"
     
-    # Now that Jaehee is on screen, we don't need to repeat the 'glasses' attribute if we change her expression
+    # Now that Jaehee is on screen, we don't need to repeat the
+    # 'glasses' attribute if we change her expression
     show jaehee vn surprised
     ja_vn "Someone is knocking."
     ju_vn "I can't let anyone interfere with such an important meeting."
@@ -308,10 +320,12 @@ label popcorn_vn:
     play music mysterious_clues_v2 loop
     
     menu:
-        extend ''   # you'll want to put this after every menu option; it will keep the previous line of text on the screen
+        extend ''   # you'll want to put this after every menu option; 
+                    # it will keep the previous line of text on the screen
         "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?":
             m_vn "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?"
-        # Although this menu has only one option, you can continue to add menu options and dialogue as you would in a chatroom menu
+        # Although this menu has only one option, you can continue to 
+        # add menu options and dialogue as you would in a chatroom menu
     
     show sarah stressed
     sarah_vn "What did you say?!"
@@ -351,8 +365,10 @@ label popcorn_vn:
     chief_vn "Hahaha, of course..."
     hide sarah
     
-    # Here we have some different transitions to move the characters around on the screen
-    # You can take a look at Ren'Py's transition and transformation pages for more
+    # Here we have some different transitions to move the 
+    # characters around on the screen
+    # You can take a look at Ren'Py's transition and 
+    # transformation pages for more
     show jaehee vn neutral glasses at center with easeinleft
     hide chairman_han with easeoutright
     ja_vn "This way, Mr. Chairman."
@@ -363,9 +379,12 @@ label popcorn_vn:
     hide jaehee vn
     show sarah smirk at vn_center
     
-    # Since we let the player pick their pronouns, we need to be careful about verb conjugations
-    # If we just wrote "who are [they]" then a player who's picked she/her pronouns will get a sentence
-    # like "but who are she". Similarly we don't want "but who is they", so we use the variable [is_are]
+    # Since we let the player pick their pronouns, we need to be careful 
+    # about verb conjugations
+    # If we just wrote "who are [they]" then a player who's picked 
+    # she/her pronouns will get a sentence like "but who are she". 
+    # Similarly we don't want "but who is they",
+    # so we use the variable [is_are]
     sarah_vn "Haha... but Jumin, who [is_are] [they]? An intern??"
     hide sarah
     show jaehee vn surprised glasses at vn_midright
@@ -378,9 +397,10 @@ label popcorn_vn:
     hide jumin side
     show sarah smirk at vn_center
     
-    # You might notice at this point that we're using vn_center to indicate that Sarah is talking primarily to us,
-    # the player, while Jaehee and Jumin have a conversation in the background. This is common in most VN mode
-    # conversations in the game
+    # You might notice at this point that we're using vn_center to 
+    # indicate that Sarah is talking primarily to us, the player, 
+    # while Jaehee and Jumin have a conversation in the background. 
+    # This is common in most VN mode conversations in the game
     sarah_vn "Friend~? Are you sure [they_re] just a friend? I feel like [they_re] super jealous..."
     
     menu:

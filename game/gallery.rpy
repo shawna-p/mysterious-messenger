@@ -1,7 +1,8 @@
 python early:
 
     class Album(store.object):
-        def __init__(self, img, thumbnail=False, locked_img="CGs/album_unlock.png", unlocked=False):
+        def __init__(self, img, thumbnail=False, 
+                    locked_img="CGs/album_unlock.png", unlocked=False):
             # images should be 750x1334
             self.img = img
             self.locked_img = locked_img
@@ -11,7 +12,8 @@ python early:
             else:
                 # If no thumbnail is provided, the program
                 # will automatically crop and scale the CG
-                self.thumbnail = Transform(Crop((0, 0, 750, 750), img), zoom=0.2067)
+                self.thumbnail = Transform(Crop((0, 0, 750, 750), img), 
+                                                        size=(155,155))
             self.unlocked = unlocked
             
         def unlock(self):
@@ -172,17 +174,26 @@ screen photo_album:
             # have less than three as well. You can also add another row by
             # adding another hbox
             hbox:
-                use char_album('cg_label_ju', 'Jumin Han', persistent.ju_album, 'ju_album_cover')            
-                use char_album('cg_label_z', 'ZEN', persistent.z_album, 'z_album_cover')
-                use char_album('cg_label_s', '707', persistent.s_album, 's_album_cover')
+                use char_album('cg_label_ju', 'Jumin Han', 
+                                persistent.ju_album, 'ju_album_cover')            
+                use char_album('cg_label_z', 'ZEN', 
+                                persistent.z_album, 'z_album_cover')
+                use char_album('cg_label_s', '707', 
+                                persistent.s_album, 's_album_cover')
             hbox:
-                use char_album('cg_label_y', 'Yoosung★', persistent.y_album, 'y_album_cover')
-                use char_album('cg_label_ja', 'Jaehee Kang', persistent.ja_album, 'ja_album_cover')
-                use char_album('cg_label_v', 'V', persistent.v_album, 'v_album_cover')
+                use char_album('cg_label_y', 'Yoosung★', 
+                                persistent.y_album, 'y_album_cover')
+                use char_album('cg_label_ja', 'Jaehee Kang', 
+                                persistent.ja_album, 'ja_album_cover')
+                use char_album('cg_label_v', 'V', 
+                                persistent.v_album, 'v_album_cover')
             hbox:
-                use char_album('cg_label_u', 'Unknown', persistent.u_album, 'u_album_cover')
-                use char_album('cg_label_r', 'Ray', persistent.r_album, 'r_album_cover')
-                use char_album('cg_label_common', 'Common', persistent.common_album, 'common_album_cover')
+                use char_album('cg_label_u', 'Unknown', 
+                                persistent.u_album, 'u_album_cover')
+                use char_album('cg_label_r', 'Ray', 
+                                persistent.r_album, 'r_album_cover')
+                use char_album('cg_label_common', 'Common', 
+                                persistent.common_album, 'common_album_cover')
             
 ## This displays a button with an image and a caption
 ## that will take you to the desired character's album
@@ -217,11 +228,14 @@ screen char_album(caption, name, album, cover):
                 background caption
                 hover_foreground caption
                 if len(name) > 6:
-                    text name + ' (' + str(len(album)) + ')' style 'album_text_long'
+                    text name + ' (' + str(len(album)) + ')':
+                        style 'album_text_long'
                 else:
-                    text name + ' (' + str(len(album)) + ')' style 'album_text_short'
+                    text name + ' (' + str(len(album)) + ')':
+                        style 'album_text_short'
                     
-        action Show('character_gallery', album=album, caption=caption, name=name)
+        action Show('character_gallery', album=album, 
+                                caption=caption, name=name)
             
         
         
@@ -243,9 +257,11 @@ screen character_gallery(album, caption, name):
             xalign 0.01
             add caption
             if len(name) > 6:
-                text name + ' (' + str(len(album)) + ')' style 'album_text_long'
+                text name + ' (' + str(len(album)) + ')':
+                    style 'album_text_long'
             else:
-                text name + ' (' + str(len(album)) + ')' style 'album_text_short'
+                text name + ' (' + str(len(album)) + ')':
+                    style 'album_text_short'
         
         vpgrid id 'gallery_vp':
             xysize (740, 1100)
@@ -266,10 +282,13 @@ screen character_gallery(album, caption, name):
                 imagebutton:
                     idle photo.return_thumbnail()
                     if photo.unlocked:                        
-                        action [SetVariable("fullsizeCG", photo.img), Call("view_album_CG", album_info=[album, caption, name, index])]
+                        action [SetVariable("fullsizeCG", photo.img), 
+                                Call("view_album_CG", 
+                                    album_info=[album, caption, name, index])]
                     else:
-                        action Show("confirm", message="This image is not yet unlocked",
-                    yes_action=Hide('confirm'))                    
+                        action Show("confirm", 
+                                message="This image is not yet unlocked",
+                                yes_action=Hide('confirm'))                    
             
             # This fills out the rest of the grid
             for i in range((4*num_rows) - len(album)):
@@ -366,7 +385,8 @@ screen viewCG_fullsize_album:
             yalign 0.0
             focus_mask True
             idle "close_button"
-            action [SetVariable('prev_cg_left', False), SetVariable('prev_cg_right', False),
+            action [SetVariable('prev_cg_left', False), 
+                    SetVariable('prev_cg_right', False),
                     Hide('viewCG_fullsize'), Return()]
         
         text "Close" style "CG_close"        

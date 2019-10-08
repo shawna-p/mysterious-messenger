@@ -9,21 +9,34 @@ init python:
         def __init__(self, guest, msg, reply_label, read=False, msg_num=0,
                         failed=False, timeout_count=25, deliver_reply="wait",
                         reply=False, timeout=False):
-            self.guest = guest # Guest variable
-            self.msg = msg  # Email content
-            self.reply_label = reply_label  # Name of the label to jump to when replying
-            self.read = read    # Read/Unread
-            self.msg_num = msg_num  # = 0, 1, 2, or 3; reply number. 0 is the first message
-                                      # sent to you, and 3 is the email accepting your invite
-            self.failed = failed    # Whether or not the email chain has been failed
-            self.timeout_count = timeout_count  # This is somewhat arbitrary; essentially if the
-                                    # player doesn't respond within 25 chatrooms (~3 days; can
-                                    # be changed) of receiving the message it will be failed
-            self.deliver_reply = deliver_reply   # How long to wait before the guest replies to your email
-                                            # This should equal "wait" if it's your turn to reply
-            self.reply = reply   # This contains the message to be delivered when the guest replies to you
+            # Guest variable
+            self.guest = guest 
+            # Email content
+            self.msg = msg  
+            # Name of the label to jump to when replying
+            self.reply_label = reply_label  
+            # Read/Unread
+            self.read = read    
+            # = 0, 1, 2, or 3; reply number. 0 is the first message
+            # sent to you, and 3 is the email accepting your invite
+            self.msg_num = msg_num 
+            # Whether or not the email chain has been failed
+            self.failed = failed    
+            # This is somewhat arbitrary; essentially if the
+            # player doesn't respond within 25 chatrooms (~3 days; can
+            # be changed) of receiving the message it will be failed
+            self.timeout_count = timeout_count  
+            # How long to wait before the guest replies to your email
+            # This should equal "wait" if it's your turn to reply
+            self.deliver_reply = deliver_reply   
+            # This contains the message to be delivered when the 
+            # guest replies to you
+            self.reply = reply   
+            # True if this email has timed out
             self.timeout = timeout
             self.sent_time = upTime()
+            # True if the player has already received a popup
+            # telling them they have an email
             self.notified = False
                         
         ## This will deliver the next email in the chain to the
@@ -39,7 +52,9 @@ init python:
             # If it's your turn to reply, decrease the timeout counter,
             # Unless this is the final message and there's no need to reply
             # If this is the first message, show a popup
-            elif self.deliver_reply == "wait" and self.msg_num <= 2 and not self.timeout:
+            elif (self.deliver_reply == "wait" 
+                    and self.msg_num <= 2 
+                    and not self.timeout):
                 self.timeout_count -= 1
                 if not self.notified and self.msg_num == 0 and not self.read:
                     # Notify the player of the delivered message
@@ -49,12 +64,16 @@ init python:
                     renpy.restart_interaction()
                 
             # If the timeout counter reaches 0, timeout becomes True
-            if self.timeout_count == 0 and self.msg_num <= 2 and not self.failed:
+            if (self.timeout_count == 0 
+                    and self.msg_num <= 2 
+                    and not self.failed):
                 self.timeout = True
                 renpy.retain_after_load()
                 
             # If the timer <= 0 and there's a reply to be delivered, deliver it
-            if self.deliver_reply != "wait" and self.deliver_reply <= 0 and self.reply:
+            if (self.deliver_reply != "wait" 
+                    and self.deliver_reply <= 0 
+                    and self.reply):
                 self.read = False
                 self.reply += "\n\n------------------------------------------------\n\n"
                 self.msg = self.reply + self.msg
@@ -72,7 +91,8 @@ init python:
                 renpy.retain_after_load()
                            
          
-        ## Sets the guest's reply and randomly decides when it should be delivered
+        ## Sets the guest's reply and randomly decides when 
+        ## it should be delivered
         def set_reply(self, iscorrect, deliver_reply=False):
         
             test = False
@@ -99,9 +119,10 @@ init python:
                 self.failed = True
                 self.reply_label = False
 
-            # If a number is given, the reply will be delivered within that many
-            # chatrooms. Otherwise, the program calculates a number range for the 
-            # email so it can be delivered before the party
+            # If a number is given, the reply will be delivered 
+            # within that many chatrooms. Otherwise, the program 
+            # calculates a number range for the email so it can 
+            # be delivered before the party
             if deliver_reply != False:
                 self.deliver_reply = deliver_reply
             else:
@@ -111,17 +132,20 @@ init python:
                     msg_remain = 3 - self.msg_num
                     if msg_remain == 0:
                         msg_remain = 1
-                    ## Here we want to ensure there are enough chatrooms left to finish
-                    ## delivering our emails e.g. if there are 30 chatrooms left and we
-                    ## have another 3 replies to deliver, max_num will be 10 and min_num
-                    ## will be 3, so the message will be delivered sometime after the next
-                    ## 3-10 chatrooms
+                    # Here we want to ensure there are enough 
+                    # chatrooms left to finish delivering our 
+                    # emails e.g. if there are 30 chatrooms left 
+                    # and we have another 3 replies to deliver, 
+                    # max_num will be 10 and min_num will be 3, so 
+                    # the message will be delivered sometime after
+                    # the next 3-10 chatrooms
                     max_num = min(max_num / msg_remain, 13)
                     min_num = max(max_num-7, 1)
                     if max_num <= min_num:
                         self.deliver_reply = min_num
                     else:
-                        self.deliver_reply = renpy.random.randint(min_num, max_num)
+                        self.deliver_reply = renpy.random.randint(min_num, 
+                                                                    max_num)
                 else:
                     self.deliver_reply = renpy.random.randint(5, 10)
                 
@@ -218,9 +242,11 @@ init python:
             
             # msg_good means it's the correct reply for that message, and
             # reply_good is what the guest will send after that message
-            # msg_bad is the incorrect reply; reply_bad is the same as above but for the bad message
+            # msg_bad is the incorrect reply; reply_bad is the same as 
+            # above but for the bad message
             # name is a string of the name of the guest
-            # start_msg is the initial message you are sent after agreeing to invite them
+            # start_msg is the initial message you are sent after
+            # agreeing to invite them
             # pic = sender's contact thumbnail, ideally 155x155
             
             self.name = name
@@ -292,9 +318,11 @@ default email_list = []
 ## this guest, you'll include a line `call invite(guest_var)` and
 ## it will trigger them to email you
 label invite(guest):
-    if not observing: # So you can't re-invite someone when replaying a chatroom
+    # So you can't re-invite someone when replaying 
+    if not observing: 
         $ guest.sent_time = upTime()
-        $ email_list.insert(0, Email(guest, guest.start_msg, guest.label1)) # Moves them to the front of the list
+        # Moves them to the front of the list
+        $ email_list.insert(0, Email(guest, guest.start_msg, guest.label1)) 
     return
     
 default current_email = None  
@@ -326,7 +354,10 @@ screen email_popup(e):
             xalign 0.05
             spacing 15
             add 'new_text_envelope'
-            text 'NEW' color '#73f1cf' yalign 1.0 font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+            text 'NEW':
+                color '#73f1cf' 
+                yalign 1.0 
+                font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         
         vbox:
             align (0.5, 0.8)
@@ -336,12 +367,17 @@ screen email_popup(e):
                 xsize 470
                 spacing 10               
                 add Transform(e.guest.pic, zoom=0.6)
-                text "You have a new message from @" + e.guest.name color '#fff' size 25 align(0.5, 0.5)
+                text "You have a new message from @" + e.guest.name:
+                    color '#fff' 
+                    size 25 
+                    align(0.5, 0.5)
                 
-            # This button isn't in the actual game, and the main reason I can get
-            # away with adding it here is because emails only get delivered on the main
-            # menu. It would mess things up if you could jump to the message in the middle
-            # of a chatroom so they aren't delivered then
+            # This button isn't in the actual game, and the 
+            # main reason I can get away with adding it here 
+            # is because emails only get delivered on the main
+            # menu. It would mess things up if you could jump 
+            # to the message in the middle of a chatroom so 
+            # they aren't delivered then
             textbutton _('Go to'): 
                 text_style 'mode_select'
                 xalign 0.5
@@ -350,7 +386,9 @@ screen email_popup(e):
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                if not (renpy.get_screen('in_call') or renpy.get_screen('incoming_call') or renpy.get_screen('outgoing call')):
+                if (not (renpy.get_screen('in_call') 
+                        or renpy.get_screen('incoming_call') 
+                        or renpy.get_screen('outgoing call'))):
                     action [Hide('email_popup'), 
                             Hide('save_load'),
                             Hide('menu'),
@@ -429,7 +467,9 @@ screen email_button(e):
             
         xysize (644, 111)
         hover_foreground 'white_transparent'
-        action [SetVariable("current_email", e), SetField(e, 'read', True), Show('open_email', e=e)]
+        action [SetVariable("current_email", e), 
+                SetField(e, 'read', True), 
+                Show('open_email', e=e)]
           
         hbox:
             align (0.0, 0.0)
@@ -516,8 +556,14 @@ screen open_email(e):
                         xsize 280
                         ysize 80
                         text 'From: ' + e.guest.name color '#fff'
-                    text '[[Date] ' + e.sent_time.month_num + '/' + e.sent_time.day color '#fff' size 27
-                    text '[[Time] ' + e.sent_time.twelve_hour + ':' + e.sent_time.minute + ' ' + e.sent_time.am_pm size 27 color '#fff'
+                    text ('[[Date] ' + e.sent_time.month_num 
+                            + '/' + e.sent_time.day):
+                                color '#fff' 
+                                size 27
+                    text ('[[Time] ' + e.sent_time.twelve_hour + ':' 
+                            + e.sent_time.minute + ' ' + e.sent_time.am_pm):
+                                size 27 
+                                color '#fff'
                 
                 textbutton _('Reply'):
                     text_style 'mode_select'

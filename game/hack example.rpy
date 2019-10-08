@@ -33,7 +33,8 @@ label hack_example:
             pause 0.01
             show screen invert(0.19)
             pause 0.01
-            show screen tear(number=10, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10, offsetMax=30, w_timer=0.18)
+            show screen tear(number=10, offtimeMult=0.4, ontimeMult=0.2, 
+                                offsetMin=-10, offsetMax=30, w_timer=0.18)
             pause 0.01
             show screen white_squares(0.16)
             pause 0.17
@@ -57,7 +58,8 @@ label hack_example:
     show screen white_squares(0.19)
     pause 0.5
     sa "a tearing effect"   (bounce=True)
-    show screen tear(number=40, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10, offsetMax=30, w_timer=0.2)
+    show screen tear(number=40, offtimeMult=0.4, ontimeMult=0.2, 
+                        offsetMin=-10, offsetMax=30, w_timer=0.2)
     pause 0.5
     sa "You can delete messages and rewrite them."        
     sa "There are a lot of things you can do if you're creative~" 
@@ -102,7 +104,8 @@ label hack_example_expired:
     pause 0.01
     show screen invert(0.19)
     pause 0.01
-    show screen tear(number=50, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-50, offsetMax=50, w_timer=0.18)
+    show screen tear(number=50, offtimeMult=0.4, ontimeMult=0.2, 
+                        offsetMin=-50, offsetMax=50, w_timer=0.18)
     pause 0.01
     show screen white_squares(0.16)
     pause 0.17

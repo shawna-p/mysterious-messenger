@@ -288,7 +288,8 @@ init -6 python:
             
     ## A helper function that expires chatrooms and makes their phonecalls/
     ## text messages available
-    def expire_chatroom(prev_chatroom, current_chatroom, deliver_incoming=False):
+    def expire_chatroom(prev_chatroom, current_chatroom, 
+                                deliver_incoming=False):
         # The previous chatroom expires if not played
         if (not prev_chatroom.played
                 and not prev_chatroom.buyback 
