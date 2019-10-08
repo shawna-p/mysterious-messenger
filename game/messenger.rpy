@@ -33,6 +33,9 @@ init -4 python:
         # CGs/common_album/cg-1.png
         return 'CGs/' + album + '/' + cg_name
 
+    def smallCG(bigCG):
+        return Transform(bigCG, zoom=0.35)
+
     ## This function adds entries to the chatlog
     ## It also takes care of several "behind-the-scenes" functions,
     ## such as how long to wait before each character replies
@@ -430,10 +433,6 @@ screen chat_animation(i, animate=True, anti=False):
             # transform
             if i.img == True:
                 include_new = False
-                if "{image=" in i.what:
-                    pass
-                else:
-                    transformVar = small_CG
                     
             # This determines how long the line of text is. 
             # If it needs to wrap it, it will pad the bubble 
@@ -462,20 +461,14 @@ screen chat_animation(i, animate=True, anti=False):
         elif anti:
             transformVar = invisible
 
-        if include_new:            
-            include_new = False
-
-
 
     # This displays the special messages like "xyz
     # has entered the chatroom"
-    if i.who.name == 'msg' or i.who.name == 'filler':
+    if (i.who.name == 'msg' or i.who.name == 'filler') and not anti:
         window:
-            style i.who.name + '_bubble'
-            if not anti:
-                text dialogue style i.who.name + '_bubble_text'
-            else:
-                text dialogue at invisible
+            style i.who.name + '_bubble'            
+            text dialogue style i.who.name + '_bubble_text'
+            
 
     # Otherwise it's a regular character; add
     # their profile picture
@@ -502,18 +495,14 @@ screen chat_animation(i, animate=True, anti=False):
                         text i.what
                     else: # it's a CG                            
                         $ fullsizeCG = cg_helper(i.what)
-                        if not anti:
-                            imagebutton:
-                                focus_mask True
-                                idle fullsizeCG
-                                if not choosing:
-                                    action [SetVariable("fullsizeCG", 
-                                                cg_helper(i.what)), 
-                                                Call("viewCG"), 
-                                                eturn()]
-                        else:
-                            window at invisible:
-                                add fullsizeCG
+                        imagebutton:
+                            focus_mask True
+                            idle smallCG(fullsizeCG)
+                            if not choosing:
+                                action [SetVariable("fullsizeCG", 
+                                            cg_helper(i.what)), 
+                                            Call("viewCG"), 
+                                            Return()]
 
 
                 # Not an image; check if it's a special bubble
@@ -551,40 +540,28 @@ screen chat_animation(i, animate=True, anti=False):
 
         # This does indeed need the 'new' sign
         else:
-            if my_width > gui.longer_than:
-                fixed at transformVar:
-                    #yfit True
-                    pos (138,0)
-                    ysize 50
-                    xsize 500
-                    vbox:
-                        spacing -55
-                        order_reverse True
-                        add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
-                        window:
-                            #background Frame(bubbleBackground, 25, 18,18,18)
-                            background "#f0f"
-                            text dialogue:
+            frame at transformVar:
+                pos (138,24)
+                # if my_width <= gui.longer_than:
+                #     ysize my_height - 20
+                xsize 500
+                background None
+                vbox:
+                    spacing -20
+                    order_reverse True
+                    add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
+                    frame:
+                        padding (25,12,20,12)
+                        background Frame(bubbleBackground, 25, 18,18,18)
+                        text dialogue:
+                            if my_width > gui.longer_than:
                                 style 'bubble_text_long'
                                 min_width gui.long_line_min_width
+                            else:
+                                style 'bubble_text'
+                                
 
-            else:
-                fixed at transformVar:
-                    ysize my_height - 20
-                    xsize 500
-                    pos (138,0)
-                    vbox:
-                        spacing -55
-                        order_reverse True
-                        add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
-                        window:
-                            background "#0ff"
-                            #background Frame(bubbleBackground, 25,18,18,18)
-                            text dialogue style 'bubble_text'
-
-    # if animate and not anti:
-    #     use chat_animation(i, True, False)
-
+   
 
                                 
                             
