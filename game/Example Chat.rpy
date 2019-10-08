@@ -124,39 +124,48 @@ label emojis:
     
     call answer 
     menu emoji:
-        "Jaehee":
-            jump jaehee_emoji
-        "Jumin":
-            jump jumin_emoji
-        "Ray":
-            jump ray_emoji
-        "Saeran":
-            jump saeran_emoji
-        "Next ->":
-            jump emoji2
+        "Casual Story Characters":
+            menu:
+                "Jaehee":
+                    jump jaehee_emoji
+                "Zen":
+                    jump zen_emoji
+                "Yoosung":
+                    jump yoosung_emoji
+                "<- Back":
+                    jump emoji
 
-            
-    menu emoji2:
-        "<- Back":
-            jump emoji
-        "Saeran (sweater)":
-            jump saeran2_emoji
-        "Seven":
-            jump seven_emoji
-        "V":
-            jump v_emoji
-        "Next ->":
-            jump emoji3
-            
-    menu emoji3:
-        "<- Back":
-            jump emoji2
-        "Rika":
-            jump rika_emoji
-        "Yoosung":
-            jump yoosung_emoji
-        "Zen":
-            jump zen_emoji
+        "Deep Story Characters":
+            menu:
+                "Jumin":
+                    jump jumin_emoji
+                "Seven":
+                    jump seven_emoji
+                "<- Back":
+                    jump emoji
+
+        "Another Story Characters":
+            menu:
+                "Ray":
+                    jump ray_emoji
+                "Saeran":
+                    jump saeran_emoji
+                "V":
+                    jump v_emoji
+                "<- Back":
+                    jump emoji
+
+        "Bonus/Other Characters":
+            menu:
+                "Rika":
+                    jump rika_emoji
+                "Saeran (sweater)":
+                    jump saeran2_emoji
+                "<- Back":
+                    jump emoji
+
+
+     
         "Done":
             s "{=sser2}The last thing I'm here to explain is how to post CGs.{/=sser2}" (pauseVal=0)
             s "{=curly}That means images like this!{/=curly}" (bounce=True)
