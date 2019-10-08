@@ -110,96 +110,80 @@ style spike_s:
     padding gui.spike_s_padding
     pos gui.spike_s_pos
     xysize gui.spike_s_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style spike_m:
     padding gui.spike_m_padding
     pos gui.spike_m_pos
     xysize gui.spike_m_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style spike_l:
     padding gui.spike_l_padding
     pos gui.spike_l_pos
     xysize gui.spike_l_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 ## CLOUD
 style cloud_s:
     padding gui.cloud_s_padding
     pos gui.cloud_s_pos
     xysize gui.cloud_s_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style cloud_m:
     padding gui.cloud_m_padding
     pos gui.cloud_m_pos
     xysize gui.cloud_m_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style cloud_l:
     padding gui.cloud_l_padding
     pos gui.cloud_l_pos
     xysize gui.cloud_l_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 ## SPECIAL BUBBLE 1 (ROUND)
 style round_s:
     padding gui.round_s_padding
     pos gui.round_s_pos
     xysize gui.round_s_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style round_m:
     padding gui.round_m_padding
     pos gui.round_m_pos
     xysize gui.round_m_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style round_l:
     padding gui.round_l_padding
     pos gui.round_l_pos
     xysize gui.round_l_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 ## SPECIAL BUBBLE 2 (SQUARE)
 style square_s:
     padding gui.square_s_padding
     pos gui.square_s_pos
     xysize gui.square_s_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style square_m:
     padding gui.square_m_padding
     pos gui.square_m_pos
     xysize gui.square_m_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style square_l:
     padding gui.square_l_padding
     pos gui.square_l_pos
     xysize gui.square_l_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
-    
     
 ## SIGH BUBBLE
 style sigh_s:
     padding gui.sigh_s_padding
     pos gui.sigh_s_pos
     xysize gui.sigh_s_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style sigh_m:
     padding gui.sigh_m_padding
     pos gui.sigh_m_pos
     xysize gui.sigh_m_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
     
 style sigh_l:
     padding gui.sigh_l_padding
     pos gui.sigh_l_pos
     xysize gui.sigh_l_xysize
-    layout ("subtitle" if gui.phone_text_xalign else "tex")
         
         
 default bubble_list = [ ['Bubble/', '-Bubble.png'], ['Bubble/', '-Glow.png'],
