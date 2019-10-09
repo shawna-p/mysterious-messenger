@@ -133,10 +133,11 @@ screen vn_overlay:
         text am_pm style 'header_clock' 
 
         
-#####################################
+################################################
 ## This is the custom history screen
 ## for VN Mode
-#####################################
+## https://www.renpy.org/doc/html/history.html
+################################################
 
 screen history():
 
@@ -148,14 +149,14 @@ screen history():
     add "Phone UI/choice_dark.png"
     add "Phone UI/choice_dark.png"
     
-    imagebutton:
+    # Close button
+    button:
         xalign 1.0
         yalign 0.0
         focus_mask True
-        idle "close_button"
-        action Return()
-        
-    text "Close" style "CG_close"
+        add "close_button"
+        action Return()        
+        text "Close" style "CG_close"
     
     
     viewport:
@@ -171,7 +172,7 @@ screen history():
         vbox:
             style_prefix "history"
             spacing 20
-
+            null height 5
             for h in _history_list:
 
                 fixed:
@@ -182,13 +183,60 @@ screen history():
                         label h.who + ':':
                             style "history_name"
 
-                            ## Take the color of the who text from the Character, if
-                            ## set.
+                            ## Take the color of the who text from the 
+                            ## Character, if set.
                             if "color" in h.who_args:
                                 text_color h.who_args["color"]
 
-                    $ what = renpy.filter_text_tags(h.what, allow=gui.history_allow_tags)
+                    $ what = renpy.filter_text_tags(h.what, 
+                                    allow=gui.history_allow_tags)
                     text what
 
             if not _history_list:
                 label _("The dialogue history is empty.")
+
+
+## This determines what tags are allowed to be displayed on the history screen.
+
+define gui.history_allow_tags = set()
+
+
+style history_window is empty
+
+style history_name is gui_label
+style history_name_text is gui_label_text
+style history_text is gui_text
+
+style history_text is gui_text
+
+style history_label is gui_label
+style history_label_text is gui_label_text
+
+style history_window:
+    xfill True
+    ysize gui.history_height
+
+style history_name:
+    xpos gui.history_name_xpos
+    xanchor gui.history_name_xalign
+    ypos gui.history_name_ypos
+    xsize gui.history_name_width
+
+style history_name_text:
+    min_width gui.history_name_width
+    text_align gui.history_name_xalign
+
+style history_text:
+    xpos gui.history_text_xpos
+    ypos gui.history_text_ypos
+    xanchor gui.history_text_xalign
+    xsize gui.history_text_width
+    min_width gui.history_text_width
+    text_align gui.history_text_xalign
+    layout ("subtitle" if gui.history_text_xalign else "tex")
+
+style history_label:
+    xfill True
+
+style history_label_text:
+    xalign 0.5

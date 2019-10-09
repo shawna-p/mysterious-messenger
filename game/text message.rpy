@@ -486,14 +486,15 @@ screen text_message_screen(the_msg):
     
     default HeartChar = the_msg.heart_person
     
-    ## This looks a bit complicated, but it's just code to say "if this text message is
-    ## supposed to trigger a heart icon, display the correctly-coloured heart, award
+    ## This looks a bit complicated, but it's just code to say 
+    ## "if this text message is supposed to trigger a heart icon, 
+    ## display the correctly-coloured heart, award
     ## a heart point, and increase the appropriate totals"
     on 'show':
         if (the_msg.heart and len(the_msg.msg_list) > 0 
                 and the_msg.msg_list[-1].who != m 
                 and HeartChar != r):
-            action SetField(HeartChar, 'heart_points', 
+            action [SetField(HeartChar, 'heart_points', 
                                 HeartChar.heart_points+1),
                     SetField(persistent, 'HP', persistent.HP+1),
                     Show('heart_icon_screen', character=HeartChar), 
@@ -594,16 +595,20 @@ screen text_animation(i):
             else:
                 transformVar = small_CG
                 
-        ## This determines how long the line of text is. If it needs to wrap
-        ## it, it will pad the bubble out to the appropriate length
-        ## Otherwise each bubble would be exactly as wide as it needs to be and no more
+        ## This determines how long the line of text is. 
+        ## If it needs to wrap it, it will pad the bubble 
+        ## out to the appropriate length
+        ## Otherwise each bubble would be exactly as wide as
+        ## it needs to be and no more
         if not i.img:
             t = Text(i.what)
             z = t.size()
             my_width = int(z[0])
             my_height = int(z[1])
         
-        text_time = i.thetime.twelve_hour + ':' + i.thetime.minute + ' ' + i.thetime.am_pm
+        text_time = (i.thetime.twelve_hour 
+                        + ':' + i.thetime.minute 
+                        + ' ' + i.thetime.am_pm)
         
         
     ## First, the profile picture, no animation

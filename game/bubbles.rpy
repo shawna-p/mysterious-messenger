@@ -75,7 +75,7 @@ style reg_bubble_MC_text:
 style reg_bubble_text:        
     background Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
     padding (60,12,20,12)
-
+    
 ## ****************************************
 ## Style for the enter/exit bubble
 style msg_bubble:
