@@ -2,19 +2,21 @@ init python:
 
     from random import randint
 
-    ## This code is adapted from saguaro's email message system with contributions from
-    ## xavimat, found at http://lemmasoft.renai.us/forums/viewtopic.php?f=51&t=19295 and
-    ## is used under the CC0 1.0 Universal license
+    ## This code is adapted from saguaro's email message system with 
+    ## contributions from xavimat, found at 
+    ## http://lemmasoft.renai.us/forums/viewtopic.php?f=51&t=19295 
+    ## and is used under the CC0 1.0 Universal license
     
     import renpy.store as store
     
     reply_screen = False
     draft_screen = False
 
-    ## The Text_Message class keeps track of a text message conversation for each character.
-    ## The actual messages are stored in msg_list
+    ## The Text_Message class keeps track of a text message conversation
+    ##  for each character. The actual messages are stored in msg_list
     class Text_Message(store.object):
-        def __init__(self, sender, msg_list, reply_label=False, delay=True, read=False, heart=False):
+        def __init__(self, sender, msg_list, reply_label=False, delay=True, 
+                    read=False, heart=False):
             self.sender = sender
             self.msg_list = msg_list
             self.reply_label = reply_label
@@ -33,7 +35,8 @@ init python:
             for msg in text_messages:
                 if msg.sender == self.sender:
                     if self.msg_list:
-                        if instant or not renpy.get_screen('text_message_screen'):
+                        if (instant or 
+                                not renpy.get_screen('text_message_screen')):
                             msg.msg_list.extend(self.msg_list) 
                             # Clear the queued message; it's been delivered
                             self.msg_list = []
@@ -43,7 +46,8 @@ init python:
                             self.cg_unlock_list = []
                             # Player has been notified
                             msg.notified = True
-                            # Move the delivered message to the top of the list (newest)
+                            # Move the delivered message to the 
+                            # top of the list (newest)
                             text_messages.remove(msg)
                             text_messages.insert(0, msg)
                             if msg.msg_list[-1].who != m:
@@ -136,10 +140,14 @@ init python:
     def new_message_count():
         global persistent
         if not persistent.instant_texting:
-            unread_messages = [ x for x in text_messages if not x.read and x.msg_list]
+            unread_messages = [ x for x in text_messages if (not x.read 
+                                                            and x.msg_list)]
             return len(unread_messages)
         else:
-            unread_messages = [ c for c in character_list if not c == m and c.private_text and (not c.private_text_read or c.private_text_read == "Notified") ]
+            unread_messages = [ c for c in character_list if (not c == m 
+                                and c.private_text 
+                                and (not c.private_text_read 
+                                or c.private_text_read == "Notified")) ]
             return len(unread_messages)
     
     ## Returns the number of undelivered messages in text_queue
@@ -182,8 +190,8 @@ init python:
                         break
         renpy.restart_interaction
 
-    ## This simplifies some of the code that parses what's in the text message
-    ## so it can display a preview of the appropriate length
+    ## This simplifies some of the code that parses what's in the text 
+    ## message so it can display a preview of the appropriate length
     def text_popup_preview(last_msg, num_char=48):
         global name
         name_cut = num_char + 6 - len(name)
@@ -240,16 +248,23 @@ screen text_message_hub:
                 if persistent.instant_texting:
                     for i in character_list:
                         # First we display unread messages
-                        if i.private_text and (not i.private_text_read or i.private_text_read == "Notified"):
-                            use text_hub_display(persistent.instant_texting, i.private_text, i)
+                        if (i.private_text 
+                                and (not i.private_text_read 
+                                    or i.private_text_read == "Notified")):
+                            use text_hub_display(persistent.instant_texting, 
+                                                    i.private_text, i)
                     for i in character_list:
                         # Now we display read messages
-                        if i.private_text and i.private_text_read != "Notified" and i.private_text_read: # if it's not empty                        
-                            use text_hub_display(persistent.instant_texting, i.private_text, i)
+                        if (i.private_text 
+                                and i.private_text_read != "Notified" 
+                                and i.private_text_read): # if it's not empty                        
+                            use text_hub_display(persistent.instant_texting, 
+                                                            i.private_text, i)
                 else:
                     for i in text_messages:
                         if i.msg_list:    # if it's not empty
-                            use text_hub_display(persistent.instant_texting, i.msg_list, i)
+                            use text_hub_display(persistent.instant_texting, 
+                                                                i.msg_list, i)
                 
 screen text_hub_display(instant_texting_on=False, text_log, i):
         
@@ -261,17 +276,23 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
         $ text_time = False
     
 
-    if last_text and ((not instant_texting_on and i.read) or (instant_texting_on and i.private_text_read and not i.private_text_read == "Notified")):
+    if (last_text and ((not instant_texting_on and i.read) 
+            or (instant_texting_on 
+            and i.private_text_read 
+            and not i.private_text_read == "Notified"))):
         button:                                                       
             background 'message_idle_bkgr'
             hover_background 'message_hover_bkgr'  
             if instant_texting_on and i.private_text_label:
-                action [SetField(i, 'private_text_read', True), Jump(i.private_text_label)]
+                action [SetField(i, 'private_text_read', True), 
+                        Jump(i.private_text_label)]
             elif instant_texting_on:
-                action [SetField(i, 'private_text_read', True), Show('inst_text_message_screen', the_sender=i)]
+                action [SetField(i, 'private_text_read', True), 
+                        Show('inst_text_message_screen', the_sender=i)]
             else:
                 action [SetVariable("current_message", i), i.mark_read,
-                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
+                        SetVariable("CG_who", i), 
+                        Show('text_message_screen', the_msg=i)]
             activate_sound 'sfx/UI/email_next_arrow.mp3'
             
             ysize 150
@@ -283,7 +304,8 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
                 window:
                     xysize (135, 135)
                     align (0.0, 0.5)
-                    add Transform(last_text.who.prof_pic, size=(127,127)) align(0.5,0.5)
+                    add Transform(last_text.who.prof_pic, size=(127,127)):
+                        align(0.5,0.5)
                 
                 window:
                     xysize(320,135)
@@ -292,14 +314,19 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
                     align (0.0, 0.5)
                     text last_text.who.name style "save_slot_text"
                     spacing 40     
-                    text text_popup_preview(last_text, 16) style "save_slot_text"
+                    text text_popup_preview(last_text, 16):
+                        style "save_slot_text"
                     
                 window:
                     xmaximum 230
                     has vbox
                     align (0.5, 0.5)
                     spacing 30
-                    text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"
+                    text (text_time.day + '/' + text_time.month_num 
+                            + '/' + text_time.year + ' ' 
+                            + text_time.twelve_hour + ':' 
+                            + text_time.minute + text_time.am_pm):
+                                style "save_timestamp"
                     add 'read_text_envelope' xalign 1.0
                     
                         
@@ -308,12 +335,15 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
             background 'unread_message_idle_bkgr'
             hover_background 'unread_message_hover_bkgr' 
             if instant_texting_on and i.private_text_label:
-                action [SetField(i, 'private_text_read', True), Jump(i.private_text_label)]
+                action [SetField(i, 'private_text_read', True), 
+                        Jump(i.private_text_label)]
             elif instant_texting_on:
-                action [SetField(i, 'private_text_read', True), Show('inst_text_message_screen', the_sender=i)]
+                action [SetField(i, 'private_text_read', True), 
+                        Show('inst_text_message_screen', the_sender=i)]
             else:
                 action [SetVariable("current_message", i), i.mark_read, 
-                        SetVariable("CG_who", i), Show('text_message_screen', the_msg=i)]
+                        SetVariable("CG_who", i), 
+                        Show('text_message_screen', the_msg=i)]
             activate_sound 'sfx/UI/email_next_arrow.mp3'
             
             ysize 150
@@ -325,7 +355,8 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
                 window:
                     xysize(135,135)
                     align (0.0, 0.5)
-                    add Transform(last_text.who.prof_pic, size=(127, 127)) yalign 0.5 xalign 0.5
+                    add Transform(last_text.who.prof_pic, size=(127, 127)):
+                        yalign 0.5 xalign 0.5
                 
                 window:
                     xysize (320, 135)
@@ -334,14 +365,18 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
                     align (0.0, 0.5)
                     text last_text.who.name style "save_slot_text"
                     spacing 40      
-                    text text_popup_preview(last_text, 16) style "save_slot_text"
+                    text text_popup_preview(last_text, 16):
+                        style "save_slot_text"
                     
                 window:
                     xmaximum 230
                     has vbox
                     align (0.5, 0.5)
                     spacing 50
-                    text text_time.day + '/' + text_time.month_num + '/' + text_time.year + ' ' + text_time.twelve_hour + ':' + text_time.minute + text_time.am_pm style "save_timestamp"                                   
+                    text (text_time.day + '/' + text_time.month_num + '/' 
+                            + text_time.year + ' ' + text_time.twelve_hour 
+                            + ':' + text_time.minute + text_time.am_pm):
+                                style "save_timestamp"                                   
                     
                     hbox:
                         spacing 10
@@ -386,7 +421,10 @@ screen text_msg_popup(the_msg):
             xalign 0.03
             spacing 15
             add 'new_text_envelope'
-            text 'NEW' color '#73f1cf' yalign 1.0 font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+            text 'NEW':
+                color '#73f1cf' 
+                yalign 1.0 
+                font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
         
         vbox:
             xalign 0.3
@@ -403,7 +441,10 @@ screen text_msg_popup(the_msg):
                     window:
                         maximum(420,130)
                         background 'text_popup_msg'       
-                        text text_popup_preview(last_msg) size 30 xalign 0.5 yalign 0.5 text_align 0.5
+                        text text_popup_preview(last_msg):
+                            size 30 
+                            xalign 0.5 yalign 0.5 
+                            text_align 0.5
             
             
             textbutton _('Go to'):
@@ -414,9 +455,13 @@ screen text_msg_popup(the_msg):
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                if not (renpy.get_screen('in_call') or renpy.get_screen('incoming_call') or renpy.get_screen('outgoing call')):
-                    action [Hide('text_msg_popup'), SetVariable("current_message", the_msg), 
-                            the_msg.mark_read, SetVariable("CG_who", the_msg), 
+                if (not (renpy.get_screen('in_call') 
+                        or renpy.get_screen('incoming_call') 
+                        or renpy.get_screen('outgoing call'))):
+                    action [Hide('text_msg_popup'), 
+                            SetVariable("current_message", the_msg), 
+                            the_msg.mark_read, 
+                            SetVariable("CG_who", the_msg), 
                             Hide('save_load'),
                             Hide('menu'),
                             Hide('chat_footer'), 
@@ -424,7 +469,9 @@ screen text_msg_popup(the_msg):
                             Hide('settings_screen'),
                             Show('text_message_screen', the_msg=the_msg)]
     timer 3.25:
-        action If(randint(0,1), [Hide('text_msg_popup', Dissolve(0.25)), deliver_next], Hide('text_msg_popup', Dissolve(0.25)))
+        action If(randint(0,1), [Hide('text_msg_popup', Dissolve(0.25)), 
+                                deliver_next], 
+                                Hide('text_msg_popup', Dissolve(0.25)))
         
 ########################################################  
 ## Includes the 'answer' button at the bottom
@@ -441,7 +488,8 @@ screen text_message_footer(the_msg):
             xsize 468
             ysize 95
             xalign 0.5
-            if the_msg and the_msg.reply_label and not the_msg.msg_list[-1].who == m:
+            if (the_msg and the_msg.reply_label 
+                    and not the_msg.msg_list[-1].who == m):
                 background 'text_answer_active'
                 hover_background 'text_answer_animation'  
                 if not renpy.get_screen("choice"):
@@ -639,7 +687,11 @@ screen text_animation(i):
                 else:
                     ypos 5    
                     if i.img and not "{image=" in i.what:
-                        text text_time color '#fff' yalign 1.0 size 23 yoffset 25
+                        text text_time:
+                            color '#fff' 
+                            yalign 1.0 
+                            size 23 
+                            yoffset 25
                     else:
                         text text_time color "#fff" yalign 1.0 size 23                    
                 
@@ -664,7 +716,10 @@ screen text_animation(i):
                                 focus_mask True
                                 idle fullsizeCG
                                 if not choosing:
-                                    action [SetVariable("fullsizeCG", cg_helper(i.what)), Call("viewCG", textmsg=True), Return()]
+                                    action [SetVariable("fullsizeCG", 
+                                                cg_helper(i.what)), 
+                                            Call("viewCG", textmsg=True), 
+                                            Return()]
             
                     
                     else:        
@@ -673,13 +728,20 @@ screen text_animation(i):
                         else:
                             style 'reg_bubble_MC_text'
                         if my_width > gui.longer_than:
-                            text i.what style "bubble_text_long" min_width gui.long_line_min_width color '#fff'
+                            text i.what:
+                                style "bubble_text_long" 
+                                min_width gui.long_line_min_width 
+                                color '#fff'
                         else:            
                             text i.what style "bubble_text" color '#fff'
                             
                 if i.who != m:
                     if i.img == True and not "{image=" in i.what:
-                        text text_time color '#fff' yalign 1.0 size 23 yoffset 40 xoffset 10
+                        text text_time:
+                            color '#fff' 
+                            yalign 1.0 
+                            size 23 
+                            yoffset 40 xoffset 10
                     else:
                         text text_time color "#fff" yalign 1.0 size 23
                                             
