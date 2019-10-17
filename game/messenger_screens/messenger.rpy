@@ -185,8 +185,11 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
                         # new chatroom, and if you want that
                         # functionality you can un-comment this
                         # line
+    # We reset the heart points for this chatroom
     if resetHP:
         $ chatroom_hp = 0
+
+    # Make sure we're showing the messenger screens
     hide screen starry_night
     show screen phone_overlay
     show screen messenger_screen 
@@ -203,6 +206,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     $ in_phone_call = False
     $ vn_choice = False
     $ email_reply = False
+    
     # Fills the beginning of the screen with 'empty space' 
     # so the messages begin showing up at the bottom of the 
     # screen (otherwise they start at the top)
