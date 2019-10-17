@@ -30,6 +30,8 @@ label vn_mode_tutorial:
 ## Tutorial Menu
 ##************************************    
 label vn_tutorial():
+    $ shuffle = False   # This tells it not to shuffle these menu
+                        # choices for the tutorial
     menu:
         # This makes the previous line before the menu stay
         # on-screen while the player is making their choice
@@ -192,36 +194,45 @@ label vn_position:
 ## Changing Outfits/Expressions:
 ## Examples
 ##************************************  
-menu vn_showcase:
-
-    "Who would you like to see?{fast}"
-    
-    "Major Characters":
-        jump vn_showcase_major1
-    
-    "Minor Characters":
-        jump vn_showcase_minor1
+label vn_showcase:
+    $ shuffle = False
+    menu:
+        "Who would you like to see?{fast}"
         
-    "I'm done viewing characters":
-        jump vn_tutorial
+        "Major Characters":
+            $ shuffle = False
+            jump vn_showcase_major1
+        
+        "Minor Characters":
+            $ shuffle = False
+            jump vn_showcase_minor1
+            
+        "I'm done viewing characters":
+            $ shuffle = False
+            jump vn_tutorial
     
 menu vn_showcase_major1:
 
     "Who would you like to see?{fast}"
     
     "Jaehee":
+        $ shuffle = False
         jump jaehee_showcase
     
     "Jumin":
+        $ shuffle = False
         jump jumin_showcase
     
     "Rika":
+        $ shuffle = False
         jump rika_showcase
     
     "Seven":
+        $ shuffle = False
         jump seven_showcase
     
     "More ->":
+        $ shuffle = False
         jump vn_showcase_major2
     
 menu vn_showcase_major2:
@@ -229,18 +240,23 @@ menu vn_showcase_major2:
     "Who would you like to see?{fast}"
     
     "<- Back":
+        $ shuffle = False
         jump vn_showcase_major1
     
     "Saeran":
+        $ shuffle = False
         jump saeran_showcase
     
     "V":
+        $ shuffle = False
         jump v_showcase
     
     "Yoosung":
+        $ shuffle = False
         jump yoosung_showcase
     
     "Zen":
+        $ shuffle = False
         jump zen_showcase
     
 menu vn_showcase_minor1:
@@ -248,18 +264,23 @@ menu vn_showcase_minor1:
     "Who would you like to see?{fast}"
     
     "Bodyguards":
+        $ shuffle = False
         jump bodyguards_showcase
     
     "Chairman Han":
+        $ shuffle = False
         jump chairman_showcase
     
     "Echo Girl":
+        $ shuffle = False
         jump echo_showcase
     
     "Glam Choi":
+        $ shuffle = False
         jump glam_showcase
     
     "More ->":
+        $ shuffle = False
         jump vn_showcase_minor2
     
 menu vn_showcase_minor2:
@@ -267,15 +288,19 @@ menu vn_showcase_minor2:
     "Who would you like to see?{fast}"
     
     "<- Back":
+        $ shuffle = False
         jump vn_showcase_minor1
     
     "Prime Minister":
+        $ shuffle = False
         jump minister_showcase
     
     "Sarah Choi":
+        $ shuffle = False
         jump sarah_showcase
     
     "Vanderwood":
+        $ shuffle = False
         jump vanderwood_showcase
         
 #************************

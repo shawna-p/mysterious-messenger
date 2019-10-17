@@ -13,6 +13,7 @@ label example_email:
     z 'Can we invite zentherainbowunicorn?'
         
     call answer 
+    $ shuffle = "last"  # This tells the program not to shuffle the last choice
     menu:
         "That sounds great!":
             m 'That sounds great!' (pauseVal=0)
@@ -36,7 +37,6 @@ label example_email:
             z "And also decreases the number of chatrooms you need to go through to deliver the next email by 5."
             z "They'll decrease by an additional 1 when you exit this chatroom."
             z "In other words, guests will reply to you more quickly!"
-            
     z "If you ever want to learn about inviting guests in the game,"
     z "there's a whole section on emails in the User Guide."
     z "You can also look at {b}email test.rpy{/b}"

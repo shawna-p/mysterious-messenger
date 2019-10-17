@@ -48,8 +48,25 @@ init -6 python:
             return myTime(day)
         else:
             return myTime()
-            
-    
+
+# This tells the program to randomly shuffle the order
+# of responses
+default shuffle = True
+
+init python:
+    # This lets us shuffle menu options
+    renpy_menu = menu
+    def menu(items):
+        items = list(items)
+        global shuffle
+        if shuffle and shuffle != "last":
+            renpy.random.shuffle(items)
+        elif shuffle == "last":
+            last = items.pop()
+            renpy.random.shuffle(items)
+            items.append(last)
+        shuffle = True
+        return renpy_menu(items)
     
     
     config.keymap['rollback'].remove('mousedown_4')
@@ -184,6 +201,8 @@ default chatroom_hp = 0
 # Keeps track of the total number of hg (hourglasses) you've earned per chatroom
 default chatroom_hg = 0
 
+
+
 # These are primarily used when setting the nickname colour
 # via $ nickColour = black or $ nickColour = white
 define white = "#ffffff"
@@ -255,133 +274,7 @@ image common_album_cover = 'CGs/common_album_cover.png'
 
 
 
-## ********************************
-## Chatroom Images
-## ********************************
 
-
-image answerbutton: 
-    block:
-        "Phone UI/Answer-Dark.png" with Dissolve(0.5, alpha=True)
-        1.0
-        "Phone UI/Answer.png" with Dissolve(0.5, alpha=True)
-        1.0
-        repeat
-        
-image pausebutton:
-    "Phone UI/pause_sign.png" with Dissolve(0.5, alpha=True)
-    1.0
-    "transparent.png" with Dissolve(0.5, alpha=True)
-    1.0
-    repeat
-    
-
-image fast-slow-button = "Phone UI/fast-slow-transparent.png"
-image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
-image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
-image speed_txt = ParameterizedText(style = "speednum_style")
-image close_button = "CGs/close-overlay.png"
-
-image save_exit = "Phone UI/Save&Exit.png"  
-image signature = "Phone UI/signature01.png"
-image heart_hg = "Phone UI/heart-hg-sign.png"
-
-## Custom Chat Footers
-image custom_answerbutton:
-    block:
-        "Phone UI/custom-answer.png" with Dissolve(1.0, alpha=True)
-        1.3
-        "Phone UI/custom-answer-dark.png" with Dissolve(1.0, alpha=True)
-        1.0
-        repeat
-        
-image custom_pause = "Phone UI/custom-pause.png"
-image custom_play = "Phone UI/custom-play.png"
-image custom_save_exit = "Phone UI/custom-save-exit.png"
-image custom_pausebutton:
-    "Phone UI/custom-pause-sign.png" with Dissolve(0.5, alpha=True)
-    1.0
-    "transparent.png" with Dissolve(0.5, alpha=True)
-    1.0
-    repeat
-image custom_pause_square = "Phone UI/custom-pause-square.png"
-## End custom chat footers
-
-image hack scroll: 
-    "Hack-Long.png"
-    subpixel True
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    
-image redhack scroll:
-    "Hack-Red-Long.png"
-    subpixel True
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    yalign 0.0
-    linear 1.0 yalign 1.0
-    
-image banner annoy:
-    "Banners/Annoy/annoy_0.png"
-    0.12
-    "Banners/Annoy/annoy_1.png"
-    0.12
-    "Banners/Annoy/annoy_2.png"
-    0.12
-    "Banners/Annoy/annoy_3.png"
-    0.12
-    "Banners/Annoy/annoy_4.png"
-    0.12
-    "Banners/Annoy/annoy_5.png"
-    0.12
-    
-image banner heart:
-    "Banners/Heart/heart_0.png"
-    0.12
-    "Banners/Heart/heart_1.png"
-    0.12
-    "Banners/Heart/heart_2.png"
-    0.12
-    "Banners/Heart/heart_3.png"
-    0.12
-    "Banners/Heart/heart_4.png"
-    0.12
-    "Banners/Heart/heart_5.png"
-    0.12
-        
-image banner lightning:
-    "Banners/Lightning/lightning_0.png"
-    0.12
-    "Banners/Lightning/lightning_1.png"
-    0.12
-    "Banners/Lightning/lightning_2.png"
-    0.12
-    "Banners/Lightning/lightning_3.png"
-    0.12
-    "Banners/Lightning/lightning_4.png"
-    0.12
-    "Banners/Lightning/lightning_5.png"
-    0.12
-    
-image banner well:
-    "Banners/Well/well_0.png"
-    0.12
-    "Banners/Well/well_1.png"
-    0.12
-    "Banners/Well/well_2.png"
-    0.12
-    "Banners/Well/well_3.png"
-    0.12
-    "Banners/Well/well_4.png"
-    0.12
-    "Banners/Well/well_5.png"
-    0.12
 
 ##******************************
 ## Image Definitions - Menu
@@ -402,7 +295,9 @@ image greeting_bubble = Frame("Phone UI/Main Menu/greeting_bubble.png", 40, 10, 
 image greeting_panel = Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
 
 image rfa_greet:
-    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", color="#ffffff", size=30, slow=True, font="fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
+    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", 
+                color="#ffffff", size=30, slow=True, 
+                font="fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
     10.0
     "transparent.png"
     0.2
@@ -552,35 +447,7 @@ image shop_text = "Phone UI/Main Menu/Original Story/main01_subtext_shop.png"
 image profile_outline = "Phone UI/Main Menu/Original Story/profile_outline.png"
 image profile_cover_photo = "Cover Photos/profile_cover_photo.png"
 
-### Spaceship
-image space_chip_active:
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_inactive.png"
-    2.7
-    block:
-        "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_active.png"
-        1.16
-        "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_glow.png"
-        1.16
-        repeat
-image space_chip_active2:
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_active.png"
-    1.16
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_glow.png"
-    1.16
-    repeat    
-image space_chip_explode = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_explode.png"
-image space_chip_inactive = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_chip_inactive.png"
-image space_dot_line = "Phone UI/Main Menu/Original Story/Spaceship/dot_line.png"
-image space_gray_dot = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_dot_white.png"
-image space_yellow_dot = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_dot_yellow.png"
-image space_transparent_btn = "Phone UI/Main Menu/Original Story/Spaceship/space-transparent-button.png"
-image spaceship = "Phone UI/Main Menu/Original Story/Spaceship/spaceship_craft.png"
-image space_flame:
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_flame_big.png"
-    0.6
-    "Phone UI/Main Menu/Original Story/Spaceship/spaceship_flame_small.png"
-    0.6
-    repeat
+
 image input_close = "Phone UI/Main Menu/main02_close_button.png"
 image input_close_hover = "Phone UI/Main Menu/main02_close_button_hover.png"
 image input_square = Frame("Phone UI/Main Menu/main02_text_input.png",40,40)
@@ -589,63 +456,7 @@ image input_popup_bkgr_hover = Frame("Phone UI/Main Menu/menu_popup_bkgrd_hover.
     
     
 
-## ********************************
-## Spaceship chip animations
-## ********************************
 
-image space_chip = "Phone UI/Main Menu/Original Story/Spaceship/chip.png"
-image space_tap_large:
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
-    0.55
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
-    0.6
-    repeat
-image space_tap_med:
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
-    0.62
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
-    0.45
-    repeat
-image space_tap_small:
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_0.png"
-    0.48
-    "Phone UI/Main Menu/Original Story/Spaceship/tap_1.png"
-    0.56
-    repeat    
-image space_tap_to_close = "Phone UI/Main Menu/Original Story/Spaceship/close.png"
-
-image cloud_1 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_1.png"
-image cloud_2 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_2.png"
-image cloud_3 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_3.png"
-image cloud_4 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_4.png"
-image cloud_5 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_5.png"
-
-image spotlight:
-    "Phone UI/Main Menu/Original Story/Spaceship/spotlight.png"
-    alpha 0.6
-    block:
-        rotate 0
-        linear 15.0 rotate 360
-        repeat
-        
-image space_prize_box = "Phone UI/Main Menu/Original Story/Spaceship/space_prize_box.png"
-image space_black_box = Frame("Phone UI/Main Menu/Original Story/Spaceship/main03_black_box.png",30,30,30,30)
-image space_continue = "Phone UI/Main Menu/Original Story/Spaceship/Continue.png"
-image space_continue_hover = "Phone UI/Main Menu/Original Story/Spaceship/Continue_hover.png"
-
-## ********************************
-## Spaceship thought images
-## ********************************
-
-image ja_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/ja_spacethought.png"
-image ju_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/ju_spacethought.png"
-image r_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/r_spacethought.png"
-image ri_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/ri_spacethought.png"
-image s_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/s_spacethought.png"
-image sa_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/sa_spacethought.png"
-image v_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/v_spacethought.png"
-image y_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/y_spacethought.png"
-image z_spacethought = "Phone UI/Main Menu/Original Story/Spaceship/z_spacethought.png"
 
 ## ********************************
 ## Save & Load Images
