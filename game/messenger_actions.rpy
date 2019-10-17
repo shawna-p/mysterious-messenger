@@ -1,11 +1,12 @@
+########################################################
+## This file contains several functions related to
+## the messenger system. It's organized as follows:
+##   label chat_back
+##   screen save_and_exit
+##      label press_save_and_exit
+##   screen signature_screen
+########################################################
 
-        
-    
-
-
-
-                                        
-          
 ## This label takes care of what happens when the
 ## player hits the back button during a chatroom
 label chat_back:

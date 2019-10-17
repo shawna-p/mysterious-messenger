@@ -1,7 +1,8 @@
 
 init python:
 
-    # This is used to make the spaceship float to a random location on the line
+    # This is used to make the spaceship float to a random 
+    # location on the line
     def spaceship_xalign_func(trans,st,at):
         if st > 1.0:
             trans.xalign = spaceship_xalign
@@ -28,17 +29,24 @@ init python:
     class RandomBag(object):
 
         def __init__(self, choices):
-            self.choices = choices                        # The choices that go into the bag.
-            self.bag = [ ]                                # A shuffled list of things in the bag.
+            # The choices that go into the bag.
+            self.choices = choices                        
+            # A shuffled list of things in the bag.
+            self.bag = [ ]                                
 
         def draw(self):
-            if not self.bag:                              # If the bag is empty,
-                self.bag = list(self.choices)             # Replace it with a copy of choices,
-                renpy.random.shuffle(self.bag)            # Then randomize those choices.
+            # If the bag is empty,
+            if not self.bag:                              
+                # Replace it with a copy of choices,
+                self.bag = list(self.choices)             
+                 # Then randomize those choices.
+                renpy.random.shuffle(self.bag)           
 
-            return self.bag.pop(0)                        # Return something from the bag.
+            # Return something from the bag.
+            return self.bag.pop(0)                        
             
-        def new_choices(self, choices):                   # Reset the bag with new choices
+        # Reset the bag with new choices
+        def new_choices(self, choices):                   
             self.choices = choices
             self.bag = [ ]
             
@@ -54,16 +62,16 @@ init python:
 # This is what a list of thoughts for the spaceship will 
 # look like
 default space_thoughts = RandomBag( [
-                        SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
-                        SpaceThought(ju, "I wonder how Elizabeth the 3rd is doing at home."),
-                        SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
-                        SpaceThought(y, "Yes! Chocolate milk is on sale!"),
-                        SpaceThought(z, "Maybe I should learn how to braid my hair..."),
-                        SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
-                        SpaceThought(ri, "Hmm... the soup tastes different today."),
-                        SpaceThought(sa, "So... sleepy..."),
-                        SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk.") 
-                        ] )
+    SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
+    SpaceThought(ju, "I wonder how Elizabeth the 3rd is doing at home."),
+    SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
+    SpaceThought(y, "Yes! Chocolate milk is on sale!"),
+    SpaceThought(z, "Maybe I should learn how to braid my hair..."),
+    SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
+    SpaceThought(ri, "Hmm... the soup tastes different today."),
+    SpaceThought(sa, "So... sleepy..."),
+    SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk.") 
+    ] )
         
 #########################################################
 ## Floating spaceship thoughts
@@ -215,8 +223,10 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
             hover 'space_continue_hover'
             xalign 0.5
             yalign 0.85
-            action [SetField(persistent, 'HP', new_hp_total), Hide('chip_end'), 
-                    SetVariable('chips_available', False), renpy.retain_after_load]
+            action [SetField(persistent, 'HP', new_hp_total), 
+                    Hide('chip_end'), 
+                    SetVariable('chips_available', False), 
+                    renpy.retain_after_load]
         
    
 default chip_prize_list = RandomBag( ['A clump of cat hair.',

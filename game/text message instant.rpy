@@ -50,7 +50,8 @@ init python:
             renpy.pause(typeTime)
             
         if img == True:
-            if what in emoji_lookup and renpy.get_screen('inst_text_message_screen'):
+            if (what in emoji_lookup 
+                    and renpy.get_screen('inst_text_message_screen')):
                 renpy.play(emoji_lookup[what], channel="voice_sfx")
             elif "{image=" not in what and not observing:
                 # We want to unlock the CG in the gallery
