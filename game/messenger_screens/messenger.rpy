@@ -276,7 +276,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     return
 
 ## Call this label to show the save & exit sign
-label chat_end:
+label chat_end():
     if starter_story:        
         $ persistent.first_boot = False
         $ persistent.on_route = True
@@ -306,7 +306,7 @@ label chat_end_route(type='good'):
 
 ## This is set of screens which handles displaying the
 ## messages in the chatlog to the screen
-screen messenger_screen:
+screen messenger_screen():
 
     tag menu
 

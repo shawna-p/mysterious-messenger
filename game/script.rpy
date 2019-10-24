@@ -1,4 +1,4 @@
-﻿label start:
+﻿label start():
 
     call define_variables 
     
@@ -108,7 +108,7 @@
 
 ## Several variables are defined here to ensure they're
 ## set properly when you begin a game
-label define_variables:
+label define_variables():
     
     python:                        
         myClock.runmode('real')

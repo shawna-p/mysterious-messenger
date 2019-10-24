@@ -1,5 +1,5 @@
 
-label vn_mode_tutorial:
+label vn_mode_tutorial():
 
     # Make sure you call this at the start of a VN section
     call vn_begin 
@@ -72,7 +72,7 @@ label vn_tutorial():
 ##************************************
 ## Writing a VN mode section
 ##************************************  
-label vn_writing:
+label vn_writing():
     show saeran vn neutral
     r_vn """
     Writing a VN section is pretty straightforward.
@@ -108,7 +108,7 @@ label vn_writing:
 ##************************************
 ## Changing Expressions & Outfits
 ##************************************  
-label vn_layeredimage:
+label vn_layeredimage():
 
     show saeran vn happy
     r_vn "To get different expressions and outfits, we make a lot of use of Ren'Py's {b}layeredimage{/b} feature."
@@ -156,7 +156,7 @@ label vn_layeredimage:
 ##************************************
 ## Positioning Characters
 ##************************************  
-label vn_position:
+label vn_position():
     r_vn "You might have noticed before, but you can position the characters in the middle,"
     r_vn "or to the left and right sides of the screen."
     show saeran vn at vn_farleft with ease
@@ -194,7 +194,7 @@ label vn_position:
 ## Changing Outfits/Expressions:
 ## Examples
 ##************************************  
-label vn_showcase:
+label vn_showcase():
     $ shuffle = False
     menu:
         "Who would you like to see?{fast}"
@@ -307,7 +307,7 @@ menu vn_showcase_minor2:
 # Major Characters
 #************************
 
-label jaehee_showcase:
+label jaehee_showcase():
     hide saeran vn
     show jaehee vn glasses
     ja_vn "Hello! I have several outfits and expressions to show you."
@@ -356,7 +356,7 @@ label jaehee_showcase:
     hide jaehee vn
     jump vn_showcase
     
-label jumin_showcase:
+label jumin_showcase():
     hide saeran vn
     show jumin front
     ju_vn "Hello. You can view my outfits and poses here."
@@ -416,7 +416,7 @@ label jumin_showcase:
     hide jumin side
     jump vn_showcase
     
-label rika_showcase:
+label rika_showcase():
     hide saeran vn
     show rika vn happy
     ri_vn "Hello~! You've come to see my expressions and outfits, right?"
@@ -457,7 +457,7 @@ label rika_showcase:
     hide rika vn
     jump vn_showcase
     
-label seven_showcase:
+label seven_showcase():
     hide saeran vn
     show seven front
     s_vn "Hey hey hey~! I get to show off my expressions, hmm~?"
@@ -528,7 +528,7 @@ label seven_showcase:
     hide seven side
     jump vn_showcase
     
-label saeran_showcase:
+label saeran_showcase():
     show saeran vn neutral
     r_vn "Oh, me?"
     r_vn "Okay. I have several different expressions."
@@ -594,7 +594,7 @@ label saeran_showcase:
     r_vn "Hope that's what you were looking for!"
     jump vn_showcase
     
-label v_showcase:
+label v_showcase():
     hide saeran vn
     show v front
     v_vn "Hello there."
@@ -718,7 +718,7 @@ label v_showcase:
     hide v side
     jump vn_showcase
     
-label yoosung_showcase:
+label yoosung_showcase():
     hide saeran vn
     show yoosung vn happy
     y_vn "Hi! It's nice to see you~"
@@ -784,7 +784,7 @@ label yoosung_showcase:
     hide yoosung vn
     jump vn_showcase
     
-label zen_showcase:
+label zen_showcase():
     hide saeran vn
     show zen front happy
     z_vn "Hey babe~ Glad you came by!"
@@ -851,7 +851,7 @@ label zen_showcase:
 # Minor Characters
 #************************
     
-label bodyguards_showcase:
+label bodyguards_showcase():
     hide saeran vn
     show bodyguard_front at vn_left
     show bodyguard_side at vn_right
@@ -870,7 +870,7 @@ label bodyguards_showcase:
     jump vn_showcase
     
     
-label chairman_showcase:
+label chairman_showcase():
     hide saeran vn
     show chairman_han 
     chief_vn "I already have a character defined so I can speak."
@@ -887,7 +887,7 @@ label chairman_showcase:
     hide chairman_han
     jump vn_showcase
 
-label echo_showcase:
+label echo_showcase():
     hide saeran vn
     show echo_girl 
     "If you'd like the minor characters to speak, you'll need to define your own character for them."
@@ -908,7 +908,7 @@ label echo_showcase:
     jump vn_showcase
     
     
-label glam_showcase:  
+label glam_showcase():  
     hide saeran vn
     show glam_choi 
     "If you'd like the minor characters to speak, you'll need to define your own character for them."
@@ -930,7 +930,7 @@ label glam_showcase:
     hide glam_choi
     jump vn_showcase
     
-label minister_showcase:    
+label minister_showcase():    
     hide saeran vn
     show prime_minister
     "If you'd like the minor characters to speak, you'll need to define your own character for them."
@@ -940,7 +940,7 @@ label minister_showcase:
     hide prime_minister
     jump vn_showcase    
     
-label sarah_showcase:    
+label sarah_showcase():    
     hide saeran vn
     show sarah 
     sarah_vn "I already have a character defined so I can talk, haha~"
@@ -961,7 +961,7 @@ label sarah_showcase:
     hide sarah
     jump vn_showcase
     
-label vanderwood_showcase:
+label vanderwood_showcase():
     hide saeran vn
     show vanderwood 
     "If you'd like the minor characters to speak, you'll need to define your own character for them."

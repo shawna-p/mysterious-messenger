@@ -154,7 +154,7 @@ default common_album = [ Album("CGs/common_album/cg-1.png"),
     
 ## This screen shows all of the various characters/folders
 ## available in the photo gallery
-screen photo_album:
+screen photo_album():
 
     # Ensure this replaces the main menu.
     tag menu
@@ -315,7 +315,7 @@ label view_album_CG(album_info=[]):
 ## when you click the CG. This particular variant lets the user
 ## "swipe" to view the various images without backing out to the 
 ## album screen proper
-screen viewCG_fullsize_album:
+screen viewCG_fullsize_album():
     zorder 5
     tag menu
     

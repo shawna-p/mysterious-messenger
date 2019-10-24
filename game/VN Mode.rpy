@@ -82,7 +82,7 @@ transform vn_farright:
 ## VN Setup
 #####################################
 
-label vn_begin:
+label vn_begin():
     window auto
     $ chatroom_hp = 0
     scene bg black
@@ -113,7 +113,7 @@ label vn_begin:
         
     return
         
-label vn_end:
+label vn_end():
     hide screen vn_overlay    
     $ vn_choice = False
     $ renpy.retain_after_load()
@@ -124,7 +124,7 @@ label vn_end:
 ## "Log", and new "Auto" buttons
 #####################################
 
-screen vn_overlay:
+screen vn_overlay():
 
     $ my_menu_clock.runmode("real")
     hbox:

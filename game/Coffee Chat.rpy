@@ -1,10 +1,12 @@
-label tutorial_chat:
+label tutorial_chat():
 
-    # You'll need to call this yourself; it's not an option in the spreadsheet
+    # You'll need to call this yourself; it's not an option
+    # in the spreadsheet
     # Pass it the name of the background you want in quotes
     # You can find your options in variables.rpy
-    # Usually calling chat_begin will clear the chatlog, but if you want to keep
-    # previous messages, call it with False as a second argument (e.g. call chat_begin("night", False))
+    # Usually calling chat_begin will clear the chatlog, 
+    # but if you want to keep previous messages, call it with 
+    # False as a second argument (e.g. call chat_begin("night", False))
     call chat_begin("earlyMorn") 
     
     # Again, look for music in variables.rpy
@@ -371,7 +373,7 @@ label tutorial_chat:
 # like text messages, phone calls or (in the future) emails. You'll have to call
 # this label after_ + the name of the label for the chatroom (in this case, the chatroom
 # label was tutorial_chat, so this label is after_tutorial_chat)
-label after_tutorial_chat:
+label after_tutorial_chat():
 
     ## Seven's text message
     $ addtext (s, "Thanks for not spoiling the secret~ ^^", s)
@@ -443,7 +445,7 @@ label tutorial_chat_incoming_z:
 ## This is the label you jump to for the phone call with Yoosung
 ## It should be the name of the chatroom's label + _phone_ + the variable
 ## of the character you're calling (so, ja/ju/r/ri/s/sa/u/v/y/z)
-label tutorial_chat_phone_y:
+label tutorial_chat_phone_y():
     
     call phone_begin 
     
@@ -545,7 +547,7 @@ label coffee2():
 ## is expired. It's much the same as the original chatroom,
 ## but with several lines changed since the MC is no longer
 ## present
-label tutorial_chat_expired:
+label tutorial_chat_expired():
 
     call chat_begin("earlyMorn") 
     play music geniusly_hacked_bebop loop

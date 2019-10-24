@@ -2,7 +2,7 @@
 ## information on how to make the chatrooms, check out Example Chat.rpy
 ## and Coffee Chat.rpy
 ## Otherwise, scroll down to the popcorn_vn label
-label popcorn_chat:
+label popcorn_chat():
 
     call chat_begin("morning") 
 
@@ -112,7 +112,7 @@ label popcorn_chat:
 ## This is the expired version of the chatroom
 ## It's very similar to the regular version, but with
 ## a few dialogue changes since MC is not present
-label popcorn_chat_expired:
+label popcorn_chat_expired():
     call chat_begin("morning") 
     $ ja.set_prof_pic('Profile Pics/Jaehee/jae-2.jpg')
     $ ju.set_prof_pic('Profile Pics/Jumin/ju-18.jpg')    
@@ -179,7 +179,7 @@ label popcorn_chat_expired:
 ## spaceship thoughts
 ##*****************************
     
-label after_popcorn_chat:
+label after_popcorn_chat():
 
     $ space_thoughts.new_choices( [
             SpaceThought(ja, "What I wouldn't give to go home and watch one of Zen's DVDs..."),
@@ -197,7 +197,7 @@ label after_popcorn_chat:
 ##*****************************
 ## VN Mode after the chatroom
 ##*****************************
-label popcorn_vn:
+label popcorn_vn():
 
     # Call this when you start a VN section. It sets some
     # variables for you and shows the right screens

@@ -26,7 +26,7 @@ label answer(from_cg=False):
             
     return
         
-screen answer_button:
+screen answer_button():
     zorder 4
     tag chat_footer
     if persistent.custom_footers:
@@ -54,7 +54,7 @@ screen answer_button:
    
 # This is the screen that shows the pause button
 # (but the chat is still playing)
-screen pause_button:
+screen pause_button():
     zorder 4
     tag chat_footer
     
@@ -87,7 +87,7 @@ screen pause_button:
         
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped        
-label play:
+label play():
     if not inst_text:
         #$ chatlog.append(Chatentry(chat_pause,'',upTime()))
         call screen play_button
@@ -100,7 +100,7 @@ label play:
     
 # This screen is visible when the chat is paused;
 # shows the play button
-screen play_button:
+screen play_button():
     zorder 4
     tag chat_footer
     if not choosing:
@@ -130,7 +130,7 @@ screen play_button:
 default no_heart = False
 
 ## This screen shows the header/footer above the chat
-screen phone_overlay:  
+screen phone_overlay():  
     zorder 2
     add "Phone UI/Phone-UI.png"   # You can set this to your own image
     

@@ -603,7 +603,7 @@ screen timeline_continue_button(chat_time):
                     text_align 0.0
     
 ## This is used to continue the game after a plot branch    
-label plot_branch_end:
+label plot_branch_end():
     python:
         # CASE 1
         # Plot branch is just a chatroom, has an after label

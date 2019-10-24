@@ -9,7 +9,7 @@
 
 ## This label takes care of what happens when the
 ## player hits the back button during a chatroom
-label chat_back:
+label chat_back():
     # If you're replaying a chatroom or it's already
     # expired, you can back out without repercussions
     if observing or current_chatroom.expired:

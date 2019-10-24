@@ -1,6 +1,6 @@
 ## This is a short chatroom explaining how plot
 ## branching works
-label plot_branch_tutorial:
+label plot_branch_tutorial():
     stop music
     call hack 
     call chat_begin("hack") 
@@ -62,7 +62,7 @@ label plot_branch_tutorial:
 
 ## This is the label we jump to if this chatroom
 ## has expired
-label plot_branch_tutorial_expired:
+label plot_branch_tutorial_expired():
     stop music
     call hack 
     call chat_begin("hack") 
@@ -91,7 +91,7 @@ label plot_branch_tutorial_expired:
 ## it gets to a plot branch. It's the label of the
 ## chatroom after which the plot branch occurs, 
 ## + _branch
-label plot_branch_tutorial_branch:
+label plot_branch_tutorial_branch():
     # This is where to write any functions we want to
     # use to determine which route the player ends
     # up on past this point
@@ -102,30 +102,30 @@ label plot_branch_tutorial_branch:
     # Checking if a character has enough heart points 
     # in total
     # if s.heart_points >= 30:
-        # Seven route
+    #     Seven route
     # else:
-        # Bad End
+    #     Bad End
         
     # Checking if a character has more 'bad' heart
     # points than good
     # if s.good_heart > s.bad_heart:
-        # Good End
+    #     Good End
     # else:
-        # Bad End
+    #     Bad End
         
     # Checking to see which character has the most
     # heart points
     # if sa.heart_points > v.heart_points:
-        # Saeran route
+    #     Saeran route
     # else:
-        # V route
+    #     V route
         
     # Checking to see how many guests have been
     # successfully invited
     # if attending_guests() >= 10:
-        # Good End
+    #     Good End
     # else:
-        # Normal End
+    #     Normal End
         
     # Checking to see if the player has participated
     # in enough chatrooms across days 1-4 (really only 
@@ -133,9 +133,9 @@ label plot_branch_tutorial_branch:
     # The function returns a percentage, so we're checking
     # if they participated in more than 32% of the chatrooms
     # if participated_percentage(1, 4) > 32:
-        # Good End
+    #     Good End
     # else:
-        # Bad Relationship End
+    #     Bad Relationship End
         
     # For the purposes of this program, we will check whether
     # or not you managed to successfully invite one guest to 
@@ -160,7 +160,7 @@ label plot_branch_tutorial_branch:
 
 ## This is the chatroom you'll get if you get the Bad End
 ## of the Tutorial Day
-label tutorial_bad_end:
+label tutorial_bad_end():
 
     call chat_begin('noon') 
     play music i_miss_happy_rika loop
@@ -197,7 +197,7 @@ label tutorial_bad_end:
     
 ## This is the label you'll see if the previous chatroom
 ## has expired
-label tutorial_bad_end_expired:
+label tutorial_bad_end_expired():
     call chat_begin('noon')
     play music i_miss_happy_rika loop
     v "Hello, everyone." 
@@ -213,7 +213,7 @@ label tutorial_bad_end_expired:
 
 ## You'll get this VN after the Plot Branch Tutorial
 ## chatroom if you got the Good End
-label plot_branch_vn:
+label plot_branch_vn():
     call vn_begin 
     
     # You'll generally never want to mess with the 'observing' variable 
@@ -275,7 +275,7 @@ label plot_branch_vn:
 
 ## This is the chatroom you'll get if you get the Good End
 ## of the Tutorial Day
-label tutorial_good_end:
+label tutorial_good_end():
     stop music
     call hack 
     call chat_begin('hack') 
@@ -292,11 +292,11 @@ label tutorial_good_end:
 ## the previous chatroom expires. However, in this
 ## case it's the same as the original chatroom,
 ## so to save code we'll just jump to it
-label tutorial_good_end_expired:
+label tutorial_good_end_expired():
     jump tutorial_good_end
 
 ## And this is a very brief VN for the party    
-label good_end_party:
+label good_end_party():
     call vn_begin 
     scene bg rika_apartment with fade
     pause

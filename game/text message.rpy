@@ -5,7 +5,7 @@
 ## This is the text message hub, where you can click
 ## on any of your ongoing text conversations
 ########################################################
-screen text_message_hub:
+screen text_message_hub():
 
     tag menu
     

@@ -29,7 +29,7 @@ image medium star:
         
 
 # This makes it easier to call the starry night background
-screen starry_night:
+screen starry_night():
     window:
         xysize (750,1334)
         background '#000'
@@ -69,7 +69,7 @@ image load_tip = "Phone UI/Main Menu/loading_tip.png"
 image load_close = "Phone UI/Main Menu/loading_close.png"
 image load_tip_panel = Frame("Phone UI/Main Menu/loading_tip_panel.png", 300,100,80,80)
 
-label splashscreen:
+label splashscreen():
     if persistent.first_boot:
         call define_variables 
     show screen loading_screen
@@ -77,7 +77,7 @@ label splashscreen:
     hide screen loading_screen
     return
     
-screen loading_screen:
+screen loading_screen():
 
     zorder 90
     tag menu

@@ -1,4 +1,4 @@
-label example_text:
+label example_text():
 
     call chat_begin("morning")
         
@@ -35,7 +35,7 @@ label example_text:
     
 ## This is the label you jump to if the chatroom
 ## is expired
-label example_text_expired:
+label example_text_expired():
     call chat_begin('morning')
     play music mint_eye loop
     r "{=curly}Hi there!{/=curly}"   (bounce=True, specBubble="square2_s")
@@ -51,7 +51,7 @@ label example_text_expired:
     
 ## Put anything you want to have happen after the chatroom ends here, 
 ## like text messages or (in the future) phone calls
-label after_example_text:
+label after_example_text():
 
     # There are two different versions of texting; this first one
     # is the 'regular' variant. You'll notice they're typed differently
@@ -106,7 +106,7 @@ label after_example_text:
     
     return
     
-label menu_a1:
+label menu_a1():
 
     menu:
         "I'm not sure how I'll remember all this...":
@@ -122,7 +122,7 @@ label menu_a1:
 
     jump text_end
     
-label menu_a2:
+label menu_a2():
 
     menu:    
         "Thanks for showing me this.":
@@ -138,7 +138,7 @@ label menu_a2:
         
     jump text_end
     
-label menu_a3:
+label menu_a3():
     menu:
         "(Post a photo)":
             $ addtext (m, "common/cg-2.png", z, True)
@@ -156,7 +156,7 @@ label menu_a3:
     jump text_end
     
 ## These are the menus for instant text messaging
-label menu_a1_inst:
+label menu_a1_inst():
     # You need to pass text_begin the variable of the character
     # whom the MC is texting
     call text_begin(r)
@@ -180,7 +180,7 @@ label menu_a1_inst:
     # Instant text messages end the same way as regular ones
     jump text_end
 
-label menu_a2_inst:
+label menu_a2_inst():
     call text_begin(v)
     v "Because this is 'instant text messaging',"
     v "these emojis will have audio when posted, unlike regular texts."
@@ -198,7 +198,7 @@ label menu_a2_inst:
             v "I hope you enjoy the rest of the program."
     jump text_end
 
-label menu_a3_inst:
+label menu_a3_inst():
     call text_begin(z)
     call answer
     menu:

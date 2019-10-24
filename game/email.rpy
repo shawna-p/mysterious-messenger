@@ -403,7 +403,7 @@ screen email_popup(e):
 ## This screen shows a list of the emails you've 
 ## received
 ########################################################
-screen email_hub:
+screen email_hub():
     
     tag menu
         
@@ -593,7 +593,7 @@ screen open_email(e):
   
 ## This is the label you'll call at the end of
 ## an email choice menu
-label email_end:
+label email_end():
     $ renpy.retain_after_load()
     return
 

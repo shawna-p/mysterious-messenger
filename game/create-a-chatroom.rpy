@@ -205,7 +205,7 @@ default font_dropdown = False
 ## user to visualize how to put together a chatroom/
 ## easier to generate the code needed for chatrooms
 ########################################################
-screen create_archive:
+screen create_archive():
 
     tag menu
     
@@ -394,7 +394,7 @@ default font_styles2 = [ [ 'Serif 1', [ ['Regular', 'ser1'] , ['Bold', 'ser1b'],
                    
 default font_dict = { 'Serif 1' : False, 'Serif 2' : False, 'Sans Serif 1' : False, 'Sans Serif 2' : False, 'Other' : False }
                    
-screen font_screen:
+screen font_screen():
 
     for item in font_styles2: #e.g. ['Serif 1', [...], False]
         $ the_key = item[0]

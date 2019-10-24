@@ -77,7 +77,7 @@ default space_thoughts = RandomBag( [
 ## Floating spaceship thoughts
 #########################################################
 
-screen spaceship_thoughts:
+screen spaceship_thoughts():
     
     modal True
     
@@ -108,7 +108,7 @@ screen spaceship_thoughts:
 #########################################################
 ## Additional screens for the Honey Buddha Chip animation
 #########################################################
-screen chip_tap:
+screen chip_tap():
 
     modal True
 
@@ -129,7 +129,7 @@ screen chip_tap:
         
     
  
-label chip_prize:
+label chip_prize():
     #$ reset_spaceship_pos = True
     #$ spaceship_xalign = 0.04
     hide screen chip_tap
@@ -140,7 +140,7 @@ label chip_prize:
     $ chips_available = False
     jump hbc_helper
  
-screen chip_cloud:
+screen chip_cloud():
     modal True
 
     zorder 100
@@ -163,7 +163,7 @@ screen chip_cloud:
         add 'cloud_5' xpos 350 ypos 20 at cloud_shuffle5
         
 
-label hbc_helper:
+label hbc_helper():
     # Picks a number between 1 and 130 for the chip prize
     $ prize_heart = renpy.random.randint(1, 130)
     $ new_hp_total = persistent.HP + prize_heart

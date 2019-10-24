@@ -216,7 +216,7 @@ default call_countdown = 10
 ## The phone menu screen, which displays a list of all
 ## the phone calls you've received
 ########################################################
-screen phone_calls:
+screen phone_calls():
 
     tag menu
 
@@ -342,7 +342,7 @@ screen phone_calls:
 ## you can call them
 ########################################################
 
-screen phone_contacts:
+screen phone_contacts():
 
     tag menu
     use starry_night()
@@ -427,7 +427,7 @@ screen phone_contacts_grid(x_num, y_num):
     
 ## This label ensures the rest of the phone conversation will
 ## not play out if you hang up
-label hang_up:
+label hang_up():
     $ observing = False
     $ call_hang_up(phonecall=current_call)
     call screen phone_calls
@@ -604,7 +604,7 @@ screen incoming_call(phonecall, countdown_time=10):
     
 ## If you hang up an incoming call, you can
 ## still call that character back
-label incoming_hang_up:
+label incoming_hang_up():
     $ call_hang_up_incoming(current_call)
     call screen chat_home
     
@@ -703,7 +703,7 @@ label new_incoming_call(phonecall):
  
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
-label phone_begin:
+label phone_begin():
     stop music
     # This stops it from recording the dialogue
     # from the phone call in the history log
@@ -722,7 +722,7 @@ label phone_begin:
     
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call
-label phone_end:
+label phone_end():
     if not starter_story:
         if not observing:
             $ current_call.finished()
@@ -739,7 +739,7 @@ label phone_end:
 ##*************************************************
 ## For ease of keeping track of the different voicemails,
 ## they are defined here
-label voicemail_1:
+label voicemail_1():
     call phone_begin 
     voice "Phone UI/Phone Calls/Voicemail/voicemail_1.mp3"
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."

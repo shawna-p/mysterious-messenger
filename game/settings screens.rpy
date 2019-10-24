@@ -162,7 +162,7 @@ screen settings_tabs(active_tab):
 ## your profile pic, name, and preferred pronouns
 ########################################################
 
-screen profile_pic:
+screen profile_pic():
     
     tag settings_screen
     modal True
@@ -465,7 +465,7 @@ screen other_settings():
 # *********************************
 # Restart Game -- resets variables
 # *********************************       
-label restart_game:
+label restart_game():
     python:
         # removes heart points from all the characters
         for person in character_list:

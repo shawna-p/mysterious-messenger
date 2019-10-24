@@ -1,5 +1,5 @@
 
-label example_email:
+label example_email():
 
     call chat_begin('evening') 
     play music narcissistic_jazz loop
@@ -49,7 +49,7 @@ label example_email:
     jump chat_end
 
 ## This is the 'expired' version of the chatroom
-label example_email_expired:
+label example_email_expired():
     call chat_begin('evening')
     play music narcissistic_jazz loop
     z "Hey, [name], I had an idea for a guest we should invite." 
@@ -220,7 +220,7 @@ Rainbow Unicorn""")
 # is the first reply, it would be called Bob_reply1
 # Be sure to pay attention to any capitals you have in the guest's name
 # or the program won't be able to find the right label
-label rainbow_reply1: 
+label rainbow_reply1(): 
 
     menu:
         'Indoor party.':
@@ -356,7 +356,7 @@ the party, as this is the final message""",
 the wrong response.""") # Don't forget a closing bracket at the end
 
 
-label example_reply1: # We called the guest "example", so the
+label example_reply1(): # We called the guest "example", so the
                       # reply labels will be called
                       # example_reply1, example_reply2, and example_reply3
 
@@ -375,7 +375,7 @@ label example_reply1: # We called the guest "example", so the
         
     jump email_end # This ensures your response is saved after you reply
     
-label example_reply2: 
+label example_reply2(): 
 
     menu:
         "Answer 1":
@@ -386,7 +386,7 @@ label example_reply2:
         
     jump email_end
     
-label example_reply3: 
+label example_reply3(): 
 
     menu:
         "Answer 1":

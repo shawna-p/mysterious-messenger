@@ -108,7 +108,6 @@ init -6 python:
             if (int(current_time.military_hour) < 
                     int(the_chatroom.trigger_time[:2]) 
                     and (day_i+1) == days_to_expire):
-                print("compare times - hour is less")
                 return False
             
             # If the current hour is the same as the chatroom hour,
@@ -116,10 +115,8 @@ init -6 python:
             elif (int(current_time.military_hour) == 
                     int(the_chatroom.trigger_time[:2]) 
                     and (day_i+1) == days_to_expire):
-                print("compare times - hour is same")
                 if (int(current_time.minute) 
                         < int(the_chatroom.trigger_time[-2:])):
-                    print("compare times - minute is less")
                     return False
 
             return True
@@ -128,9 +125,6 @@ init -6 python:
         # available/etc
         def adjust_chatrooms(day_i, the_chatroom, notify=False,
                 prev_chat=False, check_time=False):
-            print("adjust_chatrooms with day_i", day_i, "chatroom", 
-                    the_chatroom, "notify", notify, "prev_chat", prev_chat,
-                    "check_time", check_time)
             the_chatroom.available = True
             current_chatroom = the_chatroom
             # If this chatroom has *just*  triggered, we also want to 
@@ -199,7 +193,6 @@ init -6 python:
                 return
             # First, check if any days have passed
             date_diff = date.today() - current_game_day
-            print("date_diff days", date_diff.days)
             if date_diff.days > 0:
                 # At least one day has passed; increase 
                 # days_to_expire accordingly
@@ -207,7 +200,6 @@ init -6 python:
             current_game_day = date.today()
             # Next, check what time it is
             current_time = upTime()
-            print("days_to_expire", days_to_expire)
             # Now, go through the list of chatrooms and find out if
             # there's a new one to be triggered
             for day_index, archive in enumerate(chat_archive[:days_to_expire]):
@@ -230,7 +222,6 @@ init -6 python:
                         # a row. So we check if this is eligible
                         # for expiry
                         if not compare_times(day_index, chatroom):
-                            print("Triggered next 1")
                             triggered_next = True
                             break
                         
@@ -244,7 +235,6 @@ init -6 python:
                             if (chat_index+1 == len(archive.archive_list) 
                                     and not chatroom.plot_branch 
                                     and not (day_index+1) < days_to_expire):
-                                print("Triggered next 2")
                                 triggered_next = True
                             if chat_index == 0 and day_index == 0:
                                 # If this is the first chatroom of the route, 
@@ -268,7 +258,6 @@ init -6 python:
                         # First, check if it's the last chatroom of the day
                         if (chat_index-1 == len(archive.archive_list) 
                                 and not chatroom.plot_branch):
-                            print("Triggered next 2")
                             triggered_next = True
 
                         if chat_index == 0 and day_index == 0:
@@ -295,7 +284,6 @@ init -6 python:
 
                         
                 if triggered_next:
-                    print("Triggered next break")
                     break
             if notify_player:
                 # Let the player know a new chatroom is open

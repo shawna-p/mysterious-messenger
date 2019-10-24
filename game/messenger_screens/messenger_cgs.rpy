@@ -23,7 +23,7 @@ label viewCG(textmsg=False, album=False, album_info=[]):
 ## click it. It has a working "Close" button that appears/disappears 
 ## when you click the CG
 
-screen viewCG_fullsize:
+screen viewCG_fullsize():
     zorder 5
     imagebutton:
         xalign 0.5

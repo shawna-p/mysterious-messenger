@@ -1,6 +1,6 @@
 ## A quick example chatroom to show off a few ways
 ## you can created a 'hacked' effect within chatrooms
-label hack_example:
+label hack_example():
 
     call chat_begin("night")
     call enter(sa)
@@ -75,7 +75,7 @@ label hack_example:
     jump chat_end
  
 ## The expired version for the example hack chatroom 
-label hack_example_expired:
+label hack_example_expired():
 
     call chat_begin("night")
     call redhack

@@ -3,7 +3,7 @@
 ## of the program. It allows characters to continue talking
 ## while the player has an opportunity to interrupt/answer
 ## See explanation below
-label timed_menus:
+label timed_menus():
 
     call chat_begin("earlyMorn") 
     play music geniusly_hacked_bebop
@@ -73,7 +73,7 @@ label timed_menus:
     
 ## A small work-around to prevent program errors; this just redirects the
 ## "expired" chatroom to the regular one
-label timed_menus_expired:
+label timed_menus_expired():
     jump timed_menus
 
     

@@ -162,7 +162,7 @@ default greeted = False
 ## Also shows a greeting from a random character
 ##
 
-screen main_menu:
+screen main_menu():
 
     tag menu
     
@@ -333,7 +333,7 @@ screen main_menu:
 ## loading. It also advances the game day if real-time
 ## mode is active
 ########################################################     
-label after_load:    
+label after_load():    
     python:
         if persistent.real_time:
             if persistent.load_instr == '+1 day':
@@ -417,7 +417,7 @@ label after_load:
 ## which route you'd like to start on. Can be customized to lead
 ## the player to a route to select, but as of now simply starts
 ## the game
-screen route_select_screen:
+screen route_select_screen():
 
     tag menu
     

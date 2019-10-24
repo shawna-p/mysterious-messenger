@@ -78,7 +78,7 @@ screen heart_break_screen(character):
 
 ## This speeds up/slows down the speed of the chat
 
-screen speed_num:
+screen speed_num():
     python:
         global pv  
         if pv <= 0.45:
@@ -127,15 +127,13 @@ screen hack_screen(hack):
     timer 3.0 action Hide('hack_screen')
         
     
-label hack:
-    $ chatlog.append(Chatentry(answer,'',upTime))
+label hack():
     show screen hack_screen('hack scroll')
     pause 3.0
     hide screen hack_screen
     return
     
-label redhack:
-    $ chatlog.append(Chatentry(answer,'',upTime))
+label redhack():
     show screen hack_screen('redhack scroll')
     pause 3.0
     hide screen hack_screen
