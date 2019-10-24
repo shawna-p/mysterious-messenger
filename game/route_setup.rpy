@@ -4,13 +4,17 @@
 init -6 python:
     
     ## This class stores past chatrooms that you've visited
-    ## A more complete explanation of how to use it to set up chatrooms can be found
-    ## in the accompanying Script Generator spreadsheet
+    ## A more complete explanation of how to use it to set up 
+    ## chatrooms can be found in the accompanying Script Generator
+    ## spreadsheet
     class Chat_History(store.object):
         def __init__(self, title, save_img, chatroom_label, trigger_time, 
                         participants=[], vn_obj=False, plot_branch=False):
+            # Title of the chatroom
             self.title = title
+            # Image to use on the save screen after this chatroom
             self.save_img = save_img
+            # Label to jump to for this chatroom
             self.chatroom_label = chatroom_label
             # Ensure the trigger time is set up properly
             # This doesn't work all the time, but it corrects times
@@ -19,22 +23,40 @@ init -6 python:
                 self.trigger_time = '0' + trigger_time
             else:
                 self.trigger_time = trigger_time
+            # People already present in the chatroom before
+            # it begins. Updates when new people enter
             self.participants = participants
             self.original_participants = copy.copy(participants)
+            # If this chatroom has a VN after it, it goes here
             self.vn_obj = vn_obj
+            # Tracks whether this chatroom has been played
             self.played = False
+            # Tracks whether the player participated in this chatroom
             self.participated = False
+            # Tracks whether the program should allow the user to
+            # play this chatroom or if it'll be greyed out/unavailable
             self.available = False
+            # Tracks whether this chatroom has expired
             self.expired = False
+            # The expired label for this chatroom
             self.expired_chat = chatroom_label + '_expired'
+            # Tracks whether there's a plot branch after this chatroom
             self.plot_branch = plot_branch
+            # Tracks if the user bought back this chatroom after it
+            # expired
             self.buyback = False
+            # Tracks if the user bought this chatroom ahead of time
+            # so it can remain unlocked regardless of the current time
             self.buyahead = False
             
+        ## Adds a participant to the chatroom
         def add_participant(self, chara):
             if not chara in self.participants:
                 self.participants.append(chara)
                 
+        ## Resets participants to whatever they were before the
+        ## user played this chatroom (often used when a player
+        ## backs out of a chatroom, for example)
         def reset_participants(self):
             self.participants = copy.copy(self.original_participants)
             
@@ -43,18 +65,26 @@ init -6 python:
     ## Novel portions of the game
     class VN_Mode(store.object):
         def __init__(self, vn_label, who=None, party=False):
+            # The label to jump to for the VN
             self.vn_label = vn_label
+            # Whose picture is on the VN icon
             self.who = who
+            # Whether the VN has been played
             self.played = False
+            # Whether the VN is available
             self.available = False
+            # Whether this VN is the party/needs the party icon
             self.party = party
               
             
     ## This object stores a day's worth of chatrooms
     class Archive(store.object):
         def __init__(self, day, archive_list=[], route='day_common2'):
+            # The day e.g. "1st"
             self.day = day
+            # A list of chatrooms taking place on this day
             self.archive_list = archive_list
+            # The route this day is considered a part of
             self.route = route
             
     ## This function ensures the next chatroom or VN section 
@@ -68,6 +98,65 @@ init -6 python:
         global incoming_call, current_call
         triggered_next = False
         notify_player = False
+        current_time = None
+
+        # A tiny function-in-a-function to simplify real-time checks
+        def compare_times(day_i, the_chatroom):
+            # If the current hour is less than the next chatroom's
+            # trigger time, and the current day is the same as the
+            # days_to_expire, it's too early for this chatroom
+            if (int(current_time.military_hour) < 
+                    int(the_chatroom.trigger_time[:2]) 
+                    and (day_i+1) == days_to_expire):
+                print("compare times - hour is less")
+                return False
+            
+            # If the current hour is the same as the chatroom hour,
+            # and today is the day to expire, we check minutes
+            elif (int(current_time.military_hour) == 
+                    int(the_chatroom.trigger_time[:2]) 
+                    and (day_i+1) == days_to_expire):
+                print("compare times - hour is same")
+                if (int(current_time.minute) 
+                        < int(the_chatroom.trigger_time[-2:])):
+                    print("compare times - minute is less")
+                    return False
+
+            return True
+
+        # Figures out whether to expire chatrooms/make them
+        # available/etc
+        def adjust_chatrooms(day_i, the_chatroom, notify=False,
+                prev_chat=False, check_time=False):
+            print("adjust_chatrooms with day_i", day_i, "chatroom", 
+                    the_chatroom, "notify", notify, "prev_chat", prev_chat,
+                    "check_time", check_time)
+            the_chatroom.available = True
+            current_chatroom = the_chatroom
+            # If this chatroom has *just*  triggered, we also want to 
+            # deliver incoming phone calls to the player, so we check for
+            # that now. It's given a grace period of 1 min so if the trigger
+            # time is 2:00 and it's 2:01 it'll still notify the player
+            if check_time:
+                if ((day_i+1) == days_to_expire 
+                        and (int(current_time.minute)
+                        == int(the_chatroom.trigger_time[-2:]) 
+                        or int(current_time.minute)- 1 
+                        == int(the_chatroom.trigger_time[-2:]))):
+                    expire_chatroom(prev_chat, current_chatroom, True)
+                else:
+                    expire_chatroom(prev_chat, current_chatroom)
+
+            if prev_chat and not check_time:
+                expire_chatroom(prev_chat, current_chatroom)
+
+            if notify:
+                notify_player = True
+
+            today_day_num = day_i
+
+
+
         if not persistent.real_time:
             for archive in chat_archive:
                 if archive.archive_list:
@@ -110,6 +199,7 @@ init -6 python:
                 return
             # First, check if any days have passed
             date_diff = date.today() - current_game_day
+            print("date_diff days", date_diff.days)
             if date_diff.days > 0:
                 # At least one day has passed; increase 
                 # days_to_expire accordingly
@@ -117,161 +207,95 @@ init -6 python:
             current_game_day = date.today()
             # Next, check what time it is
             current_time = upTime()
+            print("days_to_expire", days_to_expire)
             # Now, go through the list of chatrooms and find out if
             # there's a new one to be triggered
             for day_index, archive in enumerate(chat_archive[:days_to_expire]):
-                if archive.archive_list:
-                    for chat_index, chatroom in enumerate(
-                                                archive.archive_list):
-                        # First, we check if there's a chatroom 
-                        # with a VN after it. If the chatroom has
-                        # an unavailable VN after it, make that 
-                        # available
-                        if (chatroom.played and chatroom.vn_obj 
-                                and not chatroom.vn_obj.available):
-                            chatroom.vn_obj.available = True
-                        # If this chatroom isn't available, check if it's 
-                        # time to make it available
-                        if not chatroom.available:                            
-                            # Check the time on the chatroom
-                            # If we're loading a file, we might need 
-                            # to make lots of chatrooms unavailable in 
-                            # a row. So we check if this is eligible
-                            # for expiry
-                            if (int(current_time.military_hour) < 
-                                    int(chatroom.trigger_time[:2]) 
-                                    and (day_index+1) == days_to_expire):
-                                # Too early; not time for this chatroom
-                                # to trigger yet
+                if (not archive.archive_list or len(archive.archive_list) < 1):
+                    continue
+
+                for chat_index, chatroom in enumerate(archive.archive_list):
+                    # First, we check if there's a played chatroom 
+                    # with a VN after it. If the chatroom has an
+                    # unavailable VN after it, make that available
+                    if (chatroom.played and chatroom.vn_obj 
+                            and not chatroom.vn_obj.available):
+                        chatroom.vn_obj.available = True
+                    # If this chatroom isn't available, check if it's 
+                    # time to make it available
+                    if not chatroom.available:                            
+                        # Check the time on the chatroom
+                        # If we're loading a file, we might need 
+                        # to make lots of chatrooms unavailable in 
+                        # a row. So we check if this is eligible
+                        # for expiry
+                        if not compare_times(day_index, chatroom):
+                            print("Triggered next 1")
+                            triggered_next = True
+                            break
+                        
+                        if (int(current_time.military_hour) > 
+                                int(chatroom.trigger_time[:2]) 
+                                or (day_index+1) < days_to_expire):
+                            # Current hour is later than the chatroom 
+                            # trigger time. Time to trigger the chatroom
+                            # First, check if it's the last chatroom of 
+                            # the day
+                            if (chat_index+1 == len(archive.archive_list) 
+                                    and not chatroom.plot_branch 
+                                    and not (day_index+1) < days_to_expire):
+                                print("Triggered next 2")
                                 triggered_next = True
-                                break
-                            elif (int(current_time.military_hour) == 
-                                    int(chatroom.trigger_time[:2]) 
-                                    and (day_index+1) == days_to_expire):
-                                # Hour is the same; check the minutes
-                                if (int(current_time.minute) 
-                                        < int(chatroom.trigger_time[-2:])):                                    
-                                    # Too early; not time for this 
-                                    # chatroom to trigger yet
-                                    triggered_next = True
-                                    break
-                                else:
-                                    # Time for the chatroom to trigger
-                                    # First, check if it's the last 
-                                    # chatroom of the day
-                                    if (chat_index-1 == 
-                                            len(archive.archive_list) 
-                                            and not chatroom.plot_branch):
-                                        triggered_next = True
-                                    if chat_index == 0 and day_index == 0:
-                                        # If this is the first chatroom of
-                                        # the route, there's nothing to 
-                                        # expire, so we trigger the chatroom
-                                        chatroom.available = True
-                                        current_chatroom = chatroom
-                                        today_day_num = day_index
-                                    elif chat_index > 0:
-                                        # This is the second or later
-                                        # chatroom of the day
-                                        chatroom.available = True
-                                        current_chatroom = chatroom
-                                        prev_chatroom = archive.archive_list[
-                                                                chat_index - 1]
-                                        # If this chatroom has *just* 
-                                        # triggered, we also want
-                                        # to deliver incoming phone 
-                                        # calls to the player, so we
-                                        # check for that now. It's 
-                                        # given a grace period of 1 min
-                                        # so if the trigger time is 2:00 
-                                        # and it's 2:01 it'll still
-                                        # notify the player
-                                        if ((day_index+1) == days_to_expire 
-                                                and (int(current_time.minute)
-                                                == int(
-                                                    chatroom.trigger_time[-2:]) 
-                                                or int(current_time.minute)
-                                                    - 1 == int(
-                                                    chatroom.trigger_time[-2:]))):
-                                            expire_chatroom(
-                                                prev_chatroom, 
-                                                current_chatroom, True)
-                                        else:
-                                            expire_chatroom(prev_chatroom, 
-                                                            current_chatroom)                                           
-                                        notify_player = True
-                                        today_day_num = day_index
-                                        # We don't set triggered_next to 
-                                        # True so it makes
-                                        # more chatrooms expire if necessary
-                                    elif chat_index == 0 and day_index > 0:
-                                        # This is the first chatroom 
-                                        # of the day but there are
-                                        # days before this chatroom 
-                                        # with chatrooms that might
-                                        # be expired
-                                        chatroom.available = True
-                                        current_chatroom = chatroom
-                                        prev_chatroom = chat_archive[
-                                                day_index - 1].archive_list[-1]
-                                        if ((day_index+1) == days_to_expire 
-                                                and (int(current_time.minute)
-                                                == int(chatroom.trigger_time[-2:]) 
-                                                or int(current_time.minute) - 1 
-                                                == int(chatroom.trigger_time[-2:]))):
-                                            expire_chatroom(prev_chatroom, 
-                                                    current_chatroom, True)
-                                        else:
-                                            expire_chatroom(prev_chatroom, 
-                                                            current_chatroom)                                               
-                                        notify_player = True
-                                        today_day_num = day_index
-                            elif (int(current_time.military_hour) > 
-                                    int(chatroom.trigger_time[:2]) 
-                                    or (day_index+1) < days_to_expire):
-                                # Current hour is later than the 
-                                # chatroom trigger time
-                                # Time to trigger the chatroom
-                                # First, check if it's the last 
+                            if chat_index == 0 and day_index == 0:
+                                # If this is the first chatroom of the route, 
+                                # there's nothing to expire prior to it, 
+                                # so we trigger the chatroom
+                                adjust_chatrooms(day_index, chatroom)
+                            elif chat_index > 0:
+                                # This is the second or later 
                                 # chatroom of the day
-                                if (chat_index+1 == len(archive.archive_list) 
-                                        and not chatroom.plot_branch 
-                                        and not (day_index+1) < days_to_expire):
-                                    triggered_next = True
-                                if chat_index == 0 and day_index == 0:
-                                    # If this is the first chatroom 
-                                    # of the route, there's
-                                    # nothing to expire prior to it, 
-                                    # so we trigger the chatroom
-                                    chatroom.available = True
-                                    current_chatroom = chatroom
-                                    today_day_num = day_index
-                                elif chat_index > 0:
-                                    # This is the second or later 
-                                    # chatroom of the day
-                                    chatroom.available = True
-                                    current_chatroom = chatroom
-                                    prev_chatroom = archive.archive_list[
-                                                            chat_index - 1]
-                                    expire_chatroom(prev_chatroom, 
-                                                        current_chatroom)                                 
-                                    notify_player = True
-                                    today_day_num = day_index
-                                elif chat_index == 0 and day_index > 0:
-                                    # This is the first chatroom of 
-                                    # the day but there are
-                                    # days before this chatroom 
-                                    # with chatrooms that might
-                                    # be expired
-                                    chatroom.available = True
-                                    current_chatroom = chatroom
-                                    prev_chatroom = chat_archive[
-                                            day_index - 1].archive_list[-1]
-                                    expire_chatroom(prev_chatroom, 
-                                                    current_chatroom)                                      
-                                    notify_player = True
-                                    today_day_num = day_index
+                                adjust_chatrooms(day_index, chatroom, True,
+                                    archive.archive_list[chat_index-1])
+                            elif chat_index == 0 and day_index > 0:
+                                # This is the first chatroom of the day 
+                                # but there are days before this chatroom 
+                                # with chatrooms that might be expired
+                                adjust_chatrooms(day_index, chatroom, True,
+                                    chat_archive[day_index-1].archive_list[-1])
+                            continue
+                        
+                        # Time for the chatroom to trigger
+                        # First, check if it's the last chatroom of the day
+                        if (chat_index-1 == len(archive.archive_list) 
+                                and not chatroom.plot_branch):
+                            print("Triggered next 2")
+                            triggered_next = True
+
+                        if chat_index == 0 and day_index == 0:
+                            # If this is the first chatroom of the route, 
+                            # there's nothing to expire, so we trigger
+                            # the chatroom
+                            adjust_chatrooms(day_index, chatroom)
+
+                        elif chat_index > 0:
+                            # This is the second or later chatroom of the day
+                            adjust_chatrooms(day_index, chatroom, True,
+                                archive.archive_list[chat_index-1], True)                                
+                            # We don't set triggered_next to True so it
+                            # makes more chatrooms expire if necessary
+
+                        elif chat_index == 0 and day_index > 0:
+                            # This is the first chatroom of the day but 
+                            # there are days before this chatroom with 
+                            # chatrooms that might be expired
+                            adjust_chatrooms(day_index, chatroom, True,
+                                chat_archive[day_index-1].archive_list[-1],
+                                True)
+                            
+
+                        
                 if triggered_next:
+                    print("Triggered next break")
                     break
             if notify_player:
                 # Let the player know a new chatroom is open

@@ -221,7 +221,8 @@ screen chatroom_timeline(day, day_num):
                           
                 for index, chatroom in enumerate(day.archive_list):
                     # Displays rows of all the available chats
-                    use chatroom_item(day, day_num, chatroom, index)
+                    if chatroom.available:
+                        use chatroom_item(day, day_num, chatroom, index)
 
                 if (persistent.real_time 
                         and day_num == today_day_num 
@@ -256,45 +257,37 @@ screen chatroom_timeline(day, day_num):
 ## was played, what day it was, etc
 screen chatroom_item(day, day_num, chatroom, index):
     python:
-        same_time = False
-        was_played = False
-        if chatroom.available:
-            if index > 0:
-                if (chatroom.trigger_time[:2] 
-                    == day.archive_list[index-1].trigger_time[:2]):
-                    same_time = True
-                if day.archive_list[index-1].played:
-                    if day.archive_list[index-1].vn_obj:
-                        was_played = day.archive_list[index-1].vn_obj.played
-                    else:
-                        was_played = True
-            elif index == 0:
-                if day_num == 0:
-                    was_played = True
+        sametime = False
+        wasplayed = False
+        if index > 0:
+            if (chatroom.trigger_time[:2] 
+                == day.archive_list[index-1].trigger_time[:2]):
+                sametime = True
+            if day.archive_list[index-1].played:
+                if day.archive_list[index-1].vn_obj:
+                    wasplayed = day.archive_list[index-1].vn_obj.played
                 else:
-                    if chat_archive[day_num-1].archive_list[-1].vn_obj:
-                        was_played = (chat_archive[day_num-1].
-                                        archive_list[-1].vn_obj.played)
-                    else:
-                        was_played = (chat_archive[day_num-1].
-                                        archive_list[-1].played)
-        
-    use chatroom_display(chatroom, same_time, was_played)
+                    wasplayed = True
+        elif index == 0:
+            if day_num == 0:
+                wasplayed = True
+            else:
+                if chat_archive[day_num-1].archive_list[-1].vn_obj:
+                    wasplayed = (chat_archive[day_num-1].
+                                    archive_list[-1].vn_obj.played)
+                else:
+                    wasplayed = (chat_archive[day_num-1].
+                                    archive_list[-1].played)
 
-
-## Called by the previous screen; displays chatroom and VN buttons
-screen chatroom_display(mychat, sametime=False, wasplayed=False):
-
-    python:
         anim = null_anim
         if hacked_effect:
             anim = hacked_anim
-        my_vn = mychat.vn_obj
+        my_vn = chatroom.vn_obj
         can_play = False
         chat_title_width = 400
         chat_box_width = 620
         partic_viewport_width = 530
-        if mychat.expired:
+        if chatroom.expired:
             chat_title_width = 300
             chat_box_width = 520
             partic_viewport_width = 430
@@ -306,11 +299,11 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                 vn_foreground = 'vn_active'
                 vn_hover = 'vn_active_hover'   
                 can_play = True
-            elif my_vn.available and wasplayed and mychat.played:
+            elif my_vn.available and wasplayed and chatroom.played:
                 vn_foreground = 'vn_selected'
                 vn_hover = 'vn_selected_hover'
                 can_play = True
-            elif mychat.expired:
+            elif chatroom.expired:
                 vn_foreground = 'vn_inactive'
                 vn_hover = 'vn_inactive'
             else:
@@ -325,15 +318,15 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                 
         # These statements determine how a chatroom button
         # should look -- active/inactive/etc
-        if mychat.played:
+        if chatroom.played:
             chat_bkgr = 'chat_active'
             chat_hover = 'chat_active_hover'  
             can_play = True            
-        elif mychat.available and wasplayed:
+        elif chatroom.available and wasplayed:
             chat_bkgr = 'chat_selected'
             chat_hover = 'chat_selected_hover'
             can_play = True
-        elif mychat.expired:
+        elif chatroom.expired:
             chat_bkgr = 'chat_inactive'
             chat_hover = 'chat_inactive'
         else:
@@ -342,10 +335,10 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
         
         # This determines if there are enough participants
         # in this chat to make the viewport scroll automatically
-        if mychat.participants:
-            if len(mychat.participants) > 5 and mychat.participated:
+        if chatroom.participants:
+            if len(chatroom.participants) > 5 and chatroom.participated:
                 part_anim = participant_scroll
-            elif len(mychat.participants) > 6 and not mychat.participated:
+            elif len(chatroom.participants) > 6 and not chatroom.participated:
                 part_anim = participant_scroll
             else:
                 part_anim = null_anim
@@ -360,7 +353,7 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
         # sametime means these chatrooms occur during the
         # same hour. If it's false, we need to show the
         # hour above this chat
-        textbutton _(mychat.trigger_time[:2] + ':00'):
+        textbutton _(chatroom.trigger_time[:2] + ':00'):
             xysize (181,62)
             text_color '#fff'
             text_size 40
@@ -382,14 +375,14 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
             if can_play and wasplayed:
                 # Determines where to take the player depending
                 # on whether this chatroom is expired or not
-                if mychat.expired:
-                    action [SetVariable('current_chatroom', mychat), 
-                            Jump(mychat.expired_chat)]
+                if chatroom.expired:
+                    action [SetVariable('current_chatroom', chatroom), 
+                            Jump(chatroom.expired_chat)]
                 else:
-                    action [SetVariable('current_chatroom', mychat), 
-                            Jump(mychat.chatroom_label)]
+                    action [SetVariable('current_chatroom', chatroom), 
+                            Jump(chatroom.chatroom_label)]
                     
-            if hacked_effect and mychat.expired:
+            if hacked_effect and chatroom.expired:
                 add 'day_reg_hacked' xoffset -185 yoffset -178
             elif hacked_effect:
                 add 'day_reg_hacked_long' xoffset -210 yoffset -170
@@ -406,7 +399,7 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                         xysize (75,27)
                         xoffset 77
                         yoffset 13
-                        text mychat.trigger_time:
+                        text chatroom.trigger_time:
                             color '#fff' 
                             size 27 
                             xalign 0.5 yalign 0.5 
@@ -415,17 +408,17 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                         yoffset 13
                         xoffset 77                
                         xysize(chat_title_width,27)
-                        if len(mychat.title) > 30: 
+                        if len(chatroom.title) > 30: 
                             window:
                                 xysize(chat_title_width,27)
-                                text mychat.title at chat_title_scroll:
+                                text chatroom.title at chat_title_scroll:
                                     color '#fff' 
                                     size 25 
                                     xalign 0.0 yalign 0.5 
                                     text_align 0.0 
                                     layout 'nobreak' 
                         else:
-                            text mychat.title:
+                            text chatroom.title:
                                 color '#fff' 
                                 size 25 
                                 xalign 0.0 yalign 0.5 
@@ -442,30 +435,30 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                         xysize(partic_viewport_width, 85)
                         hbox at part_anim:
                             spacing 5
-                            if mychat.participants:
-                                for person in mychat.participants:
+                            if chatroom.participants:
+                                for person in chatroom.participants:
                                     if person.participant_pic:
                                         add person.participant_pic
                                 
-                            if mychat.participated and mychat.played:
+                            if chatroom.participated and chatroom.played:
                                 add Transform(m.prof_pic, size=(80,80))
 
         # If this chat is expired and hasn't been bought back,
         # we show a button allowing the user to buy this chat again            
-        if mychat.expired and not mychat.buyback:
+        if chatroom.expired and not chatroom.buyback:
             imagebutton:
                 yalign 0.9
                 xalign 0.5
                 idle 'expired_chat'
                 hover_foreground 'expired_chat'
-                if mychat.available:
+                if chatroom.available:
                     action Show('confirm', message=("Would you like to"
                                 + " participate in the chat conversation"
                                 + " that has passed?"),
-                            yes_action=[SetField(mychat, 'expired', False),
-                            SetField(mychat, 'buyback', True),
-                            SetField(mychat, 'played', False),
-                            Function(mychat.reset_participants),
+                            yes_action=[SetField(chatroom, 'expired', False),
+                            SetField(chatroom, 'buyback', True),
+                            SetField(chatroom, 'played', False),
+                            Function(chatroom.reset_participants),
                             renpy.retain_after_load,
                             renpy.restart_interaction, Hide('confirm')], 
                             no_action=Hide('confirm'))
@@ -485,13 +478,13 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                 foreground vn_foreground
                 hover_foreground vn_hover
                 activate_sound 'sfx/UI/select_vn_mode.mp3'
-                if my_vn.available and can_play and mychat.played:
+                if my_vn.available and can_play and chatroom.played:
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
                     # and 1 at its fastest
                     # This Preference means the user always has to
                     # manually enable auto-forward in a new story mode
                     action [Preference("auto-forward", "disable"), 
-                            SetVariable('current_chatroom', mychat), 
+                            SetVariable('current_chatroom', chatroom), 
                             Jump(my_vn.vn_label)]                    
                 if my_vn.who:
                     add 'vn_' + my_vn.who.file_id xoffset -5
@@ -515,12 +508,12 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
                     # and 1 at its fastest
                     action [Preference("auto-forward", "disable"), 
-                            SetVariable('current_chatroom', mychat), 
+                            SetVariable('current_chatroom', chatroom), 
                             Jump(my_vn.vn_label)]                    
             
         
     # There's a plot branch
-    if mychat.plot_branch:
+    if chatroom.plot_branch:
         button:
             xysize(330, 85)
             background 'input_popup_bkgr'
@@ -541,15 +534,15 @@ screen chatroom_display(mychat, sametime=False, wasplayed=False):
                                 + " Missed chatrooms may appear depending on"
                                 + " the time right now. Continue?"), 
                             yes_action=[Hide('confirm'), 
-                            SetVariable('current_chatroom', mychat),
-                            Jump(mychat.chatroom_label + '_branch')], 
+                            SetVariable('current_chatroom', chatroom),
+                            Jump(chatroom.chatroom_label + '_branch')], 
                             no_action=Hide('confirm'))           
                 else:
                     action Show("confirm", message=("The game branches here."
                             + "Continue?"), 
                         yes_action=[Hide('confirm'), 
-                        SetVariable('current_chatroom', mychat),
-                        Jump(mychat.chatroom_label + '_branch')], 
+                        SetVariable('current_chatroom', chatroom),
+                        Jump(chatroom.chatroom_label + '_branch')], 
                         no_action=Hide('confirm'))                 
             else:
                 action Show("confirm", message=("Please proceed after"
