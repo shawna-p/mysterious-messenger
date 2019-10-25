@@ -268,33 +268,12 @@ init 5:
     ## Main Menu -- Profile
     ## **********************
     
-    style pronoun_window:
-        background Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
-        maximum(340,400)
-        xalign 0.99
-        yalign 0.32
-        padding (20,20)
-        xfill True
-        yfill True
-        
-    style pronoun_label:
-        size 40
-        color "#fff"
-        text_align 0.5
         
     style point_indicator:
         size 40
         color "#fff"
         text_align 0.5
-        xalign 0.5
-        
-    style my_name:
-        color "#fff"
-        text_align 0.0
-        hover_color "#d7d7d7"
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
-        xalign 0.06
-        yalign 0.455
+        xalign 0.5       
 
         
     ## **********************
@@ -332,13 +311,6 @@ init 5:
     style settings_style:
         color "#ffffff"
         font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-        
-    style settings_tabs:
-        color '#fff'
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-        text_align 0.5
-        xalign 0.5
-        yalign 0.5
         
     style sound_tags:
         color "#ffffff"

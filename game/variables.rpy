@@ -281,15 +281,15 @@ image common_album_cover = 'CGs/common_album_cover.png'
 ##******************************
 
 # Character Greetings
-image greet jaehee = "Phone UI/Main Menu/jaehee_greeting.png"
-image greet jumin = "Phone UI/Main Menu/jumin_greeting.png"
-image greet ray = "Phone UI/Main Menu/ray_greeting.png"
-image greet rika = "Phone UI/Main Menu/rika_greeting.png"
-image greet seven = "Phone UI/Main Menu/seven_greeting.png"
-image greet unknown = "Phone UI/Main Menu/unknown_greeting.png"
+image greet ja = "Phone UI/Main Menu/ja_greeting.png"
+image greet ju = "Phone UI/Main Menu/ju_greeting.png"
+image greet sa = "Phone UI/Main Menu/sa_greeting.png"
+image greet ri = "Phone UI/Main Menu/ri_greeting.png"
+image greet s = "Phone UI/Main Menu/s_greeting.png"
+image greet u = "Phone UI/Main Menu/u_greeting.png"
 image greet v = "Phone UI/Main Menu/v_greeting.png"
-image greet yoosung = "Phone UI/Main Menu/yoosung_greeting.png"
-image greet zen = "Phone UI/Main Menu/zen_greeting.png"
+image greet y = "Phone UI/Main Menu/y_greeting.png"
+image greet z = "Phone UI/Main Menu/z_greeting.png"
     
 image greeting_bubble = Frame("Phone UI/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
 image greeting_panel = Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)

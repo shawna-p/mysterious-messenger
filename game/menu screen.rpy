@@ -141,9 +141,9 @@ default hbc_bag = RandomBag([ False, False, False,
                               False, False, True, True ])
 
 # This lets it randomly pick a profile picture to display        
-default greet_char = "seven"
-define greet_list = ['jaehee', 'jumin', 'ray', 'rika', 'seven', 
-                                 'unknown', 'v', 'yoosung', 'zen']
+default greet_char = "s"
+define greet_list = ['ja', 'ju', 'sa', 'ri', 's', 
+                                 'u', 'v', 'y', 'z']
 
 # Greeting Text
 # (Eventually these will be stored in the Day_Greet object to be
