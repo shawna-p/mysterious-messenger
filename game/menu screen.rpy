@@ -3,32 +3,35 @@ init python:
     import time
 
     # Used to get the player's name from input
-    class MyInputValue(InputValue):
-            def __init__(self, var, default=""):
-                self.var = var
-                
-                if not hasattr(store, var):
-                    setattr(store, var, default)
-                                        
-            def get_text(self):
-                return getattr(store, self.var)
-                
-            def set_text(self, s):
-                global name, m
+    class NameInput(InputValue):
+        def __init__(self):
+            self.the_name = ""
+                                    
+        def get_text(self):
+            global persistent
+            return persistent.name
             
-                s = s.strip()
-                setattr(store, self.var, s)  
-                persistent.name = s
-                renpy.save_persistent()
-                name = persistent.name  
-
-                m.name = name 
-                renpy.retain_after_load()                
-                
-                
-            def enter(self):
-                renpy.run(self.Disable())                
-                raise renpy.IgnoreEvent()
+        def set_text(self, s):
+            s = s.strip()  
+            self.the_name = s       
+            global name, m, persistent
+            persistent.name = self.the_name
+            renpy.save_persistent()
+            name = persistent.name  
+            m.name = name 
+            renpy.retain_after_load()        
+            
+        def enter(self):
+            global name, m, persistent
+            persistent.name = self.the_name
+            renpy.save_persistent()
+            name = persistent.name  
+            m.name = name 
+            renpy.retain_after_load()  
+            renpy.hide_screen('input_popup')
+            # renpy.run(self.Disable())                
+            # raise renpy.IgnoreEvent()
+            
 
         
     ## This picks a greeting depending on the time of day and plays it

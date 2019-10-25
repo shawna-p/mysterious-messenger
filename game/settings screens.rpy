@@ -176,7 +176,6 @@ screen profile_pic():
 
     if not persistent.first_boot:
         use settings_tabs("Profile")  
-
     
     window:        
         style 'profile_pic_window'
@@ -199,7 +198,7 @@ screen profile_pic():
                 hover Transform("Phone UI/Main Menu/menu_pencil_long.png", 
                                                                     zoom=1.03)
                 action Show('input_popup', prompt='Please input a name.') 
-
+        
       
     # Pick your pronouns
     window:
@@ -242,7 +241,6 @@ screen profile_pic():
                 add "radio_off"
             text 'they/them' style 'pronoun_radio_text'
              
-    
         
     if not persistent.first_boot:
         use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
@@ -270,8 +268,11 @@ screen profile_pic():
             action Show("load", Dissolve(0.5))
         
         
-        # Possibly temporary, but shows how many heart points you've earned
-        # with each character
+        # Shows how many heart points you've earned with
+        # each character. To display properly, this needs to
+        # be a character variable, and there must be an image
+        # defined called 'greet ja' if the character's file_id
+        # is ja, for example
         $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
         grid 4 2:
             xalign 0.5
@@ -349,13 +350,14 @@ style pronoun_window_vbox:
                 
 screen input_popup(prompt=''):
 
-    zorder 100
-    modal True
     python:
         # We save this so we can reset it if they don't want to change it
         old_name = persistent.name    
-        input = Input(value=MyInputValue("persistent.name", persistent.name), 
+        input = Input(value=NameInput(), 
                 style="my_input", length=20)
+                
+    zorder 100
+    modal True
     key 'K_RETURN' action Hide('input_popup')
     key 'K_KP_ENTER' action Hide('input_popup')
     window:
@@ -381,7 +383,7 @@ screen input_popup(prompt=''):
                 ysize 75
                 xalign 0.5
                 add 'input_square'
-                add input  xalign 0.5 yalign 0.5
+                add input xalign 0.5 yalign 0.5
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 xalign 0.5
