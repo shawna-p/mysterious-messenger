@@ -905,7 +905,7 @@ screen chat_home(reshow=False):
                     or renpy.get_screen('chip_cloud')
                     or renpy.get_screen('chip_end'),
                 NullAction(),
-                [Hide('chip_end'), renpy.retain_after_load, 
+                [Hide('chip_end'), renpy.retain_after_load,
                 FileSave(mm_auto, confirm=False)]) 
  
     on 'replace':

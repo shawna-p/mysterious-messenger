@@ -261,7 +261,8 @@ screen choice(items):
             the_anim = choice_anim
         else:
             the_anim = null_anim
-    
+
+ 
     # For text messages
     if reply_screen:
         if not inst_text:
@@ -358,7 +359,7 @@ screen choice(items):
                                         Hide('answer_countdown'),
                                         i.action]
                             else:
-                                action i.action
+                                action [i.action]
                     else:
                         textbutton i.caption at the_anim:
                             style 'choice_button'
@@ -369,7 +370,7 @@ screen choice(items):
                                         Hide('answer_countdown'),
                                         i.action]
                             else:
-                                action i.action     
+                                action [i.action]
             # Not a perfect solution, but hopefully provides an 'out'
             # to players who somehow didn't choose a menu option and
             # are now in observing mode

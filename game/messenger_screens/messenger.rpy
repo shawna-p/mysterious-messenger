@@ -250,9 +250,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     # you've selected on this or previous playthroughs
     if current_chatroom.played:
         if not persistent.testing_mode:
-            $ observing = True
-        else:
-            pass
+            $ observing = True     
     else:
         $ observing = False
         

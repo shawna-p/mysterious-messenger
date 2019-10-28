@@ -54,7 +54,7 @@ init -6 python:
     def call_hang_up_incoming(phonecall):    
         global call_history, available_calls        
         phonecall.call_status = 'missed'
-        missed_call = copy.copy(phonecall)
+        missed_call = copy(phonecall)
         missed_call.call_time = upTime()
         missed_call.playback = False
         if missed_call not in call_history:

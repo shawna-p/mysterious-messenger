@@ -478,14 +478,17 @@ screen chatroom_item(day, day_num, chatroom, index):
                 foreground vn_foreground
                 hover_foreground vn_hover
                 activate_sound 'sfx/UI/select_vn_mode.mp3'
-                if my_vn.available and can_play and chatroom.played:
+                if (my_vn.available 
+                        and can_play 
+                        and chatroom.played):
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
                     # and 1 at its fastest
                     # This Preference means the user always has to
                     # manually enable auto-forward in a new story mode
                     action [Preference("auto-forward", "disable"), 
                             SetVariable('current_chatroom', chatroom), 
-                            Jump(my_vn.vn_label)]                    
+                            Jump(my_vn.vn_label)]      
+                
                 if my_vn.who:
                     add 'vn_' + my_vn.who.file_id xoffset -5
                 else:
