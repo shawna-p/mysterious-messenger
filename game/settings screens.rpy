@@ -529,6 +529,7 @@ style other_settings_vbox:
     xalign 0.5
 
 style other_settings_frame is default
+style other_settings_window is default
 
 style other_settings_hbox:
     is default
@@ -619,82 +620,48 @@ screen preferences():
     use settings_tabs("Sound")
     
     viewport:
-        xysize(700, 1070)
-        xalign 0.5
-        yalign 0.95
+        style_prefix 'other_settings'
         draggable True
         mousewheel True
         scrollbars "vertical"
         side_spacing 5
         has vbox
-        spacing 30
-        xalign 0.5
-        
-        
   
         window:
             xysize(675,400)
             background "menu_settings_panel" padding(10,10)
-            xalign 0.5
-            has vbox
-            spacing 30
-            xalign 0.5
-            yalign 0.34
-            text "Sound" style "settings_style" xpos 55 ypos -5
-            
-            vbox:      
-                spacing 15
-                xsize 625
+            text "Sound" style "settings_style" xpos 55
+            style_prefix "sound_settings"
+            vbox:                      
+                null height 30
+                hbox:                    
+                    textbutton _("BGM") action ToggleMute("music")
+                    bar value Preference("music volume")
                 hbox:
-                    spacing 30
-                    xsize 520
-                    textbutton _("BGM"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("music")
-                    bar value Preference("music volume") ypos 15 thumb_offset 18 left_gutter 18
-                hbox:
-                    spacing 30
-                    xsize 520
-                    textbutton _("SFX"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("sfx")
-                    bar value Preference("sound volume") ypos 15 thumb_offset 18
+                    textbutton _("SFX") action ToggleMute("sfx")
+                    bar value Preference("sound volume") 
                     if config.sample_sound:
-                        textbutton _("Test") action Play("sound", config.sample_sound)
+                        textbutton _("Test"):
+                            style 'default'
+                            action Play("sound", config.sample_sound)
                 hbox:
-                    spacing 30
-                    xsize 520
-                    textbutton _("Voice"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("voice")
-                    bar value Preference("voice volume") ypos 15 thumb_offset 18
+                    textbutton _("Voice") action ToggleMute("voice")
+                    bar value Preference("voice volume")
                     if config.sample_voice:
-                        textbutton _("Test") action Play("voice", config.sample_voice)
+                        textbutton _("Test"):
+                            style 'default'
+                            action Play("voice", config.sample_voice)
                 hbox:
-                    spacing 30
-                    xsize 520
-                    textbutton _("Voice SFX"):
-                        background "menu_sound_sfx"
-                        text_style "sound_tags"
-                        xsize 163
-                        ysize 50
-                        action ToggleMute("voice_sfx")
-                    bar value set_voicesfx_volume() ypos 15 thumb_offset 18
+                    textbutton _("Voice SFX") action ToggleMute("voice_sfx")
+                    bar value set_voicesfx_volume()
                     if sample_voice_sfx:
-                        textbutton _("Test") action Play("voice_sfx", sample_voice_sfx)
+                        textbutton _("Test"):
+                            style 'default'
+                            action Play("voice_sfx", sample_voice_sfx)
                     
                 textbutton _("Mute All"):
-                    action Preference("all mute", "toggle")
                     style "mute_all_button" xalign 0.45
+                    action Preference("all mute", "toggle")
             
         window:
             xysize(675,390)
@@ -785,6 +752,30 @@ screen preferences():
                         text "Ringtone" style 'ringtone_change'
                         text persistent.phone_tone_name style 'ringtone_description'
                     action Show('ringtone_dropdown', title='Ringtone', tone='text')
+
+style sound_settings_vbox:
+    is default
+    xalign 0.5
+    yalign 0.34
+    spacing 15
+    xsize 625
+
+style sound_settings_hbox:
+    spacing 30
+    xsize 520
+
+style sound_settings_button_text is sound_tags
+style sound_settings_button:
+    is default
+    background "menu_sound_sfx"
+    xsize 163
+    ysize 50
+
+style sound_settings_slider:
+    is default
+    ypos 15 
+    thumb_offset 18
+    left_gutter 18
 
 ## A helper screen to display the buttons for toggling
 ## each characters' voice on or off
