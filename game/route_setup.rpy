@@ -2,7 +2,7 @@
 ## USEFUL PYTHON FUNCTIONS
 ##******************************
 init -6 python:
-    
+
     ## This class stores past chatrooms that you've visited
     ## A more complete explanation of how to use it to set up 
     ## chatrooms can be found in the accompanying Script Generator
@@ -26,7 +26,7 @@ init -6 python:
             # People already present in the chatroom before
             # it begins. Updates when new people enter
             self.participants = participants
-            self.original_participants = copy.copy(participants)
+            self.original_participants = copy(participants)
             # If this chatroom has a VN after it, it goes here
             self.vn_obj = vn_obj
             # Tracks whether this chatroom has been played
@@ -48,17 +48,31 @@ init -6 python:
             # Tracks if the user bought this chatroom ahead of time
             # so it can remain unlocked regardless of the current time
             self.buyahead = False
+            # Used for replays; this list keeps track of the choices
+            # the user made when they went through this chatroom
+            self.replay_log = []
             
         ## Adds a participant to the chatroom
         def add_participant(self, chara):
             if not chara in self.participants:
                 self.participants.append(chara)
+
+        # Saves the chatlog of this chatroom for replays
+        # Also adjusts the length of time to wait before
+        # posting replies from MC
+        def save_log(self, the_log):
+            global m, pv
+            self.replay_log = deepcopy(the_log)
+            for c in self.replay_log:
+                if c.who == m and c.pauseVal == 0:
+                    c.pauseVal = pv
+
                 
         ## Resets participants to whatever they were before the
         ## user played this chatroom (often used when a player
         ## backs out of a chatroom, for example)
         def reset_participants(self):
-            self.participants = copy.copy(self.original_participants)
+            self.participants = copy(self.original_participants)
             
             
     ## This class stores the information needed for the Visual 
@@ -345,7 +359,8 @@ init -6 python:
         # This delivers the text messages
         deliver_all()
                 
-    ## A quick function to see how many chatrooms there are left to be played through
+    ## A quick function to see how many chatrooms there are left 
+    ## to be played through
     ## This is used so emails will always be delivered before the party
     def num_future_chatrooms():
         global chat_archive
@@ -377,13 +392,15 @@ init -6 python:
         # text messages differently
         # These are delivered all at the same time
         if persistent.instant_texting:
-            small_char_list = [ c for c in character_list if not c == m and c.private_text ]
+            small_char_list = [ c for c in character_list 
+                                    if not c == m and c.private_text ]
             for character in small_char_list:
                 if not character.private_text_read:
                     # New messages were delivered/written; popup needed
                     character.private_text_read = "Notified"
                     renpy.music.play(persistent.text_tone, 'sound')
-                    renpy.show_screen('text_msg_popup_instant', the_char=character) 
+                    renpy.show_screen('text_msg_popup_instant', 
+                                                the_char=character) 
     
     ## This function takes a route (new_route) and merges it with the
     ## current route
@@ -396,7 +413,8 @@ init -6 python:
                     # If there is a conditional VN object
                     if is_vn:
                         # replace the old VN obj with the new one
-                        archive.archive_list[-1].vn_obj = archive2.archive_list[0].vn_obj
+                        archive.archive_list[-1].vn_obj = (archive2.
+                                                    archive_list[0].vn_obj)
                         del archive2.archive_list[0]
                         is_vn = False
                     
@@ -436,7 +454,10 @@ init -6 python:
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
-                    if chatroom.played and chatroom.plot_branch and (not chatroom.vn_obj or chatroom.vn_obj.played):
+                    if (chatroom.played 
+                            and chatroom.plot_branch 
+                            and (not chatroom.vn_obj 
+                                or chatroom.vn_obj.played)):
                         return True
                     elif chatroom.vn_obj and not chatroom.vn_obj.played:
                         return False
@@ -464,13 +485,15 @@ init -6 python:
         # Check chatrooms for the current day
         for chatroom in chat_archive[today_day_num].archive_list:
             # Hour for this chatroom is greater than now; make available
-            if int(current_time.military_hour) < int(chatroom.trigger_time[:2]):
+            if (int(current_time.military_hour) 
+                    < int(chatroom.trigger_time[:2])):
                 if chatroom.plot_branch:
                     is_branch = True
                 chatroom.available = True
                 chatroom.buyahead = True
             # Hour is the same; check minute
-            elif int(current_time.military_hour) == int(chatroom.trigger_time[:2]):            
+            elif (int(current_time.military_hour) 
+                    == int(chatroom.trigger_time[:2])):            
                 if int(current_time.minute) < int(chatroom.trigger_time[-2:]):
                     if chatroom.plot_branch:
                         is_branch = True
@@ -481,14 +504,17 @@ init -6 python:
         if chat_archive[today_day_num+1].archive_list:
             for chatroom in chat_archive[today_day_num+1].archive_list:
                 # Hour for this chatroom is smaller than now; make available
-                if int(current_time.military_hour) > int(chatroom.trigger_time[:2]):
+                if (int(current_time.military_hour) 
+                        > int(chatroom.trigger_time[:2])):
                     if chatroom.plot_branch:
                         is_branch = True
                     chatroom.available = True
                     chatroom.buyahead = True
                 # Hour is the same; check minute
-                elif int(current_time.military_hour) == int(chatroom.trigger_time[:2]):            
-                    if int(current_time.minute) > int(chatroom.trigger_time[-2:]):
+                elif (int(current_time.military_hour) 
+                        == int(chatroom.trigger_time[:2])):            
+                    if (int(current_time.minute) 
+                            > int(chatroom.trigger_time[-2:])):
                         if chatroom.plot_branch:
                             is_branch = True
                         # Minute is smaller; make available
@@ -507,29 +533,33 @@ init -6 python:
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
 # for you
-default chat_archive = [Archive('Tutorial', [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01', []),                                     
-                                    Chat_History('Inviting Guests', 'auto', 'example_email', '09:11', [z]),
-                                    Chat_History('Text Message Example', 'auto', 'example_text', '09:53', [r], VN_Mode('vn_mode_tutorial', r)),
-                                    Chat_History('Timed Menus', 'auto', 'timed_menus', '11:28', [s]),
-                                    Chat_History('Pass Out After Drinking Caffeine Syndrome', 'auto', 'tutorial_chat', '15:05', [s]),
-                                    Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '18:25', [ja, ju], VN_Mode('popcorn_vn', ju)),
-                                    Chat_History('Hacking', 'auto', 'hack_example', '20:41', []),
-                                    Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], False, True)]),                                    
-                        Archive('1st'),                        
-                        Archive('2nd'),
-                        Archive('3rd'),
-                        Archive('4th'),
-                        Archive('5th'),
-                        Archive('6th'),
-                        Archive('7th'),
-                        Archive('8th'),
-                        Archive('9th'),
-                        Archive('10th'),
-                        Archive('Final')]
+default chat_archive = [
+    Archive('Tutorial', 
+        [Chat_History('Example Chatroom', 'auto', 'example_chat', '00:01', []),                                     
+        Chat_History('Inviting Guests', 'auto', 'example_email', '09:11', [z]),
+        Chat_History('Text Message Example', 'auto', 'example_text', '09:53', [r], VN_Mode('vn_mode_tutorial', r)),
+        Chat_History('Timed Menus', 'auto', 'timed_menus', '11:28', [s]),
+        Chat_History('Pass Out After Drinking Caffeine Syndrome', 'auto', 'tutorial_chat', '15:05', [s]),
+        Chat_History('Invite to the meeting', 'jumin', 'popcorn_chat', '18:25', [ja, ju], VN_Mode('popcorn_vn', ju)),
+        Chat_History('Hacking', 'auto', 'hack_example', '20:41', []),
+        Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], False, True)]),                                    
+    Archive('1st'),                        
+    Archive('2nd'),
+    Archive('3rd'),
+    Archive('4th'),
+    Archive('5th'),
+    Archive('6th'),
+    Archive('7th'),
+    Archive('8th'),
+    Archive('9th'),
+    Archive('10th'),
+    Archive('Final')]
                         
-default tutorial_bad_end = [Archive('Tutorial', [Chat_History('An Unfinished Task', 'auto', 'tutorial_bad_end', '23:26', [v])] )]
-default tutorial_good_end = [Archive('Tutorial', [ Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], VN_Mode('plot_branch_vn')),
-                                                   Chat_History("Onwards!", 'auto', 'tutorial_good_end', '23:26', [u], VN_Mode('good_end_party', None, True))])]
+default tutorial_bad_end = [Archive('Tutorial', 
+    [Chat_History('An Unfinished Task', 'auto', 'tutorial_bad_end', '23:26', [v])] )]
+default tutorial_good_end = [Archive('Tutorial', 
+    [Chat_History('Plot Branches', 'auto', 'plot_branch_tutorial', '22:44', [], VN_Mode('plot_branch_vn')),
+    Chat_History("Onwards!", 'auto', 'tutorial_good_end', '23:26', [u], VN_Mode('good_end_party', None, True))])]
                         
 default seven_route = [ Archive('5th', [], 'day_s'),
                         Archive('6th', [], 'day_s'),

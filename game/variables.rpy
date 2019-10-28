@@ -1,7 +1,7 @@
 init -6 python:
     from datetime import datetime
     from datetime import date
-    import copy
+    from copy import copy, deepcopy
     
     # This defines another voice channel which the emoji sound effects play on
     # It lets you adjust the volume of the emojis separately from voice, music, and sfx
@@ -57,6 +57,7 @@ init python:
     # This lets us shuffle menu options
     renpy_menu = menu
     def menu(items):
+        # This copies the items list
         items = list(items)
         global shuffle
         if shuffle and shuffle != "last":
@@ -111,6 +112,8 @@ default preferences.skip_after_choices = True
 
 default mm_auto = "mm_auto_save"
 default persistent.testing_mode = False
+# Used when viewing the chat history from the log
+default viewing_chat_history = False
 
 
 #************************************
@@ -168,7 +171,7 @@ default chatlog = []
 # A list of the characters currently
 # in the chatroom
 default in_chat = []
-default current_chatroom = Chat_History('day', 'title', 'auto', 'chatroom_label', '00:00')
+default current_chatroom = Chat_History('title', 'auto', 'chatroom_label', '00:00')
 default most_recent_chat = None
 default name = 'Rainbow'
 default hacked_effect = False
