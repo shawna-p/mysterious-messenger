@@ -666,7 +666,7 @@ screen preferences():
                         action ToggleMute("sfx")
                     bar value Preference("sound volume") ypos 15 thumb_offset 18
                     if config.sample_sound:
-                                textbutton _("Test") action Play("sound", config.sample_sound)
+                        textbutton _("Test") action Play("sound", config.sample_sound)
                 hbox:
                     spacing 30
                     xsize 520
@@ -678,7 +678,7 @@ screen preferences():
                         action ToggleMute("voice")
                     bar value Preference("voice volume") ypos 15 thumb_offset 18
                     if config.sample_voice:
-                                textbutton _("Test") action Play("voice", config.sample_voice)
+                        textbutton _("Test") action Play("voice", config.sample_voice)
                 hbox:
                     spacing 30
                     xsize 520
@@ -690,7 +690,7 @@ screen preferences():
                         action ToggleMute("voice_sfx")
                     bar value set_voicesfx_volume() ypos 15 thumb_offset 18
                     if sample_voice_sfx:
-                                textbutton _("Test") action Play("voice_sfx", sample_voice_sfx)
+                        textbutton _("Test") action Play("voice_sfx", sample_voice_sfx)
                     
                 textbutton _("Mute All"):
                     action Preference("all mute", "toggle")

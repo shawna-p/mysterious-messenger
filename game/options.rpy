@@ -60,7 +60,7 @@ define config.has_voice = True
 
 define config.sample_sound = "sfx/Ringtones etc/text_basic_1.wav"
 define config.sample_voice = "sfx/Main Menu Greetings/Unknown/Late Night/u-ln-3.wav"
-define sample_voice_sfx = "sfx/Emotes/Seven/seven_wow.wav"
+define sample_voice_sfx = "sfx/Emotes/Seven/seven_wow.mp3"
 
 
 ## Uncomment the following line to set an audio file that will be played while
