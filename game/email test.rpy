@@ -3,11 +3,6 @@ label example_email():
 
     call chat_begin('evening') 
     play music narcissistic_jazz loop
-    # Generally you don't want to do this; however, for 
-    # tutorial and testing purposes, making sure observing
-    # is never True allows you to endlessly redo this chatroom
-    # and thus invite Rainbow multiple times
-    $ observing = False 
     
     z 'Hey, [name], I had an idea for a guest we should invite.'
     z 'Can we invite zentherainbowunicorn?'

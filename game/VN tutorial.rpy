@@ -13,11 +13,6 @@ label vn_mode_tutorial():
     # so that the music repeats
     play music mint_eye loop
     
-    # You'll generally never want to mess with the 'observing' variable yourself, 
-    # but since this is a tutorial chatroom we want the user to be able to play
-    # it over and over and not be restricted to the choices they've already made
-    $ observing = False
-    
     show saeran vn smile
     r_vn "Hello! Welcome to Visual Novel mode."
     show saeran vn -smile   # the -smile puts him in his 'neutral' expression

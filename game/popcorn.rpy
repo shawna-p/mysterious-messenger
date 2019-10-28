@@ -203,12 +203,6 @@ label popcorn_vn():
     # variables for you and shows the right screens
     call vn_begin 
     
-    # You'll generally never want to mess with the 'observing' 
-    # variable yourself, but since this is a tutorial chatroom 
-    # we want the user to be able to play it over and over and 
-    # not be restricted to the choices they've already made
-    $ observing = False
-    
     # Use the 'scene' statement to set a background. Here it's also given the
     # 'with fade' modifier so it fades in from black
     scene bg rika_apartment with fade

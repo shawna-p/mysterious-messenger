@@ -215,12 +215,6 @@ label tutorial_bad_end_expired():
 ## chatroom if you got the Good End
 label plot_branch_vn():
     call vn_begin 
-    
-    # You'll generally never want to mess with the 'observing' variable 
-    # yourself, but since this is a tutorial chatroom we want the user 
-    # to be able to play it over and over and not be restricted to the 
-    # choices they've already made
-    $ observing = False
 
     scene bg rika_apartment with fade
     pause
