@@ -153,41 +153,8 @@ init 5:
         xalign 0.5
         yalign 0.5
         color '#fff'
-        size 23
-        
-    ####################################
-    ## Input Styles
-    ####################################
+        size 23       
     
-    style input_window:
-        xalign 0.5
-        yalign 0.41
-            
-    style input_prompt:
-        xalign 0.1
-        yalign 0.83
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
-        color "#ffffff"
-        
-    style input_answer:
-        xalign 0.07
-        yalign 0.46
-        color "#ffffff"
-        text_align 0.0
-        
-    style input_img_answer:
-        xalign 0.07
-        yalign 0.46
-        key_events True
-        xysize (365,55)
-        
-    style my_input:
-        is default
-        color "#000"
-        text_align 0.5
-        hover_color "#d7d7d7"
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-
       
     ####################################
     ## Save & Exit Styles

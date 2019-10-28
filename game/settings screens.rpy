@@ -360,38 +360,67 @@ screen input_popup(prompt=''):
     modal True
     key 'K_RETURN' action Hide('input_popup')
     key 'K_KP_ENTER' action Hide('input_popup')
-    window:
-        xysize(550,313)
-        background 'input_popup_bkgr'
-        xalign 0.5
-        yalign 0.4
-        imagebutton:
+
+    style_prefix "my_input"
+    window:      
+        imagebutton: 
             align (1.0, 0.0)
             idle 'input_close'
-            hover 'input_close_hover'
+            hover 'input_close_hover'           
             action [SetField(m, 'name', old_name), 
                     SetVariable('name', old_name), 
                     SetField(persistent, 'name', old_name), 
                     renpy.retain_after_load, Hide('input_popup')]
-        vbox:
-            spacing 20
-            xalign 0.5
-            yalign 0.5
-            text prompt color '#fff' xalign 0.5 text_align 0.5
-            fixed:
-                xsize 500 
-                ysize 75
-                xalign 0.5
+        vbox:            
+            text prompt 
+            fixed:                
                 add 'input_square'
                 add input xalign 0.5 yalign 0.5
             textbutton _('Confirm'):
                 text_style 'mode_select'
-                xalign 0.5
-                xsize 240
-                ysize 80
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
+                style 'my_input_textbutton'                
                 action [Hide('input_popup')]
+
+style my_input_window:
+    is empty
+    xalign 0.5
+    yalign 0.4
+    xysize(550,313)
+    background 'input_popup_bkgr'       
+
+style my_input_vbox:
+    is empty
+    spacing 20
+    xalign 0.5
+    yalign 0.5
+
+style my_input_text:
+    is default
+    color '#fff' 
+    xalign 0.5 
+    text_align 0.5
+
+style my_input_fixed:
+    is empty
+    xsize 500 
+    ysize 75
+    xalign 0.5
+
+style my_input_textbutton:
+    is default
+    xalign 0.5
+    xsize 240
+    ysize 80
+    background 'menu_select_btn' padding(20,20)
+    hover_background 'menu_select_btn_hover'
+
+style my_input:
+    is default
+    color "#000"
+    text_align 0.5
+    hover_color "#d7d7d7"
+    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+
 
 
 ########################################################
@@ -410,83 +439,60 @@ screen other_settings():
     use settings_tabs("Others")
         
     viewport:
-        xysize(700, 1070)
-        xalign 0.5
-        yalign 0.95
+        style 'other_settings_viewport'
         draggable True
         mousewheel True
-        #scrollbars "vertical"
         side_spacing 5
-        has vbox
-        spacing 30
-        xalign 0.5
-            
+        style_prefix "other_settings"
+        has vbox            
         window:
             xysize(675,320)
-            add "menu_settings_panel"
+            background "menu_settings_panel"
             text "Other Settings" style "settings_style" xpos 55 ypos 5
-            
-            hbox:
-                align (0.2, 0.7)
-                style_prefix "slider"
-                box_wrap True
-
-                vbox:      
-                    spacing 15
-                    xsize 625
-                    hbox:
-                        spacing 20
-                        xsize 600
-                        textbutton _("Text Speed"):
-                            background "menu_other_box"
-                            text_style "sound_tags"
-                            xsize 200
-                            ysize 70
-                        bar value Preference("text speed") xsize 380 yalign 0.5 thumb_offset 18 left_gutter 18 
-                        
-                    hbox:
-                        spacing 20
-                        xsize 600
-                        textbutton _("Auto-Forward Time"):
-                            background "menu_other_box"
-                            text_style "sound_tags"
-                            xsize 200
-                            ysize 70
-                        bar value Preference("auto-forward time") xsize 380 yalign 0.5 thumb_offset 18 left_gutter 18 bar_invert True
+            style_prefix "settings_slider"
+            vbox:               
+                null height 30 # For the 'title'          
+                hbox:                        
+                    textbutton _("Text Speed")                           
+                    bar value Preference("text speed")
                     
-                    null height 10
-                    fixed:
-                        yfit True
-                        xfit True
-                        xalign 0.15
-                        style_prefix "check"
-                        textbutton _("Custom UI changes") action ToggleField(persistent, "custom_footers")
+                hbox:
+                    textbutton _("Auto-Forward Time")
+                    bar value Preference("auto-forward time"):
+                        bar_invert True
+                
+                null height 5
+                fixed:                        
+                    style_prefix "check"
+                    textbutton _("Custom UI changes"):
+                        action ToggleField(persistent, "custom_footers")
             
         window:
             xysize(675,250)
-            add "menu_settings_panel"
+            background "menu_settings_panel"
             text "VN Settings" style "settings_style" xpos 55 ypos 5
 
             vbox:
-                xalign 0.2
-                yalign 0.75
                 spacing 6
                 style_prefix "check"
+                null height 30
                 label _("Skip")
-                textbutton _("Unseen Text") action Preference("skip", "toggle")
-                textbutton _("After Choices") action Preference("after choices", "toggle")
-                textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
+                textbutton _("Unseen Text"):
+                    action Preference("skip", "toggle")
+                textbutton _("After Choices"):
+                    action Preference("after choices", "toggle")
+                textbutton _("Transitions"):
+                    action InvertSelected(Preference("transitions", "toggle"))
                 
         window:
             xysize(675,280)
-            add "menu_settings_panel"
+            background "menu_settings_panel"
             text "Variables for testing" style "settings_style" xpos 55 ypos 5
 
             vbox:
-                xalign 0.2
-                yalign 0.75
                 spacing 6
                 style_prefix "check"
+                null height 30
                 textbutton _("Testing Mode") action ToggleField(persistent, "testing_mode")
                 textbutton _("Real-Time Mode") action ToggleField(persistent, "real_time")
                 textbutton _("Hacked Effect") action ToggleVariable('hacked_effect')
@@ -500,28 +506,87 @@ screen other_settings():
         
         
         window:
-            xysize (520, 130)
-            xalign 0.5
+            style_prefix "other_settings_end"            
             has hbox
-            spacing 40
-            textbutton _('Go to Mode Select'):
-                text_style 'mode_select'
-                xsize 240
-                ysize 120
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
-                action [ToggleVariable("greeted", False, False), renpy.full_restart]
+            textbutton _('Go to Mode Select'):          
+                action [ToggleVariable("greeted", False, False), 
+                        renpy.full_restart]
                 
             textbutton _('Start Over'):
-                text_style 'mode_select'
-                xsize 240
-                ysize 120
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
                 action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", 
-                        yes_action=[Hide('confirm'), Jump("restart_game")], no_action=Hide('confirm'))
-            
-            
+                        yes_action=[Hide('confirm'), 
+                        Jump("restart_game")], no_action=Hide('confirm'))
+
+
+style other_settings_viewport:
+    is empty
+    xysize(700, 1070)
+    xalign 0.5
+    yalign 0.95
+
+style other_settings_vbox:
+    spacing 30
+    xalign 0.5
+
+style other_settings_frame is default
+
+style other_settings_hbox:
+    is default
+    align (0.2, 0.7)
+    box_wrap True
+
+style settings_slider_vbox:
+    is slider_vbox
+    spacing 15
+    xsize 625
+    xalign 0.5
+    yalign 0.5
+style check_vbox is settings_slider_vbox
+
+style settings_slider_hbox:
+    is slider_hbox
+    spacing 20
+    xsize 600
+
+style settings_slider_button:
+    is slider_button
+    xsize 200
+    ysize 70
+    background "menu_other_box"
+
+style settings_slider_button_text is sound_tags
+
+style settings_slider_slider:
+    xsize 380 
+    yalign 0.5 
+    thumb_offset 18 
+    left_gutter 18 
+
+style check_fixed:
+    is default
+    yfit True
+    xfit True
+    xalign 0.15
+
+style other_settings_end_window:
+    is default
+    xysize (520, 130)
+    xalign 0.5
+
+style other_settings_end_hbox:
+    is default
+    spacing 40
+
+style other_settings_end_button:
+    xsize 240
+    ysize 120
+    background 'menu_select_btn' padding(20,20)
+    hover_background 'menu_select_btn_hover'
+
+style other_settings_end_button_text:
+    is mode_select
+
+
 # *********************************
 # Restart Game -- resets variables
 # *********************************       

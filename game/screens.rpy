@@ -989,7 +989,7 @@ style check_label is pref_label
 style check_label_text is pref_label_text
 style check_button is gui_button
 style check_button_text is gui_button_text
-style check_vbox is pref_vbox
+#style check_vbox is pref_vbox
 
 style slider_label is pref_label
 style slider_label_text is pref_label_text
