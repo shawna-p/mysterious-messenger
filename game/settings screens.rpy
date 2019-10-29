@@ -165,7 +165,10 @@ screen profile_pic():
     tag settings_screen
     modal True
 
-    use starry_night()
+    if persistent.first_boot:
+        use menu_header("Customize your Profile", MainMenu(False))
+    else:
+        use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
 
     if not persistent.first_boot:
         use settings_tabs("Profile")  
@@ -235,41 +238,36 @@ screen profile_pic():
             text 'they/them' style 'pronoun_radio_text'
              
         
-    if not persistent.first_boot:
-        use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
-    else:
-        use menu_header("Customize your Profile", MainMenu(False)):
-            window:
-                xysize (750, 1170)        
-                # Save / Load
-                imagebutton:
-                    style_prefix None
-                    yalign 0.978
-                    xalign 0.66
-                    idle "save_btn"
-                    hover Transform("Phone UI/Main Menu/menu_save_btn.png", zoom=1.1)
-                    action Show("save", Dissolve(0.5))
-                    
-                imagebutton:
-                    style_prefix None
-                    yalign 0.978
-                    xalign 0.974
-                    idle "load_btn"
-                    hover Transform("Phone UI/Main Menu/menu_load_btn.png", zoom=1.1)
-                    action Show("load", Dissolve(0.5))
+        if not persistent.first_boot and not main_menu:                
+            # Save / Load
+            imagebutton:
+                style_prefix None
+                yalign 0.978
+                xalign 0.66
+                idle "save_btn"
+                hover Transform("Phone UI/Main Menu/menu_save_btn.png", zoom=1.1)
+                action Show("save", Dissolve(0.5))
                 
+            imagebutton:
+                style_prefix None
+                yalign 0.978
+                xalign 0.974
+                idle "load_btn"
+                hover Transform("Phone UI/Main Menu/menu_load_btn.png", zoom=1.1)
+                action Show("load", Dissolve(0.5))
+            
                 
-                # Shows how many heart points you've earned with
-                # each character. To display properly, this needs to
-                # be a character variable, and there must be an image
-                # defined called 'greet ja' if the character's file_id
-                # is ja, for example
-                $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
-                grid 4 2:
-                    xalign 0.5
-                    yalign 0.8
-                    for c in heart_point_chars:
-                        use heart_point_grid(c)
+            # Shows how many heart points you've earned with
+            # each character. To display properly, this needs to
+            # be a character variable, and there must be an image
+            # defined called 'greet ja' if the character's file_id
+            # is ja, for example
+            $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
+            grid 4 2:
+                xalign 0.5
+                yalign 0.8
+                for c in heart_point_chars:
+                    use heart_point_grid(c)
 
 screen heart_point_grid(c):
     vbox:
