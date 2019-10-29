@@ -159,13 +159,8 @@ screen photo_album():
     # Ensure this replaces the main menu.
     tag menu
 
-    # The background
-    use starry_night()
-    use menu_header('Photo Album', Show('chat_home', Dissolve(0.5)))
+    use menu_header('Photo Album', Show('chat_home', Dissolve(0.5))):
     
-    window:
-        align (0.5, 1.0)
-        xysize (735, 1170)
         # A grid of buttons.
         vbox:
             align (0.5, 0.4)
@@ -243,56 +238,55 @@ screen char_album(caption, name, album, cover):
 screen character_gallery(album, caption, name):
 
     tag menu
-    use starry_night()
-    use menu_header('Photo Album', Show('photo_album', Dissolve(0.5)))
-    
     $ num_rows = max(len(album) // 4 + (len(album) % 4 > 0), 1)
-    
-    vbox:
-        align (0.5, 1.0)
-        xysize (745, 1170)
-        spacing 5
-        window:
-            xysize (241, 64)
-            xalign 0.01
-            add caption
-            if len(name) > 6:
-                text name + ' (' + str(len(album)) + ')':
-                    style 'album_text_long'
-            else:
-                text name + ' (' + str(len(album)) + ')':
-                    style 'album_text_short'
-        
-        vpgrid id 'gallery_vp':
-            xysize (740, 1100)
-            yfill True
-            rows num_rows
-            cols 4
-            draggable True
-            mousewheel True
-            if len(album):
-                scrollbars "vertical"
-            side_xalign 1.0
-            side_spacing 15
-            align (0.5, 0.0)
-            spacing 20
-            
 
-            for index, photo in enumerate(album):
-                imagebutton:
-                    idle photo.return_thumbnail()
-                    if photo.unlocked:                        
-                        action [SetVariable("fullsizeCG", photo.img), 
-                                Call("view_album_CG", 
-                                    album_info=[album, caption, name, index])]
-                    else:
-                        action Show("confirm", 
-                                message="This image is not yet unlocked",
-                                yes_action=Hide('confirm'))                    
+    use menu_header('Photo Album', Show('photo_album', Dissolve(0.5))):    
+    
+        vbox:
+            align (0.5, 1.0)
+            xysize (745, 1170)
+            spacing 5
+            window:
+                xysize (241, 64)
+                xalign 0.01
+                add caption
+                if len(name) > 6:
+                    text name + ' (' + str(len(album)) + ')':
+                        style 'album_text_long'
+                else:
+                    text name + ' (' + str(len(album)) + ')':
+                        style 'album_text_short'
             
-            # This fills out the rest of the grid
-            for i in range((4*num_rows) - len(album)):
-                null
+            vpgrid id 'gallery_vp':
+                xysize (740, 1100)
+                yfill True
+                rows num_rows
+                cols 4
+                draggable True
+                mousewheel True
+                if len(album):
+                    scrollbars "vertical"
+                side_xalign 1.0
+                side_spacing 15
+                align (0.5, 0.0)
+                spacing 20
+                
+
+                for index, photo in enumerate(album):
+                    imagebutton:
+                        idle photo.return_thumbnail()
+                        if photo.unlocked:                        
+                            action [SetVariable("fullsizeCG", photo.img), 
+                                    Call("view_album_CG", 
+                                        album_info=[album, caption, name, index])]
+                        else:
+                            action Show("confirm", 
+                                    message="This image is not yet unlocked",
+                                    yes_action=Hide('confirm'))                    
+                
+                # This fills out the rest of the grid
+                for i in range((4*num_rows) - len(album)):
+                    null
  
 ## Some additional variables specifically used
 ## for the next label and screen

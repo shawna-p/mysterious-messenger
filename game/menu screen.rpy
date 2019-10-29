@@ -423,22 +423,20 @@ label after_load():
 screen route_select_screen():
 
     tag menu
-    
-    use starry_night
-    
-    use menu_header("Mode Select", Show('main_menu', Dissolve(0.5)))
 
-    window:
-        xysize(700, 350)
-        padding (10, 10)
-        xalign 0.5
-        yalign 0.5
-        button:
-            focus_mask True
-            background 'right_corner_menu'
-            hover_background 'right_corner_menu_selected'
-            action [Start()]         
-        text 'Start Game' style 'menu_text_small' xalign 0.5 yalign 0.5
+    use menu_header("Mode Select", Show('main_menu', Dissolve(0.5))):
+
+        window:
+            xysize(700, 350)
+            padding (10, 10)
+            xalign 0.5
+            yalign 0.5
+            button:
+                focus_mask True
+                background 'right_corner_menu'
+                hover_background 'right_corner_menu_selected'
+                action [Start()]         
+            text 'Start Game' style 'menu_text_small' xalign 0.5 yalign 0.5
     
 
   
@@ -454,23 +452,21 @@ screen save():
     tag save_load
     modal True
 
-    use file_slots(_("Save"))
-    use menu_header("Save", Hide('save', Dissolve(0.5)))
+    use menu_header("Save", Hide('save', Dissolve(0.5))):
+        use file_slots(_("Save"))
 
 screen load():
 
     tag save_load
     modal True
     
-    use file_slots(_("Load"))
-    use menu_header("Load", Hide('load', Dissolve(0.5)))
+    use menu_header("Load", Hide('load', Dissolve(0.5))):
+        use file_slots(_("Load"))
 
 screen file_slots(title):
 
     default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), 
                         auto=_("Automatic saves"), quick=_("Quick saves"))
-
-    use starry_night
         
     default the_day = "1st"
     
@@ -749,6 +745,7 @@ default my_menu_clock = Clock(False, 0, 0, 230, False, False)
     
 screen menu_header(title, return_action=NullAction, envelope=False):
 
+    use starry_night()
     # If we're on real-time, check once a minute if it's time for the
     # next chatroom
     if persistent.real_time and not main_menu and not starter_story:
@@ -867,6 +864,15 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                                 Show('preferences')]
                     else:
                         action Show("preferences")  
+            
+    window:
+        xysize (750, 1180)
+        yalign 1.0
+        has vbox
+        align (0.5, 0.5)
+        spacing 10
+        null height -10
+        transclude
       
 
   
@@ -894,11 +900,7 @@ screen chat_home(reshow=False):
         elif (hacked_effect and renpy.music.get_playing(channel='music') 
                 != mystic_chat_hacked):
             renpy.music.play(mystic_chat_hacked, loop=True) 
-   
-    use starry_night
     
-    use menu_header("Original Story")
-
     # Every time you go back to this screen, the game will auto-save
     on 'show':
         action If(renpy.get_screen('chip_tap') 
@@ -915,273 +917,276 @@ screen chat_home(reshow=False):
                 NullAction(),
                 [Hide('chip_end'), renpy.retain_after_load, 
                 FileSave(mm_auto, confirm=False)]) 
-          
-    # Text Messages
-    button:
-        xysize(168,168)
-        xalign 0.62
-        if len(character_list) > 10:
-            yalign 0.295
-        else:
-            yalign 0.195
-        if new_message_count() > 0:
-            background 'blue_mainbtn'
-            hover_background 'blue_mainbtn_hover'
-        else:
-            background "gray_mainbtn"
-            hover_background "gray_mainbtn_hover"
-        action Show('text_message_hub', Dissolve(0.5))
-        activate_sound 'sfx/UI/select_phone_text.mp3'
-        if new_message_count() > 0:
-            add 'blue_maincircle' xalign 0.5 yalign 0.5
-            window:
-                xysize(45,45)
-                xalign 1.0
-                yalign 0.0
-                background 'new_text_count' 
-                text str(new_message_count()) style 'text_num'
-        else:
-            add "gray_maincircle" xalign 0.5 yalign 0.5
-        add "msg_mainicon" xalign 0.5 yalign 0.5
-        add "msg_maintext" xalign 0.5 yalign 0.85
-        
-    # Calls
-    button:
-        xysize(168,168) 
-        xalign 0.91
-        if len(character_list) > 10:
-            yalign 0.45
-        else:
-            yalign 0.35
-        if unseen_calls > 0:
-            background "blue_mainbtn"
-            hover_background "blue_mainbtn_hover"
-        else:
-            background "gray_mainbtn"
-            hover_background "gray_mainbtn_hover"
-        action [SetVariable('unseen_calls', 0), Show('phone_calls')]  
-        activate_sound 'sfx/UI/select_phone_text.mp3'        
-        if unseen_calls > 0:
-            add "blue_maincircle" xalign 0.5 yalign 0.5  
-            window:
-                xysize(45,45)
-                xalign 1.0
-                yalign 0.0
-                background 'new_text_count' 
-                text "[unseen_calls]" style 'text_num'
-        else:
-            add "gray_maincircle" xalign 0.5 yalign 0.5
-        
-        add "call_mainicon" xalign 0.5 yalign 0.5
-        add "call_maintext" xalign 0.5 yalign 0.85
-     
-    # Emails
-    button:
-        xysize(168,168)
-        xalign 0.342
-        if len(character_list) > 10:
-            yalign 0.43
-        else:
-            yalign 0.33
-        if unread_emails() > 0:
-            background "blue_mainbtn"
-            hover_background "blue_mainbtn_hover"
-        else:
-            background "gray_mainbtn"
-            hover_background "gray_mainbtn_hover"
-        action Show('email_hub', Dissolve(0.5))
-        activate_sound 'sfx/UI/select_email.mp3'
-        if unread_emails() > 0:
-            add "blue_maincircle" xalign 0.5 yalign 0.5
-            window:
-                xysize(45, 45)
-                xalign 1.0
-                yalign 0.0
-                background 'new_text_count'
-                text str(unread_emails()) style 'text_num'
-        else:
-            add "gray_maincircle" xalign 0.5 yalign 0.5
-        add "email_mainicon" xalign 0.5 yalign 0.5
-        add "email_maintext" xalign 0.5 yalign 0.85
-        
-    # Main Chatroom
-    button:
-        xysize(305,305)
-        xalign 0.65
-        yalign 0.722
-        background "gray_chatbtn"
-        hover_background "gray_chatbtn_hover"
-        if persistent.real_time:
-            action [Function(next_chatroom), 
-                    Function(deliver_all), 
-                    Show('chat_select')]
-        else:
-            action [Function(deliver_all), Show('chat_select')]
-        activate_sound "sfx/UI/chatroom_select.mp3"
-        add "rfa_chatcircle" yalign 0.5 xalign 0.5
-        add "blue_chatcircle" xalign 0.5 yalign 0.5
-        add "chat_icon" xalign 0.5 yalign 0.5
-        add "chat_text" xalign 0.5 yalign 0.8
-       
-    # Note that the number of pictures changes depending on
-    # whether you're in Another Story or Casual/Deep Story,
-    # but here I've chosen to include all the characters
-    # Also usually the characters have "generic" profile
-    # pictures, but I've chosen to simply include their current
-    # profile picture
-    window:
-        xysize(741, 206)
-        xalign 0.5
-        yalign 0.08
-        vbox:
-            spacing 8
-            hbox:
-                spacing 8
-                xalign 0.0
-                yalign 0.0
-                for person in character_list[:7]:    
-                    imagebutton:
-                        hover "profile_pic_select_square"
-                        idle Transform(person.prof_pic, size=(99,99))
-                        background Transform(person.prof_pic, size=(99,99))
-                        if person == m:
-                            action Show('profile_pic')
-                        else:
-                            action Show('chara_profile', who=person)
-                        activate_sound 'sfx/UI/profile_screen_select.mp3'
 
-            hbox:
-                spacing 8
-                for person in character_list[7:]:
-                    imagebutton:
-                            hover "profile_pic_select_square"
-                            idle Transform(person.prof_pic, size=(99,99))
-                            background Transform(person.prof_pic, size=(99,99))
-                            action Show('chara_profile', who=person)
-                            activate_sound 'sfx/UI/profile_screen_select.mp3'
+    use menu_header("Original Story"):
+        window:
+            xysize (750, 1170)
+            # Text Messages
+            button:
+                xysize(168,168)
+                xalign 0.62
+                if len(character_list) > 10:
+                    yalign 0.295
+                else:
+                    yalign 0.195
+                if new_message_count() > 0:
+                    background 'blue_mainbtn'
+                    hover_background 'blue_mainbtn_hover'
+                else:
+                    background "gray_mainbtn"
+                    hover_background "gray_mainbtn_hover"
+                action Show('text_message_hub', Dissolve(0.5))
+                activate_sound 'sfx/UI/select_phone_text.mp3'
+                if new_message_count() > 0:
+                    add 'blue_maincircle' xalign 0.5 yalign 0.5
+                    window:
+                        xysize(45,45)
+                        xalign 1.0
+                        yalign 0.0
+                        background 'new_text_count' 
+                        text str(new_message_count()) style 'text_num'
+                else:
+                    add "gray_maincircle" xalign 0.5 yalign 0.5
+                add "msg_mainicon" xalign 0.5 yalign 0.5
+                add "msg_maintext" xalign 0.5 yalign 0.85
+                
+            # Calls
+            button:
+                xysize(168,168) 
+                xalign 0.91
+                if len(character_list) > 10:
+                    yalign 0.45
+                else:
+                    yalign 0.35
+                if unseen_calls > 0:
+                    background "blue_mainbtn"
+                    hover_background "blue_mainbtn_hover"
+                else:
+                    background "gray_mainbtn"
+                    hover_background "gray_mainbtn_hover"
+                action [SetVariable('unseen_calls', 0), Show('phone_calls')]  
+                activate_sound 'sfx/UI/select_phone_text.mp3'        
+                if unseen_calls > 0:
+                    add "blue_maincircle" xalign 0.5 yalign 0.5  
+                    window:
+                        xysize(45,45)
+                        xalign 1.0
+                        yalign 0.0
+                        background 'new_text_count' 
+                        text "[unseen_calls]" style 'text_num'
+                else:
+                    add "gray_maincircle" xalign 0.5 yalign 0.5
+                
+                add "call_mainicon" xalign 0.5 yalign 0.5
+                add "call_maintext" xalign 0.5 yalign 0.85
+            
+            # Emails
+            button:
+                xysize(168,168)
+                xalign 0.342
+                if len(character_list) > 10:
+                    yalign 0.43
+                else:
+                    yalign 0.33
+                if unread_emails() > 0:
+                    background "blue_mainbtn"
+                    hover_background "blue_mainbtn_hover"
+                else:
+                    background "gray_mainbtn"
+                    hover_background "gray_mainbtn_hover"
+                action Show('email_hub', Dissolve(0.5))
+                activate_sound 'sfx/UI/select_email.mp3'
+                if unread_emails() > 0:
+                    add "blue_maincircle" xalign 0.5 yalign 0.5
+                    window:
+                        xysize(45, 45)
+                        xalign 1.0
+                        yalign 0.0
+                        background 'new_text_count'
+                        text str(unread_emails()) style 'text_num'
+                else:
+                    add "gray_maincircle" xalign 0.5 yalign 0.5
+                add "email_mainicon" xalign 0.5 yalign 0.5
+                add "email_maintext" xalign 0.5 yalign 0.85
+                
+            # Main Chatroom
+            button:
+                xysize(305,305)
+                xalign 0.65
+                yalign 0.722
+                background "gray_chatbtn"
+                hover_background "gray_chatbtn_hover"
+                if persistent.real_time:
+                    action [Function(next_chatroom), 
+                            Function(deliver_all), 
+                            Show('chat_select')]
+                else:
+                    action [Function(deliver_all), Show('chat_select')]
+                activate_sound "sfx/UI/chatroom_select.mp3"
+                add "rfa_chatcircle" yalign 0.5 xalign 0.5
+                add "blue_chatcircle" xalign 0.5 yalign 0.5
+                add "chat_icon" xalign 0.5 yalign 0.5
+                add "chat_text" xalign 0.5 yalign 0.8
+            
+            # Note that the number of pictures changes depending on
+            # whether you're in Another Story or Casual/Deep Story,
+            # but here I've chosen to include all the characters
+            # Also usually the characters have "generic" profile
+            # pictures, but I've chosen to simply include their current
+            # profile picture
+            window:
+                xysize(741, 206)
+                xalign 0.5
+                yalign 0.08
+                vbox:
+                    spacing 8
+                    hbox:
+                        spacing 8
+                        xalign 0.0
+                        yalign 0.0
+                        for person in character_list[:7]:    
+                            imagebutton:
+                                hover "profile_pic_select_square"
+                                idle Transform(person.prof_pic, size=(99,99))
+                                background Transform(person.prof_pic, size=(99,99))
+                                if person == m:
+                                    action Show('profile_pic')
+                                else:
+                                    action Show('chara_profile', who=person)
+                                activate_sound 'sfx/UI/profile_screen_select.mp3'
 
-    # Links/etc on the left side of the screen
-    window:
-        xysize(140, 1000)
-        xalign 0.03
-        yalign 0.98
-        has vbox
-        spacing 20
-        # Album
-        button:
-            xysize(130,149)
-            if new_cg:
-                background "blue_hex"
-                hover_background "blue_hex_hover"
-                add 'new_text' align (1.0, 0.1) xoffset 15
-            else:
-                background "white_hex"
-                hover_background "white_hex_hover"
-            action [SetVariable('new_cg', False), 
-                    Show('photo_album', Dissolve(0.5))]
-            add "album_icon" xalign 0.5 yalign 0.35
-            add "album_text" xalign 0.5 yalign 0.8
-            
-        # Guest
-        button:
-            xysize(130,149)
-            background "white_hex"
-            hover_background "white_hex_hover"
-            #action NullAction
-            add "guest_icon" xalign 0.5 yalign 0.3
-            add "guest_text" xalign 0.5 yalign 0.8
-            
-        # Shop
-        button:
-            xysize(130,149)
-            background "red_hex"
-            hover_background "red_hex_hover"
-            #action NullAction
-            add "shop_icon" xalign 0.55 yalign 0.35
-            add "shop_text" xalign 0.5 yalign 0.8
-            
-        # Notice
-        button:
-            xysize(130,149)
-            background "white_hex"
-            hover_background "white_hex_hover"
-            #action NullAction
-            add "notice_icon" xalign 0.5 yalign 0.3
-            add "notice_text" xalign 0.5 yalign 0.8
-            
-        # Link            
-        button:
-            xysize(130,149)
-            background "white_hex"
-            hover_background "white_hex_hover"
-            #action SetVariable('chips_available', True)            
-            add "link_icon" xalign 0.5 yalign 0.3
-            add "link_text" xalign 0.5 yalign 0.8
-            
-            
-    ## Spaceship    
-    add "dot_line" xalign 0.5 yalign .97
-        
-    $ spaceship_xalign = spaceship_get_xalign(True)
-        
-    if chips_available:       
-    
-        if not reshow:
-            window at chip_anim:
-                xysize(90,70)
-                xalign 0.93
-                yalign 0.942
-                add "space_chip_explode"
+                    hbox:
+                        spacing 8
+                        for person in character_list[7:]:
+                            imagebutton:
+                                hover "profile_pic_select_square"
+                                idle Transform(person.prof_pic, size=(99,99))
+                                background Transform(person.prof_pic, size=(99,99))
+                                action Show('chara_profile', who=person)
+                                activate_sound 'sfx/UI/profile_screen_select.mp3'
+
+            # Links/etc on the left side of the screen
+            window:
+                xysize(140, 1000)
+                xalign 0.03
+                yalign 0.98
+                has vbox
+                spacing 20
+                # Album
+                button:
+                    xysize(130,149)
+                    if new_cg:
+                        background "blue_hex"
+                        hover_background "blue_hex_hover"
+                        add 'new_text' align (1.0, 0.1) xoffset 15
+                    else:
+                        background "white_hex"
+                        hover_background "white_hex_hover"
+                    action [SetVariable('new_cg', False), 
+                            Show('photo_album', Dissolve(0.5))]
+                    add "album_icon" xalign 0.5 yalign 0.35
+                    add "album_text" xalign 0.5 yalign 0.8
+                    
+                # Guest
+                button:
+                    xysize(130,149)
+                    background "white_hex"
+                    hover_background "white_hex_hover"
+                    #action NullAction
+                    add "guest_icon" xalign 0.5 yalign 0.3
+                    add "guest_text" xalign 0.5 yalign 0.8
+                    
+                # Shop
+                button:
+                    xysize(130,149)
+                    background "red_hex"
+                    hover_background "red_hex_hover"
+                    #action NullAction
+                    add "shop_icon" xalign 0.55 yalign 0.35
+                    add "shop_text" xalign 0.5 yalign 0.8
+                    
+                # Notice
+                button:
+                    xysize(130,149)
+                    background "white_hex"
+                    hover_background "white_hex_hover"
+                    #action NullAction
+                    add "notice_icon" xalign 0.5 yalign 0.3
+                    add "notice_text" xalign 0.5 yalign 0.8
+                    
+                # Link            
+                button:
+                    xysize(130,149)
+                    background "white_hex"
+                    hover_background "white_hex_hover"
+                    #action SetVariable('chips_available', True)            
+                    add "link_icon" xalign 0.5 yalign 0.3
+                    add "link_text" xalign 0.5 yalign 0.8
+                    
+                    
+            ## Spaceship    
+            add "dot_line" xalign 0.5 yalign .97
                 
-            add "space_chip_active" xalign 0.92 yalign 0.98
-            
-            window at spaceship_chips(1.0):
-                xysize (100,110)
-                xalign 0.96
-                yalign 1.0
-                add "space_flame" xalign 0.5 yalign 1.0
-                add "spaceship" xalign 0.5 yalign 0.0
-                imagebutton:
-                    idle "space_transparent_btn"
-                    focus_mask None
-                    activate_sound 'sfx/UI/select_6.mp3'
-                    action Show('chip_tap')
-        
-        if reshow:
-            window at chip_anim(0):
-                xysize(90,70)
-                xalign 0.93
-                yalign 0.942
-                add "space_chip_explode"
+            $ spaceship_xalign = spaceship_get_xalign(True)
                 
-            add "space_chip_active2" xalign 0.92 yalign 0.98
+            if chips_available:       
             
-            window at spaceship_chips:
-                xysize (100,110)
-                xalign 0.96
-                yalign 1.0
-                add "space_flame" xalign 0.5 yalign 1.0
-                add "spaceship" xalign 0.5 yalign 0.0
-                imagebutton:
-                    idle "space_transparent_btn"
-                    focus_mask None
-                    activate_sound 'sfx/UI/select_6.mp3'
-                    action Show('chip_tap')
-      
-    else:            
-        add "space_chip_inactive" xalign 0.92 yalign 0.98
-        
-        window at spaceship_flight:
-            xysize (100,110)
-            xalign 0.04#spaceship_xalign
-            yalign 1.0
-            add "space_flame" xalign 0.5 yalign 1.0
-            add "spaceship" xalign 0.5 yalign 0.0
-            imagebutton:
-                    idle "space_transparent_btn"
-                    focus_mask None
-                    activate_sound 'sfx/UI/select_6.mp3'
-                    action Show('spaceship_thoughts', Dissolve(0.5))
+                if not reshow:
+                    window at chip_anim:
+                        xysize(90,70)
+                        xalign 0.93
+                        yalign 0.942
+                        add "space_chip_explode"
+                        
+                    add "space_chip_active" xalign 0.92 yalign 0.98
+                    
+                    window at spaceship_chips(1.0):
+                        xysize (100,110)
+                        xalign 0.96
+                        yalign 1.0
+                        add "space_flame" xalign 0.5 yalign 1.0
+                        add "spaceship" xalign 0.5 yalign 0.0
+                        imagebutton:
+                            idle "space_transparent_btn"
+                            focus_mask None
+                            activate_sound 'sfx/UI/select_6.mp3'
+                            action Show('chip_tap')
+                
+                if reshow:
+                    window at chip_anim(0):
+                        xysize(90,70)
+                        xalign 0.93
+                        yalign 0.942
+                        add "space_chip_explode"
+                        
+                    add "space_chip_active2" xalign 0.92 yalign 0.98
+                    
+                    window at spaceship_chips:
+                        xysize (100,110)
+                        xalign 0.96
+                        yalign 1.0
+                        add "space_flame" xalign 0.5 yalign 1.0
+                        add "spaceship" xalign 0.5 yalign 0.0
+                        imagebutton:
+                            idle "space_transparent_btn"
+                            focus_mask None
+                            activate_sound 'sfx/UI/select_6.mp3'
+                            action Show('chip_tap')
+            
+            else:            
+                add "space_chip_inactive" xalign 0.92 yalign 0.98
+                
+                window at spaceship_flight:
+                    xysize (100,110)
+                    xalign 0.04#spaceship_xalign
+                    yalign 1.0
+                    add "space_flame" xalign 0.5 yalign 1.0
+                    add "spaceship" xalign 0.5 yalign 0.0
+                    imagebutton:
+                            idle "space_transparent_btn"
+                            focus_mask None
+                            activate_sound 'sfx/UI/select_6.mp3'
+                            action Show('spaceship_thoughts', Dissolve(0.5))
                     
              
      
@@ -1194,25 +1199,25 @@ screen chara_profile(who):
     tag settings_screen
     modal True
 
-    use starry_night
-    use menu_header("Profile", Hide('chara_profile', Dissolve(0.5)))   
-    
-    add who.cover_pic yalign 0.231
-    
-    fixed:
-        xfit True yfit True
-        xalign 0.1 yalign 0.675
-        add Transform(who.prof_pic, size=(314,314))
-        add 'profile_outline'    
-    window:
-        xysize (350,75)
-        xalign 0.96
-        yalign 0.685
-        text who.name style "profile_header_text"
-    window:  
-        xysize (700, 260)
-        yalign 0.97
-        text who.status style "profile_status"
+    use menu_header("Profile", Hide('chara_profile', Dissolve(0.5))):
+        window:
+            xysize (750, 1170)
+            add who.cover_pic yalign 0.231
+            
+            fixed:
+                xfit True yfit True
+                xalign 0.1 yalign 0.675
+                add Transform(who.prof_pic, size=(314,314))
+                add 'profile_outline'    
+            window:
+                xysize (350,75)
+                xalign 0.96
+                yalign 0.685
+                text who.name style "profile_header_text"
+            window:  
+                xysize (700, 260)
+                yalign 0.97
+                text who.status style "profile_status"
     
 
         

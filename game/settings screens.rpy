@@ -111,8 +111,7 @@ screen settings_tabs(active_tab):
 
     style_prefix "settings_tabs"
     # "Backgrounds" of the different panels
-    window:        
-        has hbox
+    hbox:
         # Account / Sound / Others tab
         textbutton _('Profile'):            
             if active_tab == "Profile":
@@ -126,8 +125,7 @@ screen settings_tabs(active_tab):
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"                
-                action Show("preferences", Dissolve(0.5))
-                
+                action Show("preferences", Dissolve(0.5))                
             
         textbutton _('Others'):
             if active_tab == "Others":
@@ -136,15 +134,10 @@ screen settings_tabs(active_tab):
                 background "menu_tab_inactive"
                 action Show("other_settings", Dissolve(0.5))                
                 
-style settings_tabs_window is empty
 style settings_tabs_hbox is empty
 style settings_tabs_button is empty
 style settings_tabs_button_text is default
 
-style settings_tabs_window:
-    xalign 0.5
-    yalign 0.14
-    xysize(700,70)
 
 style settings_tabs_hbox:
     spacing 10
@@ -245,40 +238,38 @@ screen profile_pic():
     if not persistent.first_boot:
         use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
     else:
-        use menu_header("Customize your Profile", MainMenu(False))
-        
-    # It doesn't make sense to see these options if you're
-    # on the main menu or starting the game for the first time
-    if not persistent.first_boot and not main_menu:            
-        # Save / Load
-        imagebutton:
-            style_prefix None
-            yalign 0.978
-            xalign 0.66
-            idle "save_btn"
-            hover Transform("Phone UI/Main Menu/menu_save_btn.png", zoom=1.1)
-            action Show("save", Dissolve(0.5))
-            
-        imagebutton:
-            style_prefix None
-            yalign 0.978
-            xalign 0.974
-            idle "load_btn"
-            hover Transform("Phone UI/Main Menu/menu_load_btn.png", zoom=1.1)
-            action Show("load", Dissolve(0.5))
-        
-        
-        # Shows how many heart points you've earned with
-        # each character. To display properly, this needs to
-        # be a character variable, and there must be an image
-        # defined called 'greet ja' if the character's file_id
-        # is ja, for example
-        $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
-        grid 4 2:
-            xalign 0.5
-            yalign 0.8
-            for c in heart_point_chars:
-                use heart_point_grid(c)
+        use menu_header("Customize your Profile", MainMenu(False)):
+            window:
+                xysize (750, 1170)        
+                # Save / Load
+                imagebutton:
+                    style_prefix None
+                    yalign 0.978
+                    xalign 0.66
+                    idle "save_btn"
+                    hover Transform("Phone UI/Main Menu/menu_save_btn.png", zoom=1.1)
+                    action Show("save", Dissolve(0.5))
+                    
+                imagebutton:
+                    style_prefix None
+                    yalign 0.978
+                    xalign 0.974
+                    idle "load_btn"
+                    hover Transform("Phone UI/Main Menu/menu_load_btn.png", zoom=1.1)
+                    action Show("load", Dissolve(0.5))
+                
+                
+                # Shows how many heart points you've earned with
+                # each character. To display properly, this needs to
+                # be a character variable, and there must be an image
+                # defined called 'greet ja' if the character's file_id
+                # is ja, for example
+                $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
+                grid 4 2:
+                    xalign 0.5
+                    yalign 0.8
+                    for c in heart_point_chars:
+                        use heart_point_grid(c)
 
 screen heart_point_grid(c):
     vbox:
@@ -434,88 +425,92 @@ screen other_settings():
     modal True
 
     #add "Phone UI/Main Menu/menu_settings_bg.png"
-    use starry_night
-    use menu_header("Settings", Hide('other_settings', Dissolve(0.5)))
-    use settings_tabs("Others")
-        
-    viewport:
-        style 'other_settings_viewport'
-        draggable True
-        mousewheel True
-        side_spacing 5
-        style_prefix "other_settings"
-        has vbox            
-        window:
-            xysize(675,320)
-            background "menu_settings_panel"
-            text "Other Settings" style "settings_style" xpos 55 ypos 5
-            style_prefix "settings_slider"
-            vbox:               
-                null height 30 # For the 'title'          
-                hbox:                        
-                    textbutton _("Text Speed")                           
-                    bar value Preference("text speed")
+    
+    use menu_header("Settings", Hide('other_settings', Dissolve(0.5))):
+        use settings_tabs("Others")
+            
+        viewport:
+            style 'other_settings_viewport'
+            draggable True
+            mousewheel True
+            side_spacing 5
+            style_prefix "other_settings"
+            has vbox            
+            window:
+                xysize(675,320)
+                background "menu_settings_panel"
+                text "Other Settings" style "settings_style" xpos 55 ypos 5
+                style_prefix "settings_slider"
+                vbox:               
+                    null height 30 # For the 'title'          
+                    hbox:                        
+                        textbutton _("Text Speed")                           
+                        bar value Preference("text speed")
+                        
+                    hbox:
+                        textbutton _("Auto-Forward Time")
+                        bar value Preference("auto-forward time"):
+                            bar_invert True
                     
-                hbox:
-                    textbutton _("Auto-Forward Time")
-                    bar value Preference("auto-forward time"):
-                        bar_invert True
+                    null height 5
+                    fixed:                        
+                        style_prefix "check"
+                        textbutton _("Custom UI changes"):
+                            action ToggleField(persistent, "custom_footers")
                 
-                null height 5
-                fixed:                        
+            window:
+                xysize(675,250)
+                background "menu_settings_panel"
+                text "VN Settings" style "settings_style" xpos 55 ypos 5
+
+                vbox:
+                    spacing 6
                     style_prefix "check"
-                    textbutton _("Custom UI changes"):
-                        action ToggleField(persistent, "custom_footers")
-            
-        window:
-            xysize(675,250)
-            background "menu_settings_panel"
-            text "VN Settings" style "settings_style" xpos 55 ypos 5
+                    null height 30
+                    label _("Skip")
+                    textbutton _("Unseen Text"):
+                        action Preference("skip", "toggle")
+                    textbutton _("After Choices"):
+                        action Preference("after choices", "toggle")
+                    textbutton _("Transitions"):
+                        action InvertSelected(Preference("transitions", "toggle"))
+                    
+            window:
+                xysize(675,280)
+                background "menu_settings_panel"
+                text "Variables for testing" style "settings_style" xpos 55 ypos 5
 
-            vbox:
-                spacing 6
-                style_prefix "check"
-                null height 30
-                label _("Skip")
-                textbutton _("Unseen Text"):
-                    action Preference("skip", "toggle")
-                textbutton _("After Choices"):
-                    action Preference("after choices", "toggle")
-                textbutton _("Transitions"):
-                    action InvertSelected(Preference("transitions", "toggle"))
-                
-        window:
-            xysize(675,280)
-            background "menu_settings_panel"
-            text "Variables for testing" style "settings_style" xpos 55 ypos 5
-
-            vbox:
-                spacing 6
-                style_prefix "check"
-                null height 30
-                textbutton _("Testing Mode") action ToggleField(persistent, "testing_mode")
-                textbutton _("Real-Time Mode") action ToggleField(persistent, "real_time")
-                textbutton _("Hacked Effect") action ToggleVariable('hacked_effect')
-                textbutton _("Real-Time Texts") action ToggleField(persistent,'instant_texting')
-                
-        
-                
-            # Additional vboxes of type "radio_pref" or "check_pref" can be
-            # added here, to add additional creator-defined preferences.
+                vbox:
+                    spacing 6
+                    style_prefix "check"
+                    null height 30
+                    textbutton _("Testing Mode"):
+                        action ToggleField(persistent, "testing_mode")
+                    textbutton _("Real-Time Mode"):
+                        action ToggleField(persistent, "real_time")
+                    textbutton _("Hacked Effect"):
+                        action ToggleVariable('hacked_effect')
+                    textbutton _("Real-Time Texts"):
+                        action ToggleField(persistent,'instant_texting')
+                    
             
-        
-        
-        window:
-            style_prefix "other_settings_end"            
-            has hbox
-            textbutton _('Go to Mode Select'):          
-                action [ToggleVariable("greeted", False, False), 
-                        renpy.full_restart]
+                    
+                # Additional vboxes of type "radio_pref" or "check_pref" can be
+                # added here, to add additional creator-defined preferences.
                 
-            textbutton _('Start Over'):
-                action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", 
-                        yes_action=[Hide('confirm'), 
-                        Jump("restart_game")], no_action=Hide('confirm'))
+            
+            
+            window:
+                style_prefix "other_settings_end"            
+                has hbox
+                textbutton _('Go to Mode Select'):          
+                    action [ToggleVariable("greeted", False, False), 
+                            renpy.full_restart]
+                    
+                textbutton _('Start Over'):
+                    action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", 
+                            yes_action=[Hide('confirm'), 
+                            Jump("restart_game")], no_action=Hide('confirm'))
 
 
 style other_settings_viewport:
@@ -616,142 +611,142 @@ screen preferences():
     modal True
 
     use starry_night
-    use menu_header("Settings", Hide('preferences', Dissolve(0.5)))
-    use settings_tabs("Sound")
-    
-    viewport:
-        style_prefix 'other_settings'
-        draggable True
-        mousewheel True
-        scrollbars "vertical"
-        side_spacing 5
-        has vbox
-  
-        window:
-            xysize(675,400)
-            background "menu_settings_panel" padding(10,10)
-            text "Sound" style "settings_style" xpos 55
-            style_prefix "sound_settings"
-            vbox:                      
-                null height 30
-                hbox:                    
-                    textbutton _("BGM") action ToggleMute("music")
-                    bar value Preference("music volume")
-                hbox:
-                    textbutton _("SFX") action ToggleMute("sfx")
-                    bar value Preference("sound volume") 
-                    if config.sample_sound:
-                        textbutton _("Test"):
-                            style 'default'
-                            action Play("sound", config.sample_sound)
-                hbox:
-                    textbutton _("Voice") action ToggleMute("voice")
-                    bar value Preference("voice volume")
-                    if config.sample_voice:
-                        textbutton _("Test"):
-                            style 'default'
-                            action Play("voice", config.sample_voice)
-                hbox:
-                    textbutton _("Voice SFX") action ToggleMute("voice_sfx")
-                    bar value set_voicesfx_volume()
-                    if sample_voice_sfx:
-                        textbutton _("Test"):
-                            style 'default'
-                            action Play("voice_sfx", sample_voice_sfx)
-                    
-                textbutton _("Mute All"):
-                    style "mute_all_button" xalign 0.45
-                    action Preference("all mute", "toggle")
-            
-        window:
-            xysize(675,390)
-            background "menu_settings_panel" padding(10,10)
+    use menu_header("Settings", Hide('preferences', Dissolve(0.5))):
+        use settings_tabs("Sound")
+        
+        viewport:
+            style_prefix 'other_settings'
+            draggable True
+            mousewheel True
+            scrollbars "vertical"
+            side_spacing 5
             has vbox
-            xalign 0.5
-            yalign 0.5
-            spacing 15
-            text "Voice" style "settings_style" xpos 185 ypos -5
-            
-            ## There are few voiced lines in this program, so currently
-            ## the effects of these buttons will not be very noticeable
-            hbox:
+    
+            window:
+                xysize(675,400)
+                background "menu_settings_panel" padding(10,10)
+                text "Sound" style "settings_style" xpos 55
+                style_prefix "sound_settings"
+                vbox:                      
+                    null height 30
+                    hbox:                    
+                        textbutton _("BGM") action ToggleMute("music")
+                        bar value Preference("music volume")
+                    hbox:
+                        textbutton _("SFX") action ToggleMute("sfx")
+                        bar value Preference("sound volume") 
+                        if config.sample_sound:
+                            textbutton _("Test"):
+                                style 'default'
+                                action Play("sound", config.sample_sound)
+                    hbox:
+                        textbutton _("Voice") action ToggleMute("voice")
+                        bar value Preference("voice volume")
+                        if config.sample_voice:
+                            textbutton _("Test"):
+                                style 'default'
+                                action Play("voice", config.sample_voice)
+                    hbox:
+                        textbutton _("Voice SFX") action ToggleMute("voice_sfx")
+                        bar value set_voicesfx_volume()
+                        if sample_voice_sfx:
+                            textbutton _("Test"):
+                                style 'default'
+                                action Play("voice_sfx", sample_voice_sfx)
+                        
+                    textbutton _("Mute All"):
+                        style "mute_all_button" xalign 0.45
+                        action Preference("all mute", "toggle")
+                
+            window:
+                xysize(675,390)
+                background "menu_settings_panel" padding(10,10)
+                has vbox
                 xalign 0.5
                 yalign 0.5
-                spacing -35
-                null width 165            
-                grid 2 5:                
-                    transpose True
-                    spacing 30
-                    align (0.5, 0.0)
-                    
-                    text "Jumin Han" style "settings_style"
-                    text "ZEN" style "settings_style"
-                    text "707" style "settings_style"
-                    text "Ray" style "settings_style"
-                    text "Others" style "settings_style"
-                    
-                    use voice_buttons('jumin')
-                    use voice_buttons('zen')
-                    use voice_buttons('seven')
-                    use voice_buttons('saeran')
-                    use voice_buttons('other')
-                    
+                spacing 15
+                text "Voice" style "settings_style" xpos 185 ypos -5
                 
-                grid 2 4:
-                    spacing 30
-                    transpose True
-                    align (0.5, 0.0)
-                    text "Yoosung★" style "settings_style"
-                    text "Jaehee Kang" style "settings_style"
-                    text "V" style "settings_style"
-                    text "Rika" style "settings_style"
+                ## There are few voiced lines in this program, so currently
+                ## the effects of these buttons will not be very noticeable
+                hbox:
+                    xalign 0.5
+                    yalign 0.5
+                    spacing -35
+                    null width 165            
+                    grid 2 5:                
+                        transpose True
+                        spacing 30
+                        align (0.5, 0.0)
+                        
+                        text "Jumin Han" style "settings_style"
+                        text "ZEN" style "settings_style"
+                        text "707" style "settings_style"
+                        text "Ray" style "settings_style"
+                        text "Others" style "settings_style"
+                        
+                        use voice_buttons('jumin')
+                        use voice_buttons('zen')
+                        use voice_buttons('seven')
+                        use voice_buttons('saeran')
+                        use voice_buttons('other')
+                        
                     
-                    use voice_buttons('yoosung')
-                    use voice_buttons('jaehee')
-                    use voice_buttons('v')
-                    use voice_buttons('rika')
-                    
-                    
-        window:
-            xysize(675,360)
-            background "menu_settings_panel"
-            align (0.5, 0.34)
-            text "Ringtone" style "settings_style" xpos 55 ypos 5
+                    grid 2 4:
+                        spacing 30
+                        transpose True
+                        align (0.5, 0.0)
+                        text "Yoosung★" style "settings_style"
+                        text "Jaehee Kang" style "settings_style"
+                        text "V" style "settings_style"
+                        text "Rika" style "settings_style"
+                        
+                        use voice_buttons('yoosung')
+                        use voice_buttons('jaehee')
+                        use voice_buttons('v')
+                        use voice_buttons('rika')
+                        
+                        
             window:
-                align (0.5, 0.85)
-                xysize (640, 300)
-                has vbox
-                align (0.5, 0.5)
-                spacing 12
-                button:
-                    xysize (300, 80)
-                    background 'menu_ringtone_box'
-                    hover_foreground 'menu_ringtone_box'
-                    vbox:
-                        align (0.5, 0.5)
-                        text "Text Sound" style 'ringtone_change'
-                        text persistent.text_tone_name style 'ringtone_description'
-                    action Show('ringtone_dropdown', title='Text Sound', tone='text')
-                
-                button:
-                    xysize (300, 80)
-                    background 'menu_ringtone_box'
-                    hover_foreground 'menu_ringtone_box'
-                    vbox:
-                        align (0.5, 0.5)
-                        text "Email Sound" style 'ringtone_change'
-                        text persistent.email_tone_name style 'ringtone_description'
-                    action Show('ringtone_dropdown', title='Email Sound', tone='text')
+                xysize(675,360)
+                background "menu_settings_panel"
+                align (0.5, 0.34)
+                text "Ringtone" style "settings_style" xpos 55 ypos 5
+                window:
+                    align (0.5, 0.85)
+                    xysize (640, 300)
+                    has vbox
+                    align (0.5, 0.5)
+                    spacing 12
+                    button:
+                        xysize (300, 80)
+                        background 'menu_ringtone_box'
+                        hover_foreground 'menu_ringtone_box'
+                        vbox:
+                            align (0.5, 0.5)
+                            text "Text Sound" style 'ringtone_change'
+                            text persistent.text_tone_name style 'ringtone_description'
+                        action Show('ringtone_dropdown', title='Text Sound', tone='text')
                     
-                button:
-                    xysize (300, 80)
-                    background 'menu_ringtone_box'
-                    hover_foreground 'menu_ringtone_box'
-                    vbox:
-                        align (0.5, 0.5)
-                        text "Ringtone" style 'ringtone_change'
-                        text persistent.phone_tone_name style 'ringtone_description'
-                    action Show('ringtone_dropdown', title='Ringtone', tone='text')
+                    button:
+                        xysize (300, 80)
+                        background 'menu_ringtone_box'
+                        hover_foreground 'menu_ringtone_box'
+                        vbox:
+                            align (0.5, 0.5)
+                            text "Email Sound" style 'ringtone_change'
+                            text persistent.email_tone_name style 'ringtone_description'
+                        action Show('ringtone_dropdown', title='Email Sound', tone='text')
+                        
+                    button:
+                        xysize (300, 80)
+                        background 'menu_ringtone_box'
+                        hover_foreground 'menu_ringtone_box'
+                        vbox:
+                            align (0.5, 0.5)
+                            text "Ringtone" style 'ringtone_change'
+                            text persistent.phone_tone_name style 'ringtone_description'
+                        action Show('ringtone_dropdown', title='Ringtone', tone='text')
 
 style sound_settings_vbox:
     is default

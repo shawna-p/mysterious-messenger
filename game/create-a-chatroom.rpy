@@ -209,167 +209,161 @@ screen create_archive():
 
     tag menu
     
-    use starry_night
-    use menu_header('Create a Chatroom', ShowMenu('main_menu'))
+    use menu_header('Create a Chatroom', ShowMenu('main_menu')):
         
-        
-    window:
-        xalign 0.5
-        yalign 0.13
-        maximum(700,70)
-        has hbox
-        xalign 0.5
-        spacing 40
-        # Create Chatroom/Set up Route tabs
-        textbutton _('Create Chatroom'):
-            text_style "settings_tabs" 
-            xsize 290
-            ysize 65
-            background "menu_tab_active"            
-                
-        textbutton _('Set up Route'):
-            text_style "settings_tabs" 
-            xsize 290
-            ysize 65
-            background "menu_tab_inactive"
-            hover_background "menu_tab_inactive_hover"
-            action NullAction
+        hbox:
+            xalign 0.5
+            spacing 40
+            # Create Chatroom/Set up Route tabs
+            textbutton _('Create Chatroom'):
+                text_style "settings_tabs" 
+                xsize 290
+                ysize 65
+                background "menu_tab_active"            
+                    
+            textbutton _('Set up Route'):
+                text_style "settings_tabs" 
+                xsize 290
+                ysize 65
+                background "menu_tab_inactive"
+                hover_background "menu_tab_inactive_hover"
+                action NullAction
  
 
-    viewport:
-        xysize (725, 1070)
-        draggable True
-        mousewheel True
-        align (0.5, 0.95)       
-        
-        vbox:
-            align (0.1, 0.0)
-            text "Select a Character" style 'creator_title'
-            ## A horizontal viewport where you select the speaking character
-            side ('t b'):
-                spacing 20
-                xysize(700, 90)
-                viewport id 'character_select':
-                    draggable True
-                    mousewheel "horizontal"
-                    xysize(700, 85)
-                    align (0.5, 0.5)
-                    
-                    hbox:
-                        spacing 10
-                        for i in character_list:
-                            if i.participant_pic:
-                                imagebutton:
-                                    hover_foreground 'char_foreground2'
-                                    selected_foreground 'char_foreground'
-                                    idle i.participant_pic
-                                    selected (the_entry.who == i)
-                                    action [SetField(the_entry, 'who', i),
-                                            SetField(the_entry, 'specBubble', None)]
-                            elif i == m:
-                                imagebutton:
-                                    hover_foreground 'char_foreground2'
-                                    selected_foreground 'char_foreground'
-                                    selected (the_entry.who == i)
-                                    idle Transform('Profile Pics/MC/MC-1.png', zoom=0.725)
-                                    action [SetField(the_entry, 'who', i),
-                                            SetField(the_entry, 'bounce', False),
-                                            SetField(the_entry, 'specBubble', None)]
-                
-                bar value XScrollValue('character_select') style 'creator_hscroll'
-        
-            null height 30
-        
-            ## Dialogue Input and Preview
-            fixed:   
-                xsize 730
-                yfit True
-                align (0.5, 0.5)
-                vbox:
-                    text "Preview" style 'creator_title'
-        
-                    spacing 20
-                    xalign 0.5                    
-                    button:
-                        xysize (700, 450)
-                        background Transform("bg-earlyMorn.jpg", crop=(50,300,700,450))
-                        viewport:
-                            xysize (700, 450)
-                            ## Uses the same screen that displays the text in chatrooms
-                            use chat_animation(the_entry, False)                            
-                        action Show('dialogue_input_popup', width=680, height=500)                    
-                    
-                    
-                    ## Extra buttons for various customizations
-                    ## e.g. emojis and speech bubbles
-                    hbox:
-                        align (0.5, 0.5)
-                        spacing 10
-                        
-                        fixed:
-                            xfit True
-                            yfit True
-                            vbox:
-                                spacing 10                               
-                                textbutton _('Fonts'):
-                                    text_style 'mode_select'
-                                    xysize (160,110)
-                                    background 'menu_select_btn' padding(20,20)
-                                    hover_background 'menu_select_btn_hover'
-                                    action ToggleVariable('font_dropdown', False, True)
-                                    
-                                if font_dropdown:  
-                                    fixed:
-                                        xsize(160)
-                                        yfit True
-                                        vbox at dropdown_menu:
-                                            spacing 10
-                                            use font_screen
-                                    
-                        
-                        textbutton _('Emojis'):
-                            text_style 'mode_select'
-                            xysize (160,110)
-                            background 'menu_select_btn' padding(20,20)
-                            hover_background 'menu_select_btn_hover'
-                            if the_entry.who != m:                                
-                                action Show("pick_emoji", character=the_entry.who)
-                            else:
-                                foreground 'menu_select_btn_inactive'
-                            
-                        textbutton _('Exit/Enter'):
-                            text_style 'mode_select'
-                            xysize (160,110)
-                            background 'menu_select_btn' padding(20,20)
-                            hover_background 'menu_select_btn_hover'
-                            action Show("exit_enter", character=the_entry.who)
-                            
-                        textbutton _('Speech Bubbles'):
-                            text_style 'mode_select'
-                            xysize (160,110)
-                            background 'menu_select_btn' padding(20,20)
-                            hover_background 'menu_select_btn_hover'
-                            if the_entry.who != m:                                
-                                action Show("pick_bubble", character=the_entry.who)
-                            else:
-                                foreground 'menu_select_btn_inactive'
-                
-            null height 20
-            hbox:
-                align (0.5, 0.5)
-                style 'creator_hbox'
-                textbutton _('Add line to file'):
-                    text_style 'creator_button_text'
-                    style 'creator_button'
-                    action [Function(write_file), Show('notify', message="Line written to file")]
-                
-                    
-                textbutton _('Save Changes'):
-                    text_style 'creator_button_text'
-                    style 'creator_button'
-                    action [Function(close_file), Function(open_file, thefile=thefile), Show('notify', message="Saved")]  
-
+        viewport:
+            xysize (725, 1070)
+            draggable True
+            mousewheel True
+            align (0.5, 0.95)       
             
+            vbox:
+                align (0.1, 0.0)
+                text "Select a Character" style 'creator_title'
+                ## A horizontal viewport where you select the speaking character
+                side ('t b'):
+                    spacing 20
+                    xysize(700, 90)
+                    viewport id 'character_select':
+                        draggable True
+                        mousewheel "horizontal"
+                        xysize(700, 85)
+                        align (0.5, 0.5)
+                        
+                        hbox:
+                            spacing 10
+                            for i in character_list:
+                                if i.participant_pic:
+                                    imagebutton:
+                                        hover_foreground 'char_foreground2'
+                                        selected_foreground 'char_foreground'
+                                        idle i.participant_pic
+                                        selected (the_entry.who == i)
+                                        action [SetField(the_entry, 'who', i),
+                                                SetField(the_entry, 'specBubble', None)]
+                                elif i == m:
+                                    imagebutton:
+                                        hover_foreground 'char_foreground2'
+                                        selected_foreground 'char_foreground'
+                                        selected (the_entry.who == i)
+                                        idle Transform('Profile Pics/MC/MC-1.png', zoom=0.725)
+                                        action [SetField(the_entry, 'who', i),
+                                                SetField(the_entry, 'bounce', False),
+                                                SetField(the_entry, 'specBubble', None)]
+                    
+                    bar value XScrollValue('character_select') style 'creator_hscroll'
+            
+                null height 30
+            
+                ## Dialogue Input and Preview
+                fixed:   
+                    xsize 730
+                    yfit True
+                    align (0.5, 0.5)
+                    vbox:
+                        text "Preview" style 'creator_title'
+            
+                        spacing 20
+                        xalign 0.5                    
+                        button:
+                            xysize (700, 450)
+                            background Transform("bg-earlyMorn.jpg", crop=(50,300,700,450))
+                            viewport:
+                                xysize (700, 450)
+                                ## Uses the same screen that displays the text in chatrooms
+                                use chat_animation(the_entry, False)                            
+                            action Show('dialogue_input_popup', width=680, height=500)                    
+                        
+                        
+                        ## Extra buttons for various customizations
+                        ## e.g. emojis and speech bubbles
+                        hbox:
+                            align (0.5, 0.5)
+                            spacing 10
+                            
+                            fixed:
+                                xfit True
+                                yfit True
+                                vbox:
+                                    spacing 10                               
+                                    textbutton _('Fonts'):
+                                        text_style 'mode_select'
+                                        xysize (160,110)
+                                        background 'menu_select_btn' padding(20,20)
+                                        hover_background 'menu_select_btn_hover'
+                                        action ToggleVariable('font_dropdown', False, True)
+                                        
+                                    if font_dropdown:  
+                                        fixed:
+                                            xsize(160)
+                                            yfit True
+                                            vbox at dropdown_menu:
+                                                spacing 10
+                                                use font_screen
+                                        
+                            
+                            textbutton _('Emojis'):
+                                text_style 'mode_select'
+                                xysize (160,110)
+                                background 'menu_select_btn' padding(20,20)
+                                hover_background 'menu_select_btn_hover'
+                                if the_entry.who != m:                                
+                                    action Show("pick_emoji", character=the_entry.who)
+                                else:
+                                    foreground 'menu_select_btn_inactive'
+                                
+                            textbutton _('Exit/Enter'):
+                                text_style 'mode_select'
+                                xysize (160,110)
+                                background 'menu_select_btn' padding(20,20)
+                                hover_background 'menu_select_btn_hover'
+                                action Show("exit_enter", character=the_entry.who)
+                                
+                            textbutton _('Speech Bubbles'):
+                                text_style 'mode_select'
+                                xysize (160,110)
+                                background 'menu_select_btn' padding(20,20)
+                                hover_background 'menu_select_btn_hover'
+                                if the_entry.who != m:                                
+                                    action Show("pick_bubble", character=the_entry.who)
+                                else:
+                                    foreground 'menu_select_btn_inactive'
+                    
+                null height 20
+                hbox:
+                    align (0.5, 0.5)
+                    style 'creator_hbox'
+                    textbutton _('Add line to file'):
+                        text_style 'creator_button_text'
+                        style 'creator_button'
+                        action [Function(write_file), Show('notify', message="Line written to file")]
+                    
+                        
+                    textbutton _('Save Changes'):
+                        text_style 'creator_button_text'
+                        style 'creator_button'
+                        action [Function(close_file), Function(open_file, thefile=thefile), Show('notify', message="Saved")]  
+
+                
         
             
     on 'show' action [Function(open_file, thefile=thefile), Show('notify', message="File Opened")]

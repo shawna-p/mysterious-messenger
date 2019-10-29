@@ -8,12 +8,9 @@
 screen text_message_hub():
 
     tag menu
-    
-    use starry_night
-    
-    use menu_header('Text Message', Show('chat_home', Dissolve(0.5)))
-            
-    fixed:
+        
+    use menu_header('Text Message', Show('chat_home', Dissolve(0.5))):
+
         viewport:
             xsize 725
             ysize 1150
@@ -347,7 +344,6 @@ screen text_message_screen(the_msg):
                     Show('heart_icon_screen', character=sa), 
                     SetField(the_msg, 'heart', False)]
         
-    use starry_night
     
     use text_message_footer(the_msg)
         
@@ -366,13 +362,8 @@ screen text_message_screen(the_msg):
         yinitial = yadjValue
 
     use menu_header(the_msg.sender.name, 
-                Show('text_message_hub', Dissolve(0.5)), True)
+                Show('text_message_hub', Dissolve(0.5)), True):
             
-    window:
-        align (0.5, 0.54)
-        xfill True
-        ysize 1040
-
         viewport yadjustment yadj: # viewport id "VP":
             draggable True
             mousewheel True

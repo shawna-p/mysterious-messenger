@@ -409,49 +409,43 @@ screen email_hub():
         
     default current_page = 0
     default num_pages = (len(email_list) + 7 - 1) // 7
-    
-    use starry_night
-    
-    use menu_header('Email', Show('chat_home', Dissolve(0.5)))
-    
-    window:
-        background 'left_corner_menu' padding(20,20)
-        xysize (685, 1100)
-        align (0.5, 0.75)
-        has vbox
-        spacing 40
-        align (0.5, 0.0)
-        null height -15
         
-        if len(email_list) == 0:
-            text "Inbox is empty" color '#fff' xalign 0.5 yalign 0.0
-        for e in email_list[current_page*7:current_page*7+7]:      
-            use email_button(e)
-                
-        
-    hbox:
-        align (0.5, 0.99)
-        spacing 15
-        imagebutton:
-            idle Transform("Email/main03_email_next_button.png", xzoom=-1)
-            align (0.5, 0.5)
-            if current_page > 0:
-                action SetScreenVariable('current_page', current_page-1) 
-                activate_sound 'sfx/UI/email_next_arrow.mp3'
+    use menu_header('Email', Show('chat_home', Dissolve(0.5))):
+    
+        vbox:
+            spacing 40
+            align (0.5, 0.0)
+            null height -15
             
-        for index in range(num_pages):
-            textbutton _(str(index+1)):
-                text_color '#fff' 
+            if len(email_list) == 0:
+                text "Inbox is empty" color '#fff' xalign 0.5 yalign 0.0
+            for e in email_list[current_page*7:current_page*7+7]:      
+                use email_button(e)
+                    
+            
+        hbox:
+            align (0.5, 0.99)
+            spacing 15
+            imagebutton:
+                idle Transform("Email/main03_email_next_button.png", xzoom=-1)
                 align (0.5, 0.5)
-                action SetScreenVariable('current_page', index)
-                activate_sound 'sfx/UI/email_next_arrow.mp3'
-            
-        imagebutton:
-            idle "Email/main03_email_next_button.png"
-            align (0.5, 0.5)
-            if current_page < num_pages - 1:
-                action SetScreenVariable('current_page', current_page+1)
-                activate_sound 'sfx/UI/email_next_arrow.mp3'
+                if current_page > 0:
+                    action SetScreenVariable('current_page', current_page-1) 
+                    activate_sound 'sfx/UI/email_next_arrow.mp3'
+                
+            for index in range(num_pages):
+                textbutton _(str(index+1)):
+                    text_color '#fff' 
+                    align (0.5, 0.5)
+                    action SetScreenVariable('current_page', index)
+                    activate_sound 'sfx/UI/email_next_arrow.mp3'
+                
+            imagebutton:
+                idle "Email/main03_email_next_button.png"
+                align (0.5, 0.5)
+                if current_page < num_pages - 1:
+                    action SetScreenVariable('current_page', current_page+1)
+                    activate_sound 'sfx/UI/email_next_arrow.mp3'
             
 ########################################################  
 ## This shows the buttons you can click on in order to 

@@ -300,19 +300,13 @@ screen text_play_button():
 screen inst_text_message_screen(the_sender):
 
     tag menu
-    
-    use starry_night
-            
+                
     python:
         yadj.value = yadjValue  
 
-    use menu_header(the_sender.name, Show('text_message_hub', Dissolve(0.5)), True)
+    use menu_header(the_sender.name, Show('text_message_hub', 
+                Dissolve(0.5)), True):
             
-    window:
-        align (0.5, 0.54)
-        xfill True
-        ysize 1040
-
         viewport yadjustment yadj: # viewport id "VP":
             draggable True
             mousewheel True

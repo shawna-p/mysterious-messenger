@@ -5,11 +5,7 @@ screen chat_select():
 
     tag menu
     modal True
-    
-    use starry_night()
-    
-    use menu_header("Day List", Show('chat_home', Dissolve(0.5)))
-    
+        
     python:
         # Ensures the background music is playing
         if (renpy.music.get_playing(channel='music') != mystic_chat 
@@ -20,7 +16,8 @@ screen chat_select():
                     != mystic_chat_hacked):
             renpy.music.play(mystic_chat_hacked, loop=True)
     
-    fixed:
+
+    use menu_header("Day List", Show('chat_home', Dissolve(0.5))):  
         viewport:
             xysize (720, 1100)
             yalign 0.85
@@ -32,7 +29,7 @@ screen chat_select():
                 spacing 3
                 for day_num, day in enumerate(chat_archive):
                     use day_select(day, day_num)
-                
+                    
                 
 ## This screen shows each day as well as a percentage
 ## bar showing what percent of chatrooms on that day
@@ -199,45 +196,41 @@ screen chatroom_timeline(day, day_num):
     tag menu
     modal True
     
-    use starry_night()
-    
-    use menu_header(day.day, Show('chat_select', Dissolve(0.5)))
-    
-    #$ yadj.value = yadjValue
     $ chat_time = next_chat_time()
-   
-        
-    fixed:   
-        xysize (720, 1180)
-        yalign 1.0
-        xalign 0.5   
-        add 'day_vlink' xalign 0.15
-        viewport yadjustment yadj:            
-            mousewheel True
-            draggable True            
-            vbox:
-                xsize 720
-                spacing 20      
-                          
-                for index, chatroom in enumerate(day.archive_list):
-                    # Displays rows of all the available chats
-                    if chatroom.available:
-                        use chatroom_item(day, day_num, chatroom, index)
-
-                if (persistent.real_time 
-                        and day_num == today_day_num 
-                        and not (day.archive_list[-1].plot_branch 
-                        and day.archive_list[-1].available) 
-                        and not unlock_24_time 
-                        and not chat_time == 'Unknown Time'):
-                    hbox:
-                        xysize (620, 110)
-                        xoffset 70
-                        xalign 0.0
-                        # Shows the 'Continue'/Buyahead button
-                        use timeline_continue_button(chat_time)                        
+    
+    use menu_header(day.day, Show('chat_select', Dissolve(0.5))):
+    
+        fixed:   
+            xysize (720, 1180)
+            yalign 1.0
+            xalign 0.5   
+            add 'day_vlink' xalign 0.15
+            viewport yadjustment yadj:            
+                mousewheel True
+                draggable True            
+                vbox:
+                    xsize 720
+                    spacing 20      
                             
-                null height 40                    
+                    for index, chatroom in enumerate(day.archive_list):
+                        # Displays rows of all the available chats
+                        if chatroom.available:
+                            use chatroom_item(day, day_num, chatroom, index)
+
+                    if (persistent.real_time 
+                            and day_num == today_day_num 
+                            and not (day.archive_list[-1].plot_branch 
+                            and day.archive_list[-1].available) 
+                            and not unlock_24_time 
+                            and not chat_time == 'Unknown Time'):
+                        hbox:
+                            xysize (620, 110)
+                            xoffset 70
+                            xalign 0.0
+                            # Shows the 'Continue'/Buyahead button
+                            use timeline_continue_button(chat_time)                        
+                                
+                    null height 40                    
     
     if hacked_effect:        
         timer 10:
