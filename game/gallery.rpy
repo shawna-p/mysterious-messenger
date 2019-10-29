@@ -351,6 +351,8 @@ screen viewCG_fullsize_album():
     # This slightly repetitive code makes the program
     # animate in the "swipes" as the player goes through
     # the album
+    # Ren'Py will only animate if the animation is different,
+    # which is why there are two "left"s and "right"s
     if swipe_anim == "left":
         if prev_cg_left:
             add prev_cg_left at cg_swipe_left_hide
