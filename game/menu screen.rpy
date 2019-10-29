@@ -192,7 +192,7 @@ screen main_menu():
     
     # This adds the 'starry night' background with a few animated stars
     # You can see the background defined in 'starry night bg.rpy'
-    use starry_night
+    use starry_night()
         
         
     ## Greeting Bubble/Dialogue

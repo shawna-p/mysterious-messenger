@@ -313,7 +313,7 @@ screen viewCG_fullsize_album():
     zorder 5
     tag menu
     
-    use starry_night
+    use starry_night()
        
     # This draggroup defines two hotspots on the left and
     # right side of the screen to detect which direction

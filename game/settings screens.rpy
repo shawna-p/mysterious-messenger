@@ -432,6 +432,7 @@ screen other_settings():
             draggable True
             mousewheel True
             side_spacing 5
+            scrollbars "vertical"
             style_prefix "other_settings"
             has vbox            
             window:
@@ -516,6 +517,9 @@ style other_settings_viewport:
     xysize(700, 1070)
     xalign 0.5
     yalign 0.95
+
+style vscrollbar:
+    unscrollable "hide"
 
 style other_settings_vbox:
     spacing 30
@@ -608,7 +612,6 @@ screen preferences():
     tag settings_screen
     modal True
 
-    use starry_night
     use menu_header("Settings", Hide('preferences', Dissolve(0.5))):
         use settings_tabs("Sound")
         
@@ -620,13 +623,11 @@ screen preferences():
             side_spacing 5
             has vbox
     
-            window:
-                xysize(675,400)
-                background "menu_settings_panel" padding(10,10)
-                text "Sound" style "settings_style" xpos 55
+            window:                
+                text "Sound" style "settings_style" xpos 55 ypos -5
                 style_prefix "sound_settings"
                 vbox:                      
-                    null height 30
+                    null height 45
                     hbox:                    
                         textbutton _("BGM") action ToggleMute("music")
                         bar value Preference("music volume")
@@ -635,21 +636,24 @@ screen preferences():
                         bar value Preference("sound volume") 
                         if config.sample_sound:
                             textbutton _("Test"):
-                                style 'default'
+                                style 'test_buttons'
+                                text_style 'test_buttons_text'
                                 action Play("sound", config.sample_sound)
                     hbox:
                         textbutton _("Voice") action ToggleMute("voice")
                         bar value Preference("voice volume")
                         if config.sample_voice:
                             textbutton _("Test"):
-                                style 'default'
+                                style 'test_buttons'
+                                text_style 'test_buttons_text'
                                 action Play("voice", config.sample_voice)
                     hbox:
                         textbutton _("Voice SFX") action ToggleMute("voice_sfx")
                         bar value set_voicesfx_volume()
                         if sample_voice_sfx:
                             textbutton _("Test"):
-                                style 'default'
+                                style 'test_buttons'
+                                text_style 'test_buttons_text'
                                 action Play("voice_sfx", sample_voice_sfx)
                         
                     textbutton _("Mute All"):
@@ -661,101 +665,76 @@ screen preferences():
                 background "menu_settings_panel" padding(10,10)
                 has vbox
                 xalign 0.5
-                yalign 0.5
                 spacing 15
-                text "Voice" style "settings_style" xpos 185 ypos -5
-                
+                xsize 625
+                text "Voice" style "settings_style" xpos 55 ypos -5
+                style_prefix None
                 ## There are few voiced lines in this program, so currently
                 ## the effects of these buttons will not be very noticeable
-                hbox:
-                    xalign 0.5
+                vbox:
+                    box_wrap True
+                    box_wrap_spacing 10
+                    spacing 20
                     yalign 0.5
-                    spacing -35
-                    null width 165            
-                    grid 2 5:                
-                        transpose True
-                        spacing 30
-                        align (0.5, 0.0)
-                        
-                        text "Jumin Han" style "settings_style"
-                        text "ZEN" style "settings_style"
-                        text "707" style "settings_style"
-                        text "Ray" style "settings_style"
-                        text "Others" style "settings_style"
-                        
-                        use voice_buttons('jumin')
-                        use voice_buttons('zen')
-                        use voice_buttons('seven')
-                        use voice_buttons('saeran')
-                        use voice_buttons('other')
-                        
-                    
-                    grid 2 4:
-                        spacing 30
-                        transpose True
-                        align (0.5, 0.0)
-                        text "Yoosung★" style "settings_style"
-                        text "Jaehee Kang" style "settings_style"
-                        text "V" style "settings_style"
-                        text "Rika" style "settings_style"
-                        
-                        use voice_buttons('yoosung')
-                        use voice_buttons('jaehee')
-                        use voice_buttons('v')
-                        use voice_buttons('rika')
+                    use voice_buttons(ju, 'jumin')
+                    use voice_buttons(ja, 'jaehee')
+                    use voice_buttons(z, 'zen')
+                    use voice_buttons(y, 'yoosung')
+                    use voice_buttons(s, 'seven')
+                    use voice_buttons(v, 'v')
+                    use voice_buttons(r, 'saeran')
+                    use voice_buttons(ri, 'rika')
+                    use voice_buttons("Other", 'other')
                         
                         
             window:
-                xysize(675,360)
-                background "menu_settings_panel"
-                align (0.5, 0.34)
+                style_prefix 'tone_selection'                
                 text "Ringtone" style "settings_style" xpos 55 ypos 5
-                window:
-                    align (0.5, 0.85)
-                    xysize (640, 300)
-                    has vbox
-                    align (0.5, 0.5)
-                    spacing 12
-                    button:
-                        xysize (300, 80)
-                        background 'menu_ringtone_box'
-                        hover_foreground 'menu_ringtone_box'
+                vbox:
+                    null height 30
+                    button:                        
                         vbox:
                             align (0.5, 0.5)
                             text "Text Sound" style 'ringtone_change'
-                            text persistent.text_tone_name style 'ringtone_description'
-                        action Show('ringtone_dropdown', title='Text Sound', tone='text')
+                            text persistent.text_tone_name:
+                                style 'ringtone_description'
+                        action Show('ringtone_dropdown', 
+                                title='Text Sound', tone='text')
                     
                     button:
-                        xysize (300, 80)
-                        background 'menu_ringtone_box'
-                        hover_foreground 'menu_ringtone_box'
                         vbox:
                             align (0.5, 0.5)
                             text "Email Sound" style 'ringtone_change'
-                            text persistent.email_tone_name style 'ringtone_description'
-                        action Show('ringtone_dropdown', title='Email Sound', tone='text')
+                            text persistent.email_tone_name:
+                                style 'ringtone_description'
+                        action Show('ringtone_dropdown', 
+                                title='Email Sound', tone='text')
                         
                     button:
-                        xysize (300, 80)
-                        background 'menu_ringtone_box'
-                        hover_foreground 'menu_ringtone_box'
                         vbox:
                             align (0.5, 0.5)
                             text "Ringtone" style 'ringtone_change'
-                            text persistent.phone_tone_name style 'ringtone_description'
-                        action Show('ringtone_dropdown', title='Ringtone', tone='text')
+                            text persistent.phone_tone_name:
+                                style 'ringtone_description'
+                        action Show('ringtone_dropdown', 
+                                title='Ringtone', tone='text')
+
+style sound_settings_window:
+    is default
+    xysize(675,400)
+    background "menu_settings_panel" padding(10,10)
 
 style sound_settings_vbox:
     is default
     xalign 0.5
-    yalign 0.34
     spacing 15
     xsize 625
 
 style sound_settings_hbox:
+    is default
     spacing 30
     xsize 520
+    ysize 50
 
 style sound_settings_button_text is sound_tags
 style sound_settings_button:
@@ -766,22 +745,65 @@ style sound_settings_button:
 
 style sound_settings_slider:
     is default
-    ypos 15 
-    thumb_offset 18
+    yoffset 15
+    left_bar Frame('gui/slider/left_horizontal_bar.png', 4, 4, 4, 4)
+    right_bar Frame('gui/slider/right_horizontal_bar.png', 4, 4, 4, 4)
     left_gutter 18
+    thumb_offset 18
+    thumb 'gui/slider/horizontal_[prefix_]thumb.png'
+    ysize 22
+
+
+style test_buttons:
+    is default
+
+style test_buttons_text:
+    is default
+    idle_color gui.idle_color
+    hover_color gui.hover_color
+    selected_color gui.selected_color
+    insensitive_color gui.insensitive_color
+
+style tone_selection_window:
+    is default
+    xysize(675,360)
+    background "menu_settings_panel"
+    align (0.5, 0.34)
+
+style tone_selection_vbox:
+    is default
+    align (0.5, 0.5)
+    spacing 12
+
+style tone_selection_button:
+    xysize (300, 80)
+    background 'menu_ringtone_box'
+    hover_foreground 'menu_ringtone_box'
 
 ## A helper screen to display the buttons for toggling
 ## each characters' voice on or off
-screen voice_buttons(voice_char):
+screen voice_buttons(char, voice_char):
 
-    $ voice_char = voice_char + '_voice'
-    
-    button:
-        xysize (120, 30)
-        idle_child Text("On", style="voice_toggle_on")
-        hover_child Text("On", style="voice_toggle_on")
-        selected_child Text("Off", style="voice_toggle_off")
-        action ToggleVoiceMute(voice_char)
+    python:
+        voice_char = voice_char + '_voice'
+        if isinstance(char, Chat):
+            title = char.name
+        else:
+            title = char
+    hbox:
+        xalign 0.0
+        spacing 10
+        fixed:
+            xysize (230, 40)
+            xalign 0.0
+            text title style "settings_style"
+        button:
+            xysize (60, 40)
+            xalign 1.0
+            idle_child Text("On", style="voice_toggle_on")
+            hover_child Text("On", style="voice_toggle_on")
+            selected_child Text("Off", style="voice_toggle_off")
+            action ToggleVoiceMute(voice_char)
         
 ## A helper screen for displaying the choices you have for
 ## ringtones, email tones, and text tones

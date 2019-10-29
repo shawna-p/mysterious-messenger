@@ -82,7 +82,7 @@ screen loading_screen():
     zorder 90
     tag menu
     
-    use starry_night
+    use starry_night()
     
     window:
         maximum(600,320)
