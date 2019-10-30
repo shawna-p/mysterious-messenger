@@ -205,6 +205,13 @@ default font_dropdown = False
 ## user to visualize how to put together a chatroom/
 ## easier to generate the code needed for chatrooms
 ########################################################
+style settings_tabs:
+        color '#fff'
+        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        text_align 0.5
+        xalign 0.5
+        yalign 0.5
+        
 screen create_archive():
 
     tag menu

@@ -1208,21 +1208,22 @@ screen chara_profile(who):
     use menu_header("Profile", Hide('chara_profile', Dissolve(0.5))):
         window:
             xysize (750, 1170)
-            add who.cover_pic yalign 0.231
+
+            add who.cover_pic 
             
             fixed:
                 xfit True yfit True
-                xalign 0.1 yalign 0.675
+                xalign 0.1 yalign 0.6
                 add Transform(who.prof_pic, size=(314,314))
                 add 'profile_outline'    
             window:
                 xysize (350,75)
                 xalign 0.96
-                yalign 0.685
+                yalign 0.64
                 text who.name style "profile_header_text"
             window:  
                 xysize (700, 260)
-                yalign 0.97
+                yalign 0.9
                 text who.status style "profile_status"
     
 

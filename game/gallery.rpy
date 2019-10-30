@@ -162,7 +162,10 @@ screen photo_album():
     use menu_header('Photo Album', Show('chat_home', Dissolve(0.5))):
     
         # A grid of buttons.
-        vbox:
+        window:
+            xysize (750, 1170)
+            align (0.5, 0.5)
+            has vbox
             align (0.5, 0.4)
             spacing 40
             # Each hbox can have a maximum of 3 characters in it, but you can

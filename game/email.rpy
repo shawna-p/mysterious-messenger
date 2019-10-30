@@ -411,8 +411,11 @@ screen email_hub():
     default num_pages = (len(email_list) + 7 - 1) // 7
         
     use menu_header('Email', Show('chat_home', Dissolve(0.5))):
-    
-        vbox:
+        window:
+            background 'left_corner_menu' padding(20,20)
+            xysize (685, 1100)
+            align (0.5, 0.75)
+            has vbox
             spacing 40
             align (0.5, 0.0)
             null height -15

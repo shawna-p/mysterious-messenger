@@ -242,21 +242,14 @@ screen phone_calls():
             has hbox
             xalign 0.5
             spacing 40
+            style_prefix "phone_contacts"
             # History/Contacts tabs
             textbutton _('{image=call_history_icon}  History'):
-                text_style "settings_tabs" 
-                xsize 290
-                ysize 65
+                hover_background None
                 background "menu_tab_active"            
                     
-            textbutton _('{image=contact_icon}  Contacts'):
-                text_style "settings_tabs" 
-                xsize 290
-                ysize 65
-                background "menu_tab_inactive"
-                hover_background "menu_tab_inactive_hover"
+            textbutton _('{image=contact_icon}  Contacts'):                
                 action Show("phone_contacts", Dissolve(0.5))
-                activate_sound 'sfx/UI/phone_tab_switch.mp3'
     
 
         viewport:
@@ -280,7 +273,7 @@ screen phone_calls():
                         $ replay_bkgr = 'Phone UI/Phone Calls/call_button_replay_inactive.png'
                     window:                                                       
                         background 'message_idle_bkgr'   
-                        xysize (750, 150)
+                        xysize (725, 150)
 
                         has hbox
                         spacing 10  
@@ -353,20 +346,13 @@ screen phone_contacts():
             has hbox
             xalign 0.5
             spacing 40
+            style_prefix "phone_contacts"
             # Call History/Contacts tabs
             textbutton _('{image=call_history_icon}  History'):
-                text_style "settings_tabs" 
-                xsize 290
-                ysize 65
-                background "menu_tab_inactive"
-                hover_background "menu_tab_inactive_hover"
                 action Show("phone_calls", Dissolve(0.5))
-                activate_sound 'sfx/UI/phone_tab_switch.mp3'
                     
             textbutton _('{image=contact_icon}  Contacts'):
-                text_style "settings_tabs" 
-                xsize 290
-                ysize 65
+                hover_background None
                 background "menu_tab_active"
                 
         
@@ -385,8 +371,21 @@ screen phone_contacts():
                 use phone_contacts_grid(3, -(-len(character_list) // 3))
             else:
                 use phone_contacts_grid(3, 3)
-            
-            
+
+style phone_contacts_button_text:
+    color '#fff'
+    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+    text_align 0.5
+    xalign 0.5
+    yalign 0.5
+
+style phone_contacts_button:
+    xsize 290
+    ysize 65
+    background "menu_tab_inactive"
+    hover_background "menu_tab_inactive_hover"
+    activate_sound 'sfx/UI/phone_tab_switch.mp3'        
+
 ## This makes the phone contacts screen "flexible" so you can
 ## have as many or as few characters as you like
 screen phone_contacts_grid(x_num, y_num):
