@@ -166,108 +166,117 @@ screen profile_pic():
     modal True
 
     if persistent.first_boot:
-        use menu_header("Customize your Profile", MainMenu(False))
+        use menu_header("Customize your Profile", MainMenu(False)):
+            use pic_and_pronouns()
     else:
-        use menu_header("Settings", Hide('profile_pic', Dissolve(0.5)))
+        use menu_header("Settings", Hide('profile_pic', Dissolve(0.5))):
+            use settings_tabs("Profile")  
+            use pic_and_pronouns()
+            if not main_menu:
+                use points_and_saveload()
 
-    if not persistent.first_boot:
-        use settings_tabs("Profile")  
-    
-    window:        
-        style 'profile_pic_window'
-        has vbox
-        # MC's profile picture
-        imagebutton:
-            focus_mask True
-            xalign 0.055
-            idle Transform(persistent.MC_pic, size=(363,363))
-            action [Function(MC_pic_change),
-                    renpy.restart_interaction]
-        # Edit MC's Name
-        fixed:
-            add "name_line" xalign 0.079 yalign 0.9        
-            text persistent.name style 'profile_pic_text'
-            
+screen pic_and_pronouns():
+    null height 5
+    hbox:
+        window:        
+            style 'profile_pic_window'
+            has vbox
+            # MC's profile picture
             imagebutton:
-                style 'profile_pic_imagebutton'
-                idle "menu_edit"            
-                hover Transform("Phone UI/Main Menu/menu_pencil_long.png", 
+                focus_mask True
+                xalign 0.055
+                idle Transform(persistent.MC_pic, size=(363,363))
+                action [Function(MC_pic_change),
+                        renpy.restart_interaction]
+            # Edit MC's Name
+            fixed:
+                add "name_line" yalign 0.985
+                text persistent.name style 'profile_pic_text'
+                
+                imagebutton:
+                    style 'profile_pic_imagebutton'
+                    idle "menu_edit"            
+                    hover Transform("Phone UI/Main Menu/menu_pencil_long.png", 
                                                                     zoom=1.03)
-                action Show('input_popup', prompt='Please input a name.') 
+                    action Show('input_popup', prompt='Please input a name.') 
+            
         
-      
-    # Pick your pronouns
-    window:
-        style 'pronoun_window'
-        style_prefix "pronoun_window"
-    
-        has vbox        
-        text "Preferred Pronouns"
-        button:     
-            action [SetField(persistent, "pronoun", "female"), 
-                    Function(set_pronouns)] 
-            has hbox
-            spacing 10
-            if persistent.pronoun == "female":
-                add "radio_on"
-            else:
-                add "radio_off"
-            text 'she/her' style 'pronoun_radio_text'
-            
-        button:
-            action [SetField(persistent, "pronoun", "male"), 
-                    Function(set_pronouns)]
-            has hbox
-            spacing 10
-            if persistent.pronoun == "male":
-                add "radio_on"
-            else:
-                add "radio_off"
-            text 'he/him' style 'pronoun_radio_text'
-            
-            
-        button:
-            action [SetField(persistent, "pronoun", "non binary"), 
-                    Function(set_pronouns)]
-            has hbox
-            spacing 10
-            if persistent.pronoun == "non binary":
-                add "radio_on"
-            else:
-                add "radio_off"
-            text 'they/them' style 'pronoun_radio_text'
+        # Pick your pronouns
+        window:
+            style 'pronoun_window'
+            style_prefix "pronoun_window"
+        
+            has vbox        
+            text "Preferred Pronouns"
+            button:     
+                action [SetField(persistent, "pronoun", "female"), 
+                        Function(set_pronouns)] 
+                has hbox
+                spacing 10
+                if persistent.pronoun == "female":
+                    add "radio_on"
+                else:
+                    add "radio_off"
+                text 'she/her' style 'pronoun_radio_text'
+                
+            button:
+                action [SetField(persistent, "pronoun", "male"), 
+                        Function(set_pronouns)]
+                has hbox
+                spacing 10
+                if persistent.pronoun == "male":
+                    add "radio_on"
+                else:
+                    add "radio_off"
+                text 'he/him' style 'pronoun_radio_text'
+                
+                
+            button:
+                action [SetField(persistent, "pronoun", "non binary"), 
+                        Function(set_pronouns)]
+                has hbox
+                spacing 10
+                if persistent.pronoun == "non binary":
+                    add "radio_on"
+                else:
+                    add "radio_off"
+                text 'they/them' style 'pronoun_radio_text'
              
-        
-        if not persistent.first_boot and not main_menu:                
-            # Save / Load
-            imagebutton:
-                style_prefix None
-                yalign 0.978
-                xalign 0.66
-                idle "save_btn"
-                hover Transform("Phone UI/Main Menu/menu_save_btn.png", zoom=1.1)
-                action Show("save", Dissolve(0.5))
-                
-            imagebutton:
-                style_prefix None
-                yalign 0.978
-                xalign 0.974
-                idle "load_btn"
-                hover Transform("Phone UI/Main Menu/menu_load_btn.png", zoom=1.1)
-                action Show("load", Dissolve(0.5))
+screen points_and_saveload():
+    # Shows how many heart points you've earned with
+    # each character. To display properly, this needs to
+    # be a character variable, and there must be an image
+    # defined called 'greet ja' if the character's file_id
+    # is ja, for example
+    $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
+    null height 30
+    grid 4 2:
+        xalign 0.5
+        yalign 0.8
+        for c in heart_point_chars:
+            use heart_point_grid(c)
+
+    null height 30
+    hbox:
+        spacing 20
+        xalign 1.0
+        xysize (161*2, 58)
+        # Save / Load
+        imagebutton:
+            style_prefix None
+            xysize (161, 58)
+            align (.5, .5)
+            idle "save_btn"
+            hover Transform("Phone UI/Main Menu/menu_save_btn.png", zoom=1.1)
+            action Show("save", Dissolve(0.5))
             
-                
-            # Shows how many heart points you've earned with
-            # each character. To display properly, this needs to
-            # be a character variable, and there must be an image
-            # defined called 'greet ja' if the character's file_id
-            # is ja, for example
-            $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
-            grid 4 2:
-                xalign 0.5
-                yalign 0.8
-                for c in heart_point_chars:
-                    use heart_point_grid(c)
+        imagebutton:
+            style_prefix None
+            xysize (161, 58)
+            align (.5, .5)
+            idle "load_btn"
+            hover Transform("Phone UI/Main Menu/menu_load_btn.png", zoom=1.1)
+            action Show("load", Dissolve(0.5))
 
 screen heart_point_grid(c):
     vbox:
@@ -282,8 +291,6 @@ style profile_pic_text is default
 style profile_pic_imagebutton is empty
 
 style profile_pic_window:
-    yalign 0.32
-    xalign 0.05
     xysize(370, 440)
 
 style profile_pic_text:

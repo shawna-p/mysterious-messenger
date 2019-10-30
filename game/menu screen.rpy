@@ -866,12 +866,15 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                         action Show("preferences")  
             
     window:
-        xysize (750, 1180)
+        if title != "Original Story" and title != "In Call":
+            xysize (750, 1180)
+        else:
+            xysize (750, 1180+80)
         yalign 1.0
         has vbox
-        align (0.5, 0.5)
+        align (0.5, 0.0)
         spacing 10
-        null height -10
+        null height 5
         transclude
       
 
@@ -919,16 +922,55 @@ screen chat_home(reshow=False):
                 FileSave(mm_auto, confirm=False)]) 
 
     use menu_header("Original Story"):
+        # Note that the number of pictures changes depending on
+        # whether you're in Another Story or Casual/Deep Story,
+        # but here I've chosen to include all the characters
+        # Also usually the characters have "generic" profile
+        # pictures, but I've chosen to simply include their current
+        # profile picture
         window:
-            xysize (750, 1170)
+            xysize(741, 206)
+            xalign 0.5
+            yalign 0.08
+            vbox:
+                spacing 8
+                hbox:
+                    spacing 8
+                    xalign 0.0
+                    yalign 0.0
+                    for person in character_list[:7]:    
+                        imagebutton:
+                            hover "profile_pic_select_square"
+                            idle Transform(person.prof_pic, size=(99,99))
+                            background Transform(person.prof_pic, 
+                                                            size=(99,99))
+                            if person == m:
+                                action Show('profile_pic')
+                            else:
+                                action Show('chara_profile', who=person)
+                            activate_sound 'sfx/UI/profile_screen_select.mp3'
+
+                hbox:
+                    spacing 8
+                    for person in character_list[7:]:
+                        imagebutton:
+                            hover "profile_pic_select_square"
+                            idle Transform(person.prof_pic, size=(99,99))
+                            background Transform(person.prof_pic, 
+                                                            size=(99,99))
+                            action Show('chara_profile', who=person)
+                            activate_sound 'sfx/UI/profile_screen_select.mp3'
+        window:
+            xysize (750, 1170) 
+            yoffset -140       
             # Text Messages
             button:
                 xysize(168,168)
                 xalign 0.62
                 if len(character_list) > 10:
-                    yalign 0.295
+                    yalign 0.2
                 else:
-                    yalign 0.195
+                    yalign 0.1
                 if new_message_count() > 0:
                     background 'blue_mainbtn'
                     hover_background 'blue_mainbtn_hover'
@@ -955,9 +997,9 @@ screen chat_home(reshow=False):
                 xysize(168,168) 
                 xalign 0.91
                 if len(character_list) > 10:
-                    yalign 0.45
+                    yalign 0.4
                 else:
-                    yalign 0.35
+                    yalign 0.3
                 if unseen_calls > 0:
                     background "blue_mainbtn"
                     hover_background "blue_mainbtn_hover"
@@ -985,9 +1027,9 @@ screen chat_home(reshow=False):
                 xysize(168,168)
                 xalign 0.342
                 if len(character_list) > 10:
-                    yalign 0.43
+                    yalign 0.4
                 else:
-                    yalign 0.33
+                    yalign 0.3
                 if unread_emails() > 0:
                     background "blue_mainbtn"
                     hover_background "blue_mainbtn_hover"
@@ -1028,42 +1070,6 @@ screen chat_home(reshow=False):
                 add "chat_icon" xalign 0.5 yalign 0.5
                 add "chat_text" xalign 0.5 yalign 0.8
             
-            # Note that the number of pictures changes depending on
-            # whether you're in Another Story or Casual/Deep Story,
-            # but here I've chosen to include all the characters
-            # Also usually the characters have "generic" profile
-            # pictures, but I've chosen to simply include their current
-            # profile picture
-            window:
-                xysize(741, 206)
-                xalign 0.5
-                yalign 0.08
-                vbox:
-                    spacing 8
-                    hbox:
-                        spacing 8
-                        xalign 0.0
-                        yalign 0.0
-                        for person in character_list[:7]:    
-                            imagebutton:
-                                hover "profile_pic_select_square"
-                                idle Transform(person.prof_pic, size=(99,99))
-                                background Transform(person.prof_pic, size=(99,99))
-                                if person == m:
-                                    action Show('profile_pic')
-                                else:
-                                    action Show('chara_profile', who=person)
-                                activate_sound 'sfx/UI/profile_screen_select.mp3'
-
-                    hbox:
-                        spacing 8
-                        for person in character_list[7:]:
-                            imagebutton:
-                                hover "profile_pic_select_square"
-                                idle Transform(person.prof_pic, size=(99,99))
-                                background Transform(person.prof_pic, size=(99,99))
-                                action Show('chara_profile', who=person)
-                                activate_sound 'sfx/UI/profile_screen_select.mp3'
 
             # Links/etc on the left side of the screen
             window:
