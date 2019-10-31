@@ -34,7 +34,7 @@ screen text_message_hub():
                         # Now we display read messages
                         if (i.private_text 
                                 and i.private_text_read != "Notified" 
-                                and i.private_text_read): # if it's not empty                        
+                                and i.private_text_read): # if it's not empty                   
                             use text_hub_display(persistent.instant_texting, 
                                                             i.private_text, i)
                 else:
@@ -254,7 +254,6 @@ screen text_msg_popup(the_msg):
 screen text_message_footer(the_msg):       
     
     vbox:
-        yalign 0.98
         xalign 0.5
         window:
             ymaximum 40
@@ -285,17 +284,17 @@ screen text_date_separator(text_time):
         spacing 10
         xalign 0.5
         ysize 80
-        xsize 750
+        xsize 740
         window:
             ymaximum 40
-            xsize 240
+            xmaximum 240
             yalign 0.5
             background 'text_msg_line'
         text the_time size 25 color '#fff' yalign 0.5
         window:
             ymaximum 40
             yalign 0.5
-            xsize 240
+            xmaximum 240
             background 'text_msg_line'
         
 ########################################################
@@ -345,7 +344,6 @@ screen text_message_screen(the_msg):
                     SetField(the_msg, 'heart', False)]
         
     
-    use text_message_footer(the_msg)
         
     python:
         if yadj.value == yadj.range:
@@ -361,24 +359,7 @@ screen text_message_screen(the_msg):
             yadj.value = yadjValue
         yinitial = yadjValue
 
-    use menu_header(the_msg.sender.name, 
-                Show('text_message_hub', Dissolve(0.5)), True):
-            
-        viewport yadjustment yadj: # viewport id "VP":
-            draggable True
-            mousewheel True
-            ysize 1040
-                            
-            has vbox:
-                spacing -30
-                use text_dialogue(the_msg.msg_list)
-                                
-                            
-
-screen text_dialogue(texts):
- 
-    python:
-        chatLength = len(texts) - 1
+        chatLength = len(the_msg.msg_list) - 1
         begin = chatLength - 10
         if begin >= 0:
             pass
@@ -386,31 +367,52 @@ screen text_dialogue(texts):
             begin = 0
         
         if chatLength > 0:
-            finalchat = texts[-1]
+            finalchat = the_msg.msg_list[-1]
             if finalchat.who == "answer":
                 if begin > 0:
                     begin -= 1
-                
-    for index, i in enumerate(texts[begin:]):
 
-        if chatLength > 0 and (index != 0 or begin != 0):
-            if i.thetime.day != texts[index + begin - 1].thetime.day:
-                use text_date_separator(i.thetime)     
-        elif begin == 0 and index == 0:
-            use text_date_separator(i.thetime)
-                       
-        use text_animation(i)
+    use menu_header(the_msg.sender.name, 
+                Show('text_message_hub', Dissolve(0.5)), True):
+            
+        viewport yadjustment yadj: # viewport id "VP":
+            draggable True
+            mousewheel True
+            ysize 1000#1040
+                            
+            has vbox
+            spacing 20
+            for index, i in enumerate(the_msg.msg_list[begin:]):
+                if chatLength > 0 and (index != 0 or begin != 0):
+                    if (i.thetime.day != 
+                            the_msg.msg_list[index + begin - 1].thetime.day):
+                        use text_date_separator(i.thetime)     
+                elif begin == 0 and index == 0:
+                    use text_date_separator(i.thetime)
+                fixed:
+                    yfit True
+                    xfit True            
+                    use text_animation(i)
+                
+                                
+        use text_message_footer(the_msg)
 
 
 screen text_animation(i):
     python:       
         transformVar = incoming_message
-        if i.img == True:
-            include_new = False
-            if "{image=" in i.what:
-                pass
-            else:
-                transformVar = small_CG
+        if i.who == m:
+            picStyle = 'MC_profpic_text'
+            reg_style = 'text_msg_mc_fixed'
+            reg_bubble = 'reg_bubble_MC_text'
+            hbox_ypos = 5
+            img_style = 'mc_img_text_message'
+        else:
+            picStyle = 'profpic_text'
+            reg_style = 'text_msg_npc_fixed'
+            reg_bubble = 'reg_bubble_text'
+            hbox_ypos = -10
+            img_style = 'img_text_message'
                 
         ## This determines how long the line of text is. 
         ## If it needs to wrap it, it will pad the bubble 
@@ -432,87 +434,66 @@ screen text_animation(i):
     
     if i.who != 'answer' and i.who != 'pause':
         window:
-            if i.who == m:
-                style 'MC_profpic_text'
-            else:
-                style 'profpic_text'
-                
+            style picStyle                
             add Transform(i.who.prof_pic, size=(110,110))
         
         ## Now add the dialogue
-             
-
-        fixed:
-            if i.who != m:
-                style 'text_msg_npc_fixed'
-            else:
-                style 'text_msg_mc_fixed'
-            
-            hbox:
-                spacing 5 
-                if i.who != m:
-                    ypos -10
-                    
+        hbox:
+            spacing 5 
+            style reg_style
+            #ypos hbox_ypos   
+            if i.who == m:
+                if i.img and not "{image=" in i.what:
+                    text text_time:
+                        color '#fff' 
+                        yalign 1.0 
+                        size 23 
+                        yoffset 25
                 else:
-                    ypos 5    
-                    if i.img and not "{image=" in i.what:
-                        text text_time:
-                            color '#fff' 
-                            yalign 1.0 
-                            size 23 
-                            yoffset 25
-                    else:
-                        text text_time color "#fff" yalign 1.0 size 23                    
-                
-                window:# at transformVar:                 
-                    ## Check if it's an image
-                    if i.img == True:
-                        if i.who != m:
-                            style 'img_text_message'
-                        else:
-                            style 'mc_img_text_message'
-                        # Check if it's an emoji
-                        if "{image=" in i.what:
-                            if i.who != m:
-                                style 'reg_bubble_text'
-                            else:
-                                style 'reg_bubble_MC_text'
-                            text i.what style "bubble_text"
-                        else:   # it's a CG
-                            $ fullsizeCG = cg_helper(i.what)
-                            imagebutton at small_CG_text:
-                                bottom_margin 50
-                                focus_mask True
-                                idle fullsizeCG
-                                if not choosing:
-                                    action [SetVariable("fullsizeCG", 
-                                                cg_helper(i.what)), 
-                                            Call("viewCG", textmsg=True), 
-                                            Return()]
+                    text text_time color "#fff" yalign 1.0 size 23                    
             
-                    
-                    else:        
-                        if i.who != m:
-                            style 'reg_bubble_text'
-                        else:
-                            style 'reg_bubble_MC_text'
-                        if my_width > gui.longer_than:
-                            text i.what:
-                                style "bubble_text_long" 
-                                min_width gui.long_line_min_width 
-                                color '#fff'
-                        else:            
-                            text i.what style "bubble_text" color '#fff'
-                            
-                if i.who != m:
-                    if i.img == True and not "{image=" in i.what:
-                        text text_time:
-                            color '#fff' 
-                            yalign 1.0 
-                            size 23 
-                            yoffset 40 xoffset 10
-                    else:
-                        text text_time color "#fff" yalign 1.0 size 23
+            frame:               
+                ## Check if it's an image
+                if i.img == True:
+                    style img_style
+                    # Check if it's an emoji
+                    if "{image=" in i.what:
+                        style reg_bubble
+                        text i.what style "bubble_text"
+                    else:   # it's a CG
+                        $ fullsizeCG = cg_helper(i.what)
+                        imagebutton:
+                            focus_mask True
+                            idle smallCG(fullsizeCG)
+                            if not choosing:
+                                action [SetVariable("fullsizeCG", 
+                                            cg_helper(i.what)), 
+                                        Call("viewCG", textmsg=True), 
+                                        Return()]
+        
+                
+                else:        
+                    style reg_bubble
+                    if my_width > gui.longer_than:
+                        text i.what:
+                            style "bubble_text_long" 
+                            min_width gui.long_line_min_width 
+                            color '#fff'
+                    else:            
+                        text i.what style "bubble_text" color '#fff'
+                        
+            if i.who != m:                
+                if i.img == True and not "{image=" in i.what:
+                    text text_time:
+                        color '#fff' 
+                        yalign 1.0 
+                        size 23 
+                        xoffset 10
+                else:
+                    text text_time:
+                        color "#fff" 
+                        yalign 1.0 
+                        size 23
                                             
  
 ## Sets end variables when a text message menu is completed 

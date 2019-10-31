@@ -68,7 +68,6 @@ style reg_bubble_short:
 # MC's text speech bubble
 style reg_bubble_MC_text:
     background Frame("Text Messages/msgsl_text_player.png", 60,60,60,10)
-    #bottom_margin -55
     padding (20,12,60,12)
         
 # Other characters' text speech bubble

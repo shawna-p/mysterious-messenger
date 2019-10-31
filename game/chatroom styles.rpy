@@ -103,11 +103,11 @@ init 5:
     ## ****************************************
     ## Profile Pictures Style - Texts
     style MC_profpic_text:
-        pos (616, 30)
+        pos (616, 0)
         maximum (110,110)
         
     style profpic_text:
-        pos (18, 30)
+        pos (18, 0)
         maximum (110,110) 
 
     ## ****************************************
@@ -115,13 +115,13 @@ init 5:
     style img_message:
         padding (5, 10)
         #bottom_margin -65
-        pos (138, 35)
+        pos (138, 0)
         xmaximum 750   
         
     style mc_img_message:
         padding (5, 10)
         #bottom_margin -65
-        pos (600, 35)
+        pos (600, 0)
         xmaximum 750
         xalign 1.0
         
@@ -155,6 +155,27 @@ init 5:
         color '#fff'
         size 23       
     
+    ## **********************
+    ## Text Messages
+    ## **********************  
+    style text_msg_npc_fixed:
+        pos (138, 0)
+        xanchor 0.0
+        yanchor 0.0
+        
+    style text_msg_mc_fixed:
+        pos (598, 0)
+        xanchor 1.0
+        yanchor 0.0
+        
+    style text_num:
+        kerning -3
+        color '#fff'
+        size 30 
+        text_align 0.5
+        xalign 0.5
+        yalign 0.5
+        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
       
     ####################################
     ## Save & Exit Styles
@@ -398,31 +419,7 @@ init 5:
         size 25
         
         
-    ## **********************
-    ## Text Messages
-    ## **********************  
-    style text_msg_npc_fixed:
-        pos (138, -55)
-        xanchor 0
-        yanchor 0
-        xfit True
-        yfit True
-        
-    style text_msg_mc_fixed:
-        pos (598, -55)
-        xanchor 1.0
-        yanchor 0.0
-        yfit True
-        xfit True
-        
-    style text_num:
-        kerning -3
-        color '#fff'
-        size 30 
-        text_align 0.5
-        xalign 0.5
-        yalign 0.5
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+
         
     ## **********************
     ## Chat Select
