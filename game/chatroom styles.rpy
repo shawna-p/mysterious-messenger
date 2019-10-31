@@ -93,34 +93,32 @@ init 5:
     ## ****************************************
     ## Profile Pictures Style
     style MC_profpic:
-        pos (616, 0)
+        #pos (616, 0)
         maximum (110,110)
         
     style profpic:
-        pos (18, 0)
+        #pos (18, 0)
         maximum (110,110) 
         
     ## ****************************************
     ## Profile Pictures Style - Texts
     style MC_profpic_text:
-        pos (616, 0)
+        #pos (616, 0)
         maximum (110,110)
         
     style profpic_text:
-        pos (18, 0)
+        #pos (18, 0)
         maximum (110,110) 
 
     ## ****************************************
     ## Style for images posted in the chatroom
     style img_message:
         padding (5, 10)
-        #bottom_margin -65
         pos (138, 0)
         xmaximum 750   
         
     style mc_img_message:
         padding (5, 10)
-        #bottom_margin -65
         pos (600, 0)
         xmaximum 750
         xalign 1.0
@@ -129,14 +127,12 @@ init 5:
     ## Style for images posted in text messages
     style img_text_message:
         padding (5, 10)
-        bottom_margin -65
-        pos (10, 5)
+        pos (10, 0)
         xmaximum 750
 
     style mc_img_text_message:
         padding (5, 10)
-        bottom_margin -65
-        pos (270, -15)
+        pos (270, 0)
         xmaximum 750
         xalign 1.0
 
@@ -159,13 +155,13 @@ init 5:
     ## Text Messages
     ## **********************  
     style text_msg_npc_fixed:
-        pos (138, 0)
+        #pos (138, 0)
         xanchor 0.0
         yanchor 0.0
         
     style text_msg_mc_fixed:
-        pos (598, 0)
-        xanchor 1.0
+        #pos (598, 0)
+        xanchor 0.0
         yanchor 0.0
         
     style text_num:

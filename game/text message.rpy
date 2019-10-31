@@ -389,10 +389,7 @@ screen text_message_screen(the_msg):
                         use text_date_separator(i.thetime)     
                 elif begin == 0 and index == 0:
                     use text_date_separator(i.thetime)
-                fixed:
-                    yfit True
-                    xfit True            
-                    use text_animation(i)
+                use text_animation(i)
                 
                                 
         use text_message_footer(the_msg)
@@ -419,61 +416,48 @@ screen text_animation(i):
         ## out to the appropriate length
         ## Otherwise each bubble would be exactly as wide as
         ## it needs to be and no more
-        if not i.img:
-            t = Text(i.what)
-            z = t.size()
-            my_width = int(z[0])
-            my_height = int(z[1])
+        t = Text(i.what)
+        z = t.size()
+        my_width = int(z[0])
+        my_height = int(z[1])
         
         text_time = (i.thetime.twelve_hour 
                         + ':' + i.thetime.minute 
                         + ' ' + i.thetime.am_pm)
         
-        
-    ## First, the profile picture, no animation
-    
-    if i.who != 'answer' and i.who != 'pause':
-        window:
-            style picStyle                
-            add Transform(i.who.prof_pic, size=(110,110))
-        
+            
+    if i.who != 'answer' and i.who != 'pause':        
         ## Now add the dialogue
         hbox:
             spacing 5 
-            style reg_style
-            #ypos hbox_ypos   
             if i.who == m:
-                if i.img and not "{image=" in i.what:
-                    text text_time:
-                        color '#fff' 
-                        yalign 1.0 
-                        size 23 
-                        yoffset 25
-                else:
-                    text text_time color "#fff" yalign 1.0 size 23                    
+                xalign 1.0
+                box_reverse True
+            xmaximum 750
+            style reg_style            
+            null width 18
+            window:
+                style picStyle                
+                add Transform(i.who.prof_pic, size=(110,110))
             
             frame:               
                 ## Check if it's an image
-                if i.img == True:
+                if i.img == True and not "{image=" in i.what:
                     style img_style
-                    # Check if it's an emoji
-                    if "{image=" in i.what:
-                        style reg_bubble
-                        text i.what style "bubble_text"
-                    else:   # it's a CG
-                        $ fullsizeCG = cg_helper(i.what)
-                        imagebutton:
-                            focus_mask True
-                            idle smallCG(fullsizeCG)
-                            if not choosing:
-                                action [SetVariable("fullsizeCG", 
-                                            cg_helper(i.what)), 
-                                        Call("viewCG", textmsg=True), 
-                                        Return()]
+                    $ fullsizeCG = cg_helper(i.what)
+                    imagebutton:
+                        focus_mask True
+                        idle smallCG(fullsizeCG)
+                        if not choosing:
+                            action [SetVariable("fullsizeCG", 
+                                        cg_helper(i.what)), 
+                                    Call("viewCG", textmsg=True), 
+                                    Return()]
         
                 
                 else:        
                     style reg_bubble
+                    yalign 1.0
                     if my_width > gui.longer_than:
                         text i.what:
                             style "bubble_text_long" 
@@ -482,18 +466,19 @@ screen text_animation(i):
                     else:            
                         text i.what style "bubble_text" color '#fff'
                         
-            if i.who != m:                
-                if i.img == True and not "{image=" in i.what:
-                    text text_time:
-                        color '#fff' 
-                        yalign 1.0 
-                        size 23 
-                        xoffset 10
-                else:
-                    text text_time:
-                        color "#fff" 
-                        yalign 1.0 
-                        size 23
+                           
+            if i.img == True and not "{image=" in i.what:
+                text text_time:
+                    color '#fff' 
+                    yalign 1.0 
+                    size 23 
+                    xoffset 10
+            else:
+                text text_time:
+                    color "#fff" 
+                    yalign 1.0 
+                    size 23
+          
                                             
  
 ## Sets end variables when a text message menu is completed 
