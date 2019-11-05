@@ -365,6 +365,10 @@ label after_load():
             
         if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
             m.prof_pic = persistent.MC_pic
+        if m.name != persistent.name:
+            m.name = persistent.name
+            name = persistent.name
+        set_pronouns()
             
         renpy.hide_screen('settings_screen')
         renpy.hide_screen('save_load')
