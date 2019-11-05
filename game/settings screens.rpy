@@ -3,12 +3,15 @@
 ## Settings screen. It's organized as follows:
 ##   screen settings_tabs
 ##   screen profile_pic
+##     screen pic_and_pronouns
+##     screen points_and_saveload
+##         screen heart_point_grid
 ##     screen input_popup
 ##   screen other_settings
 ##     label restart_game
 ##   screen preferences
 ##     screen voice_buttons
-##     screen ringtone_drowdown
+##     screen ringtone_dropdown
 ########################################################
 
 init python:
@@ -869,28 +872,36 @@ screen ringtone_dropdown(title, tone):
                 # List of the ringtones                
                 for tone in pair[1]:
                     textbutton _(tone):
-                        xysize(450, 60)
-                        background '#fff'
-                        text_color '#000' 
-                        text_xalign 0.5 
-                        text_align 0.5 
-                        text_yalign 0.5
-                        align (0.5, 0.5)
-                        text_hover_color "#12736d"
-                        selected_background "#d0d0d0"                    
+                        style 'ringtone_button'
+                        text_style 'ringtone_button_text'
                         selected getattr(persistent, p_field) == the_dict[tone]
                         if title != "Ringtone":
                             activate_sound the_dict[tone]
-                            action [SetField(persistent, p_field, the_dict[tone]),
-                                    SetField(persistent, p_field + '_name', tone)]
+                            action [SetField(persistent, 
+                                        p_field, the_dict[tone]),
+                                    SetField(persistent, 
+                                        p_field + '_name', tone)]
                         else:
                             activate_sound "<from 0 to 2>" + the_dict[tone]
-                            action [renpy.music.stop(channel=config.play_channel),
-                                    SetField(persistent, p_field, the_dict[tone]),
-                                    SetField(persistent, p_field + '_name', tone)]
+                            action [renpy.music.stop(channel=
+                                                    config.play_channel),
+                                    SetField(persistent, 
+                                        p_field, the_dict[tone]),
+                                    SetField(persistent, 
+                                        p_field + '_name', tone)]
                     
-                    
-                    
+style ringtone_button:
+    xysize(450, 60)
+    background '#fff'
+    align (0.5, 0.5)  
+    selected_background "#d0d0d0"   
+
+style ringtone_button_text:
+    color '#000' 
+    xalign 0.5 
+    text_align 0.5 
+    yalign 0.5    
+    hover_color "#12736d"
                     
                     
                     

@@ -23,12 +23,16 @@ screen chat_select():
             yalign 0.85
             xalign 0.5
             mousewheel "horizontal"
+            scrollbars "horizontal"
             draggable True
             
             hbox:
                 spacing 3
                 for day_num, day in enumerate(chat_archive):
                     use day_select(day, day_num)
+
+style hscrollbar:
+    unscrollable "hide"
                     
                 
 ## This screen shows each day as well as a percentage
@@ -207,7 +211,9 @@ screen chatroom_timeline(day, day_num):
             add 'day_vlink' xalign 0.15
             viewport yadjustment yadj:            
                 mousewheel True
-                draggable True            
+                draggable True    
+                side_spacing 5
+                scrollbars "vertical"        
                 vbox:
                     xsize 720
                     spacing 20      

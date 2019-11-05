@@ -429,19 +429,25 @@ screen route_select_screen():
     tag menu
 
     use menu_header("Mode Select", Show('main_menu', Dissolve(0.5))):
-
-        window:
-            xysize(700, 350)
-            padding (10, 10)
-            xalign 0.5
-            yalign 0.5
-            button:
-                focus_mask True
-                background 'right_corner_menu'
-                hover_background 'right_corner_menu_selected'
-                action [Start()]         
-            text 'Start Game' style 'menu_text_small' xalign 0.5 yalign 0.5
-    
+        fixed:   
+            xysize (720, 1170)
+            yalign 1.0
+            xalign 0.5  
+            window:
+                xysize(700, 350)
+                padding (10, 10)
+                xalign 0.5
+                yalign 0.4
+                button:
+                    focus_mask True
+                    background 'right_corner_menu'
+                    hover_background 'right_corner_menu_selected'
+                    action [Start()]         
+                text 'Start Game':
+                    style 'menu_text_small' 
+                    xalign 0.5 
+                    yalign 0.5
+        
 
   
 ## Load and Save screens #######################################################

@@ -93,21 +93,19 @@ init 5:
     ## ****************************************
     ## Profile Pictures Style
     style MC_profpic:
-        #pos (616, 0)
+        pos (616, 0)
         maximum (110,110)
         
     style profpic:
-        #pos (18, 0)
+        pos (18, 0)
         maximum (110,110) 
         
     ## ****************************************
     ## Profile Pictures Style - Texts
     style MC_profpic_text:
-        #pos (616, 0)
         maximum (110,110)
         
     style profpic_text:
-        #pos (18, 0)
         maximum (110,110) 
 
     ## ****************************************
