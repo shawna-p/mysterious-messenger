@@ -378,7 +378,9 @@ screen chatroom_item(day, day_num, chatroom, index):
                     action [SetVariable('current_chatroom', chatroom), 
                             Jump(chatroom.expired_chat)]
                 else:
-                    if chatroom.played and not persistent.testing_mode:
+                    if (chatroom.played 
+                            and not persistent.testing_mode
+                            and chatroom.replay_log != []):
                         action [SetVariable('current_chatroom', chatroom),
                             SetVariable('observing', True),
                             Jump('rewatch_chatroom')]

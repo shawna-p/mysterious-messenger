@@ -193,13 +193,35 @@ label rewatch_chatroom():
                 elif first == "hack":
                     if second == "regular":
                         renpy.show_screen('hack_screen', hack='hack scroll')
+                        # This looks a bit silly but for whatever reason it
+                        # doesn't allow the player to skip it otherwise
                         if not config.skipping:
-                            renpy.pause(3.0, hard=False)
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
                         renpy.hide_screen('hack_screen')
                     elif second == "red":
                         renpy.show_screen('hack_screen', hack='redhack scroll')
                         if not config.skipping:
-                            renpy.pause(3.0, hard=False)
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
+                        if not config.skipping:
+                            renpy.pause(0.5, hard=False)
                         renpy.hide_screen('hack_screen')
                 elif first == "play music":
                     renpy.music.play(second, channel='music', loop=True)
