@@ -4,7 +4,7 @@ label plot_branch_tutorial():
     stop music
     call hack 
     call chat_begin("hack") 
-    play music mystic_chat loop
+    call play_music(mystic_chat)
     call enter(u) 
 
     u "{=curly}Hello again!{/=curly}"   (bounce=True)
@@ -66,7 +66,7 @@ label plot_branch_tutorial_expired():
     stop music
     call hack 
     call chat_begin("hack") 
-    play music mystic_chat loop
+    call play_music(mystic_chat)
     call enter(u)
     u "It seems [name] is getting close to the end of Tutorial day," 
     u "but [they_re] not here right now T_T" 
@@ -163,7 +163,7 @@ label plot_branch_tutorial_branch():
 label tutorial_bad_end():
 
     call chat_begin('noon') 
-    play music i_miss_happy_rika loop
+    call play_music(i_miss_happy_rika)
 
     v "Hello, [name]." 
     v "{=ser2}I came to make an announcement.{/=ser2}" 
@@ -199,7 +199,7 @@ label tutorial_bad_end():
 ## has expired
 label tutorial_bad_end_expired():
     call chat_begin('noon')
-    play music i_miss_happy_rika loop
+    call play_music(i_miss_happy_rika)
     v "Hello, everyone." 
     v "{=ser2}I came to make an announcement.{/=ser2}" 
     v "It doesn't look like we'll be able to have the party after all," 
@@ -219,7 +219,7 @@ label plot_branch_vn():
     scene bg rika_apartment with fade
     pause
     
-    play music mysterious_clues_v2 loop
+    call play_music(mysterious_clues_v2)
     show saeran vn unknown
     u_vn "Hi, [name]."
     show saeran vn smile
@@ -273,7 +273,7 @@ label tutorial_good_end():
     stop music
     call hack 
     call chat_begin('hack') 
-    play music mystic_chat loop
+    call play_music(mystic_chat)
     u "{=curly}Thanks very much for playing through this first day!{/=curly}" 
     u "I hope it makes you excited to try programming your own things." 
     u "Be sure to contact me if you run into any problems or bugs," 

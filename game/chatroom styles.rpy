@@ -112,12 +112,12 @@ init 5:
     ## Style for images posted in the chatroom
     style img_message:
         padding (5, 10)
-        pos (138, 0)
+        pos (138, 38)
         xmaximum 750   
         
     style mc_img_message:
         padding (5, 10)
-        pos (600, 0)
+        pos (600, 38)
         xmaximum 750
         xalign 1.0
         
@@ -136,7 +136,6 @@ init 5:
 
     # Text style for chatroom dialogue
     style phone_dialogue:
-        #pos (138, -75)
         pos (138, 0)
         xanchor 0.0
         xsize 750

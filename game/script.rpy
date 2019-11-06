@@ -79,7 +79,7 @@
     call hack 
     call chat_begin('hack') 
         
-    play music mystic_chat loop
+    call play_music(mystic_chat)
     
     call enter(u) 
     u "You're here!" 

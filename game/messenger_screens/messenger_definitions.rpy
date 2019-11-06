@@ -101,4 +101,30 @@ label exit(chara):
     $ renpy.restart_interaction
     return
 
+#************************************
+# Play Music/SFX
+#************************************
+# This allows the program to keep track of when to play
+# music during a chatroom or VN
+label play_music(file):
+    play music file loop
+    if not observing:
+        # We should add this music to the replay_log
+        $ music_entry = ("play music", file)
+        $ current_chatroom.replay_log.append(music_entry)
+    return
+
+#************************************
+# Screen Shake
+#************************************
+# This allows the program to keep track of when it should
+# shake the screen during a chatroom
+label shake():
+    show expression current_background at shake
+    if not observing:
+        # We should add this shake to the replay_log
+        $ shake_entry = ("shake", current_background)
+        $ current_chatroom.replay_log.append(shake_entry)
+    return
+
 

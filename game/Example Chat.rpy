@@ -10,7 +10,7 @@ label example_chat():
     call hack 
     call chat_begin("hack") 
         
-    play music mystic_chat loop
+    call play_music(mystic_chat)
     call enter(u) 
     u "{=curly}Hello, [name] ^^{/=curly}" 
     u "I thought you might come by." 
@@ -102,7 +102,7 @@ label emojis():
     call hack 
     call chat_begin("morning",False,False) 
     
-    play music geniusly_hacked_bebop loop
+    call play_music(geniusly_hacked_bebop)
     call enter(s) 
     s "O" (pauseVal=0.1)
     s "M" (pauseVal=0.1)
@@ -234,7 +234,7 @@ label banners():
 
     call hack 
     call chat_begin("noon",False,False) 
-    play music same_old_fresh_air loop
+    call play_music(same_old_fresh_air)
     
     call enter(y) 
     y "{=curly}Hello!{/=curly}"
@@ -279,7 +279,7 @@ label heart_icons():
 
     call hack 
     call chat_begin("evening",False,False) 
-    play music narcissistic_jazz loop
+    call play_music(narcissistic_jazz)
     
     call enter(z) 
     z "{image=zen wink}" (img=True)
@@ -340,7 +340,7 @@ label screen_shake():
     
     call hack 
     call chat_begin("night",False,False) 
-    play music lonesome_practicalism loop
+    call play_music(lonesome_practicalism)
 
     call enter(ja) 
     ja "{=ser1}Hello, [name].{/=ser1}"
@@ -355,7 +355,8 @@ label screen_shake():
     ja "{image=jaehee well}" (img=True)
     ja "Mr. Han."
     ja "{size=+10}MR. HAN!!{/size}" (bounce=True, specBubble="spike_m")
-    show night at shake
+    #show night at shake
+    call shake
     ju "{=curly}Is something the matter?{/=curly}" (bounce=True, specBubble="cloud_m")
     ja "Oh." (bounce=True, specBubble="sigh_s")
     ja "{=ser1}You weren't responding so I thought perhaps you were asleep.{/=ser1}"
@@ -374,11 +375,10 @@ label screen_shake():
     ja "{=ser1}The text should usually resize itself to fit, but you need to choose the size yourself.{/=ser1}"
     ja "{color=#f00}For example, this bubble might be too small.{/color}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}As for screen shake,{/=ser1}"
-    ja "{=ser1}how you use it depends on which background you're using{/=ser1}"
-    ja "{=ser1xb}For example, this is the \"night\" background{/=ser1xb}"
-    ja "So we call \"show night at shake\""
+    ja "{=ser1}you simply need to use the call{/=ser1}"
+    ja "{=ser1xb}\"call shake\" {/=ser1xb}"
     ja "{=sser2}And it does this{/=sser2}" (bounce=True)
-    show night at shake
+    call shake
     ja "{=ser1}Lastly, you can check out all of the special bubbles present in the game.{/=ser1}"
     ja "{=ser1xb}Just select \"Done\" when you're finished.{/=ser1xb}"
     call answer 
@@ -389,7 +389,7 @@ label screen_shake():
 label ending():
     call hack 
     call chat_begin("hack",False,False) 
-    play music mystic_chat loop
+    call play_music(mystic_chat)
     
     call enter(u) 
     u "{=curly}You're back!{/=curly}" (bounce=True)
@@ -460,7 +460,7 @@ label example_chat_expired():
     $ available_calls.append(Phone_Call(r, 'test_call', 'outgoing', 'test'))   
     call hack 
     call chat_begin("hack") 
-    play music mystic_chat loop
+    call play_music(mystic_chat)
     call enter(u) 
     u "Oh, [name]'s not here." 
     u "It looks like you let this chatroom expire, huh?" 

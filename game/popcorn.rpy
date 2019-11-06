@@ -13,7 +13,7 @@ label popcorn_chat():
     $ ja.set_prof_pic('Profile Pics/Jaehee/jae-2.jpg')
     $ ju.set_prof_pic('Profile Pics/Jumin/ju-18.jpg')
     
-    play music urban_night_cityscape loop
+    call play_music(urban_night_cityscape)
     
     ju "Zen's written some strange things." 
     ja "{image=jaehee happy}" (img=True)
@@ -116,7 +116,7 @@ label popcorn_chat_expired():
     call chat_begin("morning") 
     $ ja.set_prof_pic('Profile Pics/Jaehee/jae-2.jpg')
     $ ju.set_prof_pic('Profile Pics/Jumin/ju-18.jpg')    
-    play music urban_night_cityscape loop
+    call play_music(urban_night_cityscape)
     ju "Zen's written some strange things." 
     ja "{image=jaehee happy}"   (img=True)
     ja "There is a meeting with the Women Artists group today." 
@@ -226,7 +226,7 @@ label popcorn_vn():
     pause
     
     # You'll set the background music the same way you do for chatrooms
-    play music urban_night_cityscape loop
+    call play_music(urban_night_cityscape)
     
     # This is how we show the characters. Some, like Jumin, have both
     # 'front' and 'side' positions, so we need to specify which one. 
@@ -311,7 +311,7 @@ label popcorn_vn():
     show sarah smirk at vn_center
     sarah_vn "I will~ Oh my, but I don't think I've seen you before. I'm Jumin's fiancee, Sarah! Oh... but your mascara's a bit clumpy. I think you should go to the bathroom and fix it."
     
-    play music mysterious_clues_v2 loop
+    call play_music(mysterious_clues_v2)
     
     menu:
         extend ''   # you'll want to put this after every menu option; 

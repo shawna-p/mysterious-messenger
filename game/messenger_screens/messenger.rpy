@@ -216,6 +216,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     # Sets the correct background and nickname colour
     # You'll need to add other backgrounds here if you define
     # new ones
+    $ current_background = background
     if background == "morning":
         scene bg morning
         $ nickColour = black
@@ -243,6 +244,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     else:
         scene bg black
         $ nickColour = white
+        $ current_background = "morning"
         
     # If you've already played this chatroom in your current runthrough,
     # viewing it again causes this variable to be True. It prevents you
@@ -251,6 +253,8 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     if current_chatroom.played:
         if not persistent.testing_mode:
             $ observing = True     
+        else:
+            $ observing = False
     else:
         $ observing = False
         

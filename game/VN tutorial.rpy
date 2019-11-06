@@ -9,9 +9,8 @@ label vn_mode_tutorial():
     # the background to your desired image
     scene bg mint_eye_room
     
-    # This will play music during the VN. You'll want to put 'loop' 
-    # so that the music repeats
-    play music mint_eye loop
+    # This will play music during the VN.
+    call play_music(mint_eye)
     
     show saeran vn smile
     r_vn "Hello! Welcome to Visual Novel mode."

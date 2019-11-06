@@ -2,7 +2,7 @@
 label example_email():
 
     call chat_begin('evening') 
-    play music narcissistic_jazz loop
+    call play_music(narcissistic_jazz)
     
     z 'Hey, [name], I had an idea for a guest we should invite.'
     z 'Can we invite zentherainbowunicorn?'
@@ -46,7 +46,7 @@ label example_email():
 ## This is the 'expired' version of the chatroom
 label example_email_expired():
     call chat_begin('evening')
-    play music narcissistic_jazz loop
+    call play_music(narcissistic_jazz)
     z "Hey, [name], I had an idea for a guest we should invite." 
     z "Oh... [they_re] not here."   (bounce=True, specBubble="sigh_m")
     z "Hmm." 

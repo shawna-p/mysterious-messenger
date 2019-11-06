@@ -11,14 +11,15 @@ label tutorial_chat():
     
     # Again, look for music in variables.rpy
     # You'll want to tell background music to loop
-    play music geniusly_hacked_bebop loop
+    call play_music(geniusly_hacked_bebop)
     
     # Use 'call answer' before any menu to bring up the answer button
     call answer 
     menu:
         "Do you still feel tired?":
             # Note that MC's responses have a pauseVal of 0 after a menu
-            # Both 'branches' have several lines of dialogue before they 'rejoin' later
+            # Both 'branches' have several lines of dialogue before they
+            # 'rejoin' later
             m "Do you still feel tired?" (pauseVal=0)
             s "{=sser2}No way.{/=sser2}"
             s "{=sser2}One of my strengths is that I feel completely refreshed after sleeping{/=sser2}" (bounce=True, specBubble="cloud_l")
@@ -28,7 +29,8 @@ label tutorial_chat():
             
             # You have to call heart icons yourself. Just pass it the variable
             # of the name of the character whose heart icon you want
-            # (character definitions.rpy has the variable names if you're not sure) 
+            # (character definitions.rpy has the variable names if you're 
+            # not sure) 
             call heart_icon(s) 
             s "{=sser2}Ya. Slept like a rock.{/=sser2}"
         "(Jump to end)":
@@ -86,9 +88,10 @@ label tutorial_chat():
     s "{=ser1}{size=+12}Did you already drink the coffee!?!?!?!?{/size}{/=ser1}"
     y "Yeah... Why?"
     
-    # Another play statement will automatically "override" the previous play statement
-    # and only one set of background music will play on the music channel at once
-    play music dark_secret loop
+    # Another play statement will automatically "override" 
+    # the previous play statement and only one set of 
+    # background music will play on the music channel at once
+    call play_music(dark_secret)
     s "{=ser1b}Big trouble...{/=ser1b}"
     y "What trouble?"
     s "{=ser1}It's...{/=ser1}"
@@ -153,7 +156,8 @@ label tutorial_chat():
     y "{=sser2}Seriously?? Ur kidding right?{/=sser2}" (bounce=True, specBubble="spike_m")
     
     # This is the shake animation; it plays during the previous line of dialogue
-    show earlyMorn at shake
+    #show earlyMorn at shake
+    call shake
     
     call answer 
     menu:
@@ -550,7 +554,7 @@ label coffee2():
 label tutorial_chat_expired():
 
     call chat_begin("earlyMorn") 
-    play music geniusly_hacked_bebop loop
+    call play_music(geniusly_hacked_bebop)
     s "Phew... I almost died." 
     call enter(y)
     s "The insane amount of work I have is making me so stressed..." 
@@ -563,7 +567,7 @@ label tutorial_chat_expired():
     s "Ur learning how to make coffee...???" 
     y "Yup^^" 
     s "{=ser1b}No way. U can't.{/=ser1b}" 
-    play music dark_secret loop
+    call play_music(dark_secret)
     y "What?" 
     s "{=ser1b}Did u drink the coffee already!?!?!?!?{/=ser1b}" 
     y "Yeah... Why?" 

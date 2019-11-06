@@ -2,7 +2,7 @@ label example_text():
 
     call chat_begin("morning")
         
-    play music mint_eye loop
+    call play_music(mint_eye)
     
     r "{=curly}Hi there!{/=curly}"   (bounce=True, specBubble="square2_s")
     r "This chatroom is here to demonstrate how text messages are sent." 
@@ -37,7 +37,7 @@ label example_text():
 ## is expired
 label example_text_expired():
     call chat_begin('morning')
-    play music mint_eye loop
+    call play_music(mint_eye)
     r "{=curly}Hi there!{/=curly}"   (bounce=True, specBubble="square2_s")
     r "This chatroom is here to demonstrate how text messages are sent." 
     r "But, well, since this chatroom is expired it won't act the same way." 
