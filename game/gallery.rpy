@@ -1,6 +1,6 @@
 python early:
 
-    class Album(store.object):
+    class Album(object):
         def __init__(self, img, thumbnail=False, 
                     locked_img="CGs/album_unlock.png", unlocked=False):
             # images should be 750x1334

@@ -378,8 +378,13 @@ screen chatroom_item(day, day_num, chatroom, index):
                     action [SetVariable('current_chatroom', chatroom), 
                             Jump(chatroom.expired_chat)]
                 else:
-                    action [SetVariable('current_chatroom', chatroom), 
-                            Jump(chatroom.chatroom_label)]
+                    if chatroom.played and not persistent.testing_mode:
+                        action [SetVariable('current_chatroom', chatroom),
+                            SetVariable('observing', True),
+                            Jump('rewatch_chatroom')]
+                    else:
+                        action [SetVariable('current_chatroom', chatroom), 
+                                Jump(chatroom.chatroom_label)]
                     
             if hacked_effect and chatroom.expired:
                 add 'day_reg_hacked' xoffset -185 yoffset -178

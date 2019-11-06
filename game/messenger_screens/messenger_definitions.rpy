@@ -81,6 +81,9 @@ default persistent.custom_footers = False
 label enter(chara):
 
     $ mystring = chara.name + " has entered the chatroom."
+    if not observing and not persistent.testing_mode:
+        $ enter_entry = ("enter", chara)
+        $ current_chatroom.replay_log.append(enter_entry)
     
     $ addchat(special_msg, mystring, pv)
     if chara.name not in in_chat:
@@ -89,16 +92,19 @@ label enter(chara):
     if not observing:
         $ current_chatroom.add_participant(chara)
     
-    $ renpy.restart_interaction
+    $ renpy.restart_interaction()
     return
     
 label exit(chara):
-    
+    if not observing and not persistent.testing_mode:
+        $ exit_entry = ("exit", chara)
+        $ current_chatroom.replay_log.append(exit_entry)
+
     $ mystring = chara.name + " has left the chatroom."    
     $ addchat(special_msg, mystring, pv)
     if chara.name in in_chat:
         $ in_chat.remove(chara.name)
-    $ renpy.restart_interaction
+    $ renpy.restart_interaction()
     return
 
 #************************************
@@ -108,7 +114,7 @@ label exit(chara):
 # music during a chatroom or VN
 label play_music(file):
     play music file loop
-    if not observing:
+    if not observing and not persistent.testing_mode:
         # We should add this music to the replay_log
         $ music_entry = ("play music", file)
         $ current_chatroom.replay_log.append(music_entry)
@@ -121,10 +127,114 @@ label play_music(file):
 # shake the screen during a chatroom
 label shake():
     show expression current_background at shake
-    if not observing:
+    if not observing and not persistent.testing_mode:
         # We should add this shake to the replay_log
         $ shake_entry = ("shake", current_background)
         $ current_chatroom.replay_log.append(shake_entry)
     return
 
+## This label is called when you want to replay a chatroom
+label rewatch_chatroom():
+    stop music
+    $ chatlog = []
 
+    # Make sure we're showing the messenger screens
+    hide screen starry_night
+    show screen phone_overlay
+    show screen messenger_screen 
+    show screen pause_button
+    
+    # Hide all the popup screens
+    hide screen text_msg_popup
+    hide screen text_msg_popup_instant
+    hide screen email_popup
+    
+    $ inst_text = False
+    window hide
+    $ reply_screen = False
+    $ in_phone_call = False
+    $ vn_choice = False
+    $ email_reply = False
+    
+    # Fills the beginning of the screen with 'empty space' 
+    # so the messages begin showing up at the bottom of the 
+    # screen (otherwise they start at the top)
+    $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+        
+    python:
+        # TODO: Reset participants?
+        in_chat = []
+        for person in current_chatroom.participants:
+            if person.name not in in_chat:
+                in_chat.append(person.name)
+            
+        # If the player participated, add them to the list of
+        # people in the chat
+        if (not current_chatroom.expired 
+                or current_chatroom.buyback 
+                or current_chatroom.buyahead):
+            in_chat.append(m.name)
+
+    # Now we start the loop to iterate through the replay_log
+    python:
+        for entry in current_chatroom.replay_log:
+            if isinstance(entry, ReplayEntry):
+                print("is Replay")
+                # We want to pop it through the addchat function
+                addchat(entry.who, entry.what, entry.pauseVal,
+                    entry.img, entry.bounce, entry.specBubble)
+            elif isinstance(entry, tuple):
+                # It's some kind of command
+                first = entry[0]
+                second = entry[1]
+                print("is tuple", first, second)
+                if first == "banner":
+                    renpy.show_screen('banner_screen', banner=second)
+                elif first == "hack":
+                    if second == "regular":
+                        renpy.show_screen('hack_screen', hack='hack scroll')
+                        if not config.skipping:
+                            renpy.pause(3.0, hard=False)
+                        renpy.hide_screen('hack_screen')
+                    elif second == "red":
+                        renpy.show_screen('hack_screen', hack='redhack scroll')
+                        if not config.skipping:
+                            renpy.pause(3.0, hard=False)
+                        renpy.hide_screen('hack_screen')
+                elif first == "play music":
+                    renpy.music.play(second, channel='music', loop=True)
+                elif first == "shake":
+                    current_background = second
+                    renpy.show(second, at_list=[shake])
+                elif first == "enter":
+                    mystring = second.name + " has entered the chatroom."
+                    addchat(store.special_msg, mystring, store.pv)
+                    if second.name not in store.in_chat:
+                        store.in_chat.append(second.name)
+                    renpy.restart_interaction()
+                elif first == "exit":
+                    mystring = second.name + " has left the chatroom."
+                    addchat(store.special_msg, mystring, store.pv)
+                    if second.name in store.in_chat:
+                        store.in_chat.remove(second.name)
+                    renpy.restart_interaction()
+                elif first == "background":
+                    renpy.scene()
+                    renpy.show(second)
+                    if (first == "morning"
+                            or first == "noon"
+                            or first == "evening"):
+                        nickColour = black
+                    else:
+                        nickColour = white
+            else:
+                print("something's wacky", entry)
+
+    call chat_end
+
+      
+
+
+    
+    
+        

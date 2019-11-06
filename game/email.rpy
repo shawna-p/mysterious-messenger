@@ -5,7 +5,7 @@ init python:
     
     ## This class holds the information the email needs for delivery,
     ## timeout, failure, etc
-    class Email(store.object):
+    class Email(object):
         def __init__(self, guest, msg, reply_label, read=False, msg_num=0,
                         failed=False, timeout_count=25, deliver_reply="wait",
                         reply=False, timeout=False):
@@ -234,7 +234,7 @@ init python:
        
     ## This class stores necessary information about the guest, including
     ## all of their email replies as well as their image thumbnail and name
-    class Guest(store.object):
+    class Guest(object):
         def __init__(self, name, pic, start_msg,
                         msg1_good, reply1_good, msg1_bad, reply1_bad,
                         msg2_good, reply2_good, msg2_bad, reply2_bad,

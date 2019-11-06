@@ -1,7 +1,7 @@
 init -6 python:
 
     ## This class stores the information needed for phone calls
-    class Phone_Call(store.object):
+    class Phone_Call(object):
         def __init__(self, caller, phone_label, call_status='incoming',
                 avail_timeout=2, voicemail=False):
             self.caller = caller

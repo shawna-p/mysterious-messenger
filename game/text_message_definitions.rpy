@@ -13,7 +13,7 @@ init python:
 
     ## The Text_Message class keeps track of a text message conversation
     ##  for each character. The actual messages are stored in msg_list
-    class Text_Message(store.object):
+    class Text_Message(object):
         def __init__(self, sender, msg_list, reply_label=False, delay=True, 
                     read=False, heart=False):
             self.sender = sender

@@ -4,7 +4,7 @@ init -5 python:
     ## and a 'file_id' that's appended to things like their special 
     ## bubble names and saves you from typing out the full name 
     ## every time
-    class Chat(store.object):
+    class Chat(object):
         def __init__(self, name, file_id=False, prof_pic=False, 
                 participant_pic=False, heart_color='#000000', 
                 cover_pic=False, status=False, bubble_color=False, 
@@ -124,6 +124,16 @@ init -5 python:
                 addtext_instant(self, what, pauseVal=pauseVal, 
                             img=img, bounce=bounce, specBubble=specBubble)
             else:
+                # Make sure we're not observing; otherwise we add
+                # entries to the replay_log
+                if not store.observing:
+                    new_pv = pauseVal
+                    # For replays, we don't want MC to reply instantly
+                    if self == store.m and new_pv == 0:
+                        new_pv = None
+                    store.current_chatroom.replay_log.append(ReplayEntry(
+                        self, what, new_pv, img, bounce, specBubble)
+                    )
                 addchat(self, what, pauseVal=pauseVal, img=img, 
                             bounce=bounce, specBubble=specBubble)
 

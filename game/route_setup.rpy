@@ -7,7 +7,7 @@ init -6 python:
     ## A more complete explanation of how to use it to set up 
     ## chatrooms can be found in the accompanying Script Generator
     ## spreadsheet
-    class Chat_History(store.object):
+    class Chat_History(object):
         def __init__(self, title, save_img, chatroom_label, trigger_time, 
                         participants=[], vn_obj=False, plot_branch=False):
             # Title of the chatroom
@@ -77,7 +77,7 @@ init -6 python:
             
     ## This class stores the information needed for the Visual 
     ## Novel portions of the game
-    class VN_Mode(store.object):
+    class VN_Mode(object):
         def __init__(self, vn_label, who=None, party=False):
             # The label to jump to for the VN
             self.vn_label = vn_label
@@ -92,7 +92,7 @@ init -6 python:
               
             
     ## This object stores a day's worth of chatrooms
-    class Archive(store.object):
+    class Archive(object):
         def __init__(self, day, archive_list=[], route='day_common2'):
             # The day e.g. "1st"
             self.day = day

@@ -53,7 +53,7 @@ init python:
     # This class keeps track of "Space Thoughts" in 
     # order to show the correct image + text combo
     # to the player
-    class SpaceThought(store.object):
+    class SpaceThought(object):
         def __init__(self, char, thought):
             self.char = char
             self.thought = thought

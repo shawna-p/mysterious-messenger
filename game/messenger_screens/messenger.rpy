@@ -20,6 +20,18 @@ init -4 python:
             self.bounce = bounce
             self.specBubble = specBubble
 
+    ## Class that is functionally the same as a Chatentry, but
+    ## keeps track of "replay" entries for the replay function
+    class ReplayEntry(object):
+        def __init__(self, who, what, pauseVal=None, img=False,
+                        bounce=False, specBubble=None):
+            self.who = who
+            self.what = what
+            self.pauseVal = pauseVal
+            self.img = img
+            self.bounce = bounce
+            self.specBubble = specBubble
+
     ##************************************
     ## For ease of adding Chatlog entries
     ##************************************   
@@ -47,7 +59,7 @@ init -4 python:
                 
         # If we didn't get an explicit pauseVal, we use
         # the default one
-        if pauseVal == None:
+        if pauseVal is None:
             pauseVal = pv
 
         # Now we have a function that's going to act as a 
@@ -245,6 +257,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         scene bg black
         $ nickColour = white
         $ current_background = "morning"
+
         
     # If you've already played this chatroom in your current runthrough,
     # viewing it again causes this variable to be True. It prevents you
@@ -258,6 +271,10 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     else:
         $ observing = False
         
+    # We add this background to the replay log
+    if not observing and not persistent.testing_mode:
+        $ bg_entry = ("background", "bg " + current_background)
+        $ current_chatroom.replay_log.append(bg_entry)
 
     # This resets the heart points you've collected from
     # previous chatrooms so it begins at 0 again   
