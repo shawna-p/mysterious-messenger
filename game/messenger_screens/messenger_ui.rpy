@@ -155,11 +155,10 @@ screen phone_overlay():
             if not choosing:
                 action Function(toggle_skipping)
                 
-    if not observing:
-        window:
-            align (0.75, 0.055)
-            xysize (400, 80)
-            text list_of_char style 'in_chat_list_style'
+    window:
+        align (0.75, 0.055)
+        xysize (400, 80)
+        text list_of_char style 'in_chat_list_style'
 
 
                 

@@ -281,7 +281,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     if resetHP:
         $ in_chat = []
         python:
-            for person in current_chatroom.participants:
+            for person in current_chatroom.original_participants:
                 if person.name not in in_chat:
                     in_chat.append(person.name)
             
