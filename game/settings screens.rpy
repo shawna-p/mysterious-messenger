@@ -207,13 +207,12 @@ screen pic_and_pronouns():
         # Pick your pronouns
         window:
             style 'pronoun_window'
-            style_prefix "pronoun_window"
-        
+            style_prefix "pronoun_window"        
             has vbox        
             text "Preferred Pronouns"
             button:     
                 action [SetField(persistent, "pronoun", "female"), 
-                        Function(set_pronouns)] 
+                        Function(set_pronouns), renpy.restart_interaction] 
                 has hbox
                 spacing 10
                 if persistent.pronoun == "female":
@@ -224,7 +223,7 @@ screen pic_and_pronouns():
                 
             button:
                 action [SetField(persistent, "pronoun", "male"), 
-                        Function(set_pronouns)]
+                        Function(set_pronouns), renpy.restart_interaction]
                 has hbox
                 spacing 10
                 if persistent.pronoun == "male":
@@ -236,7 +235,7 @@ screen pic_and_pronouns():
                 
             button:
                 action [SetField(persistent, "pronoun", "non binary"), 
-                        Function(set_pronouns)]
+                        Function(set_pronouns), renpy.restart_interaction]
                 has hbox
                 spacing 10
                 if persistent.pronoun == "non binary":

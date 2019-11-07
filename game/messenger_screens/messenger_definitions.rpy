@@ -81,7 +81,8 @@ default persistent.custom_footers = False
 label enter(chara):
 
     $ mystring = chara.name + " has entered the chatroom."
-    if not observing and not persistent.testing_mode:
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
         $ enter_entry = ("enter", chara)
         $ current_chatroom.replay_log.append(enter_entry)
     
@@ -96,7 +97,8 @@ label enter(chara):
     return
     
 label exit(chara):
-    if not observing and not persistent.testing_mode:
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
         $ exit_entry = ("exit", chara)
         $ current_chatroom.replay_log.append(exit_entry)
 
@@ -114,7 +116,8 @@ label exit(chara):
 # music during a chatroom or VN
 label play_music(file):
     play music file loop
-    if not observing and not persistent.testing_mode:
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
         # We should add this music to the replay_log
         $ music_entry = ("play music", file)
         $ current_chatroom.replay_log.append(music_entry)
@@ -127,7 +130,8 @@ label play_music(file):
 # shake the screen during a chatroom
 label shake():
     show expression current_background at shake
-    if not observing and not persistent.testing_mode:
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
         # We should add this shake to the replay_log
         $ shake_entry = ("shake", current_background)
         $ current_chatroom.replay_log.append(shake_entry)
@@ -269,7 +273,6 @@ label rewatch_chatroom():
             else:
                 print("something's wacky", entry)
 
-    $ observing = False
     call chat_end
 
       

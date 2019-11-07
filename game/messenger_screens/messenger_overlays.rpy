@@ -129,7 +129,8 @@ screen hack_screen(hack):
         
     
 label hack():
-    if not observing and not persistent.testing_mode:
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
         $ hack_entry = ("hack", "regular")
         $ current_chatroom.replay_log.append(hack_entry)
     show screen hack_screen('hack scroll')
@@ -138,7 +139,8 @@ label hack():
     return
     
 label redhack():
-    if not observing and not persistent.testing_mode:
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
         $ hack_entry = ("hack", "red")
         $ current_chatroom.replay_log.append(hack_entry)
     show screen hack_screen('redhack scroll')
@@ -154,7 +156,8 @@ label redhack():
 # Just call them using "call banner('well')" etc
 
 label banner(banner):
-    if not observing and not persistent.testing_mode:
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
         $ banner_entry = ("banner", banner)
         $ current_chatroom.replay_log.append(banner_entry)
     show screen banner_screen(banner)

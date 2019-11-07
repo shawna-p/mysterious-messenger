@@ -94,6 +94,7 @@ label press_save_and_exit(phone=True):
         $ config.skipping = False
         $ greeted = False
         $ choosing = False
+        $ observing = False
         hide screen phone_overlay
         hide screen save_and_exit
         hide screen play_button
