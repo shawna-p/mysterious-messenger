@@ -162,9 +162,8 @@ label rewatch_chatroom():
     $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
         
     python:
-        # TODO: Reset participants?
         in_chat = []
-        for person in current_chatroom.participants:
+        for person in current_chatroom.original_participants:
             if person.name not in in_chat:
                 in_chat.append(person.name)
             
@@ -195,32 +194,48 @@ label rewatch_chatroom():
                         renpy.show_screen('hack_screen', hack='hack scroll')
                         # This looks a bit silly but for whatever reason it
                         # doesn't allow the player to skip it otherwise
-                        if not config.skipping:
+                        # The hack screen was turned into a button, and if
+                        # the player presses it it hides itself. Then the 
+                        # program checks to make sure the hack screen is still
+                        # showing so that it should continue to pause
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
                         renpy.hide_screen('hack_screen')
                     elif second == "red":
                         renpy.show_screen('hack_screen', hack='redhack scroll')
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if not config.skipping:
+                        if (not config.skipping 
+                                and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
                         renpy.hide_screen('hack_screen')
                 elif first == "play music":
