@@ -269,6 +269,7 @@ label rewatch_chatroom():
             else:
                 print("something's wacky", entry)
 
+    $ observing = False
     call chat_end
 
       
