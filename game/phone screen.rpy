@@ -93,109 +93,33 @@ init -6 python:
     ## chatroom available as appropriate
     def deliver_calls(lbl, expired=False, call_time=False):
         global available_calls, incoming_call, call_history
-        global unseen_calls, test_em
+        global unseen_calls, test_em, all_characters
         missed_call = False
         phonecall = False
         # Adds available calls
-        if renpy.has_label(lbl + '_phone_ja'):
-            available_calls.append(Phone_Call(ja, 
-                                lbl + '_phone_ja', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_ju'):
-            available_calls.append(Phone_Call(ju, 
-                                lbl + '_phone_ju', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_r'):
-            available_calls.append(Phone_Call(r, 
-                                lbl + '_phone_r', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_ri'):
-            available_calls.append(Phone_Call(ri,
-                                 lbl + '_phone_ri', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_s'):
-            available_calls.append(Phone_Call(s, 
-                                lbl + '_phone_s', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_sa'):
-            available_calls.append(Phone_Call(sa, 
-                                lbl + '_phone_sa', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_u'):
-            available_calls.append(Phone_Call(u, 
-                                lbl + '_phone_u', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_v'):
-            available_calls.append(Phone_Call(v, 
-                                lbl + '_phone_v', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_y'):
-            available_calls.append(Phone_Call(y, 
-                                lbl + '_phone_y', 'outgoing'))
-        if renpy.has_label(lbl + '_phone_z'):
-            available_calls.append(Phone_Call(z, 
-                                lbl + '_phone_z', 'outgoing'))
-            
-        # Updates the incoming_call, or missed calls if the chatroom
-        # has expired
-        if renpy.has_label(lbl + '_incoming_ja'):
-            if expired:
-                phonecall = Phone_Call(ja, lbl + '_incoming_ja', 'outgoing')
-                missed_call = Phone_Call(ja, lbl + '_incoming_ja', 'missed')
-            else:
-                incoming_call = Phone_Call(ja, lbl + '_incoming_ja', 'incoming')
-        if renpy.has_label(lbl + '_incoming_ju'):
-            if expired:
-                phonecall = Phone_Call(ju, lbl + '_incoming_ju', 'outgoing')
-                missed_call = Phone_Call(ju, lbl + '_incoming_ju', 'missed')
-            else:
-                incoming_call = Phone_Call(ju, lbl + '_incoming_ju', 'incoming')
-        if renpy.has_label(lbl + '_incoming_r'):
-            if expired:
-                phonecall = Phone_Call(r, lbl + '_incoming_r', 'outgoing')
-                missed_call = Phone_Call(r, lbl + '_incoming_r', 'missed')
-            else:
-                incoming_call = Phone_Call(r, lbl + '_incoming_r', 'incoming')
-        if renpy.has_label(lbl + '_incoming_ri'):
-            if expired:
-                phonecall = Phone_Call(ri, lbl + '_incoming_ri', 'outgoing')
-                missed_call = Phone_Call(ri, lbl + '_incoming_ri', 'missed')
-            else:
-                incoming_call = Phone_Call(ri, lbl + '_incoming_ri', 'incoming')
-        if renpy.has_label(lbl + '_incoming_s'):
-            if expired:
-                phonecall = Phone_Call(s, lbl + '_incoming_s', 'outgoing')
-                missed_call = Phone_Call(s, lbl + '_incoming_s', 'missed')
-            else:
-                incoming_call = Phone_Call(s, lbl + '_incoming_s', 'incoming')
-        if renpy.has_label(lbl + '_incoming_sa'):
-            if expired:
-                phonecall = Phone_Call(sa, lbl + '_incoming_sa', 'outgoing')
-                missed_call = Phone_Call(sa, lbl + '_incoming_sa', 'missed')
-            else:
-                incoming_call = Phone_Call(sa, lbl + '_incoming_sa', 'incoming')
-        if renpy.has_label(lbl + '_incoming_u'):
-            if expired:
-                phonecall = Phone_Call(u, lbl + '_incoming_u', 'outgoing')
-                missed_call = Phone_Call(u, lbl + '_incoming_u', 'missed')
-            else:
-                incoming_call = Phone_Call(u, lbl + '_incoming_u', 'incoming')
-        if renpy.has_label(lbl + '_incoming_v'):
-            if expired:
-                phonecall = Phone_Call(v, lbl + '_incoming_v', 'outgoing')
-                missed_call = Phone_Call(v, lbl + '_incoming_v', 'missed')
-            else:
-                incoming_call = Phone_Call(v, lbl + '_incoming_v', 'incoming')
-        if renpy.has_label(lbl + '_incoming_y'):
-            if expired:
-                phonecall = Phone_Call(y, lbl + '_incoming_y', 'outgoing')
-                missed_call = Phone_Call(y, lbl + '_incoming_y', 'missed')
-            else:
-                incoming_call = Phone_Call(y, lbl + '_incoming_y', 'incoming')
-        if renpy.has_label(lbl + '_incoming_z'):
-            if expired:
-                phonecall = Phone_Call(z, lbl + '_incoming_z', 'outgoing')
-                missed_call = Phone_Call(z, lbl + '_incoming_z', 'missed')
-            else:
-                incoming_call = Phone_Call(z, lbl + '_incoming_z', 'incoming')
+        for c in all_characters:
+            # Adds available outgoing calls to the list
+            if renpy.has_label(lbl + '_phone_' + c.file_id):
+                available_calls.append(Phone_Call(c, 
+                    lbl + '_phone_' + c.file_id, 'outgoing'))
+
+            # Updates the incoming call, or moves it if the call has expired
+            if renpy.has_label(lbl + '_incoming_' + c.file_id):
+                if expired:
+                    phonecall = Phone_Call(c, lbl + '_incoming_' + c.file_id,
+                                    'outgoing')
+                    missed_call = Phone_Call(c, lbl + '_incoming_' + c.file_id,
+                                    'missed')
+                else:
+                    incoming_call = Phone_Call(c, lbl + '_incoming_'
+                                    + c.file_id, 'incoming')            
         
-        # They backed out of a chatroom; no missed call but we should
+        # The player backed out of a chatroom; no missed call but we should
         # add it to the outgoing calls list
         if expired and not call_time and missed_call and phonecall:
             if phonecall not in available_calls:
                 available_calls.append(phonecall)   
+
         # Otherwise, the chatroom expired so add the missed call as well
         # as an outgoing call
         elif expired and missed_call and phonecall:
@@ -206,6 +130,7 @@ init -6 python:
             if phonecall not in available_calls:
                 available_calls.append(phonecall)
             unseen_calls += 1
+            
         renpy.retain_after_load()
         
 default unseen_calls = 0

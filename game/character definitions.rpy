@@ -208,7 +208,10 @@ default character_list = [ju, z, s, y, ja, v, m, r, ri]
 # Even if you don't want someone to show up as a contact in
 # the phonebook, they should be in this list -- it allows
 # them to exist in the game
-default all_characters = [ju, z, s, y, ja, v, m, r, ri]
+# Note, for example, that u is in the all_characters list but
+# not the character_list, so he can send texts but doesn't have
+# phone contact icon
+default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
                         
                         
 # ****************************
