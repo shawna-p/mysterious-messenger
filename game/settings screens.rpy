@@ -601,7 +601,7 @@ style other_settings_end_button_text:
 label restart_game():
     python:
         # removes heart points from all the characters
-        for person in character_list:
+        for person in all_characters:
             person.reset_heart()
         
         # presumably some more resets here as needed

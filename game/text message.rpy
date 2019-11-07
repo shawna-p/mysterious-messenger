@@ -23,14 +23,14 @@ screen text_message_hub():
             vbox:
                 spacing 10
                 if persistent.instant_texting:
-                    for i in character_list:
+                    for i in all_characters:
                         # First we display unread messages
                         if (i.private_text 
                                 and (not i.private_text_read 
                                     or i.private_text_read == "Notified")):
                             use text_hub_display(persistent.instant_texting, 
                                                     i.private_text, i)
-                    for i in character_list:
+                    for i in all_characters:
                         # Now we display read messages
                         if (i.private_text 
                                 and i.private_text_read != "Notified" 

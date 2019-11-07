@@ -133,6 +133,9 @@ label shake():
         $ current_chatroom.replay_log.append(shake_entry)
     return
 
+#************************************
+# Chatroom Replay (in-game)
+#************************************
 ## This label is called when you want to replay a chatroom
 label rewatch_chatroom():
     stop music
@@ -178,15 +181,14 @@ label rewatch_chatroom():
     python:
         for entry in current_chatroom.replay_log:
             if isinstance(entry, ReplayEntry):
-                print("is Replay")
                 # We want to pop it through the addchat function
                 addchat(entry.who, entry.what, entry.pauseVal,
                     entry.img, entry.bounce, entry.specBubble)
             elif isinstance(entry, tuple):
-                # It's some kind of command
+                # It's some kind of command; we determine what to do
+                # based on what the command and given info is
                 first = entry[0]
                 second = entry[1]
-                print("is tuple", first, second)
                 if first == "banner":
                     renpy.show_screen('banner_screen', banner=second)
                 elif first == "hack":
@@ -245,15 +247,15 @@ label rewatch_chatroom():
                     renpy.show(second, at_list=[shake])
                 elif first == "enter":
                     mystring = second.name + " has entered the chatroom."
-                    addchat(store.special_msg, mystring, store.pv)
-                    if second.name not in store.in_chat:
-                        store.in_chat.append(second.name)
+                    addchat(special_msg, mystring, pv)
+                    if second.name not in in_chat:
+                        in_chat.append(second.name)
                     renpy.restart_interaction()
                 elif first == "exit":
                     mystring = second.name + " has left the chatroom."
-                    addchat(store.special_msg, mystring, store.pv)
-                    if second.name in store.in_chat:
-                        store.in_chat.remove(second.name)
+                    addchat(special_msg, mystring, pv)
+                    if second.name in in_chat:
+                        in_chat.remove(second.name)
                     renpy.restart_interaction()
                 elif first == "background":
                     renpy.scene()

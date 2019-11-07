@@ -367,6 +367,9 @@ screen phone_contacts():
             has vbox
             xysize (725, 1070)       
             
+            # Only characters in character_list show up as contacts
+            # though any character in the all_characters list can 
+            # phone the player
             if len(character_list) > 10:
                 use phone_contacts_grid(3, -(-len(character_list) // 3))
             else:

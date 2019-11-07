@@ -137,13 +137,13 @@ init python:
         
     ## Returns the number of unread messages in text_messages
     def new_message_count():
-        global persistent
+        global persistent, text_messages, all_characters
         if not persistent.instant_texting:
             unread_messages = [ x for x in text_messages if (not x.read 
                                                             and x.msg_list)]
             return len(unread_messages)
         else:
-            unread_messages = [ c for c in character_list if (not c == m 
+            unread_messages = [ c for c in all_characters if (not c == m 
                                 and c.private_text 
                                 and (not c.private_text_read 
                                 or c.private_text_read == "Notified")) ]

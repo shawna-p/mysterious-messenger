@@ -932,9 +932,8 @@ screen chat_home(reshow=False):
                 FileSave(mm_auto, confirm=False)]) 
 
     use menu_header("Original Story"):
-        # Note that the number of pictures changes depending on
-        # whether you're in Another Story or Casual/Deep Story,
-        # but here I've chosen to include all the characters
+        # Note that only characters in the list 'character_list' will
+        # show up here as profile pictures
         # Also usually the characters have "generic" profile
         # pictures, but I've chosen to simply include their current
         # profile picture

@@ -377,7 +377,7 @@ init -6 python:
     ## phone call, if applicable
     def deliver_next():
         global text_queue, incoming_call, available_calls, current_call
-        global persistent, inst_text, character_list
+        global persistent, inst_text, all_characters
         
         for msg in text_queue:
             if msg.msg_list:
@@ -392,7 +392,7 @@ init -6 python:
         # text messages differently
         # These are delivered all at the same time
         if persistent.instant_texting:
-            small_char_list = [ c for c in character_list 
+            small_char_list = [ c for c in all_characters
                                     if not c == m and c.private_text ]
             for character in small_char_list:
                 if not character.private_text_read:

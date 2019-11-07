@@ -200,9 +200,15 @@ define filler = Chat("filler")
 define answer = Chat('answer', 'delete')
 define chat_pause = Chat('pause', 'delete')
 
-# You'll want to add a new character to this list so they show up
-# in things like the profiles at the top of the screen
+# This list is used *specifically* to display characters you can
+# see on the main menu -- they have profiles and show up in your
+# phone contacts
 default character_list = [ju, z, s, y, ja, v, m, r, ri]
+# This should be a list of every character in the entire game
+# Even if you don't want someone to show up as a contact in
+# the phonebook, they should be in this list -- it allows
+# them to exist in the game
+default all_characters = [ju, z, s, y, ja, v, m, r, ri]
                         
                         
 # ****************************

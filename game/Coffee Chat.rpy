@@ -395,7 +395,7 @@ label after_tutorial_chat():
     # (In this case, everyone gets the same label)
     # The different voicemails are defined in phone screen.rpy
     python:
-        for char in character_list:
+        for char in all_characters:
             char.update_voicemail('voicemail_1')
     
     # Use this to end the after_ label

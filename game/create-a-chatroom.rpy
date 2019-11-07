@@ -258,7 +258,7 @@ screen create_archive():
                         
                         hbox:
                             spacing 10
-                            for i in character_list:
+                            for i in all_characters:
                                 if i.participant_pic:
                                     imagebutton:
                                         hover_foreground 'char_foreground2'
