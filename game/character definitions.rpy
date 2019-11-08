@@ -226,55 +226,40 @@ default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
 # voice during phone calls or VN mode
 # For ease of remembering, Phone Call characters are just their 
 # Chat variables + '_phone' e.g. ja -> ja_phone
+# This is a default phone character that we can "inherit" the style
+# from rather than declaring all the individual properties
+define phone_character = Character(None, 
+    what_font="fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_color="#fff", 
+    what_xalign=0.5, 
+    what_yalign=0.5, 
+    what_text_align=0.5)
 
 define ja_phone = Character("Jaehee Kang", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="jaehee_voice")
+    kind=phone_character, voice_tag="jaehee_voice")
 define ju_phone = Character("Jumin Han", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="jumin_voice")
+    kind=phone_character, voice_tag="jumin_voice")
 define s_phone = Character("707", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="seven_voice")
+    kind=phone_character, voice_tag="seven_voice")
 define sa_phone = Character("Saeran", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="saeran_voice")
+    kind=phone_character, voice_tag="saeran_voice")
 define r_phone = Character("Ray", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="saeran_voice")
+    kind=phone_character, voice_tag="saeran_voice")
 define ri_phone = Character("Rika", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="rika_voice")
+    kind=phone_character, voice_tag="rika_voice")
 define y_phone = Character("Yoosung★", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="yoosung_voice")
+    kind=phone_character, voice_tag="yoosung_voice")
 define v_phone = Character("V", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="v_voice")
+    kind=phone_character, voice_tag="v_voice")
 define u_phone = Character("Unknown", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="saeran_voice")
+    kind=phone_character, voice_tag="saeran_voice")
 define z_phone = Character("Zen", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="zen_voice")
+    kind=phone_character, voice_tag="zen_voice")
 define m_phone = Character("[name]", 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#a6a6a6", what_xalign=0.5, what_yalign=0.5, 
-    what_text_align=0.5, what_suffix="{w=0.8}{nw}")
+    kind=phone_character, what_color="#a6a6a6", 
+    what_suffix="{w=0.8}{nw}")
 define vmail_phone = Character('Voicemail', 
-    what_font= "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
-    what_color="#fff", what_xalign=0.5, what_yalign=0.5, what_text_align=0.5, 
-    voice_tag="other_voice")
+    kind=phone_character, voice_tag="other_voice")
                             
 # ****************************
 # Text Messages
@@ -312,86 +297,77 @@ default text_queue = [Text_Message(ja, []),
 # ****************************                        
 ## CHARACTER DEFINITIONS ****************
 
-# Again, you can mostly just copy-paste a character definition from here and change the window_background
+# Again, you can mostly just copy-paste a character 
+# definition from here and change the window_background
 # and voice_tag as appropriate
-# For ease of remembering, VN characters are just their Chat variables + "_vn" e.g. s -> s_vn
-# I've also changed the who_color from MysMe's #fff5ca to the background of the characters' speech bubbles
+# For ease of remembering, VN characters are just their 
+# Chat variables + "_vn" e.g. s -> s_vn
+# I've also changed the who_color from MysMe's #fff5ca 
+# to the background of the characters' speech bubbles
 
-define ja_vn = Character("Jaehee", 
+# This is the 'generic' VN character, which you can inherit from
+# for any new character you want to create
+define vn_character = Character(None, 
     what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_4.png",
-    who_color="#fff5eb", who_size=40, voice_tag="jaehee_voice", 
+    what_color="#ffffff", 
+    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#fff5ca", 
+    who_size=40, 
+    voice_tag="other_voice")
+
+define ja_vn = Character("Jaehee", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_4.png",
+    who_color="#fff5eb", voice_tag="jaehee_voice", 
     image="jaehee vn")
-define ju_vn = Character("Jumin", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_0.png",
-    who_color="#d2e6f7", who_size=40, voice_tag="jumin_voice", 
+define ju_vn = Character("Jumin", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_0.png",
+    who_color="#d2e6f7", voice_tag="jumin_voice", 
     image="jumin")
-define r_vn = Character("Ray", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", 
+define r_vn = Character("Ray", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#f2ebfd", voice_tag="saeran_voice", 
     image="saeran vn")
-define ri_vn = Character("Rika", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_7.png",
-    who_color="#fff9db", who_size=40, voice_tag="rika_voice", 
+define ri_vn = Character("Rika", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_7.png",
+    who_color="#fff9db", voice_tag="rika_voice", 
     image="rika vn")
-define s_vn = Character("707", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_2.png",
-    who_color="#fff1f1", who_size=40, voice_tag="seven_voice", 
+define s_vn = Character("707", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_2.png",
+    who_color="#fff1f1", voice_tag="seven_voice", 
     image="seven")
-define sa_vn = Character("Saeran", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_8.png",
-    who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", 
+define sa_vn = Character("Saeran", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_8.png",
+    who_color="#f2ebfd", voice_tag="saeran_voice", 
     image="saeran vn")
-define u_vn = Character("???",
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#f2ebfd", who_size=40, voice_tag="saeran_voice", 
+define u_vn = Character("???", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#f2ebfd", voice_tag="saeran_voice", 
     image="saeran vn")
-define v_vn = Character("V", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_5.png",
-    who_color="#cbfcfc", who_size=40, voice_tag="v_voice", 
+define v_vn = Character("V", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_5.png",
+    who_color="#cbfcfc", voice_tag="v_voice", 
     image="v vn")
-define y_vn = Character("Yoosung", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_3.png",
-    who_color="#effff3", who_size=40, voice_tag="yoosung_voice", 
+define y_vn = Character("Yoosung", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_3.png",
+    who_color="#effff3", voice_tag="yoosung_voice", 
     image="yoosung vn")
-define z_vn = Character("Zen", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_1.png",
-    who_color="#d8e9f9", who_size=40, voice_tag="zen_voice", 
+define z_vn = Character("Zen", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_1.png",
+    who_color="#d8e9f9", voice_tag="zen_voice", 
     image="zen")
                             
 ## Note: The MC's name will show up in VN mode in this program. 
 ## If you'd like it to be blank, just replace "[name]" with None
-define m_vn = Character("[name]", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#ffffed", who_size=40)
+define m_vn = Character("[name]", kind=vn_character, who_color="#ffffed")
 
 ## This is the 'generic' template character -- if you want a 
 ## side character like Echo Girl, copy this character and 
 ## replace None with their name.
-define narrator = Character(None, 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#fff5ca", who_size=40, voice_tag="other_voice")
+define narrator = Character(None, kind=vn_character)
                             
-define sarah_vn = Character("Sarah", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#fff5ca", who_size=40, voice_tag="other_voice")
+define sarah_vn = Character("Sarah", kind=vn_character)
 
-define chief_vn = Character("Chief Han", 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
-    what_color="#ffffff", window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#fff5ca", who_size=40, voice_tag="other_voice")
+define chief_vn = Character("Chief Han", kind=vn_character)
 
 ## *************************************
 ## Character VN Expressions Cheat Sheet
