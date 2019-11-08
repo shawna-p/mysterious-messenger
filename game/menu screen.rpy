@@ -824,6 +824,9 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 add 'header_envelope' xalign 0.5 yalign 0.5
                 text title color "#ffffff" size 40 text_align 0.5
         
+                
+        
+    if not persistent.first_boot:
         # Back button
         imagebutton:
             xalign 0.013
@@ -833,11 +836,11 @@ screen menu_header(title, return_action=NullAction, envelope=False):
             hover Transform("Phone UI/Main Menu/menu_back_btn.png", zoom=1.1)
             activate_sound 'sfx/UI/back_button.mp3'
             if not renpy.get_screen("choice"):                
-                if envelope and not inst_text:
-                    action Show('text_message_hub', Dissolve(0.5))
-                elif persistent.first_boot or not persistent.on_route:
+                if persistent.first_boot or not persistent.on_route:
                     action [SetField(persistent, 'first_boot', False), 
                             return_action]
+                elif envelope and not inst_text:
+                    action Show('text_message_hub', Dissolve(0.5))
                 # If we're instant texting, leaving text messages 
                 # works differently
                 elif inst_text:
@@ -848,9 +851,6 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                                 no_action=Hide('confirm'))    
                 else:
                     action return_action
-                
-        
-    if not persistent.first_boot:
         # Settings gear
         if title != "Setings":
             imagebutton:

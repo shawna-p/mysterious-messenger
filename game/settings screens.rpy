@@ -43,13 +43,24 @@ init python:
                             persistent.MC_pic = user_pic_list[0]
                             break
             else:
-                persistent.MC_pic = user_pic_list[0]
+                persistent.MC_pic = user_pic_list[-1]
         else:
             persistent.MC_pic = 'Profile Pics/MC/MC-1.png'
             
         m.prof_pic = persistent.MC_pic
         renpy.retain_after_load()
-            
+
+    def MC_pic_display(st, at):
+        return Transform(store.persistent.MC_pic, size=(363,363)), 0.1
+
+    def MC_name_display(st, at):
+        return Text(persistent.name, 
+            color ="#fff",
+            text_align =0.0,
+            hover_color ="#d7d7d7",
+            font ="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf",
+            xalign =0.06,
+            yalign =0.455), 0.1
     
     ## Checks for common image extensions
     def isImg(pic):
@@ -169,8 +180,16 @@ screen profile_pic():
     modal True
 
     if persistent.first_boot:
-        use menu_header("Customize your Profile", MainMenu(False)):
+        use menu_header("Customize your Profile"):
             use pic_and_pronouns()
+            null height 50
+            textbutton _('Confirm'):  
+                style 'other_settings_end_button'
+                text_style 'mode_select'  
+                align (0.5, 0.5)      
+                action [SetField(persistent, 'first_boot', False), 
+                            Return()]
+
     else:
         use menu_header("Settings", Hide('profile_pic', Dissolve(0.5))):
             use settings_tabs("Profile")  
@@ -188,13 +207,19 @@ screen pic_and_pronouns():
             imagebutton:
                 focus_mask True
                 xalign 0.055
-                idle Transform(persistent.MC_pic, size=(363,363))
+                idle 'change_mc_pfp' 
                 action [Function(MC_pic_change),
                         renpy.restart_interaction]
             # Edit MC's Name
             fixed:
                 add "name_line" yalign 0.985
-                text persistent.name style 'profile_pic_text'
+                #text persistent.name style 'profile_pic_text'
+                # Ordinarily I would've just displayed the text as above, but
+                # due to an unusual bug where this doesn't display correctly
+                # the very first time the user starts the game, this
+                # is the alternative, which uses DynamicDisplayables to ensure
+                # the name and pfp are up to date
+                add 'mc_name_switch'
                 
                 imagebutton:
                     style 'profile_pic_imagebutton'
@@ -215,10 +240,10 @@ screen pic_and_pronouns():
                         Function(set_pronouns), renpy.restart_interaction] 
                 has hbox
                 spacing 10
-                if persistent.pronoun == "female":
-                    add "radio_on"
-                else:
-                    add "radio_off"
+                # This is a slightly unusual way of doing the radio buttons,
+                # but it's the way that makes the radio buttons work in an
+                # odd edge case the first time you start the game
+                add 'she_her_pronoun_radio'
                 text 'she/her' style 'pronoun_radio_text'
                 
             button:
@@ -226,10 +251,7 @@ screen pic_and_pronouns():
                         Function(set_pronouns), renpy.restart_interaction]
                 has hbox
                 spacing 10
-                if persistent.pronoun == "male":
-                    add "radio_on"
-                else:
-                    add "radio_off"
+                add 'he_him_pronoun_radio'
                 text 'he/him' style 'pronoun_radio_text'
                 
                 
@@ -238,12 +260,25 @@ screen pic_and_pronouns():
                         Function(set_pronouns), renpy.restart_interaction]
                 has hbox
                 spacing 10
-                if persistent.pronoun == "non binary":
-                    add "radio_on"
-                else:
-                    add "radio_off"
+                add 'they_them_pronoun_radio'
                 text 'they/them' style 'pronoun_radio_text'
              
+image she_her_pronoun_radio = ConditionSwitch(
+    "persistent.pronoun == 'female'", "Phone UI/Main Menu/menu_radio_on.png",
+    'True', "Phone UI/Main Menu/menu_radio_off.png",    
+)
+image he_him_pronoun_radio = ConditionSwitch(
+    "persistent.pronoun == 'male'", "Phone UI/Main Menu/menu_radio_on.png",
+    'True', "Phone UI/Main Menu/menu_radio_off.png",    
+)
+image they_them_pronoun_radio = ConditionSwitch(
+    "persistent.pronoun == 'non binary'", 
+        "Phone UI/Main Menu/menu_radio_on.png",
+    'True', "Phone UI/Main Menu/menu_radio_off.png",    
+)
+image mc_name_switch = DynamicDisplayable(MC_name_display)
+image change_mc_pfp = DynamicDisplayable(MC_pic_display)
+
 screen points_and_saveload():
     # Shows how many heart points you've earned with
     # each character. To display properly, this needs to
