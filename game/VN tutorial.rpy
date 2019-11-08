@@ -851,6 +851,8 @@ label bodyguards_showcase():
     show bodyguard_side at vn_right
     "If you'd like the minor characters to speak, you'll need to define your own character for them."
     "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
+    "If you're only going to have them speak once or twice though, you can also type out their name as a string like so"
+    "Bodyguard" "This is example dialogue for the bodyguard to say."
     "The bodyguards only have two other expressions:"
     show bodyguard_front thinking
     show bodyguard_side thinking

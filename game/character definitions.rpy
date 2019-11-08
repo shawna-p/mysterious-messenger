@@ -315,6 +315,17 @@ define vn_character = Character(None,
     who_size=40, 
     voice_tag="other_voice")
 
+# Similarly, this is for characters you don't want to actually define and
+# instead want to just use once or twice. You can write their dialogue like
+# "Bodyguard" "Your dialogue"
+define name_only = Character(None, 
+    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_color="#ffffff", 
+    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    who_color="#fff5ca", 
+    who_size=40, 
+    voice_tag="other_voice")
+
 define ja_vn = Character("Jaehee", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_4.png",
     who_color="#fff5eb", voice_tag="jaehee_voice", 
