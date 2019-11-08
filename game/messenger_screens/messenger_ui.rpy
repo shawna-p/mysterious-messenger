@@ -162,7 +162,7 @@ screen phone_overlay():
 
 
                 
-    add myClock align(1.0, 0.0)
+    add myClock align(1.0, 0.0) xoffset 22
     
     if not starter_story:
         fixed:

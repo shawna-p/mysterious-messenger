@@ -146,8 +146,7 @@ image bg starry_night = "Phone UI/bg-starry-night.png"
 # Short forms/Startup Variables
 # ********************************
 
-#Analogue or Digital, hours, minutes, size, second hand, military time
-default myClock = Clock(False, 0, 0, 150, False, False) 
+default myClock = Clock(150) 
 
 # Extra variables since the player can
 # choose their pronouns

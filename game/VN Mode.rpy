@@ -120,17 +120,13 @@ label vn_end():
     call press_save_and_exit(False) 
         
 #####################################
-## This screen shows the "Skip", 
-## "Log", and new "Auto" buttons
+## This screen shows the clock
 #####################################
 
 screen vn_overlay():
 
-    $ my_menu_clock.runmode("real")
     hbox:
-        add my_menu_clock xalign 0.0 yalign 0.0 xpos -50
-        $ am_pm = time.strftime('%p', time.localtime())
-        text am_pm style 'header_clock' 
+        add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
 
         
 ################################################
