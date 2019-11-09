@@ -123,7 +123,8 @@ screen hack_screen(hack):
     imagebutton at flicker:
         xysize (750,1334)
         idle hack
-        action Hide('hack_screen')
+        if observing:
+            action Hide('hack_screen')
         
     timer 3.0 action Hide('hack_screen')
         

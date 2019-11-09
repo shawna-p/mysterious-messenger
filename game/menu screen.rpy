@@ -243,7 +243,7 @@ screen main_menu():
                         if persistent.on_route:
                             # This is the auto save that gets loaded every 
                             # time you load the game
-                            action [SetField(persistent, 'manual_load', False), 
+                            action [SetField(persistent, 'just_loaded', True),
                                     FileLoad(mm_auto)]  
                         else:
                             # Note: this screen only has a placeholder
@@ -415,8 +415,10 @@ label after_load():
             popup_msg += "."            
     if popup_msg != "":
         show screen confirm(yes_action=Hide('confirm'), message=popup_msg)
-    if persistent.manual_load:#not renpy.get_screen('chat_home'):
-        call screen chat_home                   
+    # $ print("Is chat_home showing?", renpy.get_screen('chat_home'))
+    # if not renpy.get_screen('chat_home'):#persistent.manual_load:
+    #     call screen chat_home     
+    # $ print("Reached the end of after_load")
     return
     
     
@@ -526,11 +528,11 @@ screen file_slots(title):
                     if persistent.real_time:
                         action [SetField(persistent, 'on_route', True), 
                                 SetField(persistent, 'load_instr', 'Auto'), 
-                                SetField(persistent, 'manual_load', False), 
+                                SetField(persistent, 'just_loaded', True),
                                 FileAction(mm_auto)]
                     else:
                         action [SetField(persistent, 'on_route', True), 
-                                SetField(persistent, 'manual_load', False), 
+                                SetField(persistent, 'just_loaded', True),
                                 FileAction(mm_auto)]
                     hbox:
                         spacing 8
@@ -651,7 +653,7 @@ screen file_slots(title):
                                 and persistent.real_time):
                             action [Show("confirm", message=long_msg, 
                                         yes_action=[
-                                        SetField(persistent, 'manual_load',
+                                        SetField(persistent, 'just_loaded',
                                                      True),
                                         SetField(persistent, 'on_route',
                                                      True), 
@@ -662,17 +664,17 @@ screen file_slots(title):
                         elif FileLoadable(slot) and persistent.real_time:
                             action [Show("confirm", message=long_msg, 
                                         yes_action=[
-                                        SetField(persistent, 'manual_load',
-                                                                     True),
+                                        SetField(persistent, 'just_loaded', 
+                                                                    True),
                                         SetField(persistent, 'on_route',
-                                                                     True), 
+                                                                    True), 
                                         SetField(persistent, 'load_instr',
                                                                  'Same day'),
                                         FileLoad(slot)], 
                                         no_action=Hide('confirm'))]
                         elif not persistent.real_time and FileLoadable(slot):
                             action [SetField(persistent, 'on_route', True), 
-                                    SetField(persistent, 'manual_load', True),
+                                    SetField(persistent, 'just_loaded', True),
                                     FileAction(slot)]
 
                     hbox:
@@ -756,10 +758,16 @@ screen menu_header(title, return_action=NullAction, envelope=False):
     use starry_night()
     # If we're on real-time, check once a minute if it's time for the
     # next chatroom
+    if persistent.just_loaded and renpy.get_screen('chat_home') is None:
+        # Check if we should show the chat_hub 
+        on 'show' action [SetField(persistent, 'just_loaded', False),
+                            Show('chat_home')]
+        on 'replace' action [SetField(persistent, 'just_loaded', False),
+                            Show('chat_home')]
     if persistent.real_time and not main_menu and not starter_story:
         timer 60 action Function(next_chatroom) repeat True
         on 'show' action Function(next_chatroom)
-        on 'reshow' action Function(next_chatroom)
+        on 'replace' action Function(next_chatroom)
         
     if (not renpy.get_screen('text_message_screen') 
             and not main_menu 
@@ -822,30 +830,32 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 
         
     if not persistent.first_boot:
-        # Back button
-        imagebutton:
-            xalign 0.013
-            yalign 0.068
-            idle "menu_back"
-            focus_mask None
-            hover Transform("Phone UI/Main Menu/menu_back_btn.png", zoom=1.1)
-            activate_sound 'sfx/UI/back_button.mp3'
-            if not renpy.get_screen("choice"):                
-                if persistent.first_boot or not persistent.on_route:
-                    action [SetField(persistent, 'first_boot', False), 
-                            return_action]
-                elif envelope and not inst_text:
-                    action Show('text_message_hub', Dissolve(0.5))
-                # If we're instant texting, leaving text messages 
-                # works differently
-                elif inst_text:
-                     action Show("confirm", 
-                                message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
-                                yes_action=[Hide('confirm'), 
-                                Jump('leave_inst_text')], 
-                                no_action=Hide('confirm'))    
-                else:
-                    action return_action
+        if title != "Original Story" and title != "In Call":
+            # Back button
+            imagebutton:
+                xalign 0.013
+                yalign 0.068
+                idle "menu_back"
+                focus_mask None
+                hover Transform("Phone UI/Main Menu/menu_back_btn.png", zoom=1.1)
+                activate_sound 'sfx/UI/back_button.mp3'
+                if not renpy.get_screen("choice"):                
+                    if persistent.first_boot or not persistent.on_route:
+                        action [SetField(persistent, 'first_boot', False), 
+                                return_action]
+                    elif envelope and not inst_text:
+                        action Show('text_message_hub', Dissolve(0.5))
+                    # If we're instant texting, leaving text messages 
+                    # works differently
+                    elif inst_text:
+                        action Show("confirm", 
+                                    message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
+                                    yes_action=[Hide('confirm'), 
+                                    Jump('leave_inst_text')], 
+                                    no_action=Hide('confirm'))    
+                    else:
+                        action return_action
+
         # Settings gear
         if title != "Setings":
             imagebutton:

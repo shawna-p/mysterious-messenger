@@ -183,7 +183,7 @@ default persistent.first_boot = True
 # Variable that determines if the program should run in real-time or not
 default persistent.real_time = False
 # Variable to check if we need to manually load the chat home screen
-default persistent.manual_load = False
+default persistent.just_loaded = False
 
 
 # This variable is set to True if you're viewing a chatroom

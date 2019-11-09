@@ -148,17 +148,30 @@ screen phone_calls():
     if not hacked_effect:
         on 'show' action If(renpy.music.get_playing(channel='music') 
                     != mystic_chat, 
-                    renpy.music.play(mystic_chat, loop=True),
-                    [])
+                    [renpy.music.play(mystic_chat, loop=True),
+                    FileSave(mm_auto, confirm=False)],
+                    [FileSave(mm_auto, confirm=False)])
+        on 'replace' action If(renpy.music.get_playing(channel='music') 
+                    != mystic_chat, 
+                    [renpy.music.play(mystic_chat, loop=True),
+                    FileSave(mm_auto, confirm=False)],
+                    [FileSave(mm_auto, confirm=False)])
     else:
         on 'show' action If(renpy.music.get_playing(channel='music') 
                     != mystic_chat_hacked, 
-                    renpy.music.play(mystic_chat_hacked, loop=True),
-                    [])
+                    [renpy.music.play(mystic_chat_hacked, loop=True),
+                    FileSave(mm_auto, confirm=False)],
+                    [FileSave(mm_auto, confirm=False)])
+        on 'replace' action If(renpy.music.get_playing(channel='music') 
+                    != mystic_chat_hacked, 
+                    [renpy.music.play(mystic_chat_hacked, loop=True),
+                    FileSave(mm_auto, confirm=False)],
+                    [FileSave(mm_auto, confirm=False)])
 
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)), 
                                      FileSave(mm_auto, confirm=False)]):
-    
+
+            
                 
         window:
             xalign 0.5

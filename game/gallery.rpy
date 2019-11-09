@@ -201,7 +201,9 @@ screen photo_album():
 
     # Ensure this replaces the main menu.
     tag menu
-
+    on 'replace' action FileSave(mm_auto, confirm=False)
+    on 'show' action FileSave(mm_auto, confirm=False)
+    
     use menu_header('Photo Album', Show('chat_home', Dissolve(0.5))):
     
         # A grid of buttons.

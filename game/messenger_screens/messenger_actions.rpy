@@ -23,8 +23,7 @@ label chat_back():
         hide screen answer_button
         hide screen pause_button
         stop music
-        show screen chat_home
-        hide screen chat_home
+        # $ renpy.save(mm_auto)
         call screen chatroom_timeline(current_day, current_day_num)
     else:
         # If you back out of a chatroom, it expires
@@ -58,8 +57,7 @@ label chat_back():
         $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
         stop music
-        show screen chat_home
-        hide screen chat_home
+        # $ renpy.save(mm_auto)
         call screen chatroom_timeline(current_day, current_day_num)
 
 
@@ -167,8 +165,7 @@ label press_save_and_exit(phone=True):
             return
         else:
             $ deliver_next()
-            show screen chat_home
-            hide screen chat_home
+            # $ renpy.save(mm_auto)
             call screen chatroom_timeline(current_day, current_day_num)
             return
 

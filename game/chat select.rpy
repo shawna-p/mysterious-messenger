@@ -5,6 +5,9 @@ screen chat_select():
 
     tag menu
     modal True
+
+    on 'show' action [FileSave(mm_auto, confirm=False)]
+    on 'replace' action [FileSave(mm_auto, confirm=False)]
         
     python:
         # Ensures the background music is playing
@@ -200,6 +203,9 @@ screen chatroom_timeline(day, day_num):
     tag menu
     modal True
     
+    on 'show' action [FileSave(mm_auto, confirm=False)]
+    on 'replace' action [FileSave(mm_auto, confirm=False)]
+
     $ chat_time = next_chat_time()
     
     use menu_header(day.day, Show('chat_select', Dissolve(0.5))):
@@ -692,8 +698,7 @@ label plot_branch_end():
         next_chatroom()
         renpy.retain_after_load
         
-    show screen chat_home
-    hide screen chat_home
+    #$ renpy.save(mm_auto)
     call screen chat_select
                 
                 
