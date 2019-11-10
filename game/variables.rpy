@@ -147,8 +147,6 @@ image bg starry_night = "Phone UI/bg-starry-night.png"
 # Short forms/Startup Variables
 # ********************************
 
-default myClock = Clock(150) 
-
 # Extra variables since the player can
 # choose their pronouns
 default they = "they"

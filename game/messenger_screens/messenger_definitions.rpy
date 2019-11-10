@@ -63,6 +63,8 @@ init python:
         return im.MatrixColor('Bubble/white-Bubble.png', 
                             im.matrix.colorize('#000', colour)), 0.1
 
+    
+
             
 ## Note: There is also a custom version of the chat footers
 ## (pause/play/save & exit/answer) that you can use by setting

@@ -128,18 +128,70 @@ screen play_button():
 #####################################
 
 default no_heart = False
+default battery = renpy.display.behavior.pygame.power.get_power_info()
+image in_chat_display = DynamicDisplayable(in_chat_fn)
+default myClock = Clock(150) 
+
+init python:
+    def in_chat_fn(st, at):
+        list_of_char = ''
+        for index, chara in enumerate(store.in_chat):
+            list_of_char += chara
+            if index+1 < len(store.in_chat):
+                list_of_char += ', '
+
+        return Text(list_of_char, style='in_chat_list_style'), 0.1
+
+    def battery_charge_icon(st, at):
+        battery = renpy.display.behavior.pygame.power.get_power_info()
+        if battery.state == 3:
+            return Transform("Phone UI/battery_charged.png", alpha=0.75), 0.1
+        elif battery.state == 4:
+            return Transform("Phone UI/battery_charging.png", alpha=0.75), 0.1
+        else:
+            return Transform(Solid("#f0f"), size=(18,26)), 0.1
+
+    def battery_level_bar(st, at):
+        battery = renpy.display.behavior.pygame.power.get_power_info()
+        if battery.percent > 50:
+            img1 = Image("Phone UI/battery_high.png")
+        elif battery.percent < 20:
+            img1 = Image("Phone UI/battery_low.png")
+        else:
+            img1 = Image("Phone UI/battery_med.png")
+
+        return Fixed(img1, Fixed('charging_icon', 
+            size=(18,26), xalign=0.5, yalign=0.4)), 0.1
+
+    def battery_empty_bar(st, at):
+        battery = renpy.display.behavior.pygame.power.get_power_info()
+        return Fixed(Image("Phone UI/battery_empty.png"), 
+                Fixed('charging_icon', 
+                size=(18,26), xalign=0.5, yalign=0.4)), 0.1
+
+image battery_remaining = DynamicDisplayable(battery_level_bar)
+image battery_empty = DynamicDisplayable(battery_empty_bar)
+image charging_icon = DynamicDisplayable(battery_charge_icon)
+
+style battery_bar:
+    is empty
+    bar_vertical True
+    bottom_bar 'battery_remaining'
+    top_bar 'battery_empty'
+    xsize 18
+    ysize 26
+    align (.5, .5)
+
+style battery_bar_undetected:
+    is battery_bar
+    bottom_bar "Phone UI/battery_high.png"
 
 ## This screen shows the header/footer above the chat
 screen phone_overlay():  
     zorder 2
     add "Phone UI/Phone-UI.png"   # You can set this to your own image
-    
-    python:
-        list_of_char = ''
-        for index, chara in enumerate(in_chat):
-            list_of_char += chara
-            if index+1 < len(in_chat):
-                list_of_char += ', '
+           
+    $ battery = renpy.display.behavior.pygame.power.get_power_info()
 
     fixed:
         xysize(150,80)
@@ -158,11 +210,29 @@ screen phone_overlay():
     window:
         align (0.75, 0.055)
         xysize (400, 80)
-        text list_of_char style 'in_chat_list_style'
+        add 'in_chat_display'   
 
-
-                
-    add myClock align(1.0, 0.0) xoffset 22
+    # 0 = no idea what status is, or -1
+    # 1 = running on battery, not plugged in
+    # 2 = plugged in, no battery available
+    # 3 = plugged in, charging
+    # 4 = plugged in, battery fully charged
+    hbox:           
+        align (1.0, 0.0)
+        spacing -16
+        fixed:
+            xysize (20, 48)
+            if battery.state >= 1:
+                bar:
+                    value StaticValue(value=float(battery.percent)/100.0, 
+                        range=1.0)
+                    style 'battery_bar'
+            else:
+                bar:
+                    value StaticValue(value=float(20)/100.0, 
+                        range=1.0)
+                    style 'battery_bar_undetected'
+        add myClock xoffset 22
     
     if not starter_story:
         fixed:
