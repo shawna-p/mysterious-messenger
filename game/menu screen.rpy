@@ -482,17 +482,17 @@ screen file_slots(title):
         
     default the_day = "1st"
     
-    python:        
+    python:      
+        # Retrieve the name and day of the most recently completed
+        # chatroom for the save file name  
         if most_recent_chat == None:
             most_recent_chat = chat_archive[0].archive_list[0]
         for day in chat_archive:
             if most_recent_chat in day.archive_list:
                 the_day = day.day
-                
-        
+                        
     
     fixed:
-
         ## This ensures the input will get the enter event before any of the
         ## buttons do.
         order_reverse True
@@ -500,18 +500,13 @@ screen file_slots(title):
         ## Contains the save slots. I've added many more than were originally
         ## available, but it's personal preference
         vpgrid id 'save_load_vp':
-            xysize (745,1170)
+            style_prefix "slot"
             rows gui.file_slot_rows
             draggable True
             mousewheel True
-            style_prefix "slot"
-            scrollbars "vertical"
+            scrollbars "vertical"    
             side_spacing 12
-
-            xalign 0.01
             yalign 1.0
-
-            spacing gui.slot_spacing
             
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto):
@@ -529,15 +524,14 @@ screen file_slots(title):
                         action [SetField(persistent, 'on_route', True), 
                                 SetField(persistent, 'load_instr', 'Auto'), 
                                 SetField(persistent, 'just_loaded', True),
-                                FileAction(mm_auto)]
+                                FileAction(mm_auto),
+                                renpy.restart_interaction]
                     else:
                         action [SetField(persistent, 'on_route', True), 
                                 SetField(persistent, 'just_loaded', True),
-                                FileAction(mm_auto)]
-                    hbox:
-                        spacing 8
-                        xsize 695
-                        
+                                FileAction(mm_auto),
+                                renpy.restart_interaction]
+                    hbox:                        
                         window:
                             align (0.5, 0.5)
                             xysize(120, 120)
@@ -647,7 +641,8 @@ screen file_slots(title):
                 button:
                     if title == "Save":
                         action [SetVariable('save_name', save_title), 
-                                FileAction(slot)]
+                                FileAction(slot),
+                                renpy.restart_interaction]
                     else: # title == "Load"
                         if (next_day_name and FileLoadable(slot) 
                                 and persistent.real_time):
@@ -677,10 +672,7 @@ screen file_slots(title):
                                     SetField(persistent, 'just_loaded', True),
                                     FileAction(slot)]
 
-                    hbox:
-                        spacing 8
-                        xsize 695
-                        
+                    hbox:   
                         window:
                             xysize(120, 120)
                             align (0.5, 0.5)
@@ -761,8 +753,10 @@ screen menu_header(title, return_action=NullAction, envelope=False):
     if persistent.just_loaded and renpy.get_screen('chat_home') is None:
         # Check if we should show the chat_hub 
         on 'show' action [SetField(persistent, 'just_loaded', False),
+                            Hide('chip_end'),
                             Show('chat_home')]
         on 'replace' action [SetField(persistent, 'just_loaded', False),
+                            Hide('chip_end'),
                             Show('chat_home')]
     if persistent.real_time and not main_menu and not starter_story:
         timer 60 action Function(next_chatroom) repeat True
@@ -806,7 +800,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 xalign 0.83 yalign 0.01
         
         
-    ## Header
+    # Header
     if title != "Original Story" and title != "In Call":
         window:
             ysize 80
@@ -879,18 +873,20 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                                 Show('preferences')]
                     else:
                         action Show("preferences")  
-            
-    window:
-        if title != "Original Story" and title != "In Call":
-            xysize (750, 1180)
-        else:
-            xysize (750, 1180+80)
-        yalign 1.0
-        has vbox
-        align (0.5, 0.0)
-        spacing 10
-        null height 5
+    if title == "Save" or title == "Load":
         transclude
+    else:
+        window:
+            if title != "Original Story" and title != "In Call":
+                xysize (750, 1180)
+            else:
+                xysize (750, 1180+80)
+            yalign 1.0
+            has vbox
+            align (0.5, 0.0)
+            spacing 10
+            null height 5
+            transclude
       
 
   
