@@ -8,17 +8,6 @@ screen chat_select():
 
     on 'show' action [FileSave(mm_auto, confirm=False)]
     on 'replace' action [FileSave(mm_auto, confirm=False)]
-        
-    python:
-        # Ensures the background music is playing
-        if (renpy.music.get_playing(channel='music') != mystic_chat 
-                and not hacked_effect):
-            renpy.music.play(mystic_chat, loop=True)
-        elif (hacked_effect
-                and renpy.music.get_playing(channel='music') 
-                    != mystic_chat_hacked):
-            renpy.music.play(mystic_chat_hacked, loop=True)
-    
 
     use menu_header("Day List", Show('chat_home', Dissolve(0.5))):  
         viewport:

@@ -1,3 +1,22 @@
+# ######################################################
+# This file contains many of the primary menu screens
+# used throughout the game. It's organized as follows:
+#   python definitions:
+#       class NameInput(InputValue)
+#       def chat_greet(hour, greet_char)
+#       def set_pronouns()
+#   variable definitions
+#   screen main_menu()
+#       label after_load()
+#       screen route_select_screen()
+#   screen save/load
+#       screen file_slots(title)
+#   screen menu_header(title, return_action, envelope)
+#   screen chat_home(reshow)
+#       screen chara_profile(who)   
+# ######################################################
+
+
 init python:
 
     import time
@@ -747,16 +766,29 @@ default my_menu_clock = Clock()
     
 screen menu_header(title, return_action=NullAction, envelope=False):
 
+    python:
+        # Ensures the background music is playing
+        if title != "In Call":
+            if (renpy.music.get_playing(channel='music') != mystic_chat 
+                    and not hacked_effect):
+                renpy.music.play(mystic_chat, loop=True)
+            elif (hacked_effect
+                    and renpy.music.get_playing(channel='music') 
+                        != mystic_chat_hacked):
+                renpy.music.play(mystic_chat_hacked, loop=True)
+    
     use starry_night()
+
+
     # If we're on real-time, check once a minute if it's time for the
     # next chatroom
     if persistent.just_loaded and renpy.get_screen('chat_home') is None:
         # Check if we should show the chat_hub 
         on 'show' action [SetField(persistent, 'just_loaded', False),
-                            Hide('chip_end'),
+                            #Hide('chip_end'),
                             Show('chat_home')]
         on 'replace' action [SetField(persistent, 'just_loaded', False),
-                            Hide('chip_end'),
+                            #Hide('chip_end'),
                             Show('chat_home')]
     if persistent.real_time and not main_menu and not starter_story:
         timer 60 action Function(next_chatroom) repeat True
@@ -904,16 +936,6 @@ screen chat_home(reshow=False):
 
     tag menu     
     modal True
-   
-    python:
-        # This if statement just makes sure the menu 
-        # music isn't constantly restarting
-        if (renpy.music.get_playing(channel='music') != mystic_chat 
-                and not hacked_effect):
-            renpy.music.play(mystic_chat, loop=True)
-        elif (hacked_effect and renpy.music.get_playing(channel='music') 
-                != mystic_chat_hacked):
-            renpy.music.play(mystic_chat_hacked, loop=True) 
     
     # Every time you go back to this screen, the game will auto-save
     on 'show':

@@ -227,7 +227,7 @@ screen phone_overlay():
         spacing -16
         fixed:
             xysize (20, 48)
-            if battery.state >= 1:
+            if battery.state >= 1 and battery.state != 2:
                 bar:
                     value StaticValue(value=float(battery.percent)/100.0, 
                         range=1.0)
