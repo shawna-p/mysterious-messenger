@@ -142,14 +142,19 @@ init python:
 
         return Text(list_of_char, style='in_chat_list_style'), 0.1
 
-    def battery_charge_icon(st, at):
+    def battery_charge_icon(st, at):    
+        # 0 = no idea what status is, or -1
+        # 1 = running on battery, not plugged in
+        # 2 = plugged in, no battery available
+        # 3 = plugged in, charging
+        # 4 = plugged in, battery fully charged
         battery = renpy.display.behavior.pygame.power.get_power_info()
-        if battery.state == 3:
+        if battery.state == 3 or (battery.state == 4 and battery.percent <= 97):
             return Transform("Phone UI/battery_charged.png", alpha=0.75), 0.1
-        elif battery.state == 4:
+        elif battery.state == 4 and battery.percent > 97:
             return Transform("Phone UI/battery_charging.png", alpha=0.75), 0.1
         else:
-            return Transform(Solid("#f0f"), size=(18,26)), 0.1
+            return Transform('transparent.png', size=(18,26)), 0.1
 
     def battery_level_bar(st, at):
         battery = renpy.display.behavior.pygame.power.get_power_info()
@@ -229,7 +234,7 @@ screen phone_overlay():
                     style 'battery_bar'
             else:
                 bar:
-                    value StaticValue(value=float(20)/100.0, 
+                    value StaticValue(value=float(75)/100.0, 
                         range=1.0)
                     style 'battery_bar_undetected'
         add myClock xoffset 22
