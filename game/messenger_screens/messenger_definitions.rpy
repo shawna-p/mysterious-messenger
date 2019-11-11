@@ -21,47 +21,30 @@ init python:
     # recolours a generic white heart depending on the character
     # See character definitions.rpy to define your own character 
     # & heart point
-    def heart_icon_fn(st,at, colour=False):
-        if not colour:
-            colour = white
-        return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
-                                im.matrix.colorize("#000000", colour)), 0.1
-
-    ## This lets the screen call this image to display to the user
     def heart_icon(character):
         if character.heart_color:
-            return DynamicDisplayable(heart_icon_fn,
-                            colour=character.heart_color)
+            return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
+                    im.matrix.colorize("#000000", character.heart_color))
         else:
             return "Heart Point/Unknown Heart Point.png"
         
     # Similarly, this recolours the heartbreak animation
-    def heart_break_fn(st,at, picture, colour=False):    
-        if not colour:
-            colour = white
-        return im.MatrixColor(picture, 
-                    im.matrix.colorize("#000000", colour)), 0.1
-
     def heart_break_img(picture, character):
         if character.heart_color:
-            return DynamicDisplayable(heart_break_fn,
-                            picture=picture,
-                            colour=character.heart_color)
+            return im.MatrixColor(picture, 
+                    im.matrix.colorize("#000000", character.heart_color))
         else:
             return "Heart Point/HeartBreak/stat_animation_6.png"
         
     ## These next two functions recolour "generic" speech bubbles
     ## so you can have custom glow/regular bubbles
-    def glow_bubble_fn(st,at, glow_color='#000'):
-        colour = glow_color
+    def glow_bubble_fn(glow_color='#000'):
         return im.MatrixColor('Bubble/Special/sa_glow2.png', 
-                            im.matrix.colorize(colour, '#fff')), 0.1
-                            
+                            im.matrix.colorize(glow_color, '#fff'))
     
-    def reg_bubble_fn(st,at, bubble_color='#000'):
-        colour = bubble_color
+    def reg_bubble_fn(bubble_color='#000'):
         return im.MatrixColor('Bubble/white-Bubble.png', 
-                            im.matrix.colorize('#000', colour)), 0.1
+                            im.matrix.colorize('#000', bubble_color))
 
     
 

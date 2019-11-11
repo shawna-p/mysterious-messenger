@@ -425,8 +425,7 @@ screen chat_animation(i, animate=True, anti=False):
                 else:
                     # We can dynamically colour the glow
                     # at runtime
-                    bubbleBackground = DynamicDisplayable(
-                                        glow_bubble_fn, 
+                    bubbleBackground = glow_bubble_fn( 
                                         glow_color=i.who.glow_color)
             elif i.who != 'answer':
                 if not i.who.bubble_color:
@@ -436,8 +435,7 @@ screen chat_animation(i, animate=True, anti=False):
                 else:
                     # If not given a colour, dynamically
                     # recolour the bubble at runtime
-                    bubbleBackground = DynamicDisplayable(
-                                        reg_bubble_fn, 
+                    bubbleBackground = reg_bubble_fn( 
                                         bubble_color=i.who.bubble_color)
             
             if i.specBubble != None:
