@@ -233,64 +233,41 @@ define phone_character = Character(None,
     what_color="#fff", 
     what_xalign=0.5, 
     what_yalign=0.5, 
-    what_text_align=0.5)
+    what_text_align=0.5,
+    voice_tag="other_voice")
 
 define ja_phone = Character("Jaehee Kang", 
-    kind=phone_character, voice_tag="jaehee_voice")
+    kind=phone_character, voice_tag="ja_voice")
 define ju_phone = Character("Jumin Han", 
-    kind=phone_character, voice_tag="jumin_voice")
+    kind=phone_character, voice_tag="ju_voice")
 define s_phone = Character("707", 
-    kind=phone_character, voice_tag="seven_voice")
+    kind=phone_character, voice_tag="s_voice")
 define sa_phone = Character("Saeran", 
-    kind=phone_character, voice_tag="saeran_voice")
+    kind=phone_character, voice_tag="sa_voice")
 define r_phone = Character("Ray", 
-    kind=phone_character, voice_tag="saeran_voice")
+    kind=phone_character, voice_tag="sa_voice")
 define ri_phone = Character("Rika", 
-    kind=phone_character, voice_tag="rika_voice")
+    kind=phone_character, voice_tag="ri_voice")
 define y_phone = Character("Yoosung★", 
-    kind=phone_character, voice_tag="yoosung_voice")
+    kind=phone_character, voice_tag="y_voice")
 define v_phone = Character("V", 
     kind=phone_character, voice_tag="v_voice")
 define u_phone = Character("Unknown", 
-    kind=phone_character, voice_tag="saeran_voice")
+    kind=phone_character, voice_tag="sa_voice")
 define z_phone = Character("Zen", 
-    kind=phone_character, voice_tag="zen_voice")
+    kind=phone_character, voice_tag="z_voice")
 define m_phone = Character("[name]", 
     kind=phone_character, what_color="#a6a6a6", 
     what_suffix="{w=0.8}{nw}")
-define vmail_phone = Character('Voicemail', 
-    kind=phone_character, voice_tag="other_voice")
+define vmail_phone = Character('Voicemail', kind=phone_character)
                             
 # ****************************
 # Text Messages
 # ****************************         
+                 
+default text_messages = [ Text_Message(i, []) for i in all_characters ]
+default text_queue = [ Text_Message(i, []) for i in all_characters ]
 
-# If you want a character to be able to send messages, define a
-# Text_Message object with their Chat variable in the lists below                 
-default text_messages = [Text_Message(ja, []),
-                        Text_Message(ju, []),
-                        Text_Message(r, []),
-                        Text_Message(ri, []),
-                        Text_Message(s, []),
-                        Text_Message(v, []),
-                        Text_Message(y, []),
-                        Text_Message(z, []),
-                        
-                        Text_Message(u, []),
-                        Text_Message(sa, [])
-                        ]
-default text_queue = [Text_Message(ja, []),
-                        Text_Message(ju, []),
-                        Text_Message(r, []),
-                        Text_Message(ri, []),
-                        Text_Message(s, []),
-                        Text_Message(v, []),
-                        Text_Message(y, []),
-                        Text_Message(z, []),
-                        
-                        Text_Message(u, []),
-                        Text_Message(sa, [])
-                        ]
                         
 # ****************************
 # Visual Novel Mode
@@ -328,31 +305,31 @@ define name_only = Character(None,
 
 define ja_vn = Character("Jaehee", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_4.png",
-    who_color="#fff5eb", voice_tag="jaehee_voice", 
+    who_color="#fff5eb", voice_tag="ja_voice", 
     image="jaehee vn")
 define ju_vn = Character("Jumin", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_0.png",
-    who_color="#d2e6f7", voice_tag="jumin_voice", 
+    who_color="#d2e6f7", voice_tag="ju_voice", 
     image="jumin")
 define r_vn = Character("Ray", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#f2ebfd", voice_tag="saeran_voice", 
+    who_color="#f2ebfd", voice_tag="sa_voice", 
     image="saeran vn")
 define ri_vn = Character("Rika", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_7.png",
-    who_color="#fff9db", voice_tag="rika_voice", 
+    who_color="#fff9db", voice_tag="ri_voice", 
     image="rika vn")
 define s_vn = Character("707", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_2.png",
-    who_color="#fff1f1", voice_tag="seven_voice", 
+    who_color="#fff1f1", voice_tag="s_voice", 
     image="seven")
 define sa_vn = Character("Saeran", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_8.png",
-    who_color="#f2ebfd", voice_tag="saeran_voice", 
+    who_color="#f2ebfd", voice_tag="sa_voice", 
     image="saeran vn")
 define u_vn = Character("???", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_9.png",
-    who_color="#f2ebfd", voice_tag="saeran_voice", 
+    who_color="#f2ebfd", voice_tag="sa_voice", 
     image="saeran vn")
 define v_vn = Character("V", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_5.png",
@@ -360,11 +337,11 @@ define v_vn = Character("V", kind=vn_character,
     image="v vn")
 define y_vn = Character("Yoosung", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_3.png",
-    who_color="#effff3", voice_tag="yoosung_voice", 
+    who_color="#effff3", voice_tag="y_voice", 
     image="yoosung vn")
 define z_vn = Character("Zen", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_1.png",
-    who_color="#d8e9f9", voice_tag="zen_voice", 
+    who_color="#d8e9f9", voice_tag="z_voice", 
     image="zen")
                             
 ## Note: The MC's name will show up in VN mode in this program. 

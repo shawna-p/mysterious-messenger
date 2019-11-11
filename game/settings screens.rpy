@@ -720,14 +720,13 @@ screen preferences():
                     box_wrap_spacing 10
                     spacing 20
                     yalign 0.5
-                    use voice_buttons(ju, 'jumin')
-                    use voice_buttons(ja, 'jaehee')
-                    use voice_buttons(z, 'zen')
-                    use voice_buttons(y, 'yoosung')
-                    use voice_buttons(s, 'seven')
-                    use voice_buttons(v, 'v')
-                    use voice_buttons(r, 'saeran')
-                    use voice_buttons(ri, 'rika')
+                    for c in all_characters:
+                        # Unknown and Saeran are lumped into Ray's
+                        # voice button and MC doesn't speak
+                        if c in [u, sa, m]:
+                            pass
+                        else:
+                            use voice_buttons(c)
                     use voice_buttons("Other", 'other')
                         
                         
@@ -826,11 +825,14 @@ style tone_selection_button:
 
 ## A helper screen to display the buttons for toggling
 ## each characters' voice on or off
-screen voice_buttons(char, voice_char):
+screen voice_buttons(char, voice_char=None):
 
     python:
-        voice_char = voice_char + '_voice'
         if isinstance(char, Chat):
+            if char == r:
+                voice_char = sa.file_id + '_voice'
+            else:
+                voice_char = char.file_id + '_voice'
             title = char.name
         else:
             title = char

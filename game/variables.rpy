@@ -1,6 +1,5 @@
 init -6 python:
-    from datetime import datetime
-    from datetime import date
+    from datetime import datetime, date
     from copy import copy, deepcopy
     
     # This defines another voice channel which the emoji sound effects play on

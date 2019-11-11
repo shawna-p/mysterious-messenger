@@ -1406,9 +1406,7 @@ style notify_text:
 screen nvl(dialogue, items=None):
     
     python:
-        from datetime import datetime
         yadj.value = yadjValue
-    # default thetime = datetime.now().strftime('%a, %b %d %I:%M%p')
 
     window:
         style "nvl_window"
@@ -1453,8 +1451,6 @@ screen nvl_dialogue(dialogue):
 
     python:
         yadj.value = yadjValue
-
-    #default thetime = datetime.now().strftime('%a, %b %d %I:%M:%S%p')
 
     vbox at incoming_message:
         for d in dialogue:
