@@ -166,6 +166,9 @@ label rewatch_chatroom():
                 or current_chatroom.buyahead):
             in_chat.append(m.name)
 
+    # Set a generic background just in case
+    scene bg black
+
     # Now we start the loop to iterate through the replay_log
     python:
         for entry in current_chatroom.replay_log:

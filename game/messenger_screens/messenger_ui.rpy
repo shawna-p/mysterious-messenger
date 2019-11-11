@@ -75,7 +75,9 @@ screen pause_button():
             yalign 0.997
             focus_mask None
             idle "fast-slow-button"
-            action [Function(fast_pv), Show("speed_num")]
+            action [Function(fast_pv), 
+                    Hide('speed_num'), 
+                    Show("speed_num")]
                 
         # Slow button
         imagebutton:
@@ -83,7 +85,9 @@ screen pause_button():
             yalign 0.997
             focus_mask None
             idle "fast-slow-button"
-            action [Function(slow_pv), Show('speed_num')]
+            action [Function(slow_pv), 
+                    Hide('speed_num'), 
+                    Show("speed_num")]
         
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped        

@@ -78,9 +78,10 @@ screen heart_break_screen(character):
 
 ## This speeds up/slows down the speed of the chat
 
-screen speed_num():
-    python:
-        global pv  
+init python:
+    def speed_num_fn(st, at):
+        speednum = "!!"
+        pv = store.pv
         if pv <= 0.45:
             speednum = "9"
         elif pv <= 0.54:
@@ -101,9 +102,18 @@ screen speed_num():
             speednum = "1" 
         else:
             speednum = "!!"
-            
-    text "{size=30}SPEED{/size}\n [speednum]" style 'speednum_style'
+
+        speedtxt = Text("SPEED", style='speednum_style', size=30)
+        numtxt = Text(speednum, style='speednum_style', align=(.5,.5))
+        return VBox(speedtxt, numtxt), 0.02
+
+image speed_num_img = DynamicDisplayable(speed_num_fn)
+
+screen speed_num():
     
+    #text "{size=30}SPEED{/size}\n [speednum]" style 'speednum_style'
+    add 'speed_num_img' align(0.98, 0.2)
+
     timer 0.4 action Hide('speed_num', Dissolve(0.4))
 
 #####################################

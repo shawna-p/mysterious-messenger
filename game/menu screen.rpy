@@ -193,15 +193,7 @@ screen main_menu():
         # constantly restarting
         if renpy.music.get_playing(channel='music') != mystic_chat:
             renpy.music.play(mystic_chat, loop=True)
-            
-        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
-            m.prof_pic = persistent.MC_pic
-        else:
-            m.prof_pic = 'Profile Pics/MC/MC-1.png'
-            
-        if m.name != persistent.name:
-            m.name = persistent.name
-            
+                               
         hour = time.strftime('%H', time.localtime())
         hour = int(hour)    # gets the hour, makes it an int
         greet_char = renpy.random.choice(greet_list)
