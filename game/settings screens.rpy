@@ -226,7 +226,10 @@ screen pic_and_pronouns():
                     idle "menu_edit"            
                     hover Transform("Phone UI/Main Menu/menu_pencil_long.png", 
                                                                     zoom=1.03)
-                    action Show('input_popup', prompt='Please input a name.') 
+                    # We save the old name so we can reset it if 
+                    # they don't want to change it
+                    action [SetVariable('old_name', persistent.name),   
+                        Show('input_popup', prompt='Please input a name.')] 
             
         
         # Pick your pronouns
@@ -380,12 +383,12 @@ style pronoun_window_vbox:
 ########################################################
 ## The Input Prompt to get text from the user
 ########################################################
-                
+default old_name = "Rainbow"
+
 screen input_popup(prompt=''):
 
     python:
-        # We save this so we can reset it if they don't want to change it
-        old_name = persistent.name    
+            
         input = Input(value=NameInput(), 
                 style="my_input", length=20)
                 

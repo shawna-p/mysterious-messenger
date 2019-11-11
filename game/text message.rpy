@@ -223,28 +223,31 @@ screen text_msg_popup(the_msg):
                             xalign 0.5 yalign 0.5 
                             text_align 0.5
             
-            
-            textbutton _('Go to'):
-                text_style 'mode_select'
-                xalign 0.5
-                xsize 220
-                ysize 70
-                text_size 28
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
-                if (not (renpy.get_screen('in_call') 
-                        or renpy.get_screen('incoming_call') 
-                        or renpy.get_screen('outgoing call'))):
-                    action [Hide('text_msg_popup'), 
-                            SetVariable("current_message", the_msg), 
-                            the_msg.mark_read, 
-                            SetVariable("CG_who", the_msg), 
-                            Hide('save_load'),
-                            Hide('menu'),
-                            Hide('chat_footer'), 
-                            Hide('phone_overlay'), 
-                            Hide('settings_screen'),
-                            Show('text_message_screen', the_msg=the_msg)]
+            if (not (renpy.get_screen('in_call') 
+                    or renpy.get_screen('incoming_call') 
+                    or renpy.get_screen('outgoing call'))):
+                textbutton _('Go to'):
+                    text_style 'mode_select'
+                    xalign 0.5
+                    xsize 220
+                    ysize 70
+                    text_size 28
+                    background 'menu_select_btn' padding(20,20)
+                    hover_background 'menu_select_btn_hover'
+                    if (not (renpy.get_screen('in_call') 
+                            or renpy.get_screen('incoming_call') 
+                            or renpy.get_screen('outgoing call'))):
+                        action [Hide('text_msg_popup'), 
+                                SetVariable("current_message", the_msg), 
+                                the_msg.mark_read, 
+                                SetVariable("CG_who", the_msg), 
+                                Hide('save_load'),
+                                Hide('menu'),
+                                Hide('chat_footer'), 
+                                Hide('phone_overlay'), 
+                                Hide('settings_screen'),
+                                Show('text_message_screen', 
+                                    the_msg=the_msg)]
     timer 3.25:
         action If(randint(0,1), [Hide('text_msg_popup', Dissolve(0.25)), 
                                 deliver_next], 
