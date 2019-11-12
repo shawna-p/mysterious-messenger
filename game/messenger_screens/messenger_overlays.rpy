@@ -46,27 +46,27 @@ screen heart_break_screen(character):
     fixed at heartbreak(0.0):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/HeartBreak/stat_animation_6.png",
+        add heart_break_img("Heart Point/heartbreak_0.png",
                              character)
     fixed at heartbreak(0.12):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/HeartBreak/stat_animation_7.png",
+        add heart_break_img("Heart Point/heartbreak_1.png",
                              character)
     fixed at heartbreak(0.24):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/HeartBreak/stat_animation_8.png",
+        add heart_break_img("Heart Point/heartbreak_2.png",
                              character)
     fixed at heartbreak(0.36):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/HeartBreak/stat_animation_9.png",
+        add heart_break_img("Heart Point/heartbreak_3.png",
                              character)
     fixed at heartbreak(0.48):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/HeartBreak/stat_animation_10.png",
+        add heart_break_img("Heart Point/heartbreak_4.png",
                              character)
         
     timer 0.6 action [Hide('heart_break_screen')]

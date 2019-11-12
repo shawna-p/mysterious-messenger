@@ -34,7 +34,7 @@ init python:
             return im.MatrixColor(picture, 
                     im.matrix.colorize("#000000", character.heart_color))
         else:
-            return "Heart Point/HeartBreak/stat_animation_6.png"
+            return "Heart Point/heartbreak_0.png"
         
     ## These next two functions recolour "generic" speech bubbles
     ## so you can have custom glow/regular bubbles

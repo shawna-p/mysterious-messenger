@@ -72,7 +72,7 @@ screen pause_button():
             xalign 0.985
             yalign 0.997
             focus_mask None
-            idle "fast-slow-button"
+            idle "fast_slow_button"
             action [Function(fast_pv), 
                     Hide('speed_num'), 
                     Show("speed_num")]
@@ -82,7 +82,7 @@ screen pause_button():
             xalign 0.015
             yalign 0.997
             focus_mask None
-            idle "fast-slow-button"
+            idle "fast_slow_button"
             action [Function(slow_pv), 
                     Hide('speed_num'), 
                     Show("speed_num")]

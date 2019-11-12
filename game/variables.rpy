@@ -839,6 +839,4 @@ image medium_star = "Phone UI/medium-star.png"
 
 image loading_circle_stationary = "Phone UI/Main Menu/loading_circle.png"
 
-#look for fast-slow-button
-
 

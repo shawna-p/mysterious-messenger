@@ -22,7 +22,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "2.02"
+define config.version = "2.021"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -44,6 +44,9 @@ define config.autosave_on_quit = False
 ## Some voice files are automatically located
 define config.auto_voice = "voice files/{id}.mp3"
 
+## These functions get called on an after_load to ensure compatibility
+## with future versions
+define config.after_load_callbacks = [ update_var_compatibility ]
 
 ## Sounds and music ############################################################
 
@@ -194,7 +197,7 @@ init python:
 
     ## To archive files, classify them as 'archive'.
 
-    # Declare two archives.
+    # Declare archives.
     build.archive("scripts", "all")
     build.archive("images", "all")
     build.archive("music", "all")
