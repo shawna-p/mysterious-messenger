@@ -1228,7 +1228,7 @@ style help_label_text:
 
 image menu_popup_bkgrd = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",60,60,60,60)
 image menu_popup_btn = Frame("Phone UI/Main Menu/menu_popup_btn.png",20,20,20,20)
-image menu_popup_btn_hover = Frame("Phone UI/Main Menu/menu_popup_btn_hover.png",20,20,20,20)
+image menu_popup_btn_hover = Transform('menu_popup_btn', alpha=0.5)
 
 screen confirm(message, yes_action, no_action=False):
 
@@ -1262,14 +1262,14 @@ screen confirm(message, yes_action, no_action=False):
                     text_style "confirm_text"
                     xsize 200
                     background "menu_popup_btn" padding(20,20)
-                    hover_foreground Transform("menu_popup_btn", alpha=0.5)
+                    hover_foreground "menu_popup_btn_hover"
                     action yes_action
                 if no_action:
                     textbutton _("Cancel"): 
                         text_style "confirm_text"
                         xsize 200
                         background "menu_popup_btn" padding(20,20)
-                        hover_foreground Transform("menu_popup_btn", alpha=0.5)
+                        hover_foreground "menu_popup_btn_hover"
                         action no_action
                 
 

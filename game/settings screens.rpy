@@ -449,7 +449,7 @@ style my_input_textbutton:
     xsize 240
     ysize 80
     background 'menu_select_btn' padding(20,20)
-    hover_foreground Transform('menu_select_btn', alpha=0.5)
+    hover_foreground 'menu_select_btn_hover'
 
 style my_input:
     is default
@@ -627,7 +627,7 @@ style other_settings_end_button:
     xsize 240
     ysize 120
     background 'menu_select_btn' padding(20,20)
-    hover_foreground Transform('menu_select_btn', alpha=0.5)
+    hover_foreground 'menu_select_btn_hover'
 
 style other_settings_end_button_text:
     is mode_select

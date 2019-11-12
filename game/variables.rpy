@@ -257,7 +257,9 @@ image rfa_greet:
 
 # Background Menu Squares
 image right_corner_menu = Frame("Phone UI/Main Menu/right_corner_menu.png", 45, 45)
+image right_corner_menu_hover = Transform('right_corner_menu', alpha=0.5)
 image left_corner_menu = Frame("Phone UI/Main Menu/left_corner_menu.png", 45, 45)
+image left_corner_menu_hover = Transform('left_corner_menu', alpha=0.5)
 
 # Menu Icons
 image menu_after_ending = "Phone UI/Main Menu/after_ending.png"
@@ -318,6 +320,7 @@ image settings_gear_rotate:
         
 # Other Settings
 image menu_select_btn = Frame("Phone UI/Main Menu/menu_select_button.png",60,60)
+image menu_select_btn_hover = Transform('menu_select_btn', alpha=0.5)
 image menu_select_btn_inactive = Frame("Phone UI/Main Menu/menu_select_button_inactive.png",60,60)
 image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
 
@@ -327,7 +330,8 @@ image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
 ## ********************************
 
 image gray_chatbtn = "Phone UI/Main Menu/Original Story/main01_chatbtn.png"
-image gray_chatbtn_hover = "Phone UI/Main Menu/Original Story/main01_chatbtn_hover.png"
+image gray_chatbtn_hover = Fixed('gray_chatbtn',
+                            Transform('gray_chatbtn', alpha=0.5))
 image rfa_chatcircle:
     "Phone UI/Main Menu/Original Story/main01_chatcircle.png"
     block:
@@ -345,9 +349,11 @@ image blue_chatcircle:
 image chat_text = "Phone UI/Main Menu/Original Story/main01_chattext.png"
 image chat_icon = "Phone UI/Main Menu/Original Story/main01_chaticon.png"
 image gray_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn.png"
+image gray_mainbtn_hover = Fixed('gray_mainbtn',
+                            Transform('gray_mainbtn', alpha=0.5))
 image blue_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn_lit.png"
-image gray_mainbtn_hover = "Phone UI/Main Menu/Original Story/main01_mainbtn_hover.png"
-image blue_mainbtn_hover = "Phone UI/Main Menu/Original Story/main01_mainbtn_lit_hover.png"
+image blue_mainbtn_hover = Fixed('blue_mainbtn',
+                            Transform('blue_mainbtn', alpha=0.5))
 image gray_maincircle:
     "Phone UI/Main Menu/Original Story/main01_maincircle.png"
     block:

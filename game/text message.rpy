@@ -235,7 +235,7 @@ screen text_msg_popup(the_msg):
                     ysize 70
                     text_size 28
                     background 'menu_select_btn' padding(20,20)
-                    hover_foreground Transform('menu_select_btn', alpha=0.5)
+                    hover_foreground 'menu_select_btn_hover'
                     if (not (renpy.get_screen('in_call') 
                             or renpy.get_screen('incoming_call') 
                             or renpy.get_screen('outgoing call'))):

@@ -280,7 +280,7 @@ screen main_menu():
                         xysize(430,400)
                         focus_mask True
                         background "left_corner_menu"
-                        hover_foreground Transform("left_corner_menu",alpha=0.5)
+                        hover_foreground 'left_corner_menu_hover'
                         activate_sound "sfx/UI/select_4.mp3"
                         if persistent.on_route:
                             # This is the auto save that gets loaded every 
@@ -309,8 +309,7 @@ screen main_menu():
                             xysize(205, 190)
                             focus_mask True
                             background "right_corner_menu" 
-                            hover_foreground Transform("right_corner_menu",
-                                                alpha=0.5)
+                            hover_foreground 'right_corner_menu_hover'
                             action Show("load")    
                             
                             vbox:                               
@@ -329,8 +328,7 @@ screen main_menu():
                             xysize(205, 190)
                             focus_mask True
                             background "right_corner_menu" 
-                            hover_foreground Transform("right_corner_menu",
-                                            alpha=0.5)
+                            hover_foreground 'right_corner_menu_hover'
                             # action NullAction                            
                             vbox:                               
                                 xcenter 0.5
@@ -349,8 +347,7 @@ screen main_menu():
                         xysize(430,190)
                         focus_mask True
                         background "left_corner_menu"
-                        hover_foreground Transform("left_corner_menu",
-                                        alpha=0.5)
+                        hover_foreground "left_corner_menu_hover"
                         # action NullAction                        
                         vbox:                               
                             align(0.5, 0.5)
@@ -366,8 +363,7 @@ screen main_menu():
                         xysize (205,190)
                         focus_mask True
                         background "right_corner_menu" 
-                        hover_foreground Transform("right_corner_menu",
-                                        alpha=0.5)
+                        hover_foreground 'right_corner_menu_hover'
                         # action Show('create_archive') 
                         # Leads to the create-a-chatroom screens
                         
