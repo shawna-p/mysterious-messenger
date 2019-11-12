@@ -446,7 +446,7 @@ define gui.longer_than = 420
 
 ## SPIKE
 ## Small Spike Bubble
-define gui.spike_s_padding = (42, 0, 62, 0)
+define gui.spike_s_padding = (42, 0, 70, 0)
 define gui.spike_s_pos = (120, 38)
 define gui.spike_s_xysize = (282,219)
 
@@ -457,50 +457,50 @@ define gui.spike_m_xysize = (340,242)
 
 ## Large Spike Bubble
 define gui.spike_l_padding = (55, 0, 55, 5)
-define gui.spike_l_pos = (140, 38)
+define gui.spike_l_pos = (140, 25)
 define gui.spike_l_xysize = (511,376)
 
 ## CLOUD
 ## Small Cloud Bubble
 define gui.cloud_s_padding = (50, 0, 44, 0)
-define gui.cloud_s_pos = (120, 38)
+define gui.cloud_s_pos = (120, 22)
 define gui.cloud_s_xysize = (266,202)
 
 ## Medium Cloud Bubble
 define gui.cloud_m_padding = (90, 0, 90, 0)
-define gui.cloud_m_pos = (85, 38)
+define gui.cloud_m_pos = (85, 25)
 define gui.cloud_m_xysize = (457,324)
 
 ## Large Cloud Bubble
 define gui.cloud_l_padding = (120, 20, 70, 10)
-define gui.cloud_l_pos = (70, 38)
+define gui.cloud_l_pos = (70, 0)
 define gui.cloud_l_xysize = (680,478)
 
 ## SPECIAL 1 (Round)
 ## Small Special 1 Bubble
 define gui.round_s_padding = (60, 70, 60, 20)
-define gui.round_s_pos = (110,38)
+define gui.round_s_pos = (110,-10)
 define gui.round_s_xysize = (320, 250)
 
 ## Medium Special 1 Bubble
 define gui.round_m_padding = (75, 0, 75, 0)
-define gui.round_m_pos = (120,38)
+define gui.round_m_pos = (120,25)
 define gui.round_m_xysize = (442,329)
 
 ## Large Special 1 Bubble
 define gui.round_l_padding = (80, 0, 80, 0)
-define gui.round_l_pos = (110,38)
+define gui.round_l_pos = (110,0)
 define gui.round_l_xysize = (553,399)
 
 ## SPECIAL 2 (Square)
 ## Small Special 2 Bubble
 define gui.square_s_padding = (50, 0, 50, 30)
-define gui.square_s_pos = (120, 38)
+define gui.square_s_pos = (120, 21)
 define gui.square_s_xysize = (272, 255)
 
 ## Medium Special 2 Bubble
 define gui.square_m_padding = (70, 0, 70, 20)
-define gui.square_m_pos = (105, 38)
+define gui.square_m_pos = (105, 25)
 define gui.square_m_xysize = (428, 323)
 
 ## Large Special 2 Bubble

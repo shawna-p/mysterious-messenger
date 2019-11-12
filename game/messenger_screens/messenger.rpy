@@ -344,6 +344,7 @@ screen messenger_screen():
         else:
             begin = 0
         
+        finalchat = None
         if chatLength > 0:
             finalchat = chatlog[-1]
             if finalchat.who == answer:
@@ -366,7 +367,8 @@ screen messenger_screen():
                     fixed:
                         yfit True
                         xfit True
-                        use chat_animation(i, True, True)
+                        if i == finalchat:
+                            use chat_animation(i, True, True)
                         use chat_animation(i)
                     null height 10
                         

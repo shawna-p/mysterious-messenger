@@ -9,8 +9,7 @@ label answer(from_cg=False):
         if from_cg:
             hide screen viewCG
         else:
-            $ pauseFailsafe()
-            #$ addchat(answer, '', 0.2)    
+            $ pauseFailsafe()   
         $ pre_choosing = True
         call screen answer_button
         show screen pause_button
@@ -19,7 +18,6 @@ label answer(from_cg=False):
             hide screen viewCG
         else:
             $ text_pauseFailsafe(inst_text.private_text)
-            #$ addtext_instant(answer, '', 0.2)
         $ pre_choosing = True
         call screen text_answer
         show screen text_pause_button
