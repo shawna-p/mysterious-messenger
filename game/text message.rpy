@@ -61,7 +61,8 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
             and not i.private_text_read == "Notified"))):
         button:                                                       
             background 'message_idle_bkgr'
-            hover_background 'message_hover_bkgr'  
+            hover_background Fixed('message_idle_bkgr',
+                            Transform('message_idle_bkgr', alpha=0.5))
             if instant_texting_on and i.private_text_label:
                 action [SetField(i, 'private_text_read', True), 
                         Jump(i.private_text_label)]
@@ -112,7 +113,8 @@ screen text_hub_display(instant_texting_on=False, text_log, i):
     elif last_text:
         button:                                                       
             background 'unread_message_idle_bkgr'
-            hover_background 'unread_message_hover_bkgr' 
+            hover_background Fixed('unread_message_idle_bkgr',
+                            Transform('unread_message_idle_bkgr', alpha=0.5))
             if instant_texting_on and i.private_text_label:
                 action [SetField(i, 'private_text_read', True), 
                         Jump(i.private_text_label)]
@@ -233,7 +235,7 @@ screen text_msg_popup(the_msg):
                     ysize 70
                     text_size 28
                     background 'menu_select_btn' padding(20,20)
-                    hover_background 'menu_select_btn_hover'
+                    hover_foreground Transform('menu_select_btn', alpha=0.5)
                     if (not (renpy.get_screen('in_call') 
                             or renpy.get_screen('incoming_call') 
                             or renpy.get_screen('outgoing call'))):

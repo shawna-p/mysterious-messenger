@@ -189,7 +189,7 @@ screen text_msg_popup_instant(the_char):
                 ysize 70
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
+                hover_foreground Transform('menu_select_btn', alpha=0.5)
                 if not (renpy.get_screen('in_call') or renpy.get_screen('incoming_call') or renpy.get_screen('outgoing call')):
                     if the_char.private_text_label:
                         action [Hide('text_msg_popup_instant'), SetField(the_char, "private_text_read", True), 

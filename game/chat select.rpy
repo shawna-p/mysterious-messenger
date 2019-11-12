@@ -451,7 +451,8 @@ screen chatroom_item(day, day_num, chatroom, index):
                 yalign 0.9
                 xalign 0.5
                 idle 'expired_chat'
-                hover_foreground 'expired_chat'
+                hover_background Fixed('expired_chat',
+                            Transform('expired_chat', alpha=0.5))
                 if chatroom.available:
                     action Show('confirm', message=("Would you like to"
                                 + " participate in the chat conversation"
@@ -521,7 +522,8 @@ screen chatroom_item(day, day_num, chatroom, index):
         button:
             xysize(330, 85)
             background 'input_popup_bkgr'
-            hover_background 'input_popup_bkgr_hover'
+            hover_background Fixed('input_popup_bkgr',
+                            Transform('input_popup_bkgr', alpha=0.5))
             xalign 0.5
             hbox:
                 spacing 15
@@ -561,7 +563,8 @@ screen timeline_continue_button(chat_time):
         xysize (620, 110)
         xalign 0.0
         background 'chat_continue'
-        hover_foreground 'chat_continue'
+        hover_background Fixed('chat_continue',
+                            Transform('chat_continue', alpha=0.5))
         action Show("confirm", message=("Would you like to purchase the next"
                                 + " day? You can participate in all the chat"
                                 + " conversations for the next 24 hours."), 

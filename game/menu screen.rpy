@@ -24,7 +24,7 @@ init python:
     # Used to get the player's name from input
     class NameInput(InputValue):
         def __init__(self):
-            self.the_name = ""
+            self.the_name = "Rainbow"
                                     
         def get_text(self):
             global persistent
@@ -34,24 +34,55 @@ init python:
             s = s.strip()  
             self.the_name = s       
             global name, m, persistent
-            persistent.name = self.the_name
-            renpy.save_persistent()
-            name = persistent.name  
-            m.name = name 
-            renpy.retain_after_load()        
+            # Ensure the given name is valid
+            if (len(s) < 2
+                    or not has_alpha(s)
+                    or not has_valid_chars(s)):
+                # renpy.show_screen('notify', 
+                #     message=("Names must be between 2 and 20 characters long"
+                #     + " and can only contain alphabet characters, dashes,"
+                #     + " spaces, and apostrophes."))
+                pass
+            else:
+                persistent.name = self.the_name
+                renpy.save_persistent()
+                name = persistent.name  
+                m.name = name 
+                renpy.retain_after_load()  
             
         def enter(self):
             global name, m, persistent
-            persistent.name = self.the_name
-            renpy.save_persistent()
-            name = persistent.name  
-            m.name = name 
-            renpy.retain_after_load()  
-            renpy.hide_screen('input_popup')
+            if (len(self.the_name) < 2
+                    or not has_alpha(self.the_name)
+                    or not has_valid_chars(self.the_name)):
+                renpy.show_screen('notify', 
+                    message=("Names must be between 2 and 20 characters long"
+                    + " and can only contain alphabet characters, dashes,"
+                    + " spaces, and apostrophes."))
+            else:
+                persistent.name = self.the_name
+                renpy.save_persistent()
+                name = persistent.name  
+                m.name = name 
+                renpy.retain_after_load()  
+                renpy.hide_screen('input_popup')
             # renpy.run(self.Disable())                
             # raise renpy.IgnoreEvent()
             
+    ## Checks if the given string has at least one letter from the alphabet
+    def has_alpha(mystring):
+        for c in "aeiouyAEIOUYbcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ":
+            if c in mystring:
+                return True
+        return False
 
+    ## Ensures the given string only includes alphabet characters and 
+    ## spaces, dashes, or apostrophes
+    def has_valid_chars(mystring):
+        for c in mystring:
+            if c not in " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
+                return False
+        return True
         
     ## This picks a greeting depending on the time of day and plays it
     ## Makes use of a class called Day_Greeting to find sound clips and the 
@@ -249,7 +280,7 @@ screen main_menu():
                         xysize(430,400)
                         focus_mask True
                         background "left_corner_menu"
-                        hover_background "left_corner_menu_selected"
+                        hover_foreground Transform("left_corner_menu",alpha=0.5)
                         activate_sound "sfx/UI/select_4.mp3"
                         if persistent.on_route:
                             # This is the auto save that gets loaded every 
@@ -278,7 +309,8 @@ screen main_menu():
                             xysize(205, 190)
                             focus_mask True
                             background "right_corner_menu" 
-                            hover_background "right_corner_menu_selected"
+                            hover_foreground Transform("right_corner_menu",
+                                                alpha=0.5)
                             action Show("load")    
                             
                             vbox:                               
@@ -297,7 +329,8 @@ screen main_menu():
                             xysize(205, 190)
                             focus_mask True
                             background "right_corner_menu" 
-                            hover_background "right_corner_menu_selected"
+                            hover_foreground Transform("right_corner_menu",
+                                            alpha=0.5)
                             # action NullAction                            
                             vbox:                               
                                 xcenter 0.5
@@ -316,7 +349,8 @@ screen main_menu():
                         xysize(430,190)
                         focus_mask True
                         background "left_corner_menu"
-                        hover_background "left_corner_menu_selected"
+                        hover_foreground Transform("left_corner_menu",
+                                        alpha=0.5)
                         # action NullAction                        
                         vbox:                               
                             align(0.5, 0.5)
@@ -332,7 +366,8 @@ screen main_menu():
                         xysize (205,190)
                         focus_mask True
                         background "right_corner_menu" 
-                        hover_background "right_corner_menu_selected"
+                        hover_foreground Transform("right_corner_menu",
+                                        alpha=0.5)
                         # action Show('create_archive') 
                         # Leads to the create-a-chatroom screens
                         

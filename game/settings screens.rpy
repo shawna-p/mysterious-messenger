@@ -390,7 +390,8 @@ screen input_popup(prompt=''):
     python:
             
         input = Input(value=NameInput(), 
-                style="my_input", length=20)
+                style="my_input", length=20,
+                allow=" -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
                 
     zorder 100
     modal True
@@ -448,7 +449,7 @@ style my_input_textbutton:
     xsize 240
     ysize 80
     background 'menu_select_btn' padding(20,20)
-    hover_background 'menu_select_btn_hover'
+    hover_foreground Transform('menu_select_btn', alpha=0.5)
 
 style my_input:
     is default
@@ -626,7 +627,7 @@ style other_settings_end_button:
     xsize 240
     ysize 120
     background 'menu_select_btn' padding(20,20)
-    hover_background 'menu_select_btn_hover'
+    hover_foreground Transform('menu_select_btn', alpha=0.5)
 
 style other_settings_end_button_text:
     is mode_select

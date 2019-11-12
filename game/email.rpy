@@ -384,7 +384,7 @@ screen email_popup(e):
                 ysize 70
                 text_size 28
                 background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
+                hover_foreground Transform('menu_select_btn', alpha=0.5)
                 if (not (renpy.get_screen('in_call') 
                         or renpy.get_screen('incoming_call') 
                         or renpy.get_screen('outgoing call'))):
@@ -572,7 +572,7 @@ screen open_email(e):
                     ysize 70
                     text_size 28
                     background 'menu_select_btn' padding(20,20)
-                    hover_background 'menu_select_btn_hover'
+                    hover_foreground Transform('menu_select_btn', alpha=0.5)
                     if e.reply_label and not e.reply and not e.timeout:
                         action e.send_reply
                     else:

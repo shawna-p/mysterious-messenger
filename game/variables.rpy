@@ -258,8 +258,6 @@ image rfa_greet:
 # Background Menu Squares
 image right_corner_menu = Frame("Phone UI/Main Menu/right_corner_menu.png", 45, 45)
 image left_corner_menu = Frame("Phone UI/Main Menu/left_corner_menu.png", 45, 45)
-image right_corner_menu_selected = Frame("Phone UI/Main Menu/right_corner_menu_selected.png", 45, 45)
-image left_corner_menu_selected = Frame("Phone UI/Main Menu/left_corner_menu_selected.png", 45, 45)
 
 # Menu Icons
 image menu_after_ending = "Phone UI/Main Menu/after_ending.png"
@@ -322,7 +320,6 @@ image settings_gear_rotate:
 image menu_select_btn = Frame("Phone UI/Main Menu/menu_select_button.png",60,60)
 image menu_select_btn_inactive = Frame("Phone UI/Main Menu/menu_select_button_inactive.png",60,60)
 image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
-image menu_select_btn_hover = Frame("Phone UI/Main Menu/menu_select_button_hover.png",60,60)
 
 
 ## ********************************
@@ -404,7 +401,7 @@ image input_close = "Phone UI/Main Menu/main02_close_button.png"
 image input_close_hover = "Phone UI/Main Menu/main02_close_button_hover.png"
 image input_square = Frame("Phone UI/Main Menu/main02_text_input.png",40,40)
 image input_popup_bkgr = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",70,70)
-image input_popup_bkgr_hover = Frame("Phone UI/Main Menu/menu_popup_bkgrd_hover.png",70,70)
+
     
     
 
@@ -439,9 +436,7 @@ image new_text = 'Text Messages/new_text.png'
 image header_envelope = 'Text Messages/header_envelope.png'
 
 image message_idle_bkgr = Frame('Text Messages/message_idle_background.png',20,20,20,20)
-image message_hover_bkgr = Frame('Text Messages/message_hover_background.png',20,20,20,20)
 image unread_message_idle_bkgr = Frame('Text Messages/message_idle_background_unread.png',20,20,20,20)
-image unread_message_hover_bkgr = Frame('Text Messages/message_hover_background_unread.png',20,20,20,20)
 
 image text_msg_line = Frame('Text Messages/msgsl_line.png', 40,2)
 image text_answer_active = 'Text Messages/msgsl_button_answer_active.png'

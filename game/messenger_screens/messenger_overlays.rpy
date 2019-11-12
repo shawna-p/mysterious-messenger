@@ -111,7 +111,6 @@ image speed_num_img = DynamicDisplayable(speed_num_fn)
 
 screen speed_num():
     
-    #text "{size=30}SPEED{/size}\n [speednum]" style 'speednum_style'
     add 'speed_num_img' align(0.98, 0.2)
 
     timer 0.4 action Hide('speed_num', Dissolve(0.4))

@@ -1262,14 +1262,14 @@ screen confirm(message, yes_action, no_action=False):
                     text_style "confirm_text"
                     xsize 200
                     background "menu_popup_btn" padding(20,20)
-                    hover_background "menu_popup_btn_hover"
+                    hover_foreground Transform("menu_popup_btn", alpha=0.5)
                     action yes_action
                 if no_action:
                     textbutton _("Cancel"): 
                         text_style "confirm_text"
                         xsize 200
                         background "menu_popup_btn" padding(20,20)
-                        hover_background "menu_popup_btn_hover"
+                        hover_foreground Transform("menu_popup_btn", alpha=0.5)
                         action no_action
                 
 
