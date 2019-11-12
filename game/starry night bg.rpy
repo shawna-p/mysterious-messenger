@@ -10,9 +10,9 @@ init -1 python:
 image small star:
     function star_func
     block:
-        "transparent.png" with Dissolve(1.0, alpha=True)
+        "transparent_img" with Dissolve(1.0, alpha=True)
         0.9
-        "Phone UI/small-star.png" with Dissolve(1.0, alpha=True)
+        "small_star" with Dissolve(1.0, alpha=True)
         # This just tells the program to pick a number between 5 and 9
         # and then wait that many seconds before continuing with the animation
         renpy.random.randint(5, 9)
@@ -21,9 +21,9 @@ image small star:
 image medium star:
     function star_func
     block:
-        "Phone UI/medium-star.png" with Dissolve(1.0, alpha=True)
+        "medium_star" with Dissolve(1.0, alpha=True)
         renpy.random.randint(5, 11)
-        "transparent.png" with Dissolve(1.0, alpha=True)
+        "transparent_img" with Dissolve(1.0, alpha=True)
         1.3
         repeat
         
@@ -59,7 +59,7 @@ screen starry_night():
     add "medium star"
 
 image load_circle:
-    "Phone UI/Main Menu/loading_circle.png"
+    'loading_circle_stationary'
     block:
         rotate 0
         linear 2.0 rotate 360
@@ -106,8 +106,9 @@ screen loading_screen():
         xalign 0.966 
         yalign 0.018
         idle 'load_close'
-        hover Transform("Phone UI/Main Menu/loading_close.png", zoom=1.05)
-        action [ToggleVariable("greeted", False, True), Hide('splash_screen_test'), Return()]
+        hover Transform('load_close', zoom=1.05)
+        action [ToggleVariable("greeted", False, True), 
+                Hide('splash_screen_test'), Return()]
         
         
     add 'load_tip 'xalign 0.13 yalign 0.32

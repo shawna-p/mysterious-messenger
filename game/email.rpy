@@ -433,7 +433,7 @@ screen email_hub():
             align (0.5, 0.99)
             spacing 15
             imagebutton:
-                idle Transform("Email/main03_email_next_button.png", xzoom=-1)
+                idle Transform("email_next", xzoom=-1)
                 align (0.5, 0.5)
                 if current_page > 0:
                     action SetScreenVariable('current_page', current_page-1) 
@@ -447,7 +447,7 @@ screen email_hub():
                     activate_sound 'sfx/UI/email_next_arrow.mp3'
                 
             imagebutton:
-                idle "Email/main03_email_next_button.png"
+                idle "email_next"
                 align (0.5, 0.5)
                 if current_page < num_pages - 1:
                     action SetScreenVariable('current_page', current_page+1)
@@ -526,7 +526,7 @@ screen open_email(e):
     modal True
     zorder 100
     
-    add "Phone UI/choice_dark.png"
+    add 'choice_darken'
         
     window:
         maximum(685, 800)

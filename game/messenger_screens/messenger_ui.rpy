@@ -32,7 +32,7 @@ screen answer_button():
         add "custom_pause_square" yalign 0.59
     else:
         add "pausebutton" xalign 0.96 yalign 0.16
-        add "Phone UI/pause_square.png" yalign 0.59
+        add 'pause_square' yalign 0.59
     if persistent.custom_footers:
         add "custom_answerbutton" ypos 1220
     else:
@@ -41,7 +41,7 @@ screen answer_button():
     imagebutton:
         ypos 1220
         focus_mask None
-        idle "Phone UI/answer_transparent.png"
+        idle 'transparent_answer'
         activate_sound "sfx/UI/answer_screen.mp3"
         action [Show('pause_button'), Return()]   
 
@@ -62,7 +62,7 @@ screen pause_button():
         if persistent.custom_footers:
             idle "custom_pause"
         else:
-            idle "Phone UI/Pause.png"
+            idle 'phone_pause'
         if not choosing:
             action [Call("play"), Return()]
      
@@ -111,7 +111,7 @@ screen play_button():
             add "custom_pause_square" yalign 0.59
         else:
             add "pausebutton" xalign 0.96 yalign 0.16
-            add "Phone UI/pause_square.png" yalign 0.59
+            add "pause_square" yalign 0.59
     imagebutton:
         xanchor 0.0
         yanchor 0.0
@@ -121,7 +121,7 @@ screen play_button():
         if persistent.custom_footers:
             idle "custom_play"
         else:
-            idle "Phone UI/Play.png"
+            idle 'phone_play'
         action [Show('pause_button'), Return()]
         
 
@@ -152,27 +152,27 @@ init python:
         # 4 = plugged in, battery fully charged
         battery = renpy.display.behavior.pygame.power.get_power_info()
         if battery.state == 3 or (battery.state == 4 and battery.percent <= 97):
-            return Transform("Phone UI/battery_charged.png", alpha=0.75), 0.1
+            return Transform('battery_charged', alpha=0.75), 0.1
         elif battery.state == 4 and battery.percent > 97:
-            return Transform("Phone UI/battery_charging.png", alpha=0.75), 0.1
+            return Transform('battery_charging', alpha=0.75), 0.1
         else:
-            return Transform('transparent.png', size=(18,26)), 0.1
+            return Transform('transparent', size=(18,26)), 0.1
 
     def battery_level_bar(st, at):
         battery = renpy.display.behavior.pygame.power.get_power_info()
         if battery.percent > 50:
-            img1 = Image("Phone UI/battery_high.png")
+            img1 = "battery_high"
         elif battery.percent < 20:
-            img1 = Image("Phone UI/battery_low.png")
+            img1 = 'battery_low'
         else:
-            img1 = Image("Phone UI/battery_med.png")
+            img1 = 'battery_med'
 
         return Fixed(img1, Fixed('charging_icon', 
             size=(18,26), xalign=0.5, yalign=0.4)), 0.1
 
     def battery_empty_bar(st, at):
         battery = renpy.display.behavior.pygame.power.get_power_info()
-        return Fixed(Image("Phone UI/battery_empty.png"), 
+        return Fixed("battery_empty_img", 
                 Fixed('charging_icon', 
                 size=(18,26), xalign=0.5, yalign=0.4)), 0.1
 
@@ -191,12 +191,12 @@ style battery_bar:
 
 style battery_bar_undetected:
     is battery_bar
-    bottom_bar "Phone UI/battery_high.png"
+    bottom_bar "battery_high"
 
 ## This screen shows the header/footer above the chat
 screen phone_overlay():  
     zorder 2
-    add "Phone UI/Phone-UI.png"   # You can set this to your own image
+    add 'phone_ui'  # You can set this to your own image
            
     $ battery = renpy.display.behavior.pygame.power.get_power_info()
 
@@ -206,10 +206,10 @@ screen phone_overlay():
         imagebutton:
             align (0.5, 0.5)
             focus_mask True
-            idle "Phone UI/max_speed_inactive.png"
+            idle 'max_speed_inactive'
             hover "noMaxSpeed"
             selected config.skipping
-            selected_idle "Phone UI/max_speed_active.png"
+            selected_idle 'max_speed_active'
             selected_hover "maxSpeed"
             if not choosing:
                 action Function(toggle_skipping)
@@ -247,8 +247,8 @@ screen phone_overlay():
             align (0.05, 0.065)
             imagebutton:
                 align (0.5, 0.5)
-                idle "Phone UI/back-arrow.png"
-                hover Transform("Phone UI/back-arrow.png", zoom=1.2)
+                idle 'back_arrow_btn'
+                hover Transform('back_arrow_btn', zoom=1.2)
                 if observing or current_chatroom.expired:
                     action Jump('chat_back')
                 else:
@@ -375,7 +375,7 @@ screen continue_answer_button(themenu):
     imagebutton:
         ypos 1220
         focus_mask None
-        idle "Phone UI/answer_transparent.png"
+        idle "transparent_answer"
         activate_sound "sfx/UI/answer_screen.mp3"
         action [SetVariable("choosing", True), 
                 SetVariable('timed_choose', True), 

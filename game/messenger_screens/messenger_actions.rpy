@@ -180,7 +180,7 @@ screen signature_screen(phone=True):
         add "save_exit" ypos 1220
     elif phone and persistent.custom_footers:
         add "custom_save_exit" ypos 1220
-    add "Phone UI/choice_dark.png"
+    add "choice_darken"
     window:
         xalign 0.5
         yalign 0.5
@@ -218,9 +218,9 @@ screen signature_screen(phone=True):
             text_style 'sign'
             align (0.5, 0.842)
             focus_mask True
-            background "Phone UI/sign-button.png" padding(20,20)
+            background 'sign_btn' padding(20,20)
             activate_sound "sfx/UI/end_chatroom.mp3"
-            hover_background "Phone UI/sign-button-clicked.png"
+            hover_background 'sign_btn_clicked'
             action Return()
 
 

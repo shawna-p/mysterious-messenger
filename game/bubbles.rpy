@@ -50,8 +50,7 @@ style special_bubble:
 
 ## ****************************************
 ## Regular Speech Bubble Style
-style reg_bubble_MC:
-    background Frame("Bubble/m-bubble.png", 18, 18, 25, 18)    
+style reg_bubble_MC:    
     padding (20, 15, 20, 9)
     pos (750-138-5,38)
     xanchor 1.0
@@ -67,12 +66,12 @@ style reg_bubble_short:
 ## TEXT MESSAGES
 # MC's text speech bubble
 style reg_bubble_MC_text:
-    background Frame("Text Messages/msgsl_text_player.png", 60,60,60,10)
+    background 'mc_text_msg_bubble'
     padding (20,12,60,12)
         
 # Other characters' text speech bubble
 style reg_bubble_text:        
-    background Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
+    background 'npc_text_msg_bubble'
     padding (60,12,20,12)
     
 ## ****************************************

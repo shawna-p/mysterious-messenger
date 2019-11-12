@@ -7,21 +7,21 @@ default current_background = "morning"
 
 image answerbutton: 
     block:
-        "Phone UI/Answer-Dark.png" with Dissolve(0.5, alpha=True)
+        "answer_dark" with Dissolve(0.5, alpha=True)
         1.0
-        "Phone UI/Answer.png" with Dissolve(0.5, alpha=True)
+        "answer_reg" with Dissolve(0.5, alpha=True)
         1.0
         repeat
         
 image pausebutton:
-    "Phone UI/pause_sign.png" with Dissolve(0.5, alpha=True)
+    "pause_sign" with Dissolve(0.5, alpha=True)
     1.0
-    "transparent.png" with Dissolve(0.5, alpha=True)
+    "transparent_img" with Dissolve(0.5, alpha=True)
     1.0
     repeat
     
 
-image fast-slow-button = "Phone UI/fast-slow-transparent.png"
+image fast_slow_button = "Phone UI/fast-slow-transparent.png"
 image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
 image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
 image speed_txt = ParameterizedText(style = "speednum_style")
@@ -34,9 +34,9 @@ image heart_hg = "Phone UI/heart-hg-sign.png"
 ## Custom Chat Footers
 image custom_answerbutton:
     block:
-        "Phone UI/custom-answer.png" with Dissolve(1.0, alpha=True)
+        "custom_answer_reg" with Dissolve(1.0, alpha=True)
         1.3
-        "Phone UI/custom-answer-dark.png" with Dissolve(1.0, alpha=True)
+        "custom_answer_dark" with Dissolve(1.0, alpha=True)
         1.0
         repeat
         
@@ -44,16 +44,16 @@ image custom_pause = "Phone UI/custom-pause.png"
 image custom_play = "Phone UI/custom-play.png"
 image custom_save_exit = "Phone UI/custom-save-exit.png"
 image custom_pausebutton:
-    "Phone UI/custom-pause-sign.png" with Dissolve(0.5, alpha=True)
+    "custom_pause_sign" with Dissolve(0.5, alpha=True)
     1.0
-    "transparent.png" with Dissolve(0.5, alpha=True)
+    "transparent_img" with Dissolve(0.5, alpha=True)
     1.0
     repeat
 image custom_pause_square = "Phone UI/custom-pause-square.png"
 ## End custom chat footers
 
 image hack scroll: 
-    "Hack-Long.png"
+    "hack_long"
     subpixel True
     yalign 0.0
     linear 1.0 yalign 1.0
@@ -63,7 +63,7 @@ image hack scroll:
     linear 1.0 yalign 1.0
     
 image redhack scroll:
-    "Hack-Red-Long.png"
+    "red_hack_long"
     subpixel True
     yalign 0.0
     linear 1.0 yalign 1.0

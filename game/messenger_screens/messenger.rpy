@@ -552,8 +552,7 @@ screen chat_animation(i, animate=True, anti=False):
                 # Otherwise it must be regular MC dialogue
                 else:
                     style reg_style
-                    if i.who != m:
-                        background Frame(bubbleBackground, 25,18,18,18)
+                    background Frame(bubbleBackground, 25,18,18,18)
                     if my_width > gui.longer_than:
                         text dialogue:
                             style 'bubble_text_long'

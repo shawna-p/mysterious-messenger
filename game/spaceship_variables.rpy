@@ -61,8 +61,10 @@ image cloud_3 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_3.png"
 image cloud_4 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_4.png"
 image cloud_5 = "Phone UI/Main Menu/Original Story/Spaceship/cloud_5.png"
 
+image space_spotlight = "Phone UI/Main Menu/Original Story/Spaceship/spotlight.png"
+
 image spotlight:
-    "Phone UI/Main Menu/Original Story/Spaceship/spotlight.png"
+    'space_spotlight'
     alpha 0.6
     block:
         rotate 0

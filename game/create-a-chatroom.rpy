@@ -293,7 +293,7 @@ screen create_archive():
                         xalign 0.5                    
                         button:
                             xysize (700, 450)
-                            background Transform("bg-earlyMorn.jpg", crop=(50,300,700,450))
+                            background Transform("bg earlyMorn", crop=(50,300,700,450))
                             viewport:
                                 xysize (700, 450)
                                 ## Uses the same screen that displays the text in chatrooms

@@ -574,7 +574,7 @@ screen timeline_continue_button(chat_time):
                     Hide('confirm')], 
                 no_action=Hide('confirm'))    
         if hacked_effect:
-            add Transform('Phone UI/Day Select/chatlist_hacking_long.png', 
+            add Transform('day_reg_hacked_long', 
                             yzoom=0.75):
                 xoffset -210 yoffset -120            
         vbox:
@@ -585,7 +585,7 @@ screen timeline_continue_button(chat_time):
                     xysize (75,27)
                     xoffset 77
                     yoffset 13
-                    add Transform("Phone UI/Main Menu/header_hg.png", 
+                    add Transform("header_hg", 
                                     zoom=0.8):
                         xalign 0.5 yalign 0.5
                 viewport:

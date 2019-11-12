@@ -224,8 +224,7 @@ screen pic_and_pronouns():
                 imagebutton:
                     style 'profile_pic_imagebutton'
                     idle "menu_edit"            
-                    hover Transform("Phone UI/Main Menu/menu_pencil_long.png", 
-                                                                    zoom=1.03)
+                    hover Transform("menu_edit", zoom=1.03)
                     # We save the old name so we can reset it if 
                     # they don't want to change it
                     action [SetVariable('old_name', persistent.name),   
@@ -267,17 +266,16 @@ screen pic_and_pronouns():
                 text 'they/them' style 'pronoun_radio_text'
              
 image she_her_pronoun_radio = ConditionSwitch(
-    "persistent.pronoun == 'female'", "Phone UI/Main Menu/menu_radio_on.png",
-    'True', "Phone UI/Main Menu/menu_radio_off.png",    
+    "persistent.pronoun == 'female'", "radio_on",
+    'True', "radio_off",    
 )
 image he_him_pronoun_radio = ConditionSwitch(
-    "persistent.pronoun == 'male'", "Phone UI/Main Menu/menu_radio_on.png",
-    'True', "Phone UI/Main Menu/menu_radio_off.png",    
+    "persistent.pronoun == 'male'", "radio_on",
+    'True', "radio_off",    
 )
 image they_them_pronoun_radio = ConditionSwitch(
-    "persistent.pronoun == 'non binary'", 
-        "Phone UI/Main Menu/menu_radio_on.png",
-    'True', "Phone UI/Main Menu/menu_radio_off.png",    
+    "persistent.pronoun == 'non binary'", "radio_on",
+    'True', "radio_off",    
 )
 image mc_name_switch = DynamicDisplayable(MC_name_display)
 image change_mc_pfp = DynamicDisplayable(MC_pic_display)
@@ -307,7 +305,7 @@ screen points_and_saveload():
             xysize (161, 58)
             align (.5, .5)
             idle "save_btn"
-            hover Transform("Phone UI/Main Menu/menu_save_btn.png", zoom=1.1)
+            hover Transform("save_btn", zoom=1.1)
             action Show("save", Dissolve(0.5))
             
         imagebutton:
@@ -315,7 +313,7 @@ screen points_and_saveload():
             xysize (161, 58)
             align (.5, .5)
             idle "load_btn"
-            hover Transform("Phone UI/Main Menu/menu_load_btn.png", zoom=1.1)
+            hover Transform("load_btn", zoom=1.1)
             action Show("load", Dissolve(0.5))
 
 screen heart_point_grid(c):
@@ -353,7 +351,7 @@ style pronoun_radio_text is default
 style pronoun_window_vbox is default
 
 style pronoun_window:
-    background Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
+    background 'greeting_panel'
     maximum(340,400)
     xalign 0.99
     yalign 0.32
@@ -860,7 +858,7 @@ screen voice_buttons(char, voice_char=None):
 screen ringtone_dropdown(title, tone):
 
     modal True
-    add "Phone UI/choice_dark.png"
+    add "choice_darken"
     window:
         xysize(675,1000)
         background "menu_settings_panel_bright"

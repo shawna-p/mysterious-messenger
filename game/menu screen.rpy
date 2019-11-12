@@ -249,7 +249,7 @@ screen main_menu():
     hbox:
         window:
             xysize(143,127)
-            add "Phone UI/Main Menu/[greet_char]_greeting.png":
+            add 'greet [greet_char]':
                 xpos 65 ypos 140
         window:
             xysize(500,120)
@@ -768,8 +768,8 @@ screen file_slots(title):
                                 xsize 155
                                 yfit True
                                 imagebutton:
-                                    hover Transform("Phone UI/Main Menu/save_trash_hover.png",zoom=1.05)
-                                    idle "Phone UI/Main Menu/save_trash.png"
+                                    hover Transform('save_trash',zoom=1.05)
+                                    idle 'save_trash'
                                     xalign 1.0
                                     action FileDelete(slot)
 
@@ -886,7 +886,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 yalign 0.068
                 idle "menu_back"
                 focus_mask None
-                hover Transform("Phone UI/Main Menu/menu_back_btn.png", zoom=1.1)
+                hover Transform("menu_back", zoom=1.1)
                 activate_sound 'sfx/UI/back_button.mp3'
                 if not renpy.get_screen("choice"):                
                     if persistent.first_boot or not persistent.on_route:

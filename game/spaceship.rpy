@@ -84,7 +84,7 @@ screen spaceship_thoughts():
     $ the_thought = space_thoughts.draw()
             
     button:
-        background "Phone UI/choice_dark.png"
+        background "choice_darken"
         xysize (750, 1334)
         activate_sound 'sfx/UI/select_6.mp3'
         action Hide('spaceship_thoughts', Dissolve(0.5))
@@ -114,7 +114,7 @@ screen chip_tap():
 
     zorder 100
     
-    add "Phone UI/choice_dark.png"
+    add "choice_darken"
     window at chip_wobble:
         xysize(481,598)
         xalign 0.5
@@ -145,7 +145,7 @@ screen chip_cloud():
 
     zorder 100
         
-    add "Phone UI/choice_dark.png"
+    add "choice_darken"
     window at chip_wobble2:
         xysize(481,598)
         xalign 0.5
@@ -176,7 +176,7 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
 
     zorder 100
     
-    add "Phone UI/choice_dark.png"   
+    add "choice_darken"   
 
     add 'spotlight' xalign 0.5 yalign 0.0
     

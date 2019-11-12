@@ -142,8 +142,8 @@ screen history():
     ## Avoid predicting this screen, as it can be very large.
     predict False
 
-    add "Phone UI/choice_dark.png"
-    add "Phone UI/choice_dark.png"
+    add 'choice_darken'
+    add "choice_darken"
     
     # Close button
     button:

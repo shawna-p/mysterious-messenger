@@ -141,6 +141,8 @@ image bg redcrack = "bg-redhack-crack.png"
 # A starry night background with some static stars;
 # used in menu screens
 image bg starry_night = "Phone UI/bg-starry-night.png"
+image hack_long = "Hack-Long.png"
+image red_hack_long = "Hack-Red-Long.png"
 
 # ********************************
 # Short forms/Startup Variables
@@ -251,7 +253,7 @@ image rfa_greet:
                 color="#ffffff", size=30, slow=True, 
                 font="fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
     10.0
-    "transparent.png"
+    "transparent"
     0.2
     repeat
 
@@ -794,4 +796,49 @@ image email_mint = "Email/main03_email_mint.png"
 image white_transparent = Frame("Email/white_transparent.png", 0, 0)
 image email_open_transparent = Frame("Email/email_open_transparent.png", 0, 0)
 image left_corner_menu_dark = Frame("Email/left_corner_menu_dark.png", 45, 45)
+
+## Additional variables to sort somewhere after
+
+image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.png", 60,60,60,10)
+image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
+
+image choice_darken = "Phone UI/choice_dark.png"
+image save_trash = "Phone UI/Main Menu/save_trash_hover.png"
+image sign_btn = "Phone UI/sign-button.png"
+image sign_btn_clicked = "Phone UI/sign-button-clicked.png"
+
+image pause_square = "Phone UI/pause_square.png"
+image transparent_answer = "Phone UI/answer_transparent.png"
+image phone_pause = "Phone UI/Pause.png"
+image phone_play = "Phone UI/Play.png"
+
+image battery_high = "Phone UI/battery_high.png"
+image battery_med = "Phone UI/battery_med.png"
+image battery_low = "Phone UI/battery_low.png"
+image battery_empty_img = "Phone UI/battery_empty.png"
+image battery_charged = "Phone UI/battery_charged.png"
+image battery_charging = "Phone UI/battery_charging.png"
+
+image transparent_img = 'transparent.png'
+image phone_ui = "Phone UI/Phone-UI.png"
+
+image max_speed_active = "Phone UI/max_speed_active.png"
+image max_speed_inactive = "Phone UI/max_speed_inactive.png"
+image back_arrow_btn = "Phone UI/back-arrow.png"
+
+image answer_dark = "Phone UI/Answer-Dark.png"
+image answer_reg = "Phone UI/Answer.png"
+image pause_sign = "Phone UI/pause_sign.png"
+
+image custom_answer_dark = "Phone UI/custom-answer.png"
+image custom_answer_reg = "Phone UI/custom-answer-dark.png"
+image custom_pause_sign = "Phone UI/custom-pause-sign.png"
+
+image small_star = "Phone UI/small-star.png"
+image medium_star = "Phone UI/medium-star.png"
+
+image loading_circle_stationary = "Phone UI/Main Menu/loading_circle.png"
+
+#look for fast-slow-button
+
 

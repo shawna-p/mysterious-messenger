@@ -186,9 +186,9 @@ screen phone_calls():
 
                     $ call_status = 'call_' + i.call_status
                     if i.playback:
-                        $ replay_bkgr = 'Phone UI/Phone Calls/call_button_replay_active.png'
+                        $ replay_bkgr = 'call_replay_active'
                     else:
-                        $ replay_bkgr = 'Phone UI/Phone Calls/call_button_replay_inactive.png'
+                        $ replay_bkgr = 'call_replay_inactive'
                     window:                                                       
                         background 'message_idle_bkgr'   
                         xysize (725, 150)
@@ -234,8 +234,7 @@ screen phone_calls():
                                 idle 'call_back' 
                                 align(0.5, 0.5)
                                 xysize(96,85)
-                                hover Transform('Phone UI/Phone Calls/call.png', 
-                                                                        zoom=1.1)
+                                hover Transform('call_back', zoom=1.1)
                                 if call_available(i.caller):
                                     action [Preference("auto-forward", "enable"), 
                                     Show('outgoing_call', 
@@ -408,8 +407,7 @@ screen in_call():
                         imagebutton:
                             align (0.5, 0.5)
                             idle 'call_hang_up'
-                            hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', 
-                                                                            zoom=1.1)
+                            hover Transform('call_hang_up', zoom=1.1)
                             action [Hide('say'), Jump('hang_up')]
                         
                 
@@ -488,8 +486,7 @@ screen incoming_call(phonecall, countdown_time=10):
                     imagebutton:
                         align (0.5, 0.5)
                         idle 'call_answer'
-                        hover Transform('Phone UI/Phone Calls/call_button_answer.png', 
-                                                                            zoom=1.1)
+                        hover Transform('call_answer', zoom=1.1)
                         if starter_story:
                             action Return()
                         else:
@@ -507,8 +504,7 @@ screen incoming_call(phonecall, countdown_time=10):
                         imagebutton:
                             align (0.5, 0.5)
                             idle 'call_hang_up'
-                            hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', 
-                                                                            zoom=1.1)
+                            hover Transform('call_hang_up', zoom=1.1)
                             action [Function(renpy.music.stop), 
                                     Jump('incoming_hang_up')]
                 
@@ -598,8 +594,7 @@ screen outgoing_call(phonecall, voicemail=False):
                     imagebutton:
                         align (0.5, 0.5)
                         idle 'call_hang_up'
-                        hover Transform('Phone UI/Phone Calls/call_button_hang_up.png', 
-                                                                            zoom=1.1)
+                        hover Transform('call_hang_up', zoom=1.1)
                         action [renpy.music.stop, Show('phone_calls')]
        
     if voicemail:

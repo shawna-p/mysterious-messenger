@@ -160,6 +160,8 @@ image v_album_cover = 'CGs/v_album_cover.png'
 image y_album_cover = 'CGs/y_album_cover.png'
 image z_album_cover = 'CGs/z_album_cover.png'
 image common_album_cover = 'CGs/common_album_cover.png'
+
+image translucent_img = 'translucent.png'
     
 #************************************
 # Album Declarations
@@ -371,18 +373,18 @@ screen viewCG_fullsize_album():
     draggroup:
         drag:
             drag_name "Left"
-            child Transform('translucent.png', size=(70,1334))
+            child Transform('translucent_img', size=(70,1334))
             draggable False
             xalign 0.0
         drag:
             drag_name "Right"
             draggable False
-            child Transform('translucent.png', size=(70, 1334))
+            child Transform('translucent_img', size=(70, 1334))
             xalign 1.0
         drag:
             drag_name "the_CG"
             drag_handle (0, 0, 750, 1334)
-            child 'translucent.png'
+            child 'translucent_img'
             dragged drag_box
             droppable False
             clicked toggle_close_drag
