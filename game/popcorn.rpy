@@ -10,8 +10,8 @@ label popcorn_chat():
     # Jumin. There are similar functions for changing
     # cover photos (e.g. ja.set_cover_pic) and status
     # updates (e.g. ja.set_status)
-    $ ja.set_prof_pic('Profile Pics/Jaehee/jae-2.jpg')
-    $ ju.set_prof_pic('Profile Pics/Jumin/ju-18.jpg')
+    $ ja.prof_pic ='Profile Pics/Jaehee/jae-2.jpg'
+    $ ju.prof_pic = 'Profile Pics/Jumin/ju-18.jpg'
     
     call play_music(urban_night_cityscape)
     
@@ -114,8 +114,8 @@ label popcorn_chat():
 ## a few dialogue changes since MC is not present
 label popcorn_chat_expired():
     call chat_begin("morning") 
-    $ ja.set_prof_pic('Profile Pics/Jaehee/jae-2.jpg')
-    $ ju.set_prof_pic('Profile Pics/Jumin/ju-18.jpg')    
+    $ ja.prof_pic = 'Profile Pics/Jaehee/jae-2.jpg'
+    $ ju.prof_pic = 'Profile Pics/Jumin/ju-18.jpg'   
     call play_music(urban_night_cityscape)
     ju "Zen's written some strange things." 
     ja "{image=jaehee happy}"   (img=True)

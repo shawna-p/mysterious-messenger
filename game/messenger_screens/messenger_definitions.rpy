@@ -123,6 +123,100 @@ label shake():
     return
 
 #************************************
+# Hacking effects
+#************************************
+# This allows the program to keep track of the different
+# "hacking" effects used during a playthrough
+label invert_screen(t=0, p=0):
+    if t != 0:
+        show screen invert(t)
+    else:
+        show screen invert()
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
+        # We should add this to the replay_log
+        if t == 0:
+            $ tlen = False
+        else:
+            $ tlen = t
+        $ effect_entry = ("invert", tlen)
+        $ current_chatroom.replay_log.append(effect_entry)
+        if p != 0:
+            $ current_chatroom.replay_log.append(("pause", p))
+    if p != 0:
+        pause p
+    return
+
+label white_square_screen(t=0, p=0):
+    if t != 0:
+        show screen white_squares(t)
+    else:
+        show screen white_squares()
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
+        # We should add this to the replay_log
+        if t == 0:
+            $ tlen = False
+        else:
+            $ tlen = t
+        $ effect_entry = ("white squares", tlen)
+        $ current_chatroom.replay_log.append(effect_entry)
+        if p != 0:
+            $ current_chatroom.replay_log.append(("pause", p))
+    if p != 0:
+        pause p
+    return
+
+label hack_rectangle_screen(t=0, p=0):
+    if t != 0:
+        show screen hack_rectangle(t)
+    else:
+        show screen hack_rectangle()
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
+        # We should add this to the replay_log
+        if t == 0:
+            $ tlen = False
+        else:
+            $ tlen = t
+        $ effect_entry = ("hack squares", tlen)
+        $ current_chatroom.replay_log.append(effect_entry)
+        if p != 0:
+            $ current_chatroom.replay_log.append(("pause", p))
+    if p != 0:
+        pause p
+    return 
+
+label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2, 
+                        offsetMin=-10, offsetMax=30, w_timer=0.2,
+                        p=0):
+    show screen tear(number=number, offtimeMult=offtimeMult, 
+                    ontimeMult=ontimeMult, offsetMin=offsetMin, 
+                    offsetMax=offsetMax, w_timer=w_timer)
+
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
+        # We should add this to the replay_log
+        $ effect_entry = ("tear", [number, offtimeMult, ontimeMult, offsetMin, 
+                                    offsetMax, w_timer])
+        $ current_chatroom.replay_log.append(effect_entry)
+        if p != 0:
+            $ current_chatroom.replay_log.append(("pause", p))
+    if p != 0:
+        pause p
+    return 
+
+label remove_entries(num=1):
+    $ num *= -1
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
+        # We should add this to the replay_log
+        $ remove_entry = ("remove", num)
+        $ current_chatroom.replay_log.append(remove_entry)
+    $ del chatlog[num:]
+    return
+
+#************************************
 # Chatroom Replay (in-game)
 #************************************
 ## This label is called when you want to replay a chatroom
@@ -258,6 +352,27 @@ label rewatch_chatroom():
                         nickColour = black
                     else:
                         nickColour = white
+                elif first == "invert":
+                    renpy.show_screen('invert', length=second)
+                elif first == "pause":
+                    if not config.skipping:
+                        renpy.pause(second, hard=False)
+                    else:
+                        pass
+                elif first == "white squares":
+                    renpy.show_screen('white_squares', w_timer=second)
+                elif first == "hack squares":
+                    renpy.show_screen('hack_rectangle', w_timer=second)
+                elif first == "tear":
+                    renpy.show_screen('tear', number=second[0],
+                        offtimeMult=second[1], ontimeMult=second[2],
+                        offsetMin=second[3], offsetMax=second[4],
+                        w_timer=second[5])
+                elif first == "remove":
+                    del chatlog[second:]
+                
+                    
+                
             else:
                 print("something's wacky", entry)
 

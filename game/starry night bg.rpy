@@ -15,14 +15,14 @@ image small star:
         "small_star" with Dissolve(1.0, alpha=True)
         # This just tells the program to pick a number between 5 and 9
         # and then wait that many seconds before continuing with the animation
-        renpy.random.randint(5, 9)
+        renpy.random.randint(3, 7) + renpy.random.random()
         repeat
         
 image medium star:
     function star_func
     block:
         "medium_star" with Dissolve(1.0, alpha=True)
-        renpy.random.randint(5, 11)
+        renpy.random.randint(4, 11) + renpy.random.random()
         "transparent_img" with Dissolve(1.0, alpha=True)
         1.3
         repeat
@@ -34,29 +34,12 @@ screen starry_night():
         xysize (750,1334)
         background '#000'
     add "bg starry_night"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "small star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
-    add "medium star"
+    for i in range(20):
+        add "small star"
+    for j in range(11):
+        add "medium star"
+        
+    
 
 image load_circle:
     'loading_circle_stationary'
@@ -75,6 +58,8 @@ label splashscreen():
     hide screen loading_screen
     return
 
+## This ensures that the user has to set up their profile
+## the very first time they open the game
 label before_main_menu():
     if persistent.first_boot:
         call define_variables 
@@ -97,7 +82,8 @@ screen loading_screen():
         maximum(540, 140)
         xalign 0.5
         yalign 0.445
-        text "Please make sure the game is not quit or interrupted during save or load" style "loading_tip"
+        text ("Please make sure the game is not quit or" 
+               + " interrupted during save or load") style "loading_tip"
         
     text "Loading..." style "loading_text" 
     

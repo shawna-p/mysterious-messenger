@@ -396,7 +396,7 @@ screen route_select_screen():
                 button:
                     focus_mask True
                     background 'right_corner_menu'
-                    hover_background 'right_corner_menu_selected'
+                    hover_foreground 'right_corner_menu_hover'
                     action [Start()]         
                 text 'Start Game':
                     style 'menu_text_small' 
@@ -1065,6 +1065,7 @@ screen chat_home(reshow=False):
                     background "white_hex"
                     hover_background "white_hex_hover"
                     #action NullAction
+                    action ToggleScreen('hack_rectangle')
                     add "guest_icon" xalign 0.5 yalign 0.3
                     add "guest_text" xalign 0.5 yalign 0.8
                     

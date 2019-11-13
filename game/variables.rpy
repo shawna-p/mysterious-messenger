@@ -515,124 +515,125 @@ image day_active_hover = Frame('Menu Screens/Day Select/daychat01_day_active_hov
 image day_reg_hacked = 'Menu Screens/Day Select/chatlist_hacking.png'
 image day_reg_hacked_long = 'Menu Screens/Day Select/chatlist_hacking_long.png'
 
+image chat_hack_thin = 'Menu Screens/Day Select/chat_hacking_thin.png'
+image chat_hack_thick = 'Menu Screens/Day Select/chat_hacking_thick.png'
+image chat_hack_filled = 'Menu Screens/Day Select/chat_hacking_filled.png'
+
 image hacked_white_squares:
-    #'Menu Screens/Day Select/chat_hacking_thick.png'
-    #'Menu Screens/Day Select/chat_hacking_thin.png'
-    #'Menu Screens/Day Select/chat-hacking_filled.png'
 
     block:
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
-            pause 0.02
-        choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
-            pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.0, yoffset=800)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.0, yoffset=800)
+            pause 0.02
+        choice:
+            Transform('chat_hack_thin', yzoom=0.01, alpha=0.45, yoffset=720)
+            pause 0.02
+            Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
     block:
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.9, yalign=1.0)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.03
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.3, alpha=0.8, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.3, alpha=0.8, yalign=1.0)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('chat_hack_thick', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.0, yalign=0.5)
+            Transform('chat_hack_thick', yzoom=0.3, alpha=0.0, yalign=0.5)
             pause 0.04
     block:
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
-            pause 0.02
-        choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
-            pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.4, alpha=0.8, yalign=0.85)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('chat_hack_thick', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
     block:
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.1
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.9, yalign=1.0)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('chat_hack_thick', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
+            Transform('chat_hack_thick', yzoom=0.1, alpha=0.7, yalign=0.6)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
+            Transform('chat_hack_filled', yzoom=0.4, alpha=0.5, yalign=0.85)
             pause 0.02
     block:
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.1
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.9, yalign=1.0)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('chat_hack_thick', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
+            Transform('chat_hack_thick', yzoom=0.1, alpha=0.7, yalign=0.6)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
+            Transform('chat_hack_filled', yzoom=0.4, alpha=0.5, yalign=0.85)
             pause 0.02
     block:
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
-            pause 0.02
-        choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
-            pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('chat_hack_filled', yzoom=0.4, alpha=0.8, yalign=0.85)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('chat_hack_filled', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('chat_hack_thick', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
     block:
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
-            pause 0.02
-        choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
-            pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.0, yoffset=800)
             pause 0.02
         choice:
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('chat_hack_thin', yzoom=0.3, alpha=0.0, yoffset=800)
             pause 0.02
-    Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.0, yalign=0.85)
+        choice:
+            Transform('chat_hack_thin', yzoom=0.01, alpha=0.45, yoffset=720)
+            pause 0.02
+            Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+    Transform('chat_hack_filled', yzoom=0.4, alpha=0.0, yalign=0.85)
             
   
     

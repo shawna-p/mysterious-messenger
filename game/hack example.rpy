@@ -24,20 +24,18 @@ label hack_example():
             sa "You don't, hmm?" 
             sa "Just you wait a moment"             
             m "Show me what to do." 
-            # This deletes the last four items in the chatlog
+            # This deletes the last three items in the chatlog, discounting
+            # the most recent message
             # You might have to experiment with how many messages to
             # delete/where to put the delete line since the program sometimes
             # has "hidden" chatlog entries that aren't shown to the user
-            $ del chatlog[-4:]
-            show screen hack_rectangle(0.2)
-            pause 0.01
-            show screen invert(0.19)
-            pause 0.01
-            show screen tear(number=10, offtimeMult=0.4, ontimeMult=0.2, 
-                                offsetMin=-10, offsetMax=30, w_timer=0.18)
-            pause 0.01
-            show screen white_squares(0.16)
-            pause 0.17
+            call remove_entries(num=4)
+            call hack_rectangle_screen(t=0.2, p=0.01)
+            call invert_screen(t=0.19, p=0.01)
+            call tear_screen(number=10, offtimeMult=0.4, ontimeMult=0.2, 
+                                offsetMin=-10, offsetMax=30, w_timer=0.18,
+                                p=0.01)
+            call white_square_screen(t=0.16, p=0.17)
             sa "{image=saeran happy}" (img=True)
             call answer
             menu:
@@ -50,17 +48,13 @@ label hack_example():
     # The next several statements show how you can call
     # the various hacking effects. Combining several of
     # these screens often leads more interesting effects
-    show screen invert(0.2)
-    pause 0.5
+    call invert_screen(t=0.2, p=0.5)
     sa "random glitchy squares,"   (bounce=True)
-    show screen hack_rectangle(0.2)
-    pause 0.01
-    show screen white_squares(0.19)
-    pause 0.5
+    call hack_rectangle_screen(t=0.2, p=0.01)
+    call white_square_screen(t=0.19, p=0.5)
     sa "a tearing effect"   (bounce=True)
-    show screen tear(number=40, offtimeMult=0.4, ontimeMult=0.2, 
-                        offsetMin=-10, offsetMax=30, w_timer=0.2)
-    pause 0.5
+    call tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2, 
+                        offsetMin=-10, offsetMax=30, w_timer=0.2, p=0.5)
     sa "You can delete messages and rewrite them."        
     sa "There are a lot of things you can do if you're creative~" 
     sa "{image=saeran happy}"   (img=True)
@@ -82,33 +76,23 @@ label hack_example_expired():
     call chat_begin('redhack', False, False)
     call enter(sa)
     sa "Oh so I'm not good enough for you to log in?" 
-    sa "I'm not good enough for you?" 
-    show screen white_squares(0.2)
-    pause 0.01
-    show screen tear(40, 0.4, 0.2, -30, 30, 0.2)
-    pause 0.5
+    sa "I'm not good enough for you?"
+    call white_square_screen(t=0.2, p=0.01) 
+    call tear_screen(40, 0.4, 0.2, -30, 30, 0.2, p=0.5)
     sa "{size=+10}Hmm? Is that what you think?{/size}"
-    show screen invert(0.2)
-    pause 0.01
-    show screen tear(60, 0.7, 0.1, -70, 70, 0.2)
-    pause 0.5
+    call invert_screen(t=0.2, p=0.01)
+    call tear_screen(60, 0.7, 0.1, -70, 70, 0.2, p=0.5)
     sa "{=ser1xb}{size=+10}Well FINE{/size}{/=ser1xb}"   (bounce=True, specBubble="glow2")
-    show screen hack_rectangle(0.2)
-    pause 0.01
-    show screen tear(100, 0.7, 0.1, -200, 200, 0.2)
-    pause 0.5
+    call hack_rectangle_screen(t=0.2, p=0.01)
+    call tear_screen(100, 0.7, 0.1, -200, 200, 0.2, p=0.5)
     sa "I'm sure you don't need to use this phone either" 
     sa "so I'll just go ahead and hack into it" 
     sa "You'll be hearing from me later"   (bounce=True)
-    show screen hack_rectangle(0.2)
-    pause 0.01
-    show screen invert(0.19)
-    pause 0.01
-    show screen tear(number=50, offtimeMult=0.4, ontimeMult=0.2, 
-                        offsetMin=-50, offsetMax=50, w_timer=0.18)
-    pause 0.01
-    show screen white_squares(0.16)
-    pause 0.17
+    call hack_rectangle_screen(t=0.2, p=0.01)
+    call invert_screen(t=0.2, p=0.01)
+    call tear_screen(number=50, offtimeMult=0.4, ontimeMult=0.2, 
+                        offsetMin=-50, offsetMax=50, w_timer=0.18, p=0.01)
+    call white_square_screen(t=0.16, p=0.17)
     call exit(sa)
     call redhack
     call chat_begin('night', True, False)

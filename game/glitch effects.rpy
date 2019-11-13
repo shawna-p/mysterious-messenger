@@ -143,26 +143,27 @@ screen white_squares(w_timer=False):
 
 # Little black squares
 image m_rectstatic:
-    #RectStatic(Solid("#000"), 32).sm
-    RectStatic(Crop('hack_long', 0,0,renpy.random.randint(20, 60), 
-                                    renpy.random.randint(20, 40)), 32).sm
+    RectStatic(Solid("#000"), 32, False, False).sm
+    # RectStatic(Crop((0,0,renpy.random.randint(20, 60), 
+    #                     renpy.random.randint(20, 40)), 'hack_long'), 32).sm
     pos (0, 0)
     size (32,32)
 # Little squares with a part of the logo
 image m_rectstatic2:
-    RectStatic(Transform(Crop("chat_selected", 
-                            0,0,32,32), size=(32,32)), 2).sm
+    RectStatic(Transform(Crop((0,0,32,32), 
+                        "chat_selected", size=(32,32))), 2).sm
     size (32, 32)
 # Little squares with a part of the menu
 image m_rectstatic3:
-    RectStatic(Transform(Crop("day_selected", 
-                                        0,0,64,64), size=(32, 32)), 2).sm
+    RectStatic(Transform(Crop((0,0,64,64), 
+                        "day_selected", size=(32, 32))), 2).sm
     size (32, 32)
 
 init python:
     import math
-    ## This effect takes a displayable, a number of rectangles to show concurrently,
-    ## and a size for the rectangles, then makes them randomly show up on the screen
+    ## This effect takes a displayable, a number of rectangles
+    ## to show concurrently, and a size for the rectangles, then 
+    ## makes them randomly show up on the screen
     ## RectStatic(Solid("#000"), 32, 32, 32) would make 32 32x32 black squares
     ## That show up randomly on the screen
     class RectStatic(object):
