@@ -286,43 +286,43 @@ label rewatch_chatroom():
                         # the player presses it it hides itself. Then the 
                         # program checks to make sure the hack screen is still
                         # showing so that it should continue to pause
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
                         renpy.hide_screen('hack_screen')
                     elif second == "red":
                         renpy.show_screen('hack_screen', hack='redhack scroll')
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
-                        if (not config.skipping 
+                        if (not renpy.is_skipping()
                                 and renpy.get_screen("hack_screen")):
                             renpy.pause(0.5, hard=False)
                         renpy.hide_screen('hack_screen')
@@ -355,7 +355,7 @@ label rewatch_chatroom():
                 elif first == "invert":
                     renpy.show_screen('invert', length=second)
                 elif first == "pause":
-                    if not config.skipping:
+                    if not renpy.is_skipping():
                         renpy.pause(second, hard=False)
                     else:
                         pass

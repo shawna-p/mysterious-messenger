@@ -208,11 +208,11 @@ screen phone_overlay():
             focus_mask True
             idle 'max_speed_inactive'
             hover "noMaxSpeed"
-            selected config.skipping
+            selected renpy.is_skipping()
             selected_idle 'max_speed_active'
             selected_hover "maxSpeed"
             if not choosing:
-                action Function(toggle_skipping)
+                action Skip()#Function(toggle_skipping)
                 
     window:
         align (0.75, 0.055)
@@ -308,7 +308,7 @@ label continue_answer(themenu, count_time=5):
     # 11.25% each time)
     python:
         modifier = 1.00
-        if config.skipping:
+        if renpy.is_skipping():
             # Max Speed active
             modifier = 0.0
         elif pv <= 0.45:
@@ -354,7 +354,7 @@ label continue_answer(themenu, count_time=5):
     # choose an answer avoids the problem of players
     # who didn't initially choose an answer being unable
     # to continue
-    if not config.skipping and not observing:
+    if not renpy.is_skipping() and not observing:
         $ using_timed_menus = True
         show screen answer_countdown(count_time)
         hide screen viewCG

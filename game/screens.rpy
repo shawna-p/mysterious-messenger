@@ -145,10 +145,10 @@ screen say(who, what):
             imagebutton:
                 idle Text("Skip", style="vn_button")
                 hover Text("Skip", style="vn_button_hover")
-                selected config.skipping
+                selected renpy.is_skipping()
                 selected_idle Text("Stop", style="vn_button")
                 selected_hover Text("Stop", style="vn_button_hover")
-                action Function(toggle_skipping)
+                action Skip() #Function(toggle_skipping)
                 activate_sound 'audio/sfx/UI/vn_skip.mp3'
                 
             imagebutton:
@@ -257,7 +257,7 @@ screen choice(items):
     modal True
     
     python:
-        if persistent.custom_footers and not config.skipping:
+        if persistent.custom_footers and not renpy.is_skipping():
             the_anim = choice_anim
         else:
             the_anim = null_anim

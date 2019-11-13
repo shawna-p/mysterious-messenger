@@ -22,13 +22,15 @@ label hack_example():
         "I don't want to freak them out exactly...":
             m "I don't want to freak them out exactly..." (pauseVal=0)
             sa "You don't, hmm?" 
-            sa "Just you wait a moment"             
+            sa "Just you wait a moment"                      
             m "Show me what to do." 
             # This deletes the last three items in the chatlog, discounting
             # the most recent message
             # You might have to experiment with how many messages to
             # delete/where to put the delete line since the program sometimes
             # has "hidden" chatlog entries that aren't shown to the user
+            # In generaly you can put it one message after the last message
+            # you want to delete
             call remove_entries(num=4)
             call hack_rectangle_screen(t=0.2, p=0.01)
             call invert_screen(t=0.19, p=0.01)
