@@ -148,7 +148,7 @@ screen say(who, what):
                 selected renpy.is_skipping()
                 selected_idle Text("Stop", style="vn_button")
                 selected_hover Text("Stop", style="vn_button_hover")
-                action Skip() #Function(toggle_skipping)
+                action Skip()
                 activate_sound 'audio/sfx/UI/vn_skip.mp3'
                 
             imagebutton:

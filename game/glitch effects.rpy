@@ -38,10 +38,10 @@ init python:
             return render
 
 ## Define the invert screen for renpy
-screen invert(length=False):
+screen invert(w_timer=False):
     add Invert() size (750, 1334)
-    if length:
-        timer length action Hide("invert")
+    if w_timer:
+        timer w_timer action Hide("invert")
 
 ## tear(number=10, offtimeMult=1, ontimeMult=1, 
 ##      offsetMin=0, offsetMax=50, srf=None)

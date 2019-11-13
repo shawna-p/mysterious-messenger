@@ -212,7 +212,7 @@ screen phone_overlay():
             selected_idle 'max_speed_active'
             selected_hover "maxSpeed"
             if not choosing:
-                action Skip()#Function(toggle_skipping)
+                action Skip()
                 
     window:
         align (0.75, 0.055)

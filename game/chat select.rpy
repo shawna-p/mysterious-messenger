@@ -460,6 +460,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                             yes_action=[SetField(chatroom, 'expired', False),
                             SetField(chatroom, 'buyback', True),
                             SetField(chatroom, 'played', False),
+                            SetField(chatroom, 'replay_log', []),
                             Function(chatroom.reset_participants),
                             renpy.retain_after_load,
                             renpy.restart_interaction, Hide('confirm')], 

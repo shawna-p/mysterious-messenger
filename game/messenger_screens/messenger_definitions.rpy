@@ -1,9 +1,4 @@
 init python:
-
-    # A function to make the Max Speed button work
-    def toggle_skipping():
-        config.skipping = not config.skipping     
-
     # So you can increase/decrease the speed of the chat
     def slow_pv():
         global pv
@@ -353,7 +348,7 @@ label rewatch_chatroom():
                     else:
                         nickColour = white
                 elif first == "invert":
-                    renpy.show_screen('invert', length=second)
+                    renpy.show_screen('invert', w_timer=second)
                 elif first == "pause":
                     if not renpy.is_skipping():
                         renpy.pause(second, hard=False)
