@@ -468,7 +468,7 @@ screen other_settings():
     tag settings_screen
     modal True
 
-    #add "Phone UI/Main Menu/menu_settings_bg.png"
+    #add "Menu Screens/Main Menu/menu_settings_bg.png"
     
     use menu_header("Settings", Hide('other_settings', Dissolve(0.5))):
         use settings_tabs("Others")

@@ -120,29 +120,29 @@ default viewing_chat_history = False
 # Chatroom Backgrounds
 #************************************
 
-image morning = "bg-morning-shake.png"
-image evening = "bg-evening-shake.png"
-image night = "bg-night-shake.png"
-image earlyMorn = "bg-earlyMorn-shake.png"
-image noon = "bg-noon-shake.png"
-image hack = "bg-hack-shake.png"
-image redhack = "bg-redhack-shake.png"
-image redcrack = "be-redhack-crack-shake.png"
+image morning = "Phone UI/bg-morning-shake.png"
+image evening = "Phone UI/bg-evening-shake.png"
+image night = "Phone UI/bg-night-shake.png"
+image earlyMorn = "Phone UI/bg-earlyMorn-shake.png"
+image noon = "Phone UI/bg-noon-shake.png"
+image hack = "Phone UI/bg-hack-shake.png"
+image redhack = "Phone UI/bg-redhack-shake.png"
+image redcrack = "Phone UI/bg-redhack-crack-shake.png"
 image black = "#000000"
 
-image bg morning = "bg-morning.jpg"
-image bg evening = "bg-evening.jpg"
-image bg night = "bg-night.jpg"
-image bg earlyMorn = "bg-earlyMorn.jpg"
-image bg noon = "bg-noon.jpg"
-image bg hack = "bg-hack.jpg"
-image bg redhack = "bg-redhack.jpg"
-image bg redcrack = "bg-redhack-crack.png"
+image bg morning = "Phone UI/bg-morning.jpg"
+image bg evening = "Phone UI/bg-evening.jpg"
+image bg night = "Phone UI/bg-night.jpg"
+image bg earlyMorn = "Phone UI/bg-earlyMorn.jpg"
+image bg noon = "Phone UI/bg-noon.jpg"
+image bg hack = "Phone UI/bg-hack.jpg"
+image bg redhack = "Phone UI/bg-redhack.jpg"
+image bg redcrack = "Phone UI/bg-redhack-crack.png"
 # A starry night background with some static stars;
 # used in menu screens
-image bg starry_night = "Phone UI/bg-starry-night.png"
-image hack_long = "Hack-Long.png"
-image red_hack_long = "Hack-Red-Long.png"
+image bg starry_night = "Menu Screens/Main Menu/bg-starry-night.png"
+image hack_long = "Phone UI/Hack-Long.png"
+image red_hack_long = "Phone UI/Hack-Red-Long.png"
 
 # ********************************
 # Short forms/Startup Variables
@@ -235,18 +235,18 @@ default persistent.HG = 100
 ##******************************
 
 # Character Greetings
-image greet ja = "Phone UI/Main Menu/ja_greeting.png"
-image greet ju = "Phone UI/Main Menu/ju_greeting.png"
-image greet sa = "Phone UI/Main Menu/sa_greeting.png"
-image greet ri = "Phone UI/Main Menu/ri_greeting.png"
-image greet s = "Phone UI/Main Menu/s_greeting.png"
-image greet u = "Phone UI/Main Menu/u_greeting.png"
-image greet v = "Phone UI/Main Menu/v_greeting.png"
-image greet y = "Phone UI/Main Menu/y_greeting.png"
-image greet z = "Phone UI/Main Menu/z_greeting.png"
+image greet ja = "Menu Screens/Main Menu/ja_greeting.png"
+image greet ju = "Menu Screens/Main Menu/ju_greeting.png"
+image greet sa = "Menu Screens/Main Menu/sa_greeting.png"
+image greet ri = "Menu Screens/Main Menu/ri_greeting.png"
+image greet s = "Menu Screens/Main Menu/s_greeting.png"
+image greet u = "Menu Screens/Main Menu/u_greeting.png"
+image greet v = "Menu Screens/Main Menu/v_greeting.png"
+image greet y = "Menu Screens/Main Menu/y_greeting.png"
+image greet z = "Menu Screens/Main Menu/z_greeting.png"
     
-image greeting_bubble = Frame("Phone UI/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
-image greeting_panel = Frame("Phone UI/Main Menu/greeting_panel.png", 20, 20)
+image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
+image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.png", 20, 20)
 
 image rfa_greet:
     Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", 
@@ -258,61 +258,60 @@ image rfa_greet:
     repeat
 
 # Background Menu Squares
-image right_corner_menu = Frame("Phone UI/Main Menu/right_corner_menu.png", 45, 45)
+image right_corner_menu = Frame("Menu Screens/Main Menu/right_corner_menu.png", 45, 45)
 image right_corner_menu_hover = Transform('right_corner_menu', alpha=0.5)
-image left_corner_menu = Frame("Phone UI/Main Menu/left_corner_menu.png", 45, 45)
+image left_corner_menu = Frame("Menu Screens/Main Menu/left_corner_menu.png", 45, 45)
 image left_corner_menu_hover = Transform('left_corner_menu', alpha=0.5)
 
 # Menu Icons
-image menu_after_ending = "Phone UI/Main Menu/after_ending.png"
-image menu_dlc = "Phone UI/Main Menu/dlc.png"
-image menu_history = "Phone UI/Main Menu/history.png"
-image menu_save_load = "Phone UI/Main Menu/save_load.png"
-image menu_original_story = "Phone UI/Main Menu/original_story.png"
+image menu_after_ending = "Menu Screens/Main Menu/after_ending.png"
+image menu_dlc = "Menu Screens/Main Menu/dlc.png"
+image menu_history = "Menu Screens/Main Menu/history.png"
+image menu_save_load = "Menu Screens/Main Menu/save_load.png"
+image menu_original_story = "Menu Screens/Main Menu/original_story.png"
 
 # Settings panel
-image menu_settings_panel = Frame("Phone UI/Main Menu/settings_sound_panel.png",60,200,60,120)
-image menu_settings_panel_bright = Frame("Phone UI/Main Menu/settings_sound_panel_bright.png",60,200,60,120)
-image menu_sound_sfx = "Phone UI/Main Menu/settings_sound_sfx.png"
-image menu_other_box = Frame("Phone UI/Main Menu/settings_sound_sfx.png", 10, 10)
-image menu_default_sounds = Frame("Phone UI/Main Menu/settings_sound_default.png",10,10)
-image menu_ringtone_box = Frame("Phone UI/Main Menu/daychat01_3.png", 35, 35)
+image menu_settings_panel = Frame("Menu Screens/Main Menu/settings_sound_panel.png",60,200,60,120)
+image menu_settings_panel_bright = Frame("Menu Screens/Main Menu/settings_sound_panel_bright.png",60,200,60,120)
+image menu_sound_sfx = "Menu Screens/Main Menu/settings_sound_sfx.png"
+image menu_other_box = Frame("Menu Screens/Main Menu/settings_sound_sfx.png", 10, 10)
+image menu_ringtone_box = Frame("Menu Screens/Main Menu/daychat01_3.png", 35, 35)
 
 # Settings tabs
-image menu_tab_inactive = Frame("Phone UI/Main Menu/settings_tab_inactive.png",10,10)
-image menu_tab_inactive_hover2 = Frame("Phone UI/Main Menu/settings_tab_inactive_hover2.png",10,10)
-image menu_tab_active = Frame("Phone UI/Main Menu/settings_tab_active.png",25,25)
-image menu_tab_inactive_hover = Frame("Phone UI/Main Menu/settings_tab_inactive_hover.png",10,10)
+image menu_tab_inactive = Frame("Menu Screens/Main Menu/settings_tab_inactive.png",10,10)
+image menu_tab_inactive_hover2 = Frame("Menu Screens/Main Menu/settings_tab_inactive_hover2.png",10,10)
+image menu_tab_active = Frame("Menu Screens/Main Menu/settings_tab_active.png",25,25)
+image menu_tab_inactive_hover = Frame("Menu Screens/Main Menu/settings_tab_inactive_hover.png",10,10)
 
 # Header Images
-image header_plus = "Phone UI/Main Menu/header_plus.png"
-image header_plus_hover = "Phone UI/Main Menu/header_plus_hover.png"
-image header_tray = "Phone UI/Main Menu/header_tray.png"
-image header_hg = "Phone UI/Main Menu/header_hg.png"
-image header_heart = "Phone UI/Main Menu/header_heart.png"
+image header_plus = "Menu Screens/Main Menu/header_plus.png"
+image header_plus_hover = "Menu Screens/Main Menu/header_plus_hover.png"
+image header_tray = "Menu Screens/Main Menu/header_tray.png"
+image header_hg = "Menu Screens/Main Menu/header_hg.png"
+image header_heart = "Menu Screens/Main Menu/header_heart.png"
 
 # Profile Page
-image menu_header = Frame("Phone UI/Main Menu/menu_header.png", 0, 50) 
-image menu_back = "Phone UI/Main Menu/menu_back_btn.png"
-image save_btn = "Phone UI/Main Menu/menu_save_btn.png"
-image load_btn = "Phone UI/Main Menu/menu_load_btn.png"
-image name_line = "Phone UI/Main Menu/menu_underline.png"
-image menu_edit = "Phone UI/Main Menu/menu_pencil_long.png"
-image menu_check_edit = "Phone UI/Main Menu/menu_check_long.png"
+image menu_header = Frame("Menu Screens/Main Menu/menu_header.png", 0, 50) 
+image menu_back = "Menu Screens/Main Menu/menu_back_btn.png"
+image save_btn = "Menu Screens/Main Menu/menu_save_btn.png"
+image load_btn = "Menu Screens/Main Menu/menu_load_btn.png"
+image name_line = "Menu Screens/Main Menu/menu_underline.png"
+image menu_edit = "Menu Screens/Main Menu/menu_pencil_long.png"
           
-image radio_on = "Phone UI/Main Menu/menu_radio_on.png"
-image radio_off = "Phone UI/Main Menu/menu_radio_off.png"
+image radio_on = "Menu Screens/Main Menu/menu_radio_on.png"
+image radio_off = "Menu Screens/Main Menu/menu_radio_off.png"
 
-image settings_gear = "Phone UI/Main Menu/menu_settings_gear.png"
+image settings_gear = "Menu Screens/Main Menu/menu_settings_gear.png"
 
 # Save/Load
-image save_auto_idle = Frame("Phone UI/Main Menu/save_auto_idle.png", 20, 20)
-image save_auto_hover = Frame("Phone UI/Main Menu/save_auto_hover.png", 20, 20)
+image save_auto_idle = Frame("Menu Screens/Main Menu/save_auto_idle.png", 20, 20)
+image save_auto_hover = Frame(Fixed('save_auto_idle', 
+                        Transform('save_auto_idle', alpha=0.5)), 20, 20)
 
 # Just for fun, this is the animation when you hover over the settings
 # button. It makes the gear look like it's turning
 image settings_gear_rotate:
-    "Phone UI/Main Menu/menu_settings_gear.png"
+    "Menu Screens/Main Menu/menu_settings_gear.png"
     xpos 10
     ypos -10
     block:
@@ -321,94 +320,93 @@ image settings_gear_rotate:
         repeat
         
 # Other Settings
-image menu_select_btn = Frame("Phone UI/Main Menu/menu_select_button.png",60,60)
+image menu_select_btn = Frame("Menu Screens/Main Menu/menu_select_button.png",60,60)
 image menu_select_btn_hover = Transform('menu_select_btn', alpha=0.5)
-image menu_select_btn_inactive = Frame("Phone UI/Main Menu/menu_select_button_inactive.png",60,60)
-image menu_account_btn = "Phone UI/Main Menu/menu_account_button.png"
+image menu_select_btn_inactive = Frame("Menu Screens/Main Menu/menu_select_button_inactive.png",60,60)
 
 
 ## ********************************
 ## Chat Home Screen 
 ## ********************************
 
-image gray_chatbtn = "Phone UI/Main Menu/Original Story/main01_chatbtn.png"
+image gray_chatbtn = "Menu Screens/Chat Hub/main01_chatbtn.png"
 image gray_chatbtn_hover = Fixed('gray_chatbtn',
                             Transform('gray_chatbtn', alpha=0.5))
 image rfa_chatcircle:
-    "Phone UI/Main Menu/Original Story/main01_chatcircle.png"
+    "Menu Screens/Chat Hub/main01_chatcircle.png"
     block:
         rotate 0
         alignaround(.5, .5)
         linear 13.0 rotate -360
         repeat        
 image blue_chatcircle:
-    "Phone UI/Main Menu/Original Story/main01_chatcircle_big.png"
+    "Menu Screens/Chat Hub/main01_chatcircle_big.png"
     block:
         rotate 60
         alignaround(.5, .5)
         linear 4 rotate 420
         repeat
-image chat_text = "Phone UI/Main Menu/Original Story/main01_chattext.png"
-image chat_icon = "Phone UI/Main Menu/Original Story/main01_chaticon.png"
-image gray_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn.png"
+image chat_text = "Menu Screens/Chat Hub/main01_chattext.png"
+image chat_icon = "Menu Screens/Chat Hub/main01_chaticon.png"
+image gray_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn.png"
 image gray_mainbtn_hover = Fixed('gray_mainbtn',
                             Transform('gray_mainbtn', alpha=0.5))
-image blue_mainbtn = "Phone UI/Main Menu/Original Story/main01_mainbtn_lit.png"
+image blue_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn_lit.png"
 image blue_mainbtn_hover = Fixed('blue_mainbtn',
                             Transform('blue_mainbtn', alpha=0.5))
 image gray_maincircle:
-    "Phone UI/Main Menu/Original Story/main01_maincircle.png"
+    "Menu Screens/Chat Hub/main01_maincircle.png"
     block:
         rotate -120
         alignaround(.5, .5)
         linear 4 rotate -480
         repeat
 image blue_maincircle:
-    "Phone UI/Main Menu/Original Story/main01_maincircle_lit.png"
+    "Menu Screens/Chat Hub/main01_maincircle_lit.png"
     block:
         rotate 180
         alignaround(.5, .5)
         linear 4 rotate 540
         repeat
-image call_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_call.png"
-image email_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_email.png"
-image msg_mainicon = "Phone UI/Main Menu/Original Story/main01_mainicon_message.png"
-image call_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_call.png"
-image email_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_email.png"
-image msg_maintext = "Phone UI/Main Menu/Original Story/main01_maintext_message.png"
+image call_mainicon = "Menu Screens/Chat Hub/main01_mainicon_call.png"
+image email_mainicon = "Menu Screens/Chat Hub/main01_mainicon_email.png"
+image msg_mainicon = "Menu Screens/Chat Hub/main01_mainicon_message.png"
+image call_maintext = "Menu Screens/Chat Hub/main01_maintext_call.png"
+image email_maintext = "Menu Screens/Chat Hub/main01_maintext_email.png"
+image msg_maintext = "Menu Screens/Chat Hub/main01_maintext_message.png"
 
-image profile_pic_select_square = "Phone UI/Main Menu/Original Story/profile_pic_select_square.png"
+image profile_pic_select_square = "Menu Screens/Chat Hub/profile_pic_select_square.png"
 
-image white_hex = "Phone UI/Main Menu/Original Story/main01_subbtn.png"
-image blue_hex = "Phone UI/Main Menu/Original Story/main01_subbtn_lit.png"
-image red_hex = "Phone UI/Main Menu/Original Story/main01_subbtn_shop.png"
-image white_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_hover.png"
-image blue_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_lit_hover.png"
-image red_hex_hover = "Phone UI/Main Menu/Original Story/main01_subbtn_shop_hover.png"
+image white_hex = "Menu Screens/Chat Hub/main01_subbtn.png"
+image blue_hex = "Menu Screens/Chat Hub/main01_subbtn_lit.png"
+image red_hex = "Menu Screens/Chat Hub/main01_subbtn_shop.png"
+image white_hex_hover = Fixed('white_hex', Transform('white_hex', alpha=0.5))
+image blue_hex_hover = Fixed('blue_hex', Transform('white_hex', alpha=0.5))
+image red_hex_hover = Fixed('red_hex', Transform('white_hex', alpha=0.5))
 
-image album_icon = "Phone UI/Main Menu/Original Story/main01_subicon_album.png"
-image guest_icon = "Phone UI/Main Menu/Original Story/main01_subicon_guest.png"
-image link_icon = "Phone UI/Main Menu/Original Story/main01_subicon_link.png"
-image notice_icon = "Phone UI/Main Menu/Original Story/main01_subicon_notice.png"
-image shop_icon = "Phone UI/Main Menu/Original Story/main01_subicon_shop.png"
-image album_text = "Phone UI/Main Menu/Original Story/main01_subtext_album.png"
-image guest_text = "Phone UI/Main Menu/Original Story/main01_subtext_guest.png"
-image link_text = "Phone UI/Main Menu/Original Story/main01_subtext_link.png"
-image notice_text = "Phone UI/Main Menu/Original Story/main01_subtext_notice.png"
-image shop_text = "Phone UI/Main Menu/Original Story/main01_subtext_shop.png"
+image album_icon = "Menu Screens/Chat Hub/main01_subicon_album.png"
+image guest_icon = "Menu Screens/Chat Hub/main01_subicon_guest.png"
+image link_icon = "Menu Screens/Chat Hub/main01_subicon_link.png"
+image notice_icon = "Menu Screens/Chat Hub/main01_subicon_notice.png"
+image shop_icon = "Menu Screens/Chat Hub/main01_subicon_shop.png"
+image album_text = "Menu Screens/Chat Hub/main01_subtext_album.png"
+image guest_text = "Menu Screens/Chat Hub/main01_subtext_guest.png"
+image link_text = "Menu Screens/Chat Hub/main01_subtext_link.png"
+image notice_text = "Menu Screens/Chat Hub/main01_subtext_notice.png"
+image shop_text = "Menu Screens/Chat Hub/main01_subtext_shop.png"
 
 
 ## ********************************
 ## Profile Picture Screen
 ## ********************************
-image profile_outline = "Phone UI/Main Menu/Original Story/profile_outline.png"
+image profile_outline = "Menu Screens/Chat Hub/profile_outline.png"
 image profile_cover_photo = "Cover Photos/profile_cover_photo.png"
 
 
-image input_close = "Phone UI/Main Menu/main02_close_button.png"
-image input_close_hover = "Phone UI/Main Menu/main02_close_button_hover.png"
-image input_square = Frame("Phone UI/Main Menu/main02_text_input.png",40,40)
-image input_popup_bkgr = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",70,70)
+image input_close = "Menu Screens/Main Menu/main02_close_button.png"
+image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.png"
+image input_square = Frame("Menu Screens/Main Menu/main02_text_input.png",40,40)
+image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",70,70)
 
     
     
@@ -418,20 +416,20 @@ image input_popup_bkgr = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",70,70)
 ## ********************************
 ## Save & Load Images
 ## ********************************
-image save_auto = "Phone UI/Main Menu/msgsl_icon_m.png"
-image save_another = "Phone UI/Main Menu/msgsl_image_another.png"
-image save_april = "Phone UI/Main Menu/msgsl_image_april.png"
-image save_casual = "Phone UI/Main Menu/msgsl_image_casual.png"
-image save_deep = "Phone UI/Main Menu/msgsl_image_deep.png"
-image save_jaehee = "Phone UI/Main Menu/msgsl_image_jaehee.png"
-image save_jumin = "Phone UI/Main Menu/msgsl_image_jumin.png"
-image save_ray = "Phone UI/Main Menu/msgsl_image_ray.png"
-image save_empty = "Phone UI/Main Menu/msgsl_image_save.png"
-image save_seven = "Phone UI/Main Menu/msgsl_image_seven.png"
-image save_v = "Phone UI/Main Menu/msgsl_image_v.png"
-image save_xmas = "Phone UI/Main Menu/msgsl_image_xmas.png"
-image save_yoosung = "Phone UI/Main Menu/msgsl_image_yoosung.png"
-image save_zen = "Phone UI/Main Menu/msgsl_image_zen.png"
+image save_auto = "Menu Screens/Main Menu/msgsl_icon_m.png"
+image save_another = "Menu Screens/Main Menu/msgsl_image_another.png"
+image save_april = "Menu Screens/Main Menu/msgsl_image_april.png"
+image save_casual = "Menu Screens/Main Menu/msgsl_image_casual.png"
+image save_deep = "Menu Screens/Main Menu/msgsl_image_deep.png"
+image save_jaehee = "Menu Screens/Main Menu/msgsl_image_jaehee.png"
+image save_jumin = "Menu Screens/Main Menu/msgsl_image_jumin.png"
+image save_ray = "Menu Screens/Main Menu/msgsl_image_ray.png"
+image save_empty = "Menu Screens/Main Menu/msgsl_image_save.png"
+image save_seven = "Menu Screens/Main Menu/msgsl_image_seven.png"
+image save_v = "Menu Screens/Main Menu/msgsl_image_v.png"
+image save_xmas = "Menu Screens/Main Menu/msgsl_image_xmas.png"
+image save_yoosung = "Menu Screens/Main Menu/msgsl_image_yoosung.png"
+image save_zen = "Menu Screens/Main Menu/msgsl_image_zen.png"
 
 
 ## ********************************
@@ -500,196 +498,196 @@ image new_text_count = "Text Messages/new_msg_count.png"
 ## Chat Select Screen
 ## ********************************
 
-image day_common1 = 'Phone UI/Day Select/day_common1.png'
-image day_common2 = 'Phone UI/Day Select/day_common2.png'
-image day_ja = 'Phone UI/Day Select/day_ja.png'
-image day_ju = 'Phone UI/Day Select/day_ju.png'
-image day_r = 'Phone UI/Day Select/day_r.png'
-image day_s = 'Phone UI/Day Select/day_s.png'
-image day_v = 'Phone UI/Day Select/day_v.png'
-image day_y = 'Phone UI/Day Select/day_y.png'
-image day_z = 'Phone UI/Day Select/day_z.png'
-image day_selected = Frame('Phone UI/Day Select/daychat01_day_mint.png', 50, 50)
-image day_selected_hover = Frame('Phone UI/Day Select/daychat01_day_mint_hover.png', 50, 50)
-image day_inactive = Frame('Phone UI/Day Select/daychat01_day_inactive.png', 50, 50)
-image day_active = Frame('Phone UI/Day Select/daychat01_day_active.png', 50, 50)
-image day_active_hover = Frame('Phone UI/Day Select/daychat01_day_active_hover.png', 50, 50)
-image day_reg_hacked = 'Phone UI/Day Select/chatlist_hacking.png'
-image day_reg_hacked_long = 'Phone UI/Day Select/chatlist_hacking_long.png'
+image day_common1 = 'Menu Screens/Day Select/day_common1.png'
+image day_common2 = 'Menu Screens/Day Select/day_common2.png'
+image day_ja = 'Menu Screens/Day Select/day_ja.png'
+image day_ju = 'Menu Screens/Day Select/day_ju.png'
+image day_r = 'Menu Screens/Day Select/day_r.png'
+image day_s = 'Menu Screens/Day Select/day_s.png'
+image day_v = 'Menu Screens/Day Select/day_v.png'
+image day_y = 'Menu Screens/Day Select/day_y.png'
+image day_z = 'Menu Screens/Day Select/day_z.png'
+image day_selected = Frame('Menu Screens/Day Select/daychat01_day_mint.png', 50, 50)
+image day_selected_hover = Frame('Menu Screens/Day Select/daychat01_day_mint_hover.png', 50, 50)
+image day_inactive = Frame('Menu Screens/Day Select/daychat01_day_inactive.png', 50, 50)
+image day_active = Frame('Menu Screens/Day Select/daychat01_day_active.png', 50, 50)
+image day_active_hover = Frame('Menu Screens/Day Select/daychat01_day_active_hover.png', 50, 50)
+image day_reg_hacked = 'Menu Screens/Day Select/chatlist_hacking.png'
+image day_reg_hacked_long = 'Menu Screens/Day Select/chatlist_hacking_long.png'
 
 image hacked_white_squares:
-    #'Phone UI/Day Select/chat_hacking_thick.png'
-    #'Phone UI/Day Select/chat_hacking_thin.png'
-    #'Phone UI/Day Select/chat-hacking_filled.png'
+    #'Menu Screens/Day Select/chat_hacking_thick.png'
+    #'Menu Screens/Day Select/chat_hacking_thin.png'
+    #'Menu Screens/Day Select/chat-hacking_filled.png'
 
     block:
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
-            pause 0.02
-        choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
-            pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            pause 0.02
+        choice:
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            pause 0.02
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
     block:
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.03
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.3, alpha=0.8, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.3, alpha=0.8, yalign=1.0)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.0, yalign=0.5)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.0, yalign=0.5)
             pause 0.04
     block:
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
-            pause 0.02
-        choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
-            pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
     block:
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.1
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
             pause 0.02
     block:
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.1
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.1, alpha=0.7, yalign=0.6)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.5, yalign=0.85)
             pause 0.02
     block:
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
-            pause 0.02
-        choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
-            pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.8, yalign=0.85)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.9, yalign=1.0)
+            pause 0.02
+        choice:
+            Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.45, alpha=0.0, yalign=1.0)
             pause 0.05
-            Transform('Phone UI/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
+            Transform('Menu Screens/Day Select/chat_hacking_thick.png', yzoom=0.3, alpha=0.98, yalign=0.5)
             pause 0.02
     block:
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
-            pause 0.02
-        choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
-            pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
             pause 0.02
         choice:
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.4, yoffset=800)
             pause 0.02
-            Transform('Phone UI/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.3, alpha=0.0, yoffset=800)
             pause 0.02
-    Transform('Phone UI/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.0, yalign=0.85)
+        choice:
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=0.01, alpha=0.45, yoffset=720)
+            pause 0.02
+            Transform('Menu Screens/Day Select/chat_hacking_thin.png', yzoom=1.0, alpha=0.95, yalign=0.6)
+            pause 0.02
+    Transform('Menu Screens/Day Select/chat_hacking_filled.png', yzoom=0.4, alpha=0.0, yalign=0.85)
             
   
     
 image day_today:
-    'Phone UI/Day Select/daychat_today.png'
+    'Menu Screens/Day Select/daychat_today.png'
     block:
         easein 0.5 yoffset -20
         easeout 0.5 yoffset 0
         repeat
-image final_day = 'Phone UI/Day Select/daychat_finalday.png'
-image day_percent = Frame('Phone UI/Day Select/daychat_percent.png', 15, 15)
-image day_percent_bg = Frame('Phone UI/Day Select/daychat_percent_bg.png', 15, 15)
-image day_percent_border = Frame('Phone UI/Day Select/daychat_percent_border.png', 15, 15)
-image day_hlink = 'Phone UI/Day Select/daychat_hlink.png'
-image plot_lock = 'Phone UI/Day Select/plot_lock.png'
-image expired_chat = 'Phone UI/Day Select/daychat_hg.png'
+image final_day = 'Menu Screens/Day Select/daychat_finalday.png'
+image day_percent = Frame('Menu Screens/Day Select/daychat_percent.png', 15, 15)
+image day_percent_bg = Frame('Menu Screens/Day Select/daychat_percent_bg.png', 15, 15)
+image day_percent_border = Frame('Menu Screens/Day Select/daychat_percent_border.png', 15, 15)
+image day_hlink = 'Menu Screens/Day Select/daychat_hlink.png'
+image plot_lock = 'Menu Screens/Day Select/plot_lock.png'
+image expired_chat = 'Menu Screens/Day Select/daychat_hg.png'
 
-image day_vlink = im.Tile('Phone UI/Day Select/daychat_vlink.png',(15,1180))
-image vn_inactive = 'Phone UI/Day Select/vn_inactive.png'
-image vn_selected = 'Phone UI/Day Select/daychat01_vn_mint.png'
-image vn_active = 'Phone UI/Day Select/vn_active.png'
-image vn_selected_hover = 'Phone UI/Day Select/daychat01_vn_mint_hover.png'
-image vn_active_hover = 'Phone UI/Day Select/vn_active_hover.png'
-image vn_marker = 'Phone UI/Day Select/daychat01_vn_marker.png'
-image vn_time_bg = 'Phone UI/Day Select/daychat01_chat_timebg.png'
+image day_vlink = im.Tile('Menu Screens/Day Select/daychat_vlink.png',(15,1180))
+image vn_inactive = 'Menu Screens/Day Select/vn_inactive.png'
+image vn_selected = 'Menu Screens/Day Select/daychat01_vn_mint.png'
+image vn_active = 'Menu Screens/Day Select/vn_active.png'
+image vn_selected_hover = 'Menu Screens/Day Select/daychat01_vn_mint_hover.png'
+image vn_active_hover = 'Menu Screens/Day Select/vn_active_hover.png'
+image vn_marker = 'Menu Screens/Day Select/daychat01_vn_marker.png'
+image vn_time_bg = 'Menu Screens/Day Select/daychat01_chat_timebg.png'
 
-image chat_active = Frame('Phone UI/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
-image chat_inactive = Frame('Phone UI/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)
-image chat_selected = Frame('Phone UI/Day Select/daychat01_chat_mint.png',190, 70, 40, 50)
-image chat_active_hover = Frame('Phone UI/Day Select/daychat01_chat_active_hover.png',190, 70, 40, 50)
-image chat_continue = Frame('Phone UI/Day Select/daychat01_chat_continue.png',190, 70, 40, 20)
-image chat_selected_hover = Frame('Phone UI/Day Select/daychat01_chat_mint_hover.png',190, 70, 40, 50)
-image chat_hover_box = Frame('Phone UI/Day Select/daychat_vn_selectable.png', 0,0,0,0)
+image chat_active = Frame('Menu Screens/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
+image chat_inactive = Frame('Menu Screens/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)
+image chat_selected = Frame('Menu Screens/Day Select/daychat01_chat_mint.png',190, 70, 40, 50)
+image chat_active_hover = Frame('Menu Screens/Day Select/daychat01_chat_active_hover.png',190, 70, 40, 50)
+image chat_continue = Frame('Menu Screens/Day Select/daychat01_chat_continue.png',190, 70, 40, 20)
+image chat_selected_hover = Frame('Menu Screens/Day Select/daychat01_chat_mint_hover.png',190, 70, 40, 50)
+image chat_hover_box = Frame('Menu Screens/Day Select/daychat_vn_selectable.png', 0,0,0,0)
 
-image vn_other = 'Phone UI/Day Select/vn_other.png'
-image vn_ja = 'Phone UI/Day Select/vn_ja.png'
-image vn_ju = 'Phone UI/Day Select/vn_ju.png'
-image vn_r = 'Phone UI/Day Select/vn_r.png'
-image vn_ri = 'Phone UI/Day Select/vn_ri.png'
-image vn_sa = 'Phone UI/Day Select/vn_sa.png'
-image vn_s = 'Phone UI/Day Select/vn_s.png'
-image vn_v = 'Phone UI/Day Select/vn_v.png'
-image vn_y = 'Phone UI/Day Select/vn_y.png'
-image vn_z = 'Phone UI/Day Select/vn_z.png'
-image vn_party = 'Phone UI/Day Select/vn_party.png'
-image vn_party_inactive = 'Phone UI/Day Select/vn_party_inactive.png'
+image vn_other = 'Menu Screens/Day Select/vn_other.png'
+image vn_ja = 'Menu Screens/Day Select/vn_ja.png'
+image vn_ju = 'Menu Screens/Day Select/vn_ju.png'
+image vn_r = 'Menu Screens/Day Select/vn_r.png'
+image vn_ri = 'Menu Screens/Day Select/vn_ri.png'
+image vn_sa = 'Menu Screens/Day Select/vn_sa.png'
+image vn_s = 'Menu Screens/Day Select/vn_s.png'
+image vn_v = 'Menu Screens/Day Select/vn_v.png'
+image vn_y = 'Menu Screens/Day Select/vn_y.png'
+image vn_z = 'Menu Screens/Day Select/vn_z.png'
+image vn_party = 'Menu Screens/Day Select/vn_party.png'
+image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.png'
 
 ## ********************************
 ## Phone Call Screen
 ## ********************************
 
-image call_back = 'Phone UI/Phone Calls/call.png'
+image call_back = 'Phone Calls/call.png'
 
 image call_signal_sl:
-    Transform('Phone UI/Phone Calls/call_ani_0.png', xzoom=-1)
+    Transform('Phone Calls/call_ani_0.png', xzoom=-1)
     block:
         alpha 0.0
         1.0
@@ -697,7 +695,7 @@ image call_signal_sl:
         3.0
         repeat
 image call_signal_ml:
-    Transform('Phone UI/Phone Calls/call_ani_1.png', xzoom=-1)
+    Transform('Phone Calls/call_ani_1.png', xzoom=-1)
     block:
         alpha 0.0
         2.0
@@ -705,7 +703,7 @@ image call_signal_ml:
         2.0
         repeat
 image call_signal_ll:
-    Transform('Phone UI/Phone Calls/call_ani_2.png', xzoom=-1)
+    Transform('Phone Calls/call_ani_2.png', xzoom=-1)
     block:
         alpha 0.0
         3.0
@@ -713,7 +711,7 @@ image call_signal_ll:
         1.0
         repeat
 image call_signal_sr:
-    'Phone UI/Phone Calls/call_ani_0.png'
+    'Phone Calls/call_ani_0.png'
     block:
         alpha 0.0
         1.0
@@ -721,7 +719,7 @@ image call_signal_sr:
         3.0
         repeat
 image call_signal_mr:
-    'Phone UI/Phone Calls/call_ani_1.png'
+    'Phone Calls/call_ani_1.png'
     block:
         alpha 0.0
         2.0
@@ -729,7 +727,7 @@ image call_signal_mr:
         2.0
         repeat
 image call_signal_lr:
-    'Phone UI/Phone Calls/call_ani_2.png'
+    'Phone Calls/call_ani_2.png'
     block:
         alpha 0.0
         3.0
@@ -737,43 +735,38 @@ image call_signal_lr:
         1.0
         repeat
 
-image call_overlay = Frame('Phone UI/Phone Calls/call_back_screen.png', 0, 0)
-image call_answer = 'Phone UI/Phone Calls/call_button_answer.png'
-image call_hang_up = 'Phone UI/Phone Calls/call_button_hang_up.png'
-image call_pause = 'Phone UI/Phone Calls/call_button_pause.png'
-image call_play = 'Phone UI/Phone Calls/call_button_play.png'
-image call_replay_active = 'Phone UI/Phone Calls/call_button_replay_active.png'
-image call_replay_inactive = 'Phone UI/Phone Calls/call_button_replay_inactive.png'
-image call_connect_triangle = 'Phone UI/Phone Calls/call_connect_waiting.png'
+image call_overlay = Frame('Phone Calls/call_back_screen.png', 0, 0)
+image call_answer = 'Phone Calls/call_button_answer.png'
+image call_hang_up = 'Phone Calls/call_button_hang_up.png'
+image call_pause = 'Phone Calls/call_button_pause.png'
+image call_play = 'Phone Calls/call_button_play.png'
+image call_replay_active = 'Phone Calls/call_button_replay_active.png'
+image call_replay_inactive = 'Phone Calls/call_button_replay_inactive.png'
+image call_connect_triangle = 'Phone Calls/call_connect_waiting.png'
 
-image sa_contact = 'Phone UI/Phone Calls/call_contact_saeran.png'
-image s_contact = 'Phone UI/Phone Calls/call_contact_707.png'
-image empty_contact = 'Phone UI/Phone Calls/call_contact_empty.png'
-image ja_contact = 'Phone UI/Phone Calls/call_contact_jaehee.png'
-image ju_contact = 'Phone UI/Phone Calls/call_contact_jumin.png'
-image r_contact = 'Phone UI/Phone Calls/call_contact_ray.png'
-image v_contact = 'Phone UI/Phone Calls/call_contact_v.png'
-image y_contact = 'Phone UI/Phone Calls/call_contact_yoosung.png'
-image z_contact = 'Phone UI/Phone Calls/call_contact_zen.png'
-image ri_contact = 'Phone UI/Phone Calls/call_contact_rika.png'
+image sa_contact = 'Phone Calls/call_contact_saeran.png'
+image s_contact = 'Phone Calls/call_contact_707.png'
+image empty_contact = 'Phone Calls/call_contact_empty.png'
+image ja_contact = 'Phone Calls/call_contact_jaehee.png'
+image ju_contact = 'Phone Calls/call_contact_jumin.png'
+image r_contact = 'Phone Calls/call_contact_ray.png'
+image v_contact = 'Phone Calls/call_contact_v.png'
+image y_contact = 'Phone Calls/call_contact_yoosung.png'
+image z_contact = 'Phone Calls/call_contact_zen.png'
+image ri_contact = 'Phone Calls/call_contact_rika.png'
 
-image contact_icon = 'Phone UI/Phone Calls/call_icon_contacts.png'
-image call_headphones = 'Phone UI/Phone Calls/call_icon_earphone_en.png'
-image call_history_icon = 'Phone UI/Phone Calls/call_icon_history.png'
-image call_incoming = 'Phone UI/Phone Calls/call_icon_incoming.png'
-image call_missed = 'Phone UI/Phone Calls/call_icon_missed.png'
-image call_outgoing = 'Phone UI/Phone Calls/call_icon_outgoing.png'
-image call_voicemail = 'Phone UI/Phone Calls/call_icon_voicemail.png'
+image contact_icon = 'Phone Calls/call_icon_contacts.png'
+image call_headphones = 'Phone Calls/call_icon_earphone_en.png'
+image call_history_icon = 'Phone Calls/call_icon_history.png'
+image call_incoming = 'Phone Calls/call_icon_incoming.png'
+image call_missed = 'Phone Calls/call_icon_missed.png'
+image call_outgoing = 'Phone Calls/call_icon_outgoing.png'
+image call_voicemail = 'Phone Calls/call_icon_voicemail.png'
 
-image call_choice = Frame('Phone UI/Phone Calls/call_select_button.png', 70, 70)
-image call_choice_hover = Frame('Phone UI/Phone Calls/call_select_button_hover.png', 90, 90)
+image call_choice = Frame('Phone Calls/call_select_button.png', 70, 70)
+image call_choice_hover = Frame('Phone Calls/call_select_button_hover.png', 90, 90)
 
-## ********************************
-## Create-A-Chatroom/Route
-## ********************************
 
-image char_foreground = 'Phone UI/char_select_foreground.png'
-image char_foreground2 = 'Phone UI/char_select_foreground2.png'
 
 ## ********************************
 ## Email Screen
@@ -803,7 +796,7 @@ image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.png", 60,60,60
 image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
 
 image choice_darken = "Phone UI/choice_dark.png"
-image save_trash = "Phone UI/Main Menu/save_trash_hover.png"
+image save_trash = "Menu Screens/Main Menu/save_trash_hover.png"
 image sign_btn = "Phone UI/sign-button.png"
 image sign_btn_clicked = "Phone UI/sign-button-clicked.png"
 
@@ -834,9 +827,10 @@ image custom_answer_dark = "Phone UI/custom-answer.png"
 image custom_answer_reg = "Phone UI/custom-answer-dark.png"
 image custom_pause_sign = "Phone UI/custom-pause-sign.png"
 
-image small_star = "Phone UI/small-star.png"
-image medium_star = "Phone UI/medium-star.png"
+image small_star = "Menu Screens/Main Menu/small-star.png"
+image medium_star = "Menu Screens/Main Menu/medium-star.png"
 
-image loading_circle_stationary = "Phone UI/Main Menu/loading_circle.png"
+image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.png"
+image exit_enter = "Phone UI/exit-enter.png"
 
 

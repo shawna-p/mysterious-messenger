@@ -77,7 +77,7 @@ style reg_bubble_text:
 ## ****************************************
 ## Style for the enter/exit bubble
 style msg_bubble:
-    background Frame("exit-enter.png", 0, 0)
+    background Frame("exit_enter", 0, 0)
     padding (5, 10)
     xalign 0.5
     xfill True

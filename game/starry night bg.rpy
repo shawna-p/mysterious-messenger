@@ -65,9 +65,9 @@ image load_circle:
         linear 2.0 rotate 360
         repeat
         
-image load_tip = "Phone UI/Main Menu/loading_tip.png"
-image load_close = "Phone UI/Main Menu/loading_close.png"
-image load_tip_panel = Frame("Phone UI/Main Menu/loading_tip_panel.png", 300,100,80,80)
+image load_tip = "Menu Screens/Main Menu/loading_tip.png"
+image load_close = "Menu Screens/Main Menu/loading_close.png"
+image load_tip_panel = Frame("Menu Screens/Main Menu/loading_tip_panel.png", 300,100,80,80)
 
 label splashscreen():    
     show screen loading_screen

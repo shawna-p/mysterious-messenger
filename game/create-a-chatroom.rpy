@@ -174,7 +174,13 @@ init python:
         f_style_begin = ''
         f_style_end = ''
         font_obj.update()
-            
+
+## ********************************
+## Create-A-Chatroom/Route
+## ********************************
+
+image char_foreground = 'Phone UI/char_select_foreground.png'
+image char_foreground2 = 'Phone UI/char_select_foreground2.png'
         
 ## BY DEFAULT this file gets saved wherever your Ren'Py directory is,
 ## e.g. C:\Users\Your-Username\Documents\renpy-6.99.14.1-sdk

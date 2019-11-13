@@ -1226,8 +1226,8 @@ style help_label_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#confirm
 
-image menu_popup_bkgrd = Frame("Phone UI/Main Menu/menu_popup_bkgrd.png",60,60,60,60)
-image menu_popup_btn = Frame("Phone UI/Main Menu/menu_popup_btn.png",20,20,20,20)
+image menu_popup_bkgrd = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",60,60,60,60)
+image menu_popup_btn = Frame("Menu Screens/Main Menu/menu_popup_btn.png",20,20,20,20)
 image menu_popup_btn_hover = Transform('menu_popup_btn', alpha=0.5)
 
 screen confirm(message, yes_action, no_action=False):

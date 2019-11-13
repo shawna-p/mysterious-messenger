@@ -654,6 +654,6 @@ label phone_end():
 ## they are defined here
 label voicemail_1():
     call phone_begin 
-    voice "Phone UI/Phone Calls/Voicemail/voicemail_1.mp3"
+    voice "voice files/voicemail_1.mp3"
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
     call phone_end 
