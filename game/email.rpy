@@ -437,21 +437,21 @@ screen email_hub():
                 align (0.5, 0.5)
                 if current_page > 0:
                     action SetScreenVariable('current_page', current_page-1) 
-                    activate_sound 'sfx/UI/email_next_arrow.mp3'
+                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
                 
             for index in range(num_pages):
                 textbutton _(str(index+1)):
                     text_color '#fff' 
                     align (0.5, 0.5)
                     action SetScreenVariable('current_page', index)
-                    activate_sound 'sfx/UI/email_next_arrow.mp3'
+                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
                 
             imagebutton:
                 idle "email_next"
                 align (0.5, 0.5)
                 if current_page < num_pages - 1:
                     action SetScreenVariable('current_page', current_page+1)
-                    activate_sound 'sfx/UI/email_next_arrow.mp3'
+                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
             
 ########################################################  
 ## This shows the buttons you can click on in order to 

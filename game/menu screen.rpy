@@ -280,7 +280,7 @@ screen main_menu():
                         focus_mask True
                         background "left_corner_menu"
                         hover_foreground 'left_corner_menu_hover'
-                        activate_sound "sfx/UI/select_4.mp3"
+                        activate_sound "audio/sfx/UI/select_4.mp3"
                         if persistent.on_route:
                             # This is the auto save that gets loaded every 
                             # time you load the game
@@ -798,7 +798,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 idle "menu_back"
                 focus_mask None
                 hover Transform("menu_back", zoom=1.1)
-                activate_sound 'sfx/UI/back_button.mp3'
+                activate_sound 'audio/sfx/UI/back_button.mp3'
                 if not renpy.get_screen("choice"):                
                     if persistent.first_boot or not persistent.on_route:
                         action [SetField(persistent, 'first_boot', False), 
@@ -914,7 +914,7 @@ screen chat_home(reshow=False):
                                 action Show('profile_pic')
                             else:
                                 action Show('chara_profile', who=person)
-                            activate_sound 'sfx/UI/profile_screen_select.mp3'
+                            activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
 
                 hbox:
                     spacing 8
@@ -925,7 +925,7 @@ screen chat_home(reshow=False):
                             background Transform(person.prof_pic, 
                                                             size=(99,99))
                             action Show('chara_profile', who=person)
-                            activate_sound 'sfx/UI/profile_screen_select.mp3'
+                            activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
         window:
             xysize (750, 1170) 
             yoffset -140       
@@ -944,7 +944,7 @@ screen chat_home(reshow=False):
                     background "gray_mainbtn"
                     hover_background "gray_mainbtn_hover"
                 action Show('text_message_hub', Dissolve(0.5))
-                activate_sound 'sfx/UI/select_phone_text.mp3'
+                activate_sound 'audio/sfx/UI/select_phone_text.mp3'
                 if new_message_count() > 0:
                     add 'blue_maincircle' xalign 0.5 yalign 0.5
                     window:
@@ -973,7 +973,7 @@ screen chat_home(reshow=False):
                     background "gray_mainbtn"
                     hover_background "gray_mainbtn_hover"
                 action [SetVariable('unseen_calls', 0), Show('phone_calls')]  
-                activate_sound 'sfx/UI/select_phone_text.mp3'        
+                activate_sound 'audio/sfx/UI/select_phone_text.mp3'        
                 if unseen_calls > 0:
                     add "blue_maincircle" xalign 0.5 yalign 0.5  
                     window:
@@ -1003,7 +1003,7 @@ screen chat_home(reshow=False):
                     background "gray_mainbtn"
                     hover_background "gray_mainbtn_hover"
                 action Show('email_hub', Dissolve(0.5))
-                activate_sound 'sfx/UI/select_email.mp3'
+                activate_sound 'audio/sfx/UI/select_email.mp3'
                 if unread_emails() > 0:
                     add "blue_maincircle" xalign 0.5 yalign 0.5
                     window:
@@ -1030,7 +1030,7 @@ screen chat_home(reshow=False):
                             Show('chat_select')]
                 else:
                     action [Function(deliver_all), Show('chat_select')]
-                activate_sound "sfx/UI/chatroom_select.mp3"
+                activate_sound "audio/sfx/UI/chatroom_select.mp3"
                 add "rfa_chatcircle" yalign 0.5 xalign 0.5
                 add "blue_chatcircle" xalign 0.5 yalign 0.5
                 add "chat_icon" xalign 0.5 yalign 0.5
@@ -1121,7 +1121,7 @@ screen chat_home(reshow=False):
                         imagebutton:
                             idle "space_transparent_btn"
                             focus_mask None
-                            activate_sound 'sfx/UI/select_6.mp3'
+                            activate_sound 'audio/sfx/UI/select_6.mp3'
                             action Show('chip_tap')
                 
                 if reshow:
@@ -1142,7 +1142,7 @@ screen chat_home(reshow=False):
                         imagebutton:
                             idle "space_transparent_btn"
                             focus_mask None
-                            activate_sound 'sfx/UI/select_6.mp3'
+                            activate_sound 'audio/sfx/UI/select_6.mp3'
                             action Show('chip_tap')
             
             else:            
@@ -1157,7 +1157,7 @@ screen chat_home(reshow=False):
                     imagebutton:
                             idle "space_transparent_btn"
                             focus_mask None
-                            activate_sound 'sfx/UI/select_6.mp3'
+                            activate_sound 'audio/sfx/UI/select_6.mp3'
                             action Show('spaceship_thoughts', Dissolve(0.5))
                     
              

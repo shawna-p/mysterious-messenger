@@ -132,7 +132,7 @@ screen day_select(day, day_num):
                 action [SetVariable('current_day', day), 
                         SetVariable('current_day_num', day_num),
                         Show('chatroom_timeline', day=day, day_num=day_num)]
-                activate_sound 'sfx/UI/select_day.mp3'
+                activate_sound 'audio/sfx/UI/select_day.mp3'
             xalign 0.5
         
         # This is only a viewport due to a silly
@@ -479,7 +479,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 xysize(555, 126)
                 foreground vn_foreground
                 hover_foreground vn_hover
-                activate_sound 'sfx/UI/select_vn_mode.mp3'
+                activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
                 if (my_vn.available 
                         and can_play 
                         and chatroom.played):
@@ -507,7 +507,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 xalign 0.5
                 yalign 0.5
                 background vn_background                
-                activate_sound 'sfx/UI/select_vn_mode.mp3'
+                activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
                 if my_vn.available and can_play:
                     hover_foreground vn_background
                     # Note: afm is ~30 at its slowest, 0 when it's off, 

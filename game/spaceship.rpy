@@ -86,7 +86,7 @@ screen spaceship_thoughts():
     button:
         background "choice_darken"
         xysize (750, 1334)
-        activate_sound 'sfx/UI/select_6.mp3'
+        activate_sound 'audio/sfx/UI/select_6.mp3'
         action Hide('spaceship_thoughts', Dissolve(0.5))
         
         window:
@@ -121,7 +121,7 @@ screen chip_tap():
         yalign 0.6
         imagebutton:
             idle "space_chip"
-            activate_sound 'sfx/UI/select_6.mp3'
+            activate_sound 'audio/sfx/UI/select_6.mp3'
             action Jump('chip_prize')
         add 'space_tap_large' at large_tap
         add 'space_tap_med' at med_tap

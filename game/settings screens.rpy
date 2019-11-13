@@ -72,25 +72,25 @@ init python:
             return False
         
     
-default email_tone_dict = { 'Default 1': 'sfx/Ringtones etc/email_basic_1.wav', 
-                            'Default 2': 'sfx/Ringtones etc/email_basic_2.wav',     
-                            'Default 3': 'sfx/Ringtones etc/email_basic_3.wav'
+default email_tone_dict = { 'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav', 
+                            'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',     
+                            'Default 3': 'audio/sfx/Ringtones etc/email_basic_3.wav'
                           }
                           
-default text_tone_dict = {  'Default': 'sfx/Ringtones etc/text_basic_1.wav', 
-                            'Jumin Han': 'sfx/Ringtones etc/text_basic_ju.wav',     
-                            'Jaehee Kang': 'sfx/Ringtones etc/text_basic_ja.wav',
-                            '707': 'sfx/Ringtones etc/text_basic_s.wav',
-                            'Yoosung★': 'sfx/Ringtones etc/text_basic_y.wav',
-                            'ZEN': 'sfx/Ringtones etc/text_basic_z.wav'
+default text_tone_dict = {  'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav', 
+                            'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',     
+                            'Jaehee Kang': 'audio/sfx/Ringtones etc/text_basic_ja.wav',
+                            '707': 'audio/sfx/Ringtones etc/text_basic_s.wav',
+                            'Yoosung★': 'audio/sfx/Ringtones etc/text_basic_y.wav',
+                            'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav'
                          }
                             
-default ringtone_dict = {   'Default': 'sfx/Ringtones etc/phone_basic_1.wav', 
-                            'Jumin Han': 'sfx/Ringtones etc/phone_basic_ju.wav',     
-                            'Jaehee Kang': 'sfx/Ringtones etc/phone_basic_ja.wav',
-                            '707': 'sfx/Ringtones etc/phone_basic_s.wav',
-                            'Yoosung★': 'sfx/Ringtones etc/phone_basic_y.wav',
-                            'ZEN': 'sfx/Ringtones etc/phone_basic_z.wav'
+default ringtone_dict = {   'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav', 
+                            'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',     
+                            'Jaehee Kang': 'audio/sfx/Ringtones etc/phone_basic_ja.wav',
+                            '707': 'audio/sfx/Ringtones etc/phone_basic_s.wav',
+                            'Yoosung★': 'audio/sfx/Ringtones etc/phone_basic_y.wav',
+                            'ZEN': 'audio/sfx/Ringtones etc/phone_basic_z.wav'
                         }
                         
 # This is organized as a list of lists. The first item is the name of
@@ -109,9 +109,9 @@ default ringtone_list = [ ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
                             '707','Yoosung★', 'ZEN' ]]
                           ]
                           
-default persistent.phone_tone = 'sfx/Ringtones etc/phone_basic_1.wav'
-default persistent.text_tone = "sfx/Ringtones etc/text_basic_1.wav"
-default persistent.email_tone = 'sfx/Ringtones etc/email_basic_1.wav'
+default persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
+default persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
+default persistent.email_tone = 'audio/sfx/Ringtones etc/email_basic_1.wav'
 default persistent.phone_tone_name = "Default"
 default persistent.text_tone_name = "Default"
 default persistent.email_tone_name = "Default 1"
@@ -159,7 +159,7 @@ style settings_tabs_hbox:
 style settings_tabs_button:
     xsize 231
     ysize 57
-    activate_sound 'sfx/UI/settings_tab_switch.mp3'
+    activate_sound 'audio/sfx/UI/settings_tab_switch.mp3'
     hover_background "menu_tab_inactive_hover"
 
 style settings_tabs_button_text:

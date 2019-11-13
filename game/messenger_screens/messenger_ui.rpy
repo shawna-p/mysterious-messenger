@@ -42,7 +42,7 @@ screen answer_button():
         ypos 1220
         focus_mask None
         idle 'transparent_answer'
-        activate_sound "sfx/UI/answer_screen.mp3"
+        activate_sound "audio/sfx/UI/answer_screen.mp3"
         action [Show('pause_button'), Return()]   
 
     
@@ -376,7 +376,7 @@ screen continue_answer_button(themenu):
         ypos 1220
         focus_mask None
         idle "transparent_answer"
-        activate_sound "sfx/UI/answer_screen.mp3"
+        activate_sound "audio/sfx/UI/answer_screen.mp3"
         action [SetVariable("choosing", True), 
                 SetVariable('timed_choose', True), 
                 Hide('continue_answer_button'), 

@@ -95,7 +95,7 @@ label exit(chara):
     return
 
 #************************************
-# Play Music/SFX
+# Play audio/music/SFX
 #************************************
 # This allows the program to keep track of when to play
 # music during a chatroom or VN

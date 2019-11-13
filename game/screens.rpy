@@ -149,7 +149,7 @@ screen say(who, what):
                 selected_idle Text("Stop", style="vn_button")
                 selected_hover Text("Stop", style="vn_button_hover")
                 action Function(toggle_skipping)
-                activate_sound 'sfx/UI/vn_skip.mp3'
+                activate_sound 'audio/sfx/UI/vn_skip.mp3'
                 
             imagebutton:
                 idle Text("Log", style="vn_button")
@@ -404,7 +404,7 @@ style choice_vbox:
 
 style choice_button is default:
     properties gui.button_properties("choice_button")
-    activate_sound "sfx/UI/answer_select.mp3"
+    activate_sound "audio/sfx/UI/answer_select.mp3"
 
 style choice_button_text is default:
     properties gui.button_text_properties("choice_button")

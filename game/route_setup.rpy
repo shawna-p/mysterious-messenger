@@ -302,7 +302,7 @@ init -6 python:
             if notify_player:
                 # Let the player know a new chatroom is open
                 the_msg = "[[new chatroom] " + current_chatroom.title
-                renpy.music.play('sfx/Ringtones etc/text_basic_1.wav', 'sound')
+                renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav', 'sound')
                 renpy.show_screen('confirm', 
                         message=the_msg, yes_action=Hide('confirm'))
             # We also deliver any incoming calls in the event 

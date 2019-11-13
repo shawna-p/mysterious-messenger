@@ -219,7 +219,7 @@ screen signature_screen(phone=True):
             align (0.5, 0.842)
             focus_mask True
             background 'sign_btn' padding(20,20)
-            activate_sound "sfx/UI/end_chatroom.mp3"
+            activate_sound "audio/sfx/UI/end_chatroom.mp3"
             hover_background 'sign_btn_clicked'
             action Return()
 

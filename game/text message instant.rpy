@@ -232,7 +232,7 @@ screen text_answer():
             hover_background 'text_answer_animation'  
             if not renpy.get_screen("choice"):
                 action [Show('text_pause_button'), Return()]
-                activate_sound "sfx/UI/answer_screen.mp3"
+                activate_sound "audio/sfx/UI/answer_screen.mp3"
             add 'text_answer_text' xalign 0.5 yalign 0.5
             
 screen inactive_text_answer():

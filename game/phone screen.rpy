@@ -304,7 +304,7 @@ style phone_contacts_button:
     ysize 65
     background "menu_tab_inactive"
     hover_background "menu_tab_inactive_hover"
-    activate_sound 'sfx/UI/phone_tab_switch.mp3'        
+    activate_sound 'audio/sfx/UI/phone_tab_switch.mp3'        
 
 ## This makes the phone contacts screen "flexible" so you can
 ## have as many or as few characters as you like
@@ -527,7 +527,7 @@ label incoming_hang_up():
 ## to another character
 ########################################################
 
-define phone_dial_sfx = "sfx/phone ring.mp3"
+define phone_dial_sfx = "audio/sfx/phone ring.mp3"
 
 screen outgoing_call(phonecall, voicemail=False):
     tag menu

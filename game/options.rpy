@@ -61,16 +61,16 @@ define config.has_voice = True
 ## To allow the user to play a test sound on the sound or voice channel,
 ## uncomment a line below and use it to set a sample sound to play.
 
-define config.sample_sound = "sfx/Ringtones etc/text_basic_1.wav"
-define config.sample_voice = "sfx/Main Menu Greetings/Unknown/Late Night/u-ln-3.wav"
-define sample_voice_sfx = "sfx/Emotes/Seven/seven_wow.mp3"
+define config.sample_sound = "audio/sfx/Ringtones etc/text_basic_1.wav"
+define config.sample_voice = "audio/sfx/Main Menu Greetings/Unknown/Late Night/u-ln-3.wav"
+define sample_voice_sfx = "audio/sfx/Emotes/Seven/seven_wow.mp3"
 
 
 ## Uncomment the following line to set an audio file that will be played while
 ## the player is at the main menu. This file will continue playing into the
 ## game, until it is stopped or another file is played.
 
-#define config.main_menu_music = "Music/03 Mystic Chat.mp3"
+#define config.main_menu_music = "audio/music/03 Mystic Chat.mp3"
 
 
 define config.default_afm_enable = None

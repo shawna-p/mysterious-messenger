@@ -20,9 +20,9 @@ image bg black = '#000000'
 ## Extra Sound Effects
 #####################################
 
-define car_moving_sfx = "sfx/car moving.mp3"
-define door_knock_sfx = "sfx/door knock.mp3"
-define door_open_sfx = "sfx/door open.mp3"
+define car_moving_sfx = "audio/sfx/car moving.mp3"
+define door_knock_sfx = "audio/sfx/door knock.mp3"
+define door_open_sfx = "audio/sfx/door open.mp3"
 
 
 #####################################
