@@ -15,7 +15,7 @@ init python:
         choosing = False
         pre_choosing = False
         
-        if who != m:        
+        if not who.right_msgr:        
             textlog = who.private_text
         elif inst_text:   
             textlog = inst_text.private_text
@@ -380,7 +380,7 @@ screen text_animation_instant(i):
             
     elif i.who.file_id != 'delete':
         window:
-            if i.who == m:
+            if i.who.right_msgr:
                 style 'MC_profpic_text'
             else:
                 style 'profpic_text'
@@ -390,14 +390,14 @@ screen text_animation_instant(i):
         ## Now add the dialogue
              
         fixed:
-            if i.who != m:
+            if not i.who.right_msgr:
                 style 'text_msg_npc_fixed'
             else:
                 style 'text_msg_mc_fixed'
             
             hbox at transformVar:
                 spacing 5 
-                if i.who != m:
+                if not i.who.right_msgr:
                     ypos -10
                     
                 else:
@@ -410,13 +410,13 @@ screen text_animation_instant(i):
                 window:                 
                     ## Check if it's an image
                     if i.img == True:
-                        if i.who != m:
+                        if not i.who.right_msgr:
                             style 'img_text_message'
                         else:
                             style 'mc_img_text_message'
                         # Check if it's an emoji
                         if "{image=" in i.what:
-                            if i.who != m:
+                            if not i.who.right_msgr:
                                 style 'reg_bubble_text'
                             else:
                                 style 'reg_bubble_MC_text'
@@ -432,7 +432,7 @@ screen text_animation_instant(i):
             
                     
                     else:        
-                        if i.who != m:
+                        if not i.who.right_msgr:
                             style 'reg_bubble_text'
                         else:
                             style 'reg_bubble_MC_text'
@@ -441,7 +441,7 @@ screen text_animation_instant(i):
                         else:            
                             text i.what style "bubble_text" color '#fff'
                             
-                if i.who != m:
+                if not i.who.right_msgr:
                     if i.img == True and not "{image=" in i.what:
                         text text_time color '#fff' yalign 1.0 size 23 yoffset 40 xoffset 10
                     else:
@@ -469,14 +469,14 @@ screen anti_text_animation(i):
     if i.who.file_id != 'delete':        
         ## Now add the dialogue             
         fixed:
-            if i.who != m:
+            if not i.who.right_msgr:
                 style 'text_msg_npc_fixed'
             else:
                 style 'text_msg_mc_fixed'
             
             hbox:
                 spacing 5 
-                if i.who != m:
+                if not i.who.right_msgr:
                     ypos -10                    
                 else:
                     ypos 5                    
@@ -484,13 +484,13 @@ screen anti_text_animation(i):
                 window at transformVar:                 
                     ## Check if it's an image
                     if i.img == True:
-                        if i.who != m:
+                        if not i.who.right_msgr:
                             style 'img_text_message'
                         else:
                             style 'mc_img_text_message'
                         # Check if it's an emoji
                         if "{image=" in i.what:
-                            if i.who != m:
+                            if not i.who.right_msgr:
                                 style 'reg_bubble_text'
                             else:
                                 style 'reg_bubble_MC_text'
@@ -501,7 +501,7 @@ screen anti_text_animation(i):
             
                     
                     else:        
-                        if i.who != m:
+                        if not i.who.right_msgr:
                             style 'reg_bubble_text'
                         else:
                             style 'reg_bubble_MC_text'
