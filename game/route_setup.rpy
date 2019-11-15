@@ -64,7 +64,7 @@ init -6 python:
             global m, pv
             self.replay_log = deepcopy(the_log)
             for c in self.replay_log:
-                if c.who == m and c.pauseVal == 0:
+                if c.who.right_msgr and c.pauseVal == 0:
                     c.pauseVal = pv
 
                 

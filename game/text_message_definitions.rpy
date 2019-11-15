@@ -143,7 +143,7 @@ init python:
                                                             and x.msg_list)]
             return len(unread_messages)
         else:
-            unread_messages = [ c for c in all_characters if (not c == m 
+            unread_messages = [ c for c in all_characters if (not c.right_msgr 
                                 and c.private_text 
                                 and (not c.private_text_read 
                                 or c.private_text_read == "Notified")) ]
@@ -165,7 +165,7 @@ init python:
             if msg.sender == sender:
                 msg.msg_list.append(Chatentry(who, what, upTime(), img))
                 msg.read = False
-                if who == m:
+                if who.right_msgr:
                     msg.deliver(True)
                     msg.reply_label = False
                 else:
@@ -182,7 +182,7 @@ init python:
                 cg_list = getattr(persistent, album)
                 for photo in cg_list:
                     if Album(cg_filepath) == photo:
-                        if who == m:
+                        if who.right_msgr:
                             photo.unlock()
                         else:
                             msg.cg_unlock_list.append([cg_list, photo])
@@ -208,7 +208,7 @@ init python:
                 msg = msg[:n]
         
         if last_msg and ("{image=" in last_msg.what or last_msg.img):
-            if last_msg.who == m:
+            if last_msg.who.right_msgr:
                 return "You sent an image."
             else:
                 return last_msg.who.name + " sent an image."

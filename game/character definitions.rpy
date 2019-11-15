@@ -8,7 +8,8 @@ init -5 python:
         def __init__(self, name, file_id=False, prof_pic=False, 
                 participant_pic=False, heart_color='#000000', 
                 cover_pic=False, status=False, bubble_color=False, 
-                glow_color=False, emote_list=False, voicemail=False):               
+                glow_color=False, emote_list=False, voicemail=False,
+                right_msgr=False):               
                 
             # The name used in the chatroom e.g. '707'
             self.name = name            
@@ -43,6 +44,40 @@ init -5 python:
             self.glow_color = glow_color
             # Similarly, this colours their regular text bubbles
             self.bubble_color = bubble_color
+            self.right_msgr = right_msgr
+
+            if self.file_id:
+                if not self.bubble_color:
+                    reg_bub_img = "Bubble/" + self.file_id + "-Bubble.png"
+                    # This person is the messenger; typically MC
+                    if self.right_msgr: 
+                        reg_bub_img = Transform(reg_bub_img, xzoom=-1)
+                        self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
+                    else:
+                        self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
+                else:
+                    reg_bub_img = reg_bubble_fn(self.bubble_color)
+                    if self.right_msgr: 
+                        reg_bub_img = Transform(reg_bub_img, xzoom=-1)
+                        self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
+                    else:
+                        self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
+
+                if not self.glow_color:
+                    glow_bub_img = "Bubble/" + self.file_id + "-Glow.png"
+                    self.glow_bubble_img = Frame(glow_bub_img, 25,25)
+                else:
+                    self.glow_bubble_img = Frame(
+                        glow_bubble_fn(self.glow_color), 25, 25
+                    )
+            else:
+                self.reg_bubble_img = Frame("Bubble/white-Bubble.png", 
+                                            25,18,18,18)
+                self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.png",
+                                            25,25)
+
+            
+
             # Entirely optional; this is a list of this character's
             # available emotes, used for the (incomplete) 
             # chatroom generator
@@ -52,6 +87,7 @@ init -5 python:
             self.private_text = []
             self.private_text_read = True
             self.private_text_label = False
+            
             
         def update_voicemail(self, new_label):
             self.voicemail.phone_label = new_label
@@ -153,6 +189,9 @@ init -5 python:
 ##              not during definition time
 ##  emoji_list - used for chatroom creation (can be left False
 ##               if you don't need it/don't know what to do with it)
+##  right_msgr - indicates this character will send messages from the right
+##               side of the screen (in general, this is true only for
+##               MC, and it is automatically False for everyone else)
 
 default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 
                     'Profile Pics/ja_chat.png', "#d0b741", 
@@ -162,7 +201,7 @@ default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png',
                     'Profile Pics/ju_chat.png', "#a59aef", 
                     "Cover Photos/profile_cover_photo.png", "Jumin's status", 
                     False, False, jumin_emotes)
-default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png')
+default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png', right_msgr=True)
 default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
                 'Profile Pics/r_chat.png', "#b81d7b", 
                 "Cover Photos/profile_cover_photo.png", "Ray's status", 

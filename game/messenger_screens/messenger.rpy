@@ -391,7 +391,7 @@ screen chat_animation(i, animate=True, anti=False):
             include_new = True
             
         # MC's messages are displayed differently
-        if i.who == m:
+        if i.who.right_msgr:
             nameStyle = 'chat_name_MC'
             include_new = False
             picStyle = 'MC_profpic'
@@ -421,24 +421,9 @@ screen chat_animation(i, animate=True, anti=False):
 
             elif i.bounce: # Not a special bubble; just glow
                 include_new = False
-                if not i.who.glow_color:
-                    bubbleBackground = ("Bubble/" + i.who.file_id 
-                                        + "-Glow.png")
-                else:
-                    # We can dynamically colour the glow
-                    # at runtime
-                    bubbleBackground = glow_bubble_fn( 
-                                        glow_color=i.who.glow_color)
+                bubbleBackground = i.who.glow_bubble_img
             elif i.who != 'answer':
-                if not i.who.bubble_color:
-                    bubbleBackground = ("Bubble/" 
-                                        + i.who.file_id 
-                                        + "-Bubble.png")
-                else:
-                    # If not given a colour, dynamically
-                    # recolour the bubble at runtime
-                    bubbleBackground = reg_bubble_fn( 
-                                        bubble_color=i.who.bubble_color)
+                bubbleBackground = i.who.reg_bubble_img
             
             if i.specBubble != None:
                 # Some characters have more than one round or square bubble
@@ -539,7 +524,7 @@ screen chat_animation(i, animate=True, anti=False):
                     # Note: MC has no glowing bubble so there is
                     # no variant for them
                     style 'glow_bubble'
-                    background Frame(bubbleBackground, 25, 25)
+                    background bubbleBackground
                     # This checks if the text needs to wrap or not
                     if my_width > gui.longer_than:
                         text dialogue:
@@ -552,7 +537,7 @@ screen chat_animation(i, animate=True, anti=False):
                 # Otherwise it must be regular MC dialogue
                 else:
                     style reg_style
-                    background Frame(bubbleBackground, 25,18,18,18)
+                    background bubbleBackground
                     if my_width > gui.longer_than:
                         text dialogue:
                             style 'bubble_text_long'
@@ -574,7 +559,7 @@ screen chat_animation(i, animate=True, anti=False):
                     add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
                     frame:
                         padding (25,12,20,12)
-                        background Frame(bubbleBackground, 25, 18,18,18)
+                        background bubbleBackground
                         text dialogue:
                             if my_width > gui.longer_than:
                                 style 'bubble_text_long'

@@ -270,7 +270,7 @@ screen text_message_footer(the_msg):
             ysize 95
             xalign 0.5
             if (the_msg and the_msg.reply_label 
-                    and not the_msg.msg_list[-1].who == m):
+                    and not the_msg.msg_list[-1].who.right_msgr):
                 background 'text_answer_active'
                 hover_background 'text_answer_animation'  
                 if not renpy.get_screen("choice"):
@@ -405,7 +405,7 @@ screen text_message_screen(the_msg):
 screen text_animation(i):
     python:       
         transformVar = incoming_message
-        if i.who == m:
+        if i.who.right_msgr:
             picStyle = 'MC_profpic_text'
             reg_style = 'text_msg_mc_fixed'
             reg_bubble = 'reg_bubble_MC_text'
@@ -437,7 +437,7 @@ screen text_animation(i):
         ## Now add the dialogue
         hbox:
             spacing 5 
-            if i.who == m:
+            if i.who.right_msgr:
                 xalign 1.0
                 box_reverse True
             xmaximum 750
@@ -449,7 +449,7 @@ screen text_animation(i):
             
             frame:               
                 ## Check if it's an image
-                if i.img == True and not "{image=" in i.what:
+                if i.img and not "{image=" in i.what:
                     style img_style
                     $ fullsizeCG = cg_helper(i.what)
                     imagebutton:
@@ -472,19 +472,14 @@ screen text_animation(i):
                             color '#fff'
                     else:            
                         text i.what style "bubble_text" color '#fff'
-                        
-                           
-            if i.img == True and not "{image=" in i.what:
-                text text_time:
-                    color '#fff' 
-                    yalign 1.0 
-                    size 23 
+                                      
+            text text_time:
+                color '#fff' 
+                yalign 1.0 
+                size 23 
+                if i.img and not "{image=" in i.what:
                     xoffset 10
-            else:
-                text text_time:
-                    color "#fff" 
-                    yalign 1.0 
-                    size 23
+            
           
                                             
  
