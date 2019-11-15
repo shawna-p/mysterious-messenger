@@ -4,6 +4,22 @@
 
 init offset = -1
 
+define curly_font = "fonts/Sandoll Misaeng (Curly Font).ttf"
+define serif_1 = "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+define serif_1b = "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf"
+define serif_1xb = "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-ExtraBold.ttf"
+define serif_2 = "fonts/Seoul Hangang (Serif font 2)/SeoulHangangM.ttf"
+define serif_2b = "fonts/Seoul Hangang (Serif font 2)/SeoulHangangB.ttf"
+define serif_2xb = "fonts/Seoul Hangang (Serif font 2)/SeoulHangangEB.ttf"
+define sans_serif_1 = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+define sans_serif_1b = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+define sans_serif_1xb = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
+define sans_serif_2 = "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+define sans_serif_2b = "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanB.ttf"
+define sans_serif_2xb = "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanEB.ttf"
+define blocky_font = "fonts/BM-HANNA (Bold Font).ttf"
+
+
 init 5:
 
     ### Note: you can find many of the gui values in the gui.rpy file
@@ -16,52 +32,52 @@ init 5:
     ## Curly Font
     style curly:
         size gui.text_size + 6
-        font "fonts/Sandoll Misaeng (Curly Font).ttf"
+        font curly_font
     
     ## Serif Font 1
     style ser1:
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        font serif_1
 
     style ser1b:
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf"
+        font serif_1b
  
     style ser1xb:
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-ExtraBold.ttf"
+        font serif_1xb
       
     ## Serif Font 2
     style ser2:
-        font "fonts/Seoul Hangang (Serif font 2)/SeoulHangangM.ttf"
+        font serif_2
         
     style ser2b:
-        font "fonts/Seoul Hangang (Serif font 2)/SeoulHangangB.ttf"
+        font serif_2b
         
     style ser2xb:
-        font "fonts/Seoul Hangang (Serif font 2)/SeoulHangangEB.ttf"
+        font serif_2xb
         
     ## Sans Serif Font 1
     style sser1:
         # this is the regular dialogue font/the default
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         
     style sser1b:
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+        font sans_serif_1b
         
     style sser1xb:
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
+        font sans_serif_1xb
     
     ## Sans Serif Font 2
     style sser2:
-        font "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+        font sans_serif_2
         
     style sser2b:
-        font "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanB.ttf"
+        font sans_serif_2b
         
     style sser2xb:
-        font "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanEB.ttf"
+        font sans_serif_2xb
       
     ## Blocky Font
     style blocky:
-        font "fonts/BM-HANNA (Bold Font).ttf"
+        font blocky_font
 
     ####################################
     #***********************************
@@ -168,7 +184,7 @@ init 5:
         text_align 0.5
         xalign 0.5
         yalign 0.5
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+        font sans_serif_1b
       
     ####################################
     ## Save & Exit Styles
@@ -179,19 +195,19 @@ init 5:
         text_align 0.5
         size 25
         xsize 600
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         
     style sign is text:
         xalign 0.5   
         yalign 0.607   
         text_align 0.5
         size 30
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         
     style points is text:
         yalign 0.51
         text_align 1.0
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         color "#ffffff"
         
         
@@ -291,11 +307,11 @@ init 5:
         
     style settings_style:
         color "#ffffff"
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         
     style sound_tags:
         color "#ffffff"
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 25
         text_align 0.5
         xalign 0.5
@@ -303,7 +319,7 @@ init 5:
         
     style hg_heart_points:
         color "#ffffff"
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 39
         text_align 1.0
         
@@ -327,7 +343,7 @@ init 5:
     
     style mode_select:
         color "#fff"
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         text_align 0.5
         xalign 0.5
         yalign 0.5
@@ -337,19 +353,19 @@ init 5:
         hover_color "#ffffff"
         xalign 0.5
         text_align 0.5
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 30
         
     style vn_button:
         color '#76D0B7'
-        font "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+        font sans_serif_2
         size 55
         outlines [(absolute(1), '#000', absolute(0), absolute(0))]
         kerning -1
         
     style vn_button_hover:
         color "#999999"
-        font "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
+        font sans_serif_2
         size 55
         outlines [(absolute(1), '#000', absolute(0), absolute(0))]
         kerning -1
@@ -363,7 +379,7 @@ init 5:
         yalign 0.607
         color "#fff"
         text_align 0.5
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 34
         
     style loading_tip:
@@ -371,7 +387,7 @@ init 5:
         text_align 0.5
         yalign 0.4
         color "#fff"
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 34
         
     ## **********************
@@ -382,14 +398,14 @@ init 5:
         align (0.5, 0.5)
         text_align 0.5
         color "#fff"
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 55
         
     style profile_status:
         text_align 0.5
         align (0.5, 0.5)
         color "#fff"
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        font serif_1
         size 40
         xmaximum 600
         
@@ -401,14 +417,14 @@ init 5:
         align (0.5, 0.5)
         text_align 0.5
         color '#fff'
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 30
         
     style album_text_long:
         align (0.5, 0.5)
         text_align 0.5
         color '#fff'
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 25
         
         
@@ -422,7 +438,7 @@ init 5:
         text_align 0.5
         color '#fff'
         size 37
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         yalign 0.5
     
     ## **********************
@@ -432,13 +448,13 @@ init 5:
         color '#fff' 
         xalign 0.5 
         text_align 0.5
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+        font sans_serif_1b
         
     style caller_id:
         color '#fff'
         xalign 0.5
         text_align 0.5
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         size 60
         
     style call_text:
@@ -446,7 +462,7 @@ init 5:
         xalign 0.5
         yalign 0.5
         text_align 0.5
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         
     ## **********************
     ## Emails
@@ -460,20 +476,20 @@ init 5:
     ## Spaceship Thoughts
     ## **********************
     style space_title1:
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        font serif_1
         size 25
         text_align 0.5
         align (0.5, 0.12)
         color '#ff0'
         
     style space_thought_mid:
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        font serif_1
         text_align 0.5
         align (0.5, 0.5)
         color '#fff'
         
     style space_title2:
-        font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+        font serif_1
         size 22
         text_align 0.5
         align (0.5, 0.95)
@@ -490,7 +506,7 @@ init 5:
     style CG_close is text:
         xalign 0.06
         yalign 0.016
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         color "#ffffff"
         size 45
         
@@ -499,13 +515,13 @@ init 5:
         xalign 0.97
         yalign 0.22
         color "#ffffff"
-        font  "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+        font  sans_serif_1b
         size 45
         text_align 0.5
         
     style chip_prize_text:
         color "#ffffff"
-        font  "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font  sans_serif_1
         text_align 1.0
         size 37
         xalign 0.85
@@ -513,7 +529,7 @@ init 5:
         
     style chip_prize_description_short:
         color '#ffffff'
-        font "fonts/BM-HANNA (Bold Font).ttf"
+        font blocky_font
         text_align 0.5
         size 45
         xalign 0.5
@@ -521,7 +537,7 @@ init 5:
 
     style chip_prize_description_long:
         color '#ffffff'
-        font "fonts/BM-HANNA (Bold Font).ttf"
+        font blocky_font
         text_align 0.5
         size 37
         xalign 0.5
@@ -529,7 +545,7 @@ init 5:
     
     style header_clock:
         color '#fff'
-        font  "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font  sans_serif_1
         text_align 1.0
         size 42
         xpos -110

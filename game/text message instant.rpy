@@ -162,7 +162,7 @@ screen text_msg_popup_instant(the_char):
             xalign 0.03
             spacing 15
             add 'new_text_envelope'
-            text 'NEW' color '#73f1cf' yalign 1.0 font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+            text 'NEW' color '#73f1cf' yalign 1.0 font sans_serif_1b
         
         vbox:
             xalign 0.3

@@ -58,7 +58,7 @@ init python:
             color ="#fff",
             text_align =0.0,
             hover_color ="#d7d7d7",
-            font ="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf",
+            font =serif_1,
             xalign =0.06,
             yalign =0.455), 0.1
     
@@ -164,7 +164,7 @@ style settings_tabs_button:
 
 style settings_tabs_button_text:
     color '#fff'
-    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+    font sans_serif_1
     text_align 0.5
     xalign 0.5
     yalign 0.5
@@ -335,7 +335,7 @@ style profile_pic_text:
     color "#fff"
     text_align 0.0
     hover_color "#d7d7d7"
-    font "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf"
+    font serif_1
     xalign 0.06
     yalign 0.455
 
@@ -454,7 +454,7 @@ style my_input:
     color "#000"
     text_align 0.5
     hover_color "#d7d7d7"
-    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+    font sans_serif_1
 
 
 

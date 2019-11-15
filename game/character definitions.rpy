@@ -229,7 +229,7 @@ default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
 # This is a default phone character that we can "inherit" the style
 # from rather than declaring all the individual properties
 define phone_character = Character(None, 
-    what_font="fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf", 
+    what_font=sans_serif_1, 
     what_color="#fff", 
     what_xalign=0.5, 
     what_yalign=0.5, 
@@ -285,7 +285,7 @@ default text_queue = [ Text_Message(i, []) for i in all_characters ]
 # This is the 'generic' VN character, which you can inherit from
 # for any new character you want to create
 define vn_character = Character(None, 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_font=serif_1, 
     what_color="#ffffff", 
     window_background="VN Mode/Chat Bubbles/vnmode_9.png",
     who_color="#fff5ca", 
@@ -296,7 +296,7 @@ define vn_character = Character(None,
 # instead want to just use once or twice. You can write their dialogue like
 # "Bodyguard" "Your dialogue"
 define name_only = Character(None, 
-    what_font="fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf", 
+    what_font=serif_1, 
     what_color="#ffffff", 
     window_background="VN Mode/Chat Bubbles/vnmode_9.png",
     who_color="#fff5ca", 

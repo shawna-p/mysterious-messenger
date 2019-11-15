@@ -356,7 +356,7 @@ screen email_popup(e):
             text 'NEW':
                 color '#73f1cf' 
                 yalign 1.0 
-                font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+                font sans_serif_1b
         
         vbox:
             align (0.5, 0.8)

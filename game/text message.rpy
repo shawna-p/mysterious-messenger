@@ -203,7 +203,7 @@ screen text_msg_popup(the_msg):
             text 'NEW':
                 color '#73f1cf' 
                 yalign 1.0 
-                font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf"
+                font sans_serif_1b
         
         vbox:
             xalign 0.3

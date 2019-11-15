@@ -84,7 +84,7 @@ style msg_bubble:
             
 style msg_bubble_text:
     text_align 0.5
-    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+    font sans_serif_1
     size gui.text_size - 10
     color "#ffffff"
     xalign 0.5

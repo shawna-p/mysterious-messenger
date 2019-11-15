@@ -213,7 +213,7 @@ default font_dropdown = False
 ########################################################
 style settings_tabs:
         color '#fff'
-        font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+        font sans_serif_1
         text_align 0.5
         xalign 0.5
         yalign 0.5
@@ -712,7 +712,7 @@ style creator_title:
     color '#fff'
     size 35
     outlines [ (1, '#277177', 3, 2) ]
-    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf"
+    font sans_serif_1xb
 
 style creator_button is default:    
     xsize 231
@@ -729,7 +729,7 @@ style creator_font_button:
 style creator_button_text is default:
     color '#fff'
     size 28
-    font "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
+    font sans_serif_1
     text_align 0.5
     xalign 0.5
     yalign 0.5
