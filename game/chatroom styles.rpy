@@ -97,14 +97,14 @@ init 5:
         pos (148, 0)
         xsize 435
         text_align 0.0
-        font gui.phone_name_font
+        font sans_serif_1
         
     style chat_name_MC:
         pos (596, 0)
         xsize 435
         text_align 1.0
         anchor (1.0, 0.0)
-        font gui.phone_name_font
+        font sans_serif_1
             
     ## ****************************************
     ## Profile Pictures Style

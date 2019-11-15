@@ -424,9 +424,6 @@ define gui.phone_height = None
 ## The spacing between chat entries when gui.phone_height is None
 define gui.phone_spacing = 0
 
-## The font for the characters' names
-define gui.phone_name_font = "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf"
-
 ## These are additional modifiers for the text specifically,
 ## separate from the speech bubbles each character has
 define gui.phone_text_line_spacing = 10
