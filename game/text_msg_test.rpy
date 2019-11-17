@@ -73,14 +73,14 @@ label after_example_text():
         $ addtext (v, "But they can still be fun to use in a conversation, don't you think?", v)
         $ add_reply_label(v, 'menu_a2')
         
-        # Some extra messages
+        # Some extra messages for testing
         #$ addtext (ju, "What do you think about adding Elizabeth the 3rd as a member?", ju)
         #$ addtext (ja, "I hope this ordeal hasn't been too difficult on you.", ja)
         #$ addtext (s, "I miss you!", s)
         #$ addtext (u, "You'll be fine ^^", u)
+        #$ addtext (ri, "Weren't you curious, too?", ri)
         $ addtext (z, "You know, you never send us any photos...", z)
         $ add_reply_label(z, 'menu_a3')
-        #$ addtext (ri, "Weren't you curious, too?", ri)
     
     else:
         # Ray's instant text message
