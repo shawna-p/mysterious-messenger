@@ -416,8 +416,8 @@ screen chat_animation(i, animate=True, anti=False):
             # get a 'glow2' bubble aka another glow variant
             elif i.specBubble != None and i.specBubble == 'glow2':
                 include_new = False
-                bubbleBackground = ("Bubble/Special/" + i.who.file_id 
-                                        + "_" + i.specBubble + ".png")
+                bubbleBackground = Frame("Bubble/Special/" + i.who.file_id 
+                                    + "_" + i.specBubble + ".png", 25, 25)
 
             elif i.bounce: # Not a special bubble; just glow
                 include_new = False

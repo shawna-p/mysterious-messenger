@@ -546,7 +546,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                             no_action=Hide('confirm'))           
                 else:
                     action Show("confirm", message=("The game branches here."
-                            + "Continue?"), 
+                            + " Continue?"), 
                         yes_action=[Hide('confirm'), 
                         SetVariable('current_chatroom', chatroom),
                         Jump(chatroom.chatroom_label + '_branch')], 

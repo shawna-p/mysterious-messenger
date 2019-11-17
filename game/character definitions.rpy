@@ -17,7 +17,22 @@ init -5 python:
             # speech bubbles
             self.file_id = file_id
             # Character's profile picture
+            self.big_prof_pic = prof_pic
             self.prof_pic = prof_pic
+            # The program assumes the given profile picture is 110x110
+            # However, larger pictures of size 314x314 are used in various
+            # menus such as when calling a character. So the program also
+            # tries to look for a larger image with the same naming scheme
+            # as the file given for prof_pic, with the exception that it
+            # should end with "-b" e.g. "Jaehee/ja-default.png" means the
+            # program looks for "Jaehee/ja-default-b.png"
+            if self.prof_pic:
+                big_name = self.prof_pic.split('.')
+                large_pfp = big_name[0] + '-b.' + big_name[1]
+                if renpy.loadable(large_pfp):
+                    self.big_prof_pic = large_pfp
+            
+
             # Picture that shows up in the timeline screen
             # to show if a character has participated in
             # this chat
@@ -128,6 +143,15 @@ init -5 python:
                 self.__prof_pic = new_img
             elif ".gif" in new_img:
                 self.__prof_pic = new_img
+            else:
+                return
+
+            self.__big_prof_pic = self.__prof_pic
+            if self.__prof_pic:
+                big_name = self.__prof_pic.split('.')
+                large_pfp = big_name[0] + '-b.' + big_name[1]
+                if renpy.loadable(large_pfp):
+                    self.__big_prof_pic = large_pfp
         
         @property
         def cover_pic(self):

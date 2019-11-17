@@ -1181,7 +1181,7 @@ screen chara_profile(who):
             fixed:
                 xfit True yfit True
                 xalign 0.1 yalign 0.6
-                add Transform(who.prof_pic, size=(314,314))
+                add Transform(who.big_prof_pic, size=(314,314))
                 add 'profile_outline'    
             window:
                 xysize (350,75)

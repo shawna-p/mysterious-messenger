@@ -448,7 +448,7 @@ screen incoming_call(phonecall, countdown_time=10):
                     has vbox
                     align (0.5, 0.5)
                     spacing 15
-                    add Transform(phonecall.caller.prof_pic, size=(237,237)):
+                    add Transform(phonecall.caller.big_prof_pic, size=(237,237)):
                         align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
                 window:
@@ -557,7 +557,7 @@ screen outgoing_call(phonecall, voicemail=False):
                     has vbox
                     align (0.5, 0.5)
                     spacing 15
-                    add Transform(phonecall.caller.prof_pic, size=(237,237)):
+                    add Transform(phonecall.caller.big_prof_pic, size=(237,237)):
                         align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
                     
