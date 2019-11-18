@@ -19,6 +19,8 @@ init -6 python:
             self.heart = False
             # Who the heart icon should belong to
             self.heart_person = None
+            # If the awarded heart is 'bad'
+            self.bad_heart = False
             # List to keep track of CGs we should unlock after
             # the player has read this message chain
             self.cg_unlock_list = []
@@ -40,7 +42,8 @@ init -6 python:
                     # We notify the player of the delivered message
                     self.read = False
                     renpy.music.play(persistent.text_tone, 'sound')
-                    renpy.show_screen('text_msg_popup', the_msg=msg)
+                    renpy.show_screen('text_msg_popup', 
+                        c=self.msg_list[-1].who)
                     self.notified = True
                 else:
                     self.read = True
@@ -76,17 +79,14 @@ init -6 python:
             store.text_msg_reply = False  
             
         ## Determines who to award the heart point to
-        def heart_point(self, person=None):
+        def heart_point(self, person=None, bad=False):
             self.heart = True
             self.heart_person = person
+            self.bad_heart = bad
                     
     ## Lets the program know the response will trigger a heart point
-    def add_heart(who, person=None):
-        who.text_msg.heart_point(person)
-           
-    ## Updates the message's reply label
-    def set_reply_label(sender, reply_label):
-        sender.text_msg.reply_label = reply_label
+    def add_heart(who, person=None, bad=False):
+        who.text_msg.heart_point(person, bad)
              
     ## Delivers all of the text messages at once
     def deliver_all(): 
@@ -121,9 +121,10 @@ init -6 python:
         else:
             # Otherwise another character sent this/is replying
             # We add this message to the sender's queue
-            sender.text_msg.queue.append(Chatentry(who, what, upTime(), img))
-            sender.text_msg.read = False
-            sender.text_msg.notified = False
+            sender.text_msg.msg_queue.append(Chatentry(
+                                                who, what, upTime(), img))
+            # sender.text_msg.read = False
+            # sender.text_msg.notified = False
         
         # We also check if the sent message has a CG
         if img and "{image" not in what:
@@ -149,13 +150,14 @@ init -6 python:
     ## This version is used for real-time texting
     ## Each entry is added after a small pause to simulate typing time
     def addtext_realtime(who, what, pauseVal, img=False):
+        global textbackup
         store.choosing = False
         store.pre_choosing = False
-
+        
         if not who.right_msgr:
-            textlog = who.text_msg.msg_log
+            textlog = who.text_msg.msg_list
         elif store.text_person:
-            textlog = store.text_person.text_msg.msg_log
+            textlog = store.text_person.text_msg.msg_list
         else:
             print("There's no one to text")
             return
@@ -187,7 +189,7 @@ init -6 python:
             typeTime = typeTime * pauseVal
             renpy.pause(typeTime)
 
-        if img == True:
+        if img:
             if (what in emoji_lookup
                     and renpy.get_screen('text_message_screen')):
                 renpy.play(emoji_lookup[what], channel='voice_sfx')
@@ -222,6 +224,10 @@ init -6 python:
             return
 
         if last_text.who == filler:
+            return
+        if textbackup.who == filler:
+            return
+        if textbackup.what == '':
             return
 
         if (last_text.who.file_id == textbackup.who.file_id
@@ -281,3 +287,68 @@ default current_message = None
 default text_msg_reply = False
 # Stores the Chat object of the other person in a text conversation
 default text_person = None
+
+
+## A label that lets you leave instant text message
+## conversations, but you can't get them back
+label leave_inst_text():
+    $ textlog = text_person.text_msg.msg_list                        
+    $ config.skipping = False   
+    $ greeted = False         
+    $ choosing = False
+    $ textbackup = 'Reset'
+    hide screen text_play_button
+    hide screen text_answer
+    hide screen text_pause_button
+    hide screen inactive_text_answer
+    $ text_person.finished_text()
+    $ text_person = None
+    $ renpy.retain_after_load()    
+    call screen text_message_hub
+    
+label text_begin(who):    
+    $ text_person = who
+    $ text_msg_reply = True
+    $ who.text_msg.mark_read()
+    if who.real_time_text:
+        show screen text_message_screen(who)
+        show screen text_pause_button
+    $ renpy.retain_after_load()
+    return
+        
+label compose_text(who, real_time=False):
+    $ who.set_real_time_text(real_time)
+    $ who.text_msg.read = False
+    $ textbackup = 'Reset'
+    $ text_person = who
+    $ renpy.retain_after_load()
+    return
+
+label compose_text_end(text_label=False):
+    $ text_person.set_text_label(text_label)
+    $ text_person = None
+    $ textbackup = 'Reset'
+    $ renpy.retain_after_load()
+    return
+    
+
+## Sets end variables when a text message menu is completed 
+label text_end():
+    if text_person is not None and text_person.real_time_text:
+        answer "" (pauseVal=1.0)
+    $ text_msg_reply = False
+    #if text_person is not None and text_person.real_time_text:
+    $ text_person.finished_text()
+    $ who = text_person
+    $ text_person = None
+    $ chatroom_hp = 0
+    $ textbackup = Chatentry(filler,"","")
+    $ renpy.retain_after_load()        
+    hide screen text_answer
+    hide screen inactive_text_answer
+    hide screen text_play_button
+    hide screen text_pause_button    
+    call screen text_message_screen(who)         
+    # else:
+    #     $ renpy.retain_after_load()
+    #     return

@@ -97,7 +97,6 @@ label play():
         call screen play_button
         show screen pause_button
     else:
-        #$ text_person.private_text.append(Chatentry(chat_pause, '', upTime()))
         call screen text_play_button
         show screen text_pause_button
     return

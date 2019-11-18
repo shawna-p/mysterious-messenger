@@ -265,7 +265,7 @@ screen choice(items):
  
     # For text messages
     if text_msg_reply:
-        if not text_person:
+        if not text_person or not text_person.real_time_text:
             use text_message_screen(current_message)
         add "Phone UI/choice_dark.png"
         vbox:
@@ -279,7 +279,12 @@ screen choice(items):
                     hover_background 'text_answer_hover'
                     text_idle_color '#fff'
                     text_hover_color '#fff'
-                    action [i.action]
+                    if not text_person or not text_person.real_time_text:
+                        action [Show('text_message_screen',
+                                        sender=current_message),
+                                i.action]
+                    else:
+                        action [i.action]
     
     # For VN mode and phone calls
     elif in_phone_call or vn_choice:

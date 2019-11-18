@@ -44,9 +44,10 @@ label after_load():
         if no_email_notif:
             renpy.hide_screen('email_popup')
         no_text_notif = True
-        for msg in text_messages:
-            if not msg.notified:
+        for c in all_characters:
+            if not c.text_msg.notified:
                 no_text_notif = False
+                break
         if no_text_notif:
             renpy.hide_screen('text_msg_popup')
             

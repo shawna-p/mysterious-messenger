@@ -4,15 +4,25 @@
     
 # You call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
-    python:
-        if character == r:
-            character = sa
+    if character == r:
+        $ character = sa
+    if text_person is None:
+        python:            
+            if not observing and not no_heart:
+                character.increase_heart(bad)
+                chatroom_hp += 1
+                persistent.HP += 1
         if not observing and not no_heart:
-            character.increase_heart(bad)
-            chatroom_hp += 1
-            persistent.HP += 1
-    if not observing and not no_heart:
+            show screen heart_icon_screen(character)
+    # This is shown during a real-time text conversation
+    elif text_person.real_time_text:
+        $ character.increase_heart(bad)
+        $ persistent.HP += 1
         show screen heart_icon_screen(character)
+    # This is not a real-time text so we store the heart to 
+    # display after this message is delivered
+    else:
+        $ add_heart(text_person, character, bad)
     return
     
 # Displays the heart on-screen

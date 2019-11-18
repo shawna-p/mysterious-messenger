@@ -53,114 +53,122 @@ label example_text_expired():
 ## like text messages or (in the future) phone calls
 label after_example_text():
 
-    # There are two different versions of texting; this first one
-    # is the 'regular' variant. You'll notice they're typed differently
-    # as well. You will only ever see one or the other
-    if not persistent.instant_texting:
-        # Ray's text message
-        $ addtext (r, "Here's a test text message, to show you how they work!", r)
-        $ addtext (r, "Did you know you can also post photos?", r)
-        $ addtext (r, "It will look like this:", r)
-        $ addtext (r, "r/cg-1.png", r, True)
+    # There are two different variants on texting. The first, default
+    # style is to have a character text the player many messages, wait
+    # for the player's response, and then there is a delay and the character's
+    # response is delivered all at once. This is demonstrated here
 
-        $ set_reply_label(r, 'menu_a1')
-                
-        # V's text message
-        $ addtext (v, "Hello, [name].", v)
-        $ addtext (v, "I'm supposed to demonstrate how to make a character post an emoji during a text message.", v)
-        $ addtext (v, "{image=v smile}", v, True)
-        $ addtext (v, "They won't play audio like they do in the chatrooms,", v)
-        $ addtext (v, "But they can still be fun to use in a conversation, don't you think?", v)
-        $ set_reply_label(v, 'menu_a2')
-        
-        # Some extra messages for testing
-        #$ addtext (ju, "What do you think about adding Elizabeth the 3rd as a member?", ju)
-        #$ addtext (ja, "I hope this ordeal hasn't been too difficult on you.", ja)
-        #$ addtext (s, "I miss you!", s)
-        #$ addtext (u, "You'll be fine ^^", u)
-        #$ addtext (ri, "Weren't you curious, too?", ri)
-        $ addtext (z, "You know, you never send us any photos...", z)
-        $ set_reply_label(z, 'menu_a3')
+    # ************************************************
+    # V's text message
+    # We always start off with compose_text(v) where v is the variable
+    # of the character who's going to send the message
+    call compose_text(v)
+    v "Hello, [name]."
+    v "I'm supposed to demonstrate how to make a character post an emoji during a text message."
+    v "{image=v smile}" (img=True)
+    v "They won't play audio like they do in the chatrooms,"
+    v "But they can still be fun to use in a conversation, don't you think?"
+ 
+    # And we're done with V's message! Be sure to end it with this call
+    # There's one optional parameter, text_label. This tells the program
+    # which label to jump to so the player can reply to this message
+    # If you just do `call compose_text_end()` the player won't be able
+    # to reply
+    call compose_text_end(text_label='menu_a1')
+
+    # ************************************************
+    # Ray's text message
+    # The next style of texting means you must set a particular
+    # variable for the character you want to text in real-time
     
-    else:
-        # Ray's instant text message
-        call inst_text_begin(r)
-        r "Here's a test text message, to show you how they work!"
-        r "Did you know you can also post photos?"
-        $ r.update_text_reply('menu_a1_inst')
-        call inst_text_end
-        
-        # V's instant text message
-        call inst_text_begin(v)
-        v "Hello, [name]."
-        v "I'm supposed to demonstrate how to make a character post an emoji during a text message."
-        v "{image=v smile}" (img=True)
-        $ v.update_text_reply('menu_a2_inst')
-        call inst_text_end
-        
-        # Zen's instant text message
-        call inst_text_begin(z)
-        z "You know, you never send us any photos..."
-        $ z.update_text_reply('menu_a3_inst')
-        call inst_text_end    
+    # Same thing here, start with call compose_text, but we're also
+    # going to tell it real_time=True
+    call compose_text(r, real_time=True)
+    r "Here's a test text message, to show you how they work!"
+    r "Did you know you can also post photos?"
+
+    # We're going to have Ray continue sending messages once the
+    # user clicks on his text message, so we leave it here and add
+    # a label to jump to like we did with V
+    call compose_text_end('menu_a2')
+
+    # ************************************************
+    # Zen's text message
+    # This is another example of real-time texting
+    call compose_text(z, True)
+    z "You know, you never send us any photos..."
+    call compose_text_end('menu_a3')   
+
+    call compose_text(ja, True)
+    ja "Hi [name]."
+    ja "I hope you're not too busy."
+    call compose_text_end('menu_a4')
     
+    # End the whole label with return
     return
     
-label menu_a1():
-
+label menu_a4():
+    call text_begin(ja)
+    ja "I wanted to test if the textbackup function is working."
+    ja "It's been doing weird things lately."
+    call answer
     menu:
-        "I'm not sure how I'll remember all this...":
-            $ addtext (m, "I'm not sure how I'll remember all this...", r)
-            $ addtext (r, "Don't worry! There are lots of resources to help.", r)
-            $ addtext (r, "Let's do our best ^^", r)
-        
-        "That's a nice picture of you!":
-            $ addtext (m, "That's a nice picture of you!", r)
-            $ add_heart(r)
-            $ addtext (r, "{image=ray happy}", r, True)
-            $ addtext (r, "Thank you ^^", r)
-
-    jump text_end
+        "Oh no!":
+            m "Oh no!" (pauseVal=0)
+            ja "No, it's all right."
+        "How do we fix it?":
+            m "How do we fix it?" (pauseVal=0)
+            ja "Well, mostly with a lot of testing."
     
-label menu_a2():
+    ja "I'll figure out what's happening soon enough."
+    ja "Do you want to test multiple menus?"
+    call answer
+    menu:
+        "Definitely.":
+            m "Definitely." (pauseVal=0)
+        "Not really.":
+            m "Not really." (pauseVal=0)
 
+    ja "Understandable."
+    ja "I'm actually getting rather tired though."
+    ja "Think I'll turn in."
+    ja "Have a nice night!"
+    jump text_end
+
+## This is the label we told the program to jump to for
+## V's non-real time message
+label menu_a1():
+    # We always start with `call text_begin` and pass it the
+    # variable of the character we're texting
+    call text_begin(v)
+    # If a text isn't in real-time, we should start with 
+    # a menu right after `call text_begin`
+    # We don't include `call answer` before this menu
     menu:    
         "Thanks for showing me this.":
-            $ addtext (m, "Thanks for showing me this.", v)
-            $ add_heart(v)
-            $ addtext (v, "You're very welcome!", v)
-            $ addtext (v, "Hope to talk to you again soon.", v) 
+            m "Thanks for showing me this."
+            # You show heart icons in the same way
+            call heart_icon(v)
+            v "You're very welcome!"
+            v "Hope to talk to you again soon." 
         
         "I'm not sure if they'll be useful...":
-            $ addtext (m, "I'm not sure if they'll be useful...", v)
-            $ addtext (v, "It's up to you whether to use them or not.", v)
-            $ addtext (v, "I hope you enjoy the rest of the program.", v)
+            m "I'm not sure if they'll be useful..."
+            v "It's up to you whether to use them or not."
+            v "I hope you enjoy the rest of the program."
         
+    # Always end with a `jump text_end`
     jump text_end
     
-label menu_a3():
-    menu:
-        "(Post a photo)":
-            $ addtext (m, "common/cg-2.png", z, True)
-            $ addtext (m, "You mean like this?", z)
-        "(Post an emoji)":
-            $ addtext (m, "{image=zen oyeah}", z, True)
-            $ addtext (m, "How's this?", z)
-        "(Post both)":
-            $ addtext (m, "common/cg-2.png", z, True)
-            $ addtext (m, "{image=zen oyeah}", z, True)
-            $ addtext (m, "What do you think?", z)
-    $ addtext (z, "Wow! I've never seen that before.", z)
-    $ addtext (z, "You're pretty cool", z)
-    $ addtext (z, "{image=zen wink}", z, True)
-    jump text_end
     
-## These are the menus for instant text messaging
-label menu_a1_inst():
-    # You need to pass text_begin the variable of the character
-    # whom the MC is texting
+## These are the labels for instant text messaging
+label menu_a2():
+    # We also pass `text_begin` the variable of the character
+    # the player is texting
     call text_begin(r)
     
+    # Because this is real-time, we continue to the conversation
+    # before showing the player a menu
     r "It will look like this:"
     r "r/cg-1.png" (img=True)
     
@@ -177,28 +185,10 @@ label menu_a1_inst():
             call heart_icon(r)
             r "Thank you ^^"
             
-    # Instant text messages end the same way as regular ones
+    # Real-time text messages end the same way as regular ones
     jump text_end
 
-label menu_a2_inst():
-    call text_begin(v)
-    v "Because this is 'instant text messaging',"
-    v "these emojis will have audio when posted, unlike regular texts."
-    call answer
-    menu:
-        "Thanks for showing me this.":
-            m "Thanks for showing me this." (pauseVal=0)
-            v "You're very welcome!"
-            call heart_icon(v)
-            v "Hope to talk to you again soon."
-
-        "I'm not sure if they'll be useful...":
-            m "I'm not sure if they'll be useful..." (pauseVal=0)
-            v "It's up to you whether to use them or not."
-            v "I hope you enjoy the rest of the program."
-    jump text_end
-
-label menu_a3_inst():
+label menu_a3():
     call text_begin(z)
     call answer
     menu:

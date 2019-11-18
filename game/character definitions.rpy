@@ -175,14 +175,27 @@ init -5 python:
         def status(self, new_status):
             self.__status = new_status
 
+        # Sets the label to jump to when responding to 
+        # this character's text messages
+        def set_text_label(self, new_label):
+            self.text_msg.reply_label = new_label
+
+        # This sets up whether or not this character's next
+        # message will be in real-time or not
+        def set_real_time_text(self, new_status):
+            if new_status:
+                self.real_time_text = True
+            else:
+                self.real_time_text = False
+
         ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, 
                     bounce=False, specBubble=None, **kwargs):
             # If we're texting, we add this to the character's
             # Text_Message object instead
-            if store.texting_mode:
-                if self.real_time_text:
-                    addtext_instant(self, what, pauseVal=pauseVal, img=img)
+            if store.text_person is not None:
+                if store.text_person.real_time_text:
+                    addtext_realtime(self, what, pauseVal=pauseVal, img=img)
                 else:
                     addtext(self, what, img)
             else:

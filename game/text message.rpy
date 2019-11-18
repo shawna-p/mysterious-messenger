@@ -26,24 +26,21 @@ screen text_message_hub():
                 spacing 10
                 for i in all_characters:
                     # First we display unread messages
-                    if (i.private_text 
-                            and (not i.private_text_read 
-                                or i.private_text_read == "Notified")):
+                    if i.text_msg.msg_list and not i.text_msg.read:
                         use text_hub_display(i)
                 for i in all_characters:
                     # Now we display read messages
-                    if (i.private_text 
-                            and i.private_text_read != "Notified" 
-                            and i.private_text_read): # if it's not empty                   
+                    if i.text_msg.msg_list and i.text_msg.read:                 
                         use text_hub_display(i)
                 
                 
 screen text_hub_display(i):
 
     python:
-        text_log = i.private_text
-        text_read = i.private_text_read
-        text_label = i.private_text_label
+        text_log = i.text_msg.msg_list
+        text_read = i.text_msg.read
+        text_label = i.text_msg.reply_label
+        text_notified = i.text_msg.notified
 
         if len(text_log) > 0:
             last_text = text_log[-1]
@@ -55,24 +52,21 @@ screen text_hub_display(i):
 
     
     button:              
-        if last_text and text_read and not text_read == "Notified":                                         
+        if last_text and text_read:                                         
             background 'message_idle_bkgr'
             hover_background 'message_hover_bkgr'
-            if text_label:
-                action [SetField(i, 'private_text_read', True), 
-                        Jump(text_label)]
-            else:
-                action [SetField(i, 'private_text_read', True), 
-                        Show('text_message_screen', sender=i)]
         elif last_text:
             background 'unread_message_idle_bkgr'
             hover_background 'unread_message_hover_bkgr'
-            if text_label:
-                action [SetField(i, 'private_text_read', True), 
-                        Jump(text_label)]
-            else:
-                action [SetField(i, 'private_text_read', True), 
-                        Show('text_message_screen', sender=i)]
+        # If there's a label we jump to it, otherwise
+        # we just show the messages
+        if text_label and i.real_time_text:
+            action [Function(i.text_msg.mark_read),
+                    Jump(text_label)]
+        else:
+            action [Function(i.text_msg.mark_read),
+                    Show('text_message_screen', sender=i)]
+            
 
         activate_sound 'audio/sfx/UI/email_next_arrow.mp3'        
         ysize 150
@@ -101,7 +95,7 @@ screen text_hub_display(i):
                 xmaximum 230
                 has vbox
                 align (0.5, 0.5)
-                if last_text and text_read and not text_read == "Notified":
+                if last_text and text_read:
                     spacing 50
                 else:
                     spacing 30
@@ -110,7 +104,7 @@ screen text_hub_display(i):
                         + text_time.twelve_hour + ':' 
                         + text_time.minute + text_time.am_pm):
                             style "save_timestamp"
-                if last_text and text_read and not text_read == "Notified":
+                if last_text and text_read:
                     add 'read_text_envelope' xalign 1.0
                 else:
                     hbox:
@@ -129,7 +123,6 @@ screen text_msg_popup(c):
 
     #modal True
     zorder 100
-    default current_message = None
     
 
     if len(c.text_msg.msg_list) > 0:
@@ -164,11 +157,11 @@ screen text_msg_popup(c):
             spacing 20
             hbox:
                 spacing 20                
-                add Transform(the_msg.sender.prof_pic, size=(110,110))
+                add Transform(c.prof_pic, size=(110,110))
                 
                 vbox:
                     spacing 10
-                    text "From: " + the_msg.sender.name color '#fff'
+                    text "From: " + c.name color '#fff'
                     
                     window:
                         maximum(420,130)
@@ -200,9 +193,9 @@ screen text_msg_popup(c):
                         Jump(c.text_msg.reply_label)]
                     else:
                         action [Hide('text_msg_popup'), 
-                                SetVariable("current_message", the_msg), 
-                                the_msg.mark_read, 
-                                SetVariable("CG_who", the_msg), 
+                                SetVariable("current_message", c), 
+                                Function(c.text_msg.mark_read), 
+                                SetVariable("CG_who", c), 
                                 Hide('save_load'),
                                 Hide('menu'),
                                 Hide('chat_footer'), 
@@ -219,10 +212,21 @@ screen text_msg_popup(c):
 ########################################################  
 ## Includes the 'answer' button at the bottom
 ########################################################
-screen text_message_footer(the_msg):       
-    
+screen text_message_footer(c):    
+
+    python:
+        text_log = c.text_msg.msg_list
+        text_read = c.text_msg.read
+        text_label = c.text_msg.reply_label
+        if len(text_log) > 0:
+            last_msg = text_log[-1]
+        else:
+            last_msg = False
+
     vbox:
         xalign 0.5
+        yalign 1.0
+        yoffset -30
         window:
             ymaximum 40
             background 'text_msg_line'
@@ -230,12 +234,12 @@ screen text_message_footer(the_msg):
             xsize 468
             ysize 95
             xalign 0.5
-            if (the_msg and the_msg.reply_label 
-                    and not the_msg.msg_list[-1].who.right_msgr):
+            if text_log and text_label and not last_msg.who.right_msgr:
                 background 'text_answer_active'
                 hover_background 'text_answer_animation'  
                 if not renpy.get_screen("choice"):
-                    action the_msg.reply
+                    action Jump(c.text_msg.reply_label)
+                    #action Function(c.text_msg.reply)
                     activate_sound "audio/sfx/UI/answer_screen.mp3"
             else:
                 background 'text_answer_inactive'
@@ -273,10 +277,12 @@ screen text_date_separator(text_time):
 
 init python:
     def award_text_hp(who):
-        who.text_heart_receiver.increase_heart()
+        who.text_msg.heart_person.increase_heart(who.text_msg.bad_heart)
         renpy.show_screen('heart_icon_screen', 
-            character=who.text_heart_receiver)
-        who.text_heart_receiver = False
+            character=who.text_msg.heart_person)
+        who.text_msg.heart_person = None
+        who.text_msg.bad_heart = False
+        who.text_msg.heart = False
         store.persistent.HP += 1
 
 
@@ -287,57 +293,67 @@ screen text_message_screen(sender):
     # If this text message is supposed to trigger a heart icon, 
     # display the correctly-coloured heart, award
     # a heart point, and increase the appropriate totals
-    if (not sender.instant_texting_on 
-            and sender.text_heart_receiver):
+    if (not sender.real_time_text
+            and sender.text_msg.heart
+            and not sender.text_msg.msg_list[-1].who.right_msgr):
         on 'show':
             action [Function(award_text_hp, who=sender)]
         on 'replace':
             action [Function(award_text_hp, who=sender)]
         
 
+ 
+
+    default prev_msg = None
+
+    use menu_header(sender.name, Show('text_message_hub', Dissolve(0.5)), True)
+
     python:
         yadj.value = yadjValue
+        textlog = sender.text_msg.msg_list
 
-        chatLength = len(sender.private_text) - 1
+        chatLength = len(textlog) - 1
         begin = chatLength - bubbles_to_keep
         if begin >= 0:
             pass
         else:
             begin = 0
+
+    viewport: # viewport id "VP":
+        yinitial 1.0
+        yadjustment yadj
+        draggable True
+        mousewheel True
+        ysize 1040
+        yalign 1.0
+        yoffset -144
+                        
+        has vbox
+        spacing 20
         
-        if chatLength > 0:
-            finalchat = sender.private_text[-1]
-            if finalchat.who == "answer":
-                if begin > 0:
-                    begin -= 1
-
-    default prev_msg = None
-
-    use menu_header(sender.name, 
-                Show('text_message_hub', Dissolve(0.5)), True):
-            
-        viewport yadjustment yadj: # viewport id "VP":
-            draggable True
-            mousewheel True
-            ysize 1000#1040
-                            
-            has vbox
-            spacing 20
-            for i index id(i) in sender.private_text[begin:]:
-                if chatLength > 0 and (prev_msg is not None):
-                    if i.thetime.day != prev_msg.thetime.day:
-                        use text_date_separator(i.thetime)     
-                elif (begin == 0
-                        and len(sender.private_text) > 0
-                        and sender.private_text[0] == i):
-                    use text_date_separator(i.thetime)
-                fixed:
-                    yfit True
-                    xfit True
-                    #use text_animation(i, False, True)
-                    use text_animation(i, (sender.instant_texting_on
-                        and i == sender.private_text[-1]))
-                $ prev_msg = i
+        for i index id(i) in textlog[begin:]:
+            if chatLength > 0 and (prev_msg is not None):
+                if i.thetime.day != prev_msg.thetime.day:
+                    use text_date_separator(i.thetime) 
+            if (len(textlog) > 0
+                    and textlog[0] == i):
+                use text_date_separator(i.thetime)
+            fixed:
+                yfit True
+                xfit True
+                use text_animation(i, False, True)
+                use text_animation(i, (sender.real_time_text
+                    and i == textlog[-1]))
+            $ prev_msg = i
+        null height 5
+    if not sender.real_time_text:
+        use text_message_footer(sender)
+    else:
+        window:
+            xalign 0.5
+            ymaximum 40
+            yalign 0.905
+            background 'text_msg_line'
                 
 
 
@@ -376,7 +392,7 @@ screen text_animation(i, animate=False, anti=False):
         else:
             transformVar = incoming_message
             
-        if not animate:
+        if not animate and not anti:
             transformVar = null_anim
         
             
@@ -392,7 +408,7 @@ screen text_animation(i, animate=False, anti=False):
             null width 18
             window:
                 style picStyle 
-                if not anti:               
+                if not anti and i.who.prof_pic:               
                     add Transform(i.who.prof_pic, size=(110,110))
             
             frame at transformVar:               
@@ -412,41 +428,27 @@ screen text_animation(i, animate=False, anti=False):
                 
                 else:        
                     style reg_bubble
-                    yalign 1.0
+                    yalign 0.0
                     if my_width > gui.longer_than:
                         text i.what:
                             style "bubble_text_long" 
                             min_width gui.long_line_min_width 
                             color '#fff'
-                    else:            
+                    else:
+                        if not i.img:            
+                            yoffset 35
                         text i.what style "bubble_text" color '#fff'
-                                      
-            text text_time:
-                color '#fff' 
-                yalign 1.0 
-                size 23 
-                if i.img and not "{image=" in i.what:
-                    xoffset 10
+
+            if i != filler and not anti:                 
+                text text_time:
+                    color '#fff' 
+                    yalign 1.0 
+                    size 23 
+                    if i.img and not "{image=" in i.what:
+                        xoffset 10
             
           
                                             
  
-## Sets end variables when a text message menu is completed 
-label text_end():
-    if text_person is not None and text_person.real_time_text:
-        $ text_person.finished_text()
-        $ who = text_person
-        $ text_person = None
-        $ chatroom_hp = 0
-        $ textbackup = Chatentry(filler,"","")
-        $ renpy.retain_after_load()        
-        hide screen text_answer
-        hide screen inactive_text_answer
-        hide screen text_play_button
-        hide screen text_pause_button       
-        #hide screen inst_text_message_screen      
-        call screen text_message_screen(who)         
-    else:
-        $ renpy.retain_after_load()
-        return
+
         

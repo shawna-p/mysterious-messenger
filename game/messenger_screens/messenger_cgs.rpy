@@ -41,17 +41,17 @@ screen viewCG_fullsize():
             # From the chatroom, before an answer button
             if pre_choosing and not textmsg_CG and not album_CG:
                 action [Call("answer", from_cg=True)]
-            # From a text message, not instant texting
+            # From a text message, not real time texting
             elif textmsg_CG and not text_person.real_time_text:
                 action [Hide("viewCG_fullsize"), 
                         Show("text_message_screen", sender=CG_who)]
-            # From an instant text message, before an answer button
+            # From a real time text message, before an answer button
             elif textmsg_CG and pre_choosing:
                 action [Hide("viewCG_fullsize"), 
                         Show("text_message_screen", sender=CG_who), 
                         Call("answer", from_cg=True)]
                 
-            # From an instant text message, not before an answer button
+            # From a real time text message, not before an answer button
             elif textmsg_CG and text_person:
                 action [Hide("viewCG_fullsize"), 
                         Show("text_message_screen", 

@@ -627,7 +627,6 @@ label phone_begin():
     
     # Hide all the popup screens
     hide screen text_msg_popup
-    hide screen text_msg_popup_instant
     hide screen email_popup
     
     show screen in_call

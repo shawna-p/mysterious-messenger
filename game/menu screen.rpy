@@ -803,11 +803,12 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                     if persistent.first_boot or not persistent.on_route:
                         action [SetField(persistent, 'first_boot', False), 
                                 return_action]
-                    elif envelope and not text_person:
+                    elif (envelope and (not text_person 
+                            or not text_person.real_time_text)):
                         action Show('text_message_hub', Dissolve(0.5))
-                    # If we're instant texting, leaving text messages 
+                    # If we're texting in real time, leaving text messages 
                     # works differently
-                    elif text_person:
+                    elif text_person and text_person.real_time_text:
                         action Show("confirm", 
                                     message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
                                     yes_action=[Hide('confirm'), 

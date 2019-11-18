@@ -162,7 +162,7 @@ init -4 python:
 # Values in order to keep the viewport scrolling
 # to the bottom - we set a ui.adjustment() object
 # to infinity so it stays at the maximum range
-default yadjValue = float("inf")
+define yadjValue = float("inf")
 default yadj = ui.adjustment()
 # Default nickname colour for the characters' names
 default nickColour = "#000000"
@@ -210,7 +210,6 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     
     # Hide all the popup screens
     hide screen text_msg_popup
-    hide screen text_msg_popup_instant
     hide screen email_popup
     
     $ text_person = None

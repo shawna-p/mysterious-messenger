@@ -227,7 +227,6 @@ label rewatch_chatroom():
     
     # Hide all the popup screens
     hide screen text_msg_popup
-    hide screen text_msg_popup_instant
     hide screen email_popup
     
     $ text_person = None
