@@ -442,7 +442,11 @@ image new_text = 'Text Messages/new_text.png'
 image header_envelope = 'Text Messages/header_envelope.png'
 
 image message_idle_bkgr = Frame('Text Messages/message_idle_background.png',20,20,20,20)
+image message_hover_bkgr = Fixed('message_idle_bkgr',
+                            Transform('message_idle_bkgr', alpha=0.5))
 image unread_message_idle_bkgr = Frame('Text Messages/message_idle_background_unread.png',20,20,20,20)
+image unread_message_hover_bkgr = Fixed('unread_message_idle_bkgr',
+                            Transform('unread_message_idle_bkgr', alpha=0.5))
 
 image text_msg_line = Frame('Text Messages/msgsl_line.png', 40,2)
 image text_answer_active = 'Text Messages/msgsl_button_answer_active.png'

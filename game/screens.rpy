@@ -112,7 +112,7 @@ screen say(who, what):
     style_prefix "say"
     
     # In VN mode
-    if not in_phone_call and not inst_text and vn_choice:
+    if not in_phone_call and not text_person and vn_choice:
     
         window:
             id "window"
@@ -156,7 +156,7 @@ screen say(who, what):
                 hover Text("Log", style="vn_button_hover")
                 action ShowMenu('history')
             
-    elif not inst_text and in_phone_call:   # In a phone call        
+    elif not text_person and in_phone_call:   # In a phone call        
         window:
             xfill True
             ysize 500
@@ -264,8 +264,8 @@ screen choice(items):
 
  
     # For text messages
-    if reply_screen:
-        if not inst_text:
+    if text_msg_reply:
+        if not text_person:
             use text_message_screen(current_message)
         add "Phone UI/choice_dark.png"
         vbox:

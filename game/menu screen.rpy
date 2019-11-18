@@ -803,11 +803,11 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                     if persistent.first_boot or not persistent.on_route:
                         action [SetField(persistent, 'first_boot', False), 
                                 return_action]
-                    elif envelope and not inst_text:
+                    elif envelope and not text_person:
                         action Show('text_message_hub', Dissolve(0.5))
                     # If we're instant texting, leaving text messages 
                     # works differently
-                    elif inst_text:
+                    elif text_person:
                         action Show("confirm", 
                                     message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
                                     yes_action=[Hide('confirm'), 
@@ -831,7 +831,7 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                 #     action [Preference("auto-forward", "disable"), Show("preferences")]
                 if (not renpy.get_screen("choice") 
                         and not renpy.get_screen("in_call") 
-                        and not inst_text):
+                        and not text_person):
                     if renpy.get_screen('settings_screen'):
                         action [Hide('preferences'), 
                                 Hide('profile_pic'), 

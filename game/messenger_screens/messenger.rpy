@@ -111,6 +111,7 @@ init -4 python:
         # We're done and can add this entry to the chatlog
         chatlog.append(Chatentry(who, what, upTime(), 
                             img, bounce, specBubble))
+        renpy.checkpoint()
         
     
             
@@ -212,9 +213,9 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     hide screen text_msg_popup_instant
     hide screen email_popup
     
-    $ inst_text = False
+    $ text_person = None
     window hide
-    $ reply_screen = False
+    $ text_msg_reply = False
     $ in_phone_call = False
     $ vn_choice = False
     $ email_reply = False
@@ -549,8 +550,6 @@ screen chat_animation(i, animate=True, anti=False):
         else:
             frame at transformVar:
                 pos (138,24)
-                # if my_width <= gui.longer_than:
-                #     ysize my_height - 20
                 xsize 500
                 background None
                 vbox:

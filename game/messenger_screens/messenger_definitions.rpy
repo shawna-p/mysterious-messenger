@@ -230,9 +230,9 @@ label rewatch_chatroom():
     hide screen text_msg_popup_instant
     hide screen email_popup
     
-    $ inst_text = False
+    $ text_person = None
     window hide
-    $ reply_screen = False
+    $ text_msg_reply = False
     $ in_phone_call = False
     $ vn_choice = False
     $ email_reply = False

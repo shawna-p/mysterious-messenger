@@ -98,20 +98,19 @@ init -5 python:
             # chatroom generator
             self.emote_list = emote_list
             
-            # Used for instant text messaging
-            self.private_text = []
-            self.private_text_read = True
-            self.private_text_label = False
+            # Used for text messaging
+            self.text_msg = Text_Message()
+            self.real_time_text = False
             
             
         def update_voicemail(self, new_label):
             self.voicemail.phone_label = new_label
             
-        def update_text(self, new_label):
-            self.private_text_label = new_label
+        def update_text_reply(self, new_label):
+            self.text_msg.reply_label = new_label
             
         def finished_text(self):
-            self.private_text_label = False
+            self.text_msg.reply_label = False
 
         def increase_heart(self, bad=False):
             self.heart_points += 1
@@ -179,10 +178,13 @@ init -5 python:
         ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, 
                     bounce=False, specBubble=None, **kwargs):
-            global inst_text
-            if inst_text:
-                addtext_instant(self, what, pauseVal=pauseVal, 
-                            img=img, bounce=bounce, specBubble=specBubble)
+            # If we're texting, we add this to the character's
+            # Text_Message object instead
+            if store.texting_mode:
+                if self.real_time_text:
+                    addtext_instant(self, what, pauseVal=pauseVal, img=img)
+                else:
+                    addtext(self, what, img)
             else:
                 # Make sure we're not observing; otherwise we add
                 # entries to the replay_log
@@ -192,8 +194,8 @@ init -5 python:
                     if self == store.m and new_pv == 0:
                         new_pv = None
                     store.current_chatroom.replay_log.append(ReplayEntry(
-                        self, what, new_pv, img, bounce, specBubble)
-                    )
+                        self, what, new_pv, img, bounce, specBubble))
+                    
                 addchat(self, what, pauseVal=pauseVal, img=img, 
                             bounce=bounce, specBubble=specBubble)
 
@@ -328,8 +330,8 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 # Text Messages
 # ****************************         
                  
-default text_messages = [ Text_Message(i, []) for i in all_characters ]
-default text_queue = [ Text_Message(i, []) for i in all_characters ]
+# default text_messages = [ Text_Message(i, []) for i in all_characters ]
+# default text_queue = [ Text_Message(i, []) for i in all_characters ]
 
                         
 # ****************************

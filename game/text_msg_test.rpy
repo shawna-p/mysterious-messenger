@@ -63,7 +63,7 @@ label after_example_text():
         $ addtext (r, "It will look like this:", r)
         $ addtext (r, "r/cg-1.png", r, True)
 
-        $ add_reply_label(r, 'menu_a1')
+        $ set_reply_label(r, 'menu_a1')
                 
         # V's text message
         $ addtext (v, "Hello, [name].", v)
@@ -71,7 +71,7 @@ label after_example_text():
         $ addtext (v, "{image=v smile}", v, True)
         $ addtext (v, "They won't play audio like they do in the chatrooms,", v)
         $ addtext (v, "But they can still be fun to use in a conversation, don't you think?", v)
-        $ add_reply_label(v, 'menu_a2')
+        $ set_reply_label(v, 'menu_a2')
         
         # Some extra messages for testing
         #$ addtext (ju, "What do you think about adding Elizabeth the 3rd as a member?", ju)
@@ -80,14 +80,14 @@ label after_example_text():
         #$ addtext (u, "You'll be fine ^^", u)
         #$ addtext (ri, "Weren't you curious, too?", ri)
         $ addtext (z, "You know, you never send us any photos...", z)
-        $ add_reply_label(z, 'menu_a3')
+        $ set_reply_label(z, 'menu_a3')
     
     else:
         # Ray's instant text message
         call inst_text_begin(r)
         r "Here's a test text message, to show you how they work!"
         r "Did you know you can also post photos?"
-        $ r.update_text('menu_a1_inst')
+        $ r.update_text_reply('menu_a1_inst')
         call inst_text_end
         
         # V's instant text message
@@ -95,13 +95,13 @@ label after_example_text():
         v "Hello, [name]."
         v "I'm supposed to demonstrate how to make a character post an emoji during a text message."
         v "{image=v smile}" (img=True)
-        $ v.update_text('menu_a2_inst')
+        $ v.update_text_reply('menu_a2_inst')
         call inst_text_end
         
         # Zen's instant text message
         call inst_text_begin(z)
         z "You know, you never send us any photos..."
-        $ z.update_text('menu_a3_inst')
+        $ z.update_text_reply('menu_a3_inst')
         call inst_text_end    
     
     return

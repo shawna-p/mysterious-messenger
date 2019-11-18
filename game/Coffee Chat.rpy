@@ -385,11 +385,11 @@ label after_tutorial_chat():
     # This is the name of the label to jump to when you reply to Seven's
     # text message. You can leave this out if you don't want the player
     # to be able to reply anymore
-    $ add_reply_label(s, 'coffee1')
+    $ set_reply_label(s, 'coffee1')
     
     ## Yoosung's text message
     $ addtext (y, "[name]... what do I do...", y)
-    $ add_reply_label(y, 'coffee2')
+    $ set_reply_label(y, 'coffee2')
     
     ## Set everyone else's voicemails appropriately
     # (In this case, everyone gets the same label)

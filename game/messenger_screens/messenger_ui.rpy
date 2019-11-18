@@ -5,7 +5,8 @@
 # Call this label before you show a menu
 # to show the answer button
 label answer(from_cg=False): 
-    if not inst_text:
+    # Make sure we're not coming from a text message
+    if not text_person:
         if from_cg:
             hide screen viewCG
         else:
@@ -13,11 +14,12 @@ label answer(from_cg=False):
         $ pre_choosing = True
         call screen answer_button
         show screen pause_button
+    # Otherwise it's a real-time text conversation
     else:
         if from_cg:
             hide screen viewCG
         else:
-            $ text_pauseFailsafe(inst_text.private_text)
+            $ text_pauseFailsafe(text_person.text_msg.msg_list)
         $ pre_choosing = True
         call screen text_answer
         show screen text_pause_button
@@ -90,12 +92,12 @@ screen pause_button():
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped        
 label play():
-    if not inst_text:
+    if not text_person:
         #$ chatlog.append(Chatentry(chat_pause,'',upTime()))
         call screen play_button
         show screen pause_button
     else:
-        #$ inst_text.private_text.append(Chatentry(chat_pause, '', upTime()))
+        #$ text_person.private_text.append(Chatentry(chat_pause, '', upTime()))
         call screen text_play_button
         show screen text_pause_button
     return
