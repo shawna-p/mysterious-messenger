@@ -61,10 +61,12 @@ screen text_hub_display(i):
         # If there's a label we jump to it, otherwise
         # we just show the messages
         if text_label and i.real_time_text:
-            action [Function(i.text_msg.mark_read),
+            action [SetVariable('CG_who', i),
+                    Function(i.text_msg.mark_read),
                     Jump(text_label)]
         else:
-            action [Function(i.text_msg.mark_read),
+            action [SetVariable('CG_who', i),
+                    Function(i.text_msg.mark_read),
                     Show('text_message_screen', sender=i)]
             
 
@@ -184,23 +186,23 @@ screen text_msg_popup(c):
                     hover_foreground 'menu_select_btn_hover'
                     if c.real_time_text and c.text_msg.reply_label:
                         action [Hide('text_msg_popup'),
-                        SetVariable("CG_who", c),
                         Hide('save_load'),
                         Hide('menu'),
                         Hide('chat_footer'),
                         Hide('phone_overlay'),
                         Hide('settings_screen'),
+                        SetVariable('CG_who', c),
                         Jump(c.text_msg.reply_label)]
                     else:
                         action [Hide('text_msg_popup'), 
                                 SetVariable("current_message", c), 
-                                Function(c.text_msg.mark_read), 
-                                SetVariable("CG_who", c), 
+                                Function(c.text_msg.mark_read),
                                 Hide('save_load'),
                                 Hide('menu'),
                                 Hide('chat_footer'), 
                                 Hide('phone_overlay'), 
                                 Hide('settings_screen'),
+                                SetVariable('CG_who', c),
                                 Show('text_message_screen', sender=c)]
             else:
                 null height 70
@@ -306,7 +308,8 @@ screen text_message_screen(sender):
 
     default prev_msg = None
 
-    use menu_header(sender.name, Show('text_message_hub', Dissolve(0.5)), True)
+    use menu_header(sender.name, [SetVariable('CG_who', None),
+                                Show('text_message_hub', Dissolve(0.5))], True)
 
     python:
         yadj.value = yadjValue

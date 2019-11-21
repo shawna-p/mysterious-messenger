@@ -287,7 +287,9 @@ default current_message = None
 default text_msg_reply = False
 # Stores the Chat object of the other person in a text conversation
 default text_person = None
-
+# This keeps track of whose text conversation the player is viewing
+# so they can view CGs full-screen
+default CG_who = None
 
 ## A label that lets you leave instant text message
 ## conversations, but you can't get them back
@@ -334,11 +336,12 @@ label compose_text_end(text_label=False):
 
 ## Sets end variables when a text message menu is completed 
 label text_end():
-    if text_person is not None and text_person.real_time_text:
+    if text_person is not None and text_person.real_time_text:        
+        $ text_pauseFailsafe(text_person.text_msg.msg_list)
         answer "" (pauseVal=1.0)
-    if (len(text_person.text_msg.msg_log) > 0
-            and text_person.text_msg.msg_log[-1].who.file_id == 'delete'):
-        $ text_person.txt_msg.msg_log.pop()  
+    if (len(text_person.text_msg.msg_list) > 0
+            and text_person.text_msg.msg_list[-1].who.file_id == 'delete'):
+        $ text_person.txt_msg.msg_list.pop()  
     $ text_msg_reply = False
     #if text_person is not None and text_person.real_time_text:
     $ text_person.finished_text()

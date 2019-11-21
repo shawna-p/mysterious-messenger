@@ -1,4 +1,17 @@
 
+init python:
+    ## This corrects the dialogue into a filepath for the program
+    def cg_helper(what):
+        album, cg_name = what.split('/')
+        if album[-6:] != '_album':
+            album += '_album'
+        # These will be equal to a path like
+        # CGs/common_album/cg-1.png
+        return 'CGs/' + album + '/' + cg_name
+
+    def smallCG(bigCG):
+        return Transform(bigCG, zoom=0.35)
+
 #####################################
 # View CGs
 #####################################
@@ -6,13 +19,12 @@
 default close_visible = True
 default textmsg_CG = False
 default album_CG = False
-default CG_who = all_characters[0]
 
 label viewCG(textmsg=False, album=False, album_info=[]):
     $ close_visible = True
     $ textmsg_CG = textmsg
     $ album_CG = album
-    call screen viewCG_fullsize
+    call screen viewCG_fullsize()
     if album:
         call screen character_gallery(album_info[0], 
                                         album_info[1], 
@@ -42,7 +54,7 @@ screen viewCG_fullsize():
             if pre_choosing and not textmsg_CG and not album_CG:
                 action [Call("answer", from_cg=True)]
             # From a text message, not real time texting
-            elif textmsg_CG and not text_person.real_time_text:
+            elif textmsg_CG and not CG_who.real_time_text:
                 action [Hide("viewCG_fullsize"), 
                         Show("text_message_screen", sender=CG_who)]
             # From a real time text message, before an answer button

@@ -35,18 +35,6 @@ init -4 python:
     ##************************************
     ## For ease of adding Chatlog entries
     ##************************************   
-    
-    ## This corrects the dialogue into a filepath for the program
-    def cg_helper(what):
-        album, cg_name = what.split('/')
-        if album[-6:] != '_album':
-            album += '_album'
-        # These will be equal to a path like
-        # CGs/common_album/cg-1.png
-        return 'CGs/' + album + '/' + cg_name
-
-    def smallCG(bigCG):
-        return Transform(bigCG, zoom=0.35)
 
     ## This function adds entries to the chatlog
     ## It also takes care of several "behind-the-scenes" functions,
