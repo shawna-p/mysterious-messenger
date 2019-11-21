@@ -336,6 +336,9 @@ label compose_text_end(text_label=False):
 label text_end():
     if text_person is not None and text_person.real_time_text:
         answer "" (pauseVal=1.0)
+    if (len(text_person.text_msg.msg_log) > 0
+            and text_person.text_msg.msg_log[-1].who.file_id == 'delete'):
+        $ text_person.txt_msg.msg_log.pop()  
     $ text_msg_reply = False
     #if text_person is not None and text_person.real_time_text:
     $ text_person.finished_text()
@@ -347,7 +350,7 @@ label text_end():
     hide screen text_answer
     hide screen inactive_text_answer
     hide screen text_play_button
-    hide screen text_pause_button    
+    hide screen text_pause_button  
     call screen text_message_screen(who)         
     # else:
     #     $ renpy.retain_after_load()
