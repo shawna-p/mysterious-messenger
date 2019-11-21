@@ -214,6 +214,8 @@ label remove_entries(num=1):
 #************************************
 # Chatroom Replay (in-game)
 #************************************
+default chatroom_replay_index = 0
+default replay_from = 0
 ## This label is called when you want to replay a chatroom
 label rewatch_chatroom():
     stop music
@@ -236,6 +238,8 @@ label rewatch_chatroom():
     $ vn_choice = False
     $ email_reply = False
     
+    $ chatroom_replay_index = 0
+    $ replay_from = 0
     # Fills the beginning of the screen with 'empty space' 
     # so the messages begin showing up at the bottom of the 
     # screen (otherwise they start at the top)
@@ -257,9 +261,13 @@ label rewatch_chatroom():
     # Set a generic background just in case
     scene bg black
 
+    jump chatroom_replay
+
+label chatroom_replay():
     # Now we start the loop to iterate through the replay_log
     python:
-        for entry in current_chatroom.replay_log:
+        for i, entry in enumerate(current_chatroom.replay_log[replay_from:]):
+            chatroom_replay_index += 1
             if isinstance(entry, ReplayEntry):
                 # We want to pop it through the addchat function
                 addchat(entry.who, entry.what, entry.pauseVal,
@@ -370,6 +378,8 @@ label rewatch_chatroom():
             else:
                 print("something's wacky", entry)
 
+    $ chatroom_replay_index = 0
+    $ replay_from = 0
     call chat_end
 
       

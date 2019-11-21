@@ -45,7 +45,28 @@ screen answer_button():
         focus_mask None
         idle 'transparent_answer'
         activate_sound "audio/sfx/UI/answer_screen.mp3"
-        action [Show('pause_button'), Return()]   
+        action [Show('pause_button'), Return()] 
+
+    if not choosing:
+        # Fast button
+        imagebutton:
+            xalign 0.985
+            yalign 0.997
+            focus_mask None
+            idle "fast_slow_button"
+            action [Function(fast_pv), 
+                    Hide('speed_num'), 
+                    Show("speed_num")]
+                
+        # Slow button
+        imagebutton:
+            xalign 0.015
+            yalign 0.997
+            focus_mask None
+            idle "fast_slow_button"
+            action [Function(slow_pv), 
+                    Hide('speed_num'), 
+                    Show("speed_num")]
 
     
 #####################################
@@ -92,6 +113,13 @@ screen pause_button():
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped        
 label play():
+    if (observing and not vn_choice and not text_msg_reply 
+            and not in_phone_call and not email_reply):
+        # We're rewatching a chatroom
+        call screen play_button
+        show screen pause_button
+        $ replay_from = chatroom_replay_index
+        jump chatroom_replay
     if not text_person:
         #$ chatlog.append(Chatentry(chat_pause,'',upTime()))
         call screen play_button
@@ -124,6 +152,27 @@ screen play_button():
         else:
             idle 'phone_play'
         action [Show('pause_button'), Return()]
+    
+    if not choosing:
+        # Fast button
+        imagebutton:
+            xalign 0.985
+            yalign 0.997
+            focus_mask None
+            idle "fast_slow_button"
+            action [Function(fast_pv), 
+                    Hide('speed_num'), 
+                    Show("speed_num")]
+                
+        # Slow button
+        imagebutton:
+            xalign 0.015
+            yalign 0.997
+            focus_mask None
+            idle "fast_slow_button"
+            action [Function(slow_pv), 
+                    Hide('speed_num'), 
+                    Show("speed_num")]
         
 
 #####################################
