@@ -170,6 +170,8 @@ label hbc_helper():
     # Picks a phrase for the item
     $ prize_text = chip_prize_list.draw()
     call screen chip_end(prize_heart, new_hp_total, prize_text)
+    call screen chat_home()
+    return
 
 screen chip_end(prize_heart, new_hp_total, prize_text):
     modal True
@@ -226,7 +228,9 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
             action [SetField(persistent, 'HP', new_hp_total), 
                     Hide('chip_end'), 
                     SetVariable('chips_available', False), 
-                    renpy.retain_after_load]
+                    FileSave(mm_auto, confirm=False),
+                    renpy.retain_after_load(),
+                    Return()]
         
    
 default chip_prize_list = RandomBag( ['A clump of cat hair.',
