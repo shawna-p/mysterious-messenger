@@ -98,42 +98,10 @@ label after_example_text():
     call compose_text(z, True)
     z "You know, you never send us any photos..."
     call compose_text_end('menu_a3')   
-
-    call compose_text(ja, True)
-    ja "Hi [name]."
-    ja "I hope you're not too busy."
-    call compose_text_end('menu_a4')
     
     # End the whole label with return
     return
     
-label menu_a4():
-    call text_begin(ja)
-    ja "I wanted to test if the textbackup function is working."
-    ja "It's been doing weird things lately."
-    call answer
-    menu:
-        "Oh no!":
-            m "Oh no!" (pauseVal=0)
-            ja "No, it's all right."
-        "How do we fix it?":
-            m "How do we fix it?" (pauseVal=0)
-            ja "Well, mostly with a lot of testing."
-    
-    ja "I'll figure out what's happening soon enough."
-    ja "Do you want to test multiple menus?"
-    call answer
-    menu:
-        "Definitely.":
-            m "Definitely." (pauseVal=0)
-        "Not really.":
-            m "Not really." (pauseVal=0)
-
-    ja "Understandable."
-    ja "I'm actually getting rather tired though."
-    ja "Think I'll turn in."
-    ja "Have a nice night!"
-    jump text_end
 
 ## This is the label we told the program to jump to for
 ## V's non-real time message

@@ -374,22 +374,27 @@ label tutorial_chat():
 
     
 # Put anything you want to have happen after the chatroom ends here, 
-# like text messages, phone calls or (in the future) emails. You'll have to call
-# this label after_ + the name of the label for the chatroom (in this case, the chatroom
-# label was tutorial_chat, so this label is after_tutorial_chat)
+# like text messages, phone calls or (in the future) emails. 
+# You'll have to call this label after_ + the name of the label for the
+# chatroom (in this case, the chatroom label was tutorial_chat, so this 
+# label is after_tutorial_chat)
 label after_tutorial_chat():
 
-    ## Seven's text message
-    $ addtext (s, "Thanks for not spoiling the secret~ ^^", s)
-    $ addtext (s, "You're a lot of fun to talk to meow!", s)
-    # This is the name of the label to jump to when you reply to Seven's
-    # text message. You can leave this out if you don't want the player
-    # to be able to reply anymore
-    $ set_reply_label(s, 'coffee1')
-    
-    ## Yoosung's text message
-    $ addtext (y, "[name]... what do I do...", y)
-    $ set_reply_label(y, 'coffee2')
+    # ************************************************
+    # Seven's text message
+    call compose_text(s)
+    s "Thanks for not spoiling the secret~ ^^"
+    s "You're a lot of fun to talk to meow!"
+    # The optional parameter ('coffee1') is the name of the label to jump
+    # to when you reply to Seven's text message. You can leave this
+    # out if you don't want the player to be able to reply anymore
+    call compose_text_end('coffee1')
+
+    # ************************************************
+    # Yoosung's text message
+    call compose_text(y)
+    y "[name]... what do I do..."
+    call compose_text_end('coffee2')
     
     ## Set everyone else's voicemails appropriately
     # (In this case, everyone gets the same label)
@@ -507,43 +512,44 @@ label tutorial_chat_phone_y():
 ## reply to a text message (in this case, Seven's text)
 label coffee1():
 
+    call text_begin(s)
     menu:
         "I like talking to you too meow!":
-            $ addtext (m, "I like talking to you too meow!", s)
-            # This will award the player a heart point when they view the message reply
-            # You'll need to pass it the variable of the character whose conversation you're viewing
-            $ add_heart(s)
-            $ addtext (s, "<3 <3 <3", s)
-            $ addtext (s, "Agent 707 will do his best to come to the chatroom more often meow!", s)
+            m "I like talking to you too meow!"
+            # We add heart icons the same way we would in
+            # a chatroom. You can only give one per reply
+            call heart_icon(s)
+            s "<3 <3 <3"
+            s "Agent 707 will do his best to come to the chatroom more often meow!"
         
         "I feel bad for Yoosung though...":
-            $ addtext (m, "I feel bad for Yoosung though...", s)
-            # If you want to give the player a different heart point than the person whose
-            # conversation you're viewing, pass it as a second argument like this
-            $ add_heart(s, y)
-            $ addtext (s, "Nah~ he'll be fine", s)
-            $ addtext (s, "I'm sure he'd be happy you're worried for him tho lolol", s)
+            m "I feel bad for Yoosung though..."
+            # You can also award heart points for characters
+            # not in the conversation
+            call heart_icon(y)
+            s "Nah~ he'll be fine"
+            s "I'm sure he'd be happy you're worried for him tho lolol"
 
-    # You should have this line after a text message so Ren'Py saves the conversation
+    # Always end text conversations with this call
     jump text_end
     
 ## This is the label to go to when replying to Yoosung's message
 label coffee2():
-    
+    call text_begin(y)
     menu:
         "Drink that chocolate milk!":
-            $ addtext (m, "Drink that chocolate milk!", y)
-            $ add_heart(y)
-            $ addtext (y, "I will!! I bought a lot of it...", y)
-            $ addtext (y, "It could be worse... I could've had classes tomorrow T_T", y)
-            $ addtext (y, "Thanks for worrying.", y)
+            m "Drink that chocolate milk!"
+            call heart_icon(y)
+            y "I will!! I bought a lot of it..."
+            y "It could be worse... I could've had classes tomorrow T_T"
+            y "Thanks for worrying."
         
         "You do know Seven's just teasing, right?":
-            $ addtext (m, "You do know Seven's just teasing, right?", y)
-            $ addtext (y, "I appreciate you trying to comfort me but...", y)
-            $ addtext (y, "You saw the news article he posted, right?", y)
-            $ addtext (y, "And he really does keep track of all the members...", y)
-            $ addtext (y, "I'm sure it's not a lie.", y)
+            m "You do know Seven's just teasing, right?"
+            y "I appreciate you trying to comfort me but..."
+            y "You saw the news article he posted, right?"
+            y "And he really does keep track of all the members..."
+            y "I'm sure it's not a lie."
 
     jump text_end
     
