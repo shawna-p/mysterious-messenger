@@ -3,10 +3,10 @@ A messenger program with many features such as phone calls, text messages, chatr
 
 ## Getting Started
 
-* If you want to run this code, you will need to download the Ren'Py engine: https://www.renpy.org/
-* As of 2019-05-20 (the time of this update) the version of Ren'Py used is 7.2.2.491
-* In the Ren'Py launcher, start a new project (you can call it whatever you like). If you are prompted for dimensions, select Custom and use 750x1334. Accent and Background colour don't matter
-* Go to the /game folder of the project you just created and place the provided .rpy files in there. Replace the existing screens.rpy options.rpy script.rpy and gui.rpy
+* If you want to run this code, you will need to download the Ren'Py engine: [https://www.renpy.org/](https://www.renpy.org/)
+* As of 2019-11-21 (the time of this update) the version of Ren'Py used is 7.3.5.606
+* In the Ren'Py launcher, start a new project (you can call it whatever you like). If you are prompted for dimensions, select Custom and use `750x1334`. Accent and Background colour don't matter
+* Go to the /game folder of the project you just created and place the provided `.rpy` files in there. Replace the existing `screens.rpy`, `options.rpy`, `script.rpy`, and `gui.rpy`
 * Save the Script Generator spreadsheet and User Guide somewhere you can find them later
 * **The images and sound files used in this project are not included in the repository. Please contact me directly if you would like to request the assets.**
 
