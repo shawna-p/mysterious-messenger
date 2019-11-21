@@ -1,11 +1,161 @@
 ########################################################
 ## This file contains several functions related to
 ## the messenger system. It's organized as follows:
+##   label chat_begin
+##   label chat_end
+##   label chat_end_route
 ##   label chat_back
 ##   screen save_and_exit
 ##      label press_save_and_exit
 ##   screen signature_screen
 ########################################################
+
+#####################################
+# Chat Setup
+#####################################
+
+# This simplifies things when you're setting up a chatroom,
+# so call it when you're about to begin
+# If you pass it the name of the background you want (enclosed in
+# single ' or double " quotes) it'll set that up too
+# Note that it automatically clears the chatlog, so if you want
+# to change the background but not clear the messages on-screen,
+# you'll also have to pass it 'False' as its second argument
+
+label chat_begin(background=None, clearchat=True, resetHP=True):
+    stop music
+    if clearchat:
+        $ chatlog = []
+        # $ pv = 0.8    # This resets the chatroom "speed"
+                        # Ordinarily it would reset for every
+                        # new chatroom, and if you want that
+                        # functionality you can un-comment this
+                        # line
+    # We reset the heart points for this chatroom
+    if resetHP:
+        $ chatroom_hp = 0
+
+    # Make sure we're showing the messenger screens
+    hide screen starry_night
+    show screen phone_overlay
+    show screen messenger_screen 
+    show screen pause_button
+    
+    # Hide all the popup screens
+    hide screen text_msg_popup
+    hide screen email_popup
+    
+    $ text_person = None
+    window hide
+    $ text_msg_reply = False
+    $ in_phone_call = False
+    $ vn_choice = False
+    $ email_reply = False
+    
+    # Fills the beginning of the screen with 'empty space' 
+    # so the messages begin showing up at the bottom of the 
+    # screen (otherwise they start at the top)
+    if clearchat:
+        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+        
+    # Sets the correct background and nickname colour
+    # You'll need to add other backgrounds here if you define
+    # new ones
+    $ current_background = background
+    if background == "morning":
+        scene bg morning
+        $ nickColour = black
+    elif background == "noon":
+        scene bg noon
+        $ nickColour = black
+    elif background == "evening":
+        scene bg evening
+        $ nickColour = black
+    elif background == "night":
+        scene bg night
+        $ nickColour = white
+    elif background == "earlyMorn":
+        scene bg earlyMorn
+        $ nickColour = white
+    elif background == "hack":
+        scene bg hack
+        $ nickColour = white
+    elif background == "redhack":
+        scene bg redhack
+        $ nickColour = white
+    elif background == "redcrack":
+        scene bg redcrack
+        $ nickColour = white
+    else:
+        scene bg black
+        $ nickColour = white
+        $ current_background = "morning"
+
+        
+    # If you've already played this chatroom in your current runthrough,
+    # viewing it again causes this variable to be True. It prevents you
+    # from receiving heart points again and only lets you select choices
+    # you've selected on this or previous playthroughs
+    if current_chatroom.played:
+        if not persistent.testing_mode:
+            $ observing = True     
+        else:
+            $ observing = False
+    else:
+        $ observing = False
+        
+    # We add this background to the replay log
+    if not observing and not persistent.testing_mode:
+        $ bg_entry = ("background", "bg " + current_background)
+        $ current_chatroom.replay_log.append(bg_entry)
+
+    # This resets the heart points you've collected from
+    # previous chatrooms so it begins at 0 again   
+    if resetHP:
+        $ in_chat = []
+        python:
+            for person in current_chatroom.original_participants:
+                if person.name not in in_chat:
+                    in_chat.append(person.name)
+            
+        # If the player is participating, add them to the list of
+        # people in the chat
+        if (not current_chatroom.expired 
+                or current_chatroom.buyback 
+                or current_chatroom.buyahead):
+            $ in_chat.append(m.name)
+        
+    return
+
+## Call this label to show the save & exit sign
+label chat_end():
+    if starter_story:        
+        $ persistent.first_boot = False
+        $ persistent.on_route = True
+    call screen save_and_exit    
+    return
+    
+## Call this label at the very end of the route
+## to show a good/bad/normal ending sign and
+## return the player to the main menu
+label chat_end_route(type='good'):
+    call screen save_and_exit(True)
+    $ config.skipping = False
+    $ greeted = False
+    $ choosing = False
+    hide screen phone_overlay
+    hide screen messenger_screen
+    stop music
+    
+    if type == 'good':
+        scene bg good_end
+    elif type == 'normal':
+        scene bg normal_end
+    elif type == 'bad':
+        scene bg bad_end
+    pause
+    return
+
 
 ## This label takes care of what happens when the
 ## player hits the back button during a chatroom

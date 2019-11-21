@@ -1,56 +1,3 @@
-init python:
-    # So you can increase/decrease the speed of the chat
-    def slow_pv():
-        global pv
-        if pv <= 1.1:
-            pv += 0.09  
-        return
-        
-    def fast_pv():
-        global pv
-        if pv >= 0.53:
-            pv -= 0.09
-        return
-
-    # This is a helper function for the heart icon that dynamically 
-    # recolours a generic white heart depending on the character
-    # See character definitions.rpy to define your own character 
-    # & heart point
-    def heart_icon(character):
-        if character.heart_color:
-            return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
-                    im.matrix.colorize("#000000", character.heart_color))
-        else:
-            return "Heart Point/Unknown Heart Point.png"
-        
-    # Similarly, this recolours the heartbreak animation
-    def heart_break_img(picture, character):
-        if character.heart_color:
-            return im.MatrixColor(picture, 
-                    im.matrix.colorize("#000000", character.heart_color))
-        else:
-            return "Heart Point/heartbreak_0.png"
-        
-    ## These next two functions recolour "generic" speech bubbles
-    ## so you can have custom glow/regular bubbles
-    def glow_bubble_fn(glow_color='#000'):
-        return im.MatrixColor('Bubble/Special/sa_glow2.png', 
-                            im.matrix.colorize(glow_color, '#fff'))
-    
-    def reg_bubble_fn(bubble_color='#000'):
-        return im.MatrixColor('Bubble/white-Bubble.png', 
-                            im.matrix.colorize('#000', bubble_color))
-
-    
-
-            
-## Note: There is also a custom version of the chat footers
-## (pause/play/save & exit/answer) that you can use by setting
-## this variable to True. Otherwise, it will use the original assets
-## If you change the variable here, you'll need to start the game over
-## Otherwise it can also be changed from the Settings menu
-default persistent.custom_footers = False
-
 #************************************
 # Chatroom Enter/Exit
 #************************************
@@ -381,10 +328,3 @@ label chatroom_replay():
     $ chatroom_replay_index = 0
     $ replay_from = 0
     call chat_end
-
-      
-
-
-    
-    
-        

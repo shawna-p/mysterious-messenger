@@ -1,5 +1,3 @@
-default current_background = "morning"
-
 ## ********************************
 ## Chatroom Images
 ## ********************************
