@@ -204,13 +204,14 @@ screen chatroom_timeline(day, day_num):
             yalign 1.0
             xalign 0.5   
             add 'day_vlink' xalign 0.15
-            viewport yadjustment yadj:            
+            viewport:
+                yadjustment yadj            
                 mousewheel True
                 draggable True    
                 side_spacing 5
                 scrollbars "vertical"        
                 vbox:
-                    xsize 720
+                    xsize 700
                     spacing 20      
                             
                     for index, chatroom in enumerate(day.archive_list):
