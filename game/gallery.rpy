@@ -22,7 +22,7 @@ python early:
                 self.unlocked = True
                 # Set a var so Album shows "NEW"
                 new_cg = True            
-            renpy.retain_after_load
+            renpy.retain_after_load()
             
         def return_thumbnail(self):
             if self.unlocked:
@@ -203,10 +203,17 @@ screen photo_album():
 
     # Ensure this replaces the main menu.
     tag menu
-    on 'replace' action FileSave(mm_auto, confirm=False)
-    on 'show' action FileSave(mm_auto, confirm=False)
     
-    use menu_header('Photo Album', Show('chat_home', Dissolve(0.5))):
+    if not main_menu:
+        on 'replace' action FileSave(mm_auto, confirm=False)
+        on 'show' action FileSave(mm_auto, confirm=False)
+    
+    if main_menu:
+        $ return_action = Show('select_history', Dissolve(0.5))
+    else:
+        $ return_action = Show('chat_home', Dissolve(0.5))
+
+    use menu_header('Photo Album', return_action):
     
         # A grid of buttons.
         window:
@@ -327,8 +334,14 @@ screen character_gallery(album, caption, name):
                         idle photo.return_thumbnail()
                         if photo.unlocked:                        
                             action [SetVariable("fullsizeCG", photo.img), 
-                                    Call("view_album_CG", 
-                                        album_info=[album, caption, name, index])]
+                                    SetVariable('close_visible', True),
+                                    SetVariable('album_info_for_CG',
+                                        [album, caption, name, index]),
+                                    Show('viewCG_fullsize_album',
+                                        album=album, caption=caption,
+                                        name=name)]
+                                    # Call("view_album_CG", 
+                                    #     album_info=[album, caption, name, index])]
                         else:
                             action Show("confirm", 
                                     message="This image is not yet unlocked",
@@ -344,22 +357,13 @@ default album_info_for_CG = []
 default swipe_anim = False
 default prev_cg_right = False
 default prev_cg_left = False
-
-## This label facilitates viewing CGs fullsize and returning
-## to the Album screen when finished
-label view_album_CG(album_info=[]):
-    $ close_visible = True
-    $ album_info_for_CG = album_info
-    call screen viewCG_fullsize_album
-    call screen character_gallery(album_info[0], album_info[1], album_info[2])
-
-    
+  
 ## This is the screen where you can view a full-sized CG when you
 ## click it. It has a working "Close" button that appears/disappears 
 ## when you click the CG. This particular variant lets the user
 ## "swipe" to view the various images without backing out to the 
 ## album screen proper
-screen viewCG_fullsize_album():
+screen viewCG_fullsize_album(album, caption, name):
     zorder 5
     tag menu
     
@@ -433,7 +437,8 @@ screen viewCG_fullsize_album():
             idle "close_button"
             action [SetVariable('prev_cg_left', False), 
                     SetVariable('prev_cg_right', False),
-                    Hide('viewCG_fullsize'), Return()]
+                    Show('character_gallery', album=album, 
+                        caption=caption, name=name)]
         
         text "Close" style "CG_close"        
         

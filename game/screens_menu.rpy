@@ -347,7 +347,7 @@ screen main_menu():
                         focus_mask True
                         background "left_corner_menu"
                         hover_foreground "left_corner_menu_hover"
-                        # action NullAction                        
+                        action Show('select_history', Dissolve(0.5))                 
                         vbox:                               
                             align(0.5, 0.5)
                             add "menu_history" xpos 15 ypos 3
@@ -698,7 +698,8 @@ screen file_slots(title):
 
 default my_menu_clock = Clock()
     
-screen menu_header(title, return_action=NullAction, envelope=False):
+screen menu_header(title, return_action=NullAction, 
+                    envelope=False, hide_bkgr=False):
 
     python:
         # Ensures the background music is playing
@@ -711,7 +712,8 @@ screen menu_header(title, return_action=NullAction, envelope=False):
                         != mystic_chat_hacked):
                 renpy.music.play(mystic_chat_hacked, loop=True)
     
-    use starry_night()
+    if not hide_bkgr:
+        use starry_night()
 
 
     # If we're on real-time, check once a minute if it's time for the
