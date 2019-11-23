@@ -20,15 +20,10 @@ default close_visible = True
 default textmsg_CG = False
 default album_CG = False
 
-label viewCG(textmsg=False, album=False, album_info=[]):
+label viewCG(textmsg=False):
     $ close_visible = True
     $ textmsg_CG = textmsg
-    $ album_CG = album
     call screen viewCG_fullsize()
-    if album:
-        call screen character_gallery(album_info[0], 
-                                        album_info[1], 
-                                        album_info[2])
     return
     
 ## This is the screen where you can view a full-sized CG when you

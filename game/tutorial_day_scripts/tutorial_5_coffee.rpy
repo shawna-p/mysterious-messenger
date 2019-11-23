@@ -427,7 +427,7 @@ label tutorial_chat_incoming_z:
     
     menu:
         # If you want the previous dialogue to show up behind the choice menu,
-        # you'll want to add "extend ''" just after the menu
+        # you should add "extend ''" just after the menu
         extend ''
         "Yeah, I didn't even dream.":
             m_phone "Yeah, I didn't even dream."            
@@ -452,9 +452,9 @@ label tutorial_chat_incoming_z:
     jump phone_end
     
 ## This is the label you jump to for the phone call with Yoosung
-## It should be the name of the chatroom's label + _phone_ + the variable
+## It should be the name of the chatroom's label + _outgoing_ + the variable
 ## of the character you're calling (so, ja/ju/r/ri/s/sa/u/v/y/z)
-label tutorial_chat_phone_y():
+label tutorial_chat_outgoing_y():
     
     call phone_begin 
     

@@ -99,9 +99,9 @@ init -6 python:
         # Adds available calls
         for c in all_characters:
             # Adds available outgoing calls to the list
-            if renpy.has_label(lbl + '_phone_' + c.file_id):
+            if renpy.has_label(lbl + '_outgoing_' + c.file_id):
                 available_calls.append(Phone_Call(c, 
-                    lbl + '_phone_' + c.file_id, 'outgoing'))
+                    lbl + '_outgoing_' + c.file_id, 'outgoing'))
 
             # Updates the incoming call, or moves it if the call has expired
             if renpy.has_label(lbl + '_incoming_' + c.file_id):
