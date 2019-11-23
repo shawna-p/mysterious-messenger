@@ -9,7 +9,7 @@
     # like 'starter_chat_incoming_ja'. You can't have VNs after this chatroom,
     # but it's possible to have VN sections mid-chatroom using 'call' or to write
     # a VN section before starting the chatroom
-    $ current_chatroom = Chat_History('Starter Chat', 'auto', 'starter_chat', '00:00')
+    $ current_chatroom = Chat_History('Starter Chat', 'starter_chat', '00:00')
     # This sets a specific variable that lets you have phone calls/
     # VNs for this specific starter chat/opening
     $ starter_story = True

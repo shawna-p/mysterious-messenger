@@ -13,12 +13,10 @@ image history_icon_chat = 'Menu Screens/History/history_icon_chat.png'
 image history_icon_call = 'Menu Screens/History/history_icon_call.png'
 image history_icon_guest = 'Menu Screens/History/history_icon_guest.png'
 
+## This screen lets you view the album or the chat history
 screen select_history():
 
     tag menu
-
-    
-    #add Transform('history-template.jpg', size=(750,1334)) alpha 0.8
 
     use menu_header("History", Show('main_menu', Dissolve(0.5))):
 
@@ -32,7 +30,7 @@ screen select_history():
                         add 'history_icon_album' yalign 0.5
                         text 'ALBUM'
                 button:
-                    action NullAction()
+                    action Show('select_history_route', Dissolve(0.5))
                     hbox:
                         add 'history_icon_chat' yalign 0.5
                         text "CHAT HISTORY" 
@@ -65,6 +63,21 @@ style select_history_window:
     align (0.5, 0.5)
 
 
+screen select_history_route():
 
+    tag menu
 
+    use menu_header("History", Show('main_menu', Dissolve(0.5))):
+
+        style_prefix 'history_route'
+        for route in all_routes:
+            textbutton _(route[0] + " Route"):
+                action NullAction()#Show('chat_select')
+
+style history_route_button:
+    is other_settings_end_button
+    padding (30,30)
+
+style history_route_button_text:
+    is mode_select
 

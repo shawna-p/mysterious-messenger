@@ -397,7 +397,12 @@ screen route_select_screen():
                     focus_mask True
                     background 'right_corner_menu'
                     hover_foreground 'right_corner_menu_hover'
-                    action [Start()]         
+                    # Note that here we tell the program which "route"
+                    # we'd like the player to be on -- in this case,
+                    # tutorial_good_end, without the title (which is why
+                    # we need to follow it with [1:])
+                    action [SetVariable('chat_archive', tutorial_good_end[1:]),
+                            Start()]         
                 text 'Start Game':
                     style 'menu_text_small' 
                     xalign 0.5 
@@ -439,7 +444,7 @@ screen file_slots(title):
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name  
         if most_recent_chat == None:
-            most_recent_chat = chat_archive[0].archive_list[0]
+            most_recent_chat = Chat_History('Example Chatroom', 'example_chat', '00:01')
         for day in chat_archive:
             if most_recent_chat in day.archive_list:
                 the_day = day.day

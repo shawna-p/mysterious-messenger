@@ -1,7 +1,7 @@
 ########################################################
 ## This is the screen where you choose which day to play
 ########################################################
-screen chat_select():
+screen chat_select(days=chat_archive):
 
     tag menu
     modal True
@@ -20,7 +20,7 @@ screen chat_select():
             
             hbox:
                 spacing 3
-                for day_num, day in enumerate(chat_archive):
+                for day_num, day in enumerate(days):
                     use day_select(day, day_num)
 
 style hscrollbar:
@@ -168,7 +168,7 @@ screen day_select(day, day_num):
         fixed:
             xfit True
             yfit True
-            add day.route
+            add day.day_icon
 
 
             

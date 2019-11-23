@@ -146,7 +146,7 @@ label plot_branch_tutorial_branch():
         # We also pass the function a second argument, True, 
         # to tell it that there's a VN right after the chatroom
         # where the plot branch was
-        $ merge_routes(tutorial_good_end, True)
+        $ merge_routes(tutorial_good_end, is_vn=True)
     else:
         # Bad End
         # This Bad End route doesn't have a VN right after the
