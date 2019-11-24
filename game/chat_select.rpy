@@ -221,10 +221,9 @@ screen chatroom_timeline(day, day_num):
 
                     if (persistent.real_time 
                             and day_num == today_day_num 
-                            and not (day.archive_list[-1].plot_branch 
-                            and day.archive_list[-1].available) 
                             and not unlock_24_time 
-                            and not chat_time == 'Unknown Time'):
+                            and not chat_time == 'Unknown Time'
+                            and not chat_time == 'Plot Branch'):
                         hbox:
                             xysize (620, 110)
                             xoffset 70
@@ -524,9 +523,9 @@ screen chatroom_item(day, day_num, chatroom, index):
         button:
             xysize(330, 85)
             background 'input_popup_bkgr'
-            hover_background Fixed('input_popup_bkgr',
-                            Transform('input_popup_bkgr', alpha=0.5))
+            hover_background 'input_popup_bkgr_hover'
             xalign 0.5
+            xoffset 40
             hbox:
                 spacing 15
                 align (0.5, 0.5)
@@ -639,60 +638,10 @@ label plot_branch_end():
         # Now we need to check if the player unlocked the next 24 hours
         # of chatrooms, and make those available
         if unlock_24_time:
-            is_branch = False
-            # Check chatrooms for the previous day
-            for chatroom in chat_archive[today_day_num-1].archive_list:
-                # Hour for this chatroom is greater than now; make available
-                if (int(unlock_24_time.military_hour) 
-                        < int(chatroom.trigger_time[:2]) 
-                        and not is_branch):
-                    if chatroom.plot_branch:
-                        is_branch = True
-                    chatroom.available = True
-                    chatroom.buyahead = True
-                # Hour is the same; check minute
-                elif (int(unlock_24_time.military_hour) 
-                        == int(chatroom.trigger_time[:2])):            
-                    if (int(unlock_24_time.minute) 
-                            < int(chatroom.trigger_time[-2:]) 
-                            and not is_branch):
-                        if chatroom.plot_branch:
-                            is_branch = True
-                        # Minute is greater; make available
-                        chatroom.available = True
-                        chatroom.buyahead = True
-            # Now check chatrooms for today
-            if chat_archive[today_day_num].archive_list:
-                for chatroom in chat_archive[today_day_num].archive_list:
-                    # Hour for this chatroom is smaller than now; 
-                    # make available
-                    if (int(unlock_24_time.military_hour) 
-                            > int(chatroom.trigger_time[:2]) 
-                            and not is_branch):
-                        if chatroom.plot_branch:
-                            is_branch = True
-                        chatroom.available = True
-                        chatroom.buyahead = True
-                    # Hour is the same; check minute
-                    elif (int(unlock_24_time.military_hour) 
-                            == int(chatroom.trigger_time[:2])):            
-                        if (int(unlock_24_time.minute) 
-                                > int(chatroom.trigger_time[-2:]) 
-                                and not is_branch):
-                            if chatroom.plot_branch:
-                                is_branch = True
-                            # Minute is smaller; make available
-                            chatroom.available = True
-                            chatroom.buyahead = True
-            # 24-hour buy-ahead is done; reset the variable
-            # *unless* there was a plot branch, in which case
-            # we're not done unlocking
-            if not is_branch:
-                unlock_24_time = False            
+            chat_24_available(reset_24=False)           
         next_chatroom()
         renpy.retain_after_load
         
-    #$ renpy.save(mm_auto)
     call screen chat_select
                 
                 

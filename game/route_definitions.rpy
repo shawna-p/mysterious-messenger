@@ -199,7 +199,10 @@ init -6 python:
 
             # Now we combine the given branches into one large list
             if branch_list == []:
-                self.route = default_branch
+                self.route = deepcopy(default_branch)
+                # And now we get rid of the route title for the default branch
+                if isinstance(self.route[0], str):
+                    self.route.pop(0)
             else:
                 self.route = deepcopy(default_branch)
                 # We'll add the branch title before the last item in the
@@ -209,12 +212,16 @@ init -6 python:
                         r.archive_list.insert(len(r.archive_list)-1, 
                                                         self.route[0])
                         break
+                # And now we get rid of the route title for the default branch
+                if not isinstance(self.route[0], Route_Day):
+                    self.route.pop(0)
+
                 # First we have to find the day in default_branch
                 # which aligns with the days we're adding from each
                 # branch in branch_list
                 for branch in branch_list:
                     for b in branch[1:]:
-                        for d in self.route[1:]:
+                        for d in self.route:
                             # Both d and b should be a Route_Day object
                             if d.day == b.day:
                                 # We can append this branch to the bottom of
@@ -312,6 +319,12 @@ init -6 python:
                         if chatroom.available and not chatroom.played:
                             triggered_next = True
                             break
+                        # If the currently available chatroom is a plot branch
+                        # without a VN, we don't make anything new available
+                        if (chatroom.available and not chatroom.vn_obj
+                                and chatroom.plot_branch):
+                            triggered_next = True
+                            break
                         # If the chatroom has an unavailable VN after it,
                         ## make that available and stop
                         if (chatroom.played and chatroom.vn_obj 
@@ -326,6 +339,15 @@ init -6 python:
                                 and not chatroom.vn_obj.played):
                             triggered_next = True
                             break              
+                        
+                        # If it's a plot branch with a played VN, we don't
+                        # make anything new available and stop
+                        if (chatroom.played and chatroom.vn_obj
+                                and chatroom.plot_branch
+                                and chatroom.vn_obj.played):
+                            triggered_next = True
+                            break
+
                         # If the current chatroom isn't available, 
                         # make it available and stop. Also decrease 
                         # the time old phone calls are available
@@ -364,6 +386,16 @@ init -6 python:
                     if (chatroom.played and chatroom.vn_obj 
                             and not chatroom.vn_obj.available):
                         chatroom.vn_obj.available = True
+
+                    # If we run into a plot branch, we stop if the plot
+                    # branch's chatroom and VN are available
+                    if (chatroom.plot_branch and chatroom.available
+                            and (not chatroom.vn_obj
+                                or chatroom.vn_obj.available)):
+                        triggered_next = True
+                        break
+
+
                     # If this chatroom isn't available, check if it's 
                     # time to make it available
                     if not chatroom.available:                            
@@ -500,7 +532,7 @@ init -6 python:
     ## A quick function to see how many chatrooms there are left 
     ## to be played through
     ## This is used so emails will always be delivered before the party
-    def num_future_chatrooms():
+    def num_future_chatrooms(break_for_branch=False):
         global chat_archive
         total = 0
         for archive in chat_archive:
@@ -508,6 +540,8 @@ init -6 python:
                 for chatroom in archive.archive_list:
                     if not chatroom.played: 
                         total += 1
+                    if chatroom.plot_branch and break_for_branch:
+                        break
         return total
                 
         
@@ -555,23 +589,61 @@ init -6 python:
     
     ## This function takes a route (new_route) and merges it with the
     ## current route
-    def merge_routes(new_route, is_vn=False):
+    def merge_routes(new_route):
         global chat_archive, most_recent_chat
-        most_recent_chat.plot_branch = False
+        # Now we gotta do some trickery to figure out which VN to put
+        # Check if the new route's first item is a VN -- if so, it overrides
+        # the VN stored in the Plot_Branch object
+        if new_route[1].branch_vn:
+            # Add this VN to the day with the plot branch
+            most_recent_chat.vn_obj = new_route[1].branch_vn
+        # Then we let the plot branch be deleted since we're on a
+        # different route
+
+        # Now we gotta get rid of all the chats past the plot branch
+        # Find the day the plot branch was on
+        a = 0
+        found_branch = False
         for archive in chat_archive:
-            for archive2 in new_route:
-                if archive2.day == archive.day:
-                    # If there is a conditional VN object
-                    if is_vn:
-                        # replace the old VN obj with the new one
-                        archive.archive_list[-1].vn_obj = (archive2.
-                                                    archive_list[0].vn_obj)
-                        del archive2.archive_list[0]
-                        is_vn = False
-                    
+            for chat in archive.archive_list:
+                if chat.plot_branch:
+                    found_branch = True
+                    break
+            if found_branch:
+                break
+            a += 1
+
+        while (chat_archive[a].archive_list 
+                and not chat_archive[a].archive_list[-1].plot_branch):
+            chat_archive[a].archive_list.pop()
+
+        if a < len(chat_archive):
+            for archive in chat_archive[a+1:]:
+                archive.archive_list = []
+
+        # Now we can get rid of the plot branch indicator
+        most_recent_chat.plot_branch = False
+
+        for archive in chat_archive:
+            for archive2 in new_route[1:]:
+                if archive2.day == archive.day:                    
                     archive.archive_list += archive2.archive_list
-                    archive.route = archive2.route
-                    
+                    archive.day_icon = archive2.day_icon
+
+
+
+    ## This function tells the program to continue on with the
+    ## regular route after the plot branch
+    def continue_route():
+        global most_recent_chat
+        if (most_recent_chat.plot_branch 
+                and most_recent_chat.plot_branch.vn_after_branch):
+            # This chat has a stored VN we should add to the chat itself
+            most_recent_chat.vn_obj = most_recent_chat.plot_branch.stored_vn
+
+        # Now we can get rid of the plot branch indicator
+        most_recent_chat.plot_branch = False
+
     ## This function returns the percentage of chatrooms the player
     ## has participated in, from first_day to last_day (or from first_day
     ## until the end of the route, if last_day=None)
@@ -591,8 +663,9 @@ init -6 python:
         for archive in chat_archive[first_day:last_day]:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
-                    num_chatrooms += 1
-                    if chatroom.participated:
+                    if chatroom.available:
+                        num_chatrooms += 1
+                    if chatroom.available and chatroom.participated:
                         completed_chatrooms += 1
         # Ensure we're not dividing by zero
         if num_chatrooms == 0:
@@ -624,61 +697,72 @@ init -6 python:
         for archive in chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
+                    if chatroom.plot_branch and chatroom.available:
+                        return 'Plot Branch'
                     if not chatroom.available:
                         return chatroom.trigger_time
         return 'Unknown Time'
         
     ## Makes the chatrooms for the next 24 hours available
-    def chat_24_available():
+    def chat_24_available(reset_24=True):
         global chat_archive, today_day_num, days_to_expire, unlock_24_time
         current_time = upTime()
-        unlock_24_time = current_time
-        days_to_expire += 1
-        is_branch = False
+        if reset_24:
+            unlock_24_time = current_time
+            days_to_expire += 1
         # Check chatrooms for the current day
         for chatroom in chat_archive[today_day_num].archive_list:
             # Hour for this chatroom is greater than now; make available
             if (int(current_time.military_hour) 
                     < int(chatroom.trigger_time[:2])):
-                if chatroom.plot_branch:
-                    is_branch = True
                 chatroom.available = True
                 chatroom.buyahead = True
+                if chatroom.plot_branch:
+                    if reset_24:
+                        today_day_num += 1
+                    return
+                    
             # Hour is the same; check minute
             elif (int(current_time.military_hour) 
                     == int(chatroom.trigger_time[:2])):            
                 if int(current_time.minute) < int(chatroom.trigger_time[-2:]):
-                    if chatroom.plot_branch:
-                        is_branch = True
                     # Minute is greater; make available
                     chatroom.available = True
                     chatroom.buyahead = True
+                    if chatroom.plot_branch:
+                        if reset_24:
+                            today_day_num += 1
+                        return
         # Now check chatrooms for the next day
         if chat_archive[today_day_num+1].archive_list:
             for chatroom in chat_archive[today_day_num+1].archive_list:
                 # Hour for this chatroom is smaller than now; make available
                 if (int(current_time.military_hour) 
                         > int(chatroom.trigger_time[:2])):
-                    if chatroom.plot_branch:
-                        is_branch = True
                     chatroom.available = True
                     chatroom.buyahead = True
+                    if chatroom.plot_branch:
+                        if reset_24:
+                            today_day_num += 1
+                        return
                 # Hour is the same; check minute
                 elif (int(current_time.military_hour) 
                         == int(chatroom.trigger_time[:2])):            
                     if (int(current_time.minute) 
                             > int(chatroom.trigger_time[-2:])):
-                        if chatroom.plot_branch:
-                            is_branch = True
                         # Minute is smaller; make available
                         chatroom.available = True
                         chatroom.buyahead = True
+                        if chatroom.plot_branch:
+                            if reset_24:
+                                today_day_num += 1
+                            return
         # Increase the day number
-        today_day_num += 1
+        if reset_24:
+            today_day_num += 1
         # If we were able to make everything available,
         # unlock_24_time can be reset
-        if not is_branch:
-            unlock_24_time = False 
+        unlock_24_time = False 
                     
                     
         
