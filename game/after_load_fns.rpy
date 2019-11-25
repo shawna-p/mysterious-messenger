@@ -108,3 +108,37 @@ label after_load():
     #     call screen chat_home     
     # $ print("Reached the end of after_load")
     return        
+
+
+## Several variables are defined here to ensure they're
+## set properly when you begin a game
+label define_variables():
+        
+    if persistent.first_boot:
+        call screen profile_pic
+    
+    python:
+        set_pronouns()
+        
+        chatlog = []
+
+        # This variable keeps track of whether or not the player
+        # is making a choice/on a choice menu
+        choosing = False
+        
+        merge_albums(persistent.ja_album, ja_album)
+        merge_albums(persistent.ju_album, ju_album)
+        merge_albums(persistent.r_album, r_album)
+        merge_albums(persistent.s_album, s_album)
+        merge_albums(persistent.u_album, u_album)
+        merge_albums(persistent.v_album, v_album)
+        merge_albums(persistent.y_album, y_album)
+        merge_albums(persistent.z_album, z_album)
+        merge_albums(persistent.common_album, common_album)
+        
+        set_name_pfp()
+            
+        renpy.retain_after_load()
+
+    return
+        
