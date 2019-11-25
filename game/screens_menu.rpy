@@ -415,6 +415,7 @@ screen route_select_screen():
                     # tutorial_good_end, without the title (which is why
                     # we need to follow it with [1:])
                     action [SetVariable('chat_archive', tutorial_good_end[1:]),
+                            Function(set_pronouns), Function(set_name_pfp),
                             Start()]         
                 text 'Start Game':
                     style 'menu_text_small' 
