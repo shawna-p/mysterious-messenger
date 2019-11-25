@@ -233,7 +233,7 @@ init -6 python:
                                 if b.branch_vn:
                                     d.archive_list.append(b.branch_vn)
                                 if b.archive_list:
-                                    d.archive_list.append(b.archive_list)
+                                    d.archive_list.extend(b.archive_list)
                                 # if we found a match, we can stop looking
                                 # through the rest of the Route_Days
                                 break
