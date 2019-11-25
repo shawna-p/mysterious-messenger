@@ -360,7 +360,7 @@ screen chatroom_item_history(chatroom):
                                     size=(85,85), alpha=0.3) align (0.5,0.5)
                         add 'call_incoming_outline' align (1.0, 1.0)
                         xysize (85,85)
-                        action NullAction()
+                        action Replay(c, scope=replay_dictionary)
             for c in chatroom.outgoing_calls_list:
                 # If the player has seen this phone call
                 if persistent.completed_chatrooms.get(c):
@@ -375,7 +375,7 @@ screen chatroom_item_history(chatroom):
                                     size=(85,85), alpha=0.3) align (0.5,0.5)
                         add 'call_outgoing_outline' align (1.0, 1.0)
                         xysize (85,85)
-                        action NullAction()
+                        action Replay(c, scope=replay_dictionary)
                        
                 
             

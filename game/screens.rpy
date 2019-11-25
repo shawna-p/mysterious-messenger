@@ -114,6 +114,14 @@ screen say(who, what):
     # In VN mode
     if not in_phone_call and not text_person and vn_choice:
     
+        if _in_replay:
+            textbutton _("End Replay"):
+                text_style 'vn_button'
+                text_size 32
+                text_hover_color "#999999"
+                action EndReplay()
+                align (0.98, 0.01)
+
         window:
             id "window"
 
@@ -125,11 +133,6 @@ screen say(who, what):
 
             text what id "what"
 
-        ## If there's a side image, display it above the text. Do not display on the
-        ## phone variant - there's no room.
-        #if not renpy.variant("small"):
-        #    add SideImage() xalign 0.0 yalign 1.0
-            
         ## This is the overlay for VN mode that shows the Auto/Skip/Log buttons
         hbox:
             yalign 0.74
