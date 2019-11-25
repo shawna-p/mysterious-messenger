@@ -197,25 +197,31 @@ init -6 python:
             if route_history_title:
                 self.route_history_title = route_history_title
 
-            # Now we combine the given branches into one large list
-            if branch_list == []:
-                self.route = deepcopy(default_branch)
-                # And now we get rid of the route title for the default branch
-                if isinstance(self.route[0], str):
-                    self.route.pop(0)
-            else:
-                self.route = deepcopy(default_branch)
-                # We'll add the branch title before the last item in the
-                # default branch
-                for r in reversed(self.route):
-                    if r.archive_list:
-                        r.archive_list.insert(len(r.archive_list)-1, 
-                                                        self.route[0])
-                        break
-                # And now we get rid of the route title for the default branch
-                if not isinstance(self.route[0], Route_Day):
-                    self.route.pop(0)
+            # Now we combine the given branches into one large list        
+            self.route = deepcopy(default_branch)
+            # We'll add the branch title before the last item in the
+            # default branch
+            for r in reversed(self.route):
+                if r.archive_list:
+                    r.archive_list.insert(len(r.archive_list)-1, 
+                                                    self.route[0])
+                    break
+            # And now we get rid of the route title for the default branch
+            if not isinstance(self.route[0], Route_Day):
+                self.route.pop(0)
 
+            # if the default branch has any "hidden" VNs in Plot_Branch
+            # objects, we should add them to the route proper
+            for day in self.route:
+                for chat in day.archive_list:
+                    if ((isinstance(chat, Chat_History) or 
+                            isinstance(chat, store.Chat_History))
+                            and chat.plot_branch
+                            and chat.plot_branch.vn_after_branch):
+                        chat.vn_obj = chat.plot_branch.stored_vn
+                        chat.plot_branch = False
+
+            if branch_list:
                 # First we have to find the day in default_branch
                 # which aligns with the days we're adding from each
                 # branch in branch_list
