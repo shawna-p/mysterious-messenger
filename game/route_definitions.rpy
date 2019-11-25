@@ -45,7 +45,7 @@ init -6 python:
             # People already present in the chatroom before
             # it begins. Updates when new people enter
             self.participants = participants
-            self.original_participants = copy(participants)
+            self.original_participants = deepcopy(participants)
             # Tracks whether there's a plot branch after this chatroom
             self.plot_branch = plot_branch
             # If this chatroom has a VN after it, it goes here
@@ -123,7 +123,7 @@ init -6 python:
         ## user played this chatroom (often used when a player
         ## backs out of a chatroom, for example)
         def reset_participants(self):
-            self.participants = copy(self.original_participants)
+            self.participants = deepcopy(self.original_participants)
             
             
     ## This class stores the information needed for the Visual 

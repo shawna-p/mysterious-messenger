@@ -119,6 +119,8 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     # previous chatrooms so it begins at 0 again   
     if resetHP:
         $ in_chat = []
+        if not observing:
+            $ current_chatroom.reset_participants()
         python:
             for person in current_chatroom.original_participants:
                 if person.name not in in_chat:
