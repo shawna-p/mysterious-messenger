@@ -110,6 +110,10 @@ label vn_begin():
             pass
     else:
         $ observing = False
+    if _in_replay:
+        $ observing = True
+        $ set_name_pfp()
+        $ set_pronouns()
         
     return
         

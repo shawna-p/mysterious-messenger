@@ -89,7 +89,50 @@ image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.png"
 image history_chat_participated = Transform("Menu Screens/History/chat_history_participated.png", zoom=0.8)
 image history_chat_alone = Transform("Menu Screens/History/chat_history_alone.png", zoom=0.8)
 
-screen chatroom_item_history(day, day_num, chatroom, index):
+init python:
+
+    # This function lets the program know whether or not it
+    # should display this particular item in the history screen
+    def display_history(item, index, archive_list):
+        global persistent
+        # First check if it's a chatroom
+        if (isinstance(item, Chat_History)
+                or isinstance(item, store.Chat_History)):
+            # This chatroom is only visible if one or both
+            # of its expired or regular chats have been seen
+            return (persistent.completed_chatrooms.get(item.expired_chat)
+                    or persistent.completed_chatrooms.get(item.chatroom_label))
+        # Check if it's a VN
+        if (isinstance(item, VN_Mode) or isinstance(item, store.VN_Mode)):
+            # Again, only visible if this VN's label has been seen
+            return persistent.completed_chatrooms.get(item.vn_label)
+
+        # Otherwise, it's a text label
+        # We need to check if the item immediately after it is visible
+        if index < len(archive_list)-1:
+            return display_history(archive_list[index+1], index+1, archive_list)
+
+        # Otherwise all has failed so we assume we don't display it
+        return False
+
+    ## Returns true if there is at least one label in these two lists
+    ## that has been seen
+    def calls_available_history(calls):
+        for c in calls:
+            if persistent.completed_chatrooms.get(c):
+                return True
+        return False
+
+default expired_replay = False
+# This is a dictionary that holds a giant list of all the
+# labels the player has seen/played through
+default persistent.completed_chatrooms = {}
+
+image contact_darken = "Menu Screens/History/contact_darken.png"
+image call_incoming_outline = "Menu Screens/History/call_icon_incoming_outline.png"
+image call_outgoing_outline = "Menu Screens/History/call_icon_outgoing_outline.png"
+
+screen chatroom_item_history(chatroom):
 
     python:
         played_reg = False
@@ -105,15 +148,17 @@ screen chatroom_item_history(day, day_num, chatroom, index):
         # has seen one version of this chatroom or not
         if is_chatroom:
             my_vn = chatroom.vn_obj
-            played_reg = renpy.seen_label(chatroom.chatroom_label)
-            played_expired = renpy.seen_label(chatroom.expired_chat)
+            played_reg = persistent.completed_chatrooms.get(
+                                                chatroom.chatroom_label)
+            played_expired = persistent.completed_chatrooms.get(
+                                                chatroom.expired_chat)
             if my_vn:
-                vn_played = renpy.seen_label(my_vn.vn_label)
+                vn_played = persistent.completed_chatrooms.get(my_vn.vn_label)
             else:
                 vn_played = True
         elif is_vn:
             my_vn = chatroom
-            vn_played = renpy.seen_label(my_vn.vn_label)
+            vn_played = persistent.completed_chatrooms.get(my_vn.vn_label)
         else:
             played_reg = True
             played_expired = True
@@ -121,17 +166,30 @@ screen chatroom_item_history(day, day_num, chatroom, index):
 
         # This determines if there are enough participants
         # in this chat to make the viewport scroll automatically
-        if is_chatroom and chatroom.participants:
-            if len(chatroom.participants) > 4:
+        if is_chatroom and chatroom.original_participants:
+            if len(chatroom.original_participants) > 4:
                 part_anim = participant_scroll
             else:
                 part_anim = null_anim
         else:
             part_anim = null_anim
 
+        replay_dictionary = {'observing': True,
+                            'current_chatroom': chatroom,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name}
+
+        expired_replay_dictionary = {'expired_replay': True,
+                            'observing': True,
+                            'current_chatroom': chatroom,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name}
+
     null height 10
     if not is_chatroom and not is_vn:
-        text chatroom color "#fff" font sans_serif_1b xalign 0.5
+        text chatroom color "#fff" font sans_serif_1b xalign 0.575
     elif is_chatroom:
     
         
@@ -146,25 +204,35 @@ screen chatroom_item_history(day, day_num, chatroom, index):
                 spacing 10
                 button:
                     xysize (80,80)
-                    if renpy.seen_label(chatroom.expired_chat):
-                        background 'history_chat_active'                        
-                        action NullAction()
+                    if played_expired:
+                        background 'history_chat_active'  
+                        hover_foreground '#fff5'                      
+                        action Replay(chatroom.expired_chat, 
+                                        scope=expired_replay_dictionary)
                     else:
                         background Fixed('history_chat_inactive', "#000c")
-                        foreground "#0005"
+                        foreground "#0003"
+                        action Show("confirm", message=("You have not yet"
+                            + " viewed this chat in-game."),
+                        yes_action=Hide('confirm'))
                     add 'history_chat_alone' align (0.5, 0.5)
-                    if not renpy.seen_label(chatroom.expired_chat):
+                    if not played_expired:
                         add 'plot_lock' align (0.5, 0.5)
                 button:
                     xysize(80,80)
-                    if renpy.seen_label(chatroom.chatroom_label):
+                    if played_reg:
+                        hover_foreground '#fff5'
                         background 'history_chat_active'                        
-                        action NullAction()
+                        action Replay(chatroom.chatroom_label,
+                                        scope=replay_dictionary)
                     else:
                         background Fixed('history_chat_inactive', "#000c")
-                        foreground "#0005"
+                        foreground "#0003"
+                        action Show("confirm", message=("You have not yet"
+                            + " viewed this chat in-game."),
+                        yes_action=Hide('confirm'))
                     add 'history_chat_participated' align (0.5, 0.5)
-                    if not renpy.seen_label(chatroom.chatroom_label):
+                    if not played_reg:
                         add 'plot_lock' align (0.5, 0.5)
                     
                 
@@ -218,8 +286,8 @@ screen chatroom_item_history(day, day_num, chatroom, index):
                         hbox at part_anim:
                             yalign 0.5
                             spacing 5
-                            if chatroom.participants:
-                                for person in chatroom.participants:
+                            if chatroom.original_participants:
+                                for person in chatroom.original_participants:
                                     if person.participant_pic:
                                         add person.participant_pic
 
@@ -237,10 +305,12 @@ screen chatroom_item_history(day, day_num, chatroom, index):
             
             button:
                 xysize(555, 126)
-                foreground 'vn_selected'
-                hover_foreground 'vn_selected_hover'
+                foreground 'vn_active'
+                hover_foreground 'vn_active_hover'
                 activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
-                action NullAction()     
+                action [Preference("auto-forward", "disable"),
+                        Replay(my_vn.vn_label,
+                                scope=replay_dictionary)] 
                 
                 if my_vn.who:
                     add 'vn_' + my_vn.who.file_id xoffset -5
@@ -264,8 +334,49 @@ screen chatroom_item_history(day, day_num, chatroom, index):
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
                     # and 1 at its fastest
                     action [Preference("auto-forward", "disable"), 
-                            SetVariable('current_chatroom', chatroom), 
-                            Jump(my_vn.vn_label)]                    
+                            Replay(my_vn.vn_label,
+                                scope=replay_dictionary)]  
+
+    # Now we add an hbox of the phone calls available around this chatroom
+    if (is_chatroom and (chatroom.incoming_calls_list 
+                or chatroom.outgoing_calls_list)
+            and calls_available_history(chatroom.incoming_calls_list + 
+                                            chatroom.outgoing_calls_list)):
+        hbox:
+            xalign 1.0
+            xoffset -40
+            add Transform('call_mainicon', size=(60,60)) align (0.5, 0.75)
+            for c in chatroom.incoming_calls_list:
+                # If the player has seen this phone call
+                if persistent.completed_chatrooms.get(c):
+                    button:
+                        background Transform(c.split('_')[-1] + '_contact', 
+                                                        size=(85,85))
+                        hover_background Fixed(Transform(c.split('_')[-1]
+                                        + '_contact', size=(85,85)),
+                                        Transform(c.split('_')[-1]
+                                        + '_contact', size=(85,85)))
+                        add Transform('contact_darken', 
+                                    size=(85,85), alpha=0.3) align (0.5,0.5)
+                        add 'call_incoming_outline' align (1.0, 1.0)
+                        xysize (85,85)
+                        action NullAction()
+            for c in chatroom.outgoing_calls_list:
+                # If the player has seen this phone call
+                if persistent.completed_chatrooms.get(c):
+                    button:
+                        background Transform(c.split('_')[-1] + '_contact', 
+                                                        size=(85,85))
+                        hover_background Fixed(Transform(c.split('_')[-1]
+                                        + '_contact', size=(85,85)),
+                                        Transform(c.split('_')[-1]
+                                        + '_contact', size=(85,85)))
+                        add Transform('contact_darken', 
+                                    size=(85,85), alpha=0.3) align (0.5,0.5)
+                        add 'call_outgoing_outline' align (1.0, 1.0)
+                        xysize (85,85)
+                        action NullAction()
+                       
                 
             
         

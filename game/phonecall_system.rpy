@@ -639,6 +639,7 @@ label phone_end():
         if not observing:
             $ current_call.finished()
         $ in_phone_call = False
+        $ persistent.completed_chatrooms[current_call.phone_label] = True
         $ current_call = False    
         $ observing = False
         $ _history = True

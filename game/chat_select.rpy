@@ -105,8 +105,10 @@ screen day_select(day, day_num):
             # If the player has at least seen the first chat of this day,
             # it is selectable ("playable")
             if (day.archive_list 
-                    and (renpy.seen_label(day.archive_list[0].chatroom_label)
-                    or renpy.seen_label(day.archive_list[0].expired_chat))):
+                    and (persistent.completed_chatrooms.get(
+                                day.archive_list[0].chatroom_label)
+                    or persistent.completed_chatrooms.get(
+                                day.archive_list[0].expired_chat))):
                 playable = True
             else:
                 playable = False
@@ -153,6 +155,11 @@ screen day_select(day, day_num):
                         SetVariable('current_day_num', day_num),
                         Show('chatroom_timeline', day=day, day_num=day_num)]
                 activate_sound 'audio/sfx/UI/select_day.mp3'
+            else:
+                action Show("confirm", message=("There are no chatrooms "
+                    + "available on this day yet. Keep playing the game"
+                    + " to see more!"),
+                yes_action=Hide('confirm'))
             xalign 0.5
         
         # This is only a viewport due to a silly issue which caused
@@ -246,9 +253,9 @@ screen chatroom_timeline(day, day_num):
                         # Displays rows of all the available chats
                         if not main_menu and chatroom.available:
                             use chatroom_item(day, day_num, chatroom, index)
-                        elif main_menu:
-                            use chatroom_item_history(day, day_num, 
-                                                    chatroom, index)
+                        elif (main_menu and display_history(chatroom, index,
+                                                            day.archive_list)):
+                            use chatroom_item_history(chatroom)
 
                     if (not main_menu and persistent.real_time 
                             and day_num == today_day_num 

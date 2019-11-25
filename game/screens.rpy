@@ -261,6 +261,8 @@ screen choice(items):
             the_anim = choice_anim
         else:
             the_anim = null_anim
+    
+    
 
  
     # For text messages
@@ -288,6 +290,7 @@ screen choice(items):
     
     # For VN mode and phone calls
     elif in_phone_call or vn_choice:
+        $ can_see_answer = 0
         add "Phone UI/choice_dark.png"
         vbox:
             style 'choice_vbox'
@@ -295,6 +298,7 @@ screen choice(items):
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
                 if not observing or i.chosen:
+                    $ can_see_answer += 1
                     textbutton i.caption at the_anim(fnum):
                         style 'choice_button'
                         text_style 'choice_button_text'
@@ -309,6 +313,24 @@ screen choice(items):
                         text_yalign 0.5
                         align (0.5, 0.5)
                         action [i.action]
+            # Not a perfect solution, but hopefully provides an 'out'
+            # to players who somehow didn't choose a menu option and
+            # are now in observing mode
+            if can_see_answer == 0:
+                textbutton _("(Continue)"):                    
+                    style 'choice_button'
+                    text_style 'choice_button_text'
+                    xysize (740, 180)
+                    background 'call_choice' padding(45,45)
+                    hover_background 'call_choice_hover'
+                    text_idle_color '#f9f9f9'
+                    text_hover_color '#fff'
+                    text_align 0.5
+                    text_text_align 0.5
+                    text_xalign 0.5
+                    text_yalign 0.5
+                    align (0.5, 0.5)
+                    action [SetVariable('timed_choose', False), Return()]
             
 
     # For emails

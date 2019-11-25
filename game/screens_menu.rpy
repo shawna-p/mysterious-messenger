@@ -184,6 +184,19 @@ init python:
             has_have = "have"
             s_verb = ""
         renpy.retain_after_load()
+
+    # Ensures the player's name and profile picture are correctly set
+    def set_name_pfp():
+        global name, persistent, m
+        name = persistent.name
+        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
+            m.prof_pic = persistent.MC_pic
+        else:
+            m.prof_pic = 'Profile Pics/MC/MC-1.png'
+        if m.name != persistent.name:
+            m.name = persistent.name
+        renpy.retain_after_load()
+        return
       
             
 
