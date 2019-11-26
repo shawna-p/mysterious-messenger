@@ -106,6 +106,7 @@ init -6 python:
         ## Adds a participant to the chatroom
         def add_participant(self, chara):
             if not chara in self.participants:
+                print("added", chara.name, "to the participants list of", self.title)        
                 self.participants.append(chara)
 
         # Saves the chatlog of this chatroom for replays
