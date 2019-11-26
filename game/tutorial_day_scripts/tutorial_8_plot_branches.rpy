@@ -142,16 +142,18 @@ label plot_branch_tutorial_branch():
     # the party
     if attending_guests() >= 1:
         # Good End
-        # tutorial_good_end is defined back in route_setup.rpy
-        # We also pass the function a second argument, True, 
-        # to tell it that there's a VN right after the chatroom
-        # where the plot branch was
-        $ merge_routes(tutorial_good_end, True)
+        # Since this means the program should simply continue
+        # on with the rest of the route, we write
+        $ continue_route()
+        # which tells the program to get rid of the plot branch
+        # icon and continue the game as normal
+    elif participated_percentage(1) < 20:
+        # If the player has participated in less than 20% of the
+        # chatrooms across Tutorial Day ("Day 1"), then we put
+        # them on the Bad Relationship End
+        $ merge_routes(tutorial_bre)
     else:
         # Bad End
-        # This Bad End route doesn't have a VN right after the
-        # chatroom where the plot branch was, so we don't need
-        # any other arguments
         $ merge_routes(tutorial_bad_end)
         
     # This is how you'll end a plot branch label; it'll trigger the
@@ -309,10 +311,43 @@ label good_end_party():
     # For VN modes, we can just manually show which
     # ending screen we like
     scene bg good_end
+    # You should pause after showing this screen or else it will
+    # jump immediately to restart_game and the player won't see it
     pause
     # This is the end of the Tutorial Day; we
     # restart the game to indicate this
     jump restart_game
+
+
+## This is an interesting case in which the ending only has one
+## VN mode section after the plot branch chatroom and then it ends
+## We write this much the same way as any regular VN mode section
+label plot_branch_bre():
+    call vn_begin
+    call play_music(mint_eye_piano)
+    scene mint_eye_room with fade
+    pause
+    show saeran vn sad 
+    r_vn "Did you not like my game?"
+    show saeran vn sob
+    r_vn "It looks like you didn't participate much in the chatrooms."
+    r_vn "So now you're getting the \"Bad Relationship End\"."
+    show saeran vn distant
+    r_vn "Well, that's okay I guess. Maybe you just got busy."
+    show saeran vn neutral
+    r_vn "Try playing through the game again sometime, won't you?"
+    r_vn "And you can play through all the chatrooms."
+    show saeran vn thinking
+    r_vn "Well, I should go now."
+    r_vn "It's too bad we didn't get to spend much time together."
+    scene bg bad_end
+    pause
+    jump restart_game
+
+
+
+
+
 
 
 

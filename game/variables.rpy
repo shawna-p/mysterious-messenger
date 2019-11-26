@@ -407,7 +407,7 @@ image input_close = "Menu Screens/Main Menu/main02_close_button.png"
 image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.png"
 image input_square = Frame("Menu Screens/Main Menu/main02_text_input.png",40,40)
 image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",70,70)
-
+image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_hover.png",70,70)
     
     
 

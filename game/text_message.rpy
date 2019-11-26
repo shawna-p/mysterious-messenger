@@ -115,13 +115,28 @@ screen text_hub_display(i):
                         add 'new_text'
                         add 'new_text_envelope'
                     
+init python:
+    ## This function is modified from Elaine/Empish's Automagical Notices code
+    ## https://github.com/Emperrific/Renpy-Tutorials-Automagical-Notices
+    def allocate_text_popup():
+        global available_text_popup
+        print("list is", available_text_popup)
+        if available_text_popup:
+            return available_text_popup.pop(0)
+        else:
+            return 'text_msg_popup'
+
+    def add_text_popup(screen_name):
+        global available_text_popup
+        available_text_popup.insert(0, screen_name)
     
-                                            
+default available_text_popup = ["text_msg_popup", "text_pop_2", "text_pop_3"]
+
 ########################################################               
 ## This screen takes care of the popups that notify
 ## the user when there is a new text message   
 ########################################################            
-screen text_msg_popup(c):
+screen text_msg_popup(c, hide_screen='text_msg_popup'):
 
     #modal True
     zorder 100
@@ -137,14 +152,20 @@ screen text_msg_popup(c):
         background 'text_popup_bkgr'
         xalign 0.5
         yalign 0.4
+        if hide_screen == 'text_pop_2':
+            xoffset -10 yoffset -10
+        elif hide_screen == 'text_pop_3':
+            xoffset -20 yoffset -20
         imagebutton:
             align (1.0, 0.22)
             idle 'input_close'
             hover 'input_close_hover'
             if not randint(0,3):
-                action [Hide('text_msg_popup'), deliver_next]
+                action [Function(add_text_popup, hide_screen), 
+                        Hide(hide_screen), deliver_next]
             else:
-                action Hide('text_msg_popup')
+                action [Function(add_text_popup, hide_screen), 
+                        Hide(hide_screen)]
             
         hbox:
             yalign 0.05
@@ -185,7 +206,8 @@ screen text_msg_popup(c):
                     background 'menu_select_btn' padding(20,20)
                     hover_foreground 'menu_select_btn_hover'
                     if c.real_time_text and c.text_msg.reply_label:
-                        action [Hide('text_msg_popup'),
+                        action [Function(add_text_popup, hide_screen), 
+                        Hide(hide_screen),
                         Hide('save_load'),
                         Hide('menu'),
                         Hide('chat_footer'),
@@ -194,7 +216,8 @@ screen text_msg_popup(c):
                         SetVariable('CG_who', c),
                         Jump(c.text_msg.reply_label)]
                     else:
-                        action [Hide('text_msg_popup'), 
+                        action [Function(add_text_popup, hide_screen), 
+                                Hide(hide_screen), 
                                 SetVariable("current_message", c), 
                                 Function(c.text_msg.mark_read),
                                 Hide('save_load'),
@@ -207,10 +230,19 @@ screen text_msg_popup(c):
             else:
                 null height 70
     timer 3.25:
-        action If(randint(0,1), [Hide('text_msg_popup', Dissolve(0.25)), 
+        action If(randint(0,1), [Function(add_text_popup, hide_screen), 
+                                Hide(hide_screen, Dissolve(0.25)), 
                                 deliver_next], 
-                                Hide('text_msg_popup', Dissolve(0.25)))
-        
+                                [Function(add_text_popup, hide_screen), 
+                                Hide(hide_screen, Dissolve(0.25))])
+
+## Additional screens to allow us to display multiple popups
+screen text_pop_2(c):
+    zorder 99
+    use text_msg_popup(c, 'text_pop_2')
+screen text_pop_3(c):
+    zorder 98
+    use text_msg_popup(c, 'text_pop_3')
 ########################################################  
 ## Includes the 'answer' button at the bottom
 ########################################################

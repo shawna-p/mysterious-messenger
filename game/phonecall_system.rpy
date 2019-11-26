@@ -346,6 +346,7 @@ screen phone_contacts_grid(x_num, y_num):
 ## not play out if you hang up
 label hang_up():
     $ observing = False
+    $ renpy.end_replay()
     $ call_hang_up(phonecall=current_call)
     call screen phone_calls
     
@@ -627,6 +628,8 @@ label phone_begin():
     
     # Hide all the popup screens
     hide screen text_msg_popup
+    hide screen text_pop_2
+    hide screen text_pop_3
     hide screen email_popup
     
     show screen in_call
@@ -639,10 +642,13 @@ label phone_end():
         if not observing:
             $ current_call.finished()
         $ in_phone_call = False
+        if not _in_replay:
+            $ persistent.completed_chatrooms[current_call.phone_label] = True
         $ current_call = False    
         $ observing = False
         $ _history = True
         $ renpy.retain_after_load()
+        $ renpy.end_replay()
         call screen phone_calls
     return
     

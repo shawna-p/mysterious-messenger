@@ -1,15 +1,19 @@
 ########################################################
 ## This is the screen where you choose which day to play
 ########################################################
-screen chat_select():
+screen chat_select(days=chat_archive):
 
     tag menu
     modal True
 
-    on 'show' action [FileSave(mm_auto, confirm=False)]
-    on 'replace' action [FileSave(mm_auto, confirm=False)]
+    if not main_menu:
+        on 'show' action [FileSave(mm_auto, confirm=False)]
+        on 'replace' action [FileSave(mm_auto, confirm=False)]
+        $ return_action = Show('chat_home', Dissolve(0.5))
+    else:
+        $ return_action = Show('select_history_route', Dissolve(0.5))
 
-    use menu_header("Day List", Show('chat_home', Dissolve(0.5))):  
+    use menu_header("Day List", return_action):  
         viewport:
             xysize (720, 1100)
             yalign 0.85
@@ -20,7 +24,7 @@ screen chat_select():
             
             hbox:
                 spacing 3
-                for day_num, day in enumerate(chat_archive):
+                for day_num, day in enumerate(days):
                     use day_select(day, day_num)
 
 style hscrollbar:
@@ -40,59 +44,74 @@ screen day_select(day, day_num):
         playable = False
         most_recent_day = False
 
-        # Calculate the completion percentage
-        for index, i in enumerate(day.archive_list):
-            if i.played and not i.expired:
-                completed_chatrooms += 1
-            if i.played:
-                played_chatrooms += 1
-            # This also lets us know if the user
-            # should be able to click on this day
-            if i.available:
-                playable = True
-        if day_num == today_day_num:
-            most_recent_day = True
+        if not main_menu:
+            # Calculate the completion percentage
+            for index, i in enumerate(day.archive_list):
+                if i.played and not i.expired:
+                    completed_chatrooms += 1
+                if i.played:
+                    played_chatrooms += 1
+                # This also lets us know if the user
+                # should be able to click on this day
+                if i.available:
+                    playable = True
+            if day_num == today_day_num:
+                most_recent_day = True
 
-        # Do they still have chats to play on this day?
-        # If so, it's "today"
-        if played_chatrooms == len(day.archive_list):
-            # All the chatrooms in this day are played;
-            # it's not the current day unless there's
-            # a plot branch or an unplayed VN
+            # Do they still have chats to play on this day?
+            # If so, it's "today"
+            if played_chatrooms == len(day.archive_list):
+                # All the chatrooms in this day are played;
+                # it's not the current day unless there's
+                # a plot branch or an unplayed VN
+                if day.archive_list:
+                    if day.archive_list[-1].plot_branch:
+                        is_today = True
+                    elif (day.archive_list[-1].vn_obj 
+                            and not day.archive_list[-1].vn_obj.played):
+                        is_today = True
+
+            elif played_chatrooms == 0:
+                # None of the chatrooms in this day have been
+                # played; it's only today if all the chatrooms
+                # from the previous day are played
+                # If this is the first day, it's today
+                if day_num == 0:
+                    is_today = True
+                # Last chat in the previous day is played; it's today
+                elif (chat_archive[day_num-1].archive_list 
+                        and chat_archive[day_num-1].archive_list[-1].played 
+                        and (not chat_archive[day_num-1].archive_list[-1].vn_obj 
+                        or (chat_archive[day_num-1].
+                            archive_list[-1].vn_obj.played))):
+                    is_today = True
+                else:
+                    is_today = False
+            
+            # Otherwise, this day is today if there are unplayed
+            # chatrooms left on it
+            elif played_chatrooms < len(day.archive_list):
+                is_today = True
+            
+            # Calculate the completion percentage, rounded to an int
             if day.archive_list:
-                if day.archive_list[-1].plot_branch:
-                    is_today = True
-                elif (day.archive_list[-1].vn_obj 
-                        and not day.archive_list[-1].vn_obj.played):
-                    is_today = True
-
-        elif played_chatrooms == 0:
-            # None of the chatrooms in this day have been
-            # played; it's only today if all the chatrooms
-            # from the previous day are played
-            # If this is the first day, it's today
-            if day_num == 0:
-                is_today = True
-            # Last chat in the previous day is played; it's today
-            elif (chat_archive[day_num-1].archive_list 
-                    and chat_archive[day_num-1].archive_list[-1].played 
-                    and (not chat_archive[day_num-1].archive_list[-1].vn_obj 
-                    or chat_archive[day_num-1].archive_list[-1].vn_obj.played)):
-                is_today = True
+                chat_percent = str(completed_chatrooms * 100 // num_chatrooms)
             else:
-                is_today = False
-        
-        # Otherwise, this day is today if there are unplayed
-        # chatrooms left on it
-        elif played_chatrooms < len(day.archive_list):
-            is_today = True
-        
-        # Calculate the completion percentage, rounded to an int
-        if day.archive_list:
-            chat_percent = str(completed_chatrooms * 100 // num_chatrooms)
+                chat_percent = '0'
+                num_chatrooms = 1
+
         else:
-            chat_percent = '0'
-            num_chatrooms = 1
+            is_today = False
+            # If the player has at least seen the first chat of this day,
+            # it is selectable ("playable")
+            if (day.archive_list 
+                    and (persistent.completed_chatrooms.get(
+                                day.archive_list[0].chatroom_label)
+                    or persistent.completed_chatrooms.get(
+                                day.archive_list[0].expired_chat))):
+                playable = True
+            else:
+                playable = False
 
         # Background is determined by whether this day is today
         # and whether or not it is playable
@@ -105,6 +124,8 @@ screen day_select(day, day_num):
         else:
             day_bkgr = 'day_inactive'
             day_bkgr_hover = 'day_inactive'
+
+                
         
 
     vbox:
@@ -128,47 +149,53 @@ screen day_select(day, day_num):
             xysize (265,152)
             background day_bkgr padding(-80, 0)
             hover_background day_bkgr_hover
-            if day.archive_list and day.archive_list[0].available:
+            if ((day.archive_list and day.archive_list[0].available)
+                    or (main_menu and playable)):
                 action [SetVariable('current_day', day), 
                         SetVariable('current_day_num', day_num),
                         Show('chatroom_timeline', day=day, day_num=day_num)]
                 activate_sound 'audio/sfx/UI/select_day.mp3'
+            else:
+                action Show("confirm", message=("There are no chatrooms "
+                    + "available on this day yet. Keep playing the game"
+                    + " to see more!"),
+                yes_action=Hide('confirm'))
             xalign 0.5
         
-        # This is only a viewport due to a silly
-        # issue which caused it to not be shown
-        # otherwise. It displays the chatroom
+        # This is only a viewport due to a silly issue which caused
+        # it to not be shown otherwise. It displays the chatroom
         # completion percentage
-        viewport:
-            xysize (265,35)                      
-            has hbox
-            align (0.5, 0.5)
-            spacing 5
-            fixed:
-                xysize (180,35)
-                xalign 0.0
+        if not main_menu:
+            viewport:
+                xysize (265,35)                      
+                has hbox
+                align (0.5, 0.5)
+                spacing 5
                 fixed:
-                    xysize (180, 30)
+                    xysize (180,35)
+                    xalign 0.0
+                    fixed:
+                        xysize (180, 30)
+                        align (0.5, 0.5)
+                        add 'day_percent_border'
+                    bar:
+                        value completed_chatrooms
+                        range num_chatrooms
+                        xysize (170, 20)
+                        align (0.5, 0.5)
+                fixed:
+                    xysize (80, 30)
                     align (0.5, 0.5)
                     add 'day_percent_border'
-                bar:
-                    value completed_chatrooms
-                    range num_chatrooms
-                    xysize (170, 20)
-                    align (0.5, 0.5)
-            fixed:
-                xysize (80, 30)
-                align (0.5, 0.5)
-                add 'day_percent_border'
-                text '[chat_percent]%':
-                    color '#fff' 
-                    size 20 
-                    xalign 0.5 yalign 0.5
+                    text '[chat_percent]%':
+                        color '#fff' 
+                        size 20 
+                        xalign 0.5 yalign 0.5
                 
         fixed:
             xfit True
             yfit True
-            add day.route
+            add day.day_icon
 
 
             
@@ -179,6 +206,8 @@ screen day_select(day, day_num):
         if (not most_recent_day 
                 and day.archive_list 
                 and day.archive_list[-1].available):
+            add 'day_hlink' xalign 0.5
+        elif main_menu and day_num < len(chat_archive)-1:
             add 'day_hlink' xalign 0.5
             
         
@@ -192,12 +221,18 @@ screen chatroom_timeline(day, day_num):
     tag menu
     modal True
     
-    on 'show' action [FileSave(mm_auto, confirm=False)]
-    on 'replace' action [FileSave(mm_auto, confirm=False)]
+    if not main_menu:
+        on 'show' action [FileSave(mm_auto, confirm=False)]
+        on 'replace' action [FileSave(mm_auto, confirm=False)]
 
-    $ chat_time = next_chat_time()
+        $ chat_time = next_chat_time()
+        $ return_action = Show('chat_select', Dissolve(0.5))
+    else:
+        $ chat_time = None
+        $ return_action = Show('chat_select', Dissolve(0.5),
+                            days=which_history_route)
     
-    use menu_header(day.day, Show('chat_select', Dissolve(0.5))):
+    use menu_header(day.day, return_action):
     
         fixed:   
             xysize (720, 1180)
@@ -216,15 +251,17 @@ screen chatroom_timeline(day, day_num):
                             
                     for index, chatroom in enumerate(day.archive_list):
                         # Displays rows of all the available chats
-                        if chatroom.available:
+                        if not main_menu and chatroom.available:
                             use chatroom_item(day, day_num, chatroom, index)
+                        elif (main_menu and display_history(chatroom, index,
+                                                            day.archive_list)):
+                            use chatroom_item_history(chatroom)
 
-                    if (persistent.real_time 
+                    if (not main_menu and persistent.real_time 
                             and day_num == today_day_num 
-                            and not (day.archive_list[-1].plot_branch 
-                            and day.archive_list[-1].available) 
                             and not unlock_24_time 
-                            and not chat_time == 'Unknown Time'):
+                            and not chat_time == 'Unknown Time'
+                            and not chat_time == 'Plot Branch'):
                         hbox:
                             xysize (620, 110)
                             xoffset 70
@@ -349,19 +386,11 @@ screen chatroom_item(day, day_num, chatroom, index):
         # same hour. If it's false, we need to show the
         # hour above this chat
         textbutton _(chatroom.trigger_time[:2] + ':00'):
-            xysize (181,62)
-            text_color '#fff'
-            text_size 40
-            text_xalign 0.5
-            xalign 0.05
-            text_align 0.5
-            yalign 0.5
-            background 'vn_time_bg' padding (20,20)
+            style 'timeline_button'
+            text_style 'timeline_button_text'
         
     hbox:
-        xysize (620, 160)
-        xoffset 70
-        xalign 0.0
+        style 'timeline_hbox'
         button at anim(10):
             xysize (chat_box_width, 160)
             xalign 0.0
@@ -524,9 +553,9 @@ screen chatroom_item(day, day_num, chatroom, index):
         button:
             xysize(330, 85)
             background 'input_popup_bkgr'
-            hover_background Fixed('input_popup_bkgr',
-                            Transform('input_popup_bkgr', alpha=0.5))
+            hover_background 'input_popup_bkgr_hover'
             xalign 0.5
+            xoffset 40
             hbox:
                 spacing 15
                 align (0.5, 0.5)
@@ -639,60 +668,10 @@ label plot_branch_end():
         # Now we need to check if the player unlocked the next 24 hours
         # of chatrooms, and make those available
         if unlock_24_time:
-            is_branch = False
-            # Check chatrooms for the previous day
-            for chatroom in chat_archive[today_day_num-1].archive_list:
-                # Hour for this chatroom is greater than now; make available
-                if (int(unlock_24_time.military_hour) 
-                        < int(chatroom.trigger_time[:2]) 
-                        and not is_branch):
-                    if chatroom.plot_branch:
-                        is_branch = True
-                    chatroom.available = True
-                    chatroom.buyahead = True
-                # Hour is the same; check minute
-                elif (int(unlock_24_time.military_hour) 
-                        == int(chatroom.trigger_time[:2])):            
-                    if (int(unlock_24_time.minute) 
-                            < int(chatroom.trigger_time[-2:]) 
-                            and not is_branch):
-                        if chatroom.plot_branch:
-                            is_branch = True
-                        # Minute is greater; make available
-                        chatroom.available = True
-                        chatroom.buyahead = True
-            # Now check chatrooms for today
-            if chat_archive[today_day_num].archive_list:
-                for chatroom in chat_archive[today_day_num].archive_list:
-                    # Hour for this chatroom is smaller than now; 
-                    # make available
-                    if (int(unlock_24_time.military_hour) 
-                            > int(chatroom.trigger_time[:2]) 
-                            and not is_branch):
-                        if chatroom.plot_branch:
-                            is_branch = True
-                        chatroom.available = True
-                        chatroom.buyahead = True
-                    # Hour is the same; check minute
-                    elif (int(unlock_24_time.military_hour) 
-                            == int(chatroom.trigger_time[:2])):            
-                        if (int(unlock_24_time.minute) 
-                                > int(chatroom.trigger_time[-2:]) 
-                                and not is_branch):
-                            if chatroom.plot_branch:
-                                is_branch = True
-                            # Minute is smaller; make available
-                            chatroom.available = True
-                            chatroom.buyahead = True
-            # 24-hour buy-ahead is done; reset the variable
-            # *unless* there was a plot branch, in which case
-            # we're not done unlocking
-            if not is_branch:
-                unlock_24_time = False            
+            chat_24_available(reset_24=False)           
         next_chatroom()
         renpy.retain_after_load
         
-    #$ renpy.save(mm_auto)
     call screen chat_select
                 
                 

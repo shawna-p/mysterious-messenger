@@ -184,6 +184,19 @@ init python:
             has_have = "have"
             s_verb = ""
         renpy.retain_after_load()
+
+    # Ensures the player's name and profile picture are correctly set
+    def set_name_pfp():
+        global name, persistent, m
+        name = persistent.name
+        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
+            m.prof_pic = persistent.MC_pic
+        else:
+            m.prof_pic = 'Profile Pics/MC/MC-1.png'
+        if m.name != persistent.name:
+            m.name = persistent.name
+        renpy.retain_after_load()
+        return
       
             
 
@@ -397,7 +410,13 @@ screen route_select_screen():
                     focus_mask True
                     background 'right_corner_menu'
                     hover_foreground 'right_corner_menu_hover'
-                    action [Start()]         
+                    # Note that here we tell the program which "route"
+                    # we'd like the player to be on -- in this case,
+                    # tutorial_good_end, without the title (which is why
+                    # we need to follow it with [1:])
+                    action [SetVariable('chat_archive', tutorial_good_end[1:]),
+                            Function(set_pronouns), Function(set_name_pfp),
+                            Start()]         
                 text 'Start Game':
                     style 'menu_text_small' 
                     xalign 0.5 
@@ -439,7 +458,7 @@ screen file_slots(title):
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name  
         if most_recent_chat == None:
-            most_recent_chat = chat_archive[0].archive_list[0]
+            most_recent_chat = Chat_History('Example Chatroom', 'example_chat', '00:01')
         for day in chat_archive:
             if most_recent_chat in day.archive_list:
                 the_day = day.day
@@ -735,7 +754,8 @@ screen menu_header(title, return_action=NullAction,
             and not main_menu 
             and not starter_story 
             and num_undelivered()):
-        timer 3.5 action If(randint(0,2), deliver_next, []) repeat True
+        timer 0.5 action If(randint(0,3), deliver_next, []) repeat True
+        timer 0.4 action Function(deliver_next)
 
     hbox:
         add my_menu_clock xalign 0.0 yalign 0.0 xpos 5

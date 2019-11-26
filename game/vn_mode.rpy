@@ -95,7 +95,8 @@ label vn_begin():
     
     # Hide all the popup screens
     hide screen text_msg_popup
-    hide screen text_msg_popup_instant
+    hide screen text_pop_2
+    hide screen text_pop_3
     hide screen email_popup
     
     show screen vn_overlay
@@ -110,6 +111,10 @@ label vn_begin():
             pass
     else:
         $ observing = False
+    if _in_replay:
+        $ observing = True
+        $ set_name_pfp()
+        $ set_pronouns()
         
     return
         

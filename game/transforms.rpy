@@ -317,7 +317,8 @@ init 5:
         linear 0.12 xoffset 80 yoffset 60
         linear 0.14 xoffset -80 yoffset -60
         linear 0.14 xoffset 80 yoffset 60
-        linear 0.16 xoffset 0 yoffset 0
+        easein_back 0.16 xoffset 0 yoffset 0
+
         
     ## Used for the hacker screen effect
     transform flicker:
