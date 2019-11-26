@@ -899,17 +899,19 @@ screen chat_home(reshow=False):
         action If(renpy.get_screen('chip_tap') 
                     or renpy.get_screen('chip_cloud')
                     or renpy.get_screen('chip_end'),
-                NullAction(),
-                [Hide('chip_end'), renpy.retain_after_load,
+                SetField(persistent, 'just_loaded', False),
+                [SetField(persistent, 'just_loaded', False),
+                Hide('chip_end'), renpy.retain_after_load,
                 FileSave(mm_auto, confirm=False)]) 
  
     on 'replace':
         action If(renpy.get_screen('chip_tap') 
                     or renpy.get_screen('chip_cloud') 
                     or renpy.get_screen('chip_end'),
-                NullAction(),
-                [Hide('chip_end'), renpy.retain_after_load, 
-                FileSave(mm_auto, confirm=False)]) 
+                SetField(persistent, 'just_loaded', False),
+                [SetField(persistent, 'just_loaded', False), 
+                Hide('chip_end'), renpy.retain_after_load, 
+                FileSave(mm_auto, confirm=False))]) 
 
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will
@@ -1088,7 +1090,8 @@ screen chat_home(reshow=False):
                     background "white_hex"
                     hover_background "white_hex_hover"
                     #action NullAction
-                    action ToggleScreen('hack_rectangle')
+                    action Show('email_popup', e=Email(rainbow, 
+                                rainbow.start_msg, rainbow.label1))
                     add "guest_icon" xalign 0.5 yalign 0.3
                     add "guest_text" xalign 0.5 yalign 0.8
                     
