@@ -363,7 +363,7 @@ screen email_popup(e):
                 font sans_serif_1b
         
         vbox:
-            align (0.5, 0.8)
+            align (0.5, 0.63)
             spacing 15
             hbox:
                 align (0.5, 0.5)
