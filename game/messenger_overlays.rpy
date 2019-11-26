@@ -3,22 +3,20 @@
 #************************************ 
     
 init python:
-    ## This function is modified from Elaine/Empish's Automagical Notices code
-    ## https://github.com/Emperrific/Renpy-Tutorials-Automagical-Notices
+    ## This function allows us to show up to three heart icons on
+    ## the screen at once
     def allocate_heart_screen():
-        global available_heart_screens
-        if len(available_heart_screens) < 3:
+        possible_screens = ["heart_icon_screen", "hicon2", "hicon3"]
+        available_screens = [ x for x in possible_screens 
+                                if not renpy.get_screen(x) ]
+        if len(available_screens) < 3:
             renpy.pause(0.1)
-        if available_heart_screens:
-            return available_heart_screens.pop(0)
+        if available_screens:
+            return available_screens[0]
         else:
-            return 'heart_icon_screen'
-    
-    def add_heart_screen(screen_name):
-        global available_heart_screens
-        available_heart_screens.append(screen_name)
+            renpy.hide_screen(possible_screens[0])
+            return possible_screens[0]
 
-default available_heart_screens = ["heart_icon_screen", "hicon2", "hicon3"]
 # You call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
     if character == r:
@@ -52,8 +50,7 @@ screen heart_icon_screen(character):
         xfit True
         add heart_icon(character)
         
-    timer 0.62 action [Function(add_heart_screen, 'heart_icon_screen'),
-                        Hide('heart_icon_screen')]
+    timer 0.62 action [Hide('heart_icon_screen')]
 
 # Additional screens for allocation
 screen hicon2(character):
@@ -64,8 +61,7 @@ screen hicon2(character):
         xfit True
         add heart_icon(character)
         
-    timer 0.62 action [Function(add_heart_screen, 'hicon2'),
-                        Hide('hicon2')]
+    timer 0.62 action [Hide('hicon2')]
 
 screen hicon3(character):
     zorder 20   
@@ -75,8 +71,7 @@ screen hicon3(character):
         xfit True
         add heart_icon(character)
         
-    timer 0.62 action [Function(add_heart_screen, 'hicon3'),
-                        Hide('hicon3')]
+    timer 0.62 action [Hide('hicon3')]
         
 # Like the heart icon, call this to display the heart break   
 label heart_break(character):

@@ -116,22 +116,15 @@ screen text_hub_display(i):
                         add 'new_text_envelope'
                     
 init python:
-    ## This function is modified from Elaine/Empish's Automagical Notices code
-    ## https://github.com/Emperrific/Renpy-Tutorials-Automagical-Notices
     def allocate_text_popup():
-        global available_text_popup
-        print("list is", available_text_popup)
-        if available_text_popup:
-            return available_text_popup.pop(0)
+        possible_screens = ["text_msg_popup", "text_pop_2", "text_pop_3"]
+        available_screens = [ x for x in possible_screens 
+                                if not renpy.get_screen(x) ]
+        if available_screens:
+            return available_screens[0]
         else:
-            return 'text_msg_popup'
-
-    def add_text_popup(screen_name):
-        global available_text_popup
-        available_text_popup.insert(0, screen_name)
+            return possible_screens[0]
     
-default available_text_popup = ["text_msg_popup", "text_pop_2", "text_pop_3"]
-
 ########################################################               
 ## This screen takes care of the popups that notify
 ## the user when there is a new text message   
@@ -161,11 +154,9 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
             idle 'input_close'
             hover 'input_close_hover'
             if not randint(0,3):
-                action [Function(add_text_popup, hide_screen), 
-                        Hide(hide_screen), deliver_next]
+                action [Hide(hide_screen), deliver_next]
             else:
-                action [Function(add_text_popup, hide_screen), 
-                        Hide(hide_screen)]
+                action [Hide(hide_screen)]
             
         hbox:
             yalign 0.05
@@ -206,8 +197,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
                     background 'menu_select_btn' padding(20,20)
                     hover_foreground 'menu_select_btn_hover'
                     if c.real_time_text and c.text_msg.reply_label:
-                        action [Function(add_text_popup, hide_screen), 
-                        Hide(hide_screen),
+                        action [Hide(hide_screen),
                         Hide('save_load'),
                         Hide('menu'),
                         Hide('chat_footer'),
@@ -216,8 +206,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
                         SetVariable('CG_who', c),
                         Jump(c.text_msg.reply_label)]
                     else:
-                        action [Function(add_text_popup, hide_screen), 
-                                Hide(hide_screen), 
+                        action [Hide(hide_screen), 
                                 SetVariable("current_message", c), 
                                 Function(c.text_msg.mark_read),
                                 Hide('save_load'),
@@ -230,11 +219,9 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
             else:
                 null height 70
     timer 3.25:
-        action If(randint(0,1), [Function(add_text_popup, hide_screen), 
-                                Hide(hide_screen, Dissolve(0.25)), 
+        action If(randint(0,1), [Hide(hide_screen, Dissolve(0.25)), 
                                 deliver_next], 
-                                [Function(add_text_popup, hide_screen), 
-                                Hide(hide_screen, Dissolve(0.25))])
+                                [Hide(hide_screen, Dissolve(0.25))])
 
 ## Additional screens to allow us to display multiple popups
 screen text_pop_2(c):
