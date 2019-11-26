@@ -129,8 +129,8 @@ default expired_replay = False
 default persistent.completed_chatrooms = {}
 
 image contact_darken = "Menu Screens/History/contact_darken.png"
-image call_incoming_outline = "Menu Screens/History/call_icon_incoming_outline.png"
-image call_outgoing_outline = "Menu Screens/History/call_icon_outgoing_outline.png"
+image call_incoming_outline = Transform("Menu Screens/History/call_icon_incoming_outline.png", size=(32, 32))
+image call_outgoing_outline = Transform("Menu Screens/History/call_icon_outgoing_outline.png", size=(32, 32))
 
 screen chatroom_item_history(chatroom):
 
