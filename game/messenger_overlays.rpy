@@ -3,7 +3,7 @@
 #************************************ 
     
 init python:
-    ## This code is modified from Elaine/Empish's Automagical Notices code
+    ## This function is modified from Elaine/Empish's Automagical Notices code
     ## https://github.com/Emperrific/Renpy-Tutorials-Automagical-Notices
     def allocate_heart_screen():
         global available_heart_screens

@@ -754,7 +754,8 @@ screen menu_header(title, return_action=NullAction,
             and not main_menu 
             and not starter_story 
             and num_undelivered()):
-        timer 3.5 action If(randint(0,2), deliver_next, []) repeat True
+        timer 0.5 action If(randint(0,3), deliver_next, []) repeat True
+        timer 0.4 action Function(deliver_next)
 
     hbox:
         add my_menu_clock xalign 0.0 yalign 0.0 xpos 5

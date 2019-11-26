@@ -561,6 +561,10 @@ init -6 python:
 
         if renpy.random.randint(0, 1):
             for c in all_characters:
+                print("1 msg_queue for", c.name, "is", c.text_msg.msg_queue)
+                print("1 real time is", c.real_time_text)
+                print("1 msg_read is", c.text_msg.read)
+                print("1 notified is", c.text_msg.notified)
                 if (c.text_msg.msg_queue 
                         and not c.real_time_text and not delivered_text):
                     c.text_msg.deliver()
@@ -571,9 +575,15 @@ init -6 python:
                         and not c.text_msg.notified):
                     c.text_msg.notified = True
                     renpy.music.play(persistent.text_tone, 'sound')
-                    renpy.show_screen('text_msg_popup', the_char=c) 
+                    popup_screen = allocate_text_popup()
+                    renpy.show_screen(popup_screen, c=c) 
+                    
         else:
             for c in reversed(all_characters):
+                print("2 msg_queue for", c.name, "is", c.text_msg.msg_queue)
+                print("2 real time is", c.real_time_text)
+                print("2 msg_read is", c.text_msg.read)
+                print("2 notified is", c.text_msg.notified)
                 if (c.text_msg.msg_queue 
                         and not c.real_time_text and not delivered_text):
                     c.text_msg.deliver()
@@ -584,7 +594,9 @@ init -6 python:
                         and not c.text_msg.notified):
                     c.text_msg.notified = True
                     renpy.music.play(persistent.text_tone, 'sound')
-                    renpy.show_screen('text_msg_popup', c=c) 
+                    popup_screen = allocate_text_popup()
+                    renpy.show_screen(popup_screen, c=c) 
+                    
 
         if incoming_call:
             current_call = incoming_call

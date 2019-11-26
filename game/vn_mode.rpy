@@ -95,7 +95,8 @@ label vn_begin():
     
     # Hide all the popup screens
     hide screen text_msg_popup
-    hide screen text_msg_popup_instant
+    hide screen text_pop_2
+    hide screen text_pop_3
     hide screen email_popup
     
     show screen vn_overlay

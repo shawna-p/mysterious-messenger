@@ -42,7 +42,8 @@ init -6 python:
                     # We notify the player of the delivered message
                     self.read = False
                     renpy.music.play(persistent.text_tone, 'sound')
-                    renpy.show_screen('text_msg_popup', 
+                    popup_screen = allocate_text_popup()
+                    renpy.show_screen(popup_screen, 
                         c=self.msg_list[-1].who)
                     self.notified = True
                 else:
@@ -124,7 +125,7 @@ init -6 python:
             sender.text_msg.msg_queue.append(Chatentry(
                                                 who, what, upTime(), img))
             # sender.text_msg.read = False
-            # sender.text_msg.notified = False
+            sender.text_msg.notified = False
         
         # We also check if the sent message has a CG
         if img and "{image" not in what:
@@ -175,6 +176,8 @@ init -6 python:
         # If we're not on the text message screen currently reading
         # this, it should be delivered instantly
         elif not renpy.get_screen('text_message_screen'):
+            if not who.right_msgr:
+                store.text_person.text_msg.notified = False
             pass
         elif who.file_id == 'delete':
             renpy.pause(pv)

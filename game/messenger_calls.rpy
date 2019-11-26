@@ -43,6 +43,8 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     
     # Hide all the popup screens
     hide screen text_msg_popup
+    hide screen text_pop_2
+    hide screen text_pop_3
     hide screen email_popup
     
     $ text_person = None

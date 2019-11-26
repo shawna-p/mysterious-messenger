@@ -50,6 +50,8 @@ label after_load():
                 break
         if no_text_notif:
             renpy.hide_screen('text_msg_popup')
+            renpy.hide_screen('text_pop_2')
+            renpy.hide_screen('text_pop_3')
             
         if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
             m.prof_pic = persistent.MC_pic
