@@ -2,6 +2,23 @@
 # Heart Icons
 #************************************ 
     
+init python:
+    ## This code is modified from Elaine/Empish's Automagical Notices code
+    ## https://github.com/Emperrific/Renpy-Tutorials-Automagical-Notices
+    def allocate_heart_screen():
+        global available_heart_screens
+        if len(available_heart_screens) < 3:
+            renpy.pause(0.1)
+        if available_heart_screens:
+            return available_heart_screens.pop(0)
+        else:
+            return 'heart_icon_screen'
+    
+    def add_heart_screen(screen_name):
+        global available_heart_screens
+        available_heart_screens.append(screen_name)
+
+default available_heart_screens = ["heart_icon_screen", "hicon2", "hicon3"]
 # You call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
     if character == r:
@@ -13,7 +30,8 @@ label heart_icon(character, bad=False):
                 chatroom_hp += 1
                 persistent.HP += 1
         if not observing and not no_heart:
-            show screen heart_icon_screen(character)
+            $ renpy.show_screen(allocate_heart_screen(), character=character)
+            #show screen heart_icon_screen(character)
     # This is shown during a real-time text conversation
     elif text_person.real_time_text:
         $ character.increase_heart(bad)
@@ -34,7 +52,31 @@ screen heart_icon_screen(character):
         xfit True
         add heart_icon(character)
         
-    timer 0.62 action [Hide('heart_icon_screen')]
+    timer 0.62 action [Function(add_heart_screen, 'heart_icon_screen'),
+                        Hide('heart_icon_screen')]
+
+# Additional screens for allocation
+screen hicon2(character):
+    zorder 20   
+
+    fixed at heart:
+        yfit True
+        xfit True
+        add heart_icon(character)
+        
+    timer 0.62 action [Function(add_heart_screen, 'hicon2'),
+                        Hide('hicon2')]
+
+screen hicon3(character):
+    zorder 20   
+
+    fixed at heart:
+        yfit True
+        xfit True
+        add heart_icon(character)
+        
+    timer 0.62 action [Function(add_heart_screen, 'hicon3'),
+                        Hide('hicon3')]
         
 # Like the heart icon, call this to display the heart break   
 label heart_break(character):
