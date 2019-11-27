@@ -536,7 +536,12 @@ screen other_settings():
                     textbutton _("Chatroom Banners"):
                         action ToggleField(persistent, 'banners')
                     textbutton _("Auto-Answer Timed Menus"):
-                        action ToggleField(persistent,'autoanswer_timed_menus')        
+                        action ToggleField(persistent,'autoanswer_timed_menus') 
+                    bar value FieldValue(persistent, 'window_darken_pct', 
+                            100, style='sound_settings_slider', step=10,
+                            action=Function(adjust_vn_alpha))
+                    # FieldValue(persistent, 'say_window_alpha', 1.0,
+                    #              max_is_zero=False, offset=0, step=.2)
             window:
                 xysize(675,280)
                 background "menu_settings_panel"

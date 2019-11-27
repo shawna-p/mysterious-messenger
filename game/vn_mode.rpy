@@ -16,14 +16,6 @@ image bg normal_end = "VN Mode/Backgrounds/normal_end.jpg"
 image bg bad_end = "VN Mode/Backgrounds/bad_end.jpg"
 image bg black = '#000000'
 
-#####################################
-## Extra Sound Effects
-#####################################
-
-define car_moving_sfx = "audio/sfx/car moving.mp3"
-define door_knock_sfx = "audio/sfx/door knock.mp3"
-define door_open_sfx = "audio/sfx/door open.mp3"
-
 
 #####################################
 ## Transforms/VN Positions
@@ -147,8 +139,7 @@ screen history():
     ## Avoid predicting this screen, as it can be very large.
     predict False
 
-    add 'choice_darken'
-    add "choice_darken"
+    add '#000b'
     
     # Close button
     button:

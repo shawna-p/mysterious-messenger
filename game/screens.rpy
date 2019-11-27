@@ -109,7 +109,7 @@ transform bubble:
         # maxsize (30, 30)
 
 screen say(who, what):
-    style_prefix "say"
+    #style_prefix "say"
     
     # In VN mode
     if not in_phone_call and not text_person and vn_choice:
@@ -123,10 +123,13 @@ screen say(who, what):
                 align (0.98, 0.01)
 
         window:
+            # background Fixed(Transform('vn_window_darken', 
+            #                     alpha=persistent.vn_window_dark),
+            #                 Transform(style.window.background, 
+            #                     alpha=persistent.vn_window_alpha))
             id "window"
-
+            
             if who is not None:
-
                 window:
                     style "namebox"
                     text who id "who"
@@ -183,11 +186,8 @@ style namebox_label is say_label
 
 style window:
     xalign 0.5
-    xfill True
     yalign gui.textbox_yalign
     ysize gui.textbox_height
-
-    background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
 style namebox:
     xpos gui.name_xpos
@@ -196,7 +196,6 @@ style namebox:
     ypos gui.name_ypos
     ysize gui.namebox_height
 
-    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
     padding gui.namebox_borders.padding
 
 style say_label:
@@ -206,7 +205,6 @@ style say_label:
 
 style say_dialogue:
     properties gui.text_properties("dialogue")
-
     xpos gui.dialogue_xpos
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
@@ -300,6 +298,8 @@ screen choice(items):
             spacing 20
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
+                if observing:
+                    $ fnum = 0
                 if not observing or i.chosen:
                     $ can_see_answer += 1
                     textbutton i.caption at the_anim(fnum):

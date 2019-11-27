@@ -19,33 +19,34 @@ label timed_menus():
     # The first value is the menu to jump to if the player hits 'answer'
     # The second value passed to continue_answer (in this case, 8) is how
     # many seconds the player has to decide on an answer
-    # Most of these screens/labels are in screen effects.rpy at the bottom
+    # Most of these screens/labels are in messenger_ui.rpy at the bottom
     call continue_answer("menu1", 8) 
     
     s "You only have so long to reply," 
     s "and when the spaceship at the bottom of the screen reaches the right side," 
     s "BAM!!"   (bounce=True, specBubble="spike_s")
     s "The opportunity to answer has passed!!!" 
-    # The time given to reply will change depending on the chat speed, so players
-    # who need more time to read will also have a longer time window to reply
-    # This means that everyone will see the same number of speech bubbles. In this
-    # example, they will see up to these messages, but unless they don't reply
-    # they won't see the dialogue after this comment. You may need some trial/error 
-    # to know how much dialogue you can include before a timer runs out
-    # If the player is using MAX speed, it will skip over the timer entirely and there
-    # will be no opportunity to interrupt
+    # The time given to reply will change depending on the chat speed, so 
+    # players who need more time to read will also have a longer time window
+    # to reply. This means that everyone will see the same number of speech
+    # bubbles. In this example, they will see up to these messages, but 
+    # unless they don't reply they won't see the dialogue after this comment.
+    # You may need some trial/error to know how much dialogue you can include 
+    # before a timer runs out. If the player is using MAX speed, it will
+    # skip over the timer entirely and there will be no opportunity to interrupt
     s "You write these menus a bit differently than regular menus" 
     s "You'll see an example of it in this code." 
    
     # You'll need to preface the menu with 'if timed_choose:' or else the menu
-    # will simply show up after the dialogue before it is exhausted (though if you
-    # need the player to reply regardless, you may want to leave it out)
+    # will simply show up after the dialogue before it is exhausted (though if
+    # you need the player to reply regardless, you may want to leave it out)
     # If the player chooses an option, it will finish displaying the most recent
     # line of dialogue from above, then move on to the dialogue after the choice
     # If nothing is chosen, it will finish displaying the above dialogue, skip
     # over the menu, and keep going
     if timed_choose:
-        menu menu1: # Don't forget to name the menu whatever you called it before
+        # Don't forget to name the menu whatever you called it before
+        menu menu1: 
             "Slow down! Timed menus??":
                 m "Slow down! Timed menus??" 
                 s "Whoops lolol I got a bit excited" 
