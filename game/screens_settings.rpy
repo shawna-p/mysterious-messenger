@@ -519,7 +519,24 @@ screen other_settings():
                         action Preference("after choices", "toggle")
                     textbutton _("Transitions"):
                         action InvertSelected(Preference("transitions", "toggle"))
-                    
+            window:
+                xysize(675,280)
+                background "menu_settings_panel"
+                text "Accessibility Options":
+                    style "settings_style" xpos 55 ypos 5
+
+                vbox:
+                    spacing 6
+                    style_prefix "check"
+                    null height 30
+                    textbutton _("Hacking Effects"):
+                        action ToggleField(persistent, "hacking_effects")
+                    textbutton _("Screen Shake"):
+                        action ToggleField(persistent, "screen_shake")
+                    textbutton _("Chatroom Banners"):
+                        action ToggleField(persistent, 'banners')
+                    textbutton _("Auto-Answer Timed Menus"):
+                        action ToggleField(persistent,'autoanswer_timed_menus')        
             window:
                 xysize(675,280)
                 background "menu_settings_panel"
@@ -535,8 +552,6 @@ screen other_settings():
                         action ToggleField(persistent, "real_time")
                     textbutton _("Hacked Effect"):
                         action ToggleVariable('hacked_effect')
-                    textbutton _("Real-Time Texts"):
-                        action ToggleField(persistent,'instant_texting')
                     
             
                     
@@ -676,7 +691,9 @@ screen preferences():
             side_spacing 5
             has vbox
     
-            window:                
+            frame:      
+                has fixed
+                yfit True          
                 text "Sound" style "settings_style" xpos 55 ypos -5
                 style_prefix "sound_settings"
                 vbox:                      
@@ -710,8 +727,11 @@ screen preferences():
                                 action Play("voice_sfx", sample_voice_sfx)
                         
                     textbutton _("Mute All"):
-                        style "mute_all_button" xalign 0.45
+                        style "mute_all_button" xalign 0.0 xoffset 15
                         action Preference("all mute", "toggle")
+                    textbutton _("Audio Captions"):
+                        style "mute_all_button" xalign 0.0 xoffset 15
+                        action ToggleField(persistent, 'audio_captions')
                 
             window:
                 xysize(675,390)
@@ -775,6 +795,11 @@ style sound_settings_window:
     is default
     xysize(675,400)
     background "menu_settings_panel" padding(10,10)
+
+style other_settings_frame:
+    is default
+    background "menu_settings_panel" padding (10,10)
+    xsize 675
 
 style sound_settings_vbox:
     is default

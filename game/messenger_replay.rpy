@@ -43,6 +43,10 @@ label exit(chara):
 # music during a chatroom or VN
 label play_music(file):
     play music file loop
+    if persistent.audio_captions:
+        $ notification = ("♪ " + 
+                music_dictionary[renpy.sound.get_playing('music')] + " ♪")
+        show screen notify(notification)
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         # We should add this music to the replay_log
@@ -56,7 +60,8 @@ label play_music(file):
 # This allows the program to keep track of when it should
 # shake the screen during a chatroom
 label shake():
-    show expression current_background at shake
+    if persistent.screenshake:
+        show expression current_background at shake
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         # We should add this shake to the replay_log
@@ -70,10 +75,11 @@ label shake():
 # This allows the program to keep track of the different
 # "hacking" effects used during a playthrough
 label invert_screen(t=0, p=0):
-    if t != 0:
-        show screen invert(t)
-    else:
-        show screen invert()
+    if persistent.hacking_effects:
+        if t != 0:
+            show screen invert(t)
+        else:
+            show screen invert()
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         # We should add this to the replay_log
@@ -85,15 +91,16 @@ label invert_screen(t=0, p=0):
         $ current_chatroom.replay_log.append(effect_entry)
         if p != 0:
             $ current_chatroom.replay_log.append(("pause", p))
-    if p != 0:
+    if p != 0 and persistent.hacking_effects:
         pause p
     return
 
 label white_square_screen(t=0, p=0):
-    if t != 0:
-        show screen white_squares(t)
-    else:
-        show screen white_squares()
+    if persistent.hacking_effects:
+        if t != 0:
+            show screen white_squares(t)
+        else:
+            show screen white_squares()
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         # We should add this to the replay_log
@@ -105,15 +112,16 @@ label white_square_screen(t=0, p=0):
         $ current_chatroom.replay_log.append(effect_entry)
         if p != 0:
             $ current_chatroom.replay_log.append(("pause", p))
-    if p != 0:
+    if p != 0 and persistent.hacking_effects:
         pause p
     return
 
 label hack_rectangle_screen(t=0, p=0):
-    if t != 0:
-        show screen hack_rectangle(t)
-    else:
-        show screen hack_rectangle()
+    if persistent.hacking_effects:
+        if t != 0:
+            show screen hack_rectangle(t)
+        else:
+            show screen hack_rectangle()
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         # We should add this to the replay_log
@@ -125,16 +133,17 @@ label hack_rectangle_screen(t=0, p=0):
         $ current_chatroom.replay_log.append(effect_entry)
         if p != 0:
             $ current_chatroom.replay_log.append(("pause", p))
-    if p != 0:
+    if p != 0 and persistent.hacking_effects:
         pause p
     return 
 
 label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2, 
                         offsetMin=-10, offsetMax=30, w_timer=0.2,
                         p=0):
-    show screen tear(number=number, offtimeMult=offtimeMult, 
-                    ontimeMult=ontimeMult, offsetMin=offsetMin, 
-                    offsetMax=offsetMax, w_timer=w_timer)
+    if persistent.hacking_effects:
+        show screen tear(number=number, offtimeMult=offtimeMult, 
+                        ontimeMult=ontimeMult, offsetMin=offsetMin, 
+                        offsetMax=offsetMax, w_timer=w_timer)
 
     if (not observing and not persistent.testing_mode
             and not vn_choice):
@@ -144,7 +153,7 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
         $ current_chatroom.replay_log.append(effect_entry)
         if p != 0:
             $ current_chatroom.replay_log.append(("pause", p))
-    if p != 0:
+    if p != 0 and persistent.hacking_effects:
         pause p
     return 
 
@@ -227,61 +236,70 @@ label chatroom_replay():
                 first = entry[0]
                 second = entry[1]
                 if first == "banner":
-                    renpy.show_screen('banner_screen', banner=second)
+                    if persistent.banners:
+                        renpy.show_screen('banner_screen', banner=second)
                 elif first == "hack":
-                    if second == "regular":
-                        renpy.show_screen('hack_screen', hack='hack scroll')
-                        # This looks a bit silly but for whatever reason it
-                        # doesn't allow the player to skip it otherwise
-                        # The hack screen was turned into a button, and if
-                        # the player presses it it hides itself. Then the 
-                        # program checks to make sure the hack screen is still
-                        # showing so that it should continue to pause
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        renpy.hide_screen('hack_screen')
-                    elif second == "red":
-                        renpy.show_screen('hack_screen', hack='redhack scroll')
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        if (not renpy.is_skipping()
-                                and renpy.get_screen("hack_screen")):
-                            renpy.pause(0.5, hard=False)
-                        renpy.hide_screen('hack_screen')
+                    if persistent.hacking_effects:
+                        if second == "regular":
+                            renpy.show_screen('hack_screen', hack='hack scroll')
+                            # This looks a bit silly but for whatever reason it
+                            # doesn't allow the player to skip it otherwise
+                            # The hack screen was turned into a button, and if
+                            # the player presses it it hides itself. Then the 
+                            # program checks to make sure the hack screen is 
+                            # still showing so that it should continue to pause
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            renpy.hide_screen('hack_screen')
+                        elif second == "red":
+                            renpy.show_screen('hack_screen', 
+                                                hack='redhack scroll')
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            renpy.hide_screen('hack_screen')
                 elif first == "play music":
                     renpy.music.play(second, channel='music', loop=True)
+                    if persistent.audio_captions:
+                        notification = ("♪ " + 
+                            music_dictionary[renpy.sound.get_playing('music')] 
+                            + " ♪")
+                        renpy.show_screen('notify', notification)
                 elif first == "shake":
                     current_background = second
-                    renpy.show(second, at_list=[shake])
+                    if persistent.screenshake:
+                        renpy.show(second, at_list=[shake])
                 elif first == "enter":
                     mystring = second.name + " has entered the chatroom."
                     addchat(special_msg, mystring, pv)
@@ -304,21 +322,25 @@ label chatroom_replay():
                     else:
                         nickColour = white
                 elif first == "invert":
-                    renpy.show_screen('invert', w_timer=second)
+                    if persistent.hacking_effects:
+                        renpy.show_screen('invert', w_timer=second)
                 elif first == "pause":
                     if not renpy.is_skipping():
                         renpy.pause(second, hard=False)
                     else:
                         pass
                 elif first == "white squares":
-                    renpy.show_screen('white_squares', w_timer=second)
+                    if persistent.hacking_effects:
+                        renpy.show_screen('white_squares', w_timer=second)
                 elif first == "hack squares":
-                    renpy.show_screen('hack_rectangle', w_timer=second)
+                    if persistent.hacking_effects:
+                        renpy.show_screen('hack_rectangle', w_timer=second)
                 elif first == "tear":
-                    renpy.show_screen('tear', number=second[0],
-                        offtimeMult=second[1], ontimeMult=second[2],
-                        offsetMin=second[3], offsetMax=second[4],
-                        w_timer=second[5])
+                    if persistent.hacking_effects:
+                        renpy.show_screen('tear', number=second[0],
+                            offtimeMult=second[1], ontimeMult=second[2],
+                            offsetMin=second[3], offsetMax=second[4],
+                            w_timer=second[5])
                 elif first == "remove":
                     del chatlog[second:]
                 

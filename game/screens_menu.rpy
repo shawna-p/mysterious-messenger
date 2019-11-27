@@ -911,7 +911,7 @@ screen chat_home(reshow=False):
                 SetField(persistent, 'just_loaded', False),
                 [SetField(persistent, 'just_loaded', False), 
                 Hide('chip_end'), renpy.retain_after_load, 
-                FileSave(mm_auto, confirm=False))]) 
+                FileSave(mm_auto, confirm=False)]) 
 
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will

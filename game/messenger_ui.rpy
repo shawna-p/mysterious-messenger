@@ -312,27 +312,24 @@ screen phone_overlay():
 # Countdown Screen
 #************************************
 
-# Not actually in MysMe; this is just a screen to test out timed responses
-# Could be a neat game mechanic
- # I set a default reaction time of 5 seconds
-screen countdown(timer_jump, count_time=5):
-    timer count_time repeat False action [ Hide('countdown'), 
-                                            Jump(timer_jump) ]
-    bar value AnimatedValue(0, count_time, count_time, count_time):
-        at alpha_dissolve
-
-screen hidden_countdown(count_time=5): 
-    timer count_time repeat False action [ Hide('hidden_countdown'), Return() ]
-    bar value AnimatedValue(0, count_time, count_time, count_time):
-        at alpha_dissolve
-        
-        
-screen answer_countdown(count_time=5):
+# This is a screen to test out timed responses
+# Default countdown time is 5 seconds
+screen answer_countdown(themenu, count_time=5):
     zorder 5
-    timer count_time repeat False action [ Hide('answer_countdown'), 
+    timer count_time repeat False action If(persistent.autoanswer_timed_menus, 
+                                
+                                    [ Hide('answer_countdown'), 
+                                    Hide('continue_answer_button'),
+                                    Show('pause_button'),
+                                    SetVariable('choosing', True),
+                                    SetVariable('timed_choose', True),
+                                    Jump(themenu) ],
+
+                                    [ Hide('answer_countdown'), 
                                     Hide('continue_answer_button'), 
                                     Show('pause_button'), 
-                                    SetVariable("timed_choose", False) ]
+                                    SetVariable("timed_choose", False) ])
+
     bar value AnimatedValue(0, count_time, count_time, count_time):
         at alpha_dissolve 
         style 'answer_bar'
@@ -406,7 +403,7 @@ label continue_answer(themenu, count_time=5):
     # to continue
     if not renpy.is_skipping() and not observing:
         $ using_timed_menus = True
-        show screen answer_countdown(count_time)
+        show screen answer_countdown(themenu, count_time)
         hide screen viewCG
         $ pre_choosing = True
         show screen continue_answer_button(themenu)

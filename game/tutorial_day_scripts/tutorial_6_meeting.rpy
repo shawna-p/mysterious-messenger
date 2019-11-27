@@ -218,7 +218,7 @@ label popcorn_vn():
     
     # This is how you'll play sound effects during a VN. 
     # Some are already defined in VN Mode.rpy
-    play sound car_moving_sfx
+    call play_sfx(car_moving_sfx)
     # If you don't specify a speaker, the 'narrator' will say this line
     "(Moving...)"
     
@@ -277,7 +277,7 @@ label popcorn_vn():
     ja_vn "...Should I write all this down?"
     show jumin front angry at vn_right
     ju_vn "Every single word."
-    play sound door_knock_sfx
+    call play_sfx(door_knock_sfx)
     "(!!)"
     
     # Now that Jaehee is on screen, we don't need to repeat the
@@ -287,7 +287,7 @@ label popcorn_vn():
     ju_vn "I can't let anyone interfere with such an important meeting."
     show jaehee vn worried
     ja_vn "Something could have occurred in your home. I'll open the door."
-    play sound door_open_sfx
+    call play_sfx(door_open_sfx)
     "(Door opened)"
     show jaehee vn serious
     ja_vn "Come in..."

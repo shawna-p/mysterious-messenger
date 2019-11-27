@@ -190,9 +190,10 @@ label hack():
             and not vn_choice):
         $ hack_entry = ("hack", "regular")
         $ current_chatroom.replay_log.append(hack_entry)
-    show screen hack_screen('hack scroll')
-    pause 3.0
-    hide screen hack_screen
+    if persistent.hacking_effects:
+        show screen hack_screen('hack scroll')
+        pause 3.0
+        hide screen hack_screen
     return
     
 label redhack():
@@ -200,9 +201,10 @@ label redhack():
             and not vn_choice):
         $ hack_entry = ("hack", "red")
         $ current_chatroom.replay_log.append(hack_entry)
-    show screen hack_screen('redhack scroll')
-    pause 3.0
-    hide screen hack_screen
+    if persistent.hacking_effects:
+        show screen hack_screen('redhack scroll')
+        pause 3.0
+        hide screen hack_screen
     return
     
 #************************************
@@ -217,7 +219,8 @@ label banner(banner):
             and not vn_choice):
         $ banner_entry = ("banner", banner)
         $ current_chatroom.replay_log.append(banner_entry)
-    show screen banner_screen(banner)
+    if persistent.banners:
+        show screen banner_screen(banner)
     return
     
 screen banner_screen(banner):
