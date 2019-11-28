@@ -341,7 +341,7 @@ screen email_popup(e):
     zorder 100
     default current_email = None
     
-    window:
+    frame:
         maximum(510,290)
         background 'left_corner_menu_dark'
         xalign 0.5
@@ -418,7 +418,7 @@ screen email_hub():
     
         
     use menu_header('Email', Show('chat_home', Dissolve(0.5))):
-        window:
+        frame:
             background 'left_corner_menu' padding(20,20)
             xysize (685, 1100)
             align (0.5, 0.75)
@@ -492,7 +492,7 @@ screen email_button(e):
             vbox:
                 align(0.5, 0.4)
                 spacing 15
-                window:
+                frame:
                     align(0.0, 0.0)
                     xysize(190, 30)
                     text '@' + e.guest.name style 'email_address'
@@ -502,7 +502,7 @@ screen email_button(e):
                     add e.first_msg()
                     add e.second_msg()
                     add e.third_msg()
-            window:
+            frame:
                 xysize(240,111)
                 align (0.0, 0.0)
                 if e.completed():
@@ -532,7 +532,7 @@ screen open_email(e):
     
     add 'choice_darken'
         
-    window:
+    frame:
         maximum(685, 800)
         background 'left_corner_menu_dark' padding(20,20)
         align (0.5, 0.5)
@@ -582,7 +582,7 @@ screen open_email(e):
                     else:
                         foreground 'menu_select_btn_inactive'
 
-            window:
+            frame:
                 background 'email_open_transparent' padding(20,20)
                 xysize (625, 585)
                 align (0.5,0.5)

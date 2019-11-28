@@ -249,144 +249,128 @@ screen main_menu():
     use starry_night()
         
         
-    ## Greeting Bubble/Dialogue
-    add "rfa_greet" yalign 0.01 xalign 0.25 
+    # Welcome to Rika's Fundraising Association message
+    add "rfa_greet" yalign 0.02 xalign 0.25 
     
-    window:
+    
+    # Box that adds the characters' greeting messages
+    frame:
         xysize(670,140)
-        xpos 380
-        ypos 260
-        add "greeting_panel"
-        
-    hbox:
-        window:
+        yalign 0.105
+        xalign 0.5
+        background Transform("greeting_panel", alpha=0.7)
+        has hbox
+        frame:
             xysize(143,127)
-            add 'greet [greet_char]':
-                xpos 65 ypos 140
-        window:
+            add 'greet [greet_char]' align (0.5, 0.5)
+        frame:
             xysize(500,120)
-            xpos 305
-            ypos 250
-            add "greeting_bubble"
-    
-    window:
-        style "greet_box"
-        text "{size=-2}" + "[greet_text_korean]" + "{/size}" style "greet_text"
-        text "[greet_text_english]" style "greet_text" yalign 0.5
+            background "greeting_bubble" padding (35, 5, 10, 5)
+            has vbox
+            text greet_text_korean style "greet_text" size 25
+            text greet_text_english style "greet_text"
 
-    
     # The main menu buttons. Note that some currently don't take
     # you to the screen you'd want as those features have yet to be added
-    window:
-        xysize(695, 650)
-        xalign 0.6
-        yalign 0.62
-        vbox:
-            hbox:
-                window:
-                    xysize(450,420)
-                    padding (10, 10)
-                    # Original Story
-                    # Top left
-                    button:
-                        xysize(430,400)
-                        focus_mask True
-                        background "left_corner_menu"
-                        hover_foreground 'left_corner_menu_hover'
-                        activate_sound "audio/sfx/UI/select_4.mp3"
-                        if persistent.on_route:
-                            # This is the auto save that gets loaded every 
-                            # time you load the game
-                            action [SetField(persistent, 'just_loaded', True),
-                                    FileLoad(mm_auto)]  
-                        else:
-                            # Note: this screen only has a placeholder
-                            # but can easily be customized (see below)
-                            action Show('route_select_screen') 
-                        
-                        vbox:    
-                            align(0.5, 0.5)
-                            add "menu_original_story" xpos 20
-                            text "Original\nStory":
-                                style "menu_text_big"  
-                                ypos 15
+    frame:
+        xysize(655, 625)
+        xalign 0.5
+        yalign 0.61
+        has vbox
+        spacing 15
+        hbox:     
+            spacing 15         
+            # Original Story
+            # Top left
+            button:
+                xysize(430,400)
+                style_prefix 'left_menu'
+                if persistent.on_route:
+                    # This is the auto save that gets loaded every 
+                    # time you load the game
+                    action [SetField(persistent, 'just_loaded', True),
+                            FileLoad(mm_auto)]  
+                else:
+                    # Note: this screen only has a placeholder
+                    # but can easily be customized (see below)
+                    action Show('route_select_screen') 
                 
-                vbox:
-                    window:
-                        xysize(225, 210)
-                        padding (10, 10)
-                        # Save and Load
-                        # Top Right
-                        button:
-                            xysize(205, 190)
-                            focus_mask True
-                            background "right_corner_menu" 
-                            hover_foreground 'right_corner_menu_hover'
-                            action Show("load")    
-                            
-                            vbox:                               
-                                align(0.5, 0.5)
-                                add "menu_save_load" xpos 25
-                                text "Save & Load":
-                                    style "menu_text_small" 
-                                    ypos 10
-                            
-                    window:
-                        xysize(225, 210)
-                        padding (10, 10)
-                        # After Ending
-                        # Mid Right
-                        button:
-                            xysize(205, 190)
-                            focus_mask True
-                            background "right_corner_menu" 
-                            hover_foreground 'right_corner_menu_hover'
-                            # action NullAction                            
-                            vbox:                               
-                                xcenter 0.5
-                                ycenter 0.5
-                                add "menu_after_ending" xpos 40
-                                text "After Ending":
-                                    style "menu_text_small" 
-                                    ypos 20
-            hbox:
-                window:
-                    xysize(450,210)
-                    padding (10, 10)
-                    # History
-                    # Bottom Left
-                    button:
-                        xysize(430,190)
-                        focus_mask True
-                        background "left_corner_menu"
-                        hover_foreground "left_corner_menu_hover"
-                        action Show('select_history', Dissolve(0.5))                 
-                        vbox:                               
-                            align(0.5, 0.5)
-                            add "menu_history" xpos 15 ypos 3
-                            text "History" style "menu_text_big" ypos 13
-                    
-                window:
-                    xysize(225, 210)
-                    padding (10, 10)
-                    # DLC
-                    # Bottom Right
-                    button:
-                        xysize (205,190)
-                        focus_mask True
-                        background "right_corner_menu" 
-                        hover_foreground 'right_corner_menu_hover'
-                        # action Show('create_archive') 
-                        # Leads to the create-a-chatroom screens
+                vbox:    
+                    add "menu_original_story" xpos 20
+                    text "Original\nStory"
+            
+            vbox:    
+                spacing 15        
+                # Save and Load
+                # Top Right
+                button:
+                    xysize(205, 195)
+                    style_prefix 'right_menu'
+                    action Show("load")                        
+                    vbox:                   
+                        add "menu_save_load" xpos 25
+                        text "Save & Load"
                         
-                        vbox:                               
-                            align(0.5, 0.5)
-                            add "menu_dlc"
-                            text "DLC" style "menu_text_small" xpos 25 ypos 15
+                
+                # After Ending
+                # Mid Right
+                button:
+                    xysize(205, 195)
+                    style_prefix 'right_menu'
+                    # action NullAction                            
+                    vbox:        
+                        add "menu_after_ending" xpos 40
+                        text "After Ending" size 26
+        hbox:   
+            spacing 15       
+            # History
+            # Bottom Left
+            button:
+                xysize(430,195)
+                style_prefix 'left_menu'
+                action Show('select_history', Dissolve(0.5))                 
+                vbox: 
+                    add "menu_history" xpos 15 ypos 3
+                    text "History"
+                
+            
+            # DLC
+            # Bottom Right
+            button:
+                xysize (205,195)
+                style_prefix 'right_menu'
+                # Leads to the create-a-chatroom screens                
+                # action Show('create_archive') 
+                vbox:              
+                    add "menu_dlc"
+                    text "DLC"
      
-     
+style left_menu_button:
+    focus_mask True
+    padding (10, 10)
+    background 'left_corner_menu'
+    hover_foreground 'left_corner_menu_hover'
+    activate_sound 'audio/sfx/UI/select_4.mp3'
 
-    
+style left_menu_vbox:
+    is default
+    spacing 8
+    align (0.5, 0.5)
+
+style left_menu_text:
+    is menu_text_big
+
+
+style right_menu_button:
+    is left_menu_button
+    background 'right_corner_menu'
+    hover_foreground 'right_corner_menu_hover'
+
+style right_menu_vbox is left_menu_vbox
+
+style right_menu_text:
+    is menu_text_small
+
     
 ## A short, not completely implemented screen where you select
 ## which route you'd like to start on. Can be customized to lead
@@ -401,7 +385,7 @@ screen route_select_screen():
             xysize (720, 1170)
             yalign 1.0
             xalign 0.5  
-            window:
+            frame:
                 xysize(700, 350)
                 padding (10, 10)
                 xalign 0.5
@@ -504,12 +488,12 @@ screen file_slots(title):
                                 FileAction(mm_auto),
                                 renpy.restart_interaction]
                     hbox:                        
-                        window:
+                        frame:
                             align (0.5, 0.5)
                             xysize(120, 120)
                             add 'save_auto' xalign 0.5 yalign 0.5
                         
-                        window:
+                        frame:
                             xysize (400, 120)
                             yalign 0.0
                             has vbox
@@ -524,7 +508,7 @@ screen file_slots(title):
                                 style "save_slot_text" 
                                 yalign 1.0
 
-                        window:
+                        frame:
                             xysize (155,120)
                             has vbox                            
                             fixed:
@@ -645,7 +629,7 @@ screen file_slots(title):
                                     FileAction(slot)]
 
                     hbox:   
-                        window:
+                        frame:
                             xysize(120, 120)
                             align (0.5, 0.5)
                             # Adds the correct save image to the left
@@ -654,7 +638,7 @@ screen file_slots(title):
                             else:
                                 add 'save_empty' xalign 0.5 yalign 0.5
                         
-                        window:
+                        frame:
                             xysize (400, 120)
                             yalign 0.0
                             has vbox
@@ -679,7 +663,7 @@ screen file_slots(title):
                                     style 'save_slot_text'
                                     yalign 1.0
                             
-                        window:
+                        frame:
                             xysize (155,120)
                             has vbox
                             # Displays the time the save was created
@@ -762,7 +746,7 @@ screen menu_header(title, return_action=NullAction,
     
     
     if not persistent.first_boot:
-        window:
+        frame:
             xysize(600, 80)
             yalign 0.01
             xalign 0.86
@@ -790,7 +774,7 @@ screen menu_header(title, return_action=NullAction,
         
     # Header
     if title != "Original Story" and title != "In Call":
-        window:
+        frame:
             ysize 80
             yalign 0.058
             add "menu_header"                
@@ -865,7 +849,7 @@ screen menu_header(title, return_action=NullAction,
     if title == "Save" or title == "Load":
         transclude
     else:
-        window:
+        frame:
             if title != "Original Story" and title != "In Call":
                 xysize (750, 1180)
             else:
@@ -874,7 +858,6 @@ screen menu_header(title, return_action=NullAction,
             has vbox
             align (0.5, 0.0)
             spacing 10
-            null height 5
             transclude
       
 
@@ -919,7 +902,7 @@ screen chat_home(reshow=False):
         # Also usually the characters have "generic" profile
         # pictures, but I've chosen to simply include their current
         # profile picture
-        window:
+        frame:
             xysize(741, 206)
             xalign 0.5
             yalign 0.08
@@ -951,7 +934,7 @@ screen chat_home(reshow=False):
                                                             size=(99,99))
                             action Show('chara_profile', who=person)
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
-        window:
+        frame:
             xysize (750, 1170) 
             yoffset -140       
             # Text Messages
@@ -972,7 +955,7 @@ screen chat_home(reshow=False):
                 activate_sound 'audio/sfx/UI/select_phone_text.mp3'
                 if new_message_count() > 0:
                     add 'blue_maincircle' xalign 0.5 yalign 0.5
-                    window:
+                    frame:
                         xysize(45,45)
                         xalign 1.0
                         yalign 0.0
@@ -1001,7 +984,7 @@ screen chat_home(reshow=False):
                 activate_sound 'audio/sfx/UI/select_phone_text.mp3'        
                 if unseen_calls > 0:
                     add "blue_maincircle" xalign 0.5 yalign 0.5  
-                    window:
+                    frame:
                         xysize(45,45)
                         xalign 1.0
                         yalign 0.0
@@ -1031,7 +1014,7 @@ screen chat_home(reshow=False):
                 activate_sound 'audio/sfx/UI/select_email.mp3'
                 if unread_emails() > 0:
                     add "blue_maincircle" xalign 0.5 yalign 0.5
-                    window:
+                    frame:
                         xysize(45, 45)
                         xalign 1.0
                         yalign 0.0
@@ -1063,7 +1046,7 @@ screen chat_home(reshow=False):
             
 
             # Links/etc on the left side of the screen
-            window:
+            frame:
                 xysize(140, 1000)
                 xalign 0.03
                 yalign 0.98
@@ -1110,6 +1093,8 @@ screen chat_home(reshow=False):
                     background "white_hex"
                     hover_background "white_hex_hover"
                     #action NullAction
+                    action Show('incoming_call', 
+                            phonecall=Phone_Call(ri, 'tutorial_email'))
                     add "notice_icon" xalign 0.5 yalign 0.3
                     add "notice_text" xalign 0.5 yalign 0.8
                     
@@ -1186,8 +1171,7 @@ screen chat_home(reshow=False):
                             focus_mask None
                             activate_sound 'audio/sfx/UI/select_6.mp3'
                             action Show('spaceship_thoughts', Dissolve(0.5))
-                    
-             
+                 
      
 ########################################################
 ## The Profile Screen for each of the characters
@@ -1199,24 +1183,24 @@ screen chara_profile(who):
     modal True
 
     use menu_header("Profile", Hide('chara_profile', Dissolve(0.5))):
-        window:
+        frame:
             xysize (750, 1170)
 
-            add who.cover_pic 
+            add who.cover_pic yoffset -10
             
             fixed:
                 xfit True yfit True
-                xalign 0.1 yalign 0.6
+                xalign 0.1 yalign 0.62
                 add Transform(who.big_prof_pic, size=(314,314))
                 add 'profile_outline'    
-            window:
+            frame:
                 xysize (350,75)
                 xalign 0.96
-                yalign 0.64
+                yalign 0.645
                 text who.name style "profile_header_text"
-            window:  
+            frame:  
                 xysize (700, 260)
-                yalign 0.9
+                yalign 0.95
                 text who.status style "profile_status"
     
 

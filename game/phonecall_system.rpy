@@ -153,7 +153,7 @@ screen phone_calls():
 
             
                 
-        window:
+        frame:
             xalign 0.5
             yalign 0.13
             maximum(700,70)
@@ -175,7 +175,8 @@ screen phone_calls():
             ysize 1070
             draggable True
             mousewheel True
-
+            side_spacing 5
+            scrollbars "vertical"
             xalign 0.5
             yalign 0.95
             
@@ -189,21 +190,22 @@ screen phone_calls():
                         $ replay_bkgr = 'call_replay_active'
                     else:
                         $ replay_bkgr = 'call_replay_inactive'
-                    window:                                                       
+                    
+                    frame:                                                      
                         background 'message_idle_bkgr'   
-                        xysize (725, 150)
+                        xysize (705, 150)
 
                         has hbox
                         spacing 10  
                         align (0.5, 0.5)
-                        window:
+                        frame:
                             xysize (135, 135)
                             align (0.5, 0.5)
                             add Transform(i.caller.prof_pic, size=(127,127)):
                                 yalign 0.5 xalign 0.5
                         
-                        window:
-                            xmaximum 320
+                        frame:
+                            xsize 300
                             yalign 0.5
                             has vbox
                             align (0.0, 0.5)
@@ -215,7 +217,7 @@ screen phone_calls():
                                     + "[i.call_time.month_num]"):
                                 style "save_slot_text"
                             
-                        window:
+                        frame:
                             xysize (230, 135) 
                             align (0.5, 0.5)                        
                             has hbox
@@ -256,7 +258,7 @@ screen phone_contacts():
     tag menu
     use menu_header("Contacts", Show('chat_home', Dissolve(0.5))):
     
-        window:
+        frame:
             xalign 0.5
             yalign 0.13
             maximum(700,70)
@@ -277,12 +279,15 @@ screen phone_contacts():
             xysize (725, 1070)
             draggable True
             mousewheel True
-
+            side_spacing 5
+            scrollbars "vertical"
+            
             xalign 0.5
             yalign 0.95
             
             has vbox
-            xysize (725, 1070)       
+            xysize (705, 1070)   
+            xalign 0.5    
             
             # Only characters in character_list show up as contacts
             # though any character in the all_characters list can 
@@ -370,23 +375,23 @@ screen in_call():
                         Preference('auto-forward after click', 'disable')]
                         
     use menu_header("In Call"):
-        window:
-            xysize (750, 1170)
+        frame:
+            xysize (750, 1250)
             add 'call_headphones' yalign 0.12 xalign 0.5
             
 
-            window:
+            frame:
                 xysize(710, 200)
                 yalign 0.95
                 xalign 0.5
                 has hbox
                 align (0.5, 0.5)
                 spacing 10
-                window:
+                frame:
                     xysize(160,160)
                     align (0.5, 0.5)
                 null width 100
-                window:
+                frame:
                     xysize (65,75)
                     align (0.5, 0.5)
                     imagebutton:
@@ -401,7 +406,7 @@ screen in_call():
                             action [PauseAudio('voice', value=False), 
                                     Function(toggle_afm)] #Preference("auto-forward", "toggle")
                 null width 100
-                window:
+                frame:
                     xysize(160,160)
                     align (0.5, 0.5)
                     if not starter_story:
@@ -422,18 +427,17 @@ screen incoming_call(phonecall, countdown_time=10):
     
     on 'hide' action Function(renpy.music.stop)
     use menu_header("In Call"):
-        window:
-            xysize (750, 1170)
-            window:
+        frame:
+            xysize (750, 1250)
+            frame:
                 xfill True
                 ysize 500
-                yalign 0.16
-                background 'call_overlay'
-                
+                yalign 0.1
+                background 'call_overlay'                
                 has hbox
                 align (0.5, 0.5)
                 spacing -10
-                window:
+                frame:
                     xysize(120,220)
                     align (1.0, 0.1)
                     has hbox
@@ -443,16 +447,17 @@ screen incoming_call(phonecall, countdown_time=10):
                     null width 10
                     add 'call_signal_ml' align (0.5, 0.5)            
                     add 'call_signal_sl' align (0.5, 0.5)
-                window:
+                frame:
                     align (0.5, 0.5)
                     xsize 350
                     has vbox
                     align (0.5, 0.5)
                     spacing 15
-                    add Transform(phonecall.caller.big_prof_pic, size=(237,237)):
+                    add Transform(phonecall.caller.big_prof_pic, 
+                            size=(237,237)):
                         align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
-                window:
+                frame:
                     xysize(120,220)
                     align (0.0, 0.1)
                     has hbox
@@ -463,25 +468,25 @@ screen incoming_call(phonecall, countdown_time=10):
                     null width 10
                     add 'call_signal_lr' align (0.5, 0.5)
             
-            window:
+            frame:
                 xfill True
-                yalign 0.55
+                yalign 0.53
                 has vbox
-                align (0.5, 0.5)
+                align (0.5, 0.6)
                 spacing 10
                 text "Incoming Call" color '#fff' xalign 0.5 size 40
                 if not starter_story:
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
                 
                 
-            window:
+            frame:
                 xysize(710, 200)
                 yalign 0.95
                 xalign 0.5
                 has hbox
                 align (0.5, 0.5)
                 spacing 10
-                window:
+                frame:
                     xysize(160,160)
                     align (0.5, 0.5)
                     imagebutton:
@@ -498,7 +503,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 null width 100
                 add 'call_headphones' yalign 1.0
                 null width 100
-                window:
+                frame:
                     xysize(160,160)
                     align (0.5, 0.5)
                     if not starter_story:
@@ -516,6 +521,7 @@ screen incoming_call(phonecall, countdown_time=10):
                             SetScreenVariable("call_countdown", 
                             call_countdown-1), 
                             Jump('incoming_hang_up')) repeat True
+ 
     
 ## If you hang up an incoming call, you can
 ## still call that character back
@@ -540,9 +546,9 @@ screen outgoing_call(phonecall, voicemail=False):
                         phone_dial_sfx, "<silence 1.5>"])
     
     use menu_header("In Call"):
-        window:
-            xysize (750, 1170)
-            window:
+        frame:
+            xysize (750, 1250)
+            frame:
                 xfill True
                 ysize 500
                 yalign 0.16
@@ -551,7 +557,7 @@ screen outgoing_call(phonecall, voicemail=False):
                 has hbox
                 align (0.5, 0.5)
                 spacing -10
-                window:
+                frame:
                     xysize(120,220)            
                     align (0.5, 0.5)
                     xsize 350
@@ -562,7 +568,7 @@ screen outgoing_call(phonecall, voicemail=False):
                         align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
                     
-            window:
+            frame:
                 xfill True
                 yalign 0.55
                 has hbox
@@ -576,20 +582,20 @@ screen outgoing_call(phonecall, voicemail=False):
                 add 'call_connect_triangle' at delayed_blink2(1.0, 1.4) xalign 0.75
                 
                 
-            window:
+            frame:
                 xysize(710, 200)
                 yalign 0.95
                 xalign 0.5
                 has hbox
                 align (0.5, 0.5)
                 spacing 10
-                window:
+                frame:
                     xysize(160,160)
                     align (0.5, 0.5)
                 null width 100
                 add 'call_headphones' yalign 1.0
                 null width 100
-                window:
+                frame:
                     xysize(160,160)
                     align (0.5, 0.5)
                     imagebutton:

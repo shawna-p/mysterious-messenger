@@ -216,7 +216,7 @@ screen photo_album():
     use menu_header('Photo Album', return_action):
     
         # A grid of buttons.
-        window:
+        frame:
             xysize (750, 1170)
             align (0.5, 0.5)
             has vbox
@@ -269,13 +269,13 @@ screen char_album(caption, name, album, cover):
                     yoffset -42
                 
                 ## Window with the framed image
-                window:
+                frame:
                     xysize (157, 137)
                     foreground 'cg_frame'
                     background cover
                     align (0.5, 0.5)
                     
-            window:
+            frame:
                 xysize (241, 64)
                 background caption
                 hover_foreground caption
@@ -303,7 +303,7 @@ screen character_gallery(album, caption, name):
             align (0.5, 1.0)
             xysize (745, 1170)
             spacing 5
-            window:
+            frame:
                 xysize (241, 64)
                 xalign 0.01
                 add caption

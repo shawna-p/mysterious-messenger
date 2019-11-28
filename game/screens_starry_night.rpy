@@ -30,7 +30,7 @@ image medium star:
 
 # This makes it easier to call the starry night background
 screen starry_night():
-    window:
+    frame:
         xysize (750,1334)
         background '#000'
     add "bg starry_night"
@@ -72,13 +72,13 @@ screen loading_screen():
     
     use starry_night()
     
-    window:
+    frame:
         maximum(600,320)
         xalign 0.5
         yalign 0.42
         add "load_tip_panel"
         
-    window:
+    frame:
         maximum(540, 140)
         xalign 0.5
         yalign 0.445

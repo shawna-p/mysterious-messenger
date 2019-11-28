@@ -426,7 +426,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 # the entire title
                 hbox:
                     spacing 30
-                    window:
+                    frame:
                         xysize (75,27)
                         xoffset 77
                         yoffset 13
@@ -440,7 +440,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                         xoffset 77                
                         xysize(chat_title_width,27)
                         if len(chatroom.title) > 30: 
-                            window:
+                            frame:
                                 xysize(chat_title_width,27)
                                 text chatroom.title at chat_title_scroll:
                                     color '#fff' 
@@ -462,7 +462,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                     yoffset 13
                     xoffset 77            
                     yalign 0.5
-                    window:
+                    frame:
                         xysize(partic_viewport_width, 85)
                         hbox at part_anim:
                             spacing 5
@@ -498,7 +498,7 @@ screen chatroom_item(day, day_num, chatroom, index):
 
     # If there's a VN object, we display it now
     if my_vn and not my_vn.party:
-        window:
+        frame:
             xysize(700, 160)
             xalign 0.0
             xoffset 10
@@ -529,7 +529,7 @@ screen chatroom_item(day, day_num, chatroom, index):
     
     # It's the VN that leads to the party
     if my_vn and my_vn.party:
-        window:
+        frame:
             xysize(600, 300)
             xalign 1.0
            
@@ -612,7 +612,7 @@ screen timeline_continue_button(chat_time):
             spacing 18
             hbox:
                 spacing 30
-                window:
+                frame:
                     xysize (75,27)
                     xoffset 77
                     yoffset 13
@@ -629,7 +629,7 @@ screen timeline_continue_button(chat_time):
                         xalign 0.0 yalign 0.5 
                         text_align 0.0 
                         layout 'nobreak'
-            window:
+            frame:
                 xysize(430, 35)
                 yoffset 13
                 xoffset 50        

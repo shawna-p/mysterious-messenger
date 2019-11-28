@@ -29,7 +29,7 @@ screen messenger_screen():
                 if begin > 0:
                     begin -= 1  
 
-    window:
+    frame:
         align (0.5, 0.6)
         xfill True
         ysize 1050
@@ -151,7 +151,7 @@ screen chat_animation(i, animate=True, anti=False):
     # This displays the special messages like "xyz
     # has entered the chatroom"
     if (i.who.name == 'msg' or i.who.name == 'filler') and not anti:
-        window:
+        frame:
             style i.who.name + '_bubble'            
             text dialogue style i.who.name + '_bubble_text'
             
@@ -159,7 +159,7 @@ screen chat_animation(i, animate=True, anti=False):
     # Otherwise it's a regular character; add
     # their profile picture
     elif i.who.file_id and i.who.file_id != 'delete':
-        window:
+        frame:
             xysize (110, 110)
             style picStyle
             if not anti:
@@ -173,7 +173,7 @@ screen chat_animation(i, animate=True, anti=False):
 
         # Now we add the dialogue
         if not include_new: # Not a "regular" dialogue bubble
-            window at transformVar:
+            frame at transformVar:
                 # Check if it's an image
                 if i.img:
                     style imgStyle

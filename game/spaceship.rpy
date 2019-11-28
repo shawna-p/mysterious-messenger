@@ -89,13 +89,13 @@ screen spaceship_thoughts():
         activate_sound 'audio/sfx/UI/select_6.mp3'
         action Hide('spaceship_thoughts', Dissolve(0.5))
         
-        window:
+        frame:
             xysize (680, 374)
             align (0.5, 0.5)
             background the_thought.img
             text "The spaceship's sensors have caught the RFA members' meaningless thoughts." style 'space_title1'
             
-            window:
+            frame:
                 xysize (651, 240)
                 align (0.5, 0.7)
                 text the_thought.thought style 'space_thought_mid'
@@ -182,13 +182,13 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
 
     add 'spotlight' xalign 0.5 yalign 0.0
     
-    window:
+    frame:
         xysize(481,598)
         xalign 0.5
         yalign 0.6
         add "space_chip"
         
-    window:
+    frame:
         xysize(647,270)
         xalign 0.5 yalign 0.55
         background 'space_prize_box'
@@ -197,14 +197,14 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
             spacing 70
             xalign 0.5
             yalign 0.55
-            window:
+            frame:
                 xysize(200,60)
                 background 'space_black_box'
                 text str(prize_heart) style 'chip_prize_text'
                 add 'header_heart' xalign 0.15 yalign 0.5
                 
                 
-            window:
+            frame:
                 xysize(200,60)
                 background 'space_black_box'
                 # You could give out hourglasses here too, but since I've
@@ -213,7 +213,7 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
                 text '0' style 'chip_prize_text'
                 add 'header_hg' xalign 0.15 yalign 0.5
                 
-        window:
+        frame:
             xysize(600,100)
             align(0.5, 0.05)
             if len(prize_text) > 50:

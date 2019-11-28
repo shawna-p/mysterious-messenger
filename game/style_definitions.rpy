@@ -111,10 +111,12 @@ init 5:
     style MC_profpic:
         pos (616, 0)
         maximum (110,110)
+        align (0.0, 0.0)
         
     style profpic:
         pos (18, 0)
         maximum (110,110) 
+        align (0.0, 0.0)
         
     ## ****************************************
     ## Profile Pictures Style - Texts
@@ -130,12 +132,14 @@ init 5:
         padding (5, 10)
         pos (138, 38)
         xmaximum 750   
+        align (0.0, 0.0)
         
     style mc_img_message:
         padding (5, 10)
         pos (600, 38)
         xmaximum 750
         xalign 1.0
+        yalign 0.0
         
     ## ****************************************
     ## Style for images posted in text messages
@@ -215,19 +219,19 @@ init 5:
     ## Main Menu Styles
     ####################################
     
-    style menu_top_left_window:
+    style menu_top_left_frame:
         maximum(450,420)
         padding (10, 10)
         xfill True
         yfill True
     
-    style menu_right_window:
+    style menu_right_frame:
         maximum(225, 210)
         xfill True
         yfill True
         padding (10, 10)
     
-    style menu_bottom_left_window:
+    style menu_bottom_left_frame:
         maximum(450,210)
         padding (10, 10)
         xfill True
@@ -237,11 +241,13 @@ init 5:
         color "#ffffff"
         size 45
         text_align 0.5
+        xalign 0.5
         
     style menu_text_small is text:
         color "#ffffff"
         size 30
         text_align 0.5
+        xalign 0.5
 
         
     ## **********************
@@ -254,12 +260,6 @@ init 5:
         text_align 0.0
         slow_cps 20
         font "fonts/NanumBarunpenR.ttf"
-               
-    style greet_box:
-        xpos 228
-        yalign 0.12
-        maximum (500, 120)
-        padding (10,5,33,5)
         
     ## **********************
     ## Main Menu -- Profile
@@ -455,7 +455,8 @@ init 5:
         xalign 0.5
         text_align 0.5
         font sans_serif_1
-        size 60
+        size 70
+        yoffset 10
         
     style call_text:
         color '#fff'
@@ -574,8 +575,11 @@ init 5:
         xpos 160
         ypos -100
 
-    
-    
+    # Default frame style
+    style frame is default:
+        background None
+        align (0.0, 0.0)
+        
         
         
         

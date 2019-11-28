@@ -367,7 +367,7 @@ screen signature_screen(phone=True):
     elif phone and persistent.custom_footers:
         add "custom_save_exit" ypos 1220
     add "choice_darken"
-    window:
+    frame:
         xalign 0.5
         yalign 0.5
         xsize 682
@@ -387,11 +387,11 @@ screen signature_screen(phone=True):
                 spacing 170
                 yalign 0.5
                 xoffset 65
-                window:
+                frame:
                     xsize 70
                     ysize 40
                     text "[chatroom_hp]" style "points" xalign 1.0
-                window:
+                frame:
                     xsize 80
                     ysize 40
                     text "[chatroom_hg]" style "points" xalign 1.0

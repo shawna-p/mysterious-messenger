@@ -18,11 +18,14 @@ screen text_message_hub():
             ysize 1150
             draggable True
             mousewheel True
+            side_spacing 5
+            scrollbars "vertical"
 
             xalign 0.5
             yalign 0.95
             
             vbox:
+                xalign 0.5
                 spacing 10
                 for i in all_characters:
                     # First we display unread messages
@@ -72,19 +75,19 @@ screen text_hub_display(i):
 
         activate_sound 'audio/sfx/UI/email_next_arrow.mp3'        
         ysize 150
-        xsize 725
+        xsize 705
 
         hbox:
             align (0.5, 0.5)
             spacing 10                                
-            window:
+            frame:
                 xysize (135, 135)
                 align (0.0, 0.5)
                 add Transform(last_text.who.prof_pic, size=(127,127)):
                     align(0.5, 0.5)
             
-            window:
-                xysize(320,135)
+            frame:
+                xysize(380,135)
                 yalign 0.5
                 has vbox
                 align (0.0, 0.5)
@@ -93,25 +96,25 @@ screen text_hub_display(i):
                 text text_popup_preview(last_text, 16):
                     style "save_slot_text"
                 
-            window:
-                xmaximum 230
+            frame:
+                xysize (150, 135)
                 has vbox
                 align (0.5, 0.5)
-                if last_text and text_read:
-                    spacing 50
-                else:
+                if last_text and not text_read:
                     spacing 30
+                else:
+                    spacing 10
                 text (text_time.day + '/' + text_time.month_num 
                         + '/' + text_time.year + ' ' 
                         + text_time.twelve_hour + ':' 
                         + text_time.minute + text_time.am_pm):
                             style "save_timestamp"
-                if last_text and text_read:
-                    add 'read_text_envelope' xalign 1.0
-                else:
-                    hbox:
-                        spacing 10
-                        xalign 1.0
+                hbox:
+                    spacing 10
+                    xalign 1.0
+                    if last_text and text_read:
+                        add 'read_text_envelope'
+                    else:
                         add 'new_text'
                         add 'new_text_envelope'
                     
@@ -140,7 +143,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
     else:
         $ last_msg = False
         
-    window:
+    frame:
         maximum(621,373)
         background 'text_popup_bkgr'
         xalign 0.5
@@ -177,8 +180,9 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
                     spacing 10
                     text "From: " + c.name color '#fff'
                     
-                    window:
-                        maximum(420,130)
+                    frame:
+                        xysize(420,130)
+                        padding (10,10)
                         background 'text_popup_msg'       
                         text text_popup_preview(last_msg):
                             size 30 
@@ -248,7 +252,7 @@ screen text_message_footer(c):
         xalign 0.5
         yalign 1.0
         yoffset -30
-        window:
+        frame:
             ymaximum 40
             background 'text_msg_line'
         button:
@@ -278,13 +282,13 @@ screen text_date_separator(text_time):
         xalign 0.5
         ysize 80
         xsize 740
-        window:
+        frame:
             ymaximum 40
             xmaximum 240
             yalign 0.5
             background 'text_msg_line'
         text the_time size 25 color '#fff' yalign 0.5
-        window:
+        frame:
             ymaximum 40
             yalign 0.5
             xmaximum 240
@@ -371,7 +375,7 @@ screen text_message_screen(sender):
     if not sender.real_time_text:
         use text_message_footer(sender)
     else:
-        window:
+        frame:
             xalign 0.5
             ymaximum 40
             yalign 0.905
@@ -428,7 +432,7 @@ screen text_animation(i, animate=False, anti=False):
             xmaximum 750
             style reg_style            
             null width 18
-            window:
+            frame:
                 style picStyle 
                 if not anti and i.who.prof_pic:               
                     add Transform(i.who.prof_pic, size=(110,110))

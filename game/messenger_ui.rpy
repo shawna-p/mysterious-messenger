@@ -264,7 +264,7 @@ screen phone_overlay():
             if not choosing:
                 action Skip()
                 
-    window:
+    frame:
         align (0.75, 0.055)
         xysize (400, 80)
         add 'in_chat_display'   

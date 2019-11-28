@@ -200,8 +200,9 @@ screen profile_pic():
 screen pic_and_pronouns():
     null height 5
     hbox:
-        window:        
-            style 'profile_pic_window'
+        spacing 7
+        frame:        
+            style 'profile_pic_frame'
             has vbox
             # MC's profile picture
             imagebutton:
@@ -232,8 +233,8 @@ screen pic_and_pronouns():
             
         
         # Pick your pronouns
-        window:
-            style 'pronoun_window'
+        frame:
+            style 'pronoun_frame'
             style_prefix "pronoun_window"        
             has vbox        
             text "Preferred Pronouns"
@@ -324,11 +325,10 @@ screen heart_point_grid(c):
         text str(c.heart_points) + " {image=header_heart}":
             style "point_indicator"
 
-style profile_pic_window is empty
 style profile_pic_text is default
 style profile_pic_imagebutton is empty
 
-style profile_pic_window:
+style profile_pic_frame:
     xysize(370, 440)
 
 style profile_pic_text:
@@ -350,7 +350,7 @@ style pronoun_window_text is empty
 style pronoun_radio_text is default
 style pronoun_window_vbox is default
 
-style pronoun_window:
+style pronoun_frame:
     background 'greeting_panel'
     maximum(340,400)
     xalign 0.99
@@ -397,7 +397,7 @@ screen input_popup(prompt=''):
     key 'K_KP_ENTER' action Hide('input_popup')
 
     style_prefix "my_input"
-    window:      
+    frame:      
         imagebutton: 
             align (1.0, 0.0)
             idle 'input_close'
@@ -416,7 +416,7 @@ screen input_popup(prompt=''):
                 style 'my_input_textbutton'                
                 action [Hide('input_popup')]
 
-style my_input_window:
+style my_input_frame:
     is empty
     xalign 0.5
     yalign 0.4
@@ -481,10 +481,10 @@ screen other_settings():
             scrollbars "vertical"
             style_prefix "other_settings"
             has vbox            
-            window:
-                xysize(675,320)
+            frame:
+                xysize (675,420)
                 background "menu_settings_panel"
-                text "Other Settings" style "settings_style" xpos 55 ypos 5
+                text "Other Settings" style "settings_style" xpos 45 ypos 2
                 style_prefix "settings_slider"
                 vbox:               
                     null height 30 # For the 'title'          
@@ -497,21 +497,27 @@ screen other_settings():
                         bar value Preference("auto-forward time"):
                             bar_invert True
                     
+                    hbox:
+                        textbutton _("VN Window Opacity")  
+                        bar value FieldValue(persistent, 'window_darken_pct', 
+                                100, style='sound_settings_slider', step=10,
+                                action=Function(adjust_vn_alpha))
                     null height 5
                     fixed:                        
                         style_prefix "check"
                         textbutton _("Custom UI changes"):
                             action ToggleField(persistent, "custom_footers")
                 
-            window:
-                xysize(675,250)
+            frame:
+                xysize(675,260)
                 background "menu_settings_panel"
-                text "VN Settings" style "settings_style" xpos 55 ypos 5
+                text "VN Settings" style "settings_style" xpos 40 ypos -2
 
                 vbox:
                     spacing 6
                     style_prefix "check"
-                    null height 30
+                    null height 35
+
                     label _("Skip")
                     textbutton _("Unseen Text"):
                         action Preference("skip", "toggle")
@@ -519,11 +525,11 @@ screen other_settings():
                         action Preference("after choices", "toggle")
                     textbutton _("Transitions"):
                         action InvertSelected(Preference("transitions", "toggle"))
-            window:
-                xysize(675,280)
+            frame:
+                xysize(675,300)
                 background "menu_settings_panel"
                 text "Accessibility Options":
-                    style "settings_style" xpos 55 ypos 5
+                    style "settings_style" xpos 40 ypos -4
 
                 vbox:
                     spacing 6
@@ -536,16 +542,15 @@ screen other_settings():
                     textbutton _("Chatroom Banners"):
                         action ToggleField(persistent, 'banners')
                     textbutton _("Auto-Answer Timed Menus"):
-                        action ToggleField(persistent,'autoanswer_timed_menus') 
-                    bar value FieldValue(persistent, 'window_darken_pct', 
-                            100, style='sound_settings_slider', step=10,
-                            action=Function(adjust_vn_alpha))
+                        action ToggleField(persistent,'autoanswer_timed_menus')
+                    
                     # FieldValue(persistent, 'say_window_alpha', 1.0,
                     #              max_is_zero=False, offset=0, step=.2)
-            window:
+            frame:
                 xysize(675,280)
                 background "menu_settings_panel"
-                text "Variables for testing" style "settings_style" xpos 55 ypos 5
+                text "Variables for testing":
+                    style "settings_style" xpos 45 ypos -3
 
                 vbox:
                     spacing 6
@@ -565,7 +570,7 @@ screen other_settings():
                 
             
             
-            window:
+            frame:
                 style_prefix "other_settings_end"            
                 has hbox
                 textbutton _('Go to Mode Select'):          
@@ -632,7 +637,7 @@ style check_fixed:
     xfit True
     xalign 0.15
 
-style other_settings_end_window:
+style other_settings_end_frame:
     is default
     xysize (520, 130)
     xalign 0.5
@@ -738,7 +743,7 @@ screen preferences():
                         style "mute_all_button" xalign 0.0 xoffset 15
                         action ToggleField(persistent, 'audio_captions')
                 
-            window:
+            frame:
                 xysize(675,390)
                 background "menu_settings_panel" padding(10,10)
                 has vbox
@@ -764,7 +769,7 @@ screen preferences():
                     use voice_buttons("Other", 'other')
                         
                         
-            window:
+            frame:
                 style_prefix 'tone_selection'                
                 text "Ringtone" style "settings_style" xpos 55 ypos 5
                 vbox:
@@ -796,7 +801,7 @@ screen preferences():
                         action Show('ringtone_dropdown', 
                                 title='Ringtone', tone='text')
 
-style sound_settings_window:
+style sound_settings_frame:
     is default
     xysize(675,400)
     background "menu_settings_panel" padding(10,10)
@@ -846,7 +851,7 @@ style test_buttons_text:
     selected_color gui.selected_color
     insensitive_color gui.insensitive_color
 
-style tone_selection_window:
+style tone_selection_frame:
     is default
     xysize(675,360)
     background "menu_settings_panel"
@@ -895,14 +900,15 @@ screen voice_buttons(char, voice_char=None):
 screen ringtone_dropdown(title, tone):
 
     modal True
-    add "choice_darken"
-    window:
+    add "#000a"
+    frame:
         xysize(675,1000)
         background "menu_settings_panel_bright"
         align (0.5, 0.5)
         
         imagebutton:
             align (1.0, 0.0)
+            xoffset 3 yoffset -3
             idle 'input_close'
             hover 'input_close_hover'
             action Hide('ringtone_dropdown')

@@ -263,6 +263,12 @@ init -6 python:
         global name
         name_cut = num_char + 6 - len(name)
         
+        if last_msg and ("{image=" in last_msg.what or last_msg.img):
+            if last_msg.who.right_msgr:
+                return "You sent an image."
+            else:
+                return last_msg.who.name + " sent an image."
+
         if "[" in last_msg.what:
             # Means we have to do some cleanup to ensure
             # variables aren't cut up
@@ -274,13 +280,12 @@ init -6 python:
             n = msg.rfind(' ')
             if n > 0:
                 msg = msg[:n]
-        
-        if last_msg and ("{image=" in last_msg.what or last_msg.img):
-            if last_msg.who.right_msgr:
-                return "You sent an image."
+            if len(msg) < len(last_msg.what):
+                return msg + '...'
             else:
-                return last_msg.who.name + " sent an image."
-        elif last_msg and len(last_msg.what) > 48:
+                return msg
+
+        if last_msg and len(last_msg.what) > num_char:
             return last_msg.what[:num_char] + '...'
         elif last_msg:
             return last_msg.what[:num_char]

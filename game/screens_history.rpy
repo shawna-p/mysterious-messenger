@@ -21,7 +21,7 @@ screen select_history():
     use menu_header("History", Show('main_menu', Dissolve(0.5))):
 
         style_prefix "select_history" 
-        window: 
+        frame: 
             hbox:      
                 spacing 30    
                 button:
@@ -57,7 +57,7 @@ style select_history_text:
     font sans_serif_1b
     align (0.5, 0.5)
 
-style select_history_window:
+style select_history_frame:
     is default
     xysize (740, 1100)
     align (0.5, 0.5)
@@ -193,7 +193,7 @@ screen chatroom_item_history(chatroom):
     elif is_chatroom:
     
         
-        window:
+        frame:
             xoffset 70
             xysize (620, 160)
             xalign 0.0
@@ -245,7 +245,7 @@ screen chatroom_item_history(chatroom):
                 # the entire title
                 hbox:
                     spacing 30
-                    window:
+                    frame:
                         xysize (75,27)
                         xoffset 77
                         yoffset 13
@@ -259,7 +259,7 @@ screen chatroom_item_history(chatroom):
                         xoffset 77                
                         xysize(400,27)
                         if len(chatroom.title) > 30: 
-                            window:
+                            frame:
                                 xysize(400,27)
                                 text chatroom.title at chat_title_scroll:
                                     color '#fff' 
@@ -281,7 +281,7 @@ screen chatroom_item_history(chatroom):
                     yoffset 13
                     xoffset 77            
                     yalign 0.5
-                    window:
+                    frame:
                         xysize(355, 85)
                         hbox at part_anim:
                             yalign 0.5
@@ -295,7 +295,7 @@ screen chatroom_item_history(chatroom):
 
     # If there's a VN object, we display it now
     if my_vn and not my_vn.party:
-        window:
+        frame:
             xysize(700, 160)
             xalign 0.0
             xoffset 10
@@ -319,7 +319,7 @@ screen chatroom_item_history(chatroom):
     
     # It's the VN that leads to the party
     if my_vn and my_vn.party:
-        window:
+        frame:
             xysize(600, 300)
             xalign 1.0
         

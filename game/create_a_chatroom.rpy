@@ -465,7 +465,7 @@ screen dialogue_input_popup(width=550, height=313):
     $ d_input = Input(value=InputDialogue("the_entry.what", ""), style="dialogue_text")
     $ yadj.value = yadjValue  
     
-    window:
+    frame:
         maximum(width, height)
         background 'input_popup_bkgr'
         xalign 0.5
@@ -479,7 +479,7 @@ screen dialogue_input_popup(width=550, height=313):
             spacing 20
             xalign 0.5
             yalign 0.6            
-            window:
+            frame:
                 xysize (width - 50,height - 220)
                 xalign 0.5
                 background 'input_square' padding(40,40)
@@ -509,7 +509,7 @@ screen pick_emoji(character):
     zorder 100
     modal True
     
-    window:
+    frame:
         maximum(680, 1000)
         background 'input_popup_bkgr'
         xalign 0.5
@@ -523,7 +523,7 @@ screen pick_emoji(character):
             spacing 20
             xalign 0.5
             yalign 0.6            
-            window:
+            frame:
                 xysize (630,780)
                 xalign 0.5
                 background 'input_square' padding(40,40)
@@ -562,7 +562,7 @@ screen pick_bubble(character):
     zorder 100
     modal True
     
-    window:
+    frame:
         maximum(780, 1000)
         background 'input_popup_bkgr'
         xalign 0.5
@@ -576,7 +576,7 @@ screen pick_bubble(character):
             spacing 20
             xalign 0.5
             yalign 0.6            
-            window:
+            frame:
                 xysize (730,780)
                 xalign 0.5
                 background 'input_square' padding(40,40)
@@ -599,7 +599,7 @@ screen pick_bubble(character):
                                 selected_background '#a8a8a8'
                                 selected ((the_entry.bounce == bounces) and (the_entry.specBubble == None))
                                 align (0.5, 0.5)
-                                window:
+                                frame:
                                     xysize (300, 180)
                                     align (0.5, 0.5)
                                     background Frame(thebubble, 25, 25)
@@ -644,7 +644,7 @@ screen exit_enter(character):
     zorder 100
     modal True
     
-    window:
+    frame:
         maximum(550,313)
         background 'input_popup_bkgr'
         xalign 0.5
