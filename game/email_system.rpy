@@ -360,7 +360,7 @@ screen email_popup(e):
             text 'NEW':
                 color '#73f1cf' 
                 yalign 1.0 
-                font sans_serif_1b
+                font gui.sans_serif_1b
         
         vbox:
             align (0.5, 0.63)

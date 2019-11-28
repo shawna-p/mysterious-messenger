@@ -82,6 +82,23 @@ define gui.notify_text_size = 25
 define gui.title_text_size = 60
 
 
+
+define gui.curly_font = gui.preference('curly_font', "fonts/Sandoll Misaeng (Curly Font).ttf")
+define gui.serif_1 = gui.preference('serif_1', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf")
+define gui.serif_1b = gui.preference('serif_1b', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf")
+define gui.serif_1xb = gui.preference('serif_1xb', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-ExtraBold.ttf")
+define gui.serif_2 = gui.preference('serif_2', "fonts/Seoul Hangang (Serif font 2)/SeoulHangangM.ttf")
+define gui.serif_2b = gui.preference('serif_2b', "fonts/Seoul Hangang (Serif font 2)/SeoulHangangB.ttf")
+define gui.serif_2xb = gui.preference('serif_2xb', "fonts/Seoul Hangang (Serif font 2)/SeoulHangangEB.ttf")
+define gui.sans_serif_1 = gui.preference('sans_serif_1', "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Regular.ttf")
+define gui.sans_serif_1b = gui.preference('sans_serif_1b', "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-Bold.ttf")
+define gui.sans_serif_1xb = gui.preference('sans_serif_1xb', "fonts/NanumGothic (Sans Serif Font 1)/NanumGothic-ExtraBold.ttf")
+define gui.sans_serif_2 = gui.preference('sans_serif_2', "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf")
+define gui.sans_serif_2b = gui.preference('sans_serif_2b', "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanB.ttf")
+define gui.sans_serif_2xb = gui.preference('sans_serif_2xb', "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanEB.ttf")
+define gui.blocky_font = gui.preference('blocky_font', "fonts/BM-HANNA (Bold Font).ttf")
+define gui.curlicue_font = gui.preference('curlicue_font', "fonts/NanumBarunpenR.ttf")
+
 ## Main and Game Menus #########################################################
 
 ## The images used for the main and game menus.

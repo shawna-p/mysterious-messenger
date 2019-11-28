@@ -25,6 +25,7 @@ style bubble_text:
     line_spacing gui.phone_text_line_spacing
     xalign 0.0
     yalign 0.5
+    font gui.sans_serif_1
     
 # This bubble is shown when the text wraps
 # It forces the width to be a certain length
@@ -33,6 +34,7 @@ style bubble_text_long:
     xalign 0.0
     yalign 0.5
     xsize gui.phone_text_xsize_long
+    font gui.sans_serif_1
     
     
 # This is for the "special" speech bubbles
@@ -42,6 +44,7 @@ style special_bubble:
     line_spacing gui.phone_text_line_spacing - 10
     ycenter 0.55
     xcenter 0.5
+    font gui.sans_serif_1
     #align (.5, .5)
 
 ####################################
@@ -84,7 +87,7 @@ style msg_bubble:
             
 style msg_bubble_text:
     text_align 0.5
-    font sans_serif_1
+    font gui.sans_serif_1
     size gui.text_size - 10
     color "#ffffff"
     xalign 0.5

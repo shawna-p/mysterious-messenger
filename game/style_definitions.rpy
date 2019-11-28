@@ -18,6 +18,7 @@ define sans_serif_2 = "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanM.ttf"
 define sans_serif_2b = "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanB.ttf"
 define sans_serif_2xb = "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanEB.ttf"
 define blocky_font = "fonts/BM-HANNA (Bold Font).ttf"
+define curlicue_font = "fonts/NanumBarunpenR.ttf"
 
 
 init 5:
@@ -32,52 +33,52 @@ init 5:
     ## Curly Font
     style curly:
         size gui.text_size + 6
-        font curly_font
+        font gui.curly_font
     
     ## Serif Font 1
     style ser1:
-        font serif_1
+        font gui.serif_1
 
     style ser1b:
-        font serif_1b
+        font gui.serif_1b
  
     style ser1xb:
-        font serif_1xb
+        font gui.serif_1xb
       
     ## Serif Font 2
     style ser2:
-        font serif_2
+        font gui.serif_2
         
     style ser2b:
-        font serif_2b
+        font gui.serif_2b
         
     style ser2xb:
-        font serif_2xb
+        font gui.serif_2xb
         
     ## Sans Serif Font 1
     style sser1:
         # this is the regular dialogue font/the default
-        font sans_serif_1
+        font gui.sans_serif_1
         
     style sser1b:
-        font sans_serif_1b
+        font gui.sans_serif_1b
         
     style sser1xb:
-        font sans_serif_1xb
+        font gui.sans_serif_1xb
     
     ## Sans Serif Font 2
     style sser2:
-        font sans_serif_2
+        font gui.sans_serif_2
         
     style sser2b:
-        font sans_serif_2b
+        font gui.sans_serif_2b
         
     style sser2xb:
-        font sans_serif_2xb
+        font gui.sans_serif_2xb
       
     ## Blocky Font
     style blocky:
-        font blocky_font
+        font gui.blocky_font
 
     ####################################
     #***********************************
@@ -97,14 +98,14 @@ init 5:
         pos (148, 0)
         xsize 435
         text_align 0.0
-        font sans_serif_1
+        font gui.sans_serif_1
         
     style chat_name_MC:
         pos (596, 0)
         xsize 435
         text_align 1.0
         anchor (1.0, 0.0)
-        font sans_serif_1
+        font gui.sans_serif_1
             
     ## ****************************************
     ## Profile Pictures Style
@@ -199,14 +200,14 @@ init 5:
         text_align 0.5
         size 25
         xsize 600
-        font sans_serif_1
+        font gui.sans_serif_1
         
     style sign is text:
         xalign 0.5   
         yalign 0.607   
         text_align 0.5
         size 30
-        font sans_serif_1
+        font gui.sans_serif_1
         
     style points is text:
         yalign 0.51
@@ -259,7 +260,7 @@ init 5:
         size 27
         text_align 0.0
         slow_cps 20
-        font "fonts/NanumBarunpenR.ttf"
+        font curlicue_font
         
     ## **********************
     ## Main Menu -- Profile
@@ -307,11 +308,11 @@ init 5:
         
     style settings_style:
         color "#ffffff"
-        font sans_serif_1
+        font gui.sans_serif_1
         
     style sound_tags:
         color "#ffffff"
-        font sans_serif_1
+        font gui.sans_serif_1
         size 25
         text_align 0.5
         xalign 0.5
@@ -319,7 +320,7 @@ init 5:
         
     style hg_heart_points:
         color "#ffffff"
-        font sans_serif_1
+        font gui.sans_serif_1
         size 39
         text_align 1.0
         
@@ -343,7 +344,7 @@ init 5:
     
     style mode_select:
         color "#fff"
-        font sans_serif_1
+        font gui.sans_serif_1
         text_align 0.5
         xalign 0.5
         yalign 0.5
@@ -353,19 +354,19 @@ init 5:
         hover_color "#ffffff"
         xalign 0.5
         text_align 0.5
-        font sans_serif_1
+        font gui.sans_serif_1
         size 30
         
     style vn_button:
         color '#76D0B7'
-        font sans_serif_2
+        font gui.sans_serif_2
         size 55
         outlines [(absolute(1), '#000', absolute(0), absolute(0))]
         kerning -1
         
     style vn_button_hover:
         color "#999999"
-        font sans_serif_2
+        font gui.sans_serif_2
         size 55
         outlines [(absolute(1), '#000', absolute(0), absolute(0))]
         kerning -1
@@ -379,7 +380,7 @@ init 5:
         yalign 0.607
         color "#fff"
         text_align 0.5
-        font sans_serif_1
+        font gui.sans_serif_1
         size 34
         
     style loading_tip:
@@ -387,7 +388,7 @@ init 5:
         text_align 0.5
         yalign 0.4
         color "#fff"
-        font sans_serif_1
+        font gui.sans_serif_1
         size 34
         
     ## **********************
@@ -398,14 +399,14 @@ init 5:
         align (0.5, 0.5)
         text_align 0.5
         color "#fff"
-        font sans_serif_1
+        font gui.sans_serif_1
         size 55
         
     style profile_status:
         text_align 0.5
         align (0.5, 0.5)
         color "#fff"
-        font serif_1
+        font gui.serif_1
         size 40
         xmaximum 600
         
@@ -417,14 +418,14 @@ init 5:
         align (0.5, 0.5)
         text_align 0.5
         color '#fff'
-        font sans_serif_1
+        font gui.sans_serif_1
         size 30
         
     style album_text_long:
         align (0.5, 0.5)
         text_align 0.5
         color '#fff'
-        font sans_serif_1
+        font gui.sans_serif_1
         size 25
         
         
@@ -438,7 +439,7 @@ init 5:
         text_align 0.5
         color '#fff'
         size 37
-        font sans_serif_1
+        font gui.sans_serif_1
         yalign 0.5
     
     ## **********************
@@ -454,7 +455,7 @@ init 5:
         color '#fff'
         xalign 0.5
         text_align 0.5
-        font sans_serif_1
+        font gui.sans_serif_1
         size 70
         yoffset 10
         
@@ -463,13 +464,13 @@ init 5:
         xalign 0.5
         yalign 0.5
         text_align 0.5
-        font sans_serif_1
+        font gui.sans_serif_1
         
     ## **********************
     ## Emails
     ## **********************
     style email_address:
-        font "fonts/NanumBarunpenR.ttf"
+        font gui.curlicue_font
         color '#fff'
         size 27
         
@@ -477,20 +478,20 @@ init 5:
     ## Spaceship Thoughts
     ## **********************
     style space_title1:
-        font serif_1
+        font gui.serif_1
         size 25
         text_align 0.5
         align (0.5, 0.12)
         color '#ff0'
         
     style space_thought_mid:
-        font serif_1
+        font gui.serif_1
         text_align 0.5
         align (0.5, 0.5)
         color '#fff'
         
     style space_title2:
-        font serif_1
+        font gui.serif_1
         size 22
         text_align 0.5
         align (0.5, 0.95)
@@ -507,7 +508,7 @@ init 5:
     style CG_close is text:
         xalign 0.06
         yalign 0.016
-        font sans_serif_1
+        font gui.sans_serif_1
         color "#ffffff"
         size 45
         
@@ -516,13 +517,13 @@ init 5:
         xalign 0.97
         yalign 0.22
         color "#ffffff"
-        font  sans_serif_1b
+        font gui.sans_serif_1b
         size 45
         text_align 0.5
         
     style chip_prize_text:
         color "#ffffff"
-        font  sans_serif_1
+        font gui.sans_serif_1
         text_align 1.0
         size 37
         xalign 0.85
@@ -530,7 +531,7 @@ init 5:
         
     style chip_prize_description_short:
         color '#ffffff'
-        font blocky_font
+        font gui.blocky_font
         text_align 0.5
         size 45
         xalign 0.5
@@ -538,7 +539,7 @@ init 5:
 
     style chip_prize_description_long:
         color '#ffffff'
-        font blocky_font
+        font gui.blocky_font
         text_align 0.5
         size 37
         xalign 0.5
@@ -546,7 +547,7 @@ init 5:
     
     style header_clock:
         color '#fff'
-        font  sans_serif_1
+        font gui.sans_serif_1
         text_align 1.0
         size 42
         xpos -110

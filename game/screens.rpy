@@ -1321,6 +1321,7 @@ style confirm_frame:
     yalign .5
 
 style confirm_prompt_text:
+    font gui.sans_serif_1
     text_align 0.5
     layout "subtitle"
 

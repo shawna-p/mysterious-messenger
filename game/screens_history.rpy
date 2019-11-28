@@ -54,7 +54,7 @@ style select_history_text:
     color "#fff" 
     size 28 
     xsize 50 
-    font sans_serif_1b
+    font gui.sans_serif_1b
     align (0.5, 0.5)
 
 style select_history_frame:
@@ -189,7 +189,7 @@ screen chatroom_item_history(chatroom):
 
     null height 10
     if not is_chatroom and not is_vn:
-        text chatroom color "#fff" font sans_serif_1b xalign 0.575
+        text chatroom color "#fff" font gui.sans_serif_1b xalign 0.575
     elif is_chatroom:
     
         

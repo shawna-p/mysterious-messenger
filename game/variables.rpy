@@ -251,7 +251,7 @@ image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.png", 20, 20
 image rfa_greet:
     Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", 
                 color="#ffffff", size=30, slow=True, 
-                font="fonts/NanumBarunpenR.ttf", slow_cps=8, bold=True)
+                font=curlicue_font, slow_cps=8, bold=True)
     10.0
     "transparent"
     0.2

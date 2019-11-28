@@ -299,7 +299,7 @@ screen phone_contacts():
 
 style phone_contacts_button_text:
     color '#fff'
-    font sans_serif_1
+    font gui.sans_serif_1
     text_align 0.5
     xalign 0.5
     yalign 0.5

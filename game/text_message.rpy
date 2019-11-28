@@ -166,7 +166,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
             xalign 0.03
             spacing 15
             add 'new_text_envelope'
-            text 'NEW' color '#73f1cf' yalign 1.0 font sans_serif_1b
+            text 'NEW' color '#73f1cf' yalign 1.0 font gui.sans_serif_1b
         
         vbox:
             xalign 0.3

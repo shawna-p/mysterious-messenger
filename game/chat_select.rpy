@@ -271,7 +271,7 @@ screen chatroom_timeline(day, day_num):
                                 
                     null height 40                    
     
-    if hacked_effect:        
+    if hacked_effect and persistent.hacking_effects:        
         timer 10:
             action [Show('tear', number=10, offtimeMult=0.4, 
                     ontimeMult=0.2, offsetMin=-10, offsetMax=30, w_timer=0.3),
@@ -312,7 +312,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                                     archive_list[-1].played)
 
         anim = null_anim
-        if hacked_effect:
+        if hacked_effect and persistent.hacking_effects:
             anim = hacked_anim
         my_vn = chatroom.vn_obj
         can_play = False
@@ -413,9 +413,10 @@ screen chatroom_item(day, day_num, chatroom, index):
                         action [SetVariable('current_chatroom', chatroom), 
                                 Jump(chatroom.chatroom_label)]
                     
-            if hacked_effect and chatroom.expired:
+            if (hacked_effect and chatroom.expired 
+                    and persistent.hacking_effects):
                 add 'day_reg_hacked' xoffset -185 yoffset -178
-            elif hacked_effect:
+            elif hacked_effect and persistent.hacking_effects:
                 add 'day_reg_hacked_long' xoffset -210 yoffset -170
                 
             vbox:
@@ -604,7 +605,7 @@ screen timeline_continue_button(chat_time):
                     renpy.restart_interaction, 
                     Hide('confirm')], 
                 no_action=Hide('confirm'))    
-        if hacked_effect:
+        if hacked_effect and persistent.hacking_effects:
             add Transform('day_reg_hacked_long', 
                             yzoom=0.75):
                 xoffset -210 yoffset -120            
@@ -632,7 +633,7 @@ screen timeline_continue_button(chat_time):
             frame:
                 xysize(430, 35)
                 yoffset 13
-                xoffset 50        
+                xoffset 75       
                 yalign 0.5
                 text "Next chatroom opens at " + chat_time:
                     color '#fff' 
