@@ -236,7 +236,7 @@ default ju = ChatCharacter("Jumin Han", 'ju',
                     'Profile Pics/ju_chat.png', "#a59aef", 
                     "Cover Photos/profile_cover_photo.png", "Jumin's status", 
                     False, False, jumin_emotes)
-default m = ChatCharacter("MC", 'm', 'Profile Pics/MC/MC-1.png', 
+default m = ChatCharacter(persistent.name, 'm', persistent.MC_pic, 
                         right_msgr=True)
 default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
                 'Profile Pics/r_chat.png', "#b81d7b", 

@@ -46,7 +46,7 @@ init python:
                 persistent.name = self.the_name
                 renpy.save_persistent()
                 name = persistent.name  
-                m.name = name 
+                # m.name = name 
                 renpy.retain_after_load()  
             
         def enter(self):
@@ -62,7 +62,7 @@ init python:
                 persistent.name = self.the_name
                 renpy.save_persistent()
                 name = persistent.name  
-                m.name = name 
+                # m.name = name 
                 renpy.retain_after_load()  
                 renpy.hide_screen('input_popup')
             # renpy.run(self.Disable())                
@@ -189,12 +189,12 @@ init python:
     def set_name_pfp():
         global name, persistent, m
         name = persistent.name
-        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
-            m.prof_pic = persistent.MC_pic
-        else:
-            m.prof_pic = 'Profile Pics/MC/MC-1.png'
-        if m.name != persistent.name:
-            m.name = persistent.name
+        # if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
+        #     m.prof_pic = persistent.MC_pic
+        # else:
+        #     m.prof_pic = 'Profile Pics/MC/MC-1.png'
+        # if m.name != persistent.name:
+        #     m.name = persistent.name
         renpy.retain_after_load()
         return
       

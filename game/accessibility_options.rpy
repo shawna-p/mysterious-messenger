@@ -46,6 +46,19 @@ init python:
             persistent.vn_window_dark = float((persistent.window_darken_pct
                                                          - 50) / 50.0)
 
+## This screen is used to display text notifications
+## about whom the player received a heart point with
+screen heart_notifications(who, add_heart=True):
+    zorder 100
+    if add_heart:
+        $ msg = who + " +1"
+    else:
+        $ msg = who + " -1"
+    frame at notify_appear:
+        textbutton _("[message!tq]"):
+            action Hide('heart_notifications')
+
+
 screen adjust_fonts():
 
     modal True

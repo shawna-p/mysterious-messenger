@@ -47,7 +47,7 @@ init python:
         else:
             persistent.MC_pic = 'Profile Pics/MC/MC-1.png'
             
-        m.prof_pic = persistent.MC_pic
+        # m.prof_pic = persistent.MC_pic
         renpy.retain_after_load()
 
     def MC_pic_display(st, at):
