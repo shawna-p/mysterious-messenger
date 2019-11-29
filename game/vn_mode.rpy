@@ -75,6 +75,8 @@ transform vn_farright:
 #####################################
 
 label vn_begin():
+    if starter_story:
+        $ set_name_pfp()
     window auto
     $ chatroom_hp = 0
     scene bg black

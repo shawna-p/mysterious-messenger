@@ -75,11 +75,7 @@ label after_load():
             renpy.hide_screen('text_pop_2')
             renpy.hide_screen('text_pop_3')
             
-        if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
-            m.prof_pic = persistent.MC_pic
-        if m.name != persistent.name:
-            m.name = persistent.name
-            name = persistent.name
+        set_name_pfp()
         set_pronouns()
             
         renpy.hide_screen('settings_screen')

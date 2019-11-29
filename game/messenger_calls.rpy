@@ -23,6 +23,8 @@
 # you'll also have to pass it 'False' as its second argument
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
+    if starter_story:
+        $ set_name_pfp()
     stop music
     if clearchat:
         $ chatlog = []

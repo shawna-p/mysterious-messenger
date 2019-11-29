@@ -627,6 +627,8 @@ label new_incoming_call(phonecall):
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
 label phone_begin():
+    if starter_story:
+        $ set_name_pfp()
     stop music
     # This stops it from recording the dialogue
     # from the phone call in the history log
@@ -641,6 +643,11 @@ label phone_begin():
     hide screen text_pop_3
     hide screen email_popup
     
+    if _in_replay:
+        $ observing = True
+        $ set_name_pfp()
+        $ set_pronouns()
+        
     show screen in_call
     return
     

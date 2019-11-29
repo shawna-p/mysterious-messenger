@@ -64,9 +64,8 @@ init python:
     
     ## Checks for common image extensions
     def isImg(pic):
-        if '.png' or '.PNG' or '.jpg' or '.jpeg' in pic:
-            return True
-        elif '.JPG' or '.JPEG' or '.gif' or '.GIF' in pic:
+        pic = pic.lower()
+        if '.png' or '.jpg' or '.jpeg' or '.gif' or '.webp' in pic:
             return True
         else:
             return False

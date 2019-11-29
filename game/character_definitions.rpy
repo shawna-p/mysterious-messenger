@@ -136,14 +136,8 @@ init -5 python:
         def prof_pic(self, new_img):
             if new_img == False:
                 self.__prof_pic = False
-            elif ".png" in new_img:
+            elif isImg(new_img):            
                 self.__prof_pic = new_img
-            elif ".jpg" in new_img:
-                self.__prof_pic = new_img
-            elif ".gif" in new_img:
-                self.__prof_pic = new_img
-            else:
-                return
 
             self.__big_prof_pic = self.__prof_pic
             if self.__prof_pic:

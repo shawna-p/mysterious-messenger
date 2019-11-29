@@ -48,6 +48,24 @@ init -6 python:
         else:
             return MyTime()
 
+    # This function sets up some variables for a new route
+    def new_route_setup(route):
+        global chat_archive, current_chatroom, starter_story
+        if (len(route) > 0 
+                and (isinstance(route[0], RouteDay) 
+                    or isinstance(route[0], store.RouteDay))):
+            chat_archive = route
+        else:
+            chat_archive = route[1:]
+        
+        define_variables()
+        current_chatroom = ChatHistory('Starter Chat', 'starter_chat', '00:00')
+        # This sets a specific variable that lets you have phone calls/
+        # VNs for a starter chat/opening
+        starter_story = True
+        renpy.retain_after_load()
+        return
+
 # This tells the program to randomly shuffle the order
 # of responses
 default shuffle = True
