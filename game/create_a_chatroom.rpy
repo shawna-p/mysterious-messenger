@@ -202,7 +202,7 @@ default f_style_begin = ''
 default f_style_end = ''
 default f_font_style = Fonts()
 
-default the_entry = Chatentry(ju, 'Input dialogue by clicking here', upTime())
+default the_entry = ChatEntry(ju, 'Input dialogue by clicking here', upTime())
    
 default font_dropdown = False
 

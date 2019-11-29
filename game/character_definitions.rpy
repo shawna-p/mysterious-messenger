@@ -4,7 +4,7 @@ init -5 python:
     ## and a 'file_id' that's appended to things like their special 
     ## bubble names and saves you from typing out the full name 
     ## every time
-    class Chat(object):
+    class ChatCharacter(object):
         def __init__(self, name, file_id=False, prof_pic=False, 
                 participant_pic=False, heart_color='#000000', 
                 cover_pic=False, status=False, bubble_color=False, 
@@ -45,7 +45,7 @@ init -5 python:
             if voicemail:
                 self.voicemail = voicemail
             else:
-                self.voicemail = Phone_Call(self, 
+                self.voicemail = PhoneCall(self, 
                                     'voicemail_1', 'voicemail', 2, True)
             # All heart points start at 0
             self.heart_points = 0  
@@ -99,7 +99,7 @@ init -5 python:
             self.emote_list = emote_list
             
             # Used for text messaging
-            self.text_msg = Text_Message()
+            self.text_msg = TextMessage()
             self.real_time_text = False
             
             
@@ -192,7 +192,7 @@ init -5 python:
         def __call__(self, what, pauseVal=None, img=False, 
                     bounce=False, specBubble=None, **kwargs):
             # If we're texting, we add this to the character's
-            # Text_Message object instead
+            # TextMessage object instead
             if store.text_person is not None:
                 if store.text_person.real_time_text:
                     addtext_realtime(self, what, pauseVal=pauseVal, img=img)
@@ -232,51 +232,55 @@ init -5 python:
 ##               side of the screen (in general, this is true only for
 ##               MC, and it is automatically False for everyone else)
 
-default ja = Chat("Jaehee Kang", 'ja', 'Profile Pics/Jaehee/ja-default.png', 
+default ja = ChatCharacter("Jaehee Kang", 'ja', 
+                    'Profile Pics/Jaehee/ja-default.png', 
                     'Profile Pics/ja_chat.png', "#d0b741", 
                     "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
                     False, False, jaehee_emotes)
-default ju = Chat("Jumin Han", 'ju', 'Profile Pics/Jumin/ju-default.png', 
+default ju = ChatCharacter("Jumin Han", 'ju', 
+                    'Profile Pics/Jumin/ju-default.png', 
                     'Profile Pics/ju_chat.png', "#a59aef", 
                     "Cover Photos/profile_cover_photo.png", "Jumin's status", 
                     False, False, jumin_emotes)
-default m = Chat("MC", 'm', 'Profile Pics/MC/MC-1.png', right_msgr=True)
-default r = Chat("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
+default m = ChatCharacter("MC", 'm', 'Profile Pics/MC/MC-1.png', 
+                        right_msgr=True)
+default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
                 'Profile Pics/r_chat.png', "#b81d7b", 
                 "Cover Photos/profile_cover_photo.png", "Ray's status", 
                 False, False, ray_emotes)
-default ri = Chat("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
+default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
                     'Profile Pics/ri_chat.png', "#fcef5a", 
                     "Cover Photos/profile_cover_photo.png", "Rika's status", 
                     False, False, rika_emotes)
-default s = Chat("707", 's', 'Profile Pics/Seven/sev-default.png', 
+default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.png', 
                 'Profile Pics/s_chat.png', "#ff2626", 
                 "Cover Photos/profile_cover_photo.png", "707's status", 
                 False, False, seven_emotes)
-default sa = Chat("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
+default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
                     'Profile Pics/sa_chat.png', "#b81d7b", 
                     "Cover Photos/profile_cover_photo.png", "Saeran's status", 
                     False, False, saeran_emotes)
-default u = Chat("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
+default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
                 'Profile Pics/u_chat.png', "#ffffff")
-default v = Chat("V", 'v', 'Profile Pics/V/V-default.png', 
+default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.png', 
                 'Profile Pics/v_chat.png', "#50b2bc", 
                 "Cover Photos/profile_cover_photo.png", "V's status", 
                 False, False, v_emotes)
-default y = Chat("Yoosung★", 'y', 'Profile Pics/Yoosung/yoo-default.png', 
+default y = ChatCharacter("Yoosung★", 'y', 
+                'Profile Pics/Yoosung/yoo-default.png', 
                 'Profile Pics/y_chat.png', "#31ff26", 
                 "Cover Photos/profile_cover_photo.png", "Yoosung's status", 
                 False, False, yoosung_emotes)
-default z = Chat("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
+default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
                 'Profile Pics/z_chat.png', "#c9c9c9", 
                 "Cover Photos/profile_cover_photo.png", "Zen's status", 
                 False, False, zen_emotes)
 
 # These are special 'characters' for additional features
-define special_msg = Chat("msg")
-define filler = Chat("filler")
-define answer = Chat('answer', 'delete')
-define chat_pause = Chat('pause', 'delete')
+define special_msg = ChatCharacter("msg")
+define filler = ChatCharacter("filler")
+define answer = ChatCharacter('answer', 'delete')
+define chat_pause = ChatCharacter('pause', 'delete')
 
 # This list is used *specifically* to display characters you can
 # see on the main menu -- they have profiles and show up in your
@@ -303,7 +307,7 @@ default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
 # in the voice tags, so that if you mute a character you won't hear their
 # voice during phone calls or VN mode
 # For ease of remembering, Phone Call characters are just their 
-# Chat variables + '_phone' e.g. ja -> ja_phone
+# ChatCharacter variables + '_phone' e.g. ja -> ja_phone
 # This is a default phone character that we can "inherit" the style
 # from rather than declaring all the individual properties
 define phone_character = Character(None, 
@@ -343,8 +347,8 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 # Text Messages
 # ****************************         
                  
-# default text_messages = [ Text_Message(i, []) for i in all_characters ]
-# default text_queue = [ Text_Message(i, []) for i in all_characters ]
+# default text_messages = [ TextMessage(i, []) for i in all_characters ]
+# default text_queue = [ TextMessage(i, []) for i in all_characters ]
 
                         
 # ****************************
@@ -356,7 +360,7 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 # definition from here and change the window_background
 # and voice_tag as appropriate
 # For ease of remembering, VN characters are just their 
-# Chat variables + "_vn" e.g. s -> s_vn
+# ChatCharacter variables + "_vn" e.g. s -> s_vn
 # I've also changed the who_color from MysMe's #fff5ca 
 # to the background of the characters' speech bubbles
 

@@ -84,7 +84,7 @@ init python:
         return True
         
     ## This picks a greeting depending on the time of day and plays it
-    ## Makes use of a class called Day_Greeting to find sound clips and the 
+    ## Makes use of a class called DayGreeting to find sound clips and the 
     ## corresponding translations
     def chat_greet(hour, greet_char):  
         global greeted, greet_text_english, greet_text_korean
@@ -441,7 +441,7 @@ screen file_slots(title):
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name  
         if most_recent_chat == None:
-            most_recent_chat = Chat_History('Example Chatroom', 'example_chat', '00:01')
+            most_recent_chat = ChatHistory('Example Chatroom', 'example_chat', '00:01')
         for day in chat_archive:
             if most_recent_chat in day.archive_list:
                 the_day = day.day
@@ -1093,7 +1093,7 @@ screen chat_home(reshow=False):
                     hover_background "white_hex_hover"
                     #action NullAction
                     action Show('incoming_call', 
-                            phonecall=Phone_Call(ri, 'tutorial_email'))
+                            phonecall=PhoneCall(ri, 'tutorial_email'))
                     add "notice_icon" xalign 0.5 yalign 0.3
                     add "notice_text" xalign 0.5 yalign 0.8
                     

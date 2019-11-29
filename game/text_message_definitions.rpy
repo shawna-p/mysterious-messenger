@@ -3,9 +3,9 @@ init -6 python:
     from random import randint
     import renpy.store as store
     
-    ## The Text_Message class keeps track of a text message conversation
+    ## The TextMessage class keeps track of a text message conversation
     ##  for each character. The actual messages are stored in msg_list
-    class Text_Message(object):
+    class TextMessage(object):
         def __init__(self):
             # List of currently sent messages
             self.msg_list = []
@@ -114,7 +114,7 @@ init -6 python:
         sender = store.text_person
         # If the MC sent this message, we deliver it immediately
         if who.right_msgr:
-            sender.text_msg.msg_list.append(Chatentry(who, what, upTime(), img))
+            sender.text_msg.msg_list.append(ChatEntry(who, what, upTime(), img))
             sender.text_msg.read = True
             sender.text_msg.notified = True
             sender.text_msg.reply_label = False
@@ -122,7 +122,7 @@ init -6 python:
         else:
             # Otherwise another character sent this/is replying
             # We add this message to the sender's queue
-            sender.text_msg.msg_queue.append(Chatentry(
+            sender.text_msg.msg_queue.append(ChatEntry(
                                                 who, what, upTime(), img))
             # sender.text_msg.read = False
             sender.text_msg.notified = False
@@ -168,7 +168,7 @@ init -6 python:
 
         if who.file_id != 'delete':
             text_pauseFailsafe(textlog)
-            textbackup = Chatentry(who, what, upTime(), img)
+            textbackup = ChatEntry(who, what, upTime(), img)
             oldPV = pauseVal
         
         if pauseVal == 0:
@@ -193,6 +193,13 @@ init -6 python:
             renpy.pause(typeTime)
 
         if img:
+            # We try to adjust the {image=seven wow} etc statement to 
+            # suit the emoji dictionary
+            if "{image =" in what:
+                first, last = what.split('=')
+                if len(last) > 0 and last[0] == ' ':
+                    last.pop(0)
+                what = "{image=" + last
             if (what in emoji_lookup
                     and renpy.get_screen('text_message_screen')):
                 renpy.play(emoji_lookup[what], channel='voice_sfx')
@@ -210,7 +217,7 @@ init -6 python:
                         photo.unlock()
                         break
                     
-        textlog.append(Chatentry(who, what, upTime(), img))
+        textlog.append(ChatEntry(who, what, upTime(), img))
         renpy.checkpoint()
 
     ## This ensures we don't miss any messages being posted 
@@ -247,11 +254,18 @@ init -6 python:
             renpy.pause(typeTime)
 
         if textbackup.img == True:
+            # We try to adjust the {image=seven wow} etc statement to 
+            # suit the emoji dictionary
+            if "{image =" in textbackup.what:
+                first, last = textbackup.what.split('=')
+                if len(last) > 0 and last[0] == ' ':
+                    last.pop(0)
+                textbackup.what = "{image=" + last
             if (textbackup.what in emoji_lookup 
                     and renpy.get_screen('text_message_screen')):
                 renpy.play(emoji_lookup[textbackup.what], channel="voice_sfx")
 
-        textlog.append(Chatentry(textbackup.who, textbackup.what,
+        textlog.append(ChatEntry(textbackup.who, textbackup.what,
                 upTime(), textbackup.img))
         renpy.checkpoint()
                
@@ -263,7 +277,7 @@ init -6 python:
         global name
         name_cut = num_char + 6 - len(name)
         
-        if last_msg and ("{image=" in last_msg.what or last_msg.img):
+        if last_msg and ("{image" in last_msg.what or last_msg.img):
             if last_msg.who.right_msgr:
                 return "You sent an image."
             else:
@@ -293,7 +307,7 @@ init -6 python:
 
 default current_message = None
 default text_msg_reply = False
-# Stores the Chat object of the other person in a text conversation
+# Stores the ChatCharacter object of the other person in a text conversation
 default text_person = None
 # This keeps track of whose text conversation the player is viewing
 # so they can view CGs full-screen
@@ -357,7 +371,7 @@ label text_end():
     $ who = text_person
     $ text_person = None
     $ chatroom_hp = 0
-    $ textbackup = Chatentry(filler,"","")
+    $ textbackup = ChatEntry(filler,"","")
     $ renpy.retain_after_load()        
     hide screen text_answer
     hide screen inactive_text_answer

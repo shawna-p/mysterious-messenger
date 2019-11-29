@@ -1,5 +1,5 @@
 
-default textbackup = Chatentry(filler,"","")
+default textbackup = ChatEntry(filler,"","")
  
 ## Used for instant text messaging footers
 transform text_footer_disappear:

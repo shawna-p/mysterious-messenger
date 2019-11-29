@@ -538,7 +538,7 @@ screen other_settings():
                     textbutton _("Hacking Effects"):
                         action ToggleField(persistent, "hacking_effects")
                     textbutton _("Screen Shake"):
-                        action ToggleField(persistent, "screen_shake")
+                        action ToggleField(persistent, "screenshake")
                     textbutton _("Chatroom Banners"):
                         action ToggleField(persistent, 'banners')
                     textbutton _("Auto-Answer Timed Menus"):
@@ -884,7 +884,7 @@ style tone_selection_button:
 screen voice_buttons(char, voice_char=None):
 
     python:
-        if isinstance(char, Chat):
+        if isinstance(char, ChatCharacter):
             if char == r:
                 voice_char = sa.file_id + '_voice'
             else:

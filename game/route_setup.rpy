@@ -7,35 +7,35 @@ default chat_archive = []
 
 
 default tutorial_good_end = ["Good End",
-    Route_Day('Tutorial', 
-        [Chat_History('Example Chatroom', 'example_chat', '00:01'),                                     
-        Chat_History('Inviting Guests','example_email', '09:11', [z]),
-        Chat_History('Text Message Example', 'example_text', '09:53', [r], VN_Mode('vn_mode_tutorial', r)),
-        Chat_History('Timed Menus', 'timed_menus', '11:28', [s]),
-        Chat_History('Pass Out After Drinking Caffeine Syndrome', 'tutorial_chat', '15:05', [s]),
-        Chat_History('Invite to the meeting', 'popcorn_chat', '18:25', [ja, ju], VN_Mode('popcorn_vn', ju), save_img='ju'),
-        Chat_History('Hacking', 'hack_example', '20:41'),
-        Chat_History('Plot Branches', 'plot_branch_tutorial', '22:44', [], VN_Mode('plot_branch_vn'), plot_branch=Plot_Branch(True)),
-        Chat_History("Onwards!", 'tutorial_good_end', '23:26', [u], VN_Mode('good_end_party', party=True))
+    RouteDay('Tutorial', 
+        [ChatHistory('Example Chatroom', 'example_chat', '00:01'),                                     
+        ChatHistory('Inviting Guests','example_email', '09:11', [z]),
+        ChatHistory('Text Message Example', 'example_text', '09:53', [r], VNMode('vn_mode_tutorial', r)),
+        ChatHistory('Timed Menus', 'timed_menus', '11:28', [s]),
+        ChatHistory('Pass Out After Drinking Caffeine Syndrome', 'tutorial_chat', '15:05', [s]),
+        ChatHistory('Invite to the meeting', 'popcorn_chat', '18:25', [ja, ju], VNMode('popcorn_vn', ju), save_img='ju'),
+        ChatHistory('Hacking', 'hack_example', '20:41'),
+        ChatHistory('Plot Branches', 'plot_branch_tutorial', '22:44', [], VNMode('plot_branch_vn'), plot_branch=PlotBranch(True)),
+        ChatHistory("Onwards!", 'tutorial_good_end', '23:26', [u], VNMode('good_end_party', party=True))
         ]),                                    
-    Route_Day('1st'),                        
-    Route_Day('2nd'),
-    Route_Day('3rd'),
-    Route_Day('4th'),
-    Route_Day('5th'),
-    Route_Day('6th'),
-    Route_Day('7th'),
-    Route_Day('8th'),
-    Route_Day('9th'),
-    Route_Day('10th'),
-    Route_Day('Final')]
+    RouteDay('1st'),                        
+    RouteDay('2nd'),
+    RouteDay('3rd'),
+    RouteDay('4th'),
+    RouteDay('5th'),
+    RouteDay('6th'),
+    RouteDay('7th'),
+    RouteDay('8th'),
+    RouteDay('9th'),
+    RouteDay('10th'),
+    RouteDay('Final')]
                         
 default tutorial_bad_end = ["Bad Story End",
-    Route_Day('Tutorial', 
-        [Chat_History('An Unfinished Task', 'tutorial_bad_end', '23:26', [v])] )]
+    RouteDay('Tutorial', 
+        [ChatHistory('An Unfinished Task', 'tutorial_bad_end', '23:26', [v])] )]
 default tutorial_bre = ["Bad Relationship End",
-    Route_Day('Tutorial', 
-            branch_vn= VN_Mode('plot_branch_bre'))]
+    RouteDay('Tutorial', 
+            branch_vn= VNMode('plot_branch_bre'))]
 
 default tutorial_route = Route(
                         default_branch=tutorial_good_end,
@@ -45,13 +45,13 @@ default tutorial_route = Route(
 
 # This is an example of how a route for another character, such as 707,
 # might look like
-default seven_route = [ Route_Day('5th', [], 's'),
-                        Route_Day('6th', [], 's'),
-                        Route_Day('7th', [], 's'),
-                        Route_Day('8th', [], 's'),
-                        Route_Day('9th', [], 's'),
-                        Route_Day('10th', [], 's'),
-                        Route_Day('Final', [], 's')]
+default seven_route = [ RouteDay('5th', [], 's'),
+                        RouteDay('6th', [], 's'),
+                        RouteDay('7th', [], 's'),
+                        RouteDay('8th', [], 's'),
+                        RouteDay('9th', [], 's'),
+                        RouteDay('10th', [], 's'),
+                        RouteDay('Final', [], 's')]
 
 # This variable keeps track of all the routes you've defined in order
 # to display it in the History screen from the main menu

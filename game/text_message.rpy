@@ -439,7 +439,7 @@ screen text_animation(i, animate=False, anti=False):
             
             frame at transformVar:               
                 ## Check if it's an image
-                if i.img and not "{image=" in i.what:
+                if i.img and not "{image" in i.what:
                     style img_style
                     $ fullsizeCG = cg_helper(i.what)
                     imagebutton:
@@ -470,7 +470,7 @@ screen text_animation(i, animate=False, anti=False):
                     color '#fff' 
                     yalign 1.0 
                     size 23 
-                    if i.img and not "{image=" in i.what:
+                    if i.img and not "{image" in i.what:
                         xoffset 10
             
           

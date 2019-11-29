@@ -177,7 +177,7 @@ screen chat_animation(i, animate=True, anti=False):
                 # Check if it's an image
                 if i.img:
                     style imgStyle
-                    if "{image=" in i.what:
+                    if "{image" in i.what:
                         text i.what
                     else: # it's a CG                            
                         $ fullsizeCG = cg_helper(i.what)

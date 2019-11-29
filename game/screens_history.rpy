@@ -86,8 +86,8 @@ style history_route_button_text:
 
 image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.png", 10,10)
 image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.png", 10,10)
-image history_chat_participated = Transform("Menu Screens/History/chat_history_participated.png", zoom=0.8)
-image history_chat_alone = Transform("Menu Screens/History/chat_history_alone.png", zoom=0.8)
+image history_chat_participated = Transform("Menu Screens/History/ChatHistory_participated.png", zoom=0.8)
+image history_chat_alone = Transform("Menu Screens/History/ChatHistory_alone.png", zoom=0.8)
 
 init python:
 
@@ -96,14 +96,14 @@ init python:
     def display_history(item, index, archive_list):
         global persistent
         # First check if it's a chatroom
-        if (isinstance(item, Chat_History)
-                or isinstance(item, store.Chat_History)):
+        if (isinstance(item, ChatHistory)
+                or isinstance(item, store.ChatHistory)):
             # This chatroom is only visible if one or both
             # of its expired or regular chats have been seen
             return (persistent.completed_chatrooms.get(item.expired_chat)
                     or persistent.completed_chatrooms.get(item.chatroom_label))
         # Check if it's a VN
-        if (isinstance(item, VN_Mode) or isinstance(item, store.VN_Mode)):
+        if (isinstance(item, VNMode) or isinstance(item, store.VNMode)):
             # Again, only visible if this VN's label has been seen
             return persistent.completed_chatrooms.get(item.vn_label)
 
@@ -139,10 +139,10 @@ screen chatroom_item_history(chatroom):
         played_expired = False
         vn_played = False
         my_vn = False
-        is_chatroom = (isinstance(chatroom, Chat_History)
-                        or isinstance(chatroom, store.Chat_History))
-        is_vn = (isinstance(chatroom, VN_Mode)
-                    or isinstance(chatroom, store.VN_Mode))
+        is_chatroom = (isinstance(chatroom, ChatHistory)
+                        or isinstance(chatroom, store.ChatHistory))
+        is_vn = (isinstance(chatroom, VNMode)
+                    or isinstance(chatroom, store.VNMode))
                     
         # Now we set up some variables to see whether or not the player
         # has seen one version of this chatroom or not

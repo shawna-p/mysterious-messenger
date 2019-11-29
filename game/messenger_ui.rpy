@@ -121,7 +121,7 @@ label play():
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
     if not text_person:
-        #$ chatlog.append(Chatentry(chat_pause,'',upTime()))
+        #$ chatlog.append(ChatEntry(chat_pause,'',upTime()))
         call screen play_button
         show screen pause_button
     else:

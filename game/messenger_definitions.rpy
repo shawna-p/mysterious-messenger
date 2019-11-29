@@ -10,7 +10,7 @@ init -4 python:
     ##  specBubble is a variable that holds the name of any special 
     ##      speech bubbles that should be used when displaying the text
     ##      (by default is empty and a regular bubble is used)
-    class Chatentry(object):
+    class ChatEntry(object):
         def __init__(self, who, what, thetime, img=False, 
                         bounce=False, specBubble=None):
             self.who = who
@@ -20,7 +20,7 @@ init -4 python:
             self.bounce = bounce
             self.specBubble = specBubble
 
-    ## Class that is functionally the same as a Chatentry, but
+    ## Class that is functionally the same as a ChatEntry, but
     ## keeps track of "replay" entries for the replay function
     class ReplayEntry(object):
         def __init__(self, who, what, pauseVal=None, img=False,
@@ -58,7 +58,7 @@ init -4 python:
             pauseFailsafe() # This ensures the message that was
                             # supposed to be posted was, in fact,
                             # posted
-            chatbackup = Chatentry(who, what, upTime(), 
+            chatbackup = ChatEntry(who, what, upTime(), 
                                     img, bounce, specBubble)
             oldPV = pauseVal
             
@@ -80,9 +80,16 @@ init -4 python:
         # If it's an image, we first check if it's an emoji
         # If so, it has an associated sound file
         if img == True:
+            # We try to adjust the {image=seven wow} etc statement to 
+            # suit the emoji dictionary
+            if "{image =" in what:
+                first, last = what.split('=')
+                if len(last) > 0 and last[0] == ' ':
+                    last.pop(0)
+                what = "{image=" + last
             if what in emoji_lookup:
                 renpy.play(emoji_lookup[what], channel="voice_sfx")
-            elif "{image=" not in what and not observing:
+            elif "{image" not in what and not observing:
                 # We want to unlock the CG in the gallery
                 # These will be equal to a path like
                 # CGs/common_album/cg-1.png
@@ -97,7 +104,7 @@ init -4 python:
                         break
         
         # We're done and can add this entry to the chatlog
-        chatlog.append(Chatentry(who, what, upTime(), 
+        chatlog.append(ChatEntry(who, what, upTime(), 
                             img, bounce, specBubble))
         renpy.checkpoint()
         
@@ -142,7 +149,7 @@ init -4 python:
                     renpy.play(emoji_lookup[chatbackup.what], 
                         channel="voice_sfx")
                
-            chatlog.append(Chatentry(chatbackup.who, chatbackup.what, 
+            chatlog.append(ChatEntry(chatbackup.who, chatbackup.what, 
                                         upTime(), chatbackup.img, 
                                         chatbackup.bounce, 
                                         chatbackup.specBubble))
@@ -209,7 +216,7 @@ default nickColour = "#000000"
 # Default variable to adjust chat speed by
 default pv = 0.8
 # These two values are used for the pauseFailSafe function
-default chatbackup = Chatentry(filler,"","")
+default chatbackup = ChatEntry(filler,"","")
 default oldPV = pv
 
 # Number of bubbles to keep on the screen at once

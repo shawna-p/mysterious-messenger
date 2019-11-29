@@ -15,7 +15,7 @@ init -6 python:
     
     # A class that makes it much easier to fetch the time for any
     # given chat entry/text message/phone call/etc
-    class myTime(object):
+    class MyTime(object):
         def __init__(self, day=None):
         
             self.short_weekday = datetime.now().strftime('%a')  #e.g. Mon
@@ -40,13 +40,13 @@ init -6 python:
             self.second = datetime.now().strftime('%S')
             self.am_pm = datetime.now().strftime('%p')
             
-    # Function that returns a myTime object with the current time
+    # Function that returns a MyTime object with the current time
     # Also lets you manually set the day for testing purposes
     def upTime(day=None):
         if day != None:
-            return myTime(day)
+            return MyTime(day)
         else:
-            return myTime()
+            return MyTime()
 
 # This tells the program to randomly shuffle the order
 # of responses
@@ -98,7 +98,7 @@ default available_calls = []
 default call_history = []
 # If there's an incoming call after a chatroom,
 # it will be defined here
-default incoming_call = False #e.g. Phone_Call(ju)
+default incoming_call = False #e.g. PhoneCall(ju)
 # Lets the program know we're in VN mode
 default vn_choice = False
 # Keeps track of the current call the player is in
@@ -113,7 +113,7 @@ default preferences.skip_after_choices = True
 define mm_auto = "mm_auto_save"
 default persistent.testing_mode = False
 # Used when viewing the chat history from the log
-default viewing_chat_history = False
+default viewing_ChatHistory = False
 
 
 #************************************
@@ -170,7 +170,7 @@ default chatlog = []
 # A list of the characters currently
 # in the chatroom
 default in_chat = []
-default current_chatroom = Chat_History('title', 'auto', 'chatroom_label', '00:00')
+default current_chatroom = ChatHistory('title', 'chatroom_label', '00:00')
 default most_recent_chat = None
 default name = 'Rainbow'
 default hacked_effect = False

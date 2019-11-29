@@ -1,7 +1,7 @@
 init -6 python:
 
     ## This class stores the information needed for phone calls
-    class Phone_Call(object):
+    class PhoneCall(object):
         def __init__(self, caller, phone_label, call_status='incoming',
                 avail_timeout=2, voicemail=False):
             self.caller = caller
@@ -100,18 +100,18 @@ init -6 python:
         for c in all_characters:
             # Adds available outgoing calls to the list
             if renpy.has_label(lbl + '_outgoing_' + c.file_id):
-                available_calls.append(Phone_Call(c, 
+                available_calls.append(PhoneCall(c, 
                     lbl + '_outgoing_' + c.file_id, 'outgoing'))
 
             # Updates the incoming call, or moves it if the call has expired
             if renpy.has_label(lbl + '_incoming_' + c.file_id):
                 if expired:
-                    phonecall = Phone_Call(c, lbl + '_incoming_' + c.file_id,
+                    phonecall = PhoneCall(c, lbl + '_incoming_' + c.file_id,
                                     'outgoing')
-                    missed_call = Phone_Call(c, lbl + '_incoming_' + c.file_id,
+                    missed_call = PhoneCall(c, lbl + '_incoming_' + c.file_id,
                                     'missed')
                 else:
-                    incoming_call = Phone_Call(c, lbl + '_incoming_'
+                    incoming_call = PhoneCall(c, lbl + '_incoming_'
                                     + c.file_id, 'incoming')            
         
         # The player backed out of a chatroom; no missed call but we should

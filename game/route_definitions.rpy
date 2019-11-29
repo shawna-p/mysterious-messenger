@@ -7,9 +7,10 @@ init -6 python:
     ## A more complete explanation of how to use it to set up 
     ## chatrooms can be found in the accompanying Script Generator
     ## spreadsheet
-    class Chat_History(object):
-        def __init__(self, title, chatroom_label, trigger_time, participants=[], 
-                vn_obj=False, plot_branch=False, save_img='auto'):
+    class ChatHistory(object):
+        def __init__(self, title, chatroom_label, trigger_time, 
+                participants=[], vn_obj=False, plot_branch=False, 
+                save_img='auto'):
             # Title of the chatroom
             self.title = title
             # Image to use on the save screen after this chatroom
@@ -86,16 +87,16 @@ init -6 python:
                     + x.file_id)]
             
         ## These two functions check for equality between two
-        ## Chat_History objects
+        ## ChatHistory objects
         def __eq__(self, other):
-            if not isinstance(other, Chat_History):
+            if not isinstance(other, ChatHistory):
                 return False
             return (self.title == other.title
                     and self.chatroom_label == other.chatroom_label
                     and self.trigger_time == other.trigger_time)
         
         def __ne__(self, other):
-            if not isinstance(other, Chat_History):
+            if not isinstance(other, ChatHistory):
                 return True
 
             return (self.title != other.title
@@ -129,7 +130,7 @@ init -6 python:
             
     ## This class stores the information needed for the Visual 
     ## Novel portions of the game
-    class VN_Mode(object):
+    class VNMode(object):
         def __init__(self, vn_label, who=None, party=False):
             # The label to jump to for the VN
             self.vn_label = vn_label
@@ -144,7 +145,7 @@ init -6 python:
 
     ## This class stores information the game needs to know
     ## about how to handle a plot branch
-    class Plot_Branch(object):
+    class PlotBranch(object):
         def __init__(self, vn_after_branch=False):
             # Whether this VN should appear after the plot branch
             # or before
@@ -154,7 +155,7 @@ init -6 python:
             self.stored_vn = None
             
     ## This object stores a day's worth of chatrooms
-    class Route_Day(object):
+    class RouteDay(object):
         def __init__(self, day, archive_list=[], day_icon='day_common2',
                         branch_vn=False):
             # The day e.g. "1st"
@@ -208,15 +209,15 @@ init -6 python:
                                                     self.route[0])
                     break
             # And now we get rid of the route title for the default branch
-            if not isinstance(self.route[0], Route_Day):
+            if not isinstance(self.route[0], RouteDay):
                 self.route.pop(0)
 
-            # if the default branch has any "hidden" VNs in Plot_Branch
+            # if the default branch has any "hidden" VNs in PlotBranch
             # objects, we should add them to the route proper
             for day in self.route:
                 for chat in day.archive_list:
-                    if ((isinstance(chat, Chat_History) or 
-                            isinstance(chat, store.Chat_History))
+                    if ((isinstance(chat, ChatHistory) or 
+                            isinstance(chat, store.ChatHistory))
                             and chat.plot_branch
                             and chat.plot_branch.vn_after_branch):
                         chat.vn_obj = chat.plot_branch.stored_vn
@@ -229,7 +230,7 @@ init -6 python:
                 for branch in branch_list:
                     for b in branch[1:]:
                         for d in self.route:
-                            # Both d and b should be a Route_Day object
+                            # Both d and b should be a RouteDay object
                             if d.day == b.day:
                                 # We can append this branch to the bottom of
                                 # the route
@@ -242,7 +243,7 @@ init -6 python:
                                 if b.archive_list:
                                     d.archive_list.extend(b.archive_list)
                                 # if we found a match, we can stop looking
-                                # through the rest of the Route_Days
+                                # through the rest of the RouteDays
                                 break
                 
                 
@@ -613,7 +614,7 @@ init -6 python:
         global chat_archive, most_recent_chat
         # Now we gotta do some trickery to figure out which VN to put
         # Check if the new route's first item is a VN -- if so, it overrides
-        # the VN stored in the Plot_Branch object
+        # the VN stored in the PlotBranch object
         if new_route[1].branch_vn:
             # Add this VN to the day with the plot branch
             most_recent_chat.vn_obj = new_route[1].branch_vn
