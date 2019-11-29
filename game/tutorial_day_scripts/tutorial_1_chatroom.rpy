@@ -4,8 +4,8 @@ label example_chat():
     $ choice_picked = None
        
     # This sets up a very specific phone call which will never expire
-    # You'll generally never want to add phone calls this way
-    $ available_calls.append(Phone_Call(r, 'test_call', 'outgoing', 'test'))
+    # You should generally never add phone calls this way
+    $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
        
     call hack 
     call chat_begin("hack") 
@@ -32,8 +32,8 @@ label example_chat():
 
     u "Anyway, you can see what we just did there was a menu!" 
     u "It allows you to alter a conversation based on responses." 
-    u "If you take a look {b}Example Chat.rpy{/b}, you can get an idea of how to use them." 
-    u "You'll want to type \"call answer\" before a menu." 
+    u "If you take a look {b}tutorial_1_chatroom.rpy{/b}, you can get an idea of how to use them." 
+    u "You should type \"call answer\" before a menu." 
     u "That way the answer button will show up at the bottom of the screen instead of immediately jumping to a menu." 
     u "{=ser1}There are lots of things to learn about!{/=ser1}" 
     u "{=ser1b}What would you like to see first?{/=ser1b}" 
@@ -111,7 +111,7 @@ label emojis():
     s "{image=seven wow}"   (img=True)
     s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}"   (bounce=True, specBubble="spike_m")
     s "Okay, so what you wanna do is go find the right emoji in the {b}images/Gifs{/b} folder,"
-    s "and find its corresponding name in the {b}emojis.rpy{/b} file."
+    s "and find its corresponding name in the {b}emoji_definitions.rpy{/b} file."
     s "Then you're gonna type {{image=seven wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet"
     s "The program will automatically add the right sound file for you ^^"
     s "{=ser1b}You'll also want to make sure the \"Image\" modifier in the spreadsheet is checked,{/=ser1b}"
@@ -207,7 +207,7 @@ label emojis():
             m "{image=seven wow}" (img=True)
             s "Yeah, just like that!"
             s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
-            s "{=ser1}You'll need to start by putting the image in the right album in the CGs folder.{/=ser1}"
+            s "{=ser1}You'll need to start by putting the image in the correct album in the CGs folder.{/=ser1}"
             s "{=ser1}Then, you can define an Album object in {b}gallery.rpy{/b} using the file path.{/=ser1}"
             s "{=ser1}It should be in the list of the person whose gallery the image will be unlocked in.{/=ser1}"
             s "{=ser1}For example, that last image is defined under \"s_album\" as {b}Album(\"s_album/cg-1.png\"){/b}{/=ser1}"
@@ -243,22 +243,26 @@ label banners():
     y "{image=yoosung happy}"   (img=True)
     y "You call them with \"call banner('__')\","
     y "where '__' is the name of the banner you want."
-    y "{=sser2}There are four different types of banners:{/=sser2}" 
-    y "The lightning banner!" (bounce=True)
-    call banner('lightning') 
-    y "{=sser2}For when you're feeling angry ^^;;{/=sser2}"
-    y "The heart banner!" (bounce=True)
-    call banner('heart') 
-    y "For happy stuff!"
-    y "The annoy banner" (bounce=True)
-    call banner('annoy') 
-    y "{=sser2}For when you're irritated{/=sser2}"
-    y "{=sser2}And last but not least,{/=sser2}"
-    y "{=ser1}the 'well' banner!{/=ser1}" (bounce=True)
-    call banner('well') 
-    y "{=ser1}...{/=ser1}"
-    y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
-    y "{image=yoosung thankyou}"   (img=True)
+    if not persistent.banners:
+        y "It looks like you've got banner animations turned off though!"
+        y "So you won't see the banner animations."
+    else:
+        y "{=sser2}There are four different types of banners:{/=sser2}" 
+        y "The lightning banner!" (bounce=True)
+        call banner('lightning') 
+        y "{=sser2}For when you're feeling angry ^^;;{/=sser2}"
+        y "The heart banner!" (bounce=True)
+        call banner('heart') 
+        y "For happy stuff!"
+        y "The annoy banner" (bounce=True)
+        call banner('annoy') 
+        y "{=sser2}For when you're irritated{/=sser2}"
+        y "{=sser2}And last but not least,{/=sser2}"
+        y "{=ser1}the 'well' banner!{/=ser1}" (bounce=True)
+        call banner('well') 
+        y "{=ser1}...{/=ser1}"
+        y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
+        y "{image=yoosung thankyou}"   (img=True)
     y "I have one more thing I was going to show you:" 
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
     y "{=curly}You said you identify as [persistent.pronoun], right?{/=curly}"   (bounce=True, specBubble="square_m")
@@ -457,7 +461,7 @@ label test_call():
 label example_chat_expired():
     # This sets up a very specific phone call which will never expire
     # You'll generally never want to add phone calls this way
-    $ available_calls.append(Phone_Call(r, 'test_call', 'outgoing', 'test'))   
+    $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))   
     call hack 
     call chat_begin("hack") 
     call play_music(mystic_chat)

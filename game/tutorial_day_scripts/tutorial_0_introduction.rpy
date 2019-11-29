@@ -7,7 +7,7 @@
     # like 'starter_chat_incoming_ja'. You can't have VNs after this chatroom,
     # but it's possible to have VN sections mid-chatroom using 'call' or
     # to write a VN section before starting the chatroom
-    $ current_chatroom = Chat_History('Starter Chat', 'starter_chat', '00:00')
+    $ current_chatroom = ChatHistory('Starter Chat', 'starter_chat', '00:00')
     # This sets a specific variable that lets you have phone calls/
     # VNs for this specific starter chat/opening
     $ starter_story = True
@@ -15,7 +15,7 @@
     # If you'd like to begin with a phone call, this is
     # how you'll do it. Just replace 'u' with whatever
     # character you want to call you
-    call new_incoming_call(Phone_Call(u, 'n/a')) 
+    call new_incoming_call(PhoneCall(u, 'n/a')) 
     
     # Begin and end the phone call like you would anywhere else
     call phone_begin 
@@ -39,6 +39,10 @@
         "I've actually already seen this; can you take me to the home screen?" if persistent.HP:
             m_phone "I've actually already seen this; can you take me to the home screen?"
             u_phone "Oh, sure! See you later~"
+            # This is pretty specific to this particular chat; you
+            # should not have to do this. It simply makes it easier
+            # for players who have already played through the game
+            # to get to the chat hub
             $ persistent.first_boot = False
             $ persistent.on_route = True
             call press_save_and_exit(False)
@@ -63,8 +67,41 @@
     u_phone """
     
     You will? Wonderful!
-    
-    Alright, so when this call ends I'll send you a chatroom message with a bit more information.
+
+    I also wanted to ask -- how do you feel about short flashing animations?
+
+    Sometimes the program has animations like the scrolling hacked code effect, or banners in the chatrooms. There is also a screen shake animation.
+
+    """
+
+    menu:
+        extend ''
+        "I don't want to see any flashing animations or screenshake.":
+            $ persistent.screenshake = False
+            $ persistent.banners = False
+            $ persistent.hacking_effects = False
+            m_phone "I don't want to see any flashing animations or screenshake."
+            u_phone "Understandable! I've turned all those animations off for you."
+
+        "I'm okay with some effects but not with others.":
+            $ persistent.hacking_effects = False
+            m_phone "I'm okay with some effects but not with others."
+            u_phone "Okay! I've just turned the hacking effect off for now since it shows up in the next chatroom."
+
+        "You can keep all the animations on.":
+            $ persistent.screenshake = True
+            $ persistent.banners = True
+            $ persistent.hacking_effects = True
+            m_phone "You can keep all the animations on."
+            u_phone "Got it!"
+
+    u_phone """
+
+    If you ever want to change which animations you see, you can find toggles for each of them in the {b}Settings{/b}.
+
+    There are other accessibility options there as well, such as audio captions for background music and sound effects.
+
+    Alright, so when this call ends I'll send you a chatroom message with a bit more information on getting started from here.
     
     Good luck!
     
