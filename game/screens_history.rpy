@@ -86,8 +86,8 @@ style history_route_button_text:
 
 image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.png", 10,10)
 image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.png", 10,10)
-image history_chat_participated = Transform("Menu Screens/History/ChatHistory_participated.png", zoom=0.8)
-image history_chat_alone = Transform("Menu Screens/History/ChatHistory_alone.png", zoom=0.8)
+image history_chat_participated = Transform("Menu Screens/History/chat_history_participated.png", zoom=0.8)
+image history_chat_alone = Transform("Menu Screens/History/chat_history_alone.png", zoom=0.8)
 
 init python:
 
