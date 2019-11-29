@@ -62,7 +62,8 @@ label splashscreen():
 ## the very first time they open the game
 label before_main_menu():
     if persistent.first_boot:
-        call define_variables 
+        call screen profile_pic
+        $ define_variables()
     return
     
 screen loading_screen():

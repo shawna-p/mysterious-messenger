@@ -194,7 +194,20 @@ default common_album = [ Album("CGs/common_album/cg-1.png"),
                         Album("CGs/common_album/cg-2.png"),
                         Album("CGs/common_album/cg-3.png")]
 
-
+# This list allows the program to automatically merge the persistent
+# and regular albums each time the game is started
+# Each item in the list is a tuple that has the persistent album as its
+# first item and the regular album variable as its second
+default all_albums = [  (persistent.ja_album, ja_album),
+                        (persistent.ju_album, ju_album),
+                        (persistent.r_album, r_album),
+                        (persistent.s_album, s_album),
+                        (persistent.u_album, u_album),
+                        (persistent.v_album, v_album),
+                        (persistent.y_album, y_album),
+                        (persistent.z_album, z_album),
+                        (persistent.common_album, common_album)
+                    ]
 
     
 ## This screen shows all of the various characters/folders

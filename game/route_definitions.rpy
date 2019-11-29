@@ -368,15 +368,14 @@ init -6 python:
                 if triggered_next:
                     break
         else:   # We're using real-time mode
-            if days_to_expire > len(chat_archive):
-                days_to_expire = len(chat_archive)
-                return
             # First, check if any days have passed
             date_diff = date.today() - current_game_day
             if date_diff.days > 0:
                 # At least one day has passed; increase 
                 # days_to_expire accordingly
                 days_to_expire += date_diff.days
+            if days_to_expire > len(chat_archive):
+                days_to_expire = len(chat_archive)
             current_game_day = date.today()
             # Next, check what time it is
             current_time = upTime()
@@ -394,11 +393,21 @@ init -6 python:
                             and not chatroom.vn_obj.available):
                         chatroom.vn_obj.available = True
 
-                    # If we run into a plot branch, we stop if the plot
-                    # branch's chatroom and VN are available
+                    # Next thing to always check -- was the previous chatroom
+                    # a plot branch?
+                    # If so, we stop right now since we don't make anything
+                    # else available until after they've gone through it
                     if (chatroom.plot_branch and chatroom.available
                             and (not chatroom.vn_obj
                                 or chatroom.vn_obj.available)):
+                        triggered_next = True
+                        break
+                    if (chat_index != 0 and len(archive.archive_list) > 1
+                        and archive.archive_list[chat_index-1].plot_branch 
+                        and archive.archive_list[chat_index-1].available
+                        and (not archive.archive_list[chat_index-1].vn_obj
+                            or archive.archive_list[chat_index
+                                                    -1].vn_obj.available)):
                         triggered_next = True
                         break
 
@@ -431,7 +440,7 @@ init -6 python:
                                 # there's nothing to expire prior to it, 
                                 # so we trigger the chatroom
                                 adjust_chatrooms(day_index, chatroom)
-                            elif chat_index > 0:
+                            elif chat_index > 0:                      
                                 # This is the second or later 
                                 # chatroom of the day
                                 adjust_chatrooms(day_index, chatroom, True,

@@ -543,20 +543,20 @@ screen other_settings():
                         action ToggleField(persistent, 'banners')
                     textbutton _("Auto-Answer Timed Menus"):
                         action ToggleField(persistent,'autoanswer_timed_menus')
-                    
-            frame:
-                style_prefix 'tone_selection'                
-                text "Font Selection" style "settings_style" xpos 55 ypos 5
-                vbox:
-                    null height 30
-                    button:                        
-                        vbox:
-                            align (0.5, 0.5)
-                            text "Change Fonts" style 'ringtone_change'
-                        action Show('adjust_fonts')
 
-                    # FieldValue(persistent, 'say_window_alpha', 1.0,
-                    #              max_is_zero=False, offset=0, step=.2)
+            # This will let you recompile the fonts in the game
+            # to be more readable        
+            # frame:
+            #     style_prefix 'tone_selection'                
+            #     text "Font Selection" style "settings_style" xpos 55 ypos 5
+            #     vbox:
+            #         null height 30
+            #         button:                        
+            #             vbox:
+            #                 align (0.5, 0.5)
+            #                 text "Change Fonts" style 'ringtone_change'
+            #             action Show('adjust_fonts')
+
             frame:
                 xysize(675,280)
                 background "menu_settings_panel"

@@ -288,7 +288,9 @@ screen main_menu():
                 if persistent.on_route:
                     # This is the auto save that gets loaded every 
                     # time you load the game
-                    action [SetField(persistent, 'just_loaded', True),
+                    action [SetField(persistent, 'on_route', True), 
+                            SetField(persistent, 'load_instr', 'Auto'), 
+                            SetField(persistent, 'just_loaded', True),
                             FileLoad(mm_auto)]  
                 else:
                     # Note: this screen only has a placeholder
@@ -399,14 +401,12 @@ screen route_select_screen():
                     # tutorial_good_end, without the title (which is why
                     # we need to follow it with [1:])
                     action [SetVariable('chat_archive', tutorial_good_end[1:]),
-                            Function(set_pronouns), Function(set_name_pfp),
-                            Start()]         
+                            Function(define_variables), Start()]         
                 text 'Start Game':
                     style 'menu_text_small' 
                     xalign 0.5 
                     yalign 0.5
-        
-
+   
   
 ## Load and Save screens #######################################################
 ##
