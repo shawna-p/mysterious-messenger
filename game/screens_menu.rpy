@@ -399,13 +399,13 @@ screen route_select_screen():
                     # we'd like the player to be on -- in this case,
                     # tutorial_good_end, without the title (which is why
                     # we need to follow it with [1:])
-                    action [SetVariable('chat_archive', tutorial_good_end[1:]),
-                            Function(define_variables), Start()]         
+                    action [Start()]         
                 text 'Start Game':
                     style 'menu_text_small' 
                     xalign 0.5 
                     yalign 0.5
-   
+
+    
   
 ## Load and Save screens #######################################################
 ##

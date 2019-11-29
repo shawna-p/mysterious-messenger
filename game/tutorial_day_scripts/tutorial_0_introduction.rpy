@@ -1,22 +1,19 @@
 ﻿label start():
     
-    # This variable is set here simply so you can use the Save & Exit
-    # function after your intro chatroom. You don't need to change these
-    # values. You can, however, make a label called 'after_starter_chat'
-    # to include text messages, or a phone call label called something
-    # like 'starter_chat_incoming_ja'. You can't have VNs after this chatroom,
-    # but it's possible to have VN sections mid-chatroom using 'call' or
-    # to write a VN section before starting the chatroom
-    $ current_chatroom = ChatHistory('Starter Chat', 'starter_chat', '00:00')
-    # This sets a specific variable that lets you have phone calls/
-    # VNs for this specific starter chat/opening
-    $ starter_story = True
-    
+    # This call sets up which route the game is going to use -- in this
+    # case, tutorial_good_end, defined in route_setup.rpy. You will pass
+    # it the name of whatever you'd like your own route to be.
+    # You cannot have a VN mode after this chatroom unless you include it
+    # in this label as a call, but you can have text messages or phone 
+    # calls after it by using labels such as `starter_chat_incoming_ja` or 
+    # `after_starter_chat`. You can also include a VN section before this
+    # chatroom.
+    $ new_route_setup(tutorial_good_end)
+
     # If you'd like to begin with a phone call, this is
     # how you'll do it. Just replace 'u' with whatever
     # character you want to call you
     call new_incoming_call(PhoneCall(u, 'n/a')) 
-    
     # Begin and end the phone call like you would anywhere else
     call phone_begin 
     
