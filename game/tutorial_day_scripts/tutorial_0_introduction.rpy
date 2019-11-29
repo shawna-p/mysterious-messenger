@@ -8,7 +8,7 @@
     # calls after it by using labels such as `starter_chat_incoming_ja` or 
     # `after_starter_chat`. You can also include a VN section before this
     # chatroom.
-    $ new_route_setup(tutorial_good_end)
+    $ new_route_setup(route=tutorial_good_end)
 
     # If you'd like to begin with a phone call, this is
     # how you'll do it. Just replace 'u' with whatever

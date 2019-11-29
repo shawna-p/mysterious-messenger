@@ -137,7 +137,8 @@ init 5:
         
     style mc_img_message:
         padding (5, 10)
-        pos (600, 38)
+        pos (600, 0)
+        yoffset 38
         xmaximum 750
         xalign 1.0
         yalign 0.0
