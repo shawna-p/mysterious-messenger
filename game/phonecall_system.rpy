@@ -638,10 +638,7 @@ label phone_begin():
     hide screen outgoing_call
     
     # Hide all the popup screens
-    hide screen text_msg_popup
-    hide screen text_pop_2
-    hide screen text_pop_3
-    hide screen email_popup
+    $ hide_all_popups()
     
     if _in_replay:
         $ observing = True

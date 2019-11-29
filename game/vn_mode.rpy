@@ -88,10 +88,7 @@ label vn_begin():
     hide screen chatroom_timeline
     
     # Hide all the popup screens
-    hide screen text_msg_popup
-    hide screen text_pop_2
-    hide screen text_pop_3
-    hide screen email_popup
+    $ hide_all_popups()
     
     show screen vn_overlay
     $ vn_choice = True

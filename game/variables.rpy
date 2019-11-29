@@ -66,6 +66,15 @@ init -6 python:
         renpy.retain_after_load()
         return
 
+    # This function simplifies the code to hide all
+    # the notification popups in the game
+    def hide_all_popups():        
+        renpy.hide_screen('text_msg_popup')
+        renpy.hide_screen('hide screen text_pop_2')
+        renpy.hide_screen('hide screen text_pop_3')
+        renpy.hide_screen('hide screen email_popup')
+        hide_stackable_notifications()
+
 # This tells the program to randomly shuffle the order
 # of responses
 default shuffle = True
