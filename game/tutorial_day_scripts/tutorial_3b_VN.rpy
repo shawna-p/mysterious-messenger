@@ -61,7 +61,7 @@ label vn_tutorial():
             r_vn "Alright! Hope this helped you."
             jump vn_end # Use this to end the VN Mode section
             
-    show saeran vn happy
+    
     
 ##************************************
 ## Writing a VN mode section

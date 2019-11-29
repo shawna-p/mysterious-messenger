@@ -288,8 +288,7 @@ screen main_menu():
                 if persistent.on_route:
                     # This is the auto save that gets loaded every 
                     # time you load the game
-                    action [SetField(persistent, 'on_route', True), 
-                            SetField(persistent, 'load_instr', 'Auto'), 
+                    action [SetField(persistent, 'load_instr', 'Auto'), 
                             SetField(persistent, 'just_loaded', True),
                             FileLoad(mm_auto)]  
                 else:

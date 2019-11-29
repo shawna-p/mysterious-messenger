@@ -115,6 +115,7 @@ label vn_end():
     $ vn_choice = False
     $ renpy.retain_after_load()
     call press_save_and_exit(False) 
+    return
         
 #####################################
 ## This screen shows the clock

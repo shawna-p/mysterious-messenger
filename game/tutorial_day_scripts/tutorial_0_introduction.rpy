@@ -1,14 +1,12 @@
 ﻿label start():
-
-    call define_variables 
     
     # This variable is set here simply so you can use the Save & Exit
     # function after your intro chatroom. You don't need to change these
     # values. You can, however, make a label called 'after_starter_chat'
     # to include text messages, or a phone call label called something
     # like 'starter_chat_incoming_ja'. You can't have VNs after this chatroom,
-    # but it's possible to have VN sections mid-chatroom using 'call' or to write
-    # a VN section before starting the chatroom
+    # but it's possible to have VN sections mid-chatroom using 'call' or
+    # to write a VN section before starting the chatroom
     $ current_chatroom = Chat_History('Starter Chat', 'starter_chat', '00:00')
     # This sets a specific variable that lets you have phone calls/
     # VNs for this specific starter chat/opening
@@ -38,10 +36,16 @@
         "Sounds like a lot of work.":
             m_phone "Sounds like a lot of work."
             u_phone "Oh, it's not bad, I promise!"
+        "I've actually already seen this; can you take me to the home screen?" if persistent.HP:
+            m_phone "I've actually already seen this; can you take me to the home screen?"
+            u_phone "Oh, sure! See you later~"
+            $ persistent.first_boot = False
+            $ persistent.on_route = True
+            call press_save_and_exit(False)
             
     u_phone """
     
-    I'll give you a couple of things to try doing with the program, and then you let me know if you run into problems or bugs.
+    All you have to do is use the app, and then you let me know if you run into problems or bugs.
     
     It'll help me make a much better program, in the end.
     
@@ -70,6 +74,7 @@
     # allows us to continue on with a chatroom instead of
     # ending the introduction here
     call phone_end 
+    # This ensure the transition from phone to chatroom is smoother
     scene bg black
     
     # Instead of ending the label here, we'll continue with
@@ -85,7 +90,7 @@
     u "You're here!" 
     u "Thank you for helping me ^^" 
     u "As you can see, this is a sort of \"introductory\" chatroom. It works a lot like the other chatrooms," 
-    u "but with a couple of changes you can see in {b}script.rpy{/b}" 
+    u "but with a couple of changes you can see in {b}tutorial_0_introduction.rpy{/b}" 
     u "I recommend you get familiar with how regular chatrooms and phonecalls work before you look at this chat, though!" 
     
     call answer 
@@ -95,11 +100,6 @@
             u "Well, the first thing I recommend is to just play through the Tutorial Day." 
             u "It showcases some of the features so you know what sorts of things you can do with the program." 
     
-        "I've actually already seen this; can you take me to the home screen?" if persistent.HP:
-            m "I've actually already seen this; can you take me to the home screen?"   (pauseVal=0)
-            u "Of course! See you later~" 
-            call exit(u) 
-            jump chat_end
     
     u "I won't keep you much longer. Enjoy the program!" 
     call exit(u) 

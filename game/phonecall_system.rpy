@@ -354,6 +354,7 @@ label hang_up():
     $ renpy.end_replay()
     $ call_hang_up(phonecall=current_call)
     call screen phone_calls
+    return
     
 ########################################################
 ## This is the screen that displays the dialogue when
@@ -528,6 +529,7 @@ screen incoming_call(phonecall, countdown_time=10):
 label incoming_hang_up():
     $ call_hang_up_incoming(current_call)
     call screen chat_home
+    return
     
 ########################################################
 ## This is the screen when you're making a phone call
@@ -620,6 +622,7 @@ screen outgoing_call(phonecall, voicemail=False):
 label new_incoming_call(phonecall):
     play music persistent.phone_tone loop
     call screen incoming_call(phonecall=phonecall)
+    return
  
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
@@ -668,3 +671,4 @@ label voicemail_1():
     voice "voice files/voicemail_1.mp3"
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
     call phone_end 
+    return

@@ -351,4 +351,4 @@ label chatroom_replay():
 
     $ chatroom_replay_index = 0
     $ replay_from = 0
-    call chat_end
+    jump chat_end

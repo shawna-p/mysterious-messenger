@@ -686,6 +686,7 @@ label restart_game():
         # presumably some more resets here as needed
         persistent.on_route = False
         renpy.full_restart()
+    return
         
 
 

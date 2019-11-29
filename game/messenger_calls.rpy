@@ -226,7 +226,7 @@ label chat_back():
         stop music
         # $ renpy.save(mm_auto)
         call screen chatroom_timeline(current_day, current_day_num)
-
+    return
 
     
 
@@ -354,6 +354,7 @@ label press_save_and_exit(phone=True):
             # $ renpy.save(mm_auto)
             call screen chatroom_timeline(current_day, current_day_num)
             return
+    return
 
     
 # This shows the signature screen, which records your total heart points

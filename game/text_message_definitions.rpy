@@ -315,6 +315,7 @@ label leave_inst_text():
     $ text_person = None
     $ renpy.retain_after_load()    
     call screen text_message_hub
+    return
     
 label text_begin(who):    
     $ text_person = who
@@ -362,7 +363,8 @@ label text_end():
     hide screen inactive_text_answer
     hide screen text_play_button
     hide screen text_pause_button  
-    call screen text_message_screen(who)         
+    call screen text_message_screen(who)  
+    return       
     # else:
     #     $ renpy.retain_after_load()
     #     return

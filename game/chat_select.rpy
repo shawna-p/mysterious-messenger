@@ -674,6 +674,7 @@ label plot_branch_end():
         renpy.retain_after_load
         
     call screen chat_select
+    return
                 
                 
                 
