@@ -44,10 +44,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     show screen pause_button
     
     # Hide all the popup screens
-    hide screen text_msg_popup
-    hide screen text_pop_2
-    hide screen text_pop_3
-    hide screen email_popup
+    $ hide_all_popups()
     
     $ text_person = None
     window hide
