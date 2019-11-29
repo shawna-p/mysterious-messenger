@@ -14,7 +14,8 @@ default persistent.hacking_effects = True
 default persistent.audio_captions = False
 # Allows the player to toggle timed menus on or off
 default persistent.autoanswer_timed_menus = False
-
+# Displays notifications instead of heart icons
+default persistent.heart_notifications = False
 
 ## This label plays sound effects and also shows an audio
 ## caption if the player has that option turned on
@@ -46,18 +47,67 @@ init python:
             persistent.vn_window_dark = float((persistent.window_darken_pct
                                                          - 50) / 50.0)
 
+    def allocate_notification_screen(can_pause=False):
+        possible_screens = ["stackable_notifications", 
+                            "stackable_notifications_2",
+                            "stackable_notifications_3",
+                            "stackable_notifications_4",
+                            "stackable_notifications_5"]
+        available_screens = [ x for x in possible_screens 
+                                if not renpy.get_screen(x) ]
+        if len(available_screens) < 3:
+            renpy.pause(0.1)
+        if available_screens:
+            return available_screens[0]
+        else:
+            renpy.hide_screen(possible_screens[0])
+            return possible_screens[0]
+    
+    # This screen is just a slightly quicker way to hide all the
+    # allocated notification screens
+    def hide_stackable_notifications():
+        renpy.hide_screen('stackable_notifications')
+        renpy.hide_screen('stackable_notifications_2')
+        renpy.hide_screen('stackable_notifications_3')
+        renpy.hide_screen('stackable_notifications_4')
+        renpy.hide_screen('stackable_notifications_5')
+        return
+
 ## This screen is used to display text notifications
 ## about whom the player received a heart point with
-screen heart_notifications(who, add_heart=True):
+screen stackable_notifications(message, hide_screen='stackable_notifications'):
     zorder 100
-    if add_heart:
-        $ msg = who + " +1"
-    else:
-        $ msg = who + " -1"
-    frame at notify_appear:
-        textbutton _("[message!tq]"):
-            action Hide('heart_notifications')
+    button at stack_notify_appear:
+        style 'notify_frame'
+        xalign 1.0 yalign 0.92
+        text "[message!tq]" style 'notify_text'
+        action Hide(hide_screen)
+    timer 5.25 action Hide(hide_screen)
 
+screen stackable_notifications_2(message):
+    zorder 101
+    use stackable_notifications(message, 'stackable_notifications_2')
+
+screen stackable_notifications_3(message):
+    zorder 102
+    use stackable_notifications(message, 'stackable_notifications_3')
+
+screen stackable_notifications_4(message):
+    zorder 103
+    use stackable_notifications(message, 'stackable_notifications_4')
+
+screen stackable_notifications_5(message):
+    zorder 104
+    use stackable_notifications(message, 'stackable_notifications_5')
+
+transform stack_notify_appear:
+    yoffset 0
+    on show:
+        alpha 0 yoffset 30
+        linear .25 alpha 1.0 yoffset 0
+        linear 5 yoffset -250
+    on hide:
+        linear .5 alpha 0.0 yoffset -310
 
 screen adjust_fonts():
 

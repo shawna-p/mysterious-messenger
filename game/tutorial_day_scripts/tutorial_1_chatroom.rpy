@@ -247,6 +247,19 @@ label banners():
         y "It looks like you've got banner animations turned off though!"
         y "So you won't see the banner animations."
     else:
+        y "Since the animations can be kind of distracting, there's a toggle to turn them off."
+        y "Do you want to see banner animations?"
+        call answer
+        menu:
+            "Yes, I want to see banner animations.":
+                m "Yes, I want to see banner animations." (pauseVal=0)
+                y "Okay!"
+            "No, turn banner animations off.":
+                m "No, turn banner animations off." (pauseVal=0)
+                $ persistent.banners = False
+                y "Alright, got it!"
+                
+    if persistent.banners:
         y "{=sser2}There are four different types of banners:{/=sser2}" 
         y "The lightning banner!" (bounce=True)
         call banner('lightning') 
@@ -289,40 +302,66 @@ label heart_icons():
     z "{image=zen wink}" (img=True)
     z "{=curly}Hey cutie ^^{/=curly}" (bounce=True)
     z "{=sser2}I'm here to explain heart icons!{/=sser2}"
-    z "{=sser2}They look like this:{/=sser2}"
+    z "If you're having a hard time looking at the animation for the heart icons,"
+    z "There's also an option to turn them into text popups that look like this:"
+    show screen stackable_notifications(z.name + " +1")
+    z "Would you like to use heart icons or the text notifications?"
+    call answer
+    menu:
+        "I want the regular heart icons.":
+            m "I want the regular heart icons." (pauseVal=0)
+            $ persistent.heart_notifications = False
+            z "{=curly}Got it!{/=curly}" (bounce=True)
+            z "You'll see the regular heart animation then."
+
+        "I want the text notifications.":
+            m "I want the text notifications." (pauseVal=0)
+            $ persistent.heart_notifications = True
+            z "{=curly}Got it!{/=curly}" (bounce=True)
+            z "You'll see the text popup whenever someone likes your response."
+
+    z "If you change your mind on what kind of icon you want,"
+    z "There's a checkbox in the {b}Settings{/b} called {b}Heart Icon Text Notifications{/b}"
+    
+    z "{=sser2}Anyway, so getting a heart point will look like this:{/=sser2}"
     call heart_icon(z) 
-    z "{=sser2}And each character has a different one{/=sser2}"
-    z "{=sser1b}They all use the same white heart, this one{/=sser1b}"
-    call heart_icon(u) 
-    z "and just recolour it depending on what argument you pass via \"call heart_icon(z)\""
-    z "You can easily add your own colours, too, by adding the character and colour to the heartcolour list in MysMe Screen Effects.rpy"
-    z "{=blocky}Here are the currently available colours:{/=blocky}"
-    z "Seven"
-    call heart_icon(s) 
-    z "{=curly}Me!{/=curly}"
-    call heart_icon(z) 
-    z "Jaehee"
-    call heart_icon(ja) 
-    z "Jumin"
-    call heart_icon(ju) 
-    z "Yoosung"
-    call heart_icon(y) 
-    z "Ray"
-    call heart_icon(r) 
-    z "V"
-    call heart_icon(v) 
-    z "{=ser1}and then there are a few special ones{/=ser1}"
-    z "The white heart I mentioned before (tied to the username 'Unknown')"
-    call heart_icon(u) 
-    z "You can also get this heart by passing heart_icon the short form for Saeran (sa)"
-    call heart_icon(sa) 
-    z "{=sser2}And then there is this heart{/=sser2}"
-    call heart_icon(ri) 
-    z "{=sser2}which is for Rika, but isn't found in-game{/=sser2}"
-    z "The last thing I'm here to explain is the 'heartbreak' icon"
-    z "It works the same as the regular heart icons -- just add a colour to the heartcolour list and call \"heart_break\" with that character"
-    z "{=ser1}It will automatically colour itself{/=ser1}"
-    z "{=sser2}They look like this!{/=sser2}"
+    if persistent.heart_notifications:
+        z "And you can lose heart points, too."
+        z "You just write {b}call heart_break(z){/b} and give it the ChatCharacter variable you're losing a point with instead of z"
+    else:
+        z "{=sser2}And each character has a different one{/=sser2}"
+        z "{=sser1b}They all use the same white heart, this one{/=sser1b}"
+        call heart_icon(u) 
+        z "and just recolour it depending on what argument you pass via \"call heart_icon(z)\""
+        z "You can easily add your own colours, too, whenever you define a ChatCharacter like in character_definitions.rpy"
+        z "{=blocky}Here are the currently available colours:{/=blocky}"
+        z "Seven"
+        call heart_icon(s) 
+        z "{=curly}Me!{/=curly}"
+        call heart_icon(z) 
+        z "Jaehee"
+        call heart_icon(ja) 
+        z "Jumin"
+        call heart_icon(ju) 
+        z "Yoosung"
+        call heart_icon(y) 
+        z "Ray"
+        call heart_icon(r) 
+        z "V"
+        call heart_icon(v) 
+        z "{=ser1}and then there are a few special ones{/=ser1}"
+        z "The white heart I mentioned before (tied to the username 'Unknown')"
+        call heart_icon(u) 
+        z "You can also get this heart by passing heart_icon the short form for Saeran (sa)"
+        call heart_icon(sa) 
+        z "{=sser2}And then there is this heart{/=sser2}"
+        call heart_icon(ri) 
+        z "{=sser2}which in this game is for Rika.{/=sser2}"
+        z "The last thing I'm here to explain is the 'heartbreak' icon"
+        z "It works the same as the regular heart icons -- just add a colour to the heartcolour list and call \"heart_break\" with that character"
+        z "{=ser1}It will automatically colour itself{/=ser1}"
+        z "{=sser2}They look like this!{/=sser2}"
+
     call heart_break(z) 
     z "{=sser2}But you don't really want to hurt any of our feelings, right?{/=sser2}" (bounce=True)
     z "{image=zen happy}" (img=True)
