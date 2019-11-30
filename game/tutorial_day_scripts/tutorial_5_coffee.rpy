@@ -1,16 +1,18 @@
 label tutorial_chat():
 
-    # You'll need to call this yourself; it's not an option
+    # You need to call chat_begin yourself; it's not an option
     # in the spreadsheet
     # Pass it the name of the background you want in quotes
     # You can find your options in variables.rpy
     # Usually calling chat_begin will clear the chatlog, 
     # but if you want to keep previous messages, call it with 
-    # False as a second argument (e.g. call chat_begin("night", False))
+    # clearchat=False (e.g. call chat_begin("night", clearchat=False))
     call chat_begin("earlyMorn") 
     
-    # Again, look for music in variables.rpy
-    # You'll want to tell background music to loop
+    # Look for music in variables_music_sound.rpy
+    # This is a call rather than Ren'Py's built-in play music
+    # feature so that it works with chatroom replay and accessibility
+    # features such as audio captions
     call play_music(geniusly_hacked_bebop)
     
     # Use 'call answer' before any menu to bring up the answer button
@@ -29,11 +31,17 @@ label tutorial_chat():
             
             # You have to call heart icons yourself. Just pass it the variable
             # of the name of the character whose heart icon you want
-            # (character definitions.rpy has the variable names if you're 
+            # (character_definitions.rpy has the variable names if you're 
             # not sure) 
             call heart_icon(s) 
             s "{=sser2}Ya. Slept like a rock.{/=sser2}"
-        "(Jump to end)":
+        # This is a special option which only appears if you've played
+        # through this chatroom at least once across all playthroughs
+        "(Jump to end)" if persistent.completed_chatrooms.get(
+                                        current_chatroom.chatroom_label):
+            # It's simply useful for test purposes as it jumps
+            # to the end of the chatroom, and wouldn't be included
+            # in a proper release
             jump coffee_last
             
     s "{=sser2}I don't feel tired physically...{/=sser2}"
@@ -88,7 +96,7 @@ label tutorial_chat():
     s "{=ser1}{size=+12}Did you already drink the coffee!?!?!?!?{/size}{/=ser1}"
     y "Yeah... Why?"
     
-    # Another play statement will automatically "override" 
+    # Another play_music call will automatically "override" 
     # the previous play statement and only one set of 
     # background music will play on the music channel at once
     call play_music(dark_secret)
@@ -128,8 +136,9 @@ label tutorial_chat():
             s "{=ser1}I'm dead serious.{/=ser1}"
             y "{=sser2}Puppy food?{/=sser2}"
             
-            # This is a nested menu; note the indentation levels. You'll only see this menu
-            # if you choose 'Seven's just messing around lol' in the previous menu
+            # This is a nested menu; note the indentation levels. 
+            # You only see this menu if you choose 'Seven's just 
+            # messing around lol' in the previous menu
             call answer 
             menu:
                 "-_-":
@@ -156,7 +165,6 @@ label tutorial_chat():
     y "{=sser2}Seriously?? Ur kidding right?{/=sser2}" (bounce=True, specBubble="spike_m")
     
     # This is the shake animation; it plays during the previous line of dialogue
-    #show earlyMorn at shake
     call shake
     
     call answer 
@@ -186,7 +194,7 @@ label tutorial_chat():
         "Ya. It exists":
             m "Ya. It exists" (pauseVal=0)
             y "{=sser1b}!!{/=sser1b}" 
-            show earlyMorn at shake
+            call shake
             s "Ya"
             call heart_icon(s) 
         "Whoever named it is a bit...;;":
@@ -205,6 +213,7 @@ label tutorial_chat():
     s "{=ser1b}exists{/=ser1b}" (pauseVal=0.2)
     s "{=ser1b}for sure{/=ser1b}" (pauseVal=0.3)
     s "I look at foreign reports every day."
+    # Here 707 posts a CG
     s "common/cg-1.png" (img=True)
     y "{=sser1b}{size=+12}!!!{/size}{/=sser1b}"
     s "{=ser1}...It's a rare disease.{/=ser1}"
@@ -244,8 +253,9 @@ label tutorial_chat():
                     m "I wasn't crying." (pauseVal=0)
                     y "{=curly}I read the emoji wrong T_T{/=curly}"
                     
-                    # This is the 'heartbreak' animation; call it the same way you
-                    # would a heart icon except use heart_break(y) instead of heart_icon(y)
+                    # This is the 'heartbreak' animation; call it the same 
+                    # way you would a heart icon except use heart_break(y) 
+                    # instead of heart_icon(y)
                     call heart_break(y) 
                     y "{=curly}I thought u were crying by sweating{/=curly}"
                 "T_T. You have to return.":
@@ -326,8 +336,9 @@ label tutorial_chat():
             m ";;;" (pauseVal=0) 
             s "{=sser2}Then bye~!{/=sser2}"
             
-    # Similar to the 'enter' function, call this when a character leaves the chatroom
-    # Passing it the name of the character will cause it to display '707 has left the chatroom.'
+    # Similar to the 'enter' function, call this when a character leaves
+    # the chatroom. Passing it the character's ChatCharacter variable
+    # will cause it to display '707 has left the chatroom.'
     call exit(s) 
     y "{=curly}T_T What am I gonna do...{/=curly}"
     y "{=curly}[name]...{/=curly}"
@@ -338,10 +349,11 @@ label tutorial_chat():
     
     call answer 
     menu coffee_last:
-        # Note that this menu has three options; you can add as many as you like,
-        # but the screen only has room for 5 different options so if you want more
-        # you'll need to split it up into multiple menus with a Back/Next option
-        # (see Example Chat.rpy for some examples of this)
+        # Note that this menu has three options; you can add as many as 
+        # you like, but the screen only has room for 5 different options 
+        # so if you want more you need to split it up into multiple menus 
+        # with a Back/Next option (see tutorial_1_chatroom.rpy for some 
+        # examples of this)
         "Don't worry... Even if you don't wake up the party will be a success.":
             m "{=sser2}Don't worry... Even if you don't wake up the party will be a success.{/=sser2}" (pauseVal=0)
             y "{image=yoosung puff}" (img=True)
@@ -373,11 +385,11 @@ label tutorial_chat():
     jump chat_end
 
     
-# Put anything you want to have happen after the chatroom ends here, 
-# like text messages, phone calls or (in the future) emails. 
-# You'll have to call this label after_ + the name of the label for the
-# chatroom (in this case, the chatroom label was tutorial_chat, so this 
-# label is after_tutorial_chat)
+## Put anything you want to have happen after the chatroom ends here, 
+## like text messages, spaceship thoughts, or changes to voicemail messages 
+## You have to name this label after_ + the name of the label for the
+## chatroom (in this case, the chatroom label was tutorial_chat, so this 
+## label is after_tutorial_chat)
 label after_tutorial_chat():
 
     # ************************************************
@@ -398,7 +410,7 @@ label after_tutorial_chat():
     
     ## Set everyone else's voicemails appropriately
     # (In this case, everyone gets the same label)
-    # The different voicemails are defined in phone screen.rpy
+    # Voicemails are defined in phonecall_system.rpy
     python:
         for char in all_characters:
             char.update_voicemail('voicemail_1')
@@ -417,17 +429,19 @@ label tutorial_chat_incoming_z:
     # The following two calls both have voice acting using Ren'Py's
     # automatic tagging system.
     # See: https://www.renpy.org/doc/html/voice.html
-    # You can also use the voice statement directly, e.g.
-    # voice 'Path to your file.mp3'
-    # and it will play during the line of dialogue directly after it
+    # You can also use the voice statement directly, 
+    # e.g. voice 'Path to your file.mp3' and it will 
+    # play during the line of dialogue directly after it
     z_phone "Good morning, hon~"    
     z_phone "Gahh~ (Stretches) I haven't slept this well in a while. I feel really good."    
     z_phone "When I don't sleep that well, just moving my neck in the morning can hurt."    
     z_phone "Did you sleep well?"
     
+    # You don't need call answer here because we go directly
+    # into a choice menu
     menu:
-        # If you want the previous dialogue to show up behind the choice menu,
-        # you should add "extend ''" just after the menu
+        # If you want the previous dialogue to show up behind the choice
+        # menu, you should add "extend ''" just after the menu
         extend ''
         "Yeah, I didn't even dream.":
             m_phone "Yeah, I didn't even dream."            
@@ -475,8 +489,8 @@ label tutorial_chat_outgoing_y():
             y_phone "haaaaaaaaaaaaaaaaaaaaarggh"
                     
     # This is 'monologue mode'; it's most useful here during phone calls.
-    # Since you won't be changing expressions or speakers very often, this can be
-    # faster than writing out 'y_phone' before every line of dialogue
+    # Since you won't be changing expressions or speakers very often, this 
+    # can be faster than writing out 'y_phone' before every line of dialogue
     y_phone """
     
     I went to the convenience store but I didn't bring my loyalty card so I didn't get a discount on the chocolate milk.

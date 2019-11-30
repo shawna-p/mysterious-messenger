@@ -215,7 +215,7 @@ label emojis():
             s "{=ser1}Then to use it, you type in a simplified version of the path to the dialogue column,{/=ser1}"
             s "{=ser1}and check off the \"Image\" modifier in the spreadsheet.{/=ser1}"
             s "{=ser1}Simplified path just means {b}album ID/{/b} + {b}name of your cg{/b}.{/=ser1}"
-            s "{=ser1}To use the example from before, we write {b}s/cg-1.png{/b} into the Dialogue column.{/=ser1}"
+            s "{=ser1}To use the example from before, you write {b}s/cg-1.png{/b} into the Dialogue column.{/=ser1}"
             s "{=blocky}If you don't also check off \"Image\", it'll just show up in text, like this:{/=blocky}"
             s "s/cg-1.png"
             s "But if you check off the \"Image\" modifier, you get this:" (bounce=True, specBubble="round2_m")
@@ -282,7 +282,7 @@ label banners():
     y "{=sser2}So we'll use pronouns like [they]/[them] whenever we talk about you.{/=sser2}"   (bounce=True)
     y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script" 
     y "If you want to add any new variables, there's a section in the User Guide about doing just that."
-    y "And if you ever want to change your pronouns, just go to the profile page (currently accessed from the main menu)." 
+    y "And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu)." 
     y "That's all from me!"
     y "{=sser2}Good luck with the program ^^{/=sser2}"
     y "{image=yoosung wow}" (img=True)
@@ -398,7 +398,6 @@ label screen_shake():
     ja "{image=jaehee well}" (img=True)
     ja "Mr. Han."
     ja "{size=+10}MR. HAN!!{/size}" (bounce=True, specBubble="spike_m")
-    #show night at shake
     call shake
     ju "{=curly}Is something the matter?{/=curly}" (bounce=True, specBubble="cloud_m")
     ja "Oh." (bounce=True, specBubble="sigh_s")
@@ -459,6 +458,7 @@ label ending():
     # Use this at the end of a chatroom
     jump chat_end
 
+## This is a test call that's always available for Ray on Tutorial Day
 label test_call():
 
     call phone_begin 
@@ -499,7 +499,7 @@ label test_call():
 ## has expired
 label example_chat_expired():
     # This sets up a very specific phone call which will never expire
-    # You'll generally never want to add phone calls this way
+    # In general you should never add phone calls this way
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))   
     call hack 
     call chat_begin("hack") 

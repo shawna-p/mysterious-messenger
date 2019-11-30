@@ -13,7 +13,7 @@ label example_text():
         "Does that mean anything specific?":
             m "Does that mean anything specific?"   (pauseVal=0)
             r "It does!" 
-            r "Since there's a story mode VN," 
+            r "Since there's a story mode VN (Visual Novel)," 
             r "{=sser2b}any incoming phone calls or text message won't be delivered until after the VN.{/=sser2b}" 
         "Yes, and I can't play it until after this chatroom, right?":
             m "Yes, and I can't play it until after this chatroom, right?"   (pauseVal=0)
@@ -50,7 +50,7 @@ label example_text_expired():
     jump chat_end
     
 ## Put anything you want to have happen after the chatroom ends here, 
-## like text messages or (in the future) phone calls
+## like text messages, or changes to voicemail messages
 label after_example_text():
 
     # There are two different variants on texting. The first, default
@@ -60,7 +60,7 @@ label after_example_text():
 
     # ************************************************
     # V's text message
-    # We always start off with compose_text(v) where v is the variable
+    # You always start off with compose_text(v) where v is the variable
     # of the character who's going to send the message
     call compose_text(v)
     v "Hello, [name]."
@@ -69,7 +69,7 @@ label after_example_text():
     v "They won't play audio like they do in the chatrooms,"
     v "But they can still be fun to use in a conversation, don't you think?"
  
-    # And we're done with V's message! Be sure to end it with this call
+    # And you're done with V's message! Be sure to end it with this call
     # There's one optional parameter, text_label. This tells the program
     # which label to jump to so the player can reply to this message
     # If you just do `call compose_text_end()` the player won't be able
@@ -81,8 +81,8 @@ label after_example_text():
     # The next style of texting means you must set a particular
     # variable for the character you want to text in real-time
     
-    # Same thing here, start with call compose_text, but we're also
-    # going to tell it real_time=True
+    # Same thing here, start with call compose_text, but you also
+    # need to tell it real_time=True
     call compose_text(r, real_time=True)
     r "Here's a test text message, to show you how they work!"
     r "Did you know you can also post photos?"
@@ -106,16 +106,18 @@ label after_example_text():
 ## This is the label we told the program to jump to for
 ## V's non-real time message
 label menu_a1():
-    # We always start with `call text_begin` and pass it the
-    # variable of the character we're texting
+    # You always start with `call text_begin` and pass it the
+    # variable of the character you're texting
     call text_begin(v)
-    # If a text isn't in real-time, we should start with 
+    # If a text isn't in real-time, you should start with 
     # a menu right after `call text_begin`
-    # We don't include `call answer` before this menu
+    # You don't include `call answer` before this menu
     menu:    
         "Thanks for showing me this.":
             m "Thanks for showing me this."
-            # You show heart icons in the same way
+            # You show heart icons in the same way as chatrooms
+            # It will appear after the player opens the text message
+            # and sees V's response
             call heart_icon(v)
             v "You're very welcome!"
             v "Hope to talk to you again soon." 
@@ -131,11 +133,11 @@ label menu_a1():
     
 ## These are the labels for instant text messaging
 label menu_a2():
-    # We also pass `text_begin` the variable of the character
+    # You pass `text_begin` the variable of the character
     # the player is texting
     call text_begin(r)
     
-    # Because this is real-time, we continue to the conversation
+    # Because this is real-time, you can continue to the conversation
     # before showing the player a menu
     r "It will look like this:"
     r "r/cg-1.png" (img=True)
@@ -158,8 +160,11 @@ label menu_a2():
 
 label menu_a3():
     call text_begin(z)
+    # Even though this conversation begins with a menu, if it's
+    # in real time you need to include 'call answer' before the menu
     call answer
     menu:
+        # The player can post both CGs and emojis
         "(Post a photo)":
             m "common/cg-2.png" (pauseVal=0, img=True)
             m "You mean like this?"

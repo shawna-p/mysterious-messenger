@@ -55,11 +55,12 @@ label example_email_expired():
     call exit(z)
     jump chat_end
 
-## This is how you will set up guests for the party. A template follows this definition    
-## The first variable is the name of the guest aka what shows up in the email hub as
-## @guestname The second variable is the path to the image you'd like to use as the guest
-## icon. It should be 155x155 pixels
-default rainbow = Guest("rainbow", "Email/Thumbnails/rainbow_unicorn_guest_icon.png",
+## This is how you will set up guests for the party. A template follows 
+## this definition. The first variable is the name of the guest, aka what 
+## shows up in the email hub as @guestname The second variable is the path
+## to the image you'd like to use as the guest icon. It should be 155x155 pixels
+default rainbow = Guest("rainbow", 
+    "Email/Thumbnails/rainbow_unicorn_guest_icon.png",
 
 ## Initial Message
 """Hi [name]!
@@ -232,10 +233,12 @@ label rainbow_reply1():
 
 label rainbow_reply2():
     menu:
-        'Heavy Metal.':
-            $ current_email.set_reply(False)
+        # You can put the True and False answers in any order; the program
+        # will shuffle the answers for you before showing them to the player
         'Smooth Jazz.':
             $ current_email.set_reply(True)
+        'Heavy Metal.':
+            $ current_email.set_reply(False)
     jump email_end
     
 label rainbow_reply3():
@@ -245,9 +248,9 @@ label rainbow_reply3():
             # If you do, that will be the number of chatrooms after 
             # which the reply to your email will be sent to you.
             # Otherwise, the program randomly generates a number 
-            # between 5 and 13 or calculates an appropriate number
-            # based on how many chatrooms are yet to be played
-            $ current_email.set_reply(True, 4)
+            # calculates an appropriate number based on how many 
+            # chatrooms are yet to be played
+            $ current_email.set_reply(True, 1)
         'Seafood.':
             $ current_email.set_reply(False)
     jump email_end
@@ -257,15 +260,16 @@ label rainbow_reply3():
 ## A TEMPLATE EMAIL GUEST
 ## ****************************************************
 
-default example_guest = Guest("example", "Email/Thumbnails/guest_unlock_icon.png",
+default example_guest = Guest("example", 
 ## The first string, "example", is what will show up in the 
 ## email chain as the guest's 'email' e.g. "longcat" shows up
 ## as "@longcat" in the email chain. This is also the variable
-## we use for reply labels, not the name of the variable
+## you use for reply labels, not the name of the variable
+"Email/Thumbnails/guest_unlock_icon.png",
 ## The second string is the image to use for the guest's 
 ## thumbnail. It should be 155x155px
-## Because the variable is 'example_guest', when we want to 
-## invite this person, we will write: call invite(example_guest)
+## Because the variable is 'example_guest', when you want to 
+## invite this person, you will write: call invite(example_guest)
 
 ## Initial Message
 """Dear [name],
@@ -351,16 +355,17 @@ the party, as this is the final message""",
 the wrong response.""") # Don't forget a closing bracket at the end
 
 
-label example_reply1(): # We called the guest "example", so the
-                      # reply labels will be called
-                      # example_reply1, example_reply2, and example_reply3
+label example_reply1(): 
+    # The guest is called "example", so the
+    # reply labels will be called
+    # example_reply1, example_reply2, and example_reply3
 
     menu:
         "Answer 1":
             # Passing 'True' indicates that this is the correct reply
             # Either answer can be correct, not necessarily the first option
-            # So, you could change this answer to say (False) and the second
-            # to say (True)
+            # The program will randomly shuffle the answers when showing
+            # them to the user
             $ current_email.set_reply(True) 
         
         "Answer 2":

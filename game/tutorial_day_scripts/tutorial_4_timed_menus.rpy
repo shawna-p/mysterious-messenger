@@ -8,14 +8,13 @@ label timed_menus():
     call chat_begin("earlyMorn") 
     call play_music(geniusly_hacked_bebop)
     s "{size=+10}Hiya!{/size}"   (bounce=True, specBubble="round2_s")
-    s "Did you know there's this super-secret feature called timed menus?" 
-    s "I've been experimenting with it for a while, and it's finally ready to show off!" (bounce=True)
-    s "It works mostly like regular menus," 
-    s "{=ser1}except the characters will keep talking even after the answer button shows up at the bottom of the screen.{/=ser1}" 
+    s "{=curly}I'm here to tell you all about timed menus~{/=curly}" 
+    s "They work mostly like regular menus," 
+    s "{=ser2}except the characters will keep talking even after the answer button shows up at the bottom of the screen.{/=ser2}" 
     s "Like now!"   (bounce=True)
     
-    # Anything after this call may or may not be seen by the player depending on
-    # how fast they reply and how fast their chat speed is
+    # Anything after this call may or may not be seen by the player depending
+    # on how fast they reply and how fast their chat speed is
     # The first value is the menu to jump to if the player hits 'answer'
     # The second value passed to continue_answer (in this case, 8) is how
     # many seconds the player has to decide on an answer
@@ -37,9 +36,11 @@ label timed_menus():
     s "You write these menus a bit differently than regular menus" 
     s "You'll see an example of it in this code." 
    
-    # You'll need to preface the menu with 'if timed_choose:' or else the menu
+    # You need to preface the menu with 'if timed_choose:' or else the menu
     # will simply show up after the dialogue before it is exhausted (though if
     # you need the player to reply regardless, you may want to leave it out)
+    # Players who have toggled the option to automatically answer timed menus
+    # will *always* see the menu and *never* see any dialogue in the else
     # If the player chooses an option, it will finish displaying the most recent
     # line of dialogue from above, then move on to the dialogue after the choice
     # If nothing is chosen, it will finish displaying the above dialogue, skip
@@ -65,6 +66,12 @@ label timed_menus():
         s "If you don't reply and just listen," 
         s "maybe you'll see some interesting dialogue!" 
             
+    s "{=ser1}The timer will be faster or slower depending on what your chatroom speed is{/=ser1}" 
+    s "{=ser1}(which you can change using the arrows at the bottom of the screen){/=ser1}" 
+    s "So if you've got the chat speed at 1," 
+    s "The spaceship will take longer to reach the other side of the screen" 
+    s "There's also an option in {b}Settings{/b} that will always bring up the menu after the spaceship times out,"   (bounce=True)
+    s "in case you can't press the button in time and still want to answer."   (bounce=True)
     s "I hope this gives you some cool ideas for ways to write chatrooms!" 
     s "{image=seven wow}"   (img=True)
     s "{=curly}Toodles~!{/=curly}"   (bounce=True, specBubble="cloud_s")

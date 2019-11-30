@@ -24,8 +24,9 @@ label vn_mode_tutorial():
 ## Tutorial Menu
 ##************************************    
 label vn_tutorial():
-    $ shuffle = False   # This tells it not to shuffle these menu
-                        # choices for the tutorial
+    # This tells it not to shuffle these menu choices for the 
+    # tutorial. You will usually not need to do this
+    $ shuffle = False   
     menu:
         # This makes the previous line before the menu stay
         # on-screen while the player is making their choice
@@ -71,7 +72,7 @@ label vn_writing():
     r_vn """
     Writing a VN section is pretty straightforward.
     
-    First, you'll define a label, and then you can start adding dialogue and characters!
+    First, you need to define a label, and then you can start adding dialogue and characters!
     
     This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,
     
@@ -89,7 +90,7 @@ label vn_writing():
     
     You can adjust the auto-forward speed in Settings.
     
-    Keep in mind that this will also affect how fast phone call text will auto-advance.
+    Keep in mind that this will also affect how fast phone call text will auto-advance if there is no voiceover.
     
     {b}Skip{/b} will start fast-forwarding you through the text,
     
@@ -143,7 +144,7 @@ label vn_layeredimage():
     hide v with easeoutright
     show saeran vn happy with easeinleft
     
-    r_vn "You'll want to take a look at the 'cheat sheet' in {b}character definitions.rpy{/b} that tells you all the expressions and accessories available to each character."
+    r_vn "You should take a look at the 'cheat sheet' in {b}character definitions.rpy{/b} that tells you all the expressions and accessories available to each character."
     r_vn "Anything else you'd like to know about?"
     jump vn_tutorial
     
@@ -171,13 +172,13 @@ label vn_position():
     r_vn "There's also this position, {b}vn_center{/b}."
     r_vn "It puts the character a bit closer to the screen, to imply they're talking directly to you."
     # If you use vn_center and want to put the character back to a different
-    # position, you'll need to 'hide' them first
+    # position, you need to 'hide' them first
     hide saeran vn
     show saeran vn thinking at default
-    r_vn "If you do use the {b}vn_center{/b} position, you'll need to {b}hide{/b} the character before you put them in a new position."
+    r_vn "If you do use the {b}vn_center{/b} position, you need to {b}hide{/b} the character before you put them in a new position."
     show saeran vn neutral
     r_vn "Know that not all positions will look right for each character;"
-    r_vn "sometimes they'll be too far off-screen if you use {b}vn_left{/b}, so you'll need to use {b}vn_midleft{/b} instead."
+    r_vn "sometimes they'll be too far off-screen if you use {b}vn_left{/b}, so you need to use {b}vn_midleft{/b} instead."
     r_vn "You can always define your own transforms to position the characters exactly how you want, too."
     show saeran vn neutral
     r_vn "Anything else you'd like to learn about?"
@@ -849,7 +850,7 @@ label bodyguards_showcase():
     hide saeran vn
     show bodyguard_front at vn_left
     show bodyguard_side at vn_right
-    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
     "If you're only going to have them speak once or twice though, you can also type out their name as a string like so"
     "Bodyguard" "This is example dialogue for the bodyguard to say."
@@ -886,7 +887,7 @@ label chairman_showcase():
 label echo_showcase():
     hide saeran vn
     show echo_girl 
-    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
     "Echo Girl has the following expressions:"
     show echo_girl happy
@@ -907,7 +908,7 @@ label echo_showcase():
 label glam_showcase():  
     hide saeran vn
     show glam_choi 
-    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
     "Glam Choi has the following expressions:"
     show glam_choi happy
@@ -929,7 +930,7 @@ label glam_showcase():
 label minister_showcase():    
     hide saeran vn
     show prime_minister
-    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
     "The Prime Minister only has one expression, the one currently showing."
     "That's all."
@@ -960,7 +961,7 @@ label sarah_showcase():
 label vanderwood_showcase():
     hide saeran vn
     show vanderwood 
-    "If you'd like the minor characters to speak, you'll need to define your own character for them."
+    "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character definitions.rpy{/b} and follow the guidelines there."
     "Vanderwood has the following expressions:"
     show vanderwood unamused
