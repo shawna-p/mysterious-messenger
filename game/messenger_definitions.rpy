@@ -80,7 +80,7 @@ init -4 python:
         # If it's an image, we first check if it's an emoji
         # If so, it has an associated sound file
         if img == True:
-            # We try to adjust the {image=seven wow} etc statement to 
+            # We try to adjust the {image=seven_wow} etc statement to 
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')

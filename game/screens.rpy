@@ -128,7 +128,7 @@ screen say(who, what):
             #                 Transform(style.window.background, 
             #                     alpha=persistent.vn_window_alpha))
             id "window"
-            
+            xysize (750,324)
             if who is not None:
                 window:
                     style "namebox"
