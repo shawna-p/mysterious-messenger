@@ -27,13 +27,14 @@ label play_sfx(sfx):
         show screen notify(notification)
     return
 
+## These variables are used to make the VN window more or less transparent
 default persistent.vn_window_dark = 0.0
 default persistent.vn_window_alpha = 1.0
 default persistent.window_darken_pct = 50
 image vn_window_darken = "VN Mode/Chat Bubbles/window_darken.png"
 
 init python:
-    ## This function adjusts the alpha channels of the window
+    ## This adjusts the alpha channels of the window
     ## backgrounds used in VN mode
     def adjust_vn_alpha():
         global persistent
@@ -47,6 +48,8 @@ init python:
             persistent.vn_window_dark = float((persistent.window_darken_pct
                                                          - 50) / 50.0)
 
+    ## This allocates a notification screen that can
+    ## be used to display popup messages
     def allocate_notification_screen(can_pause=False):
         possible_screens = ["stackable_notifications", 
                             "stackable_notifications_2",
@@ -55,7 +58,7 @@ init python:
                             "stackable_notifications_5"]
         available_screens = [ x for x in possible_screens 
                                 if not renpy.get_screen(x) ]
-        if len(available_screens) < 3:
+        if can_pause and len(available_screens) < 5:
             renpy.pause(0.1)
         if available_screens:
             return available_screens[0]
@@ -63,8 +66,8 @@ init python:
             renpy.hide_screen(possible_screens[0])
             return possible_screens[0]
     
-    # This screen is just a slightly quicker way to hide all the
-    # allocated notification screens
+    ## This function is just a slightly quicker way to hide all the
+    ## allocated notification screens
     def hide_stackable_notifications():
         renpy.hide_screen('stackable_notifications')
         renpy.hide_screen('stackable_notifications_2')
@@ -109,6 +112,8 @@ transform stack_notify_appear:
     on hide:
         linear .5 alpha 0.0 yoffset -310
 
+## An in-progress screen that allows the player to change
+## some of the fonts in-game
 screen adjust_fonts():
 
     modal True

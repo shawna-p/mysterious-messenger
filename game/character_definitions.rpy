@@ -103,27 +103,31 @@ init -5 python:
             self.text_msg = TextMessage()
             self.real_time_text = False
             
-            
+        ## Updates the character's voicemail
         def update_voicemail(self, new_label):
             self.voicemail.phone_label = new_label
-            
-        def update_text_reply(self, new_label):
-            self.text_msg.reply_label = new_label
-            
+                        
+        ## Resets the text message label after that conversation
+        ## is completed
         def finished_text(self):
             self.text_msg.reply_label = False
 
+        ## Adds a heart point to the character -- good or bad
+        ## depending on the second argument
         def increase_heart(self, bad=False):
             self.heart_points += 1
             if not bad:
                 self.good_heart += 1
             else:
                 self.bad_heart -= 1
-            
+        
+        ## Decreases a heart point for this character.
+        ## Always decrements good heart points
         def decrease_heart(self):
             self.heart_points -= 1
             self.good_heart -= 1
             
+        ## Resets all the heart points owned by this character
         def reset_heart(self):
             self.heart_points = 0
             self.good_heart = 0
@@ -133,6 +137,9 @@ init -5 python:
         def prof_pic(self):
             return self.__prof_pic
             
+        ## Sets the character's profile picture and also attempts
+        ## to set the big_prof_pic to a larger version of their
+        ## profile picture, if available
         @prof_pic.setter
         def prof_pic(self, new_img):
             if new_img == False:
@@ -147,8 +154,8 @@ init -5 python:
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
 
-        # Resets a character's profile picture to their default
-        # Used in replay mode for the History screen
+        ## Resets a character's profile picture to their default
+        ## Used in replay mode for the History screen
         def reset_pfp(self):
             self.prof_pic = self.default_prof_pic
         
@@ -156,15 +163,12 @@ init -5 python:
         def cover_pic(self):
             return self.__cover_pic
 
+        ## Ensures the provided argument is indeed an image
         @cover_pic.setter
         def cover_pic(self, new_img):
-            if new_img == False:
+            if not new_img:
                 self.__cover_pic = False
-            elif ".png" in new_img:
-                self.__cover_pic = new_img
-            elif ".jpg" in new_img:
-                self.__cover_pic = new_img
-            elif ".gif" in new_img:
+            elif isImg(new_img):
                 self.__cover_pic = new_img
             
         @property
@@ -175,13 +179,13 @@ init -5 python:
         def status(self, new_status):
             self.__status = new_status
 
-        # Sets the label to jump to when responding to 
-        # this character's text messages
+        ## Sets the label to jump to when responding to 
+        ## this character's text messages
         def set_text_label(self, new_label):
             self.text_msg.reply_label = new_label
 
-        # This sets up whether or not this character's next
-        # message will be in real-time or not
+        ## This sets up whether or not this character's next
+        ## message will be in real-time or not
         def set_real_time_text(self, new_status):
             if new_status:
                 self.real_time_text = True
@@ -191,7 +195,7 @@ init -5 python:
         ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, 
                     bounce=False, specBubble=None, **kwargs):
-            # If we're texting, we add this to the character's
+            # If the player is texting, add this to the character's
             # TextMessage object instead
             if store.text_person is not None:
                 if store.text_person.real_time_text:
@@ -199,12 +203,12 @@ init -5 python:
                 else:
                     addtext(self, what, img)
             else:
-                # Make sure we're not observing; otherwise we add
+                # Make sure the player isn't observing; otherwise add
                 # entries to the replay_log
                 if not store.observing:
                     new_pv = pauseVal
-                    # For replays, we don't want MC to reply instantly
-                    if self == store.m and new_pv == 0:
+                    # For replays, MC shouldn't reply instantly
+                    if self.right_msgr and new_pv == 0:
                         new_pv = None
                     store.current_chatroom.replay_log.append(ReplayEntry(
                         self, what, new_pv, img, bounce, specBubble))
@@ -224,57 +228,60 @@ init -5 python:
 ##  participant_pic - pic that shows they're present in a chatroom
 ##  heart_color - hex number of their heart colour
 ##  cover_pic/status  - as stated
+##  bubble_color - colour of their regular speech bubbles. If not given,
+##              the program looks for a bubble using the character's file_id
+##  glow_color - same as above, for glowing speech bubbles
 ##  voicemail - generally set at the end of a chatroom, 
 ##              not during definition time
-##  emoji_list - used for chatroom creation (can be left False
+##  emote_list - used for chatroom creation (can be left False
 ##               if you don't need it/don't know what to do with it)
 ##  right_msgr - indicates this character will send messages from the right
-##               side of the screen (in general, this is true only for
+##               side of the screen (this is usually true only for
 ##               MC, and it is automatically False for everyone else)
 
 default ja = ChatCharacter("Jaehee Kang", 'ja', 
                     'Profile Pics/Jaehee/ja-default.png', 
                     'Profile Pics/ja_chat.png', "#d0b741", 
                     "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
-                    False, False, jaehee_emotes)
+                    emote_list=jaehee_emotes)
 default ju = ChatCharacter("Jumin Han", 'ju', 
                     'Profile Pics/Jumin/ju-default.png', 
                     'Profile Pics/ju_chat.png', "#a59aef", 
                     "Cover Photos/profile_cover_photo.png", "Jumin's status", 
-                    False, False, jumin_emotes)
+                    emote_list=jumin_emotes)
 default m = ChatCharacter(persistent.name, 'm', persistent.MC_pic, 
                         right_msgr=True)
 default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
                 'Profile Pics/r_chat.png', "#b81d7b", 
                 "Cover Photos/profile_cover_photo.png", "Ray's status", 
-                False, False, ray_emotes)
+                emote_list=ray_emotes)
 default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
                     'Profile Pics/ri_chat.png', "#fcef5a", 
                     "Cover Photos/profile_cover_photo.png", "Rika's status", 
-                    False, False, rika_emotes)
+                    emote_list=rika_emotes)
 default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.png', 
                 'Profile Pics/s_chat.png', "#ff2626", 
                 "Cover Photos/profile_cover_photo.png", "707's status", 
-                False, False, seven_emotes)
+                emote_list=seven_emotes)
 default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
                     'Profile Pics/sa_chat.png', "#b81d7b", 
                     "Cover Photos/profile_cover_photo.png", "Saeran's status", 
-                    False, False, saeran_emotes)
+                    emote_list=saeran_emotes)
 default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
                 'Profile Pics/u_chat.png', "#ffffff")
 default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.png', 
                 'Profile Pics/v_chat.png', "#50b2bc", 
                 "Cover Photos/profile_cover_photo.png", "V's status", 
-                False, False, v_emotes)
+                emote_list=v_emotes)
 default y = ChatCharacter("Yoosung★", 'y', 
                 'Profile Pics/Yoosung/yoo-default.png', 
                 'Profile Pics/y_chat.png', "#31ff26", 
                 "Cover Photos/profile_cover_photo.png", "Yoosung's status", 
-                False, False, yoosung_emotes)
+                emote_list=yoosung_emotes)
 default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
                 'Profile Pics/z_chat.png', "#c9c9c9", 
                 "Cover Photos/profile_cover_photo.png", "Zen's status", 
-                False, False, zen_emotes)
+                emote_list=zen_emotes)
 
 # These are special 'characters' for additional features
 define special_msg = ChatCharacter("msg")
@@ -291,8 +298,8 @@ default character_list = [ju, z, s, y, ja, v, m, r, ri]
 # the phonebook, they should be in this list -- it allows
 # them to exist in the game
 # Note, for example, that u is in the all_characters list but
-# not the character_list, so he can send texts but doesn't have
-# phone contact icon
+# not the character_list, so he can send texts and make calls 
+# but doesn't have an icon in your contacts to call him
 default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
                         
                         
@@ -308,7 +315,7 @@ default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
 # voice during phone calls or VN mode
 # For ease of remembering, Phone Call characters are just their 
 # ChatCharacter variables + '_phone' e.g. ja -> ja_phone
-# This is a default phone character that we can "inherit" the style
+# This is a default phone character that you can "inherit" the style
 # from rather than declaring all the individual properties
 define phone_character = Character(None, 
     what_font=gui.sans_serif_1, 
@@ -342,14 +349,6 @@ define m_phone = Character("[name]",
     kind=phone_character, what_color="#a6a6a6", 
     what_suffix="{w=0.8}{nw}")
 define vmail_phone = Character('Voicemail', kind=phone_character)
-                            
-# ****************************
-# Text Messages
-# ****************************         
-                 
-# default text_messages = [ TextMessage(i, []) for i in all_characters ]
-# default text_queue = [ TextMessage(i, []) for i in all_characters ]
-
                         
 # ****************************
 # Visual Novel Mode
@@ -361,8 +360,8 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 # and voice_tag as appropriate
 # For ease of remembering, VN characters are just their 
 # ChatCharacter variables + "_vn" e.g. s -> s_vn
-# I've also changed the who_color from MysMe's #fff5ca 
-# to the background of the characters' speech bubbles
+# The who_color is also the background of the characters' 
+# speech bubbles rather than the default #fff5ca 
 
 # This is the 'generic' VN character, which you can inherit from
 # for any new character you want to create
@@ -427,14 +426,18 @@ define z_vn = Character("Zen", kind=vn_character,
     image="zen")
                             
 ## Note: The MC's name will show up in VN mode in this program. 
-## If you'd like it to be blank, just replace "[name]" with None
-define m_vn = Character("[name]", kind=vn_character, who_color="#ffffed")
+## If you'd like it to be blank, just replace persistent.name with None
+define m_vn = Character(persistent.name, kind=vn_character, 
+                        who_color="#ffffed")
 
 ## This is the 'generic' template character -- if you want a 
 ## side character like Echo Girl, copy this character and 
 ## replace None with their name.
 define narrator = Character(None, kind=vn_character)
-                            
+
+# Giving Sarah the property `image='sarah'` means you can use her
+# dialogue to also show images of her with a different expression
+# See tutorial_6_meeting.rpy for an example of this
 define sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
 
 define chief_vn = Character("Chief Han", kind=vn_character, 
@@ -540,10 +543,10 @@ define chief_vn = Character("Chief Han", kind=vn_character,
 ## TO DECLARE YOUR OWN CHARACTER:
 # For starters, I would really recommend keeping accessories like 
 # glasses separate from facial expressions, so you can avoid doing 
-# what I've done here, which is have two separate 'glasses' and 'regular' 
-# layeredimage variants. That aside, characters are generally declared 
-# with a body and face group, and sometimes have a 'yoffset' value that 
-# simply puts their sprite lower down on the screen (so the characters 
+# what I've done here, which includes having a transparent image as
+# a sort of 'dummy' glasses attribute. That aside, characters are generally
+# declared with a body and face group, and sometimes have a 'yoffset' value 
+# that simply puts their sprite lower down on the screen (so the characters 
 # have the correct relative heights to one another). Other than that, 
 # everything is the same as you'll find in Ren'Py's layeredimage documentation
 

@@ -62,8 +62,11 @@ init python:
             xalign =0.06,
             yalign =0.455), 0.1
     
+init -6 python:
     ## Checks for common image extensions
     def isImg(pic):
+        # if not (isinstance(pic, str) or isinstance(pic, unicode)):
+        #     return False
         pic = pic.lower()
         if '.png' or '.jpg' or '.jpeg' or '.gif' or '.webp' in pic:
             return True

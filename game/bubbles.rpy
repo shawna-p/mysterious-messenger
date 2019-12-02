@@ -3,7 +3,7 @@
 #************************************
 
 ### Note: you can find most of the gui values in the gui.rpy file
-###  if you're looking to change them
+### if you're looking to change them
 
 ####################################
 ## Speech bubbles - GLOW variant
@@ -21,25 +21,25 @@ style glow_bubble:
 ## Speech bubbles - For TEXT
 ####################################
     
+# Text style for regular bubbles
 style bubble_text:
+    is text
     line_spacing gui.phone_text_line_spacing
     xalign 0.0
     yalign 0.5
     font gui.sans_serif_1
     
-# This bubble is shown when the text wraps
+# This text style is shown when the text wraps
 # It forces the width to be a certain length
 style bubble_text_long:
-    line_spacing gui.phone_text_line_spacing
-    xalign 0.0
-    yalign 0.5
+    is bubble_text    
     xsize gui.phone_text_xsize_long
-    font gui.sans_serif_1
     
     
 # This is for the "special" speech bubbles
 # It's mostly just telling it to center the text
 style special_bubble:
+    is text
     text_align 0.5
     line_spacing gui.phone_text_line_spacing - 10
     ycenter 0.55
@@ -61,18 +61,15 @@ style reg_bubble_MC:
 style reg_bubble:  
     padding (20, 15, 20, 9)
     pos (138, 38)
-    
-# one-line variant (fixes spacing)
-style reg_bubble_short: 
-    padding (20, 9)
-    
+
+
 ## TEXT MESSAGES
-# MC's text speech bubble
+# MC's text message speech bubble
 style reg_bubble_MC_text:
     background 'mc_text_msg_bubble'
     padding (20,12,60,12)
         
-# Other characters' text speech bubble
+# Other characters' text message speech bubble
 style reg_bubble_text:        
     background 'npc_text_msg_bubble'
     padding (60,12,20,12)
@@ -86,6 +83,7 @@ style msg_bubble:
     xfill True
             
 style msg_bubble_text:
+    is text
     text_align 0.5
     font gui.sans_serif_1
     size gui.text_size - 10

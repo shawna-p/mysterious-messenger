@@ -1,7 +1,7 @@
 init python:
     ## This function is called right after Ren'Py loads a save game
-    ## It allows us to make changes to existing variables or define
-    ## variables that have yet to exist so that save files
+    ## It allows the program to make changes to existing variables or
+    ## define variables that have yet to exist so that save files
     ## continue to work
     def update_var_compatibility():
         # if _version == "2.02":
@@ -57,6 +57,9 @@ label after_load():
                 current_game_day = date.today()
             persistent.load_instr = False
         else:
+            # The program keeps track of the current day even if
+            # not in real-time mode in case the player switches
+            # to real-time mode
             current_game_day = date.today()
     
         no_email_notif = True
@@ -75,8 +78,7 @@ label after_load():
             renpy.hide_screen('text_pop_2')
             renpy.hide_screen('text_pop_3')
             
-        set_name_pfp()
-        set_pronouns()
+        define_variables()
             
         renpy.hide_screen('settings_screen')
         renpy.hide_screen('save_load')
@@ -123,10 +125,6 @@ label after_load():
             popup_msg += "."            
     if popup_msg != "":
         show screen confirm(yes_action=Hide('confirm'), message=popup_msg)
-    # $ print("Is chat_home showing?", renpy.get_screen('chat_home'))
-    # if not renpy.get_screen('chat_home'):#persistent.manual_load:
-    #     call screen chat_home     
-    # $ print("Reached the end of after_load")
     return     
 
     

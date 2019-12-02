@@ -6,6 +6,8 @@ screen chat_select(days=chat_archive):
     tag menu
     modal True
 
+    # If the player isn't on the main menu (aka viewing this screen
+    # from the history), the game should save
     if not main_menu:
         on 'show' action [FileSave(mm_auto, confirm=False)]
         on 'replace' action [FileSave(mm_auto, confirm=False)]
@@ -24,8 +26,16 @@ screen chat_select(days=chat_archive):
             
             hbox:
                 spacing 3
+                # This iterates through each day in the given list
+                # (usually chat_archive)
                 for day_num, day in enumerate(days):
                     use day_select(day, day_num)
+                    if (main_menu and day_num < len(days) -1):
+                        null width -6
+                        fixed:
+                            xysize (104,32)
+                            yalign 0.4
+                            add 'day_hlink' xalign 0.5
 
 style hscrollbar:
     unscrollable "hide"
@@ -51,7 +61,7 @@ screen day_select(day, day_num):
                     completed_chatrooms += 1
                 if i.played:
                     played_chatrooms += 1
-                # This also lets us know if the user
+                # This also lets the program know if the player
                 # should be able to click on this day
                 if i.available:
                     playable = True
@@ -61,7 +71,7 @@ screen day_select(day, day_num):
             # Do they still have chats to play on this day?
             # If so, it's "today"
             if played_chatrooms == len(day.archive_list):
-                # All the chatrooms in this day are played;
+                # All the chatrooms on this day are played;
                 # it's not the current day unless there's
                 # a plot branch or an unplayed VN
                 if day.archive_list:
@@ -81,7 +91,8 @@ screen day_select(day, day_num):
                 # Last chat in the previous day is played; it's today
                 elif (chat_archive[day_num-1].archive_list 
                         and chat_archive[day_num-1].archive_list[-1].played 
-                        and (not chat_archive[day_num-1].archive_list[-1].vn_obj 
+                        and (not chat_archive[day_num
+                                            -1].archive_list[-1].vn_obj 
                         or (chat_archive[day_num-1].
                             archive_list[-1].vn_obj.played))):
                     is_today = True
@@ -104,11 +115,14 @@ screen day_select(day, day_num):
             is_today = False
             # If the player has at least seen the first chat of this day,
             # it is selectable ("playable")
-            if (day.archive_list 
+            if (main_menu and day.archive_list 
                     and (persistent.completed_chatrooms.get(
                                 day.archive_list[0].chatroom_label)
                     or persistent.completed_chatrooms.get(
                                 day.archive_list[0].expired_chat))):
+                playable = True
+            elif (not main_menu and day.archive_list 
+                    and day.archive_list[0].played):
                 playable = True
             else:
                 playable = False
@@ -140,7 +154,7 @@ screen day_select(day, day_num):
                 # conflict with each other
                 add 'day_today' xalign 0.5 yalign 1.0 yoffset 50
                 add 'final_day' xalign 0.5 yalign 1.0
-            if day.day == 'Final':
+            elif day.day == 'Final':
                 # Adds the 'Final' sign to the final day
                 add 'final_day' xalign 0.5 yalign 1.0
                 
@@ -162,31 +176,27 @@ screen day_select(day, day_num):
                 yes_action=Hide('confirm'))
             xalign 0.5
         
-        # This is only a viewport due to a silly issue which caused
-        # it to not be shown otherwise. It displays the chatroom
-        # completion percentage
+        # This displays the chatroom completion percentage
         if not main_menu:
-            viewport:
+            frame:
                 xysize (265,35)                      
                 has hbox
                 align (0.5, 0.5)
                 spacing 5
-                fixed:
+                frame:
                     xysize (180,35)
                     xalign 0.0
-                    fixed:
-                        xysize (180, 30)
-                        align (0.5, 0.5)
-                        add 'day_percent_border'
+                    background 'day_percent_border'
+                    ypadding 2                    
                     bar:
                         value completed_chatrooms
                         range num_chatrooms
                         xysize (170, 20)
                         align (0.5, 0.5)
-                fixed:
+                frame:
                     xysize (80, 30)
                     align (0.5, 0.5)
-                    add 'day_percent_border'
+                    background 'day_percent_border'
                     text '[chat_percent]%':
                         color '#fff' 
                         size 20 
@@ -199,16 +209,17 @@ screen day_select(day, day_num):
 
 
             
-    
-    fixed:
-        xysize (104,32)
-        yalign 0.4
-        if (not most_recent_day 
-                and day.archive_list 
-                and day.archive_list[-1].available):
+    if (not most_recent_day 
+            and day.archive_list 
+            and day.archive_list[-1].available):
+        fixed:
+            xysize (104,32)
+            yalign 0.4
+            
             add 'day_hlink' xalign 0.5
-        elif main_menu and day_num < len(chat_archive)-1:
-            add 'day_hlink' xalign 0.5
+    elif not main_menu:
+        null width 104
+        
             
         
         
@@ -253,6 +264,7 @@ screen chatroom_timeline(day, day_num):
                         # Displays rows of all the available chats
                         if not main_menu and chatroom.available:
                             use chatroom_item(day, day_num, chatroom, index)
+                        # Use a different screen for the History
                         elif (main_menu and display_history(chatroom, index,
                                                             day.archive_list)):
                             use chatroom_item_history(chatroom)
@@ -292,17 +304,25 @@ screen chatroom_item(day, day_num, chatroom, index):
         sametime = False
         wasplayed = False
         if index > 0:
+            # If this is the second or later chatroom, check if the
+            # chatroom just before this one occured in the same hour
             if (chatroom.trigger_time[:2] 
                 == day.archive_list[index-1].trigger_time[:2]):
                 sametime = True
+            # Also check if the chatroom or VN before this chatroom
+            # was played
             if day.archive_list[index-1].played:
                 if day.archive_list[index-1].vn_obj:
                     wasplayed = day.archive_list[index-1].vn_obj.played
                 else:
                     wasplayed = True
         elif index == 0:
+            # This chatroom can be played if it's the very first
+            # chatroom of the route
             if day_num == 0:
                 wasplayed = True
+            # Otherwise, check if the last chatroom of the previous
+            # day was played so the player can play this one
             else:
                 if chat_archive[day_num-1].archive_list[-1].vn_obj:
                     wasplayed = (chat_archive[day_num-1].
@@ -316,6 +336,8 @@ screen chatroom_item(day, day_num, chatroom, index):
             anim = hacked_anim
         my_vn = chatroom.vn_obj
         can_play = False
+        # Several items vary in width if the chatroom is expired
+        # or if hack effects are active
         chat_title_width = 400
         chat_box_width = 620
         partic_viewport_width = 530
@@ -368,9 +390,11 @@ screen chatroom_item(day, day_num, chatroom, index):
         # This determines if there are enough participants
         # in this chat to make the viewport scroll automatically
         if chatroom.participants:
-            if len(chatroom.participants) > 5 and chatroom.participated:
+            if (len(chatroom.participants) > 5 and chatroom.participated):
                 part_anim = participant_scroll
-            elif len(chatroom.participants) > 6 and not chatroom.participated:
+            elif ((len(chatroom.participants) > 6
+                     and not chatroom.participated)
+                     or (chatroom.expired and len(chatroom.participants) > 4)):
                 part_anim = participant_scroll
             else:
                 part_anim = null_anim
@@ -383,8 +407,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                       
     if not sametime:
         # sametime means these chatrooms occur during the
-        # same hour. If it's false, we need to show the
-        # hour above this chat
+        # same hour. If it's false, show the hour above this chat
         textbutton _(chatroom.trigger_time[:2] + ':00'):
             style 'timeline_button'
             text_style 'timeline_button_text'
@@ -421,10 +444,9 @@ screen chatroom_item(day, day_num, chatroom, index):
                 
             vbox:
                 spacing 18
-                # This box displays the trigger time and
-                # title of the chatroom; optionally at
-                # a scrolling transform so you can read
-                # the entire title
+                # This box displays the trigger time and title of the
+                # chatroom; optionally at a scrolling transform so you 
+                # can read the entire title
                 hbox:
                     spacing 30
                     frame:
@@ -476,7 +498,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 add Transform(m.prof_pic, size=(80,80))
 
         # If this chat is expired and hasn't been bought back,
-        # we show a button allowing the user to buy this chat again            
+        # show a button allowing the player to buy this chat again            
         if chatroom.expired and not chatroom.buyback:
             imagebutton:
                 yalign 0.9
@@ -497,7 +519,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                             renpy.restart_interaction, Hide('confirm')], 
                             no_action=Hide('confirm'))
 
-    # If there's a VN object, we display it now
+    # If there's a VN object, display it now
     if my_vn and not my_vn.party:
         frame:
             xysize(700, 160)
@@ -517,7 +539,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                         and chatroom.played):
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
                     # and 1 at its fastest
-                    # This Preference means the user always has to
+                    # This Preference means the player always has to
                     # manually enable auto-forward in a new story mode
                     action [Preference("auto-forward", "disable"), 
                             SetVariable('current_chatroom', chatroom), 
@@ -562,11 +584,11 @@ screen chatroom_item(day, day_num, chatroom, index):
                 align (0.5, 0.5)
                 add 'plot_lock'
                 text 'Tap to unlock' color '#fff' xalign 0.5 yalign 0.5
-            # We check if the user has seen all chatrooms before
+            # Check if the player has seen all chatrooms before
             # they try to branch
             if can_branch():
                 # The message varies slightly depending on whether
-                # the user is playing in real-time or not
+                # the player is playing in real-time or not
                 if persistent.real_time:
                     action Show("confirm", message=("The game branches here."
                                 + " Missed chatrooms may appear depending on"
@@ -589,7 +611,7 @@ screen chatroom_item(day, day_num, chatroom, index):
 
 ## A small screen intended to reduce the indentation of 
 ## the chatroom_timeline screen. Shows a button that
-## lets the user purchase the next 24 hours/continue
+## lets the player purchase the next 24 hours/continue
 screen timeline_continue_button(chat_time):
     button:
         xysize (620, 110)
@@ -617,9 +639,7 @@ screen timeline_continue_button(chat_time):
                     xysize (75,27)
                     xoffset 77
                     yoffset 13
-                    add Transform("header_hg", 
-                                    zoom=0.8):
-                        xalign 0.5 yalign 0.5
+                    add Transform("header_hg", zoom=0.8) xalign 0.5 yalign 0.5
                 viewport:
                     yoffset 13
                     xoffset 77                
@@ -666,7 +686,7 @@ label plot_branch_end():
             deliver_calls(current_chatroom.chatroom_label)
             deliver_emails()
 
-        # Now we need to check if the player unlocked the next 24 hours
+        # Now check if the player unlocked the next 24 hours
         # of chatrooms, and make those available
         if unlock_24_time:
             chat_24_available(reset_24=False)           
