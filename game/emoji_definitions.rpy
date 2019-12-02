@@ -7,162 +7,162 @@ init python:
 
     ## This list contains all of the emojis, linked to the correct sound effect
     ## Essentially, if the dialogue matches the item on the left
-    ## (e.g. {image=jaehee angry}) then it will play the sound effect on the right
+    ## (e.g. {image=jaehee_angry}) then it will play the sound effect on the right
     ## If you add your own custom emojis, you'll need to add them to this list
     ## so that they play the correct sound effect
     emoji_lookup = {
-        '{image=jaehee angry}': 'audio/sfx/Emotes/Jaehee/jaehee_angry.mp3', 
-        '{image=jaehee happy}': 'audio/sfx/Emotes/Jaehee/jaehee_happy.mp3', 
-        '{image=jaehee hehe}': 'audio/sfx/Emotes/Jaehee/jaehee_hehe.mp3', 
-        '{image=jaehee huff}': 'audio/sfx/Emotes/Jaehee/jaehee_huff.mp3', 
-        '{image=jaehee oops}': 'audio/sfx/Emotes/Jaehee/jaehee_oops.mp3', 
-        '{image=jaehee question}': 'audio/sfx/Emotes/Jaehee/jaehee_question.mp3', 
-        '{image=jaehee sad}': 'audio/sfx/Emotes/Jaehee/jaehee_sad.mp3', 
-        '{image=jaehee well}': 'audio/sfx/Emotes/Jaehee/jaehee_well.mp3', 
-        '{image=jaehee wow}': 'audio/sfx/Emotes/Jaehee/jaehee_wow.mp3', 
+        '{image=jaehee_angry}': 'audio/sfx/Emotes/Jaehee/jaehee_angry.mp3', 
+        '{image=jaehee_happy}': 'audio/sfx/Emotes/Jaehee/jaehee_happy.mp3', 
+        '{image=jaehee_hehe}': 'audio/sfx/Emotes/Jaehee/jaehee_hehe.mp3', 
+        '{image=jaehee_huff}': 'audio/sfx/Emotes/Jaehee/jaehee_huff.mp3', 
+        '{image=jaehee_oops}': 'audio/sfx/Emotes/Jaehee/jaehee_oops.mp3', 
+        '{image=jaehee_question}': 'audio/sfx/Emotes/Jaehee/jaehee_question.mp3', 
+        '{image=jaehee_sad}': 'audio/sfx/Emotes/Jaehee/jaehee_sad.mp3', 
+        '{image=jaehee_well}': 'audio/sfx/Emotes/Jaehee/jaehee_well.mp3', 
+        '{image=jaehee_wow}': 'audio/sfx/Emotes/Jaehee/jaehee_wow.mp3', 
         
-        '{image=jumin angry}': 'audio/sfx/Emotes/Jumin/jumin_angry.mp3', 
-        '{image=jumin sad}': 'audio/sfx/Emotes/Jumin/jumin_sad.mp3', 
-        '{image=jumin smile}': 'audio/sfx/Emotes/Jumin/jumin_smile.mp3', 
-        '{image=jumin well}': 'audio/sfx/Emotes/Jumin/jumin_well.mp3', 
+        '{image=jumin_angry}': 'audio/sfx/Emotes/Jumin/jumin_angry.mp3', 
+        '{image=jumin_sad}': 'audio/sfx/Emotes/Jumin/jumin_sad.mp3', 
+        '{image=jumin_smile}': 'audio/sfx/Emotes/Jumin/jumin_smile.mp3', 
+        '{image=jumin_well}': 'audio/sfx/Emotes/Jumin/jumin_well.mp3', 
         
-        '{image=rika happy}': 'audio/sfx/Emotes/Rika/rika_happy.mp3',
-        '{image=rika pout}': 'audio/sfx/Emotes/Rika/rika_pout.mp3',
-        '{image=rika cry}': 'audio/sfx/Emotes/Rika/rika_cry.mp3',
+        '{image=rika_happy}': 'audio/sfx/Emotes/Rika/rika_happy.mp3',
+        '{image=rika_pout}': 'audio/sfx/Emotes/Rika/rika_pout.mp3',
+        '{image=rika_cry}': 'audio/sfx/Emotes/Rika/rika_cry.mp3',
         
-        '{image=ray cry}': 'audio/sfx/Emotes/Ray/ray_cry.mp3', 
-        '{image=ray happy}': 'audio/sfx/Emotes/Ray/ray_happy.mp3', 
-        '{image=ray huff}': 'audio/sfx/Emotes/Ray/ray_huff.mp3', 
-        '{image=ray question}': 'audio/sfx/Emotes/Ray/ray_question.mp3', 
-        '{image=ray smile}': 'audio/sfx/Emotes/Ray/ray_smile.mp3', 
-        '{image=ray well}': 'audio/sfx/Emotes/Ray/ray_well.mp3', 
-        '{image=ray wink}': 'audio/sfx/Emotes/Ray/ray_wink.mp3', 
+        '{image=ray_cry}': 'audio/sfx/Emotes/Ray/ray_cry.mp3', 
+        '{image=ray_happy}': 'audio/sfx/Emotes/Ray/ray_happy.mp3', 
+        '{image=ray_huff}': 'audio/sfx/Emotes/Ray/ray_huff.mp3', 
+        '{image=ray_question}': 'audio/sfx/Emotes/Ray/ray_question.mp3', 
+        '{image=ray_smile}': 'audio/sfx/Emotes/Ray/ray_smile.mp3', 
+        '{image=ray_well}': 'audio/sfx/Emotes/Ray/ray_well.mp3', 
+        '{image=ray_wink}': 'audio/sfx/Emotes/Ray/ray_wink.mp3', 
         
-        '{image=saeran2 cry}': 'audio/sfx/Emotes/Ray/ray_cry.mp3', 
-        '{image=saeran2 happy}': 'audio/sfx/Emotes/Ray/ray_happy.mp3', 
-        '{image=saeran2 huff}': 'audio/sfx/Emotes/Ray/ray_huff.mp3', 
-        '{image=saeran2 question}': 'audio/sfx/Emotes/Ray/ray_question.mp3', 
-        '{image=saeran2 smile}': 'audio/sfx/Emotes/Ray/ray_smile.mp3', 
-        '{image=saeran2 well}': 'audio/sfx/Emotes/Ray/ray_well.mp3', 
-        '{image=saeran2 wink}': 'audio/sfx/Emotes/Ray/ray_wink.mp3',
+        '{image=saeran2_cry}': 'audio/sfx/Emotes/Ray/ray_cry.mp3', 
+        '{image=saeran2_happy}': 'audio/sfx/Emotes/Ray/ray_happy.mp3', 
+        '{image=saeran2_huff}': 'audio/sfx/Emotes/Ray/ray_huff.mp3', 
+        '{image=saeran2_question}': 'audio/sfx/Emotes/Ray/ray_question.mp3', 
+        '{image=saeran2_smile}': 'audio/sfx/Emotes/Ray/ray_smile.mp3', 
+        '{image=saeran2_well}': 'audio/sfx/Emotes/Ray/ray_well.mp3', 
+        '{image=saeran2_wink}': 'audio/sfx/Emotes/Ray/ray_wink.mp3',
         
-        '{image=saeran expecting}': 'audio/sfx/Emotes/Saeran/saeran_expecting.mp3', 
-        '{image=saeran happy}': 'audio/sfx/Emotes/Saeran/saeran_happy.mp3', 
-        '{image=saeran questioning}': 'audio/sfx/Emotes/Saeran/saeran_questioning.mp3', 
-        '{image=saeran well}': 'audio/sfx/Emotes/Saeran/saeran_well.mp3',                     
+        '{image=saeran_expecting}': 'audio/sfx/Emotes/Saeran/saeran_expecting.mp3', 
+        '{image=saeran_happy}': 'audio/sfx/Emotes/Saeran/saeran_happy.mp3', 
+        '{image=saeran_questioning}': 'audio/sfx/Emotes/Saeran/saeran_questioning.mp3', 
+        '{image=saeran_well}': 'audio/sfx/Emotes/Saeran/saeran_well.mp3',                     
         
-        '{image=seven cry}': 'audio/sfx/Emotes/Seven/seven_cry.mp3', 
-        '{image=seven huff}': 'audio/sfx/Emotes/Seven/seven_huff.mp3', 
-        '{image=seven khee}': 'audio/sfx/Emotes/Seven/seven_khee.mp3', 
-        '{image=seven love}': 'audio/sfx/Emotes/Seven/seven_love.mp3', 
-        '{image=seven question}': 'audio/sfx/Emotes/Seven/seven_question.mp3', 
-        '{image=seven what}': 'audio/sfx/Emotes/Seven/seven_what.mp3', 
-        '{image=seven wow}': 'audio/sfx/Emotes/Seven/seven_wow.mp3', 
-        '{image=seven yahoo}': 'audio/sfx/Emotes/Seven/seven_yahoo.mp3', 
-        '{image=seven yoohoo}': 'audio/sfx/Emotes/Seven/seven_yoohoo.mp3',
+        '{image=seven_cry}': 'audio/sfx/Emotes/Seven/seven_cry.mp3', 
+        '{image=seven_huff}': 'audio/sfx/Emotes/Seven/seven_huff.mp3', 
+        '{image=seven_khee}': 'audio/sfx/Emotes/Seven/seven_khee.mp3', 
+        '{image=seven_love}': 'audio/sfx/Emotes/Seven/seven_love.mp3', 
+        '{image=seven_question}': 'audio/sfx/Emotes/Seven/seven_question.mp3', 
+        '{image=seven_what}': 'audio/sfx/Emotes/Seven/seven_what.mp3', 
+        '{image=seven_wow}': 'audio/sfx/Emotes/Seven/seven_wow.mp3', 
+        '{image=seven_yahoo}': 'audio/sfx/Emotes/Seven/seven_yahoo.mp3', 
+        '{image=seven_yoohoo}': 'audio/sfx/Emotes/Seven/seven_yoohoo.mp3',
 
-        '{image=v shock}': 'audio/sfx/Emotes/V/v_shock.mp3', 
-        '{image=v smile}': 'audio/sfx/Emotes/V/v_smile.mp3',
-        '{image=v well}': 'audio/sfx/Emotes/V/v_well.mp3',
-        '{image=v wink}': 'audio/sfx/Emotes/V/v_wink.mp3',
+        '{image=v_shock}': 'audio/sfx/Emotes/V/v_shock.mp3', 
+        '{image=v_smile}': 'audio/sfx/Emotes/V/v_smile.mp3',
+        '{image=v_well}': 'audio/sfx/Emotes/V/v_well.mp3',
+        '{image=v_wink}': 'audio/sfx/Emotes/V/v_wink.mp3',
         
-        '{image=yoosung angry}': 'audio/sfx/Emotes/Yoosung/yoosung_angry.mp3',
-        '{image=yoosung cry}': 'audio/sfx/Emotes/Yoosung/yoosung_cry.mp3',
-        '{image=yoosung happy}': 'audio/sfx/Emotes/Yoosung/yoosung_happy.mp3',
-        '{image=yoosung huff}': 'audio/sfx/Emotes/Yoosung/yoosung_huff.mp3',
-        '{image=yoosung puff}': 'audio/sfx/Emotes/Yoosung/yoosung_puff.mp3',
-        '{image=yoosung question}': 'audio/sfx/Emotes/Yoosung/yoosung_question.mp3',
-        '{image=yoosung thankyou}': 'audio/sfx/Emotes/Yoosung/yoosung_thankyou.mp3',
-        '{image=yoosung what}': 'audio/sfx/Emotes/Yoosung/yoosung_what.mp3',
-        '{image=yoosung wow}': 'audio/sfx/Emotes/Yoosung/yoosung_wow.mp3',
-        '{image=yoosung yahoo}': 'audio/sfx/Emotes/Yoosung/yoosung_yahoo.mp3',
+        '{image=yoosung_angry}': 'audio/sfx/Emotes/Yoosung/yoosung_angry.mp3',
+        '{image=yoosung_cry}': 'audio/sfx/Emotes/Yoosung/yoosung_cry.mp3',
+        '{image=yoosung_happy}': 'audio/sfx/Emotes/Yoosung/yoosung_happy.mp3',
+        '{image=yoosung_huff}': 'audio/sfx/Emotes/Yoosung/yoosung_huff.mp3',
+        '{image=yoosung_puff}': 'audio/sfx/Emotes/Yoosung/yoosung_puff.mp3',
+        '{image=yoosung_question}': 'audio/sfx/Emotes/Yoosung/yoosung_question.mp3',
+        '{image=yoosung_thankyou}': 'audio/sfx/Emotes/Yoosung/yoosung_thankyou.mp3',
+        '{image=yoosung_what}': 'audio/sfx/Emotes/Yoosung/yoosung_what.mp3',
+        '{image=yoosung_wow}': 'audio/sfx/Emotes/Yoosung/yoosung_wow.mp3',
+        '{image=yoosung_yahoo}': 'audio/sfx/Emotes/Yoosung/yoosung_yahoo.mp3',
         
-        '{image=zen angry}': 'audio/sfx/Emotes/Zen/zen_angry.mp3',
-        '{image=zen happy}': 'audio/sfx/Emotes/Zen/zen_happy.mp3',
-        '{image=zen hmm}': 'audio/sfx/Emotes/Zen/zen_hmm.mp3',
-        '{image=zen oyeah}': 'audio/sfx/Emotes/Zen/zen_oyeah.mp3',
-        '{image=zen question}': 'audio/sfx/Emotes/Zen/zen_question.mp3',
-        '{image=zen sad}': 'audio/sfx/Emotes/Zen/zen_sad.mp3',
-        '{image=zen shock}': 'audio/sfx/Emotes/Zen/zen_shock.mp3',
-        '{image=zen well}': 'audio/sfx/Emotes/Zen/zen_well.mp3',
-        '{image=zen wink}': 'audio/sfx/Emotes/Zen/zen_wink.mp3'
+        '{image=zen_angry}': 'audio/sfx/Emotes/Zen/zen_angry.mp3',
+        '{image=zen_happy}': 'audio/sfx/Emotes/Zen/zen_happy.mp3',
+        '{image=zen_hmm}': 'audio/sfx/Emotes/Zen/zen_hmm.mp3',
+        '{image=zen_oyeah}': 'audio/sfx/Emotes/Zen/zen_oyeah.mp3',
+        '{image=zen_question}': 'audio/sfx/Emotes/Zen/zen_question.mp3',
+        '{image=zen_sad}': 'audio/sfx/Emotes/Zen/zen_sad.mp3',
+        '{image=zen_shock}': 'audio/sfx/Emotes/Zen/zen_shock.mp3',
+        '{image=zen_well}': 'audio/sfx/Emotes/Zen/zen_well.mp3',
+        '{image=zen_wink}': 'audio/sfx/Emotes/Zen/zen_wink.mp3'
         }
 
-default jaehee_emotes = ['{image=jaehee angry}', 
-                    '{image=jaehee happy}',
-                    '{image=jaehee hehe}', 
-                    '{image=jaehee huff}', 
-                    '{image=jaehee oops}',
-                    '{image=jaehee question}',
-                    '{image=jaehee sad}',
-                    '{image=jaehee well}',
-                    '{image=jaehee wow}'] 
+default jaehee_emotes = ['{image=jaehee_angry}', 
+                    '{image=jaehee_happy}',
+                    '{image=jaehee_hehe}', 
+                    '{image=jaehee_huff}', 
+                    '{image=jaehee_oops}',
+                    '{image=jaehee_question}',
+                    '{image=jaehee_sad}',
+                    '{image=jaehee_well}',
+                    '{image=jaehee_wow}'] 
                     
-default jumin_emotes = [ '{image=jumin angry}',
-                    '{image=jumin sad}', 
-                    '{image=jumin smile}',
-                    '{image=jumin well}']
+default jumin_emotes = [ '{image=jumin_angry}',
+                    '{image=jumin_sad}', 
+                    '{image=jumin_smile}',
+                    '{image=jumin_well}']
                     
-default rika_emotes = ['{image=rika happy}',
-                        '{image=rika pout}',
-                        '{image=rika cry}']
+default rika_emotes = ['{image=rika_happy}',
+                        '{image=rika_pout}',
+                        '{image=rika_cry}']
                     
-default ray_emotes = ['{image=ray cry}', 
-                    '{image=ray happy}', 
-                    '{image=ray huff}', 
-                    '{image=ray question}', 
-                    '{image=ray smile}', 
-                    '{image=ray well}', 
-                    '{image=ray wink}',
+default ray_emotes = ['{image=ray_cry}', 
+                    '{image=ray_happy}', 
+                    '{image=ray_huff}', 
+                    '{image=ray_question}', 
+                    '{image=ray_smile}', 
+                    '{image=ray_well}', 
+                    '{image=ray_wink}',
                     
-                    '{image=saeran2 cry}', 
-                    '{image=saeran2 happy}', 
-                    '{image=saeran2 huff}', 
-                    '{image=saeran2 question}', 
-                    '{image=saeran2 smile}', 
-                    '{image=saeran2 well}', 
-                    '{image=saeran2 wink}']
+                    '{image=saeran2_cry}', 
+                    '{image=saeran2_happy}', 
+                    '{image=saeran2_huff}', 
+                    '{image=saeran2_question}', 
+                    '{image=saeran2_smile}', 
+                    '{image=saeran2_well}', 
+                    '{image=saeran2_wink}']
                     
-default saeran_emotes = ['{image=saeran expecting}', 
-                    '{image=saeran happy}', 
-                    '{image=saeran questioning}', 
-                    '{image=saeran well}']                  
+default saeran_emotes = ['{image=saeran_expecting}', 
+                    '{image=saeran_happy}', 
+                    '{image=saeran_questioning}', 
+                    '{image=saeran_well}']                  
                     
-default seven_emotes = ['{image=seven cry}', 
-                    '{image=seven huff}', 
-                    '{image=seven khee}', 
-                    '{image=seven love}', 
-                    '{image=seven question}', 
-                    '{image=seven what}', 
-                    '{image=seven wow}', 
-                    '{image=seven yahoo}', 
-                    '{image=seven yoohoo}']
+default seven_emotes = ['{image=seven_cry}', 
+                    '{image=seven_huff}', 
+                    '{image=seven_khee}', 
+                    '{image=seven_love}', 
+                    '{image=seven_question}', 
+                    '{image=seven_what}', 
+                    '{image=seven_wow}', 
+                    '{image=seven_yahoo}', 
+                    '{image=seven_yoohoo}']
 
-default v_emotes = ['{image=v shock}', 
-                    '{image=v smile}',
-                    '{image=v well}',
-                    '{image=v wink}']
+default v_emotes = ['{image=v_shock}', 
+                    '{image=v_smile}',
+                    '{image=v_well}',
+                    '{image=v_wink}']
                     
-default yoosung_emotes = ['{image=yoosung angry}',
-                    '{image=yoosung cry}',
-                    '{image=yoosung happy}',
-                    '{image=yoosung huff}',
-                    '{image=yoosung puff}',
-                    '{image=yoosung question}',
-                    '{image=yoosung thankyou}',
-                    '{image=yoosung what}',
-                    '{image=yoosung wow}',
-                    '{image=yoosung yahoo}']
+default yoosung_emotes = ['{image=yoosung_angry}',
+                    '{image=yoosung_cry}',
+                    '{image=yoosung_happy}',
+                    '{image=yoosung_huff}',
+                    '{image=yoosung_puff}',
+                    '{image=yoosung_question}',
+                    '{image=yoosung_thankyou}',
+                    '{image=yoosung_what}',
+                    '{image=yoosung_wow}',
+                    '{image=yoosung_yahoo}']
                     
-default zen_emotes = ['{image=zen angry}',
-                    '{image=zen happy}',
-                    '{image=zen hmm}',
-                    '{image=zen oyeah}',
-                    '{image=zen question}',
-                    '{image=zen sad}',
-                    '{image=zen shock}',
-                    '{image=zen well}',
-                    '{image=zen wink}']
+default zen_emotes = ['{image=zen_angry}',
+                    '{image=zen_happy}',
+                    '{image=zen_hmm}',
+                    '{image=zen_oyeah}',
+                    '{image=zen_question}',
+                    '{image=zen_sad}',
+                    '{image=zen_shock}',
+                    '{image=zen_well}',
+                    '{image=zen_wink}']
                     
 default all_emotes = (jaehee_emotes + jumin_emotes + rika_emotes 
                     + ray_emotes + seven_emotes + saeran_emotes 
@@ -170,63 +170,63 @@ default all_emotes = (jaehee_emotes + jumin_emotes + rika_emotes
 
 # ******** JAEHEE ******************
 
-image jaehee angry:
+image jaehee_angry:
     "Gifs/Jaehee/emo_jaehee_angry1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_angry2.png"
     0.5
     repeat
     
-image jaehee happy:
+image jaehee_happy:
     "Gifs/Jaehee/emo_jaehee_happy1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_happy2.png"
     0.5
     repeat
     
-image jaehee hehe:
+image jaehee_hehe:
     "Gifs/Jaehee/emo_jaehee_hehe1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_hehe2.png"
     0.5
     repeat
     
-image jaehee huff:
+image jaehee_huff:
     "Gifs/Jaehee/emo_jaehee_huff1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_huff2.png"
     0.5
     repeat
     
-image jaehee oops:
+image jaehee_oops:
     "Gifs/Jaehee/emo_jaehee_oops1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_oops2.png"
     0.5
     repeat
     
-image jaehee question:
+image jaehee_question:
     "Gifs/Jaehee/emo_jaehee_question1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_question2.png"
     0.5
     repeat
     
-image jaehee sad:
+image jaehee_sad:
     "Gifs/Jaehee/emo_jaehee_sad1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_sad2.png"
     0.5
     repeat
     
-image jaehee well:
+image jaehee_well:
     "Gifs/Jaehee/emo_jaehee_well1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_well2.png"
     0.5
     repeat
     
-image jaehee wow:
+image jaehee_wow:
     "Gifs/Jaehee/emo_jaehee_wow1.png"
     0.5
     "Gifs/Jaehee/emo_jaehee_wow2.png"
@@ -236,28 +236,28 @@ image jaehee wow:
 
 # ******** JUMIN ******************
 
-image jumin angry:
+image jumin_angry:
     "Gifs/Jumin/emo_jumin_angry1.png"
     0.5
     "Gifs/Jumin/emo_jumin_angry2.png"
     0.5
     repeat
     
-image jumin sad:
+image jumin_sad:
     "Gifs/Jumin/emo_jumin_sad1.png"
     0.5
     "Gifs/Jumin/emo_jumin_sad2.png"
     0.5
     repeat
     
-image jumin smile:
+image jumin_smile:
     "Gifs/Jumin/emo_jumin_smile1.png"
     0.5
     "Gifs/Jumin/emo_jumin_smile2.png"
     0.5
     repeat
     
-image jumin well:
+image jumin_well:
     "Gifs/Jumin/emo_jumin_well1.png"
     0.5
     "Gifs/Jumin/emo_jumin_well2.png"
@@ -267,49 +267,49 @@ image jumin well:
     
 # ******** RAY ******************
 
-image ray cry:
+image ray_cry:
     "Gifs/Ray/emo_ray_cry1.png"
     0.5
     "Gifs/Ray/emo_ray_cry2.png"
     0.5
     repeat    
     
-image ray happy:
+image ray_happy:
     "Gifs/Ray/emo_ray_happy1.png"
     0.5
     "Gifs/Ray/emo_ray_happy2.png"
     0.5
     repeat   
     
-image ray huff:
+image ray_huff:
     "Gifs/Ray/emo_ray_huff1.png"
     0.5
     "Gifs/Ray/emo_ray_huff2.png"
     0.5
     repeat   
     
-image ray question:
+image ray_question:
     "Gifs/Ray/emo_ray_question1.png"
     0.5
     "Gifs/Ray/emo_ray_question2.png"
     0.5
     repeat   
     
-image ray smile:
+image ray_smile:
     "Gifs/Ray/emo_ray_smile1.png"
     0.5
     "Gifs/Ray/emo_ray_smile2.png"
     0.5
     repeat   
     
-image ray well:
+image ray_well:
     "Gifs/Ray/emo_ray_well1.png"
     0.5
     "Gifs/Ray/emo_ray_well2.png"
     0.5
     repeat   
     
-image ray wink:
+image ray_wink:
     "Gifs/Ray/emo_ray_wink1.png"
     0.5
     "Gifs/Ray/emo_ray_wink2.png"
@@ -320,21 +320,21 @@ image ray wink:
 # Credit to Sakekobomb for the emotes
 # Used with permission
 
-image rika happy:
+image rika_happy:
     "Gifs/Rika/emo_rika_happy1.png"
     0.5
     "Gifs/Rika/emo_rika_happy2.png"
     0.5
     repeat   
 
-image rika pout:
+image rika_pout:
     "Gifs/Rika/emo_rika_pout1.png"
     0.5
     "Gifs/Rika/emo_rika_pout2.png"
     0.5
     repeat  
     
-image rika cry:
+image rika_cry:
     "Gifs/Rika/emo_rika_cry1.png"
     0.5
     "Gifs/Rika/emo_rika_cry2.png"
@@ -344,28 +344,28 @@ image rika cry:
     
 # ******** SAERAN ******************
 
-image saeran expecting:
+image saeran_expecting:
     "Gifs/Saeran/emo_saeran_expecting1.png"
     0.5
     "Gifs/Saeran/emo_saeran_expecting2.png"
     0.5
     repeat  
     
-image saeran happy:
+image saeran_happy:
     "Gifs/Saeran/emo_saeran_happy1.png"
     0.5
     "Gifs/Saeran/emo_saeran_happy2.png"
     0.5
     repeat  
     
-image saeran questioning:
+image saeran_questioning:
     "Gifs/Saeran/emo_saeran_questioning1.png"
     0.5
     "Gifs/Saeran/emo_saeran_questioning2.png"
     0.5
     repeat  
     
-image saeran well:
+image saeran_well:
     "Gifs/Saeran/emo_saeran_well1.png"
     0.5
     "Gifs/Saeran/emo_saeran_well2.png"
@@ -376,49 +376,49 @@ image saeran well:
 # ** Credit to its-a-me-haruhi.tumblr.com for 
 #     the recolours
 
-image saeran2 cry:
+image saeran2_cry:
     "Gifs/Saeran2/emo_sae_cry1.png"
     0.5
     "Gifs/Saeran2/emo_sae_cry2.png"
     0.5
     repeat    
     
-image saeran2 happy:
+image saeran2_happy:
     "Gifs/Saeran2/emo_sae_happy1.png"
     0.5
     "Gifs/Saeran2/emo_sae_happy2.png"
     0.5
     repeat   
     
-image saeran2 huff:
+image saeran2_huff:
     "Gifs/Saeran2/emo_sae_huff1.png"
     0.5
     "Gifs/Saeran2/emo_sae_huff2.png"
     0.5
     repeat   
     
-image saeran2 question:
+image saeran2_question:
     "Gifs/Saeran2/emo_sae_question1.png"
     0.5
     "Gifs/Saeran2/emo_sae_question2.png"
     0.5
     repeat   
     
-image saeran2 smile:
+image saeran2_smile:
     "Gifs/Saeran2/emo_sae_smile1.png"
     0.5
     "Gifs/Saeran2/emo_sae_smile2.png"
     0.5
     repeat   
     
-image saeran2 well:
+image saeran2_well:
     "Gifs/Saeran2/emo_sae_well1.png"
     0.5
     "Gifs/Saeran2/emo_sae_well2.png"
     0.5
     repeat   
     
-image saeran2 wink:
+image saeran2_wink:
     "Gifs/Saeran2/emo_sae_wink1.png"
     0.5
     "Gifs/Saeran2/emo_sae_wink2.png"
@@ -427,63 +427,63 @@ image saeran2 wink:
     
 # ******** SEVEN ******************
 
-image seven cry:
+image seven_cry:
     "Gifs/Seven/emo_seven_cry1.png"
     0.5
     "Gifs/Seven/emo_seven_cry2.png"
     0.5
     repeat  
     
-image seven huff:
+image seven_huff:
     "Gifs/Seven/emo_seven_huff1.png"
     0.5
     "Gifs/Seven/emo_seven_huff2.png"
     0.5
     repeat  
     
-image seven khee:
+image seven_khee:
     "Gifs/Seven/emo_seven_khee1.png"
     0.5
     "Gifs/Seven/emo_seven_khee2.png"
     0.5    
     repeat  
     
-image seven love:
+image seven_love:
     "Gifs/Seven/emo_seven_love1.png"
     0.5
     "Gifs/Seven/emo_seven_love2.png"
     0.5
     repeat  
     
-image seven question:
+image seven_question:
     "Gifs/Seven/emo_seven_question1.png"
     0.5
     "Gifs/Seven/emo_seven_question2.png"
     0.5
     repeat  
     
-image seven what:
+image seven_what:
     "Gifs/Seven/emo_seven_what1.png"
     0.5
     "Gifs/Seven/emo_seven_what2.png"
     0.5
     repeat  
     
-image seven wow:
+image seven_wow:
     "Gifs/Seven/emo_seven_wow1.png"
     0.5
     "Gifs/Seven/emo_seven_wow2.png"
     0.5
     repeat  
     
-image seven yahoo:
+image seven_yahoo:
     "Gifs/Seven/emo_seven_yahoo1.png"
     0.5
     "Gifs/Seven/emo_seven_yahoo2.png"
     0.5
     repeat  
     
-image seven yoohoo:
+image seven_yoohoo:
     "Gifs/Seven/emo_seven_yoohoo1.png"
     0.5
     "Gifs/Seven/emo_seven_yoohoo2.png"
@@ -493,28 +493,28 @@ image seven yoohoo:
 
 # ************* V ******************
 
-image v shock:
+image v_shock:
     "Gifs/V/emo_v_shock1.png"
     0.5
     "Gifs/V/emo_v_shock2.png"
     0.5
     repeat  
     
-image v smile:
+image v_smile:
     "Gifs/V/emo_v_smile1.png"
     0.5
     "Gifs/V/emo_v_smile2.png"
     0.5
     repeat  
     
-image v well:
+image v_well:
     "Gifs/V/emo_v_well1.png"
     0.5
     "Gifs/V/emo_v_well2.png"
     0.5
     repeat  
     
-image v wink:
+image v_wink:
     "Gifs/V/emo_v_wink1.png"
     0.5
     "Gifs/V/emo_v_wink2.png"
@@ -524,70 +524,70 @@ image v wink:
     
 # ********* YOOSUNG ******************
 
-image yoosung angry:
+image yoosung_angry:
     "Gifs/Yoosung/emo_yoosung_angry1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_angry2.png"
     0.5
     repeat  
     
-image yoosung cry:
+image yoosung_cry:
     "Gifs/Yoosung/emo_yoosung_cry1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_cry2.png"
     0.5
     repeat  
     
-image yoosung happy:
+image yoosung_happy:
     "Gifs/Yoosung/emo_yoosung_happy1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_happy2.png"
     0.5
     repeat  
     
-image yoosung huff:
+image yoosung_huff:
     "Gifs/Yoosung/emo_yoosung_huff1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_huff2.png"
     0.5
     repeat  
     
-image yoosung puff:
+image yoosung_puff:
     "Gifs/Yoosung/emo_yoosung_puff1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_puff2.png"
     0.5
     repeat  
     
-image yoosung question:
+image yoosung_question:
     "Gifs/Yoosung/emo_yoosung_question1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_question2.png"
     0.5
     repeat  
     
-image yoosung thankyou:
+image yoosung_thankyou:
     "Gifs/Yoosung/emo_yoosung_thankyou1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_thankyou2.png"
     0.5
     repeat  
     
-image yoosung what:
+image yoosung_what:
     "Gifs/Yoosung/emo_yoosung_what1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_what2.png"
     0.5
     repeat  
     
-image yoosung wow:
+image yoosung_wow:
     "Gifs/Yoosung/emo_yoosung_wow1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_wow2.png"
     0.5
     repeat  
     
-image yoosung yahoo:
+image yoosung_yahoo:
     "Gifs/Yoosung/emo_yoosung_yahoo1.png"
     0.5
     "Gifs/Yoosung/emo_yoosung_yahoo2.png"
@@ -597,63 +597,63 @@ image yoosung yahoo:
     
 # ************ ZEN ******************
 
-image zen angry:
+image zen_angry:
     "Gifs/Zen/emo_zen_angry1.png"
     0.5
     "Gifs/Zen/emo_zen_angry2.png"
     0.5
     repeat 
 
-image zen happy:
+image zen_happy:
     "Gifs/Zen/emo_zen_happy1.png"
     0.5
     "Gifs/Zen/emo_zen_happy2.png"
     0.5
     repeat 
     
-image zen hmm:
+image zen_hmm:
     "Gifs/Zen/emo_zen_hmm1.png"
     0.5
     "Gifs/Zen/emo_zen_hmm2.png"
     0.5
     repeat 
     
-image zen oyeah:
+image zen_oyeah:
     "Gifs/Zen/emo_zen_oyeah1.png"
     0.5
     "Gifs/Zen/emo_zen_oyeah2.png"
     0.5
     repeat 
     
-image zen question:
+image zen_question:
     "Gifs/Zen/emo_zen_q1.png"
     0.5
     "Gifs/Zen/emo_zen_q2.png"
     0.5
     repeat 
     
-image zen sad:
+image zen_sad:
     "Gifs/Zen/emo_zen_sad1.png"
     0.5
     "Gifs/Zen/emo_zen_sad2.png"
     0.5
     repeat 
     
-image zen shock:
+image zen_shock:
     "Gifs/Zen/emo_zen_shock1.png"
     0.5
     "Gifs/Zen/emo_zen_shock2.png"
     0.5
     repeat
     
-image zen well:
+image zen_well:
     "Gifs/Zen/emo_zen_well1.png"
     0.5
     "Gifs/Zen/emo_zen_well2.png"
     0.5
     repeat
     
-image zen wink:
+image zen_wink:
     "Gifs/Zen/emo_zen_wink1.png"
     0.5
     "Gifs/Zen/emo_zen_wink2.png"
