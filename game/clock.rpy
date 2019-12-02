@@ -9,8 +9,6 @@ init -2:
         yalign 0.5
 
 init -1 python:
-    # Note that I've previously imported the datetime module
-    # and therefore don't need to do so again here
     class Clock(renpy.Displayable):
         def __init__(self, my_size=230, military=False, **kwargs):
             super(Clock, self).__init__(**kwargs)
@@ -27,16 +25,16 @@ init -1 python:
             self.am_pm = "AM"
 
         def render(self, width, height, st, at):
-            # We want to make sure the minutes variable is
+            # Make sure the minutes variable is
             # always in sync with the seconds variable
             if self.minutes != self.seconds//60:
                 self.minutes = self.seconds//60
-            # Calculating how many seconds have passed today
+            # Calculate how many seconds have passed today
             if self.seconds >= 86400:
                 self.seconds -= 86400
 
-            # We figure out how tall the font can be in order to fit within
-            # the size we defined for our box
+            # Figure out how tall the font can be in order to fit within
+            # the size defined for the box
             font_height = self.height * 0.6
             div = Text(":", style="digi_clock", size=font_height, yalign=0.5)
             the_time = list(Text("{0:02d}".format(item), style="digi_clock", 
@@ -63,10 +61,10 @@ init -1 python:
             digi = Fixed(digi_text, xysize=(self.width, self.height))
             digi_render = renpy.render(digi, width, height, st, at)
 
-            # Create a render for our Fixed box
+            # Create a render for the Fixed box
             render = renpy.Render(self.width, self.height)
 
-            # Blit (draw) the child's render to our render
+            # Blit (draw) the child's render to the render
             render.blit(digi_render, (0,0))
 
             self.realclock()
