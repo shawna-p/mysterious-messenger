@@ -3,7 +3,7 @@ label tutorial_chat():
     # You need to call chat_begin yourself; it's not an option
     # in the spreadsheet
     # Pass it the name of the background you want in quotes
-    # You can find your options in variables.rpy
+    # You can find your background options in variables.rpy
     # Usually calling chat_begin will clear the chatlog, 
     # but if you want to keep previous messages, call it with 
     # clearchat=False (e.g. call chat_begin("night", clearchat=False))
@@ -437,11 +437,11 @@ label tutorial_chat_incoming_z:
     z_phone "When I don't sleep that well, just moving my neck in the morning can hurt."    
     z_phone "Did you sleep well?"
     
-    # You don't need call answer here because we go directly
-    # into a choice menu
+    # You don't need call answer here because you go directly
+    # into a choice menu during phone calls
     menu:
         # If you want the previous dialogue to show up behind the choice
-        # menu, you should add "extend ''" just after the menu
+        # menu, you must add "extend ''" just after the menu
         extend ''
         "Yeah, I didn't even dream.":
             m_phone "Yeah, I didn't even dream."            
@@ -532,6 +532,7 @@ label coffee1():
             m "I like talking to you too meow!"
             # We add heart icons the same way we would in
             # a chatroom. You can only give one per reply
+            # if the conversation is not real-time like this one
             call heart_icon(s)
             s "<3 <3 <3"
             s "Agent 707 will do his best to come to the chatroom more often meow!"

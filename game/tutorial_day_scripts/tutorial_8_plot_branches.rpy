@@ -129,7 +129,7 @@ label plot_branch_tutorial_branch():
     # Checking to see if the player has participated
     # in enough chatrooms across days 1-4 (really only 
     # relevant for real-time mode)
-    # The function returns a percentage, you can use it to check
+    # The function returns a percentage; you can use it to check
     # if they participated in more than X% of the chatrooms
     # if participated_percentage(1, 4) > 32:
     #     Good End

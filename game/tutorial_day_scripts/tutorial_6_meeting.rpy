@@ -177,8 +177,9 @@ label popcorn_chat_expired():
 
 
 ##****************************************************
-## This is where you can change the spaceship thoughts
-##****************************************************
+## You can use the after_ label to do many things. In
+## this case, it is used to change the spaceship 
+## thoughts
     
 label after_popcorn_chat():
 
@@ -232,10 +233,10 @@ label popcorn_vn():
     
     # This is how you show the characters. Some, like Jumin, have both
     # 'front' and 'side' positions, so you need to specify which one.  
-    # In this case, Jumin is showed in his front pose ('jumin front') 
+    # In this case, Jumin is shown in his front pose ('jumin front') 
     # with his arm up ('arm') and the happy expression ('happy'). 
     # 'at vn_right' positions him on the right of the screen
-    # Check out 'character definitions.rpy' for a cheat-sheet on 
+    # Check out 'character_definitions.rpy' for a cheat-sheet on 
     # the different expressions and poses available for each character
     show jumin front arm happy at vn_right
     ju_vn "You're here on time, [name]."
@@ -248,7 +249,7 @@ label popcorn_vn():
     # Note the capitalization of the variable [They] 
     # so you get a capitalized pronoun
     ja_vn "[They] arrived much earlier than expected..."
-    # since Jumin is already on the screen, you don't have to specify 
+    # Since Jumin is already on the screen, you don't have to specify 
     # 'at' for this expression. The program will remember that he had the
     # attributes front/arm/happy as well and try to find an image that
     # matches as many attributes as it can if you give it a different
@@ -259,7 +260,7 @@ label popcorn_vn():
     
     # The program will recognize that Jumin is already showing and will
     # hide him from his previous position at vn_right and show him at
-    # vn_center so we don't need to hide Jumin's portrait like Jaehee's was
+    # vn_center so you don't need to hide Jumin's portrait like Jaehee's was
     # hidden
     show jumin angry at vn_center 
     ju_vn "There are three large issues concerning Elizabeth the 3rd's safety."
