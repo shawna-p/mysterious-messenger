@@ -24,7 +24,7 @@ label example_text():
     r "{=ser1}{size=+10}you won't see them right away.{/size}{/=ser1}" 
     r "{=ser1}You can set up text messages using an {b}after_{/b} chatroom label.{/=ser1}" 
     r "See the User Guide for more ^^" 
-    r "{image=ray happy}"   (img=True)
+    r "{image=ray_happy}"   (img=True)
     r "Anyway, I won't keep you." 
     r "See you soon!" 
 
@@ -65,7 +65,7 @@ label after_example_text():
     call compose_text(v)
     v "Hello, [name]."
     v "I'm supposed to demonstrate how to make a character post an emoji during a text message."
-    v "{image=v smile}" (img=True)
+    v "{image=v_smile}" (img=True)
     v "They won't play audio like they do in the chatrooms,"
     v "But they can still be fun to use in a conversation, don't you think?"
  
@@ -151,7 +151,7 @@ label menu_a2():
             r "Let's do our best ^^"
         "That's a nice picture of you!":
             m "That's a nice picture of you!" (pauseVal=0)
-            r "{image=ray happy}" (img=True)
+            r "{image=ray_happy}" (img=True)
             call heart_icon(r)
             r "Thank you ^^"
             
@@ -169,15 +169,15 @@ label menu_a3():
             m "common/cg-2.png" (pauseVal=0, img=True)
             m "You mean like this?"
         "(Post an emoji)":
-            m "{image=zen oyeah}" (pauseVal=0, img=True)
+            m "{image=zen_oyeah}" (pauseVal=0, img=True)
             m "How's this?"
         "(Post both)":
             m "common/cg-2.png" (pauseVal=0, img=True)
-            m "{image=zen oyeah}" (img=True)
+            m "{image=zen_oyeah}" (img=True)
             m "What do you think?"
 
     z "Wow! I've never seen that before."
     z "You're pretty cool"
-    z "{image=zen wink}" (img=True)
+    z "{image=zen_wink}" (img=True)
     jump text_end
     

@@ -1,9 +1,8 @@
 ## This is a short chatroom explaining how plot
 ## branching works
 label plot_branch_tutorial():
-    stop music
-    call hack 
     call chat_begin("hack") 
+    call hack 
     call play_music(mystic_chat)
     call enter(u) 
 
@@ -34,12 +33,13 @@ label plot_branch_tutorial():
         "I'm not sure how to invite guests.":
             m "I'm not sure how to invite guests." (pauseVal=0)
             u "{=ser1}The \"Inviting Guests\" chatroom lets you invite Rainbow. {/=ser1}" 
-            u "{=ser1}You can also use that chatroom to speed up how fast you receive replies so you can finish the email chain.{/=ser1}" 
+            u "{=ser1}You can also use that chatroom to speed up how fast you receive replies so you can finish the email chain,{/=ser1}" 
+            u "{=ser1}but that only works if you have {b}Testing Mode{/b} turned on in the Settings menu.{/=ser1}" 
         "(Continue listening)":
             pass
             
     # This is one way you can alter responses based on certain conditions
-    # In this case, we check if the player has invited enough guests,
+    # In this case, the program checks if the player has invited enough guests,
     # and change the dialogue accordingly
     # Note: sometimes Unknown will say you've invited a guest and you'll
     # still get the Bad End; this only happens when you've failed the second
@@ -49,7 +49,8 @@ label plot_branch_tutorial():
     # calculates the number of guests attending, the guest won't come
     if attending_guests() >= 1:
         u "It looks like you've managed to invite at least one guest!" 
-        u "{=curly}So you'll get the Good End.{/=curly}" 
+        u "So if they do come to the party," 
+        u "{=curly}you'll get the Good End.{/=curly}" (bounce=True)
     else:
         u "It doesn't look like you've finished any email chains yet," 
         u "{=sser2}so if you click the Plot Branch icon now, you'll get the bad end.{/=sser2}" 
@@ -60,12 +61,10 @@ label plot_branch_tutorial():
     call exit(u) 
     jump chat_end
 
-## This is the label we jump to if this chatroom
-## has expired
+## This is the expired version of this chatroom
 label plot_branch_tutorial_expired():
-    stop music
-    call hack 
     call chat_begin("hack") 
+    call hack 
     call play_music(mystic_chat)
     call enter(u)
     u "It seems [name] is getting close to the end of Tutorial day," 
@@ -75,9 +74,10 @@ label plot_branch_tutorial_expired():
     u "{=ser1}Once you click the plot branch button,{/=ser1}" 
     u "{=ser1}the program will calculate whether or not you've fulfilled certain conditions,{/=ser1}" 
     u "{=ser1}and then it'll set you on a path based on the results.{/=ser1}" 
-    u "{=ser1}In this case, we're going to check whether or not you've successfully invited 1 guest to the party.{/=ser1}" 
+    u "{=ser1}In this case, it'll check whether or not you've successfully invited 1 guest to the party.{/=ser1}" 
     u "If you haven't been getting emails, " 
     u "make sure you buy back the \"Inviting Guests\" chatroom!"   (bounce=True)
+    u "You can turn on {b}Testing Mode{/b} in the Settings to replay it as many times as you like."
     u "It'll let you invite Rainbow," 
     u "and if you talk to Zen while you're working on an email chain, he'll make the guests send you replies faster." 
     u "{=ser1}You can go through the \"Inviting Guests\" chatroom as many times as you like to finish the email chain and invite Rainbow.{/=ser1}" 
@@ -87,12 +87,11 @@ label plot_branch_tutorial_expired():
     call exit(u)
     jump chat_end
 
-## This is how the program knows what to do when
-## it gets to a plot branch. It's the label of the
-## chatroom after which the plot branch occurs, 
-## + _branch
+## This is how the program knows what to do when it gets to a plot
+##  branch. It's the label of the chatroom after which the plot 
+## branch occurs, + _branch
 label plot_branch_tutorial_branch():
-    # This is where to write any functions we want to
+    # This is where to write any functions you want to
     # use to determine which route the player ends
     # up on past this point
     
@@ -130,37 +129,36 @@ label plot_branch_tutorial_branch():
     # Checking to see if the player has participated
     # in enough chatrooms across days 1-4 (really only 
     # relevant for real-time mode)
-    # The function returns a percentage, so we're checking
-    # if they participated in more than 32% of the chatrooms
+    # The function returns a percentage, you can use it to check
+    # if they participated in more than X% of the chatrooms
     # if participated_percentage(1, 4) > 32:
     #     Good End
     # else:
     #     Bad Relationship End
         
-    # For the purposes of this program, we will check whether
-    # or not you managed to successfully invite one guest to 
-    # the party
+    # This particular branch will check whether or not you managed 
+    # to successfully invite one guest to the party
     if attending_guests() >= 1:
         # Good End
         # Since this means the program should simply continue
-        # on with the rest of the route, we write
+        # on with the rest of the route, you can use
         $ continue_route()
         # which tells the program to get rid of the plot branch
         # icon and continue the game as normal
     elif participated_percentage(1) < 20:
         # If the player has participated in less than 20% of the
-        # chatrooms across Tutorial Day ("Day 1"), then we put
-        # them on the Bad Relationship End
+        # chatrooms across Tutorial Day ("Day 1"), then they're put
+        # on the Bad Relationship End
         $ merge_routes(tutorial_bre)
     else:
         # Bad End
         $ merge_routes(tutorial_bad_end)
         
-    # This is how you'll end a plot branch label; it'll trigger the
+    # This is how you end a plot branch label; it'll trigger the
     # next chatroom for you
     jump plot_branch_end
 
-## This is the chatroom you'll get if you get the Bad End
+## This is the chatroom you get if you get the Bad End
 ## of the Tutorial Day
 label tutorial_bad_end():
 
@@ -187,7 +185,7 @@ label tutorial_bad_end():
             
     v "Anyway, that's all I had to say." 
     v "I hope you have a good day." 
-    v "{image=v smile}"   (img=True)
+    v "{image=v_smile}"   (img=True)
     call exit(v) 
     
     # This brings up the Save & Exit screen, after which
@@ -197,8 +195,7 @@ label tutorial_bad_end():
     # Use this to start the game over and return to the main menu
     jump restart_game
     
-## This is the label you'll see if the previous chatroom
-## has expired
+## This is the label you see if the previous chatroom has expired
 label tutorial_bad_end_expired():
     call chat_begin('noon')
     call play_music(i_miss_happy_rika)
@@ -208,12 +205,12 @@ label tutorial_bad_end_expired():
     v "since we don't have enough guests."   (bounce=True, specBubble="sigh_m")
     v "Anyway, that's all I had to say." 
     v "I hope you have a good day." 
-    v "{image=v smile}"   (img=True)
+    v "{image=v_smile}"   (img=True)
     call exit(v)
     call chat_end_route('bad')
     jump restart_game
 
-## You'll get this VN after the Plot Branch Tutorial
+## You get this VN after the Plot Branch Tutorial
 ## chatroom if you got the Good End
 label plot_branch_vn():
     call vn_begin 
@@ -222,59 +219,50 @@ label plot_branch_vn():
     pause
     
     call play_music(mysterious_clues_v2)
-    show saeran vn unknown
+    show saeran unknown
     u_vn "Hi, [name]."
-    show saeran vn smile
-    u_vn "Looks like you've made it to the Good End! So I've come to take you to paradise."
+    u_vn smile "Looks like you've made it to the Good End! So I've come to take you to paradise."
     
     menu:
         extend ''
         "To paradise...?":
             m_vn "To paradise...?"
-            show saeran vn happy
-            u_vn "Of course! Don't you want to come?"
+            u_vn happy "Of course! Don't you want to come?"
             
             menu:
                 extend ''
                 "Of course I'll come.":
                     m_vn "Of course I'll come."
-                    show saeran vn smile
-                    u_vn "Perfect."
-                    hide saeran vn
-                    show saeran vn unknown blush at vn_center
+                    u_vn smile "Perfect."
+                    hide saeran
+                    show saeran unknown blush at vn_center
                     u_vn "Shall we, then?"
                     scene bg black with fade
                     pause
                 
                 "I'd rather stay here.":
                     m_vn "I'd rather stay here."
-                    show saeran vn sad
-                    u_vn "Oh... I get it. Maybe you want to learn more about the program."
+                    u_vn sad "Oh... I get it. Maybe you want to learn more about the program."
                     u_vn "I'll let you stay, then."
-                    show saeran vn neutral
-                    u_vn "You can always go to the {b}Settings{/b} screen and click {b}Start Over{/b} on the {b}Others{/b} tab to play through the Tutorial Day again."
-                    show saeran vn happy
-                    u_vn "I hope you'll come visit me again!"
+                    u_vn neutral "You can always go to the {b}Settings{/b} screen and click {b}Start Over{/b} on the {b}Others{/b} tab to play through the Tutorial Day again."
+                    u_vn happy "I hope you'll come visit me again!"
+        
         "But I'm not done learning about the program.":
             m_vn "But I'm not done learning about the program."
-            show saeran vn thinking
-            u_vn "Oh, okay."
-            show saeran vn smile
-            u_vn "Well, if you want to start over and go through this route again,"
+            u_vn thinking "Oh, okay."
+            u_vn smile "Well, if you want to start over and go through this route again,"
             u_vn "then you can go to the {b}Settings{/b} screen and click {b}Start Over{/b} on the {b}Others{/b} tab."
-            show saeran vn happy
-            u_vn "I hope you'll come visit me again!"
+            u_vn happy "I hope you'll come visit me again!"
             
     jump vn_end
 
 
 
-## This is the chatroom you'll get if you get the Good End
+## This is the chatroom you see if you get the Good End
 ## of the Tutorial Day
 label tutorial_good_end():
-    stop music
-    call hack 
     call chat_begin('hack') 
+    call hack 
     call play_music(mystic_chat)
     u "{=curly}Thanks very much for playing through this first day!{/=curly}" 
     u "I hope it makes you excited to try programming your own things." 
@@ -287,7 +275,7 @@ label tutorial_good_end():
 ## This is the label the program jumps to if
 ## the previous chatroom expires. However, in this
 ## case it's the same as the original chatroom,
-## so to save code we'll just jump to it
+## so to save code it's just a jump to it
 label tutorial_good_end_expired():
     jump tutorial_good_end
 
@@ -296,49 +284,41 @@ label good_end_party():
     call vn_begin 
     scene bg rika_apartment with fade
     pause
-    show saeran vn unknown
+    show saeran unknown
     u_vn "This is where you'd likely put a VN section for a party."
-    show saeran vn distant
-    u_vn "It works the same way as any other VN section; the only thing that's different is the icon."
-    show saeran vn neutral
-    u_vn "As this is probably the end of your game though, you'll want to make sure you show the user which ending they got."
+    u_vn distant "It works the same way as any other VN section; the only thing that's different is the icon."
+    u_vn neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
     u_vn "Then you can reset the game so they can play through it again."
-    show saeran vn smile
-    u_vn "As always, there's more information on that in the User Guide."
-    show saeran vn happy
-    u_vn "Thanks for playing through Tutorial Day!"
+    u_vn smile "As always, there's more information on that in the User Guide."
+    u_vn happy "Thanks for playing through Tutorial Day!"
     
-    # For VN modes, we can just manually show which
-    # ending screen we like
+    # For VN modes, you can just manually show which
+    # ending screen you like
     scene bg good_end
     # You should pause after showing this screen or else it will
     # jump immediately to restart_game and the player won't see it
     pause
-    # This is the end of the Tutorial Day; we
+    # This is the end of the Tutorial Day; you must
     # restart the game to indicate this
     jump restart_game
 
 
 ## This is an interesting case in which the ending only has one
 ## VN mode section after the plot branch chatroom and then it ends
-## We write this much the same way as any regular VN mode section
+## You can write this much the same way as any regular VN mode section
 label plot_branch_bre():
     call vn_begin
     call play_music(mint_eye_piano)
     scene mint_eye_room with fade
     pause
-    show saeran vn sad 
+    show saeran sad 
     r_vn "Did you not like my game?"
-    show saeran vn sob
-    r_vn "It looks like you didn't participate much in the chatrooms."
+    r_vn sob "It looks like you didn't participate much in the chatrooms."
     r_vn "So now you're getting the \"Bad Relationship End\"."
-    show saeran vn distant
-    r_vn "Well, that's okay I guess. Maybe you just got busy."
-    show saeran vn neutral
-    r_vn "Try playing through the game again sometime, won't you?"
+    r_vn distant "Well, that's okay I guess. Maybe you just got busy."
+    r_vn neutral "Try playing through the game again sometime, won't you?"
     r_vn "And you can play through all the chatrooms."
-    show saeran vn thinking
-    r_vn "Well, I should go now."
+    r_vn thinking "Well, I should go now."
     r_vn "It's too bad we didn't get to spend much time together."
     scene bg bad_end
     pause

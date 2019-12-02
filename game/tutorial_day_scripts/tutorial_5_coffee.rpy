@@ -47,7 +47,7 @@ label tutorial_chat():
     s "{=sser2}I don't feel tired physically...{/=sser2}"
     s "{=sser2}But{/=sser2}"
     s "{=sser1xb}{size=+12}mentally, my stress level is MAX{/size}{/=sser1xb}"
-    s "{image=seven huff}" (img=True)
+    s "{image=seven_huff}" (img=True)
     s "{=sser1xb}How do I get rid of this stress...?!{/=sser1xb}" (bounce=True, specBubble="spike_m")
     
     call answer 
@@ -178,7 +178,7 @@ label tutorial_chat():
             y "{=sser2}What?{/=sser2}"
             y "What do u mean?"
             s "{=sser2}Shh.{/=sser2}"
-            s "{image=seven wow}" (img=True)
+            s "{image=seven_wow}" (img=True)
             s "{=ser1}Listen carefully.{/=ser1}"
             
     s "{=ser1b}You are going to faint today.{/=ser1}"
@@ -231,7 +231,7 @@ label tutorial_chat():
             y "{=sser2}lololol I know... It is funny T_T{/=sser2}"
             call heart_icon(y) 
             y "{=sser2}But I can't believe I have it.{/=sser2}"
-            y "{image=yoosung cry}" (img=True)
+            y "{image=yoosung_cry}" (img=True)
             
     y "{=sser2}{size=+12}What's going to happen to me T_T{/size}{/=sser2}"
     y "{=sser2}{size=+12}Am I gonna faint soon???{/size}{/=sser2}"
@@ -270,7 +270,7 @@ label tutorial_chat():
             s "Ya"
             call heart_icon(s) 
     
-    y "{image=yoosung cry}" (img=True)
+    y "{image=yoosung_cry}" (img=True)
     y "Thanks for telling me Seven."
     s "{=sser2}lol It's nothing.{/=sser2}"
     
@@ -292,7 +292,7 @@ label tutorial_chat():
     s "{=sser2}I'm worried...T_T{/=sser2}"
     y "{=sser2}Okay...{/=sser2}"
     y "Thank you. [name], you too..."
-    s "{image=seven yoohoo}" (img=True)
+    s "{image=seven_yoohoo}" (img=True)
     
     call answer 
     menu:
@@ -318,7 +318,7 @@ label tutorial_chat():
     s "{=sser2}Arrgghh!! Stress!!!{/=sser2}" (bounce=True, specBubble="spike_m")
     y "{=sser2}Both Jumin and u{/=sser2}"
     y "u guys r buried with work"
-    y "{image=yoosung cry}" (img=True)
+    y "{image=yoosung_cry}" (img=True)
     s "Can't do anything about it..."
     s "Then I'll get going."
     y "Yup!"
@@ -356,7 +356,7 @@ label tutorial_chat():
         # examples of this)
         "Don't worry... Even if you don't wake up the party will be a success.":
             m "{=sser2}Don't worry... Even if you don't wake up the party will be a success.{/=sser2}" (pauseVal=0)
-            y "{image=yoosung puff}" (img=True)
+            y "{image=yoosung_puff}" (img=True)
             y "{=curly}{size=+5}Do you mean that?{/size}{/=curly}"
             y "{=curly}I'm hurt...{/=curly}"
             call heart_break(y) 
@@ -364,7 +364,7 @@ label tutorial_chat():
             m "I'll wake you up..." (pauseVal=0)
             y "Oh...! Thank you." (bounce=True)
             call heart_icon(y) 
-            y "{image=yoosung happy}" (img=True)
+            y "{image=yoosung_happy}" (img=True)
         "Seven is just playing with you lolol":
             m "{=sser2}Seven is just playing with you lolol{/=sser2}" (pauseVal=0)
             y "{=sser2}I know that ur worried too{/=sser2}"
@@ -626,14 +626,14 @@ label tutorial_chat_expired():
     s "...It's a rare disease." 
     y "{size=+10}Oh man{/size}" 
     y "{size=+10}What am I gonna do?{/size}" 
-    y "{image=yoosung huff}"   (img=True)
+    y "{image=yoosung_huff}"   (img=True)
     y "When will I pass out then?" 
     s "u'll faint sometime between 9 and 10." 
     y "T_T..." 
     y "I guess it could have been worse. I don't have class in the morning." 
     y "I should be home when I pass out at least T_T" 
     s "Every cloud has a silver lining." 
-    y "{image=yoosung cry}"   (img=True)
+    y "{image=yoosung_cry}"   (img=True)
     y "Thanks for telling me Seven." 
     s "lol it's nothing." 
     s "Call me if something happens." 
@@ -643,7 +643,7 @@ label tutorial_chat_expired():
     s "{=curly}I'm srsly worried too{/=curly}" 
     y "Okay..." 
     y "Thank you." 
-    s "{image=seven yoohoo}"   (img=True)
+    s "{image=seven_yoohoo}"   (img=True)
     s "{=curly}...I'm glad to be of help.{/=curly}" 
     s "{=curly}Ur young, so u'll wake up quickly if u do faint, so don't worry too much.{/=curly}" 
     y "Okay..." 
@@ -652,7 +652,7 @@ label tutorial_chat_expired():
     s "Arrgghh!! Stress!!!" 
     y "Both Jumin and you," 
     y "you guys are buried with work." 
-    y "{image=yoosung cry}"   (img=True)
+    y "{image=yoosung_cry}"   (img=True)
     s "Can't do anything about it... ^^" 
     s "Then I'll get going." 
     y "Yup!" 

@@ -18,7 +18,7 @@ label hack_example():
             m "Er... yes?"   (pauseVal=0)
             sa "{=curly}Haha!{/=curly}" 
             sa "You asked for it!" 
-            sa "{image=saeran expecting}" (img=True)
+            sa "{image=saeran_expecting}" (img=True)
         "I don't want to freak them out exactly...":
             m "I don't want to freak them out exactly..." (pauseVal=0)
             sa "You don't, hmm?" 
@@ -29,7 +29,7 @@ label hack_example():
             # You might have to experiment with how many messages to
             # delete/where to put the delete line since the program sometimes
             # has "hidden" chatlog entries that aren't shown to the user
-            # In generaly you can put it one message after the last message
+            # In general you can put it one message after the last message
             # you want to delete
             call remove_entries(num=4)
             call hack_rectangle_screen(t=0.2, p=0.01)
@@ -38,7 +38,7 @@ label hack_example():
                                 offsetMin=-10, offsetMax=30, w_timer=0.18,
                                 p=0.01)
             call white_square_screen(t=0.16, p=0.17)
-            sa "{image=saeran happy}" (img=True)
+            sa "{image=saeran_happy}" (img=True)
             call answer
             menu:
                 "I didn't type that!":
@@ -59,13 +59,13 @@ label hack_example():
                         offsetMin=-10, offsetMax=30, w_timer=0.2, p=0.5)
     sa "You can delete messages and rewrite them."        
     sa "There are a lot of things you can do if you're creative~" 
-    sa "{image=saeran happy}"   (img=True)
+    sa "{image=saeran_happy}"   (img=True)
     sa "{=ser1}You should probably space out the glitchy effects,{/=ser1}" 
     sa "{=ser1}otherwise it'll be bothersome for your users.{/=ser1}" 
     sa "Whoops, gotta go." 
     call redhack
     sa "Don't miss me too much~"   (bounce=True)
-    sa "{image=saeran expecting}"   (img=True)
+    sa "{image=saeran_expecting}"   (img=True)
     call exit(sa)
 
     jump chat_end

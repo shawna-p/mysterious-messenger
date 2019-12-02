@@ -108,15 +108,15 @@ label emojis():
     s "M" (pauseVal=0.1)
     s "G" (pauseVal=0.1)
     s "{=sser2}{size=+10}I get to explain emojis!!!{/size}{/=sser2}" 
-    s "{image=seven wow}"   (img=True)
+    s "{image=seven_wow}"   (img=True)
     s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}"   (bounce=True, specBubble="spike_m")
     s "Okay, so what you wanna do is go find the right emoji in the {b}images/Gifs{/b} folder,"
     s "and find its corresponding name in the {b}emoji_definitions.rpy{/b} file."
-    s "Then you're gonna type {{image=seven wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet"
+    s "Then you're gonna type {{image=seven_wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet"
     s "The program will automatically add the right sound file for you ^^"
     s "{=ser1b}You'll also want to make sure the \"Image\" modifier in the spreadsheet is checked,{/=ser1b}"
     s "{=blocky}otherwise it'll look like this lolol{/=blocky}"
-    s "{image=seven wow}"
+    s "{image=seven_wow}"
     s "{=sser2}Which is probably not what you want!{/=sser2}" 
     s "{=sser2}You'll have to be careful to get the spelling right,{/=sser2}" 
     s "since otherwise you'll get an \"image not found\" message."
@@ -204,7 +204,7 @@ label emojis():
                     m "s/cg-1.png" (img=True)                    
                 "(Try posting)":
                     m "s/cg-1.png" (img=True, pauseVal=0)
-            m "{image=seven wow}" (img=True)
+            m "{image=seven_wow}" (img=True)
             s "Yeah, just like that!"
             s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
             s "{=ser1}You'll need to start by putting the image in the correct album in the CGs folder.{/=ser1}"
@@ -240,7 +240,7 @@ label banners():
     y "{=curly}Hello!{/=curly}"
     y "{=sser2}I'm supposed to explain banners to you.{/=sser2}" 
     y "{=sser2}It's pretty quick, I promise!{/=sser2}" 
-    y "{image=yoosung happy}"   (img=True)
+    y "{image=yoosung_happy}"   (img=True)
     y "You call them with \"call banner('__')\","
     y "where '__' is the name of the banner you want."
     if not persistent.banners:
@@ -275,7 +275,7 @@ label banners():
         call banner('well') 
         y "{=ser1}...{/=ser1}"
         y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
-        y "{image=yoosung thankyou}"   (img=True)
+        y "{image=yoosung_thankyou}"   (img=True)
     y "I have one more thing I was going to show you:" 
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
     y "{=curly}You said you identify as [persistent.pronoun], right?{/=curly}"   (bounce=True, specBubble="square_m")
@@ -285,7 +285,7 @@ label banners():
     y "And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu)." 
     y "That's all from me!"
     y "{=sser2}Good luck with the program ^^{/=sser2}"
-    y "{image=yoosung wow}" (img=True)
+    y "{image=yoosung_wow}" (img=True)
     call exit(y) 
 
     call answer 
@@ -299,7 +299,7 @@ label heart_icons():
     call play_music(narcissistic_jazz)
     
     call enter(z) 
-    z "{image=zen wink}" (img=True)
+    z "{image=zen_wink}" (img=True)
     z "{=curly}Hey cutie ^^{/=curly}" (bounce=True)
     z "{=sser2}I'm here to explain heart icons!{/=sser2}"
     z "If you're having a hard time looking at the animation for the heart icons,"
@@ -364,7 +364,7 @@ label heart_icons():
 
     call heart_break(z) 
     z "{=sser2}But you don't really want to hurt any of our feelings, right?{/=sser2}" (bounce=True)
-    z "{image=zen happy}" (img=True)
+    z "{image=zen_happy}" (img=True)
     call heart_icon(z) 
     z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}"
     z "It keeps track of both the total points earned during a chatroom,"
@@ -395,7 +395,7 @@ label screen_shake():
     ja "{=ser1}...{/=ser1}"
     call banner('well') 
     ja "{=ser1}Mr. Han?{/=ser1}"
-    ja "{image=jaehee well}" (img=True)
+    ja "{image=jaehee_well}" (img=True)
     ja "Mr. Han."
     ja "{size=+10}MR. HAN!!{/size}" (bounce=True, specBubble="spike_m")
     call shake
@@ -581,122 +581,122 @@ menu large_bubbles:
         
         
 label jaehee_emoji():
-    ja "{image=jaehee angry}" (img=True)
-    ja "{image=jaehee happy}" (img=True)
-    ja "{image=jaehee hehe}" (img=True)
-    ja "{image=jaehee huff}" (img=True)
-    ja "{image=jaehee oops}" (img=True)
-    ja "{image=jaehee question}" (img=True)
-    ja "{image=jaehee sad}" (img=True)
-    ja "{image=jaehee well}" (img=True)
-    ja "{image=jaehee wow}" (img=True)
+    ja "{image=jaehee_angry}" (img=True)
+    ja "{image=jaehee_happy}" (img=True)
+    ja "{image=jaehee_hehe}" (img=True)
+    ja "{image=jaehee_huff}" (img=True)
+    ja "{image=jaehee_oops}" (img=True)
+    ja "{image=jaehee_question}" (img=True)
+    ja "{image=jaehee_sad}" (img=True)
+    ja "{image=jaehee_well}" (img=True)
+    ja "{image=jaehee_wow}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 
 label jumin_emoji():
-    ju "{image=jumin angry}" (img=True)
-    ju "{image=jumin sad}" (img=True)
-    ju "{image=jumin smile}" (img=True)
-    ju "{image=jumin well}" (img=True)
+    ju "{image=jumin_angry}" (img=True)
+    ju "{image=jumin_sad}" (img=True)
+    ju "{image=jumin_smile}" (img=True)
+    ju "{image=jumin_well}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 
 label ray_emoji():
-    r "{image=ray cry}" (img=True)
-    r "{image=ray happy}" (img=True)
-    r "{image=ray huff}" (img=True)
-    r "{image=ray question}" (img=True)
-    r "{image=ray smile}" (img=True)
-    r "{image=ray well}" (img=True)
-    r "{image=ray wink}" (img=True)
+    r "{image=ray_cry}" (img=True)
+    r "{image=ray_happy}" (img=True)
+    r "{image=ray_huff}" (img=True)
+    r "{image=ray_question}" (img=True)
+    r "{image=ray_smile}" (img=True)
+    r "{image=ray_well}" (img=True)
+    r "{image=ray_wink}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 label saeran2_emoji():
-    s "These Saeran sweater emotes were edited by {b}Manami{/b} from saeran-sexual.tumblr.com, used with permission."
-    r "{image=saeran2 cry}" (img=True)
-    r "{image=saeran2 happy}" (img=True)
-    r "{image=saeran2 huff}" (img=True)
-    r "{image=saeran2 question}" (img=True)
-    r "{image=saeran2 smile}" (img=True)
-    r "{image=saeran2 well}" (img=True)
-    r "{image=saeran2 wink}" (img=True)
+    s "These saeran_sweater emotes were edited by {b}Manami{/b} from saeran-sexual.tumblr.com, used with permission."
+    r "{image=saeran2_cry}" (img=True)
+    r "{image=saeran2_happy}" (img=True)
+    r "{image=saeran2_huff}" (img=True)
+    r "{image=saeran2_question}" (img=True)
+    r "{image=saeran2_smile}" (img=True)
+    r "{image=saeran2_well}" (img=True)
+    r "{image=saeran2_wink}" (img=True)
     call answer
     $ shuffle = False 
     jump emoji
 
 label saeran_emoji():
-    sa "{image=saeran expecting}" (img=True)
-    sa "{image=saeran happy}" (img=True)
-    sa "{image=saeran well}" (img=True)
-    sa "{image=saeran questioning}" (img=True)
+    sa "{image=saeran_expecting}" (img=True)
+    sa "{image=saeran_happy}" (img=True)
+    sa "{image=saeran_well}" (img=True)
+    sa "{image=saeran_questioning}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 
 label seven_emoji():
-    s "{image=seven cry}" (img=True)
-    s "{image=seven huff}" (img=True)
-    s "{image=seven khee}" (img=True)
-    s "{image=seven love}" (img=True)
-    s "{image=seven question}" (img=True)
-    s "{image=seven what}" (img=True)
-    s "{image=seven wow}" (img=True)
-    s "{image=seven yahoo}" (img=True)
-    s "{image=seven yoohoo}" (img=True)
+    s "{image=seven_cry}" (img=True)
+    s "{image=seven_huff}" (img=True)
+    s "{image=seven_khee}" (img=True)
+    s "{image=seven_love}" (img=True)
+    s "{image=seven_question}" (img=True)
+    s "{image=seven_what}" (img=True)
+    s "{image=seven_wow}" (img=True)
+    s "{image=seven_yahoo}" (img=True)
+    s "{image=seven_yoohoo}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 label rika_emoji():
-    s "These Rika emotes were created by {b}Sakekobomb{/b} on Tumblr, used with permission."
-    ri "{image=rika happy}" (img=True)
-    ri "{image=rika cry}" (img=True)
-    ri "{image=rika pout}" (img=True)
+    s "These rika_emotes were created by {b}Sakekobomb{/b} on Tumblr, used with permission."
+    ri "{image=rika_happy}" (img=True)
+    ri "{image=rika_cry}" (img=True)
+    ri "{image=rika_pout}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 label v_emoji():
-    v "{image=v shock}" (img=True)
-    v "{image=v smile}" (img=True)
-    v "{image=v well}" (img=True)
-    v "{image=v wink}" (img=True)
+    v "{image=v_shock}" (img=True)
+    v "{image=v_smile}" (img=True)
+    v "{image=v_well}" (img=True)
+    v "{image=v_wink}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 label yoosung_emoji():
-    y "{image=yoosung angry}" (img=True)
-    y "{image=yoosung cry}" (img=True)
-    y "{image=yoosung happy}" (img=True)
-    y "{image=yoosung huff}" (img=True)
-    y "{image=yoosung puff}" (img=True)
-    y "{image=yoosung question}" (img=True)
-    y "{image=yoosung thankyou}" (img=True)
-    y "{image=yoosung what}" (img=True)
-    y "{image=yoosung wow}" (img=True)
-    y "{image=yoosung yahoo}" (img=True)
+    y "{image=yoosung_angry}" (img=True)
+    y "{image=yoosung_cry}" (img=True)
+    y "{image=yoosung_happy}" (img=True)
+    y "{image=yoosung_huff}" (img=True)
+    y "{image=yoosung_puff}" (img=True)
+    y "{image=yoosung_question}" (img=True)
+    y "{image=yoosung_thankyou}" (img=True)
+    y "{image=yoosung_what}" (img=True)
+    y "{image=yoosung_wow}" (img=True)
+    y "{image=yoosung_yahoo}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji
 
 label zen_emoji():
-    z "{image=zen angry}" (img=True)
-    z "{image=zen happy}" (img=True)
-    z "{image=zen hmm}" (img=True)
-    z "{image=zen oyeah}" (img=True)
-    z "{image=zen question}" (img=True)
-    z "{image=zen sad}" (img=True)
-    z "{image=zen shock}" (img=True)
-    z "{image=zen well}" (img=True)
-    z "{image=zen wink}" (img=True)
+    z "{image=zen_angry}" (img=True)
+    z "{image=zen_happy}" (img=True)
+    z "{image=zen_hmm}" (img=True)
+    z "{image=zen_oyeah}" (img=True)
+    z "{image=zen_question}" (img=True)
+    z "{image=zen_sad}" (img=True)
+    z "{image=zen_shock}" (img=True)
+    z "{image=zen_well}" (img=True)
+    z "{image=zen_wink}" (img=True)
     call answer 
     $ shuffle = False
     jump emoji

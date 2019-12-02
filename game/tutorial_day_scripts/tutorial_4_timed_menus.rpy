@@ -73,7 +73,7 @@ label timed_menus():
     s "There's also an option in {b}Settings{/b} that will always bring up the menu after the spaceship times out,"   (bounce=True)
     s "in case you can't press the button in time and still want to answer."   (bounce=True)
     s "I hope this gives you some cool ideas for ways to write chatrooms!" 
-    s "{image=seven wow}"   (img=True)
+    s "{image=seven_wow}"   (img=True)
     s "{=curly}Toodles~!{/=curly}"   (bounce=True, specBubble="cloud_s")
     call exit(s)
     
