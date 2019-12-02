@@ -19,6 +19,7 @@ init -5 python:
             # Character's profile picture
             self.big_prof_pic = prof_pic
             self.prof_pic = prof_pic
+            self.default_prof_pic = prof_pic
             # The program assumes the given profile picture is 110x110
             # However, larger pictures of size 314x314 are used in various
             # menus such as when calling a character. So the program also
@@ -145,6 +146,11 @@ init -5 python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
+
+        # Resets a character's profile picture to their default
+        # Used in replay mode for the History screen
+        def reset_pfp(self):
+            self.prof_pic = self.default_prof_pic
         
         @property
         def cover_pic(self):
@@ -382,7 +388,7 @@ define name_only = Character(None,
 define ja_vn = Character("Jaehee", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_4.png",
     who_color="#fff5eb", voice_tag="ja_voice", 
-    image="jaehee vn")
+    image="jaehee")
 define ju_vn = Character("Jumin", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_0.png",
     who_color="#d2e6f7", voice_tag="ju_voice", 
@@ -390,11 +396,11 @@ define ju_vn = Character("Jumin", kind=vn_character,
 define r_vn = Character("Ray", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_9.png",
     who_color="#f2ebfd", voice_tag="sa_voice", 
-    image="saeran vn")
+    image="saeran")
 define ri_vn = Character("Rika", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_7.png",
     who_color="#fff9db", voice_tag="ri_voice", 
-    image="rika vn")
+    image="rika")
 define s_vn = Character("707", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_2.png",
     who_color="#fff1f1", voice_tag="s_voice", 
@@ -402,19 +408,19 @@ define s_vn = Character("707", kind=vn_character,
 define sa_vn = Character("Saeran", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_8.png",
     who_color="#f2ebfd", voice_tag="sa_voice", 
-    image="saeran vn")
+    image="saeran")
 define u_vn = Character("???", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_9.png",
     who_color="#f2ebfd", voice_tag="sa_voice", 
-    image="saeran vn")
+    image="saeran")
 define v_vn = Character("V", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_5.png",
     who_color="#cbfcfc", voice_tag="v_voice", 
-    image="v vn")
+    image="v")
 define y_vn = Character("Yoosung", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_3.png",
     who_color="#effff3", voice_tag="y_voice", 
-    image="yoosung vn")
+    image="yoosung")
 define z_vn = Character("Zen", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_1.png",
     who_color="#d8e9f9", voice_tag="z_voice", 
@@ -429,9 +435,10 @@ define m_vn = Character("[name]", kind=vn_character, who_color="#ffffed")
 ## replace None with their name.
 define narrator = Character(None, kind=vn_character)
                             
-define sarah_vn = Character("Sarah", kind=vn_character)
+define sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
 
-define chief_vn = Character("Chief Han", kind=vn_character)
+define chief_vn = Character("Chief Han", kind=vn_character, 
+                                        image='chairman_han')
 
 ## *************************************
 ## Character VN Expressions Cheat Sheet
@@ -543,7 +550,7 @@ define chief_vn = Character("Chief Han", kind=vn_character)
 ## ****************************
 ## Jaehee
 ## ****************************
-layeredimage jaehee vn:
+layeredimage jaehee:
     yoffset 70
     
     group body:
@@ -554,6 +561,7 @@ layeredimage jaehee vn:
         attribute apron "VN Mode/Jaehee/jaehee_body_4.png"
         
     group face:
+        if_not "glasses"
         align (0.298, 0.108)
         attribute happy "VN Mode/Jaehee/jaehee_face_1.png"
         attribute sad "VN Mode/Jaehee/jaehee_face_3.png" 
@@ -561,17 +569,8 @@ layeredimage jaehee vn:
         attribute thinking "VN Mode/Jaehee/jaehee_face_7.png" 
         attribute worried "VN Mode/Jaehee/jaehee_face_9.png" 
         
-layeredimage jaehee vn glasses:
-    yoffset 70
-    
-    group body:
-        attribute normal default "VN Mode/Jaehee/jaehee_body_0.png"
-        attribute arm "VN Mode/Jaehee/jaehee_body_1.png"
-        attribute party "VN Mode/Jaehee/jaehee_body_2.png"
-        attribute dress "VN Mode/Jaehee/jaehee_body_3.png"
-        attribute apron "VN Mode/Jaehee/jaehee_body_4.png"
-        
     group face:
+        if_any "glasses"
         align(0.299, 0.108)
         attribute happy "VN Mode/Jaehee/jaehee_face_0.png" 
         attribute angry "VN Mode/Jaehee/jaehee_face_2.png"
@@ -582,6 +581,11 @@ layeredimage jaehee vn glasses:
         attribute serious "VN Mode/Jaehee/jaehee_face_11.png"
         attribute worried "VN Mode/Jaehee/jaehee_face_12.png"
         attribute surprised "VN Mode/Jaehee/jaehee_face_13.png"
+    
+    # This is an unusual little hack that lets the program
+    # identify whether jaehee should be wearing her glasses or not
+    group eyewear:
+        attribute glasses Transform('transparent.png', size=(10,10))
         
         
 ## ****************************
@@ -630,7 +634,7 @@ layeredimage jumin side:
 ## ****************************
 ## Rika
 ## ****************************
-layeredimage rika vn:
+layeredimage rika:
     yoffset 80
 
     group body:
@@ -703,7 +707,7 @@ layeredimage seven side:
 ## ****************************
 ## Saeran
 ## ****************************
-layeredimage saeran vn:   
+layeredimage saeran:   
     yoffset 170
     xoffset 70
 
@@ -791,6 +795,7 @@ layeredimage v side:
         
     group face:
         ## No sunglasses
+        if_not "glasses"
         attribute happy "VN Mode/V/v_face_1.png" align(0.411, 0.109)
         attribute angry "VN Mode/V/v_face_3.png" align(0.411, 0.108)
         attribute neutral default "VN Mode/V/v_face_5.png" align(0.411, 0.108)
@@ -803,17 +808,10 @@ layeredimage v side:
         attribute blush "VN Mode/V/v_face_19.png" align(0.405, 0.108)
         attribute sad "VN Mode/V/v_face_21.png" align(0.411, 0.108)
         attribute unsure "VN Mode/V/v_face_23.png" align(0.411, 0.108)
-
-layeredimage v side glasses:    
-    yoffset 210
     
-    group body:
-        attribute normal default "VN Mode/V/v_body_0.png"
-        attribute short_hair "VN Mode/V/v_body_1.png"
-        attribute long_hair "VN Mode/V/v_body_2.png"
-        
     group face:
         align(0.411, 0.108)
+        if_any "glasses"
         attribute happy "VN Mode/V/v_face_0.png" 
         attribute angry "VN Mode/V/v_face_2.png"
         attribute neutral "VN Mode/V/v_face_4.png"
@@ -826,12 +824,15 @@ layeredimage v side glasses:
         attribute blush "VN Mode/V/v_face_18.png"
         attribute sad "VN Mode/V/v_face_20.png"
         attribute unsure "VN Mode/V/v_face_22.png"
+
+    group eyewear:
+        attribute glasses Transform('transparent.png', size=(10,10))
         
-        
+            
 ## ****************************
 ## Yoosung
 ## ****************************
-layeredimage yoosung vn:
+layeredimage yoosung:
     
     group body:
         attribute normal default "VN Mode/Yoosung/yoosung_body_0.png"
@@ -843,7 +844,7 @@ layeredimage yoosung vn:
         
     group face:
         align(0.256, 0.111)
-        if_not "bandage"
+        if_not ["bandage", "glasses"]
         attribute happy "VN Mode/Yoosung/yoosung_face_0.png"
         attribute angry "VN Mode/Yoosung/yoosung_face_2.png"
         attribute sparkle "VN Mode/Yoosung/yoosung_face_4.png"
@@ -862,24 +863,21 @@ layeredimage yoosung vn:
         attribute happy  "VN Mode/Yoosung/yoosung_face_1.png" 
         attribute neutral default  "VN Mode/Yoosung/yoosung_face_3.png"
         attribute thinking  "VN Mode/Yoosung/yoosung_face_5.png"
-        
-layeredimage yoosung vn glasses:
-    
-    group body:
-        attribute normal default "VN Mode/Yoosung/yoosung_body_0.png"
-        attribute arm "VN Mode/Yoosung/yoosung_body_1.png"
-        attribute sweater "VN Mode/Yoosung/yoosung_body_2.png"
-        attribute suit "VN Mode/Yoosung/yoosung_body_3.png"
-        attribute party "VN Mode/Yoosung/yoosung_body_5.png"
-        
+
     group face:      
         align(0.256, 0.111)
+        if_any "glasses"
         attribute happy "VN Mode/Yoosung/yoosung_face_14.png" 
         attribute sparkle "VN Mode/Yoosung/yoosung_face_15.png"
         attribute neutral default "VN Mode/Yoosung/yoosung_face_16.png"
         attribute surprised "VN Mode/Yoosung/yoosung_face_17.png"
         attribute thinking "VN Mode/Yoosung/yoosung_face_18.png"
         attribute grin "VN Mode/Yoosung/yoosung_face_19.png"
+
+    group eyewear:
+        attribute glasses Transform('transparent.png', size=(10,10))
+               
+    
         
 ## ****************************
 ## Zen
