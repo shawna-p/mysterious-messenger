@@ -193,7 +193,7 @@ init -6 python:
             renpy.pause(typeTime)
 
         if img:
-            # We try to adjust the {image=seven wow} etc statement to 
+            # We try to adjust the {image=seven_wow} etc statement to 
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')
@@ -254,7 +254,7 @@ init -6 python:
             renpy.pause(typeTime)
 
         if textbackup.img == True:
-            # We try to adjust the {image=seven wow} etc statement to 
+            # We try to adjust the {image=seven_wow} etc statement to 
             # suit the emoji dictionary
             if "{image =" in textbackup.what:
                 first, last = textbackup.what.split('=')
