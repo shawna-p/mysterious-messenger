@@ -11,7 +11,7 @@
     $ new_route_setup(route=tutorial_good_end)
 
     # If you'd like to begin with a phone call, this is
-    # how you'll do it. Just replace 'u' with whatever
+    # how you do it. Just replace 'u' with whatever
     # character you want to call you
     call new_incoming_call(PhoneCall(u, 'n/a')) 
     # Begin and end the phone call like you would anywhere else
@@ -105,13 +105,13 @@
     """
     
     # Note that this is 'call' instead of 'jump'; this
-    # allows us to continue on with a chatroom instead of
+    # allows you to continue on with a chatroom instead of
     # ending the introduction here
     call phone_end 
     # This ensure the transition from phone to chatroom is smoother
     scene bg black
     
-    # Instead of ending the label here, we'll continue with
+    # Instead of ending the label here, you can continue with
     # a chatroom. If you don't want the phonecall beforehand,
     # just delete that section
     # Feel free to modify the chatroom beyond this point

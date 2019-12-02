@@ -33,8 +33,7 @@ label example_text():
     # Use this to end the chat and return to the main menu
     jump chat_end
     
-## This is the label you jump to if the chatroom
-## is expired
+## This is the label you jump to if the chatroom is expired
 label example_text_expired():
     call chat_begin('morning')
     call play_music(mint_eye)
@@ -87,9 +86,9 @@ label after_example_text():
     r "Here's a test text message, to show you how they work!"
     r "Did you know you can also post photos?"
 
-    # We're going to have Ray continue sending messages once the
-    # user clicks on his text message, so we leave it here and add
-    # a label to jump to like we did with V
+    # Ray will continue sending messages once the user clicks on 
+    # his text message, so it ends here and you can add a label to 
+    # jump to like with V earlier
     call compose_text_end('menu_a2')
 
     # ************************************************
@@ -142,7 +141,7 @@ label menu_a2():
     r "It will look like this:"
     r "r/cg-1.png" (img=True)
     
-    # You'll notice these are written just like chatrooms
+    # You may notice these are written just like chatrooms
     call answer
     menu:
         "I'm not sure how I'll remember all this...":

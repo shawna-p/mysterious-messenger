@@ -495,8 +495,7 @@ label test_call():
     
     jump phone_end
     
-## This is the chatroom you'll play through if this chatroom
-## has expired
+## This is the chatroom you play through if this chatroom has expired
 label example_chat_expired():
     # This sets up a very specific phone call which will never expire
     # In general you should never add phone calls this way
