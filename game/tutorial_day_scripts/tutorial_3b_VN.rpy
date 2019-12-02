@@ -16,8 +16,10 @@ label vn_mode_tutorial():
     r_vn "Hello! Welcome to Visual Novel mode."
     show saeran -smile   # the -smile puts him in his 'neutral' expression
     r_vn "This mode is most similar to what you'll find in the majority of Ren'Py projects."
-    show saeran happy
-    r_vn "There are a couple of things to show you about VN mode. What would you like to learn about first?"
+    # If Ray is already showing on the screen, his Character definition
+    # has the image tag 'saeran' built into it so you can simplify
+    # showing his image like so
+    r_vn happy "There are a couple of things to show you about VN mode. What would you like to learn about first?"
     jump vn_tutorial
   
 ##************************************
@@ -96,8 +98,7 @@ label vn_writing():
     
     and {b}Log{/b} will show you a log of the dialogue history.
     """
-    show saeran thinking
-    r_vn "Is there anything else you'd like to learn more about?"
+    r_vn thinking "Is there anything else you'd like to learn more about?"
     jump vn_tutorial
     
 ##************************************
@@ -107,14 +108,10 @@ label vn_layeredimage():
 
     show saeran happy
     r_vn "To get different expressions and outfits, this program makes a lot of use of Ren'Py's {b}layeredimage{/b} feature."
-    show saeran unknown neutral
-    r_vn "It lets me change outfits and expressions very quickly just by adding the appropriate tags."
-    show saeran mask happy
-    r_vn "For example, the attributes used to display this sprite are {b}mask{/b} and {b}happy{/b}."
-    show saeran unknown blush
-    r_vn "Not all expressions are available with the mask on, however, like this one."
-    show saeran suit nervous
-    r_vn "Some characters have many outfits, and some have multiple poses as well."
+    r_vn unknown neutral "It lets me change outfits and expressions very quickly just by adding the appropriate tags."
+    r_vn mask happy "For example, the attributes used to display this sprite are {b}mask{/b} and {b}happy{/b}."
+    r_vn unknown blush "Not all expressions are available with the mask on, however, like this one."
+    r_vn suit nervous "Some characters have many outfits, and some have multiple poses as well."
     show saeran at vn_left with ease
     show v side at vn_midright with easeinright
     r_vn "Some characters also have 'accessories' like glasses."
@@ -176,12 +173,10 @@ label vn_position():
     hide saeran
     show saeran thinking at default
     r_vn "If you do use the {b}vn_center{/b} position, you need to {b}hide{/b} the character before you put them in a new position."
-    show saeran neutral
-    r_vn "Know that not all positions will look right for each character;"
+    r_vn neutral "Know that not all positions will look right for each character;"
     r_vn "sometimes they'll be too far off-screen if you use {b}vn_left{/b}, so you need to use {b}vn_midleft{/b} instead."
     r_vn "You can always define your own transforms to position the characters exactly how you want, too."
-    show saeran neutral
-    r_vn "Anything else you'd like to learn about?"
+    r_vn neutral "Anything else you'd like to learn about?"
     jump vn_tutorial
     
     
