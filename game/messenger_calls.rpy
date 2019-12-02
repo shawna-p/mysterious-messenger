@@ -106,10 +106,15 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         $ observing = False
 
     # If we're viewing this from the history, observing is True
+    # Pronouns, name, and profile picture must also be set
+    # and all the characters' profile pictures should be the default
     if _in_replay:
-        $ observing = True
-        $ set_pronouns()
-        $ set_name_pfp()
+        python:
+            observing = True
+            set_pronouns()
+            set_name_pfp()
+            for c in all_characters:
+                c.reset_pfp()
         
     # We add this background to the replay log
     if not observing and not persistent.testing_mode:
