@@ -3,21 +3,50 @@
 #************************************ 
     
 init python:
-    ## This function allows us to show up to three heart icons on
-    ## the screen at once
+    ## This function allows the program to show up to three
+    ## heart icons on the screen at once
     def allocate_heart_screen():
         possible_screens = ["heart_icon_screen", "hicon2", "hicon3"]
         available_screens = [ x for x in possible_screens 
                                 if not renpy.get_screen(x) ]
-        if len(available_screens) < 3:
+        if len(available_screens) < len(possible_screens):
             renpy.pause(0.1)
         if available_screens:
             return available_screens[0]
         else:
             renpy.hide_screen(possible_screens[0])
             return possible_screens[0]
+    
+    ## This allocates a notification screen that can
+    ## be used to display popup messages
+    ## Here it is used to display heart icon messages
+    def allocate_notification_screen(can_pause=False):
+        possible_screens = ["stackable_notifications", 
+                            "stackable_notifications_2",
+                            "stackable_notifications_3",
+                            "stackable_notifications_4",
+                            "stackable_notifications_5"]
+        available_screens = [ x for x in possible_screens 
+                                if not renpy.get_screen(x) ]
+        if can_pause and len(available_screens) < len(possible_screens):
+            renpy.pause(0.1)
+        if available_screens:
+            return available_screens[0]
+        else:
+            renpy.hide_screen(possible_screens[0])
+            return possible_screens[0]
+    
+    ## This function is just a slightly quicker way to hide all the
+    ## allocated notification screens
+    def hide_stackable_notifications():
+        renpy.hide_screen('stackable_notifications')
+        renpy.hide_screen('stackable_notifications_2')
+        renpy.hide_screen('stackable_notifications_3')
+        renpy.hide_screen('stackable_notifications_4')
+        renpy.hide_screen('stackable_notifications_5')
+        return
 
-# You call this to display the heart icon for a given character
+# Call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
     if character == r:
         $ character_name = r.name
@@ -37,7 +66,6 @@ label heart_icon(character, bad=False):
                     and persistent.heart_notifications):
                 msg = character_name + " +1"
                 renpy.show_screen(allocate_notification_screen(True), msg)
-            #show screen heart_icon_screen(character)
     # This is shown during a real-time text conversation
     elif text_person.real_time_text:
         $ character.increase_heart(bad)
@@ -54,7 +82,7 @@ label heart_icon(character, bad=False):
     return
     
 # Displays the heart on-screen
-screen heart_icon_screen(character):
+screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
     zorder 20   
 
     fixed at heart:
@@ -67,23 +95,47 @@ screen heart_icon_screen(character):
 # Additional screens for allocation
 screen hicon2(character):
     zorder 20   
-
-    fixed at heart:
-        yfit True
-        xfit True
-        add heart_icon(character)
-        
-    timer 0.62 action [Hide('hicon2')]
+    use heart_icon_screen(character, 'hicon2')
 
 screen hicon3(character):
     zorder 20   
+    use heart_icon_screen(character, 'hicon3')
 
-    fixed at heart:
-        yfit True
-        xfit True
-        add heart_icon(character)
-        
-    timer 0.62 action [Hide('hicon3')]
+## This screen is used to display text notifications
+## about whom the player received a heart point with
+screen stackable_notifications(message, hide_screen='stackable_notifications'):
+    zorder 100
+    button at stack_notify_appear:
+        style 'notify_frame'
+        xalign 1.0 yalign 0.92
+        text "[message!tq]" style 'notify_text'
+        action Hide(hide_screen)
+    timer 5.25 action Hide(hide_screen)
+
+screen stackable_notifications_2(message):
+    zorder 101
+    use stackable_notifications(message, 'stackable_notifications_2')
+
+screen stackable_notifications_3(message):
+    zorder 102
+    use stackable_notifications(message, 'stackable_notifications_3')
+
+screen stackable_notifications_4(message):
+    zorder 103
+    use stackable_notifications(message, 'stackable_notifications_4')
+
+screen stackable_notifications_5(message):
+    zorder 104
+    use stackable_notifications(message, 'stackable_notifications_5')
+
+transform stack_notify_appear:
+    yoffset 0
+    on show:
+        alpha 0 yoffset 30
+        linear .25 alpha 1.0 yoffset 0
+        linear 5 yoffset -250
+    on hide:
+        linear .5 alpha 0.0 yoffset -310
         
 # Like the heart icon, call this to display the heart break   
 label heart_break(character):
@@ -189,8 +241,7 @@ screen speed_num():
 #************************************
 # Hack Scrolls
 #************************************
-# You can call this when you want to display the green
-# scrolled hacking effect
+# Displays the scrolled hacking effect
 
 screen hack_screen(hack):
     zorder 10
@@ -232,7 +283,7 @@ label redhack():
 #************************************
 
 # These are the special "banners" that crawl across the screen
-# Just call them using "call banner('well')" etc
+# Call them using "call banner('well')" etc
 
 label banner(banner):
     if (not observing and not persistent.testing_mode
@@ -249,3 +300,4 @@ screen banner_screen(banner):
         add 'banner ' + banner
         
     timer 0.72 action Hide('banner_screen')
+    

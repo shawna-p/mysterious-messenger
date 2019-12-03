@@ -49,7 +49,7 @@ label play_music(file):
         show screen notify(notification)
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        # We should add this music to the replay_log
+        # Add this music to the replay_log
         $ music_entry = ("play music", file)
         $ current_chatroom.replay_log.append(music_entry)
     return
@@ -64,7 +64,7 @@ label shake():
         show expression current_background at shake
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        # We should add this shake to the replay_log
+        # Add this shake to the replay_log
         $ shake_entry = ("shake", current_background)
         $ current_chatroom.replay_log.append(shake_entry)
     return
@@ -82,7 +82,7 @@ label invert_screen(t=0, p=0):
             show screen invert()
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        # We should add this to the replay_log
+        # Add this to the replay_log
         if t == 0:
             $ tlen = False
         else:
@@ -103,7 +103,7 @@ label white_square_screen(t=0, p=0):
             show screen white_squares()
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        # We should add this to the replay_log
+        # Add this to the replay_log
         if t == 0:
             $ tlen = False
         else:
@@ -124,7 +124,7 @@ label hack_rectangle_screen(t=0, p=0):
             show screen hack_rectangle()
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        # We should add this to the replay_log
+        # Add this to the replay_log
         if t == 0:
             $ tlen = False
         else:
@@ -147,7 +147,7 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
 
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        # We should add this to the replay_log
+        # Add this to the replay_log
         $ effect_entry = ("tear", [number, offtimeMult, ontimeMult, offsetMin, 
                                     offsetMax, w_timer])
         $ current_chatroom.replay_log.append(effect_entry)
@@ -161,7 +161,7 @@ label remove_entries(num=1):
     $ num *= -1
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        # We should add this to the replay_log
+        # Add this to the replay_log
         $ remove_entry = ("remove", num)
         $ current_chatroom.replay_log.append(remove_entry)
     $ del chatlog[num:]
@@ -172,12 +172,13 @@ label remove_entries(num=1):
 #************************************
 default chatroom_replay_index = 0
 default replay_from = 0
+
 ## This label is called when you want to replay a chatroom
 label rewatch_chatroom():
     stop music
     $ chatlog = []
 
-    # Make sure we're showing the messenger screens
+    # Show the messenger screens
     hide screen starry_night
     show screen phone_overlay
     show screen messenger_screen 
@@ -195,7 +196,7 @@ label rewatch_chatroom():
     
     $ chatroom_replay_index = 0
     $ replay_from = 0
-    # Fills the beginning of the screen with 'empty space' 
+    # Fill the beginning of the screen with 'empty space' 
     # so the messages begin showing up at the bottom of the 
     # screen (otherwise they start at the top)
     $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
@@ -219,16 +220,16 @@ label rewatch_chatroom():
     jump chatroom_replay
 
 label chatroom_replay():
-    # Now we start the loop to iterate through the replay_log
+    # Now start the loop to iterate through the replay_log
     python:
         for i, entry in enumerate(current_chatroom.replay_log[replay_from:]):
             chatroom_replay_index += 1
             if isinstance(entry, ReplayEntry):
-                # We want to pop it through the addchat function
+                # pop it through the addchat function
                 addchat(entry.who, entry.what, entry.pauseVal,
                     entry.img, entry.bounce, entry.specBubble)
             elif isinstance(entry, tuple):
-                # It's some kind of command; we determine what to do
+                # It's some kind of command; determine what to do
                 # based on what the command and given info is
                 first = entry[0]
                 second = entry[1]
@@ -238,13 +239,11 @@ label chatroom_replay():
                 elif first == "hack":
                     if persistent.hacking_effects:
                         if second == "regular":
-                            renpy.show_screen('hack_screen', hack='hack scroll')
-                            # This looks a bit silly but for whatever reason it
-                            # doesn't allow the player to skip it otherwise
-                            # The hack screen was turned into a button, and if
-                            # the player presses it it hides itself. Then the 
-                            # program checks to make sure the hack screen is 
-                            # still showing so that it should continue to pause
+                            renpy.show_screen('hack_screen', 
+                                                hack='hack scroll')
+                            # The program checks to make sure the hack 
+                            # screen is still showing so that it should 
+                            # continue to pause
                             if (not renpy.is_skipping()
                                     and renpy.get_screen("hack_screen")):
                                 renpy.pause(0.5, hard=False)
@@ -339,8 +338,7 @@ label chatroom_replay():
                             offsetMin=second[3], offsetMax=second[4],
                             w_timer=second[5])
                 elif first == "remove":
-                    del chatlog[second:]
-                
+                    del chatlog[second:]               
                     
                 
             else:

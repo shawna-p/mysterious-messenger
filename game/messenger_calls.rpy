@@ -16,8 +16,8 @@
 
 # This simplifies things when you're setting up a chatroom,
 # so call it when you're about to begin
-# If you pass it the name of the background you want (enclosed in
-# single ' or double " quotes) it'll set that up too
+# Pass it the name of the background you want (enclosed in
+# single ' or double " quotes)
 # Note that it automatically clears the chatlog, so if you want
 # to change the background but not clear the messages on-screen,
 # you also have to pass it 'False' as its second argument

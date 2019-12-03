@@ -45,25 +45,25 @@ init -4 python:
         choosing = False
         pre_choosing = False
                 
-        # If we didn't get an explicit pauseVal, we use
-        # the default one
+        # If the program didn't get an explicit pauseVal,
+        # use the default one
         if pauseVal is None:
             pauseVal = pv
 
-        # Now we have a function that's going to act as a 
-        # check to see if the most recent message was skipped
+        # Now check to see if the most recent message was skipped
         # Pausing in the middle of the chat often causes the
         # program to skip a message, and this will catch that
         if who.file_id != 'delete':
             pauseFailsafe() # This ensures the message that was
                             # supposed to be posted was, in fact,
                             # posted
+            # Store the current message in the backup
             chatbackup = ChatEntry(who, what, upTime(), 
                                     img, bounce, specBubble)
             oldPV = pauseVal
             
-        # Now we calculate how long we should wait before 
-        # posting messages, to simulate typing time
+        # Now calculate how long to wait before 
+        # posting messages to simulate typing time
         if pauseVal == 0:
             pass
         elif who.file_id == 'delete':
@@ -77,10 +77,10 @@ init -4 python:
             typeTime = typeTime * pauseVal
             renpy.pause(typeTime)
             
-        # If it's an image, we first check if it's an emoji
+        # If it's an image, first check if it's an emoji
         # If so, it has an associated sound file
-        if img == True:
-            # We try to adjust the {image=seven_wow} etc statement to 
+        if img:
+            # Try to adjust the {image=seven_wow} etc statement to 
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')
@@ -90,22 +90,23 @@ init -4 python:
             if what in emoji_lookup:
                 renpy.play(emoji_lookup[what], channel="voice_sfx")
             elif "{image" not in what and not observing:
-                # We want to unlock the CG in the gallery
-                # These will be equal to a path like
+                # Unlock the CG in the gallery
+                # This will be equal to a path like
                 # CGs/common_album/cg-1.png
                 cg_filepath = cg_helper(what)
                 album, cg_name = what.split('/')
                 if album[-6:] != '_album':
                     album += '_album'
-                # Now we need to search for that CG
+                # Now search for the CG
                 for photo in getattr(persistent, album):
                     if cg_filepath == photo.img:
                         photo.unlock()
                         break
         
-        # We're done and can add this entry to the chatlog
+        # Add this entry to the chatlog
         chatlog.append(ChatEntry(who, what, upTime(), 
                             img, bounce, specBubble))
+        # Create a rollback checkpoint
         renpy.checkpoint()
         
     
@@ -130,32 +131,49 @@ init -4 python:
                 
         if (last_chat.who.file_id == chatbackup.who.file_id 
                 and last_chat.what == chatbackup.what):
-            # the last entry was successfully added; we're done
+            # the last entry was successfully added; return
             return
+       
+        # add the backup entry to the chatlog
+        if reply_instant:
+            reply_instant = False
         else:
-            # add the backup entry to the chatlog
-            if reply_instant:
-                reply_instant = False
-            else:
-                typeTime = chatbackup.what.count(' ') + 1
-                typeTime = typeTime / 3
-                if typeTime < 1.5:
-                    typeTime = 1.5
-                typeTime = typeTime * oldPV
-                renpy.pause(typeTime)
+            typeTime = chatbackup.what.count(' ') + 1
+            typeTime = typeTime / 3
+            if typeTime < 1.5:
+                typeTime = 1.5
+            typeTime = typeTime * oldPV
+            renpy.pause(typeTime)
+        
+        if chatbackup.img:
+            if "{image =" in chatbackup.what:
+                first, last = chatbackup.what.split('=')
+                if len(last) > 0 and last[0] == ' ':
+                    last.pop(0)
+                chatbackup.what = "{image=" + last
+            if chatbackup.what in emoji_lookup:
+                renpy.play(emoji_lookup[chatbackup.what], channel="voice_sfx")
+            elif "{image" not in chatbackup.what and not observing:
+                # Unlock the CG in the gallery
+                # This will be equal to a path like
+                # CGs/common_album/cg-1.png
+                cg_filepath = cg_helper(chatbackup.what)
+                album, cg_name = chatbackup.what.split('/')
+                if album[-6:] != '_album':
+                    album += '_album'
+                # Now search for the CG
+                for photo in getattr(persistent, album):
+                    if cg_filepath == photo.img:
+                        photo.unlock()
+                        break
             
-            if chatbackup.img == True:
-                if chatbackup.what in emoji_lookup:
-                    renpy.play(emoji_lookup[chatbackup.what], 
-                        channel="voice_sfx")
-               
-            chatlog.append(ChatEntry(chatbackup.who, chatbackup.what, 
-                                        upTime(), chatbackup.img, 
-                                        chatbackup.bounce, 
-                                        chatbackup.specBubble))
+        chatlog.append(ChatEntry(chatbackup.who, chatbackup.what, 
+                                    upTime(), chatbackup.img, 
+                                    chatbackup.bounce, 
+                                    chatbackup.specBubble))
                                         
 init python:
-    # So you can increase/decrease the speed of the chat
+    # Increase/decrease the chat speed
     def slow_pv():
         global pv
         if pv <= 1.1:
@@ -170,7 +188,7 @@ init python:
 
     # This is a helper function for the heart icon that dynamically 
     # recolours a generic white heart depending on the character
-    # See character definitions.rpy to define your own character 
+    # See character_definitions.rpy to define your own character 
     # & heart point
     def heart_icon(character):
         if character.heart_color:
@@ -203,11 +221,11 @@ init python:
 ## Note: There is also a custom version of the chat footers
 ## (pause/play/save & exit/answer) that you can use by setting
 ## this variable to True. Otherwise, it will use the original assets
-## If you change the variable here, you'll need to start the game over
+## If you change the variable here, you need to start the game over
 ## Otherwise it can also be changed from the Settings menu
 default persistent.custom_footers = False
 # Values in order to keep the viewport scrolling
-# to the bottom - we set a ui.adjustment() object
+# to the bottom - set a ui.adjustment() object
 # to infinity so it stays at the maximum range
 define yadjValue = float("inf")
 default yadj = ui.adjustment()

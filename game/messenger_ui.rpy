@@ -5,7 +5,7 @@
 # Call this label before you show a menu
 # to show the answer button
 label answer(from_cg=False): 
-    # Make sure we're not coming from a text message
+    # Check if it's from the messenger or a text message
     if not text_person:
         if from_cg:
             hide screen viewCG
