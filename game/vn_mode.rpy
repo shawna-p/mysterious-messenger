@@ -116,7 +116,7 @@ label vn_end():
     call press_save_and_exit(False) 
     return
         
-label vn_end_route(ending='good'):
+label vn_end_route():
     $ config.skipping = False
     $ greeted = False
     $ choosing = False
@@ -128,7 +128,7 @@ label vn_end_route(ending='good'):
         scene bg normal_end
     elif ending == 'bad':
         scene bg bad_end
-
+    $ ending = False
     if current_chatroom.expired and not current_chatroom.buyback:
         $ persistent.completed_chatrooms[
                         current_chatroom.expired_chat] = True

@@ -244,13 +244,14 @@ screen chatroom_timeline(day, day_num):
                             days=which_history_route)
     
     use menu_header(day.day, return_action):
-    
+        null height -19
         fixed:   
-            xysize (720, 1180)
-            yalign 1.0
+            xysize (720, 1190)
+            yalign 0.0
             xalign 0.5   
             add 'day_vlink' xalign 0.15
             viewport:
+                ysize 1190
                 yadjustment yadj            
                 mousewheel True
                 draggable True    

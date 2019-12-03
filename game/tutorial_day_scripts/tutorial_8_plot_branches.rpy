@@ -190,8 +190,9 @@ label tutorial_bad_end():
     
     # This brings up the Save & Exit screen, after which
     # it will show either the 'good', 'normal', or 'bad'
-    # ending screens depending on which variable you pass
-    jump chat_end_route('bad') 
+    # ending screen depending on what you pass `ending`
+    $ ending = 'bad'
+    jump chat_end_route
     
 ## This is the label you see if the previous chatroom has expired
 label tutorial_bad_end_expired():
@@ -205,7 +206,8 @@ label tutorial_bad_end_expired():
     v "I hope you have a good day." 
     v "{image=v_smile}"   (img=True)
     call exit(v)
-    jump chat_end_route('bad')
+    $ ending = 'bad'
+    jump chat_end_route
 
 ## You get this VN after the Plot Branch Tutorial
 ## chatroom if you got the Good End
@@ -288,8 +290,8 @@ label good_end_party():
     u_vn "Then you can reset the game so they can play through it again."
     u_vn smile "As always, there's more information on that in the User Guide."
     u_vn happy "Thanks for playing through Tutorial Day!"
-    
-    jump vn_end_route('good')
+    $ ending = 'good'
+    jump vn_end_route
     
 
 ## This is an interesting case in which the ending only has one
@@ -309,7 +311,8 @@ label plot_branch_bre():
     r_vn "And you can play through all the chatrooms."
     r_vn thinking "Well, I should go now."
     r_vn "It's too bad we didn't get to spend much time together."
-    jump vn_end_route('bad')
+    $ ending = 'bad'
+    jump vn_end_route
 
 
 

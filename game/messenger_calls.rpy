@@ -170,6 +170,8 @@ label chat_end_route(ending='good'):
         scene bg normal_end
     elif ending == 'bad':
         scene bg bad_end
+    $ ending = False
+    
     if current_chatroom.expired and not current_chatroom.buyback:
         $ persistent.completed_chatrooms[
                         current_chatroom.expired_chat] = True

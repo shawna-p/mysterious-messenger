@@ -230,7 +230,8 @@ default chatroom_hp = 0
 # Keeps track of the total number of hg (hourglasses) you've earned per chatroom
 default chatroom_hg = 0
 
-
+# Keeps track of the ending the game should show the player
+default ending = False
 
 # These are primarily used when setting the nickname colour
 # via $ nickColour = black or $ nickColour = white
