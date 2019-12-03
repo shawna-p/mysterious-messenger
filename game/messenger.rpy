@@ -30,14 +30,15 @@ screen messenger_screen():
                     begin -= 1  
 
     frame:
-        align (0.5, 0.6)
+        align (0.5, 1.0)
+        yoffset -114
         xfill True
-        ysize 1050
+        ysize 1080
 
         viewport yadjustment yadj: # viewport id "VP":
             draggable True
             mousewheel True
-            ysize 1050
+            ysize 1080
                             
             has vbox:
                 spacing 10

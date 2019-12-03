@@ -675,12 +675,7 @@ style other_settings_end_button_text:
 # Restart Game -- resets variables
 # *********************************       
 label restart_game():
-    if current_chatroom.expired and not current_chatroom.buyback:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.expired_chat] = True
-    else:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.chatroom_label] = True
+    
     python:
         renpy.end_replay()
         # removes heart points from all the characters

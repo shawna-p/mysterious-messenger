@@ -116,6 +116,34 @@ label vn_end():
     call press_save_and_exit(False) 
     return
         
+label vn_end_route(ending='good'):
+    $ config.skipping = False
+    $ greeted = False
+    $ choosing = False
+    stop music
+    
+    if ending == 'good':
+        scene bg good_end
+    elif ending == 'normal':
+        scene bg normal_end
+    elif ending == 'bad':
+        scene bg bad_end
+
+    if current_chatroom.expired and not current_chatroom.buyback:
+        $ persistent.completed_chatrooms[
+                        current_chatroom.expired_chat] = True
+    else:
+        $ persistent.completed_chatrooms[
+                        current_chatroom.chatroom_label] = True
+    if current_chatroom.vn_obj:
+        $ persistent.completed_chatrooms[
+                        current_chatroom.vn_obj.vn_label] = True
+
+    pause
+    if _in_replay:
+        $ renpy.end_replay()
+    jump restart_game
+
 #####################################
 ## This screen shows the clock
 #####################################

@@ -191,9 +191,7 @@ label tutorial_bad_end():
     # This brings up the Save & Exit screen, after which
     # it will show either the 'good', 'normal', or 'bad'
     # ending screens depending on which variable you pass
-    call chat_end_route('bad') 
-    # Use this to start the game over and return to the main menu
-    jump restart_game
+    jump chat_end_route('bad') 
     
 ## This is the label you see if the previous chatroom has expired
 label tutorial_bad_end_expired():
@@ -207,8 +205,7 @@ label tutorial_bad_end_expired():
     v "I hope you have a good day." 
     v "{image=v_smile}"   (img=True)
     call exit(v)
-    call chat_end_route('bad')
-    jump restart_game
+    jump chat_end_route('bad')
 
 ## You get this VN after the Plot Branch Tutorial
 ## chatroom if you got the Good End
@@ -292,16 +289,8 @@ label good_end_party():
     u_vn smile "As always, there's more information on that in the User Guide."
     u_vn happy "Thanks for playing through Tutorial Day!"
     
-    # For VN modes, you can just manually show which
-    # ending screen you like
-    scene bg good_end
-    # You should pause after showing this screen or else it will
-    # jump immediately to restart_game and the player won't see it
-    pause
-    # This is the end of the Tutorial Day; you must
-    # restart the game to indicate this
-    jump restart_game
-
+    jump vn_end_route('good')
+    
 
 ## This is an interesting case in which the ending only has one
 ## VN mode section after the plot branch chatroom and then it ends
@@ -320,10 +309,7 @@ label plot_branch_bre():
     r_vn "And you can play through all the chatrooms."
     r_vn thinking "Well, I should go now."
     r_vn "It's too bad we didn't get to spend much time together."
-    scene bg bad_end
-    pause
-    jump restart_game
-
+    jump vn_end_route('bad')
 
 
 

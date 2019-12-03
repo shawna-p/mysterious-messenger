@@ -155,7 +155,7 @@ label chat_end():
 ## Call this label at the very end of the route
 ## to show a good/bad/normal ending sign and
 ## return the player to the main menu
-label chat_end_route(type='good'):
+label chat_end_route(ending='good'):
     call screen save_and_exit(True)
     $ config.skipping = False
     $ greeted = False
@@ -164,16 +164,25 @@ label chat_end_route(type='good'):
     hide screen messenger_screen
     stop music
     
-    if type == 'good':
+    if ending == 'good':
         scene bg good_end
-    elif type == 'normal':
+    elif ending == 'normal':
         scene bg normal_end
-    elif type == 'bad':
+    elif ending == 'bad':
         scene bg bad_end
+    if current_chatroom.expired and not current_chatroom.buyback:
+        $ persistent.completed_chatrooms[
+                        current_chatroom.expired_chat] = True
+    else:
+        $ persistent.completed_chatrooms[
+                        current_chatroom.chatroom_label] = True
+    if current_chatroom.vn_obj:
+        $ persistent.completed_chatrooms[
+                        current_chatroom.vn_obj.vn_label] = True
     pause
     if _in_replay:
         $ renpy.end_replay()
-    return
+    jump restart_game
 
 
 ## This label takes care of what happens when the
