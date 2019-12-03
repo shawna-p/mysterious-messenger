@@ -11,25 +11,6 @@ image answerbutton:
         1.0
         repeat
         
-image pausebutton:
-    "pause_sign" with Dissolve(0.5, alpha=True)
-    1.0
-    "transparent_img" with Dissolve(0.5, alpha=True)
-    1.0
-    repeat
-    
-
-image fast_slow_button = "Phone UI/fast-slow-transparent.png"
-image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
-image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
-image speed_txt = ParameterizedText(style = "speednum_style")
-image close_button = "CGs/close-overlay.png"
-
-image save_exit = "Phone UI/Save&Exit.png"  
-image signature = "Phone UI/signature01.png"
-image heart_hg = "Phone UI/heart-hg-sign.png"
-
-## Custom Chat Footers
 image custom_answerbutton:
     block:
         "custom_answer_reg" with Dissolve(1.0, alpha=True)
@@ -37,18 +18,82 @@ image custom_answerbutton:
         "custom_answer_dark" with Dissolve(1.0, alpha=True)
         1.0
         repeat
-        
-image custom_pause = "Phone UI/custom-pause.png"
-image custom_play = "Phone UI/custom-play.png"
-image custom_save_exit = "Phone UI/custom-save-exit.png"
+
+image pausebutton:
+    "pause_sign" with Dissolve(0.5, alpha=True)
+    1.0
+    "transparent_img" with Dissolve(0.5, alpha=True)
+    1.0
+    repeat
+    
 image custom_pausebutton:
     "custom_pause_sign" with Dissolve(0.5, alpha=True)
     1.0
     "transparent_img" with Dissolve(0.5, alpha=True)
     1.0
     repeat
-image custom_pause_square = "Phone UI/custom-pause-square.png"
-## End custom chat footers
+
+image pause_square = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/custom-pause-square.png",
+    "True", "Phone UI/pause_square.png"
+)
+
+image phone_pause = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/custom-pause.png",
+    "True", "Phone UI/Pause.png"
+)
+
+image phone_play = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/custom-play.png",
+    "True", "Phone UI/Play.png"
+)
+
+image save_exit = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/custom-save-exit.png",
+    "True", "Phone UI/Save&Exit.png"
+)
+
+image fast_slow_button = "Phone UI/fast-slow-transparent.png"
+image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
+image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
+image speed_txt = ParameterizedText(style="speednum_style")
+image close_button = "CGs/close-overlay.png"
+image transparent_answer = "Phone UI/answer_transparent.png"
+
+image signature = "Phone UI/signature01.png"
+image heart_hg = "Phone UI/heart-hg-sign.png"
+
+image answer_dark = "Phone UI/Answer-Dark.png"
+image answer_reg = "Phone UI/Answer.png"
+image pause_sign = "Phone UI/pause_sign.png"
+
+image custom_answer_dark = "Phone UI/custom-answer.png"
+image custom_answer_reg = "Phone UI/custom-answer-dark.png"
+image custom_pause_sign = "Phone UI/custom-pause-sign.png"
+
+image phone_ui = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/Phone-UI.png",
+    "True", "Phone UI/Phone-UI-old.png"
+)
+
+image max_speed_active = "Phone UI/max_speed_active.png"
+image max_speed_inactive = "Phone UI/max_speed_inactive.png"
+image back_arrow_btn = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/back-arrow.png",
+    "True", "menu_back"
+)
+
+image choice_darken = "Phone UI/choice_dark.png"
+image save_trash = "Menu Screens/Main Menu/save_trash_hover.png"
+image sign_btn = "Phone UI/sign-button.png"
+image sign_btn_clicked = "Phone UI/sign-button-clicked.png"
+
+image battery_high = "Phone UI/battery_high.png"
+image battery_med = "Phone UI/battery_med.png"
+image battery_low = "Phone UI/battery_low.png"
+image battery_empty_img = "Phone UI/battery_empty.png"
+image battery_charged = "Phone UI/battery_charged.png"
+image battery_charging = "Phone UI/battery_charging.png"
 
 image hack scroll: 
     "hack_long"

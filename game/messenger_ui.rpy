@@ -29,17 +29,14 @@ label answer(from_cg=False):
 screen answer_button():
     zorder 4
     tag chat_footer
+    add 'pause_square' yalign 0.59
     if persistent.custom_footers:
-        add "custom_pausebutton" xalign 0.96 yalign 0.16
-        add "custom_pause_square" yalign 0.59
+        add 'custom_pausebutton' xalign 0.96 yalign 0.16
+        add 'custom_answerbutton' ypos 1220
     else:
         add "pausebutton" xalign 0.96 yalign 0.16
-        add 'pause_square' yalign 0.59
-    if persistent.custom_footers:
-        add "custom_answerbutton" ypos 1220
-    else:
         add "answerbutton" ypos 1220
-        
+    
     imagebutton:
         ypos 1220
         focus_mask None
@@ -82,10 +79,7 @@ screen pause_button():
     imagebutton:
         ypos 1220
         focus_mask True
-        if persistent.custom_footers:
-            idle "custom_pause"
-        else:
-            idle 'phone_pause'
+        idle 'phone_pause'
         if not choosing:
             action [Call("play"), Return()]
      
@@ -136,21 +130,17 @@ screen play_button():
     tag chat_footer
     if not choosing:
         if persistent.custom_footers:
-            add "custom_pausebutton" xalign 0.96 yalign 0.16
-            add "custom_pause_square" yalign 0.59
+            add 'custom_pausebutton' xalign 0.96 yalign 0.16
         else:
             add "pausebutton" xalign 0.96 yalign 0.16
-            add "pause_square" yalign 0.59
+        add "pause_square" yalign 0.59
     imagebutton:
         xanchor 0.0
         yanchor 0.0
         xpos 0
         ypos 1220
         focus_mask True
-        if persistent.custom_footers:
-            idle "custom_play"
-        else:
-            idle 'phone_play'
+        idle 'phone_play'
         action [Show('pause_button'), Return()]
     
     if not choosing:
@@ -293,8 +283,8 @@ screen phone_overlay():
     
     if not starter_story:
         fixed:
-            xysize (40,50)
-            align (0.05, 0.065)
+            xysize (50,50)
+            align (0.045, 0.065)
             imagebutton:
                 align (0.5, 0.5)
                 idle 'back_arrow_btn'

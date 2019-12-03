@@ -33,11 +33,11 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
                         # new chatroom, and if you want that
                         # functionality you can un-comment this
                         # line
-    # We reset the heart points for this chatroom
+    # Reset the heart points for this chatroom
     if resetHP:
         $ chatroom_hp = 0
 
-    # Make sure we're showing the messenger screens
+    # Make sure the messenger screens are showing
     hide screen starry_night
     show screen phone_overlay
     show screen messenger_screen 
@@ -60,7 +60,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
         
     # Sets the correct background and nickname colour
-    # You'll need to add other backgrounds here if you define
+    # You need to add other backgrounds here if you define
     # new ones
     $ current_background = background
     if background == "morning":
@@ -105,7 +105,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     else:
         $ observing = False
 
-    # If we're viewing this from the history, observing is True
+    # If you're viewing this from the history, observing is True
     # Pronouns, name, and profile picture must also be set
     # and all the characters' profile pictures should be the default
     if _in_replay:
@@ -113,10 +113,11 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
             observing = True
             set_pronouns()
             set_name_pfp()
-            for c in all_characters:
-                c.reset_pfp()
+            if resetHP:
+                for c in all_characters:
+                    c.reset_pfp()
         
-    # We add this background to the replay log
+    # Add this background to the replay log
     if not observing and not persistent.testing_mode:
         $ bg_entry = ("background", "bg " + current_background)
         $ current_chatroom.replay_log.append(bg_entry)
@@ -172,7 +173,6 @@ label chat_end_route(type='good'):
     pause
     if _in_replay:
         $ renpy.end_replay()
-        #call screen chatroom_timeline(current_day, current_day_num)
     return
 
 
@@ -192,7 +192,6 @@ label chat_back():
         hide screen answer_button
         hide screen pause_button
         stop music
-        # $ renpy.save(mm_auto)
         if _in_replay:
             $ renpy.end_replay()
         call screen chatroom_timeline(current_day, current_day_num)
@@ -219,16 +218,14 @@ label chat_back():
         hide screen pause_button
         hide screen vn_overlay
         # Deliver text and calls        
-        # if not current_chatroom.plot_branch:
         # Checks for a post-chatroom label; triggers even if there's a VN
-        # Otherwise delivers texts etc
+        # and delivers text messages, phone calls etc
         if renpy.has_label('after_' + current_chatroom.chatroom_label): 
             $ renpy.call('after_' + current_chatroom.chatroom_label)
         $ deliver_all()
         $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
         stop music
-        # $ renpy.save(mm_auto)
         call screen chatroom_timeline(current_day, current_day_num)
     return
 
@@ -249,10 +246,7 @@ screen save_and_exit(end_route=False):
         xpos 0
         ypos 1220
         focus_mask True
-        if persistent.custom_footers:
-            idle "custom_save_exit"
-        else:
-            idle "save_exit"
+        idle "save_exit"
         if not end_route:
             action [Jump("press_save_and_exit")]
         else:

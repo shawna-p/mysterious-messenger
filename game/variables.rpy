@@ -827,37 +827,8 @@ image left_corner_menu_dark = Frame("Email/left_corner_menu_dark.png", 45, 45)
 image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.png", 60,60,60,10)
 image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
 
-image choice_darken = "Phone UI/choice_dark.png"
-image save_trash = "Menu Screens/Main Menu/save_trash_hover.png"
-image sign_btn = "Phone UI/sign-button.png"
-image sign_btn_clicked = "Phone UI/sign-button-clicked.png"
-
-image pause_square = "Phone UI/pause_square.png"
-image transparent_answer = "Phone UI/answer_transparent.png"
-image phone_pause = "Phone UI/Pause.png"
-image phone_play = "Phone UI/Play.png"
-
-image battery_high = "Phone UI/battery_high.png"
-image battery_med = "Phone UI/battery_med.png"
-image battery_low = "Phone UI/battery_low.png"
-image battery_empty_img = "Phone UI/battery_empty.png"
-image battery_charged = "Phone UI/battery_charged.png"
-image battery_charging = "Phone UI/battery_charging.png"
-
 image transparent_img = 'transparent.png'
-image phone_ui = "Phone UI/Phone-UI.png"
 
-image max_speed_active = "Phone UI/max_speed_active.png"
-image max_speed_inactive = "Phone UI/max_speed_inactive.png"
-image back_arrow_btn = "Phone UI/back-arrow.png"
-
-image answer_dark = "Phone UI/Answer-Dark.png"
-image answer_reg = "Phone UI/Answer.png"
-image pause_sign = "Phone UI/pause_sign.png"
-
-image custom_answer_dark = "Phone UI/custom-answer.png"
-image custom_answer_reg = "Phone UI/custom-answer-dark.png"
-image custom_pause_sign = "Phone UI/custom-pause-sign.png"
 
 image small_star = "Menu Screens/Main Menu/small-star.png"
 image medium_star = "Menu Screens/Main Menu/medium-star.png"
