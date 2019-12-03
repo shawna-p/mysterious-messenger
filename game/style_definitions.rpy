@@ -191,31 +191,7 @@ init 5:
         xalign 0.5
         yalign 0.5
         font sans_serif_1b
-      
-    ####################################
-    ## Save & Exit Styles
-    ####################################
-    
-    style save_exit_text is text:
-        xalign 0.5         
-        text_align 0.5
-        size 25
-        xsize 600
-        font gui.sans_serif_1
-        
-    style sign is text:
-        xalign 0.5   
-        yalign 0.607   
-        text_align 0.5
-        size 30
-        font gui.sans_serif_1
-        
-    style points is text:
-        yalign 0.51
-        text_align 1.0
-        font sans_serif_1
-        color "#ffffff"
-        
+   
         
     ####################################
     ## Main Menu Styles

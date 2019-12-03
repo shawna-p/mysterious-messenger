@@ -18,6 +18,9 @@ image custom_answerbutton:
         "custom_answer_dark" with Dissolve(1.0, alpha=True)
         1.0
         repeat
+# This is the actual button that's pressed; the program
+# performs better having a transparent button vs an animated one
+image transparent_answer = "Phone UI/answer_transparent.png"
 
 image pausebutton:
     "pause_sign" with Dissolve(0.5, alpha=True)
@@ -58,10 +61,10 @@ image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
 image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
 image speed_txt = ParameterizedText(style="speednum_style")
 image close_button = "CGs/close-overlay.png"
-image transparent_answer = "Phone UI/answer_transparent.png"
 
 image signature = "Phone UI/signature01.png"
-image heart_hg = "Phone UI/heart-hg-sign.png"
+image heart_sign = "Phone UI/heart-sign.png"
+image hg_sign = "Phone UI/hg-sign.png"
 
 image answer_dark = "Phone UI/Answer-Dark.png"
 image answer_reg = "Phone UI/Answer.png"

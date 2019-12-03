@@ -20,7 +20,7 @@
 # single ' or double " quotes) it'll set that up too
 # Note that it automatically clears the chatlog, so if you want
 # to change the background but not clear the messages on-screen,
-# you'll also have to pass it 'False' as its second argument
+# you also have to pass it 'False' as its second argument
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
     if starter_story:
@@ -106,7 +106,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         $ observing = False
 
     # If you're viewing this from the history, observing is True
-    # Pronouns, name, and profile picture must also be set
+    # Pronouns, name, and profile picture must also be re-set
     # and all the characters' profile pictures should be the default
     if _in_replay:
         python:
@@ -155,7 +155,7 @@ label chat_end():
 ## Call this label at the very end of the route
 ## to show a good/bad/normal ending sign and
 ## return the player to the main menu
-label chat_end_route(ending='good'):
+label chat_end_route():
     call screen save_and_exit(True)
     $ config.skipping = False
     $ greeted = False
@@ -279,7 +279,6 @@ label press_save_and_exit(phone=True):
         if _in_replay:
             $ renpy.end_replay()
         call screen chatroom_timeline(current_day, current_day_num)
-        # call screen chat_select # call history_select_screen etc
     else:
         call screen signature_screen(phone)        
         $ persistent.HG += chatroom_hg
@@ -299,7 +298,8 @@ label press_save_and_exit(phone=True):
                 $ most_recent_chat = current_chatroom
         
         if not current_chatroom.expired and not current_chatroom.buyback:
-            # Checks for a post-chatroom label; won't trigger if there's a VN section
+            # Checks for a post-chatroom label; won't trigger 
+            # if there's a VN section
             # Otherwise delivers phone calls/texts/etc
             if (renpy.has_label('after_' + current_chatroom.chatroom_label) 
                     and not current_chatroom.vn_obj): 
@@ -307,7 +307,8 @@ label press_save_and_exit(phone=True):
             # Add this label to the list of completed labels
             $ persistent.completed_chatrooms[
                                 current_chatroom.chatroom_label] = True
-            # If you just finished a VN section, mark it as played and deliver emails/phone calls
+            # If you just finished a VN section, mark it as played
+            # and deliver emails/phone calls
             if (not phone 
                     and current_chatroom.vn_obj 
                     and not current_chatroom.vn_obj.played 
@@ -347,9 +348,11 @@ label press_save_and_exit(phone=True):
             $ persistent.completed_chatrooms[
                             current_chatroom.chatroom_label] = True
         
+        # Deliver emails and trigger the next chatroom (if applicable)
         $ deliver_emails()   
         $ next_chatroom()
         $ renpy.retain_after_load()
+        # Check to see if the honey buddha chips should be available
         if not chips_available:
             $ chips_available = hbc_bag.draw()
         
@@ -360,7 +363,6 @@ label press_save_and_exit(phone=True):
             return
         else:
             $ deliver_next()
-            # $ renpy.save(mm_auto)
             call screen chatroom_timeline(current_day, current_day_num)
             return
     return
@@ -372,56 +374,85 @@ label press_save_and_exit(phone=True):
 screen signature_screen(phone=True):
     zorder 5
     modal True
-    if phone and not persistent.custom_footers:
+    style_prefix "sig_screen"
+    if phone:
         add "save_exit" ypos 1220
-    elif phone and persistent.custom_footers:
-        add "custom_save_exit" ypos 1220
     add "choice_darken"
-    frame:
-        xalign 0.5
-        yalign 0.5
-        xsize 682
-        ysize 471
-        background 'signature'
+    frame:        
         has vbox
         spacing 10
-        null height 140 width 682
-        text "This conversation will be archived in the RFA records.":
-            style "save_exit_text" xalign 0.5     
-        fixed:
-            xalign 0.5
-            ysize 60
-            xfit True
-            add "heart_hg" 
-            hbox:
-                spacing 170
-                yalign 0.5
-                xoffset 65
-                frame:
-                    xsize 70
-                    ysize 40
-                    text "[chatroom_hp]" style "points" xalign 1.0
-                frame:
-                    xsize 80
-                    ysize 40
-                    text "[chatroom_hg]" style "points" xalign 1.0
+        null height 80
+        text "This conversation will be archived in the RFA records."
+        hbox:
+            style_prefix "sig_points"            
+            frame:
+                background 'heart_sign'
+                text str(chatroom_hp)
+            frame:
+                background 'hg_sign'
+                text str(chatroom_hg)
         
-        text "I hereby agree to treat this conversation as confidential.":
-            style "save_exit_text"
+        text "I hereby agree to treat this conversation as confidential."
         
-        textbutton _('sign'):
-            xysize (211, 52)
-            text_style 'sign'
-            align (0.5, 0.842)
-            focus_mask True
-            background 'sign_btn' padding(20,20)
-            activate_sound "audio/sfx/UI/end_chatroom.mp3"
-            hover_background 'sign_btn_clicked'
+        textbutton _('sign'): 
             action Return()
 
+style sig_screen_frame:
+    xalign 0.5
+    yalign 0.5
+    xsize 682
+    ysize 471
+    background 'signature'
 
+style sig_screen_vbox:
+    align (0.5, 0.5)
 
-    
+style sig_points_fixed:
+    xalign 0.5
+    ysize 60
+    xsize 682
+
+style sig_points_hbox:
+    spacing 105
+    yalign 0.5
+    xalign 0.5
+
+style sig_points_frame:
+    ysize 60
+    xsize 154
+    padding (62, 12, 20, 12)
+
+style sig_points_text:        
+    is text
+    yalign 1.0
+    xalign 1.0
+    text_align 1.0
+    font sans_serif_1
+    color "#ffffff"
+
+style sig_screen_text:
+    is text
+    xalign 0.5         
+    text_align 0.5
+    size 25
+    xsize 600
+    font gui.sans_serif_1
+
+style sig_screen_button:
+    xysize (211, 52)
+    align (0.5, 0.842)
+    focus_mask True
+    background 'sign_btn' padding(20,20)
+    activate_sound "audio/sfx/UI/end_chatroom.mp3"
+    hover_background 'sign_btn_clicked'
+
+style sig_screen_button_text:
+    is text
+    xalign 0.5   
+    yalign 0.607   
+    text_align 0.5
+    size 30
+    font gui.sans_serif_1
     
 
     
