@@ -1,13 +1,9 @@
 init python:
     
-    email_reply = False
-    
     ## This class holds the information the email needs for delivery,
     ## timeout, failure, etc
     class Email(object):
-        def __init__(self, guest, msg, reply_label, read=False, msg_num=0,
-                        failed=False, timeout_count=25, deliver_reply="wait",
-                        reply=False, timeout=False):
+        def __init__(self, guest, msg, reply_label):
             # Guest variable
             self.guest = guest 
             # Email content
@@ -15,29 +11,29 @@ init python:
             # Name of the label to jump to when replying
             self.reply_label = reply_label  
             # Read/Unread
-            self.read = read    
-            # = 0, 1, 2, or 3; reply number. 0 is the first message
+            self.read = False  
+            # msg_num = 0, 1, 2, or 3; reply number. 0 is the first message
             # sent to you, and 3 is the email accepting your invite
-            self.msg_num = msg_num 
+            self.msg_num = 0
             # Whether or not the email chain has been failed
-            self.failed = failed    
+            self.failed = False
             # This is somewhat arbitrary; essentially if the
             # player doesn't respond within 25 chatrooms (~3 days; can
             # be changed) of receiving the message it will be failed
-            self.timeout_count = timeout_count  
+            self.timeout_count = 25
             # How long to wait before the guest replies to your email
             # This should equal "wait" if it's your turn to reply
-            self.deliver_reply = deliver_reply   
+            self.deliver_reply = "wait" 
             # This contains the message to be delivered when the 
             # guest replies to you
-            self.reply = reply   
+            self.reply = False
             # True if this email has timed out
-            self.timeout = timeout
+            self.timeout = False
             self.sent_time = upTime()
             # True if the player has already received a popup
             # telling them they have an email
             self.notified = False
-            # Really only used for the tutorial; tells the program
+            # Only used for the tutorial; tells the program
             # to finish sending this email chain before the plot branch
             self.before_branch = (guest.pic 
                 == "Email/Thumbnails/rainbow_unicorn_guest_icon.png")
@@ -73,7 +69,8 @@ init python:
                 self.timeout = True
                 renpy.retain_after_load()
                 
-            # If the timer <= 0 and there's a reply to be delivered, deliver it
+            # If the timer <= 0 and there's a reply to be 
+            # delivered, deliver it
             if (self.deliver_reply != "wait" 
                     and self.deliver_reply <= 0 
                     and self.reply):
@@ -135,10 +132,10 @@ init python:
                     msg_remain = 3 - self.msg_num
                     if msg_remain == 0:
                         msg_remain = 1
-                    # Here we want to ensure there are enough 
-                    # chatrooms left to finish delivering our 
+                    # The program ensures there are enough 
+                    # chatrooms left to finish delivering the 
                     # emails e.g. if there are 30 chatrooms left 
-                    # and we have another 3 replies to deliver, 
+                    # and there are another 3 replies to deliver, 
                     # max_num will be 10 and min_num will be 3, so 
                     # the message will be delivered sometime after
                     # the next 3-10 chatrooms
@@ -234,7 +231,7 @@ init python:
             if self.deliver_reply != "wait":
                 self.deliver_reply -= 5
             self.timeout_count -= 5
-       
+    
     ## This class stores necessary information about the guest, including
     ## all of their email replies as well as their image thumbnail and name
     class Guest(object):
@@ -316,10 +313,10 @@ init python:
         return num_guests
                 
 default email_list = []
-            
-## The idea here is that if the user picks the option to invite
-## this guest, you'll include a line `call invite(guest_var)` and
-## it will trigger them to email you
+default email_reply = False
+
+## You can call this label in a chatroom with `call invite(guest_var)`
+## and it will trigger the guest to email the player
 label invite(guest):
     # So you can't re-invite someone when replaying 
     if not observing: 
@@ -374,13 +371,10 @@ screen email_popup(e):
                     color '#fff' 
                     size 25 
                     align(0.5, 0.5)
-                
-            # This button isn't in the actual game, and the 
-            # main reason I can get away with adding it here 
-            # is because emails only get delivered on the main
-            # menu. It would mess things up if you could jump 
-            # to the message in the middle of a chatroom so 
-            # they aren't delivered then
+
+            # This button takes you directly to the email. It is
+            # included so long as the email popup is not shown
+            # during phone calls or chatrooms
             textbutton _('Go to'): 
                 text_style 'mode_select'
                 xalign 0.5
@@ -487,7 +481,7 @@ screen email_button(e):
                     add 'email_read' align(1.0, 0.5)
                 else:
                     add 'email_replied' align(1.0, 0.5)
-            add Transform(e.guest.pic, zoom=0.61) align(0.5, 0.3)
+            add Transform(e.guest.pic, size=(94, 94)) align(0.5, 0.3)
             null width -10
             vbox:
                 align(0.5, 0.4)
@@ -595,7 +589,7 @@ screen open_email(e):
                     
                     text e.msg size 28
   
-## This is the label you'll call at the end of
+## This is the label you call at the end of
 ## an email choice menu
 label email_end():
     $ renpy.retain_after_load()

@@ -1,8 +1,10 @@
 python early:
 
+    ## This class holds the information needed to display
+    ## all the CGs associated with a certain album
     class Album(object):
         def __init__(self, img, thumbnail=False, 
-                    locked_img="CGs/album_unlock.png", unlocked=False):
+                    locked_img="CGs/album_unlock.png"):
             # images should be 750x1334
             self.img = img
             self.locked_img = locked_img
@@ -14,7 +16,7 @@ python early:
                 # will automatically crop and scale the CG
                 self.thumbnail = Transform(Crop((0, 0, 750, 750), img), 
                                                         size=(155,155))
-            self.unlocked = unlocked
+            self.unlocked = False
             
         def unlock(self):
             global new_cg
@@ -75,11 +77,11 @@ init python:
                 item.snap(0, 0)
                 
             if drop.drag_name == "Right":
-                # We're going back one item
+                # The album goes back one item
                 # First check if it's the first item
                 found_item = False
                 if len(al) > 0 and ind > 0:
-                    # Now we go backwards until we hit the beginning of
+                    # Now go backwards until it hits the beginning of
                     # the album or an unlocked CG
                     for i in range(ind-1, -1, -1):
                         if al[i].unlocked:
@@ -98,7 +100,7 @@ init python:
                 # Check if it's the last item
                 found_item = False
                 if len(al) - 1 > ind:
-                    # Now we go forwards until we hit the end of the album
+                    # Now go forwards until it hits the end of the album
                     # or an unlocked CG
                     for i in range(ind+1, len(al)):
                         if al[i].unlocked:
@@ -126,7 +128,7 @@ init python:
 # CGs
 #************************************
 
-# CGs are automatically resized in the chatroom, but you'll have to
+# CGs are automatically resized in the chatroom, but you have to
 # make sure the original dimensions are 750x1334
 image general_cg1 = "CGs/common_album/cg-1.png"
 image general_cg2 = "CGs/common_album/cg-2.png"
@@ -134,7 +136,7 @@ image seven_cg1 = "CGs/s_album/cg-1.png"
 image saeran_cg1 = "CGs/r_album/cg-1.png"
 
 default fullsizeCG = "general_cg1"
-# This lets you know if there are new CGs in
+# This lets the player know if there are new CGs in
 # the album
 default new_cg = False
 
@@ -180,7 +182,7 @@ default persistent.z_album = []
 default persistent.common_album = []
 
 ## In order to allow for albums to be easily expanded,
-## these variables are used. This is where you'll actually
+## these variables are used. This is where you actually
 ## declare all of the Album objects you need
 default ja_album = []
 default ju_album = []
@@ -198,14 +200,15 @@ default common_album = [ Album("CGs/common_album/cg-1.png"),
 # and regular albums each time the game is started
 # Each item in the list is a tuple that has the persistent album as its
 # first item and the regular album variable as its second
-default all_albums = [  (persistent.ja_album, ja_album),
+default all_albums = [  
                         (persistent.ju_album, ju_album),
-                        (persistent.r_album, r_album),
-                        (persistent.s_album, s_album),
-                        (persistent.u_album, u_album),
-                        (persistent.v_album, v_album),
-                        (persistent.y_album, y_album),
                         (persistent.z_album, z_album),
+                        (persistent.s_album, s_album),
+                        (persistent.y_album, y_album),
+                        (persistent.ja_album, ja_album),
+                        (persistent.v_album, v_album),
+                        (persistent.u_album, u_album),
+                        (persistent.r_album, r_album),
                         (persistent.common_album, common_album)
                     ]
 
@@ -353,8 +356,6 @@ screen character_gallery(album, caption, name):
                                     Show('viewCG_fullsize_album',
                                         album=album, caption=caption,
                                         name=name)]
-                                    # Call("view_album_CG", 
-                                    #     album_info=[album, caption, name, index])]
                         else:
                             action Show("confirm", 
                                     message="This image is not yet unlocked",
@@ -373,9 +374,9 @@ default prev_cg_left = False
   
 ## This is the screen where you can view a full-sized CG when you
 ## click it. It has a working "Close" button that appears/disappears 
-## when you click the CG. This particular variant lets the user
+## when you click the CG. This particular variant lets the player
 ## "swipe" to view the various images without backing out to the 
-## album screen proper
+## album screen to switch between them
 screen viewCG_fullsize_album(album, caption, name):
     zorder 5
     tag menu
@@ -441,7 +442,7 @@ screen viewCG_fullsize_album(album, caption, name):
     else:
         add fullsizeCG
         
-    # Toggles whether or not the close button is visible
+    # Show the close button if it's visible
     if close_visible:
         imagebutton:
             xalign 0.5

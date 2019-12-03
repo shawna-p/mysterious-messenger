@@ -5,11 +5,11 @@ init offset = -10
 
 init python:
 
-    ## This list contains all of the emojis, linked to the correct sound effect
-    ## Essentially, if the dialogue matches the item on the left
-    ## (e.g. {image=jaehee_angry}) then it will play the sound effect on the right
-    ## If you add your own custom emojis, you'll need to add them to this list
-    ## so that they play the correct sound effect
+    ## This list contains all of the emojis, linked to the correct sound 
+    ## effect. Essentially, if the dialogue matches the item on the left
+    ## (e.g. {image=jaehee_angry}) then it will play the sound effect on 
+    ## the right. If you add your own custom emojis, you need to add 
+    ## them to this list so that they play the correct sound effect
     emoji_lookup = {
         '{image=jaehee_angry}': 'audio/sfx/Emotes/Jaehee/jaehee_angry.mp3', 
         '{image=jaehee_happy}': 'audio/sfx/Emotes/Jaehee/jaehee_happy.mp3', 
@@ -88,6 +88,7 @@ init python:
         '{image=zen_wink}': 'audio/sfx/Emotes/Zen/zen_wink.mp3'
         }
 
+## These are defined for the (currently unused) create_a_chatroom
 default jaehee_emotes = ['{image=jaehee_angry}', 
                     '{image=jaehee_happy}',
                     '{image=jaehee_hehe}', 
@@ -168,6 +169,7 @@ default all_emotes = (jaehee_emotes + jumin_emotes + rika_emotes
                     + ray_emotes + seven_emotes + saeran_emotes 
                     + v_emotes + yoosung_emotes + zen_emotes)
 
+## The image definitions of all the emojis follows
 # ******** JAEHEE ******************
 
 image jaehee_angry:

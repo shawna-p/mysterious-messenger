@@ -19,7 +19,7 @@ init python:
         inv = (renpy.Render(srf.get_width(), 
                 srf.get_height()).canvas().get_surface())
         inv.fill((255,255,255,255))
-        inv.blit(srf, (0,0), None, 2) #pygame.BLEND_RGB_SUB enum is 2
+        inv.blit(srf, (0,0), None, 2)
         return inv
 
     ## This defines a displayable for the inverted screen
