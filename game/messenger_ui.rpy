@@ -84,41 +84,24 @@ screen pause_button():
             action [Call("play"), Return()]
      
     if not choosing:
-        # Fast button
-        imagebutton:
-            xalign 0.985
-            yalign 0.997
-            focus_mask None
-            idle "fast_slow_button"
-            action [Function(fast_pv), 
-                    Hide('speed_num'), 
-                    Show("speed_num")]
-                
-        # Slow button
-        imagebutton:
-            xalign 0.015
-            yalign 0.997
-            focus_mask None
-            idle "fast_slow_button"
-            action [Function(slow_pv), 
-                    Hide('speed_num'), 
-                    Show("speed_num")]
+        use fast_slow_buttons()
         
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped        
 label play():
     if (observing and not vn_choice and not text_msg_reply 
             and not in_phone_call and not email_reply):
-        # We're rewatching a chatroom
+        # Rewatching a chatroom
         call screen play_button
         show screen pause_button
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
     if not text_person:
-        #$ chatlog.append(ChatEntry(chat_pause,'',upTime()))
+        # Playing a chatroom
         call screen play_button
         show screen pause_button
     else:
+        # Playing a text message conversation
         call screen text_play_button
         show screen text_pause_button
     return
@@ -144,37 +127,43 @@ screen play_button():
         action [Show('pause_button'), Return()]
     
     if not choosing:
-        # Fast button
-        imagebutton:
-            xalign 0.985
-            yalign 0.997
-            focus_mask None
-            idle "fast_slow_button"
-            action [Function(fast_pv), 
-                    Hide('speed_num'), 
-                    Show("speed_num")]
-                
-        # Slow button
-        imagebutton:
-            xalign 0.015
-            yalign 0.997
-            focus_mask None
-            idle "fast_slow_button"
-            action [Function(slow_pv), 
-                    Hide('speed_num'), 
-                    Show("speed_num")]
+        use fast_slow_buttons()
+
+# Buttons that speed up or slow down the chat speed
+screen fast_slow_buttons():
+    # Fast button
+    imagebutton:
+        xalign 0.985
+        yalign 0.997
+        focus_mask None
+        idle "fast_slow_button"
+        action [Function(fast_pv), 
+                Hide('speed_num'), 
+                Show("speed_num")]
+            
+    # Slow button
+    imagebutton:
+        xalign 0.015
+        yalign 0.997
+        focus_mask None
+        idle "fast_slow_button"
+        action [Function(slow_pv), 
+                Hide('speed_num'), 
+                Show("speed_num")]
         
 
 #####################################
 # Chat Header Overlay
 #####################################
 
-default no_heart = False
-default battery = renpy.display.behavior.pygame.power.get_power_info()
+# Displays a list of the characters in the chatroom
 image in_chat_display = DynamicDisplayable(in_chat_fn)
+# The clock that gets displayed in chatrooms
 default myClock = Clock(150) 
 
 init python:
+    ## Used for a dynamic displayable to display the 
+    ## names of the characters in the chatroom
     def in_chat_fn(st, at):
         list_of_char = ''
         for index, chara in enumerate(store.in_chat):
@@ -184,8 +173,10 @@ init python:
 
         return Text(list_of_char, style='in_chat_list_style'), 0.1
 
+    ## Displays the charging or fully charged icons depending on
+    ## battery level
     def battery_charge_icon(st, at):    
-        # 0 = no idea what status is, or -1
+        # 0 = no idea what the status is, or -1
         # 1 = running on battery, not plugged in
         # 2 = plugged in, no battery available
         # 3 = plugged in, charging
@@ -198,6 +189,8 @@ init python:
         else:
             return Transform('transparent', size=(18,26)), 0.1
 
+    ## Returns the correct battery level image to use depending
+    ## on remaining power
     def battery_level_bar(st, at):
         battery = renpy.display.behavior.pygame.power.get_power_info()
         if battery.percent > 50:
@@ -210,6 +203,8 @@ init python:
         return Fixed(img1, Fixed('charging_icon', 
             size=(18,26), xalign=0.5, yalign=0.4)), 0.1
 
+    ## Returns a compound image of the battery empty image plus the
+    ## correct charging/charged image to make up a full bar icon
     def battery_empty_bar(st, at):
         battery = renpy.display.behavior.pygame.power.get_power_info()
         return Fixed("battery_empty_img", 
@@ -229,6 +224,7 @@ style battery_bar:
     ysize 26
     align (.5, .5)
 
+# The style that is used when the program cannot detect battery level
 style battery_bar_undetected:
     is battery_bar
     bottom_bar "battery_high"
@@ -329,8 +325,6 @@ screen answer_countdown(themenu, count_time=5):
 # Continue Answer
 #************************************
 
-# Some experiments with getting the chat to continue
-# while you come up with a response
 
 default timed_choose = False
 default reply_instant = False
@@ -338,10 +332,9 @@ default using_timed_menus = False
 
 label continue_answer(themenu, count_time=5):
 
-    # We want the timed answers to speed up/slow
-    # down based on how fast the player has the
-    # chat speed set to. Default is 0.8, increased/
-    # decreased by 0.09 (aka increased/decreased by
+    # Timed answers to speed up/slow down based on how fast 
+    # the player has the chat speed set to. Default is 0.8,
+    # increased/decreased by 0.09 (aka increased/decreased by
     # 11.25% each time)
     python:
         modifier = 1.00
@@ -382,15 +375,12 @@ label continue_answer(themenu, count_time=5):
         # 145% as fast as regular speed, the time should also
         # decrease by 45%
         count_time += count_time * modifier
-        test_em = count_time
 
-    # Here we make it so that timed menus don't show
-    # up for players who are skipping through entire
-    # conversations or who are replaying an existing
-    # chatroom. Not allowing 'observing' players to 
-    # choose an answer avoids the problem of players
-    # who didn't initially choose an answer being unable
-    # to continue
+    # Timed menus don't show up for players who are skipping 
+    # through entire conversations or who are replaying an existing
+    # chatroom. Not allowing 'observing' players to choose an
+    # answer avoids the problem of players who didn't initially 
+    # choose an answer being unable to continue
     if not renpy.is_skipping() and not observing:
         $ using_timed_menus = True
         show screen answer_countdown(themenu, count_time)
@@ -419,6 +409,23 @@ screen continue_answer_button(themenu):
                 Hide('continue_answer_button'), 
                 Show('pause_button'), 
                 Jump(themenu)] 
+    
+    # If the player starts skipping in the middle of the menu,
+    # they either forfeit the ability to pick an answer or
+    # the program auto-selects the answer button for them
+    if renpy.is_skipping() and not observing:
+        timer 0.01 action If(persistent.autoanswer_timed_menus,                                 
+                            [ Hide('answer_countdown'), 
+                            Hide('continue_answer_button'),
+                            Show('pause_button'),
+                            SetVariable('choosing', True),
+                            SetVariable('timed_choose', True),
+                            Jump(themenu) ],
+
+                            [ Hide('answer_countdown'), 
+                            Hide('continue_answer_button'), 
+                            Show('pause_button'), 
+                            SetVariable("timed_choose", False) ])
         
 style answer_bar:
     bar_invert True
