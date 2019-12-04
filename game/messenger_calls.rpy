@@ -382,7 +382,9 @@ screen signature_screen(phone=True):
         has vbox
         spacing 10
         null height 80
-        text "This conversation will be archived in the RFA records."
+        text "This conversation will be archived in the RFA records.":
+            if persistent.custom_footers:
+                color "#fff"
         hbox:
             style_prefix "sig_points"            
             frame:
@@ -392,9 +394,13 @@ screen signature_screen(phone=True):
                 background 'hg_sign'
                 text str(chatroom_hg)
         
-        text "I hereby agree to treat this conversation as confidential."
+        text "I hereby agree to treat this conversation as confidential.":
+            if persistent.custom_footers:
+                color "#fff"
         
         textbutton _('sign'): 
+            if persistent.custom_footers:
+                text_color "#fff"
             action Return()
 
 style sig_screen_frame:

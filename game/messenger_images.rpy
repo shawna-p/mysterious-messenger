@@ -62,7 +62,10 @@ image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
 image speed_txt = ParameterizedText(style="speednum_style")
 image close_button = "CGs/close-overlay.png"
 
-image signature = "Phone UI/signature01.png"
+image signature = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/signature01-dark.png",
+    "True", "Phone UI/signature01.png"
+)
 image heart_sign = "Phone UI/heart-sign.png"
 image hg_sign = "Phone UI/hg-sign.png"
 
@@ -88,8 +91,15 @@ image back_arrow_btn = ConditionSwitch(
 
 image choice_darken = "Phone UI/choice_dark.png"
 image save_trash = "Menu Screens/Main Menu/save_trash_hover.png"
-image sign_btn = "Phone UI/sign-button.png"
-image sign_btn_clicked = "Phone UI/sign-button-clicked.png"
+
+image sign_btn = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/sign-button-dark.png",
+    "True", "Phone UI/sign-button.png"
+)
+image sign_btn_clicked = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/sign-button-clicked-dark.png",
+    "True", "Phone UI/sign-button-clicked.png"
+)
 
 image battery_high = "Phone UI/battery_high.png"
 image battery_med = "Phone UI/battery_med.png"
