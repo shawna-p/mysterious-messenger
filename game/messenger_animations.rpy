@@ -55,15 +55,13 @@ label heart_icon(character, bad=False):
         $ character_name = character.name
     if text_person is None:
         python:            
-            if not observing and not no_heart:
+            if not observing:
                 character.increase_heart(bad)
                 chatroom_hp += 1
                 persistent.HP += 1
-            if (not observing and not no_heart 
-                    and not persistent.heart_notifications):
+            if (not observing and not persistent.heart_notifications):
                 renpy.show_screen(allocate_heart_screen(), character=character)
-            elif (not observing and not no_heart
-                    and persistent.heart_notifications):
+            elif (not observing and persistent.heart_notifications):
                 msg = character_name + " +1"
                 renpy.show_screen(allocate_notification_screen(True), msg)
     # This is shown during a real-time text conversation
@@ -145,15 +143,13 @@ label heart_break(character):
             character = sa
         else:
             character_name = character.name
-        if not observing and not no_heart:
+        if not observing:
             character.decrease_heart()
             chatroom_hp -= 1
             persistent.HP -= 1     
-    if (not observing and not no_heart 
-            and not persistent.heart_notifications):
+    if (not observing and not persistent.heart_notifications):
         show screen heart_break_screen(character)
-    elif (not observing and not no_heart
-            and persistent.heart_notifications):
+    elif (not observing and persistent.heart_notifications):
         $ msg = character_name + " -1"
         $ renpy.show_screen(allocate_notification_screen(True), msg)
     return

@@ -326,7 +326,6 @@ label invite(guest):
     return
     
 default current_email = None  
-default test_em = False
 
 ########################################################
 ## This screen shows a popup to notify you when you

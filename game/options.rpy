@@ -74,7 +74,7 @@ define sample_voice_sfx = "audio/sfx/Emotes/Seven/seven_wow.mp3"
 
 
 define config.default_afm_enable = None
-define config.layers = [ 'master', 'transient', 'screens', 'overlay', 'heart', 'heartbreak', 'hack' ]
+define config.layers = [ 'master', 'transient', 'screens', 'overlay' ]
 
 ## Transitions #################################################################
 ##

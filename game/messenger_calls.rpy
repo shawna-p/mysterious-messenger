@@ -287,7 +287,6 @@ label press_save_and_exit(phone=True):
         $ config.skipping = False   
         $ greeted = False         
         $ choosing = False
-        $ no_heart = False
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
