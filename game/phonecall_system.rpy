@@ -4,9 +4,14 @@ init -6 python:
     class PhoneCall(object):
         def __init__(self, caller, phone_label, call_status='incoming',
                 avail_timeout=2, voicemail=False):
+            # Who the call is from
             self.caller = caller
+            # The label to jump to for the call
             self.phone_label = phone_label
+            # The time the call was made at
             self.call_time = False
+            # The status of the call; one of "incoming", "outgoing",
+            # "missed" or "voicemail"
             if (call_status == 'incoming' 
                     or call_status == 'outgoing' 
                     or call_status == 'missed' 
@@ -14,8 +19,12 @@ init -6 python:
                 self.call_status = call_status
             else:
                 self.call_status = 'incoming'
+            # Whether this call is a voicemail message rather
+            # than a conversation
             self.voicemail = voicemail
+            # Whether this call can be 'replayed'
             self.playback = False
+            # How long before this call expires (default=2 chatrooms)
             self.avail_timeout = avail_timeout
             
         ## Phone calls will slowly expire if you don't call 
@@ -24,7 +33,7 @@ init -6 python:
             global available_calls
             if self.avail_timeout == 'test':
                 # You generally don't want to mess with this, but it
-                # lets me make a call 'infinitely' available for testing
+                # lets you make a call 'infinitely' available for testing
                 pass
             else:
                 self.avail_timeout -= 1
@@ -39,10 +48,13 @@ init -6 python:
             if self.voicemail:
                 self.call_status = 'voicemail'
             else:
-                if self in available_calls:
-                    if self.avail_timeout != 'test':
+                # You shouldn't be able to call a character back and get the
+                # same conversation, so remove the call from available_calls
+                if self in available_calls and self.avail_timeout != 'test':
                         available_calls.remove(self)
                 
+            # If you are calling back someone after missing their
+            # call, it shows up in the history as an outgoing call
             if self.call_status == 'missed':
                 self.call_status = 'outgoing'
             call_history.insert(0, self)
@@ -78,13 +90,7 @@ init -6 python:
             if who == phonecall.caller:
                 return phonecall
         return False
-        
-    _preferences.afm_enable = False
-     
-    if not persistent.set_afm:
-        _preferences.afm_time = 15 # Or something. 
-        persistent.set_afm = True
-    
+            
     def toggle_afm():
         _preferences.afm_enable = not _preferences.afm_enable
         renpy.restart_interaction()
@@ -93,7 +99,7 @@ init -6 python:
     ## chatroom available as appropriate
     def deliver_calls(lbl, expired=False, call_time=False):
         global available_calls, incoming_call, call_history
-        global unseen_calls, test_em, all_characters
+        global unseen_calls, all_characters
         missed_call = False
         phonecall = False
         # Adds available calls
@@ -114,7 +120,7 @@ init -6 python:
                     incoming_call = PhoneCall(c, lbl + '_incoming_'
                                     + c.file_id, 'incoming')            
         
-        # The player backed out of a chatroom; no missed call but we should
+        # The player backed out of a chatroom; no missed call but should
         # add it to the outgoing calls list
         if expired and not call_time and missed_call and phonecall:
             if phonecall not in available_calls:
@@ -150,104 +156,107 @@ screen phone_calls():
 
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)), 
                                      FileSave(mm_auto, confirm=False)]):
-
-            
-                
-        frame:
-            xalign 0.5
-            yalign 0.13
-            maximum(700,70)
-            has hbox
-            xalign 0.5
-            spacing 40
-            style_prefix "phone_contacts"
-            # History/Contacts tabs
-            textbutton _('{image=call_history_icon}  History'):
-                hover_background None
-                background "menu_tab_active"            
-                    
-            textbutton _('{image=contact_icon}  Contacts'):                
-                action Show("phone_contacts", Dissolve(0.5))
     
-
+        frame:
+            style_prefix "phone_contacts"            
+            has hbox            
+            # History/Contacts tabs
+            button:
+                hover_background None
+                background "menu_tab_active"    
+                has hbox
+                add 'call_history_icon'
+                text "History"
+            null width 10         
+            button:
+                action Show("phone_contacts", Dissolve(0.5))
+                has hbox
+                add 'contact_icon'
+                text "Contacts"
+            
         viewport:
-            xsize 725
-            ysize 1070
+            style_prefix 'call_display'          
             draggable True
             mousewheel True
-            side_spacing 5
             scrollbars "vertical"
-            xalign 0.5
-            yalign 0.95
-            
-            vbox:
-                spacing 10
+            has vbox
+            for i in call_history:
+                $ call_status = 'call_' + i.call_status
+                if i.playback:
+                    $ replay_bkgr = 'call_replay_active'
+                else:
+                    $ replay_bkgr = 'call_replay_inactive'
+                
+                frame:          
+                    style_prefix None                                           
+                    background 'message_idle_bkgr'   
+                    xysize (705, 150)
 
-                for i in call_history:
-
-                    $ call_status = 'call_' + i.call_status
-                    if i.playback:
-                        $ replay_bkgr = 'call_replay_active'
-                    else:
-                        $ replay_bkgr = 'call_replay_inactive'
-                    
-                    frame:                                                      
-                        background 'message_idle_bkgr'   
-                        xysize (705, 150)
-
-                        has hbox
-                        spacing 10  
+                    has hbox
+                    spacing 10  
+                    align (0.5, 0.5)
+                    frame:
+                        xysize (135, 135)
                         align (0.5, 0.5)
-                        frame:
-                            xysize (135, 135)
-                            align (0.5, 0.5)
-                            add Transform(i.caller.prof_pic, size=(127,127)):
-                                yalign 0.5 xalign 0.5
+                        add Transform(i.caller.prof_pic, size=(127,127)):
+                            yalign 0.5 xalign 0.5
+                    
+                    frame:
+                        xsize 300
+                        yalign 0.5
+                        has vbox
+                        align (0.0, 0.5)
+                        text i.caller.name + ' {image=[call_status]}':
+                            style "save_slot_text"
+                        spacing 40                                    
+                        text ("[i.call_time.twelve_hour]:[i.call_time.minute]"
+                                + " [i.call_time.am_pm], [i.call_time.day]/"
+                                + "[i.call_time.month_num]"):
+                            style "save_slot_text"
                         
-                        frame:
-                            xsize 300
-                            yalign 0.5
-                            has vbox
-                            align (0.0, 0.5)
-                            text i.caller.name + ' {image=[call_status]}':
-                                style "save_slot_text"
-                            spacing 40                                    
-                            text ("[i.call_time.twelve_hour]:[i.call_time.minute]"
-                                    + " [i.call_time.am_pm], [i.call_time.day]/"
-                                    + "[i.call_time.month_num]"):
-                                style "save_slot_text"
-                            
-                        frame:
-                            xysize (230, 135) 
-                            align (0.5, 0.5)                        
-                            has hbox
-                            align (0.5, 0.5)
-                            spacing 30
-                            imagebutton:                        
-                                idle replay_bkgr
-                                align(0.5, 0.5)
-                                xysize(96,85)
-                                hover Transform(replay_bkgr, zoom=1.1)
-                                if i.playback:
-                                    action [SetVariable('observing', True), 
-                                            Jump(i.phone_label)]
+                    frame:
+                        xysize (230, 135) 
+                        align (0.5, 0.5)                        
+                        has hbox
+                        align (0.5, 0.5)
+                        spacing 30
+                        imagebutton:                        
+                            idle replay_bkgr
+                            align(0.5, 0.5)
+                            xysize(96,85)
+                            hover Transform(replay_bkgr, zoom=1.1)
+                            if i.playback:
+                                action [SetVariable('observing', True), 
+                                        Jump(i.phone_label)]
 
-                            imagebutton:                        
-                                idle 'call_back' 
-                                align(0.5, 0.5)
-                                xysize(96,85)
-                                hover Transform('call_back', zoom=1.1)
-                                if call_available(i.caller):
-                                    action [Preference("auto-forward", "enable"), 
-                                    Show('outgoing_call', 
-                                        phonecall=call_available(i.caller))]
-                                else:
-                                    action [Preference("auto-forward", "enable"), 
-                                    Show('outgoing_call', 
-                                        phonecall=i.caller.voicemail, 
-                                        voicemail=True)]     
+                        imagebutton:                        
+                            idle 'call_back' 
+                            align(0.5, 0.5)
+                            xysize(96,85)
+                            hover Transform('call_back', zoom=1.1)
+                            if call_available(i.caller):
+                                action [Preference("auto-forward", "enable"), 
+                                Show('outgoing_call', 
+                                    phonecall=call_available(i.caller))]
+                            else:
+                                action [Preference("auto-forward", "enable"), 
+                                Show('outgoing_call', 
+                                    phonecall=i.caller.voicemail, 
+                                    voicemail=True)]     
 
-    
+style call_display_viewport:
+    xalign 0.5
+    yalign 0.95
+    xsize 725
+    ysize 1070
+
+style call_display_vbox:
+    spacing 10
+
+style call_display_side:      
+    spacing 5
+
+
 ########################################################
 ## This screen shows you all your phone contacts so
 ## you can call them
@@ -259,45 +268,56 @@ screen phone_contacts():
     use menu_header("Contacts", Show('chat_home', Dissolve(0.5))):
     
         frame:
-            xalign 0.5
-            yalign 0.13
-            maximum(700,70)
+            style_prefix "phone_contacts"            
             has hbox
-            xalign 0.5
-            spacing 40
-            style_prefix "phone_contacts"
             # Call History/Contacts tabs
-            textbutton _('{image=call_history_icon}  History'):
+            button:
                 action Show("phone_calls", Dissolve(0.5))
-                    
-            textbutton _('{image=contact_icon}  Contacts'):
+                has hbox
+                add 'call_history_icon'
+                text "History"
+            null width 10
+            button:
                 hover_background None
                 background "menu_tab_active"
-                
+                has hbox
+                add 'contact_icon'
+                text "Contacts"                
         
         viewport:    
-            xysize (725, 1070)
+            style_prefix 'call_display'
             draggable True
             mousewheel True
-            side_spacing 5
-            scrollbars "vertical"
-            
-            xalign 0.5
-            yalign 0.95
-            
+            scrollbars "vertical" 
+            if (len(character_list) > 9
+                    or m in character_list and len(character_list) < 10):
+                xoffset 20
             has vbox
             xysize (705, 1070)   
-            xalign 0.5    
+            xalign 0.5  
+            spacing 0  
             
             # Only characters in character_list show up as contacts
             # though any character in the all_characters list can 
             # phone the player
-            if len(character_list) > 10:
+            if (len(character_list) > 9
+                    or m in character_list and len(character_list) < 10):
                 use phone_contacts_grid(3, -(-len(character_list) // 3))
             else:
+                null height 10
                 use phone_contacts_grid(3, 3)
 
-style phone_contacts_button_text:
+style phone_contacts_frame:
+    xalign 0.5
+    yalign 0.13
+    maximum(700,70)
+
+style phone_contacts_hbox:
+    xalign 0.5
+    spacing 20
+    yalign 0.5
+
+style phone_contacts_text:
     color '#fff'
     font gui.sans_serif_1
     text_align 0.5
@@ -318,16 +338,13 @@ screen phone_contacts_grid(x_num, y_num):
     $ has_mc = 0
 
     grid x_num y_num:        
-            
-        align (0.5, 0.3)
-        xspacing 60
-        yspacing 100
+        style_prefix 'contacts_grid'
+        
         for person in character_list:
             if person == m:
                 $ has_mc = 1
             else:
                 vbox:
-                    spacing 25
                     imagebutton:
                         background person.file_id + '_contact'
                         idle person.file_id + '_contact'
@@ -346,6 +363,15 @@ screen phone_contacts_grid(x_num, y_num):
         for i in range((x_num*y_num + has_mc) - len(character_list)):
             add 'empty_contact'
         
+style contacts_grid_grid:
+    align (0.5, 0.3)
+    xspacing 60
+    yspacing 100
+
+style contacts_grid_vbox:
+    spacing 25
+
+
     
 ## This label ensures the rest of the phone conversation will
 ## not play out if you hang up
@@ -388,10 +414,7 @@ screen in_call():
                 has hbox
                 align (0.5, 0.5)
                 spacing 10
-                frame:
-                    xysize(160,160)
-                    align (0.5, 0.5)
-                null width 100
+                null width 260 height 160
                 frame:
                     xysize (65,75)
                     align (0.5, 0.5)
@@ -655,7 +678,7 @@ label phone_end():
         if not observing:
             $ current_call.finished()
         $ in_phone_call = False
-        if not _in_replay:
+        if not _in_replay and not observing:
             $ persistent.completed_chatrooms[current_call.phone_label] = True
         $ current_call = False    
         $ observing = False

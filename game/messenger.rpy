@@ -1,6 +1,3 @@
-
-
-
 ## This is set of screens which handles displaying the
 ## messages in the chatlog to the screen
 screen messenger_screen():
@@ -12,9 +9,7 @@ screen messenger_screen():
         # tells the viewport to always scroll to
         # the bottom
         yadj.value = yadjValue 
-        # Now we also set up how many messages
-        # we want the user to be able to scroll
-        # back and see
+        # Set up how many messages the player can scroll back and see
         chatLength = len(chatlog) - 1
         begin = chatLength - bubbles_to_keep
         if begin >= 0:
@@ -35,7 +30,8 @@ screen messenger_screen():
         xfill True
         ysize 1080
 
-        viewport yadjustment yadj: # viewport id "VP":
+        viewport: # viewport id "VP":
+            yadjustment yadj
             draggable True
             mousewheel True
             ysize 1080
@@ -46,6 +42,9 @@ screen messenger_screen():
                     fixed:
                         yfit True
                         xfit True
+                        # This trick means that the program displays
+                        # an invisible bubble behind the visible one
+                        # so the animation doesn't "slide" in
                         if i == finalchat:
                             use chat_animation(i, True, True)
                         use chat_animation(i)
@@ -57,11 +56,13 @@ screen messenger_screen():
 screen chat_animation(i, animate=True, anti=False):
 
     python:
-        # First we set up a bunch of variables
-        # so we know how to display the message
+        # These python statements tell the program how to display
+        # the given message
+
+        # Include the 'NEW' sign?
         include_new = False
 
-        # If this message bounces, use that transformation
+        # If this message bounces, use the bounce transformation
         if i.bounce:
             transformVar = incoming_message_bounce
             include_new = False
@@ -69,7 +70,8 @@ screen chat_animation(i, animate=True, anti=False):
             transformVar = incoming_message
             include_new = True
             
-        # MC's messages are displayed differently
+        # If someone is on the right side of the messenger,
+        # they require different styles
         if i.who.right_msgr:
             nameStyle = 'chat_name_MC'
             include_new = False
@@ -85,14 +87,14 @@ screen chat_animation(i, animate=True, anti=False):
             
         if i.who.file_id:
             # If this is a special bubble, set the background
-            # according to the given bubble
+            # according to the given special bubble
             if i.specBubble != None and i.specBubble != 'glow2':
                 include_new = False
                 bubbleBackground = ("Bubble/Special/" 
                                         + i.who.file_id + "_" 
                                         + i.specBubble + ".png")  
-            # Otherwise there's a special case where we might
-            # get a 'glow2' bubble aka another glow variant
+            # Otherwise there's a special case with the 'glow2' bubble
+            # which is another glow variant
             elif i.specBubble != None and i.specBubble == 'glow2':
                 include_new = False
                 bubbleBackground = Frame("Bubble/Special/" + i.who.file_id 
@@ -101,13 +103,14 @@ screen chat_animation(i, animate=True, anti=False):
             elif i.bounce: # Not a special bubble; just glow
                 include_new = False
                 bubbleBackground = i.who.glow_bubble_img
-            elif i.who != 'answer':
+            elif i.who != answer: # Regular speech bubble
                 bubbleBackground = i.who.reg_bubble_img
             
             if i.specBubble != None:
                 # Some characters have more than one round or square bubble
                 # but they follow the same style as "round" or "square"
                 if i.specBubble[:6] == "round2":
+                    # Fetch the size of the bubble (e.g. s/m/l)
                     bubbleStyle = "round_" + i.specBubble[-1:]
                 elif i.specBubble[:7] == "square2":
                     bubbleStyle = "square_" + i.specBubble[-1:]
@@ -116,8 +119,7 @@ screen chat_animation(i, animate=True, anti=False):
                 else:
                     bubbleStyle = i.specBubble
             
-            # If it's a CG, we use a different
-            # transform
+            # If it's a CG, no new sign
             if i.img == True:
                 include_new = False
                     
@@ -133,16 +135,8 @@ screen chat_animation(i, animate=True, anti=False):
                     
             global choosing
 
-        # This is used specifically in the create-a-chatroom
-        # screens
-        if not animate:
-            global f_style_begin, f_style_end
-            transformVar = null_anim
-            nickColour = white
-            dialogue = f_style_begin + i.what + f_style_end
-        else:
-            dialogue = i.what
-
+        # If this is cancelling out the animation, 
+        # give it the correct counter-animation
         if anti and i.bounce:
             transformVar = invisible_bounce
         elif anti:
@@ -154,7 +148,7 @@ screen chat_animation(i, animate=True, anti=False):
     if (i.who.name == 'msg' or i.who.name == 'filler') and not anti:
         frame:
             style i.who.name + '_bubble'            
-            text dialogue style i.who.name + '_bubble_text'
+            text i.what style i.who.name + '_bubble_text'
             
 
     # Otherwise it's a regular character; add
@@ -172,7 +166,7 @@ screen chat_animation(i, animate=True, anti=False):
         else:
             text i.who.name at invisible
 
-        # Now we add the dialogue
+        # Now add the dialogue
         if not include_new: # Not a "regular" dialogue bubble
             frame at transformVar:
                 # Check if it's an image
@@ -196,7 +190,7 @@ screen chat_animation(i, animate=True, anti=False):
                 elif i.specBubble != None and i.specBubble != 'glow2':
                     style bubbleStyle
                     background bubbleBackground # e.g. 'sigh_m'
-                    text dialogue style 'special_bubble'
+                    text i.what style 'special_bubble'
 
                 # Not img or special bubble; check if glow variant
                 elif i.bounce:
@@ -206,25 +200,24 @@ screen chat_animation(i, animate=True, anti=False):
                     background bubbleBackground
                     # This checks if the text needs to wrap or not
                     if my_width > gui.longer_than:
-                        text dialogue:
+                        text i.what:
                             style 'bubble_text_long' 
                             min_width gui.long_line_min_width
                     else:            
-                        text dialogue:
-                            style 'bubble_text'
+                        text i.what style 'bubble_text'
 
                 # Otherwise it must be regular MC dialogue
                 else:
                     style reg_style
                     background bubbleBackground
                     if my_width > gui.longer_than:
-                        text dialogue:
+                        text i.what:
                             style 'bubble_text_long'
                             min_width gui.long_line_min_width
                     else:            
-                        text dialogue style "bubble_text"
+                        text i.what style "bubble_text"
 
-        # This does indeed need the 'new' sign
+        # This does indeed need the 'NEW' sign
         else:
             frame at transformVar:
                 pos (138,24)
@@ -237,7 +230,7 @@ screen chat_animation(i, animate=True, anti=False):
                     frame:
                         padding (25,12,20,12)
                         background bubbleBackground
-                        text dialogue:
+                        text i.what:
                             if my_width > gui.longer_than:
                                 style 'bubble_text_long'
                                 min_width gui.long_line_min_width
