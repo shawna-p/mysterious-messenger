@@ -153,6 +153,19 @@ init -5 python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
+        
+        ## Determines whether to return the large or small
+        ## profile pic, resized to the appropriate size
+        def get_pfp(self, the_size):
+            # Regular profile pic is 110x110
+            # Big pfp is 314x314
+            max_small = 110 * 1.5
+            if the_size <= max_small:
+                return Transform(self.__prof_pic, 
+                                size=(the_size, the_size))
+            else:
+                return Transform(self.__big_prof_pic, 
+                                size=(the_size, the_size))
 
         ## Resets a character's profile picture to their default
         ## Used in replay mode for the History screen

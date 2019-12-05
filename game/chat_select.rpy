@@ -496,7 +496,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                                         add person.participant_pic
                                 
                             if chatroom.participated and chatroom.played:
-                                add Transform(m.prof_pic, size=(80,80))
+                                add m.get_pfp(80)
 
         # If this chat is expired and hasn't been bought back,
         # show a button allowing the player to buy this chat again            

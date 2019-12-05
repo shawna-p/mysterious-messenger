@@ -914,9 +914,8 @@ screen chat_home(reshow=False):
                     for person in character_list[:7]:    
                         imagebutton:
                             hover "profile_pic_select_square"
-                            idle Transform(person.prof_pic, size=(99,99))
-                            background Transform(person.prof_pic, 
-                                                            size=(99,99))
+                            idle person.get_pfp(99)
+                            background person.get_pfp(99)
                             if person == m:
                                 action Show('profile_pic')
                             else:
@@ -928,9 +927,8 @@ screen chat_home(reshow=False):
                     for person in character_list[7:]:
                         imagebutton:
                             hover "profile_pic_select_square"
-                            idle Transform(person.prof_pic, size=(99,99))
-                            background Transform(person.prof_pic, 
-                                                            size=(99,99))
+                            idle person.get_pfp(99)
+                            background person.get_pfp(99)
                             action Show('chara_profile', who=person)
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
         frame:
@@ -1190,7 +1188,7 @@ screen chara_profile(who):
             fixed:
                 xfit True yfit True
                 xalign 0.1 yalign 0.62
-                add Transform(who.big_prof_pic, size=(314,314))
+                add who.get_pfp(314)
                 add 'profile_outline'    
             frame:
                 xysize (350,75)

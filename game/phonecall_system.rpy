@@ -139,13 +139,16 @@ init -6 python:
             
         renpy.retain_after_load()
         
+# Number of calls the player missed
 default unseen_calls = 0
+# True if the player is in a phone call (for choice menus etc)
 default in_phone_call = False
+# Number of seconds to wait for the player to pick up incoming calls
 default call_countdown = 10
 
 ########################################################
 ## The phone menu screen, which displays a list of all
-## the phone calls you've received
+## the phone calls the player has received
 ########################################################
 screen phone_calls():
 
@@ -198,7 +201,7 @@ screen phone_calls():
                     frame:
                         xysize (135, 135)
                         align (0.5, 0.5)
-                        add Transform(i.caller.prof_pic, size=(127,127)):
+                        add i.caller.get_pfp(127):
                             yalign 0.5 xalign 0.5
                     
                     frame:
@@ -258,8 +261,8 @@ style call_display_side:
 
 
 ########################################################
-## This screen shows you all your phone contacts so
-## you can call them
+## This screen shows you all the player's phone contacts
+## so they can call them
 ########################################################
 
 screen phone_contacts():
@@ -374,7 +377,7 @@ style contacts_grid_vbox:
 
     
 ## This label ensures the rest of the phone conversation will
-## not play out if you hang up
+## not play out if the player hangs up
 label hang_up():
     $ observing = False
     $ renpy.end_replay()
@@ -402,10 +405,9 @@ screen in_call():
                         Preference('auto-forward after click', 'disable')]
                         
     use menu_header("In Call"):
-        frame:
+        fixed:
             xysize (750, 1250)
-            add 'call_headphones' yalign 0.12 xalign 0.5
-            
+            add 'call_headphones' yalign 0.12 xalign 0.5            
 
             frame:
                 xysize(710, 200)
@@ -415,7 +417,7 @@ screen in_call():
                 align (0.5, 0.5)
                 spacing 10
                 null width 260 height 160
-                frame:
+                fixed:
                     xysize (65,75)
                     align (0.5, 0.5)
                     imagebutton:
@@ -423,14 +425,16 @@ screen in_call():
                         if _preferences.afm_enable: #preferences.afm_time > 0:
                             idle 'call_pause'
                             action [PauseAudio('voice', value=True), 
-                                    Function(toggle_afm)] #Preference("auto-forward", "toggle")
+                                    Function(toggle_afm)] 
+                                    #Preference("auto-forward", "toggle")
                             
                         else:
                             idle 'call_play'
                             action [PauseAudio('voice', value=False), 
-                                    Function(toggle_afm)] #Preference("auto-forward", "toggle")
+                                    Function(toggle_afm)] 
+                                    #Preference("auto-forward", "toggle")
                 null width 100
-                frame:
+                fixed:
                     xysize(160,160)
                     align (0.5, 0.5)
                     if not starter_story:
@@ -477,8 +481,7 @@ screen incoming_call(phonecall, countdown_time=10):
                     has vbox
                     align (0.5, 0.5)
                     spacing 15
-                    add Transform(phonecall.caller.big_prof_pic, 
-                            size=(237,237)):
+                    add phonecall.caller.get_pfp(237):
                         align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
                 frame:
@@ -520,7 +523,7 @@ screen incoming_call(phonecall, countdown_time=10):
                         if starter_story:
                             action Return()
                         else:
-                            action [Function(renpy.music.stop), 
+                            action [Stop('music'), 
                                     Preference("auto-forward", "enable"), 
                                     SetVariable('current_call', phonecall), 
                                     Jump(phonecall.phone_label)]
@@ -530,29 +533,32 @@ screen incoming_call(phonecall, countdown_time=10):
                 frame:
                     xysize(160,160)
                     align (0.5, 0.5)
+                    # The player shouldn't be able to hang up
+                    # a call from the introduction
                     if not starter_story:
                         imagebutton:
                             align (0.5, 0.5)
                             idle 'call_hang_up'
                             hover Transform('call_hang_up', zoom=1.1)
-                            action [Function(renpy.music.stop), 
-                                    Jump('incoming_hang_up')]
+                            ## If you hang up an incoming call, you can
+                            ## still call that character back
+                            action [Stop('music'), 
+                                    Function(call_hang_up_incoming, 
+                                        current_call),
+                                    Show('chat_home')]
                 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
     if not starter_story:
         timer 1.0 action If(call_countdown>1, 
                             SetScreenVariable("call_countdown", 
-                            call_countdown-1), 
-                            Jump('incoming_hang_up')) repeat True
+                            call_countdown-1),
+                            Function(call_hang_up_incoming, current_call),
+                            Show('chat_home')) repeat True
  
     
-## If you hang up an incoming call, you can
-## still call that character back
-label incoming_hang_up():
-    $ call_hang_up_incoming(current_call)
-    call screen chat_home
-    return
+
+
     
 ########################################################
 ## This is the screen when you're making a phone call
@@ -589,7 +595,7 @@ screen outgoing_call(phonecall, voicemail=False):
                     has vbox
                     align (0.5, 0.5)
                     spacing 15
-                    add Transform(phonecall.caller.big_prof_pic, size=(237,237)):
+                    add phonecall.caller.get_pfp(237):
                         align (0.5, 0.5)
                     text phonecall.caller.name style 'caller_id'
                     

@@ -83,7 +83,7 @@ screen text_hub_display(i):
             frame:
                 xysize (135, 135)
                 align (0.0, 0.5)
-                add Transform(last_text.who.prof_pic, size=(127,127)):
+                add last_text.who.get_pfp(127):
                     align(0.5, 0.5)
             
             frame:
@@ -174,7 +174,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
             spacing 20
             hbox:
                 spacing 20                
-                add Transform(c.prof_pic, size=(110,110))
+                add c.get_pfp(110)
                 
                 vbox:
                     spacing 10
@@ -439,7 +439,7 @@ screen text_animation(i, animate=False, anti=False):
             frame:
                 style picStyle 
                 if not anti and i.who.prof_pic:               
-                    add Transform(i.who.prof_pic, size=(110,110))
+                    add i.who.get_pfp(110)
             
             frame at transformVar:               
                 ## Check if it's an image

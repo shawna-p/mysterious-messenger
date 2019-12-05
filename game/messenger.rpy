@@ -158,7 +158,7 @@ screen chat_animation(i, animate=True, anti=False):
             xysize (110, 110)
             style picStyle
             if not anti:
-                add Transform(i.who.prof_pic, size=(110, 110))
+                add i.who.get_pfp(110)
 
         # Add their nickname
         if not anti:
