@@ -922,7 +922,7 @@ screen ringtone_dropdown(title, tone):
             xoffset 3 yoffset -3
             idle 'input_close'
             hover 'input_close_hover'
-            action Hide('ringtone_dropdown')
+            action [Stop('sound'), Hide('ringtone_dropdown')]
             
         text title style "settings_style" xpos 55 ypos 5
            
@@ -974,9 +974,10 @@ screen ringtone_dropdown(title, tone):
                                     SetField(persistent, 
                                         p_field + '_name', tone)]
                         else:
-                            activate_sound "<from 0 to 2>" + the_dict[tone]
-                            action [renpy.music.stop(channel=
-                                                    config.play_channel),
+                            #activate_sound "<from 0 to 5>" + the_dict[tone]
+                            action [Stop('sound'),
+                                    Play('sound', ("<from 0 to 5>" 
+                                        + the_dict[tone])),
                                     SetField(persistent, 
                                         p_field, the_dict[tone]),
                                     SetField(persistent, 

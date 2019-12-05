@@ -558,10 +558,10 @@ screen outgoing_call(phonecall, voicemail=False):
     tag menu
     
     
-    on 'show' action renpy.music.play(["<silence 1.5>", 
-                        phone_dial_sfx, "<silence 1.5>"])
-    on 'replace' action renpy.music.play(["<silence 1.5>", 
-                        phone_dial_sfx, "<silence 1.5>"])
+    on 'show' action Function(renpy.music.play(["<silence 1.5>", 
+                        phone_dial_sfx, "<silence 1.5>"]))
+    on 'replace' action Function(renpy.music.play(["<silence 1.5>", 
+                        phone_dial_sfx, "<silence 1.5>"]))
     
     use menu_header("In Call"):
         frame:
@@ -608,11 +608,10 @@ screen outgoing_call(phonecall, voicemail=False):
                                         Jump(phonecall.phone_label)], 
                                         Show('phone_calls'))
     else:
-        timer randint(2, 8) action [Stop('music'), 
+        timer randint(2, 7) action [Stop('music'), 
                                     SetVariable('current_call', phonecall), 
                                     Jump(phonecall.phone_label)]
     
-
 
 ## Allows the program to jump to the incoming call
 label new_incoming_call(phonecall):
