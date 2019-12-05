@@ -408,42 +408,12 @@ screen in_call():
         fixed:
             xysize (750, 1250)
             add 'call_headphones' yalign 0.12 xalign 0.5            
-
-            frame:
-                xysize(710, 200)
-                yalign 0.95
-                xalign 0.5
-                has hbox
-                align (0.5, 0.5)
-                spacing 10
-                null width 260 height 160
-                fixed:
-                    xysize (65,75)
-                    align (0.5, 0.5)
-                    imagebutton:
-                        align (0.5, 0.5)
-                        if _preferences.afm_enable: #preferences.afm_time > 0:
-                            idle 'call_pause'
-                            action [PauseAudio('voice', value=True), 
-                                    Function(toggle_afm)] 
-                                    #Preference("auto-forward", "toggle")
-                            
-                        else:
-                            idle 'call_play'
-                            action [PauseAudio('voice', value=False), 
-                                    Function(toggle_afm)] 
-                                    #Preference("auto-forward", "toggle")
-                null width 100
-                fixed:
-                    xysize(160,160)
-                    align (0.5, 0.5)
-                    if not starter_story:
-                        imagebutton:
-                            align (0.5, 0.5)
-                            idle 'call_hang_up'
-                            hover Transform('call_hang_up', zoom=1.1)
-                            action [Hide('say'), Jump('hang_up')]
-                        
+            if not starter_story:
+                use phone_footer(False, "call_pause", 
+                                [Hide('say'), Jump('hang_up')])
+            else:
+                use phone_footer(False, "call_pause", False)
+                                   
                 
 
 ########################################################
@@ -505,47 +475,19 @@ screen incoming_call(phonecall, countdown_time=10):
                 if not starter_story:
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
                 
-                
-            frame:
-                xysize(710, 200)
-                yalign 0.95
-                xalign 0.5
-                has hbox
-                align (0.5, 0.5)
-                spacing 10
-                frame:
-                    xysize(160,160)
-                    align (0.5, 0.5)
-                    imagebutton:
-                        align (0.5, 0.5)
-                        idle 'call_answer'
-                        hover Transform('call_answer', zoom=1.1)
-                        if starter_story:
-                            action Return()
-                        else:
-                            action [Stop('music'), 
-                                    Preference("auto-forward", "enable"), 
-                                    SetVariable('current_call', phonecall), 
-                                    Jump(phonecall.phone_label)]
-                null width 100
-                add 'call_headphones' yalign 1.0
-                null width 100
-                frame:
-                    xysize(160,160)
-                    align (0.5, 0.5)
-                    # The player shouldn't be able to hang up
-                    # a call from the introduction
-                    if not starter_story:
-                        imagebutton:
-                            align (0.5, 0.5)
-                            idle 'call_hang_up'
-                            hover Transform('call_hang_up', zoom=1.1)
-                            ## If you hang up an incoming call, you can
-                            ## still call that character back
-                            action [Stop('music'), 
-                                    Function(call_hang_up_incoming, 
-                                        current_call),
-                                    Show('chat_home')]
+            if starter_story:
+                use phone_footer([Stop('music'), Return()], 
+                                    "headphones", False)
+            else:
+                use phone_footer([Stop('music'), 
+                                Preference("auto-forward", "enable"), 
+                                SetVariable('current_call', phonecall), 
+                                Jump(phonecall.phone_label)],
+                                "headphones",
+                                [Stop('music'), 
+                                Function(call_hang_up_incoming, current_call),
+                                Show('chat_home')])
+  
                 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
@@ -553,12 +495,57 @@ screen incoming_call(phonecall, countdown_time=10):
         timer 1.0 action If(call_countdown>1, 
                             SetScreenVariable("call_countdown", 
                             call_countdown-1),
-                            Function(call_hang_up_incoming, current_call),
-                            Show('chat_home')) repeat True
+                            [Function(call_hang_up_incoming, current_call),
+                            Show('chat_home')]) repeat True
  
     
-
-
+## Screen that shows the pick up/answer buttons at the bottom
+screen phone_footer(answer_action=False, 
+                    center_item=False, 
+                    hangup_action=False):
+    frame:
+        xysize(710, 200)
+        yalign 0.95
+        xalign 0.5
+        has hbox
+        align (0.5, 0.5)
+        spacing 10
+        frame:
+            xysize(160,160)
+            align (0.5, 0.5)
+            if answer_action:
+                imagebutton:
+                    align (0.5, 0.5)
+                    idle 'call_answer'
+                    hover Transform('call_answer', zoom=1.1)
+                    action answer_action
+        fixed:
+            xysize (323, 160)            
+            if center_item == "headphones":
+                add 'call_headphones' yalign 1.0 xalign 0.5
+            elif center_item == "call_pause":
+                 imagebutton:
+                    align (0.5, 0.5)
+                    if _preferences.afm_enable: #preferences.afm_time > 0:
+                        idle 'call_pause'
+                        action [PauseAudio('voice', value=True), 
+                                Function(toggle_afm)] 
+                                #Preference("auto-forward", "toggle")
+                    else:
+                        idle 'call_play'
+                        action [PauseAudio('voice', value=False), 
+                                Function(toggle_afm)] 
+                                #Preference("auto-forward", "toggle"
+            
+        frame:
+            xysize(160,160)
+            align (0.5, 0.5)
+            if hangup_action:
+                imagebutton:
+                    align (0.5, 0.5)
+                    idle 'call_hang_up'
+                    hover Transform('call_hang_up', zoom=1.1)
+                    action hangup_action
     
 ########################################################
 ## This is the screen when you're making a phone call
@@ -612,36 +599,16 @@ screen outgoing_call(phonecall, voicemail=False):
                 add 'call_connect_triangle' at delayed_blink2(0.8, 1.4) xalign 0.65
                 add 'call_connect_triangle' at delayed_blink2(1.0, 1.4) xalign 0.75
                 
-                
-            frame:
-                xysize(710, 200)
-                yalign 0.95
-                xalign 0.5
-                has hbox
-                align (0.5, 0.5)
-                spacing 10
-                frame:
-                    xysize(160,160)
-                    align (0.5, 0.5)
-                null width 100
-                add 'call_headphones' yalign 1.0
-                null width 100
-                frame:
-                    xysize(160,160)
-                    align (0.5, 0.5)
-                    imagebutton:
-                        align (0.5, 0.5)
-                        idle 'call_hang_up'
-                        hover Transform('call_hang_up', zoom=1.1)
-                        action [renpy.music.stop, Show('phone_calls')]
-       
+            use phone_footer(False, "headphones", 
+                            [Stop('music'), Show('phone_calls')])    
+                   
     if voicemail:
-        timer randint(8, 10) action If(phonecall, [renpy.music.stop, 
+        timer randint(8, 10) action If(phonecall, [Stop('music'), 
                                         SetVariable('current_call', phonecall), 
                                         Jump(phonecall.phone_label)], 
                                         Show('phone_calls'))
     else:
-        timer randint(2, 8) action [renpy.music.stop, 
+        timer randint(2, 8) action [Stop('music'), 
                                     SetVariable('current_call', phonecall), 
                                     Jump(phonecall.phone_label)]
     
