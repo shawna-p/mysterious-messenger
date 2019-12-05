@@ -90,9 +90,19 @@ init -6 python:
         who.text_msg.heart_point(person, bad)
              
     ## Delivers all of the text messages at once
-    def deliver_all(): 
-        for c in store.all_characters:
-            c.text_msg.deliver()
+    def deliver_all_texts(): 
+        for c in all_characters:
+            # First check for regular texts
+            if (c.text_msg.msg_queue 
+                    and not c.real_time_text):
+                c.text_msg.deliver()
+            # Deliver real-time texts
+            elif (c.real_time_text and not c.text_msg.read 
+                    and not c.text_msg.notified):
+                c.text_msg.notified = True
+                renpy.music.play(persistent.text_tone, 'sound')
+                popup_screen = allocate_text_popup()
+                renpy.show_screen(popup_screen, c=c) 
         
     ## Returns the number of unread messages in text_messages
     def new_message_count():

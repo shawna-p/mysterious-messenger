@@ -233,7 +233,7 @@ label chat_back():
         # and delivers text messages, phone calls etc
         if renpy.has_label('after_' + current_chatroom.chatroom_label): 
             $ renpy.call('after_' + current_chatroom.chatroom_label)
-        $ deliver_all()
+        $ deliver_all_texts()
         $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
         stop music
