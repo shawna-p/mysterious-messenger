@@ -65,24 +65,32 @@ style select_history_frame:
 
 default which_history_route = None
 
+## This screen lets you select which route to view in the history
 screen select_history_route():
 
     tag menu
 
     use menu_header("History", Show('main_menu', Dissolve(0.5))):
-
-        style_prefix 'history_route'
-        for route in all_routes:
-            textbutton _(route.route_history_title + " Route"):
-                action [SetVariable('which_history_route', route.route),
-                        Show('chat_select', days=route.route)]
+        frame:
+            xysize (750, 1070)
+            style_prefix 'history_route'
+            has vbox
+            for route in all_routes:
+                textbutton _(route.route_history_title + " Route"):
+                    action [SetVariable('which_history_route', route.route),
+                            Show('chat_select', days=route.route)]
 
 style history_route_button:
     is other_settings_end_button
     padding (30,30)
+    xsize 650
+    ysize 120
 
 style history_route_button_text:
     is mode_select
+
+style history_route_vbox:
+    align (0.5, 0.5)
 
 image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.png", 10,10)
 image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.png", 10,10)
@@ -108,15 +116,15 @@ init python:
             return persistent.completed_chatrooms.get(item.vn_label)
 
         # Otherwise, it's a text label
-        # We need to check if the item immediately after it is visible
+        # Check if the item immediately after it is visible
         if index < len(archive_list)-1:
             return display_history(archive_list[index+1], index+1, archive_list)
 
-        # Otherwise all has failed so we assume we don't display it
+        # Otherwise all has failed so don't display it
         return False
 
-    ## Returns true if there is at least one label in these two lists
-    ## that has been seen
+    ## Returns true if there is at least one phone call in the
+    ## given list that has been seen
     def calls_available_history(calls):
         for c in calls:
             if persistent.completed_chatrooms.get(c):
@@ -144,7 +152,7 @@ screen chatroom_item_history(chatroom):
         is_vn = (isinstance(chatroom, VNMode)
                     or isinstance(chatroom, store.VNMode))
                     
-        # Now we set up some variables to see whether or not the player
+        # Set up some variables to see whether or not the player
         # has seen one version of this chatroom or not
         if is_chatroom:
             my_vn = chatroom.vn_obj
@@ -239,10 +247,9 @@ screen chatroom_item_history(chatroom):
             vbox:
                 yoffset 3
                 spacing 18
-                # This box displays the trigger time and
-                # title of the chatroom; optionally at
-                # a scrolling transform so you can read
-                # the entire title
+                # This box displays the trigger time and title of 
+                # the chatroom; optionally at a scrolling transform 
+                # so you can read the entire title
                 hbox:
                     spacing 30
                     frame:
@@ -293,7 +300,7 @@ screen chatroom_item_history(chatroom):
 
             
 
-    # If there's a VN object, we display it now
+    # If there's a VN object, display it
     if my_vn and not my_vn.party:
         frame:
             xysize(700, 160)
@@ -337,7 +344,7 @@ screen chatroom_item_history(chatroom):
                             Replay(my_vn.vn_label,
                                 scope=replay_dictionary)]  
 
-    # Now we add an hbox of the phone calls available around this chatroom
+    # Now add an hbox of the phone calls available after this chatroom
     if (is_chatroom and (chatroom.incoming_calls_list 
                 or chatroom.outgoing_calls_list)
             and calls_available_history(chatroom.incoming_calls_list + 
@@ -377,10 +384,6 @@ screen chatroom_item_history(chatroom):
                         xysize (85,85)
                         action Replay(c, scope=replay_dictionary)
                        
-                
-            
-        
-
 
 style timeline_button:
     xysize (181,62)    

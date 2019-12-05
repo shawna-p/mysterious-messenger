@@ -43,66 +43,52 @@ default tutorial_route = Route(
                                      tutorial_bre],
                         route_history_title='Tutorial')
 
-# This is an example of how a route for another character, such as 707,
-# might look like
-default seven_route = [ RouteDay('5th', [], 's'),
-                        RouteDay('6th', [], 's'),
-                        RouteDay('7th', [], 's'),
-                        RouteDay('8th', [], 's'),
-                        RouteDay('9th', [], 's'),
-                        RouteDay('10th', [], 's'),
-                        RouteDay('Final', [], 's')]
 
 # This variable keeps track of all the routes you've defined in order
 # to display it in the History screen from the main menu
 # It should ALWAYS be at the end of the file
-# It's a list of tuples; the first item in the tuple is the name
-# of the route how you want it to show up in history (e.g. 'Tutorial'
-# will show up in the history screen as "Tutorial Route") and the second
-# also a tuple, where the first item is the variable for the route you
-# defined earlier, and the second item is a string that's how you want
-# that route to show up in the history list
 default all_routes = [ tutorial_route ]
 
-# default seven_bad_end_1 = []
-# default seven_bad_end_2 = []
-# default seven_bad_end_3 = []
-# default seven_bre_1 = []
-# default seven_bre_2 = []
-# default seven_good_end = []
-# default seven_normal_end = []
-# default zen_route = []
-# default zen_bad_end_1 = []
-# default zen_bad_end_2 = []
-# default zen_bad_end_3 = []
-# default zen_bre_1 = []
-# default zen_bre_2 = []
-# default zen_good_end = []
-# default zen_normal_end = []
+# This is an example of how many routes may be set up to all be displayed
+# properly in the History
 
+# default seven_good_end = ["Good End", RouteDay("5th", [...])]
+# default seven_bad_end_1 = ["Bad Story End 1", RouteDay("7th", [...])]
+# default seven_bad_end_2 = ["Bad Story End 2", RouteDay("9th", [...])]
+# default seven_bad_end_3 = ["Bad Story End 3", RouteDay("10th", [...])]
+# default seven_bre_1 = ["Bad Relationship End 1", RouteDay("7th", [...])]
+# default seven_bre_2 = ["Bad Relationship End 1", RouteDay("10th", [...])]
+# default seven_normal_end = ["Normal End", RouteDay("11th", [...])]
+
+# default seven_route = Route(
+#     default_branch=seven_good_end,
+#     branch_list=[seven_bad_end_1, seven_bad_end_2,
+#         seven_bad_end_3, seven_bre_1, seven_bre_2, seven_normal_end],
+#         route_history_title="707")
+
+# default zen_good_end = ["Good End", RouteDay("5th", [...])]
+# default zen_bad_end_1 = ["Bad Story End 1", RouteDay("7th", [...])]
+# default zen_bad_end_2 = ["Bad Story End 2", RouteDay("9th", [...])]
+# default zen_bad_end_3 = ["Bad Story End 3", RouteDay("10th", [...])]
+# default zen_bre_1 = ["Bad Relationship End 1", RouteDay("7th", [...])]
+# default zen_bre_2 = ["Bad Relationship End 2", RouteDay("10th", [...])]
+# default zen_normal_end = ["Normal End", RouteDay("11th", [...])]
+
+# default zen_route = Route(
+#     default_branch=zen_good_end,
+#     branch_list=[zen_bad_end_1, zen_bad_end_2,
+#     zen_bad_end_3, zen_bre_1, zen_bre_2, zen_normal_end],
+#     route_history_title="ZEN")
+
+# default common_route_good = ["Good End", RouteDay("1st", [...])]
+# default common_route_bad = ["Bad Story End", RouteDay("4th", [...])]
+
+# default common_route = Route(
+#     default_branch=common_route_good,
+#     branch_list=[common_route_bad],
+#     route_history_title="Common",
+#     has_good_end=False)
 
 # Here's an example all_routes definition as it might look if
 # you had a common route and a route for 707 and Zen
-# default all_routes = [ ('Common', [(common_route, 'default'),
-#                                     (common_bad_end, 'Common Route Bad End') ]),
-#                         ('707', [(seven_route, 'default'),
-#                                  (seven_route_2, 'default'),
-#                                  (seven_route_3, 'default'),
-#                                  (seven_bad_end_1, '707 Bad Story End 1'),
-#                                  (seven_bad_end_2, '707 Bad Story End 2'),
-#                                  (seven_bad_end_3, '707 Bad Story End 3'),
-#                                  (seven_bre_1, '707 Bad Relationship End 1'),
-#                                  (seven_bre_2, '707 Bad Relationship End 2'),
-#                                  (seven_good_end, '707 Good End'),
-#                                  (seven_normal_end, '707 Normal End')]),
-#                         ('Zen', [(zen_route, 'default'),
-#                                  (zen_route_2, 'default'),
-#                                  (zen_route_3, 'default'),
-#                                  (zen_bad_end_1, 'Zen Bad Story End 1'),
-#                                  (zen_bad_end_2, 'Zen Bad Story End 2'),
-#                                  (zen_bad_end_3, 'Zen Bad Story End 3'),
-#                                  (zen_bre_1, 'Zen Bad Relationship End 1'),
-#                                  (zen_bre_2, 'Zen Bad Relationship End 2'),
-#                                  (zen_good_end, 'Zen Good End'),
-#                                  (zen_normal_end, 'Zen Normal End')])
-#                                     ]
+# default all_routes = [ common_route, seven_route, zen_route ]

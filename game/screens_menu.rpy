@@ -20,7 +20,7 @@ init python:
 
     import time
 
-    # Used to get the player's name from input
+    ## Used to get the player's name from input
     class NameInput(InputValue):
         def __init__(self):
             self.the_name = "Rainbow"
@@ -32,7 +32,7 @@ init python:
         def set_text(self, s):
             s = s.strip()  
             self.the_name = s       
-            global name, m, persistent
+            global name, persistent
             # Ensure the given name is valid
             if (len(s) < 2
                     or not has_alpha(s)
@@ -45,12 +45,11 @@ init python:
             else:
                 persistent.name = self.the_name
                 renpy.save_persistent()
-                name = persistent.name  
-                # m.name = name 
+                name = persistent.name
                 renpy.retain_after_load()  
             
         def enter(self):
-            global name, m, persistent
+            global name, persistent
             if (len(self.the_name) < 2
                     or not has_alpha(self.the_name)
                     or not has_valid_chars(self.the_name)):
@@ -61,8 +60,7 @@ init python:
             else:
                 persistent.name = self.the_name
                 renpy.save_persistent()
-                name = persistent.name  
-                # m.name = name 
+                name = persistent.name 
                 renpy.retain_after_load()  
                 renpy.hide_screen('input_popup')
             # renpy.run(self.Disable())                
@@ -90,47 +88,52 @@ init python:
         global greeted, greet_text_english, greet_text_korean
         greeted = True
         greet_text_english = "Welcome to my Mystic Messenger Generator!"
+        # If translations were included, the text would be set like this
+        # greet_text_english=morning_greeting[greet_char][the_greeting].english
+        # greet_text_korean = morning_greeting[greet_char][the_greeting].korean
         
         if hour >= 6 and hour < 12:  # morning
             greet_text_english = "Good morning! " + greet_text_english
             
             num_greetings = len(morning_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            # If translations were included, the text would be set like this
-            # greet_text_english = morning_greeting[greet_char][the_greeting].english
-            # greet_text_korean = morning_greeting[greet_char][the_greeting].korean
-            renpy.play(morning_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
+            renpy.play(morning_greeting[greet_char][the_greeting].sound_file, 
+                channel="voice_sfx")
             
         elif hour >=12 and hour < 18:    # afternoon
             greet_text_english = "Good afternoon! " + greet_text_english
             
             num_greetings = len(afternoon_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(afternoon_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
+            renpy.play(afternoon_greeting[greet_char][the_greeting].sound_file, 
+                channel="voice_sfx")
             
         elif hour >= 18 and hour < 22:  # evening
             greet_text_english = "Good evening! " + greet_text_english
             
             num_greetings = len(evening_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(evening_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
+            renpy.play(evening_greeting[greet_char][the_greeting].sound_file, 
+                channel="voice_sfx")
             
         elif hour >= 22 or hour < 2: # night
             greet_text_english = "It's getting late! " + greet_text_english
             
             num_greetings = len(night_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(night_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
+            renpy.play(night_greeting[greet_char][the_greeting].sound_file, 
+                channel="voice_sfx")
             
         else:   # late night/early morning
             greet_text_english = "You're up late! " + greet_text_english
             
             num_greetings = len(late_night_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(late_night_greeting[greet_char][the_greeting].sound_file, channel="voice_sfx")
+            renpy.play(late_night_greeting[greet_char][the_greeting].sound_file, 
+                channel="voice_sfx")
         
         
-    # Sets the player's pronouns, if they change them
+    ## Sets the player's pronouns, if they change them
     def set_pronouns():
         global they, them, their, theirs, themself, they_re
         global They, Them, Their, Theirs, Themself, They_re
@@ -185,9 +188,9 @@ init python:
             s_verb = ""
         renpy.retain_after_load()
 
-    # Ensures the player's name and profile picture are correctly set
+    ## Ensures the player's name and profile picture are correctly set
     def set_name_pfp():
-        global name, persistent, m
+        global name, persistent
         name = persistent.name
         # if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
         #     m.prof_pic = persistent.MC_pic
@@ -205,10 +208,9 @@ init python:
 default hbc_bag = RandomBag([ False, False, False, 
                               False, False, True, True ])
 
-# This lets it randomly pick a profile picture to display        
+# This lets it randomly pick a greet character to display        
 default greet_char = "s"
-define greet_list = ['ja', 'ju', 'sa', 'ri', 's', 
-                                 'u', 'v', 'y', 'z']
+define greet_list = [x.file_id for x in all_characters if (x != r and x != m)]
 
 # Greeting Text
 # (Eventually these will be stored in the Day_Greet object to be
@@ -1031,10 +1033,10 @@ screen chat_home(reshow=False):
                 hover_background "gray_chatbtn_hover"
                 if persistent.real_time:
                     action [Function(next_chatroom), 
-                            Function(deliver_all), 
+                            Function(deliver_all_texts), 
                             Show('chat_select')]
                 else:
-                    action [Function(deliver_all), Show('chat_select')]
+                    action [Function(deliver_all_texts), Show('chat_select')]
                 activate_sound "audio/sfx/UI/chatroom_select.mp3"
                 add "rfa_chatcircle" yalign 0.5 xalign 0.5
                 add "blue_chatcircle" xalign 0.5 yalign 0.5
