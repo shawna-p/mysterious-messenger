@@ -84,9 +84,12 @@ init python:
     ## This picks a greeting depending on the time of day and plays it
     ## Makes use of a class called DayGreeting to find sound clips and the 
     ## corresponding translations
-    def chat_greet(hour, greet_char):  
-        global greeted, greet_text_english, greet_text_korean
-        greeted = True
+    def chat_greet():  
+        global greet_text_english, greet_text_korean 
+        global greet_char, greet_list
+        greet_char = renpy.random.choice(greet_list)
+        hour = int(time.strftime('%H', time.localtime()))
+
         greet_text_english = "Welcome to my Mystic Messenger Generator!"
         # If translations were included, the text would be set like this
         # greet_text_english=morning_greeting[greet_char][the_greeting].english
@@ -208,9 +211,6 @@ init python:
 default hbc_bag = RandomBag([ False, False, False, 
                               False, False, True, True ])
 
-# This lets it randomly pick a greet character to display        
-default greet_char = "s"
-define greet_list = [x.file_id for x in all_characters if (x != r and x != m)]
 
 # Greeting Text
 # (Eventually these will be stored in the Day_Greet object to be
@@ -218,9 +218,9 @@ define greet_list = [x.file_id for x in all_characters if (x != r and x != m)]
 default greet_text_korean = "제 프로그램으로 환영합니다!"
 default greet_text_english = "Welcome to my Mystic Messenger Generator!"
 
-# A variable that keeps track of whether or not the player has been "greeted"
-# in order to prevent it from constantly greeting you when you switch screens
-default greeted = False
+# This lets it randomly pick a greet character to display for greetings       
+default greet_list = [x.file_id for x in all_characters if (x != r and x != m)]
+default greet_char = greet_list[0]
 
 
 ## Main Menu screen ############################################################
@@ -232,25 +232,21 @@ default greeted = False
 screen main_menu():
 
     tag menu
-    
-    python:    
-        # This if statement just makes sure the menu music isn't
-        # constantly restarting
-        if renpy.music.get_playing(channel='music') != mystic_chat:
-            renpy.music.play(mystic_chat, loop=True)
-                               
-        hour = time.strftime('%H', time.localtime())
-        hour = int(hour)    # gets the hour, makes it an int
-        greet_char = renpy.random.choice(greet_list)
-        if not greeted:
-            chat_greet(hour, greet_char)
-        
-    
+         
+    # Greet the player, and play the title music if not already
+    on 'show' action If(renpy.music.get_playing(channel='music')
+                         != mystic_chat,
+                        [Play('music', mystic_chat), Function(chat_greet)],
+                        Function(chat_greet))
+    on 'replace' action If(renpy.music.get_playing(channel='music')
+                         != mystic_chat,
+                        [Play('music', mystic_chat), Function(chat_greet)],
+                        Function(chat_greet))
+
     # This adds the 'starry night' background with a few animated stars
-    # You can see the background defined in 'starry night bg.rpy'
+    # It is defined in 'screens_starry_night.rpy'
     use starry_night()
-        
-        
+                
     # Welcome to Rika's Fundraising Association message
     add "rfa_greet" yalign 0.02 xalign 0.25 
     
@@ -264,7 +260,7 @@ screen main_menu():
         has hbox
         frame:
             xysize(143,127)
-            add 'greet [greet_char]' align (0.5, 0.5)
+            add 'greet ' + greet_char align (0.5, 0.5)
         frame:
             xysize(500,120)
             background "greeting_bubble" padding (35, 5, 10, 5)
@@ -273,7 +269,8 @@ screen main_menu():
             text greet_text_english style "greet_text"
 
     # The main menu buttons. Note that some currently don't take
-    # you to the screen you'd want as those features have yet to be added
+    # you to the screen you'd want as those features have yet to 
+    # be added (or are irrelevant)
     frame:
         xysize(655, 625)
         xalign 0.5
@@ -342,8 +339,6 @@ screen main_menu():
             button:
                 xysize (205,195)
                 style_prefix 'right_menu'
-                # Leads to the create-a-chatroom screens                
-                # action Show('create_archive') 
                 vbox:              
                     add "menu_dlc"
                     text "DLC"
@@ -397,10 +392,6 @@ screen route_select_screen():
                     focus_mask True
                     background 'right_corner_menu'
                     hover_foreground 'right_corner_menu_hover'
-                    # Note that here we tell the program which "route"
-                    # we'd like the player to be on -- in this case,
-                    # tutorial_good_end, without the title (which is why
-                    # we need to follow it with [1:])
                     action [Start()]         
                 text 'Start Game':
                     style 'menu_text_small' 
@@ -443,19 +434,19 @@ screen file_slots(title):
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name  
         if most_recent_chat == None:
-            most_recent_chat = ChatHistory('Example Chatroom', 'example_chat', '00:01')
+            most_recent_chat = ChatHistory('Example Chatroom', 
+                                            'example_chat', '00:01')
         for day in chat_archive:
             if most_recent_chat in day.archive_list:
                 the_day = day.day
                         
     
     fixed:
-        ## This ensures the input will get the enter event before any of the
-        ## buttons do.
+        # This ensures the input will get the enter event before any of the
+        # buttons do.
         order_reverse True
 
-        ## Contains the save slots. I've added many more than were originally
-        ## available, but it's personal preference
+        # Contains the save slots.
         vpgrid id 'save_load_vp':
             style_prefix "slot"
             rows gui.file_slot_rows
@@ -545,8 +536,8 @@ screen file_slots(title):
                 
                 python:
                     # Compare file times to now
-                    # E.g. if we saved at 20:30, if now is 20:29 or earlier,
-                    # we want it to be the next day
+                    # E.g. if the game was saved at 20:30, if now is 20:29
+                    # or earlier, it should load the next day
                     if int(file_hour) > int(datetime.now().strftime('%H')):
                         # Hour of save is greater; proceed to next day
                         # Gets the name of the next day for loading purposes
@@ -720,20 +711,18 @@ screen menu_header(title, return_action=NullAction,
         use starry_night()
 
 
-    # If we're on real-time, check once a minute if it's time for the
-    # next chatroom
+    # If the game loaded and isn't showing the chat hub, jump there 
     if persistent.just_loaded and renpy.get_screen('chat_home') is None:
-        # Check if we should show the chat_hub 
         on 'show' action [SetField(persistent, 'just_loaded', False),
-                            #Hide('chip_end'),
                             Show('chat_home')]
         on 'replace' action [SetField(persistent, 'just_loaded', False),
-                            #Hide('chip_end'),
                             Show('chat_home')]
-    if persistent.real_time and not main_menu and not starter_story:
-        timer 60 action Function(next_chatroom) repeat True
-        on 'show' action Function(next_chatroom)
-        on 'replace' action Function(next_chatroom)
+    # # If the game is running on real-time, check once a minute
+    # # if it's time for the next chatroom
+    # if persistent.real_time and not main_menu and not starter_story:
+    #     timer 60 action Function(next_chatroom) repeat True
+    #     on 'show' action Function(next_chatroom)
+    #     on 'replace' action Function(next_chatroom)
         
     if (not renpy.get_screen('text_message_screen') 
             and not main_menu 
@@ -1102,6 +1091,7 @@ screen chat_home(reshow=False):
                     xysize(130,149)
                     background "white_hex"
                     hover_background "white_hex_hover"
+                    action Function(next_chatroom)
                     #action SetVariable('chips_available', True)            
                     add "link_icon" xalign 0.5 yalign 0.3
                     add "link_text" xalign 0.5 yalign 0.8

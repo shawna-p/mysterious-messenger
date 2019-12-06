@@ -158,7 +158,6 @@ label chat_end():
 label chat_end_route():
     call screen save_and_exit(True)
     $ config.skipping = False
-    $ greeted = False
     $ choosing = False
     hide screen phone_overlay
     hide screen messenger_screen
@@ -194,7 +193,6 @@ label chat_back():
     # expired, you can back out without repercussions
     if observing or current_chatroom.expired or _in_replay:
         $ config.skipping = False
-        $ greeted = False
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen
@@ -217,8 +215,7 @@ label chat_back():
         $ current_chatroom.reset_participants()
         $ chatroom_hp = 0
         $ chatroom_hg = 0
-        $ config.skipping = False   
-        $ greeted = False         
+        $ config.skipping = False       
         $ choosing = False
         $ most_recent_chat = current_chatroom
         hide screen phone_overlay
@@ -266,7 +263,6 @@ screen save_and_exit(end_route=False):
 label press_save_and_exit(phone=True):
     if observing or _in_replay:
         $ config.skipping = False
-        $ greeted = False
         $ choosing = False
         $ observing = False
         hide screen phone_overlay
@@ -284,8 +280,7 @@ label press_save_and_exit(phone=True):
         $ persistent.HG += chatroom_hg
         $ chatroom_hp = 0
         $ chatroom_hg = 0
-        $ config.skipping = False   
-        $ greeted = False         
+        $ config.skipping = False        
         $ choosing = False
         hide screen phone_overlay
         hide screen messenger_screen

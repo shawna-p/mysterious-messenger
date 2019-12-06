@@ -118,7 +118,6 @@ label vn_end():
         
 label vn_end_route():
     $ config.skipping = False
-    $ greeted = False
     $ choosing = False
     stop music
     

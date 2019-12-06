@@ -94,8 +94,7 @@ screen loading_screen():
         yalign 0.018
         idle 'load_close'
         hover Transform('load_close', zoom=1.05)
-        action [ToggleVariable("greeted", False, True), 
-                Hide('splash_screen_test'), Return()]
+        action [Hide('splash_screen_test'), Return()]
         
         
     add 'load_tip 'xalign 0.13 yalign 0.32
