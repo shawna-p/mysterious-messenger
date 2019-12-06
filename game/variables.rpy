@@ -25,7 +25,7 @@ init -6 python:
             self.month = datetime.now().strftime('%B')          #e.g. August
             self.month_num = datetime.now().strftime('%m')      #e.g. 8
             
-            self.year = datetime.now().strftime('%y')           #e.g. 2018
+            self.year = datetime.now().strftime('%Y')           #e.g. 2018
             
             # This small function is so you can set the day
             # manually for testing purposes

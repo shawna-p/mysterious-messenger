@@ -314,7 +314,7 @@ default character_list = [ju, z, s, y, ja, v, m, r, ri]
 # not the character_list, so he can send texts and make calls 
 # but doesn't have an icon in your contacts to call him
 default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
-                        
+                       
                         
 # ****************************
 # Phone Call Characters

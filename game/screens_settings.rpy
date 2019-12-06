@@ -589,8 +589,7 @@ screen other_settings():
                 style_prefix "other_settings_end"            
                 has hbox
                 textbutton _('Go to Mode Select'):          
-                    action [ToggleVariable("greeted", False, False), 
-                            renpy.full_restart]
+                    action [Function(renpy.full_restart)]
                     
                 textbutton _('Start Over'):
                     action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", 

@@ -228,7 +228,8 @@ init -6 python:
                         break
                     
         textlog.append(ChatEntry(who, what, upTime(), img))
-        renpy.checkpoint()
+        if renpy.get_screen('text_message_screen'):
+            renpy.checkpoint()
 
     ## This ensures we don't miss any messages being posted 
     def text_pauseFailsafe(textlog):
@@ -327,8 +328,7 @@ default CG_who = None
 ## conversations, but you can't get them back
 label leave_inst_text():
     $ textlog = text_person.text_msg.msg_list                        
-    $ config.skipping = False   
-    $ greeted = False         
+    $ config.skipping = False           
     $ choosing = False
     $ textbackup = 'Reset'
     hide screen text_play_button

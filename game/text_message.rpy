@@ -274,7 +274,7 @@ screen text_message_footer(c):
 ## have a time difference of one day or more
 screen text_date_separator(text_time):
 
-    $ the_time = '20' + text_time.year + '.' + text_time.month_num + '.'
+    $ the_time = text_time.year + '.' + text_time.month_num + '.'
     $ the_time = the_time + text_time.day + ' ' + text_time.weekday
     
     hbox:
