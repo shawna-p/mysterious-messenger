@@ -91,17 +91,7 @@ init -4 python:
                 renpy.play(emoji_lookup[what], channel="voice_sfx")
             elif "{image" not in what and not observing:
                 # Unlock the CG in the gallery
-                # This will be equal to a path like
-                # CGs/common_album/cg-1.png
-                cg_filepath = cg_helper(what)
-                album, cg_name = what.split('/')
-                if album[-6:] != '_album':
-                    album += '_album'
-                # Now search for the CG
-                for photo in getattr(persistent, album):
-                    if cg_filepath == photo.img:
-                        photo.unlock()
-                        break
+                cg_helper(what, who, True)
         
         # Add this entry to the chatlog
         chatlog.append(ChatEntry(who, what, upTime(), 
@@ -155,17 +145,7 @@ init -4 python:
                 renpy.play(emoji_lookup[chatbackup.what], channel="voice_sfx")
             elif "{image" not in chatbackup.what and not observing:
                 # Unlock the CG in the gallery
-                # This will be equal to a path like
-                # CGs/common_album/cg-1.png
-                cg_filepath = cg_helper(chatbackup.what)
-                album, cg_name = chatbackup.what.split('/')
-                if album[-6:] != '_album':
-                    album += '_album'
-                # Now search for the CG
-                for photo in getattr(persistent, album):
-                    if cg_filepath == photo.img:
-                        photo.unlock()
-                        break
+                cg_helper(what, who, True)
             
         chatlog.append(ChatEntry(chatbackup.who, chatbackup.what, 
                                     upTime(), chatbackup.img, 

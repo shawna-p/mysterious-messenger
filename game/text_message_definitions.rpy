@@ -139,22 +139,9 @@ init -6 python:
         
         # We also check if the sent message has a CG
         if img and "{image" not in what:
-            # We want to unlock the CG in the gallery
+            # Unlock the CG in the gallery
             # First, we split up the text
-            cg_filepath = cg_helper(what)
-            album, cg_name = what.split('/')
-            if album[-6:] != '_album':
-                album += '_album'
-            
-            # Now we need to search for that CG
-            cg_list = getattr(persistent, album)
-            for photo in cg_list:
-                if Album(cg_filepath) == photo:
-                    if who.right_msgr:
-                        photo.unlock()
-                    else:
-                        msg.cg_unlock_list.append([cg_list, photo])
-                    break
+            cg_helper(what, who, False)
 
         renpy.restart_interaction()
 
@@ -183,12 +170,6 @@ init -6 python:
         
         if pauseVal == 0:
             pass
-        # If we're not on the text message screen currently reading
-        # this, it should be delivered instantly
-        elif not renpy.get_screen('text_message_screen'):
-            if not who.right_msgr:
-                store.text_person.text_msg.notified = False
-            pass
         elif who.file_id == 'delete':
             renpy.pause(pv)
         # Otherwise we pause to simulate typing time
@@ -210,26 +191,13 @@ init -6 python:
                 if len(last) > 0 and last[0] == ' ':
                     last.pop(0)
                 what = "{image=" + last
-            if (what in emoji_lookup
-                    and renpy.get_screen('text_message_screen')):
+            if what in emoji_lookup:
                 renpy.play(emoji_lookup[what], channel='voice_sfx')
             elif "{image" not in what:
-                # We want to unlock the CG in the gallery
-                # These will be equal to a path like
-                # CGs/common_album/cg-1.png
-                cg_filepath = cg_helper(what)
-                album, cg_name = what.split('/')
-                if album[-6:] != '_album':
-                    album += '_album'                
-                # Now we need to search for that CG
-                for photo in getattr(persistent, album):
-                    if cg_filepath == photo.img:
-                        photo.unlock()
-                        break
+                cg_helper(what, who, True)
                     
         textlog.append(ChatEntry(who, what, upTime(), img))
-        if renpy.get_screen('text_message_screen'):
-            renpy.checkpoint()
+        renpy.checkpoint()
 
     ## This ensures we don't miss any messages being posted 
     def text_pauseFailsafe(textlog):
