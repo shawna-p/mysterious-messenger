@@ -1,13 +1,22 @@
 
 init python:
     ## This corrects the dialogue into a filepath for the program
-    def cg_helper(what):
+    ## and unlocks the CG or adds it to the to-unlock list
+    def cg_helper(what, who=False, instant_unlock=False):
         album, cg_name = what.split('/')
         if album[-6:] != '_album':
             album += '_album'
         # These will be equal to a path like
         # CGs/common_album/cg-1.png
-        return 'CGs/' + album + '/' + cg_name
+        filepath = 'CGs/' + album + '/' + cg_name
+        cg_list = getattr(store.persistent, album)
+        for photo in cg_list:
+            if Album(filepath) == photo:
+                if instant_unlock or not who or who.right_msgr:
+                    photo.unlock()
+                elif who:
+                    who.text_msg.cg_unlock_list.append([cg_list, photo])
+        return filepath
 
     def smallCG(bigCG):
         return Transform(bigCG, zoom=0.35)
