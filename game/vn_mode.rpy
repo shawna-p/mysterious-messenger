@@ -11,6 +11,7 @@
 image bg mint_eye_room = "VN Mode/Backgrounds/mint_eye_room.png"
 image bg rika_apartment = "VN Mode/Backgrounds/rika_apartment.png"
 image bg cr_meeting_room = "VN Mode/Backgrounds/cr_meeting_room.png"
+image bg rfa_party_3 = "VN Mode/Backgrounds/rfa_party_3.png"
 image bg good_end = "VN Mode/Backgrounds/good_end.jpg"
 image bg normal_end = "VN Mode/Backgrounds/normal_end.jpg"
 image bg bad_end = "VN Mode/Backgrounds/bad_end.jpg"
@@ -95,7 +96,7 @@ label vn_begin():
     $ _history_list = [] # This clears the History screen
     $ _history = True
     
-    if current_chatroom.vn_obj.played:
+    if not _in_replay and current_chatroom.vn_obj.played:
         if not persistent.testing_mode:
             $ observing = True
         else:
@@ -110,6 +111,8 @@ label vn_begin():
     return
         
 label vn_end():
+    if _in_replay:
+        $ renpy.end_replay()
     hide screen vn_overlay    
     $ vn_choice = False
     $ renpy.retain_after_load()
