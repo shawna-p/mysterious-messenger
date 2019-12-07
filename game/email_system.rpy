@@ -35,9 +35,23 @@ init python:
             self.notified = False
             # Only used for the tutorial; tells the program
             # to finish sending this email chain before the plot branch
-            self.before_branch = (guest.pic 
+            self.before_branch = (guest.thumbnail 
                 == "Email/Thumbnails/rainbow_unicorn_guest_icon.png")
-                        
+
+
+        ## Equality checks to allow this class to be persistent
+        def __eq__(self, other):
+            if getattr(other, 'guest', False):
+                return self.guest == other.guest
+            else:
+                return False
+
+        def __ne__(self, other):
+            if getattr(other, 'guest', False):
+                return self.guest != other.guest
+            else:
+                return False
+
         ## This will deliver the next email in the chain to the
         ## player, and show a popup to notify them
         def deliver(self):
@@ -235,10 +249,13 @@ init python:
     ## This class stores necessary information about the guest, including
     ## all of their email replies as well as their image thumbnail and name
     class Guest(object):
-        def __init__(self, name, pic, start_msg,
+        def __init__(self, name, thumbnail, start_msg,
                         msg1_good, reply1_good, msg1_bad, reply1_bad,
                         msg2_good, reply2_good, msg2_bad, reply2_bad,
-                        msg3_good, reply3_good, msg3_bad, reply3_bad):
+                        msg3_good, reply3_good, msg3_bad, reply3_bad,
+                        large_img=False, short_desc="", personal_info="", 
+                        comment_who=None, comment_what="",
+                        comment_img='#000'):
             
             # msg_good means it's the correct reply for that message, and
             # reply_good is what the guest will send after that message
@@ -247,10 +264,12 @@ init python:
             # name is a string of the name of the guest
             # start_msg is the initial message you are sent after
             # agreeing to invite them
-            # pic = sender's contact thumbnail, ideally 155x155
+            # thumbnail = sender's contact thumbnail, ideally 155x155
+            # The rest of the arguments are optional, but they're used
+            # when viewing the guestbook.
             
             self.name = name
-            self.pic = pic
+            self.thumbnail = thumbnail
             
             self.start_msg = start_msg
             self.msg1_good = msg1_good
@@ -272,7 +291,37 @@ init python:
             self.label1 = name + '_reply1'
             self.label2 = name + '_reply2'
             self.label3 = name + '_reply3'
-                
+
+            self.large_img = large_img
+            self.short_desc = short_desc
+            self.personal_info = personal_info
+            self.comment_who = comment_who
+            self.comment_what = comment_what
+            self.comment_img = comment_img
+
+            # Add the guest to the guestbook
+            if self.name not in store.persistent.guestbook:
+                store.persistent.guestbook[self.name] = None
+            if self not in store.all_guests:
+                store.all_guests.append(self)
+            
+        ## Equality checks to allow this class to be persistent
+        def __eq__(self, other):
+            if (getattr(other, 'name', False) 
+                    and getattr(other, 'thumbnail', False)):
+                return (self.name == other.name
+                        and self.thumbnail == other.thumbnail)
+            else:
+                return False
+
+        def __ne__(self, other):
+            if (getattr(other, 'name', False) 
+                    and getattr(other, 'thumbnail', False)):
+                return (self.name != other.name
+                        or self.thumbnail != other.thumbnail)
+            else:
+                return False
+
     ## Returns the number of unread emails in the
     ## player's inbox
     def unread_emails():
@@ -314,6 +363,10 @@ init python:
                 
 default email_list = []
 default email_reply = False
+# List of all the guests the player has successfully
+# invited to the party
+default persistent.guestbook = { }
+default all_guests = [ ]
 
 ## You can call this label in a chatroom with `call invite(guest_var)`
 ## and it will trigger the guest to email the player
@@ -323,6 +376,10 @@ label invite(guest):
         $ guest.sent_time = upTime()
         # Moves them to the front of the list
         $ email_list.insert(0, Email(guest, guest.start_msg, guest.label1)) 
+        # The player has encountered this guest so the dictionary
+        # can be updated
+        if not persistent.guestbook[guest.name]:
+            $ persistent.guestbook[guest.name] = "seen"
     return
     
 default current_email = None  
@@ -365,7 +422,7 @@ screen email_popup(e):
                 align (0.5, 0.5)
                 xsize 470
                 spacing 10               
-                add Transform(e.guest.pic, zoom=0.6)
+                add Transform(e.guest.thumbnail, zoom=0.6)
                 text "You have a new message from @" + e.guest.name:
                     color '#fff' 
                     size 25 
@@ -480,7 +537,7 @@ screen email_button(e):
                     add 'email_read' align(1.0, 0.5)
                 else:
                     add 'email_replied' align(1.0, 0.5)
-            add Transform(e.guest.pic, size=(94, 94)) align(0.5, 0.3)
+            add Transform(e.guest.thumbnail, size=(94, 94)) align(0.5, 0.3)
             null width -10
             vbox:
                 align(0.5, 0.4)
@@ -543,7 +600,7 @@ screen open_email(e):
             hbox:
                 spacing 10
                 align (0.0, 0.0)
-                add e.guest.pic
+                add e.guest.thumbnail
                 
                 vbox:
                     align(0.0, 0.0)
@@ -594,5 +651,158 @@ label email_end():
     $ renpy.retain_after_load()
     return
 
+image guest_locked = "Email/Thumbnails/guest_unlock_icon.png"
 
+screen guestbook():
+    tag menu
 
+    if not main_menu:
+        on 'replace' action FileSave(mm_auto, confirm=False)
+        on 'show' action FileSave(mm_auto, confirm=False)
+
+    if main_menu:
+        $ return_action = Show('select_history', Dissolve(0.5))
+    else:
+        $ return_action = Show('chat_home', Dissolve(0.5))
+    $ num_rows = -(-len(persistent.guestbook) // 4)
+    use menu_header("Guest", return_action):
+        vpgrid id 'guest_vp':
+            xysize (740, 1200)
+            yfill True
+            rows num_rows
+            cols 4
+            draggable True
+            mousewheel True
+            scrollbars "vertical"
+            side_xalign 1.0
+            side_spacing 15
+            align (0.5, 1.0)
+            spacing 20
+
+            for guest in all_guests:
+                button:
+                    xysize (155, 155)
+                    # Do some checks on whether the player
+                    # finished inviting the guest or not
+                    if persistent.guestbook[guest.name] == "seen":
+                        # The player has invited this guest but the
+                        # guest hasn't attended the party
+                        background guest.thumbnail
+                        action Show('guest_info_popup', 
+                                guest=guest, unlocked=False)
+                    elif persistent.guestbook[guest.name] == "attended":
+                        # The guest has attended the party
+                        background guest.thumbnail
+                        action Show('guest_info_popup',
+                            guest=guest, unlocked=True)
+                    else:
+                        # This guest is unknown to the player
+                        background 'guest_locked'
+                        action Show("confirm", 
+                            message="You have not yet\nencountered this guest",
+                            yes_action=Hide('confirm'))
+
+            for i in range((4*num_rows) - len(persistent.guestbook)):
+                null
+
+image guest_story = 'Email/story_available.png'
+image guest_story_locked = 'Email/story_locked.png'
+image guest_descrip_bg = Frame('Email/guest_orange_shade.png', 0, 0)
+
+default viewing_guest = False
+screen guest_info_popup(guest, unlocked):
+
+    modal True
+    add "#0005"
+    frame:      
+        style_prefix "guest_info"        
+        has fixed
+        yfit True
+        imagebutton:      
+            idle 'input_close'
+            hover 'input_close_hover'      
+            action [Hide('guest_info_popup')]
+        vbox:                
+            text '@[guest.name]':
+                size 40 font gui.sans_serif_1b xoffset 40
+            text guest.short_desc:
+                size 28 text_align 0.5 xalign 0.5 layout 'subtitle'
+            null height 5
+            hbox:
+                style_prefix 'guest_desc'
+                vbox:                    
+                    text "[[Personal Info]" size 25 font gui.sans_serif_1b
+                    frame:       
+                        if unlocked:                 
+                            text guest.personal_info
+                        else:
+                            vbox:
+                                null height 10
+                                add 'plot_lock' align (0.5, 0.5)
+                                text ("Information will be unlocked when"
+                                + " this guest attends the party.")
+                vbox:                   
+                    fixed:
+                        xsize 620//2
+                        yfit True
+                        yalign 0.5
+                        xalign 0.5
+                        add guest.large_img
+                    fixed:
+                        xysize (int(273*1.1), int(93*1.1))
+                        imagebutton:
+                            align (0.5, 0.5)
+                            if unlocked:
+                                idle 'guest_story'
+                                hover Transform('guest_story', zoom=1.1)
+                                action [Preference('auto-forward', 'disable'),
+                                    Replay('guest_info', 
+                                    {'guest_replay_info' : (guest.comment_who, 
+                                                            guest.comment_what,
+                                                            guest.comment_img)
+                                    }, False)]
+                            else:
+                                idle 'guest_story_locked'
+default guest_replay_info = None
+label guest_info():
+    $ who, what, expr = guest_replay_info
+    call vn_begin()
+    $ viewing_guest = True
+    scene bg rfa_party_3
+    show expression expr
+    who "[what]"
+    $ viewing_guest = False
+    $ renpy.end_replay()
+    return
+
+style guest_info_frame:
+    background 'input_popup_bkgr'
+    align (0.5, 0.5)
+    xsize 630
+    yminimum 400
+    ymaximum 900
+
+style guest_info_image_button:
+    align (1.0, 0.0)
+    yoffset -3 xoffset 3
+    
+style guest_info_vbox:
+    xalign 0.5 
+    xsize 620
+    spacing 30
+    yoffset 20    
+
+style guest_info_text:
+    color "#fff" 
+
+style guest_desc_vbox:
+    spacing 10
+    yalign 0.5
+
+style guest_desc_text:
+    color "#fff"
+
+style guest_desc_frame:
+    background 'guest_descrip_bg'
+    padding (5, 5)
+    xsize 620//2-30

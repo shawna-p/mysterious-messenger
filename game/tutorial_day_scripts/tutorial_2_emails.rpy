@@ -58,7 +58,7 @@ label example_email_expired():
 ## This is how you will set up guests for the party. A template follows 
 ## this definition. The first variable is the name of the guest, aka what 
 ## shows up in the email hub as @guestname The second variable is the path
-## to the image you'd like to use as the guest icon. It should be 155x155 pixels
+## to the image you'd like to use as the guest icon. It should be 155x155 px
 default rainbow = Guest("rainbow", 
     "Email/Thumbnails/rainbow_unicorn_guest_icon.png",
 
@@ -209,7 +209,28 @@ That said, I do appreciate you taking the time to answer me. I'm a bit undecided
 
 Sincerely,
 
-Rainbow Unicorn""")
+Rainbow Unicorn""",
+
+## These next fields are optional but used for the guestbook
+## Large (usually chibi) image for the party
+"Email/Guest Images/rainbow_unicorn.png",
+
+## Short description about the guest
+"Rainbow Unicorn, the creator of this program.",
+
+## Personal Info section on the guest
+"Rainbow started working on this project back in 2018 and she's excited to share it with the world!",
+
+## The Character variable of the person who should talk about this 
+## guest in the long description
+z_vn,
+
+## What the previous character says about this guest
+"Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~",
+
+## The expression/displayable name of the character to show
+'zen front party happy'
+)
 
 # This needs to be the name of the guest + _reply + the reply number
 # For example, if my guest is named Bob (with the capital B) and this
@@ -352,8 +373,28 @@ the party, as this is the final message""",
 ## Reply to incorrect message
 
 """This is the guest's reply to your message after you chose 
-the wrong response.""") # Don't forget a closing bracket at the end
+the wrong response."""
 
+## These next fields are optional but used for the guestbook
+## Large (usually chibi) image for the party
+"Email/Guest Images/rainbow_unicorn.png",
+
+## Short description about the guest
+"Example Guest, an example guest for this program.",
+
+## Personal Info section on the guest
+"Example Guest was made for users to better understand how to create a guest",
+
+## The Character variable of the person who should talk about this 
+## guest in the long description
+s_vn,
+
+## What the previous character says about this guest
+"Here, the character from the last variable (s_vn) will say this.",
+
+## The expression/displayable name of the character to show
+'example front party happy'
+) # Don't forget a closing bracket at the end
 
 label example_reply1(): 
     # The guest is called "example", so the
