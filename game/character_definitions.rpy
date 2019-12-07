@@ -102,6 +102,10 @@ init -5 python:
             # Used for text messaging
             self.text_msg = TextMessage()
             self.real_time_text = False
+
+            # Any initialized character should go in all_characters
+            if self not in store.all_characters and self.prof_pic:
+                store.all_characters.append(self)
             
         ## Updates the character's voicemail
         def update_voicemail(self, new_label):
@@ -211,8 +215,21 @@ init -5 python:
             # If the player is texting, add this to the character's
             # TextMessage object instead
             if store.text_person is not None:
-                if store.text_person.real_time_text:
+                # If they're on the text message screen, show the
+                # message real-time
+                if store.text_person.real_time_text and store.text_msg_reply:
                     addtext_realtime(self, what, pauseVal=pauseVal, img=img)
+                # If they're not in the midst of a text conversation,
+                # this is "backlog"
+                elif store.text_person.real_time_text:
+                    if not self.right_msgr:
+                        store.text_person.text_msg.notified = False
+                    if img and "{image" not in what:
+                        cg_helper(what, self, False)
+                    store.text_person.text_msg.msg_list.append(ChatEntry(
+                        self, what, upTime(), img))
+                # Otherwise this is a regular text conversation and
+                # is added all at once
                 else:
                     addtext(self, what, img)
             else:
@@ -251,6 +268,9 @@ init -5 python:
 ##  right_msgr - indicates this character will send messages from the right
 ##               side of the screen (this is usually true only for
 ##               MC, and it is automatically False for everyone else)
+
+# This list populates itself with every character in the game
+default all_characters = [] 
 
 default ja = ChatCharacter("Jaehee Kang", 'ja', 
                     'Profile Pics/Jaehee/ja-default.png', 
@@ -297,23 +317,16 @@ default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.png',
                 emote_list=zen_emotes)
 
 # These are special 'characters' for additional features
-define special_msg = ChatCharacter("msg")
-define filler = ChatCharacter("filler")
-define answer = ChatCharacter('answer', 'delete')
-define chat_pause = ChatCharacter('pause', 'delete')
+default special_msg = ChatCharacter("msg")
+default filler = ChatCharacter("filler")
+default answer = ChatCharacter('answer', 'delete')
+default chat_pause = ChatCharacter('pause', 'delete')
 
 # This list is used *specifically* to display characters you can
 # see on the main menu -- they have profiles and show up in your
 # phone contacts
 default character_list = [ju, z, s, y, ja, v, m, r, ri]
-# This should be a list of every character in the entire game
-# Even if you don't want someone to show up as a contact in
-# the phonebook, they should be in this list -- it allows
-# them to exist in the game
-# Note, for example, that u is in the all_characters list but
-# not the character_list, so he can send texts and make calls 
-# but doesn't have an icon in your contacts to call him
-default all_characters = [ju, z, s, y, ja, v, m, r, ri, u]
+
                        
                         
 # ****************************
