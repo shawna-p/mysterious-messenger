@@ -131,6 +131,7 @@ init python:
                 return True
         return False
 
+# True if the player is viewing a replay of an expired chatroom
 default expired_replay = False
 # This is a dictionary that holds a giant list of all the
 # labels the player has seen/played through

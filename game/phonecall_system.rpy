@@ -558,10 +558,10 @@ screen outgoing_call(phonecall, voicemail=False):
     tag menu
     
     
-    on 'show' action Function(renpy.music.play(["<silence 1.5>", 
-                        phone_dial_sfx, "<silence 1.5>"]))
-    on 'replace' action Function(renpy.music.play(["<silence 1.5>", 
-                        phone_dial_sfx, "<silence 1.5>"]))
+    on 'show' action Function(renpy.music.play, ["<silence 1.5>", 
+                        phone_dial_sfx, "<silence 1.5>"], loop=True)
+    on 'replace' action Function(renpy.music.play, ["<silence 1.5>", 
+                        phone_dial_sfx, "<silence 1.5>"], loop=True)
     
     use menu_header("In Call"):
         frame:
