@@ -129,38 +129,40 @@ screen say(who, what):
             #                     alpha=persistent.vn_window_alpha))
             id "window"
             xysize (750,324)
+            align (0.5, 1.0)
             if who is not None:
                 window:
                     style "namebox"
                     text who id "who"
 
             text what id "what"
-
-        ## This is the overlay for VN mode that shows the Auto/Skip/Log buttons
-        hbox:
-            yalign 0.74
-            xalign 0.90
-            spacing 20
-            imagebutton:
-                idle Text("Auto", style="vn_button_hover")
-                hover Text("Auto", style="vn_button")
-                selected_idle Text("Auto", style="vn_button")
-                selected_hover Text("Auto", style="vn_button_hover")
-                action Preference("auto-forward", "toggle")
-        
-            imagebutton:
-                idle Text("Skip", style="vn_button")
-                hover Text("Skip", style="vn_button_hover")
-                selected renpy.is_skipping()
-                selected_idle Text("Stop", style="vn_button")
-                selected_hover Text("Stop", style="vn_button_hover")
-                action Skip()
-                activate_sound 'audio/sfx/UI/vn_skip.mp3'
-                
-            imagebutton:
-                idle Text("Log", style="vn_button")
-                hover Text("Log", style="vn_button_hover")
-                action ShowMenu('history')
+        if not viewing_guest:
+            # This is the overlay for VN mode 
+            # that shows the Auto/Skip/Log buttons
+            hbox:
+                yalign 0.785
+                xalign 0.90
+                spacing 20
+                imagebutton:
+                    idle Text("Auto", style="vn_button_hover")
+                    hover Text("Auto", style="vn_button")
+                    selected_idle Text("Auto", style="vn_button")
+                    selected_hover Text("Auto", style="vn_button_hover")
+                    action Preference("auto-forward", "toggle")
+            
+                imagebutton:
+                    idle Text("Skip", style="vn_button")
+                    hover Text("Skip", style="vn_button_hover")
+                    selected renpy.is_skipping()
+                    selected_idle Text("Stop", style="vn_button")
+                    selected_hover Text("Stop", style="vn_button_hover")
+                    action Skip()
+                    activate_sound 'audio/sfx/UI/vn_skip.mp3'
+                    
+                imagebutton:
+                    idle Text("Log", style="vn_button")
+                    hover Text("Log", style="vn_button_hover")
+                    action ShowMenu('history')
             
     elif not text_person and in_phone_call:   # In a phone call        
         window:
@@ -1278,7 +1280,7 @@ screen confirm(message, yes_action, no_action=False):
             xalign .5
             yalign .5
             spacing 26
-            xmaximum 700
+            xmaximum 650
 
             label _(message):
                 style "confirm_prompt"
