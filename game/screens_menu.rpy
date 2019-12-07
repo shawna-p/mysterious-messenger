@@ -719,10 +719,10 @@ screen menu_header(title, return_action=NullAction,
                             Show('chat_home')]
     # # If the game is running on real-time, check once a minute
     # # if it's time for the next chatroom
-    # if persistent.real_time and not main_menu and not starter_story:
-    #     timer 60 action Function(next_chatroom) repeat True
-    #     on 'show' action Function(next_chatroom)
-    #     on 'replace' action Function(next_chatroom)
+    if persistent.real_time and not main_menu and not starter_story:
+        timer 60 action Function(next_chatroom) repeat True
+        on 'show' action Function(next_chatroom)
+        on 'replace' action Function(next_chatroom)
         
     if (not renpy.get_screen('text_message_screen') 
             and not main_menu 
@@ -1060,9 +1060,7 @@ screen chat_home(reshow=False):
                     xysize(130,149)
                     background "white_hex"
                     hover_background "white_hex_hover"
-                    #action NullAction
-                    action Show('email_popup', e=Email(rainbow, 
-                                rainbow.start_msg, rainbow.label1))
+                    action Show('guestbook')
                     add "guest_icon" xalign 0.5 yalign 0.3
                     add "guest_text" xalign 0.5 yalign 0.8
                     
@@ -1081,8 +1079,8 @@ screen chat_home(reshow=False):
                     background "white_hex"
                     hover_background "white_hex_hover"
                     #action NullAction
-                    action Show('incoming_call', 
-                            phonecall=PhoneCall(ri, 'tutorial_email'))
+                    action [Call('after_example_text'), Show('chat_home')]
+                    #action Function(renpy.call_in_new_context('after_example_text'))
                     add "notice_icon" xalign 0.5 yalign 0.3
                     add "notice_text" xalign 0.5 yalign 0.8
                     

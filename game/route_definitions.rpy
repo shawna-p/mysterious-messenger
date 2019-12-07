@@ -489,15 +489,7 @@ init -6 python:
             
         # This delivers all outstanding text messages
         deliver_all_texts()
-                
-    ## This is called by the program many times over the
-    ## course of an interaction to see if a new chatroom
-    ## is available
-    def check_for_new_chatroom():
-        global persistent
-        if persistent.real_time and not main_menu and not starter_story:
-            next_chatroom()
-        return
+      
 
     ## A quick function to see how many chatrooms there are left 
     ## to be played through
@@ -591,7 +583,7 @@ init -6 python:
             for archive in chat_archive[a+1:]:
                 archive.archive_list = []
 
-        # Now remove the plot branch indicator
+        # Remove the plot branch indicator
         most_recent_chat.plot_branch = False
 
         # Merge the days on the new route
@@ -612,7 +604,7 @@ init -6 python:
             # This chat has a stored VN to add to the chat itself
             most_recent_chat.vn_obj = most_recent_chat.plot_branch.stored_vn
 
-        # Now remove the plot branch indicator
+        # Remove the plot branch indicator
         most_recent_chat.plot_branch = False
 
     ## This function returns the percentage of chatrooms the player
