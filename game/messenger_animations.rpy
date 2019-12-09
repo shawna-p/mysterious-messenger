@@ -48,32 +48,38 @@ init python:
 
 # Call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
-    if character == r:
-        $ character_name = r.name
-        $ character = sa
-    else:
-        $ character_name = character.name
+    
     if text_person is None:
         python:            
             if not observing:
                 character.increase_heart(bad)
+                # Ensure both Ray and Saeran share the same number
+                # of heart points
+                if character == r:
+                    sa.increase_heart(bad)
+                elif character == sa:
+                    r.increase_heart(bad)
                 chatroom_hp += 1
                 persistent.HP += 1
             if (not observing and not persistent.heart_notifications):
                 renpy.show_screen(allocate_heart_screen(), character=character)
             elif (not observing and persistent.heart_notifications):
-                msg = character_name + " +1"
+                msg = character.name + " +1"
                 renpy.show_screen(allocate_notification_screen(True), msg)
     # This is shown during a real-time text conversation
     elif text_person.real_time_text:
         $ character.increase_heart(bad)
+        if character == r:
+            $ sa.increase_heart(bad)
+        elif character == sa:
+            $ r.increase_heart(bad)
         $ persistent.HP += 1
         if persistent.heart_notifications:
-            $ msg = character_name + " +1"
+            $ msg = character.name + " +1"
             $ renpy.show_screen(allocate_notification_screen(True), msg)
         else:
             show screen heart_icon_screen(character)
-    # This is not a real-time text so we store the heart to 
+    # This is not a real-time text, so store the heart to 
     # display after this message is delivered
     else:
         $ add_heart(text_person, character, bad)
@@ -137,20 +143,19 @@ transform stack_notify_appear:
         
 # Like the heart icon, call this to display the heart break   
 label heart_break(character):
-    python:
-        if character == r:
-            character_name = r.name
-            character = sa
-        else:
-            character_name = character.name
+    python:        
         if not observing:
             character.decrease_heart()
+            if character == sa:
+                r.decrease_heart()
+            elif character == r:
+                sa.decrease_heart()
             chatroom_hp -= 1
             persistent.HP -= 1     
     if (not observing and not persistent.heart_notifications):
         show screen heart_break_screen(character)
     elif (not observing and persistent.heart_notifications):
-        $ msg = character_name + " -1"
+        $ msg = character.name + " -1"
         $ renpy.show_screen(allocate_notification_screen(True), msg)
     return
 

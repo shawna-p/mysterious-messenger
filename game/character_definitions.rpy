@@ -326,6 +326,13 @@ default chat_pause = ChatCharacter('pause', 'delete')
 # see on the main menu -- they have profiles and show up in your
 # phone contacts
 default character_list = [ju, z, s, y, ja, v, m, r, ri]
+# This is the list of characters who you can see your heart
+# points for in the Profile screen. Currently it is a duplicate
+# of the above list, but without 'm'. You could also write it as
+# default heart_point_chars = [ju, ja, s, y, z] for example
+# Every character in the list should have an image called 
+# 'greet ' + their file id
+default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
 
                        
                         

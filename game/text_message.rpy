@@ -303,6 +303,10 @@ screen text_date_separator(text_time):
 init python:
     def award_text_hp(who):
         who.text_msg.heart_person.increase_heart(who.text_msg.bad_heart)
+        if who.text_msg.heart_person == store.sa:
+            store.r.increase_heart(who.text_msg.bad_heart)
+        elif who.text_msg.heart_person == store.r:
+            store.sa.increase_heart(who.text_msg.bad_heart)
         if not persistent.heart_notifications:
             renpy.show_screen('heart_icon_screen', 
                 character=who.text_msg.heart_person)
