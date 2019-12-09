@@ -470,8 +470,6 @@ screen other_settings():
     tag settings_screen
     modal True
 
-    #add "Menu Screens/Main Menu/menu_settings_bg.png"
-    
     use menu_header("Settings", Hide('other_settings', Dissolve(0.5))):
         use settings_tabs("Others")
             
@@ -500,7 +498,10 @@ screen other_settings():
                             bar_invert True
                     
                     hbox:
-                        textbutton _("VN Window Opacity")  
+                        textbutton _("VN Window Opacity"):
+                            action [SetField(persistent, 'window_darken_pct', 
+                                        50),
+                                    Function(adjust_vn_alpha)]
                         bar value FieldValue(persistent, 'window_darken_pct', 
                                 100, style='sound_settings_slider', step=10,
                                 action=Function(adjust_vn_alpha))
@@ -511,16 +512,18 @@ screen other_settings():
                             action ToggleField(persistent, "custom_footers")
                 
             frame:
-                xysize(675,260)
+                xysize(675,190)
                 background "menu_settings_panel"
-                text "VN Settings" style "settings_style" xpos 40 ypos -2
+                text "VN Skip Settings" style "settings_style" xpos 40 ypos -2
 
-                vbox:
-                    spacing 6
+                hbox:
+                    spacing 16
                     style_prefix "check"
-                    null height 35
-
-                    label _("Skip")
+                    yoffset 60
+                    xoffset 10
+                    xmaximum 625
+                    box_wrap True
+                    box_wrap_spacing 12
                     textbutton _("Unseen Text"):
                         action Preference("skip", "toggle")
                     textbutton _("After Choices"):
@@ -534,9 +537,9 @@ screen other_settings():
                 text "Accessibility Options":
                     style "settings_style" xpos 40 ypos -4
 
-                vbox:
-                    spacing 6
-                    style_prefix "check"
+               
+                hbox:
+                    style_prefix "toggle_panel"
                     null height 30
                     textbutton _("Hacking Effects"):
                         action ToggleField(persistent, "hacking_effects")
@@ -564,22 +567,7 @@ screen other_settings():
             #                 text "Change Fonts" style 'ringtone_change'
             #             action Show('adjust_fonts')
 
-            frame:
-                xysize(675,280)
-                background "menu_settings_panel"
-                text "Variables for testing":
-                    style "settings_style" xpos 45 ypos -3
-
-                vbox:
-                    spacing 6
-                    style_prefix "check"
-                    null height 30
-                    textbutton _("Testing Mode"):
-                        action ToggleField(persistent, "testing_mode")
-                    textbutton _("Real-Time Mode"):
-                        action ToggleField(persistent, "real_time")
-                    textbutton _("Hacked Effect"):
-                        action ToggleVariable('hacked_effect')
+            
                     
             
                     
@@ -600,11 +588,40 @@ screen other_settings():
                             Jump("restart_game")], no_action=Hide('confirm'))
 
 
+style toggle_panel_button:
+    background "Menu Screens/Main Menu/toggle_panel_background.png"    
+    padding (4, 50, 4, 4)
+    foreground At("Menu Screens/Main Menu/toggle_panel_foreground.png", 
+                    off_toggle)
+    selected_foreground At("Menu Screens/Main Menu/toggle_panel_selected_foreground.png", 
+                    on_toggle)
+    xsize 210
+    xalign 0.5
+
+style toggle_panel_button_text:
+    text_align 0.0
+    xalign 0.0
+
+style toggle_panel_hbox:
+    spacing 6
+    box_wrap True
+    box_wrap_spacing 20
+    xsize 660
+    yalign 0.8
+
+transform on_toggle:
+    xoffset 0
+    linear 0.2 xoffset 65
+
+transform off_toggle:
+    xoffset 65
+    linear 0.2 xoffset 0
+
 style other_settings_viewport:
     is empty
-    xysize(700, 1070)
+    xysize(700, 1110)
     xalign 0.5
-    yalign 0.95
+    yalign 1.0
 
 style vscrollbar:
     unscrollable "hide"

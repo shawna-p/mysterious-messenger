@@ -862,6 +862,12 @@ default chips_available = False
 default spaceship_xalign = 0.04
 default reset_spaceship_pos = False
 
+image github = "Menu Screens/Chat Hub/github.png"
+## Icon made by Freepik from www.flaticon.com
+image developer_settings = "Menu Screens/Chat Hub/global-settings-freepik-red.png"
+## Icon made by Pixel perfect from www.flaticon.com
+image discord = "Menu Screens/Chat Hub/discord-Pixel-perfect.png"
+
 screen chat_home(reshow=False):
 
     tag menu     
@@ -952,7 +958,8 @@ screen chat_home(reshow=False):
                 else:
                     add "gray_maincircle" xalign 0.5 yalign 0.5
                 add "msg_mainicon" xalign 0.5 yalign 0.5
-                add "msg_maintext" xalign 0.5 yalign 0.85
+                text "MESSAGE" style 'hex_text' yalign 0.85
+
                 
             # Calls
             button:
@@ -982,7 +989,7 @@ screen chat_home(reshow=False):
                     add "gray_maincircle" xalign 0.5 yalign 0.5
                 
                 add "call_mainicon" xalign 0.5 yalign 0.5
-                add "call_maintext" xalign 0.5 yalign 0.85
+                text "CALL" style 'hex_text' yalign 0.85
             
             # Emails
             button:
@@ -1011,7 +1018,7 @@ screen chat_home(reshow=False):
                 else:
                     add "gray_maincircle" xalign 0.5 yalign 0.5
                 add "email_mainicon" xalign 0.5 yalign 0.5
-                add "email_maintext" xalign 0.5 yalign 0.85
+                text "EMAIL" style 'hex_text' yalign 0.85
                 
             # Main Chatroom
             button:
@@ -1030,7 +1037,7 @@ screen chat_home(reshow=False):
                 add "rfa_chatcircle" yalign 0.5 xalign 0.5
                 add "blue_chatcircle" xalign 0.5 yalign 0.5
                 add "chat_icon" xalign 0.5 yalign 0.5
-                add "chat_text" xalign 0.5 yalign 0.8
+                text "CHATROOM" style 'hex_text' size 34 
             
 
             # Links/etc on the left side of the screen
@@ -1053,8 +1060,8 @@ screen chat_home(reshow=False):
                     action [SetVariable('new_cg', False), 
                             Show('photo_album', Dissolve(0.5))]
                     add "album_icon" xalign 0.5 yalign 0.35
-                    add "album_text" xalign 0.5 yalign 0.8
-                    
+                    text "ALBUM" style 'hex_text'
+
                 # Guest
                 button:
                     xysize(130,149)
@@ -1062,37 +1069,36 @@ screen chat_home(reshow=False):
                     hover_background "white_hex_hover"
                     action Show('guestbook')
                     add "guest_icon" xalign 0.5 yalign 0.3
-                    add "guest_text" xalign 0.5 yalign 0.8
-                    
-                # Shop
+                    text "GUEST" style 'hex_text'
+
+                # Developer Settings ("Shop")
                 button:
                     xysize(130,149)
                     background "red_hex"
                     hover_background "red_hex_hover"
                     #action NullAction
-                    add "shop_icon" xalign 0.55 yalign 0.35
-                    add "shop_text" xalign 0.5 yalign 0.8
-                    
-                # Notice
+                    action Show('developer_settings')
+                    add "developer_settings" xalign 0.55 yalign 0.35
+                    text "DEVELOPER" style 'hex_text' size 18
+
+                # Discord Link ("Notice")
                 button:
                     xysize(130,149)
                     background "white_hex"
                     hover_background "white_hex_hover"
-                    #action NullAction
-                    action [Call('after_example_text'), Show('chat_home')]
-                    #action Function(renpy.call_in_new_context('after_example_text'))
-                    add "notice_icon" xalign 0.5 yalign 0.3
-                    add "notice_text" xalign 0.5 yalign 0.8
-                    
-                # Link            
+                    action OpenURL('https://discord.gg/BPbPcpk')
+                    add "discord" xalign 0.5 yalign 0.42
+                    text "DISCORD" style 'hex_text'
+
+                # GitHub Link ("Link")     
                 button:
                     xysize(130,149)
                     background "white_hex"
                     hover_background "white_hex_hover"
-                    action Function(next_chatroom)
-                    #action SetVariable('chips_available', True)            
-                    add "link_icon" xalign 0.5 yalign 0.3
-                    add "link_text" xalign 0.5 yalign 0.8
+                    action OpenURL('https://github.com/shawna-p/mysterious-messenger')
+                    add "github" xalign 0.5 yalign 0.3
+                    text "GITHUB" style 'hex_text'
+
                     
                     
             ## Spaceship    
@@ -1158,7 +1164,66 @@ screen chat_home(reshow=False):
                             focus_mask None
                             activate_sound 'audio/sfx/UI/select_6.mp3'
                             action Show('spaceship_thoughts', Dissolve(0.5))
-                 
+
+style hex_text:
+    is text
+    xalign 0.5
+    yalign 0.8
+    text_align 0.5
+    color "#fff"
+    size 20
+    font gui.sans_serif_1xb
+    kerning -1
+
+###########################################################
+## Additional developer settings when creating new content
+###########################################################
+screen developer_settings():
+    modal True
+    add "#000a"
+    
+    frame:
+        xysize (675, 600)
+        background Transform('menu_settings_panel_dark', alpha=0.97)
+        align (0.5, 0.5)
+
+    frame:
+        xysize (675, 600)
+        background 'menu_settings_panel_bright'
+        align (0.5, 0.5)
+
+        imagebutton:
+            align (1.0, 0.0)
+            xoffset 3 yoffset -3
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('developer_settings')
+        
+        text "Developer Settings" style "settings_style" xpos 55 ypos 5
+
+        vbox:
+            style_prefix "other_settings"
+            yalign 0.5
+            null height 30
+            frame:
+                xysize(650,280)
+                background "menu_settings_panel"
+                text "Variables for testing":
+                    style "settings_style" xpos 45 ypos -3
+
+                vbox:
+                    spacing 6
+                    style_prefix "check"
+                    null height 30
+                    textbutton _("Testing Mode"):
+                        action ToggleField(persistent, "testing_mode")
+                    textbutton _("Real-Time Mode"):
+                        action ToggleField(persistent, "real_time")
+                    textbutton _("Hacked Effect"):
+                        action ToggleVariable('hacked_effect')
+
+
+
      
 ########################################################
 ## The Profile Screen for each of the characters
