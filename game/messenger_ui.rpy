@@ -187,7 +187,7 @@ init python:
         elif battery.state == 4 and battery.percent > 97:
             return Transform('battery_charging', alpha=0.75), 0.1
         else:
-            return Transform('transparent', size=(18,26)), 0.1
+            return Transform('transparent', size=(18,26)), 0.5
 
     ## Returns the correct battery level image to use depending
     ## on remaining power
@@ -201,7 +201,7 @@ init python:
             img1 = 'battery_med'
 
         return Fixed(img1, Fixed('charging_icon', 
-            size=(18,26), xalign=0.5, yalign=0.4)), 0.1
+            size=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
     ## Returns a compound image of the battery empty image plus the
     ## correct charging/charged image to make up a full bar icon
@@ -209,7 +209,7 @@ init python:
         battery = renpy.display.behavior.pygame.power.get_power_info()
         return Fixed("battery_empty_img", 
                 Fixed('charging_icon', 
-                size=(18,26), xalign=0.5, yalign=0.4)), 0.1
+                size=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
 image battery_remaining = DynamicDisplayable(battery_level_bar)
 image battery_empty = DynamicDisplayable(battery_empty_bar)
