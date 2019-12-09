@@ -114,7 +114,7 @@ screen say(who, what):
     # In VN mode
     if not in_phone_call and not text_person and vn_choice:
     
-        if _in_replay:
+        if _in_replay and not viewing_guest:
             textbutton _("End Replay"):
                 text_style 'vn_button'
                 text_size 32
@@ -123,19 +123,31 @@ screen say(who, what):
                 align (0.98, 0.01)
 
         window:
-            # background Fixed(Transform('vn_window_darken', 
-            #                     alpha=persistent.vn_window_dark),
-            #                 Transform(style.window.background, 
-            #                     alpha=persistent.vn_window_alpha))
+            add Transform('vn_window_darken', 
+                                alpha=persistent.vn_window_dark)
+            xysize (750,324)
+            align (0.5, 1.0)
+            
+                            
+        window:
             id "window"
             xysize (750,324)
             align (0.5, 1.0)
             if who is not None:
                 window:
                     style "namebox"
-                    text who id "who"
+                    text who id "who":
+                        if (persistent.vn_window_alpha < 0.2 
+                                or persistent.dialogue_outlines):
+                            outlines [ (absolute(2), "#000", 
+                                        absolute(0), absolute(0)) ]
+                            font gui.sans_serif_1xb
 
-            text what id "what"
+            text what id "what":
+                if (persistent.vn_window_alpha < 0.2 
+                        or persistent.dialogue_outlines):
+                    outlines [ (absolute(2), "#000", 
+                                absolute(0), absolute(0)) ]
         if not viewing_guest:
             # This is the overlay for VN mode 
             # that shows the Auto/Skip/Log buttons
@@ -143,6 +155,8 @@ screen say(who, what):
                 yalign 0.785
                 xalign 0.90
                 spacing 20
+                if persistent.vn_window_alpha < 0.1:
+                    yoffset 20
                 imagebutton:
                     idle Text("Auto", style="vn_button_hover")
                     hover Text("Auto", style="vn_button")

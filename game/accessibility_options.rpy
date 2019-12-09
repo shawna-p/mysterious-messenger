@@ -16,6 +16,8 @@ default persistent.audio_captions = False
 default persistent.autoanswer_timed_menus = False
 # Displays notifications instead of heart icons
 default persistent.heart_notifications = False
+# Adds outline to VN dialogue
+default persistent.dialogue_outlines = False
 
 ## This label plays sound effects and also shows an audio
 ## caption if the player has that option turned on
@@ -31,7 +33,7 @@ label play_sfx(sfx):
 default persistent.vn_window_dark = 0.0
 default persistent.vn_window_alpha = 1.0
 default persistent.window_darken_pct = 50
-image vn_window_darken = "VN Mode/Chat Bubbles/window_darken.png"
+image vn_window_darken = "VN Mode/Chat Bubbles/vnmode_darken.png"
 
 init python:
     ## This adjusts the alpha channels of the window

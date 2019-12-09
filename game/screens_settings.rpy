@@ -526,9 +526,10 @@ screen other_settings():
                     textbutton _("After Choices"):
                         action Preference("after choices", "toggle")
                     textbutton _("Transitions"):
-                        action InvertSelected(Preference("transitions", "toggle"))
+                        action InvertSelected(Preference("transitions",
+                            "toggle"))
             frame:
-                xysize(675,340)
+                xysize(675,380)
                 background "menu_settings_panel"
                 text "Accessibility Options":
                     style "settings_style" xpos 40 ypos -4
@@ -547,6 +548,8 @@ screen other_settings():
                         action ToggleField(persistent,'autoanswer_timed_menus')
                     textbutton _("Heart Icon Text Notifications"):
                         action ToggleField(persistent, 'heart_notifications')
+                    textbutton _("Dialogue outlines"):
+                        action ToggleField(persistent, "dialogue_outlines")
 
             # This will let you recompile the fonts in the game
             # to be more readable        

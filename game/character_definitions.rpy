@@ -391,10 +391,11 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 
 # This is the 'generic' VN character, which you can inherit from
 # for any new character you want to create
-define vn_character = Character(None, 
+default vn_character = Character(None, 
     what_font=gui.sans_serif_1, 
     what_color="#ffffff", 
-    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_9.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#fff5ca", 
     who_size=40, 
     voice_tag="other_voice")
@@ -402,71 +403,82 @@ define vn_character = Character(None,
 # Similarly, this is for characters you don't want to actually define and
 # instead want to just use once or twice. You can write their dialogue like
 # "Bodyguard" "Your dialogue"
-define name_only = Character(None, 
+default name_only = Character(None, 
     what_font=gui.sans_serif_1, 
     what_color="#ffffff", 
-    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_9.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#fff5ca", 
     who_size=40, 
     voice_tag="other_voice")
 
-define ja_vn = Character("Jaehee", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_4.png",
+default ja_vn = Character("Jaehee", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_4.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#fff5eb", voice_tag="ja_voice", 
     image="jaehee")
-define ju_vn = Character("Jumin", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_0.png",
+default ju_vn = Character("Jumin", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_0.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#d2e6f7", voice_tag="ju_voice", 
     image="jumin")
-define r_vn = Character("Ray", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+default r_vn = Character("Ray", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_9.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#f2ebfd", voice_tag="sa_voice", 
     image="saeran")
-define ri_vn = Character("Rika", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_7.png",
+default ri_vn = Character("Rika", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_7.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#fff9db", voice_tag="ri_voice", 
     image="rika")
-define s_vn = Character("707", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_2.png",
+default s_vn = Character("707", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_2.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#fff1f1", voice_tag="s_voice", 
     image="seven")
-define sa_vn = Character("Saeran", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_8.png",
+default sa_vn = Character("Saeran", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_8.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#f2ebfd", voice_tag="sa_voice", 
     image="saeran")
-define u_vn = Character("???", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_9.png",
+default u_vn = Character("???", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_9.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#f2ebfd", voice_tag="sa_voice", 
     image="saeran")
-define v_vn = Character("V", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_5.png",
+default v_vn = Character("V", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_5.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#cbfcfc", voice_tag="v_voice", 
     image="v")
-define y_vn = Character("Yoosung", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_3.png",
+default y_vn = Character("Yoosung", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_3.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#effff3", voice_tag="y_voice", 
     image="yoosung")
-define z_vn = Character("Zen", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_1.png",
+default z_vn = Character("Zen", kind=vn_character,
+    window_background=Transform("VN Mode/Chat Bubbles/vnmode_1.png",
+                                alpha=persistent.vn_window_alpha),
     who_color="#d8e9f9", voice_tag="z_voice", 
     image="zen")
                             
 ## Note: The MC's name will show up in VN mode in this program. 
 ## If you'd like it to be blank, just replace persistent.name with None
-define m_vn = Character(persistent.name, kind=vn_character, 
+default m_vn = Character(persistent.name, kind=vn_character, 
                         who_color="#ffffed")
 
 ## This is the 'generic' template character -- if you want a 
 ## side character like Echo Girl, copy this character and 
 ## replace None with their name.
-define narrator = Character(None, kind=vn_character)
+default narrator = Character(None, kind=vn_character)
 
 # Giving Sarah the property `image='sarah'` means you can use her
 # dialogue to also show images of her with a different expression
 # See tutorial_6_meeting.rpy for an example of this
-define sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
+default sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
 
-define chief_vn = Character("Chief Han", kind=vn_character, 
+default chief_vn = Character("Chief Han", kind=vn_character, 
                                         image='chairman_han')
 
 ## *************************************

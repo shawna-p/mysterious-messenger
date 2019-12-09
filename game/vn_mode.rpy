@@ -169,7 +169,8 @@ screen history():
     ## Avoid predicting this screen, as it can be very large.
     predict False
 
-    add '#000b'
+    add Transform('#000', alpha=max(((persistent.vn_window_dark
+                        + persistent.vn_window_alpha) / 2.0), 0.7))
     
     # Close button
     button:
@@ -204,6 +205,10 @@ screen history():
 
                         label h.who + ':':
                             style "history_name"
+                            if persistent.dialogue_outlines:
+                                text_outlines [ (absolute(2), "#000", 
+                                            absolute(0), absolute(0)) ]
+                                text_font gui.sans_serif_1xb
 
                             ## Take the color of the who text from the 
                             ## Character, if set.
@@ -212,7 +217,10 @@ screen history():
 
                     $ what = renpy.filter_text_tags(h.what, 
                                     allow=gui.history_allow_tags)
-                    text what
+                    text what:
+                        if persistent.dialogue_outlines:
+                            outlines [ (absolute(2), "#000", 
+                                        absolute(0), absolute(0)) ]
 
             if not _history_list:
                 label _("The dialogue history is empty.")
