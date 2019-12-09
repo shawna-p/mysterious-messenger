@@ -2,8 +2,9 @@ init -6 python:
     from datetime import datetime, date
     from copy import copy, deepcopy
     
-    # This defines another voice channel which the emoji sound effects play on
-    # It lets you adjust the volume of the emojis separately from voice, music, and sfx
+    ## This defines another voice channel which the emoji
+    ## sound effects play on. It lets you adjust the volume 
+    ## of the emojis separately from voice, music, and sfx
     renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
     
     def set_voicesfx_volume(value=None):
@@ -13,8 +14,8 @@ init -6 python:
             return SetMixer('voice_sfx', value)
             
     
-    # A class that makes it much easier to fetch the time for any
-    # given chat entry/text message/phone call/etc
+    ## A class that makes it much easier to fetch the time for any
+    ## given chat entry/text message/phone call/etc
     class MyTime(object):
         def __init__(self, day=None):
         
@@ -40,15 +41,15 @@ init -6 python:
             self.second = datetime.now().strftime('%S')
             self.am_pm = datetime.now().strftime('%p')
             
-    # Function that returns a MyTime object with the current time
-    # Also lets you manually set the day for testing purposes
+    ## Function that returns a MyTime object with the current time
+    ## Also lets you manually set the day for testing purposes
     def upTime(day=None):
         if day != None:
             return MyTime(day)
         else:
             return MyTime()
 
-    # This function sets up some variables for a new route
+    ## This function sets up some variables for a new route
     def new_route_setup(route):
         global chat_archive, current_chatroom, starter_story
         if (len(route) > 0 
@@ -66,14 +67,21 @@ init -6 python:
         renpy.retain_after_load()
         return
 
-    # This function simplifies the code to hide all
-    # the notification popups in the game
+    ## This function simplifies the code to hide all
+    ## the notification popups in the game
     def hide_all_popups():        
         renpy.hide_screen('text_msg_popup')
         renpy.hide_screen('hide screen text_pop_2')
         renpy.hide_screen('hide screen text_pop_3')
         renpy.hide_screen('hide screen email_popup')
         hide_stackable_notifications()
+        
+    ## A displayable prefix function which allows the program
+    ## to easily make button hover images
+    def btn_hover_img(s):
+        return Fixed(s, Transform(s, alpha=0.5))
+    
+    config.displayable_prefix["btn_hover"] = btn_hover_img
 
 # This tells the program to randomly shuffle the order
 # of responses
@@ -266,6 +274,7 @@ default persistent.HG = 100
 image greet ja = "Menu Screens/Main Menu/ja_greeting.png"
 image greet ju = "Menu Screens/Main Menu/ju_greeting.png"
 image greet sa = "Menu Screens/Main Menu/sa_greeting.png"
+image greet r = 'greet sa'
 image greet ri = "Menu Screens/Main Menu/ri_greeting.png"
 image greet s = "Menu Screens/Main Menu/s_greeting.png"
 image greet u = "Menu Screens/Main Menu/u_greeting.png"
@@ -334,8 +343,8 @@ image settings_gear = "Menu Screens/Main Menu/menu_settings_gear.png"
 
 # Save/Load
 image save_auto_idle = Frame("Menu Screens/Main Menu/save_auto_idle.png", 20, 20)
-image save_auto_hover = Frame(Fixed('save_auto_idle', 
-                        Transform('save_auto_idle', alpha=0.5)), 20, 20)
+image save_auto_hover = Frame("btn_hover:save_auto_idle", 20, 20)
+                    
 
 # Just for fun, this is the animation when you hover over the settings
 # button. It makes the gear look like it's turning
@@ -359,8 +368,7 @@ image menu_select_btn_inactive = Frame("Menu Screens/Main Menu/menu_select_butto
 ## ********************************
 
 image gray_chatbtn = "Menu Screens/Chat Hub/main01_chatbtn.png"
-image gray_chatbtn_hover = Fixed('gray_chatbtn',
-                            Transform('gray_chatbtn', alpha=0.5))
+image gray_chatbtn_hover = "btn_hover:gray_chatbtn"
 image rfa_chatcircle:
     "Menu Screens/Chat Hub/main01_chatcircle.png"
     block:
@@ -378,11 +386,9 @@ image blue_chatcircle:
 image chat_text = "Menu Screens/Chat Hub/main01_chattext.png"
 image chat_icon = "Menu Screens/Chat Hub/main01_chaticon.png"
 image gray_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn.png"
-image gray_mainbtn_hover = Fixed('gray_mainbtn',
-                            Transform('gray_mainbtn', alpha=0.5))
+image gray_mainbtn_hover = "btn_hover:gray_mainbtn"
 image blue_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn_lit.png"
-image blue_mainbtn_hover = Fixed('blue_mainbtn',
-                            Transform('blue_mainbtn', alpha=0.5))
+image blue_mainbtn_hover = 'btn_hover:blue_mainbtn'
 image gray_maincircle:
     "Menu Screens/Chat Hub/main01_maincircle.png"
     block:
@@ -409,9 +415,9 @@ image profile_pic_select_square = "Menu Screens/Chat Hub/profile_pic_select_squa
 image white_hex = "Menu Screens/Chat Hub/main01_subbtn.png"
 image blue_hex = "Menu Screens/Chat Hub/main01_subbtn_lit.png"
 image red_hex = "Menu Screens/Chat Hub/main01_subbtn_shop.png"
-image white_hex_hover = Fixed('white_hex', Transform('white_hex', alpha=0.5))
-image blue_hex_hover = Fixed('blue_hex', Transform('white_hex', alpha=0.5))
-image red_hex_hover = Fixed('red_hex', Transform('white_hex', alpha=0.5))
+image white_hex_hover = 'btn_hover:white_hex'
+image blue_hex_hover = 'btn_hover:blue_hex'
+image red_hex_hover = 'btn_hover:red_hex'
 
 image album_icon = "Menu Screens/Chat Hub/main01_subicon_album.png"
 image guest_icon = "Menu Screens/Chat Hub/main01_subicon_guest.png"
@@ -471,11 +477,9 @@ image new_text = 'Text Messages/new_text.png'
 image header_envelope = 'Text Messages/header_envelope.png'
 
 image message_idle_bkgr = Frame('Text Messages/message_idle_background.png',20,20,20,20)
-image message_hover_bkgr = Fixed('message_idle_bkgr',
-                            Transform('message_idle_bkgr', alpha=0.5))
+image message_hover_bkgr = 'btn_hover:message_idle_bkgr'
 image unread_message_idle_bkgr = Frame('Text Messages/message_idle_background_unread.png',20,20,20,20)
-image unread_message_hover_bkgr = Fixed('unread_message_idle_bkgr',
-                            Transform('unread_message_idle_bkgr', alpha=0.5))
+image unread_message_hover_bkgr = 'btn_hover:unread_message_idle_bkgr'
 
 image text_msg_line = Frame('Text Messages/msgsl_line.png', 40,2)
 image text_answer_active = 'Text Messages/msgsl_button_answer_active.png'

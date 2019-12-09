@@ -6,8 +6,7 @@
 
 image history_button = Frame('Menu Screens/History/main02_button_01.png',
                                 49, 52, 270, 53)
-image history_button_hover = Fixed('history_button', 
-                            Transform('history_button', alpha=0.5))
+image history_button_hover = 'btn_hover:history_button'
 image history_icon_album = 'Menu Screens/History/history_icon_album.png'
 image history_icon_chat = 'Menu Screens/History/history_icon_chat.png'
 image history_icon_call = 'Menu Screens/History/history_icon_call.png'
