@@ -270,26 +270,24 @@ screen pic_and_pronouns():
              
 image she_her_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'female'", "radio_on",
-    'True', "radio_off",    
+    'True', "radio_off", predict_all=True   
 )
 image he_him_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'male'", "radio_on",
-    'True', "radio_off",    
+    'True', "radio_off", predict_all=True    
 )
 image they_them_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'non binary'", "radio_on",
-    'True', "radio_off",    
+    'True', "radio_off", predict_all=True    
 )
 image mc_name_switch = DynamicDisplayable(MC_name_display)
 image change_mc_pfp = DynamicDisplayable(MC_pic_display)
 
+# Shows how many heart points you've earned with each
+# character. To display properly there must be an image
+# defined called 'greet ja' if the character's file_id
+# is ja, for example
 screen points_and_saveload():
-    # Shows how many heart points you've earned with
-    # each character. To display properly, this needs to
-    # be a character variable, and there must be an image
-    # defined called 'greet ja' if the character's file_id
-    # is ja, for example
-    $ heart_point_chars = [ja, ju, sa, ri, s, v, y, z]
     null height 30
     grid 4 2:
         xalign 0.5

@@ -50,6 +50,9 @@ define config.after_load_callbacks = [ update_var_compatibility ]
 ## Checks for new chatrooms at about 20Hz
 # define config.periodic_callback = check_for_new_chatroom
 
+# Only predicts the current image in a ConditionSwitch
+define config.conditionswitch_predict_all = False
+
 ## Sounds and music ############################################################
 
 ## These three variables control which mixers are shown to the player by
@@ -103,7 +106,6 @@ define config.after_load_transition = None
 ## Used when entering the main menu after the game has ended.
 
 define config.end_game_transition = None
-
 
 ## A variable to set the transition used when the game starts does not exist.
 ## Instead, use a with statement after showing the initial scene.
