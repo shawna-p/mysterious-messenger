@@ -18,7 +18,7 @@ style input:
 
 style hyperlink_text:
     #properties gui.text_properties("hyperlink", accent=True)
-    color "#2451c1"
+    color "#00b08d"#"#2451c1"
     hover_underline True
 
 style gui_text:
@@ -1276,7 +1276,7 @@ image menu_popup_bkgrd = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",60,
 image menu_popup_btn = Frame("Menu Screens/Main Menu/menu_popup_btn.png",20,20,20,20)
 image menu_popup_btn_hover = Transform('menu_popup_btn', alpha=0.5)
 
-screen confirm(message, yes_action, no_action=False):
+screen confirm(message, yes_action, no_action=False, show_link=False):
 
     ## Ensure other screens do not get input while this screen is displayed.
     modal True
@@ -1299,6 +1299,13 @@ screen confirm(message, yes_action, no_action=False):
             label _(message):
                 style "confirm_prompt"
                 xalign 0.5
+            if show_link:
+                null height -56
+                textbutton "check out my Ko-Fi here":
+                    style_prefix None
+                    text_align 0.5 xalign 0.5 text_hover_underline True
+                    text_color "#00b08d"
+                    action OpenURL("https://ko-fi.com/somniarre")
 
             hbox:
                 xalign 0.5

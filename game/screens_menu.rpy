@@ -747,6 +747,11 @@ screen menu_header(title, return_action=NullAction,
                 imagebutton:
                     idle "header_plus"
                     hover "header_plus_hover"
+                    action Show('confirm', message="There are no in-game "
+                        + "purchases in this application. However, if you'd "
+                        + "like to support its development, you can ",
+                        #+ "{a=https://ko-fi.com/somniarre}check out my Ko-Fi here.{/a}",
+                        yes_action=Hide('confirm'), show_link=True)
                     #if not renpy.get_screen("choice"):
                     #    action NullAction
                 add 'header_tray'
@@ -1175,9 +1180,9 @@ style hex_text:
     font gui.sans_serif_1xb
     kerning -1
 
-###########################################################
-## Additional developer settings when creating new content
-###########################################################
+##########################################################
+## Additional developer settings for creating new content
+##########################################################
 screen developer_settings():
     modal True
     add "#000a"
