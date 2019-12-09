@@ -301,6 +301,7 @@ image menu_original_story = "Menu Screens/Main Menu/original_story.png"
 # Settings panel
 image menu_settings_panel = Frame("Menu Screens/Main Menu/settings_sound_panel.png",60,200,60,120)
 image menu_settings_panel_bright = Frame("Menu Screens/Main Menu/settings_sound_panel_bright.png",60,200,60,120)
+image menu_settings_panel_dark = Frame("Menu Screens/Main Menu/settings_sound_panel_dark.png",60,200,60,120)
 image menu_sound_sfx = "Menu Screens/Main Menu/settings_sound_sfx.png"
 image menu_other_box = Frame("Menu Screens/Main Menu/settings_sound_sfx.png", 10, 10)
 image menu_ringtone_box = Frame("Menu Screens/Main Menu/daychat01_3.png", 35, 35)

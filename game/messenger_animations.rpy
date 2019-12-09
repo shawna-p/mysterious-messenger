@@ -220,7 +220,7 @@ init python:
 
         speedtxt = Text("SPEED", style='speednum_style', size=30)
         numtxt = Text(speednum, style='speednum_style', align=(.5,.5))
-        return VBox(speedtxt, numtxt), 0.02
+        return VBox(speedtxt, numtxt), 0.05
 
 image speed_num_img = DynamicDisplayable(speed_num_fn)
 
