@@ -539,18 +539,16 @@ screen other_settings():
                 hbox:
                     style_prefix "toggle_panel"
                     null height 30
-                    textbutton _("Hacking Effects"):
-                        action ToggleField(persistent, "hacking_effects")
-                    textbutton _("Screen Shake"):
-                        action ToggleField(persistent, "screenshake")
-                    textbutton _("Chatroom Banners"):
-                        action ToggleField(persistent, 'banners')
-                    textbutton _("Auto-Answer Timed Menus"):
-                        action ToggleField(persistent,'autoanswer_timed_menus')
-                    textbutton _("Heart Icon Text Notifications"):
-                        action ToggleField(persistent, 'heart_notifications')
-                    textbutton _("Dialogue outlines"):
-                        action ToggleField(persistent, "dialogue_outlines")
+                    use toggle_buttons('hacking_effects', "Hacking Effects")
+                    use toggle_buttons('screenshake', "Screen Shake")
+                    use toggle_buttons('banners', "Chatroom Banners")
+                    use toggle_buttons('autoanswer_timed_menus', 
+                                        "Auto-Answer Timed Menus")
+                    use toggle_buttons('heart_notifications', 
+                                        "Heart Icon Notifications")
+                    use toggle_buttons('dialogue_outlines', 
+                                        "Dialogue Outlines")
+                    
 
             # This will let you recompile the fonts in the game
             # to be more readable        
@@ -585,35 +583,62 @@ screen other_settings():
                             yes_action=[Hide('confirm'), 
                             Jump("restart_game")], no_action=Hide('confirm'))
 
+image toggle_btn_bg = "Menu Screens/Main Menu/toggle_panel_background.png" 
+image toggle_btn_on = "Menu Screens/Main Menu/toggle_panel_selected_foreground.png"
+image toggle_btn_off = "Menu Screens/Main Menu/toggle_panel_foreground.png"
+
+## A screen to assist in showing the persistent toggleable options
+screen toggle_buttons(field, title):
+    default condition_term = "persistent." + field
+    vbox:
+        style_prefix None
+        fixed:
+            xysize (105, 50)
+            imagebutton:
+                idle "toggle_btn_bg"
+                action ToggleField(persistent, field)
+                align (0.5, 0.5)
+
+            imagebutton at toggle_btn_transform:
+                idle ConditionSwitch(condition_term, 'toggle_btn_on',
+                    "True", "toggle_btn_off", predict_all=True)
+                focus_mask True
+                yalign 0.5
+                action ToggleField(persistent, field)
+            
+        textbutton title:
+            style 'toggle_panel_button'
+            text_style 'toggle_panel_button_text'
+            if len(title) > 16:
+                text_size 25
+            action ToggleField(persistent, field)
+
+transform toggle_btn_transform:
+    on show:
+        pass
+    on idle, hover:
+        linear 0.25 xoffset 0
+    on selected_idle, selected_hover:
+        linear 0.25 xoffset 55
 
 style toggle_panel_button:
-    background "Menu Screens/Main Menu/toggle_panel_background.png"    
-    padding (4, 50, 4, 4)
-    foreground At("Menu Screens/Main Menu/toggle_panel_foreground.png", 
-                    off_toggle)
-    selected_foreground At("Menu Screens/Main Menu/toggle_panel_selected_foreground.png", 
-                    on_toggle)
     xsize 210
     xalign 0.5
 
 style toggle_panel_button_text:
     text_align 0.0
     xalign 0.0
+    hover_color "#fff"
+    selected_hover_color '#ababab'
 
 style toggle_panel_hbox:
     spacing 6
     box_wrap True
     box_wrap_spacing 20
-    xsize 660
+    xalign 0.5
+    xmaximum 655
     yalign 0.8
 
-transform on_toggle:
-    xoffset 0
-    linear 0.2 xoffset 65
-
-transform off_toggle:
-    xoffset 65
-    linear 0.2 xoffset 0
 
 style other_settings_viewport:
     is empty
