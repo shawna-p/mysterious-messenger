@@ -1183,13 +1183,14 @@ style hex_text:
 ##########################################################
 ## Additional developer settings for creating new content
 ##########################################################
+    
 screen developer_settings():
     modal True
     add "#000a"
     
     frame:
         xysize (675, 600)
-        background Transform('menu_settings_panel_dark', alpha=0.97)
+        background Transform('menu_settings_panel_light', alpha=0.95)
         align (0.5, 0.5)
 
     frame:
@@ -1210,6 +1211,7 @@ screen developer_settings():
             style_prefix "other_settings"
             yalign 0.5
             null height 30
+            
             frame:
                 xysize(650,280)
                 background "menu_settings_panel"
@@ -1226,7 +1228,6 @@ screen developer_settings():
                         action ToggleField(persistent, "real_time")
                     textbutton _("Hacked Effect"):
                         action ToggleVariable('hacked_effect')
-
 
 
      
