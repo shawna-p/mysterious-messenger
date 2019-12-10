@@ -113,11 +113,9 @@ label vn_begin():
 label vn_end():
     if _in_replay:
         $ renpy.end_replay()
-    hide screen vn_overlay    
-    $ vn_choice = False
+    hide screen vn_overlay 
     $ renpy.retain_after_load()
-    call press_save_and_exit(False) 
-    return
+    jump press_save_and_exit
         
 label vn_end_route():
     $ config.skipping = False

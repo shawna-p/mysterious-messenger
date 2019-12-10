@@ -42,7 +42,8 @@
             # to get to the chat hub
             $ persistent.first_boot = False
             $ persistent.on_route = True
-            call press_save_and_exit(False)
+            $ vn_choice = True
+            jump press_save_and_exit
             
     u_phone """
     

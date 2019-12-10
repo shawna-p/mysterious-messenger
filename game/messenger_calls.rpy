@@ -203,7 +203,6 @@ label chat_back():
         stop music
         if _in_replay:
             $ renpy.end_replay()
-        call screen chatroom_timeline(current_day, current_day_num)
     else:
         # If you back out of a chatroom, it expires
         $ current_chatroom.expired = True
@@ -234,7 +233,8 @@ label chat_back():
         $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
         stop music
-        call screen chatroom_timeline(current_day, current_day_num)
+    $ renpy.set_return_stack([])
+    call screen chatroom_timeline(current_day, current_day_num)
     return
 
     
@@ -260,7 +260,13 @@ screen save_and_exit(end_route=False):
         else:
             action Return()
         
-label press_save_and_exit(phone=True):
+label press_save_and_exit():
+    if vn_choice:
+        $ vn_choice = False
+        $ phone = False
+    else:
+        $ phone = True
+        
     if observing or _in_replay:
         $ config.skipping = False
         $ choosing = False
