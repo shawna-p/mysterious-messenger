@@ -32,7 +32,8 @@ init -5 python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     self.big_prof_pic = large_pfp
-            
+            if self.file_id == 'm':
+                self.prof_pic = store.persistent.MC_pic
 
             # Picture that shows up in the timeline screen
             # to show if a character has participated in
@@ -150,6 +151,9 @@ init -5 python:
                 self.__prof_pic = False
             elif isImg(new_img):            
                 self.__prof_pic = new_img
+
+            if self.file_id == 'm': # This is the MC
+                self.__prof_pic = store.persistent.MC_pic
 
             self.__big_prof_pic = self.__prof_pic
             if self.__prof_pic:
