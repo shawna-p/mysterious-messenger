@@ -1,12 +1,12 @@
 init -1 python:
 
-    # Picks a random position for the star to appear at
+    ## Picks a random position for the star to appear at
     def star_func(trans,st,at):
         trans.ypos = renpy.random.random()
         trans.xpos = renpy.random.random()
         return None
         
-# These are the stars that will be animated
+## These are the stars that will be animated
 image small star:
     function star_func
     block:
@@ -58,7 +58,7 @@ label splashscreen():
     hide screen loading_screen
     return
 
-## This ensures that the user has to set up their profile
+## This ensures that the player has to set up their profile
 ## the very first time they open the game
 label before_main_menu():
     if persistent.first_boot:
@@ -83,8 +83,7 @@ screen loading_screen():
         maximum(540, 140)
         xalign 0.5
         yalign 0.445
-        text ("Please make sure the game is not quit or" 
-               + " interrupted during save or load") style "loading_tip"
+        text renpy.random.choice(loading_tips) style "loading_tip"
         
     text "Loading..." style "loading_text" 
     
@@ -100,4 +99,9 @@ screen loading_screen():
     add 'load_tip 'xalign 0.13 yalign 0.32
     
 
-
+default loading_tips = [ 
+    "Please make sure the game is not quit or interrupted during save or load",
+    "Tap the Discord button in the hub screen to go to the Mysterious Messenger Discord.",
+    "Want to contribute to the program? Submit a pull request to the Mysterious Messenger Github!",
+    "There are many accessibility options in the Settings menu."
+]
