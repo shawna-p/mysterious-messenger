@@ -4,7 +4,7 @@ init -5 python:
     ## and a 'file_id' that's appended to things like their special 
     ## bubble names and saves you from typing out the full name 
     ## every time
-    class ChatCharacter(object):
+    class ChatCharacter(renpy.store.object):
         def __init__(self, name, file_id=False, prof_pic=False, 
                 participant_pic=False, heart_color='#000000', 
                 cover_pic=False, status=False, bubble_color=False, 
@@ -177,12 +177,16 @@ init -5 python:
             # Regular profile pic is 110x110
             # Big pfp is 314x314
             max_small = 110 * 1.5
-            if the_size <= max_small:
-                return Transform(self.__prof_pic, 
-                                size=(the_size, the_size))
+            if self != store.m:
+                if the_size <= max_small:
+                    return Transform(self.__prof_pic, 
+                                    size=(the_size, the_size))
+                else:
+                    return Transform(self.__big_prof_pic, 
+                                    size=(the_size, the_size))
             else:
-                return Transform(self.__big_prof_pic, 
-                                size=(the_size, the_size))
+                return Transform(store.persistent.MC_pic, 
+                                    size=(the_size, the_size))
 
         ## Resets a character's profile picture to their default
         ## Used in replay mode for the History screen
@@ -218,6 +222,15 @@ init -5 python:
         @seen_updates.setter
         def seen_updates(self, new_bool):
             self.__seen_updates = new_bool
+            renpy.retain_after_load()
+
+        @property
+        def name(self):
+            return self.__name
+
+        @name.setter
+        def name(self, new_name):
+            self.__name = new_name
             renpy.retain_after_load()
 
         ## Sets the label to jump to when responding to 
@@ -310,8 +323,8 @@ default ju = ChatCharacter("Jumin Han", 'ju',
                 "Cover Photos/profile_cover_photo.png", "Jumin's status", 
                 emote_list=jumin_emotes,
                 homepage_pic="Profile Pics/main_profile_jumin.png")
-default m = ChatCharacter(persistent.name, 'm', persistent.MC_pic, 
-                        right_msgr=True)
+default m = ChatCharacter("[persistent.name]", 'm', 
+                persistent.MC_pic, right_msgr=True)
 default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
                 'Profile Pics/r_chat.png', "#b81d7b", 
                 "Cover Photos/profile_cover_photo.png", "Ray's status", 
@@ -415,7 +428,7 @@ define z_phone = Character("Zen",
     kind=phone_character, voice_tag="z_voice")
 define m_phone = Character("[name]", 
     kind=phone_character, what_color="#a6a6a6", 
-    what_suffix="{w=0.8}{nw}")
+    what_suffix="{w=0.8}{nw}", dynamic=True)
 define vmail_phone = Character('Voicemail', kind=phone_character)
                         
 # ****************************
@@ -508,7 +521,7 @@ default z_vn = Character("Zen", kind=vn_character,
 ## Note: The MC's name will show up in VN mode in this program. 
 ## If you'd like it to be blank, just replace persistent.name with None
 default m_vn = Character(persistent.name, kind=vn_character, 
-                        who_color="#ffffed")
+                        who_color="#ffffed", dynamic=True)
 
 ## This is the 'generic' template character -- if you want a 
 ## side character like Echo Girl, copy this character and 
