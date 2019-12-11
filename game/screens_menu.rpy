@@ -234,15 +234,23 @@ screen main_menu():
 
     tag menu
          
-    # Greet the player, and play the title music if not already
-    on 'show' action If(renpy.music.get_playing(channel='music')
-                         != mystic_chat,
-                        [Play('music', mystic_chat), Function(chat_greet)],
-                        Function(chat_greet))
-    on 'replace' action If(renpy.music.get_playing(channel='music')
-                         != mystic_chat,
-                        [Play('music', mystic_chat), Function(chat_greet)],
-                        Function(chat_greet))
+    if persistent.first_boot:
+        on 'show' action [SetField(persistent, 'first_boot', False), 
+                            Show('route_select_screen')]
+        on 'replace' action [SetField(persistent, 'first_boot', False), 
+                            Show('route_select_screen')]
+    else:
+        # Greet the player, and play the title music if not already
+        on 'show' action If(renpy.music.get_playing(channel='music')
+                            != mystic_chat,
+                            [Play('music', mystic_chat), 
+                            Function(chat_greet)],
+                            Function(chat_greet))
+        on 'replace' action If(renpy.music.get_playing(channel='music')
+                            != mystic_chat,
+                            [Play('music', mystic_chat), 
+                            Function(chat_greet)],
+                            Function(chat_greet))
 
     # This adds the 'starry night' background with a few animated stars
     # It is defined in 'screens_starry_night.rpy'
