@@ -222,7 +222,6 @@ init -5 python:
         @seen_updates.setter
         def seen_updates(self, new_bool):
             self.__seen_updates = new_bool
-            renpy.retain_after_load()
 
         @property
         def name(self):
@@ -231,7 +230,6 @@ init -5 python:
         @name.setter
         def name(self, new_name):
             self.__name = new_name
-            renpy.retain_after_load()
 
         ## Sets the label to jump to when responding to 
         ## this character's text messages
@@ -520,7 +518,7 @@ default z_vn = Character("Zen", kind=vn_character,
                             
 ## Note: The MC's name will show up in VN mode in this program. 
 ## If you'd like it to be blank, just replace persistent.name with None
-default m_vn = Character(persistent.name, kind=vn_character, 
+default m_vn = Character("persistent.name", kind=vn_character, 
                         who_color="#ffffed", dynamic=True)
 
 ## This is the 'generic' template character -- if you want a 
