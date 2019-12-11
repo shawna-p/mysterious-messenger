@@ -16,8 +16,8 @@
 
 init python:
 
-    ## This lets you change the MC's profile picture by clicking on it
-    ## The player can upload their own images as well
+    ## This lets the player change the MC's profile picture
+    ## by clicking on it. You can upload your own images as well
     def MC_pic_change():
         global m, persistent
         

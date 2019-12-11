@@ -5,7 +5,7 @@ init -6 python:
     
     ## The TextMessage class keeps track of a text message conversation
     ##  for each character. The actual messages are stored in msg_list
-    class TextMessage(object):
+    class TextMessage(renpy.store.object):
         def __init__(self):
             # List of currently sent messages
             self.msg_list = []

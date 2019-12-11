@@ -410,7 +410,7 @@ image call_maintext = "Menu Screens/Chat Hub/main01_maintext_call.png"
 image email_maintext = "Menu Screens/Chat Hub/main01_maintext_email.png"
 image msg_maintext = "Menu Screens/Chat Hub/main01_maintext_message.png"
 
-image profile_pic_select_square = "Menu Screens/Chat Hub/profile_pic_select_square.png"
+image profile_pic_select_square = Transform("Menu Screens/Chat Hub/profile_pic_select_square.png", size=(95, 95))
 
 image white_hex = "Menu Screens/Chat Hub/main01_subbtn.png"
 image blue_hex = "Menu Screens/Chat Hub/main01_subbtn_lit.png"

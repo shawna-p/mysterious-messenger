@@ -10,7 +10,7 @@ init -4 python:
     ##  specBubble is a variable that holds the name of any special 
     ##      speech bubbles that should be used when displaying the text
     ##      (by default is empty and a regular bubble is used)
-    class ChatEntry(object):
+    class ChatEntry(renpy.store.object):
         def __init__(self, who, what, thetime, img=False, 
                         bounce=False, specBubble=None):
             self.who = who
@@ -22,7 +22,7 @@ init -4 python:
 
     ## Class that is functionally the same as a ChatEntry, but
     ## keeps track of "replay" entries for the replay function
-    class ReplayEntry(object):
+    class ReplayEntry(renpy.store.object):
         def __init__(self, who, what, pauseVal=None, img=False,
                         bounce=False, specBubble=None):
             self.who = who

@@ -53,6 +53,14 @@ define config.after_load_callbacks = [ update_var_compatibility ]
 # Only predicts the current image in a ConditionSwitch
 define config.conditionswitch_predict_all = False
 
+# init python:
+#     def label_debug(title, reg_reached):
+#         print("Got to label", title)
+#         return
+
+# define config.label_callback = label_debug
+
+
 ## Sounds and music ############################################################
 
 ## These three variables control which mixers are shown to the player by

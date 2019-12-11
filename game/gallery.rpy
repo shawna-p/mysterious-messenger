@@ -2,7 +2,7 @@ python early:
 
     ## This class holds the information needed to display
     ## all the CGs associated with a certain album
-    class Album(object):
+    class Album(renpy.store.object):
         def __init__(self, img, thumbnail=False, 
                     locked_img="CGs/album_unlock.png"):
             # images should be 750x1334

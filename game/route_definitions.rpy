@@ -7,7 +7,7 @@ init -6 python:
     ## A more complete explanation of how to use it to set up 
     ## chatrooms can be found in the accompanying Script Generator
     ## spreadsheet
-    class ChatHistory(object):
+    class ChatHistory(renpy.store.object):
         def __init__(self, title, chatroom_label, trigger_time, 
                 participants=[], vn_obj=False, plot_branch=False, 
                 save_img='auto'):
@@ -117,7 +117,7 @@ init -6 python:
             
     ## This class stores the information needed for the Visual 
     ## Novel portions of the game
-    class VNMode(object):
+    class VNMode(renpy.store.object):
         def __init__(self, vn_label, who=None, 
                     party=False, trigger_time=False):
             # The label to jump to for the VN
@@ -136,7 +136,7 @@ init -6 python:
 
     ## This class stores information the game needs to know
     ## about how to handle a plot branch
-    class PlotBranch(object):
+    class PlotBranch(renpy.store.object):
         def __init__(self, vn_after_branch=False):
             # Whether this VN should appear after the plot branch
             # or before
@@ -146,7 +146,7 @@ init -6 python:
             self.stored_vn = None
             
     ## This object stores a day's worth of chatrooms
-    class RouteDay(object):
+    class RouteDay(renpy.store.object):
         def __init__(self, day, archive_list=[], day_icon='day_common2',
                         branch_vn=False):
             # The day e.g. "1st"
@@ -184,7 +184,7 @@ init -6 python:
 
     ## This class stores an entire route -- including good, bad,
     ## normal ends etc
-    class Route(object):
+    class Route(renpy.store.object):
         def __init__(self, default_branch, branch_list=[], 
                     route_history_title="Common",
                     has_good_end=True):

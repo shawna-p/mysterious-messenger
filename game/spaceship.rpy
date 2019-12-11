@@ -4,6 +4,7 @@ init python:
     # This is used to make the spaceship float to a random 
     # location on the line
     def spaceship_xalign_func(trans,st,at):
+        global spaceship_xalign
         if st > 1.0:
             trans.xalign = spaceship_xalign
             return None
@@ -11,7 +12,6 @@ init python:
             trans.xalign = spaceship_xalign * st
             return 0
     
-        global spaceship_xalign
         trans.xalign = spaceship_xalign
         return None
         
@@ -53,7 +53,7 @@ init python:
     # This class keeps track of "Space Thoughts" in 
     # order to show the correct image + text combo
     # to the player
-    class SpaceThought(object):
+    class SpaceThought(renpy.store.object):
         def __init__(self, char, thought):
             self.char = char
             self.thought = thought

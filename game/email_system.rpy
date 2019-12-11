@@ -2,7 +2,7 @@ init python:
     
     ## This class holds the information the email needs for delivery,
     ## timeout, failure, etc
-    class Email(object):
+    class Email(renpy.store.object):
         def __init__(self, guest, msg, reply_label):
             # Guest variable
             self.guest = guest 
@@ -248,7 +248,7 @@ init python:
     
     ## This class stores necessary information about the guest, including
     ## all of their email replies as well as their image thumbnail and name
-    class Guest(object):
+    class Guest(renpy.store.object):
         def __init__(self, name, thumbnail, start_msg,
                         msg1_good, reply1_good, msg1_bad, reply1_bad,
                         msg2_good, reply2_good, msg2_bad, reply2_bad,
