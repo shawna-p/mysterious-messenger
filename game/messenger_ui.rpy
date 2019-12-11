@@ -159,7 +159,7 @@ screen fast_slow_buttons():
 # Displays a list of the characters in the chatroom
 image in_chat_display = DynamicDisplayable(in_chat_fn)
 # The clock that gets displayed in chatrooms
-default myClock = Clock(150) 
+default myClock = Clock(120) 
 
 init python:
     ## Used for a dynamic displayable to display the 
@@ -262,7 +262,7 @@ screen phone_overlay():
     # 4 = plugged in, battery fully charged
     hbox:           
         align (1.0, 0.0)
-        spacing -16
+        spacing 15
         fixed:
             xysize (20, 48)
             if battery.state >= 1 and battery.state != 2:
@@ -275,7 +275,7 @@ screen phone_overlay():
                     value StaticValue(value=float(75)/100.0, 
                         range=1.0)
                     style 'battery_bar_undetected'
-        add myClock xoffset 22
+        add myClock xoffset -10 yalign 0.5 
     
     if not starter_story:
         fixed:
