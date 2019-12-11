@@ -132,8 +132,8 @@ init python:
             
             num_greetings = len(late_night_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
-            renpy.play(late_night_greeting[greet_char][the_greeting].sound_file, 
-                channel="voice_sfx")
+            renpy.play(late_night_greeting[greet_char][
+                            the_greeting].sound_file, channel="voice_sfx")
         
         
     ## Sets the player's pronouns, if they change them
@@ -833,9 +833,9 @@ screen menu_header(title, return_action=NullAction,
                     # text messages works differently
                     elif text_person and text_person.real_time_text:
                         action Show("confirm", 
-                                    message=("Do you really want to leave this "
-                                    + "text message? You won't be able to "
-                                    + "continue this conversation."), 
+                                    message=("Do you really want to leave this"
+                                    + " text message? You won't be able to"
+                                    + " continue this conversation."), 
                                     yes_action=[Hide('confirm'), 
                                     Jump('leave_inst_text')], 
                                     no_action=Hide('confirm'))    
@@ -977,28 +977,18 @@ screen chat_home(reshow=False):
             yoffset -140       
             # Text Messages
             button:
-                xysize(168,168)
+                style_prefix 'small_menu_circle'
                 xalign 0.62
                 if len(character_list) > 10:
                     yalign 0.2
                 else:
                     yalign 0.1
-                if new_message_count() > 0:
-                    background 'blue_mainbtn'
-                    hover_background 'blue_mainbtn_hover'
-                else:
-                    background "gray_mainbtn"
-                    hover_background "gray_mainbtn_hover"
+                selected new_message_count() > 0                   
                 action Show('text_message_hub', Dissolve(0.5))
-                activate_sound 'audio/sfx/UI/select_phone_text.mp3'
                 if new_message_count() > 0:
                     add 'blue_maincircle' xalign 0.5 yalign 0.5
-                    frame:
-                        xysize(45,45)
-                        xalign 1.0
-                        yalign 0.0
-                        background 'new_text_count' 
-                        text str(new_message_count()) style 'text_num'
+                    frame: 
+                        text str(new_message_count())
                 else:
                     add "gray_maincircle" xalign 0.5 yalign 0.5
                 add "msg_mainicon" xalign 0.5 yalign 0.5
@@ -1007,28 +997,18 @@ screen chat_home(reshow=False):
                 
             # Calls
             button:
-                xysize(168,168) 
+                style_prefix 'small_menu_circle'
                 xalign 0.91
                 if len(character_list) > 10:
                     yalign 0.4
                 else:
-                    yalign 0.3
-                if unseen_calls > 0:
-                    background "blue_mainbtn"
-                    hover_background "blue_mainbtn_hover"
-                else:
-                    background "gray_mainbtn"
-                    hover_background "gray_mainbtn_hover"
+                    yalign 0.3                
+                selected unseen_calls > 0
                 action [SetVariable('unseen_calls', 0), Show('phone_calls')]  
-                activate_sound 'audio/sfx/UI/select_phone_text.mp3'        
                 if unseen_calls > 0:
                     add "blue_maincircle" xalign 0.5 yalign 0.5  
                     frame:
-                        xysize(45,45)
-                        xalign 1.0
-                        yalign 0.0
-                        background 'new_text_count' 
-                        text "[unseen_calls]" style 'text_num'
+                        text str(unseen_calls)
                 else:
                     add "gray_maincircle" xalign 0.5 yalign 0.5
                 
@@ -1037,28 +1017,18 @@ screen chat_home(reshow=False):
             
             # Emails
             button:
-                xysize(168,168)
+                style_prefix 'small_menu_circle'
                 xalign 0.342
                 if len(character_list) > 10:
                     yalign 0.4
                 else:
                     yalign 0.3
-                if unread_emails() > 0:
-                    background "blue_mainbtn"
-                    hover_background "blue_mainbtn_hover"
-                else:
-                    background "gray_mainbtn"
-                    hover_background "gray_mainbtn_hover"
+                selected unread_emails() > 0
                 action Show('email_hub', Dissolve(0.5))
-                activate_sound 'audio/sfx/UI/select_email.mp3'
                 if unread_emails() > 0:
                     add "blue_maincircle" xalign 0.5 yalign 0.5
                     frame:
-                        xysize(45, 45)
-                        xalign 1.0
-                        yalign 0.0
-                        background 'new_text_count'
-                        text str(unread_emails()) style 'text_num'
+                        text str(unread_emails())
                 else:
                     add "gray_maincircle" xalign 0.5 yalign 0.5
                 add "email_mainicon" xalign 0.5 yalign 0.5
@@ -1066,18 +1036,13 @@ screen chat_home(reshow=False):
                 
             # Main Chatroom
             button:
-                xysize(305,305)
-                xalign 0.65
-                yalign 0.722
-                background "gray_chatbtn"
-                hover_background "gray_chatbtn_hover"
+                style 'big_menu_circle'
                 if persistent.real_time:
                     action [Function(next_chatroom), 
                             Function(deliver_all_texts), 
                             Show('chat_select')]
                 else:
                     action [Function(deliver_all_texts), Show('chat_select')]
-                activate_sound "audio/sfx/UI/chatroom_select.mp3"
                 add "rfa_chatcircle" yalign 0.5 xalign 0.5
                 add "blue_chatcircle" xalign 0.5 yalign 0.5
                 add "chat_icon" xalign 0.5 yalign 0.5
@@ -1085,63 +1050,47 @@ screen chat_home(reshow=False):
             
 
             # Links/etc on the left side of the screen
-            frame:
-                xysize(140, 1000)
-                xalign 0.03
-                yalign 0.98
-                has vbox
-                spacing 20
+            vbox:
+                style_prefix 'hex'
                 # Album
                 button:
-                    xysize(130,149)
                     if new_cg:
-                        background "blue_hex"
-                        hover_background "blue_hex_hover"
                         add 'new_text' align (1.0, 0.1) xoffset 15
-                    else:
-                        background "white_hex"
-                        hover_background "white_hex_hover"
+                    selected new_cg
                     action [SetVariable('new_cg', False), 
                             Show('photo_album', Dissolve(0.5))]
                     add "album_icon" xalign 0.5 yalign 0.35
-                    text "ALBUM" style 'hex_text'
+                    text "ALBUM"
 
                 # Guest
                 button:
-                    xysize(130,149)
-                    background "white_hex"
-                    hover_background "white_hex_hover"
+                    selected None
                     action Show('guestbook')
                     add "guest_icon" xalign 0.5 yalign 0.3
-                    text "GUEST" style 'hex_text'
+                    text "GUEST"
 
                 # Developer Settings ("Shop")
                 button:
-                    xysize(130,149)
                     background "red_hex"
                     hover_background "red_hex_hover"
-                    #action NullAction
+                    selected None
                     action Show('developer_settings')
                     add "developer_settings" xalign 0.55 yalign 0.35
-                    text "DEVELOPER" style 'hex_text' size 18
+                    text "DEVELOPER" size 18
 
                 # Discord Link ("Notice")
                 button:
-                    xysize(130,149)
-                    background "white_hex"
-                    hover_background "white_hex_hover"
+                    selected None
                     action OpenURL('https://discord.gg/BPbPcpk')
                     add "discord" xalign 0.5 yalign 0.42
-                    text "DISCORD" style 'hex_text'
+                    text "DISCORD" 
 
                 # GitHub Link ("Link")     
                 button:
-                    xysize(130,149)
-                    background "white_hex"
-                    hover_background "white_hex_hover"
+                    selected None
                     action OpenURL('https://github.com/shawna-p/mysterious-messenger')
                     add "github" xalign 0.5 yalign 0.3
-                    text "GITHUB" style 'hex_text'
+                    text "GITHUB"
 
                     
                     
@@ -1209,6 +1158,45 @@ screen chat_home(reshow=False):
                             activate_sound 'audio/sfx/UI/select_6.mp3'
                             action Show('spaceship_thoughts', Dissolve(0.5))
 
+
+style small_menu_circle_button:
+    xysize(168,168)
+    selected_background "blue_mainbtn"
+    selected_hover_background "blue_mainbtn_hover"
+    background "gray_mainbtn"
+    hover_background "gray_mainbtn_hover"
+    activate_sound 'audio/sfx/UI/select_phone_text.mp3'      
+
+style small_menu_circle_frame:
+    xysize(45,45)
+    xalign 1.0
+    yalign 0.0
+    background 'new_text_count'
+
+style small_menu_circle_text:
+    is text_num
+
+style big_menu_circle:
+    xysize(305,305)
+    xalign 0.65
+    yalign 0.722
+    background "gray_chatbtn"
+    hover_background "gray_chatbtn_hover"
+    activate_sound "audio/sfx/UI/chatroom_select.mp3"
+
+style hex_vbox:
+    spacing 20
+    xysize(140, 830)
+    xalign 0.03
+    yalign 0.5
+
+style hex_button:
+    xysize(130,149)
+    selected_background "blue_hex"
+    selected_hover_background "blue_hex_hover"
+    background "white_hex"
+    hover_background "white_hex_hover"
+
 style hex_text:
     is text
     xalign 0.5
@@ -1218,6 +1206,7 @@ style hex_text:
     size 20
     font gui.sans_serif_1xb
     kerning -1
+    
 
 ##########################################################
 ## Additional developer settings for creating new content
@@ -1290,12 +1279,12 @@ screen chara_profile(who):
                 xalign 0.1 yalign 0.62
                 add who.get_pfp(314)
                 add 'profile_outline'    
-            frame:
+            fixed:
                 xysize (350,75)
                 xalign 0.96
                 yalign 0.645
                 text who.name style "profile_header_text"
-            frame:  
+            fixed:  
                 xysize (700, 260)
                 yalign 0.95
                 text who.status style "profile_status"
