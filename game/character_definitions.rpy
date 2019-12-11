@@ -9,7 +9,7 @@ init -5 python:
                 participant_pic=False, heart_color='#000000', 
                 cover_pic=False, status=False, bubble_color=False, 
                 glow_color=False, emote_list=False, voicemail=False,
-                right_msgr=False):               
+                right_msgr=False, homepage_pic=False):               
                 
             # The name used in the chatroom e.g. '707'
             self.name = name            
@@ -20,6 +20,14 @@ init -5 python:
             self.big_prof_pic = prof_pic
             self.prof_pic = prof_pic
             self.default_prof_pic = prof_pic
+            # The picture to show on the chat home screen
+            if not homepage_pic:
+                self.homepage_pic = prof_pic
+            else:
+                self.homepage_pic = homepage_pic
+            # This is false if the player has yet to view this character's
+            # most recent cover photo/profile picture/status update
+            self.seen_updates = False
             # The program assumes the given profile picture is 110x110
             # However, larger pictures of size 314x314 are used in various
             # menus such as when calling a character. So the program also
@@ -151,6 +159,7 @@ init -5 python:
                 self.__prof_pic = False
             elif isImg(new_img):            
                 self.__prof_pic = new_img
+                self.seen_updates = False
 
             if self.file_id == 'm': # This is the MC
                 self.__prof_pic = store.persistent.MC_pic
@@ -191,6 +200,7 @@ init -5 python:
                 self.__cover_pic = False
             elif isImg(new_img):
                 self.__cover_pic = new_img
+                self.seen_updates = False
             
         @property
         def status(self):
@@ -199,6 +209,16 @@ init -5 python:
         @status.setter
         def status(self, new_status):
             self.__status = new_status
+            self.seen_updates = False
+
+        @property
+        def seen_updates(self):
+            return self.__seen_updates
+
+        @seen_updates.setter
+        def seen_updates(self, new_bool):
+            self.__seen_updates = new_bool
+            renpy.retain_after_load()
 
         ## Sets the label to jump to when responding to 
         ## this character's text messages
@@ -272,53 +292,64 @@ init -5 python:
 ##  right_msgr - indicates this character will send messages from the right
 ##               side of the screen (this is usually true only for
 ##               MC, and it is automatically False for everyone else)
+##  homepage_pic - the image used in the chat_hub screen to show if a 
+##                 character has updated their profile
 
 # This list populates itself with every character in the game
 default all_characters = [] 
 
 default ja = ChatCharacter("Jaehee Kang", 'ja', 
-                    'Profile Pics/Jaehee/ja-default.png', 
-                    'Profile Pics/ja_chat.png', "#d0b741", 
-                    "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
-                    emote_list=jaehee_emotes)
+                'Profile Pics/Jaehee/ja-default.png', 
+                'Profile Pics/ja_chat.png', "#d0b741", 
+                "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
+                emote_list=jaehee_emotes,
+                homepage_pic="Profile Pics/main_profile_jaehee.png")
 default ju = ChatCharacter("Jumin Han", 'ju', 
-                    'Profile Pics/Jumin/ju-default.png', 
-                    'Profile Pics/ju_chat.png', "#a59aef", 
-                    "Cover Photos/profile_cover_photo.png", "Jumin's status", 
-                    emote_list=jumin_emotes)
+                'Profile Pics/Jumin/ju-default.png', 
+                'Profile Pics/ju_chat.png', "#a59aef", 
+                "Cover Photos/profile_cover_photo.png", "Jumin's status", 
+                emote_list=jumin_emotes,
+                homepage_pic="Profile Pics/main_profile_jumin.png")
 default m = ChatCharacter(persistent.name, 'm', persistent.MC_pic, 
                         right_msgr=True)
 default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
                 'Profile Pics/r_chat.png', "#b81d7b", 
                 "Cover Photos/profile_cover_photo.png", "Ray's status", 
-                emote_list=ray_emotes)
+                emote_list=ray_emotes,
+                homepage_pic="Profile Pics/main_profile_ray.png")
 default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
-                    'Profile Pics/ri_chat.png', "#fcef5a", 
-                    "Cover Photos/profile_cover_photo.png", "Rika's status", 
-                    emote_list=rika_emotes)
+                'Profile Pics/ri_chat.png', "#fcef5a", 
+                "Cover Photos/profile_cover_photo.png", "Rika's status", 
+                emote_list=rika_emotes,
+                homepage_pic="Profile Pics/main_profile_rika.png")
 default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.png', 
                 'Profile Pics/s_chat.png', "#ff2626", 
                 "Cover Photos/profile_cover_photo.png", "707's status", 
-                emote_list=seven_emotes)
+                emote_list=seven_emotes,
+                homepage_pic="Profile Pics/main_profile_seven.png")
 default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
-                    'Profile Pics/sa_chat.png', "#b81d7b", 
-                    "Cover Photos/profile_cover_photo.png", "Saeran's status", 
-                    emote_list=saeran_emotes)
+                'Profile Pics/sa_chat.png', "#b81d7b", 
+                "Cover Photos/profile_cover_photo.png", "Saeran's status", 
+                emote_list=saeran_emotes,
+                homepage_pic="Profile Pics/main_profile_sa1.png")
 default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
                 'Profile Pics/u_chat.png', "#ffffff")
 default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.png', 
                 'Profile Pics/v_chat.png', "#50b2bc", 
                 "Cover Photos/profile_cover_photo.png", "V's status", 
-                emote_list=v_emotes)
+                emote_list=v_emotes,
+                homepage_pic="Profile Pics/main_profile_v.png")
 default y = ChatCharacter("Yoosung★", 'y', 
                 'Profile Pics/Yoosung/yoo-default.png', 
                 'Profile Pics/y_chat.png', "#31ff26", 
                 "Cover Photos/profile_cover_photo.png", "Yoosung's status", 
-                emote_list=yoosung_emotes)
+                emote_list=yoosung_emotes,
+                homepage_pic="Profile Pics/main_profile_yoosung.png")
 default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
                 'Profile Pics/z_chat.png', "#c9c9c9", 
                 "Cover Photos/profile_cover_photo.png", "Zen's status", 
-                emote_list=zen_emotes)
+                emote_list=zen_emotes,
+                homepage_pic="Profile Pics/main_profile_zen.png")
 
 # These are special 'characters' for additional features
 default special_msg = ChatCharacter("msg")

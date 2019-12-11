@@ -789,9 +789,6 @@ screen menu_header(title, return_action=NullAction,
         else:
             null width 72
             
-            
-        
-        
     # Header
     if title != "Original Story" and title != "In Call":
         frame:
@@ -884,8 +881,6 @@ style hg_hp_display_text:
     xalign 1.0
 
 
-
-
 ########################################################
 ## The 'homepage' from which you interact with the game
 ## after the main menu
@@ -900,6 +895,9 @@ image github = "Menu Screens/Chat Hub/github.png"
 image developer_settings = "Menu Screens/Chat Hub/global-settings-freepik-red.png"
 ## Icon made by Pixel perfect from www.flaticon.com
 image discord = "Menu Screens/Chat Hub/discord-Pixel-perfect.png"
+
+image new_profile_update = Frame("Menu Screens/Chat Hub/main_profile_new_update.png", 0, 0)
+image no_profile_update = Frame("Menu Screens/Chat Hub/main_profile_normal.png", 0, 0)
 
 screen chat_home(reshow=False):
 
@@ -928,38 +926,51 @@ screen chat_home(reshow=False):
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will
         # show up here as profile pictures
-        # Also usually the characters have "generic" profile
-        # pictures, but I've chosen to simply include their current
-        # profile picture
         frame:
             xysize(741, 206)
             xalign 0.5
             yalign 0.08
             vbox:
                 spacing 8
+                xalign 0.5
                 hbox:
                     spacing 8
                     xalign 0.0
                     yalign 0.0
                     for person in character_list[:7]:    
                         imagebutton:
-                            hover "profile_pic_select_square"
-                            idle person.get_pfp(99)
-                            background person.get_pfp(99)
+                            xysize (95, 95)
                             if person == m:
+                                hover "profile_pic_select_square"
+                                idle person.get_pfp(95)
+                                background person.get_pfp(95)
                                 action Show('profile_pic')
                             else:
-                                action Show('chara_profile', who=person)
+                                idle person.homepage_pic
+                                background 'no_profile_update'
+                                selected_background 'new_profile_update'
+                                selected not person.seen_updates
+                                action [SetField(person, 'seen_updates', True),
+                                    Show('chara_profile', who=person)]
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
 
                 hbox:
                     spacing 8
                     for person in character_list[7:]:
                         imagebutton:
-                            hover "profile_pic_select_square"
-                            idle person.get_pfp(99)
-                            background person.get_pfp(99)
-                            action Show('chara_profile', who=person)
+                            xysize (95, 95)
+                            if person == m:
+                                hover "profile_pic_select_square"
+                                idle person.get_pfp(95)
+                                background person.get_pfp(95)
+                                action Show('profile_pic')
+                            else:
+                                idle person.homepage_pic
+                                background 'no_profile_update'
+                                selected_background 'new_profile_update'
+                                selected not person.seen_updates
+                                action [SetField(person, 'seen_updates', True),
+                                    Show('chara_profile', who=person)]
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
         frame:
             xysize (750, 1170) 
