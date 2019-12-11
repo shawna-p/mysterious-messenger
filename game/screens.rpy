@@ -102,39 +102,26 @@ style frame:
 transform NullTransform:
     pass
     
-transform bubble:
-    #on show:
-    rotate 270    
-        # Shake(None, 1.0, dist=5)
-        # maxsize (30, 30)
-
 screen say(who, what):
-    #style_prefix "say"
     
     # In VN mode
     if not in_phone_call and not text_person and vn_choice:
-    
+        style_prefix "vn_mode"
         if _in_replay and not viewing_guest:
             textbutton _("End Replay"):
-                text_style 'vn_button'
-                text_size 32
-                text_hover_color "#999999"
+                style 'vn_mode_button'
+                text_style 'vn_mode_button_text'
                 action EndReplay()
-                align (0.98, 0.01)
 
+        # Darkens the VN window for more contrast
         window:
-            add Transform('vn_window_darken', 
-                                alpha=persistent.vn_window_dark)
-            xysize (750,324)
-            align (0.5, 1.0)
+            add Transform('vn_window_darken', alpha=persistent.vn_window_dark)
             
-                            
         window:
             id "window"
-            xysize (750,324)
-            align (0.5, 1.0)
             if who is not None:
                 window:
+                    style_prefix None
                     style "namebox"
                     text who id "who":
                         if (persistent.vn_window_alpha < 0.2 
@@ -144,6 +131,7 @@ screen say(who, what):
                             font gui.sans_serif_1xb
 
             text what id "what":
+                style_prefix None
                 if (persistent.vn_window_alpha < 0.2 
                         or persistent.dialogue_outlines):
                     outlines [ (absolute(2), "#000", 
@@ -152,9 +140,6 @@ screen say(who, what):
             # This is the overlay for VN mode 
             # that shows the Auto/Skip/Log buttons
             hbox:
-                yalign 0.785
-                xalign 0.90
-                spacing 20
                 if persistent.vn_window_alpha < 0.1:
                     yoffset 20
                 imagebutton:
@@ -180,11 +165,19 @@ screen say(who, what):
             
     elif not text_person and in_phone_call:   # In a phone call        
         window:
-            xfill True
-            ysize 500
-            yalign 0.5
-            background 'call_overlay' padding(50,50)
+            style_prefix None
+            style 'call_window'
             text what id "what" #style 'call_text'
+    
+    else:
+        window id "window":
+            style_prefix None
+            at invisible
+            if who is not None:
+                window:
+                    style "namebox"
+                    text who id "who"
+            text what id "what"
 
 
 ## Make the namebox available for styling through the Character object.
@@ -201,9 +194,8 @@ style namebox_label is say_label
 
 
 style window:
-    xalign 0.5
-    yalign gui.textbox_yalign
-    ysize gui.textbox_height
+    xysize (750,324)
+    align (0.5, 1.0)
 
 style namebox:
     xpos gui.name_xpos
@@ -225,6 +217,30 @@ style say_dialogue:
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
 
+
+style vn_mode_button:
+    align (0.98, 0.01)
+
+style vn_mode_window:
+    xysize (750,324)
+    align (0.5, 1.0)
+
+style vn_mode_button_text:
+    is vn_button
+    size 32
+    hover_color "#999999"
+
+style vn_mode_hbox:
+    yalign 0.785
+    xalign 0.90
+    spacing 20
+
+style call_window:
+    xfill True
+    ysize 500
+    yalign 0.5
+    background 'call_overlay' 
+    padding(50,50)
 
 ## Input screen ################################################################
 ##
