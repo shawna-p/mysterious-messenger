@@ -10,12 +10,12 @@ init -2:
 
 init -1 python:
     class Clock(renpy.Displayable):
-        def __init__(self, my_size=230, military=False, **kwargs):
+        def __init__(self, my_size=185, military=False, **kwargs):
             super(Clock, self).__init__(**kwargs)
 
             # Determines how big the clock should be
             self.width = my_size
-            self.height = (my_size*32)/100
+            self.height = (my_size*25)/100 # *32
 
             # Keeps track of the minutes and seconds, and whether
             # the hours should be displayed military or with AM/PM
@@ -35,12 +35,12 @@ init -1 python:
 
             # Figure out how tall the font can be in order to fit within
             # the size defined for the box
-            font_height = self.height * 0.6
+            font_height = self.height # 44
             div = Text(":", style="digi_clock", size=font_height, yalign=0.5)
             the_time = list(Text("{0:02d}".format(item), style="digi_clock", 
                 size=font_height)
                 for item in self.get_time())
-            font_xsize = (self.width-10) // 4
+            font_xsize = (self.width) // 4 # -10, -65
 
             
             am_pm_txt = Text(str(self.am_pm), style='digi_clock', 
@@ -48,12 +48,15 @@ init -1 python:
 
             # Display everything in an hbox
             if not self.military:
-                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize), div, 
+                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize+3), 
+                    Fixed(div, xsize=10, yalign=0.5, xalign=0.5), 
                     Fixed(the_time[1], xsize=font_xsize),
-                    Fixed(am_pm_txt),
+                    Null(width=self.width//20),
+                    Fixed(am_pm_txt, xsize=font_xsize),
                     xalign=0.5)
             else:
-                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize), div, 
+                digi_text = HBox(Fixed(the_time[0], xsize=font_xsize+3), 
+                    Fixed(div, xsize=10, yalign=0.5, xalign=0.5), 
                     Fixed(the_time[1], xsize=font_xsize),
                     xalign=0.5)
 

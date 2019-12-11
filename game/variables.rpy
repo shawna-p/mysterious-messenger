@@ -350,7 +350,7 @@ image save_auto_hover = Frame("btn_hover:save_auto_idle", 20, 20)
 # button. It makes the gear look like it's turning
 image settings_gear_rotate:
     "Menu Screens/Main Menu/menu_settings_gear.png"
-    xpos 10
+    xpos -10
     ypos -10
     block:
         rotate 0

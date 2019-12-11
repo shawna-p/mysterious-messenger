@@ -206,19 +206,20 @@ init python:
       
             
 
-# Variable to help determine when there should be Honey Buddha
-# Chips available
+## Variable to help determine when there should be Honey Buddha
+## Chips available
 default hbc_bag = RandomBag([ False, False, False, 
                               False, False, True, True ])
 
 
-# Greeting Text
-# (Eventually these will be stored in the Day_Greet object to be
-# pulled alongside the sound file)
+## Greeting Text
+## (Eventually these will be stored in the Day_Greet object to be
+## pulled alongside the sound file)
 default greet_text_korean = "제 프로그램으로 환영합니다!"
 default greet_text_english = "Welcome to my Mystic Messenger Generator!"
 
-# This lets it randomly pick a greet character to display for greetings       
+## This lets the program randomly pick a greet
+## character to display for greetings       
 default greet_list = [x.file_id for x in all_characters if (x != r and x != m)]
 default greet_char = greet_list[0]
 
@@ -309,8 +310,7 @@ screen main_menu():
                     action Show("load")                        
                     vbox:                   
                         add "menu_save_load" xpos 25
-                        text "Save & Load"
-                        
+                        text "Save & Load"                        
                 
                 # After Ending
                 # Mid Right
@@ -343,6 +343,7 @@ screen main_menu():
                     add "menu_dlc"
                     text "DLC"
      
+
 style left_menu_button:
     focus_mask True
     padding (10, 10)
@@ -370,10 +371,9 @@ style right_menu_text:
     is menu_text_small
 
     
-## A short, not completely implemented screen where you select
-## which route you'd like to start on. Can be customized to lead
-## the player to a route to select, but as of now simply starts
-## the game
+## A short screen where the player selects which route they would
+## like to start on. Can be customized to lead the player to a route
+## to select, but as of now simply starts the game
 screen route_select_screen():
 
     tag menu
@@ -448,13 +448,12 @@ screen file_slots(title):
 
         # Contains the save slots.
         vpgrid id 'save_load_vp':
-            style_prefix "slot"
+            style_prefix "save_load"
+            cols gui.file_slot_cols
             rows gui.file_slot_rows
             draggable True
             mousewheel True
-            scrollbars "vertical"    
-            side_spacing 12
-            yalign 1.0
+            scrollbars "vertical" 
             
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto):
@@ -468,52 +467,38 @@ screen file_slots(title):
                 button:
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
-                    if persistent.real_time:
-                        action [SetField(persistent, 'on_route', True), 
+                    action If(persistent.real_time, 
+                                [SetField(persistent, 'on_route', True), 
                                 SetField(persistent, 'load_instr', 'Auto'), 
                                 SetField(persistent, 'just_loaded', True),
                                 FileAction(mm_auto),
-                                renpy.restart_interaction]
-                    else:
-                        action [SetField(persistent, 'on_route', True), 
+                                renpy.restart_interaction],
+
+                                [SetField(persistent, 'on_route', True), 
                                 SetField(persistent, 'just_loaded', True),
                                 FileAction(mm_auto),
-                                renpy.restart_interaction]
+                                renpy.restart_interaction])
                     hbox:                        
+                        fixed:                            
+                            add 'save_auto' align (0.5, 0.5)                        
                         frame:
-                            align (0.5, 0.5)
-                            xysize(120, 120)
-                            add 'save_auto' xalign 0.5 yalign 0.5
-                        
-                        frame:
-                            xysize (400, 120)
-                            yalign 0.0
+                            style_prefix 'save_desc'
+                            
                             has vbox
-                            spacing 8
                             fixed:
-                                ysize 75
                                 text ("This is a backup file that"
-                                        + " is auto-generated"):
-                                    style "save_slot_text" 
-                                    yalign 0.0
-                            text "Today: [dn] DAY":
-                                style "save_slot_text" 
-                                yalign 1.0
+                                        + " is auto-generated")
+                            text "Today: [dn] DAY" yalign 1.0
 
                         frame:
-                            xysize (155,120)
+                            style_prefix 'save_stamp'
                             has vbox                            
                             fixed:
-                                xsize 155
-                                yfit True
                                 text FileTime(mm_auto, 
                                     format=_("{#file_time}%m/%d %H:%M"), 
-                                    empty=_("empty slot")):
-                                    style "save_timestamp"                                
-                            spacing 30
+                                    empty=_("empty slot"))                               
                             fixed:
-                                xsize 155
-                                yfit True
+                                null
                                 # Can't delete this file
 
             ## This displays all the regular save slots
@@ -562,9 +547,6 @@ screen file_slots(title):
                         next_day_name = False
                 
                     
-                    
-                    
-                    
                 if next_day_name:
                     $ long_msg = ("There is a difference between the save"
                                   + " time and the present time. It may cause"
@@ -595,84 +577,56 @@ screen file_slots(title):
                         if (next_day_name and FileLoadable(slot) 
                                 and persistent.real_time):
                             action [Show("confirm", message=long_msg, 
-                                        yes_action=[
-                                        SetField(persistent, 'just_loaded',
-                                                     True),
-                                        SetField(persistent, 'on_route',
-                                                     True), 
-                                        SetField(persistent, 'load_instr',
-                                                     '+1 day'), 
-                                        FileLoad(slot)], 
-                                        no_action=Hide('confirm'))]
+                                yes_action=[
+                                SetField(persistent, 'just_loaded', True),
+                                SetField(persistent, 'on_route', True), 
+                                SetField(persistent, 'load_instr', '+1 day'), 
+                                FileLoad(slot)], 
+                                no_action=Hide('confirm'))]
                         elif FileLoadable(slot) and persistent.real_time:
                             action [Show("confirm", message=long_msg, 
-                                        yes_action=[
-                                        SetField(persistent, 'just_loaded', 
-                                                                    True),
-                                        SetField(persistent, 'on_route',
-                                                                    True), 
-                                        SetField(persistent, 'load_instr',
-                                                                 'Same day'),
-                                        FileLoad(slot)], 
-                                        no_action=Hide('confirm'))]
+                                yes_action=[
+                                SetField(persistent, 'just_loaded', True),
+                                SetField(persistent, 'on_route', True), 
+                                SetField(persistent, 'load_instr', 'Same day'),
+                                FileLoad(slot)], 
+                                no_action=Hide('confirm'))]
                         elif not persistent.real_time and FileLoadable(slot):
                             action [SetField(persistent, 'on_route', True), 
                                     SetField(persistent, 'just_loaded', True),
                                     FileAction(slot)]
 
                     hbox:   
-                        frame:
-                            xysize(120, 120)
-                            align (0.5, 0.5)
+                        fixed:
                             # Adds the correct save image to the left
                             if FileLoadable(slot):
-                                add 'save_' + rt xalign 0.5 yalign 0.5
+                                add 'save_' + rt align (0.5, 0.5)
                             else:
-                                add 'save_empty' xalign 0.5 yalign 0.5
+                                add 'save_empty' align (0.5, 0.5)
                         
                         frame:
-                            xysize (400, 120)
-                            yalign 0.0
+                            style_prefix 'save_desc'
                             has vbox
-                            spacing 8
                             # Displays the most recent chatroom title + day
                             if FileLoadable(slot):
                                 fixed:
-                                    ysize 75
-                                    text "[cn]":
-                                        style "save_slot_text" 
-                                        yalign 0.0
-                                text "Today: [dn] DAY":
-                                    style "save_slot_text" 
-                                    yalign 1.0
+                                    text "[cn]"
+                                text "Today: [dn] DAY" yalign 1.0
                             else:
                                 fixed:
-                                    ysize 75
-                                    text "Empty Slot":
-                                        style "save_slot_text"
-                                        yalign 0.0
-                                text "Tap an empty slot to save":
-                                    style 'save_slot_text'
-                                    yalign 1.0
+                                    text "Empty Slot"
+                                text "Tap an empty slot to save" yalign 1.0
                             
                         frame:
-                            xysize (155,120)
+                            style_prefix 'save_stamp'
                             has vbox
                             # Displays the time the save was created
                             # and the delete button
                             fixed:
-                                xsize 155
-                                yfit True
                                 text FileTime(slot, 
                                         format=_("{#file_time}%m/%d %H:%M"), 
-                                        empty=_("empty slot")):
-                                    style "save_timestamp"
-                                
-                            spacing 30
-
+                                        empty=_("empty slot"))                            
                             fixed:
-                                xsize 155
-                                yfit True
                                 imagebutton:
                                     hover Transform('save_trash',zoom=1.05)
                                     idle 'save_trash'
@@ -682,10 +636,56 @@ screen file_slots(title):
                     key "save_delete" action FileDelete(slot)
 
 
+style save_load_vpgrid:
+    is slot_vpgrid
+    yalign 1.0
 
+style save_load_side:
+    spacing 12
+    align (1.0, 1.0)
 
+style save_load_button:
+    is slot_button
         
-    
+style save_load_fixed:
+    align (0.5, 0.5)
+    xysize(120, 120)
+
+style save_desc_frame:
+    is slot_frame
+    xysize (400, 120)
+    yalign 0.0
+
+style save_desc_vbox:
+    is slot_vbox
+    spacing 8
+
+style save_desc_fixed:
+    is slot_fixed
+    ysize 75
+
+style save_desc_text:
+    is save_slot_text
+    yalign 0.0
+
+style save_stamp_frame:
+    is slot_frame
+    xysize (155,120)
+
+style save_stamp_vbox:
+    is slot_vbox
+    spacing 30
+
+style save_stamp_fixed:
+    is slot_fixed
+    xsize 155
+    yfit True
+
+style save_stamp_text:
+    is save_timestamp
+
+
+
 ########################################################
 ## Just the header that often shows up over menu items;
 ## put in a separate screen for less repeating code
@@ -732,39 +732,64 @@ screen menu_header(title, return_action=NullAction,
         timer 0.4 action Function(deliver_next)
 
     hbox:
-        add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
+        style_prefix "hg_hp"    
+        add my_menu_clock xalign 0.0 yalign 0.0 xpos -5
     
-    
-    if not persistent.first_boot:
-        frame:
-            xysize(600, 80)
-            yalign 0.01
-            xalign 0.86
-            hbox:
-                yalign 0.01
-                xalign 0.5
-                add 'header_tray'
-                imagebutton:
-                    idle "header_plus"
-                    hover "header_plus_hover"
-                    action Show('confirm', message="There are no in-game "
-                        + "purchases in this application. However, if you'd "
-                        + "like to support its development, you can ",
-                        #+ "{a=https://ko-fi.com/somniarre}check out my Ko-Fi here.{/a}",
-                        yes_action=Hide('confirm'), show_link=True)
-                    #if not renpy.get_screen("choice"):
-                    #    action NullAction
-                add 'header_tray'
-                
-            add "header_hg" yalign 0.03 xalign 0.16
-            add "header_heart" yalign 0.03 xalign 0.65
+        fixed:
+            if not persistent.first_boot:
+                hbox:
+                    style_prefix 'header_hg'
+                    frame:      
+                        has hbox
+                        xalign 1.0
+                        add 'header_hg' yalign 1.0
+                        frame:
+                            style_prefix 'hg_hp_display'
+                            text str(persistent.HG)
+                    imagebutton:
+                        idle "header_plus"
+                        hover "header_plus_hover"
+                        action Show('confirm', message="There are no in-game "
+                            + "purchases in this application. However, if "
+                            + "you'd like to support its development, you can ",
+                            #+ "{a=https://ko-fi.com/somniarre}check out my Ko-Fi here.{/a}",
+                            yes_action=Hide('confirm'), show_link=True)
+                        #if not renpy.get_screen("choice"):
+                        #    action NullAction
+                    frame:  
+                        has hbox
+                        xalign 1.0
+                        add "header_heart" yalign 1.0 
+                        frame:
+                            style_prefix 'hg_hp_display'                           
+                            text str(persistent.HP)
             
-            text "[persistent.HG]":
-                style "hg_heart_points" 
-                xalign 0.35 yalign 0.01
-            text "[persistent.HP]":
-                style "hg_heart_points" 
-                xalign 0.83 yalign 0.01
+        # Settings gear
+        if not persistent.first_boot and title != "Settings":
+            imagebutton:
+                xysize (72, 72)
+                idle "settings_gear"
+                hover "settings_gear_rotate"
+                focus_mask None
+                # Eventually I'd like to get the settings button 
+                # working during phone calls, but there are too 
+                # many bugs so it's commented out
+                # if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
+                #     action [Preference("auto-forward", "disable"), Show("preferences")]
+                if (not renpy.get_screen("choice") 
+                        and not renpy.get_screen("in_call") 
+                        and not text_person):
+                    if renpy.get_screen('settings_screen'):
+                        action [Hide('preferences'), 
+                                Hide('profile_pic'), 
+                                Hide('other_settings'), 
+                                Show('preferences')]
+                    else:
+                        action Show("preferences")  
+        else:
+            null width 72
+            
+            
         
         
     # Header
@@ -807,40 +832,20 @@ screen menu_header(title, return_action=NullAction,
                     elif (envelope and (not text_person 
                             or not text_person.real_time_text)):
                         action Show('text_message_hub', Dissolve(0.5))
-                    # If we're texting in real time, leaving text messages 
-                    # works differently
+                    # If the player is texting in real time, leaving 
+                    # text messages works differently
                     elif text_person and text_person.real_time_text:
                         action Show("confirm", 
-                                    message="Do you really want to leave this text message? You won't be able to continue this conversation.", 
+                                    message=("Do you really want to leave this "
+                                    + "text message? You won't be able to "
+                                    + "continue this conversation."), 
                                     yes_action=[Hide('confirm'), 
                                     Jump('leave_inst_text')], 
                                     no_action=Hide('confirm'))    
                     else:
                         action return_action
 
-        # Settings gear
-        if title != "Setings":
-            imagebutton:
-                xalign 0.98
-                yalign 0.01
-                idle "settings_gear"
-                hover "settings_gear_rotate"
-                focus_mask None
-                # Eventually I'd like to get the settings button 
-                # working during phone calls, but there are too 
-                # many bugs so it's commented out
-                # if renpy.get_screen("in_call") and not renpy.get_screen("choice"):
-                #     action [Preference("auto-forward", "disable"), Show("preferences")]
-                if (not renpy.get_screen("choice") 
-                        and not renpy.get_screen("in_call") 
-                        and not text_person):
-                    if renpy.get_screen('settings_screen'):
-                        action [Hide('preferences'), 
-                                Hide('profile_pic'), 
-                                Hide('other_settings'), 
-                                Show('preferences')]
-                    else:
-                        action Show("preferences")  
+         
     if title == "Save" or title == "Load":
         transclude
     else:
@@ -855,8 +860,31 @@ screen menu_header(title, return_action=NullAction,
             spacing 10
             transclude
       
+style hg_hp_hbox:        
+    spacing -52
+    yalign 0.01
 
-  
+style hg_hp_fixed:
+    xysize(600, 80)
+
+style header_hg_hbox:
+    xalign 0.5
+
+style header_hg_frame:
+    background 'header_tray'
+    padding (20,0,0,5)
+    xysize (205,51)
+
+style hg_hp_display_frame:
+    xysize(205-75, 42)
+
+style hg_hp_display_text:
+    is hg_heart_points
+    text_align 1.0
+    xalign 1.0
+
+
+
 
 ########################################################
 ## The 'homepage' from which you interact with the game
