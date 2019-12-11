@@ -21,18 +21,18 @@ init python:
     def MC_pic_change():
         global m, persistent
         
-        # If we're not using a custom pic, check if one's available
+        # If not using a custom pic, check if one's available
         # Populate the list with the file names
         file_list = renpy.list_files()
         # This now has a list of the available images
         user_pic_list = [ pic for pic in file_list 
                 if 'Drop Your Profile Picture Here/' in pic and isImg(pic)]
-        # Now we check if there are indeed available files
+        # Check if there are indeed available files
         if user_pic_list:
             if persistent.MC_pic in user_pic_list:
-                # Now we go through the pics and set the pic to the
+                # Go through the pics and set the pic to the
                 # next available image
-                # We assume the image provided is square (this is
+                # Assume the image provided is square (this is
                 # the responsibility of the user)
                 for i, pic in enumerate(user_pic_list):
                     if persistent.MC_pic == pic:
@@ -51,7 +51,7 @@ init python:
         renpy.retain_after_load()
 
     def MC_pic_display(st, at):
-        return Transform(store.persistent.MC_pic, size=(363,363)), 0.1
+        return Transform(store.persistent.MC_pic, size=(363,363)), None
 
     def MC_name_display(st, at):
         return Text(persistent.name, 
@@ -60,10 +60,10 @@ init python:
             hover_color ="#d7d7d7",
             font = gui.serif_1,
             xalign =0.06,
-            yalign =0.455), 0.1
+            yalign =0.455), None
     
 init -6 python:
-    ## Checks for common image extensions
+    ## Check for common image extensions
     def isImg(pic):
         # if not (isinstance(pic, str) or isinstance(pic, unicode)):
         #     return False
@@ -74,42 +74,48 @@ init -6 python:
             return False
         
     
-default email_tone_dict = { 'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav', 
-                            'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',     
-                            'Default 3': 'audio/sfx/Ringtones etc/email_basic_3.wav'
-                          }
+default email_tone_dict = { 
+    'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav', 
+    'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',     
+    'Default 3': 'audio/sfx/Ringtones etc/email_basic_3.wav'
+}
                           
-default text_tone_dict = {  'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav', 
-                            'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',     
-                            'Jaehee Kang': 'audio/sfx/Ringtones etc/text_basic_ja.wav',
-                            '707': 'audio/sfx/Ringtones etc/text_basic_s.wav',
-                            'Yoosung★': 'audio/sfx/Ringtones etc/text_basic_y.wav',
-                            'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav'
-                         }
+default text_tone_dict = {  
+    'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav', 
+    'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',     
+    'Jaehee Kang': 'audio/sfx/Ringtones etc/text_basic_ja.wav',
+    '707': 'audio/sfx/Ringtones etc/text_basic_s.wav',
+    'Yoosung★': 'audio/sfx/Ringtones etc/text_basic_y.wav',
+    'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav'
+}
                             
-default ringtone_dict = {   'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav', 
-                            'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',     
-                            'Jaehee Kang': 'audio/sfx/Ringtones etc/phone_basic_ja.wav',
-                            '707': 'audio/sfx/Ringtones etc/phone_basic_s.wav',
-                            'Yoosung★': 'audio/sfx/Ringtones etc/phone_basic_y.wav',
-                            'ZEN': 'audio/sfx/Ringtones etc/phone_basic_z.wav'
-                        }
+default ringtone_dict = {   
+    'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav', 
+    'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',     
+    'Jaehee Kang': 'audio/sfx/Ringtones etc/phone_basic_ja.wav',
+    '707': 'audio/sfx/Ringtones etc/phone_basic_s.wav',
+    'Yoosung★': 'audio/sfx/Ringtones etc/phone_basic_y.wav',
+    'ZEN': 'audio/sfx/Ringtones etc/phone_basic_z.wav'
+}
                         
 # This is organized as a list of lists. The first item is the name of
 # the category. The second item is a list of the names of the tones
 # as you defined them above in the dictionary. To define more categories,
 # put a comma after the second-last bracket and define another list like
 # shown below
-default email_tone_list = [ ["Basic", ['Default 1', 'Default 2', 'Default 3' ]]
-                          ]
+default email_tone_list = [ 
+    ["Basic", ['Default 1', 'Default 2', 'Default 3' ]]
+]
                           
-default text_tone_list = [ ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang', 
-                            '707', 'Yoosung★', 'ZEN' ]]
-                          ]
+default text_tone_list = [ 
+    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang', 
+                '707', 'Yoosung★', 'ZEN' ]]
+]
                           
-default ringtone_list = [ ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang', 
-                            '707','Yoosung★', 'ZEN' ]]
-                          ]
+default ringtone_list = [ 
+    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang', 
+                '707','Yoosung★', 'ZEN' ]]
+]
                           
 default persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
 default persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
@@ -154,7 +160,6 @@ style settings_tabs_hbox is empty
 style settings_tabs_button is empty
 style settings_tabs_button_text is default
 
-
 style settings_tabs_hbox:
     spacing 10
 
@@ -189,8 +194,7 @@ screen profile_pic():
                 style 'other_settings_end_button'
                 text_style 'mode_select'  
                 align (0.5, 0.5)      
-                action [SetField(persistent, 'first_boot', False), 
-                            Return()]
+                action [Return()]
 
     else:
         use menu_header("Settings", Hide('profile_pic', Dissolve(0.5))):
@@ -217,7 +221,7 @@ screen pic_and_pronouns():
             fixed:
                 add "name_line" yalign 0.985
                 #text persistent.name style 'profile_pic_text'
-                # Ordinarily I would've just displayed the text as above, but
+                # Ordinarily the program displayed the text as above, but
                 # due to an unusual bug where this doesn't display correctly
                 # the very first time the user starts the game, this
                 # is the alternative, which uses DynamicDisplayables to ensure
@@ -228,8 +232,8 @@ screen pic_and_pronouns():
                     style 'profile_pic_imagebutton'
                     idle "menu_edit"            
                     hover Transform("menu_edit", zoom=1.03)
-                    # We save the old name so we can reset it if 
-                    # they don't want to change it
+                    # Save the old name so the program can reset it if 
+                    # the player doesn't want to change it
                     action [SetVariable('old_name', persistent.name),   
                         Show('input_popup', prompt='Please input a name.')] 
             
@@ -242,7 +246,7 @@ screen pic_and_pronouns():
             text "Preferred Pronouns"
             button:     
                 action [SetField(persistent, "pronoun", "female"), 
-                        Function(set_pronouns), renpy.restart_interaction] 
+                        Function(set_pronouns)] 
                 has hbox
                 spacing 10
                 # This is a slightly unusual way of doing the radio buttons,
@@ -253,7 +257,7 @@ screen pic_and_pronouns():
                 
             button:
                 action [SetField(persistent, "pronoun", "male"), 
-                        Function(set_pronouns), renpy.restart_interaction]
+                        Function(set_pronouns)]
                 has hbox
                 spacing 10
                 add 'he_him_pronoun_radio'
@@ -262,7 +266,7 @@ screen pic_and_pronouns():
                 
             button:
                 action [SetField(persistent, "pronoun", "non binary"), 
-                        Function(set_pronouns), renpy.restart_interaction]
+                        Function(set_pronouns)]
                 has hbox
                 spacing 10
                 add 'they_them_pronoun_radio'
@@ -270,20 +274,17 @@ screen pic_and_pronouns():
              
 image she_her_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'female'", "radio_on",
-    'True', "radio_off", predict_all=True   
-)
+    'True', "radio_off", predict_all=True)
 image he_him_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'male'", "radio_on",
-    'True', "radio_off", predict_all=True    
-)
+    'True', "radio_off", predict_all=True)
 image they_them_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'non binary'", "radio_on",
-    'True', "radio_off", predict_all=True    
-)
+    'True', "radio_off", predict_all=True)
 image mc_name_switch = DynamicDisplayable(MC_name_display)
 image change_mc_pfp = DynamicDisplayable(MC_pic_display)
 
-# Shows how many heart points you've earned with each
+# Shows how many heart points the player has earned with each
 # character. To display properly there must be an image
 # defined called 'greet ja' if the character's file_id
 # is ja, for example
@@ -456,8 +457,6 @@ style my_input:
     hover_color "#d7d7d7"
     font gui.sans_serif_1
 
-
-
 ########################################################
 ## The "Others" tab of the settings screen
 ## Includes VN options and Ringtone selection
@@ -579,7 +578,9 @@ screen other_settings():
                     action [Function(renpy.full_restart)]
                     
                 textbutton _('Start Over'):
-                    action Show("confirm", message="Are you sure you want to start over? You'll be unable to return to this point except through a save file.", 
+                    action Show("confirm", message=("Are you sure you want to"
+                            + " start over? You'll be unable to return to this"
+                            + " point except through a save file."), 
                             yes_action=[Hide('confirm'), 
                             Jump("restart_game")], no_action=Hide('confirm'))
 
@@ -720,22 +721,19 @@ label restart_game():
     
     python:
         renpy.end_replay()
-        # removes heart points from all the characters
+        # Remove heart points from all the characters
         for person in all_characters:
             person.reset_heart()
         
-        # presumably some more resets here as needed
+        # More resets here as needed
         persistent.on_route = False
         renpy.full_restart()
     return
         
-
-
-
 ## Preferences screen ##########################################################
 ##
-## The preferences screen allows the player to configure the game to better suit
-## themselves.
+## The preferences screen allows the player to configure the game 
+## to better suit themselves.
 ##
 
 screen preferences():
@@ -754,6 +752,8 @@ screen preferences():
             side_spacing 5
             has vbox
     
+            # Volume sliders and toggles for muting everything
+            # or using audio captions
             frame:      
                 has fixed
                 yfit True          
@@ -796,6 +796,7 @@ screen preferences():
                         style "mute_all_button" xalign 0.0 xoffset 15
                         action ToggleField(persistent, 'audio_captions')
                 
+            # Mute the voices of specific characters
             frame:
                 xysize(675,390)
                 background "menu_settings_panel" padding(10,10)
@@ -948,7 +949,7 @@ screen voice_buttons(char, voice_char=None):
             selected_child Text("Off", style="voice_toggle_off")
             action ToggleVoiceMute(voice_char)
         
-## A helper screen for displaying the choices you have for
+## A helper screen for displaying the choices for
 ## ringtones, email tones, and text tones
 screen ringtone_dropdown(title, tone):
 
@@ -1016,7 +1017,6 @@ screen ringtone_dropdown(title, tone):
                                     SetField(persistent, 
                                         p_field + '_name', tone)]
                         else:
-                            #activate_sound "<from 0 to 5>" + the_dict[tone]
                             action [Stop('sound'),
                                     Play('sound', ("<from 0 to 5>" 
                                         + the_dict[tone])),
