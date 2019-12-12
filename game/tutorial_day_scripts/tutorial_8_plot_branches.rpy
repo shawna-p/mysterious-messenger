@@ -41,12 +41,6 @@ label plot_branch_tutorial():
     # This is one way you can alter responses based on certain conditions
     # In this case, the program checks if the player has invited enough guests,
     # and change the dialogue accordingly
-    # Note: sometimes Unknown will say you've invited a guest and you'll
-    # still get the Bad End; this only happens when you've failed the second
-    # or third response in an email since the guest will have a 33% or 67% 
-    # chance of attending the party, respectively. Sometimes this statement
-    # will calculate that they're coming, but the when the plot branch 
-    # calculates the number of guests attending, the guest won't come
     if attending_guests() >= 1:
         u "It looks like you've managed to invite at least one guest!" 
         u "So if they do come to the party," 

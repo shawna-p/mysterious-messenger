@@ -566,9 +566,15 @@ screen chatroom_item(day, day_num, chatroom, index):
                     hover_foreground vn_background
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
                     # and 1 at its fastest
-                    action [Preference("auto-forward", "disable"), 
-                            SetVariable('current_chatroom', chatroom), 
-                            Jump(my_vn.vn_label)]                    
+                    action Show('confirm', message=("If you start the party"
+                        + " before answering a guest's emails, that guest will"
+                        + " not attend the party. Continue?"),
+                        yes_action=[Preference("auto-forward", "disable"), 
+                            SetVariable('current_chatroom', chatroom),
+                            Hide('confirm'), 
+                            Jump('guest_party_showcase')],
+                            #Jump(my_vn.vn_label)],
+                        no_action=Hide('confirm'))
             
         
     # There's a plot branch
@@ -695,7 +701,187 @@ label plot_branch_end():
     call screen chat_select
     return
                 
-                
-                
-                
+
+default guest_countup = 0
+## This label displays all the guests attending the party
+label guest_party_showcase():
+    call vn_begin
+    hide screen vn_overlay
+    show screen guest_count
+    python:
+        # Make a list of all the guests attending the party
+        attending_guests = [ x.guest for x in email_list if x.guest.attending ]
+        num_guests = len(attending_guests)
+        guest_countup = 0
+        j = 0
+        viewing_guest = True
+
+
+    scene bg guest_walkway
+    while (j < num_guests):
+        $ guest_countup += 1
+        # Show the guest arriving on the scene; there are two different
+        # aliases used so the program doesn't replace one guest with the
+        # other before hiding them
+        if j % 2 == 0:
+            show expression attending_guests[j].large_img as theguest at guest_enter
+        else:
+            show expression attending_guests[j].large_img as theguest2 at guest_enter
+        
+        $ guest_name = attending_guests[j].dialogue_name
+        $ guest_dialogue = attending_guests[j].dialogue_what
+
+        # The guest says their designated dialogue here
+        "[guest_name]" "[guest_dialogue]"
+
+        # And then is hidden
+        if j % 2 == 0:
+            hide theguest
+        else:
+            hide theguest2
+        pause 0.7
+        $ j += 1
+
+    # This lets the player see how many guests they gathered
+    call screen guests_arrived
+
+    # These guests can now be seen in the guestbook
+    python:
+        for g in attending_guests:
+            persistent.guestbook[g.name] = "attended"
+
+    hide screen guest_count
+    $ viewing_guest = False
+
+    # Now jump to the actual party
+    $ renpy.jump(current_chatroom.vn_obj.vn_label)
+
+
+image rfa_logo = "Phone UI/main03_rfa_logo.png"
+image guest_count_bkgr = "Email/guest_count_bkgr.png"
+
+# It seems 15+ guests is A grade and 6- guests is D grade
+# This program has its own arbitrary grade calculations instead
+image party_grade = ConditionSwitch(
+    "guest_countup >= 20", "Email/a_grade.png",
+    "guest_countup >= 10", "Email/b_grade.png",
+    "guest_countup >= 5", "Email/c_grade.png",
+    "guest_countup >= 2", "Email/d_grade.png",
+    True, "Email/e_grade.png",
+)
+
+## Screen that shows the player the total number of guests
+## attending the party
+screen guest_count():
+    zorder 5
+
+    style_prefix 'guest_display'
+    frame:
+        has vbox
+        hbox:
+            xsize 750
+            add 'text_msg_line' size (250, 30) yalign 0.5
+            add 'rfa_logo'
+            add 'text_msg_line' size (250, 30) yalign 0.5
+        frame:
+            style_prefix 'guest_header'            
+            text "GUEST COUNT" 
+        hbox:
+            style_prefix 'guest_count'
+            text "( " font gui.serif_2xb
+            hbox:                
+                fixed:
+                    text str(guest_countup // 10) style 'guest_digi_text'
+                    text '8' style 'guest_digi_text' color "#5ef4d31f"
+                fixed:
+                    text str(guest_countup % 10) style 'guest_digi_text' 
+                    text '8' style 'guest_digi_text' color "#5ef4d31f"
+            text " )" font gui.serif_2xb
+    
+style guest_display_frame:
+    xysize (750, 280)
+    align (0.5, 0.01)
+
+style guest_display_vbox:
+    spacing 15
+
+style guest_header_frame:
+    xysize (328, 40)
+    xalign 0.5
+    background 'guest_count_bkgr'
+
+style guest_header_text:
+    color "#fff" 
+    align (0.5, 0.5) 
+    font gui.sans_serif_1b
+
+style guest_count_hbox:
+    xalign 0.5
+    xysize (100, 97)
+    spacing 0
+
+style guest_count_text:
+    color "#fff"
+    font "fonts/DigitalRegular.ttf"
+    size 95
+
+style guest_count_fixed:
+    xysize (50, 97)
+
+style guest_digi_text:
+    is guest_count_text
+    color "#5ef4d3" 
+    align (1.0, .5)
+
+
+## Shows the number of guests who arrived at the party
+## and a grade based on that number
+screen guests_arrived():
+    
+    style_prefix "sig_screen"
+    add "choice_darken"
+    frame:        
+        has vbox
+        spacing 10
+        null height 80
+        text "Party Guest Result":
+            if persistent.custom_footers:
+                color "#fff"
+            font gui.blocky_font size 30
+        hbox:
+            style_prefix "guest_num"            
+            frame:
+                text "{:02d}".format(guest_countup)
+            frame:
+                add 'party_grade'
+        
+        text "All the guests have arrived.":
+            if persistent.custom_footers:
+                color "#fff"
+            size 30
+        
+        textbutton _('sign'): 
+            if persistent.custom_footers:
+                text_color "#fff"
+            action Return()
+
+style guest_num_hbox:
+    align (.5, .5)
+    spacing 30
+    ysize 118
+
+style guest_num_text:
+    is guest_count_text
+    size 110
+    color "#5ef4d3"
+    
+transform guest_enter:
+    on show:
+        xalign 1.0 yalign 0.6 xoffset 350
+        linear 0.7 xalign 0.5 yalign 0.6 xoffset 0
+    on hide:
+        linear 0.7 xalign 0.0 yalign 0.6 xoffset -350
+
+    
+        
                 

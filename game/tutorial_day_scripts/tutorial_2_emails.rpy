@@ -229,7 +229,14 @@ z_vn,
 "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~",
 
 ## The expression/displayable name of the character to show
-'zen front party happy'
+'zen front party happy',
+
+## The name of the guest as it should appear in their
+## dialogue box
+"Rainbow",
+
+## The dialogue the guest says when they attend the party
+"Oh, it's so exciting to be at the party! I can't wait to see everyone."
 )
 
 # This needs to be the name of the guest + _reply + the reply number
@@ -393,7 +400,14 @@ s_vn,
 "Here, the character from the last variable (s_vn) will say this.",
 
 ## The expression/displayable name of the character to show
-'example front party happy'
+'example front party happy',
+
+## The name of the guest as it should appear in their
+## dialogue box
+"Example Guest",
+
+## The dialogue the guest says when they attend the party
+"The guest will probably mention something about the party."
 ) # Don't forget a closing bracket at the end
 
 label example_reply1(): 

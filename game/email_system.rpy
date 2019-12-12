@@ -10,8 +10,6 @@ init python:
             self.msg = msg  
             # Name of the label to jump to when replying
             self.reply_label = reply_label  
-            # Read/Unread
-            self.read = False  
             # msg_num = 0, 1, 2, or 3; reply number. 0 is the first message
             # sent to you, and 3 is the email accepting your invite
             self.msg_num = 0
@@ -30,6 +28,8 @@ init python:
             # True if this email has timed out
             self.timeout = False
             self.sent_time = upTime()
+            # Read/Unread
+            self.__read = False  
             # True if the player has already received a popup
             # telling them they have an email
             self.notified = False
@@ -37,7 +37,6 @@ init python:
             # to finish sending this email chain before the plot branch
             self.before_branch = (guest.thumbnail 
                 == "Email/Thumbnails/rainbow_unicorn_guest_icon.png")
-
 
         ## Equality checks to allow this class to be persistent
         def __eq__(self, other):
@@ -51,6 +50,16 @@ init python:
                 return self.guest != other.guest
             else:
                 return False
+
+        @property
+        def read(self):
+            return self.__read
+
+        @read.setter
+        def read(self, new_status):
+            self.__read = new_status
+            self.set_attendance()
+            return
 
         ## This will deliver the next email in the chain to the
         ## player, and show a popup to notify them
@@ -165,8 +174,29 @@ init python:
                 
             self.sent_time = upTime()
             self.timeout_count = 2
+            self.set_attendance()
             renpy.retain_after_load()
                 
+        ## Determines whether or not this guest is attending the party
+        def set_attendance(self):
+            print("Setting attendance")
+            if self.completed():
+                # 3/3 messages correct
+                self.guest.attending = True
+            elif self.is_failed():
+                # 2/3 messages correct
+                if self.second_msg() == 'email_good':
+                    self.guest.attending = renpy.random.choice([True, 
+                                                            True, False])
+                # 1/3 messages correct
+                elif self.first_msg() == 'email_good':
+                    self.guest.attending = renpy.random.choice([True,
+                                                            False, False])
+                else:
+                    self.guest.attending = False
+            print("Attendance for", self.guest.name, "is", self.guest.attending)
+            return
+
         ## Adds the player's message to the guest to the email
         def add_msg(self, iscorrect):        
             the_msg = ""
@@ -254,8 +284,8 @@ init python:
                         msg2_good, reply2_good, msg2_bad, reply2_bad,
                         msg3_good, reply3_good, msg3_bad, reply3_bad,
                         large_img=False, short_desc="", personal_info="", 
-                        comment_who=None, comment_what="",
-                        comment_img='#000'):
+                        comment_who=None, comment_what="", comment_img='#000', 
+                        dialogue_name="", dialogue_what=""):
             
             # msg_good means it's the correct reply for that message, and
             # reply_good is what the guest will send after that message
@@ -291,13 +321,30 @@ init python:
             self.label1 = name + '_reply1'
             self.label2 = name + '_reply2'
             self.label3 = name + '_reply3'
+            
+            # True if this guest is attending the party
+            self.attending = False
 
+            # The full chibi image of this guest
             self.large_img = large_img
+            # A short description of the guest
             self.short_desc = short_desc
+            # A longer description on the guest, viewable only after
+            # they have attended the party
             self.personal_info = personal_info
+            # The Character object of the person who is going to talk
+            # about this guest (e.g. z_vn)
             self.comment_who = comment_who
+            # What the above character will say about the guest
             self.comment_what = comment_what
+            # The expression and position of the person speaking
+            # about the guest, in a string e.g. "zen front party happy"
             self.comment_img = comment_img
+            # The name of the guest as it should appear in their
+            # dialogue box e.g. "Long Cat"
+            self.dialogue_name = dialogue_name
+            # The guest's dialogue upon arriving at the party
+            self.dialogue_what = dialogue_what
 
             # Add the guest to the guestbook
             if self.name not in store.persistent.guestbook:
@@ -347,18 +394,8 @@ init python:
         global email_list
         num_guests = 0
         for e in email_list:
-            if e.completed():
-                # 3/3 messages correct
+            if e.guest.attending:
                 num_guests += 1
-            elif e.is_failed():
-                # 2/3 messages correct
-                if e.second_msg() == 'email_good':
-                    if renpy.random.choice([True, True, False]):
-                        num_guests += 1
-                # 1/3 messages correct
-                elif e.first_msg() == 'email_good':
-                    if renpy.random.choice([True, False, False]):
-                        num_guests += 1
         return num_guests
                 
 default email_list = []

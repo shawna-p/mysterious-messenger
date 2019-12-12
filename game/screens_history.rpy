@@ -21,8 +21,7 @@ screen select_history():
 
         style_prefix "select_history" 
         frame: 
-            hbox:      
-                spacing 30    
+            vbox:      
                 button:
                     action Show('photo_album', Dissolve(0.5))
                     hbox:
@@ -34,10 +33,20 @@ screen select_history():
                         add 'history_icon_chat' yalign 0.5
                         text "CHAT HISTORY" 
 
+                button:
+                    action Show('guestbook', Dissolve(0.5))
+                    hbox:
+                        add 'history_icon_guest'
+                        text 'GUEST'
+
 
 style select_history_hbox:
     is default
     spacing 15
+    align (0.5, 0.5)
+
+style select_history_vbox:
+    spacing 30
     align (0.5, 0.5)
 
 style select_history_button:
