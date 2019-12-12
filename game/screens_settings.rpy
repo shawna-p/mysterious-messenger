@@ -176,10 +176,10 @@ style settings_tabs_button_text:
     xalign 0.5
     yalign 0.5
         
-########################################################
-## The "Profile" tab of Settings. Allows you to change
-## your profile pic, name, and preferred pronouns
-########################################################
+##########################################################
+## The "Profile" tab of Settings. Allows you the player to
+## change their profile pic, name, and preferred pronouns
+##########################################################
 
 screen profile_pic():
     
@@ -219,7 +219,7 @@ screen pic_and_pronouns():
                         renpy.restart_interaction]
             # Edit MC's Name
             fixed:
-                add "name_line" yalign 0.985
+                add "name_line" yalign 1.0
                 #text persistent.name style 'profile_pic_text'
                 # Ordinarily the program displayed the text as above, but
                 # due to an unusual bug where this doesn't display correctly
@@ -562,15 +562,10 @@ screen other_settings():
             #                 text "Change Fonts" style 'ringtone_change'
             #             action Show('adjust_fonts')
 
-            
-                    
-            
-                    
+                                
                 # Additional vboxes of type "radio_pref" or "check_pref" can be
                 # added here, to add additional creator-defined preferences.
-                
-            
-            
+                            
             frame:
                 style_prefix "other_settings_end"            
                 has hbox
@@ -806,8 +801,8 @@ screen preferences():
                 xsize 625
                 text "Voice" style "settings_style" xpos 55 ypos -5
                 style_prefix None
-                ## There are few voiced lines in this program, so currently
-                ## the effects of these buttons will not be very noticeable
+                # There are few voiced lines in this program, so currently
+                # the effects of these buttons will not be very noticeable
                 vbox:
                     box_wrap True
                     box_wrap_spacing 10
@@ -820,8 +815,7 @@ screen preferences():
                             pass
                         else:
                             use voice_buttons(c)
-                    use voice_buttons("Other", 'other')
-                        
+                    use voice_buttons("Other", 'other')      
                         
             frame:
                 style_prefix 'tone_selection'                
@@ -893,7 +887,6 @@ style sound_settings_slider:
     thumb_offset 18
     thumb 'gui/slider/horizontal_[prefix_]thumb.png'
     ysize 22
-
 
 style test_buttons:
     is default
