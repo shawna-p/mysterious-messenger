@@ -374,7 +374,26 @@ style contacts_grid_grid:
 style contacts_grid_vbox:
     spacing 25
 
-
+style contact_text:
+    color '#fff' 
+    xalign 0.5 
+    text_align 0.5
+    font sans_serif_1b
+    
+style caller_id:
+    color '#fff'
+    xalign 0.5
+    text_align 0.5
+    font gui.sans_serif_1
+    size 70
+    yoffset 10
+    
+style call_text:
+    color '#fff'
+    xalign 0.5
+    yalign 0.5
+    text_align 0.5
+    font gui.sans_serif_1
     
 ## This label ensures the rest of the phone conversation will
 ## not play out if the player hangs up

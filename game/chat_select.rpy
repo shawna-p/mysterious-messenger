@@ -221,7 +221,13 @@ screen day_select(day, day_num):
         null width 104
         
             
-        
+style day_title:
+    xalign 0.5
+    text_align 0.5
+    color '#fff'
+    size 37
+    font gui.sans_serif_1
+    yalign 0.5        
         
 ########################################################
 ## This screen shows a timeline of the chatrooms on

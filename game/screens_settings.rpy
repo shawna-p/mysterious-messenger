@@ -203,6 +203,13 @@ screen profile_pic():
             if not main_menu:
                 use points_and_saveload()
 
+style mode_select:
+    color "#fff"
+    font gui.sans_serif_1
+    text_align 0.5
+    xalign 0.5
+    yalign 0.5
+
 screen pic_and_pronouns():
     null height 5
     hbox:
@@ -328,6 +335,12 @@ screen heart_point_grid(c):
 
 style profile_pic_text is default
 style profile_pic_imagebutton is empty
+
+style point_indicator:
+    size 40
+    color "#fff"
+    text_align 0.5
+    xalign 0.5  
 
 style profile_pic_frame:
     xysize(370, 440)
@@ -579,6 +592,25 @@ screen other_settings():
                             yes_action=[Hide('confirm'), 
                             Jump("restart_game")], no_action=Hide('confirm'))
 
+style ringtone_change:
+    color '#fff'
+    size 28
+    xalign 0.5
+    text_align 0.5
+    yalign 0.5
+    
+style ringtone_description:
+    color '#fff'
+    size 20
+    xalign 0.5
+    text_align 0.5
+    yalign 0.5
+
+style settings_style:
+    color "#ffffff"
+    font gui.sans_serif_1
+    
+
 image toggle_btn_bg = "Menu Screens/Main Menu/toggle_panel_background.png" 
 image toggle_btn_on = "Menu Screens/Main Menu/toggle_panel_selected_foreground.png"
 image toggle_btn_off = "Menu Screens/Main Menu/toggle_panel_foreground.png"
@@ -676,6 +708,14 @@ style settings_slider_button:
     ysize 70
     background "menu_other_box"
 
+style sound_tags:
+    color "#ffffff"
+    font gui.sans_serif_1
+    size 25
+    text_align 0.5
+    xalign 0.5
+    yalign 0.5
+
 style settings_slider_button_text is sound_tags
 
 style settings_slider_slider:
@@ -722,6 +762,7 @@ label restart_game():
         
         # More resets here as needed
         persistent.on_route = False
+        check_for_CGs(all_albums)
         renpy.full_restart()
     return
         
@@ -941,7 +982,15 @@ screen voice_buttons(char, voice_char=None):
             hover_child Text("On", style="voice_toggle_on")
             selected_child Text("Off", style="voice_toggle_off")
             action ToggleVoiceMute(voice_char)
-        
+
+style voice_toggle_on:
+    color "#99ffea"
+    hover_color "#43ffd8"
+    
+style voice_toggle_off:
+    color "#a3a3a3"
+    hover_color "#d0d0d0"
+
 ## A helper screen for displaying the choices for
 ## ringtones, email tones, and text tones
 screen ringtone_dropdown(title, tone):

@@ -608,7 +608,11 @@ screen email_button(e):
                 elif e.timeout:
                     add 'email_timeout' align(0.5, 0.5)
                     
-                    
+style email_address:
+    font gui.curlicue_font
+    color '#fff'
+    size 27
+    
 ########################################################    
 ## This is the screen that displays the email you've 
 ## selected, and lets you reply

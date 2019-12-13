@@ -97,7 +97,22 @@ screen loading_screen():
         
         
     add 'load_tip 'xalign 0.13 yalign 0.32
+
+style loading_text:
+    xalign 0.5
+    yalign 0.607
+    color "#fff"
+    text_align 0.5
+    font gui.sans_serif_1
+    size 34
     
+style loading_tip:
+    xalign 0.5
+    text_align 0.5
+    yalign 0.4
+    color "#fff"
+    font gui.sans_serif_1
+    size 34
 
 default loading_tips = [ 
     "Please make sure the game is not quit or interrupted during save or load",

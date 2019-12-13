@@ -108,7 +108,7 @@ screen text_hub_display(i):
                         + '/' + text_time.year + ' ' 
                         + text_time.twelve_hour + ':' 
                         + text_time.minute + text_time.am_pm):
-                            style "save_timestamp"
+                            style "save_stamp_text"
                 hbox:
                     spacing 10
                     xalign 1.0

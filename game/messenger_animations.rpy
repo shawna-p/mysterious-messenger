@@ -227,6 +227,15 @@ init python:
         numtxt = Text(speednum, style='speednum_style', align=(.5,.5))
         return VBox(speedtxt, numtxt), 0.05
 
+# The number that shows up when adjusting the chatroom speed
+style speednum_style is text:
+    xalign 0.97
+    yalign 0.22
+    color "#ffffff"
+    font gui.sans_serif_1b
+    size 45
+    text_align 0.5
+
 image speed_num_img = DynamicDisplayable(speed_num_fn)
 
 screen speed_num():
@@ -297,7 +306,7 @@ label banner(banner):
     
 screen banner_screen(banner):
     zorder 10
-    window at truecenter:
+    fixed at truecenter:
         add 'banner ' + banner
         
     timer 0.72 action Hide('banner_screen')

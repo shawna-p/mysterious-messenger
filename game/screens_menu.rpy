@@ -351,6 +351,12 @@ screen main_menu():
                     add "menu_dlc"
                     text "DLC"
      
+style greet_text is text:
+    color "#ffffff"
+    size 27
+    text_align 0.0
+    slow_cps 20
+    font curlicue_font
 
 style left_menu_button:
     focus_mask True
@@ -377,6 +383,36 @@ style right_menu_vbox is left_menu_vbox
 
 style right_menu_text:
     is menu_text_small
+
+style menu_top_left_frame:
+    maximum(450,420)
+    padding (10, 10)
+    xfill True
+    yfill True
+
+style menu_right_frame:
+    maximum(225, 210)
+    xfill True
+    yfill True
+    padding (10, 10)
+
+style menu_bottom_left_frame:
+    maximum(450,210)
+    padding (10, 10)
+    xfill True
+    yfill True
+    
+style menu_text_big is text:
+    color "#ffffff"
+    size 45
+    text_align 0.5
+    xalign 0.5
+    
+style menu_text_small is text:
+    color "#ffffff"
+    size 30
+    text_align 0.5
+    xalign 0.5
 
     
 ## A short screen where the player selects which route they would
@@ -690,9 +726,19 @@ style save_stamp_fixed:
     yfit True
 
 style save_stamp_text:
-    is save_timestamp
-
-
+    size 25
+    color "#fff"
+    text_align 1.0
+    xalign 1.0
+    
+style save_slot_text:
+    color "fff"
+    text_align 0.0
+    
+style vscroll_bar:
+    base_bar Frame('gui/scrollbar/vertical_hover_bar.png',0,0)
+    xsize 110
+    thumb 'gui/scrollbar/vertical_hover_thumb.png'
 
 ########################################################
 ## Just the header that often shows up over menu items;
@@ -883,11 +929,16 @@ style header_hg_frame:
 style hg_hp_display_frame:
     xysize(205-75, 42)
 
+style hg_heart_points:
+    color "#ffffff"
+    font gui.sans_serif_1
+    size 39
+    text_align 1.0
+
 style hg_hp_display_text:
     is hg_heart_points
     text_align 1.0
     xalign 1.0
-
 
 ########################################################
 ## The 'homepage' from which you interact with the game
@@ -1062,11 +1113,10 @@ screen chat_home(reshow=False):
                 style_prefix 'hex'
                 # Album
                 button:
-                    if new_cg:
+                    if new_cg > 0:
                         add 'new_text' align (1.0, 0.1) xoffset 15
-                    selected new_cg
-                    action [SetVariable('new_cg', False), 
-                            Show('photo_album', Dissolve(0.5))]
+                    selected new_cg > 0
+                    action [Show('photo_album', Dissolve(0.5))]
                     add "album_icon" xalign 0.5 yalign 0.35
                     text "ALBUM"
 
@@ -1110,7 +1160,7 @@ screen chat_home(reshow=False):
             if chips_available:       
             
                 if not reshow:
-                    window at chip_anim:
+                    fixed at chip_anim:
                         xysize(90,70)
                         xalign 0.93
                         yalign 0.942
@@ -1118,7 +1168,7 @@ screen chat_home(reshow=False):
                         
                     add "space_chip_active" xalign 0.92 yalign 0.98
                     
-                    window at spaceship_chips(1.0):
+                    fixed at spaceship_chips(1.0):
                         xysize (100,110)
                         xalign 0.96
                         yalign 1.0
@@ -1131,7 +1181,7 @@ screen chat_home(reshow=False):
                             action Show('chip_tap')
                 
                 if reshow:
-                    window at chip_anim(0):
+                    fixed at chip_anim(0):
                         xysize(90,70)
                         xalign 0.93
                         yalign 0.942
@@ -1139,7 +1189,7 @@ screen chat_home(reshow=False):
                         
                     add "space_chip_active2" xalign 0.92 yalign 0.98
                     
-                    window at spaceship_chips:
+                    fixed at spaceship_chips:
                         xysize (100,110)
                         xalign 0.96
                         yalign 1.0
@@ -1154,7 +1204,7 @@ screen chat_home(reshow=False):
             else:            
                 add "space_chip_inactive" xalign 0.92 yalign 0.98
                 
-                window at spaceship_flight:
+                fixed at spaceship_flight:
                     xysize (100,110)
                     xalign 0.04#spaceship_xalign
                     yalign 1.0
@@ -1297,5 +1347,18 @@ screen chara_profile(who):
                 yalign 0.95
                 text who.status style "profile_status"
     
-
+style profile_header_text:        
+    align (0.5, 0.5)
+    text_align 0.5
+    color "#fff"
+    font gui.sans_serif_1
+    size 55
+    
+style profile_status:
+    text_align 0.5
+    align (0.5, 0.5)
+    color "#fff"
+    font gui.serif_1
+    size 40
+    xmaximum 600
         

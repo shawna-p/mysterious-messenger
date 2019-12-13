@@ -217,7 +217,6 @@ style say_dialogue:
     xsize gui.dialogue_width
     ypos gui.dialogue_ypos
 
-
 style vn_mode_button:
     align (0.98, 0.01)
 
@@ -242,6 +241,20 @@ style call_window:
     background 'call_overlay' 
     padding(50,50)
 
+style vn_button:
+    color '#76D0B7'
+    font gui.sans_serif_2
+    size 55
+    outlines [(absolute(1), '#000', absolute(0), absolute(0))]
+    kerning -1
+    
+style vn_button_hover:
+    color "#999999"
+    font gui.sans_serif_2
+    size 55
+    outlines [(absolute(1), '#000', absolute(0), absolute(0))]
+    kerning -1
+    
 ## Input screen ################################################################
 ##
 ## This screen is used to display renpy.input. The prompt parameter is used to
@@ -762,43 +775,25 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
 
     add "gui/overlay/confirm.png"
 
-    frame:
-        background "menu_popup_bkgrd"
-        xmaximum 700
+    frame:       
         vbox:
-            xalign .5
-            yalign .5
-            spacing 26
-            xmaximum 650
-
             label _(message):
                 style "confirm_prompt"
                 xalign 0.5
             if show_link:
-                null height -56
+                null height -53
                 textbutton "check out my Ko-Fi here":
-                    style_prefix None
-                    text_align 0.5 xalign 0.5 text_hover_underline True
+                    style 'button_text'
+                    text_style 'button_text'
+                    text_text_align 0.5 xalign 0.5 
+                    text_hover_underline True
                     text_color "#00b08d"
                     action OpenURL("https://ko-fi.com/somniarre")
 
-            hbox:
-                xalign 0.5
-                spacing 100
-                
-                textbutton _("Confirm"):
-                    text_style "confirm_text"
-                    xsize 200
-                    background "menu_popup_btn" padding(20,20)
-                    hover_foreground "menu_popup_btn_hover"
-                    action yes_action
+            hbox:                
+                textbutton _("Confirm") action yes_action
                 if no_action:
-                    textbutton _("Cancel"): 
-                        text_style "confirm_text"
-                        xsize 200
-                        background "menu_popup_btn" padding(20,20)
-                        hover_foreground "menu_popup_btn_hover"
-                        action no_action
+                    textbutton _("Cancel") action no_action
                 
 
     ## Right-click and escape answer "no".
@@ -813,10 +808,21 @@ style confirm_button is gui_medium_button
 style confirm_button_text is gui_medium_button_text
 
 style confirm_frame:
-    background Frame([ "gui/confirm_frame.png", "gui/frame.png"], gui.confirm_frame_borders, tile=gui.frame_tile)
     padding gui.confirm_frame_borders.padding
     xalign .5
     yalign .5
+    background "menu_popup_bkgrd"
+    xmaximum 700
+
+style confirm_vbox:
+    xalign .5
+    yalign .5
+    spacing 26
+    xmaximum 650
+
+style confirm_hbox:
+    xalign 0.5
+    spacing 100
 
 style confirm_prompt_text:
     font gui.sans_serif_1
@@ -824,10 +830,20 @@ style confirm_prompt_text:
     layout "subtitle"
 
 style confirm_button:
-    properties gui.button_properties("confirm_button")
+    #properties gui.button_properties("confirm_button")
+    xsize 200
+    background "menu_popup_btn" 
+    padding(20,20)
+    hover_foreground "menu_popup_btn_hover"
 
 style confirm_button_text:
     properties gui.button_text_properties("confirm_button")
+    color "#eeeeee"
+    hover_color "#ffffff"
+    xalign 0.5
+    text_align 0.5
+    font gui.sans_serif_1
+    size 30
 
 
 ## Skip indicator screen #######################################################
@@ -997,10 +1013,6 @@ screen nvl_dialogue(dialogue):
 
                     text d.what:
                         id d.what_id
-                    #if d.who is None:
-                    #    pass
-                    #else:
-                    #    text thetime style "phone_time"
 
 
 ## This controls the maximum number of NVL-mode entries that can be displayed at

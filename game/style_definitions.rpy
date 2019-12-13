@@ -24,7 +24,7 @@ define curlicue_font = "fonts/NanumBarunpenR.ttf"
 init 5:
 
     ### Note: you can find many of the gui values in the gui.rpy file
-    ###  if you're looking to change them
+    ### if you're looking to change them
         
     ####################################
     ## Custom Text Tags
@@ -81,17 +81,9 @@ init 5:
         font gui.blocky_font
 
     ####################################
-    #***********************************
-    ## Styles
-    #***********************************
+    ## Chat and Text Styles
     ####################################
-
-    
-    ####################################
-    ## Chat Styles
-    ####################################
-
-    
+        
     ## ****************************************
     ## Character Names Style
     style chat_name:
@@ -120,14 +112,6 @@ init 5:
         align (0.0, 0.0)
         
     ## ****************************************
-    ## Profile Pictures Style - Texts
-    style MC_profpic_text:
-        maximum (110,110)
-        
-    style profpic_text:
-        maximum (110,110) 
-
-    ## ****************************************
     ## Style for images posted in the chatroom
     style img_message:
         padding (5, 10)
@@ -142,6 +126,34 @@ init 5:
         xmaximum 750
         xalign 1.0
         yalign 0.0
+
+    # Text style for chatroom dialogue
+    style phone_dialogue:
+        pos (138, 0)
+        xanchor 0.0
+        xsize 750
+        text_align 0.0
+
+
+    # Style for the list that shows who is in the chatroom
+    style in_chat_list_style:
+        text_align 0.5
+        xalign 0.5
+        yalign 0.5
+        color '#fff'
+        size 23       
+    
+    ## **********************
+    ## Text Messages
+    ## **********************  
+    
+    ## ****************************************
+    ## Profile Pictures Style - Text Messages
+    style MC_profpic_text:
+        maximum (110,110)
+        
+    style profpic_text:
+        maximum (110,110) 
         
     ## ****************************************
     ## Style for images posted in text messages
@@ -156,30 +168,11 @@ init 5:
         xmaximum 750
         xalign 1.0
 
-    # Text style for chatroom dialogue
-    style phone_dialogue:
-        pos (138, 0)
-        xanchor 0.0
-        xsize 750
-        text_align 0.0
-        
-    style in_chat_list_style:
-        text_align 0.5
-        xalign 0.5
-        yalign 0.5
-        color '#fff'
-        size 23       
-    
-    ## **********************
-    ## Text Messages
-    ## **********************  
     style text_msg_npc_fixed:
-        #pos (138, 0)
         xanchor 0.0
         yanchor 0.0
         
     style text_msg_mc_fixed:
-        #pos (598, 0)
         xanchor 0.0
         yanchor 0.0
         
@@ -192,366 +185,7 @@ init 5:
         yalign 0.5
         font sans_serif_1b
    
-        
-    ####################################
-    ## Main Menu Styles
-    ####################################
-    
-    style menu_top_left_frame:
-        maximum(450,420)
-        padding (10, 10)
-        xfill True
-        yfill True
-    
-    style menu_right_frame:
-        maximum(225, 210)
-        xfill True
-        yfill True
-        padding (10, 10)
-    
-    style menu_bottom_left_frame:
-        maximum(450,210)
-        padding (10, 10)
-        xfill True
-        yfill True
-        
-    style menu_text_big is text:
-        color "#ffffff"
-        size 45
-        text_align 0.5
-        xalign 0.5
-        
-    style menu_text_small is text:
-        color "#ffffff"
-        size 30
-        text_align 0.5
-        xalign 0.5
-
-        
-    ## **********************
-    ## Main Menu -- Greeting
-    ## **********************
-    
-    style greet_text is text:
-        color "#ffffff"
-        size 27
-        text_align 0.0
-        slow_cps 20
-        font curlicue_font
-        
-    ## **********************
-    ## Main Menu -- Profile
-    ## **********************
-    
-        
-    style point_indicator:
-        size 40
-        color "#fff"
-        text_align 0.5
-        xalign 0.5       
-
-        
-    ## **********************
-    ## Main Menu -- Save/Load
-    ## **********************
-    
-    style save_timestamp:
-        size 25
-        color "#fff"
-        text_align 1.0
-        xalign 1.0
-        
-    style save_slot_text:
-        color "fff"
-        text_align 0.0
-        
-    style vscroll_bar:
-        base_bar Frame('gui/scrollbar/vertical_hover_bar.png',0,0)
-        xsize 110
-        thumb 'gui/scrollbar/vertical_hover_thumb.png'
-        #yoffset 15
-        
-    ## **********************
-    ## Main Menu -- Settings
-    ## **********************
-    
-    style voice_toggle_on:
-        color "#99ffea"
-        hover_color "#43ffd8"
-        
-    style voice_toggle_off:
-        color "#a3a3a3"
-        hover_color "#d0d0d0"
-        
-    style settings_style:
-        color "#ffffff"
-        font gui.sans_serif_1
-        
-    style sound_tags:
-        color "#ffffff"
-        font gui.sans_serif_1
-        size 25
-        text_align 0.5
-        xalign 0.5
-        yalign 0.5
-        
-    style hg_heart_points:
-        color "#ffffff"
-        font gui.sans_serif_1
-        size 39
-        text_align 1.0
-        
-    style ringtone_change:
-        color '#fff'
-        size 28
-        xalign 0.5
-        text_align 0.5
-        yalign 0.5
-        
-    style ringtone_description:
-        color '#fff'
-        size 20
-        xalign 0.5
-        text_align 0.5
-        yalign 0.5
-        
-    ## **********************
-    ## Main Menu -- Other
-    ## **********************
-    
-    style mode_select:
-        color "#fff"
-        font gui.sans_serif_1
-        text_align 0.5
-        xalign 0.5
-        yalign 0.5
-        
-    style confirm_text:
-        color "#eeeeee"
-        hover_color "#ffffff"
-        xalign 0.5
-        text_align 0.5
-        font gui.sans_serif_1
-        size 30
-        
-    style vn_button:
-        color '#76D0B7'
-        font gui.sans_serif_2
-        size 55
-        outlines [(absolute(1), '#000', absolute(0), absolute(0))]
-        kerning -1
-        
-    style vn_button_hover:
-        color "#999999"
-        font gui.sans_serif_2
-        size 55
-        outlines [(absolute(1), '#000', absolute(0), absolute(0))]
-        kerning -1
-        
-    ## **********************
-    ## Main Menu -- Loading
-    ## **********************        
-    
-    style loading_text:
-        xalign 0.5
-        yalign 0.607
-        color "#fff"
-        text_align 0.5
-        font gui.sans_serif_1
-        size 34
-        
-    style loading_tip:
-        xalign 0.5
-        text_align 0.5
-        yalign 0.4
-        color "#fff"
-        font gui.sans_serif_1
-        size 34
-        
-    ## **********************
-    ## Chat Home - Profiles
-    ## **********************  
-    
-    style profile_header_text:        
-        align (0.5, 0.5)
-        text_align 0.5
-        color "#fff"
-        font gui.sans_serif_1
-        size 55
-        
-    style profile_status:
-        text_align 0.5
-        align (0.5, 0.5)
-        color "#fff"
-        font gui.serif_1
-        size 40
-        xmaximum 600
-        
-    ## **********************
-    ## Chat Home - Album
-    ## ********************** 
-        
-    style album_text_short:
-        align (0.5, 0.5)
-        text_align 0.5
-        color '#fff'
-        font gui.sans_serif_1
-        size 30
-        
-    style album_text_long:
-        align (0.5, 0.5)
-        text_align 0.5
-        color '#fff'
-        font gui.sans_serif_1
-        size 25
-        
-        
-
-        
-    ## **********************
-    ## Chat Select
-    ## **********************
-    style day_title:
-        xalign 0.5
-        text_align 0.5
-        color '#fff'
-        size 37
-        font gui.sans_serif_1
-        yalign 0.5
-    
-    ## **********************
-    ## Phone Calls
-    ## **********************
-    style contact_text:
-        color '#fff' 
-        xalign 0.5 
-        text_align 0.5
-        font sans_serif_1b
-        
-    style caller_id:
-        color '#fff'
-        xalign 0.5
-        text_align 0.5
-        font gui.sans_serif_1
-        size 70
-        yoffset 10
-        
-    style call_text:
-        color '#fff'
-        xalign 0.5
-        yalign 0.5
-        text_align 0.5
-        font gui.sans_serif_1
-        
-    ## **********************
-    ## Emails
-    ## **********************
-    style email_address:
-        font gui.curlicue_font
-        color '#fff'
-        size 27
-        
-    ## **********************
-    ## Spaceship Thoughts
-    ## **********************
-    style space_title1:
-        font gui.serif_1
-        size 25
-        text_align 0.5
-        align (0.5, 0.12)
-        color '#ff0'
-        
-    style space_thought_mid:
-        font gui.serif_1
-        text_align 0.5
-        align (0.5, 0.5)
-        color '#fff'
-        
-    style space_title2:
-        font gui.serif_1
-        size 22
-        text_align 0.5
-        align (0.5, 0.95)
-        outlines [(absolute(1), '#743801', absolute(0), absolute(0))]
-        color '#fff'
-        
-
-        
-    ####################################
-    ## Other Miscellaneous Styles
-    ####################################
-    
-    # Style for the Close button when viewing a fullscreen CG
-    style CG_close is text:
-        xalign 0.06
-        yalign 0.016
-        font gui.sans_serif_1
-        color "#ffffff"
-        size 45
-        
-    # The number that shows up when adjusting the chatroom speed
-    style speednum_style is text:
-        xalign 0.97
-        yalign 0.22
-        color "#ffffff"
-        font gui.sans_serif_1b
-        size 45
-        text_align 0.5
-        
-    style chip_prize_text:
-        color "#ffffff"
-        font gui.sans_serif_1
-        text_align 1.0
-        size 37
-        xalign 0.85
-        yalign 0.5
-        
-    style chip_prize_description_short:
-        color '#ffffff'
-        font gui.blocky_font
-        text_align 0.5
-        size 45
-        xalign 0.5
-        yalign 0.5
-
-    style chip_prize_description_long:
-        color '#ffffff'
-        font gui.blocky_font
-        text_align 0.5
-        size 37
-        xalign 0.5
-        yalign 0.5
-    
-    style header_clock:
-        color '#fff'
-        font gui.sans_serif_1
-        text_align 1.0
-        size 42
-        xpos -110
-        yalign 0.48
-        
-    
-    #*************************************************************
-    # Code leftover from when you could add the time to characters'
-    # messages. Currently unused
-    
-    style phone_time is text:
-        size 14
-        color "#575757"
-        xpos 410
-        ypos 25
-
-    style phone_time2 is text:
-        size 14
-        color "#575757"
-        xpos 380
-        ypos -100
-
-    style phone_time3 is text:
-        size 14
-        color "#575757"
-        xpos 160
-        ypos -100
+       
 
     # Default frame style
     style frame is default:
