@@ -79,7 +79,8 @@ label after_load():
             renpy.hide_screen('text_pop_3')
             
         define_variables()
-            
+        hide_heart_icons()
+        hide_stackable_notifications()
         renpy.hide_screen('settings_screen')
         renpy.hide_screen('save_load')
         renpy.hide_screen('menu')
