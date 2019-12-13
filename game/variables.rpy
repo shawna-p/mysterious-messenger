@@ -3,7 +3,7 @@ init -6 python:
     from copy import copy, deepcopy
     
     ## This defines another voice channel which the emoji
-    ## sound effects play on. It lets you adjust the volume 
+    ## sound effects play on. Players can adjust the volume 
     ## of the emojis separately from voice, music, and sfx
     renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
     
@@ -19,30 +19,40 @@ init -6 python:
     class MyTime(object):
         def __init__(self, day=None):
         
-            self.short_weekday = datetime.now().strftime('%a')  #e.g. Mon
-            self.weekday = datetime.now().strftime('%A')        #e.g. Monday
-            
-            self.short_month = datetime.now().strftime('%b')    #e.g. Aug
-            self.month = datetime.now().strftime('%B')          #e.g. August
-            self.month_num = datetime.now().strftime('%m')      #e.g. 8
-            
-            self.year = datetime.now().strftime('%Y')           #e.g. 2018
-            
-            # This small function is so you can set the day
-            # manually for testing purposes
-            if day == None:
-                self.day = datetime.now().strftime('%d')
+            if day is None:
+                thetime = datetime.now()
+                
             else:
-                self.day = day
+                # Do some calculations to test time manually
+                # Find out how many seconds in the given number
+                # of days
+                num_seconds = day * 60 * 60 * 24
+                # Get the current UNIX timestamp
+                unix_seconds = time.time()
+                # Create a new timestamp
+                new_timestamp = unix_seconds + num_seconds
+                thetime = datetime.fromtimestamp(new_timestamp)
+
+            self.short_weekday = thetime.strftime('%a')  #e.g. Mon
+            self.weekday = thetime.strftime('%A')        #e.g. Monday
             
-            self.twelve_hour = datetime.now().strftime('%I')
-            self.military_hour = datetime.now().strftime('%H')
-            self.minute = datetime.now().strftime('%M')
-            self.second = datetime.now().strftime('%S')
-            self.am_pm = datetime.now().strftime('%p')
+            self.short_month = thetime.strftime('%b')    #e.g. Aug
+            self.month = thetime.strftime('%B')          #e.g. August
+            self.month_num = thetime.strftime('%m')      #e.g. 8
+            
+            self.year = thetime.strftime('%Y')           #e.g. 2018
+            
+            self.day = thetime.strftime('%d')            # e.g. 20
+                            
+            self.twelve_hour = thetime.strftime('%I')
+            self.military_hour = thetime.strftime('%H')
+            self.minute = thetime.strftime('%M')
+            self.second = thetime.strftime('%S')
+            self.am_pm = thetime.strftime('%p')
+
             
     ## Function that returns a MyTime object with the current time
-    ## Also lets you manually set the day for testing purposes
+    ## Also lets you manually set the day for testing or backlogs
     def upTime(day=None):
         if day != None:
             return MyTime(day)
@@ -89,10 +99,10 @@ init -6 python:
 default shuffle = True
 
 init python:
-    # This lets us shuffle menu options
+    # This lets the program shuffle menu options
     renpy_menu = menu
     def menu(items):
-        # This copies the items list
+        # Copy the items list
         items = list(items)
         global shuffle
         if shuffle and shuffle != "last":
@@ -104,7 +114,7 @@ init python:
         shuffle = True
         return renpy_menu(items)
     
-    # We don't want to let the player rollback the game
+    # Don't let the player rollback the game
     # by scrolling
     config.keymap['rollback'].remove('mousedown_4')
 
@@ -120,7 +130,7 @@ default today_day_num = 0
 # of chats in real-time mode
 default unlock_24_time = False
 # Keeps track of how far the game should
-# continue expiring chatrooms until
+# continue expiring chatrooms
 default days_to_expire = 1
 # Keeps a record of the current time to compare
 # with load times so it knows when to make days
@@ -135,21 +145,23 @@ default call_history = []
 # If there's an incoming call after a chatroom,
 # it will be defined here
 default incoming_call = False #e.g. PhoneCall(ju)
-# Lets the program know we're in VN mode
+# Lets the program know it's in VN mode
 default vn_choice = False
 # Keeps track of the current call the player is in
 default current_call = False
 # True if the player is beginning a new game
 default starter_story = False
 
+# VN mode preferences
 default preferences.afm_time = 15
 default preferences.skip_unseen = True
 default preferences.skip_after_choices = True
 
+# The automatic save file used by the program
 define mm_auto = "mm_auto_save"
+# "Unlocks" some developer options for testing
 default persistent.testing_mode = False
-# Used when viewing the chat history from the log
-default viewing_ChatHistory = False
+
 
 
 #************************************
@@ -174,11 +186,13 @@ image bg noon = "Phone UI/bg-noon.jpg"
 image bg hack = "Phone UI/bg-hack.jpg"
 image bg redhack = "Phone UI/bg-redhack.jpg"
 image bg redcrack = "Phone UI/bg-redhack-crack.png"
+
 # A starry night background with some static stars;
 # used in menu screens
 image bg starry_night = "Menu Screens/Main Menu/bg-starry-night.png"
 image hack_long = "Phone UI/Hack-Long.png"
 image red_hack_long = "Phone UI/Hack-Red-Long.png"
+image transparent_img = '#0000'
 
 # ********************************
 # Short forms/Startup Variables
@@ -202,41 +216,40 @@ default is_are = "are"
 default has_have = "have"
 default s_verb = ""
 
+# Displays all the messages in a chatroom
 default chatlog = []
-# A list of the characters currently
-# in the chatroom
+# A list of the characters currently in the chatroom
 default in_chat = []
 default current_chatroom = ChatHistory('title', 'chatroom_label', '00:00')
+# Chat that should be used when saving the game
 default most_recent_chat = None
 default name = 'Rainbow'
 default hacked_effect = False
 
-# Variable that checks if you're on a route or not
+# Checks if the player is on a route or not
 default persistent.on_route = False
-# Variable that checks if it's the first time you've started the game
+# Checks if it's the first time you've started the game
 default persistent.first_boot = True
-# Variable that determines if the program should run in real-time or not
+# Determines if the program should run in real-time or not
 default persistent.real_time = False
-# Variable to check if we need to manually load the chat home screen
+# Check if the program needs to manually load the chat home screen
 default persistent.just_loaded = False
 
 
-# This variable is set to True if you're viewing a chatroom
-# in 'history'
+# Set to True if you're viewing a previously-seen chatroom/call/etc
 default observing = False
 
-# This is a variable that detects if you're choosing an option from a menu
-# If so, it uses this variable to know it should disable most buttons
+# Detects if you're choosing an option from a menu
+# If so, the program uses this variable to disable most buttons
 default choosing = False
 
-# Variable that detects if the answer screen should be
-# showing. Largely only useful if you view a CG when you should
-# be answering a prompt
+# Detects if the answer screen should be showing. Useful if you 
+# view a CG when you should be answering a prompt
 default pre_choosing = False
 
-# Keeps track of the total number of hp (heart points) you've received per chatroom
+# Total number of hp (heart points) received in a chatroom
 default chatroom_hp = 0
-# Keeps track of the total number of hg (hourglasses) you've earned per chatroom
+# Total number of hg (hourglasses) earned per chatroom
 default chatroom_hg = 0
 
 # Keeps track of the ending the game should show the player
@@ -431,6 +444,8 @@ image link_text = "Menu Screens/Chat Hub/main01_subtext_link.png"
 image notice_text = "Menu Screens/Chat Hub/main01_subtext_notice.png"
 image shop_text = "Menu Screens/Chat Hub/main01_subtext_shop.png"
 
+image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.png"
+image exit_enter = "Phone UI/exit-enter.png"
 
 ## ********************************
 ## Profile Picture Screen
@@ -445,9 +460,6 @@ image input_square = Frame("Menu Screens/Main Menu/main02_text_input.png",40,40)
 image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",70,70)
 image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_hover.png",70,70)
     
-    
-
-
 
 ## ********************************
 ## Save & Load Images
@@ -531,6 +543,10 @@ image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.png", 0,0)
 image text_answer_idle = "Text Messages/chat-bg02_2.png"
 image text_answer_hover = "Text Messages/chat-bg02_3.png"
 image new_text_count = "Text Messages/new_msg_count.png"
+
+image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.png", 60,60,60,10)
+image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
+
 
 ## ********************************
 ## Chat Select Screen
@@ -689,7 +705,7 @@ image day_hlink = 'Menu Screens/Day Select/daychat_hlink.png'
 image plot_lock = 'Menu Screens/Day Select/plot_lock.png'
 image expired_chat = 'Menu Screens/Day Select/daychat_hg.png'
 
-image day_vlink = im.Tile('Menu Screens/Day Select/daychat_vlink.png',(15,1180))
+image day_vlink = Tile('Menu Screens/Day Select/daychat_vlink.png')
 image vn_inactive = 'Menu Screens/Day Select/vn_inactive.png'
 image vn_selected = 'Menu Screens/Day Select/daychat01_vn_mint.png'
 image vn_active = 'Menu Screens/Day Select/vn_active.png'
@@ -828,19 +844,4 @@ image email_mint = "Email/main03_email_mint.png"
 image white_transparent = Frame("Email/white_transparent.png", 0, 0)
 image email_open_transparent = Frame("Email/email_open_transparent.png", 0, 0)
 image left_corner_menu_dark = Frame("Email/left_corner_menu_dark.png", 45, 45)
-
-## Additional variables to sort somewhere after
-
-image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.png", 60,60,60,10)
-image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
-
-image transparent_img = 'transparent.png'
-
-
-image small_star = "Menu Screens/Main Menu/small-star.png"
-image medium_star = "Menu Screens/Main Menu/medium-star.png"
-
-image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.png"
-image exit_enter = "Phone UI/exit-enter.png"
-
 
