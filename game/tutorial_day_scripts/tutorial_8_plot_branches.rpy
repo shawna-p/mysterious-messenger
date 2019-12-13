@@ -213,39 +213,39 @@ label plot_branch_vn():
     
     call play_music(mysterious_clues_v2)
     show saeran unknown
-    u_vn "Hi, [name]."
-    u_vn smile "Looks like you've made it to the Good End! So I've come to take you to paradise."
+    u "Hi, [name]."
+    u smile "Looks like you've made it to the Good End! So I've come to take you to paradise."
     
     menu:
         extend ''
         "To paradise...?":
-            m_vn "To paradise...?"
-            u_vn happy "Of course! Don't you want to come?"
+            m "To paradise...?"
+            u happy "Of course! Don't you want to come?"
             
             menu:
                 extend ''
                 "Of course I'll come.":
-                    m_vn "Of course I'll come."
-                    u_vn smile "Perfect."
+                    m "Of course I'll come."
+                    u smile "Perfect."
                     hide saeran
                     show saeran unknown blush at vn_center
-                    u_vn "Shall we, then?"
+                    u "Shall we, then?"
                     scene bg black with fade
                     pause
                 
                 "I'd rather stay here.":
-                    m_vn "I'd rather stay here."
-                    u_vn sad "Oh... I get it. Maybe you want to learn more about the program."
-                    u_vn "I'll let you stay, then."
-                    u_vn neutral "You can always go to the {b}Settings{/b} screen and click {b}Start Over{/b} on the {b}Others{/b} tab to play through the Tutorial Day again."
-                    u_vn happy "I hope you'll come visit me again!"
+                    m "I'd rather stay here."
+                    u sad "Oh... I get it. Maybe you want to learn more about the program."
+                    u "I'll let you stay, then."
+                    u neutral "You can always go to the {b}Settings{/b} screen and click {b}Start Over{/b} on the {b}Others{/b} tab to play through the Tutorial Day again."
+                    u happy "I hope you'll come visit me again!"
         
         "But I'm not done learning about the program.":
-            m_vn "But I'm not done learning about the program."
-            u_vn thinking "Oh, okay."
-            u_vn smile "Well, if you want to start over and go through this route again,"
-            u_vn "then you can go to the {b}Settings{/b} screen and click {b}Start Over{/b} on the {b}Others{/b} tab."
-            u_vn happy "I hope you'll come visit me again!"
+            m "But I'm not done learning about the program."
+            u thinking "Oh, okay."
+            u smile "Well, if you want to start over and go through this route again,"
+            u "then you can go to the {b}Settings{/b} screen and click {b}Start Over{/b} on the {b}Others{/b} tab."
+            u happy "I hope you'll come visit me again!"
             
     jump vn_end
 
@@ -278,15 +278,15 @@ label good_end_party():
     scene bg rika_apartment with fade
     pause
     show saeran unknown
-    u_vn "This is where you'd likely put a VN section for a party."
-    u_vn distant "It works the same way as any other VN section; the only thing that's different is the icon."
-    u_vn neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
-    u_vn "Then you can reset the game so they can play through it again."
-    u_vn smile "As always, there's more information on that in the User Guide."
-    u_vn neutral "However, before you go, there's one more thing I can show you:"
-    u_vn "How to show a CG in a Story Mode section."
-    u_vn smile "I'll show it to you just before I go, and then you'll be able to see it in your album."
-    u_vn happy "Thanks for playing through Tutorial Day!"
+    u "This is where you'd likely put a VN section for a party."
+    u distant "It works the same way as any other VN section; the only thing that's different is the icon."
+    u neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
+    u "Then you can reset the game so they can play through it again."
+    u smile "As always, there's more information on that in the User Guide."
+    u neutral "However, before you go, there's one more thing I can show you:"
+    u "How to show a CG in a Story Mode section."
+    u smile "I'll show it to you just before I go, and then you'll be able to see it in your album."
+    u happy "Thanks for playing through Tutorial Day!"
     scene cg common_3
     pause
     # If you need to later, you can then write `hide cg`
@@ -303,14 +303,14 @@ label plot_branch_bre():
     scene mint_eye_room with fade
     pause
     show saeran sad 
-    r_vn "Did you not like my game?"
-    r_vn sob "It looks like you didn't participate much in the chatrooms."
-    r_vn "So now you're getting the \"Bad Relationship End\"."
-    r_vn distant "Well, that's okay I guess. Maybe you just got busy."
-    r_vn neutral "Try playing through the game again sometime, won't you?"
-    r_vn "And you can play through all the chatrooms."
-    r_vn thinking "Well, I should go now."
-    r_vn "It's too bad we didn't get to spend much time together."
+    r "Did you not like my game?"
+    r sob "It looks like you didn't participate much in the chatrooms."
+    r "So now you're getting the \"Bad Relationship End\"."
+    r distant "Well, that's okay I guess. Maybe you just got busy."
+    r neutral "Try playing through the game again sometime, won't you?"
+    r "And you can play through all the chatrooms."
+    r thinking "Well, I should go now."
+    r "It's too bad we didn't get to spend much time together."
     $ ending = 'bad'
     jump vn_end_route
 

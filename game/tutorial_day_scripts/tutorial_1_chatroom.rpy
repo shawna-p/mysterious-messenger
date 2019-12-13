@@ -281,7 +281,7 @@ label banners():
     y "I have one more thing I was going to show you:" 
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
     y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}"   (bounce=True, specBubble="square_m")
-    y "{=sser2}So we'll use pronouns like [they]/[them] whenever we talk about you.{/=sser2}"   (bounce=True)
+    y "{=sser2}So we'll use [they]/[them] whenever we talk about you.{/=sser2}"   (bounce=True)
     y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script" 
     y "If you want to add any new variables, there's a section in the User Guide about doing just that."
     y "And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu)." 
@@ -470,11 +470,11 @@ label test_call():
     menu:
         extend ''
         "Ray, it's me.":
-            m_phone "Ray, it's me."
+            m "Ray, it's me."
             r_phone "Oh! It's nice to hear from you, [name]."
             
         "Hello? Can you hear me?":
-            m_phone "Hello? Can you hear me?"
+            m "Hello? Can you hear me?"
             r_phone "Yes! [name], right? It's nice to hear from you."
             
     r_phone """

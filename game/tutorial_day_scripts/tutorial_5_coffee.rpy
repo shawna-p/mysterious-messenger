@@ -432,10 +432,10 @@ label tutorial_chat_incoming_z:
     # You can also use the voice statement directly, 
     # e.g. voice 'Path to your file.mp3' and it will 
     # play during the line of dialogue directly after it
-    z_phone "Good morning, hon~"    
-    z_phone "Gahh~ (Stretches) I haven't slept this well in a while. I feel really good."    
-    z_phone "When I don't sleep that well, just moving my neck in the morning can hurt."    
-    z_phone "Did you sleep well?"
+    z "Good morning, hon~"    
+    z "Gahh~ (Stretches) I haven't slept this well in a while. I feel really good."    
+    z "When I don't sleep that well, just moving my neck in the morning can hurt."    
+    z "Did you sleep well?"
     
     # You don't need call answer here because you go directly
     # into a choice menu during phone calls
@@ -444,23 +444,23 @@ label tutorial_chat_incoming_z:
         # menu, you must add "extend ''" just after the menu
         extend ''
         "Yeah, I didn't even dream.":
-            m_phone "Yeah, I didn't even dream."            
-            z_phone "That's good."            
-            z_phone "I'm a bit sad to hear you didn't dream."            
-            z_phone "I was waiting for you... looking like prince charming."
+            m "Yeah, I didn't even dream."            
+            z "That's good."            
+            z "I'm a bit sad to hear you didn't dream."            
+            z "I was waiting for you... looking like prince charming."
         "I didn't sleep very well.":
-            m_phone "I didn't sleep very well."            
-            z_phone "You didn't? You must be tired then."            
-            z_phone "Call me next time you can't sleep."            
-            z_phone "I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams."            
-            z_phone "Two birds with one stone, no?"            
-            z_phone "I can sing anything you want, so tell me whenever. I'll practice just for you."
+            m "I didn't sleep very well."            
+            z "You didn't? You must be tired then."            
+            z "Call me next time you can't sleep."            
+            z "I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams."            
+            z "Two birds with one stone, no?"            
+            z "I can sing anything you want, so tell me whenever. I'll practice just for you."
     
     
-    z_phone "Aw yeah~! Starting my day with hearing your voice gives me so much energy."    
-    z_phone "I have to leave early for work. I hope only good things happen today! To you and to me, haha."    
-    z_phone "Then I'll call you later."    
-    z_phone "Bye bye."
+    z "Aw yeah~! Starting my day with hearing your voice gives me so much energy."    
+    z "I have to leave early for work. I hope only good things happen today! To you and to me, haha."    
+    z "Then I'll call you later."    
+    z "Bye bye."
     
     # Use this when the call is finished
     jump phone_end
@@ -472,26 +472,26 @@ label tutorial_chat_outgoing_y():
     
     call phone_begin 
     
-    y_phone "I have not died."
-    y_phone "I will not die."
-    y_phone "To live, I must drink chocolate milk..."
+    y "I have not died."
+    y "I will not die."
+    y "To live, I must drink chocolate milk..."
     
     menu:
         extend ''
         "The ones who wish to live will die and those who wish to die will live!":
-            m_phone "The ones who wish to live will die and those who wish to die will live!"
-            y_phone "Uh-uh I know there's a super intelligent saying on that!"
-            y_phone "What was it...!!!!! I think Shakespears said it."
-            y_phone "Whatever... noo... that's not what's important..."
+            m "The ones who wish to live will die and those who wish to die will live!"
+            y "Uh-uh I know there's a super intelligent saying on that!"
+            y "What was it...!!!!! I think Shakespears said it."
+            y "Whatever... noo... that's not what's important..."
         "Yoo-Yoosung?":
-            m_phone "Yoo-Yoosung?"
-            y_phone "nooooooooooooooooooooooooo"
-            y_phone "haaaaaaaaaaaaaaaaaaaaarggh"
+            m "Yoo-Yoosung?"
+            y "nooooooooooooooooooooooooo"
+            y "haaaaaaaaaaaaaaaaaaaaarggh"
                     
     # This is 'monologue mode'; it's most useful here during phone calls.
     # Since you won't be changing expressions or speakers very often, this 
-    # can be faster than writing out 'y_phone' before every line of dialogue
-    y_phone """
+    # can be faster than writing out 'y' before every line of dialogue
+    y """
     
     I went to the convenience store but I didn't bring my loyalty card so I didn't get a discount on the chocolate milk.
     

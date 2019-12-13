@@ -239,7 +239,7 @@ label popcorn_vn():
     # Check out 'character_definitions.rpy' for a cheat-sheet on 
     # the different expressions and poses available for each character
     show jumin front arm happy at vn_right
-    ju_vn "You're here on time, [name]."
+    ju "You're here on time, [name]."
     
     # This is an example where Jaehee looks a little too far off-screen 
     # if you use vn_left, so instead she's positioned at vn_midleft. 
@@ -248,14 +248,14 @@ label popcorn_vn():
     
     # Note the capitalization of the variable [They] 
     # so you get a capitalized pronoun
-    ja_vn "[They] arrived much earlier than expected..."
+    ja "[They] arrived much earlier than expected..."
     # Since Jumin is already on the screen, you don't have to specify 
     # 'at' for this expression. The program will remember that he had the
     # attributes front/arm/happy as well and try to find an image that
     # matches as many attributes as it can if you give it a different
     # show statement, so this will match the jumin/front/arm/upset attributes
     show jumin upset
-    ju_vn "That's good. Then let's proceed with the meeting."
+    ju "That's good. Then let's proceed with the meeting."
     hide jaehee
     
     # The program will recognize that Jumin is already showing and will
@@ -263,42 +263,42 @@ label popcorn_vn():
     # vn_center so you don't need to hide Jumin's portrait like Jaehee's was
     # hidden
     show jumin angry at vn_center 
-    ju_vn "There are three large issues concerning Elizabeth the 3rd's safety."
-    # This is a fun trick -- since Jumin's character ju_vn was declared 
+    ju "There are three large issues concerning Elizabeth the 3rd's safety."
+    # This is a fun trick -- since Jumin's character ju was declared 
     # with the image tag 'jumin' if you simply add attributes to his
     # say statement, it acts as though you did 'show jumin' + the attribute
     # given. So, this is the same as if you wrote "show jumin upset" before
     # this statement
-    ju_vn upset "First, under the sofa. The maid cleans that spot every day, but if some unforeseen danger occurs beneath the sofa, I won't be able to know right away."
+    ju upset "First, under the sofa. The maid cleans that spot every day, but if some unforeseen danger occurs beneath the sofa, I won't be able to know right away."
     
     # By adding a '-' in front of arm, you can 'subtract' that attribute from
     # his image. Another way to write this might have been 'show jumin 
     # normal angry', if you want his 'normal' outfit instead of
     # his 'arm' one. However, since his 'normal' outfit is also the 
     # default, it suffices to write '-arm'
-    ju_vn -arm angry "Second, the gate. The gate needs to be redesigned so that a human can pass through but not a cat. Elizabeth might run out when the door is open. I'm thinking of installing a double door system."
-    ju_vn "And lastly, the kitchen. She's climbing up to the bar more and more often. Look at the graph here. Last week, she climbed up there 6.25 times every day on average. I think I need [name]'s opinions on this."
+    ju -arm angry "Second, the gate. The gate needs to be redesigned so that a human can pass through but not a cat. Elizabeth might run out when the door is open. I'm thinking of installing a double door system."
+    ju "And lastly, the kitchen. She's climbing up to the bar more and more often. Look at the graph here. Last week, she climbed up there 6.25 times every day on average. I think I need [name]'s opinions on this."
     hide jumin 
     
     # Each time you re-show Jaehee you need to add the 
     # 'glasses' attribute if you want her to wear them.
     show jaehee glasses worried at vn_midleft
-    ja_vn "...Should I write all this down?"
+    ja "...Should I write all this down?"
     show jumin front angry at vn_right
-    ju_vn "Every single word."
+    ju "Every single word."
     call play_sfx(door_knock_sfx)
     "(!!)"
     
     # Now that Jaehee is on screen, you don't need to repeat the
     # 'glasses' attribute if you change her expression. This could also
-    # be simplified as `ja_vn surprised "Someone is knocking."`
+    # be simplified as `ja surprised "Someone is knocking."`
     show jaehee surprised
-    ja_vn "Someone is knocking."
-    ju_vn "I can't let anyone interfere with such an important meeting."
-    ja_vn worried "Something could have occurred in your home. I'll open the door."
+    ja "Someone is knocking."
+    ju "I can't let anyone interfere with such an important meeting."
+    ja worried "Something could have occurred in your home. I'll open the door."
     call play_sfx(door_open_sfx)
     "(Door opened)"
-    ja_vn serious "Come in..."
+    ja serious "Come in..."
     hide jumin
     # Note the use of strings here to denote the speaker instead of a
     # Character. This is best used in temporary situations, like in the
@@ -306,14 +306,14 @@ label popcorn_vn():
     "???" "Oh my~ It's so serious in here."
     show chairman_han at vn_right
     chief_vn "I hope we are not interfering too much."
-    ja_vn surprised "Mr. Chairman...! And..."
+    ja surprised "Mr. Chairman...! And..."
     hide jaehee
     show sarah excited at vn_midleft
     sarah_vn "I'm Sarah~! We met yesterday, right? Haha! I just came here to say hello."
     chief_vn "I heard that this meeting is very important, so I thought it would be very educational for Sarah here."
     hide sarah
     show jumin side angry at vn_farleft
-    ju_vn "You've left your schedule behind to come, how passionate of you."
+    ju "You've left your schedule behind to come, how passionate of you."
     chief_vn happy "Haha, no need to be so stern. Sarah, go and sit there."
     hide chairman_han
     hide jumin
@@ -326,7 +326,7 @@ label popcorn_vn():
         extend ''   # You should put this after every menu option; it
                     # will keep the previous line of text on the screen
         "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?":
-            m_vn "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?"
+            m "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?"
         # Although this menu has only one option, you can continue to 
         # add menu options and dialogue as you would in a chatroom menu
     
@@ -338,7 +338,7 @@ label popcorn_vn():
     sarah_vn "Oh... it's nothing, hahaha."
     hide chairman_han
     show jaehee worried glasses at vn_midright
-    ja_vn "Mr. Han... I think we should postpone this meeting."
+    ja "Mr. Han... I think we should postpone this meeting."
     sarah_vn excited "What are you talking about~! I won't interfere at all! I'm just happy to see Jumin looking so handsome standing right there~!!"
     hide jaehee
     show chairman_han happy at vn_right
@@ -348,14 +348,14 @@ label popcorn_vn():
     menu:
         extend ''
         "I thought you were wearing clothes from the dollar store... but oh, I see the label. Sorry!":
-            m_vn "I thought you were wearing clothes from the dollar store... but oh, I see the label. Sorry!"
+            m "I thought you were wearing clothes from the dollar store... but oh, I see the label. Sorry!"
             
     sarah_vn stressed "!?!?"
     hide sarah
     show jumin side neutral at vn_farleft
-    ju_vn "Father, please take a look at the reports from last quarter since you've come such a long way. There's a pile of documents that need your signature."
+    ju "Father, please take a look at the reports from last quarter since you've come such a long way. There's a pile of documents that need your signature."
     chief_vn neutral "Yes, give them here. I guess I made all of you uncomfortable. I'll be at your office signing the documents, so why don't you talk with Sarah?"
-    ju_vn "Alright."
+    ju "Alright."
     hide jumin
     show chairman_han happy
     show sarah happy at vn_midleft
@@ -369,10 +369,10 @@ label popcorn_vn():
     # transformation pages for more
     show jaehee neutral glasses at center with easeinleft
     hide chairman_han with easeoutright
-    ja_vn "This way, Mr. Chairman."
+    ja "This way, Mr. Chairman."
     show jaehee at vn_midright with ease
     show jumin side thinking at vn_farleft with easeinleft
-    ju_vn "...He's gone."    
+    ju "...He's gone."    
     hide jumin
     hide jaehee
     show sarah smirk at vn_center
@@ -386,10 +386,10 @@ label popcorn_vn():
     sarah_vn "Haha... but Jumin, who [is_are] [they]? An intern??"
     hide sarah
     show jaehee surprised glasses at vn_midright
-    ja_vn "Are you talking about [name]...? Oh..."
+    ja "Are you talking about [name]...? Oh..."
     show jumin side neutral at vn_farleft
-    ju_vn "[They_re] my friend."
-    ja_vn worried "Something like that..."
+    ju "[They_re] my friend."
+    ja worried "Something like that..."
     hide jaehee
     hide jumin
     show sarah smirk at vn_center
@@ -403,7 +403,7 @@ label popcorn_vn():
     menu:
         extend ''
         "Sarah, don't take it the wrong way. Seeing you wear last season's Shanel just reminded me of when I was little, so I guess I wasn't polite enough.":
-            m_vn "Sarah, don't take it the wrong way. Seeing you wear last season's Shanel just reminded me of when I was little, so I guess I wasn't polite enough."
+            m "Sarah, don't take it the wrong way. Seeing you wear last season's Shanel just reminded me of when I was little, so I guess I wasn't polite enough."
       
     show sarah stressed
     sarah_vn "Ha... haha... last season Shanel? This is from the last FW collection. You must have a lot going for you to call that last season."
@@ -411,10 +411,10 @@ label popcorn_vn():
     sarah_vn "I guess you were super elegant and sensible like me when you were little? But you've grown up to become really nosy and tacky. I should be careful not to end up like that."
     hide sarah
     show jaehee worried glasses at vn_midright
-    ja_vn "Sarah... that was a bit..."
+    ja "Sarah... that was a bit..."
     show jumin side neutral at vn_farleft
-    ju_vn "...Just leave them. It's fun to watch."
-    ja_vn "Mr. Han, I don't think you should call this fun..."
+    ju "...Just leave them. It's fun to watch."
+    ja "Mr. Han, I don't think you should call this fun..."
     
     menu:
         extend ''
@@ -422,7 +422,7 @@ label popcorn_vn():
             hide jaehee
             hide jumin
             show sarah smirk at vn_center
-            m_vn "But... where did you get your eyes done? I feel like you got a boob job too."
+            m "But... where did you get your eyes done? I feel like you got a boob job too."
     
     show sarah stressed       
     sarah_vn "What?! These are natural!"
@@ -430,17 +430,17 @@ label popcorn_vn():
     menu:
         extend ''
         "I don't think so... But whatever, sure.":
-            m_vn "I don't think so... But whatever, sure."
+            m "I don't think so... But whatever, sure."
             
     show sarah smirk
     sarah_vn "Ha... hahahaha..."
     hide sarah
     show jaehee worried glasses at vn_midright
-    ja_vn "Sarah seems to be really mad right now..."
+    ja "Sarah seems to be really mad right now..."
     show jumin side surprised at vn_farleft
-    ju_vn "But [name] looks very collected. Assistant Kang, do you have any popcorn?"
+    ju "But [name] looks very collected. Assistant Kang, do you have any popcorn?"
     show jaehee thinking
-    ja_vn "I bought some the other day to snack on when working late... I'll bring you some."
+    ja "I bought some the other day to snack on when working late... I'll bring you some."
     hide jaehee
     hide jumin
     show sarah stressed at vn_center
@@ -449,14 +449,14 @@ label popcorn_vn():
     menu:
         extend ''
         "Jumin styled my hair himself this morning. I don't need anyone else to approve, so I don't know what to tell you, haha...":
-            m_vn "Jumin styled my hair himself this morning. I don't need anyone else to approve, so I don't know what to tell you, haha..."
+            m "Jumin styled my hair himself this morning. I don't need anyone else to approve, so I don't know what to tell you, haha..."
             
     sarah_vn "What?!?!?!?!? Are you serious?!"
     hide sarah
     show jumin front happy at vn_left
-    ju_vn "The popcorn tastes like honey and butter, strange."
+    ju "The popcorn tastes like honey and butter, strange."
     show jaehee happy glasses at vn_midright
-    ja_vn "That's been popular these days."
+    ja "That's been popular these days."
     hide jaehee
     hide jumin
     show sarah stressed at vn_center
@@ -466,14 +466,14 @@ label popcorn_vn():
     menu:
         extend ''
         "I think the problem here is that his whole family will be ruined once he marries you.":
-            m_vn "I think the problem here is that his whole family will be ruined once he marries you."
+            m "I think the problem here is that his whole family will be ruined once he marries you."
     
     sarah_vn stressed "Wow, is there anything you can't say?!"
     hide sarah
     show jaehee surprised glasses at vn_midright
-    ja_vn "...Should we stop them?"
+    ja "...Should we stop them?"
     show jumin front happy at vn_left
-    ju_vn "[name]'s talented."
+    ju "[name]'s talented."
     sarah_vn "I'll never let him go!! Let's decide today who gets to live and who dies!! Jumin!!! Argh!! [They_re] pulling my hair!!"
     
     scene bg black with fade

@@ -223,7 +223,7 @@ Rainbow Unicorn""",
 
 ## The Character variable of the person who should talk about this 
 ## guest in the long description
-z_vn,
+z,
 
 ## What the previous character says about this guest
 "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~",
@@ -394,10 +394,10 @@ the wrong response."""
 
 ## The Character variable of the person who should talk about this 
 ## guest in the long description
-s_vn,
+s,
 
 ## What the previous character says about this guest
-"Here, the character from the last variable (s_vn) will say this.",
+"Here, the character from the last variable (s) will say this.",
 
 ## The expression/displayable name of the character to show
 'example front party happy',

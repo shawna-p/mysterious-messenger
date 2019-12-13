@@ -9,7 +9,9 @@ init -5 python:
                 participant_pic=False, heart_color='#000000', 
                 cover_pic=False, status=False, bubble_color=False, 
                 glow_color=False, emote_list=False, voicemail=False,
-                right_msgr=False, homepage_pic=False):               
+                right_msgr=False, homepage_pic=False,
+                phone_char=False,
+                vn_char=False):               
                 
             # The name used in the chatroom e.g. '707'
             self.name = name            
@@ -101,8 +103,6 @@ init -5 python:
                 self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.png",
                                             25,25)
 
-            
-
             # Entirely optional; this is a list of this character's
             # available emotes, used for the (incomplete) 
             # chatroom generator
@@ -111,6 +111,17 @@ init -5 python:
             # Used for text messaging
             self.text_msg = TextMessage()
             self.real_time_text = False
+
+            # Used so the program knows how to display this character's
+            # dialogue in phone calls and VNs
+            if phone_char:
+                self.phone_char = phone_char
+            else:
+                self.phone_char = store.phone_character
+            if vn_char:
+                self.vn_char = vn_char
+            else:
+                self.vn_char = store.narrator
 
             # Any initialized character should go in all_characters
             if self not in store.all_characters and self.prof_pic:
@@ -244,9 +255,29 @@ init -5 python:
             else:
                 self.real_time_text = False
 
+        ## Allows the ChatCharacter object to act as a proxy for
+        ## the VN and phone call Character objects
+        def do_extend(self, **kwargs):
+            if store.in_phone_call:
+                self.phone_char.do_extend()
+            elif store.vn_choice:
+                self.vn_char.do_extend()
+
         ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, 
                     bounce=False, specBubble=None, **kwargs):
+
+            # Allows you to still use this object even in phone
+            # calls and VN mode
+            if store.in_phone_call:
+                # If in phone call, use the phone_call character
+                self.phone_char(what, **kwargs)
+                return
+            elif store.vn_choice:
+                # If in VN mode, use VN character
+                self.vn_char(what, **kwargs)
+                return
+
             # If the player is texting, add this to the character's
             # TextMessage object instead
             if store.text_person is not None:
@@ -280,107 +311,7 @@ init -5 python:
                     
                 addchat(self, what, pauseVal=pauseVal, img=img, 
                             bounce=bounce, specBubble=specBubble)
-
-##****************************
-## Chatroom Characters
-##****************************
-
-## Chatroom character declarations
-## Format is: 
-##  name - nickname for the chatrooms
-##  file_id - short form appended to file names like speech bubbles
-##  prof_pic - profile pic (110x110 - 314x314)
-##  participant_pic - pic that shows they're present in a chatroom
-##  heart_color - hex number of their heart colour
-##  cover_pic/status  - as stated
-##  bubble_color - colour of their regular speech bubbles. If not given,
-##              the program looks for a bubble using the character's file_id
-##  glow_color - same as above, for glowing speech bubbles
-##  voicemail - generally set at the end of a chatroom, 
-##              not during definition time
-##  emote_list - used for chatroom creation (can be left False
-##               if you don't need it/don't know what to do with it)
-##  right_msgr - indicates this character will send messages from the right
-##               side of the screen (this is usually true only for
-##               MC, and it is automatically False for everyone else)
-##  homepage_pic - the image used in the chat_hub screen to show if a 
-##                 character has updated their profile
-
-# This list populates itself with every character in the game
-default all_characters = [] 
-
-default ja = ChatCharacter("Jaehee Kang", 'ja', 
-                'Profile Pics/Jaehee/ja-default.png', 
-                'Profile Pics/ja_chat.png', "#d0b741", 
-                "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
-                emote_list=jaehee_emotes,
-                homepage_pic="Profile Pics/main_profile_jaehee.png")
-default ju = ChatCharacter("Jumin Han", 'ju', 
-                'Profile Pics/Jumin/ju-default.png', 
-                'Profile Pics/ju_chat.png', "#a59aef", 
-                "Cover Photos/profile_cover_photo.png", "Jumin's status", 
-                emote_list=jumin_emotes,
-                homepage_pic="Profile Pics/main_profile_jumin.png")
-default m = ChatCharacter("[persistent.name]", 'm', 
-                persistent.MC_pic, right_msgr=True)
-default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
-                'Profile Pics/r_chat.png', "#b81d7b", 
-                "Cover Photos/profile_cover_photo.png", "Ray's status", 
-                emote_list=ray_emotes,
-                homepage_pic="Profile Pics/main_profile_ray.png")
-default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
-                'Profile Pics/ri_chat.png', "#fcef5a", 
-                "Cover Photos/profile_cover_photo.png", "Rika's status", 
-                emote_list=rika_emotes,
-                homepage_pic="Profile Pics/main_profile_rika.png")
-default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.png', 
-                'Profile Pics/s_chat.png', "#ff2626", 
-                "Cover Photos/profile_cover_photo.png", "707's status", 
-                emote_list=seven_emotes,
-                homepage_pic="Profile Pics/main_profile_seven.png")
-default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
-                'Profile Pics/sa_chat.png', "#b81d7b", 
-                "Cover Photos/profile_cover_photo.png", "Saeran's status", 
-                emote_list=saeran_emotes,
-                homepage_pic="Profile Pics/main_profile_sa1.png")
-default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
-                'Profile Pics/u_chat.png', "#ffffff")
-default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.png', 
-                'Profile Pics/v_chat.png', "#50b2bc", 
-                "Cover Photos/profile_cover_photo.png", "V's status", 
-                emote_list=v_emotes,
-                homepage_pic="Profile Pics/main_profile_v.png")
-default y = ChatCharacter("Yoosung★", 'y', 
-                'Profile Pics/Yoosung/yoo-default.png', 
-                'Profile Pics/y_chat.png', "#31ff26", 
-                "Cover Photos/profile_cover_photo.png", "Yoosung's status", 
-                emote_list=yoosung_emotes,
-                homepage_pic="Profile Pics/main_profile_yoosung.png")
-default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
-                'Profile Pics/z_chat.png', "#c9c9c9", 
-                "Cover Photos/profile_cover_photo.png", "Zen's status", 
-                emote_list=zen_emotes,
-                homepage_pic="Profile Pics/main_profile_zen.png")
-
-# These are special 'characters' for additional features
-default special_msg = ChatCharacter("msg")
-default filler = ChatCharacter("filler")
-default answer = ChatCharacter('answer', 'delete')
-default chat_pause = ChatCharacter('pause', 'delete')
-
-# This list is used *specifically* to display characters you can
-# see on the main menu -- they have profiles and show up in your
-# phone contacts
-default character_list = [ju, z, s, y, ja, v, m, r, ri]
-# This is the list of characters who you can see your heart
-# points for in the Profile screen. Currently it is a duplicate
-# of the above list, but without 'm'. You could also write it as
-# default heart_point_chars = [ju, ja, s, y, z] for example
-# Every character in the list should have an image called 
-# 'greet ' + their file id
-default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
-
-                       
+     
                         
 # ****************************
 # Phone Call Characters
@@ -534,6 +465,122 @@ default sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
 default chief_vn = Character("Chief Han", kind=vn_character, 
                                         image='chairman_han')
 
+
+##****************************
+## Chatroom Characters
+##****************************
+
+## Chatroom character declarations
+## Format is: 
+##  name - nickname for the chatrooms
+##  file_id - short form appended to file names like speech bubbles
+##  prof_pic - profile pic (110x110 - 314x314)
+##  participant_pic - pic that shows they're present in a chatroom
+##  heart_color - hex number of their heart colour
+##  cover_pic/status  - as stated
+##  bubble_color - colour of their regular speech bubbles. If not given,
+##              the program looks for a bubble using the character's file_id
+##  glow_color - same as above, for glowing speech bubbles
+##  voicemail - generally set at the end of a chatroom, 
+##              not during definition time
+##  emote_list - used for chatroom creation (can be left False
+##               if you don't need it/don't know what to do with it)
+##  right_msgr - indicates this character will send messages from the right
+##               side of the screen (this is usually true only for
+##               MC, and it is automatically False for everyone else)
+##  homepage_pic - the image used in the chat_hub screen to show if a 
+##                 character has updated their profile
+##  phone_char - The phone character you defined for this character earlier
+##               (usually just the character's short form + _phone)
+##  vn_char - The VN character you defined for this character earlier
+##              (usually just the character's short form + _vn)
+
+# This list populates itself with every character in the game
+default all_characters = [] 
+
+default ja = ChatCharacter("Jaehee Kang", 'ja', 
+                'Profile Pics/Jaehee/ja-default.png', 
+                'Profile Pics/ja_chat.png', "#d0b741", 
+                "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
+                emote_list=jaehee_emotes,
+                homepage_pic="Profile Pics/main_profile_jaehee.png",
+                phone_char=ja_phone, vn_char=ja_vn)
+default ju = ChatCharacter("Jumin Han", 'ju', 
+                'Profile Pics/Jumin/ju-default.png', 
+                'Profile Pics/ju_chat.png', "#a59aef", 
+                "Cover Photos/profile_cover_photo.png", "Jumin's status", 
+                emote_list=jumin_emotes,
+                homepage_pic="Profile Pics/main_profile_jumin.png",
+                phone_char=ju_phone, vn_char=ju_vn)
+default m = ChatCharacter("[persistent.name]", 'm', 
+                persistent.MC_pic, right_msgr=True,
+                phone_char=m_phone, vn_char=m_vn)
+default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
+                'Profile Pics/r_chat.png', "#b81d7b", 
+                "Cover Photos/profile_cover_photo.png", "Ray's status", 
+                emote_list=ray_emotes,
+                homepage_pic="Profile Pics/main_profile_ray.png",
+                phone_char=r_phone, vn_char=r_vn)
+default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
+                'Profile Pics/ri_chat.png', "#fcef5a", 
+                "Cover Photos/profile_cover_photo.png", "Rika's status", 
+                emote_list=rika_emotes,
+                homepage_pic="Profile Pics/main_profile_rika.png",
+                phone_char=ri_phone, vn_char=ri_vn)
+default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.png', 
+                'Profile Pics/s_chat.png', "#ff2626", 
+                "Cover Photos/profile_cover_photo.png", "707's status", 
+                emote_list=seven_emotes,
+                homepage_pic="Profile Pics/main_profile_seven.png",
+                phone_char=s_phone, vn_char=s_vn)
+default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
+                'Profile Pics/sa_chat.png', "#b81d7b", 
+                "Cover Photos/profile_cover_photo.png", "Saeran's status", 
+                emote_list=saeran_emotes,
+                homepage_pic="Profile Pics/main_profile_sa1.png",
+                phone_char=sa_phone, vn_char=sa_vn)
+default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
+                'Profile Pics/u_chat.png', "#ffffff",
+                phone_char=u_phone, vn_char=u_vn)
+default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.png', 
+                'Profile Pics/v_chat.png', "#50b2bc", 
+                "Cover Photos/profile_cover_photo.png", "V's status", 
+                emote_list=v_emotes,
+                homepage_pic="Profile Pics/main_profile_v.png",
+                phone_char=v_phone, vn_char=v_vn)
+default y = ChatCharacter("Yoosung★", 'y', 
+                'Profile Pics/Yoosung/yoo-default.png', 
+                'Profile Pics/y_chat.png', "#31ff26", 
+                "Cover Photos/profile_cover_photo.png", "Yoosung's status", 
+                emote_list=yoosung_emotes,
+                homepage_pic="Profile Pics/main_profile_yoosung.png",
+                phone_char=y_phone, vn_char=y_vn)
+default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
+                'Profile Pics/z_chat.png', "#c9c9c9", 
+                "Cover Photos/profile_cover_photo.png", "Zen's status", 
+                emote_list=zen_emotes,
+                homepage_pic="Profile Pics/main_profile_zen.png",
+                phone_char=z_phone, vn_char=z_vn)
+
+# These are special 'characters' for additional features
+default special_msg = ChatCharacter("msg")
+default filler = ChatCharacter("filler")
+default answer = ChatCharacter('answer', 'delete')
+default chat_pause = ChatCharacter('pause', 'delete')
+
+# This list is used *specifically* to display characters you can
+# see on the main menu -- they have profiles and show up in your
+# phone contacts
+default character_list = [ju, z, s, y, ja, v, m, r, ri]
+# This is the list of characters who you can see your heart
+# points for in the Profile screen. Currently it is a duplicate
+# of the above list, but without 'm'. You could also write it as
+# default heart_point_chars = [ju, ja, s, y, z] for example
+# Every character in the list should have an image called 
+# 'greet ' + their file id
+default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
+
+                  
 ## *************************************
 ## Character VN Expressions Cheat Sheet
 ## *************************************

@@ -331,7 +331,7 @@ init python:
             # they have attended the party
             self.personal_info = personal_info
             # The Character object of the person who is going to talk
-            # about this guest (e.g. z_vn)
+            # about this guest (e.g. z)
             self.comment_who = comment_who
             # What the above character will say about the guest
             self.comment_what = comment_what

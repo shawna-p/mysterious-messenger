@@ -10,7 +10,7 @@ init python:
             filepath = "cg " + what
         # Name of the album should be the letters before the first _
         # e.g. "cg common_1" -> common
-        album_name = what.split('_')[0] + '_album'
+        album_name = filepath.split('_')[0].split(' ')[1] + '_album'
         cg_list = getattr(store.persistent, album_name)
 
         for photo in cg_list:

@@ -17,7 +17,7 @@
     # Begin and end the phone call like you would anywhere else
     call phone_begin 
     
-    u_phone """
+    u """
     
     Oh! You picked up; I'm so relieved.
     
@@ -29,13 +29,13 @@
     menu:
         extend ''
         "Testing? What would I need to do?":
-            m_phone "Testing? What would I need to do?"
+            m "Testing? What would I need to do?"
         "Sounds like a lot of work.":
-            m_phone "Sounds like a lot of work."
-            u_phone "Oh, it's not bad, I promise!"
+            m "Sounds like a lot of work."
+            u "Oh, it's not bad, I promise!"
         "I've actually already seen this; can you take me to the home screen?" if persistent.HP:
-            m_phone "I've actually already seen this; can you take me to the home screen?"
-            u_phone "Oh, sure! See you later~"
+            m "I've actually already seen this; can you take me to the home screen?"
+            u "Oh, sure! See you later~"
             # This is pretty specific to this particular chat; you
             # should not have to do this. It simply makes it easier
             # for players who have already played through the game
@@ -45,7 +45,7 @@
             $ vn_choice = True
             jump press_save_and_exit
             
-    u_phone """
+    u """
     
     All you have to do is use the app, and then you let me know if you run into problems or bugs.
     
@@ -60,9 +60,9 @@
     menu:
         extend ''
         "I suppose I'll give it a shot.":
-            m_phone "I suppose I'll give it a shot."
+            m "I suppose I'll give it a shot."
             
-    u_phone """
+    u """
     
     You will? Wonderful!
 
@@ -78,22 +78,22 @@
             $ persistent.screenshake = False
             $ persistent.banners = False
             $ persistent.hacking_effects = False
-            m_phone "I don't want to see any flashing animations or screenshake."
-            u_phone "Understandable! I've turned all those animations off for you."
+            m "I don't want to see any flashing animations or screenshake."
+            u "Understandable! I've turned all those animations off for you."
 
         "I'm okay with some effects but not with others.":
             $ persistent.hacking_effects = False
-            m_phone "I'm okay with some effects but not with others."
-            u_phone "Okay! I've just turned the hacking effect off for now since it shows up in the next chatroom."
+            m "I'm okay with some effects but not with others."
+            u "Okay! I've just turned the hacking effect off for now since it shows up in the next chatroom."
 
         "You can keep all the animations on.":
             $ persistent.screenshake = True
             $ persistent.banners = True
             $ persistent.hacking_effects = True
-            m_phone "You can keep all the animations on."
-            u_phone "Got it!"
+            m "You can keep all the animations on."
+            u "Got it!"
 
-    u_phone """
+    u """
 
     If you ever want to change which animations you see, you can find toggles for each of them in the {b}Settings{/b}.
 
