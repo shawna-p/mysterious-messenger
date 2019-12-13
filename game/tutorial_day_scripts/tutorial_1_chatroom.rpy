@@ -193,7 +193,7 @@ label emojis():
         "Done":
             s "{=sser2}The last thing I'm here to explain is how to post CGs.{/=sser2}" (pauseVal=0)
             s "{=curly}That means images like this!{/=curly}" (bounce=True)
-            s "s/cg-1.png" (img=True)
+            s "s_1" (img=True)
             s "{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}"
             s "You can post CGs too!"
             call answer
@@ -201,25 +201,27 @@ label emojis():
                 "I can?":
                     m "I can?" (pauseVal=0)
                     s "Yeah! Give it a try!" 
-                    m "s/cg-1.png" (img=True)                    
+                    # You can either write the "cg s_1" or just "s_1" so long
+                    # as you check off (img=True)
+                    m "cg s_1" (img=True)                    
                 "(Try posting)":
-                    m "s/cg-1.png" (img=True, pauseVal=0)
+                    m "s_1" (img=True, pauseVal=0)
             m "{image=seven_wow}" (img=True)
             s "Yeah, just like that!"
             s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
-            s "{=ser1}You'll need to start by putting the image in the correct album in the CGs folder.{/=ser1}"
-            s "{=ser1}Then, you can define an Album object in {b}gallery.rpy{/b} using the file path.{/=ser1}"
+            s "{=ser1}You'll need to start by defining the image in {b}gallery.rpy{/b}.{/=ser1}"
+            s "{=ser1}Then, you can define an Album object in {b}gallery.rpy{/b} using the image name, in quotes.{/=ser1}"
             s "{=ser1}It should be in the list of the person whose gallery the image will be unlocked in.{/=ser1}"
-            s "{=ser1}For example, that last image is defined under \"s_album\" as {b}Album(\"s_album/cg-1.png\"){/b}{/=ser1}"
+            s "{=ser1}For example, that last image is defined under \"s_album\" as {b}Album(\"cg s_1\"){/b}{/=ser1}"
             s "{=ser1}The CG should be 750x1334 pixels, and it will be automatically resized for the chatroom.{/=ser1}"
             s "{=ser1}Then to use it, you type in a simplified version of the path to the dialogue column,{/=ser1}"
             s "{=ser1}and check off the \"Image\" modifier in the spreadsheet.{/=ser1}"
-            s "{=ser1}Simplified path just means {b}album ID/{/b} + {b}name of your cg{/b}.{/=ser1}"
-            s "{=ser1}To use the example from before, you write {b}s/cg-1.png{/b} into the Dialogue column.{/=ser1}"
+            s "{=ser1}Simplified path just means {b}album ID{/b} + {b}the number/identifier of your cg{/b}.{/=ser1}"
+            s "{=ser1}To use the example from before, you write {b}s_1{/b} into the Dialogue column.{/=ser1}"
             s "{=blocky}If you don't also check off \"Image\", it'll just show up in text, like this:{/=blocky}"
-            s "s/cg-1.png"
+            s "s_1"
             s "But if you check off the \"Image\" modifier, you get this:" (bounce=True, specBubble="round2_m")
-            s "s/cg-1.png" (img=True)
+            s "s_1" (img=True)
             s "{=sser2}The ability to click the image/the full screen version is automatically taken care of for you.{/=sser2}" 
             s "{=sser2}It'll also unlock it in the Album if it's your first time seeing the CG!{/=sser2}" 
             s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")

@@ -17,13 +17,14 @@ python early:
                 self.thumbnail = Transform(Crop((0, 0, 750, 750), img), 
                                                         size=(155,155))
             self.unlocked = False
+            self.__seen_in_album = False
             
         def unlock(self):
             global new_cg
             if not self.unlocked:
                 self.unlocked = True
                 # Set a var so Album shows "NEW"
-                new_cg = True            
+                new_cg += 1            
             renpy.retain_after_load()
             
         def return_thumbnail(self):
@@ -31,6 +32,22 @@ python early:
                 return self.thumbnail
             else:
                 return self.locked_img
+        
+        def check_if_seen(self):
+            # Check if the CG was 'shown' to the player
+            if renpy.seen_image(self.img):
+                self.unlock()
+
+        @property
+        def seen_in_album(self):
+            return self.__seen_in_album
+
+        @seen_in_album.setter
+        def seen_in_album(self, new_bool):
+            if getattr(store, 'new_cg', False) and not self.__seen_in_album:
+                if new_bool:
+                    store.new_cg -= 1
+            self.__seen_in_album = new_bool
                 
         def __eq__(self, other):
             if getattr(other, 'img', False):
@@ -43,7 +60,7 @@ python early:
                 return self.img != other.img
             else:
                 return False
-                
+          
 init python:
 
     ## This function updates p_album to have
@@ -53,6 +70,21 @@ init python:
             if photo not in p_album:
                 p_album.append(photo)
         return p_album
+
+    ## Makes sure all seen images are unlocked
+    ## in the player's album
+    def check_for_CGs(all_albums):
+        for p, a in all_albums:
+            # Only need to go through persistent albums
+            for cg in p:
+                cg.check_if_seen()
+        return
+
+    def has_unseen(album):
+        for photo in album:
+            if not photo.seen_in_album and photo.unlocked:
+                return True
+        return False
         
     ## This is a callback for the translucent image displayed
     ## on top of the CGs. It is draggable to the left and right
@@ -87,6 +119,7 @@ init python:
                         if al[i].unlocked:
                             prev_cg_right = fullsizeCG
                             fullsizeCG = al[i].img
+                            al[i].seen_in_album = True
                             album_info_for_CG[3] = i
                             found_item = True
                             if swipe_anim == "right":
@@ -106,6 +139,7 @@ init python:
                         if al[i].unlocked:
                             prev_cg_left = fullsizeCG
                             fullsizeCG = al[i].img
+                            al[i].seen_in_album = True
                             album_info_for_CG[3] = i
                             found_item = True
                             if swipe_anim == "left":
@@ -130,15 +164,21 @@ init python:
 
 # CGs are automatically resized in the chatroom, but you have to
 # make sure the original dimensions are 750x1334
-image general_cg1 = "CGs/common_album/cg-1.png"
-image general_cg2 = "CGs/common_album/cg-2.png"
-image seven_cg1 = "CGs/s_album/cg-1.png"
-image saeran_cg1 = "CGs/r_album/cg-1.png"
+# The name of the cg must be "cg " + the name of the album minus
+# "album" e.g. ju_album -> "ju", common_album -> "common"
+# + a number or some other indicator of what the image is
+image cg common_1 = "CGs/common_album/cg-1.png"
+image cg common_2 = "CGs/common_album/cg-2.png"
+image cg common_3 = "CGs/common_album/cg-3.png"
+
+image cg s_1 = "CGs/s_album/cg-1.png"
+
+image cg r_1 = "CGs/r_album/cg-1.png"
 
 default fullsizeCG = "general_cg1"
 # This lets the player know if there are new CGs in
 # the album
-default new_cg = False
+default new_cg = 0
 
 image cg_frame = 'CGs/photo_frame.png'
 image cg_frame_dark = 'CGs/photo_frame_dark.png'
@@ -186,15 +226,15 @@ default persistent.common_album = []
 ## declare all of the Album objects you need
 default ja_album = []
 default ju_album = []
-default r_album = [ Album("CGs/r_album/cg-1.png") ]
-default s_album = [ Album("CGs/s_album/cg-1.png") ]
+default r_album = [ Album("cg r_1") ]
+default s_album = [ Album("cg s_1") ]
 default u_album = []
 default v_album = []
 default y_album = []
 default z_album = []
-default common_album = [ Album("CGs/common_album/cg-1.png"),
-                        Album("CGs/common_album/cg-2.png"),
-                        Album("CGs/common_album/cg-3.png")]
+default common_album = [ Album("cg common_1"),
+                        Album("cg common_2"),
+                        Album("cg common_3")]
 
 # This list allows the program to automatically merge the persistent
 # and regular albums each time the game is started
@@ -276,7 +316,7 @@ screen char_album(caption, name, album, cover):
                 xysize (175, 150)
                 align (0.5, 0.5)
                 ## Window with the tilted image
-                window at album_tilt:
+                frame at album_tilt:
                     xysize (157, 137)
                     foreground 'cg_frame_dark'
                     background cover
@@ -290,6 +330,9 @@ screen char_album(caption, name, album, cover):
                     foreground 'cg_frame'
                     background cover
                     align (0.5, 0.5)
+
+                if has_unseen(album):
+                    add 'new_sign' align (1.0, 0.0)
                     
             frame:
                 xysize (241, 64)
@@ -348,23 +391,39 @@ screen character_gallery(album, caption, name):
                 for index, photo in enumerate(album):
                     imagebutton:
                         idle photo.return_thumbnail()
-                        if photo.unlocked:                        
-                            action [SetVariable("fullsizeCG", photo.img), 
-                                    SetVariable('close_visible', True),
-                                    SetVariable('album_info_for_CG',
-                                        [album, caption, name, index]),
-                                    Show('viewCG_fullsize_album',
-                                        album=album, caption=caption,
-                                        name=name)]
-                        else:
-                            action Show("confirm", 
+                        if not photo.seen_in_album and photo.unlocked:
+                            foreground 'new_sign'
+                        action If(photo.unlocked,                      
+                            [SetVariable("fullsizeCG", photo.img), 
+                            SetField(photo, 'seen_in_album', True),
+                            SetVariable('close_visible', True),
+                            SetVariable('album_info_for_CG',
+                                [album, caption, name, index]),
+                            Show('viewCG_fullsize_album', album=album, 
+                                caption=caption, name=name)],
+                            
+                            Show("confirm", 
                                     message="This image is not yet unlocked",
-                                    yes_action=Hide('confirm'))                    
+                                    yes_action=Hide('confirm')))                  
                 
                 # This fills out the rest of the grid
                 for i in range((4*num_rows) - len(album)):
                     null
  
+style album_text_short:
+    align (0.5, 0.5)
+    text_align 0.5
+    color '#fff'
+    font gui.sans_serif_1
+    size 30
+    
+style album_text_long:
+    align (0.5, 0.5)
+    text_align 0.5
+    color '#fff'
+    font gui.sans_serif_1
+    size 25
+    
 ## Some additional variables specifically used
 ## for the next label and screen
 default album_info_for_CG = []

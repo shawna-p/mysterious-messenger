@@ -283,7 +283,13 @@ label good_end_party():
     u_vn neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
     u_vn "Then you can reset the game so they can play through it again."
     u_vn smile "As always, there's more information on that in the User Guide."
+    u_vn neutral "However, before you go, there's one more thing I can show you:"
+    u_vn "How to show a CG in a Story Mode section."
+    u_vn smile "I'll show it to you just before I go, and then you'll be able to see it in your album."
     u_vn happy "Thanks for playing through Tutorial Day!"
+    scene cg common_3
+    pause
+    # If you need to later, you can then write `hide cg`
     $ ending = 'good'
     jump vn_end_route
     

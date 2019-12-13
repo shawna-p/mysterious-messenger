@@ -351,6 +351,8 @@ label press_save_and_exit():
         # Deliver emails and trigger the next chatroom (if applicable)
         $ deliver_emails()   
         $ next_chatroom()
+        # Make sure any images shown are unlocked
+        $ check_for_CGs(all_albums)
         $ renpy.retain_after_load()
         # Check to see if the honey buddha chips should be available
         if not chips_available:

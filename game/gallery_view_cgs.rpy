@@ -3,22 +3,32 @@ init python:
     ## This corrects the dialogue into a filepath for the program
     ## and unlocks the CG or adds it to the to-unlock list
     def cg_helper(what, who=False, instant_unlock=False):
-        album, cg_name = what.split('/')
-        if album[-6:] != '_album':
-            album += '_album'
-        # These will be equal to a path like
-        # CGs/common_album/cg-1.png
-        filepath = 'CGs/' + album + '/' + cg_name
-        cg_list = getattr(store.persistent, album)
+        if what[:3] == "cg ":
+            # don't need to add it
+            filepath = what
+        else:
+            filepath = "cg " + what
+        print("CG path", filepath)
+        # Name of the album should be the letters before the first _
+        # e.g. "cg common_1" -> common
+        album_name = what.split('_')[0] + '_album'
+        print("album_name", album_name)
+        cg_list = getattr(store.persistent, album_name)
+
         for photo in cg_list:
             if Album(filepath) == photo:
                 if instant_unlock or not who or who.right_msgr:
                     photo.unlock()
                 elif who:
                     who.text_msg.cg_unlock_list.append([cg_list, photo])
+
         return filepath
 
     def smallCG(bigCG):
+        if bigCG[:3] == "cg ":
+            pass
+        else:
+            bigCG = "cg " + bigCG
         return Transform(bigCG, zoom=0.35)
 
 #####################################
@@ -80,3 +90,11 @@ screen viewCG_fullsize():
                 action [Call("play")]
         
         text "Close" style "CG_close"
+
+# Style for the Close button when viewing a fullscreen CG
+style CG_close is text:
+    xalign 0.06
+    yalign 0.016
+    font gui.sans_serif_1
+    color "#ffffff"
+    size 45

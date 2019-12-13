@@ -139,7 +139,7 @@ label menu_a2():
     # Because this is real-time, you can continue to the conversation
     # before showing the player a menu
     r "It will look like this:"
-    r "r/cg-1.png" (img=True)
+    r "r_1" (img=True)
     
     # You may notice these are written just like chatrooms
     call answer
@@ -165,13 +165,13 @@ label menu_a3():
     menu:
         # The player can post both CGs and emojis
         "(Post a photo)":
-            m "common/cg-2.png" (pauseVal=0, img=True)
+            m "common_2" (pauseVal=0, img=True)
             m "You mean like this?"
         "(Post an emoji)":
             m "{image=zen_oyeah}" (pauseVal=0, img=True)
             m "How's this?"
         "(Post both)":
-            m "common/cg-2.png" (pauseVal=0, img=True)
+            m "common_2" (pauseVal=0, img=True)
             m "{image=zen_oyeah}" (img=True)
             m "What do you think?"
 
