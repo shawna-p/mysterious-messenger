@@ -75,6 +75,7 @@ init -6 python:
         renpy.hide_screen('hide screen text_pop_3')
         renpy.hide_screen('hide screen email_popup')
         hide_stackable_notifications()
+        hide_heart_icons()
         
     ## A displayable prefix function which allows the program
     ## to easily make button hover images

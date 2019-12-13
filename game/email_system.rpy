@@ -179,7 +179,6 @@ init python:
                 
         ## Determines whether or not this guest is attending the party
         def set_attendance(self):
-            print("Setting attendance")
             if self.completed():
                 # 3/3 messages correct
                 self.guest.attending = True
@@ -194,7 +193,6 @@ init python:
                                                             False, False])
                 else:
                     self.guest.attending = False
-            print("Attendance for", self.guest.name, "is", self.guest.attending)
             return
 
         ## Adds the player's message to the guest to the email

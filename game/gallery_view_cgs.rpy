@@ -8,11 +8,9 @@ init python:
             filepath = what
         else:
             filepath = "cg " + what
-        print("CG path", filepath)
         # Name of the album should be the letters before the first _
         # e.g. "cg common_1" -> common
         album_name = what.split('_')[0] + '_album'
-        print("album_name", album_name)
         cg_list = getattr(store.persistent, album_name)
 
         for photo in cg_list:
@@ -84,7 +82,8 @@ screen viewCG_fullsize():
             # Convo is over, just viewing CGs in a text message
             elif textmsg_CG:
                 action [Hide("viewCG_fullsize"), 
-                        Show("text_message_screen", sender=CG_who)]
+                        Show("text_message_screen", sender=CG_who,
+                            animate=False)]
             # From the chatroom, not before an answer button
             else:
                 action [Call("play")]

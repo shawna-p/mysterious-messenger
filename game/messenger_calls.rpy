@@ -277,6 +277,7 @@ label press_save_and_exit():
         hide screen answer_button
         hide screen pause_button
         hide screen messenger_screen
+        $ hide_all_popups()
         stop music
         if _in_replay:
             $ renpy.end_replay()
@@ -351,6 +352,7 @@ label press_save_and_exit():
         # Deliver emails and trigger the next chatroom (if applicable)
         $ deliver_emails()   
         $ next_chatroom()
+        $ hide_all_popups()
         # Make sure any images shown are unlocked
         $ check_for_CGs(all_albums)
         $ renpy.retain_after_load()

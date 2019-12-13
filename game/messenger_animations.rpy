@@ -28,6 +28,7 @@ init python:
                             "stackable_notifications_5"]
         available_screens = [ x for x in possible_screens 
                                 if not renpy.get_screen(x) ]
+        
         if can_pause and len(available_screens) < len(possible_screens):
             renpy.pause(0.1)
         if available_screens:
@@ -46,9 +47,15 @@ init python:
         renpy.hide_screen('stackable_notifications_5')
         return
 
+    # Hide all the heart icon screens
+    def hide_heart_icons():
+        renpy.hide_screen('heart_icon_screen')
+        renpy.hide_screen('hicon2')
+        renpy.hide_screen('hicon3')
+        return
+
 # Call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
-    
     if text_person is None:
         python:            
             if not observing:
