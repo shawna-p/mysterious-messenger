@@ -1,9 +1,6 @@
-
-
-    
 ########################################################               
-## This is the text message hub, where you can click
-## on any of your ongoing text conversations
+## This is the text message hub, where the player can 
+## view any of their ongoing text conversations
 ########################################################
 screen text_message_hub():
 
@@ -28,11 +25,11 @@ screen text_message_hub():
                 xalign 0.5
                 spacing 10
                 for i in all_characters:
-                    # First we display unread messages
+                    # First display unread messages
                     if i.text_msg.msg_list and not i.text_msg.read:
                         use text_hub_display(i)
                 for i in all_characters:
-                    # Now we display read messages
+                    # Next display read messages
                     if i.text_msg.msg_list and i.text_msg.read:                 
                         use text_hub_display(i)
                 
@@ -52,54 +49,35 @@ screen text_hub_display(i):
             last_text = False
             text_time = False
     
-
     
-    button:              
-        if last_text and text_read:                                         
-            background 'message_idle_bkgr'
-            hover_background 'message_hover_bkgr'
-        elif last_text:
-            background 'unread_message_idle_bkgr'
-            hover_background 'unread_message_hover_bkgr'
-        # If there's a label we jump to it, otherwise
-        # we just show the messages
-        if text_label and i.real_time_text:
-            action [SetVariable('CG_who', i),
-                    Function(i.text_msg.mark_read),
-                    Jump(text_label)]
-        else:
-            action [SetVariable('CG_who', i),
-                    Function(i.text_msg.mark_read),
-                    Show('text_message_screen', sender=i)]
-            
+    button:    
+        style_prefix 'text_msg'   
+        selected last_text and text_read
+        # If there's a label jump to it, otherwise
+        # just show the messages
+        action If((text_label and i.real_time_text),
 
-        activate_sound 'audio/sfx/UI/email_next_arrow.mp3'        
-        ysize 150
-        xsize 705
+                    [SetVariable('CG_who', i),
+                    SetField(i.text_msg, 'read', True),
+                    Jump(text_label)],
 
-        hbox:
-            align (0.5, 0.5)
-            spacing 10                                
-            frame:
-                xysize (135, 135)
-                align (0.0, 0.5)
-                add last_text.who.get_pfp(127):
-                    align(0.5, 0.5)
+                    [SetVariable('CG_who', i),
+                    SetField(i.text_msg, 'read', True),
+                    Show('text_message_screen', sender=i, animate=False)])        
+
+        hbox:                               
+            fixed:
+                add last_text.who.get_pfp(127) align(0.5, 0.5)
             
             frame:
-                xysize(380,135)
-                yalign 0.5
+                style_prefix 'text_preview'
                 has vbox
-                align (0.0, 0.5)
-                text last_text.who.name style "save_slot_text"
-                spacing 40     
-                text text_popup_preview(last_text, 16):
-                    style "save_slot_text"
+                text last_text.who.name
+                text text_popup_preview(last_text, 16)
                 
             frame:
-                xysize (150, 135)
+                style_prefix 'text_timestamp'
                 has vbox
-                align (0.5, 0.5)
                 if last_text and not text_read:
                     spacing 30
                 else:
@@ -107,17 +85,55 @@ screen text_hub_display(i):
                 text (text_time.day + '/' + text_time.month_num 
                         + '/' + text_time.year + ' ' 
                         + text_time.twelve_hour + ':' 
-                        + text_time.minute + text_time.am_pm):
-                            style "save_stamp_text"
+                        + text_time.minute + text_time.am_pm)
                 hbox:
-                    spacing 10
-                    xalign 1.0
                     if last_text and text_read:
                         add 'read_text_envelope'
                     else:
                         add 'new_text'
                         add 'new_text_envelope'
-                    
+
+style text_msg_button:
+    selected_background 'message_idle_bkgr'
+    selected_hover_background 'message_hover_bkgr'
+    background 'unread_message_idle_bkgr'
+    hover_background 'unread_message_hover_bkgr'
+    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'        
+    ysize 150
+    xsize 705
+
+style text_msg_hbox:
+    align (0.5, 0.5)
+    spacing 10 
+
+style text_msg_fixed:
+    xysize (135, 135)
+    align (0.0, 0.5)
+
+style text_preview_frame:
+    xysize(380,135)
+    yalign 0.5
+
+style text_preview_vbox:
+    align (0.0, 0.5)
+    spacing 40
+
+style text_preview_text is save_slot_text
+
+style text_timestamp_frame:
+    xysize (150, 135)
+
+style text_timestamp_vbox:
+    align (0.5, 0.5)
+
+style text_timestamp_text is save_stamp_text
+
+style text_timestamp_hbox:
+    spacing 10
+    xalign 1.0
+
+
+
 init python:
     def allocate_text_popup():
         possible_screens = ["text_msg_popup", "text_pop_2", "text_pop_3"]
@@ -137,23 +153,18 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
     #modal True
     zorder 100
     
-
     if len(c.text_msg.msg_list) > 0:
         $ last_msg = c.text_msg.msg_list[-1]
     else:
         $ last_msg = False
         
     frame:
-        maximum(621,373)
-        background 'text_popup_bkgr'
-        xalign 0.5
-        yalign 0.4
+        style_prefix 'text_popup'        
         if hide_screen == 'text_pop_2':
             xoffset -10 yoffset -10
         elif hide_screen == 'text_pop_3':
             xoffset -20 yoffset -20
         imagebutton:
-            align (1.0, 0.22)
             idle 'input_close'
             hover 'input_close_hover'
             if not randint(0,3):
@@ -162,70 +173,114 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
                 action [Hide(hide_screen)]
             
         hbox:
-            yalign 0.05
-            xalign 0.03
-            spacing 15
             add 'new_text_envelope'
-            text 'NEW' color '#73f1cf' yalign 1.0 font gui.sans_serif_1b
+            text 'NEW' 
         
-        vbox:
-            xalign 0.3
-            yalign 0.85
-            spacing 20
+        vbox:            
             hbox:
-                spacing 20                
+                style 'text_popup_hbox2'
                 add c.get_pfp(110)
                 
                 vbox:
-                    spacing 10
+                    style_prefix None
+                    style 'text_popup_vbox2'
                     text "From: " + c.name color '#fff'
                     
                     frame:
-                        xysize(420,130)
-                        padding (10,10)
-                        background 'text_popup_msg'       
-                        text text_popup_preview(last_msg):
-                            size 30 
-                            xalign 0.5 yalign 0.5 
-                            text_align 0.5
+                        style_prefix 'text_popup_preview'
+                        text text_popup_preview(last_msg)
             
             if (not (renpy.get_screen('in_call') 
                     or renpy.get_screen('incoming_call') 
                     or renpy.get_screen('outgoing call'))):
                 textbutton _('Go to'):
-                    text_style 'mode_select'
-                    xalign 0.5
-                    xsize 220
-                    ysize 70
-                    text_size 28
-                    background 'menu_select_btn' padding(20,20)
-                    hover_foreground 'menu_select_btn_hover'
-                    if c.real_time_text and c.text_msg.reply_label:
-                        action [Hide(hide_screen),
-                        Hide('save_load'),
-                        Hide('menu'),
-                        Hide('chat_footer'),
-                        Hide('phone_overlay'),
-                        Hide('settings_screen'),
-                        SetVariable('CG_who', c),
-                        Jump(c.text_msg.reply_label)]
-                    else:
-                        action [Hide(hide_screen), 
-                                SetVariable("current_message", c), 
-                                Function(c.text_msg.mark_read),
-                                Hide('save_load'),
-                                Hide('menu'),
-                                Hide('chat_footer'), 
-                                Hide('phone_overlay'), 
-                                Hide('settings_screen'),
-                                SetVariable('CG_who', c),
-                                Show('text_message_screen', sender=c)]
+                    action If ((c.real_time_text and c.text_msg.reply_label),
+
+                        [Hide(hide_screen),
+                            Hide('save_load'),
+                            Hide('menu'),
+                            Hide('chat_footer'),
+                            Hide('phone_overlay'),
+                            Hide('settings_screen'),
+                            SetVariable('CG_who', c),
+                            Jump(c.text_msg.reply_label)],
+                        
+                        [Hide(hide_screen), 
+                            SetVariable('text_person', c),
+                            SetField(c.text_msg, 'read', True),
+                            Hide('save_load'),
+                            Hide('menu'),
+                            Hide('chat_footer'), 
+                            Hide('phone_overlay'), 
+                            Hide('settings_screen'),
+                            SetVariable('CG_who', c),
+                            Show('text_message_screen', sender=c, 
+                                animate=False)])
             else:
                 null height 70
     timer 3.25:
         action If(randint(0,1), [Hide(hide_screen, Dissolve(0.25)), 
                                 deliver_next], 
                                 [Hide(hide_screen, Dissolve(0.25))])
+
+
+style text_popup_frame:
+    xysize (621,373)
+    background 'text_popup_bkgr'
+    xalign 0.5
+    yalign 0.4
+
+style text_popup_imagebutton:
+    align (1.0, 0.22)
+
+style text_popup_hbox:
+    yalign 0.05
+    xalign 0.03
+    spacing 15
+
+style text_popup_text:
+    color '#73f1cf' 
+    yalign 1.0 
+    font gui.sans_serif_1b
+
+style text_popup_vbox:
+    xalign 0.3
+    yalign 0.85
+    spacing 20
+
+style text_popup_hbox2:
+    spacing 20    
+
+style text_popup_vbox2:
+    spacing 10
+
+style text_popup_preview_frame:
+    xysize(420,130)
+    padding (10,10)
+    background 'text_popup_msg'     
+
+style text_popup_preview_text:
+    size 30 
+    xalign 0.5 yalign 0.5 
+    text_align 0.5
+
+style text_popup_button:
+    xalign 0.5
+    xsize 220
+    ysize 70
+    background 'menu_select_btn' 
+    padding(20,20)
+    hover_foreground 'menu_select_btn_hover'
+
+style text_popup_button_text:
+    is mode_select
+    size 28
+
+
+
+
+
+
 
 ## Additional screens to allow us to display multiple popups
 screen text_pop_2(c):
@@ -263,8 +318,7 @@ screen text_message_footer(c):
                 background 'text_answer_active'
                 hover_background 'text_answer_animation'  
                 if not renpy.get_screen("choice"):
-                    action Jump(c.text_msg.reply_label)
-                    #action Function(c.text_msg.reply)
+                    action [Jump(c.text_msg.reply_label)]
                     activate_sound "audio/sfx/UI/answer_screen.mp3"
             else:
                 background 'text_answer_inactive'
@@ -319,7 +373,7 @@ init python:
         store.persistent.HP += 1
 
 
-screen text_message_screen(sender):
+screen text_message_screen(sender, animate=True):
 
     tag menu
         
@@ -377,7 +431,7 @@ screen text_message_screen(sender):
                 xfit True
                 use text_animation(i, False, True)
                 use text_animation(i, (sender.real_time_text
-                    and i == textlog[-1]))
+                    and i == textlog[-1] and animate))
             $ prev_msg = i
         null height 5
     if not sender.real_time_text:

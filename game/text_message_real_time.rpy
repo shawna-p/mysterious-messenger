@@ -42,8 +42,8 @@ screen inactive_text_answer():
 # Pause/Play footers
 #####################################
    
-# This is the screen that shows the pause button
-# (but the chat is still playing)
+## This is the screen that shows the pause button
+## (but the chat is still playing)
 screen text_pause_button():
     zorder 4
     tag chat_footer
@@ -57,8 +57,8 @@ screen text_pause_button():
             action [Call("play"), Return()]
      
     
-# This screen is visible when the chat is paused;
-# shows the play button
+## This screen is visible when the chat is paused;
+## shows the play button
 screen text_play_button():
     zorder 4
     tag chat_footer

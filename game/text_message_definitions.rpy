@@ -14,7 +14,7 @@ init -6 python:
             # Reply label to jump to when responding
             self.reply_label = False
             # Whether this message has been read
-            self.read = False
+            self.__read = False
             # If this message should trigger a heart icon when read
             self.heart = False
             # Who the heart icon should belong to
@@ -27,19 +27,40 @@ init -6 python:
             # True if the player has already been told they have
             # an unread message
             self.notified = True
+
+        @property
+        def read(self):
+            return self.__read
+            
+        ## Marks the message as read and unlocks
+        ## the appropriate CGs, if applicable
+        @read.setter
+        def read(self, new_bool):
+            self.__read = new_bool
+            if new_bool: 
+                # Unlock any CG images the player saw
+                for pair in self.cg_unlock_list:
+                    # pair[0] is persistent.??_album
+                    # pair[1] is the Album(filepath)   
+                    for photo in pair[0]:
+                        if pair[1] == photo:
+                            photo.unlock()
+                self.cg_unlock_list = []
+            renpy.retain_after_load()
+            renpy.restart_interaction()         
     
         ## Transfers messages from the msg_queue to 
         ## the player's inbox
         def deliver(self):
-            # If we're not on the text message screen, we can add
-            # these messages to the regular message list
+            # If not on the text message screen, add these 
+            # messages to the regular message list
             if self.msg_queue and not renpy.get_screen('text_message_screen'):
                 self.msg_list.extend(self.msg_queue)
                 self.msg_queue = []                
                 # If the last message was sent by someone other
                 # than the MC
                 if not self.msg_list[-1].who.right_msgr:
-                    # We notify the player of the delivered message
+                    # Notify the player of the delivered message
                     self.read = False
                     renpy.music.play(persistent.text_tone, 'sound')
                     popup_screen = allocate_text_popup()
@@ -49,30 +70,14 @@ init -6 python:
                 else:
                     self.read = True
             renpy.retain_after_load()
-
             
-        ## Marks the message as read and unlocks
-        ## the appropriate CGs, if applicable
-        def mark_read(self):
-            self.read = True 
-            # We also need to unlock any CG images they see
-            for pair in self.cg_unlock_list:
-                # pair[0] is persistent.??_album
-                # pair[1] is the Album(filepath)   
-                for photo in pair[0]:
-                    if pair[1] == photo:
-                        photo.unlock()
-            self.cg_unlock_list = []
-            renpy.retain_after_load()
-            renpy.restart_interaction()         
-            
-        ## This takes you to the correct message reply label
+        ## This takes the player to the correct message reply label
         ## and indicates that the message has been read
         def reply(self):
             store.text_msg_reply = True
             old_reply = self.reply_label
             renpy.call_in_new_context(self.reply_label)
-            # If we've updated the reply label, then we don't
+            # If the reply label was updated, then don't
             # erase it. Otherwise, the player shouldn't be able
             # to reply twice
             if self.reply_label == old_reply:
@@ -122,26 +127,25 @@ init -6 python:
     ## So new messages get added to a queue first before being delivered
     def addtext(who, what, img=False):
         sender = store.text_person
-        # If the MC sent this message, we deliver it immediately
+        # If the MC sent this message, deliver it immediately
         if who.right_msgr:
-            sender.text_msg.msg_list.append(ChatEntry(who, what, upTime(), img))
+            sender.text_msg.msg_list.append(ChatEntry(who, what, 
+                                                      upTime(), img))
             sender.text_msg.read = True
             sender.text_msg.notified = True
             sender.text_msg.reply_label = False
             
         else:
             # Otherwise another character sent this/is replying
-            # We add this message to the sender's queue
+            # Add this message to the sender's queue
             sender.text_msg.msg_queue.append(ChatEntry(
                                                 who, what, upTime(), img))
-            # sender.text_msg.read = False
             sender.text_msg.notified = False
         
-        # We also check if the sent message has a CG
+        # Check if the sent message has a CG
         if img and "{image" not in what:
-            # Unlock the CG in the gallery
-            # First, we split up the text
-            cg_helper(what, who, False)
+            # Unlock the CG in the gallery/add it to the unlock list
+            cg_helper(what, who, who.right_msgr)
 
         renpy.restart_interaction()
 
@@ -172,7 +176,7 @@ init -6 python:
             pass
         elif who.file_id == 'delete':
             renpy.pause(pv)
-        # Otherwise we pause to simulate typing time
+        # Otherwise, pause to simulate typing time
         else:
             # Get the number of words in the message
             typeTime = what.count(' ') + 1
@@ -184,7 +188,7 @@ init -6 python:
             renpy.pause(typeTime)
 
         if img:
-            # We try to adjust the {image=seven_wow} etc statement to 
+            #Adjust the {image=seven_wow} etc statement to 
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')
@@ -199,11 +203,12 @@ init -6 python:
         textlog.append(ChatEntry(who, what, upTime(), img))
         renpy.checkpoint()
 
-    ## This ensures we don't miss any messages being posted 
+    ## This ensures the program doesn't miss any messages being posted 
+    ## in the event the user pauses the conversation
     def text_pauseFailsafe(textlog):
         global textbackup
 
-        # If we're resetting the backup, we're done
+        # If the backup is being reset, return
         if textbackup == "Reset":
             return
         
@@ -221,7 +226,7 @@ init -6 python:
 
         if (last_text.who.file_id == textbackup.who.file_id
                 and last_text.what == textbackup.what):
-            # The last entry was successfully added; we're done
+            # The last entry was successfully added; return
             return
 
         if renpy.get_screen('text_message_screen'):
@@ -233,7 +238,7 @@ init -6 python:
             renpy.pause(typeTime)
 
         if textbackup.img == True:
-            # We try to adjust the {image=seven_wow} etc statement to 
+            # Adjust the {image=seven_wow} etc statement to 
             # suit the emoji dictionary
             if "{image =" in textbackup.what:
                 first, last = textbackup.what.split('=')
@@ -263,8 +268,7 @@ init -6 python:
                 return last_msg.who.name + " sent an image."
 
         if "[" in last_msg.what:
-            # Means we have to do some cleanup to ensure
-            # variables aren't cut up
+            # Do some cleanup to ensure variables aren't cut up
             # First check if the variable is [name]
             if "[name]" in last_msg.what:
                 msg = last_msg.what[:name_cut]
@@ -284,7 +288,6 @@ init -6 python:
             return last_msg.what[:num_char]
             
 
-default current_message = None
 default text_msg_reply = False
 # Stores the ChatCharacter object of the other person in a text conversation
 default text_person = None
@@ -292,8 +295,8 @@ default text_person = None
 # so they can view CGs full-screen
 default CG_who = None
 
-## A label that lets you leave instant text message
-## conversations, but you can't get them back
+## A label that lets the player leave instant text message
+## conversations. The conversation is then lost
 label leave_inst_text():
     $ textlog = text_person.text_msg.msg_list                        
     $ config.skipping = False           
@@ -312,7 +315,7 @@ label leave_inst_text():
 label text_begin(who):    
     $ text_person = who
     $ text_msg_reply = True
-    $ who.text_msg.mark_read()
+    $ who.text_msg.read = True
     if who.real_time_text:
         show screen text_message_screen(who)
         show screen text_pause_button
@@ -338,11 +341,7 @@ label compose_text_end(text_label=False):
 ## Sets end variables when a text message menu is completed 
 label text_end():
     if text_person is not None and text_person.real_time_text:        
-        $ text_pauseFailsafe(text_person.text_msg.msg_list)
-        answer "" (pauseVal=1.0)
-    if (len(text_person.text_msg.msg_list) > 0
-            and text_person.text_msg.msg_list[-1].who.file_id == 'delete'):
-        $ text_person.txt_msg.msg_list.pop()  
+        $ text_pauseFailsafe(text_person.text_msg.msg_list) 
     $ text_msg_reply = False
     #if text_person is not None and text_person.real_time_text:
     $ text_person.finished_text()
@@ -355,7 +354,7 @@ label text_end():
     hide screen inactive_text_answer
     hide screen text_play_button
     hide screen text_pause_button  
-    call screen text_message_screen(who)  
+    call screen text_message_screen(who, animate=False)  
     return       
     # else:
     #     $ renpy.retain_after_load()

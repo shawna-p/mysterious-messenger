@@ -313,7 +313,7 @@ screen choice(items):
     # For text messages
     if text_msg_reply:
         if not text_person or not text_person.real_time_text:
-            use text_message_screen(current_message)
+            use text_message_screen(text_person)
         vbox:
             style_prefix 'text_msg_choice'
             for num, i in enumerate(items):
@@ -322,7 +322,7 @@ screen choice(items):
                     action If((not text_person 
                                 or not text_person.real_time_text),
                             [Show('text_message_screen',
-                                        sender=current_message),
+                                        sender=text_person),
                                 i.action], [i.action])
     
     # For VN mode and phone calls

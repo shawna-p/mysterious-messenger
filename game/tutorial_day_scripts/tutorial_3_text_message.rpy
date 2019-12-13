@@ -86,7 +86,7 @@ label after_example_text():
     r "Here's a test text message, to show you how they work!"
     r "Did you know you can also post photos?"
 
-    # Ray will continue sending messages once the user clicks on 
+    # Ray will continue sending messages once the player clicks on 
     # his text message, so it ends here and you can add a label to 
     # jump to like with V earlier
     call compose_text_end('menu_a2')
