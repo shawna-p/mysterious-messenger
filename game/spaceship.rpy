@@ -1,8 +1,8 @@
 
 init python:
 
-    # This is used to make the spaceship float to a random 
-    # location on the line
+    ## This is used to make the spaceship float to a random 
+    ## location on the line
     def spaceship_xalign_func(trans,st,at):
         global spaceship_xalign
         if st > 1.0:
@@ -15,8 +15,8 @@ init python:
         trans.xalign = spaceship_xalign
         return None
         
-    # Returns a random position along the spaceship line at the bottom
-    # of the screen
+    ## Returns a random position along the spaceship line at the bottom
+    ## of the screen
     def spaceship_get_xalign(new_num=False):
         global spaceship_xalign
         if new_num:
@@ -24,8 +24,8 @@ init python:
             spaceship_xalign = spaceship_xalign * 0.8 + 0.04
         return spaceship_xalign
         
-    # This code is used to create a 'random' function that
-    # will occasionally activate the Honey Buddha Chip bag
+    ## This code is used to create a 'random' function that
+    ## will occasionally activate the Honey Buddha Chip bag
     class RandomBag(object):
 
         def __init__(self, choices):
@@ -103,7 +103,27 @@ screen spaceship_thoughts():
             text "The spaceship does not always move forward... it orbits around :D" style 'space_title2'
     
 
-
+style space_title1:
+    font gui.serif_1
+    size 25
+    text_align 0.5
+    align (0.5, 0.12)
+    color '#ff0'
+    
+style space_thought_mid:
+    font gui.serif_1
+    text_align 0.5
+    align (0.5, 0.5)
+    color '#fff'
+    
+style space_title2:
+    font gui.serif_1
+    size 22
+    text_align 0.5
+    align (0.5, 0.95)
+    outlines [(absolute(1), '#743801', absolute(0), absolute(0))]
+    color '#fff'
+    
 
 #########################################################
 ## Additional screens for the Honey Buddha Chip animation
@@ -115,7 +135,7 @@ screen chip_tap():
     zorder 100
     
     add "choice_darken"
-    window at chip_wobble:
+    fixed at chip_wobble:
         xysize(481,598)
         xalign 0.5
         yalign 0.6
@@ -128,7 +148,6 @@ screen chip_tap():
         add 'space_tap_small' at small_tap
         
     
- 
 label chip_prize():
     #$ reset_spaceship_pos = True
     #$ spaceship_xalign = 0.04
@@ -146,13 +165,13 @@ screen chip_cloud():
     zorder 100
         
     add "choice_darken"
-    window at chip_wobble2:
+    fixed at chip_wobble2:
         xysize(481,598)
         xalign 0.5
         yalign 0.6
         add "space_chip"
     
-    window at hide_dissolve:
+    fixed at hide_dissolve:
         xysize(750,640)
         xalign 0.5
         yalign 0.6
@@ -164,16 +183,23 @@ screen chip_cloud():
         
 
 label hbc_helper():
-    # Picks a number between 1 and 130 for the chip prize
-    $ prize_heart = renpy.random.randint(1, 130)
+    $ prize = chip_prize_list.draw()
+    $ prize_text = prize[0]
+    # Adds a bit of randomness to the heart payout
+    $ prize_heart = (prize[1] 
+        + (renpy.random.randint(0, prize[1]//10) 
+            * renpy.random.choice([1, -1])))
+    $ prize_hg = prize[2]
+
     $ new_hp_total = persistent.HP + prize_heart
-    # Picks a phrase for the item
-    $ prize_text = chip_prize_list.draw()
-    call screen chip_end(prize_heart, new_hp_total, prize_text)
+    $ new_hg_total = persistent.HG + prize_hg
+
+    call screen chip_end(prize_heart, prize_hg, new_hp_total, 
+                         new_hg_total, prize_text)
     call screen chat_home()
     return
 
-screen chip_end(prize_heart, new_hp_total, prize_text):
+screen chip_end(prize_heart, prize_hg, new_hp_total, new_hg_total, prize_text):
     modal True
 
     zorder 100
@@ -210,7 +236,7 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
                 # You could give out hourglasses here too, but since I've
                 # never gotten one from the HBC animation I've just left
                 # it permanently at 0
-                text '0' style 'chip_prize_text'
+                text str(prize_hg) style 'chip_prize_text'
                 add 'header_hg' xalign 0.15 yalign 0.5
                 
         frame:
@@ -225,19 +251,57 @@ screen chip_end(prize_heart, new_hp_total, prize_text):
             hover 'space_continue_hover'
             xalign 0.5
             yalign 0.85
-            action [SetField(persistent, 'HP', new_hp_total), 
+            action [SetField(persistent, 'HP', new_hp_total),
+                    SetField(persistent, 'HG', new_hg_total), 
                     Hide('chip_end'), 
                     SetVariable('chips_available', False), 
                     FileSave(mm_auto, confirm=False),
                     renpy.retain_after_load(),
                     Return()]
-        
-   
-default chip_prize_list = RandomBag( ['A clump of cat hair.',
-    "Jumin's old toothbrush.",
-    "Some Honey Buddha Chip crumbs.",
-    "Jaehee's spare pair of glasses.",
-    "Yoosung's left sock."] )
+
+style chip_prize_text:
+    color "#ffffff"
+    font gui.sans_serif_1
+    text_align 1.0
+    size 37
+    xalign 0.85
+    yalign 0.5
+    
+style chip_prize_description_short:
+    color '#ffffff'
+    font gui.blocky_font
+    text_align 0.5
+    size 45
+    xalign 0.5
+    yalign 0.5
+
+style chip_prize_description_long:
+    color '#ffffff'
+    font gui.blocky_font
+    text_align 0.5
+    size 37
+    xalign 0.5
+    yalign 0.5
+
+# Chip thoughts are organized in a tuple with three items:
+# The description, approximate number of hearts, and number of hourglasses
+default chip_prize_list = RandomBag( [
+    ('A clump of cat hair.', 30, 0),
+    ("Jumin's old toothbrush.", 20, 0),
+    ("Some Honey Buddha Chip crumbs.", 24, 0),
+    ("Jaehee's spare pair of glasses.", 65, 0),
+    ("Yoosung's left sock.", 33, 0),
+    ("Your middle school photo album!", 19, 0),
+    ("Toothpaste that tastes like Honey Buddha Chips", 69, 0),
+    ("A completion certificate for mid-level dating.", 100, 0),
+    ("It's a present for you.", 67, 0),
+    ("A very normal industrial product.", 86, 0),
+    ("This Honey Boss Chip began in 1987 England...", 34, 0),
+    ("Disco lights! Let's dance!", 69, 0),
+    ("Yoosung's blessed hair strands. Blow on it and make a wish!", 443, 4),
+    ("A chip bag full of chip dust", 10, 0),
+    ("There's mold on these...", 19, 0)
     # Feel free to add more things
+    ] )
     
     

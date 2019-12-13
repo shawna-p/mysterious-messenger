@@ -3,8 +3,8 @@ init -6 python:
     from random import randint
     import renpy.store as store
     
-    ## The TextMessage class keeps track of a text message conversation
-    ##  for each character. The actual messages are stored in msg_list
+    ## This class keeps track of a text message conversation
+    ## for each character.
     class TextMessage(renpy.store.object):
         def __init__(self):
             # List of currently sent messages
@@ -21,7 +21,7 @@ init -6 python:
             self.heart_person = None
             # If the awarded heart is 'bad'
             self.bad_heart = False
-            # List to keep track of CGs we should unlock after
+            # List to keep track of CGs to unlock after
             # the player has read this message chain
             self.cg_unlock_list = []
             # True if the player has already been told they have
