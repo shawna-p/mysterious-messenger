@@ -80,6 +80,8 @@ label after_load():
             
         define_variables()
         hide_heart_icons()
+        renpy.hide_screen("viewCG_fullsize")
+        renpy.hide_screen("viewCG_fullsize_album")
         hide_stackable_notifications()
         renpy.hide_screen('settings_screen')
         renpy.hide_screen('save_load')
