@@ -461,11 +461,11 @@ screen text_animation(i, animate=False, anti=False):
             hbox_ypos = -10
             img_style = 'img_text_message'
                 
-        ## This determines how long the line of text is. 
-        ## If it needs to wrap it, it will pad the bubble 
-        ## out to the appropriate length
-        ## Otherwise each bubble would be exactly as wide as
-        ## it needs to be and no more
+        # This determines how long the line of text is. 
+        # If it needs to wrap it, it will pad the bubble 
+        # out to the appropriate length
+        # Otherwise each bubble would be exactly as wide as
+        # it needs to be and no more
         t = Text(i.what)
         z = t.size()
         my_width = int(z[0])
@@ -500,7 +500,7 @@ screen text_animation(i, animate=False, anti=False):
                     add i.who.get_pfp(110)
             
             frame at transformVar:               
-                ## Check if it's an image
+                # Check if it's an image
                 if i.img and not "{image" in i.what:
                     style img_style
                     $ fullsizeCG = cg_helper(i.what)

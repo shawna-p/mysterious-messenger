@@ -7,26 +7,31 @@ init -1 python:
         return None
         
 ## These are the stars that will be animated
+image small_star_static = "Menu Screens/Main Menu/small-star.png"
+
 image small star:
     function star_func
     block:
         "transparent_img" with Dissolve(1.0, alpha=True)
         0.9
-        "small_star" with Dissolve(1.0, alpha=True)
+        "small_star_static" with Dissolve(1.0, alpha=True)
         # This just tells the program to pick a number between 5 and 9
         # and then wait that many seconds before continuing with the animation
         renpy.random.randint(3, 7) + renpy.random.random()
         repeat
+
+image medium_star_static = "Menu Screens/Main Menu/medium-star.png"
         
 image medium star:
     function star_func
     block:
-        "medium_star" with Dissolve(1.0, alpha=True)
+        "medium_star_static" with Dissolve(1.0, alpha=True)
         renpy.random.randint(4, 11) + renpy.random.random()
         "transparent_img" with Dissolve(1.0, alpha=True)
         1.3
         repeat
         
+
 
 # This makes it easier to call the starry night background
 screen starry_night():

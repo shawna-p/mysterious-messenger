@@ -26,7 +26,7 @@ label plot_branch_tutorial():
     u "{=ser1}You might have noticed that after this chatroom there's a \"Tap to unlock\" icon, right?{/=ser1}" 
     u "{=ser1}If you click it, the program will calculate whether or not you've fulfilled certain conditions,{/=ser1}" 
     u "{=ser1}and then it'll put you on a path based on the results.{/=ser1}" 
-    u "{=ser1}In this case, we're going to check whether or not you've successfully invited at least one guest to the party.{/=ser1}" 
+    u "{=ser1}In this case, I'll to check whether or not you've successfully invited at least one guest to the party.{/=ser1}" 
     
     call answer 
     menu:

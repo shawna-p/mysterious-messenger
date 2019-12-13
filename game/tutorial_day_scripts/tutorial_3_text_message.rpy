@@ -102,7 +102,7 @@ label after_example_text():
     return
     
 
-## This is the label we told the program to jump to for
+## This is the label included at the end of
 ## V's non-real time message
 label menu_a1():
     # You always start with `call text_begin` and pass it the

@@ -40,7 +40,7 @@ init python:
     ## backgrounds used in VN mode
     def adjust_vn_alpha():
         global persistent
-        # When window_darken_pct <= 50, we only lighten the main window
+        # When window_darken_pct <= 50, only lighten the main window
         if persistent.window_darken_pct <= 50:
             persistent.vn_window_dark = 0.0
             persistent.vn_window_alpha = float(persistent.window_darken_pct 

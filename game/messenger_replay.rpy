@@ -173,7 +173,7 @@ label remove_entries(num=1):
 default chatroom_replay_index = 0
 default replay_from = 0
 
-## This label is called when you want to replay a chatroom
+## This label is called when you replay a chatroom
 label rewatch_chatroom():
     stop music
     $ chatlog = []

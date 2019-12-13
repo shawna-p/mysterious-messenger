@@ -1,7 +1,5 @@
 #************************************
-#************************************
-#********Visual Novel Mode***********
-#************************************
+# Visual Novel Mode
 #************************************
 
 #####################################
@@ -113,6 +111,7 @@ label vn_begin():
         
     return
         
+## Call to end a VN section
 label vn_end():
     if _in_replay:
         $ renpy.end_replay()
@@ -167,9 +166,10 @@ screen history():
 
     tag menu
 
-    ## Avoid predicting this screen, as it can be very large.
+    # Avoid predicting this screen, as it can be very large.
     predict False
 
+    # Allow the user to darken the VN window for better contrast
     add Transform('#000', alpha=max(((persistent.vn_window_dark
                         + persistent.vn_window_alpha) / 2.0), 0.7))
     
@@ -211,8 +211,8 @@ screen history():
                                             absolute(0), absolute(0)) ]
                                 text_font gui.sans_serif_1xb
 
-                            ## Take the color of the who text from the 
-                            ## Character, if set.
+                            # Take the color of the who text from the 
+                            # Character, if set.
                             if "color" in h.who_args:
                                 text_color h.who_args["color"]
 
@@ -228,7 +228,6 @@ screen history():
 
 
 ## This determines what tags are allowed to be displayed on the history screen.
-
 define gui.history_allow_tags = set()
 
 

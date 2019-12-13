@@ -1,7 +1,7 @@
 init -6 python:
-    # This class makes it easier to keep track of the different daily greetings
-    # Since I currently don't have translations for all the greetings, they
-    # primarily default to a generic text message
+    ## This class makes it easier to keep track of the different 
+    ## daily greetings. Most don't have translations, so they
+    ## default to a generic text message
     class DayGreeting(object):
         def __init__(self, sound_file, english=False, korean=False):
             self.sound_file = sound_file
@@ -13,14 +13,9 @@ init -6 python:
 # Menu Greeting Lookup
 #************************************
 
-# This *looks* long, but that's mostly just because there are a lot
-# of different greetings. You can see in the function chat_greet defined
-# at the top of menu screen.rpy that it essentially gets the time of day,
-# then picks a random character for the greeting and picks a random
-# greeting from those available. It's a dictionary where the item is a list
-# and the key is the speaking character
-
-
+## Dictionary with the speaking character as the key and a list of
+## DayGreetings as the value. Allows the program to look up a greeting
+## based on the time of day
 define morning_greeting = {
     'ja': [ DayGreeting('audio/sfx/Main Menu Greetings/Jaehee/Morning/ja-m-1.wav'),
                 DayGreeting('audio/sfx/Main Menu Greetings/Jaehee/Morning/ja-m-2.wav'),

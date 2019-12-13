@@ -32,7 +32,7 @@ init -6 python:
         def decrease_time(self):
             global available_calls
             if self.avail_timeout == 'test':
-                # You generally don't want to mess with this, but it
+                # You generally shouldn't mess with this, but it
                 # lets you make a call 'infinitely' available for testing
                 pass
             else:

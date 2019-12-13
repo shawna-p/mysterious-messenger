@@ -530,9 +530,9 @@ label coffee1():
     menu:
         "I like talking to you too meow!":
             m "I like talking to you too meow!"
-            # We add heart icons the same way we would in
-            # a chatroom. You can only give one per reply
-            # if the conversation is not real-time like this one
+            # Add heart icons the same way as a chatroom. You can
+            # only give one per reply if the conversation is not
+            # real-time, like this one
             call heart_icon(s)
             s "<3 <3 <3"
             s "Agent 707 will do his best to come to the chatroom more often meow!"

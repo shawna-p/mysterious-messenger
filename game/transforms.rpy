@@ -20,17 +20,6 @@ init 5:
     transform incoming_message:
         alpha 0 zoom 0.5
         linear 0.2 alpha 1.0 zoom 1.0
-   
-    ## Used to make full-size CGs small enough
-    ## to post in a chatroom
-    transform small_CG:
-        alpha 0 zoom 0.175
-        linear 0.2 alpha 1.0 zoom 0.35
-    
-    ## Used to make full-size CGs small enough
-    ## to post in a text message conversation   
-    transform small_CG_text:
-        zoom 0.35
         
     ## Used on the 'NEW' sign for new messages
     transform new_fade:
@@ -38,24 +27,6 @@ init 5:
         linear 0.2 alpha 1.0
         0.5
         linear 0.5 alpha 0.0
-
-    #***********************************
-    # 'Anti' transformation to cancel
-    # the expanding effect of scrolling
-    #***********************************
-    
-    transform anti_incoming_message:
-        alpha 0 zoom 0.5
-        linear 0.2 alpha 0.0 zoom 0
-
-    transform anti_incoming_message_bounce:
-        alpha 0 zoom 0.6
-        linear 0.1 alpha 0 zoom 0.0
-        linear 0.1 zoom 0.1
-        
-    transform anti_small_CG:
-        zoom 0.165 alpha 0
-        linear 0.2 zoom 0 
 
     #***********************************
     # Choice button enter/exit animation
@@ -237,9 +208,9 @@ init 5:
     ## A solution for the odd animation issues surrounding
     ## the chip bag; this hides the clouds after 2 seconds
     transform hide_dissolve:
-            alpha 1.0
-            linear 2.0 alpha 1.0
-            linear 0.5 alpha 0.0
+        alpha 1.0
+        linear 2.0 alpha 1.0
+        linear 0.5 alpha 0.0
             
     #***********************************
     # CG Album Transforms
@@ -396,6 +367,7 @@ init 5:
         #pause repeat_delay
         repeat
         
+    # Used for a custom screen; currently unused
     transform dropdown_menu:
         yoffset -30
         easein 0.5 yoffset 0

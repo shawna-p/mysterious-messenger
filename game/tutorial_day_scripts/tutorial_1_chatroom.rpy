@@ -114,7 +114,7 @@ label emojis():
     s "and find its corresponding name in the {b}emoji_definitions.rpy{/b} file."
     s "Then you're gonna type {{image=seven_wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet"
     s "The program will automatically add the right sound file for you ^^"
-    s "{=ser1b}You'll also want to make sure the \"Image\" modifier in the spreadsheet is checked,{/=ser1b}"
+    s "{=ser1b}You also need to make sure the \"Image\" modifier in the spreadsheet is checked,{/=ser1b}"
     s "{=blocky}otherwise it'll look like this lolol{/=blocky}"
     s "{image=seven_wow}"
     s "{=sser2}Which is probably not what you want!{/=sser2}" 
@@ -280,7 +280,7 @@ label banners():
         y "{image=yoosung_thankyou}"   (img=True)
     y "I have one more thing I was going to show you:" 
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
-    y "{=curly}You said you identify as [persistent.pronoun], right?{/=curly}"   (bounce=True, specBubble="square_m")
+    y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}"   (bounce=True, specBubble="square_m")
     y "{=sser2}So we'll use pronouns like [they]/[them] whenever we talk about you.{/=sser2}"   (bounce=True)
     y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script" 
     y "If you want to add any new variables, there's a section in the User Guide about doing just that."

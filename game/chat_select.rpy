@@ -255,7 +255,7 @@ screen chatroom_timeline(day, day_num):
             xysize (720, 1190)
             yalign 0.0
             xalign 0.5   
-            add 'day_vlink' xalign 0.15
+            add 'day_vlink' size (15,1180) xalign 0.15
             viewport:
                 ysize 1190
                 yadjustment yadj            

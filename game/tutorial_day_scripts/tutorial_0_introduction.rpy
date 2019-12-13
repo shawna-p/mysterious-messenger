@@ -10,9 +10,9 @@
     # chatroom.
     $ new_route_setup(route=tutorial_good_end)
 
-    # If you'd like to begin with a phone call, this is
+    # If you want to begin with a phone call, this is
     # how you do it. Just replace 'u' with whatever
-    # character you want to call you
+    # character you want to call the player
     call new_incoming_call(PhoneCall(u, 'n/a')) 
     # Begin and end the phone call like you would anywhere else
     call phone_begin 
