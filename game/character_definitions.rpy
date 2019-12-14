@@ -143,7 +143,7 @@ init -5 python:
             if not bad:
                 self.good_heart += 1
             else:
-                self.bad_heart -= 1
+                self.bad_heart += 1
         
         ## Decreases a heart point for this character.
         ## Always decrements good heart points
