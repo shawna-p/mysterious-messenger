@@ -298,6 +298,7 @@ default CG_who = None
 ## A label that lets the player leave instant text message
 ## conversations. The conversation is then lost
 label leave_inst_text():
+    $ text_msg_reply = False
     $ textlog = text_person.text_msg.msg_list                        
     $ config.skipping = False           
     $ choosing = False
