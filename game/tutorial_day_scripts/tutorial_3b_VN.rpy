@@ -13,7 +13,7 @@ label vn_mode_tutorial():
     call play_music(mint_eye)
     
     show saeran smile
-    r "Hello! Welcome to Visual Novel mode."
+    r "Hello! Welcome to Story Mode, also known as Visual Novel mode."
     show saeran -smile   # the -smile puts him in his 'neutral' expression
     r "This mode is most similar to what you'll find in the majority of Ren'Py projects."
     # If Ray is already showing on the screen, his Character definition

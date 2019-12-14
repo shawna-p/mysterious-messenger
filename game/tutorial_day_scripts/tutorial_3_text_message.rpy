@@ -13,12 +13,12 @@ label example_text():
         "Does that mean anything specific?":
             m "Does that mean anything specific?"   (pauseVal=0)
             r "It does!" 
-            r "Since there's a story mode VN (Visual Novel)," 
+            r "Since there's a story mode VN (Visual Novel) section," 
             r "{=sser2b}any incoming phone calls or text message won't be delivered until after the VN.{/=sser2b}" 
         "Yes, and I can't play it until after this chatroom, right?":
             m "Yes, and I can't play it until after this chatroom, right?"   (pauseVal=0)
             r "{=curly}Right! ^^{/=curly}"   (bounce=True, specBubble="round_s")
-            r "Any incoming phone calls or text message won't be delivered until after the VN, too." 
+            r "Any incoming phone calls or text message won't be delivered until after the story mode VN (Visual Novel) section, too." 
             
     r "So even though there are text messages to be delivered after this chatroom," 
     r "{=ser1}{size=+10}you won't see them right away.{/size}{/=ser1}" 

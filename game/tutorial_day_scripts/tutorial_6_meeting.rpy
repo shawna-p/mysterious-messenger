@@ -213,7 +213,7 @@ label popcorn_vn():
     menu:
         "(Heads to the C&R building)":
             # this choice doesn't make anything special happen, so you
-            # can say 'pass' to continue on with the VN
+            # can write 'pass' to continue on with the VN
             pass    
             
     scene bg black
@@ -260,8 +260,8 @@ label popcorn_vn():
     
     # The program will recognize that Jumin is already showing and will
     # hide him from his previous position at vn_right and show him at
-    # vn_center so you don't need to hide Jumin's portrait like Jaehee's was
-    # hidden
+    # vn_center so you don't need to hide Jumin's portrait like Jaehee's
+    # was hidden
     show jumin angry at vn_center 
     ju "There are three large issues concerning Elizabeth the 3rd's safety."
     # This is a fun trick -- since Jumin's character ju was declared 
@@ -287,7 +287,7 @@ label popcorn_vn():
     show jumin front angry at vn_right
     ju "Every single word."
     call play_sfx(door_knock_sfx)
-    "(!!)"
+    "(A knock on the door)"
     
     # Now that Jaehee is on screen, you don't need to repeat the
     # 'glasses' attribute if you change her expression. This could also

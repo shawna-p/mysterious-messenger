@@ -34,7 +34,7 @@ label plot_branch_tutorial():
             m "I'm not sure how to invite guests." (pauseVal=0)
             u "{=ser1}The \"Inviting Guests\" chatroom lets you invite Rainbow. {/=ser1}" 
             u "{=ser1}You can also use that chatroom to speed up how fast you receive replies so you can finish the email chain,{/=ser1}" 
-            u "{=ser1}but that only works if you have {b}Testing Mode{/b} turned on in the Settings menu.{/=ser1}" 
+            u "{=ser1}but that only works if you have {b}Testing Mode{/b} turned on in the Developer settings, accessed from the main hub screen.{/=ser1}" 
         "(Continue listening)":
             pass
             
@@ -47,7 +47,7 @@ label plot_branch_tutorial():
         u "{=curly}you'll get the Good End.{/=curly}" (bounce=True)
     else:
         u "It doesn't look like you've finished any email chains yet," 
-        u "{=sser2}so if you click the Plot Branch icon now, you'll get the bad end.{/=sser2}" 
+        u "{=sser2}so if you click the Plot Branch icon now, you'll get a bad end.{/=sser2}" 
         u "You can still go back to finish up your emails before you click the Plot Branch icon so you get a different ending." 
         
     u "Anyway, that's enough from me." 
@@ -71,7 +71,7 @@ label plot_branch_tutorial_expired():
     u "{=ser1}In this case, it'll check whether or not you've successfully invited 1 guest to the party.{/=ser1}" 
     u "If you haven't been getting emails, " 
     u "make sure you buy back the \"Inviting Guests\" chatroom!"   (bounce=True)
-    u "You can turn on {b}Testing Mode{/b} in the Settings to replay it as many times as you like."
+    u "You can turn on {b}Testing Mode{/b} in the Developer settings to replay it as many times as you like."
     u "It'll let you invite Rainbow," 
     u "and if you talk to Zen while you're working on an email chain, he'll make the guests send you replies faster." 
     u "{=ser1}You can go through the \"Inviting Guests\" chatroom as many times as you like to finish the email chain and invite Rainbow.{/=ser1}" 
@@ -286,9 +286,11 @@ label good_end_party():
     u neutral "However, before you go, there's one more thing I can show you:"
     u "How to show a CG in a Story Mode section."
     u smile "I'll show it to you just before I go, and then you'll be able to see it in your album."
-    u happy "Thanks for playing through Tutorial Day!"
     scene cg common_3
     pause
+    scene bg rika_apartment
+    show saeran unknown happy
+    u "Thanks for playing through Tutorial Day!"
     # If you need to later, you can then write `hide cg`
     $ ending = 'good'
     jump vn_end_route

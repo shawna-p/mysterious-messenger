@@ -51,7 +51,7 @@
     
     It'll help me make a much better program, in the end.
     
-    You only need to do as much as you have time for. And in return you get to test out my program earlier than anyone else!
+    You only need to use it as much as you have time for. And in return you get to test out my program earlier than anyone else!
     
     So what do you say?
     

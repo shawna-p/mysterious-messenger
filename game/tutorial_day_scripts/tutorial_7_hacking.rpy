@@ -3,6 +3,19 @@
 label hack_example():
 
     call chat_begin("night")
+    call enter(u)
+    u "Before we start -- are you okay with seeing flashing 'hacked' animations?"
+    u "If not, we can turn them off."
+    call answer
+    menu:
+        "No; I don't want any flashing animations.":
+            m "No; I don't want any flashing animations." (pauseVal=0)
+            $ persistent.hacking_effects = False
+        "Yes, you can keep the flashing animations on.":
+            m "Yes, you can keep the flashing animations on." (pauseVal=0)
+            $ persistent.hacking_effects = False
+    u "Got it. See you around."
+    call exit(u)
     call enter(sa)
     call redhack    
     call chat_begin('redhack', False, False)

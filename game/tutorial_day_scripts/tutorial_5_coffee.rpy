@@ -164,7 +164,8 @@ label tutorial_chat():
     s "{=ser1xb}Ur gonna faint. For real.{/=ser1xb}"
     y "{=sser2}Seriously?? Ur kidding right?{/=sser2}" (bounce=True, specBubble="spike_m")
     
-    # This is the shake animation; it plays during the previous line of dialogue
+    # This is the shake animation; it plays during
+    # the previous line of dialogue
     call shake
     
     call answer 
@@ -398,8 +399,8 @@ label after_tutorial_chat():
     s "Thanks for not spoiling the secret~ ^^"
     s "You're a lot of fun to talk to meow!"
     # The optional parameter ('coffee1') is the name of the label to jump
-    # to when you reply to Seven's text message. You can leave this
-    # out if you don't want the player to be able to reply anymore
+    # to when the player replies to Seven's text message. You can leave 
+    # this out if you don't want the player to be able to reply anymore
     call compose_text_end('coffee1')
 
     # ************************************************
@@ -441,7 +442,7 @@ label tutorial_chat_incoming_z:
     # into a choice menu during phone calls
     menu:
         # If you want the previous dialogue to show up behind the choice
-        # menu, you must add "extend ''" just after the menu
+        # menu, you must add extend '' just after the menu
         extend ''
         "Yeah, I didn't even dream.":
             m "Yeah, I didn't even dream."            
@@ -531,7 +532,7 @@ label coffee1():
         "I like talking to you too meow!":
             m "I like talking to you too meow!"
             # Add heart icons the same way as a chatroom. You can
-            # only give one per reply if the conversation is not
+            # only give one heart per reply if the conversation is not
             # real-time, like this one
             call heart_icon(s)
             s "<3 <3 <3"

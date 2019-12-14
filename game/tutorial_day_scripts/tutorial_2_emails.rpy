@@ -8,7 +8,8 @@ label example_email():
     z 'Can we invite zentherainbowunicorn?'
         
     call answer 
-    $ shuffle = "last"  # This tells the program not to shuffle the last choice
+    # This tells the program not to shuffle the last choice
+    $ shuffle = "last"  
     menu:
         "That sounds great!":
             m 'That sounds great!' (pauseVal=0)
@@ -212,7 +213,8 @@ Sincerely,
 Rainbow Unicorn""",
 
 ## These next fields are optional but used for the guestbook
-## Large (usually chibi) image for the party
+## Large (usually chibi) image for the party, no wider than 
+## 315px or so
 "Email/Guest Images/rainbow_unicorn.png",
 
 ## Short description about the guest
@@ -221,7 +223,7 @@ Rainbow Unicorn""",
 ## Personal Info section on the guest
 "Rainbow started working on this project back in 2018 and she's excited to share it with the world!",
 
-## The Character variable of the person who should talk about this 
+## The ChatCharacter variable of the person who should talk about this 
 ## guest in the long description
 z,
 
@@ -275,9 +277,8 @@ label rainbow_reply3():
             # You can also pass set_reply a number after True/False
             # If you do, that will be the number of chatrooms after 
             # which the reply to your email will be sent to you.
-            # Otherwise, the program randomly generates a number 
-            # calculates an appropriate number based on how many 
-            # chatrooms are yet to be played
+            # Otherwise, the program calculates an appropriate number
+            # based on how many chatrooms are yet to be played
             $ current_email.set_reply(True, 1)
         'Seafood.':
             $ current_email.set_reply(False)
@@ -346,7 +347,7 @@ don't want to go to the party""",
 
 ## Reply to correct message
 
-"""This is the guest's reply to your message after you chose the 
+"""This is the guest's reply to your message after you choose the 
 correct response""",
 
 ## Answer -> INCORRECT ANSWER HERE
@@ -356,7 +357,7 @@ correct response""",
 
 ## Reply to incorrect message
 
-"""This is the guest's reply to your message after you chose the 
+"""This is the guest's reply to your message after you choose the 
 wrong response""",
 
 ## THIRD MESSAGE - *Question the guest asked here*
@@ -379,11 +380,11 @@ the party, as this is the final message""",
 
 ## Reply to incorrect message
 
-"""This is the guest's reply to your message after you chose 
+"""This is the guest's reply to your message after you choose 
 the wrong response."""
 
 ## These next fields are optional but used for the guestbook
-## Large (usually chibi) image for the party
+## Large (usually chibi) image for the party, no wider than 315px
 "Email/Guest Images/rainbow_unicorn.png",
 
 ## Short description about the guest
@@ -392,15 +393,15 @@ the wrong response."""
 ## Personal Info section on the guest
 "Example Guest was made for users to better understand how to create a guest",
 
-## The Character variable of the person who should talk about this 
+## The ChatCharacter variable of the person who should talk about this 
 ## guest in the long description
 s,
 
 ## What the previous character says about this guest
-"Here, the character from the last variable (s) will say this.",
+"Here, the character from the last variable (seven) will say this.",
 
 ## The expression/displayable name of the character to show
-'example front party happy',
+'seven front party happy',
 
 ## The name of the guest as it should appear in their
 ## dialogue box

@@ -33,8 +33,6 @@ label example_chat():
     u "Anyway, you can see what we just did there was a menu!" 
     u "It allows you to alter a conversation based on responses." 
     u "If you take a look {b}tutorial_1_chatroom.rpy{/b}, you can get an idea of how to use them." 
-    u "You should type \"call answer\" before a menu." 
-    u "That way the answer button will show up at the bottom of the screen instead of immediately jumping to a menu." 
     u "{=ser1}There are lots of things to learn about!{/=ser1}" 
     u "{=ser1b}What would you like to see first?{/=ser1b}" 
        
@@ -110,11 +108,9 @@ label emojis():
     s "{=sser2}{size=+10}I get to explain emojis!!!{/size}{/=sser2}" 
     s "{image=seven_wow}"   (img=True)
     s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}"   (bounce=True, specBubble="spike_m")
-    s "Okay, so what you wanna do is go find the right emoji in the {b}images/Gifs{/b} folder,"
-    s "and find its corresponding name in the {b}emoji_definitions.rpy{/b} file."
-    s "Then you're gonna type {{image=seven_wow} or whatever the emoji name is into the Dialogue part of the Script Generator spreadsheet"
-    s "The program will automatically add the right sound file for you ^^"
-    s "{=ser1b}You also need to make sure the \"Image\" modifier in the spreadsheet is checked,{/=ser1b}"
+    s "The program has a whole bunch of emojis defined in {b}emoji_definitions.rpy{/b} already,"
+    s "and it will even play the right sound effect for you when the emoji is shown."    
+    s "{=ser1b}You also need to make sure the program knows the the message contains an image (using {b}(img=True){/b} after the dialogue){/=ser1b}"
     s "{=blocky}otherwise it'll look like this lolol{/=blocky}"
     s "{image=seven_wow}"
     s "{=sser2}Which is probably not what you want!{/=sser2}" 
@@ -209,21 +205,13 @@ label emojis():
             m "{image=seven_wow}" (img=True)
             s "Yeah, just like that!"
             s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
-            s "{=ser1}You'll need to start by defining the image in {b}gallery.rpy{/b}.{/=ser1}"
-            s "{=ser1}Then, you can define an Album object in {b}gallery.rpy{/b} using the image name, in quotes.{/=ser1}"
-            s "{=ser1}It should be in the list of the person whose gallery the image will be unlocked in.{/=ser1}"
-            s "{=ser1}For example, that last image is defined under \"s_album\" as {b}Album(\"cg s_1\"){/b}{/=ser1}"
-            s "{=ser1}The CG should be 750x1334 pixels, and it will be automatically resized for the chatroom.{/=ser1}"
-            s "{=ser1}Then to use it, you type in a simplified version of the path to the dialogue column,{/=ser1}"
-            s "{=ser1}and check off the \"Image\" modifier in the spreadsheet.{/=ser1}"
-            s "{=ser1}Simplified path just means {b}album ID{/b} + {b}the number/identifier of your cg{/b}.{/=ser1}"
-            s "{=ser1}To use the example from before, you write {b}s_1{/b} into the Dialogue column.{/=ser1}"
-            s "{=blocky}If you don't also check off \"Image\", it'll just show up in text, like this:{/=blocky}"
+            s "There's more information in the {b}User Guide{/b}."
+            s "{=ser1}The program will take care of unlocking the image in the gallery and letting players view it full-size!{/=ser1}"
+            s "{=ser1}Just make sure you indicate that the message contains an image,{/=ser1}"
+            s "{=blocky}Otherwise it'll just show up in text, like this:{/=blocky}"
             s "s_1"
             s "But if you check off the \"Image\" modifier, you get this:" (bounce=True, specBubble="round2_m")
             s "s_1" (img=True)
-            s "{=sser2}The ability to click the image/the full screen version is automatically taken care of for you.{/=sser2}" 
-            s "{=sser2}It'll also unlock it in the Album if it's your first time seeing the CG!{/=sser2}" 
             s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
             s "Let me know if you have any questions later~"
             call exit(s) 
@@ -247,19 +235,21 @@ label banners():
     y "where '__' is the name of the banner you want."
     if not persistent.banners:
         y "It looks like you've got banner animations turned off though!"
-        y "So you won't see the banner animations."
+        y "So you won't see them."
     else:
         y "Since the animations can be kind of distracting, there's a toggle to turn them off."
-        y "Do you want to see banner animations?"
-        call answer
-        menu:
-            "Yes, I want to see banner animations.":
-                m "Yes, I want to see banner animations." (pauseVal=0)
-                y "Okay!"
-            "No, turn banner animations off.":
-                m "No, turn banner animations off." (pauseVal=0)
-                $ persistent.banners = False
-                y "Alright, got it!"
+
+    y "Do you want to see banner animations?"
+    call answer
+    menu:
+        "Yes, I want to see banner animations.":
+            m "Yes, I want to see banner animations." (pauseVal=0)
+            $ persistent.banners = True
+            y "Okay!"
+        "No, turn banner animations off.":
+            m "No, turn banner animations off." (pauseVal=0)
+            $ persistent.banners = False
+            y "Alright, got it!"
                 
     if persistent.banners:
         y "{=sser2}There are four different types of banners:{/=sser2}" 
@@ -278,10 +268,11 @@ label banners():
         y "{=ser1}...{/=ser1}"
         y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
         y "{image=yoosung_thankyou}"   (img=True)
+
     y "I have one more thing I was going to show you:" 
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}" 
     y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}"   (bounce=True, specBubble="square_m")
-    y "{=sser2}So we'll use [they]/[them] whenever we talk about you.{/=sser2}"   (bounce=True)
+    y "{=sser2}So we'll use [they]/[them] whenever we talk about you.{/=sser2}"  (bounce=True)
     y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script" 
     y "If you want to add any new variables, there's a section in the User Guide about doing just that."
     y "And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu)." 
@@ -305,6 +296,7 @@ label heart_icons():
     z "{=curly}Hey cutie ^^{/=curly}" (bounce=True)
     z "{=sser2}I'm here to explain heart icons!{/=sser2}"
     z "If you're having a hard time looking at the animation for the heart icons,"
+    z "or it's hard to tell them apart,"
     z "There's also an option to turn them into text popups that look like this:"
     show screen stackable_notifications(z.name + " +1")
     z "Would you like to use heart icons or the text notifications?"
@@ -323,7 +315,7 @@ label heart_icons():
             z "You'll see the text popup whenever someone likes your response."
 
     z "If you change your mind on what kind of icon you want,"
-    z "There's a checkbox in the {b}Settings{/b} called {b}Heart Icon Text Notifications{/b}"
+    z "There's a toggle in the {b}Settings{/b} called {b}Heart Icon Text Notifications{/b}"
     
     z "{=sser2}Anyway, so getting a heart point will look like this:{/=sser2}"
     call heart_icon(z) 
@@ -360,7 +352,7 @@ label heart_icons():
         call heart_icon(ri) 
         z "{=sser2}which in this game is for Rika.{/=sser2}"
         z "The last thing I'm here to explain is the 'heartbreak' icon"
-        z "It works the same as the regular heart icons -- just add a colour to the heartcolour list and call \"heart_break\" with that character"
+        z "It works the same as the regular heart icons -- just call \"heart_break\" with that character"
         z "{=ser1}It will automatically colour itself{/=ser1}"
         z "{=sser2}They look like this!{/=sser2}"
 
@@ -390,6 +382,20 @@ label screen_shake():
     call enter(ja) 
     ja "{=ser1}Hello, [name].{/=ser1}"
     ja "{=ser1}Mr. Han will be with us shortly. {/=ser1}"
+    ja "{=ser1}Before we begin though, I should ask:{/=ser1}"
+    ja "{=ser1}Do you want to see screen shake animations?{/=ser1}"
+    call answer
+    $ shuffle = False
+    menu:
+        "Yes, I want to see the screen shake animation.":
+            m "Yes, I want to see the screen shake animation." (pauseVal=0)
+            $ persistent.screenshake = True
+            ja "{=ser1}Understood.{/=ser1}" (bounce=True)
+        "No, turn screen shake animation off.":
+            m "No, turn screen shake animation off." (pauseVal=0)
+            $ persistent.screenshake = False
+            ja "{=ser1}Understood.{/=ser1}" (bounce=True)
+
     call enter(ju) 
     ja "{=curly}Ah, right on time.{/=curly}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}Shall we get started then?{/=ser1}"
@@ -410,19 +416,19 @@ label screen_shake():
     ja "{=sser2}We're supposed to teach [name] about some other chatroom features.{/=sser2}" (bounce=True)
     ju "{=ser1}Like the special speech bubbles?{/=ser1}" (bounce=True, specBubble="square_m")
     ja "{=sser2}Yes ^^{/=sser2}" (bounce=True, specBubble="cloud_s")
-    ja "In the Script Generator spreadsheet, you'll see an option called \"special bubble\""
-    ja "You can look in the folder \"Bubbles/Special\" and find the correct bubble"
+    ja "There are many special speech bubbles built into the game."
     ja "{=sser2}Most bubbles come in three sizes:{/=sser2}" (bounce=True)
     ja "{=sser1b}small{/=sser1b}" (bounce=True, specBubble="spike_s")
     ja "{=sser1b}medium{/=sser1b}" (bounce=True, specBubble="spike_m")
     ja "{=sser1b}and large{/=sser1b}" (bounce=True, specBubble="spike_l")
     ja "{=ser1}The text should usually resize itself to fit, but you need to choose the size yourself.{/=ser1}"
     ja "{color=#f00}For example, this bubble might be too small.{/color}" (bounce=True, specBubble="cloud_s")
-    ja "{=ser1}As for screen shake,{/=ser1}"
-    ja "{=ser1}you simply need to use the call{/=ser1}"
-    ja "{=ser1xb}\"call shake\" {/=ser1xb}"
-    ja "{=sser2}And it does this{/=sser2}" (bounce=True)
-    call shake
+    if persistent.screenshake:
+        ja "{=ser1}As for screen shake,{/=ser1}"
+        ja "{=ser1}you simply need to use the call{/=ser1}"
+        ja "{=ser1xb}\"call shake\" {/=ser1xb}"
+        ja "{=sser2}And it does this{/=sser2}" (bounce=True)
+        call shake
     ja "{=ser1}Lastly, you can check out all of the special bubbles present in the game.{/=ser1}"
     ja "{=ser1xb}Just select \"Done\" when you're finished.{/=ser1xb}"
     call answer 
@@ -515,7 +521,7 @@ label example_chat_expired():
     u "{=ser1}which lets you buy the next 24 hours of chatrooms in advance.{/=ser1}" 
     u "That way you can be sure you're not missing any chatrooms!" 
     u "{=curly}(Or if you're just tired of waiting...){/=curly}" 
-    u "{=ser1}You can switch real-time mode off from the Settings screen.{/=ser1}" 
+    u "{=ser1}You can switch real-time mode off from the Developer settings on the chat home screen.{/=ser1}" 
     u "Anyway, you'll need to buy this chatroom back to go through the tutorial!" 
     u "Give it a shot ^^" 
     u "I'll see you soon!" 

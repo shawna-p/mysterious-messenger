@@ -1,8 +1,6 @@
 
-## This feature may require more testing than other parts
-## of the program. It allows characters to continue talking
+## This feature allows characters to continue talking
 ## while the player has an opportunity to interrupt/answer
-## See explanation below
 label timed_menus():
 
     call chat_begin("earlyMorn") 
@@ -31,8 +29,8 @@ label timed_menus():
     # bubbles. In this example, they will see up to these messages, but 
     # unless they don't reply they won't see the dialogue after this comment.
     # You may need some trial/error to know how much dialogue you can include 
-    # before a timer runs out. If the player is using MAX speed, it will
-    # skip over the timer entirely and there will be no opportunity to interrupt
+    # before a timer runs out. If the player is using MAX speed, it will skip
+    # over the timer entirely and there will be no opportunity to interrupt
     s "You write these menus a bit differently than regular menus" 
     s "You'll see an example of it in this code." 
    
@@ -41,18 +39,18 @@ label timed_menus():
     # you need the player to reply regardless, you may want to leave it out)
     # Players who have toggled the option to automatically answer timed menus
     # will *always* see the menu and *never* see any dialogue in the else
-    # If the player chooses an option, it will finish displaying the most recent
-    # line of dialogue from above, then move on to the dialogue after the choice
-    # If nothing is chosen, it will finish displaying the above dialogue, skip
-    # over the menu, and keep going
+    # If the player chooses an option, it will finish displaying the most
+    # recent line of dialogue from above, then move on to the dialogue after
+    # the choice. If nothing is chosen, it will finish displaying the above
+    # dialogue, skip over the menu, and keep going
     if timed_choose:
-        # Don't forget to name the menu whatever you called it before
+        # Don't forget to name the menu whatever you called it earlier
         menu menu1: 
             "Slow down! Timed menus??":
                 m "Slow down! Timed menus??" 
                 s "Whoops lolol I got a bit excited" 
                 s "{=sser2}Yup! Maybe try playing through this chatroom a few times to see what happens?{/=sser2}" 
-                s "Don't forget to turn Testing Mode on from the settings so you can make different choices." 
+                s "Don't forget to turn Testing Mode on from the developer settings so you can make different choices." 
 
             "So I can choose between listening or interrupting?" :
                 m "So I can choose between listening or interrupting?" 
