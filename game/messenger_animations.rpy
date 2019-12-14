@@ -313,8 +313,10 @@ label banner(banner):
     
 screen banner_screen(banner):
     zorder 10
-    fixed at truecenter:
-        add 'banner ' + banner
+    fixed:
+        xysize (750, 230)
+        align (.5, .5)
+        add 'banner ' + banner align (0.5, 1.0)
         
     timer 0.72 action Hide('banner_screen')
     
