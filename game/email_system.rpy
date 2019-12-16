@@ -182,6 +182,8 @@ init python:
             if self.completed():
                 # 3/3 messages correct
                 self.guest.attending = True
+            elif self.timeout:
+                self.guest.attending = False
             elif self.is_failed():
                 # 2/3 messages correct
                 if self.second_msg() == 'email_good':
