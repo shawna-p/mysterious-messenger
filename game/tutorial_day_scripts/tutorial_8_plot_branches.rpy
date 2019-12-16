@@ -205,7 +205,7 @@ label tutorial_bad_end_expired():
 
 ## You get this VN after the Plot Branch Tutorial
 ## chatroom if you got the Good End
-label plot_branch_vn():
+label plot_branch_tutorial_vn():
     call vn_begin 
 
     scene bg rika_apartment with fade
@@ -273,7 +273,7 @@ label tutorial_good_end_expired():
     jump tutorial_good_end
 
 ## And this is a very brief VN for the party    
-label good_end_party():
+label tutorial_good_end_party():
     call vn_begin 
     scene bg rika_apartment with fade
     pause

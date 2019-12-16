@@ -1,5 +1,5 @@
 
-label vn_mode_tutorial():
+label example_text_vn_r():
 
     # Make sure you call this at the start of a VN section
     call vn_begin 

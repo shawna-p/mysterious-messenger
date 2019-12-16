@@ -199,7 +199,7 @@ label after_popcorn_chat():
 ##*****************************
 ## VN Mode after the chatroom
 ##*****************************
-label popcorn_vn():
+label popcorn_chat_vn_ju():
 
     # Call this when you start a VN section. It sets some
     # variables for you and shows the right screens
