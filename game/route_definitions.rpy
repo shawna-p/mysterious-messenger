@@ -54,15 +54,12 @@ init -6 python:
             self.vn_obj = False
             if vn_obj:
                 self.vn_obj = vn_obj
-                print("Got a vn obj,", vn_obj)
             else:
                 # Check for a regular VN, no associated character
                 if renpy.has_label(self.chatroom_label + '_vn'):
-                    print ("Has label", self.chatroom_label + '_vn')
                     self.vn_obj = VNMode(self.chatroom_label + '_vn')
                 # Check for a party label
                 elif renpy.has_label(self.chatroom_label + '_party'):
-                    print ("Has label", self.chatroom_label + '_party')
                     self.vn_obj = VNMode(self.chatroom_label + '_party',
                                         party=True)
                 else:
@@ -70,10 +67,8 @@ init -6 python:
                     for c in store.all_characters:
                         # VNs are called things like my_label_vn_r
                         vnlabel = self.chatroom_label + '_vn_' + c.file_id
-                        print('Checking for label', vnlabel)
                         if renpy.has_label(vnlabel):
                             # Found the appropriate VN
-                            print("Found a match,", vnlabel, "exists")
                             self.vn_obj = VNMode(vnlabel, c)
             
             if self.plot_branch and self.plot_branch.vn_after_branch:
