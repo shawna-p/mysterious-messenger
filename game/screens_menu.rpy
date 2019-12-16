@@ -338,7 +338,7 @@ screen main_menu():
                 style_prefix 'left_menu'
                 action Show('select_history', Dissolve(0.5))                 
                 vbox: 
-                    add "menu_history" xpos 15 ypos 3
+                    add "menu_history" align (0.5, 0.5)
                     text "History"
                 
             
@@ -347,9 +347,10 @@ screen main_menu():
             button:
                 xysize (205,195)
                 style_prefix 'right_menu'
+                action Show('developer_settings')
                 vbox:              
-                    add "menu_dlc"
-                    text "DLC"
+                    add "menu_dlc" align (0.5, 0.5)
+                    text "Developer"
      
 style greet_text is text:
     color "#ffffff"
