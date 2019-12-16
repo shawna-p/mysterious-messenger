@@ -332,7 +332,7 @@ label compose_text(who, real_time=False):
     return
 
 label compose_text_end(text_label=False):
-    $ text_person.set_text_label(text_label)
+    $ text_person.text_label = text_label
     $ text_person = None
     $ textbackup = 'Reset'
     $ renpy.retain_after_load()
