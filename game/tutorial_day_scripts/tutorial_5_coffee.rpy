@@ -414,7 +414,7 @@ label after_tutorial_chat():
     # Voicemails are defined in phonecall_system.rpy
     python:
         for char in all_characters:
-            char.update_voicemail('voicemail_1')
+            char.voicemail = 'voicemail_1'
     
     # Use this to end the after_ label
     return

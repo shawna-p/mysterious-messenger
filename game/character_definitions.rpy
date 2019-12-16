@@ -55,9 +55,10 @@ init -5 python:
             self.status = status
             # What their current voicemail is set to
             if voicemail:
-                self.voicemail = voicemail
+                self.__voicemail = PhoneCall(self, voicemail, 'voicemail', 
+                                            2, True)
             else:
-                self.voicemail = PhoneCall(self, 
+                self.__voicemail = PhoneCall(self, 
                                     'voicemail_1', 'voicemail', 2, True)
             # All heart points start at 0
             self.heart_points = 0  
@@ -127,9 +128,14 @@ init -5 python:
             if self not in store.all_characters and self.prof_pic:
                 store.all_characters.append(self)
             
-        ## Updates the character's voicemail
-        def update_voicemail(self, new_label):
-            self.voicemail.phone_label = new_label
+        @property
+        def voicemail(self):
+            return self.__voicemail
+
+        ## Updates the character's voicemail label
+        @voicemail.setter
+        def voicemail(self, new_label):
+            self.__voicemail.phone_label = new_label
                         
         ## Resets the text message label after that conversation
         ## is completed
@@ -242,9 +248,14 @@ init -5 python:
         def name(self, new_name):
             self.__name = new_name
 
+        @property
+        def text_label(self):
+            return self.text_msg.reply_label
+
         ## Sets the label to jump to when responding to 
         ## this character's text messages
-        def set_text_label(self, new_label):
+        @text_label.setter
+        def text_label(self, new_label):
             self.text_msg.reply_label = new_label
 
         ## This sets up whether or not this character's next
