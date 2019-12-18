@@ -561,6 +561,7 @@ image day_s = 'Menu Screens/Day Select/day_s.png'
 image day_v = 'Menu Screens/Day Select/day_v.png'
 image day_y = 'Menu Screens/Day Select/day_y.png'
 image day_z = 'Menu Screens/Day Select/day_z.png'
+
 image day_selected = Frame('Menu Screens/Day Select/daychat01_day_mint.png', 50, 50)
 image day_selected_hover = Frame('Menu Screens/Day Select/daychat01_day_mint_hover.png', 50, 50)
 image day_inactive = Frame('Menu Screens/Day Select/daychat01_day_inactive.png', 50, 50)

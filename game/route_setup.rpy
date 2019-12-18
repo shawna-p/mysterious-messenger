@@ -1,4 +1,8 @@
-           
+# This variable keeps track of all the routes you've defined in order
+# to display it in the History screen from the main menu
+# You should generall not need to modify it
+default all_routes = []
+
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
 # for you
@@ -8,7 +12,7 @@ default chat_archive = []
 
 default tutorial_good_end = ["Good End",
     RouteDay('Tutorial', 
-        [ChatHistory('Example Chatroom', 'example_chat', '00:01'),                                     
+        [ChatHistory('Example Chatroom', 'example_chat', '00:01'),
         ChatHistory('Inviting Guests','example_email', '09:11', [z]),
         ChatHistory('Text Message Example', 'example_text', '09:53', [r]),
         ChatHistory('Timed Menus', 'timed_menus', '11:28', [s]),
@@ -44,10 +48,7 @@ default tutorial_route = Route(
                         route_history_title='Tutorial')
 
 
-# This variable keeps track of all the routes you've defined in order
-# to display it in the History screen from the main menu
-# It should ALWAYS be at the end of the file
-default all_routes = [ tutorial_route ]
+
 
 # This is an example of how many routes may be set up to all be displayed
 # properly in the History

@@ -208,7 +208,7 @@ init -6 python:
     class Route(renpy.store.object):
         def __init__(self, default_branch, branch_list=[], 
                     route_history_title="Common",
-                    has_good_end=True):
+                    has_end_title=True):
             
 
             self.route_history_title = route_history_title
@@ -217,7 +217,7 @@ init -6 python:
             self.route = deepcopy(default_branch)
             # Add the branch title before the last item in the
             # default branch
-            if has_good_end:
+            if has_end_title:
                 for r in reversed(self.route):
                     if r.archive_list:
                         r.archive_list.insert(len(r.archive_list)-1, 
@@ -260,6 +260,10 @@ init -6 python:
                                 # (Since "1st" and "1st" won't match any
                                 # other days)
                                 break
+
+            # Add this route to the list of all routes
+            if self not in store.all_routes:
+                store.all_routes.append(self)
                             
     ## This function ensures the next chatroom or VN section 
     ## becomes available. By default it unlocks chatrooms in 
