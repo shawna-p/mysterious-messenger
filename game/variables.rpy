@@ -420,9 +420,6 @@ image blue_maincircle:
 image call_mainicon = "Menu Screens/Chat Hub/main01_mainicon_call.png"
 image email_mainicon = "Menu Screens/Chat Hub/main01_mainicon_email.png"
 image msg_mainicon = "Menu Screens/Chat Hub/main01_mainicon_message.png"
-image call_maintext = "Menu Screens/Chat Hub/main01_maintext_call.png"
-image email_maintext = "Menu Screens/Chat Hub/main01_maintext_email.png"
-image msg_maintext = "Menu Screens/Chat Hub/main01_maintext_message.png"
 
 image profile_pic_select_square = Transform("Menu Screens/Chat Hub/profile_pic_select_square.png", size=(95, 95))
 
@@ -435,14 +432,6 @@ image red_hex_hover = 'btn_hover:red_hex'
 
 image album_icon = "Menu Screens/Chat Hub/main01_subicon_album.png"
 image guest_icon = "Menu Screens/Chat Hub/main01_subicon_guest.png"
-image link_icon = "Menu Screens/Chat Hub/main01_subicon_link.png"
-image notice_icon = "Menu Screens/Chat Hub/main01_subicon_notice.png"
-image shop_icon = "Menu Screens/Chat Hub/main01_subicon_shop.png"
-image album_text = "Menu Screens/Chat Hub/main01_subtext_album.png"
-image guest_text = "Menu Screens/Chat Hub/main01_subtext_guest.png"
-image link_text = "Menu Screens/Chat Hub/main01_subtext_link.png"
-image notice_text = "Menu Screens/Chat Hub/main01_subtext_notice.png"
-image shop_text = "Menu Screens/Chat Hub/main01_subtext_shop.png"
 
 image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.png"
 image exit_enter = "Phone UI/exit-enter.png"
