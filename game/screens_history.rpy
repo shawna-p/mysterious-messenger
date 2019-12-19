@@ -139,6 +139,14 @@ init python:
                 return True
         return False
 
+    ## Finds the caller of this phone call given its label
+    def get_caller(c):
+        file_id = c.split('_')[-1]
+        for p in store.all_characters:
+            if file_id == p.file_id:
+                return PhoneCall(p, 'n/a')
+        return PhoneCall(None, 'n/a')
+
 # True if the player is viewing a replay of an expired chatroom
 default expired_replay = False
 # This is a dictionary that holds a giant list of all the
@@ -376,7 +384,12 @@ screen chatroom_item_history(chatroom):
                                     size=(85,85), alpha=0.3) align (0.5,0.5)
                         add 'call_incoming_outline' align (1.0, 1.0)
                         xysize (85,85)
-                        action Replay(c, scope=replay_dictionary)
+                        action Replay(c, scope={'observing': True,
+                            'current_chatroom': chatroom,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name,
+                            'current_call': get_caller(c)})
             for c in chatroom.outgoing_calls_list:
                 # If the player has seen this phone call
                 if persistent.completed_chatrooms.get(c):
@@ -391,7 +404,12 @@ screen chatroom_item_history(chatroom):
                                     size=(85,85), alpha=0.3) align (0.5,0.5)
                         add 'call_outgoing_outline' align (1.0, 1.0)
                         xysize (85,85)
-                        action Replay(c, scope=replay_dictionary)
+                        action Replay(c, scope={'observing': True,
+                            'current_chatroom': chatroom,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name,
+                            'current_call': get_caller(c)})
                        
 
 style timeline_button:

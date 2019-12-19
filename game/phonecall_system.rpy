@@ -229,7 +229,8 @@ screen phone_calls():
                             xysize(96,85)
                             hover Transform(replay_bkgr, zoom=1.1)
                             if i.playback:
-                                action [SetVariable('observing', True), 
+                                action [SetVariable('observing', True),
+                                        SetVariable('current_call', i),
                                         Jump(i.phone_label)]
 
                         imagebutton:                        
@@ -408,8 +409,7 @@ label hang_up():
 ## This is the screen that displays the dialogue when
 ## you're in a phone call
 ########################################################
-
-screen in_call():
+screen in_call(who=ja):
 
     tag menu
     on 'show' action [renpy.music.stop(), 
@@ -422,18 +422,46 @@ screen in_call():
                         Preference('auto-forward after click', 'enable')]
     on 'replaced' action [SetVariable('in_phone_call', False), 
                         Preference('auto-forward after click', 'disable')]
-                        
+
+    default show_timer = True
+    default countup = 0
+
     use menu_header("In Call"):
         fixed:
             xysize (750, 1250)
-            add 'call_headphones' yalign 0.12 xalign 0.5            
+            vbox: 
+                style_prefix 'phone_timer'
+                add AlphaMask(who.get_pfp(130), 
+                        'rounded-rectangle-mask.png') xalign 0.5 
+                text who.name size 45
+                hbox:
+                    text "{0:01}:".format(countup//60) 
+                    text "{0:01}".format((countup%60)//10)
+                    text "{0:01}".format((countup%60)%10)
             if not starter_story:
                 use phone_footer(False, "call_pause", 
                                 [Hide('say'), Jump('hang_up')])
             else:
                 use phone_footer(False, "call_pause", False)
                                    
+    if show_timer:
+        timer 1.0 action SetScreenVariable('countup', countup+1) repeat True
                 
+style phone_timer_text:
+    color "#fff" 
+    text_align 0.5 
+    xalign 0.5 
+    size 28
+
+style phone_timer_hbox:
+    xalign 0.5
+    spacing 1
+
+style phone_timer_vbox:
+    yalign 0.08 
+    xalign 0.5    
+    spacing 10
+
 
 ########################################################
 ## This is the screen when you're receiving an incoming
@@ -495,7 +523,9 @@ screen incoming_call(phonecall, countdown_time=10):
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
                 
             if starter_story:
-                use phone_footer([Stop('music'), Return()], 
+                use phone_footer([Stop('music'), 
+                                SetVariable('current_call', phonecall), 
+                                Return()], 
                                     "headphones", False)
             else:
                 use phone_footer([Stop('music'), 
@@ -547,12 +577,14 @@ screen phone_footer(answer_action=False,
                     align (0.5, 0.5)
                     if _preferences.afm_enable: #preferences.afm_time > 0:
                         idle 'call_pause'
-                        action [PauseAudio('voice', value=True), 
+                        action [SetScreenVariable('show_timer', False),
+                                PauseAudio('voice', value=True), 
                                 Function(toggle_afm)] 
                                 #Preference("auto-forward", "toggle")
                     else:
                         idle 'call_play'
-                        action [PauseAudio('voice', value=False), 
+                        action [SetScreenVariable('show_timer', True),
+                                PauseAudio('voice', value=False), 
                                 Function(toggle_afm)] 
                                 #Preference("auto-forward", "toggle"
             
@@ -659,7 +691,7 @@ label phone_begin():
         $ set_name_pfp()
         $ set_pronouns()
         
-    show screen in_call
+    show screen in_call(current_call.caller)
     return
     
 ## This label sets the appropriate variables/actions when you finish
