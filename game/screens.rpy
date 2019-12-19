@@ -167,7 +167,10 @@ screen say(who, what):
         window:
             style_prefix None
             style 'call_window'
-            text what id "what" #style 'call_text'
+            text what id "what": #style 'call_text'
+                if persistent.dialogue_outlines:
+                    outlines [ (absolute(2), "#000", 
+                                absolute(0), absolute(0)) ]
     
     else:
         window id "window":
@@ -319,6 +322,9 @@ screen choice(items):
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
                 textbutton i.caption at the_anim(fnum):
+                    if persistent.dialogue_outlines:
+                        text_outlines [ (absolute(2), "#000", 
+                                absolute(0), absolute(0)) ]
                     action If((not text_person 
                                 or not text_person.real_time_text),
                             [Show('text_message_screen',
@@ -338,12 +344,18 @@ screen choice(items):
                 if not observing or i.chosen:
                     $ can_see_answer += 1
                     textbutton i.caption at the_anim(fnum):
+                        if persistent.dialogue_outlines:
+                            text_outlines [ (absolute(2), "#000", 
+                                absolute(0), absolute(0)) ]
                         action [i.action]
             # Not a perfect solution, but hopefully provides an 'out'
             # to players who somehow didn't choose a menu option and
             # are now in observing mode
             if can_see_answer == 0:
                 textbutton _("(Continue)"):  
+                    if persistent.dialogue_outlines:
+                        text_outlines [ (absolute(2), "#000", 
+                                absolute(0), absolute(0)) ]
                     action [SetVariable('timed_choose', False), Return()]
             
     # For emails
@@ -370,6 +382,14 @@ screen choice(items):
                     $ can_see_answer += 1
                     $ fnum = float(num*0.2)
                     textbutton i.caption at the_anim(fnum):
+                        if (persistent.dialogue_outlines 
+                                and persistent.custom_footers):
+                            text_outlines [ (absolute(2), "#000", 
+                                absolute(0), absolute(0)) ]
+                        elif (persistent.dialogue_outlines
+                                and not persistent.custom_footers):
+                            text_outlines [ (absolute(2), "#fff", 
+                                absolute(0), absolute(0)) ]
                         action If(using_timed_menus, 
                             [SetVariable('reply_instant', True), 
                                 SetVariable('using_timed_menus', False),
@@ -382,6 +402,9 @@ screen choice(items):
             # are now in observing mode
             if can_see_answer == 0:
                 textbutton _("(Continue)"):
+                    if persistent.dialogue_outlines:
+                        text_outlines [ (absolute(2), "#000", 
+                                absolute(0), absolute(0)) ]
                     action [SetVariable('timed_choose', False), Return()]
                             
 
