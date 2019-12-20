@@ -7,14 +7,14 @@ python early:
                     locked_img="CGs/album_unlock.png"):
             # images should be 750x1334
             self.img = img
-            self.locked_img = locked_img
+            self.__locked_img = locked_img
             # Thumbnails should be 155x155
             if thumbnail:
-                self.thumbnail = thumbnail
+                self.__thumbnail = thumbnail
             else:
                 # If no thumbnail is provided, the program
                 # will automatically crop and scale the CG
-                self.thumbnail = Transform(Crop((0, 0, 750, 750), img), 
+                self.__thumbnail = Transform(Crop((0, 0, 750, 750), img), 
                                                         size=(155,155))
             self.unlocked = False
             self.__seen_in_album = False
@@ -26,12 +26,13 @@ python early:
                 # Set a var so Album shows "NEW"
                 new_cg += 1            
             renpy.retain_after_load()
-            
-        def return_thumbnail(self):
+
+        @property
+        def thumbnail(self):
             if self.unlocked:
-                return self.thumbnail
+                return self.__thumbnail
             else:
-                return self.locked_img
+                return self.__locked_img
         
         def check_if_seen(self):
             # Check if the CG was 'shown' to the player
@@ -390,7 +391,7 @@ screen character_gallery(album, caption, name):
 
                 for index, photo in enumerate(album):
                     imagebutton:
-                        idle photo.return_thumbnail()
+                        idle photo.thumbnail
                         if not photo.seen_in_album and photo.unlocked:
                             foreground 'new_sign'
                         action If(photo.unlocked,                      
