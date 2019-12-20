@@ -325,8 +325,7 @@ screen main_menu():
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action Show('in_call')
-                    # action NullAction                            
+                    # action NullAction                          
                     vbox:        
                         add "menu_after_ending" xpos 40
                         text "After Ending" size 26
