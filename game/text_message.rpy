@@ -165,6 +165,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
         elif hide_screen == 'text_pop_3':
             xoffset -20 yoffset -20
         imagebutton:
+            align (1.0, 0.22)
             idle 'input_close'
             hover 'input_close_hover'
             if not randint(0,3):
