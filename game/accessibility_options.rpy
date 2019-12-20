@@ -18,6 +18,8 @@ default persistent.autoanswer_timed_menus = False
 default persistent.heart_notifications = False
 # Adds outline to VN dialogue
 default persistent.dialogue_outlines = False
+# Controls the contrast of the starry night background
+default persistent.starry_contrast = 0.0
 
 ## This label plays sound effects and also shows an audio
 ## caption if the player has that option turned on

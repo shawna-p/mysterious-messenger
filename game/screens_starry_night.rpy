@@ -43,7 +43,7 @@ screen starry_night():
         add "small star"
     for j in range(11):
         add "medium star"
-        
+    add Transform("#000", alpha=persistent.starry_contrast)
     
 
 image load_circle:

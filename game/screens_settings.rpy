@@ -492,7 +492,7 @@ screen other_settings():
             style_prefix "other_settings"
             has vbox            
             frame:
-                xysize (675,420)
+                xysize (675,480)
                 background "menu_settings_panel"
                 text "Other Settings" style "settings_style" xpos 45 ypos 2
                 style_prefix "settings_slider"
@@ -515,6 +515,14 @@ screen other_settings():
                         bar value FieldValue(persistent, 'window_darken_pct', 
                                 100, style='sound_settings_slider', step=10,
                                 action=Function(adjust_vn_alpha))
+
+                    hbox:
+                        textbutton _("Background Contrast"):
+                            action [SetField(persistent, 'starry_contrast', 0)]
+                        bar value FieldValue(persistent, 'starry_contrast',
+                                    1.0, style='sound_settings_slider', 
+                                    step=0.1)
+
                     null height 5
                     fixed:                        
                         style_prefix "check"
