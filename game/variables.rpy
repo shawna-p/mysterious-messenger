@@ -91,8 +91,15 @@ init -6 python:
     ## to easily make button hover images
     def btn_hover_img(s):
         return Fixed(s, Transform(s, alpha=0.5))
+
+    ## A displayable prefix function to easily display backgrounds
+    ## and their shake counterparts
+    def center_bg_img(s):
+        return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
+
     
     config.displayable_prefix["btn_hover"] = btn_hover_img
+    config.displayable_prefix["center_bg"] = center_bg_img
 
 # This tells the program to randomly shuffle the order
 # of responses
@@ -168,24 +175,26 @@ default persistent.testing_mode = False
 # Chatroom Backgrounds
 #************************************
 
-image morning = "Phone UI/bg-morning-shake.png"
-image evening = "Phone UI/bg-evening-shake.png"
-image night = "Phone UI/bg-night-shake.png"
-image earlyMorn = "Phone UI/bg-earlyMorn-shake.png"
-image noon = "Phone UI/bg-noon-shake.png"
+image bg morning = "center_bg:Phone UI/bg-morning.png"
+image bg evening = "center_bg:Phone UI/bg-evening.png"
+image bg night = "center_bg:Phone UI/bg-night.png"
+image bg earlyMorn = "center_bg:Phone UI/bg-earlyMorn.png"
+image bg noon = "center_bg:Phone UI/bg-noon.png"
+
+image bg hack = "Phone UI/bg-hack.jpg"
+image bg redhack = "Phone UI/bg-redhack.jpg"
+image bg redcrack = "Phone UI/bg-redhack-crack.png"
+
+image morning = "bg morning"
+image evening = "bg evening"
+image night = "bg night"
+image earlyMorn = "bg earlyMorn"
+image noon = "bg noon"
+
 image hack = "Phone UI/bg-hack-shake.png"
 image redhack = "Phone UI/bg-redhack-shake.png"
 image redcrack = "Phone UI/bg-redhack-crack-shake.png"
 image black = "#000000"
-
-image bg morning = "Phone UI/bg-morning.jpg"
-image bg evening = "Phone UI/bg-evening.jpg"
-image bg night = "Phone UI/bg-night.jpg"
-image bg earlyMorn = "Phone UI/bg-earlyMorn.jpg"
-image bg noon = "Phone UI/bg-noon.jpg"
-image bg hack = "Phone UI/bg-hack.jpg"
-image bg redhack = "Phone UI/bg-redhack.jpg"
-image bg redcrack = "Phone UI/bg-redhack-crack.png"
 
 # A starry night background with some static stars;
 # used in menu screens
