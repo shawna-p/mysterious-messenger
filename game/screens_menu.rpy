@@ -325,10 +325,10 @@ screen main_menu():
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    # action NullAction                          
+                    action Show('preferences')                        
                     vbox:        
-                        add "menu_after_ending" xpos 40
-                        text "After Ending" size 26
+                        add "menu_after_ending" align (0.5, 0.5)
+                        text "Settings"
         hbox:   
             spacing 15       
             # History
