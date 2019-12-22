@@ -553,6 +553,7 @@ init -6 python:
                     renpy.music.play(persistent.text_tone, 'sound')
                     popup_screen = allocate_text_popup()
                     renpy.show_screen(popup_screen, c=c) 
+                    break
                     
         else:
             for c in reversed(all_characters):
@@ -567,6 +568,7 @@ init -6 python:
                     renpy.music.play(persistent.text_tone, 'sound')
                     popup_screen = allocate_text_popup()
                     renpy.show_screen(popup_screen, c=c) 
+                    break
                     
         # Deliver the incoming call, if there is one
         if incoming_call:
