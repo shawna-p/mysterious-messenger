@@ -432,7 +432,7 @@ screen email_popup(e):
     default current_email = None
     
     frame:
-        maximum(510,290)
+        xysize (510,300)
         background 'left_corner_menu_dark'
         xalign 0.5
         yalign 0.4
@@ -453,8 +453,9 @@ screen email_popup(e):
                 font gui.sans_serif_1b
         
         vbox:
-            align (0.5, 0.63)
+            align (0.5, 0.72)
             spacing 15
+            xysize (450, 100)
             hbox:
                 align (0.5, 0.5)
                 xsize 470
