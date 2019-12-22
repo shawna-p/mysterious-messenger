@@ -9,7 +9,8 @@ label enter(chara):
 
     $ mystring = chara.name + " has entered the chatroom."
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         $ enter_entry = ("enter", chara)
         $ current_chatroom.replay_log.append(enter_entry)
     
@@ -25,7 +26,8 @@ label enter(chara):
     
 label exit(chara):
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         $ exit_entry = ("exit", chara)
         $ current_chatroom.replay_log.append(exit_entry)
 
@@ -63,7 +65,8 @@ label shake():
     if persistent.screenshake:
         show expression current_background at shake
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         # Add this shake to the replay_log
         $ shake_entry = ("shake", current_background)
         $ current_chatroom.replay_log.append(shake_entry)
@@ -81,7 +84,8 @@ label invert_screen(t=0, p=0):
         else:
             show screen invert()
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -102,7 +106,8 @@ label white_square_screen(t=0, p=0):
         else:
             show screen white_squares()
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -123,7 +128,8 @@ label hack_rectangle_screen(t=0, p=0):
         else:
             show screen hack_rectangle()
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -146,7 +152,8 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
                         offsetMax=offsetMax, w_timer=w_timer)
 
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         # Add this to the replay_log
         $ effect_entry = ("tear", [number, offtimeMult, ontimeMult, offsetMin, 
                                     offsetMax, w_timer])
@@ -160,7 +167,8 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
 label remove_entries(num=1):
     $ num *= -1
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and not vn_choice
+            and renpy.get_screen('phone_overlay')):
         # Add this to the replay_log
         $ remove_entry = ("remove", num)
         $ current_chatroom.replay_log.append(remove_entry)
