@@ -176,7 +176,7 @@ image cg s_1 = "CGs/s_album/cg-1.png"
 
 image cg r_1 = "CGs/r_album/cg-1.png"
 
-default fullsizeCG = "general_cg1"
+default fullsizeCG = "cg common_1"
 # This lets the player know if there are new CGs in
 # the album
 default new_cg = 0
