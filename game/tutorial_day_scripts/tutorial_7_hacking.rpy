@@ -13,7 +13,7 @@ label hack_example():
             $ persistent.hacking_effects = False
         "Yes, you can keep the flashing animations on.":
             m "Yes, you can keep the flashing animations on." (pauseVal=0)
-            $ persistent.hacking_effects = False
+            $ persistent.hacking_effects = True
     u "Got it. See you around."
     call exit(u)
     call enter(sa)
