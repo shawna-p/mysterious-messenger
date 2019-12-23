@@ -915,7 +915,7 @@ layeredimage v front:
         attribute mint_eye "VN Mode/V/v02_body_4.png"
         
     group face:
-        align(0.4345, 0.111)
+        align(0.4343, 0.111)
         attribute neutral default "VN Mode/V/v02_face_0.png" 
         attribute happy "VN Mode/V/v02_face_1.png"
         attribute angry "VN Mode/V/v02_face_2.png"
@@ -935,7 +935,7 @@ layeredimage v front:
     group head:
         if_any "mint_eye"
         attribute hood_up "VN Mode/V/v02_hood_1.png" align(0.4, 0.0) yoffset -25
-        attribute hood_down default "VN Mode/V/v02_hood_1_1.png" align(0.4, 0.212)
+        attribute hood_down default "VN Mode/V/v02_hood_1_1.png" align(0.378, 0.2035)
         
 layeredimage v side:    
     yoffset 210
