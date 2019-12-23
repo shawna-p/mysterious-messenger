@@ -223,9 +223,10 @@ screen hack_rectangle(w_timer=False):
         timer w_timer action Hide('hack_rectangle')
     
 ## Screen to more easily display images
-screen display_img(img_list):
+screen display_img(img_list, force_show=False):
     zorder 10
-    for img in img_list:
-        add img[0] xpos img[1] ypos img[2]
-    
+    if persistent.hacking_effects or force_show:
+        for img in img_list:
+            add img[0] xpos img[1] ypos img[2]
+        
     
