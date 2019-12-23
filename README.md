@@ -4,11 +4,11 @@ A messenger program with many features such as phone calls, text messages, chatr
 ## Getting Started
 
 * If you want to run this code, you will need to download the Ren'Py engine: [https://www.renpy.org/](https://www.renpy.org/)
-* As of 2019-11-21 (the time of this update) the version of Ren'Py used is 7.3.5.606
+* As of 2019-12-23 (the time of this update) the version of Ren'Py used is 7.3.5.606
 * In the Ren'Py launcher, start a new project (you can call it whatever you like). If you are prompted for dimensions, select Custom and use `750x1334`. Accent and Background colour don't matter
 * Go to the /game folder of the project you just created and place the provided `.rpy` files in there. Replace the existing `screens.rpy`, `options.rpy`, `script.rpy`, and `gui.rpy`
 * Save the Script Generator spreadsheet and User Guide somewhere you can find them later
-* **The images and sound files used in this project are not included in the repository. Please contact me directly if you would like to request the assets.**
+* **The images and sound files used in this project are not included in the repository. Please contact me directly if you would like to request the assets for personal use.**
 
 
 ### Getting the Program Running
@@ -17,7 +17,7 @@ If you've set up everything properly, from the Ren'Py Launcher you should be abl
 
 ### Creating your own chatrooms
 
-Included in the repository is a file called Script Generator.xlsx as well as a User Guide.pdf. The User Guide contains most of the information you'll need to get started. The spreadsheet file has an instruction tab and a several templates to facilitate turning dialogue into readable code for the program. Once you've filled out the template sheet correctly, you can simply copy-paste the code into the program and add in any outstanding features, such as choice menus or background music. 
+Included in the repository is a file called Script Generator.xlsx. The repository also includes a wiki which contains most of the information you'll need to get started. The spreadsheet file has an instruction tab and a several templates to facilitate turning dialogue into readable code for the program. Once you've filled out the template sheet correctly, you can simply copy-paste the code into the program and add in any outstanding features, such as choice menus or background music. 
 
 
 ## Built With
