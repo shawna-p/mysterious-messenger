@@ -115,7 +115,16 @@ screen day_select(day, day_num):
             is_today = False
             # If the player has at least seen the first chat of this day,
             # it is selectable ("playable")
-            if (main_menu and day.archive_list 
+            if (main_menu and len(day.archive_list) > 1
+                    and not isinstance(day.archive_list[0], ChatHistory)
+                    and not isinstance(day.archive_list[0], 
+                        store.ChatHistory)):
+                if (persistent.completed_chatrooms.get(
+                        day.archive_list[1].chatroom_label)
+                        or persistent.completed_chatrooms.get(
+                            day.archive_list[1].expired_chat)):
+                    playable = True                
+            elif (main_menu and day.archive_list 
                     and (persistent.completed_chatrooms.get(
                                 day.archive_list[0].chatroom_label)
                     or persistent.completed_chatrooms.get(
@@ -139,9 +148,6 @@ screen day_select(day, day_num):
             day_bkgr = 'day_inactive'
             day_bkgr_hover = 'day_inactive'
 
-                
-        
-
     vbox:
         spacing 10
         vbox:
@@ -163,8 +169,12 @@ screen day_select(day, day_num):
             xysize (265,152)
             background day_bkgr padding(-80, 0)
             hover_background day_bkgr_hover
-            if ((day.archive_list and day.archive_list[0].available)
-                    or (main_menu and playable)):
+            if ((main_menu and playable)
+                    or (day.archive_list 
+                        and (isinstance(day.archive_list[0], ChatHistory)
+                            or isinstance(day.archive_list[0], 
+                                store.ChatHistory))
+                        and day.archive_list[0].available)):                
                 action [SetVariable('current_day', day), 
                         SetVariable('current_day_num', day_num),
                         Show('chatroom_timeline', day=day, day_num=day_num)]

@@ -99,6 +99,7 @@ style history_route_button_text:
 
 style history_route_vbox:
     align (0.5, 0.5)
+    spacing 30
 
 image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.png", 10,10)
 image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.png", 10,10)
