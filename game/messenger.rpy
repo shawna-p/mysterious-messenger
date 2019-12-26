@@ -47,7 +47,7 @@ screen messenger_screen():
                         # so the animation doesn't "slide" in
                         if i == finalchat:
                             use chat_animation(i, True, True)
-                        use chat_animation(i)
+                        use chat_animation(i, False)
                     null height 10
                         
 
@@ -142,6 +142,19 @@ screen chat_animation(i, animate=True, anti=False):
         elif anti:
             transformVar = invisible
 
+        ## Determining the text for self-voicing
+        if anti:
+            alt_text = ""
+            alt_who = ""
+        elif i.img:
+            alt_who = ""
+            alt_text = i.who.p_name + " sent a photo"
+        else:
+            alt_who = i.who.p_name
+            alt_text = renpy.filter_text_tags(i.what, 
+                                    allow=gui.history_allow_tags)
+        
+
 
     # This displays the special messages like "xyz
     # has entered the chatroom"
@@ -149,6 +162,7 @@ screen chat_animation(i, animate=True, anti=False):
         frame:
             style i.who.name + '_bubble'            
             text i.what style i.who.name + '_bubble_text'
+            alt alt_text
             
 
     # Otherwise it's a regular character; add
@@ -162,10 +176,9 @@ screen chat_animation(i, animate=True, anti=False):
 
         # Add their nickname
         if not anti:
-            text i.who.name style nameStyle color nickColour
+            text i.who.name style nameStyle color nickColour alt alt_who
         else:
-            text i.who.name at invisible
-
+            text i.who.name at invisible alt alt_who
         # Now add the dialogue
         if not include_new: # Not a "regular" dialogue bubble
             frame at transformVar:
@@ -173,7 +186,7 @@ screen chat_animation(i, animate=True, anti=False):
                 if i.img:
                     style imgStyle
                     if "{image" in i.what:
-                        text i.what
+                        text i.what alt alt_text
                     else: # it's a CG                            
                         $ fullsizeCG = cg_helper(i.what)
                         imagebutton:
@@ -184,13 +197,13 @@ screen chat_animation(i, animate=True, anti=False):
                                             cg_helper(i.what)), 
                                             Call("viewCG"), 
                                             Return()]
-
+                            alt alt_text
 
                 # Not an image; check if it's a special bubble
                 elif i.specBubble != None and i.specBubble != 'glow2':
                     style bubbleStyle
                     background bubbleBackground # e.g. 'sigh_m'
-                    text i.what style 'special_bubble'
+                    text i.what style 'special_bubble' alt alt_text
 
                 # Not img or special bubble; check if glow variant
                 elif i.bounce:
@@ -205,6 +218,7 @@ screen chat_animation(i, animate=True, anti=False):
                             min_width gui.long_line_min_width
                     else:            
                         text i.what style 'bubble_text'
+                    alt alt_text
 
                 # Otherwise it must be regular MC dialogue
                 else:
@@ -216,6 +230,7 @@ screen chat_animation(i, animate=True, anti=False):
                             min_width gui.long_line_min_width
                     else:            
                         text i.what style "bubble_text"
+                    alt alt_text
 
         # This does indeed need the 'NEW' sign
         else:
@@ -236,6 +251,7 @@ screen chat_animation(i, animate=True, anti=False):
                                 min_width gui.long_line_min_width
                             else:
                                 style 'bubble_text'
+                        alt alt_text
                                 
 
    
