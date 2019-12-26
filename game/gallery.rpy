@@ -176,6 +176,8 @@ image cg s_1 = "CGs/s_album/cg-1.png"
 
 image cg r_1 = "CGs/r_album/cg-1.png"
 
+image cg ju_1 = "CGs/ju_album/cg-1.png"
+
 default fullsizeCG = "cg common_1"
 # This lets the player know if there are new CGs in
 # the album
@@ -226,7 +228,7 @@ default persistent.common_album = []
 ## these variables are used. This is where you actually
 ## declare all of the Album objects you need
 default ja_album = []
-default ju_album = []
+default ju_album = [ Album("cg ju_1") ]
 default r_album = [ Album("cg r_1") ]
 default s_album = [ Album("cg s_1") ]
 default u_album = []
