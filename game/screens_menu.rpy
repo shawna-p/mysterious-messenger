@@ -420,30 +420,34 @@ style menu_text_small is text:
 ## like to start on. Can be customized to lead the player to a route
 ## to select, but as of now simply starts the game
 screen route_select_screen():
-
     tag menu
-
     use menu_header("Mode Select", Show('main_menu', Dissolve(0.5))):
         fixed:   
             xysize (720, 1170)
             yalign 1.0
-            xalign 0.5  
-            frame:
-                xysize(700, 350)
-                padding (10, 10)
-                xalign 0.5
-                yalign 0.4
+            xalign 0.5
+            # New code after here
+            vbox:
+                style 'route_select_vbox'
                 button:
-                    focus_mask True
-                    background 'right_corner_menu'
-                    hover_foreground 'right_corner_menu_hover'
-                    action [Start()]         
-                text 'Start Game':
-                    style 'menu_text_small' 
-                    xalign 0.5 
-                    yalign 0.5
+                    style 'route_select_button'
+                    action Start()
+                    text "Start Game" style 'menu_text_small' align (0.5, 0.5)
+                
+                if persistent.hidden_route:
+                    button:
+                        style 'route_select_button'
+                        action Start('prologue')
+                        text "Common Route" style 'menu_text_small' align (0.5, 0.5)
 
-    
+style route_select_vbox:
+    xysize (700, 350)
+    align (0.5, 0.5)
+    spacing 30
+
+style route_select_button:
+    is right_menu_button
+    xysize (700, 120)
   
 ## Load and Save screens #######################################################
 ##
