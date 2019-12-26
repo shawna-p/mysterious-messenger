@@ -10,8 +10,8 @@ init -5 python:
                 cover_pic=False, status=False, bubble_color=False, 
                 glow_color=False, emote_list=False, voicemail=False,
                 right_msgr=False, homepage_pic=False,
-                phone_char=False,
-                vn_char=False):               
+                phone_char=False, vn_char=False,
+                pronunciation_help=False):               
                 
             # The name used in the chatroom e.g. '707'
             self.name = name            
@@ -123,6 +123,11 @@ init -5 python:
                 self.vn_char = vn_char
             else:
                 self.vn_char = store.narrator
+
+            if pronunciation_help:
+                self.p_name = pronunciation_help
+            else:
+                self.p_name = self.name
 
             # Any initialized character should go in all_characters
             if self not in store.all_characters and self.prof_pic:
@@ -515,41 +520,48 @@ default ja = ChatCharacter("Jaehee Kang", 'ja',
                 "Cover Photos/profile_cover_photo.png", "Jaehee's status", 
                 emote_list=jaehee_emotes,
                 homepage_pic="Profile Pics/main_profile_jaehee.png",
-                phone_char=ja_phone, vn_char=ja_vn)
+                phone_char=ja_phone, vn_char=ja_vn,
+                pronunciation_help="jayhee kang")
 default ju = ChatCharacter("Jumin Han", 'ju', 
                 'Profile Pics/Jumin/ju-default.png', 
                 'Profile Pics/ju_chat.png', "#a59aef", 
                 "Cover Photos/profile_cover_photo.png", "Jumin's status", 
                 emote_list=jumin_emotes,
                 homepage_pic="Profile Pics/main_profile_jumin.png",
-                phone_char=ju_phone, vn_char=ju_vn)
+                phone_char=ju_phone, vn_char=ju_vn,
+                pronunciation_help="jumin han")
 default m = ChatCharacter("[persistent.name]", 'm', 
                 persistent.MC_pic, right_msgr=True,
-                phone_char=m_phone, vn_char=m_vn)
+                phone_char=m_phone, vn_char=m_vn,
+                pronunciation_help="you")
 default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.png', 
                 'Profile Pics/r_chat.png', "#b81d7b", 
                 "Cover Photos/profile_cover_photo.png", "Ray's status", 
                 emote_list=ray_emotes,
                 homepage_pic="Profile Pics/main_profile_ray.png",
-                phone_char=r_phone, vn_char=r_vn)
+                phone_char=r_phone, vn_char=r_vn,
+                pronunciation_help="ray")
 default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.png', 
                 'Profile Pics/ri_chat.png', "#fcef5a", 
                 "Cover Photos/profile_cover_photo.png", "Rika's status", 
                 emote_list=rika_emotes,
                 homepage_pic="Profile Pics/main_profile_rika.png",
-                phone_char=ri_phone, vn_char=ri_vn)
+                phone_char=ri_phone, vn_char=ri_vn,
+                pronunciation_help="rika")
 default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.png', 
                 'Profile Pics/s_chat.png', "#ff2626", 
                 "Cover Photos/profile_cover_photo.png", "707's status", 
                 emote_list=seven_emotes,
                 homepage_pic="Profile Pics/main_profile_seven.png",
-                phone_char=s_phone, vn_char=s_vn)
+                phone_char=s_phone, vn_char=s_vn,
+                pronunciation_help="seven oh seven")
 default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.png', 
                 'Profile Pics/sa_chat.png', "#b81d7b", 
                 "Cover Photos/profile_cover_photo.png", "Saeran's status", 
                 emote_list=saeran_emotes,
                 homepage_pic="Profile Pics/main_profile_sa1.png",
-                phone_char=sa_phone, vn_char=sa_vn)
+                phone_char=sa_phone, vn_char=sa_vn,
+                pronunciation_help="sairan")
 default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.png', 
                 'Profile Pics/u_chat.png', "#ffffff",
                 phone_char=u_phone, vn_char=u_vn)
@@ -565,7 +577,8 @@ default y = ChatCharacter("Yoosung★", 'y',
                 "Cover Photos/profile_cover_photo.png", "Yoosung's status", 
                 emote_list=yoosung_emotes,
                 homepage_pic="Profile Pics/main_profile_yoosung.png",
-                phone_char=y_phone, vn_char=y_vn)
+                phone_char=y_phone, vn_char=y_vn,
+                pronunciation_help="yoosung")
 default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.png', 
                 'Profile Pics/z_chat.png', "#c9c9c9", 
                 "Cover Photos/profile_cover_photo.png", "Zen's status", 
