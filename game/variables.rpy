@@ -17,7 +17,7 @@ init -6 python:
     ## A class that makes it much easier to fetch the time for any
     ## given chat entry/text message/phone call/etc
     class MyTime(object):
-        def __init__(self, day=None):
+        def __init__(self, day=None, thehour=None, themin=None):
         
             if day is None:
                 thetime = datetime.now()
@@ -44,18 +44,35 @@ init -6 python:
             
             self.day = thetime.strftime('%d')            # e.g. 20
                             
-            self.twelve_hour = thetime.strftime('%I')
-            self.military_hour = thetime.strftime('%H')
-            self.minute = thetime.strftime('%M')
-            self.second = thetime.strftime('%S')
-            self.am_pm = thetime.strftime('%p')
+            if themin is None:
+                self.twelve_hour = thetime.strftime('%I')
+                self.military_hour = thetime.strftime('%H')
+                self.minute = thetime.strftime('%M')
+                self.second = thetime.strftime('%S')
+                self.am_pm = thetime.strftime('%p')
+            else:
+                if int(thehour) > 12:
+                    self.twelve_hour = str(int(thehour)-12)
+                    self.am_pm = 'PM'
+                else:
+                    self.twelve_hour = thehour
+                    self.am_pm = 'AM'
+                self.military_hour = thehour
+                self.minute = themin
+                self.second = '00'
+                
 
             
     ## Function that returns a MyTime object with the current time
     ## Also lets you manually set the day for testing or backlogs
-    def upTime(day=None):
-        if day != None:
+    def upTime(day=None, thetime=None):
+        if day is not None and thetime is None:
             return MyTime(day)
+        elif thetime is not None:
+            # Get the hour and minute
+            thehour = thetime[:2]
+            themin = thetime[-2:]
+            return MyTime(day, thehour, themin)
         else:
             return MyTime()
 
