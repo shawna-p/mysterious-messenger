@@ -220,7 +220,7 @@ default oldPV = pv
 # Number of bubbles to keep on the screen at once
 # (larger numbers may slow down the program; too
 # small and there may not be enough to fill the screen)
-default bubbles_to_keep = 10
+default bubbles_to_keep = 15
 # Keeps track of the current background for calls such as "shake"
 default current_background = "morning"
 
