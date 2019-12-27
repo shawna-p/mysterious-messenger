@@ -271,6 +271,12 @@ init -5 python:
             else:
                 self.real_time_text = False
 
+        ## Shortens some of the code needed to add text messages
+        ## to a backlog
+        def text_backlog(self, who, what, when, img=False):
+            self.text_msg.msg_list.append(ChatEntry(who, what,
+                when, img))
+
         ## Allows the ChatCharacter object to act as a proxy for
         ## the VN and phone call Character objects
         def do_extend(self, **kwargs):
