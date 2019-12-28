@@ -305,7 +305,7 @@ screen phone_contacts():
             # though any character in the all_characters list can 
             # phone the player
             if (len(character_list) > 9
-                    or m in character_list and len(character_list) < 10):
+                    or m in character_list and len(character_list) > 10):
                 use phone_contacts_grid(3, -(-len(character_list) // 3))
             else:
                 null height 10
