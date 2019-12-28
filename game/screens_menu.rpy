@@ -315,7 +315,7 @@ screen main_menu():
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action Show("load")                        
+                    action [Hide('load'), Show("load")]
                     vbox:                   
                         add "menu_save_load" xpos 25
                         text "Save & Load"                        
@@ -325,7 +325,7 @@ screen main_menu():
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action Show('preferences')                        
+                    action [Hide('preferences'), Show('preferences')]
                     vbox:        
                         add "menu_after_ending" align (0.5, 0.5)
                         text "Settings"

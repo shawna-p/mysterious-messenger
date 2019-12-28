@@ -16,7 +16,6 @@ log.txt
 project.json
 traceback.txt
 .android.json
-dialogue.tab
 _config.yml
 game/create_a_chatroom.rpy
 game/z_route_test.rpy

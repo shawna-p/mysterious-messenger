@@ -1,0 +1,1395 @@
+Identifier	Character	Dialogue	Filename	Line Number
+guest_party_showcase_20ad63f5	"[guest_name]"	[guest_dialogue]	game/chat_select.rpy	741
+guest_info_0967ba45	who	[what]	game/email_system.rpy	814
+voicemail_1_db22a139	vmail_phone	The person you have called is unavailable right now. Please leave a message at the tone or try again.	game/phonecall_system.rpy	722
+start_c2ba5583	u	Oh! You picked up; I'm so relieved.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	20
+start_5fa57d63	u	I thought maybe you wouldn't since my number wouldn't be listed in your phone.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	20
+start_897d64e4	u	I'm calling because I was hoping you could help me test a new app I made. What do you think?	game/tutorial_day_scripts/tutorial_0_introduction.rpy	20
+start_11fdb519	extend		game/tutorial_day_scripts/tutorial_0_introduction.rpy	29
+start_4daf8153	m	Testing? What would I need to do?	game/tutorial_day_scripts/tutorial_0_introduction.rpy	32
+start_ad4dea99	m	Sounds like a lot of work.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	34
+start_cbeed9aa	u	Oh, it's not bad, I promise!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	35
+start_c7dd695c	m	I've actually already seen this; can you take me to the home screen?	game/tutorial_day_scripts/tutorial_0_introduction.rpy	37
+start_f4b89b4a	u	Oh, sure! See you later~	game/tutorial_day_scripts/tutorial_0_introduction.rpy	38
+start_f81b62f5	u	All you have to do is use the app, and then you let me know if you run into problems or bugs.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	48
+start_d2167af7	u	It'll help me make a much better program, in the end.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	48
+start_4003da4c	u	You only need to use it as much as you have time for. And in return you get to test out my program earlier than anyone else!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	48
+start_2b355d08	u	So what do you say?	game/tutorial_day_scripts/tutorial_0_introduction.rpy	48
+start_11fdb519_1	extend		game/tutorial_day_scripts/tutorial_0_introduction.rpy	60
+start_8552f0f2	m	I suppose I'll give it a shot.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	63
+start_62d354ca	u	You will? Wonderful!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	65
+start_739fca37	u	I also wanted to ask -- how do you feel about short flashing animations?	game/tutorial_day_scripts/tutorial_0_introduction.rpy	65
+start_260b17cc	u	Sometimes the program has animations like the scrolling hacked code effect, or banners in the chatrooms. There is also a screen shake animation.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	65
+start_11fdb519_2	extend		game/tutorial_day_scripts/tutorial_0_introduction.rpy	75
+start_01912e99	m	I don't want to see any flashing animations or screenshake.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	81
+start_f6816c24	u	Understandable! I've turned all those animations off for you.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	82
+start_b96632be	m	I'm okay with some effects but not with others.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	86
+start_7bf00691	u	Okay! I've just turned the hacking effect off for now since it shows up in the next chatroom.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	87
+start_518b0f25	m	You can keep all the animations on.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	93
+start_8240cba6	u	Got it!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	94
+start_1010fb76	u	If you ever want to change which animations you see, you can find toggles for each of them in the Settings.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	96
+start_b33826f2	u	There are other accessibility options there as well, such as audio captions for background music and sound effects.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	96
+start_44fa15ae	u	Alright, so when this call ends I'll send you a chatroom message with a bit more information on getting started from here.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	96
+start_fccdf2c7	u	Good luck!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	96
+start_c9f3040f	u	You're here!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	125
+start_be6e301b	u	Thank you for helping me ^^	game/tutorial_day_scripts/tutorial_0_introduction.rpy	126
+start_204cbad6	u	As you can see, this is a sort of \"introductory\" chatroom. It works a lot like the other chatrooms,	game/tutorial_day_scripts/tutorial_0_introduction.rpy	127
+start_304522f4	u	but with a couple of changes you can see in tutorial_0_introduction.rpy	game/tutorial_day_scripts/tutorial_0_introduction.rpy	128
+start_0f2f4e8a	u	I recommend you get familiar with how regular chatrooms and phonecalls work before you look at this chat, though!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	129
+start_f6960b62	m	What should I look at first?	game/tutorial_day_scripts/tutorial_0_introduction.rpy	134
+start_d80a7a36	u	Well, the first thing I recommend is to just play through the Tutorial Day.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	135
+start_1f33836f	u	It showcases some of the features so you know what sorts of things you can do with the program.	game/tutorial_day_scripts/tutorial_0_introduction.rpy	136
+start_fd060598	u	I won't keep you much longer. Enjoy the program!	game/tutorial_day_scripts/tutorial_0_introduction.rpy	139
+example_chat_edd773ad	u	Hello, [name] ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	15
+example_chat_b95080c9	u	I thought you might come by.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	16
+example_chat_fae63efd	u	You want to learn more about how to make a chatroom, right?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	17
+example_chat_09da39d3	u	I've come to show off a few of its features.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	18
+example_chat_6215b2a1	m	Let's get started!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	23
+example_chat_2a5a0861	u	Great! That's the kind of attitude I'm looking for ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	24
+example_chat_d937c61b	m	What if I don't know any coding?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	27
+example_chat_f2f39b68	u	Don't worry! I've tried to make this as easy to use as possible.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	28
+example_chat_60ffd6f6	u	There's an extensive User Guide included with the program to look at,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	29
+example_chat_9ca1328c	u	and I'll also be monitoring the Mysterious Messenger Discord server if you have questions.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	30
+example_chat_173bc8b1	u	This project was coded in Ren'Py, so you can always check out their forums, too.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	31
+example_chat_d8e54196	u	Anyway, you can see what we just did there was a menu!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	33
+example_chat_84932c9f	u	It allows you to alter a conversation based on responses.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	34
+example_chat_8528a4d0	u	If you take a look tutorial_1_chatroom.rpy, you can get an idea of how to use them.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	35
+example_chat_9e94f1bd	u	There are lots of things to learn about!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	36
+example_chat_3cd0bdc5	u	What would you like to see first?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	37
+learn_cbc20537	m	I want to learn how to use emojis and images	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	50
+learn_111bd2fb	u	Emojis and images, huh?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	52
+learn_b0ebb0c4	u	Okay. I'll let someone else explain this.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	53
+learn_42fa1997	u	I'll be back later ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	54
+learn_77dc8eef	m	Can you teach me about banners?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	62
+learn_ce4d5332	u	Oh, banners?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	64
+learn_b0ebb0c4_1	u	Okay. I'll let someone else explain this.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	65
+learn_42fa1997_1	u	I'll be back later ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	66
+learn_bbefaba2	m	I'd like to learn about heart icons	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	74
+learn_2b84a74c	u	Heart icons?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	76
+learn_b59c5c68	u	Hmm, sounds good. I'll let someone else explain this.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	77
+learn_728a6b7a	u	I'll be back later ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	78
+learn_39125c19	m	Screen shake and special bubbles, please	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	86
+learn_39724f9d	u	You want to know about special speech bubbles and screen shake?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	88
+learn_33979e9e	u	Alright then. I'll let someone else explain this.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	89
+learn_728a6b7a_1	u	I'll be back later ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	90
+emojis_90acd5e5	s	O	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	105
+emojis_af9a0054	s	M	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	106
+emojis_54a85770	s	G	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	107
+emojis_fbff176f	s	I get to explain emojis!!!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	108
+emojis_ac328b1a	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	109
+emojis_c72138ec	s	Yay!!!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	110
+emojis_64e32a14	s	The program has a whole bunch of emojis defined in emoji_definitions.rpy already,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	111
+emojis_9dcbe4c6	s	and it will even play the right sound effect for you when the emoji is shown.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	112
+emojis_62021b1e	s	You also need to make sure the program knows the the message contains an image (using (img=True) after the dialogue)	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	113
+emojis_ae1e8c9a	s	otherwise it'll look like this lolol	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	114
+emojis_867e1b50	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	115
+emojis_8adaf086	s	Which is probably not what you want!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	116
+emojis_e528b6ac	s	You'll have to be careful to get the spelling right,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	117
+emojis_8a881805	s	since otherwise you'll get an \"image not found\" message.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	118
+emojis_808dd5d6	s	And it won't play any sound files, either!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	119
+emojis_914fd3bd	s	If you want to add more emojis,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	120
+emojis_ce2dceed	s	there's a whole section on just that in the User Guide.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	121
+emojis_224522b9	s	Now I'll let you check out the emojis currently coded into the game.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	122
+emojis_f3c7bc2e	s	Just select a character to see the available emojis or \"Done\" if you're finished	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	123
+emoji_1ae75f09	s	The last thing I'm here to explain is how to post CGs.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	190
+emoji_5473d65e	s	That means images like this!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	191
+emoji_575769ea	s	s_1	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	192
+emoji_1e0f2484	s	They're fully clickable like they are in-game; check it out!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	193
+emoji_d145534d	s	You can post CGs too!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	194
+emoji_986a235d	m	I can?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	198
+emoji_e9fecc03	s	Yeah! Give it a try!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	199
+emoji_16d151a5	m	cg s_1	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	202
+emoji_62e907c3	m	s_1	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	204
+emoji_9c088578	m		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	205
+emoji_b534ccd9	s	Yeah, just like that!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	206
+emoji_7d672cf0	s	You post these a little differently from emojis. 	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	207
+emoji_d51079af	s	There's more information in the User Guide.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	208
+emoji_51f13668	s	The program will take care of unlocking the image in the gallery and letting players view it full-size!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	209
+emoji_b982d6c4	s	Just make sure you indicate that the message contains an image,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	210
+emoji_c3961194	s	Otherwise it'll just show up in text, like this:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	211
+emoji_0270d6e5	s	s_1	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	212
+emoji_02f34567	s	But if you check off the \"Image\" modifier, you get this:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	213
+emoji_575769ea_1	s	s_1	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	214
+emoji_f04df164	s	Hope this helped!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	215
+emoji_96c4376b	s	Let me know if you have any questions later~	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	216
+banners_ee39fc04	y	Hello!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	230
+banners_dd302f6f	y	I'm supposed to explain banners to you.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	231
+banners_b4b18ea3	y	It's pretty quick, I promise!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	232
+banners_1c5b8d8d	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	233
+banners_7df1291b	y	You call them with \"call banner('__')\",	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	234
+banners_e504e4b9	y	where '__' is the name of the banner you want.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	235
+banners_76eb1d6a	y	It looks like you've got banner animations turned off though!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	237
+banners_f92be29a	y	So you won't see them.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	238
+banners_73cd373c	y	Since the animations can be kind of distracting, there's a toggle to turn them off.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	240
+banners_899f14eb	y	Do you want to see banner animations?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	242
+banners_9317c7ea	m	Yes, I want to see banner animations.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	246
+banners_da0ea8f6	y	Okay!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	248
+banners_6db8041e	m	No, turn banner animations off.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	250
+banners_bbbec542	y	Alright, got it!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	252
+banners_69559775	y	There are four different types of banners:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	255
+banners_5d95217a	y	The lightning banner!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	256
+banners_a9ef9e92	y	For when you're feeling angry ^^;;	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	258
+banners_0411373d	y	The heart banner!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	259
+banners_100ae4d1	y	For happy stuff!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	261
+banners_f221a652	y	The annoy banner	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	262
+banners_f0874329	y	For when you're irritated	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	264
+banners_7f52f277	y	And last but not least,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	265
+banners_9d17f3c2	y	the 'well' banner!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	266
+banners_0fa1ccb3	y	...	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	268
+banners_0461803d	y	It's for times when you're a little lost for words.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	269
+banners_d0ed17eb	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	270
+banners_9e2aa652	y	I have one more thing I was going to show you:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	272
+banners_5dc42762	y	it's not in the base game, but in this program you can pick your pronouns.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	273
+banners_022760b3	y	You said you use [they]/[them] pronouns, right?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	274
+banners_4abfc889	y	So we'll use [they]/[them] whenever we talk about you.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	275
+banners_8b062fb7	y	You can check out Short forms/Startup Variables under variables.rpy - at the start there are some variables so you know how to use pronouns when writing a script	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	276
+banners_cf898acf	y	If you want to add any new variables, there's a section in the User Guide about doing just that.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	277
+banners_adc04f70	y	And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu).	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	278
+banners_b5df65cb	y	That's all from me!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	279
+banners_dcf4fe20	y	Good luck with the program ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	280
+banners_f75df2ce	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	281
+heart_icons_2c4cd385	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	295
+heart_icons_3c97c090	z	Hey cutie ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	296
+heart_icons_9fc71b63	z	I'm here to explain heart icons!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	297
+heart_icons_2b60fc4a	z	If you're having a hard time looking at the animation for the heart icons,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	298
+heart_icons_717fe6da	z	or it's hard to tell them apart,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	299
+heart_icons_296301d3	z	There's also an option to turn them into text popups that look like this:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	300
+heart_icons_61ab4662	z	Would you like to use heart icons or the text notifications?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	302
+heart_icons_4322e4c1	m	I want the regular heart icons.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	306
+heart_icons_2a8ad87f	z	Got it!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	308
+heart_icons_6e77f855	z	You'll see the regular heart animation then.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	309
+heart_icons_5b9347d9	m	I want the text notifications.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	312
+heart_icons_2a8ad87f_1	z	Got it!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	314
+heart_icons_2e96338e	z	You'll see the text popup whenever someone likes your response.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	315
+heart_icons_222c1e01	z	If you change your mind on what kind of icon you want,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	317
+heart_icons_b8f87b8a	z	There's a toggle in the Settings called Heart Icon Text Notifications	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	318
+heart_icons_2b68987a	z	Anyway, so getting a heart point will look like this:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	320
+heart_icons_3ad04886	z	And you can lose heart points, too.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	323
+heart_icons_f53cc717	z	You just write call heart_break(z) and give it the ChatCharacter variable you're losing a point with instead of z	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	324
+heart_icons_4d8a72ae	z	And each character has a different one	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	326
+heart_icons_feb6439c	z	They all use the same white heart, this one	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	327
+heart_icons_72bf64cc	z	and just recolour it depending on what argument you pass via \"call heart_icon(z)\"	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	329
+heart_icons_173d8f40	z	You can easily add your own colours, too, whenever you define a ChatCharacter like in character_definitions.rpy	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	330
+heart_icons_30e66000	z	Here are the currently available colours:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	331
+heart_icons_56d0a0b6	z	Seven	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	332
+heart_icons_c7a95592	z	Me!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	334
+heart_icons_b6ad82ef	z	Jaehee	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	336
+heart_icons_bd9b8de9	z	Jumin	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	338
+heart_icons_ddc26c44	z	Yoosung	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	340
+heart_icons_019c3689	z	Ray	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	342
+heart_icons_bddcfbce	z	V	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	344
+heart_icons_0ed68c26	z	and then there are a few special ones	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	346
+heart_icons_fc48b5bb	z	The white heart I mentioned before (tied to the username 'Unknown')	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	347
+heart_icons_73ad08e1	z	You can also get this heart by passing heart_icon the short form for Saeran (sa)	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	349
+heart_icons_e920ffae	z	And then there is this heart	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	351
+heart_icons_be76c1ef	z	which in this game is for Rika.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	353
+heart_icons_012e0fb1	z	The last thing I'm here to explain is the 'heartbreak' icon	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	354
+heart_icons_1796d45f	z	It works the same as the regular heart icons -- just call \"heart_break\" with that character	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	355
+heart_icons_65a03674	z	It will automatically colour itself	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	356
+heart_icons_c7a9daf7	z	They look like this!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	357
+heart_icons_c5e1d63f	z	But you don't really want to hurt any of our feelings, right?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	360
+heart_icons_d90300d6	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	361
+heart_icons_2b848a4b	z	The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	363
+heart_icons_9c5fc49e	z	It keeps track of both the total points earned during a chatroom,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	364
+heart_icons_fa80d86f	z	as well as how many points you have with each individual character	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	365
+heart_icons_34cda0c1	z	There's also a second argument you can pass it to have heart points count towards a bad end.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	366
+heart_icons_d22fc579	z	Check out the User Guide for more on that!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	367
+heart_icons_12095433	z	Also note that Ray and Saeran's heart points count towards the same character	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	368
+heart_icons_5e2508a3	z	Good luck with the rest of the program!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	369
+screen_shake_b5ce0871	ja	Hello, [name].	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	383
+screen_shake_ebc4ab99	ja	Mr. Han will be with us shortly. 	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	384
+screen_shake_eb614813	ja	Before we begin though, I should ask:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	385
+screen_shake_8edbb9f5	ja	Do you want to see screen shake animations?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	386
+screen_shake_b6ee0156	m	Yes, I want to see the screen shake animation.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	391
+screen_shake_3fa6c25d	ja	Understood.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	393
+screen_shake_dee968ba	m	No, turn screen shake animation off.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	395
+screen_shake_3fa6c25d_1	ja	Understood.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	397
+screen_shake_a02dcff4	ja	Ah, right on time.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	400
+screen_shake_4f11e80f	ja	Shall we get started then?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	401
+screen_shake_de2fc082	ja	...	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	403
+screen_shake_07fd5e3c	ja	Mr. Han?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	405
+screen_shake_7c89f958	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	406
+screen_shake_4bd6c435	ja	Mr. Han.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	407
+screen_shake_fe6b0752	ja	MR. HAN!!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	408
+screen_shake_dff5f9dd	ju	Is something the matter?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	410
+screen_shake_e43ef17c	ja	Oh.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	411
+screen_shake_af023805	ja	You weren't responding so I thought perhaps you were asleep.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	412
+screen_shake_f489f8b9	ju	Elizabeth the 3rd was sleeping on my lap so I couldn't disturb her.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	413
+screen_shake_a49ae96a	ja	Of course;;	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	414
+screen_shake_8cd90516	ja	...As I was saying.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	415
+screen_shake_a252ccdf	ja	We're supposed to teach [name] about some other chatroom features.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	416
+screen_shake_c1df2222	ju	Like the special speech bubbles?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	417
+screen_shake_e7b66dc3	ja	Yes ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	418
+screen_shake_e39ef1c7	ja	There are many special speech bubbles built into the game.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	419
+screen_shake_31c5c1cd	ja	Most bubbles come in three sizes:	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	420
+screen_shake_7c5b58b9	ja	small	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	421
+screen_shake_57f959c2	ja	medium	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	422
+screen_shake_c66129ac	ja	and large	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	423
+screen_shake_9b2e671a	ja	The text should usually resize itself to fit, but you need to choose the size yourself.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	424
+screen_shake_0c5d1e1a	ja	For example, this bubble might be too small.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	425
+screen_shake_728488d3	ja	As for screen shake,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	427
+screen_shake_a374f28f	ja	you simply need to use the call	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	428
+screen_shake_c707885d	ja	\"call shake\" 	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	429
+screen_shake_62a9a949	ja	And it does this	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	430
+screen_shake_098a48eb	ja	Lastly, you can check out all of the special bubbles present in the game.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	432
+screen_shake_6516ef8e	ja	Just select \"Done\" when you're finished.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	433
+ending_13bc9b22	u	You're back!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	445
+ending_7baa156a	u	So what did you think?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	446
+ending_34952a49	u	Are you ready to start making your own chatrooms?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	447
+ending_1c90bf90	m	Definitely!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	451
+ending_81acd690	u	I'm glad! ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	452
+ending_156676df	m	I don't know if I'm ready yet...	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	455
+ending_7cdcc94d	u	I recommend checking out the User Guide, which will walk you through creating a chatroom.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	456
+ending_c0705ac7	u	You can also go through these example chatrooms a few times and compare it with the code.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	457
+ending_73a25d2c	u	I've put a lot of work into this program, so any feedback is welcome!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	459
+ending_8eb58479	u	If you decide you'd like to use it somewhere,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	460
+ending_f34baaab	u	you must include credit and a link back to my GitHub in your project.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	461
+ending_b60d3770	u	Feel free to contact me if you have any questions.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	462
+ending_25ff40b4	u	I hope you find this program helpful.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	463
+ending_fccdf2c7	u	Good luck!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	464
+test_call_0ffc641e	r_phone	Hello?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	474
+test_call_11fdb519	extend		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	476
+test_call_9ed82a25	m	Ray, it's me.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	479
+test_call_2267ec62	r_phone	Oh! It's nice to hear from you, [name].	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	480
+test_call_45a943b0	m	Hello? Can you hear me?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	483
+test_call_088d5091	r_phone	Yes! [name], right? It's nice to hear from you.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	484
+test_call_ad1c401c	r_phone	Looks like you figured out the phone call function, huh?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	486
+test_call_c5a6b25d	r_phone	This is a test call for the program. It's always available on Tutorial Day.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	486
+test_call_3e277705	r_phone	That means you'll never hear my voicemail message, but you can try calling the other characters to hear their voicemail.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	486
+test_call_71ca24ed	r_phone	Usually, phone calls will timeout two chatrooms after it's first 'activated'.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	486
+test_call_85e763f5	r_phone	That means you won't be able to phone that character anymore to get that conversation. So be sure to call the characters often!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	486
+test_call_f010f7da	r_phone	You can find much more explanation on this feature and more in the User Guide.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	486
+test_call_1c5e7e16	r_phone	It was nice talking with you! Have a great day~	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	486
+example_chat_expired_79b526ab	u	Oh, [name]'s not here.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	515
+example_chat_expired_3a9e9aa3	u	It looks like you let this chatroom expire, huh?	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	516
+example_chat_expired_cf9876c7	u	When you're running the game in real-time, sometimes chatrooms will expire.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	517
+example_chat_expired_4f6d3c54	u	You can always buy them back, though, by clicking the icon next to the expired chatroom.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	518
+example_chat_expired_c6f8c824	u	It doesn't even cost anything!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	519
+example_chat_expired_502f5567	u	You can also use the \"Continue...\" button at the bottom of the timeline screen,	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	520
+example_chat_expired_6ac5ce70	u	which lets you buy the next 24 hours of chatrooms in advance.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	521
+example_chat_expired_4dbd8a31	u	That way you can be sure you're not missing any chatrooms!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	522
+example_chat_expired_816948c1	u	(Or if you're just tired of waiting...)	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	523
+example_chat_expired_54e81900	u	You can switch real-time mode off from the Developer settings on the chat home screen.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	524
+example_chat_expired_a5fca08d	u	Anyway, you'll need to buy this chatroom back to go through the tutorial!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	525
+example_chat_expired_f10fc54b	u	Give it a shot ^^	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	526
+example_chat_expired_d6e60c77	u	I'll see you soon!	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	527
+bubbles_c99e3e1b	ju	That's all from us.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	542
+bubbles_805a963b	ju	Note that currently you can only use the bubbles associated with the speaking character	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	543
+bubbles_97e6d5b8	ju	For example, Assistant Kang cannot use my Elizabeth the 3rd bubble.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	544
+bubbles_723e120e	ju	I must excuse myself.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	545
+bubbles_b189f16d	ja	I'll be leaving too. Best of luck with the program.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	547
+jaehee_emoji_d7243f71	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	591
+jaehee_emoji_60d24f8a	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	592
+jaehee_emoji_d2f0e149	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	593
+jaehee_emoji_279e7dce	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	594
+jaehee_emoji_12580cbe	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	595
+jaehee_emoji_60364563	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	596
+jaehee_emoji_cb898b7f	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	597
+jaehee_emoji_7c89f958	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	598
+jaehee_emoji_74b44091	ja		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	599
+jumin_emoji_f3d28ac0	ju		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	606
+jumin_emoji_9c729578	ju		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	607
+jumin_emoji_439364c1	ju		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	608
+jumin_emoji_894022b8	ju		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	609
+ray_emoji_65810a81	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	616
+ray_emoji_c1d69693	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	617
+ray_emoji_a375db9d	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	618
+ray_emoji_f5e72c0d	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	619
+ray_emoji_a0b6bf76	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	620
+ray_emoji_cf7bce0d	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	621
+ray_emoji_b17b8aa9	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	622
+saeran2_emoji_9ac9222f	s	These saeran_sweater emotes were edited by Manami from saeran-sexual.tumblr.com, used with permission.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	628
+saeran2_emoji_ab751b97	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	629
+saeran2_emoji_571e7149	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	630
+saeran2_emoji_17a11b67	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	631
+saeran2_emoji_733ff208	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	632
+saeran2_emoji_3749bc7e	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	633
+saeran2_emoji_cf46ba4b	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	634
+saeran2_emoji_9bf712ed	r		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	635
+saeran_emoji_d3a55ad6	sa		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	641
+saeran_emoji_f1ec1c61	sa		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	642
+saeran_emoji_4c4ed9a8	sa		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	643
+saeran_emoji_16fcbedf	sa		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	644
+seven_emoji_87e5730b	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	651
+seven_emoji_c213b389	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	652
+seven_emoji_cf5b57d5	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	653
+seven_emoji_f4cd57e0	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	654
+seven_emoji_a7a57fab	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	655
+seven_emoji_520573e9	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	656
+seven_emoji_ac328b1a	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	657
+seven_emoji_80fb56cb	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	658
+seven_emoji_4be2ed75	s		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	659
+rika_emoji_58443fe3	s	These rika_emotes were created by Sakekobomb on Tumblr, used with permission.	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	665
+rika_emoji_a75ae810	ri		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	666
+rika_emoji_602a6105	ri		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	667
+rika_emoji_76037a0c	ri		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	668
+v_emoji_97fe073b	v		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	674
+v_emoji_2d28f1e6	v		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	675
+v_emoji_abe1db7a	v		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	676
+v_emoji_04743a57	v		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	677
+yoosung_emoji_38ddda15	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	683
+yoosung_emoji_dacb4e0e	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	684
+yoosung_emoji_1c5b8d8d	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	685
+yoosung_emoji_d6b3150f	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	686
+yoosung_emoji_bf987664	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	687
+yoosung_emoji_f020c427	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	688
+yoosung_emoji_d0ed17eb	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	689
+yoosung_emoji_2056cbdf	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	690
+yoosung_emoji_f75df2ce	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	691
+yoosung_emoji_460d31a4	y		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	692
+zen_emoji_5da74344	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	698
+zen_emoji_d90300d6	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	699
+zen_emoji_777a9c36	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	700
+zen_emoji_bdc0136e	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	701
+zen_emoji_3884423f	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	702
+zen_emoji_3d8eb4e7	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	703
+zen_emoji_70fa4fa5	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	704
+zen_emoji_6832d206	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	705
+zen_emoji_2c4cd385	z		game/tutorial_day_scripts/tutorial_1_chatroom.rpy	706
+cloud_s_c31716c1	z	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	714
+cloud_s_bb3edc64	ju	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	715
+cloud_s_bfa8e017	ja	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	716
+cloud_s_31f68ce1	s	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	717
+cloud_s_714d4049	r	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	718
+cloud_s_657cc775	sa	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	719
+cloud_s_867fb613	v	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	720
+cloud_s_61a2ef45	y	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	721
+sigh_s_c67b9c7a	z	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	728
+sigh_s_09027c8a	ju	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	729
+sigh_s_7278a336	ja	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	730
+sigh_s_812abed1	s	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	731
+sigh_s_ea23db04	r	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	732
+sigh_s_e3dcc722	v	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	733
+sigh_s_cd2ba039	y	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	734
+round_s_c3a1695f	z	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	741
+round_s_6ae2f42a	ju	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	742
+round_s_04e1378d	ja	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	743
+round_s_80aafa44	s	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	744
+round_s_4cfce7b9	r	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	745
+round_s_60a5a2d8	s	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	746
+round_s_2e286178	v	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	747
+round_s_f8ecff4f	y	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	748
+square_s_baa4e397	z	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	755
+square_s_ea288c24	ju	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	756
+square_s_87dd1eb0	ja	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	757
+square_s_79090e4a	r	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	758
+square_s_29253728	r	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	759
+square_s_190d4bc4	sa	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	760
+square_s_9b4b35d3	v	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	761
+square_s_a6810e05	y	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	762
+spike_s_519832f8	z	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	769
+spike_s_e5dc233a	ju	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	770
+spike_s_1bbd2226	ja	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	771
+spike_s_60f99dbe	s	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	772
+spike_s_05ef18f7	y	Some small text	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	773
+cloud_m_8e4bd8ee	z	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	782
+cloud_m_d3f747ea	ju	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	783
+cloud_m_d023344c	ja	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	784
+cloud_m_f67e4007	s	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	785
+cloud_m_8b7dad5f	r	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	786
+cloud_m_51d093d1	sa	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	787
+cloud_m_8c01f11f	v	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	788
+cloud_m_f69eae3e	y	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	789
+sigh_m_40f16d94	z	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	796
+sigh_m_ebf50b1e	ju	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	797
+sigh_m_13309cf2	ja	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	798
+sigh_m_6f4f402f	s	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	799
+sigh_m_a24bec11	r	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	800
+sigh_m_8def7d5c	v	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	801
+sigh_m_595b483c	y	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	802
+round_m_85a21115	z	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	809
+round_m_94a4f567	ju	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	810
+round_m_7816367c	ja	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	811
+round_m_8416801a	s	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	812
+round_m_97493961	r	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	813
+round_m_a8f70944	s	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	814
+round_m_fb9b1308	v	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	815
+round_m_95423ec0	y	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	816
+square_m_24172b4e	z	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	823
+square_m_5cc4a5dc	ju	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	824
+square_m_1ff720ec	ja	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	825
+square_m_399b074e	r	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	826
+square_m_6fd9296c	r	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	827
+square_m_92d3dd2d	sa	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	828
+square_m_5739e290	v	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	829
+square_m_2a26e9f7	y	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	830
+spike_m_2b74a9c7	z	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	837
+spike_m_4394854d	ju	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	838
+spike_m_7793464c	ja	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	839
+spike_m_dbd362cb	s	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	840
+spike_m_837079d7	y	Longer text because this is a medium-sized bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	841
+cloud_l_5d6755cd	z	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	850
+cloud_l_e8f1b74d	ju	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	851
+cloud_l_fad3b15d	ja	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	852
+cloud_l_0d4e2d4c	s	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	853
+cloud_l_03433460	r	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	854
+cloud_l_f4e32958	sa	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	855
+cloud_l_08e323ad	v	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	856
+cloud_l_6b158b8a	y	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	857
+sigh_l_d555ddb5	z	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	864
+sigh_l_2b83cbe5	ju	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	865
+sigh_l_f8146f85	ja	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	866
+sigh_l_e7aa851d	s	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	867
+sigh_l_333e42cc	r	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	868
+sigh_l_4828e7d9	v	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	869
+sigh_l_b77e2119	y	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	870
+round_l_f32b28bd	z	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	877
+round_l_c3009c4b	ju	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	878
+round_l_69007956	ja	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	879
+round_l_b28763d4	s	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	880
+round_l_8fd74805	r	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	881
+round_l_00d0bcc6	s	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	882
+round_l_87f8c31e	v	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	883
+round_l_8f81e553	y	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	884
+square_l_4189f854	z	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	891
+square_l_db71a190	ju	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	892
+square_l_62238a6f	ja	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	893
+square_l_8cf297e7	r	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	894
+square_l_e4008fcf	r	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	895
+square_l_86b94ad6	sa	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	896
+square_l_d70a4e97	v	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	897
+square_l_59823f51	y	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	898
+spike_l_1bd43e40	z	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	905
+spike_l_5bae56b4	ju	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	906
+spike_l_e3801d89	ja	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	907
+spike_l_cde1c22a	s	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	908
+spike_l_ad4e3685	y	Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble	game/tutorial_day_scripts/tutorial_1_chatroom.rpy	909
+example_email_0f08db2b	z	Hey, [name], I had an idea for a guest we should invite.	game/tutorial_day_scripts/tutorial_2_emails.rpy	7
+example_email_5602fc55	z	Can we invite zentherainbowunicorn?	game/tutorial_day_scripts/tutorial_2_emails.rpy	8
+example_email_551c50f8	m	That sounds great!	game/tutorial_day_scripts/tutorial_2_emails.rpy	15
+example_email_787f8706	z	Great! I'll tell her to send you a message.	game/tutorial_day_scripts/tutorial_2_emails.rpy	17
+example_email_c6c788ee	m	I'll pass.	game/tutorial_day_scripts/tutorial_2_emails.rpy	20
+example_email_d3e4f6e4	z	Oh, okay. No problem!	game/tutorial_day_scripts/tutorial_2_emails.rpy	21
+example_email_e6b96e6a	m	I'd like to deliver my email replies more quickly.	game/tutorial_day_scripts/tutorial_2_emails.rpy	27
+example_email_89ee4f65	z	Sure, I can take care of that.	game/tutorial_day_scripts/tutorial_2_emails.rpy	28
+example_email_11be43f4	z	So what this does is decreases both the timeout countdown by 5,	game/tutorial_day_scripts/tutorial_2_emails.rpy	32
+example_email_6a2b9b1a	z	And also decreases the number of chatrooms you need to go through to deliver the next email by 5.	game/tutorial_day_scripts/tutorial_2_emails.rpy	33
+example_email_c6a5665d	z	They'll decrease by an additional 1 when you exit this chatroom.	game/tutorial_day_scripts/tutorial_2_emails.rpy	34
+example_email_3159bbf0	z	In other words, guests will reply to you more quickly!	game/tutorial_day_scripts/tutorial_2_emails.rpy	35
+example_email_af9f144f	z	If you ever want to learn about inviting guests in the game,	game/tutorial_day_scripts/tutorial_2_emails.rpy	36
+example_email_19888f4b	z	there's a whole section on emails in the User Guide.	game/tutorial_day_scripts/tutorial_2_emails.rpy	37
+example_email_f9eb8813	z	You can also look at tutorial_2_emails.rpy	game/tutorial_day_scripts/tutorial_2_emails.rpy	38
+example_email_fa4bb247	z	It shows how this invitation works,	game/tutorial_day_scripts/tutorial_2_emails.rpy	39
+example_email_204ab1d0	z	and has a template to invite other people.	game/tutorial_day_scripts/tutorial_2_emails.rpy	40
+example_email_682d61c6	z	Anyway, enjoy~!	game/tutorial_day_scripts/tutorial_2_emails.rpy	41
+example_email_expired_0f08db2b	z	Hey, [name], I had an idea for a guest we should invite.	game/tutorial_day_scripts/tutorial_2_emails.rpy	51
+example_email_expired_f6a14ffc	z	Oh... [they_re] not here.	game/tutorial_day_scripts/tutorial_2_emails.rpy	52
+example_email_expired_617aea09	z	Hmm.	game/tutorial_day_scripts/tutorial_2_emails.rpy	53
+example_email_expired_2f44c76b	z	Well, you can always buy back this chatroom and let me know if you want to invite them or not!	game/tutorial_day_scripts/tutorial_2_emails.rpy	54
+example_email_expired_06877784	z	I'll see you around~	game/tutorial_day_scripts/tutorial_2_emails.rpy	55
+example_text_vn_r_bf7e9eac	r	Hello! Welcome to Story Mode, also known as Visual Novel mode.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	16
+example_text_vn_r_0f8d3912	r	This mode is most similar to what you'll find in the majority of Ren'Py projects.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	18
+example_text_vn_r_7d97059d	r	There are a couple of things to show you about VN mode. What would you like to learn about first?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	22
+vn_tutorial_11fdb519	extend		game/tutorial_day_scripts/tutorial_3b_VN.rpy	32
+vn_tutorial_19cfad98	m	How do I get different expressions and outfits?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	38
+vn_tutorial_f6df704c	r	Good question!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	40
+vn_tutorial_078806ea	m	How can I position characters on the screen?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	44
+vn_tutorial_513e6c2a	r	Moving characters around is quite easy!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	46
+vn_tutorial_0c2c64b4	m	How do I write a VN mode section?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	50
+vn_tutorial_d63102dd	r	Oh, of course! It's pretty easy, I promise.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	52
+vn_tutorial_faac6a73	m	I want to look at all the available characters.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	56
+vn_tutorial_f62b2fa2	r	Sure! Who do you want to see?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	58
+vn_tutorial_d5427f5d	m	That's enough explanation, thanks.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	62
+vn_tutorial_26aa6bd3	r	Alright! Hope this helped you.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	64
+vn_writing_38fcb0ce	r	Writing a VN section is pretty straightforward.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	74
+vn_writing_d874849d	r	First, you need to define a label, and then you can start adding dialogue and characters!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	74
+vn_writing_f20b98b7	r	This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,	game/tutorial_day_scripts/tutorial_3b_VN.rpy	74
+vn_writing_e39f8bb5	r	I'd recommend checking out the LemmaSoft forums and looking through the VN section in the User Guide.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	74
+vn_writing_9c13527e	r	If you don't plan to change the speaking character's expression for a while,	game/tutorial_day_scripts/tutorial_3b_VN.rpy	74
+vn_writing_38e1d1d5	r	you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this VN section.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	74
+vn_writing_43ee6d37	r	Other than that, there are three buttons on the screen in VN mode -- Auto, Skip, and Log.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	88
+vn_writing_7ee546f4	r	Auto, when selected, will automatically advance the text for you.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	88
+vn_writing_ce51e618	r	You can adjust the auto-forward speed in Settings.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	88
+vn_writing_0b2ac340	r	Keep in mind that this will also affect how fast phone call text will auto-advance if there is no voiceover.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	88
+vn_writing_dc0ea922	r	Skip will start fast-forwarding you through the text,	game/tutorial_day_scripts/tutorial_3b_VN.rpy	88
+vn_writing_6c2dc046	r	and Log will show you a log of the dialogue history.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	88
+vn_writing_165d880a	r	Is there anything else you'd like to learn more about?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	101
+vn_layeredimage_ec899172	r	To get different expressions and outfits, this program makes a lot of use of Ren'Py's layeredimage feature.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	110
+vn_layeredimage_5df9fba7	r	It lets me change outfits and expressions very quickly just by adding the appropriate tags.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	111
+vn_layeredimage_04db39f8	r	For example, the attributes used to display this sprite are mask and happy.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	112
+vn_layeredimage_3be32ee2	r	Not all expressions are available with the mask on, however, like this one.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	113
+vn_layeredimage_dc667865	r	Some characters have many outfits, and some have multiple poses as well.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	114
+vn_layeredimage_590b9940	r	Some characters also have 'accessories' like glasses.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	117
+vn_layeredimage_079503e7	r	We'll show you what I mean with V.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	120
+vn_layeredimage_36feb6b8	v	As you can see, there are several expressions both with and without my sunglasses.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	133
+vn_layeredimage_650a8d62	v	I also have a 'hood' accessory for the mint_eye outfit.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	135
+vn_layeredimage_2ceed3ed	v	The attribute hood_up, when used with the mint_eye attribute, will put the hood up.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	137
+vn_layeredimage_4ccfb431	v	You'll get an error if you try to use the hood attribute when I'm not wearing my Mint Eye cloak, however.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	139
+vn_layeredimage_4514f39a	r	You should take a look at the 'cheat sheet' in character_definitions.rpy that tells you all the expressions and accessories available to each character.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	144
+vn_layeredimage_cb496c77	r	Anything else you'd like to know about?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	145
+vn_position_ac09de13	r	You might have noticed before, but you can position the characters in the middle,	game/tutorial_day_scripts/tutorial_3b_VN.rpy	152
+vn_position_d98260e3	r	or to the left and right sides of the screen.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	153
+vn_position_c4964af9	r	This is vn_farleft.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	155
+vn_position_a1483dc0	r	And this is vn_farright.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	157
+vn_position_ff2f25d5	r	This position is called vn_left.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	159
+vn_position_9acaa5df	r	This is vn_right.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	161
+vn_position_5320aefc	r	This is vn_midleft.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	163
+vn_position_3f19037b	r	And this is vn_midright.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	165
+vn_position_52003d1d	r	The default position is just called default, and characters will appear there if you don't specify a different location.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	167
+vn_position_362c6a64	r	There's also this position, vn_center.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	169
+vn_position_3ee8f09f	r	It puts the character a bit closer to the screen, to imply they're talking directly to you.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	170
+vn_position_d14c9cd0	r	If you do use the vn_center position, you need to hide the character before you put them in a new position.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	175
+vn_position_26a6b226	r	Know that not all positions will look right for each character;	game/tutorial_day_scripts/tutorial_3b_VN.rpy	176
+vn_position_571f8794	r	sometimes they'll be too far off-screen if you use vn_left, so you need to use vn_midleft instead.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	177
+vn_position_4052a176	r	You can always define your own transforms to position the characters exactly how you want, too.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	178
+vn_position_efbc874f	r	Anything else you'd like to learn about?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	179
+jaehee_showcase_36425f67	ja	Hello! I have several outfits and expressions to show you.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	303
+jaehee_showcase_0c5cf0cc	ja	First, I'll show you the expressions I have with my glasses.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	305
+jaehee_showcase_bdb72c31	ja	And now I'll show you the expressions I have without my glasses.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	323
+jaehee_showcase_1a44cbb5	ja	These are my available outfits.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	335
+jaehee_showcase_f89373cd	ja	That is all from me.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	345
+jumin_showcase_85c9d47b	ju	Hello. You can view my outfits and poses here.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	352
+jumin_showcase_22353b85	ju	First, here are the expressions I have in my 'front' pose.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	353
+jumin_showcase_ad0d2c06	ju	And here are my available outfits.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	373
+jumin_showcase_5afa8589	ju	I also have a second position.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	380
+jumin_showcase_8602edc6	ju	These are the available expressions.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	382
+jumin_showcase_878c8574	ju	And here are the available outfits.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	400
+jumin_showcase_9b9a0f6e	ju	That is all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	405
+rika_showcase_d2451209	ri	Hello~! You've come to see my expressions and outfits, right?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	412
+rika_showcase_afe44e92	ri	I'll show you my expressions, first.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	414
+rika_showcase_9ec29ea4	ri	And these are my available outfits.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	435
+rika_showcase_0a801b26	ri	I also have a mask accessory available to me.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	442
+rika_showcase_d8b8c2e5	ri	That's all from me!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	446
+seven_showcase_7164e22f	s	Hey hey hey~! I get to show off my expressions, hmm~?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	453
+seven_showcase_12d7456e	s	Here they are!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	454
+seven_showcase_ea7e3b85	s	And here are my outfits~	game/tutorial_day_scripts/tutorial_3b_VN.rpy	479
+seven_showcase_ae8da81e	s	I have another pose, too!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	486
+seven_showcase_a62a208a	s	Here are the expressions for this pose.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	489
+seven_showcase_b29e10ae	s	And here are the outfits.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	510
+seven_showcase_ed1e0315	s	That's it! Enjoy the rest of the program~	game/tutorial_day_scripts/tutorial_3b_VN.rpy	517
+saeran_showcase_f0c72d6e	r	Oh, me?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	523
+saeran_showcase_f5c32c6c	r	Okay. I have several different expressions.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	524
+saeran_showcase_0eb7235c	r	And then I have many outfits, too.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	557
+saeran_showcase_a7fddef9	r	This outfit has fewer expressions than the other outfits since my face is partially covered	game/tutorial_day_scripts/tutorial_3b_VN.rpy	568
+saeran_showcase_6db67598	r	Hope that's what you were looking for!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	584
+v_showcase_1c3d3d76	v	Hello there.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	590
+v_showcase_11d88f34	v	I'm told I'm supposed to show you my expressions.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	591
+v_showcase_23d3245f	v	And then here are my outfits.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	624
+v_showcase_8748191b	v	I also have a hood accessory with this outfit.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	635
+v_showcase_fd31b661	v	And then I have a side pose, too.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	642
+v_showcase_4272a500	v	Here are the poses for this pose.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	645
+v_showcase_6878f8cc	v	All of these expressions also have a version with sunglasses.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	673
+v_showcase_4e586e30	v	And then I have different outfits for this position.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	700
+v_showcase_e5d1167f	v	And that's all. Please enjoy the program.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	707
+yoosung_showcase_d44fcd38	y	Hi! It's nice to see you~	game/tutorial_day_scripts/tutorial_3b_VN.rpy	714
+yoosung_showcase_edb64d95	y	I can show you the expressions I have in VN mode.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	715
+yoosung_showcase_c695de2d	y	I've also got a set of expressions when I'm wearing glasses.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	738
+yoosung_showcase_4b0360f6	y	And here are my outfits!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	751
+yoosung_showcase_a5e3ae94	y	I've only got a few expressions when I have the bandage.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	764
+yoosung_showcase_84ad4c13	y	That's all! Have fun with the program~!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	773
+zen_showcase_d29e22f1	z	Hey babe~ Glad you came by!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	780
+zen_showcase_f3c8fd91	z	Here are my available expressions!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	781
+zen_showcase_ad54f824	z	I've got a few outfits for this front pose, too.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	804
+zen_showcase_edf47a09	z	Handsome, aren't I?	game/tutorial_day_scripts/tutorial_3b_VN.rpy	811
+zen_showcase_bda5c83a	z	Anyway, here are my side expressions.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	812
+zen_showcase_43b90e64	z	And then a few more outfits.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	831
+zen_showcase_5ad8b952	z	And that's it! Enjoy the program, hon~	game/tutorial_day_scripts/tutorial_3b_VN.rpy	836
+bodyguards_showcase_8c00c2d3		If you'd like the minor characters to speak, you need to define your own character for them.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	848
+bodyguards_showcase_5562b17d		It's pretty easy; just go to character_definitions.rpy and follow the guidelines there.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	849
+bodyguards_showcase_305cbe6c		If you're only going to have them speak once or twice though, you can also type out their name as a string like so	game/tutorial_day_scripts/tutorial_3b_VN.rpy	850
+bodyguards_showcase_ff899f4c	"Bodyguard"	This is example dialogue for the bodyguard to say.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	851
+bodyguards_showcase_e464113d		The bodyguards only have two other expressions:	game/tutorial_day_scripts/tutorial_3b_VN.rpy	852
+bodyguards_showcase_d252d542		And that's all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	859
+chairman_showcase_d1e52ac3	chief_vn	I already have a character defined so I can speak.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	868
+chairman_showcase_f7c4b582	chief_vn	These are my expressions:	game/tutorial_day_scripts/tutorial_3b_VN.rpy	869
+chairman_showcase_0c3e4b69		That's all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	878
+echo_showcase_8c00c2d3		If you'd like the minor characters to speak, you need to define your own character for them.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	885
+echo_showcase_5562b17d		It's pretty easy; just go to character_definitions.rpy and follow the guidelines there.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	886
+echo_showcase_7b49a792		Echo Girl has the following expressions:	game/tutorial_day_scripts/tutorial_3b_VN.rpy	887
+echo_showcase_0c3e4b69		That's all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	898
+glam_showcase_8c00c2d3		If you'd like the minor characters to speak, you need to define your own character for them.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	906
+glam_showcase_5562b17d		It's pretty easy; just go to character_definitions.rpy and follow the guidelines there.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	907
+glam_showcase_25f30b42		Glam Choi has the following expressions:	game/tutorial_day_scripts/tutorial_3b_VN.rpy	908
+glam_showcase_d252d542		And that's all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	921
+minister_showcase_8c00c2d3		If you'd like the minor characters to speak, you need to define your own character for them.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	928
+minister_showcase_5562b17d		It's pretty easy; just go to character_definitions.rpy and follow the guidelines there.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	929
+minister_showcase_30212774		The Prime Minister only has one expression, the one currently showing.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	930
+minister_showcase_0c3e4b69		That's all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	931
+sarah_showcase_3a4690a9	sarah_vn	I already have a character defined so I can talk, haha~	game/tutorial_day_scripts/tutorial_3b_VN.rpy	938
+sarah_showcase_c6dc287e	sarah_vn	These are my expressions!	game/tutorial_day_scripts/tutorial_3b_VN.rpy	939
+sarah_showcase_0c3e4b69		That's all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	952
+vanderwood_showcase_8c00c2d3		If you'd like the minor characters to speak, you need to define your own character for them.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	959
+vanderwood_showcase_5562b17d		It's pretty easy; just go to character_definitions.rpy and follow the guidelines there.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	960
+vanderwood_showcase_0ba67995		Vanderwood has the following expressions:	game/tutorial_day_scripts/tutorial_3b_VN.rpy	961
+vanderwood_showcase_d252d542		And that's all.	game/tutorial_day_scripts/tutorial_3b_VN.rpy	974
+example_text_efa47669	r	Hi there!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	7
+example_text_c3637984	r	This chatroom is here to demonstrate how text messages are sent.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	8
+example_text_131f46a7	r	You might have noticed that there's a Story Mode section after this chatroom, right?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	9
+example_text_4e4dc8e8	m	Does that mean anything specific?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	14
+example_text_359275fb	r	It does!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	15
+example_text_baec578b	r	Since there's a story mode VN (Visual Novel) section,	game/tutorial_day_scripts/tutorial_3_text_message.rpy	16
+example_text_09226819	r	any incoming phone calls or text message won't be delivered until after the VN.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	17
+example_text_281fc47a	m	Yes, and I can't play it until after this chatroom, right?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	19
+example_text_2856f51b	r	Right! ^^	game/tutorial_day_scripts/tutorial_3_text_message.rpy	20
+example_text_e508e37d	r	Any incoming phone calls or text message won't be delivered until after the story mode VN (Visual Novel) section, too.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	21
+example_text_35550f3d	r	So even though there are text messages to be delivered after this chatroom,	game/tutorial_day_scripts/tutorial_3_text_message.rpy	23
+example_text_07c59a47	r	you won't see them right away.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	24
+example_text_357e80e1	r	You can set up text messages using an after_ chatroom label.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	25
+example_text_36d9ea51	r	See the User Guide for more ^^	game/tutorial_day_scripts/tutorial_3_text_message.rpy	26
+example_text_c1d69693	r		game/tutorial_day_scripts/tutorial_3_text_message.rpy	27
+example_text_df94838f	r	Anyway, I won't keep you.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	28
+example_text_341afc51	r	See you soon!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	29
+example_text_expired_efa47669	r	Hi there!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	40
+example_text_expired_c3637984	r	This chatroom is here to demonstrate how text messages are sent.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	41
+example_text_expired_d0bf5358	r	But, well, since this chatroom is expired it won't act the same way.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	42
+example_text_expired_a9b90ffa	r	You'll have already received the text messages and any missed phone calls.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	43
+example_text_expired_c210f955	r	Even if you buy this chatroom back, you won't receive the calls or messages again.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	44
+example_text_expired_6e6a1d70	r	But you can often call characters back if not much time has passed since they called!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	45
+example_text_expired_749bb504	r	Anyway, you can buy this chatroom back for some alternative information too.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	46
+example_text_expired_6a63ee2a	r	Talk to you soon!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	47
+after_example_text_a9efc262	v	Hello, [name].	game/tutorial_day_scripts/tutorial_3_text_message.rpy	65
+after_example_text_15c917ca	v	I'm supposed to demonstrate how to make a character post an emoji during a text message.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	66
+after_example_text_2d28f1e6	v		game/tutorial_day_scripts/tutorial_3_text_message.rpy	67
+after_example_text_de11c770	v	They won't play audio like they do in the chatrooms,	game/tutorial_day_scripts/tutorial_3_text_message.rpy	68
+after_example_text_284294bb	v	But they can still be fun to use in a conversation, don't you think?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	69
+after_example_text_4696b41c	r	Here's a test text message, to show you how they work!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	86
+after_example_text_1901840d	r	Did you know you can also post photos?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	87
+after_example_text_1d77b7d4	z	You know, you never send us any photos...	game/tutorial_day_scripts/tutorial_3_text_message.rpy	98
+menu_a1_2a8ea8a3	m	Thanks for showing me this.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	116
+menu_a1_ce6f34a2	v	You're very welcome!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	121
+menu_a1_8babf0ef	v	Hope to talk to you again soon.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	122
+menu_a1_cb18b89c	m	I'm not sure if they'll be useful...	game/tutorial_day_scripts/tutorial_3_text_message.rpy	125
+menu_a1_73d89fd8	v	It's up to you whether to use them or not.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	126
+menu_a1_3e5c6f2f	v	I hope you enjoy the rest of the program.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	127
+menu_a2_d6b58467	r	It will look like this:	game/tutorial_day_scripts/tutorial_3_text_message.rpy	141
+menu_a2_118e8e20	r	r_1	game/tutorial_day_scripts/tutorial_3_text_message.rpy	142
+menu_a2_5264d55a	m	I'm not sure how I'll remember all this...	game/tutorial_day_scripts/tutorial_3_text_message.rpy	148
+menu_a2_3cdc1c8d	r	Don't worry! There are lots of resources to help.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	149
+menu_a2_bc83aade	r	Let's do our best ^^	game/tutorial_day_scripts/tutorial_3_text_message.rpy	150
+menu_a2_b32fa459	m	That's a nice picture of you!	game/tutorial_day_scripts/tutorial_3_text_message.rpy	152
+menu_a2_c1d69693	r		game/tutorial_day_scripts/tutorial_3_text_message.rpy	153
+menu_a2_45950937	r	Thank you ^^	game/tutorial_day_scripts/tutorial_3_text_message.rpy	155
+menu_a3_be182b3c	m	common_2	game/tutorial_day_scripts/tutorial_3_text_message.rpy	168
+menu_a3_5784d0db	m	You mean like this?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	169
+menu_a3_cb22f1df	m		game/tutorial_day_scripts/tutorial_3_text_message.rpy	171
+menu_a3_0e8d5985	m	How's this?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	172
+menu_a3_be182b3c_1	m	common_2	game/tutorial_day_scripts/tutorial_3_text_message.rpy	174
+menu_a3_c8bfeacd	m		game/tutorial_day_scripts/tutorial_3_text_message.rpy	175
+menu_a3_e10e3389	m	What do you think?	game/tutorial_day_scripts/tutorial_3_text_message.rpy	176
+menu_a3_4e2927e0	z	Wow! I've never seen that before.	game/tutorial_day_scripts/tutorial_3_text_message.rpy	178
+menu_a3_1686c3fd	z	You're pretty cool	game/tutorial_day_scripts/tutorial_3_text_message.rpy	179
+menu_a3_2c4cd385	z		game/tutorial_day_scripts/tutorial_3_text_message.rpy	180
+timed_menus_970f73ea	s	Hiya!	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	8
+timed_menus_c4e7e49e	s	I'm here to tell you all about timed menus~	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	9
+timed_menus_58243807	s	They work mostly like regular menus,	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	10
+timed_menus_06553d2b	s	except the characters will keep talking even after the answer button shows up at the bottom of the screen.	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	11
+timed_menus_ee07e06d	s	Like now!	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	12
+timed_menus_8b226c09	s	You only have so long to reply,	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	22
+timed_menus_4c36c35c	s	and when the spaceship at the bottom of the screen reaches the right side,	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	23
+timed_menus_958a3f26	s	BAM!!	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	24
+timed_menus_e1b6ba6e	s	The opportunity to answer has passed!!!	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	25
+timed_menus_c7d0a430	s	You write these menus a bit differently than regular menus	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	34
+timed_menus_08e067fb	s	You'll see an example of it in this code.	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	35
+menu1_df08fc14	m	Slow down! Timed menus??	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	50
+menu1_9a08720c	s	Whoops lolol I got a bit excited	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	51
+menu1_d3fe1460	s	Yup! Maybe try playing through this chatroom a few times to see what happens?	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	52
+menu1_77cda154	s	Don't forget to turn Testing Mode on from the developer settings so you can make different choices.	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	53
+menu1_5bece6a3	m	So I can choose between listening or interrupting?	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	56
+menu1_e557922e	s	Yeah! If you just let the chat play out,	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	57
+menu1_46c305e9	s	you'll see different dialogue than if you'd decided to answer.	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	58
+menu1_058659b6	s	If you don't reply and just listen,	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	64
+menu1_fdf7d767	s	maybe you'll see some interesting dialogue!	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	65
+menu1_d44f6a03	s	The timer will be faster or slower depending on what your chatroom speed is	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	67
+menu1_e80144ca	s	(which you can change using the arrows at the bottom of the screen)	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	68
+menu1_a9266613	s	So if you've got the chat speed at 1,	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	69
+menu1_24b93c1a	s	The spaceship will take longer to reach the other side of the screen	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	70
+menu1_66003c49	s	There's also an option in Settings that will always bring up the menu after the spaceship times out,	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	71
+menu1_d28afce0	s	in case you can't press the button in time and still want to answer.	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	72
+menu1_0f64fbea	s	I hope this gives you some cool ideas for ways to write chatrooms!	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	73
+menu1_ac328b1a	s		game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	74
+menu1_8c03763b	s	Toodles~!	game/tutorial_day_scripts/tutorial_4_timed_menus.rpy	75
+tutorial_chat_8dc4a766	m	Do you still feel tired?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	25
+tutorial_chat_7a78fa1f	s	No way.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	26
+tutorial_chat_b96df72c	s	One of my strengths is that I feel completely refreshed after sleeping	game/tutorial_day_scripts/tutorial_5_coffee.rpy	27
+tutorial_chat_a4609568	m	Seven, get a good night's rest?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	29
+tutorial_chat_503aeabe	s	Heya [name]	game/tutorial_day_scripts/tutorial_5_coffee.rpy	30
+tutorial_chat_ce490078	s	Ya. Slept like a rock.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	37
+tutorial_chat_512cf2cd	s	I don't feel tired physically...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	47
+tutorial_chat_c7cd9009	s	But	game/tutorial_day_scripts/tutorial_5_coffee.rpy	48
+tutorial_chat_7364f0b7	s	mentally, my stress level is MAX	game/tutorial_day_scripts/tutorial_5_coffee.rpy	49
+tutorial_chat_c213b389	s		game/tutorial_day_scripts/tutorial_5_coffee.rpy	50
+tutorial_chat_d988872d	s	How do I get rid of this stress...?!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	51
+tutorial_chat_db801399	m	Just take it out on Yoosung.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	56
+tutorial_chat_580cfb76	s	[name]...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	57
+tutorial_chat_33be5754	s	Ur pretty smart lol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	58
+tutorial_chat_1aae1494	m	You should play games.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	61
+tutorial_chat_77b712d9	s	o_o Game??	game/tutorial_day_scripts/tutorial_5_coffee.rpy	62
+tutorial_chat_1a5f7c37	s	lol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	63
+tutorial_chat_a1aaa095	s	I'd rather make one. Playing it gets boring pretty fast lol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	64
+tutorial_chat_91ec7011	s	Hmm.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	65
+tutorial_chat_4a67adc9	s	I summon Yoosung! Abracadabra	game/tutorial_day_scripts/tutorial_5_coffee.rpy	66
+tutorial_chat_0076e76b	m	Yoosung~ I missed you.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	76
+tutorial_chat_861f45b1	y	Thanks for being so welcoming.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	77
+tutorial_chat_0a52def1	y	Hello ^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	79
+tutorial_chat_9aec8c18	m	Omg. He really came.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	81
+tutorial_chat_257fc660	s	heya	game/tutorial_day_scripts/tutorial_5_coffee.rpy	82
+tutorial_chat_350457af	y	Hmm?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	84
+tutorial_chat_b375da7c	y	I smell a trap somewhere...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	85
+tutorial_chat_3532689f	s	What were u doing?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	87
+tutorial_chat_3935e298	s	So late at night lol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	88
+tutorial_chat_251b5c60	y	I was just about to drink a cup of coffee and play games.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	89
+tutorial_chat_4b3c6e17	y	I started learning how to brew coffee from a club yesterday.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	90
+tutorial_chat_ffbad61f	s	Coffee...?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	91
+tutorial_chat_07374bcf	s	Ur learning how to make coffee...???	game/tutorial_day_scripts/tutorial_5_coffee.rpy	92
+tutorial_chat_5af8ce49	y	Yup ^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	93
+tutorial_chat_8d2f5d76	s	No way. U can't.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	94
+tutorial_chat_45938840	y	What?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	95
+tutorial_chat_8df67406	s	Did you already drink the coffee!?!?!?!?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	96
+tutorial_chat_7671312f	y	Yeah... Why?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	97
+tutorial_chat_18f8044d	s	Big trouble...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	103
+tutorial_chat_0ec20f27	y	What trouble?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	104
+tutorial_chat_7eff1715	s	It's...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	105
+tutorial_chat_e8b54b2d	m	Yoosung... what do we do now?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	110
+tutorial_chat_7aac7e38	y	Why?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	111
+tutorial_chat_a2871f7c	y	Did something happen?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	112
+tutorial_chat_0fb14436	s	Gah... I was about to tell [name].	game/tutorial_day_scripts/tutorial_5_coffee.rpy	113
+tutorial_chat_09bb257b	m	What's big trouble?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	115
+tutorial_chat_94634684	y	Yeah. What is it?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	116
+tutorial_chat_7eff1715_1	s	It's...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	117
+tutorial_chat_5b505253	s	So, I check the health reports of all the members...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	119
+tutorial_chat_e29e1070	y	Okay... Ur not saying that I can't dringak coffxee, r u?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	120
+tutorial_chat_cfd9f407	y	*drink coffee?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	121
+tutorial_chat_6f07f192	m	Ya. U'll be in trouble if u drink coffee.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	126
+tutorial_chat_30dbadd9	s	Ya...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	127
+tutorial_chat_85306175	s	U can never ever!!! drink coffee.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	129
+tutorial_chat_d91eb86b	s	Seeing ur typos above, it seems like ur symptoms are showing already.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	130
+tutorial_chat_755fa416	m	Seven's just messing around lol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	132
+tutorial_chat_d6b2bc4f	y	Right? lolol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	133
+tutorial_chat_2407e76b	s	Not joking.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	135
+tutorial_chat_24c761e4	s	I'm dead serious.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	136
+tutorial_chat_6cfe4590	y	Puppy food?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	137
+tutorial_chat_8aa03574	m	-_-	game/tutorial_day_scripts/tutorial_5_coffee.rpy	145
+tutorial_chat_74206364	s	Cat food is serious meow	game/tutorial_day_scripts/tutorial_5_coffee.rpy	146
+tutorial_chat_88482381	y	I have no idea what ur saying.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	147
+tutorial_chat_336fc896	m	lolololol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	149
+tutorial_chat_74b876fd	s	This is funny to u?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	150
+tutorial_chat_6e034544	y	lololololol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	151
+tutorial_chat_bade31d3	s	U can never ever!!! drink coffee.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	153
+tutorial_chat_7bc67051	s	If u do, ur hands will start shaking and u'll faint eventually.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	154
+tutorial_chat_a3a9381c	y	Nah	game/tutorial_day_scripts/tutorial_5_coffee.rpy	155
+tutorial_chat_541c2e06	y	I don't have that kind of allergy.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	156
+tutorial_chat_06b6fd51	y	No way~	game/tutorial_day_scripts/tutorial_5_coffee.rpy	157
+tutorial_chat_d075331e	s	...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	158
+tutorial_chat_f1e2fc94	s	I'm sorry.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	159
+tutorial_chat_d43d41c6	s	U've already lost trust in me.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	160
+tutorial_chat_d3c742c2	s	so u r not listening.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	161
+tutorial_chat_ead2b9a8	y	?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	162
+tutorial_chat_ee1ae2f3	y	For real?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	163
+tutorial_chat_99910703	s	Ur gonna faint. For real.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	164
+tutorial_chat_db9ccd46	y	Seriously?? Ur kidding right?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	165
+tutorial_chat_64c99a2f	m	You should prepare yourself.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	174
+tutorial_chat_8f02de6f	s	Ya. Go prepare to faint.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	175
+tutorial_chat_aac3716f	m	I think fainting is a bit too much...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	178
+tutorial_chat_45938840_1	y	What?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	179
+tutorial_chat_4d2f4d9b	y	What do u mean?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	180
+tutorial_chat_be406716	s	Shh.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	181
+tutorial_chat_ac328b1a	s		game/tutorial_day_scripts/tutorial_5_coffee.rpy	182
+tutorial_chat_1004ef0b	s	Listen carefully.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	183
+tutorial_chat_ebb6ba3f	s	You are going to faint today.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	185
+tutorial_chat_5040f408	s	And there's a chance you might never wake up again...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	186
+tutorial_chat_f6b1e4bf	y	Why!?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	187
+tutorial_chat_c78aad03	s	You have the \"Pass Out After Drinking Caffeine Syndrome\"	game/tutorial_day_scripts/tutorial_5_coffee.rpy	188
+tutorial_chat_a0900d81	y	??? What is that?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	189
+tutorial_chat_f2875180	y	I don't understand what you mean.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	190
+tutorial_chat_77401f48	y	A disease like that actually exists?!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	191
+tutorial_chat_ee151015	m	Ya. It exists	game/tutorial_day_scripts/tutorial_5_coffee.rpy	196
+tutorial_chat_3c9645bd	y	!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	197
+tutorial_chat_71604919	s	Ya	game/tutorial_day_scripts/tutorial_5_coffee.rpy	199
+tutorial_chat_5ac12a4b	m	Whoever named it is a bit...;;	game/tutorial_day_scripts/tutorial_5_coffee.rpy	202
+tutorial_chat_3b175666	s	It was made up at the last min so no choice.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	203
+tutorial_chat_841ccfb9	y	What do u mean made up at the last min?!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	204
+tutorial_chat_ddd23efd	s	Your artificial heart	game/tutorial_day_scripts/tutorial_5_coffee.rpy	205
+tutorial_chat_8e9d56ec	y	Stop saying weird things;;	game/tutorial_day_scripts/tutorial_5_coffee.rpy	206
+tutorial_chat_5adaba2f	y	Seven, ur joking right?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	207
+tutorial_chat_36025485	s	I am doing whatever I can to save u.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	208
+tutorial_chat_1a9f563c	s	...Don't get so surprised.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	210
+tutorial_chat_3b624b1a	y	Okay...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	211
+tutorial_chat_c96287ba	s	The disease called \"Pass Out After Drinking Caffeine Syndrome\"	game/tutorial_day_scripts/tutorial_5_coffee.rpy	212
+tutorial_chat_6edacf78	s	It	game/tutorial_day_scripts/tutorial_5_coffee.rpy	213
+tutorial_chat_0d38c6b5	s	exists	game/tutorial_day_scripts/tutorial_5_coffee.rpy	214
+tutorial_chat_02a8ee98	s	for sure	game/tutorial_day_scripts/tutorial_5_coffee.rpy	215
+tutorial_chat_bb609c13	s	I look at foreign reports every day.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	216
+tutorial_chat_0a4cf2d8	s	common_1	game/tutorial_day_scripts/tutorial_5_coffee.rpy	218
+tutorial_chat_0e286519	y	!!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	219
+tutorial_chat_c43be69c	s	...It's a rare disease.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	220
+tutorial_chat_1f4e6d1a	m	Last year there were about 1024 deaths in the country...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	225
+tutorial_chat_2533cbe3	s	Oh! That number's nice. It's the 10th multiple of 2.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	226
+tutorial_chat_5ceb77d1	y	Omg. Can't believe I have such a serious disease T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	228
+tutorial_chat_88f2fbd7	y	I'm so svchoecked to type pertoperly T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	229
+tutorial_chat_cfdab881	m	What's wrong with the name lolololol A disease called Drink Caffeine and Faint lololol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	231
+tutorial_chat_2b83f4cc	y	lololol I know... It is funny T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	232
+tutorial_chat_2ec8a714	y	But I can't believe I have it.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	234
+tutorial_chat_dacb4e0e	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	235
+tutorial_chat_2d89ae16	y	What's going to happen to me T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	237
+tutorial_chat_eb6493d6	y	Am I gonna faint soon???	game/tutorial_day_scripts/tutorial_5_coffee.rpy	238
+tutorial_chat_c4bfd1b1	s	According to my data	game/tutorial_day_scripts/tutorial_5_coffee.rpy	239
+tutorial_chat_c2247bbf	s	u'll faint some time between 9 and 10.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	240
+tutorial_chat_be394350	y	T_T...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	241
+tutorial_chat_c9b756ed	y	I guess it could have been worse. I don't have class in the morning.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	242
+tutorial_chat_696e5e16	m	^^;;	game/tutorial_day_scripts/tutorial_5_coffee.rpy	247
+tutorial_chat_f7e2af0a	y	Don't cry, [name].	game/tutorial_day_scripts/tutorial_5_coffee.rpy	248
+tutorial_chat_e412b4cf	y	Even if I do faint... I'll be able to wake up.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	249
+tutorial_chat_d97a472c	m	I wasn't crying.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	254
+tutorial_chat_9e01f51e	y	I read the emoji wrong T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	255
+tutorial_chat_e162b739	y	I thought u were crying by sweating	game/tutorial_day_scripts/tutorial_5_coffee.rpy	261
+tutorial_chat_397df13a	m	T_T. You have to return.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	263
+tutorial_chat_88e71085	y	Yup T_T I will return!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	264
+tutorial_chat_2be0222f	s	Gahh... Tears r blocking my sight.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	266
+tutorial_chat_5c07bca1	m	A stroke of good luck in this misfortune	game/tutorial_day_scripts/tutorial_5_coffee.rpy	269
+tutorial_chat_6d0e804e	y	I should at least pass out at home T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	270
+tutorial_chat_71604919_1	s	Ya	game/tutorial_day_scripts/tutorial_5_coffee.rpy	271
+tutorial_chat_dacb4e0e_1	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	274
+tutorial_chat_4064004b	y	Thanks for telling me Seven.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	275
+tutorial_chat_8be4f27e	s	lol It's nothing.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	276
+tutorial_chat_74989a27	m	Call Seven if something happens.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	281
+tutorial_chat_9f58b43b	s	Ya. I'll always be here for u ^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	282
+tutorial_chat_32a8983c	y	Thank you T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	284
+tutorial_chat_20b6976a	m	Call me if anything happens	game/tutorial_day_scripts/tutorial_5_coffee.rpy	286
+tutorial_chat_09a67dda	y	Okay. Thank you so much T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	287
+tutorial_chat_2cf92679	s	Oh.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	290
+tutorial_chat_9d66162d	s	I recommend drinking chocolate milk before u faint.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	291
+tutorial_chat_1db9207a	s	U have to increase ur blood pressure if u want to wake up faster.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	292
+tutorial_chat_9c7ea7ba	s	I'm worried...T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	293
+tutorial_chat_1dd82010	y	Okay...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	294
+tutorial_chat_80f24701	y	Thank you. [name], you too...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	295
+tutorial_chat_4be2ed75	s		game/tutorial_day_scripts/tutorial_5_coffee.rpy	296
+tutorial_chat_39d4b9c1	m	^^;;;	game/tutorial_day_scripts/tutorial_5_coffee.rpy	301
+tutorial_chat_82eba2d2	y	Why do u keep sweating...?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	302
+tutorial_chat_531db493	y	U must be really worried for me.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	303
+tutorial_chat_5c749dc2	y	I'm touched!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	304
+tutorial_chat_eee606c8	m	No need ^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	307
+tutorial_chat_8b8fbc66	y	I should know my body better.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	308
+tutorial_chat_b241b0f8	y	Never knew I had something like this...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	309
+tutorial_chat_0a265b16	y	It's confusing but...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	310
+tutorial_chat_91e04036	y	I'll deal with it wisely.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	311
+tutorial_chat_5b9ca2a5	s	Ya. Dealing with it wisely is the way to go.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	312
+tutorial_chat_9a1690d8	s	...I'm glad to be of help.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	314
+tutorial_chat_6cca58f1	s	Ur young, so u'll wake up quickly if u do faint, so don't worry too much.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	315
+tutorial_chat_edf25626	y	Okay...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	316
+tutorial_chat_6b51afd2	y	I shouldn't drink coffee anymore.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	317
+tutorial_chat_2fee20c0	s	Oh... I got work again.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	318
+tutorial_chat_be1fb53e	s	Arrgghh!! Stress!!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	319
+tutorial_chat_5038b820	y	Both Jumin and u	game/tutorial_day_scripts/tutorial_5_coffee.rpy	320
+tutorial_chat_2e855839	y	u guys r buried with work	game/tutorial_day_scripts/tutorial_5_coffee.rpy	321
+tutorial_chat_dacb4e0e_2	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	322
+tutorial_chat_cf812fdc	s	Can't do anything about it...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	323
+tutorial_chat_095519c8	s	Then I'll get going.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	324
+tutorial_chat_d45510d4	y	Yup!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	325
+tutorial_chat_0a97e04a	y	Have a good night!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	326
+tutorial_chat_97afe8ff	s	lol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	327
+tutorial_chat_ab36a968	m	Seven, look out for my health too	game/tutorial_day_scripts/tutorial_5_coffee.rpy	332
+tutorial_chat_46a36f61	s	U can trust me...^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	333
+tutorial_chat_f348f75c	y	That's good thinking... [name].	game/tutorial_day_scripts/tutorial_5_coffee.rpy	335
+tutorial_chat_0c89ffa5	m	;;;	game/tutorial_day_scripts/tutorial_5_coffee.rpy	337
+tutorial_chat_25f80e70	s	Then bye~!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	338
+tutorial_chat_c6945124	y	T_T What am I gonna do...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	344
+tutorial_chat_8d8e668f	y	[name]...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	345
+tutorial_chat_16010dfb	y	If I faint and don't wake up...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	346
+tutorial_chat_c5b734ad	y	Can u wake me up with a... a.. a kiss?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	347
+tutorial_chat_9db3e547	y	I'm not trying to be weird.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	348
+tutorial_chat_30bc310d	y	I just want to wake up and help open the party...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	349
+coffee_last_e4b279f2	m	Don't worry... Even if you don't wake up the party will be a success.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	359
+coffee_last_bf987664	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	360
+coffee_last_34d19c7f	y	Do you mean that?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	361
+coffee_last_98477642	y	I'm hurt...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	362
+coffee_last_0c6af8fe	m	I'll wake you up...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	365
+coffee_last_14dbb0e2	y	Oh...! Thank you.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	366
+coffee_last_1c5b8d8d	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	368
+coffee_last_5d936ff0	m	Seven is just playing with you lolol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	370
+coffee_last_f736f610	y	I know that ur worried too	game/tutorial_day_scripts/tutorial_5_coffee.rpy	371
+coffee_last_a1343077	y	and don't want to believe what Seven said.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	372
+coffee_last_b0ac57c3	y	But Seven's probably right.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	373
+coffee_last_a5d44410	y	Seven is really knowledgeable.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	374
+coffee_last_b8d8749a	y	He once knew when my cold would get better.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	375
+coffee_last_4c1f3e87	y	He said it'd be between the 3rd and 7th day	game/tutorial_day_scripts/tutorial_5_coffee.rpy	376
+coffee_last_bf43fd2b	y	And it completely went away on the fifth day.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	377
+coffee_last_29070aad	y	Look at that image above...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	378
+coffee_last_ebdb7f48	y	I'm sure it's not a lie.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	379
+coffee_last_3428b75d	y	First, I should get some chocolate milk...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	381
+coffee_last_b952c9e2	y	I'm gonna go to the supermarket~!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	382
+after_tutorial_chat_c89add52	s	Thanks for not spoiling the secret~ ^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	399
+after_tutorial_chat_8507ff71	s	You're a lot of fun to talk to meow!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	400
+after_tutorial_chat_a38a80fb	y	[name]... what do I do...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	409
+tutorial_chat_incoming_z_8955c14d	z	Good morning, hon~	game/tutorial_day_scripts/tutorial_5_coffee.rpy	436
+tutorial_chat_incoming_z_ebd41b3c	z	Gahh~ (Stretches) I haven't slept this well in a while. I feel really good.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	437
+tutorial_chat_incoming_z_425222ed	z	When I don't sleep that well, just moving my neck in the morning can hurt.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	438
+tutorial_chat_incoming_z_4d623ca4	z	Did you sleep well?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	439
+tutorial_chat_incoming_z_11fdb519	extend		game/tutorial_day_scripts/tutorial_5_coffee.rpy	443
+tutorial_chat_incoming_z_128449c6	m	Yeah, I didn't even dream.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	448
+tutorial_chat_incoming_z_5fbbf7a6	z	That's good.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	449
+tutorial_chat_incoming_z_5f994551	z	I'm a bit sad to hear you didn't dream.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	450
+tutorial_chat_incoming_z_f8b5ccc3	z	I was waiting for you... looking like prince charming.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	451
+tutorial_chat_incoming_z_03ed73ff	m	I didn't sleep very well.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	453
+tutorial_chat_incoming_z_e036decb	z	You didn't? You must be tired then.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	454
+tutorial_chat_incoming_z_f20f191d	z	Call me next time you can't sleep.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	455
+tutorial_chat_incoming_z_06469607	z	I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	456
+tutorial_chat_incoming_z_ecbdf41c	z	Two birds with one stone, no?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	457
+tutorial_chat_incoming_z_90e54352	z	I can sing anything you want, so tell me whenever. I'll practice just for you.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	458
+tutorial_chat_incoming_z_b48b943d	z	Aw yeah~! Starting my day with hearing your voice gives me so much energy.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	461
+tutorial_chat_incoming_z_24d1baa9	z	I have to leave early for work. I hope only good things happen today! To you and to me, haha.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	462
+tutorial_chat_incoming_z_5494f7d9	z	Then I'll call you later.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	463
+tutorial_chat_incoming_z_2fe37edd	z	Bye bye.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	464
+tutorial_chat_outgoing_y_9745df3b	y	I have not died.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	476
+tutorial_chat_outgoing_y_6539b979	y	I will not die.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	477
+tutorial_chat_outgoing_y_583c7ece	y	To live, I must drink chocolate milk...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	478
+tutorial_chat_outgoing_y_11fdb519	extend		game/tutorial_day_scripts/tutorial_5_coffee.rpy	480
+tutorial_chat_outgoing_y_a1ee30a4	m	The ones who wish to live will die and those who wish to die will live!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	483
+tutorial_chat_outgoing_y_23b65b4a	y	Uh-uh I know there's a super intelligent saying on that!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	484
+tutorial_chat_outgoing_y_6e293379	y	What was it...!!!!! I think Shakespears said it.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	485
+tutorial_chat_outgoing_y_b7b28d60	y	Whatever... noo... that's not what's important...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	486
+tutorial_chat_outgoing_y_c2b8472f	m	Yoo-Yoosung?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	488
+tutorial_chat_outgoing_y_60555914	y	nooooooooooooooooooooooooo	game/tutorial_day_scripts/tutorial_5_coffee.rpy	489
+tutorial_chat_outgoing_y_360420fd	y	haaaaaaaaaaaaaaaaaaaaarggh	game/tutorial_day_scripts/tutorial_5_coffee.rpy	490
+tutorial_chat_outgoing_y_1b2ac7cb	y	I went to the convenience store but I didn't bring my loyalty card so I didn't get a discount on the chocolate milk.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_c8fb0153	y	This is a bad sign!!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_ce0e13ad	y	Huahhhh......	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_d1a433aa	y	noooooooooooooo.....	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_8506c882	y	I'm sorry... I can't talk to you right now.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_3ed8b1d9	y	My heart's about to explode...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_3e49edff	y	Even if you don't hear from me... it'll be fine...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_93174d33	y	Even if I faint, I'll faint at home.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_74493bbf	y	...Even if I faint... I'll resurrect myself...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_a659ece7	y	Please... God of Games... Let me play LOLOL tonight...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_f787326f	y	Please cure me of this strange disease...!!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+tutorial_chat_outgoing_y_115834c0	y	I... (sniffling) I have to go wipe off my snot. Bye...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	495
+coffee1_e7142ade	m	I like talking to you too meow!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	533
+coffee1_2d360271	s	<3 <3 <3	game/tutorial_day_scripts/tutorial_5_coffee.rpy	538
+coffee1_e3316f31	s	Agent 707 will do his best to come to the chatroom more often meow!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	539
+coffee1_5070150c	m	I feel bad for Yoosung though...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	542
+coffee1_392023ba	s	Nah~ he'll be fine	game/tutorial_day_scripts/tutorial_5_coffee.rpy	546
+coffee1_4ab88171	s	I'm sure he'd be happy you're worried for him tho lolol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	547
+coffee2_d4736fd9	m	Drink that chocolate milk!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	557
+coffee2_e766b4b3	y	I will!! I bought a lot of it...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	559
+coffee2_2d2a4db5	y	It could be worse... I could've had classes tomorrow T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	560
+coffee2_0ec33e73	y	Thanks for worrying.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	561
+coffee2_65e4733d	m	You do know Seven's just teasing, right?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	564
+coffee2_a52ffa7d	y	I appreciate you trying to comfort me but...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	565
+coffee2_f2d7a950	y	You saw the news article he posted, right?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	566
+coffee2_7001e6c5	y	And he really does keep track of all the members...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	567
+coffee2_327945cf	y	I'm sure it's not a lie.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	568
+tutorial_chat_expired_38942b67	s	Phew... I almost died.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	580
+tutorial_chat_expired_9da148f7	s	The insane amount of work I have is making me so stressed...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	582
+tutorial_chat_expired_b68e8901	s	How do I get rid of this stress...?!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	583
+tutorial_chat_expired_fce7cd8d	y	Hey Seven	game/tutorial_day_scripts/tutorial_5_coffee.rpy	584
+tutorial_chat_expired_4dfe3adb	s	heya	game/tutorial_day_scripts/tutorial_5_coffee.rpy	585
+tutorial_chat_expired_bd73dcf5	y	Try learning how to make coffee like me.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	586
+tutorial_chat_expired_caa13094	y	I think it can help you to de-stress.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	587
+tutorial_chat_expired_e07c6c0d	s	Coffee...?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	588
+tutorial_chat_expired_c55c3fe4	s	Ur learning how to make coffee...???	game/tutorial_day_scripts/tutorial_5_coffee.rpy	589
+tutorial_chat_expired_83090b7f	y	Yup^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	590
+tutorial_chat_expired_4bd31dde	s	No way. U can't.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	591
+tutorial_chat_expired_ac17dec1	y	What?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	593
+tutorial_chat_expired_be04b4b5	s	Did u drink the coffee already!?!?!?!?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	594
+tutorial_chat_expired_7671312f	y	Yeah... Why?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	595
+tutorial_chat_expired_211ae3a5	s	Big trouble...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	596
+tutorial_chat_expired_0ec20f27	y	What trouble?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	597
+tutorial_chat_expired_1609e1e3	s	It's...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	598
+tutorial_chat_expired_b3af92dc	s	So I check the health reports of all the members, yeah...?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	599
+tutorial_chat_expired_aa018ded	y	Okay... Ur not saying that I can't dringak coffxee, r u?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	600
+tutorial_chat_expired_d4010fd8	y	*drink coffee ?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	601
+tutorial_chat_expired_0c608b65	s	No... U can never ever!!! drink coffee.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	602
+tutorial_chat_expired_92c74b43	s	Seeing ur typos above, ur symptoms are showing already.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	603
+tutorial_chat_expired_a3a9381c	y	Nah	game/tutorial_day_scripts/tutorial_5_coffee.rpy	604
+tutorial_chat_expired_541c2e06	y	I don't have that kind of allergy.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	605
+tutorial_chat_expired_06b6fd51	y	No way~	game/tutorial_day_scripts/tutorial_5_coffee.rpy	606
+tutorial_chat_expired_e1554201	s	...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	607
+tutorial_chat_expired_8c87ff77	s	I'm sorry.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	608
+tutorial_chat_expired_944fa607	s	U've already lost trust in me	game/tutorial_day_scripts/tutorial_5_coffee.rpy	609
+tutorial_chat_expired_45ab7ff7	s	so u r not listening.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	610
+tutorial_chat_expired_66d17ae3	y	?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	611
+tutorial_chat_expired_ee1ae2f3	y	For real?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	612
+tutorial_chat_expired_1b15d46b	s	Ur gonna faint. For real.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	613
+tutorial_chat_expired_9f6aea3b	y	What??	game/tutorial_day_scripts/tutorial_5_coffee.rpy	614
+tutorial_chat_expired_313697ac	s	You are going to faint today.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	615
+tutorial_chat_expired_9d4ea209	y	Just by drinking coffee?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	616
+tutorial_chat_expired_4726a21b	s	You have the \"Pass Out After Drinking Caffeine Syndrome\"	game/tutorial_day_scripts/tutorial_5_coffee.rpy	617
+tutorial_chat_expired_0e880e49	y	Yeah right, that doesn't actually exist!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	618
+tutorial_chat_expired_20fb966c	s	...Don't get so surprised.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	619
+tutorial_chat_expired_3b624b1a	y	Okay...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	620
+tutorial_chat_expired_44593d44	s	Pass Out After Drinking Caffeine Syndrome	game/tutorial_day_scripts/tutorial_5_coffee.rpy	621
+tutorial_chat_expired_6edacf78	s	It	game/tutorial_day_scripts/tutorial_5_coffee.rpy	622
+tutorial_chat_expired_0d38c6b5	s	exists	game/tutorial_day_scripts/tutorial_5_coffee.rpy	623
+tutorial_chat_expired_aab777d3	s	for sure.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	624
+tutorial_chat_expired_c85765f9	s	I look at reports from all over the globe every day.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	625
+tutorial_chat_expired_0a4cf2d8	s	common_1	game/tutorial_day_scripts/tutorial_5_coffee.rpy	626
+tutorial_chat_expired_b4de5dab	y	!!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	627
+tutorial_chat_expired_fa89e2ee	s	...It's a rare disease.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	628
+tutorial_chat_expired_8b8a7164	y	Oh man	game/tutorial_day_scripts/tutorial_5_coffee.rpy	629
+tutorial_chat_expired_d845575d	y	What am I gonna do?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	630
+tutorial_chat_expired_d6b3150f	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	631
+tutorial_chat_expired_6d8dffce	y	When will I pass out then?	game/tutorial_day_scripts/tutorial_5_coffee.rpy	632
+tutorial_chat_expired_f531e95f	s	u'll faint sometime between 9 and 10.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	633
+tutorial_chat_expired_d22bf7ff	y	T_T...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	634
+tutorial_chat_expired_c9b756ed	y	I guess it could have been worse. I don't have class in the morning.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	635
+tutorial_chat_expired_31cd065a	y	I should be home when I pass out at least T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	636
+tutorial_chat_expired_07064e2d	s	Every cloud has a silver lining.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	637
+tutorial_chat_expired_dacb4e0e	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	638
+tutorial_chat_expired_4064004b	y	Thanks for telling me Seven.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	639
+tutorial_chat_expired_8d049a3f	s	lol it's nothing.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	640
+tutorial_chat_expired_b8096054	s	Call me if something happens.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	641
+tutorial_chat_expired_a0d24bb3	s	Oh.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	642
+tutorial_chat_expired_ec4e8a67	s	I recommend drinking chocolate milk before u faint.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	643
+tutorial_chat_expired_4641a4f7	s	U have to increase ur blood pressure if u want to wake up faster.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	644
+tutorial_chat_expired_d34f33f6	s	I'm srsly worried too	game/tutorial_day_scripts/tutorial_5_coffee.rpy	645
+tutorial_chat_expired_3b624b1a_1	y	Okay...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	646
+tutorial_chat_expired_7c709ce7	y	Thank you.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	647
+tutorial_chat_expired_4be2ed75	s		game/tutorial_day_scripts/tutorial_5_coffee.rpy	648
+tutorial_chat_expired_67a93589	s	...I'm glad to be of help.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	649
+tutorial_chat_expired_648ad273	s	Ur young, so u'll wake up quickly if u do faint, so don't worry too much.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	650
+tutorial_chat_expired_3b624b1a_2	y	Okay...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	651
+tutorial_chat_expired_fe032721	y	I shouldn't drink coffee anymore.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	652
+tutorial_chat_expired_2fee20c0	s	Oh... I got work again.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	653
+tutorial_chat_expired_aa2b0fd9	s	Arrgghh!! Stress!!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	654
+tutorial_chat_expired_b665f46e	y	Both Jumin and you,	game/tutorial_day_scripts/tutorial_5_coffee.rpy	655
+tutorial_chat_expired_d83a95f5	y	you guys are buried with work.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	656
+tutorial_chat_expired_dacb4e0e_1	y		game/tutorial_day_scripts/tutorial_5_coffee.rpy	657
+tutorial_chat_expired_3270a263	s	Can't do anything about it... ^^	game/tutorial_day_scripts/tutorial_5_coffee.rpy	658
+tutorial_chat_expired_095519c8	s	Then I'll get going.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	659
+tutorial_chat_expired_d45510d4	y	Yup!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	660
+tutorial_chat_expired_0a97e04a	y	Have a good night!!	game/tutorial_day_scripts/tutorial_5_coffee.rpy	661
+tutorial_chat_expired_37cb3879	s	lol	game/tutorial_day_scripts/tutorial_5_coffee.rpy	662
+tutorial_chat_expired_05ba4259	y	T_T What am I gonna do...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	664
+tutorial_chat_expired_1684360a	y	[name]	game/tutorial_day_scripts/tutorial_5_coffee.rpy	665
+tutorial_chat_expired_2d5c9175	y	If I pass out and don't wake up...	game/tutorial_day_scripts/tutorial_5_coffee.rpy	666
+tutorial_chat_expired_8653a1ee	y	Please work hard on my behalf	game/tutorial_day_scripts/tutorial_5_coffee.rpy	667
+tutorial_chat_expired_7790329c	y	and host the party again.... T_T	game/tutorial_day_scripts/tutorial_5_coffee.rpy	668
+tutorial_chat_expired_a2ecc66b	y	I'd better go buy some chocolate milk.	game/tutorial_day_scripts/tutorial_5_coffee.rpy	669
+popcorn_chat_67b9eb5f	ju	Zen's written some strange things.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	20
+popcorn_chat_60d24f8a	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	21
+popcorn_chat_bac091ce	ja	There is a meeting with the Women Artists group today.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	22
+popcorn_chat_5c382526	ja	I'm telling you this before you come to the office...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	23
+popcorn_chat_b512aa1d	ja	The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	24
+popcorn_chat_6916eabb	ju	He's not in his right mind to dream about Elizabeth the 3rd going missing.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	25
+popcorn_chat_9107da9d	ja	Isn't it up to him to dream about whatever he wants?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	26
+popcorn_chat_7c89f958	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	27
+popcorn_chat_d61b855e	ju	Don't tell me you believe in his \"psychic\" dream.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	28
+popcorn_chat_72bbfa4f	ja	I don't believe in it...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	29
+popcorn_chat_6cbac5c3	ja	But why don't you first greet [name] here and then continue talking about the dream.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	30
+popcorn_chat_4eb75e93	ju	Oh, [name], hello.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	31
+popcorn_chat_ea512bcd	ju	I didn't see you here.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	32
+popcorn_chat_731c4e0d	ja	Hello, [name].	game/tutorial_day_scripts/tutorial_6_meeting.rpy	33
+popcorn_chat_83576eff	m	Shouldn't you think of a plan to protect Elizabeth the 3rd just in case?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	38
+popcorn_chat_34f9cc01	ju	Fantastic idea.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	40
+popcorn_chat_7c89f958_1	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	46
+popcorn_chat_5421c012	ja	This is not the time for that...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	47
+popcorn_chat_725f70b5	ju	Perhaps Zen had that dream last night	game/tutorial_day_scripts/tutorial_6_meeting.rpy	48
+popcorn_chat_a86d102a	ju	because he harbors feelings towards her.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	49
+popcorn_chat_80db44c8	ja	I doubt that is the case, as he left the chatroom saying his nose got itchy.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	50
+popcorn_chat_526bbc56	ju	If he has a problem, I'll consider referring him to a therapist.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	51
+popcorn_chat_907197b5	ja	I don't think there's a need for that. We are free to imagine whatever we want, after all;;	game/tutorial_day_scripts/tutorial_6_meeting.rpy	52
+popcorn_chat_6555a88c	m	Why don't you gift a luxurious cage for Elizabeth the 3rd?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	57
+popcorn_chat_eb40a97b	ja	Excuse me? ;;	game/tutorial_day_scripts/tutorial_6_meeting.rpy	59
+popcorn_chat_60364563	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	60
+popcorn_chat_2182fc75	ju	Oh...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	61
+popcorn_chat_9f7ce83e	ju	Good idea!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	62
+popcorn_chat_4272ad3f	ja	What...;;??	game/tutorial_day_scripts/tutorial_6_meeting.rpy	64
+popcorn_chat_fad491e3	ju	I feel like [name] understands me very well.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	65
+popcorn_chat_439364c1	ju		game/tutorial_day_scripts/tutorial_6_meeting.rpy	66
+popcorn_chat_96a7caf8	ju	Assistant Kang.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	67
+popcorn_chat_9c5796d6	ju	I'd like to invite [name] to the morning meeting today.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	68
+popcorn_chat_c1bc0f9f	ja	What do you mean?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	69
+popcorn_chat_d1e0c478	ju	Cancel the meeting that was planned and you, me, and [name], the three of us will discuss a plan that will ensure Elizabeth the 3rd's safety.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	70
+popcorn_chat_3c7798a7	ja	I don't think you should cancel a meeting that was already planned because of one dream.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	71
+popcorn_chat_68002807	ju	It's not because of the dream. I've always been bothered by how free she was to roam around the house...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	72
+popcorn_chat_4a759655	ja	The number of security cameras and guards in your penthouse is probably higher than the employees here.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	73
+popcorn_chat_b230717f	ju	That's not what's important.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	74
+popcorn_chat_9b963211	ju	I don't think you understand very well, so I'll need to hear [name]'s opinion.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	75
+popcorn_chat_0f5b53f5	m	Hahaha~ of course. You should listen to my excellent ideas.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	80
+popcorn_chat_67b3a3d3	ju	You're very quick to understand.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	82
+popcorn_chat_6c973456	ju	Come to the C&R building right away.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	84
+popcorn_chat_44b81b2a	ja	-_-	game/tutorial_day_scripts/tutorial_6_meeting.rpy	85
+popcorn_chat_7c89f958_2	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	86
+popcorn_chat_32a0406b	ja	Why are we talking about this now?;;	game/tutorial_day_scripts/tutorial_6_meeting.rpy	87
+popcorn_chat_90728a28	ja	I don't feel good about this...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	88
+popcorn_chat_90c1babf	ju	Stop talking about something else and prepare for the meeting.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	89
+popcorn_chat_545511d2	ja	Yes, Mr. Han...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	90
+popcorn_chat_2b1dbd4d	ja	[name],	game/tutorial_day_scripts/tutorial_6_meeting.rpy	91
+popcorn_chat_1fed4f97	ja	The C&R building is the second tallest building in the city so I'll assume you know where it is.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	92
+popcorn_chat_b5961ffa	ja	Please go to the information desk and say your name and that you're an RFA member. I will tell them to show you to the conference room.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	93
+popcorn_chat_f93dee05	ju	Good.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	94
+popcorn_chat_5717614a	ju	Then I'll have to go and get ready.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	95
+popcorn_chat_4f82bf51	ju	[name]... I'll look forward to your wonderful ideas.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	96
+popcorn_chat_279e7dce	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	98
+popcorn_chat_6e2feb75	ja	There's not even an hour left until the meeting and he wants to cancel his appointment...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	99
+popcorn_chat_865fa821	ja	Haha...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	100
+popcorn_chat_fb2d0b23	ja	So the three of us will have a meeting...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	101
+popcorn_chat_08fda4f8	ja	Weren't you flustered by Mr. Han's sudden suggestion?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	102
+popcorn_chat_f4c9fe32	m	Not at all~ See ya later.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	107
+popcorn_chat_8a737752	ja	Yes...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	108
+popcorn_chat_9efd84c7	ja	Please let me know as soon as you're there.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	109
+popcorn_chat_expired_67b9eb5f	ju	Zen's written some strange things.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	122
+popcorn_chat_expired_60d24f8a	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	123
+popcorn_chat_expired_bac091ce	ja	There is a meeting with the Women Artists group today.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	124
+popcorn_chat_expired_5c382526	ja	I'm telling you this before you come to the office...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	125
+popcorn_chat_expired_b512aa1d	ja	The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	126
+popcorn_chat_expired_6916eabb	ju	He's not in his right mind to dream about Elizabeth the 3rd going missing.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	127
+popcorn_chat_expired_9107da9d	ja	Isn't it up to him to dream about whatever he wants?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	128
+popcorn_chat_expired_7c89f958	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	129
+popcorn_chat_expired_d61b855e	ju	Don't tell me you believe in his \"psychic\" dream.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	130
+popcorn_chat_expired_72bbfa4f	ja	I don't believe in it...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	131
+popcorn_chat_expired_db1ae059	ju	Even if it isn't true...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	132
+popcorn_chat_expired_6bab4395	ju	It might be good to come up with a plan to protect Elizabeth the 3rd just in case.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	133
+popcorn_chat_expired_7c89f958_1	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	134
+popcorn_chat_expired_5421c012	ja	This is not the time for that...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	135
+popcorn_chat_expired_725f70b5	ju	Perhaps Zen had that dream last night	game/tutorial_day_scripts/tutorial_6_meeting.rpy	136
+popcorn_chat_expired_a86d102a	ju	because he harbors feelings towards her.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	137
+popcorn_chat_expired_80db44c8	ja	I doubt that is the case, as he left the chatroom saying his nose got itchy.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	138
+popcorn_chat_expired_526bbc56	ju	If he has a problem, I'll consider referring him to a therapist.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	139
+popcorn_chat_expired_907197b5	ja	I don't think there's a need for that. We are free to imagine whatever we want, after all;;	game/tutorial_day_scripts/tutorial_6_meeting.rpy	140
+popcorn_chat_expired_3d333097	ju	Hmm	game/tutorial_day_scripts/tutorial_6_meeting.rpy	141
+popcorn_chat_expired_228b7e9d	ju	I wish [name] was here.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	142
+popcorn_chat_expired_6c21e478	ju	I feel like [they] understand[s_verb] me very well.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	143
+popcorn_chat_expired_439364c1	ju		game/tutorial_day_scripts/tutorial_6_meeting.rpy	144
+popcorn_chat_expired_96a7caf8	ju	Assistant Kang.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	145
+popcorn_chat_expired_9c5796d6	ju	I'd like to invite [name] to the morning meeting today.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	146
+popcorn_chat_expired_c1bc0f9f	ja	What do you mean?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	147
+popcorn_chat_expired_d1e0c478	ju	Cancel the meeting that was planned and you, me, and [name], the three of us will discuss a plan that will ensure Elizabeth the 3rd's safety.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	148
+popcorn_chat_expired_3c7798a7	ja	I don't think you should cancel a meeting that was already planned because of one dream.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	149
+popcorn_chat_expired_68002807	ju	It's not because of the dream. I've always been bothered by how free she was to roam around the house...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	150
+popcorn_chat_expired_4a759655	ja	The number of security cameras and guards in your penthouse is probably higher than the employees here.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	151
+popcorn_chat_expired_b230717f	ju	That's not what's important.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	152
+popcorn_chat_expired_9b963211	ju	I don't think you understand very well, so I'll need to hear [name]'s opinion.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	153
+popcorn_chat_expired_fe7230d9	ja	But [they_re] not even here...;;	game/tutorial_day_scripts/tutorial_6_meeting.rpy	154
+popcorn_chat_expired_0023f0ad	ju	I'm sure [they]'ll read the messenger soon. Call [them] if you must.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	155
+popcorn_chat_expired_9b7b6911	ju	Tell [them] to come to the C&R building right away.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	156
+popcorn_chat_expired_44b81b2a	ja	-_-	game/tutorial_day_scripts/tutorial_6_meeting.rpy	157
+popcorn_chat_expired_7c89f958_2	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	158
+popcorn_chat_expired_32a0406b	ja	Why are we talking about this now?;;	game/tutorial_day_scripts/tutorial_6_meeting.rpy	159
+popcorn_chat_expired_90728a28	ja	I don't feel good about this...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	160
+popcorn_chat_expired_90c1babf	ju	Stop talking about something else and prepare for the meeting.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	161
+popcorn_chat_expired_545511d2	ja	Yes, Mr. Han...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	162
+popcorn_chat_expired_cff0d5f4	ja	[name], when you read this,	game/tutorial_day_scripts/tutorial_6_meeting.rpy	163
+popcorn_chat_expired_1fed4f97	ja	The C&R building is the second tallest building in the city so I'll assume you know where it is.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	164
+popcorn_chat_expired_b5961ffa	ja	Please go to the information desk and say your name and that you're an RFA member. I will tell them to show you to the conference room.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	165
+popcorn_chat_expired_f93dee05	ju	Good.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	166
+popcorn_chat_expired_5717614a	ju	Then I'll have to go and get ready.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	167
+popcorn_chat_expired_4f82bf51	ju	[name]... I'll look forward to your wonderful ideas.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	168
+popcorn_chat_expired_279e7dce	ja		game/tutorial_day_scripts/tutorial_6_meeting.rpy	170
+popcorn_chat_expired_6e2feb75	ja	There's not even an hour left until the meeting and he wants to cancel his appointment...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	171
+popcorn_chat_expired_865fa821	ja	Haha...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	172
+popcorn_chat_expired_fb2d0b23	ja	So the three of us will have a meeting...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	173
+popcorn_chat_expired_9a077b55	ja	I must go as well.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	174
+popcorn_chat_vn_ju_ffa70654		(Moving...)	game/tutorial_day_scripts/tutorial_6_meeting.rpy	226
+popcorn_chat_vn_ju_9a2fda7c	ju	You're here on time, [name].	game/tutorial_day_scripts/tutorial_6_meeting.rpy	242
+popcorn_chat_vn_ju_f0f3abd7	ja	[They] arrived much earlier than expected...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	251
+popcorn_chat_vn_ju_a08bdcaa	ju	That's good. Then let's proceed with the meeting.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	258
+popcorn_chat_vn_ju_48203e6f	ju	There are three large issues concerning Elizabeth the 3rd's safety.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	266
+popcorn_chat_vn_ju_15c00698	ju	First, under the sofa. The maid cleans that spot every day, but if some unforeseen danger occurs beneath the sofa, I won't be able to know right away.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	272
+popcorn_chat_vn_ju_25ad8e6b	ju	Second, the gate. The gate needs to be redesigned so that a human can pass through but not a cat. Elizabeth might run out when the door is open. I'm thinking of installing a double door system.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	279
+popcorn_chat_vn_ju_b2679284	ju	And lastly, the kitchen. She's climbing up to the bar more and more often. Look at the graph here. Last week, she climbed up there 6.25 times every day on average. I think I need [name]'s opinions on this.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	280
+popcorn_chat_vn_ju_ea6ca0fc	ja	...Should I write all this down?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	286
+popcorn_chat_vn_ju_165088b8	ju	Every single word.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	288
+popcorn_chat_vn_ju_027463ca		(A knock on the door)	game/tutorial_day_scripts/tutorial_6_meeting.rpy	290
+popcorn_chat_vn_ju_6ef5ccaf	ja	Someone is knocking.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	296
+popcorn_chat_vn_ju_8257065a	ju	I can't let anyone interfere with such an important meeting.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	297
+popcorn_chat_vn_ju_ccabd664	ja	Something could have occurred in your home. I'll open the door.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	298
+popcorn_chat_vn_ju_e0d8961e		(Door opened)	game/tutorial_day_scripts/tutorial_6_meeting.rpy	300
+popcorn_chat_vn_ju_9e577a48	ja	Come in...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	301
+popcorn_chat_vn_ju_986b5a27	"???"	Oh my~ It's so serious in here.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	306
+popcorn_chat_vn_ju_641c80f0	chief_vn	I hope we are not interfering too much.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	308
+popcorn_chat_vn_ju_c47686f8	ja	Mr. Chairman...! And...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	309
+popcorn_chat_vn_ju_63fbe875	sarah_vn	I'm Sarah~! We met yesterday, right? Haha! I just came here to say hello.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	312
+popcorn_chat_vn_ju_275ea971	chief_vn	I heard that this meeting is very important, so I thought it would be very educational for Sarah here.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	313
+popcorn_chat_vn_ju_2babbb98	ju	You've left your schedule behind to come, how passionate of you.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	316
+popcorn_chat_vn_ju_7378c677	chief_vn	Haha, no need to be so stern. Sarah, go and sit there.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	317
+popcorn_chat_vn_ju_7b892576	sarah_vn	I will~ Oh my, but I don't think I've seen you before. I'm Jumin's fiancee, Sarah! Oh... but your mascara's a bit clumpy. I think you should go to the bathroom and fix it.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	321
+popcorn_chat_vn_ju_11fdb519	extend		game/tutorial_day_scripts/tutorial_6_meeting.rpy	325
+popcorn_chat_vn_ju_b89255fc	m	Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	329
+popcorn_chat_vn_ju_fc08c526	sarah_vn	What did you say?!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	333
+popcorn_chat_vn_ju_af3acff7	chief_vn	Is there a problem?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	336
+popcorn_chat_vn_ju_dbf33222	sarah_vn	Oh... it's nothing, hahaha.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	338
+popcorn_chat_vn_ju_50b191a0	ja	Mr. Han... I think we should postpone this meeting.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	341
+popcorn_chat_vn_ju_d0bff616	sarah_vn	What are you talking about~! I won't interfere at all! I'm just happy to see Jumin looking so handsome standing right there~!!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	342
+popcorn_chat_vn_ju_c9b2dbdc	chief_vn	How kind of you, Jumin. If this meeting isn't that important, why don't you go for a chat with Sarah?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	345
+popcorn_chat_vn_ju_6047c741	sarah_vn	I wanted to impress you so I wore all designer clothes. Do you want to take a photo later to commemorate?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	346
+popcorn_chat_vn_ju_11fdb519_1	extend		game/tutorial_day_scripts/tutorial_6_meeting.rpy	348
+popcorn_chat_vn_ju_2cf07c5b	m	I thought you were wearing clothes from the dollar store... but oh, I see the label. Sorry!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	351
+popcorn_chat_vn_ju_fe35d88f	sarah_vn	!?!?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	353
+popcorn_chat_vn_ju_f5456ade	ju	Father, please take a look at the reports from last quarter since you've come such a long way. There's a pile of documents that need your signature.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	356
+popcorn_chat_vn_ju_749de1b2	chief_vn	Yes, give them here. I guess I made all of you uncomfortable. I'll be at your office signing the documents, so why don't you talk with Sarah?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	357
+popcorn_chat_vn_ju_60bbd422	ju	Alright.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	358
+popcorn_chat_vn_ju_2d72baef	sarah_vn	Mr. Han~ Promise me that we'll have lunch together later on~ Okay~~?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	362
+popcorn_chat_vn_ju_c0f639b9	chief_vn	Hahaha, of course...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	363
+popcorn_chat_vn_ju_416dff07	ja	This way, Mr. Chairman.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	372
+popcorn_chat_vn_ju_d83ab2a8	ju	...He's gone.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	375
+popcorn_chat_vn_ju_959d0dcc	sarah_vn	Haha... but Jumin, who [is_are] [they]? An intern??	game/tutorial_day_scripts/tutorial_6_meeting.rpy	386
+popcorn_chat_vn_ju_60ba3d50	ja	Are you talking about [name]...? Oh...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	389
+popcorn_chat_vn_ju_223d05c6	ju	[They_re] my friend.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	391
+popcorn_chat_vn_ju_c5ece433	ja	Something like that...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	392
+popcorn_chat_vn_ju_04a7b3fc	sarah_vn	Friend~? Are you sure [they_re] just a friend? I feel like [they_re] super jealous...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	401
+popcorn_chat_vn_ju_11fdb519_2	extend		game/tutorial_day_scripts/tutorial_6_meeting.rpy	403
+popcorn_chat_vn_ju_7687130c	m	Sarah, don't take it the wrong way. Seeing you wear last season's Shanel just reminded me of when I was little, so I guess I wasn't polite enough.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	406
+popcorn_chat_vn_ju_a677f3b3	sarah_vn	Ha... haha... last season Shanel? This is from the last FW collection. You must have a lot going for you to call that last season.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	409
+popcorn_chat_vn_ju_964ba8aa	sarah_vn	I guess you were super elegant and sensible like me when you were little? But you've grown up to become really nosy and tacky. I should be careful not to end up like that.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	411
+popcorn_chat_vn_ju_46f0bec2	ja	Sarah... that was a bit...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	414
+popcorn_chat_vn_ju_7ee683d3	ju	...Just leave them. It's fun to watch.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	416
+popcorn_chat_vn_ju_0685e426	ja	Mr. Han, I don't think you should call this fun...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	417
+popcorn_chat_vn_ju_11fdb519_3	extend		game/tutorial_day_scripts/tutorial_6_meeting.rpy	419
+popcorn_chat_vn_ju_80be4406	m	But... where did you get your eyes done? I feel like you got a boob job too.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	425
+popcorn_chat_vn_ju_5f046747	sarah_vn	What?! These are natural!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	428
+popcorn_chat_vn_ju_11fdb519_4	extend		game/tutorial_day_scripts/tutorial_6_meeting.rpy	430
+popcorn_chat_vn_ju_57302317	m	I don't think so... But whatever, sure.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	433
+popcorn_chat_vn_ju_d3f04053	sarah_vn	Ha... hahahaha...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	436
+popcorn_chat_vn_ju_c992f324	ja	Sarah seems to be really mad right now...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	439
+popcorn_chat_vn_ju_54008517	ju	But [name] looks very collected. Assistant Kang, do you have any popcorn?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	441
+popcorn_chat_vn_ju_2e692a58	ja	I bought some the other day to snack on when working late... I'll bring you some.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	443
+popcorn_chat_vn_ju_86e8b3e6	sarah_vn	Who do you think you are? Your hair is long and tacky... And your clothes, eww.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	447
+popcorn_chat_vn_ju_11fdb519_5	extend		game/tutorial_day_scripts/tutorial_6_meeting.rpy	449
+popcorn_chat_vn_ju_4e313f08	m	Jumin styled my hair himself this morning. I don't need anyone else to approve, so I don't know what to tell you, haha...	game/tutorial_day_scripts/tutorial_6_meeting.rpy	452
+popcorn_chat_vn_ju_5b3c8d8c	sarah_vn	What?!?!?!?!? Are you serious?!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	454
+popcorn_chat_vn_ju_a0e02dc3	ju	The popcorn tastes like honey and butter, strange.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	457
+popcorn_chat_vn_ju_9f6851ff	ja	That's been popular these days.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	459
+popcorn_chat_vn_ju_ebc6099b	sarah_vn	God... Hey! I don't know who your dad is to be so rude to me in front of Jumin, but the minute I marry him, you'll be out of his life! Just know that!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	463
+popcorn_chat_vn_ju_bcdecdfb	sarah_vn	Jumin... You can't be friends with people like this. It brings you down!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	464
+popcorn_chat_vn_ju_11fdb519_6	extend		game/tutorial_day_scripts/tutorial_6_meeting.rpy	466
+popcorn_chat_vn_ju_349f1e45	m	I think the problem here is that his whole family will be ruined once he marries you.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	469
+popcorn_chat_vn_ju_b7796539	sarah_vn	Wow, is there anything you can't say?!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	471
+popcorn_chat_vn_ju_3175f333	ja	...Should we stop them?	game/tutorial_day_scripts/tutorial_6_meeting.rpy	474
+popcorn_chat_vn_ju_efefd8bd	ju	[name]'s talented.	game/tutorial_day_scripts/tutorial_6_meeting.rpy	476
+popcorn_chat_vn_ju_30248a29	sarah_vn	I'll never let him go!! Let's decide today who gets to live and who dies!! Jumin!!! Argh!! [They_re] pulling my hair!!	game/tutorial_day_scripts/tutorial_6_meeting.rpy	477
+hack_example_214e32c7	u	Before we start -- are you okay with seeing flashing 'hacked' animations?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	7
+hack_example_ea16798d	u	If not, we can turn them off.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	8
+hack_example_54be14e0	m	No; I don't want any flashing animations.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	12
+hack_example_781cf523	m	Yes, you can keep the flashing animations on.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	15
+hack_example_4f6a6d96	u	Got it. See you around.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	17
+hack_example_0570e3a0	sa	Oh, so you want to know more about glitchy effects, do you?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	23
+hack_example_ac033940	sa	You want to make use of my hacking skills?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	24
+hack_example_7d913fad	sa	Freak out your users?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	25
+hack_example_9ed720a2	sa	Get inside their minds?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	26
+hack_example_1f4c7d27	m	Er... yes?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	31
+hack_example_e1763f82	sa	Haha!	game/tutorial_day_scripts/tutorial_7_hacking.rpy	32
+hack_example_ab1f0495	sa	You asked for it!	game/tutorial_day_scripts/tutorial_7_hacking.rpy	33
+hack_example_d3a55ad6	sa		game/tutorial_day_scripts/tutorial_7_hacking.rpy	34
+hack_example_4f119db1	m	I don't want to freak them out exactly...	game/tutorial_day_scripts/tutorial_7_hacking.rpy	36
+hack_example_403fcf83	sa	You don't, hmm?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	37
+hack_example_79956a3f	sa	Just you wait a moment	game/tutorial_day_scripts/tutorial_7_hacking.rpy	38
+hack_example_e83a930e	m	Show me what to do.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	39
+hack_example_f1ec1c61	sa		game/tutorial_day_scripts/tutorial_7_hacking.rpy	54
+hack_example_6406b948	m	I didn't type that!	game/tutorial_day_scripts/tutorial_7_hacking.rpy	58
+hack_example_aa77b976	sa	Oh, are you sure?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	59
+hack_example_6befeae5	sa	Just look at the chat log.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	60
+hack_example_0251b66a	sa	I've got lots of ways to hack your screen.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	61
+hack_example_64a3eb93	sa	Inverted colours,	game/tutorial_day_scripts/tutorial_7_hacking.rpy	62
+hack_example_91021810	sa	random glitchy squares,	game/tutorial_day_scripts/tutorial_7_hacking.rpy	67
+hack_example_fdad527b	sa	a tearing effect	game/tutorial_day_scripts/tutorial_7_hacking.rpy	70
+hack_example_3d784727	sa	You can delete messages and rewrite them.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	73
+hack_example_8995efaa	sa	There are a lot of things you can do if you're creative~	game/tutorial_day_scripts/tutorial_7_hacking.rpy	74
+hack_example_f1ec1c61_1	sa		game/tutorial_day_scripts/tutorial_7_hacking.rpy	75
+hack_example_92a4820a	sa	You should probably space out the glitchy effects,	game/tutorial_day_scripts/tutorial_7_hacking.rpy	76
+hack_example_335b9ab9	sa	otherwise it'll be bothersome for your users.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	77
+hack_example_4ece9cd3	sa	Whoops, gotta go.	game/tutorial_day_scripts/tutorial_7_hacking.rpy	78
+hack_example_3050ca44	sa	Don't miss me too much~	game/tutorial_day_scripts/tutorial_7_hacking.rpy	80
+hack_example_d3a55ad6_1	sa		game/tutorial_day_scripts/tutorial_7_hacking.rpy	81
+hack_example_expired_5eff1edb	sa	Oh so I'm not good enough for you to log in?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	93
+hack_example_expired_12579fd9	sa	I'm not good enough for you?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	94
+hack_example_expired_2489c011	sa	Hmm? Is that what you think?	game/tutorial_day_scripts/tutorial_7_hacking.rpy	97
+hack_example_expired_a2d0ce95	sa	Well FINE	game/tutorial_day_scripts/tutorial_7_hacking.rpy	100
+hack_example_expired_412b9a79	sa	I'm sure you don't need to use this phone either	game/tutorial_day_scripts/tutorial_7_hacking.rpy	103
+hack_example_expired_ca57bb83	sa	so I'll just go ahead and hack into it	game/tutorial_day_scripts/tutorial_7_hacking.rpy	104
+hack_example_expired_f0ade585	sa	You'll be hearing from me later	game/tutorial_day_scripts/tutorial_7_hacking.rpy	105
+plot_branch_tutorial_ea82fd7c	u	Hello again!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	9
+plot_branch_tutorial_a8c2d50a	u	You're getting close to the end of the Tutorial day, huh?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	10
+plot_branch_tutorial_49262351	u	What do you think of the program so far?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	11
+plot_branch_tutorial_b217636c	m	It seems quite complicated.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	16
+plot_branch_tutorial_f06c8f88	u	A lot of work has been put into it!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	17
+plot_branch_tutorial_664e543c	u	So there are lots of new things to learn.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	18
+plot_branch_tutorial_6aa80d3f	u	If you need more help, there's always the User Guide, which is included with the program.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	19
+plot_branch_tutorial_d32242d9	m	I'm excited to start using it!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	21
+plot_branch_tutorial_39ce2534	u	That's great!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	22
+plot_branch_tutorial_5e1d20cf	u	If you ever need help with some features, you can also take a look at the User Guide that was included with the program.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	23
+plot_branch_tutorial_996199ca	u	The last feature I'll show you is how to create a plot branch.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	25
+plot_branch_tutorial_5cd680ba	u	You might have noticed that after this chatroom there's a \"Tap to unlock\" icon, right?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	26
+plot_branch_tutorial_e924020d	u	If you click it, the program will calculate whether or not you've fulfilled certain conditions,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	27
+plot_branch_tutorial_1829a901	u	and then it'll put you on a path based on the results.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	28
+plot_branch_tutorial_59b0211a	u	In this case, I'll to check whether or not you've successfully invited at least one guest to the party.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	29
+plot_branch_tutorial_a671dd5a	m	I'm not sure how to invite guests.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	34
+plot_branch_tutorial_fe7b017e	u	The \"Inviting Guests\" chatroom lets you invite Rainbow. 	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	35
+plot_branch_tutorial_cbd2824a	u	You can also use that chatroom to speed up how fast you receive replies so you can finish the email chain,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	36
+plot_branch_tutorial_ae0d6804	u	but that only works if you have Testing Mode turned on in the Developer settings, accessed from the main hub screen.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	37
+plot_branch_tutorial_c2104c18	u	It looks like you've managed to invite at least one guest!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	45
+plot_branch_tutorial_1a3bf944	u	So if they do come to the party,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	46
+plot_branch_tutorial_7a9dccf2	u	you'll get the Good End.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	47
+plot_branch_tutorial_c2b892a2	u	It doesn't look like you've finished any email chains yet,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	49
+plot_branch_tutorial_df477a7a	u	so if you click the Plot Branch icon now, you'll get a bad end.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	50
+plot_branch_tutorial_fc9386cd	u	You can still go back to finish up your emails before you click the Plot Branch icon so you get a different ending.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	51
+plot_branch_tutorial_756a84fe	u	Anyway, that's enough from me.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	53
+plot_branch_tutorial_c88a9a88	u	Click the Plot Branch icon to see what happens next!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	54
+plot_branch_tutorial_expired_63797217	u	It seems [name] is getting close to the end of Tutorial day,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	64
+plot_branch_tutorial_expired_ac698450	u	but [they_re] not here right now T_T	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	65
+plot_branch_tutorial_expired_cbe8bddc	u	This is the last day before a plot branch	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	66
+plot_branch_tutorial_expired_5659388d	u	so some exciting things might happen!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	67
+plot_branch_tutorial_expired_6ac0b2a2	u	Once you click the plot branch button,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	68
+plot_branch_tutorial_expired_0ef635bd	u	the program will calculate whether or not you've fulfilled certain conditions,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	69
+plot_branch_tutorial_expired_6e9bbdb9	u	and then it'll set you on a path based on the results.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	70
+plot_branch_tutorial_expired_4fa18caf	u	In this case, it'll check whether or not you've successfully invited 1 guest to the party.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	71
+plot_branch_tutorial_expired_a62cc5cf	u	If you haven't been getting emails, 	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	72
+plot_branch_tutorial_expired_cd902cb6	u	make sure you buy back the \"Inviting Guests\" chatroom!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	73
+plot_branch_tutorial_expired_278dbe90	u	You can turn on Testing Mode in the Developer settings to replay it as many times as you like.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	74
+plot_branch_tutorial_expired_105a5262	u	It'll let you invite Rainbow,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	75
+plot_branch_tutorial_expired_cfc52359	u	and if you talk to Zen while you're working on an email chain, he'll make the guests send you replies faster.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	76
+plot_branch_tutorial_expired_2520bf3f	u	You can go through the \"Inviting Guests\" chatroom as many times as you like to finish the email chain and invite Rainbow.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	77
+plot_branch_tutorial_expired_2c7a2abe	u	Well, I guess that's all from me. 	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	78
+plot_branch_tutorial_expired_30000cc4	u	You'll log in later to talk to us though, right? ^^	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	79
+plot_branch_tutorial_expired_bc8fada3	u	See you~	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	80
+tutorial_bad_end_a9efc262	v	Hello, [name].	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	162
+tutorial_bad_end_8e9af1d9	v	I came to make an announcement.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	163
+tutorial_bad_end_11277287	v	It doesn't look like we'll be able to have the party after all,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	164
+tutorial_bad_end_d803cf66	v	since we don't have enough guests.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	165
+tutorial_bad_end_0d74ee35	m	That's terrible!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	170
+tutorial_bad_end_cb13f9b5	v	Of course, I wish things could have been different too, but we were operating on a rather short timeframe. 	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	171
+tutorial_bad_end_78eb01aa	v	So it's understandable.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	172
+tutorial_bad_end_2da27bde	m	I'm really sorry, V.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	174
+tutorial_bad_end_f8385fd9	v	No need to apologize, [name].	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	175
+tutorial_bad_end_29e9e171	v	I'm sure you did the best you could.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	177
+tutorial_bad_end_212d9c01	v	We simply didn't have enough time...	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	178
+tutorial_bad_end_27c76691	v	Anyway, that's all I had to say.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	180
+tutorial_bad_end_22f19f34	v	I hope you have a good day.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	181
+tutorial_bad_end_2d28f1e6	v		game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	182
+tutorial_bad_end_expired_c2dc615e	v	Hello, everyone.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	195
+tutorial_bad_end_expired_8e9af1d9	v	I came to make an announcement.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	196
+tutorial_bad_end_expired_11277287	v	It doesn't look like we'll be able to have the party after all,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	197
+tutorial_bad_end_expired_d803cf66	v	since we don't have enough guests.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	198
+tutorial_bad_end_expired_27c76691	v	Anyway, that's all I had to say.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	199
+tutorial_bad_end_expired_22f19f34	v	I hope you have a good day.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	200
+tutorial_bad_end_expired_2d28f1e6	v		game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	201
+plot_branch_tutorial_vn_78191a84	u	Hi, [name].	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	216
+plot_branch_tutorial_vn_41757db9	u	Looks like you've made it to the Good End! So I've come to take you to paradise.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	217
+plot_branch_tutorial_vn_11fdb519	extend		game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	219
+plot_branch_tutorial_vn_be589161	m	To paradise...?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	222
+plot_branch_tutorial_vn_600ce2cb	u	Of course! Don't you want to come?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	223
+plot_branch_tutorial_vn_11fdb519_1	extend		game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	225
+plot_branch_tutorial_vn_b5ca4a55	m	Of course I'll come.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	228
+plot_branch_tutorial_vn_6fcf26b3	u	Perfect.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	229
+plot_branch_tutorial_vn_21c68678	u	Shall we, then?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	232
+plot_branch_tutorial_vn_10010f3b	m	I'd rather stay here.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	237
+plot_branch_tutorial_vn_0515acd1	u	Oh... I get it. Maybe you want to learn more about the program.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	238
+plot_branch_tutorial_vn_9003a71f	u	I'll let you stay, then.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	239
+plot_branch_tutorial_vn_936fd641	u	You can always go to the Settings screen and click Start Over on the Others tab to play through the Tutorial Day again.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	240
+plot_branch_tutorial_vn_78d3f019	u	I hope you'll come visit me again!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	241
+plot_branch_tutorial_vn_a2f7c8f3	m	But I'm not done learning about the program.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	244
+plot_branch_tutorial_vn_4cbc1c8a	u	Oh, okay.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	245
+plot_branch_tutorial_vn_22958bc1	u	Well, if you want to start over and go through this route again,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	246
+plot_branch_tutorial_vn_d899564d	u	then you can go to the Settings screen and click Start Over on the Others tab.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	247
+plot_branch_tutorial_vn_78d3f019_1	u	I hope you'll come visit me again!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	248
+tutorial_good_end_f7edbc10	u	Thanks very much for playing through this first day!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	260
+tutorial_good_end_08a98f0a	u	I hope it makes you excited to try programming your own things.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	261
+tutorial_good_end_8e9a2ab2	u	Be sure to contact me if you run into any problems or bugs,	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	262
+tutorial_good_end_7a807726	u	and I'll do my best to take care of it ^^	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	263
+tutorial_good_end_259e399c	u	See you later!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	264
+tutorial_good_end_party_89ffaa22	u	This is where you'd likely put a VN section for a party.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	281
+tutorial_good_end_party_dc4980d8	u	It works the same way as any other VN section; the only thing that's different is the icon.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	282
+tutorial_good_end_party_5773e555	u	As this is probably the end of your game though, you should be sure you show the user which ending they got.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	283
+tutorial_good_end_party_74bf7e9c	u	Then you can reset the game so they can play through it again.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	284
+tutorial_good_end_party_d3158f21	u	As always, there's more information on that in the User Guide.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	285
+tutorial_good_end_party_43d86fbf	u	However, before you go, there's one more thing I can show you:	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	286
+tutorial_good_end_party_b29ce9c4	u	How to show a CG in a Story Mode section.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	287
+tutorial_good_end_party_b6a8ea8b	u	I'll show it to you just before I go, and then you'll be able to see it in your album.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	288
+tutorial_good_end_party_91b58e01	u	Thanks for playing through Tutorial Day!	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	293
+plot_branch_bre_a3a0b57e	r	Did you not like my game?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	308
+plot_branch_bre_dbcdc449	r	It looks like you didn't participate much in the chatrooms.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	309
+plot_branch_bre_7c3e1a2c	r	So now you're getting the \"Bad Relationship End\".	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	310
+plot_branch_bre_dc237a5b	r	Well, that's okay I guess. Maybe you just got busy.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	311
+plot_branch_bre_20348070	r	Try playing through the game again sometime, won't you?	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	312
+plot_branch_bre_f30cbc61	r	And you can play through all the chatrooms.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	313
+plot_branch_bre_080a609f	r	Well, I should go now.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	314
+plot_branch_bre_a966ee6b	r	It's too bad we didn't get to spend much time together.	game/tutorial_day_scripts/tutorial_8_plot_branches.rpy	315
