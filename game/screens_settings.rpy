@@ -297,7 +297,13 @@ image change_mc_pfp = DynamicDisplayable(MC_pic_display)
 # is ja, for example
 screen points_and_saveload():
     null height 30
-    grid 4 2:
+    #grid 4 2:
+    hbox:
+        if len(heart_point_chars) > 5:
+            xysize (650, 210)
+        else:
+            xysize (500, 210)
+        box_wrap True
         xalign 0.5
         yalign 0.8
         for c in heart_point_chars:
@@ -762,6 +768,8 @@ style other_settings_end_button_text:
 # *********************************       
 label restart_game():
     
+    show screen loading_screen
+    pause 0.2
     python:
         renpy.end_replay()
         # Remove heart points from all the characters

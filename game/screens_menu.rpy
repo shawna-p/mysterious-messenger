@@ -989,52 +989,56 @@ screen chat_home(reshow=False):
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will
         # show up here as profile pictures
+        python:
+            if len(character_list) > 6:
+                pfp_size = 95
+            elif len(character_list) > 5:
+                pfp_size = 105
+            else:
+                pfp_size = 115
+            num_col = (741-8-16-pfp_size) // pfp_size
+            num_row = -(-(len(character_list)-1) // num_col)
+            extra_space = (741-8-8-pfp_size) - (num_col * pfp_size)
+                        
+
         frame:
             xysize(741, 206)
             xalign 0.5
             yalign 0.08
-            vbox:
-                spacing 8
-                xalign 0.5
-                hbox:
-                    spacing 8
-                    xalign 0.0
-                    yalign 0.0
-                    for person in character_list[:7]:    
+            xoffset 8
+            grid num_col num_row:
+                xysize (pfp_size, pfp_size)
+                spacing extra_space // num_col
+                
+                for person in character_list:
+                    if person != m:
                         imagebutton:
-                            xysize (95, 95)
-                            if person == m:
-                                hover "profile_pic_select_square"
-                                idle person.get_pfp(95)
-                                background person.get_pfp(95)
-                                action Show('profile_pic')
-                            else:
-                                idle person.homepage_pic
-                                background 'no_profile_update'
-                                selected_background 'new_profile_update'
-                                selected not person.seen_updates
-                                action [SetField(person, 'seen_updates', True),
-                                    Show('chara_profile', who=person)]
+                            xysize (pfp_size,pfp_size)
+                            xalign 0.0
+                            idle Transform(person.homepage_pic, 
+                                    size=(pfp_size, pfp_size))
+                            background Transform('no_profile_update', 
+                                    size=(pfp_size,pfp_size))
+                            selected_background Transform('new_profile_update', 
+                                    size=(pfp_size, pfp_size))
+                            selected not person.seen_updates
+                            action [SetField(person, 'seen_updates', True),
+                                Show('chara_profile', who=person)]
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
-
-                hbox:
-                    spacing 8
-                    for person in character_list[7:]:
-                        imagebutton:
-                            xysize (95, 95)
-                            if person == m:
-                                hover "profile_pic_select_square"
-                                idle person.get_pfp(95)
-                                background person.get_pfp(95)
-                                action Show('profile_pic')
-                            else:
-                                idle person.homepage_pic
-                                background 'no_profile_update'
-                                selected_background 'new_profile_update'
-                                selected not person.seen_updates
-                                action [SetField(person, 'seen_updates', True),
-                                    Show('chara_profile', who=person)]
-                            activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
+                for x in range(num_col*num_row - len(character_list) + 1):
+                    null    
+            
+            imagebutton:
+                xysize (pfp_size,pfp_size)
+                hover Transform("profile_pic_select_square", 
+                        size=(pfp_size,pfp_size))
+                idle m.get_pfp(pfp_size)
+                background m.get_pfp(pfp_size)
+                action Show('profile_pic')
+                xalign 1.0
+                xoffset -8
+                yalign 0.0
+            
         frame:
             xysize (750, 1170) 
             yoffset -140       
