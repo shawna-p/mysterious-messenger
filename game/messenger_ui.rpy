@@ -334,46 +334,18 @@ label continue_answer(themenu, count_time=5):
 
     # Timed answers to speed up/slow down based on how fast 
     # the player has the chat speed set to. Default is 0.8,
-    # increased/decreased by 0.09 (aka increased/decreased by
-    # 11.25% each time)
+    # increased/decreased by 0.15 (aka increased/decreased by
+    # 18.75% each time)
     python:
         modifier = 1.00
         if renpy.is_skipping():
             # Max Speed active
             modifier = 0.0
-        elif pv <= 0.45:
-            # speednum = "9"
-            modifier = 0.1125*-4
-        elif pv <= 0.54:
-            # speednum = "8"
-            modifier = 0.1125*-3
-        elif pv <= 0.63:
-            # speednum = "7"
-            modifier = 0.1125*-2
-        elif pv <= 0.72:
-            # speednum = "6"
-            modifier = 0.1125*-1
-        elif pv <= 0.81:
-            # speednum = "5"
-            modifier = 0.00
-        elif pv <= 0.90:
-            # speednum = "4"
-            modifier = 0.1125*1
-        elif pv <= 0.99:
-            # speednum = "3"
-            modifier = 0.1125*2
-        elif pv <= 1.08:
-            # speednum = "2"
-            modifier = 0.1125*3
-        elif pv <= 1.17:
-            # speednum = "1" 
-            modifier = 0.1125*4
-        else:
-            # speednum = "!!"
-            modifier = 0.00
-        # So if the player has speed 9, which is pv=0.44 or 
-        # 145% as fast as regular speed, the time should also
-        # decrease by 45%
+        modifier = 0.1875 * (((store.pv - 0.2) / 0.15) - 4)
+        
+        # So if the player has speed 9, which is pv=0.2 or 
+        # 175% as fast as regular speed, the time should also
+        # decrease by 75%
         count_time += count_time * modifier
 
     # Timed menus don't show up for players who are skipping 

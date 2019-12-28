@@ -154,16 +154,17 @@ init -4 python:
                                         
 init python:
     # Increase/decrease the chat speed
+    # It goes 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
     def slow_pv():
         global pv
-        if pv <= 1.1:
-            pv += 0.09  
+        if pv <= 1.3:
+            pv += 0.15  
         return
         
     def fast_pv():
         global pv
-        if pv >= 0.53:
-            pv -= 0.09
+        if pv >= 0.3:
+            pv -= 0.15
         return
 
     # This is a helper function for the heart icon that dynamically 

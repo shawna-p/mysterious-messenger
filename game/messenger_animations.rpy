@@ -208,28 +208,12 @@ screen heart_break_screen(character):
 init python:
     def speed_num_fn(st, at):
         speednum = "!!"
-        pv = store.pv
-        if pv <= 0.45:
-            speednum = "9"
-        elif pv <= 0.54:
-            speednum = "8"
-        elif pv <= 0.63:
-            speednum = "7"
-        elif pv <= 0.72:
-            speednum = "6"
-        elif pv <= 0.81:
-            speednum = "5"
-        elif pv <= 0.90:
-            speednum = "4"
-        elif pv <= 0.99:
-            speednum = "3"
-        elif pv <= 1.08:
-            speednum = "2"
-        elif pv <= 1.17:
-            speednum = "1" 
-        else:
-            speednum = "!!"
-
+        # Minimum pv is 0.1
+        # Maximum is ~1.4
+        # 5 = 0.8
+        # So it goes 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
+        speednum = str(int((9 - ((store.pv - 0.2) / 0.15))))
+        
         speedtxt = Text("SPEED", style='speednum_style', size=30)
         numtxt = Text(speednum, style='speednum_style', align=(.5,.5))
         return VBox(speedtxt, numtxt), 0.05
