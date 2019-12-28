@@ -4,10 +4,10 @@ A messenger program with many features such as phone calls, text messages, chatr
 ## Getting Started
 
 * If you want to run this code, you will need to download the Ren'Py engine: [https://www.renpy.org/](https://www.renpy.org/)
-* As of 2019-2-14 (the time of this update) the version of Ren'Py used is 7.3.5.606
-* In the Ren'Py launcher, start a new project (you can call it whatever you like). If you are prompted for dimensions, select Custom and use `750x1334`. Accent and Background colour don't matter
-* Go to the /game folder of the project you just created and delete the existing `.rpy` files, then place the provided `.rpy` files in there.
-* Save the Script Generator spreadsheet somewhere you can find them later
+* As of 2019-12-28 (the time of this update) the version of Ren'Py used is 7.3.5.606
+* Download or clone the repository into your Ren'Py Projects Directory and unzip it into its own folder. If you don't know what it is, you can change it from the Ren'Py launcher via `preferences -> Projects Directory`.
+* Refresh your Projects list and you should see `mysterious-messenger` listed
+* Save the Script Generator spreadsheet somewhere you can find it later
 * **The images and sound files used in this project are not included in the repository. Please contact me directly if you would like to request the assets for personal use.**
 
 
