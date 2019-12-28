@@ -293,6 +293,7 @@ label press_save_and_exit():
         hide screen messenger_screen
         hide screen save_and_exit
         hide screen vn_overlay
+        show screen loading_screen
         if not current_chatroom.played:
             $ current_chatroom.played = True
             if not starter_story and not current_chatroom.buyback:
@@ -361,6 +362,11 @@ label press_save_and_exit():
             $ chips_available = hbc_bag.draw()
         
         stop music
+        # This helps clean up the transition between sections
+        # in case it takes the program a few moments to calculate
+        # messages, emails, etc
+        pause 0.2
+        hide screen loading_screen
         if starter_story:
             $ starter_story = False
             call screen chat_home
