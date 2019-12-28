@@ -45,6 +45,7 @@ style special_bubble:
     ycenter 0.55
     xcenter 0.5
     font gui.sans_serif_1
+    layout 'subtitle'
     #align (.5, .5)
 
 ####################################
