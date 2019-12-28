@@ -276,7 +276,8 @@ init -5 python:
         def text_backlog(self, who, what, when, img=False):
             self.text_msg.msg_list.append(ChatEntry(who, what,
                 when, img))
-
+            self.text_msg.read = True
+            
         ## Allows the ChatCharacter object to act as a proxy for
         ## the VN and phone call Character objects
         def do_extend(self, **kwargs):
