@@ -37,3 +37,8 @@ I'd like to thank the following people for their contribution to this project:
 * mvngx.gif for contributing many of the assets used in the program
 * The people of the Lemma Soft forums and Ren’Py Discord for many tutorials, answers, and resources
 * [RenpyTom](https://github.com/renpytom) for assistance in fixing some of the errors and animation issues I ran into
+
+
+## Like my work?
+
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L3L7QE3T)
