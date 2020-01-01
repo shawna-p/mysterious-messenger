@@ -135,12 +135,12 @@ screen settings_tabs(active_tab):
     # "Backgrounds" of the different panels
     hbox:
         # Account / Sound / Others tab
-        textbutton _('Profile'):            
-            if active_tab == "Profile":
+        textbutton _('Account'):            
+            if active_tab == "Account":
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"
-                action Show("profile_pic", Dissolve(0.5))
+                action Show("account_settings", Dissolve(0.5))
                 
         textbutton _('Sound'):
             if active_tab == "Sound":
@@ -177,13 +177,13 @@ style settings_tabs_button_text:
     yalign 0.5
         
 ##########################################################
-## The "Profile" tab of Settings. Allows you the player to
+## The "Profile" screen. Allows you the player to
 ## change their profile pic, name, and preferred pronouns
 ##########################################################
 
 screen profile_pic():
     
-    tag settings_screen
+    tag menu
     modal True
 
     if persistent.first_boot:
@@ -197,8 +197,7 @@ screen profile_pic():
                 action [Return()]
 
     else:
-        use menu_header("Settings", Hide('profile_pic', Dissolve(0.5))):
-            use settings_tabs("Profile")  
+        use menu_header("Profile", Show('chat_home', Dissolve(0.5))):
             use pic_and_pronouns()
             if not main_menu:
                 use points_and_saveload()
@@ -312,7 +311,7 @@ screen points_and_saveload():
     hbox:
         xsize 750
         frame:
-            xysize (375, 640)
+            xysize (375, 700)
             padding (20,20)
             frame:
                 background 'greeting_panel'
@@ -338,7 +337,7 @@ screen points_and_saveload():
 
         vbox:
             frame:
-                xysize (375, 640-80)
+                xysize (375, 700-80)
                 xalign 1.0
                 has hbox
                 box_wrap True
@@ -515,6 +514,74 @@ style my_input:
     hover_color "#d7d7d7"
     font gui.sans_serif_1
 
+##########################################################
+## The "Account" tab of Settings. Allows you the player to
+## start a new game and change their ringtone
+##########################################################
+
+screen account_settings():
+    tag settings_screen
+    modal True
+    use menu_header("Settings", Hide('account_settings', Dissolve(0.5))):
+        use settings_tabs("Account")
+        null height 10
+        frame:
+            style_prefix 'bubble_select'
+            text "Max Chat Bubbles" style "settings_style" xpos 55 ypos 5
+            vbox:
+                null height 15
+                text ("The maximum number of chat bubbles that can be loaded "
+                    + "in one chatroom. Too many chat bubbles may slow down "
+                    + "the game.")
+                hbox:
+                    textbutton "20" action SetVariable('bubbles_to_keep', 20)
+                    textbutton "40" action SetVariable('bubbles_to_keep', 40)
+                    textbutton "60" action SetVariable('bubbles_to_keep', 60)
+            
+                
+        null height 10
+        frame:
+            style_prefix "other_settings_end"            
+            has hbox
+            textbutton _('Go to Mode Select'):          
+                action [Function(renpy.full_restart)]                
+            textbutton _('Start Over'):
+                action Show("confirm", message=("Are you sure you want to"
+                        + " start over? You'll be unable to return to this"
+                        + " point except through a save file."), 
+                        yes_action=[Hide('confirm'), 
+                        Jump("restart_game")], no_action=Hide('confirm'))
+
+style bubble_select_frame:
+    is tone_selection_frame
+
+style bubble_select_vbox:
+    is tone_selection_vbox
+    spacing 45
+
+style bubble_select_text:
+    font gui.curlicue_font
+    color "#fff"
+    size 28
+    xalign 0.5
+    text_align 0.5
+
+style bubble_select_button_text:
+    color "#fff"
+    size 40
+    xalign 0.5
+    text_align 0.5
+    xoffset -10
+
+style bubble_select_button:
+    background 'gui/button/check_foreground.png'
+    selected_background 'gui/button/check_selected_foreground.png'
+    padding (0, 35, 0, 0)
+
+style bubble_select_hbox:
+    xalign 0.5
+    spacing 75
+
 ########################################################
 ## The "Others" tab of the settings screen
 ## Includes VN options and Ringtone selection
@@ -536,6 +603,7 @@ screen other_settings():
             scrollbars "vertical"
             style_prefix "other_settings"
             has vbox            
+            #null height -5
             frame:
                 xysize (675,480)
                 background "menu_settings_panel"
@@ -600,10 +668,10 @@ screen other_settings():
                 text "Accessibility Options":
                     style "settings_style" xpos 40 ypos -4
 
-               
                 hbox:
-                    style_prefix "toggle_panel"
                     null height 30
+                    box_wrap_spacing 30
+                    #xfill True
                     use toggle_buttons('hacking_effects', "Hacking Effects")
                     use toggle_buttons('screenshake', "Screen Shake")
                     use toggle_buttons('banners', "Chatroom Banners")
@@ -632,19 +700,7 @@ screen other_settings():
                 # Additional vboxes of type "radio_pref" or "check_pref" can be
                 # added here, to add additional creator-defined preferences.
                             
-            frame:
-                style_prefix "other_settings_end"            
-                has hbox
-                textbutton _('Go to Mode Select'):          
-                    action [Function(renpy.full_restart)]
-                    
-                textbutton _('Start Over'):
-                    action Show("confirm", message=("Are you sure you want to"
-                            + " start over? You'll be unable to return to this"
-                            + " point except through a save file."), 
-                            yes_action=[Hide('confirm'), 
-                            Jump("restart_game")], no_action=Hide('confirm'))
-
+            
 style ringtone_change:
     color '#fff'
     size 28
@@ -675,6 +731,7 @@ screen toggle_buttons(field, title):
         style_prefix None
         fixed:
             xysize (105, 50)
+            xalign 0.5
             imagebutton:
                 idle "toggle_btn_bg"
                 action ToggleField(persistent, field)
@@ -703,21 +760,26 @@ transform toggle_btn_transform:
         linear 0.25 xoffset 55
 
 style toggle_panel_button:
-    xsize 210
+    xsize 180
     xalign 0.5
 
 style toggle_panel_button_text:
-    text_align 0.0
-    xalign 0.0
+    text_align 0.5
+    xalign 0.5
     hover_color "#fff"
     selected_hover_color '#ababab'
+
+style toggle_panel_frame:
+    xsize 655
+    background "#f0fa"
 
 style toggle_panel_hbox:
     spacing 6
     box_wrap True
-    box_wrap_spacing 20
+    box_wrap_spacing 30
+    xfill True
     xalign 0.5
-    xmaximum 655
+    xsize 655
     yalign 0.8
 
 
@@ -834,7 +896,6 @@ screen preferences():
 
     use menu_header("Settings", Hide('preferences', Dissolve(0.5))):
         use settings_tabs("Sound")
-        
         viewport:
             style_prefix 'other_settings'
             draggable True
@@ -843,6 +904,7 @@ screen preferences():
             side_spacing 5
             has vbox
     
+            null height -5
             # Volume sliders and toggles for muting everything
             # or using audio captions
             frame:      
