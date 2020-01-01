@@ -4,6 +4,81 @@ init python:
     ## define variables that have yet to exist so that save files
     ## continue to work
     def update_var_compatibility():
+        while store._version != "2.01":
+            float_ver = float(store._version)
+            if float_ver <= 2.00:
+                try:
+                    for r in all_routes:
+                        test = r.ending_chatrooms
+                except AttributeError:
+                    for r in all_routes:
+                        setattr(r, 'ending_chatrooms', [])
+                        # Not 100% accurate, but for most cases
+                        # should be all right; check number of strings
+                        # in the route
+                        ending_titles = []
+                        for day in reversed(r.route):
+                            if day.archive_list:
+                                ending_titles.extend(find_route_endings(r, 
+                                    day.archive_list, ending_titles))
+                        if ending_titles == []:
+                            # There were no titles; final chatroom is
+                            # just the last one
+                            for day in reversed(r.route):
+                                if day.archive_list:
+                                    if day.archive_list[-1].vn_obj:
+                                        r.ending_chatrooms.append(
+                                            day.archive_list[
+                                                -1].vn_obj.vn_label)
+                                    else:
+                                        r.ending_chatrooms.append(
+                                            day.archive_list[
+                                                -1].chatroom_label)
+                store._version = '2.01'
+                                        
+
+    ## Finds the last chatroom after the string and adds the appropriate
+    ## label to the route's ending_chatrooms list
+    def find_route_endings(route, chatlist, titles):
+        # First, count the number of strings (endings) in this list
+        extra_ending_titles = []
+        ending_indices = []
+        for i, chat in enumerate(chatlist):
+            if (not isinstance(chat, store.ChatHistory)
+                and not isinstance(chat, ChatHistory)
+                and not isinstance(chat, VNMode)
+                and not isinstance(chat, store.VNMode)):
+                if chat not in titles:
+                    extra_ending_titles.append(chat)
+                    ending_indices.append(i)
+                
+        if len(ending_indices) == 0:
+            return extra_ending_titles
+        # Endings will now be the chatroom just before the ending index
+        # EXCEPT for the first index which is changed to a zero so that
+        # it fetches the last item of the list
+        ending_indices[0] = 0
+        for i in ending_indices:
+            if (isinstance(chatlist[i-1], store.ChatHistory)
+                    or isinstance(chatlist[i-1], ChatHistory)):
+                if chatlist[i-1].vn_obj:
+                    route.ending_chatrooms.append(
+                        chatlist[i-1].vn_obj.vn_label)
+                elif (chatlist[i-1].plot_branch
+                        and chatlist[i-1].plot_branch.vn_after_branch):
+                    route.ending_chatrooms.append(
+                        chatlist[i-1].plot_branch.stored_vn.vn_label)
+                else:
+                    route.ending_chatrooms.append(
+                        chatlist[i-1].chatroom_label)
+            elif (isinstance(chatlist[i-1], store.VNMode)
+                    or isinstance(chatlist[i-1], VNMode)):
+                route.ending_chatrooms.append(chatlist[i-1].vn_label)
+        return extra_ending_titles
+
+
+
+
         # if _version == "2.02":
         #     try:
         #         for i in all_characters:

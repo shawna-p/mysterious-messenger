@@ -209,10 +209,50 @@ init -6 python:
         def __init__(self, default_branch, branch_list=[], 
                     route_history_title="Common",
                     has_end_title=True):
+
+            # Names of the labels of each ending chatroom or VN
+            self.ending_chatrooms = []
+            for day in reversed(default_branch):
+                if day.archive_list:
+                    if day.archive_list[-1].vn_obj:
+                        self.ending_chatrooms.append(
+                            day.archive_list[-1].vn_obj.vn_label)
+                    elif (day.archive_list[-1].plot_branch
+                            and day.archive_list[
+                                -1].plot_branch.vn_after_branch):
+                        self.ending_chatrooms.append(day.archive_list[
+                            -1].plot_branch.stored_vn.vn_label)
+                    else:
+                        self.ending_chatrooms.append(
+                            day.archive_list[-1].chatroom_label)
+                    break
+
+            for branch in branch_list:
+                for day in reversed(branch):
+                    if day.archive_list:
+                        if day.archive_list[-1].vn_obj:
+                            self.ending_chatrooms.append(
+                                day.archive_list[-1].vn_obj.vn_label)
+                        elif (day.archive_list[-1].plot_branch
+                                and day.archive_list[
+                                    -1].plot_branch.vn_after_branch):
+                            self.ending_chatrooms.append(
+                                day.archive_list[
+                                    -1].plot_branch.stored_vn.vn_label)
+                        else:
+                            self.ending_chatrooms.append(
+                                day.archive_list[-1].chatroom_label)
+                        break
+                    elif day.branch_vn:
+                        self.ending_chatrooms.append(day.branch_vn.vn_label)
+                        break
+
+
+            if route_history_title[-7:] == " -route":
+                self.route_history_title = route_history_title[:-7]
+            else:
+                self.route_history_title = route_history_title + " Route"
             
-
-            self.route_history_title = route_history_title
-
             # Now combine the given branches into one large list        
             self.route = deepcopy(default_branch)
             # Add the branch title before the last item in the
@@ -507,8 +547,9 @@ init -6 python:
         # Checks for a post-chatroom label
         if renpy.has_label('after_' + prev_chatroom.chatroom_label): 
             # This will ensure text messages etc are set up
+            store.was_expired = True
             renpy.call_in_new_context('after_' + prev_chatroom.chatroom_label)
-
+            store.was_expired = False
         for phonecall in available_calls:
             phonecall.decrease_time()
             
@@ -754,6 +795,6 @@ init -6 python:
         # unlock_24_time can be reset
         unlock_24_time = False 
                     
-                    
-    
+# True if the chatroom before the 'after_' call was expired
+default was_expired = False
         

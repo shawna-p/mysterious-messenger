@@ -291,51 +291,90 @@ image they_them_pronoun_radio = ConditionSwitch(
 image mc_name_switch = DynamicDisplayable(MC_name_display)
 image change_mc_pfp = DynamicDisplayable(MC_pic_display)
 
+init python:
+
+    ## Receives a Route object and determines how many endings
+    ## out of the list have been played
+    def completed_branches(r):
+        num_end = 0
+        # Go through default branch backwards to find ending
+        for lbl in r.ending_chatrooms:
+            if store.persistent.completed_chatrooms.get(lbl):
+                num_end += 1
+        return num_end
+
+
 # Shows how many heart points the player has earned with each
 # character. To display properly there must be an image
 # defined called 'greet ja' if the character's file_id
 # is ja, for example
 screen points_and_saveload():
-    null height 30
-    #grid 4 2:
     hbox:
-        if len(heart_point_chars) > 5:
-            xysize (650, 210)
-        else:
-            xysize (500, 210)
-        box_wrap True
-        xalign 0.5
-        yalign 0.8
-        for c in heart_point_chars:
-            use heart_point_grid(c)
+        xsize 750
+        frame:
+            xysize (375, 640)
+            padding (20,20)
+            frame:
+                background 'greeting_panel'
+                padding (10, 10)
+                align (0.5, 0.25)
+                has vbox
+                spacing 5
+                text "Ending Achievement" size 30 font gui.sans_serif_1xb color "#fff"
+                null height 20
+                for r in all_routes:
+                    $ num_routes = len(r.ending_chatrooms)
+                    $ num_completed = completed_branches(r)
+                    hbox:
+                        xalign 0.5
+                        frame:
+                            xsize 215
+                            xalign 0.0
+                            text r.route_history_title color "#fff" font gui.blocky_font size 28
+                        frame:
+                            xsize 75
+                            xalign 1.0
+                            text "[[" + str(num_completed) + "/" + str(num_routes) + "]" color "#fff" size 28
 
-    null height 30
-    hbox:
-        spacing 20
-        xalign 1.0
-        xysize (161*2, 58)
-        # Save / Load
-        imagebutton:
-            style_prefix None
-            xysize (161, 58)
-            align (.5, .5)
-            idle "save_btn"
-            hover Transform("save_btn", zoom=1.1)
-            action Show("save", Dissolve(0.5))
+        vbox:
+            frame:
+                xysize (375, 640-80)
+                xalign 1.0
+                has hbox
+                box_wrap True
+                xalign 1.0
+                yalign 0.5
+                xfill True
+                for c in heart_point_chars:
+                    use heart_point_grid(c)
+
             
-        imagebutton:
-            style_prefix None
-            xysize (161, 58)
-            align (.5, .5)
-            idle "load_btn"
-            hover Transform("load_btn", zoom=1.1)
-            action Show("load", Dissolve(0.5))
+            hbox:
+                spacing 20
+                xalign 0.5
+                xysize (161*2, 70)
+                # Save / Load
+                imagebutton:
+                    style_prefix None
+                    xysize (161, 70)
+                    align (.5, .5)
+                    idle Transform("save_btn", align=(0.5, 0.5))
+                    hover Transform("save_btn", zoom=1.1)
+                    action Show("save", Dissolve(0.5))
+                    
+                imagebutton:
+                    style_prefix None
+                    xysize (161, 70)
+                    align (.5, .5)
+                    idle Transform("load_btn", align=(0.5, 0.5))
+                    hover Transform("load_btn", zoom=1.1)
+                    action Show("load", Dissolve(0.5))
 
 screen heart_point_grid(c):
     vbox:
-        xysize (150,200)
+        xysize (150*0.8,200*0.8)
         align (.5, .5)
-        add 'greet ' + c.file_id
+        add Transform('greet ' + c.file_id, zoom=0.8)
         text str(c.heart_points) + " {image=header_heart}":
             style "point_indicator"
 

@@ -84,7 +84,7 @@ screen select_history_route():
             style_prefix 'history_route'
             has vbox
             for route in all_routes:
-                textbutton _(route.route_history_title + " Route"):
+                textbutton _(route.route_history_title):
                     action [SetVariable('which_history_route', route.route),
                             Show('chat_select', days=route.route)]
 
