@@ -20,7 +20,7 @@ label timed_menus():
     call continue_answer("menu1", 8) 
     
     s "You only have so long to reply," 
-    s "and when the spaceship at the bottom of the screen reaches the right side," 
+    s "and when the planet at the bottom of the screen reaches the right side," 
     s "BAM!!"   (bounce=True, specBubble="spike_s")
     s "The opportunity to answer has passed!!!" 
     # The time given to reply will change depending on the chat speed, so 
