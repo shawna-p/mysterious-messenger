@@ -228,7 +228,9 @@ label chat_back():
         # Checks for a post-chatroom label; triggers even if there's a VN
         # and delivers text messages, phone calls etc
         if renpy.has_label('after_' + current_chatroom.chatroom_label): 
+            $ was_expired = current_chatroom.expired
             $ renpy.call('after_' + current_chatroom.chatroom_label)
+            $ was_expired = False
         $ deliver_all_texts()
         $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
@@ -305,7 +307,9 @@ label press_save_and_exit():
             # Otherwise delivers phone calls/texts/etc
             if (renpy.has_label('after_' + current_chatroom.chatroom_label) 
                     and not current_chatroom.vn_obj): 
+                $ was_expired = current_chatroom.expired
                 $ renpy.call('after_' + current_chatroom.chatroom_label)
+                $ was_expired = False
             # Add this label to the list of completed labels
             $ persistent.completed_chatrooms[
                                 current_chatroom.chatroom_label] = True
@@ -320,7 +324,9 @@ label press_save_and_exit():
                 $ persistent.completed_chatrooms[
                             current_chatroom.vn_obj.vn_label] = True
                 if renpy.has_label('after_' + current_chatroom.chatroom_label):
+                    $ was_expired = current_chatroom.expired
                     $ renpy.call('after_' + current_chatroom.chatroom_label)
+                    $ was_expired = False
         elif (current_chatroom.plot_branch 
                 and current_chatroom.vn_obj 
                 and not current_chatroom.vn_obj.played 

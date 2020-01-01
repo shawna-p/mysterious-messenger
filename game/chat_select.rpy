@@ -689,7 +689,9 @@ label plot_branch_end():
         # Plot branch is just a chatroom, has an after label
         if not current_chatroom.vn_obj:
             if renpy.has_label('after_' + current_chatroom.chatroom_label):
+                was_expired = current_chatroom.expired
                 renpy.call('after_' + current_chatroom.chatroom_label)
+                was_expired = False
             # Deliver calls/texts/etc
             deliver_calls(current_chatroom.chatroom_label)
             deliver_emails()   
@@ -702,7 +704,9 @@ label plot_branch_end():
         # Plot branch is after a chatroom with a VN
         elif current_chatroom.vn_obj and current_chatroom.vn_obj.played:
             if renpy.has_label('after_' + current_chatroom.chatroom_label):
+                was_expired = current_chatroom.expired
                 renpy.call('after_' + current_chatroom.chatroom_label)
+                was_expired = False
             # Deliver calls/texts/etc
             deliver_calls(current_chatroom.chatroom_label)
             deliver_emails()
