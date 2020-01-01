@@ -399,9 +399,11 @@ style call_text:
 ## This label ensures the rest of the phone conversation will
 ## not play out if the player hangs up
 label hang_up():
-    $ observing = False
     $ renpy.end_replay()
-    $ call_hang_up(phonecall=current_call)
+    if observing:
+        $ observing = False
+    else:
+        $ call_hang_up(phonecall=current_call)
     call screen phone_calls
     return
     
