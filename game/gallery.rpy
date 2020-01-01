@@ -8,13 +8,14 @@ python early:
             # images should be 750x1334
             self.img = img
             self.__locked_img = locked_img
+
             # Thumbnails should be 155x155
             if thumbnail:
                 self.__thumbnail = thumbnail
             else:
                 # If no thumbnail is provided, the program
                 # will automatically crop and scale the CG
-                self.__thumbnail = Transform(Crop((0, 0, 750, 750), img), 
+                self.__thumbnail = Transform(Crop((0, 200, 750, 750), img), 
                                                         size=(155,155))
             self.unlocked = False
             self.__seen_in_album = False
@@ -33,6 +34,14 @@ python early:
                 return self.__thumbnail
             else:
                 return self.__locked_img
+
+        @thumbnail.setter
+        def thumbnail(self, new_thumb):
+            self.__thumbnail = new_thumb
+
+        ## Retrieves the CG's thumbnail, regardless of unlock state
+        def get_thumb(self):
+            return self.__thumbnail
         
         def check_if_seen(self):
             # Check if the CG was 'shown' to the player
@@ -70,6 +79,11 @@ init python:
         for photo in update:
             if photo not in p_album:
                 p_album.append(photo)
+            else:
+                # Ensure thumbnails are updated
+                for p_photo in p_album:
+                    if photo == p_photo:
+                        p_photo.thumbnail = photo.get_thumb()
         return p_album
 
     ## Makes sure all seen images are unlocked
@@ -176,8 +190,6 @@ image cg s_1 = "CGs/s_album/cg-1.png"
 
 image cg r_1 = "CGs/r_album/cg-1.png"
 
-image cg ju_1 = "CGs/ju_album/cg-1.png"
-
 default fullsizeCG = "cg common_1"
 # This lets the player know if there are new CGs in
 # the album
@@ -227,8 +239,8 @@ default persistent.common_album = []
 ## In order to allow for albums to be easily expanded,
 ## these variables are used. This is where you actually
 ## declare all of the Album objects you need
-default ja_album = []
-default ju_album = [ Album("cg ju_1") ]
+default ja_album = [ ]
+default ju_album = [ ]
 default r_album = [ Album("cg r_1") ]
 default s_album = [ Album("cg s_1") ]
 default u_album = []
