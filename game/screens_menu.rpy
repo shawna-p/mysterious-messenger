@@ -438,7 +438,7 @@ screen route_select_screen():
                     button:
                         style 'route_select_button'
                         action Start('prologue')
-                        text "Common Route" style 'menu_text_small' align (0.5, 0.5)
+                        text "Parallel Path" style 'menu_text_small' align (0.5, 0.5)
 
 style route_select_vbox:
     xysize (700, 350)
@@ -954,10 +954,15 @@ default spaceship_xalign = 0.04
 default reset_spaceship_pos = False
 
 image github = "Menu Screens/Chat Hub/github.png"
+image discord = "Menu Screens/Chat Hub/discord.png"
+image kofi = "Menu Screens/Chat Hub/ko-fi.png"
 ## Icon made by Freepik from www.flaticon.com
 image developer_settings = "Menu Screens/Chat Hub/global-settings-freepik-red.png"
+## Icon made by Creaticca Creative Agency from www.flaticon.com
+image link_hex = "Menu Screens/Chat Hub/link-creaticca-creative-agency.png"
 ## Icon made by Pixel perfect from www.flaticon.com
-image discord = "Menu Screens/Chat Hub/discord-Pixel-perfect.png"
+image exit_hex = "Menu Screens/Chat Hub/exit-pixel-perfect.png"
+
 
 image new_profile_update = Frame("Menu Screens/Chat Hub/main_profile_new_update.png", 0, 0)
 image no_profile_update = Frame("Menu Screens/Chat Hub/main_profile_normal.png", 0, 0)
@@ -1144,19 +1149,23 @@ screen chat_home(reshow=False):
                     add "developer_settings" xalign 0.55 yalign 0.35
                     text "DEVELOPER" size 18
 
-                # Discord Link ("Notice")
+                # Link ("Notice")
                 button:
                     selected None
-                    action OpenURL('https://discord.gg/BPbPcpk')
-                    add "discord" xalign 0.5 yalign 0.42
-                    text "DISCORD" 
+                    action Show('links')
+                    add 'link_hex' align (0.5, 0.35)
+                    text "LINKS"
+                    # add "discord" xalign 0.5 yalign 0.42
+                    # text "DISCORD" 
 
-                # GitHub Link ("Link")     
+                # Exit to main menu ("Link")     
                 button:
                     selected None
-                    action OpenURL('https://github.com/shawna-p/mysterious-messenger')
-                    add "github" xalign 0.5 yalign 0.3
-                    text "GITHUB"
+                    action [Function(renpy.full_restart)]
+                    add 'exit_hex' align (0.6, 0.38)
+                    text "MAIN MENU" size 18
+                    # add "github" xalign 0.5 yalign 0.3
+                    # text "GITHUB"
 
                     
                     
@@ -1272,7 +1281,74 @@ style hex_text:
     size 20
     font gui.sans_serif_1xb
     kerning -1
-    
+
+##########################################################
+## Link screens to additional content
+##########################################################
+screen links():
+    tag menu
+    use menu_header("Links", Show('chat_home', Dissolve(0.5))):
+        frame:
+            style_prefix 'link_menu'            
+            vbox:
+                text "Follow Program Updates"
+                grid 2 1:
+                    button:
+                        vbox:
+                            style_prefix 'link_btn'
+                            fixed:
+                                add 'discord'
+                            text 'Discord'
+                        action OpenURL('https://discord.gg/BPbPcpk')
+                    button:
+                        vbox:
+                            style_prefix 'link_btn'
+                            fixed:
+                                add 'github'
+                            text "GitHub"
+                        action OpenURL('https://github.com/shawna-p/mysterious-messenger')
+                null height 5
+                button:
+                    add 'kofi'
+                    action OpenURL('https://ko-fi.com/somniarre')
+
+style link_menu_frame:
+    xysize (720, 1170)
+    yalign 1.0
+    xalign 0.5
+    background "#000a"
+
+style link_menu_vbox:
+    xsize 750
+    xalign 0.5
+    spacing 20
+    yalign 0.2
+
+style link_menu_text:
+    size 42
+    color "#fff"
+    xalign 0.5
+
+style link_menu_grid:
+    xalign 0.5
+    spacing 50
+
+style link_menu_button:
+    xalign 0.5                    
+
+style link_btn_vbox:
+    is default
+    ysize 150
+
+style link_btn_text:
+    is default
+    color "#fff"
+    xalign 0.5
+    text_align 0.5
+
+style link_btn_fixed:
+    xysize (146,143)
+
 
 ##########################################################
 ## Additional developer settings for creating new content
