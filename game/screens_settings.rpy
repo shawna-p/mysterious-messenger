@@ -134,20 +134,20 @@ screen settings_tabs(active_tab):
     style_prefix "settings_tabs"
     # "Backgrounds" of the different panels
     hbox:
-        # Account / Sound / Others tab
-        textbutton _('Account'):            
-            if active_tab == "Account":
+        # Preferences / Sound / Others tab
+        textbutton _('Preferences'):            
+            if active_tab == "Preferences":
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"
-                action Show("account_settings", Dissolve(0.5))
+                action Show("preferences", Dissolve(0.5))
                 
         textbutton _('Sound'):
             if active_tab == "Sound":
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"                
-                action Show("preferences", Dissolve(0.5))                
+                action Show("sound_settings", Dissolve(0.5))                
             
         textbutton _('Others'):
             if active_tab == "Others":
@@ -519,11 +519,11 @@ style my_input:
 ## start a new game and change their ringtone
 ##########################################################
 
-screen account_settings():
+screen other_settings():
     tag settings_screen
     modal True
-    use menu_header("Settings", Hide('account_settings', Dissolve(0.5))):
-        use settings_tabs("Account")
+    use menu_header("Settings", Hide('other_settings', Dissolve(0.5))):
+        use settings_tabs("Others")
         null height 10
         frame:
             style_prefix 'bubble_select'
@@ -587,13 +587,13 @@ style bubble_select_hbox:
 ## Includes VN options and Ringtone selection
 ########################################################
               
-screen other_settings():
+screen preferences():
 
     tag settings_screen
     modal True
 
-    use menu_header("Settings", Hide('other_settings', Dissolve(0.5))):
-        use settings_tabs("Others")
+    use menu_header("Settings", Hide('preferences', Dissolve(0.5))):
+        use settings_tabs("Preferences")
             
         viewport:
             style 'other_settings_viewport'
@@ -645,7 +645,7 @@ screen other_settings():
             frame:
                 xysize(675,190)
                 background "menu_settings_panel"
-                text "VN Skip Settings" style "settings_style" xpos 40 ypos -2
+                text "Skip Settings" style "settings_style" xpos 40 ypos -2
 
                 hbox:
                     spacing 16
@@ -889,12 +889,12 @@ label restart_game():
 ## to better suit themselves.
 ##
 
-screen preferences():
+screen sound_settings():
 
     tag settings_screen
     modal True
 
-    use menu_header("Settings", Hide('preferences', Dissolve(0.5))):
+    use menu_header("Settings", Hide('sound_settings', Dissolve(0.5))):
         use settings_tabs("Sound")
         viewport:
             style_prefix 'other_settings'
