@@ -319,7 +319,8 @@ screen points_and_saveload():
                 align (0.5, 0.25)
                 has vbox
                 spacing 5
-                text "Ending Achievement" size 30 font gui.sans_serif_1xb color "#fff"
+                text "Ending Achievement":
+                    size 30 font gui.sans_serif_1xb color "#fff"
                 null height 20
                 for r in all_routes:
                     $ num_routes = len(r.ending_chatrooms)
@@ -329,11 +330,14 @@ screen points_and_saveload():
                         frame:
                             xsize 215
                             xalign 0.0
-                            text r.route_history_title color "#fff" font gui.blocky_font size 28
+                            text r.route_history_title:
+                                color "#fff" font gui.blocky_font size 28
                         frame:
                             xsize 75
                             xalign 1.0
-                            text "[[" + str(num_completed) + "/" + str(num_routes) + "]" color "#fff" size 28
+                            text ("[[" + str(num_completed) 
+                                    + "/" + str(num_routes) + "]"):
+                                color "#fff" size 28
 
         vbox:
             frame:
@@ -551,6 +555,27 @@ screen other_settings():
                         + " point except through a save file."), 
                         yes_action=[Hide('confirm'), 
                         Jump("restart_game")], no_action=Hide('confirm'))
+        null height 459
+        hbox:
+            spacing 20
+            xalign 1.0
+            xysize (161*2, 70)
+            # Save / Load
+            imagebutton:
+                style_prefix None
+                xysize (161, 70)
+                align (.5, .5)
+                idle Transform("save_btn", align=(0.5, 0.5))
+                hover Transform("save_btn", zoom=1.1)
+                action Show("save", Dissolve(0.5))
+                
+            imagebutton:
+                style_prefix None
+                xysize (161, 70)
+                align (.5, .5)
+                idle Transform("load_btn", align=(0.5, 0.5))
+                hover Transform("load_btn", zoom=1.1)
+                action Show("load", Dissolve(0.5))
 
 style bubble_select_frame:
     is tone_selection_frame
@@ -600,6 +625,7 @@ screen preferences():
             draggable True
             mousewheel True
             side_spacing 5
+            xoffset 20
             scrollbars "vertical"
             style_prefix "other_settings"
             has vbox            
