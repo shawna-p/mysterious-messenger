@@ -268,6 +268,14 @@ label press_save_and_exit():
         $ phone = False
     else:
         $ phone = True
+    
+    if (most_recent_chat is None 
+            and chat_archive 
+            and chat_archive[0].archive_list):
+        $ most_recent_chat = chat_archive[0].archive_list[0]
+    elif most_recent_chat is None:
+        $ most_recent_chat = ChatHistory('Example Chatroom', 
+                                        'example_chat', '00:01')
         
     if observing or _in_replay:
         $ config.skipping = False
@@ -295,6 +303,7 @@ label press_save_and_exit():
         hide screen messenger_screen
         hide screen save_and_exit
         hide screen vn_overlay
+        hide screen pause_button
         show screen loading_screen
         if not current_chatroom.played:
             $ current_chatroom.played = True

@@ -482,7 +482,11 @@ screen file_slots(title):
     python:      
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name  
-        if most_recent_chat == None:
+        if (most_recent_chat is None 
+                and chat_archive
+                and chat_archive[0].archive_list):
+            most_recent_chat = chat_archive[0].archive_list[0]
+        elif most_recent_chat is None:
             most_recent_chat = ChatHistory('Example Chatroom', 
                                             'example_chat', '00:01')
         for day in chat_archive:
