@@ -108,6 +108,9 @@ image battery_empty_img = "Phone UI/battery_empty.png"
 image battery_charged = "Phone UI/battery_charged.png"
 image battery_charging = "Phone UI/battery_charging.png"
 
+image skip_intro_idle = "Phone UI/skip_intro_available.png"
+image skip_intro_hover = "Phone UI/skip_intro_pressed.png"
+
 image hack scroll: 
     "hack_long"
     subpixel True

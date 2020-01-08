@@ -239,6 +239,8 @@ screen phone_overlay():
     fixed:
         xysize(150,80)
         align (0.16, 0.055)
+        if starter_story:
+            xoffset -85
         imagebutton:
             align (0.5, 0.5)
             focus_mask True
@@ -249,10 +251,27 @@ screen phone_overlay():
             selected_hover "maxSpeed"
             if not choosing:
                 action Skip()
+    if starter_story:
+        fixed:
+            xysize (150, 80)
+            align (0.99, 0.055)
+            imagebutton:
+                align (0.5, 0.5)
+                focus_mask True
+                idle 'skip_intro_idle'
+                hover 'skip_intro_hover'
+                action [SetField(persistent, 'first_boot', False),
+                        SetField(persistent, 'on_route', True),
+                        SetVariable('vn_choice', True),
+                        Jump('press_save_and_exit')]
                 
     frame:
-        align (0.75, 0.055)
-        xysize (400, 80)
+        yalign 0.04
+        if starter_story:
+            xalign 0.5
+        else:
+            xalign 0.62
+        xysize (350, 100)
         add 'in_chat_display'   
 
     # 0 = no idea what status is, or -1
