@@ -417,6 +417,24 @@ screen chatroom_item(day, day_num, chatroom, index):
                 part_anim = null_anim
         else:
             part_anim = null_anim
+
+        if persistent.testing_mode and chat_bkgr == 'chat_inactive':
+            chat_bkgr = 'chat_active'
+            chat_hover = 'chat_active_hover'
+            can_play = True
+            wasplayed = True
+        if persistent.testing_mode:
+            most_recent_chat = chatroom
+        if (persistent.testing_mode and my_vn 
+                and (vn_foreground == 'vn_inactive' 
+                    or vn_background == 'vn_party_inactive')):
+            if vn_foreground == 'vn_inactive':
+                vn_foreground = 'vn_active'
+                vn_hover = 'vn_active_hover'
+            elif vn_background == 'vn_party_inactive':
+                vn_background = 'vn_party'
+            can_play = True
+            wasplayed = True
             
         
     
@@ -608,7 +626,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 text 'Tap to unlock' color '#fff' xalign 0.5 yalign 0.5
             # Check if the player has seen all chatrooms before
             # they try to branch
-            if can_branch():
+            if can_branch() or persistent.testing_mode:
                 # The message varies slightly depending on whether
                 # the player is playing in real-time or not
                 if persistent.real_time:
@@ -616,6 +634,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 + " Missed chatrooms may appear depending on"
                                 + " the time right now. Continue?"), 
                             yes_action=[Hide('confirm'), 
+                            SetVariable('most_recent_chat', chatroom),
                             SetVariable('current_chatroom', chatroom),
                             Jump(chatroom.chatroom_label + '_branch')], 
                             no_action=Hide('confirm'))           
@@ -624,6 +643,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                             + " Continue?"), 
                         yes_action=[Hide('confirm'), 
                         SetVariable('current_chatroom', chatroom),
+                        SetVariable('most_recent_chat', chatroom),
                         Jump(chatroom.chatroom_label + '_branch')], 
                         no_action=Hide('confirm'))                 
             else:
