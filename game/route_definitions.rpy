@@ -313,6 +313,22 @@ init -6 python:
         global chat_archive, today_day_num, days_to_expire
         global current_game_day
 
+        # If the player is in Testing Mode, make all chatrooms
+        # and VNs available regardless
+        triggered_next = False
+        if persistent.testing_mode:
+            for archive in chat_archive:
+                for chatroom in archive.archive_list:
+                    chatroom.available = True
+                    if chatroom.vn_obj:
+                        chatroom.vn_obj.available = True
+                    if chatroom.plot_branch:
+                        triggered_next = True
+                        break
+                if triggered_next:
+                    break
+            return
+
         triggered_next = False
         # Running on sequential mode
         if not persistent.real_time:
