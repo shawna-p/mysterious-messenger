@@ -90,7 +90,3 @@ default tutorial_route = Route(
 #     branch_list=[common_route_bad],
 #     route_history_title="Common",
 #     has_good_end=False)
-
-# Here's an example all_routes definition as it might look if
-# you had a common route and a route for 707 and Zen
-# default all_routes = [ common_route, seven_route, zen_route ]
