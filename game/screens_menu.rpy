@@ -1397,7 +1397,10 @@ screen developer_settings():
                     style_prefix "check"
                     null height 30
                     textbutton _("Testing Mode"):
-                        action ToggleField(persistent, "testing_mode")
+                        action If(not main_menu,
+                            [ToggleField(persistent, "testing_mode"),
+                            Function(next_chatroom)],
+                            ToggleField(persistent, "testing_mode"))
                     textbutton _("Real-Time Mode"):
                         action ToggleField(persistent, "real_time")
                     textbutton _("Hacked Effect"):
