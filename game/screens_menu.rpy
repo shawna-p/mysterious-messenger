@@ -1405,6 +1405,20 @@ screen developer_settings():
                         action ToggleField(persistent, "real_time")
                     textbutton _("Hacked Effect"):
                         action ToggleVariable('hacked_effect')
+            if not main_menu:
+                textbutton _('Fix Persistent'):
+                    style "other_settings_end_button"
+                    text_style 'other_settings_end_button_text'
+                    ysize 80
+                    yalign 1.0
+                    action Show('confirm', message=("Resetting "
+                        + "your persistent variables may cause "
+                        + "information to be lost. You will "
+                        + "need to start a new game after resetting "
+                        + "your persistent variables. Continue?"),
+                        yes_action=[Function(reset_old_persistent),
+                            Jump('restart_game')],
+                        no_action=Hide('confirm'))
 
 
      

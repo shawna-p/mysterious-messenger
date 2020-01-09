@@ -6,6 +6,12 @@ init python:
     def update_var_compatibility():
         while store._version != "2.01":
             float_ver = float(store._version)
+            # Update persistent values to be compatible with v2.0            
+            if float_ver < 2.00:
+                reset_old_persistent()
+                store._version = '2.00'
+
+
             if float_ver <= 2.00:
                 try:
                     for r in all_routes:
@@ -76,21 +82,88 @@ init python:
                 route.ending_chatrooms.append(chatlist[i-1].vn_label)
         return extra_ending_titles
 
+    ## Resets problematic persistent values to their original value
+    ## but saves unchanged ones and restores them
+    def reset_old_persistent():
+        # First, save HP and HG
+        temp_HP = store.persistent.__dict__['HP']
+        temp_HG = store.persistent.__dict__['HG']
+        # Save accessibility preferences
+        temp_screenshake = store.persistent.__dict__['screenshake']
+        temp_banners = store.persistent.__dict__['banners']
+        temp_hacking_effects = store.persistent.__dict__['hacking_effects']
+        temp_audio_captions = store.persistent.__dict__['audio_captions']
+        temp_autoanswer_timed_menus = store.persistent.__dict__['autoanswer_timed_menus']
+        temp_heart_notifications = store.persistent.__dict__['heart_notifications']
+        temp_dialogue_outlines = store.persistent.__dict__['dialogue_outlines']
+        temp_starry_contrast = store.persistent.__dict__['starry_contrast']
+        temp_window_darken_pct = store.persistent.__dict__['window_darken_pct']
+        temp_vn_window_dark = store.persistent.__dict__['vn_window_dark']
+        temp_vn_window_alpha = store.persistent.__dict__['vn_window_alpha']
+        temp_custom_footers = store.persistent.__dict__['custom_footers']
+        # MC name, pronouns, and pfp
+        temp_MC_pic = store.persistent.__dict__['MC_pic']
+        temp_name = store.persistent.__dict__['name']
+        temp_pronoun = store.persistent.__dict__['pronoun']
+        # Played chatrooms
+        temp_completed_chatrooms = store.persistent.__dict__['completed_chatrooms']
+        temp_guestbook = store.persistent.__dict__['guestbook']
+        # Developer settings/preferences
+        temp_real_time = store.persistent.__dict__['real_time']
+        temp_testing_mode = store.persistent.__dict__['testing_mode']
+        # Note: don't save unlocked Album objects
+        # or saved email/text/ringtones
+        temp_first_boot = store.persistent.__dict__['first_boot']
+        temp_on_route = store.persistent.__dict__['on_route']
 
+        # Reset persistent
+        store.persistent._clear()
 
+        # Restore saved values
+        store.persistent.HP = temp_HP
+        store.persistent.HG = temp_HG
+        store.persistent.screenshake = temp_screenshake
+        store.persistent.banners = temp_banners
+        store.persistent.hacking_effects = temp_hacking_effects
+        store.persistent.audio_captions = temp_audio_captions
+        store.persistent.autoanswer_timed_menus = temp_autoanswer_timed_menus
+        store.persistent.heart_notifications = temp_heart_notifications
+        store.persistent.dialogue_outlines = temp_dialogue_outlines
+        store.persistent.starry_contrast = temp_starry_contrast
+        store.persistent.window_darken_pct = temp_window_darken_pct
+        store.persistent.vn_window_dark = temp_vn_window_dark
+        store.persistent.vn_window_alpha = temp_vn_window_alpha
+        store.persistent.custom_footers = temp_custom_footers
+        store.persistent.MC_pic = temp_MC_pic
+        store.persistent.name = temp_name
+        store.persistent.pronoun = temp_pronoun
+        store.persistent.completed_chatrooms = temp_completed_chatrooms
+        store.persistent.guestbook = temp_guestbook
+        store.persistent.real_time = temp_real_time
+        store.persistent.testing_mode = temp_testing_mode
+        store.persistent.first_boot = temp_first_boot
+        store.persistent.on_route = temp_on_route
 
-        # if _version == "2.02":
-        #     try:
-        #         for i in all_characters:
-        #             test = i.text_msg_char
-        #     except AttributeError:
-        #         for i in all_characters:
-        #             setattr(i, 'text_msg_char', "Success")
-        #     # This was the version just before the new one,
-        #     # so the rest of the changes will be already
-        #     # implemented
-        #     return
+        store.persistent.ja_album = []
+        store.persistent.ju_album = []
+        store.persistent.r_album = []
+        store.persistent.s_album = []
+        store.persistent.u_album = []
+        store.persistent.v_album = []
+        store.persistent.y_album = []
+        store.persistent.z_album = []
+        store.persistent.common_album = []
+
+        store.persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
+        store.persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
+        store.persistent.email_tone = 'audio/sfx/Ringtones etc/email_basic_1.wav'
+        store.persistent.phone_tone_name = "Default"
+        store.persistent.text_tone_name = "Default"
+        store.persistent.email_tone_name = "Default 1"
+        define_variables()
         return
+        
+
     
     ## Several variables are defined here to ensure they're
     ## set properly when you begin a game
