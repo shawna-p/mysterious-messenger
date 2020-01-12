@@ -441,13 +441,13 @@ screen route_select_screen():
                         text "Parallel Path" style 'menu_text_small' align (0.5, 0.5)
 
 style route_select_vbox:
-    xysize (700, 350)
+    xysize (700, 750)
     align (0.5, 0.5)
     spacing 30
 
 style route_select_button:
     is right_menu_button
-    xysize (700, 120)
+    xysize (700, 320)
   
 ## Load and Save screens #######################################################
 ##
@@ -1405,19 +1405,27 @@ screen developer_settings():
                         action ToggleField(persistent, "real_time")
                     textbutton _("Hacked Effect"):
                         action ToggleVariable('hacked_effect')
-            if not main_menu:
-                textbutton _('Fix Persistent'):
-                    style "other_settings_end_button"
-                    text_style 'other_settings_end_button_text'
-                    ysize 80
-                    yalign 1.0
+            textbutton _('Fix Persistent'):
+                style "other_settings_end_button"
+                text_style 'other_settings_end_button_text'
+                ysize 80
+                yalign 1.0
+                if not main_menu:
                     action Show('confirm', message=("Resetting "
                         + "your persistent variables may cause "
                         + "information to be lost. You will "
                         + "need to start a new game after resetting "
-                        + "your persistent variables. Continue?"),
+                        + "your persistent variables.\nContinue?"),
                         yes_action=[Function(reset_old_persistent),
                             Jump('restart_game')],
+                        no_action=Hide('confirm'))
+                else:
+                    action Show('confirm', message=("Resetting your persistent"
+                        + " variables may cause information to be lost. You "
+                        + "will need to start a new game after resetting your "
+                        + "persistent variables.\nContinue?"),
+                        yes_action=[Function(reset_old_persistent), 
+                                    Hide('confirm')],
                         no_action=Hide('confirm'))
 
 
