@@ -425,6 +425,8 @@ screen chatroom_item(day, day_num, chatroom, index):
             wasplayed = True
         if persistent.testing_mode:
             most_recent_chat = chatroom
+            can_play = True
+            wasplayed = True
         if (persistent.testing_mode and my_vn 
                 and (vn_foreground == 'vn_inactive' 
                     or vn_background == 'vn_party_inactive')):
@@ -435,9 +437,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 vn_background = 'vn_party'
             can_play = True
             wasplayed = True
-            
-        
-    
+
     null height 10
                       
     if not sametime:
@@ -540,7 +540,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 xalign 0.5
                 idle 'expired_chat'
                 hover_background 'btn_hover:expired_chat'
-                if chatroom.available:
+                if chatroom.available or persistent.testing_mode:
                     action Show('confirm', message=("Would you like to"
                                 + " participate in the chat conversation"
                                 + " that has passed?"),
