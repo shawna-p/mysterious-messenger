@@ -39,6 +39,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 
     # Make sure the messenger screens are showing
     hide screen starry_night
+    $ renpy.hide_screen('animated_bg')
     show screen phone_overlay
     show screen messenger_screen 
     show screen pause_button
@@ -66,24 +67,38 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     if background == "morning":
         scene bg morning
         $ nickColour = black
+        if persistent.animated_backgrounds:
+            show screen animated_morning
     elif background == "noon":
         scene bg noon
         $ nickColour = black
+        if persistent.animated_backgrounds:
+            show screen animated_noon
     elif background == "evening":
         scene bg evening
         $ nickColour = black
+        if persistent.animated_backgrounds:
+            show screen animated_evening
     elif background == "night":
         scene bg night
         $ nickColour = white
+        if persistent.animated_backgrounds:
+            show screen animated_night
     elif background == "earlyMorn":
         scene bg earlyMorn
         $ nickColour = white
+        if persistent.animated_backgrounds:
+            show screen animated_earlyMorn
     elif background == "hack":
         scene bg hack
         $ nickColour = white
+        if persistent.animated_backgrounds:
+            show screen animated_hack_background
     elif background == "redhack":
         scene bg redhack
         $ nickColour = white
+        if persistent.animated_backgrounds:
+            show screen animated_hack_background(red=True)
     elif background == "redcrack":
         scene bg redcrack
         $ nickColour = white
@@ -92,7 +107,6 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         $ nickColour = white
         $ current_background = "morning"
 
-        
     # If you've already played this chatroom in your current runthrough,
     # viewing it again causes this variable to be True. It prevents you
     # from receiving heart points again and only lets you select choices
@@ -200,6 +214,7 @@ label chat_back():
         hide screen play_button
         hide screen answer_button
         hide screen pause_button
+        $ renpy.hide_screen('animated_bg')
         stop music
         if _in_replay:
             $ renpy.end_replay()
@@ -220,6 +235,7 @@ label chat_back():
         hide screen phone_overlay
         hide screen messenger_screen
         hide screen save_and_exit
+        $ renpy.hide_screen('animated_bg')
         hide screen play_button
         hide screen answer_button
         hide screen pause_button
@@ -291,6 +307,7 @@ label press_save_and_exit():
         stop music
         if _in_replay:
             $ renpy.end_replay()
+        $ renpy.hide_screen('animated_bg')
         call screen chatroom_timeline(current_day, current_day_num)
     else:
         call screen signature_screen(phone)        
@@ -304,6 +321,7 @@ label press_save_and_exit():
         hide screen save_and_exit
         hide screen vn_overlay
         hide screen pause_button
+        $ renpy.hide_screen('animated_bg')
         show screen loading_screen
         if not current_chatroom.played:
             $ current_chatroom.played = True
