@@ -663,10 +663,16 @@ screen preferences():
                                     step=0.1)
 
                     null height 5
-                    fixed:                        
+                    hbox:   
+                        xsize 650
+                        xalign 0.5                     
                         style_prefix "check"
-                        textbutton _("Custom UI changes"):
+                        textbutton _("Modified UI"):
                             action ToggleField(persistent, "custom_footers")
+                        textbutton _("Animated Backgrounds"):
+                            text_size 26
+                            action ToggleField(persistent, 
+                                    'animated_backgrounds')
                 
             frame:
                 xysize(675,190)
@@ -725,8 +731,7 @@ screen preferences():
                                 
                 # Additional vboxes of type "radio_pref" or "check_pref" can be
                 # added here, to add additional creator-defined preferences.
-                            
-            
+    
 style ringtone_change:
     color '#fff'
     size 28
