@@ -256,15 +256,15 @@ default common_album = [ Album("cg common_1"),
 # Each item in the list is a tuple that has the persistent album as its
 # first item and the regular album variable as its second
 default all_albums = [  
-    (persistent.ju_album, ju_album),
-    (persistent.z_album, z_album),
-    (persistent.s_album, s_album),
-    (persistent.y_album, y_album),
-    (persistent.ja_album, ja_album),
-    (persistent.v_album, v_album),
-    (persistent.u_album, u_album),
-    (persistent.r_album, r_album),
-    (persistent.common_album, common_album)
+    [persistent.ju_album, ju_album],
+    [persistent.z_album, z_album],
+    [persistent.s_album, s_album],
+    [persistent.y_album, y_album],
+    [persistent.ja_album, ja_album],
+    [persistent.v_album, v_album],
+    [persistent.u_album, u_album],
+    [persistent.r_album, r_album],
+    [persistent.common_album, common_album]
 ]
 
     
