@@ -114,6 +114,7 @@ init python:
         # Note: don't save unlocked Album objects
         # or saved email/text/ringtones
         temp_first_boot = store.persistent.__dict__['first_boot']
+        temp_animated_backgrounds = store.persistent.__dict__['animated_backgrounds']
         # temp_on_route = store.persistent.__dict__['on_route']
         temp_hidden_route = store.persistent.__dict__['hidden_route']
 
@@ -144,7 +145,8 @@ init python:
         store.persistent.testing_mode = temp_testing_mode
         store.persistent.first_boot = temp_first_boot
         store.persistent.on_route = False
-        store.persistent.hidden_route = temp_hidden_route                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+        store.persistent.hidden_route = temp_hidden_route   
+        store.persistent.animated_backgrounds = temp_animated_backgrounds                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
 
         store.persistent.ja_album = []
         store.persistent.ju_album = []

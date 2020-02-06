@@ -20,6 +20,8 @@ default persistent.heart_notifications = False
 default persistent.dialogue_outlines = False
 # Controls the contrast of the starry night background
 default persistent.starry_contrast = 0.0
+# Toggles animated backgrounds on and off
+default persistent.animated_backgrounds = False
 
 ## This label plays sound effects and also shows an audio
 ## caption if the player has that option turned on
