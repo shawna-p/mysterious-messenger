@@ -3,7 +3,7 @@
 screen messenger_screen():
 
     tag menu
-
+    zorder 1
     python:
         # This is the infinite value from earlier which
         # tells the viewport to always scroll to
@@ -176,7 +176,17 @@ screen chat_animation(i, animate=True, anti=False):
 
         # Add their nickname
         if not anti:
-            text i.who.name style nameStyle color nickColour alt alt_who
+            text i.who.name style nameStyle:
+                color nickColour
+                alt alt_who
+                if persistent.dialogue_outlines:
+                    if nickColour == black:
+                        outlines [ (1, "#fffa", 
+                                absolute(0), absolute(0)) ]
+                    else:
+                        outlines [ (1, "#000a",
+                                absolute(0), absolute(0))]
+                    font gui.sans_serif_1b
         else:
             text i.who.name at invisible alt alt_who
         # Now add the dialogue
