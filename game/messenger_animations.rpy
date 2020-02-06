@@ -212,7 +212,7 @@ init python:
         # Maximum is ~1.4
         # 5 = 0.8
         # So it goes 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
-        speednum = str(int((9 - ((store.pv - 0.2) / 0.15))))
+        speednum = str(int((round(9.0 - ((store.pv - 0.2) / 0.15), 1))))
         
         speedtxt = Text("SPEED", style='speednum_style', size=30)
         numtxt = Text(speednum, style='speednum_style', align=(.5,.5))
