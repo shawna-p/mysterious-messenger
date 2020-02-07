@@ -179,7 +179,7 @@ screen history():
         yalign 0.0
         focus_mask True
         add "close_button"
-        action Return()        
+        action Hide('history')#Return()        
         text "Close" style "CG_close"
     
     
