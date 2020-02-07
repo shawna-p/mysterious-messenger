@@ -671,8 +671,10 @@ screen preferences():
                             action ToggleField(persistent, "custom_footers")
                         textbutton _("Animated Backgrounds"):
                             text_size 26
-                            action ToggleField(persistent, 
-                                    'animated_backgrounds')
+                            action [ToggleField(persistent, 
+                                    'animated_backgrounds'),
+                                    SetField(persistent,
+                                    'screenshake', False)]
                 
             frame:
                 xysize(675,190)
