@@ -1,3 +1,28 @@
+screen animated_morning():
+    zorder 0
+    tag animated_bg
+    add 'Phone UI/morning_clouds_bg.png' at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
+    
+    for x in [0, 375]:
+        for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big', 
+                          'med', 'tiny', 'big', 'med', 'tiny', 'big']:
+            add 'Phone UI/' + star_type + '_star.png':
+                at star_twinkle_out(100, x, x+375, 200, 200+350)
+            add 'Phone UI/' + star_type + '_star.png':
+                at star_twinkle_out(100, x, x+375, 200+350, 200+350*2)
+            add 'Phone UI/' + star_type + '_star.png':
+                at star_twinkle_out(100, x, x+375, 200+350*2, 1150)
+
+    add 'Phone UI/morning_clouds_back.png' at slow_pan(300, 0, 2250, 250, 0, -400)
+    add 'Phone UI/morning_clouds_back.png' at slow_pan(300, -2250, 2250, 250, 0, -400)
+    add 'Phone UI/morning_clouds_mid.png' at slow_pan(220, 0, 2250, 230, 0, -400)
+    add 'Phone UI/morning_clouds_mid.png' at slow_pan(220, -2250, 2250, 230, 0, -400)
+    add 'Phone UI/morning_clouds_front.png' at slow_pan(150, 0, 2250, 210, 0, -400)
+    add 'Phone UI/morning_clouds_front.png' at slow_pan(150, -2250, 2250, 210, 0, -400)
+
+    add 'Phone UI/morning_darken.png':
+        at topbottom_pan(180, 160, 30, 0, -1334, 0.8, 0, 0.0, 0.0)
+
 screen animated_noon():
     zorder 0
     tag animated_bg
@@ -9,17 +34,6 @@ screen animated_noon():
     add 'Phone UI/noon_front_clouds.png' at slow_pan(110, 0, 2250)
     add 'Phone UI/noon_front_clouds.png' at slow_pan(110, -2250, 2250)
     
-
-transform slow_pan(timing, init_x, x_move, y_timing=0, init_y=0, y_move=0):
-    parallel:
-        block:
-            xalign 0.0 xoffset init_x
-            linear timing xoffset x_move + init_x subpixel True
-            repeat
-    parallel:
-        yalign 0.0 yoffset init_y
-        easein y_timing yoffset y_move + init_y subpixel True
-
 screen animated_evening():
     zorder 0
     tag animated_bg
@@ -46,269 +60,6 @@ screen animated_evening():
         at fadein_out(60, 60, 60, 170-90-75, 0.0)
     add 'Phone UI/evening_clouds_red.png':
         at fadein_out(120, 60, 10, 10, 0.0, 0.3)
-
-
-transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move, start_alpha, delay_2, disappear=0.0, fadein_alpha=1.0):
-    yalign 0.0 yoffset init_y alpha start_alpha
-    # Total distance to move is y_move + init_y
-    parallel:
-        linear movetime yoffset (y_move + init_y) subpixel True 
-    parallel:
-        delay1
-        linear fadetime alpha fadein_alpha
-        delay_2
-        alpha disappear
-
-transform fadein_out(delay1, fadein, fadeout, delay_2, start_alpha, end_alpha=0.0):
-    alpha start_alpha
-    delay1
-    linear fadein alpha 0.3
-    delay_2
-    linear fadeout alpha end_alpha
-
-screen animated_morning():
-    zorder 0
-    tag animated_bg
-    add 'Phone UI/morning_clouds_bg.png' at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
-    
-    for x in [0, 375]:
-        for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big', 
-                          'med', 'tiny', 'big', 'med', 'tiny', 'big']:
-            add 'Phone UI/' + star_type + '_star.png':
-                at star_twinkle_out(100, x, x+375, 200, 200+350)
-            add 'Phone UI/' + star_type + '_star.png':
-                at star_twinkle_out(100, x, x+375, 200+350, 200+350*2)
-            add 'Phone UI/' + star_type + '_star.png':
-                at star_twinkle_out(100, x, x+375, 200+350*2, 1150)
-
-    add 'Phone UI/morning_clouds_back.png' at slow_pan(300, 0, 2250, 250, 0, -400)
-    add 'Phone UI/morning_clouds_back.png' at slow_pan(300, -2250, 2250, 250, 0, -400)
-    add 'Phone UI/morning_clouds_mid.png' at slow_pan(220, 0, 2250, 230, 0, -400)
-    add 'Phone UI/morning_clouds_mid.png' at slow_pan(220, -2250, 2250, 230, 0, -400)
-    add 'Phone UI/morning_clouds_front.png' at slow_pan(150, 0, 2250, 210, 0, -400)
-    add 'Phone UI/morning_clouds_front.png' at slow_pan(150, -2250, 2250, 210, 0, -400)
-
-    add 'Phone UI/morning_darken.png':
-        at topbottom_pan(180, 160, 30, 0, -1334, 0.8, 0, 0.0, 0.0)
-
-screen animated_earlyMorn():
-    zorder 0
-    tag animated_bg
-    add 'Phone UI/earlymorn_background.png' at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
-
-    fixed:
-        xysize (750, 1134)
-        align (0.5, 0.6)
-        for x in [0, 250, 500]:
-            for y in [0, 333, 666, 999]:
-                add 'Phone UI/night_med_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_med_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333) 
-                add 'Phone UI/night_med_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_tiny_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_tiny_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333) 
-                add 'Phone UI/night_tiny_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_big_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_big_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333) 
-                add 'Phone UI/night_big_star.png':
-                    at star_twinkle_randomly(
-                        x, x+250,
-                        y, y+333)
-                
-                add 'Phone UI/night_med_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_med_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333) 
-                add 'Phone UI/night_med_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_tiny_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_tiny_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333) 
-                add 'Phone UI/night_tiny_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_big_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-                add 'Phone UI/night_big_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333) 
-                add 'Phone UI/night_big_star.png':
-                    at star_place_randomly(
-                        x, x+250,
-                        y, y+333)
-
-    frame:
-        xysize (750, 1050)
-        xalign 0.5
-        yoffset 170
-        add 'gemini_constellation' align (0.1, 0.05)
-        add 'libra_constellation' align (0.05, 0.5)
-        add 'virgo_constellation' align (0.02, 0.98)
-
-        add 'pisces_constellation' align (0.85, 0.35)
-        add 'scorpius_constellation' align (0.7, 0.75)
-        
-        add 'aries_constellation' align (0.98, 0.01)
-        add 'capricorn_constellation' align (0.95, 0.98)
-
-    #add 'Phone UI/earlymorn_moon.png' at moon_pan()
-
-    # add 'Phone UI/earlymorn_clouds_back.png' at slow_pan(300, 0, 2250, 250, 0, -1334)
-    # add 'Phone UI/earlymorn_clouds_back.png' at slow_pan(300, -2250, 2250, 250, 0, -1334)
-    # add 'Phone UI/earlymorn_clouds_mid.png' at slow_pan(220, 0, 2250, 230, 0, -1334)
-    # add 'Phone UI/earlymorn_clouds_mid.png' at slow_pan(220, -2250, 2250, 230, 0, -1334)
-    # add 'Phone UI/earlymorn_clouds_front.png' at slow_pan(150, 0, 2250, 210, 0, -1334)
-    # add 'Phone UI/earlymorn_clouds_front.png' at slow_pan(150, -2250, 2250, 210, 0, -1334)
-
-image gemini_constellation:
-    "Phone UI/gemini_stars.png"
-    random.randint(60, 80)
-    block:
-        "Phone UI/gemini_stars.png"
-        3.0
-        "Phone UI/gemini_const.png" with CropMove(3.0, 'irisout')        
-        5.0
-        "Phone UI/gemini_symbol.png" with Dissolve(3.0)
-        5.0
-        'Phone UI/gemini_stars.png' with Dissolve(5.0)
-        120 + random.random()
-        repeat
-
-image libra_constellation:
-    "Phone UI/libra_stars.png"
-    random.randint(100, 120)
-    block:
-        "Phone UI/libra_stars.png"
-        3.0
-        "Phone UI/libra_const.png" with CropMove(3.0, 'irisout')        
-        5.0
-        "Phone UI/libra_symbol.png" with Dissolve(3.0)
-        5.0
-        'Phone UI/libra_stars.png' with Dissolve(5.0)
-        120 + random.random()
-        repeat
-
-image virgo_constellation:
-    "Phone UI/virgo_stars.png"
-    random.randint(20, 40)
-    block:
-        "Phone UI/virgo_stars.png"
-        3.0
-        "Phone UI/virgo_const.png" with CropMove(3.0, 'irisout')        
-        5.0
-        "Phone UI/virgo_symbol.png" with Dissolve(3.0)
-        5.0
-        'Phone UI/virgo_stars.png' with Dissolve(5.0)
-        120 + random.random()
-        repeat
-
-image pisces_constellation:
-    "Phone UI/pisces_stars.png"
-    random.randint(0, 20)
-    block:
-        "Phone UI/pisces_stars.png"
-        3.0
-        "Phone UI/pisces_const.png" with CropMove(3.0, 'irisout')        
-        5.0
-        "Phone UI/pisces_symbol.png" with Dissolve(3.0)
-        5.0
-        'Phone UI/pisces_stars.png' with Dissolve(5.0)
-        120 + random.random()
-        repeat
-
-image scorpius_constellation:
-    "Phone UI/scorpius_stars.png"
-    random.randint(80, 100)
-    block:
-        "Phone UI/scorpius_stars.png"
-        3.0
-        "Phone UI/scorpius_const.png" with CropMove(3.0, 'irisout')        
-        5.0
-        "Phone UI/scorpius_symbol.png" with Dissolve(3.0)
-        5.0
-        'Phone UI/scorpius_stars.png' with Dissolve(5.0)
-        120 + random.random()
-        repeat
-
-image aries_constellation:
-    "Phone UI/aries_stars.png"
-    random.randint(100, 120)
-    block:
-        "Phone UI/aries_stars.png"
-        3.0
-        "Phone UI/aries_const.png" with CropMove(3.0, 'irisout')        
-        5.0
-        "Phone UI/aries_symbol.png" with Dissolve(3.0)
-        5.0
-        'Phone UI/aries_stars.png' with Dissolve(5.0)
-        120 + random.random()
-        repeat
-
-image capricorn_constellation:
-    "Phone UI/capricorn_stars.png"
-    random.randint(40, 60)
-    block:
-        "Phone UI/capricorn_stars.png"
-        3.0
-        "Phone UI/capricorn_const.png" with CropMove(3.0, 'irisout')        
-        5.0
-        "Phone UI/capricorn_symbol.png" with Dissolve(3.0)
-        5.0
-        'Phone UI/capricorn_stars.png' with Dissolve(5.0)
-        120 + random.random()
-        repeat
-
-
-transform moon_pan():
-    xpos -360 ypos -200 yoffset 0 xoffset 0 zoom 0.5
-    parallel:
-        easein_cubic 250 xoffset 800
-    parallel:
-        easein 250 yoffset 1000
-    parallel:
-        linear 250 zoom 1.0
-    parallel:
-        230 
-        linear 20  alpha 0.0
-    repeat
 
 screen animated_night():
     zorder 0
@@ -412,13 +163,248 @@ screen animated_night():
                         at star_fade_in(101, 200,
                             x, x+250,
                             y, y+333)
-        # add 'night_stars_1' at star_fade_in(30, 60)
-        # add 'night_stars_2' at star_fade_in(60, 90)
-        # add 'night_stars_3' at star_fade_in(90, 120)
-        # add 'night_stars_4' at star_fade_in(120, 150)
-        # add 'night_stars_2' at star_fade_in(150, 180)
         add 'Phone UI/night_shooting_star_1.png' at shooting_star
         add 'Phone UI/night_shooting_star_2.png' at shooting_star
+
+screen animated_earlyMorn():
+    zorder 0
+    tag animated_bg
+    add 'Phone UI/earlymorn_background.png' at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
+
+    fixed:
+        xysize (750, 1134)
+        align (0.5, 0.6)
+        for x in [0, 250, 500]:
+            for y in [0, 333, 666, 999]:
+                add 'Phone UI/night_med_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_med_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333) 
+                add 'Phone UI/night_med_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_tiny_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_tiny_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333) 
+                add 'Phone UI/night_tiny_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_big_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_big_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333) 
+                add 'Phone UI/night_big_star.png':
+                    at star_twinkle_randomly(
+                        x, x+250,
+                        y, y+333)
+                
+                add 'Phone UI/night_med_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_med_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333) 
+                add 'Phone UI/night_med_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_tiny_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_tiny_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333) 
+                add 'Phone UI/night_tiny_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_big_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333)
+                add 'Phone UI/night_big_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333) 
+                add 'Phone UI/night_big_star.png':
+                    at star_place_randomly(
+                        x, x+250,
+                        y, y+333)
+
+    frame:
+        xysize (750, 1050)
+        xalign 0.5
+        yoffset 170
+        add 'gemini_constellation' align (0.1, 0.05)
+        add 'libra_constellation' align (0.05, 0.5)
+        add 'virgo_constellation' align (0.02, 0.98)
+
+        add 'pisces_constellation' align (0.85, 0.35)
+        add 'scorpius_constellation' align (0.7, 0.75)
+        
+        add 'aries_constellation' align (0.98, 0.01)
+        add 'capricorn_constellation' align (0.95, 0.98)
+
+
+image gemini_constellation:
+    "Phone UI/gemini_stars.png"
+    random.randint(60, 80)
+    block:
+        "Phone UI/gemini_stars.png"
+        3.0
+        "Phone UI/gemini_const.png" with CropMove(3.0, 'irisout')        
+        5.0
+        "Phone UI/gemini_symbol.png" with Dissolve(3.0)
+        5.0
+        'Phone UI/gemini_stars.png' with Dissolve(5.0)
+        140 + random.random()
+        repeat
+
+image libra_constellation:
+    "Phone UI/libra_stars.png"
+    random.randint(120, 140)
+    block:
+        "Phone UI/libra_stars.png"
+        3.0
+        "Phone UI/libra_const.png" with CropMove(3.0, 'irisout')        
+        5.0
+        "Phone UI/libra_symbol.png" with Dissolve(3.0)
+        5.0
+        'Phone UI/libra_stars.png' with Dissolve(5.0)
+        140 + random.random()
+        repeat
+
+image virgo_constellation:
+    "Phone UI/virgo_stars.png"
+    random.randint(20, 40)
+    block:
+        "Phone UI/virgo_stars.png"
+        3.0
+        "Phone UI/virgo_const.png" with CropMove(3.0, 'irisout')        
+        5.0
+        "Phone UI/virgo_symbol.png" with Dissolve(3.0)
+        5.0
+        'Phone UI/virgo_stars.png' with Dissolve(5.0)
+        140 + random.random()
+        repeat
+
+image pisces_constellation:
+    "Phone UI/pisces_stars.png"
+    random.randint(0, 20)
+    block:
+        "Phone UI/pisces_stars.png"
+        3.0
+        "Phone UI/pisces_const.png" with CropMove(3.0, 'irisout')        
+        5.0
+        "Phone UI/pisces_symbol.png" with Dissolve(3.0)
+        5.0
+        'Phone UI/pisces_stars.png' with Dissolve(5.0)
+        140 + random.random()
+        repeat
+
+image scorpius_constellation:
+    "Phone UI/scorpius_stars.png"
+    random.randint(80, 100)
+    block:
+        "Phone UI/scorpius_stars.png"
+        3.0
+        "Phone UI/scorpius_const.png" with CropMove(3.0, 'irisout')        
+        5.0
+        "Phone UI/scorpius_symbol.png" with Dissolve(3.0)
+        5.0
+        'Phone UI/scorpius_stars.png' with Dissolve(5.0)
+        140 + random.random()
+        repeat
+
+image aries_constellation:
+    "Phone UI/aries_stars.png"
+    random.randint(100, 120)
+    block:
+        "Phone UI/aries_stars.png"
+        3.0
+        "Phone UI/aries_const.png" with CropMove(3.0, 'irisout')        
+        5.0
+        "Phone UI/aries_symbol.png" with Dissolve(3.0)
+        5.0
+        'Phone UI/aries_stars.png' with Dissolve(5.0)
+        140 + random.random()
+        repeat
+
+image capricorn_constellation:
+    "Phone UI/capricorn_stars.png"
+    random.randint(40, 60)
+    block:
+        "Phone UI/capricorn_stars.png"
+        3.0
+        "Phone UI/capricorn_const.png" with CropMove(3.0, 'irisout')        
+        5.0
+        "Phone UI/capricorn_symbol.png" with Dissolve(3.0)
+        5.0
+        'Phone UI/capricorn_stars.png' with Dissolve(5.0)
+        140 + random.random()
+        repeat
+
+transform slow_pan(timing, init_x, x_move, y_timing=0, init_y=0, y_move=0):
+    parallel:
+        block:
+            xalign 0.0 xoffset init_x
+            linear timing xoffset x_move + init_x subpixel True
+            repeat
+    parallel:
+        yalign 0.0 yoffset init_y
+        easein y_timing yoffset y_move + init_y subpixel True
+        
+transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move, start_alpha, delay_2, disappear=0.0, fadein_alpha=1.0):
+    yalign 0.0 yoffset init_y alpha start_alpha
+    # Total distance to move is y_move + init_y
+    parallel:
+        linear movetime yoffset (y_move + init_y) subpixel True 
+    parallel:
+        delay1
+        linear fadetime alpha fadein_alpha
+        delay_2
+        alpha disappear
+
+transform fadein_out(delay1, fadein, fadeout, delay_2, start_alpha, end_alpha=0.0):
+    alpha start_alpha
+    delay1
+    linear fadein alpha 0.3
+    delay_2
+    linear fadeout alpha end_alpha
+
+transform moon_pan():
+    xpos -360 ypos -200 yoffset 0 xoffset 0 zoom 0.5
+    parallel:
+        easein_cubic 250 xoffset 800
+    parallel:
+        easein 250 yoffset 1000
+    parallel:
+        linear 250 zoom 1.0
+    parallel:
+        230 
+        linear 20  alpha 0.0
+    repeat
+
+
 
 transform star_rotate(speed):
     rotate 0
@@ -754,9 +740,9 @@ EXPORT_SYMBOL(groups_free);
 
 
 # Image definitions for snow particles:
-image solid_snow_small = 'Phone UI/tiny_star.png'
-image solid_snow_normal = 'Phone UI/med_star.png'
-image solid_snow_large = 'Phone UI/big_star.png'
+image solid_snow_small = 'Phone UI/night_tiny_star.png'
+image solid_snow_normal = 'Phone UI/night_med_star.png'
+image solid_snow_large = 'Phone UI/night_big_star.png'
 
 # Definition for SnowBlossom2 particles by Nyaatrap (or at least used in his cool dress-up demo):
 image snow = Fixed(
