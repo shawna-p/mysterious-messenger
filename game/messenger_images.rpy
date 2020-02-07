@@ -60,7 +60,8 @@ image fast_slow_button = "Phone UI/fast-slow-transparent.png"
 image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
 image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
 image speed_txt = ParameterizedText(style="speednum_style")
-image close_button = "CGs/close-overlay.png"
+image close_button = Transform(Solid("#00000066"), size=(750,99))
+
 
 image signature = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/signature01-dark.png",
@@ -89,7 +90,7 @@ image back_arrow_btn = ConditionSwitch(
     "True", "menu_back"
 )
 
-image choice_darken = "Phone UI/choice_dark.png"
+image choice_darken = Solid("#0000006e")
 image save_trash = "Menu Screens/Main Menu/save_trash_hover.png"
 
 image sign_btn = ConditionSwitch(

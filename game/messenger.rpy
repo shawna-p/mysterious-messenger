@@ -35,20 +35,22 @@ screen messenger_screen():
             draggable True
             mousewheel True
             ysize 1080
+            xfill True
                             
-            has vbox:
-                spacing 10
-                for i index id(i) in chatlog[begin:]:
-                    fixed:
-                        yfit True
-                        xfit True
-                        # This trick means that the program displays
-                        # an invisible bubble behind the visible one
-                        # so the animation doesn't "slide" in
-                        if i == finalchat:
-                            use chat_animation(i, True, True)
-                        use chat_animation(i, False)
-                    null height 10
+            has vbox
+            spacing 10
+            xfill True
+            for i index id(i) in chatlog[begin:]:
+                fixed:
+                    yfit True
+                    xfit True
+                    # This trick means that the program displays
+                    # an invisible bubble behind the visible one
+                    # so the animation doesn't "slide" in
+                    if i == finalchat:
+                        use chat_animation(i, True, True)
+                    use chat_animation(i, False)
+                null height 10
                         
 
 ## This screen does the heavy lifting for displaying
@@ -161,7 +163,12 @@ screen chat_animation(i, animate=True, anti=False):
     if (i.who.name == 'msg' or i.who.name == 'filler') and not anti:
         frame:
             style i.who.name + '_bubble'            
-            text i.what style i.who.name + '_bubble_text'
+            text i.what:
+                style i.who.name + '_bubble_text'
+                if (i.who.name == 'msg' and persistent.dialogue_outlines):
+                    outlines [ (1, "#000a", absolute(0), absolute(0))]
+                    font gui.sans_serif_1b
+
             alt alt_text
             
 

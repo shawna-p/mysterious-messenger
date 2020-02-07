@@ -460,7 +460,6 @@ image album_icon = "Menu Screens/Chat Hub/main01_subicon_album.png"
 image guest_icon = "Menu Screens/Chat Hub/main01_subicon_guest.png"
 
 image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.png"
-image exit_enter = "Phone UI/exit-enter.png"
 
 ## ********************************
 ## Profile Picture Screen

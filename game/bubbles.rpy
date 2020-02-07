@@ -78,10 +78,11 @@ style reg_bubble_text:
 ## ****************************************
 ## Style for the enter/exit bubble
 style msg_bubble:
-    background Frame("exit_enter", 0, 0)
+    background "#00000050" #47%
     padding (5, 10)
     xalign 0.5
     xfill True
+    ysize 49
             
 style msg_bubble_text:
     is text
