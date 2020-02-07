@@ -677,7 +677,7 @@ screen preferences():
             frame:
                 xysize(675,190)
                 background "menu_settings_panel"
-                text "Skip Settings" style "settings_style" xpos 40 ypos -2
+                text "Dialogue Settings" style "settings_style" xpos 40 ypos -2
 
                 hbox:
                     spacing 16
@@ -687,13 +687,19 @@ screen preferences():
                     xmaximum 625
                     box_wrap True
                     box_wrap_spacing 12
-                    textbutton _("Unseen Text"):
+                    textbutton _("Skip Unseen Text"):
                         action Preference("skip", "toggle")
-                    textbutton _("After Choices"):
+                        text_size 26
+                    textbutton _("Skip After Choices"):
                         action Preference("after choices", "toggle")
-                    textbutton _("Transitions"):
+                        text_size 26
+                    textbutton _("Skip Transitions"):
                         action InvertSelected(Preference("transitions",
                             "toggle"))
+                        text_size 26
+                    textbutton _("Indicate Past Choices"):
+                        action ToggleField(persistent, 'past_choices')
+                        text_size 26
             frame:
                 xysize(675,380)
                 background "menu_settings_panel"

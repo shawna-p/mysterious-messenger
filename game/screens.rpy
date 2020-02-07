@@ -325,6 +325,9 @@ screen choice(items):
                     if persistent.dialogue_outlines:
                         text_outlines [ (absolute(2), "#000", 
                                 absolute(0), absolute(0)) ]
+                    if (persistent.past_choices
+                            and i.chosen):
+                        foreground 'seen_choice_check'
                     action If((not text_person 
                                 or not text_person.real_time_text),
                             [Show('text_message_screen',
@@ -347,6 +350,11 @@ screen choice(items):
                         if persistent.dialogue_outlines:
                             text_outlines [ (absolute(2), "#000", 
                                 absolute(0), absolute(0)) ]
+                        if (persistent.past_choices
+                                and i.chosen):
+                            foreground 'seen_choice_check_circle'
+                            background 'call_choice_check'
+                            hover_background 'call_choice_check_hover'
                         action [i.action]
             # Not a perfect solution, but hopefully provides an 'out'
             # to players who somehow didn't choose a menu option and
@@ -384,12 +392,22 @@ screen choice(items):
                     textbutton i.caption at the_anim(fnum):
                         if (persistent.dialogue_outlines 
                                 and persistent.custom_footers):
-                            text_outlines [ (absolute(2), "#000", 
+                            text_outlines [ (2, "#000", 
                                 absolute(0), absolute(0)) ]
                         elif (persistent.dialogue_outlines
                                 and not persistent.custom_footers):
-                            text_outlines [ (absolute(2), "#fff", 
+                            text_outlines [ (2, "#fff", 
                                 absolute(0), absolute(0)) ]
+                        
+                        if (persistent.past_choices
+                                and i.chosen):
+                            if persistent.custom_footers:
+                                foreground 'seen_choice_check_circle'
+                                background 'call_choice_check'
+                                hover_background 'call_choice_check_hover'
+                            else:
+                                foreground 'seen_choice_check'
+
                         action If(using_timed_menus, 
                             [SetVariable('reply_instant', True), 
                                 SetVariable('using_timed_menus', False),
@@ -407,6 +425,9 @@ screen choice(items):
                                 absolute(0), absolute(0)) ]
                     action [SetVariable('timed_choose', False), Return()]
                             
+
+image seen_choice_check = Image('Menu Screens/Main Menu/main02_tick.png', align=(0.99, 0.97))
+image seen_choice_check_circle = Image('Menu Screens/Main Menu/main02_tick_2.png', align=(0.985, 0.955))
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
 ## menu captions will be displayed as empty buttons.

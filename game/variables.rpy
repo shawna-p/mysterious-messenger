@@ -837,6 +837,9 @@ image call_voicemail = 'Phone Calls/call_icon_voicemail.png'
 image call_choice = Frame('Phone Calls/call_select_button.png', 70, 70)
 image call_choice_hover = Frame('Phone Calls/call_select_button_hover.png', 90, 90)
 
+image call_choice_check = Frame('Phone Calls/call_select_button_check.png', 70, 70)
+image call_choice_check_hover = Frame('Phone Calls/call_select_button_hover_check.png', 90, 90)
+                                
 
 
 ## ********************************

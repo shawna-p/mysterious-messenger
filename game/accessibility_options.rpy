@@ -22,6 +22,8 @@ default persistent.dialogue_outlines = False
 default persistent.starry_contrast = 0.0
 # Toggles animated backgrounds on and off
 default persistent.animated_backgrounds = False
+# Indicates past choices
+default persistent.past_choices = False
 
 ## This label plays sound effects and also shows an audio
 ## caption if the player has that option turned on
