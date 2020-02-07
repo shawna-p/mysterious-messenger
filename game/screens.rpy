@@ -161,7 +161,7 @@ screen say(who, what):
                 imagebutton:
                     idle Text("Log", style="vn_button")
                     hover Text("Log", style="vn_button_hover")
-                    action ShowMenu('history')
+                    action Show('history')#ShowMenu('history')
             
     elif not text_person and in_phone_call: # In a phone call        
         window:
@@ -426,8 +426,10 @@ screen choice(items):
                     action [SetVariable('timed_choose', False), Return()]
                             
 
-image seen_choice_check = Image('Menu Screens/Main Menu/main02_tick.png', align=(0.99, 0.97))
-image seen_choice_check_circle = Image('Menu Screens/Main Menu/main02_tick_2.png', align=(0.985, 0.955))
+image seen_choice_check = Image('Menu Screens/Main Menu/main02_tick.png', 
+                            align=(0.99, 0.97))
+image seen_choice_check_circle = Image('Menu Screens/Main Menu/main02_tick_2.png', 
+                            align=(0.985, 0.955))
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
 ## menu captions will be displayed as empty buttons.
