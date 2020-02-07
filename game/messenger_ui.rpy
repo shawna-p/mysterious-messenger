@@ -397,6 +397,7 @@ screen continue_answer_button(themenu):
         activate_sound "audio/sfx/UI/answer_screen.mp3"
         action [SetVariable("choosing", True), 
                 SetVariable('timed_choose', True), 
+                Hide('answer_countdown'),
                 Hide('continue_answer_button'), 
                 Show('pause_button'), 
                 Jump(themenu)] 
