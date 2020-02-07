@@ -390,12 +390,17 @@ label screen_shake():
         "Yes, I want to see the screen shake animation.":
             m "Yes, I want to see the screen shake animation." (pauseVal=0)
             $ persistent.screenshake = True
-            ja "{=ser1}Understood.{/=ser1}" (bounce=True)
         "No, turn screen shake animation off.":
             m "No, turn screen shake animation off." (pauseVal=0)
             $ persistent.screenshake = False
-            ja "{=ser1}Understood.{/=ser1}" (bounce=True)
-
+    
+    ja "{=ser1}Understood.{/=ser1}" (bounce=True)
+    if persistent.animated_backgrounds:
+        $ persistent.screenshake = False
+        ja "It looks like you have animated backgrounds turned on."
+        ja "Currently screen shake isn't compatible with animated backgrounds,"
+        ja "so you won't be able to see screen shake effects."
+        ja "You can toggle animated backgrounds and screen shake from the Settings."
     call enter(ju) 
     ja "{=curly}Ah, right on time.{/=curly}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}Shall we get started then?{/=ser1}"
