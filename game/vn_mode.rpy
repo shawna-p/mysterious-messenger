@@ -180,7 +180,11 @@ screen history():
         focus_mask True
         add "close_button"
         action Hide('history')#Return()        
-        text "Close" style "CG_close"
+        text "Close" style "CG_close":
+            if persistent.dialogue_outlines:
+                outlines [ (2, "#000", 
+                            absolute(0), absolute(0)) ]
+                font gui.sans_serif_1xb
     
     
     viewport:

@@ -528,6 +528,10 @@ screen viewCG_fullsize_album(album, caption, name):
                     Show('character_gallery', album=album, 
                         caption=caption, name=name)]
         
-        text "Close" style "CG_close"        
+        text "Close" style "CG_close":
+            if persistent.dialogue_outlines:
+                outlines [ (2, "#000", 
+                            absolute(0), absolute(0)) ]
+                font gui.sans_serif_1b
         
         

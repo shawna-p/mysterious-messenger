@@ -89,7 +89,11 @@ screen viewCG_fullsize():
             else:
                 action [Call("play")]
         
-        text "Close" style "CG_close"
+        text "Close" style "CG_close":
+            if persistent.dialogue_outlines:
+                outlines [ (2, "#000", 
+                            absolute(0), absolute(0)) ]
+                font gui.sans_serif_1xb
 
 # Style for the Close button when viewing a fullscreen CG
 style CG_close is text:
