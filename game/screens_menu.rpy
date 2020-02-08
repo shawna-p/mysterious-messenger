@@ -434,12 +434,6 @@ screen route_select_screen():
                     action Start()
                     text "Start Game" style 'menu_text_small' align (0.5, 0.5)
                 
-                if persistent.hidden_route:
-                    button:
-                        style 'route_select_button'
-                        action Start('prologue')
-                        text "Parallel Path" style 'menu_text_small' align (0.5, 0.5)
-
 style route_select_vbox:
     xysize (700, 750)
     align (0.5, 0.5)
