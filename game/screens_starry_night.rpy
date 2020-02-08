@@ -125,6 +125,6 @@ default loading_tips = [
     "Want to contribute to the program? Submit a pull request to the Mysterious Messenger Github!",
     "There are many accessibility options in the Settings menu.",
     "Found a bug? Report it on the Mysterious Message GitHub.",
-    "Like the program? Consider donating to my Ko-Fi in Links",
+    "Like the program? Consider donating to my Ko-Fi in Links.",
     "Is there a feature you want to see? Let me know in the Mysterious Messenger Discord."
 ]
