@@ -675,6 +675,7 @@ screen preferences():
                                     'animated_backgrounds'),
                                     SetField(persistent,
                                     'screenshake', False)]
+                            selected persistent.animated_backgrounds
                 
             frame:
                 xysize(675,190)
