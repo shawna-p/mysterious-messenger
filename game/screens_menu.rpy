@@ -1316,6 +1316,26 @@ screen links():
                     add 'kofi'
                     action OpenURL('https://ko-fi.com/somniarre')
 
+                null height 20
+                text "Additional Credits"
+                vbox:
+                    style_prefix 'credits'
+                    text "Developer settings icon made by Freepik"
+                    text "Link icon made by Creaticca Creative Agency"
+                    text "Exit to Main Menu icon made by Pixel perfect"
+                    text "Zodiac symbols made by Freepik"
+                    text "All creators can be found at {a=https://www.flaticon.com/}www.flaticon.com{/a},\nicons used under the Freepik License"
+
+style credits_text:
+    is text
+    color "#fff"
+    xalign 0.5
+    text_align 0.5
+    size 25
+
+style credits_vbox:
+    is link_menu_vbox
+
 style link_menu_frame:
     xysize (720, 1170)
     yalign 1.0
