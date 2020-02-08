@@ -4,7 +4,7 @@ init python:
     ## define variables that have yet to exist so that save files
     ## continue to work
     def update_var_compatibility():
-        while store._version != "2.01":
+        while store._version != "2.1":
             float_ver = float(store._version)
             # Update persistent values to be compatible with v2.0            
             if float_ver < 2.00:
@@ -40,7 +40,7 @@ init python:
                                         r.ending_chatrooms.append(
                                             day.archive_list[
                                                 -1].chatroom_label)
-                store._version = '2.01'
+                store._version = '2.1'
                                         
 
     ## Finds the last chatroom after the string and adds the appropriate
