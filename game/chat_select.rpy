@@ -320,6 +320,7 @@ screen chatroom_item(day, day_num, chatroom, index):
     python:
         sametime = False
         wasplayed = False
+        vn_background = ''
         if index > 0:
             # If this is the second or later chatroom, check if the
             # chatroom just before this one occured in the same hour
