@@ -135,10 +135,7 @@
             u "Well, the first thing I recommend is to just play through the Tutorial Day." 
             u "It showcases some of the features so you know what sorts of things you can do with the program." 
     
-    
     u "I won't keep you much longer. Enjoy the program!" 
     call exit(u) 
     
     jump chat_end
-
-
