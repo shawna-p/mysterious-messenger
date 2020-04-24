@@ -334,7 +334,19 @@ init -5 python:
                     
                 addchat(self, what, pauseVal=pauseVal, img=img, 
                             bounce=bounce, specBubble=specBubble)
-     
+    
+        ## These two functions check for equality between two
+        ## ChatCharacter objects
+        def __eq__(self, other):
+            if not isinstance(other, ChatCharacter):
+                return False
+            return self.file_id == other.file_id
+        
+        def __ne__(self, other):
+            if not isinstance(other, ChatCharacter):
+                return True
+            return self.file_id != other.file_id
+
                         
 # ****************************
 # Phone Call Characters

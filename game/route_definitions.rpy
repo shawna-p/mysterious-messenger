@@ -125,10 +125,11 @@ init -6 python:
                 
         ## Adds a participant to the chatroom
         def add_participant(self, chara):
-            if not chara in self.participants:
+            if not (chara in self.participants):
                 print("added", chara.name, "to the participants list of", self.title)        
                 self.participants.append(chara)
-                
+            return
+
         ## Resets participants to whatever they were before the
         ## user played this chatroom (used when a player
         ## backs out of a chatroom, for example)
