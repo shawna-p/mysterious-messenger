@@ -1,6 +1,6 @@
 # This variable keeps track of all the routes you've defined in order
 # to display it in the History screen from the main menu
-# You should generall not need to modify it
+# You should generally not need to modify it
 init -7:
     default all_routes = []
 
@@ -17,6 +17,7 @@ default tutorial_good_end = ["Good End",
         ChatHistory('Inviting Guests','example_email', '09:11', [z]),
         ChatHistory('Text Message Example', 'example_text', '09:53', [r]),
         ChatHistory('Timed Menus', 'timed_menus', '11:28', [s]),
+        ChatHistory('Other Storytelling Features', 'other_storytelling', '13:44', [y]),
         ChatHistory('Pass Out After Drinking Caffeine Syndrome', 'tutorial_chat', '15:05', [s]),
         ChatHistory('Invite to the meeting', 'popcorn_chat', '18:25', [ja, ju], save_img='ju'),
         ChatHistory('Hacking', 'hack_example', '20:41'),
@@ -51,8 +52,8 @@ default tutorial_route = Route(
 
 
 
-# This is an example of how many routes may be set up to all be displayed
-# properly in the History
+# This is an example of how multiple routes may be set up to all
+# be displayed properly in the History
 
 # default seven_good_end = ["Good End", RouteDay("5th", [...])]
 # default seven_bad_end_1 = ["Bad Story End 1", RouteDay("7th", [...])]
