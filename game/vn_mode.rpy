@@ -9,6 +9,8 @@
 image bg mint_eye_room = "VN Mode/Backgrounds/mint_eye_room.png"
 image bg rika_apartment = "VN Mode/Backgrounds/rika_apartment.png"
 image bg cr_meeting_room = "VN Mode/Backgrounds/cr_meeting_room.png"
+image bg yoosung_room_day = "VN Mode/Backgrounds/yoosung_room_day.jpg"
+image bg yoosung_room_night = "VN Mode/Backgrounds/yoosung_room_night.jpg"
 image bg rfa_party_3 = "VN Mode/Backgrounds/rfa_party_3.png"
 image bg guest_walkway = Fixed(Transform("#000", size=(750, 1334)),
                     Transform("VN Mode/Backgrounds/guest_walkway.png",
