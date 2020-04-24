@@ -18,6 +18,29 @@ image custom_answerbutton:
         "custom_answer_dark" with Dissolve(1.0, alpha=True)
         1.0
         repeat
+
+image darklight_continue_button:
+    block:
+        "Phone UI/Continue-light.png" with Dissolve(1.0, alpha=True)
+        1.3
+        "Phone UI/Continue-dark.png" with Dissolve(1.0, alpha=True)
+        1.0
+        repeat
+
+image custom_darklight_continue_button:
+    block:
+        "Phone UI/custom-continue-light.png" with Dissolve(1.0, alpha=True)
+        1.3
+        "Phone UI/custom-continue-dark.png" with Dissolve(1.0, alpha=True)
+        1.0
+        repeat
+
+
+image phone_continue_button = ConditionSwitch(
+    "persistent.custom_footers", "Phone UI/custom-continue.png",
+    "True", "Phone UI/Continue.png"
+)
+
 # This is the actual button that's pressed; the program
 # performs better having a transparent button vs an animated one
 image transparent_answer = "Phone UI/answer_transparent.png"
@@ -55,6 +78,8 @@ image save_exit = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/custom-save-exit.png",
     "True", "Phone UI/Save&Exit.png"
 )
+
+
 
 image fast_slow_button = "Phone UI/fast-slow-transparent.png"
 image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
