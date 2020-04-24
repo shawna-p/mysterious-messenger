@@ -65,7 +65,24 @@ screen answer_button():
                     Hide('speed_num'), 
                     Show("speed_num")]
 
-    
+#####################################
+# Continue Button
+##################################### 
+## This button appears when transitioning from
+## a chatroom directly into a VN
+screen continue_button():
+    zorder 4
+    tag chat_footer
+    if persistent.custom_footers:
+        add 'custom_darklight_continue_button' ypos 1220
+    else:
+        add 'darklight_continue_button' ypos 1220
+    imagebutton:
+        ypos 1220
+        focus_mask None
+        idle 'transparent_answer'
+        action Return()
+
 #####################################
 # Pause/Play footers
 #####################################
@@ -86,6 +103,7 @@ screen pause_button():
     if not choosing:
         use fast_slow_buttons()
         
+
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped        
 label play():
