@@ -244,6 +244,12 @@ label chatroom_replay():
                 if first == "banner":
                     if persistent.banners:
                         renpy.show_screen('banner_screen', banner=second)
+                elif first == "vn jump":
+                    # The chatroom jumps to a VN section
+                    # renpy.pause(pv*2.0)
+                    renpy.call('vn_during_chat', second[0], second[1], 
+                                        second[2], second[3])
+                
                 elif first == "hack":
                     if persistent.hacking_effects:
                         if second == "regular":
@@ -318,10 +324,20 @@ label chatroom_replay():
                     renpy.restart_interaction()
                 elif first == "background":
                     renpy.scene()
-                    renpy.show(second)
-                    if (first == "morning"
-                            or first == "noon"
-                            or first == "evening"):
+                    current_background = second
+                    renpy.show('bg ' + second)
+                    if (persistent.animated_backgrounds
+                            and second in ['morning', 'noon', 'evening',
+                                           'night', 'earlyMorn']):
+                        renpy.show_screen('animated_' + second)
+                    elif (persistent.animated_backgrounds
+                            and second == 'redhack'):
+                        renpy.show_screen('animated_hack_background', red=True)
+                    elif (persistent.animated_backgrounds
+                            and second == 'hack'):
+                        renpy.show_screen('animated_hack_background')
+                    
+                    if second in ['morning', 'noon', 'evening']:
                         nickColour = black
                     else:
                         nickColour = white
