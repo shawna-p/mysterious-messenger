@@ -195,7 +195,7 @@ label chat_end_route():
 ## you to show a VN section in the middle of a chatroom
 ## The VN section needs to be defined in its own separate label
 label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
-                     reset_participants=False):
+                     reset_participants=False, end_after_vn=False):
     
     # Add an instruction for the replay log
     if (not observing and not persistent.testing_mode):
@@ -238,7 +238,11 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     $ renpy.call(vn_label)
 
     # At this point the program has returned from the VN section
-    # and must set up the chatroom again
+    # and must set up the chatroom again, unless the chat is supposed
+    # to end now
+    if end_after_vn:
+        return
+
     scene bg black
     $ text_msg_reply = False
     $ in_phone_call = False
