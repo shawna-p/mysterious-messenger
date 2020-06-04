@@ -5,12 +5,15 @@ label other_storytelling():
     y "Hi, [name]!" (bounce=True)
     y "I'm here to show off another feature you can use to tell stories with this program ^^"
     y "Remember how this route started with a phone call and then became a chatroom?"
-    call answer
-    menu:
-        "Yes.":
-            m "Yes." (pauseVal=0)
-        "No.":
-            m "No." (pauseVal=0)
+    
+    call continue_answer("other_storytelling_menu1", 5)
+    pause timed_answer_modifier(5)
+    if timed_choose:
+        menu other_storytelling_menu1:
+            "Yes.":
+                m "Yes." (pauseVal=0)
+            "No.":
+                m "No." (pauseVal=0)
     
     y "{=curly}Well, you can also have VN sections in the middle of chatrooms!{/=curly}" (bounce=True, specBubble="square_l")
     y "I'll show you what I mean in a second."
