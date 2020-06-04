@@ -367,24 +367,26 @@ default timed_choose = False
 default reply_instant = False
 default using_timed_menus = False
 
-label continue_answer(themenu, count_time=5):
+init python:
 
-    # Timed answers to speed up/slow down based on how fast 
-    # the player has the chat speed set to. Default is 0.8,
-    # increased/decreased by 0.15 (aka increased/decreased by
-    # 18.75% each time)
-    python:
+    def timed_answer_modifier(count_time):
         modifier = 1.00
         if renpy.is_skipping():
             # Max Speed active
             modifier = 0.0
-        modifier = 0.1875 * (((store.pv - 0.2) / 0.15) - 4)
+        else:
+            modifier = 0.1875 * (((store.pv - 0.2) / 
+                                store.chat_speed_increment) - 4)
+        return count_time + (count_time * modifier)
         
-        # So if the player has speed 9, which is pv=0.2 or 
-        # 175% as fast as regular speed, the time should also
-        # decrease by 75%
-        count_time += count_time * modifier
 
+# Timed answers to speed up/slow down based on how fast 
+# the player has the chat speed set to. Default is 0.8,
+# increased/decreased by 0.15 (aka increased/decreased by
+# 18.75% each time)
+# So if the chat is at 3x normal speed, the time to answer
+# the menu is decreased by 3x
+label continue_answer(themenu, count_time=5):
     # Timed menus don't show up for players who are skipping 
     # through entire conversations or who are replaying an existing
     # chatroom. Not allowing 'observing' players to choose an
@@ -392,10 +394,11 @@ label continue_answer(themenu, count_time=5):
     # choose an answer being unable to continue
     if not renpy.is_skipping() and not observing:
         $ using_timed_menus = True
-        show screen answer_countdown(themenu, count_time)
+        show screen answer_countdown(themenu, timed_answer_modifier(count_time))
         hide screen viewCG
         $ pre_choosing = True
         show screen continue_answer_button(themenu)
+        pause 0.01
     else:
         $ timed_choose = False
     return
