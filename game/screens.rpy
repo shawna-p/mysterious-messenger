@@ -412,6 +412,11 @@ screen choice(items):
                             [SetVariable('reply_instant', True), 
                                 SetVariable('using_timed_menus', False),
                                 Hide('answer_countdown'),
+                                # This ensures the messenger scrolls
+                                # to the bottom
+                                Hide('messenger_screen'),
+                                Show('messenger_screen'),
+
                                 i.action],
                             [i.action])
                 
