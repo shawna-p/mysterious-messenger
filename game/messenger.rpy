@@ -49,7 +49,9 @@ screen messenger_screen():
                     # so the animation doesn't "slide" in
                     if i == finalchat:
                         use chat_animation(i, True, True)
-                    use chat_animation(i, False)
+                        use chat_animation(i, True)
+                    else:
+                        use chat_animation(i, False)
                 null height 10
                         
 
@@ -155,6 +157,11 @@ screen chat_animation(i, animate=True, anti=False):
             alt_who = i.who.p_name
             alt_text = renpy.filter_text_tags(i.what, 
                                     allow=gui.history_allow_tags)
+
+        if not animate and not anti:
+            transformVar = null_anim
+            include_new = False
+
         
 
 
