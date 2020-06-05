@@ -7,7 +7,8 @@ label other_storytelling():
     y "Remember how this route started with a phone call and then became a chatroom?"
     
     call continue_answer("other_storytelling_menu1", 5)
-    pause timed_answer_modifier(5)
+    call timed_pause(5)
+    
     if timed_choose:
         menu other_storytelling_menu1:
             "Yes.":

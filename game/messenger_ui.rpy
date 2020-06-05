@@ -379,6 +379,14 @@ init python:
                                 store.chat_speed_increment) - 4)
         return count_time + (count_time * modifier)
         
+## A helper label which will pause the chat for the given
+## number of seconds in count_time, multiplied by a modifier
+## depending on how fast the chat speed is
+label timed_pause(count_time):
+    if not _in_replay:
+        # Timed answers don't show up in replays, so don't pause
+        pause timed_answer_modifier(count_time)
+    return
 
 # Timed answers to speed up/slow down based on how fast 
 # the player has the chat speed set to. Default is 0.8,
