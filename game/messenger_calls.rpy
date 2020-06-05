@@ -235,7 +235,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     # Don't worry about setting `observing` as it should
     # still be set from the connected chatroom
     $ renpy.call(vn_label)
-    
+
     # At this point the program has returned from the VN section
     # and must set up the chatroom again, unless the chat is supposed
     # to end now
@@ -332,6 +332,9 @@ label chat_back():
         $ current_chatroom.buyback = False
         $ current_chatroom.buyahead = False
         $ current_chatroom.participated = False
+        # The replay log should reset since the player hasn't
+        # seen the entire chatroom
+        $ current_chatroom.replay_log = []
         # Reset participants
         $ current_chatroom.reset_participants()
         $ chatroom_hp = 0

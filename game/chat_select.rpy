@@ -458,7 +458,7 @@ screen chatroom_item(day, day_num, chatroom, index):
             if can_play and wasplayed:
                 # Determines where to take the player depending
                 # on whether this chatroom is expired or not
-                if chatroom.expired:
+                if chatroom.expired and not chatroom.played:
                     action [SetVariable('current_chatroom', chatroom), 
                             Jump(chatroom.expired_chat)]
                 else:
