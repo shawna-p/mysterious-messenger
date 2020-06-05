@@ -62,4 +62,24 @@ label other_storytelling_vn_2():
     y neutral "And now when we return, the chat log will be cleared."
     return
 
+label other_storytelling_expired():
+    call chat_begin('evening')
+    call play_music(same_old_fresh_air)
+
+    y "Aww, I wanted to talk to [name]..."
+    y "Looks like [they_re] not here."
+    y "{image=yoosung_cry}" (img=True)
+    y "So, if you do come back and check out this chatroom,"
+    y "There are some neat features!"
+    y "An additional timed menu feature,"
+    y "plus I can show you how we can switch to VN mode in the middle of a chat."
+    y "Like this!" (bounce=True)
+
+    call vn_during_chat('other_storytelling_vn_1')
+
+    y "There are more neat things you can do with it too."
+    y "I hope you'll check them out!"
+    call exit(y)
+    jump chat_end
+
     
