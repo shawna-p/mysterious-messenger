@@ -67,7 +67,7 @@ label timed_menus():
     s "{=ser1}The timer will be faster or slower depending on what your chatroom speed is{/=ser1}" 
     s "{=ser1}(which you can change using the arrows at the bottom of the screen){/=ser1}" 
     s "So if you've got the chat speed at 1," 
-    s "The spaceship will take longer to reach the other side of the screen" 
+    s "The planet will take longer to reach the other side of the screen" 
     s "There's also an option in {b}Settings{/b} that will always bring up the menu after the spaceship times out,"   (bounce=True)
     s "in case you can't press the button in time and still want to answer."   (bounce=True)
     s "I hope this gives you some cool ideas for ways to write chatrooms!" 
