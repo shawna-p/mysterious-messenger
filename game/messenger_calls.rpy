@@ -203,7 +203,6 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
             [vn_label, clearchat_on_return, new_bg, reset_participants])
         $ current_chatroom.replay_log.append(vn_jump_entry)
 
-
     # Give the player a moment to read the last of the messages
     # before jumping to the VN
     $ renpy.pause(pv*2.0)
@@ -236,7 +235,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     # Don't worry about setting `observing` as it should
     # still be set from the connected chatroom
     $ renpy.call(vn_label)
-
+    
     # At this point the program has returned from the VN section
     # and must set up the chatroom again, unless the chat is supposed
     # to end now
@@ -293,9 +292,11 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     
 
     # If this is part of a replayed chatroom, go back to
-    # the replay log
+    # the replay log (NOT replayed from the History in the
+    # main menu)
     if (observing and not vn_choice and not text_msg_reply 
-            and not in_phone_call and not email_reply):
+            and not in_phone_call and not email_reply
+            and not _in_replay):
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
     return
