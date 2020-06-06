@@ -26,7 +26,7 @@ label example_chat():
         "What if I don't know any coding?":
             m "What if I don't know any coding?" (pauseVal=0)
             u "{=sser2}Don't worry! I've tried to make this as easy to use as possible.{/=sser2}" 
-            u "{=sser2}There's an extensive {b}User Guide{/b} included with the program to look at,{/=sser2}"
+            u "{=sser2}There's an extensive {a=https://github.com/shawna-p/mysterious-messenger/wiki}Wiki{/a} included with the program to look at,{/=sser2}"
             u "{=sser2}and I'll also be monitoring the{a=https://discord.gg/BPbPcpk} Mysterious Messenger Discord server{/a} if you have questions.{/=sser2}" 
             u "This project was coded in Ren'Py, so you can always check out their forums, too." 
 
@@ -118,7 +118,7 @@ label emojis():
     s "since otherwise you'll get an \"image not found\" message."
     s "{=blocky}And it won't play any sound files, either!{/=blocky}" (bounce=True)
     s "{=ser1}If you want to add more emojis,{/=ser1}"
-    s "{=ser1}there's a whole section on just that in the User Guide.{/=ser1}"
+    s "{=ser1}there's a whole section on just that in the wiki.{/=ser1}"
     s "{=curly}Now I'll let you check out the emojis currently coded into the game.{/=curly}"
     s "{=sser2}Just select a character to see the available emojis or \"Done\" if you're finished{/=sser2}"   (bounce=True)
 
@@ -205,7 +205,7 @@ label emojis():
             m "{image=seven_wow}" (img=True)
             s "Yeah, just like that!"
             s "{=sser2}You post these a little differently from emojis. {/=sser2}" 
-            s "There's more information in the {b}User Guide{/b}."
+            s "There's more information in the {b}wiki{/b}."
             s "{=ser1}The program will take care of unlocking the image in the gallery and letting players view it full-size!{/=ser1}"
             s "{=ser1}Just make sure you indicate that the message contains an image,{/=ser1}"
             s "{=blocky}Otherwise it'll just show up in text, like this:{/=blocky}"
@@ -274,7 +274,7 @@ label banners():
     y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}"   (bounce=True, specBubble="square_m")
     y "{=sser2}So we'll use [they]/[them] whenever we talk about you.{/=sser2}"  (bounce=True)
     y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script" 
-    y "If you want to add any new variables, there's a section in the User Guide about doing just that."
+    y "If you want to add any new variables, there's a section in the wiki about doing just that."
     y "And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu)." 
     y "That's all from me!"
     y "{=sser2}Good luck with the program ^^{/=sser2}"
@@ -364,7 +364,7 @@ label heart_icons():
     z "It keeps track of both the total points earned during a chatroom,"
     z "as well as how many points you have with each individual character"
     z "There's also a second argument you can pass it to have heart points count towards a bad end."
-    z "Check out the User Guide for more on that!"
+    z "Check out the wiki for more on that!"
     z "{=blocky}Also note that Ray and Saeran's heart points count towards the same character{/=blocky}"
     z "{=curly}Good luck with the rest of the program!{/=curly}" (bounce=True)
     call exit(z) 
@@ -458,7 +458,7 @@ label ending():
                     
         "I don't know if I'm ready yet...":
             m "I don't know if I'm ready yet..." (pauseVal=0)
-            u "{=ser1}I recommend checking out the User Guide, which will walk you through creating a chatroom.{/=ser1}"
+            u "{=ser1}I recommend checking out the Beginner's Guide in the wiki, which will walk you through creating a chatroom.{/=ser1}"
             u "{=ser1}You can also go through these example chatrooms a few times and compare it with the code.{/=ser1}"
 
     u "I've put a lot of work into this program, so any feedback is welcome!"
@@ -500,7 +500,7 @@ label test_call():
     
     That means you won't be able to phone that character anymore to get that conversation. So be sure to call the characters often!
     
-    You can find much more explanation on this feature and more in the User Guide.
+    You can find much more explanation on this feature and more in the wiki.
     
     It was nice talking with you! Have a great day~
     

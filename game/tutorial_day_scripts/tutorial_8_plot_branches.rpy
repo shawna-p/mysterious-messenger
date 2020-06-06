@@ -16,11 +16,11 @@ label plot_branch_tutorial():
             m "It seems quite complicated."   (pauseVal=0)
             u "A lot of work has been put into it!"   (bounce=True)
             u "So there are lots of new things to learn." 
-            u "If you need more help, there's always the {b}User Guide{/b}, which is included with the program." 
+            u "If you need more help, there's always the {b}Mysterious Messenger wiki{/b}, which you can find on GitHub." 
         "I'm excited to start using it!":
             m "I'm excited to start using it!"   (pauseVal=0)
             u "{=curly}That's great!{/=curly}"   (bounce=True)
-            u "If you ever need help with some features, you can also take a look at the {b}User Guide{/b} that was included with the program." 
+            u "If you ever need help with some features, you can also take a look at the {b}wiki{/b} on the Mysterious Messenger GitHub." 
             
     u "{=ser1}The last feature I'll show you is how to create a plot branch.{/=ser1}" 
     u "{=ser1}You might have noticed that after this chatroom there's a \"Tap to unlock\" icon, right?{/=ser1}" 
@@ -282,7 +282,7 @@ label tutorial_good_end_party():
     u distant "It works the same way as any other VN section; the only thing that's different is the icon."
     u neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
     u "Then you can reset the game so they can play through it again."
-    u smile "As always, there's more information on that in the User Guide."
+    u smile "As always, there's more information on that in the wiki."
     u neutral "However, before you go, there's one more thing I can show you:"
     u "How to show a CG in a Story Mode section."
     u smile "I'll show it to you just before I go, and then you'll be able to see it in your album."

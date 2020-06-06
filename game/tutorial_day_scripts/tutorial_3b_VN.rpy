@@ -78,7 +78,7 @@ label vn_writing():
     
     This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,
     
-    I'd recommend checking out the LemmaSoft forums and looking through the VN section in the User Guide.
+    I'd recommend checking out the LemmaSoft forums and looking through the VN section in the wiki.
     
     If you don't plan to change the speaking character's expression for a while,
     
