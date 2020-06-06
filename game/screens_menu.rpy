@@ -243,12 +243,12 @@ screen main_menu():
         # Greet the player, and play the title music if not already
         on 'show' action If(renpy.music.get_playing(channel='music')
                             != mystic_chat,
-                            [Play('music', mystic_chat), 
+                            [Queue('music', mystic_chat), 
                             Function(chat_greet)],
                             Function(chat_greet))
         on 'replace' action If(renpy.music.get_playing(channel='music')
                             != mystic_chat,
-                            [Play('music', mystic_chat), 
+                            [Queue('music', mystic_chat), 
                             Function(chat_greet)],
                             Function(chat_greet))
 
@@ -758,11 +758,14 @@ screen menu_header(title, return_action=NullAction,
         if title != "In Call":
             if (renpy.music.get_playing(channel='music') != mystic_chat 
                     and not hacked_effect):
-                renpy.music.play(mystic_chat, loop=True)
+                renpy.music.queue(mystic_chat, loop=True)
+            elif (hacked_effect and renpy.music.get_playing(channel='music')
+                    == mystic_chat):
+                renpy.music.play(mystic_chat_hacked, loop=True)
             elif (hacked_effect
                     and renpy.music.get_playing(channel='music') 
                         != mystic_chat_hacked):
-                renpy.music.play(mystic_chat_hacked, loop=True)
+                renpy.music.queue(mystic_chat_hacked, loop=True)
     
     if not hide_bkgr:
         use starry_night()
