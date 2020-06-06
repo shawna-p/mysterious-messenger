@@ -166,7 +166,13 @@ label chat_end_route():
     $ config.skipping = False
     $ choosing = False
     hide screen phone_overlay
+    hide screen save_and_exit
+    hide screen play_button
+    hide screen answer_button
+    hide screen pause_button
     hide screen messenger_screen
+    $ hide_all_popups()
+    $ renpy.hide_screen('animated_bg')
     stop music
     
     if ending == 'good':
