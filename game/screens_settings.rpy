@@ -1216,7 +1216,8 @@ screen ringtone_dropdown(title, tone):
                                     SetField(persistent, 
                                         p_field + '_name', tone)]
                         else:
-                            action [Stop('sound'),
+                            action [Stop('sound'), 
+                                    Play('music', "<silence 5.0>"),                                   
                                     Play('sound', ("<from 0 to 5>" 
                                         + the_dict[tone])),
                                     SetField(persistent, 
