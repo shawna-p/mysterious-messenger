@@ -6,7 +6,12 @@ label other_storytelling():
     y "I'm here to show off another feature you can use to tell stories with this program ^^"
     y "Remember how this route started with a phone call and then became a chatroom?"
     
+    # This tells the program to show the answer button at the bottom of
+    # the screen, but the chat continues in the meantime
     call continue_answer("other_storytelling_menu1", 5)
+    # Since this is set to the same amount of time for the timed answer
+    # above, the chat will "pause" for a few seconds to let the player
+    # respond. If they don't, the chat moves on
     call timed_pause(5)
     
     if timed_choose:
@@ -23,6 +28,9 @@ label other_storytelling():
     y "{=ser1xb}And if you press that, you'll be taken to the VN section.{/=ser1xb}"
     y "{=curly}Like now!{/=curly}" (bounce=True)
 
+    # This will stop the chat and display a "Continue" button at the bottom
+    # of the screen. Clicking it will take the player to the label you pass
+    # it; here it goes to 'other_storytelling_vn_1'
     call vn_during_chat('other_storytelling_vn_1')
 
     y "{=sser2}See? We're back here in the chat.{/=sser2}"
@@ -31,6 +39,9 @@ label other_storytelling():
     y "I'll demonstrate."
     call exit(y)
 
+    # These second arguments tell the program to clear the chat when
+    # the player returns after the VN. It sets the background of the
+    # chatroom to the 'night' background when it returns.
     call vn_during_chat('other_storytelling_vn_2', clearchat_on_return=True,
                         new_bg='night')
 
@@ -45,12 +56,15 @@ label other_storytelling():
     jump chat_end
 
 label other_storytelling_vn_1():
+    # Note that there is no need to begin with `call vn_begin`
+    # The music also carries over from the chatroom
     scene bg yoosung_room_day with fade
     show yoosung sparkle
     y "Tadaa!"
     y neutral "You can put whatever sort of scene you like in this part."
     y "And when the scene is done, it'll return to the chatroom."
     y happy "Like this!"
+    # End with `return` instead of `jump vn_end`
     return
 
 label other_storytelling_vn_2():
@@ -75,6 +89,8 @@ label other_storytelling_expired():
     y "plus I can show you how we can switch to VN mode in the middle of a chat."
     y "Like this!" (bounce=True)
 
+    # Note that in some cases, you can reuse the VN label for
+    # expired chatrooms as well.
     call vn_during_chat('other_storytelling_vn_1')
 
     y "There are more neat things you can do with it too."
