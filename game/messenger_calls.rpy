@@ -619,9 +619,82 @@ style sig_screen_button_text:
     size 30
     font gui.sans_serif_1
     
-
+## Jumping to this label during an introductory/prologue label
+## allows the program to properly set up variables before taking
+## the player to the chat home screen
+label skip_intro_setup():
+    $ persistent.first_boot = False
+    $ persistent.on_route = True
     
-
+    if vn_choice:
+        $ vn_choice = False
+        $ phone = False
+    $ most_recent_chat = chat_archive[0].archive_list[0]
+    $ chatroom_hp = 0
+    $ chatroom_hg = 0
+    $ config.skipping = False        
+    $ choosing = False
+    hide screen phone_overlay
+    hide screen messenger_screen
+    hide screen save_and_exit
+    hide screen vn_overlay
+    hide screen pause_button
+    $ renpy.hide_screen('animated_bg')
+    show screen loading_screen
+        
+    if not current_chatroom.expired and not current_chatroom.buyback:
+        # Checks for a post-chatroom label; won't trigger 
+        # if there's a VN section
+        # Otherwise delivers phone calls/texts/etc
+        if (renpy.has_label('after_' + current_chatroom.chatroom_label) 
+                and not current_chatroom.vn_obj): 
+            $ was_expired = current_chatroom.expired
+            $ renpy.call('after_' + current_chatroom.chatroom_label)
+            $ was_expired = False
+        # Add this label to the list of completed labels
+        $ persistent.completed_chatrooms[
+                            current_chatroom.chatroom_label] = True
+        
+    
+    if not current_chatroom.expired and not current_chatroom.buyback:
+        $ deliver_calls(current_chatroom.chatroom_label)
+        
+    if current_chatroom.expired and not current_chatroom.buyback:
+        $ current_chatroom.participated = False
+        # Add this label to the list of completed labels
+        $ persistent.completed_chatrooms[
+                        current_chatroom.expired_chat] = True
+    else:
+        $ current_chatroom.participated = True
+        $ persistent.completed_chatrooms[
+                        current_chatroom.chatroom_label] = True
+    
+    # Deliver emails and trigger the next chatroom (if applicable)
+    $ deliver_emails()   
+    $ next_chatroom()
+    $ hide_all_popups()
+    # Make sure any images shown are unlocked
+    $ check_for_CGs(all_albums)
+    $ renpy.retain_after_load()
+    # Check to see if the honey buddha chips should be available
+    if not chips_available:
+        $ chips_available = hbc_bag.draw()
+    
+    stop music
+    # This helps clean up the transition between sections
+    # in case it takes the program a few moments to calculate
+    # messages, emails, etc
+    pause 0.2
+    hide screen loading_screen
+    if starter_story:
+        $ starter_story = False
+        call screen chat_home
+        return
+    else:
+        $ deliver_next()
+        call screen chatroom_timeline(current_day, current_day_num)
+        return
+    return
     
     
     

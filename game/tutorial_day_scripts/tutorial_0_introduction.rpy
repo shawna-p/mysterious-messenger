@@ -10,6 +10,18 @@
     # chatroom.
     $ new_route_setup(route=tutorial_good_end)
 
+    # This tells the program which characters' profiles you want to see
+    # on the hub screen / available for phone calls / etc
+    $ character_list = [ju, z, s, y, ja, v, m, r, ri]
+    # This tells the program which characters to show on the Profile screen
+    # next to how many heart points the player has earned
+    $ heart_point_chars = [ju, z, s, y, ja, v, r, ri]
+
+    # If you don't want an introduction, you can uncomment this line
+    # When the player starts the game, they will be immediately taken
+    # to the hub screen
+    # jump skip_intro_setup
+
     # If you want to begin with a phone call, this is
     # how you do it. Just replace 'u' with whatever
     # character you want to call the player

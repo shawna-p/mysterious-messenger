@@ -77,7 +77,7 @@ init -6 python:
             return MyTime()
 
     ## This function sets up some variables for a new route
-    def new_route_setup(route):
+    def new_route_setup(route, chatroom_label='starter_chat', participants=[]):
         global chat_archive, current_chatroom, starter_story
         if (len(route) > 0 
                 and (isinstance(route[0], RouteDay) 
@@ -87,7 +87,8 @@ init -6 python:
             chat_archive = route[1:]
         
         define_variables()
-        current_chatroom = ChatHistory('Starter Chat', 'starter_chat', '00:00')
+        current_chatroom = ChatHistory('Starter Chat', chatroom_label, 
+                                        '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
         # VNs for a starter chat/opening
         starter_story = True
