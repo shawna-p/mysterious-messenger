@@ -6,36 +6,56 @@ init -6 python:
     ## This class keeps track of a text message conversation
     ## for each character.
     class TextMessage(renpy.store.object):
+        """
+        A class to keep track of text message conversations for each character.
+
+        Attributes:
+        -----------
+        msg_list : ChatEntry[]
+            List of currently sent messages in the conversation.
+        msg_queue : ChatEntry[]
+            List of messages waiting to be delivered.
+        reply_label : string
+            Reply label to jump to when responding.
+        read : bool
+            Whether this message has been read.
+        heart : bool
+            Whether this message should trigger a heart icon when read.
+        heart_person : ChatCharacter
+            Who the heart icon should belong to.
+        bad_heart : bool
+            True if the awarded heart counts towards a 'bad' ending.
+        cg_unlock_list : [Album[], Album]
+            A list that keeps track of CGs to unlock after the player
+            has read this message chain.
+        notified : bool
+            True if the player has already been told they have an unread
+            message.
+        """
+
         def __init__(self):
-            # List of currently sent messages
+            """Create a TextMessage object."""
+
             self.msg_list = []
-            # List of messages waiting to be delivered
             self.msg_queue = []
-            # Reply label to jump to when responding
             self.reply_label = False
-            # Whether this message has been read
             self.__read = False
-            # If this message should trigger a heart icon when read
             self.heart = False
-            # Who the heart icon should belong to
             self.heart_person = None
-            # If the awarded heart is 'bad'
             self.bad_heart = False
-            # List to keep track of CGs to unlock after
-            # the player has read this message chain
             self.cg_unlock_list = []
-            # True if the player has already been told they have
-            # an unread message
             self.notified = True
 
         @property
         def read(self):
+            """Return whether this conversation has been read."""
+
             return self.__read
             
-        ## Marks the message as read and unlocks
-        ## the appropriate CGs, if applicable
         @read.setter
         def read(self, new_bool):
+            """Mark the message as read and unlock appropriate CGs."""
+
             self.__read = new_bool
             if new_bool: 
                 # Unlock any CG images the player saw
@@ -49,9 +69,9 @@ init -6 python:
             renpy.retain_after_load()
             renpy.restart_interaction()         
     
-        ## Transfers messages from the msg_queue to 
-        ## the player's inbox
         def deliver(self):
+            """Transfer messages from the msg_queue to the player's inbox."""
+            
             # If not on the text message screen, add these 
             # messages to the regular message list
             if self.msg_queue and not renpy.get_screen('text_message_screen'):
@@ -71,9 +91,9 @@ init -6 python:
                     self.read = True
             renpy.retain_after_load()
             
-        ## This takes the player to the correct message reply label
-        ## and indicates that the message has been read
         def reply(self):
+            """Mark the message as read and jump to the reply label."""
+
             store.text_msg_reply = True
             old_reply = self.reply_label
             renpy.call_in_new_context(self.reply_label)
@@ -84,19 +104,22 @@ init -6 python:
                 self.reply_label = False
             store.text_msg_reply = False  
             
-        ## Determines who to award the heart point to
         def heart_point(self, person=None, bad=False):
+            """Award a heart point to the correct character."""
+
             self.heart = True
             self.heart_person = person
             self.bad_heart = bad
                     
-    ## Lets the program know the response will trigger a heart point
     def add_heart(who, person=None, bad=False):
+        """Let the program know this response will trigger a heart point."""
+
         who.text_msg.heart_point(person, bad)
              
-    ## Delivers all of the text messages at once
     def deliver_all_texts(): 
-        for c in all_characters:
+        """Deliver all queued text messages at once."""
+
+        for c in store.all_characters:
             # First check for regular texts
             if (c.text_msg.msg_queue 
                     and not c.real_time_text):
@@ -109,23 +132,35 @@ init -6 python:
                 popup_screen = allocate_text_popup()
                 renpy.show_screen(popup_screen, c=c) 
         
-    ## Returns the number of unread messages in text_messages
     def new_message_count():
-        unread_messages = [ x for x in all_characters if (x.text_msg.msg_list
-                                                    and not x.text_msg.read) ]
+        """Return the number of unread messages from all characters."""
+
+        unread_messages = [ x for x in store.all_characters 
+            if (x.text_msg.msg_list and not x.text_msg.read) ]
         return len(unread_messages)
     
-    ## Returns the number of undelivered messages in text_queue
     def num_undelivered():
-        undelivered = [ x for x in all_characters if x.text_msg.msg_queue ]
+        """Return the number of undelivered messages in the queue."""
+        
+        undelivered = [ x for x in store.all_characters
+                        if x.text_msg.msg_queue ]
         return len(undelivered)
         
-    ##************************************
-    ## For ease of creating text messages
-    ##************************************  
-    ## This is used specifically for non-real time texting
-    ## So new messages get added to a queue first before being delivered
     def addtext(who, what, img=False):
+        """
+        Queue a text message to be sent to the player. Not for real-time
+        texting.
+
+        Parameters:
+        -----------
+        who : ChatCharacter
+            Character who is sending this text message.
+        what : string
+            Text content of the message.
+        img : bool
+            True if this message contains an image (CG or an emoji).
+        """
+
         sender = store.text_person
         # If the MC sent this message, deliver it immediately
         if who.right_msgr:
@@ -149,9 +184,23 @@ init -6 python:
 
         renpy.restart_interaction()
 
-    ## This version is used for real-time texting
-    ## Each entry is added after a small pause to simulate typing time
     def addtext_realtime(who, what, pauseVal, img=False):
+        """
+        Send a text message to the player in real-time.
+
+        Parameters:
+        -----------
+        who : ChatCharacter
+            Character who is sending this text message.
+        what : string
+            Text content of the message.
+        pauseVal : float
+            Multiplier to determine time this character spends "typing" before
+            the message is sent.
+        img : bool
+            True if this message contains an image (CG or an emoji).
+        """
+
         global textbackup
         store.choosing = False
         store.pre_choosing = False
@@ -203,9 +252,17 @@ init -6 python:
         textlog.append(ChatEntry(who, what, upTime(), img))
         renpy.checkpoint()
 
-    ## This ensures the program doesn't miss any messages being posted 
-    ## in the event the user pauses the conversation
     def text_pauseFailsafe(textlog):
+        """
+        Ensure that the program doesn't miss any messages being posted to
+        this conversation in the event that the user pauses the conversation.
+        
+        Parameters:
+        -----------
+        textlog : ChatEntry[]
+            The text message conversation to check for missed messages.
+        """
+
         global textbackup
 
         # If the backup is being reset, return
@@ -255,9 +312,19 @@ init -6 python:
                
         
 
-    ## This simplifies some of the code that parses what's in the text 
-    ## message so it can display a preview of the appropriate length
     def text_popup_preview(last_msg, num_char=48):
+        """
+        Parse the contents of last_msg to display a popup notification with
+        a preview of the appropriate length.
+
+        Parameters:
+        -----------
+        last_msg : string
+            Content of the message to preview.
+        num_char : int
+            Number of characters the text preview should display.
+        """
+
         global name
         name_cut = num_char + 6 - len(name)
         

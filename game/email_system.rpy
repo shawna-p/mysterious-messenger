@@ -1,51 +1,90 @@
 init python:
     
-    ## This class holds the information the email needs for delivery,
-    ## timeout, failure, etc
     class Email(renpy.store.object):
+        """
+        Class that holds information needed for an email's delivery, timeout,
+        failure, and more.
+
+        Attributes:
+        -----------
+        guest : Guest
+            Guest object of the sender of this email.
+        msg : string
+            Content of the email.
+        reply_label : string
+            Label to jump to in order to reply to this email.
+        msg_num : int (0-3)
+            Reply number. 0 is the first message sent to the player, and
+            3 is the email accepting the player's invitation.
+        failed : bool
+            True if this email chain has been failed.
+        timeout_count : int
+            If the player doesn't respond within this many chatrooms, the
+            email is considered "timed out" and cannot be interacted with.
+        deliver_reply : int or "wait"
+            How many chatrooms the player must wait before the guest replies
+            to their email, or "wait" if it's the player's turn to reply.
+        reply : string or False
+            Contains the message to be delivered when the guest replies
+            to the player's message, or False if it's the player's turn
+            to send a message.
+        timeout : bool
+            True if this message has timed out.
+        sent_time : MyTime
+            MyTime object containing the time the last email was sent at.
+        read : bool
+            True if this email has been read
+        notified : bool
+            True if the player has received a popup informing them of this
+            email.
+        before_branch : bool
+            Only used for the tutorial guest. If True, the program attempts
+            to finish sending emails before it reaches a plot branch.
+        """
+
         def __init__(self, guest, msg, reply_label):
-            # Guest variable
+            """
+            Create an Email object.
+
+            Parameters:
+            -----------
+            guest : Guest
+                Guest object of the sender of this email.
+            msg : string
+                Content of the email.
+            reply_label : string
+                Label to jump to in order to reply to this email.
+            """
+
             self.guest = guest 
-            # Email content
             self.msg = msg  
-            # Name of the label to jump to when replying
             self.reply_label = reply_label  
-            # msg_num = 0, 1, 2, or 3; reply number. 0 is the first message
-            # sent to you, and 3 is the email accepting your invite
             self.msg_num = 0
-            # Whether or not the email chain has been failed
             self.failed = False
-            # This is somewhat arbitrary; essentially if the
-            # player doesn't respond within 25 chatrooms (~3 days; can
-            # be changed) of receiving the message it will be failed
             self.timeout_count = 25
-            # How long to wait before the guest replies to your email
-            # This should equal "wait" if it's your turn to reply
             self.deliver_reply = "wait" 
-            # This contains the message to be delivered when the 
-            # guest replies to you
             self.reply = False
-            # True if this email has timed out
             self.timeout = False
             self.sent_time = upTime()
-            # Read/Unread
             self.__read = False  
-            # True if the player has already received a popup
-            # telling them they have an email
             self.notified = False
-            # Only used for the tutorial; tells the program
-            # to finish sending this email chain before the plot branch
             self.before_branch = (guest.thumbnail 
                 == "Email/Thumbnails/rainbow_unicorn_guest_icon.png")
 
-        ## Equality checks to allow this class to be persistent
         def __eq__(self, other):
+            """
+            Check for equality between two Email objects.
+            Allows this class to be persistent.
+            """
+
             if getattr(other, 'guest', False):
                 return self.guest == other.guest
             else:
                 return False
 
         def __ne__(self, other):
+            """Check for inequality between two Email objects."""
+
             if getattr(other, 'guest', False):
                 return self.guest != other.guest
             else:
@@ -53,17 +92,26 @@ init python:
 
         @property
         def read(self):
+            """Return whether this email has been read."""
             return self.__read
 
         @read.setter
         def read(self, new_status):
+            """
+            Set this email's read status and whether or not the guest is
+            attending the party, if this email chain is finished.
+            """
+
             self.__read = new_status
             self.set_attendance()
             return
 
-        ## This will deliver the next email in the chain to the
-        ## player, and show a popup to notify them
         def deliver(self):
+            """
+            Deliver the next email in the chain to the player and
+            notify them of its delivery with a popup.
+            """
+
             global email_list
             
             # If you're waiting on a reply, decrease the timer
@@ -114,10 +162,9 @@ init python:
                 renpy.retain_after_load()
                            
          
-        ## Sets the guest's reply and randomly decides when 
-        ## it should be delivered
         def set_reply(self, iscorrect, deliver_reply=False):
-        
+            """Set the guest's reply and decide when it should be delivered."""
+
             test = False
         
             if iscorrect:
@@ -177,8 +224,9 @@ init python:
             self.set_attendance()
             renpy.retain_after_load()
                 
-        ## Determines whether or not this guest is attending the party
         def set_attendance(self):
+            """Set whether this guest is attending the party."""
+
             if self.completed():
                 # 3/3 messages correct
                 self.guest.attending = True
@@ -197,8 +245,9 @@ init python:
                     self.guest.attending = False
             return
 
-        ## Adds the player's message to the guest to the email
-        def add_msg(self, iscorrect):        
+        def add_msg(self, iscorrect):    
+            """Add the player's message to the guest to the email."""
+
             the_msg = ""
         
             if iscorrect:
@@ -221,8 +270,9 @@ init python:
             self.msg = the_msg + self.msg
             renpy.retain_after_load()
             
-        ## Returns True if the email chain has been successfully completed
         def completed(self):
+            """Return True if the email chain was successfully completed."""
+
             if self.failed or not self.read:
                 return False            
             if self.msg_num == 3 and self.reply == False:
@@ -230,16 +280,16 @@ init python:
             else:
                 return False
                 
-        ## Returns True if the email chain was failed
         def is_failed(self):
+            """Return True if the email chain was failed."""
             if self.failed and self.read and not self.reply:
                 return True
             else:
                 return False
                 
-        ## These next three functions determine the icon for the three
-        ## email icons under the sender's name
         def first_msg(self):
+            """Return the email icon for the first message."""
+
             if self.msg_num <= 0:
                 return 'email_inactive'
             elif self.msg_num == 1 and self.failed:
@@ -248,6 +298,8 @@ init python:
                 return 'email_good'
         
         def second_msg(self):
+            """Return the email icon for the second message."""
+
             if self.msg_num <= 1:
                 return 'email_inactive'
             elif self.msg_num == 2 and self.failed:
@@ -256,6 +308,8 @@ init python:
                 return 'email_good'
         
         def third_msg(self):
+            """Return the email icon for the third message."""
+
             if self.msg_num <= 2:
                 return 'email_inactive'
             elif self.msg_num == 3 and self.failed:
@@ -263,22 +317,93 @@ init python:
             else:
                 return 'email_good'
                 
-        ## Sends the email reply
         def send_reply(self):
+            """Send the email reply."""
+
             global email_reply
             email_reply = True
             renpy.call_in_new_context(self.reply_label)
             email_reply = False
             
-        ## For testing; increases timeout and deliver_reply counters
         def send_sooner(self):
+            """Increase the timeout and deliver_reply counters. For testing."""
+
             if self.deliver_reply != "wait":
                 self.deliver_reply -= 5
             self.timeout_count -= 5
     
-    ## This class stores necessary information about the guest, including
-    ## all of their email replies as well as their image thumbnail and name
+    
     class Guest(renpy.store.object):
+        """
+        This class stores necessary information about the guest, including
+        all of their email replies as well as their image thumbnail and name
+
+        Attributes:
+        -----------
+        name : string
+            Name of the guest as it shows up in email replies.
+        thumbnail : string
+            File path to the thumbnail used for this guest's emails. Ideally
+            155x155 pixels.
+        start_msg : string
+            Initial message sent to the player upon agreeing to invite
+            this guest.
+        msg1_good : string
+            Player's correct response to the first email.
+        msg2_good : string
+            Player's correct response to the second email.
+        msg3_good : string
+            Player's correct response to the third email.
+        reply1_good : string
+            Guest's response to the first correct reply.
+        reply2_good : string
+            Guest's response to the second correct reply.
+        reply3_good : string
+            Guest's response to the third correct reply.
+        reply1_bad : string
+            Guest's response to the first incorrect reply.
+        reply2_bad : string
+            Guest's response to the second incorrect reply.
+        reply3_bad : string
+            Guest's response to the third incorrect reply.
+        msg1_bad : string
+            Player's incorrect response to the first email.
+        msg2_bad : string
+            Player's incorrect response to the second email.
+        msg3_bad : string
+            Player's incorrect response to the third email.
+        label1 : string
+            Label to jump to to answer the first email.
+        label2 : string
+            Label to jump to to answer the second email.
+        label3 : string
+            Label to jump to to answer the third email.
+        attending : bool
+            True if the guest is attending the party.
+        large_img : string
+            File path to the full-body image of this guest. Shown when
+            they attend the party.
+        short_desc : string
+            Short description of the guest, shown in the guestbook.
+        personal_info : string
+            A longer description of the guest, viewable only after they
+            have attended the party.
+        comment_who : ChatCharacter
+            The ChatCharacter object of the character who will talk about
+            this guest in the guestbook.
+        comment_what : string
+            What the comment_who character will say about the guest.
+        comment_img : string
+            A string corresponding to a defined image or layeredimage attributes
+            that will be used to display the sprite of the character speaking
+            about this guest e.g. "zen front party happy".
+        dialogue_name : string
+            The name of the guest as it should appear in their dialogue box
+            when they arrive at the party e.g. "Long Cat"
+        dialogue_what : string
+            The guest's comment upon arriving at the party.
+        """
+
         def __init__(self, name, thumbnail, start_msg,
                         msg1_good, reply1_good, msg1_bad, reply1_bad,
                         msg2_good, reply2_good, msg2_bad, reply2_bad,
@@ -286,18 +411,68 @@ init python:
                         large_img=False, short_desc="", personal_info="", 
                         comment_who=None, comment_what="", comment_img='#000', 
                         dialogue_name="", dialogue_what=""):
-            
-            # msg_good means it's the correct reply for that message, and
-            # reply_good is what the guest will send after that message
-            # msg_bad is the incorrect reply; reply_bad is the same as 
-            # above but for the bad message
-            # name is a string of the name of the guest
-            # start_msg is the initial message you are sent after
-            # agreeing to invite them
-            # thumbnail = sender's contact thumbnail, ideally 155x155
-            # The rest of the arguments are optional, but they're used
-            # when viewing the guestbook.
-            
+            """
+            Create a Guest object to store information about their emails
+            and guestbook details.
+
+            Parameters:
+            -----------
+            name : string
+                Name of the guest as it shows up in email replies.
+            thumbnail : string
+                File path to the thumbnail used for this guest's emails. Ideally
+                155x155 pixels.
+            start_msg : string
+                Initial message sent to the player upon agreeing to invite
+                this guest.
+            msg1_good : string
+                Player's correct response to the first email.
+            reply1_good : string
+                Guest's response to the first correct reply.
+            msg1_bad : string
+                Player's incorrect response to the first email.
+            reply1_bad : string
+                Guest's response to the first incorrect reply.
+            msg2_good : string
+                Player's correct response to the second email.
+            reply2_good : string
+                Guest's response to the second correct reply.
+            msg2_bad : string
+                Player's incorrect response to the second email.
+            reply2_bad : string
+                Guest's response to the second incorrect reply.
+            msg3_good : string
+                Player's correct response to the third email.
+            reply3_good : string
+                Guest's response to the third correct reply.
+            msg3_bad : string
+                Player's incorrect response to the third email.
+            reply3_bad : string
+                Guest's response to the third incorrect reply.
+            large_img : string
+                File path to the full-body image of this guest. Shown when
+                they attend the party.
+            short_desc : string
+                Short description of the guest, shown in the guestbook.
+            personal_info : string
+                A longer description of the guest, viewable only after they
+                have attended the party.
+            comment_who : ChatCharacter
+                The ChatCharacter object of the character who will talk about
+                this guest in the guestbook.
+            comment_what : string
+                What the comment_who character will say about the guest.
+            comment_img : string
+                A string corresponding to a defined image or layeredimage attributes
+                that will be used to display the sprite of the character speaking
+                about this guest e.g. "zen front party happy".
+            dialogue_name : string
+                The name of the guest as it should appear in their dialogue box
+                when they arrive at the party e.g. "Long Cat"
+            dialogue_what : string
+                The guest's comment upon arriving at the party.
+            """
+
             self.name = name
             self.thumbnail = thumbnail
             
@@ -322,28 +497,15 @@ init python:
             self.label2 = name + '_reply2'
             self.label3 = name + '_reply3'
             
-            # True if this guest is attending the party
             self.attending = False
 
-            # The full chibi image of this guest
             self.large_img = large_img
-            # A short description of the guest
             self.short_desc = short_desc
-            # A longer description on the guest, viewable only after
-            # they have attended the party
             self.personal_info = personal_info
-            # The Character object of the person who is going to talk
-            # about this guest (e.g. z)
             self.comment_who = comment_who
-            # What the above character will say about the guest
             self.comment_what = comment_what
-            # The expression and position of the person speaking
-            # about the guest, in a string e.g. "zen front party happy"
             self.comment_img = comment_img
-            # The name of the guest as it should appear in their
-            # dialogue box e.g. "Long Cat"
             self.dialogue_name = dialogue_name
-            # The guest's dialogue upon arriving at the party
             self.dialogue_what = dialogue_what
 
             # Add the guest to the guestbook
@@ -352,8 +514,9 @@ init python:
             if self not in store.all_guests:
                 store.all_guests.append(self)
             
-        ## Equality checks to allow this class to be persistent
         def __eq__(self, other):
+            """Check for equality between Guest objects."""
+
             if (getattr(other, 'name', False) 
                     and getattr(other, 'thumbnail', False)):
                 return (self.name == other.name
@@ -362,6 +525,8 @@ init python:
                 return False
 
         def __ne__(self, other):
+            """Check for inequality between Guest objects."""
+
             if (getattr(other, 'name', False) 
                     and getattr(other, 'thumbnail', False)):
                 return (self.name != other.name
@@ -369,31 +534,30 @@ init python:
             else:
                 return False
 
-    ## Returns the number of unread emails in the
-    ## player's inbox
     def unread_emails():
-        global email_list
-        unread = [ x for x in email_list if not x.read]
+        """Return the number of unread emails in the player's inbox."""
+
+        unread = [ x for x in store.email_list if not x.read]
         return len(unread)
        
-    ## Delivers the emails in email_list
     def deliver_emails():
-        global email_list
-        for e in email_list:
+        """Deliver the emails in email_list."""
+        
+        for e in store.email_list:
             e.deliver()
             
-    ## Returns the number of guests attending the party
-    ## If a guest's email chain is successfully completed, 
-    ## they are guaranteed to come. If you got the first two
-    ## messages right but not the third, the guest has a 67%
-    ## chance of coming. If you got only the first message
-    ## correct, the guest has a 33% chance of coming. Guests
-    ## will only attend if all of their messages have been
-    ## replied to and if you've read the final email in the chain
     def attending_guests():
-        global email_list
+        """
+        Return the number of guests attending the party. If a guest's email
+        chain is completed, they are guaranteed to come. If two email messages
+        were correct and the third was incorrect, the guest has a 67% chance
+        of coming. If the first message was correct and the second was not,
+        the guest has a 33% chance of coming. Guests will only attend if all
+        of their messages have been replied to and read.
+        """
+
         num_guests = 0
-        for e in email_list:
+        for e in store.email_list:
             if e.guest.attending:
                 num_guests += 1
         return num_guests

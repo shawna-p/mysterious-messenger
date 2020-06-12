@@ -17,8 +17,53 @@ init -6 python:
     ## A class that makes it much easier to fetch the time for any
     ## given chat entry/text message/phone call/etc
     class MyTime(object):
-        def __init__(self, day=None, thehour=None, themin=None):
+        """
+        A class that fetches the current time/date information and stores
+        it in easy-to-access fields.
+
+        Attributes:
+        -----------
+        short_weekday : string
+            Shortened name of the day of the week e.g. Mon
+        weekday : string
+            Full name of the day of the week e.g. Monday
+        short_month : string
+            Shortened name of the month e.g. Aug
+        month : string
+            Full name of the day of the month e.g. August
+        month_num : string
+            Number (1-12) of the month e.g. "8"
+        year : string
+            Year for the date e.g. "2018"
+        day : string
+            Day number for the date e.g. "21"
+        twelve_hour : string
+            Hour in twelve-hour format e.g. "10"
+        military_hour : string
+            Hour in military format e.g. "22"
+        minute : string
+            Minute for the time e.g. "32"
+        second : string
+            Second for the time e.g. "10"
+        am_pm : string
+            Equal to "PM" or "AM" depending on the time.     
+        """
         
+        def __init__(self, day=None, thehour=None, themin=None):
+            """
+            Create a MyTime object to store date and time information.
+
+            Parameters:
+            -----------
+            day : int
+                A number of days (<0 in the past, >0 in the future) to use
+                for this object.
+            thehour : string
+                The hour, in military time, for this timestamp e.g. "23"
+            themin : string
+                The minutes for this timestamp e.g. "42".
+            """
+
             if day is None:
                 thetime = datetime.now()
                 
@@ -33,16 +78,13 @@ init -6 python:
                 new_timestamp = unix_seconds + num_seconds
                 thetime = datetime.fromtimestamp(new_timestamp)
 
-            self.short_weekday = thetime.strftime('%a')  #e.g. Mon
-            self.weekday = thetime.strftime('%A')        #e.g. Monday
-            
-            self.short_month = thetime.strftime('%b')    #e.g. Aug
-            self.month = thetime.strftime('%B')          #e.g. August
-            self.month_num = thetime.strftime('%m')      #e.g. 8
-            
-            self.year = thetime.strftime('%Y')           #e.g. 2018
-            
-            self.day = thetime.strftime('%d')            # e.g. 20
+            self.short_weekday = thetime.strftime('%a')  
+            self.weekday = thetime.strftime('%A')        
+            self.short_month = thetime.strftime('%b')    
+            self.month = thetime.strftime('%B')          
+            self.month_num = thetime.strftime('%m')      
+            self.year = thetime.strftime('%Y')           
+            self.day = thetime.strftime('%d')            
                             
             if themin is None:
                 self.twelve_hour = thetime.strftime('%I')
@@ -59,13 +101,32 @@ init -6 python:
                     self.am_pm = 'AM'
                 self.military_hour = thehour
                 self.minute = themin
-                self.second = '00'
-                
+                self.second = '00'                
 
             
-    ## Function that returns a MyTime object with the current time
-    ## Also lets you manually set the day for testing or backlogs
     def upTime(day=None, thetime=None):
+        """
+        Return a MyTime object with the current time, or a time based
+        on the given arguments.
+
+        Parameters:
+        -----------
+        day : None or int
+            The number of days in the past (<0) or in the future (>0) this
+            timestamp should be created for.
+        thetime : string
+            A string in the format "00:00" that represents the time this
+            timestamp should represent.
+
+        Returns:
+        --------
+        MyTime
+            If day=None, returns a MyTime object representing the current
+            date with either the specified time or the given time.
+            If thetime=None, the time in the MyTime object will reflect the
+            current time.
+        """
+
         if day is not None and thetime is None:
             return MyTime(day)
         elif thetime is not None:
@@ -76,8 +137,9 @@ init -6 python:
         else:
             return MyTime()
 
-    ## This function sets up some variables for a new route
     def new_route_setup(route, chatroom_label='starter_chat', participants=[]):
+        """Set up variables for a new route."""
+
         global chat_archive, current_chatroom, starter_story
         if (len(route) > 0 
                 and (isinstance(route[0], RouteDay) 
@@ -95,9 +157,9 @@ init -6 python:
         renpy.retain_after_load()
         return
 
-    ## This function simplifies the code to hide all
-    ## the notification popups in the game
-    def hide_all_popups():        
+    def hide_all_popups():
+        """Hide all popup screens in-game."""
+
         renpy.hide_screen('text_msg_popup')
         renpy.hide_screen('hide screen text_pop_2')
         renpy.hide_screen('hide screen text_pop_3')
@@ -105,14 +167,17 @@ init -6 python:
         hide_stackable_notifications()
         hide_heart_icons()
         
-    ## A displayable prefix function which allows the program
-    ## to easily make button hover images
     def btn_hover_img(s):
+        """A displayable prefix function to make button hover images."""
+        
         return Fixed(s, Transform(s, alpha=0.5))
 
-    ## A displayable prefix function to easily display backgrounds
-    ## and their shake counterparts
     def center_bg_img(s):
+        """
+        A displayable prefix function to display backgrounds and
+        their shake counterparts.
+        """
+
         return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
 
     
