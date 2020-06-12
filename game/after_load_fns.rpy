@@ -4,6 +4,9 @@ init python:
     ## define variables that have yet to exist so that save files
     ## continue to work
     def update_var_compatibility():
+        """
+        Update this save file for compatibility with new versions.
+        """
         while store._version != "2.1":
             float_ver = float(store._version)
             # Update persistent values to be compatible with v2.0            
@@ -43,9 +46,12 @@ init python:
                 store._version = '2.1'
                                         
 
-    ## Finds the last chatroom after the string and adds the appropriate
-    ## label to the route's ending_chatrooms list
     def find_route_endings(route, chatlist, titles):
+        """
+        Find the last chatroom after a given string and add the appropriate
+        label to the route's ending_chatrooms list.
+        """
+
         # First, count the number of strings (endings) in this list
         extra_ending_titles = []
         ending_indices = []
@@ -82,9 +88,10 @@ init python:
                 route.ending_chatrooms.append(chatlist[i-1].vn_label)
         return extra_ending_titles
 
-    ## Resets problematic persistent values to their original value
-    ## but saves unchanged ones and restores them
+
     def reset_old_persistent():
+        """Reset problematic persistent values to their original values."""
+
         # First, save HP and HG
         temp_HP = store.persistent.__dict__['HP']
         temp_HG = store.persistent.__dict__['HG']
@@ -169,9 +176,9 @@ init python:
         
 
     
-    ## Several variables are defined here to ensure they're
-    ## set properly when you begin a game
     def define_variables():
+        """Merge albums and set up the player's profile."""
+        
         global all_albums        
         set_pronouns()
         
@@ -249,7 +256,7 @@ label after_load():
         n_call = unseen_calls
         
         if n_email + n_text + n_call > 0:
-            # We should show the player a message
+            # Show the player a notification of unread messages
             popup_msg += "You have "
         
             if n_email > 0:

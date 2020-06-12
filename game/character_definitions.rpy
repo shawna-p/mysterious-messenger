@@ -1,10 +1,90 @@
 init -5 python:
 
-    ## Class to store characters along with their profile picture
-    ## and a 'file_id' that's appended to things like their special 
-    ## bubble names and saves you from typing out the full name 
-    ## every time
     class ChatCharacter(renpy.store.object):
+        """
+        Class that stores ChatCharacters along with relevant information
+        such as their profile picture and file id.
+
+        Attributes:
+        -----------
+        name : string
+            Name of the character (may be a nickname e.g. "707").
+        file_id : string
+            String appended to file names associated with this character,
+            such as speech bubbles.
+        big_prof_pic : string
+            File path to the large version of this character's profile picture.
+        default_prof_pic : string
+            File path to the original "default" profile picture for this
+            character.
+        homepage_pic : string
+            File path to the image used on the homepage to display this
+            character's profile.
+        seen_updates : bool
+            False if this character has updated their profile picture, status,
+            or cover photo and the player has not yet clicked their profile.
+        prof_pic : string
+            File path to the image used for this character's profile picture.
+            Expected size is 110x110. A larger version, up to 314x314 pixels,
+            can be provided with the same file name + "-b" e.g. if prof_pic is
+            "ja-default.png", the program searches for a file called
+            "ja-default-b.png" for the big profile picture.
+        participant_pic : string
+            File path to the "participant" picture for this character. Used
+            on the Timeline screen to indicate this character was present.
+        cover_pic : string
+            File path to the cover photo for this character.
+        status : string
+            This character's current status update.
+        voicemail : PhoneCall
+            The PhoneCall object to jump to when this character doesn't
+            pick up the phone.
+        heart_points : int
+            The number of heart points the player has earned with this
+            character.
+        good_heart : int
+            The number of good heart points the player has earned with
+            this character.
+        bad_heart : int
+            The number of bad heart points the player has earned with this
+            character.
+        heart_color : string
+            A string denoting the colour of the heart point associated with
+            this character. Typically of the format "#000000".
+        glow_color : string
+            A string denoting the colour of the glowing speech bubble
+            associated with this character. Typically of the format "#000000".
+        bubble_color : string
+            A string denoting the colour of the character's regular speech
+            bubbles. Typically in the format "#000000"
+        right_msgr : bool
+            True if this character is sending messages on the right side
+            of the screen (usually only true for the MC).
+        reg_bub_img : Displayable
+            A Ren'Py displayable of the image used for this character's
+            speech bubble.
+        glow_bubble_img : Displayable
+            A Ren'Py displayable of the image used for this character's
+            glowing speech bubble.
+        emote_list : string[] or False
+            A list of the "{image=...}" lines corresponding to all emojis
+            associated with this character. Currently unused.
+        text_msg : TextMessage
+            Stores text messages conversations with this character.
+        real_time_text : bool
+            True if text message conversations with this character should
+            be carried out in real-time.
+        phone_char : Character
+            Character object associated with this character. Used for phone
+            dialogue.
+        vn_char : Character
+            Character object associated with this character. Used for Visual
+            Novel (VN) mode dialogue.
+        p_name : string
+            A string with the phoenetic pronunciation of this character's
+            name. Used for self-voicing e.g. "seven oh seven"
+        """
+
         def __init__(self, name, file_id=False, prof_pic=False, 
                 participant_pic=False, heart_color='#000000', 
                 cover_pic=False, status=False, bubble_color=False, 
@@ -13,30 +93,76 @@ init -5 python:
                 phone_char=False, vn_char=False,
                 pronunciation_help=False):               
                 
-            # The name used in the chatroom e.g. '707'
+            """
+            Creates a ChatCharacter object for use in the messenger.
+
+            Parameters:
+            -----------
+            name : string
+                Name of the character (may be a nickname e.g. "707").
+            file_id : string
+                String appended to file names associated with this character,
+                such as speech bubbles.
+            prof_pic : string
+                File path to the image used for this character's profile 
+                picture. Expected size is 110x110. A larger version, up to 
+                314x314 pixels, can be provided with the same file name + "-b" 
+                e.g. if prof_pic is "ja-default.png", the program searches for 
+                a file called "ja-default-b.png" for the big profile picture.
+            participant_pic : string
+                File path to the "participant" picture for this character. Used
+                on the Timeline screen to indicate this character was present.
+            heart_color : string
+                A string denoting the colour of the heart point associated with
+                this character. Typically of the format "#000000".
+            cover_pic : string
+                File path to the cover photo for this character.
+            status : string
+                This character's current status update.
+            bubble_color : string
+                A string denoting the colour of the character's regular speech
+                bubbles. Typically in the format "#000000"
+            glow_color : string
+                A string denoting the colour of the glowing speech bubble
+                associated with this character. Typically formatted "#000000".
+            emote_list : string[] or False
+                A list of the "{image=...}" lines corresponding to all emojis
+                associated with this character. Currently unused.
+            voicemail : string
+                The voicemail label to jump to when this character doesn't
+                pick up the phone.
+            right_msgr : bool
+                True if this character is sending messages on the right side
+                of the screen (usually only true for the MC).
+            homepage_pic : string
+                File path to the image used on the homepage to display this
+                character's profile.
+            phone_char : Character
+                Character object associated with this character. Used for phone
+                dialogue.
+            vn_char : Character
+                Character object associated with this character. Used for
+                Visual Novel (VN) mode dialogue.
+            pronunciation_help : string or False
+                A string with the phoenetic pronunciation of this character's
+                name. Used for self-voicing e.g. "seven oh seven"
+            """
+
+
             self.name = name            
-            # Used to append to filenames for things like
-            # speech bubbles
             self.file_id = file_id
-            # Character's profile picture
             self.big_prof_pic = prof_pic
             self.prof_pic = prof_pic
             self.default_prof_pic = prof_pic
-            # The picture to show on the chat home screen
             if not homepage_pic:
                 self.homepage_pic = prof_pic
             else:
                 self.homepage_pic = homepage_pic
-            # This is false if the player has yet to view this character's
-            # most recent cover photo/profile picture/status update
             self.seen_updates = False
-            # The program assumes the given profile picture is 110x110
-            # However, larger pictures of size 314x314 are used in various
-            # menus such as when calling a character. So the program also
-            # tries to look for a larger image with the same naming scheme
-            # as the file given for prof_pic, with the exception that it
-            # should end with "-b" e.g. "Jaehee/ja-default.png" means the
-            # program looks for "Jaehee/ja-default-b.png"
+
+            # If the program finds a "big" version of this profile picture,
+            # it uses that when displaying the profile picture at higher
+            # resolutions
             if self.prof_pic:
                 big_name = self.prof_pic.split('.')
                 large_pfp = big_name[0] + '-b.' + big_name[1]
@@ -45,32 +171,22 @@ init -5 python:
             if self.file_id == 'm':
                 self.prof_pic = store.persistent.MC_pic
 
-            # Picture that shows up in the timeline screen
-            # to show if a character has participated in
-            # this chat
             self.participant_pic = participant_pic
-            # This character's cover picture
             self.cover_pic = cover_pic
-            # Their status
             self.status = status
-            # What their current voicemail is set to
             if voicemail:
                 self.__voicemail = PhoneCall(self, voicemail, 'voicemail', 
                                             2, True)
             else:
                 self.__voicemail = PhoneCall(self, 
                                     'voicemail_1', 'voicemail', 2, True)
+
             # All heart points start at 0
             self.heart_points = 0  
             self.good_heart = 0
             self.bad_heart = 0
-            # The program will colour a heart point based
-            # on the hex code given here
             self.heart_color = heart_color
-            # If given a colour, the program will automatically
-            # colour the glow on this character's glow bubbles
             self.glow_color = glow_color
-            # Similarly, this colours their regular text bubbles
             self.bubble_color = bubble_color
             self.right_msgr = right_msgr
 
@@ -104,17 +220,11 @@ init -5 python:
                 self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.png",
                                             25,25)
 
-            # Entirely optional; this is a list of this character's
-            # available emotes, used for the (incomplete) 
-            # chatroom generator
             self.emote_list = emote_list
             
-            # Used for text messaging
             self.text_msg = TextMessage()
             self.real_time_text = False
 
-            # Used so the program knows how to display this character's
-            # dialogue in phone calls and VNs
             if phone_char:
                 self.phone_char = phone_char
             else:
@@ -135,48 +245,62 @@ init -5 python:
             
         @property
         def voicemail(self):
+            """Return this character's voicemail PhoneCall object."""
             return self.__voicemail
 
-        ## Updates the character's voicemail label
         @voicemail.setter
         def voicemail(self, new_label):
+            """Update this character's voicemail label."""
             self.__voicemail.phone_label = new_label
                         
-        ## Resets the text message label after that conversation
-        ## is completed
         def finished_text(self):
+            """
+            Reset the text message label after the conversation is complete.
+            """
+
             self.text_msg.reply_label = False
 
         ## Adds a heart point to the character -- good or bad
         ## depending on the second argument
         def increase_heart(self, bad=False):
+            """
+            Add a heart point to this character's total. Good heart points
+            count towards good ends and bad points towards bad ends.
+            """
+
             self.heart_points += 1
             if not bad:
                 self.good_heart += 1
             else:
                 self.bad_heart += 1
         
-        ## Decreases a heart point for this character.
-        ## Always decrements good heart points
         def decrease_heart(self):
+            """Decrement the good heart points for this character."""
+
             self.heart_points -= 1
             self.good_heart -= 1
             
-        ## Resets all the heart points owned by this character
         def reset_heart(self):
+            """Reset all heart points for this character."""
+
             self.heart_points = 0
             self.good_heart = 0
             self.bad_heart = 0
 
         @property
         def prof_pic(self):
+            """Return this character's profile picture."""
+
             return self.__prof_pic
             
-        ## Sets the character's profile picture and also attempts
-        ## to set the big_prof_pic to a larger version of their
-        ## profile picture, if available
         @prof_pic.setter
         def prof_pic(self, new_img):
+            """
+            Set this character's profile picture and attempt to set
+            big_prof_pic to a larger version of the given picture,
+            if available.
+            """
+
             if new_img == False:
                 self.__prof_pic = False
             elif isImg(new_img):            
@@ -193,9 +317,12 @@ init -5 python:
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
         
-        ## Determines whether to return the large or small
-        ## profile pic, resized to the appropriate size
         def get_pfp(self, the_size):
+            """
+            Return the large or small profile picture depending
+            on the_size, resized to the given size.
+            """
+
             # Regular profile pic is 110x110
             # Big pfp is 314x314
             max_small = 110 * 1.5
@@ -210,18 +337,24 @@ init -5 python:
                 return Transform(store.persistent.MC_pic, 
                                     size=(the_size, the_size))
 
-        ## Resets a character's profile picture to their default
-        ## Used in replay mode for the History screen
         def reset_pfp(self):
+            """
+            Reset the profile picture to its default image.
+            Used in replay mode for the History screen.
+            """
+
             self.prof_pic = self.default_prof_pic
         
         @property
         def cover_pic(self):
+            """Return this character's cover photo."""
+
             return self.__cover_pic
 
-        ## Ensures the provided argument is indeed an image
         @cover_pic.setter
         def cover_pic(self, new_img):
+            """Set this character's cover photo, if given an image."""
+
             if not new_img:
                 self.__cover_pic = False
             elif isImg(new_img):
@@ -230,65 +363,121 @@ init -5 python:
             
         @property
         def status(self):
+            """Set this character's status update."""
+            
             return self.__status 
 
         @status.setter
         def status(self, new_status):
+            """Set this character's status and set seen_updates to False."""
+
             self.__status = new_status
             self.seen_updates = False
 
         @property
         def seen_updates(self):
+            """
+            Return True if the player has seen all changes to this character's
+            profile; return False otherwise.
+            """
+
             return self.__seen_updates
 
         @seen_updates.setter
         def seen_updates(self, new_bool):
+            """Set seen_updates."""
+            
             self.__seen_updates = new_bool
 
         @property
         def name(self):
+            """Return this character's name."""
+
             return self.__name
 
         @name.setter
         def name(self, new_name):
+            """Set this character's name to the given name."""
+
             self.__name = new_name
 
         @property
         def text_label(self):
+            """
+            Return the label used to reply to a text message with 
+            this character.
+            """
+
             return self.text_msg.reply_label
 
-        ## Sets the label to jump to when responding to 
-        ## this character's text messages
         @text_label.setter
         def text_label(self, new_label):
+            """
+            Set the label to jump to when responding to this character's
+            text messages.
+            """
+
             self.text_msg.reply_label = new_label
 
-        ## This sets up whether or not this character's next
-        ## message will be in real-time or not
         def set_real_time_text(self, new_status):
+            """
+            Set whether this character's next text message conversation
+            will be in real-time or not.
+            """
+
             if new_status:
                 self.real_time_text = True
             else:
                 self.real_time_text = False
 
-        ## Shortens some of the code needed to add text messages
-        ## to a backlog
         def text_backlog(self, who, what, when, img=False):
+            """Add an entry to this character's text message backlog."""
+
             self.text_msg.msg_list.append(ChatEntry(who, what,
                 when, img))
             self.text_msg.read = True
             
-        ## Allows the ChatCharacter object to act as a proxy for
-        ## the VN and phone call Character objects
         def do_extend(self, **kwargs):
+            """
+            Allow this ChatCharacter object to act as a proxy for the
+            VN and phone call Character objects.
+            """
+
             if store.in_phone_call:
                 self.phone_char.do_extend()
             elif store.vn_choice:
                 self.vn_char.do_extend()
 
-        ## This function makes it simpler to type out character dialogue
         def __call__(self, what, pauseVal=None, img=False, 
                     bounce=False, specBubble=None, **kwargs):
+            """
+            Send this character's dialogue to the program.
+
+            Parameters:
+            -----------
+            what : string
+                Dialogue said by the character
+            pauseVal : float or None
+                Multiplier for how much time it takes this character to
+                send this message. 0 indicates no wait time, and larger values
+                indicate longer wait times.
+            img : bool
+                True if this message contains an image (e.g. an emoji or CG)
+            bounce : bool
+                True if this message should bounce when it animates in.
+            specBubble : string
+                Indicates what kind of special speech bubble this message uses.
+
+            Result:
+            -------
+            If the player is in a phone call, this ChatCharacter's phone call
+            Character will be used to say the given dialogue. If the player
+            is in VN mode, use this ChatCharacter's VN Character to say the 
+            given dialogue. If the player is texting, add the given dialogue
+            to the text message conversation. Otherwise, add these messages
+            to the chat log and also to the replay log.
+            """
+
 
             # Allows you to still use this object even in phone
             # calls and VN mode
@@ -335,14 +524,16 @@ init -5 python:
                 addchat(self, what, pauseVal=pauseVal, img=img, 
                             bounce=bounce, specBubble=specBubble)
     
-        ## These two functions check for equality between two
-        ## ChatCharacter objects
         def __eq__(self, other):
+            """Check for equality between two ChatCharacter objects."""
+
             if not isinstance(other, ChatCharacter):
                 return False
             return self.file_id == other.file_id
         
         def __ne__(self, other):
+            """Check for inequality between two ChatCharacter objects."""
+
             if not isinstance(other, ChatCharacter):
                 return True
             return self.file_id != other.file_id
