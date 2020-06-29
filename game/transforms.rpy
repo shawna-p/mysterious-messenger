@@ -11,15 +11,15 @@ init 5:
     ## Used for animations that bounce
     ## (glowing and special speech bubbles)
     transform incoming_message_bounce:
-        alpha 0 zoom 0.5
-        linear 0.1 alpha 0.8 zoom 1.1
+        alpha 0 zoom 0.5 yoffset 30
+        linear 0.1 alpha 0.8 zoom 1.1 yoffset 0
         linear 0.1 alpha 1.0 zoom 1.0
         
     ## Used for most other things (bubbles,
     ## emojis, etc)
     transform incoming_message:
-        alpha 0 zoom 0.5
-        linear 0.2 alpha 1.0 zoom 1.0
+        alpha 1.0 zoom 0.4 yoffset 30
+        linear 0.15 zoom 1.0 yoffset 0
         
     ## Used on the 'NEW' sign for new messages
     transform new_fade:
