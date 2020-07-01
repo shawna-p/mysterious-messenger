@@ -162,15 +162,7 @@ screen say(who, what):
                     idle Text("Log", style="vn_button")
                     hover Text("Log", style="vn_button_hover")
                     action Show('history')#ShowMenu('history')
-            
-    elif not text_person and in_phone_call: # In a phone call        
-        window:
-            style_prefix None
-            style 'call_window'
-            text what id "what": #style 'call_text'
-                if persistent.dialogue_outlines:
-                    outlines [ (absolute(2), "#000", 
-                                absolute(0), absolute(0)) ]
+    
     
     else:
         window id "window":
@@ -1000,45 +992,30 @@ style notify_text:
 
 
 screen nvl(dialogue, items=None):
-    
-    python:
-        yadj.value = yadjValue
-
+   
+   
     window:
         style "nvl_window"
         frame:
             background "transparent.png"     # or use any semi-transparent image you like
             align (0.5, 0.2)
             
-            side "c r":
-                area (0, 99, 750, 1069)
+            
+            viewport:
+                #draggable True
+                mousewheel True
+                has vbox:
+                    spacing 40 #gui.nvl_spacing
+                
+                use nvl_dialogue(dialogue)
 
-                viewport yadjustment yadj:
-                    #draggable True
-                    mousewheel True
-                    has vbox:
-                        spacing gui.nvl_spacing
-
-                    ## Displays dialogue in either a vpgrid or the vbox.
-                    if gui.nvl_height:
-
-                        vpgrid:
-                            cols 1
-                            yinitial 1.0
-
-                            use nvl_dialogue(dialogue)
-
-                    else:
-
-                        use nvl_dialogue(dialogue)
-
-                    ## Displays the menu, if given. The menu may be displayed incorrectly if
-                    ## config.narrator_menu is set to True, as it is above.
-                    for i in items:
-
-                        textbutton i.caption:
-                            action i.action
-                            style "nvl_button"
+                ## Displays the menu, if given. The menu may be displayed
+                ## incorrectly if config.narrator_menu is set to True,
+                ## as it is above.
+                for i in items:
+                    textbutton i.caption:
+                        action i.action
+                        style "nvl_button"
 
     add SideImage() xalign 0.0 yalign 1.0
 
@@ -1048,23 +1025,26 @@ screen nvl_dialogue(dialogue):
     python:
         yadj.value = yadjValue
 
-    vbox at incoming_message:
-        for d in dialogue:
 
-            window:
-                id d.window_id
+    for d in dialogue:
 
-                fixed:
-                    yfit gui.nvl_height is None
+        window:
+            id d.window_id
 
-                    if d.who is not None:
+            fixed:
+                yfit True
 
-                        text d.who:
-                            id d.who_id
+                if d.who is not None:
 
-                    text d.what:
-                        id d.what_id
+                    text d.who:
+                        id d.who_id
 
+                text d.what:
+                    id d.what_id
+
+transform slow_fade(delay=0.5):
+    alpha 0.0
+    linear delay alpha 1.0
 
 ## This controls the maximum number of NVL-mode entries that can be displayed at
 ## once.
@@ -1083,7 +1063,7 @@ style nvl_window:
     xfill True
     yfill True
 
-    background "gui/nvl.png"
+    background "#000c"#"gui/nvl.png"
     padding gui.nvl_borders.padding
 
 style nvl_entry:
