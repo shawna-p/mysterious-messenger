@@ -356,9 +356,9 @@ init -6 python:
             
 
 default text_msg_reply = False
-# Stores the ChatCharacter object of the other person in a text conversation
+# Store the ChatCharacter object of the other person in a text conversation
 default text_person = None
-# This keeps track of whose text conversation the player is viewing
+# Keep track of whose text conversation the player is viewing
 # so they can view CGs full-screen
 default CG_who = None
 
@@ -406,7 +406,7 @@ label compose_text_end(text_label=False):
     return
     
 
-## Sets end variables when a text message menu is completed 
+## Set end variables when a text message menu is completed 
 label text_end():
     if text_person is not None and text_person.real_time_text:        
         $ text_pauseFailsafe(text_person.text_msg.msg_list) 
