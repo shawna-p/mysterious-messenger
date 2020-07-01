@@ -1,18 +1,51 @@
 init -4 python:
 
-    ## This is the object that each chat is stored in
-    ##  who = the speaker
-    ##  what = the text they're saying
-    ##  thetime keeps track of the current time
-    ##  img indicates whether this post includes an image
-    ##  bounce indicates whether the message is supposed to animate in 
-    ##      with a bounce or not (by default is false)
-    ##  specBubble is a variable that holds the name of any special 
-    ##      speech bubbles that should be used when displaying the text
-    ##      (by default is empty and a regular bubble is used)
     class ChatEntry(renpy.store.object):
+        """
+        Class that stores the information needed for each chatroom message.
+
+        Attributes:
+        -----------
+        who : ChatCharacter
+            ChatCharacter object of the sender of the message.
+        what : string
+            Dialogue of the message.
+        thetime : MyTime
+            MyTime object containing the time the message was sent at.
+        img : bool
+            True if this message contains an image, such as an emoji or a CG.
+        bounce : bool
+            True if this message should 'bounce' when it animates in. Used
+            for glowing and special speech bubble variants.
+        specBubble : string or Nonee
+            String containing part of the image path to the relevant
+            speech bubble.
+        """
+
         def __init__(self, who, what, thetime, img=False, 
                         bounce=False, specBubble=None):
+            """
+            Creates a ChatEntry object to display a message in the messenger.
+
+            Parameters:
+            -----------
+            who : ChatCharacter
+                ChatCharacter object of the sender of the message.
+            what : string
+                Dialogue of the message.
+            thetime : MyTime
+                MyTime object containing the time the message was sent at.
+            img : bool
+                True if this message contains an image, such as an emoji 
+                or a CG.
+            bounce : bool
+                True if this message should 'bounce' when it animates in.
+                Used for glowing and special speech bubble variants.
+            specBubble : string or Nonee
+                String containing part of the image path to the relevant
+                speech bubble.            
+            """
+            
             self.who = who
             self.what = what
             self.thetime = thetime
@@ -20,11 +53,177 @@ init -4 python:
             self.bounce = bounce
             self.specBubble = specBubble
 
-    ## Class that is functionally the same as a ChatEntry, but
-    ## keeps track of "replay" entries for the replay function
+        @property
+        def name_style(self):
+            """Return the name style for this message."""
+
+            if self.who.right_msgr:
+                return 'chat_name_MC'
+            else:
+                return 'chat_name'
+        
+        def has_new(self, animate):
+            """Return True if this message should have a NEW sign."""
+
+            if not animate:
+                return False
+            elif self.bounce:
+                return False
+            elif self.who.right_msgr:
+                return False
+            elif self.img:
+                return False
+            return True
+
+        def msg_animation(self, animate, anti):
+            """Return the animation used for this message."""
+            if anti and self.bounce:
+                return invisible_bounce
+            elif anti:
+                return invisible
+            elif not animate and not anti:
+                return null_anim
+            elif self.bounce:
+                return incoming_message_bounce
+            else:
+                return incoming_message
+
+        @property
+        def pfp_style(self):
+            """Return the style for the profile picture."""
+
+            if self.who.right_msgr:
+                return 'MC_profpic'
+            else:
+                return 'profpic'
+        
+        @property
+        def bubble_style(self):
+            """Return the style used for regular bubbles."""
+
+            if self.who.right_msgr:
+                return 'reg_bubble_MC'            
+            elif not self.specBubble and not self.bounce:
+                return 'reg_bubble'
+            elif not self.specBubble and self.bounce:
+                return 'glow_bubble'
+            # Multiple round/square variants have the same styling as
+            # the original round/square bubble
+            elif self.specBubble[:6] == "round2":
+                return "round_" + self.specBubble[-1:]
+            elif self.specBubble[:7] == "square2":
+                return "square_" + self.specBubble[-1:]
+            elif self.specBubble == "glow2":
+                return 'glow_bubble'
+            else:
+                return self.specBubble
+
+        @property
+        def img_style(self):
+            """Return the style used for images."""
+
+            if self.who.right_msgr:
+                return 'mc_img_message'
+            else:
+                return 'img_message'
+
+        @property
+        def bubble_bg(self):
+            """Return the background used for this bubble."""
+
+            # If this is a special bubble, set the background to said bubble
+            if self.specBubble and self.specBubble != 'glow2':
+                return ("Bubble/Special/" + self.who.file_id + "_" 
+                    + self.specBubble + ".png")
+            # Special case for the second glowing bubble variant
+            elif self.specBubble and self.specBubble == 'glow2':
+                return Frame("Bubble/Special/" + self.who.file_id 
+                    + "_" + self.specBubble + ".png", 25, 25)
+            # Glow bubble
+            elif self.bounce:
+                return self.who.glow_bubble_img
+            # Regular speech bubble
+            elif self.who != answer:
+                return self.who.reg_bubble_img
+            else:
+                return None
+
+        def alt_text(self, anti):
+            """Return text for self-voicing."""
+
+            if anti:
+                return ""
+
+            if self.img:
+                return self.who.p_name + " sent a photo"
+            else:
+                return renpy.filter_text_tags(self.what, 
+                                    allow=gui.history_allow_tags)
+
+        def alt_who(self, anti):
+            """Return the messenger name for self-voicing."""
+
+            if anti or self.img:
+                return ""
+            else:
+                return self.who.p_name
+
+        @property
+        def dialogue_width(self):
+            """Return the width of this dialogue."""
+
+            return int(Text(self.what).size()[0])
+            
+            
+
+
     class ReplayEntry(renpy.store.object):
+        """
+        Class that stores the information needed chatroom messages that
+        are replayed in the history.
+
+        Attributes:
+        -----------
+        who : ChatCharacter
+            ChatCharacter object of the sender of the message.
+        what : string
+            Dialogue of the message.
+        pauseVal : float or None
+            Stores the pauseVal multiplier for this particular message.
+        img : bool
+            True if this message contains an image, such as an emoji or a CG.
+        bounce : bool
+            True if this message should 'bounce' when it animates in. Used
+            for glowing and special speech bubble variants.
+        specBubble : string or Nonee
+            String containing part of the image path to the relevant
+            speech bubble.
+        """
+
         def __init__(self, who, what, pauseVal=None, img=False,
                         bounce=False, specBubble=None):
+            """
+            Creates a ChatEntry object to display a message in the messenger.
+
+            Parameters:
+            -----------
+            who : ChatCharacter
+                ChatCharacter object of the sender of the message.
+            what : string
+                Dialogue of the message.
+            pauseVal : float or None
+                Stores the pauseVal multiplier for this particular message.
+            img : bool
+                True if this message contains an image, such as an emoji 
+                or a CG.
+            bounce : bool
+                True if this message should 'bounce' when it animates in.
+                Used for glowing and special speech bubble variants.
+            specBubble : string or Nonee
+                String containing part of the image path to the relevant
+                speech bubble.            
+            """
+
             self.who = who
             self.what = what
             self.pauseVal = pauseVal
@@ -36,10 +235,34 @@ init -4 python:
     ## For ease of adding Chatlog entries
     ##************************************   
 
-    ## This function adds entries to the chatlog
-    ## It also takes care of several "behind-the-scenes" functions,
-    ## such as how long to wait before each character replies
     def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
+        """
+        Function that adds entries to the chatlog. Calculates how long it
+        should take this message to be posted and then waits the appropriate
+        length of time.
+
+        Parameters:
+        -----------
+        who : ChatCharacter
+            ChatCharacter object of the sender of the message.
+        what : string
+            Dialogue of the message.
+        pauseVal : float or None
+            Stores the pauseVal multiplier for this particular message.
+        img : bool
+            True if this message contains an image, such as an emoji 
+            or a CG.
+        bounce : bool
+            True if this message should 'bounce' when it animates in.
+            Used for glowing and special speech bubble variants.
+        specBubble : string or Nonee
+            String containing part of the image path to the relevant
+            speech bubble.
+
+        Result:
+            A new entry is added to the chatlog.
+        """
+
         global choosing, pre_choosing, pv, chatbackup, oldPV, observing
         global persistent, cg_testing
         choosing = False
@@ -101,11 +324,12 @@ init -4 python:
         
     
             
-    ## Function that checks if an entry was successfully added
-    ## to the chat. This also technically means a character may be 
-    ## unable to post the exact same thing twice in a row depending
-    ## on when the pause button is used
     def pauseFailsafe():
+        """
+        Check if the previous entry was successfully added to the chatlog,
+        and add it if it was missed.
+        """
+
         global reply_instant
         if len(chatlog) > 0:
             last_chat = chatlog[-1]
@@ -169,32 +393,39 @@ init python:
             pv -= store.chat_speed_increment
         return
 
-    # This is a helper function for the heart icon that dynamically 
-    # recolours a generic white heart depending on the character
-    # See character_definitions.rpy to define your own character 
-    # & heart point
     def heart_icon(character):
+        """
+        Dynamically recolour the heart icon to the colour associated with
+        this character.
+        """
+
         if character.heart_color:
             return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
                     im.matrix.colorize("#000000", character.heart_color))
         else:
             return "Heart Point/Unknown Heart Point.png"
         
-    # Similarly, this recolours the heartbreak animation
     def heart_break_img(picture, character):
+        """
+        Dynamically recolour the heartbreak icon to the colour associated
+        with this character.
+        """
+
         if character.heart_color:
             return im.MatrixColor(picture, 
                     im.matrix.colorize("#000000", character.heart_color))
         else:
             return "Heart Point/heartbreak_0.png"
         
-    ## These next two functions recolour "generic" speech bubbles
-    ## so you can have custom glow/regular bubbles
     def glow_bubble_fn(glow_color='#000'):
+        """Recolour a generic glowing bubble with the given colour."""
+        
         return im.MatrixColor('Bubble/Special/sa_glow2.png', 
                             im.matrix.colorize(glow_color, '#fff'))
     
     def reg_bubble_fn(bubble_color='#000'):
+        """Recolour a generic message bubble with the given colour."""
+
         return im.MatrixColor('Bubble/white-Bubble.png', 
                             im.matrix.colorize('#000', bubble_color))
 
