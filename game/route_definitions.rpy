@@ -3,17 +3,90 @@
 ##******************************
 init -6 python:
 
-    ## This class stores past chatrooms that you've visited
-    ## A more complete explanation of how to use it to set up 
-    ## chatrooms can be found in the accompanying Script Generator
-    ## spreadsheet
     class ChatHistory(renpy.store.object):
+        """
+        Class that stores past chatrooms and information needed to display
+        them in-game.
+
+        Attributes:
+        -----------
+        title : string
+            Title of the chatroom.
+        chatroom_label : string
+            Label to jump to to view this chatroom.
+        trigger_time : string
+            Time this chatroom should be available at, if playing in real-time.
+            Formatted as "00:00" in 24-hour time.
+        participants : ChatCharacter[]
+            List of ChatCharacters who were present over the course of this
+            chatroom. Initially set to the characters who begin in the chat.
+        original_participants : ChatCharacter[]
+            List of characters who begin in the chatroom.
+        plot_branch : PlotBranch or False
+            Keeps track of plot branch information if the story should
+            branch after this chatroom.
+        vn_obj : VNMode
+            Contains the information for a VN Mode section following this
+            chatroom.
+        save_img : string
+            A short version of the file path used to display the icon next
+            to a save file when this is the active chatroom.
+        played : bool
+            Tracks whether this chatroom has been played.
+        participated : bool
+            Tracks whether the player participated in this chatroom.
+        available : bool
+            Tracks whether the program should allow the player to play this
+            chatroom or if it should be greyed out/unavailable.
+        expired : bool
+            Tracks whether this chatroom has expired.
+        buyback : bool
+            Tracks if the player bought back this chatroom after it expired.
+        buyahead : bool
+            Tracks if the player bought this chatroom ahead of time so it
+            can remain unlocked regardless of the current time.
+        replay_log : ReplayEntry[]
+            List of ReplayEntry objects that keeps track of how this chatroom
+            played out to display to the user during a replay.
+        outgoing_calls_list : string[]
+            List of the labels used for phone calls that should follow this
+            chatroom. Also used in the History screen.
+        incoming_calls_list : string[]
+            List of the labels used for incoming phone calls that should
+            occur after this chatroom. Also used in the History screen.
+        """
+
         def __init__(self, title, chatroom_label, trigger_time, 
-                participants=[], vn_obj=False, plot_branch=False, 
+                participants=None, vn_obj=False, plot_branch=False, 
                 save_img='auto'):
-            # Title of the chatroom
+            """
+            Creates a ChatHistory object to store information about a
+            particular chatroom on a route.
+
+            Parameters:
+            -----------
+            title : string
+                Title of the chatroom.
+            chatroom_label : string
+                Label to jump to to view this chatroom.
+            trigger_time : string
+                Time this chatroom should be available at, if playing in
+                real-time. Formatted as "00:00" in 24-hour time.
+            participants : ChatCharacter[]
+                List of ChatCharacters who were present over the course of this
+                chatroom. Initially set to the characters who begin in the chat.
+            vn_obj : VNMode
+                Contains the information for a VN Mode section following this
+                chatroom.
+            plot_branch : PlotBranch or False
+                Keeps track of plot branch information if the story should
+                branch after this chatroom.
+            save_img : string
+                A short version of the file path used to display the icon next
+                to a save file when this is the active chatroom.
+            """
+
             self.title = title
-            # Image to use on the save screen after this chatroom
             save_img = save_img.lower()
             if save_img == 'jaehee' or save_img == 'ja':
                 self.save_img = 'jaehee'
@@ -34,7 +107,6 @@ init -6 python:
                 #      deep / xmas
                 self.save_img = save_img
 
-            # Label to jump to for the chatroom
             self.chatroom_label = chatroom_label
             # Ensure the trigger time is set up properly
             # It corrects times like 3:45 to 03:45
@@ -42,11 +114,8 @@ init -6 python:
                 self.trigger_time = '0' + trigger_time
             else:
                 self.trigger_time = trigger_time
-            # People already present in the chatroom before
-            # it begins. Updates when new people enter
-            self.participants = participants
+            self.participants = participants or []
             self.original_participants = deepcopy(participants)
-            # Tracks whether there's a plot branch after this chatroom
             self.plot_branch = plot_branch
 
             # If this chatroom has a VN after it, it goes here
@@ -70,33 +139,21 @@ init -6 python:
                         if renpy.has_label(vnlabel):
                             # Found the appropriate VN
                             self.vn_obj = VNMode(vnlabel, c)
+                            # Should only ever be one VNMode object per chat
+                            break
             
             if self.plot_branch and self.plot_branch.vn_after_branch:
                 self.plot_branch.stored_vn = self.vn_obj
                 self.vn_obj = False
             
-            # Tracks whether this chatroom has been played
             self.played = False
-            # Tracks whether the player participated in this chatroom
             self.participated = False
-            # Tracks whether the program should allow the user to
-            # play this chatroom or if it'll be greyed out/unavailable
             self.available = False
-            # Tracks whether this chatroom has expired
             self.expired = False
-            # The expired label for this chatroom
             self.expired_chat = chatroom_label + '_expired'
-            # Tracks if the player bought back this chatroom after it
-            # expired
             self.buyback = False
-            # Tracks if the player bought this chatroom ahead of time
-            # so it can remain unlocked regardless of the current time
             self.buyahead = False
-            # Used for replays; this list keeps track of how the chatroom
-            # played out when the player went through this chatroom
             self.replay_log = []
-            # Saves incoming and outgoing calls for this chatroom
-            # Most helpful for history/replay purposes
             self.outgoing_calls_list = [ (self.chatroom_label + '_outgoing_' 
                 + x.file_id) for x in store.all_characters 
                 if renpy.has_label(self.chatroom_label + '_outgoing_' 
@@ -106,9 +163,9 @@ init -6 python:
                 if renpy.has_label(self.chatroom_label + '_incoming_' 
                     + x.file_id)]
             
-        ## These two functions check for equality between two
-        ## ChatHistory objects
         def __eq__(self, other):
+            """Check for equality between two ChatHistory objects."""
+
             if not isinstance(other, ChatHistory):
                 return False
             return (self.title == other.title
@@ -116,6 +173,8 @@ init -6 python:
                     and self.trigger_time == other.trigger_time)
         
         def __ne__(self, other):
+            """Check for inequality between two ChatHistory objects."""
+
             if not isinstance(other, ChatHistory):
                 return True
 
@@ -123,67 +182,153 @@ init -6 python:
                     or self.chatroom_label != other.chatroom_label
                     or self.trigger_time != other.trigger_time)
                 
-        ## Adds a participant to the chatroom
         def add_participant(self, chara):
+            """Add a participant to the chatroom."""
+
             if not (chara in self.participants):
                 print("added", chara.name, "to the participants list of", self.title)        
                 self.participants.append(chara)
             return
 
-        ## Resets participants to whatever they were before the
-        ## user played this chatroom (used when a player
-        ## backs out of a chatroom, for example)
         def reset_participants(self):
+            """
+            Reset participants to the original set of participants before
+            the user played this chatroom. Used when a player backs out
+            of a chatroom.
+            """
+
             self.participants = deepcopy(self.original_participants)
             
             
-    ## This class stores the information needed for the Visual 
-    ## Novel portions of the game
     class VNMode(renpy.store.object):
+        """
+        Class that stores the information needed for the Visual Novel portions
+        of the game.
+
+        Attributes:
+        -----------
+        vn_label : string
+            The label to jump to for this VN.
+        who : ChatCharacter
+            The character whose picture is on the VN icon in the timeline.
+        played : bool
+            True if this VN has been played.
+        available : bool
+            True if this VN should be available to play.
+        party : bool
+            True if this VN is the "party".
+        trigger_time : string
+            Formatted as "00:00" in 24-hour time. The time this VN should
+            show up at, if it is not attached to a chatroom.
+        """
+
         def __init__(self, vn_label, who=None, 
                     party=False, trigger_time=False):
-            # The label to jump to for the VN
+            """
+            Create a VNMode object to keep track of information for a Visual
+            Novel section.
+
+            Parameters:
+            -----------
+            vn_label : string
+                The label to jump to for this VN.
+            who : ChatCharacter
+                The character whose picture is on the VN icon in the timeline.
+            party : bool
+                True if this VN is the "party".
+            trigger_time : string
+                Formatted as "00:00" in 24-hour time. The time this VN should
+                show up at, if it is not attached to a chatroom.
+            """
+
             self.vn_label = vn_label
-            # Whose picture is on the VN icon
             self.who = who
-            # Whether the VN has been played
             self.played = False
-            # Whether the VN is available
             self.available = False
-            # Whether this VN is the party/needs the party icon
             self.party = party
             # Not currently used; useful for having VN mode
             # sections separate from a chatroom
             self.trigger_time = trigger_time
 
-    ## This class stores information the game needs to know
-    ## about how to handle a plot branch
     class PlotBranch(renpy.store.object):
+        """
+        Class that stores information so the program can handle a plot branch.
+
+        Attributes:
+        -----------
+        vn_after_branch : bool
+            True if the VN associated with the chatroom that has this plot
+            branch should appear after the plot branch has been proceeded
+            through.
+        stored_vn : VNMode
+            The VN that should appear after the plot branch, if applicable.
+        """
+
         def __init__(self, vn_after_branch=False):
-            # Whether this VN should appear after the plot branch
-            # or before
+            """
+            Create a PlotBranch object to store plot branch information.
+
+            Parameters:
+            -----------
+            vn_after_branch : bool
+                True if the VN associated with the chatroom that has this plot
+                branch should appear after the plot branch has been proceeded
+                through.
+            """
+
             self.vn_after_branch = vn_after_branch
-            # If the VN is supposed to appear after the plot branch,
-            # store it here until it's time to branch
             self.stored_vn = None
             
-    ## This object stores a day's worth of chatrooms
     class RouteDay(renpy.store.object):
-        def __init__(self, day, archive_list=[], day_icon='day_common2',
+        """
+        Class that stores a day's worth of chatrooms in order to display
+        in a timeline for the player.
+
+        Attributes:
+        -----------
+        day : string
+            The name/number of the day as it should show up in the timeline.
+            Typically "1st" or "Final". Is followed by the word "Day" in
+            the timeline.
+        archive_list : ChatHistory[]
+            A list of ChatHistory objects that encompasses all the chatrooms
+            that should be available on this day.
+        branch_vn : VNMode
+            If this day has a VN that should be show as soon as soon as it's
+            merged onto the main route after a plot branch, it is stored here.
+        day_icon : string
+            The icon for the route this day is considered a part of. Used to
+            display an icon in the day timeline screen.        
+        """
+
+        def __init__(self, day, archive_list=None, day_icon='day_common2',
                         branch_vn=False):
-            # The day e.g. "1st"
+            """
+            Creates a RouteDay object to hold information on a day's worth
+            of chatrooms.
+
+            Parameters:
+            -----------
+            day : string
+                The name/number of the day as it should show up in the timeline.
+                Typically "1st" or "Final". Is followed by the word "Day" in
+                the timeline.
+            archive_list : ChatHistory[]
+                A list of ChatHistory objects that encompasses all the chatrooms
+                that should be available on this day.
+            day_icon : string
+                The icon for the route this day is considered a part of. Used to
+                display an icon in the day timeline screen.    
+            branch_vn : VNMode
+                If this day has a VN that should be show as soon as soon as it's
+                merged onto the main route after a plot branch, it is stored here.
+            """
+
             self.day = day
-            # A list of chatrooms taking place on this day
-            self.archive_list = archive_list
-            # Whether this day has a VN that should be shown as soon
-            # as it's merged with the main route
+            self.archive_list = archive_list or []
             self.branch_vn = branch_vn
 
-            # The route this day is considered a part of
             day_icon = day_icon.lower()
-            # Sets the image used on the Day timeline as well as
-            # the name of the route how it should appear in the 
-            # History screen
             if day_icon == 'common':
                 self.day_icon = 'day_common1'
             elif day_icon == 'jaehee' or day_icon == 'ja':
@@ -204,12 +349,57 @@ init -6 python:
             else:
                 self.day_icon = 'day_common2'
 
-    ## This class stores an entire route -- including good, bad,
-    ## normal ends etc
     class Route(renpy.store.object):
-        def __init__(self, default_branch, branch_list=[], 
+        """
+        A class that stores an entire route, including good, bad, normal
+        endings etc.
+
+        Attributes:
+        -----------
+        ending_chatrooms : string[]
+            List of the label names for the chatroom or VN that finishes
+            each route.
+        route_history_title : string
+            Name of the route as it should show up in the History screen.
+        route : RouteDay[]
+            A giant list of RouteDay objects occasionally interspersed with
+            strings like "Good End"
+        """
+
+        def __init__(self, default_branch, branch_list=None, 
                     route_history_title="Common",
                     has_end_title=True):
+            """
+            Creates a Route object to store an entire route.
+
+            Parameters:
+            -----------
+            default_branch : RouteDay[]
+                A list of RouteDay objects. The first item in the list should
+                be a string like "Good End". The 'default' path for the player
+                to take; it should be the longest continuous route and is
+                typically the route the player will start on until/unless
+                they branch onto a different route later.
+            branch_list : (RouteDay[])[]
+                A list of lists of RouteDay objects defined like default_branch
+                where the first list item is a string like "Bad End 1". These
+                are collections of RouteDay objects the player will proceed
+                through if they branch onto this route.
+            route_history_title : string
+                The title of this route as it should show up in the History 
+                screen. " Route" is appended to the end of the given string,
+                but to exclude it the argument " -route" can be added e.g.
+                route_history_title = "Special Event -route" will show up in
+                the History screen as "Special Event".
+            has_end_title : bool
+                True if this route should have a title over the final chatroom
+                such as "Good End". This will be the title provided as the
+                first list item in default_branch. Typically this is True
+                unless the route has no branching paths.           
+            """
+
+            if branch_list is None:
+                branch_list = []
 
             # Names of the labels of each ending chatroom or VN
             self.ending_chatrooms = []
@@ -306,11 +496,14 @@ init -6 python:
             if self not in store.all_routes:
                 store.all_routes.append(self)
                             
-    ## This function ensures the next chatroom or VN section 
-    ## becomes available. By default it unlocks chatrooms in 
-    ## sequence, but when persistent.real_time is active it 
-    ## unlocks chatrooms according to real-time
     def next_chatroom():
+        """
+        Ensure the next chatroom or VN section is available to play.
+        By default the program will unlock chatrooms sequentially, but if
+        persistent.real_time is True it will unlock chatrooms according to
+        their trigger time and the actual time of day.
+        """
+
         global chat_archive, today_day_num, days_to_expire
         global current_game_day
 
@@ -478,11 +671,37 @@ init -6 python:
             store.incoming_call = False
             renpy.call('new_incoming_call', phonecall=store.current_call)
     
-    ## A helper function which returns True if the given
-    ## trigger time has passed/is later than the current time
-    ## and expires the chatroom before this one if so
+
     def past_trigger_time(trig_time, cur_time, sameday, was_yesterday,
                           prev_chat, cur_chat):
+        """
+        A helper function for next_chatroom() to determine if the given
+        trigger time is after the current time and expires the
+        chatroom before this one if so.
+
+        Parameters:
+        -----------
+        trig_time : string
+            Formatted "00:00" in 24-hour time. The time this chatroom was
+            supposed to trigger at.
+        cur_time : MyTime
+            A MyTime object containing information on the current time.
+        sameday : bool
+            True if the current date is the same day as this chatroom.
+        was_yesterday : bool
+            True if this chatroom occurred one or more days prior to the
+            current date.
+        prev_chat : ChatHistory
+            The chatroom before this one.
+        cur_chat : ChatHistory
+            The current chatroom being checked.
+
+        Returns:
+        --------
+        bool
+            Return True if the given trigger time has already passed and
+            expire the previous chatroom. Otherwise, return False.
+        """
 
         if was_yesterday:
             # It's already a day or more past this chat; expire 
@@ -524,10 +743,24 @@ init -6 python:
             return True
         return False
             
-    ## A helper function that expires a chatroom and makes its phonecalls/
-    ## text messages available
     def expire_chatroom(prev_chatroom, current_chatroom, 
                                 deliver_incoming=False):
+        """
+        A helper function for next_chatroom() which expires the previous
+        chatroom and makes its phone calls and text messages available.
+
+        Parameters:
+        -----------
+        prev_chatroom : ChatHistory
+            The chatroom that should be expired.
+        current_chatroom : ChatHistory
+            The chatroom following the expired chatroom.
+        deliver_incoming : bool
+            If this chatroom has *just* expired, this should be True and
+            triggers an incoming call from prev_chatroom rather than
+            expiring it.
+        """
+
         # The previous chatroom expires if not played,
         # bought back, or bought ahead
         if (not prev_chatroom.played
@@ -574,13 +807,20 @@ init -6 python:
         deliver_all_texts()
       
 
-    ## A quick function to see how many chatrooms there are left 
-    ## to be played through
-    ## This is used so emails will always be delivered before the party
     def num_future_chatrooms(break_for_branch=False):
-        global chat_archive
+        """
+        Return how many chatrooms remain in the current route. Used so emails
+        are always delivered before the party.
+
+        Parameters:
+        -----------
+        break_for_branch : bool
+            True if the program should only list the number of chatrooms
+            remaining before a plot branch.
+        """
+        
         total = 0
-        for archive in chat_archive:
+        for archive in store.chat_archive:
             if archive.archive_list:
                 for chatroom in archive.archive_list:
                     if not chatroom.played: 
@@ -590,9 +830,12 @@ init -6 python:
         return total
                 
         
-    ## Delivers the next available text message and triggers an incoming
-    ## phone call, if applicable
     def deliver_next():
+        """
+        Deliver the next available text message and trigger an incoming
+        phone call, if applicable.
+        """
+
         global incoming_call, available_calls, current_call
         global persistent, text_person, all_characters
         
@@ -636,9 +879,9 @@ init -6 python:
             
         
     
-    ## This function takes a route (new_route) and merges it with the
-    ## current route
     def merge_routes(new_route):
+        """Merge new_route with the current route."""
+        
         global chat_archive, most_recent_chat
         # Figure out which VN to show the player
         # Check if the new route's first item is a VN -- if so, it overrides
@@ -680,9 +923,9 @@ init -6 python:
 
 
 
-    ## This function tells the program to continue on with the
-    ## regular route after the plot branch
     def continue_route():
+        """Clean up the current route to continue after a plot branch."""
+
         global most_recent_chat
         if (most_recent_chat.plot_branch 
                 and most_recent_chat.plot_branch.vn_after_branch):
@@ -692,10 +935,31 @@ init -6 python:
         # Remove the plot branch indicator
         most_recent_chat.plot_branch = False
 
-    ## This function returns the percentage of chatrooms the player
-    ## has participated in, from first_day to last_day (or from first_day
-    ## until the end of the route, if last_day=None)
     def participated_percentage(first_day=1, last_day=None):
+        """
+        Return the percentage of chatrooms the player has participated in,
+        from first_day to last_day.
+
+        Parameters:
+        -----------
+        first_day : int
+            The first day to check for chatroom completed percentage on. Note
+            that the number given here is not the index of the first day. A
+            route with "Day 1" through to "Day 4" would provide first_day=1
+            to check "Day 1" onwards.
+        last_day : int or None
+            The last day to check for chatroom completed percentage on. As with
+            first_day, it is not the index number. To check all days until the
+            end of this route, last_day should be None.
+
+        Returns:
+        --------
+        int
+            A percentage of completed chatrooms, rounded down to the nearest
+            whole number. If 3/9 chatrooms were completed across the given
+            days, this function returns 33.
+        """
+
         global chat_archive
         # For example, if checking participation from Day 2 to
         # Day 4, then first_day = 2 and last_day = 4
@@ -721,9 +985,9 @@ init -6 python:
         return (completed_chatrooms * 100 // num_chatrooms)
     
               
-    ## Calculates whether or not the player can proceed
-    ## through the plot branch
     def can_branch():
+        """Return True if the player can proceed through the plot branch."""
+
         global chat_archive
         for archive in chat_archive:
             if archive.archive_list:
@@ -739,8 +1003,9 @@ init -6 python:
                         return False
         return False
         
-    ## Calculates when the next chatroom is available
     def next_chat_time():
+        """Return the time the next chatroom should be available at."""
+
         global chat_archive
         for archive in chat_archive:
             if archive.archive_list:
@@ -751,8 +1016,9 @@ init -6 python:
                         return chatroom.trigger_time
         return 'Unknown Time'
         
-    ## Makes the chatrooms for the next 24 hours available
     def chat_24_available(reset_24=True):
+        """Make the chatrooms for the next 24 hours available."""
+
         global chat_archive, today_day_num, days_to_expire, unlock_24_time
         current_time = upTime()
         if reset_24:

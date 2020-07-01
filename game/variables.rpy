@@ -145,7 +145,7 @@ init -6 python:
         else:
             return MyTime()
 
-    def new_route_setup(route, chatroom_label='starter_chat', participants=[]):
+    def new_route_setup(route, chatroom_label='starter_chat', participants=None):
         """Set up variables for a new route."""
 
         global chat_archive, current_chatroom, starter_story
@@ -156,6 +156,8 @@ init -6 python:
         else:
             chat_archive = route[1:]
         
+        if participants is None:
+            participants = []
         define_variables()
         current_chatroom = ChatHistory('Starter Chat', chatroom_label, 
                                         '00:00', participants)
