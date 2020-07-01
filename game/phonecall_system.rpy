@@ -2,16 +2,51 @@ init -6 python:
 
     ## This class stores the information needed for phone calls
     class PhoneCall(renpy.store.object):
+        """
+        Class that stores information needed to keep track of phone calls.
+
+        Attributes:
+        -----------
+        caller : ChatCharacter
+            ChatCharacter object of the other person in the phone call.
+        phone_label : string
+            The label to jump to for the phone call.
+        call_time : upTime or False
+            The time the phone call was made at.
+        call_status : string
+            Status of the phone call. One of 'incoming', 'outgoing', 'missed',
+            or 'voicemail'.
+        voicemail : bool
+            True if this call is a voicemail message rather than a conversation.
+        playback : bool
+            True if this conversation can be 'replayed' from the call history.
+        avail_timeout : int
+            How many chatrooms to wait until this call expires.
+        """
+
         def __init__(self, caller, phone_label, call_status='incoming',
                 avail_timeout=2, voicemail=False):
-            # Who the call is from
+            """
+            Creates a PhoneCall object to keep track of phone call information.
+
+            Parameters:
+            -----------
+            caller : ChatCharacter
+                ChatCharacter object of the other person in the phone call.
+            phone_label : string
+                The label to jump to for the phone call.
+            call_status : string
+                Status of the phone call. One of 'incoming', 'outgoing', 'missed',
+                or 'voicemail'.
+            avail_timeout : int
+                How many chatrooms to wait until this call expires.
+            voicemail : bool
+                True if this call is a voicemail message rather than a conversation.
+            """
+
             self.caller = caller
-            # The label to jump to for the call
             self.phone_label = phone_label
-            # The time the call was made at
             self.call_time = False
-            # The status of the call; one of "incoming", "outgoing",
-            # "missed" or "voicemail"
             if (call_status == 'incoming' 
                     or call_status == 'outgoing' 
                     or call_status == 'missed' 
@@ -19,17 +54,19 @@ init -6 python:
                 self.call_status = call_status
             else:
                 self.call_status = 'incoming'
-            # Whether this call is a voicemail message rather
-            # than a conversation
             self.voicemail = voicemail
-            # Whether this call can be 'replayed'
             self.playback = False
-            # How long before this call expires (default=2 chatrooms)
             self.avail_timeout = avail_timeout
             
         ## Phone calls will slowly expire if you don't call 
         ## the characters. The default expiry is after two chatrooms
         def decrease_time(self):
+            """
+            Counts towards expiring this phone call so it is no longer
+            available. By default phone calls will time out after two
+            chatrooms.
+            """
+
             global available_calls
             if self.avail_timeout == 'test':
                 # You generally shouldn't mess with this, but it
@@ -40,8 +77,9 @@ init -6 python:
                 if self.avail_timeout == 0:
                     available_calls.remove(self)
             
-        ## Moves the call from 'available_calls' to 'call_history'
         def finished(self):
+            """Move this phone call from available_calls to call_history"""
+
             global available_calls, call_history, observing            
             self.playback = True
             self.call_time = upTime()
@@ -60,14 +98,17 @@ init -6 python:
             call_history.insert(0, self)
             observing = False
 
-    ## If you hang up on a character who is calling you or
-    ## miss their phone call, you can still call them back
-    ## This creates a 'missed' phone call entry
-    def call_hang_up_incoming(phonecall):    
+    def call_hang_up_incoming(phonecall):  
+        """
+        Create a missed phone call entry in call_history and add this
+        call to available_calls so the player can call the character back.
+        """  
+
         global call_history, available_calls        
         phonecall.call_status = 'missed'
         missed_call = copy(phonecall)
         missed_call.call_time = upTime()
+        # Can't play this conversation back as it hasn't been viewed
         missed_call.playback = False
         if missed_call not in call_history:
             call_history.insert(0, missed_call)
@@ -75,41 +116,48 @@ init -6 python:
             available_calls.append(phonecall)
         renpy.retain_after_load()
         
-    ## If you hang up on a character, the conversation is
-    ## no longer available
     def call_hang_up(phonecall):
-        global available_calls
-        if phonecall in available_calls:
-            available_calls.remove(phonecall)
+        """
+        If the player hangs up during a call, the conversation is no longer
+        available. Remove this call from available_calls.
+        """
+
+        if phonecall in store.available_calls:
+            store.available_calls.remove(phonecall)
         
-    ## Checks if a character has any available calls and
-    ## returns the phonecall if so
     def call_available(who):
-        global available_calls
-        for phonecall in available_calls:
+        """
+        Check if a character has any available calls. Return the call if
+        found, otherwise return False.
+        """
+
+        for phonecall in store.available_calls:
             if who == phonecall.caller:
                 return phonecall
         return False
             
     def toggle_afm():
+        """Toggle auto-forward mode on and off."""
         _preferences.afm_enable = not _preferences.afm_enable
         renpy.restart_interaction()
 
-    ## Makes any phonecalls associated with the current 
-    ## chatroom available as appropriate
     def deliver_calls(lbl, expired=False, call_time=False):
+        """
+        Make any phonecalls associated with the current chatroom available.
+        """
+
         global available_calls, incoming_call, call_history
         global unseen_calls, all_characters
         missed_call = False
         phonecall = False
-        # Adds available calls
+        # Add available calls
         for c in all_characters:
-            # Adds available outgoing calls to the list
+            # Add available outgoing calls to the list
             if renpy.has_label(lbl + '_outgoing_' + c.file_id):
                 available_calls.append(PhoneCall(c, 
                     lbl + '_outgoing_' + c.file_id, 'outgoing'))
 
-            # Updates the incoming call, or moves it if the call has expired
+            # Update the incoming call, or move it if the call has expired
             if renpy.has_label(lbl + '_incoming_' + c.file_id):
                 if expired:
                     phonecall = PhoneCall(c, lbl + '_incoming_' + c.file_id,
@@ -212,10 +260,7 @@ screen phone_calls():
                         text i.caller.name + ' {image=[call_status]}':
                             style "save_slot_text"
                         spacing 40                                    
-                        text ("[i.call_time.twelve_hour]:[i.call_time.minute]"
-                                + " [i.call_time.am_pm], [i.call_time.day]/"
-                                + "[i.call_time.month_num]"):
-                            style "save_slot_text"
+                        text i.call_time.get_phone_time() style "save_slot_text"
                         
                     frame:
                         xysize (230, 135) 
@@ -665,6 +710,18 @@ screen outgoing_call(phonecall, voicemail=False):
                                     SetVariable('current_call', phonecall), 
                                     Jump(phonecall.phone_label)]
     
+## Screen used to say dialogue for phone characters
+screen phone_say(who, what):
+
+    window:
+        style_prefix None
+        style 'call_window'
+        text what id "what":
+            if persistent.dialogue_outlines:
+                outlines [ (absolute(2), "#000", 
+                            absolute(0), absolute(0)) ]
+    
+
 
 ## Allows the program to jump to the incoming call
 label new_incoming_call(phonecall):
