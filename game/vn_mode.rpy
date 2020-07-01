@@ -78,7 +78,7 @@ transform vn_farright:
 ## VN Setup
 #####################################
 
-label vn_begin():
+label vn_begin(nvl=False):
     if starter_story:
         $ set_name_pfp()
     window auto
@@ -94,7 +94,10 @@ label vn_begin():
     # Hide all the popup screens
     $ hide_all_popups()
     
-    show screen vn_overlay
+    if not nvl:
+        show screen vn_overlay
+    else:
+        nvl clear
     $ vn_choice = True
     $ _history_list = [] # This clears the History screen
     $ _history = True
