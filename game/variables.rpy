@@ -101,7 +101,15 @@ init -6 python:
                     self.am_pm = 'AM'
                 self.military_hour = thehour
                 self.minute = themin
-                self.second = '00'                
+                self.second = '00'  
+
+        def get_phone_time(self):
+            """Return the time formatted as displayed for phone calls."""
+
+            # Returns a time like 10:15 PM, 25/10
+            return (self.twelve_hour + ":" + self.minute
+                + " " + self.am_pm + ", " + self.day + "/"
+                + self.month_num)
 
             
     def upTime(day=None, thetime=None):
