@@ -24,17 +24,29 @@ init python:
             spaceship_xalign = spaceship_xalign * 0.8 + 0.04
         return spaceship_xalign
         
-    ## This code is used to create a 'random' function that
-    ## will occasionally activate the Honey Buddha Chip bag
     class RandomBag(object):
+        """
+        Class that is used to create a 'random bag' of supplied choices.
+
+        Attributes:
+        -----------
+        choices : list
+            A list of choices. Can be booleans, strings, ints, a mix, etc.
+        bag : list
+            A shuffled list of the provided choices.
+        """
 
         def __init__(self, choices):
+            """Creates a RandomBag object."""
+            
             # The choices that go into the bag.
             self.choices = choices                        
             # A shuffled list of things in the bag.
             self.bag = [ ]                                
 
         def draw(self):
+            """Removes an item from the bag."""
+
             # If the bag is empty,
             if not self.bag:                              
                 # Replace it with a copy of choices,
@@ -45,16 +57,30 @@ init python:
             # Return something from the bag.
             return self.bag.pop(0)                        
             
-        # Reset the bag with new choices
-        def new_choices(self, choices):                   
+        def new_choices(self, choices):
+            """Reset the bag with new choices."""
+
             self.choices = choices
             self.bag = [ ]
             
-    # This class keeps track of "Space Thoughts" in 
-    # order to show the correct image + text combo
-    # to the player
     class SpaceThought(renpy.store.object):
+        """
+        Class which keeps track of 'Space Thoughts' in order to show the
+        correct image + text combo to the player.
+
+        Attributes:
+        -----------
+        char : ChatCharacter
+            The character having this thought.
+        thought : string
+            The thought for this character.
+        img : string
+            The image used as the background for this thought.
+        """
+
         def __init__(self, char, thought):
+            """Creates a SpaceThought object."""
+
             self.char = char
             self.thought = thought
             self.img = char.file_id + '_spacethought'

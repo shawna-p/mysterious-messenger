@@ -1,6 +1,5 @@
 init -6 python:
 
-    ## This class stores the information needed for phone calls
     class PhoneCall(renpy.store.object):
         """
         Class that stores information needed to keep track of phone calls.
@@ -58,8 +57,6 @@ init -6 python:
             self.playback = False
             self.avail_timeout = avail_timeout
             
-        ## Phone calls will slowly expire if you don't call 
-        ## the characters. The default expiry is after two chatrooms
         def decrease_time(self):
             """
             Counts towards expiring this phone call so it is no longer
