@@ -10,14 +10,45 @@ init -2:
 
 init -1 python:
     class Clock(renpy.Displayable):
+        """
+        Class that creates a displayable clock that updates in real-time.
+
+        Attributes:
+        -----------
+        width : int
+            Width of the clock.
+        height : int
+            Height of the clock.
+        minutes : int
+            Current time's minutes.
+        seconds : int
+            Current time's seconds.
+        military : bool
+            True if the time should be displayed in military format. If False,
+            displays in 12-hour format.
+        am_pm : string
+            Equal to "AM" or "PM" depending on the time of day.
+        """
+
         def __init__(self, my_size=185, military=False, **kwargs):
+            """
+            Create a Clock displayable object.
+
+            Parameters:
+            -----------
+            my_size : int
+                Width of the clock. The height is calculated based off of this.
+            military : bool
+                True if the time should be displayed in military format.
+                If False, displays in 12-hour format.
+            """
             super(Clock, self).__init__(**kwargs)
 
-            # Determines how big the clock should be
+            # Determine how big the clock should be
             self.width = my_size
             self.height = (my_size*25)/100 # *32
 
-            # Keeps track of the minutes and seconds, and whether
+            # Keep track of the minutes and seconds, and whether
             # the hours should be displayed military or with AM/PM
             self.minutes = 0
             self.seconds = 0
@@ -25,6 +56,8 @@ init -1 python:
             self.am_pm = "AM"
 
         def render(self, width, height, st, at):
+            """Render the Clock object in real-time."""
+
             # Make sure the minutes variable is
             # always in sync with the seconds variable
             if self.minutes != self.seconds//60:
@@ -77,15 +110,19 @@ init -1 python:
 
             return render
 
-        # Runs the clock based on the real world time
         def realclock(self):
+            """Run the clock based on the real-world time."""
+
             t = datetime.today()
             self.am_pm = time.strftime('%p', time.localtime())
             self.seconds = (3600 * t.hour) + (60 * t.minute) + t.second
 
-        # Returns the current hours, minutes, and seconds of the clock
-        # and ensures the AM/PM is set properly
         def get_time(self):
+            """
+            Return the current hours, minutes, and seconds of the clock
+            and ensure the AM/PM is set properly.
+            """
+
             h, m = divmod(self.minutes, 60)
             h = int(h)
             m = int(m)

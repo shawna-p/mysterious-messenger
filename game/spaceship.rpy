@@ -1,9 +1,9 @@
 
 init python:
 
-    ## This is used to make the spaceship float to a random 
-    ## location on the line
     def spaceship_xalign_func(trans,st,at):
+        """Make the spaceship float to a random location on the line."""
+
         global spaceship_xalign
         if st > 1.0:
             trans.xalign = spaceship_xalign
@@ -15,9 +15,12 @@ init python:
         trans.xalign = spaceship_xalign
         return None
         
-    ## Returns a random position along the spaceship line at the bottom
-    ## of the screen
     def spaceship_get_xalign(new_num=False):
+        """
+        Return a random position along the spaceship line at the bottom
+        of the screen to move the spaceship to.
+        """
+
         global spaceship_xalign
         if new_num:
             spaceship_xalign = renpy.random.random()
@@ -198,7 +201,7 @@ screen chip_cloud():
 label hbc_helper():
     $ prize = chip_prize_list.draw()
     $ prize_text = prize[0]
-    # Adds a bit of randomness to the heart payout
+    # Add a bit of randomness to the heart payout
     $ prize_heart = (prize[1] 
         + (renpy.random.randint(0, prize[1]//10) 
             * renpy.random.choice([1, -1])))
@@ -246,9 +249,6 @@ screen chip_end(prize_heart, prize_hg, new_hp_total, new_hg_total, prize_text):
             frame:
                 xysize(200,60)
                 background 'space_black_box'
-                # You could give out hourglasses here too, but since I've
-                # never gotten one from the HBC animation I've just left
-                # it permanently at 0
                 text str(prize_hg) style 'chip_prize_text'
                 add 'header_hg' xalign 0.15 yalign 0.5
                 
