@@ -87,42 +87,46 @@ init 5:
     ## ****************************************
     ## Character Names Style
     style chat_name:
-        pos (148, 0)
-        xsize 435
-        text_align 0.0
+        text_align 0.0  
+        align (0.0, 0.0)      
         font gui.sans_serif_1
         
-    style chat_name_MC:
-        pos (596, 0)
-        xsize 435
+    style chat_name_MC:        
         text_align 1.0
-        anchor (1.0, 0.0)
+        align (1.0, 0.0)
         font gui.sans_serif_1
-            
+
+    style chat_name_frame:
+        xoffset 148
+        align (0.0, 0.0)
+
+    style chat_name_frame_MC:
+        xoffset -148
+        align (1.0, 0.0)
+
     ## ****************************************
     ## Profile Pictures Style
     style MC_profpic:
-        pos (616, 0)
-        maximum (110,110)
-        align (0.0, 0.0)
+        xysize (110,110)        
+        xoffset -18
+        xalign 1.0
         
     style profpic:
-        pos (18, 0)
-        maximum (110,110) 
+        xoffset 18
+        xysize (110,110) 
         align (0.0, 0.0)
         
     ## ****************************************
     ## Style for images posted in the chatroom
     style img_message:
         padding (5, 10)
-        pos (138, 38)
+        xoffset 138 yoffset 38
         xmaximum 750   
         align (0.0, 0.0)
         
     style mc_img_message:
         padding (5, 10)
-        pos (600, 0)
-        yoffset 38
+        xoffset -138 yoffset 38
         xmaximum 750
         xalign 1.0
         yalign 0.0
