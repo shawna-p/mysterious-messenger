@@ -460,83 +460,89 @@ define gui.longer_than = 420
 
 ## SPIKE
 ## Small Spike Bubble
-define gui.spike_s_padding = (42, 0, 70, 0)
-define gui.spike_s_pos = (120, 38)
-define gui.spike_s_xysize = (282,219)
+define gui.spike_s_padding = (45, 50, 95, 50)
+define gui.spike_s_offset = (140, 38)
+
+## Small Spike Bubble v2
+define gui.spike_s2_padding = (25, 20, 25, 15)
+define gui.spike_s2_offset = (170, 38)
 
 ## Medium Spike Bubble
-define gui.spike_m_padding = (50, 0, 50, 0)
-define gui.spike_m_pos = (120, 38)
-define gui.spike_m_xysize = (340,242)
+define gui.spike_m_padding = (50, 50, 50, 50)
+define gui.spike_m_offset = (130, 38)
 
 ## Large Spike Bubble
-define gui.spike_l_padding = (55, 0, 55, 5)
-define gui.spike_l_pos = (140, 25)
-define gui.spike_l_xysize = (511,376)
+define gui.spike_l_padding = (40, 60, 60, 65)
+define gui.spike_l_offset = (140, 25)
 
 ## CLOUD
 ## Small Cloud Bubble
-define gui.cloud_s_padding = (50, 0, 44, 0)
-define gui.cloud_s_pos = (120, 22)
-define gui.cloud_s_xysize = (266,202)
+define gui.cloud_s_padding = (30, 20, 30, 20)
+define gui.cloud_s_offset = (145, 32)
 
 ## Medium Cloud Bubble
-define gui.cloud_m_padding = (90, 0, 90, 0)
-define gui.cloud_m_pos = (85, 25)
-define gui.cloud_m_xysize = (457,324)
+define gui.cloud_m_padding = (45, 40, 45, 40)
+define gui.cloud_m_offset = (135, 25)
 
 ## Large Cloud Bubble
-define gui.cloud_l_padding = (120, 20, 70, 10)
-define gui.cloud_l_pos = (70, 0)
-define gui.cloud_l_xysize = (680,478)
+define gui.cloud_l_padding = (65, 40, 70, 80)
+define gui.cloud_l_offset = (115, 20)
+
+## Large Cloud Bubble v2
+define gui.cloud_l2_padding = (115, 50, 70, 40)
+define gui.cloud_l2_offset = (90, 20)
 
 ## SPECIAL 1 (Round)
 ## Small Special 1 Bubble
-define gui.round_s_padding = (60, 70, 60, 20)
-define gui.round_s_pos = (110,-10)
-define gui.round_s_xysize = (320, 250)
+define gui.round_s_padding = (40, 30, 40, 20)
+define gui.round_s_offset = (140, 32)
 
 ## Medium Special 1 Bubble
-define gui.round_m_padding = (75, 0, 75, 0)
-define gui.round_m_pos = (120,25)
-define gui.round_m_xysize = (442,329)
+define gui.round_m_padding = (55, 50, 55, 50)
+define gui.round_m_offset = (130,25)
 
 ## Large Special 1 Bubble
-define gui.round_l_padding = (80, 0, 80, 0)
-define gui.round_l_pos = (110,0)
-define gui.round_l_xysize = (553,399)
+define gui.round_l_padding = (70, 50, 70, 50)
+define gui.round_l_offset = (110,0)
 
 ## SPECIAL 2 (Square)
 ## Small Special 2 Bubble
-define gui.square_s_padding = (50, 0, 50, 30)
-define gui.square_s_pos = (120, 21)
-define gui.square_s_xysize = (272, 255)
+define gui.square_s_padding = (40, 30, 50, 25)
+define gui.square_s_offset = (135, 27)
 
 ## Medium Special 2 Bubble
-define gui.square_m_padding = (70, 0, 70, 20)
-define gui.square_m_pos = (105, 25)
-define gui.square_m_xysize = (428, 323)
+define gui.square_m_padding = (50, 50, 65, 35)
+define gui.square_m_offset = (135, 35)
 
 ## Large Special 2 Bubble
-define gui.square_l_padding = (110, 0, 110, 0)
-define gui.square_l_pos = (90,0)
-define gui.square_l_xysize = (626,459)
+define gui.square_l_padding = (80, 60, 90, 50)
+define gui.square_l_offset = (120,35)
+
+## SPECIAL 3 (Flower)
+## Small Special 3 Bubble
+define gui.flower_s_padding = (35, 50, 40, 20)
+define gui.flower_s_offset = (130, 17)
+
+## Medium Special 3 Bubble
+define gui.flower_m_padding = (45, 80, 60, 35)
+define gui.flower_m_offset = (120,25)
+
+## Large Special 3 Bubble
+define gui.flower_l_padding = (55, 90, 65, 50)
+define gui.flower_l_offset = (110,0)
 
 ## SIGH
 ## Small Sigh Bubble
-define gui.sigh_s_padding = (10, 0, 20, 30)
-define gui.sigh_s_pos = (140, 38)
-define gui.sigh_s_xysize = (228, 224)
+define gui.sigh_s_padding = (20, 30, 25, 50)
+define gui.sigh_s_offset = (140, 38)
 
 ## Medium Sigh Bubble 
-define gui.sigh_m_padding = (10, 0, 20, 60)
-define gui.sigh_m_pos = (130, 38)
-define gui.sigh_m_xysize = (335,292)
+define gui.sigh_m_padding = (30, 40, 40, 80)
+define gui.sigh_m_offset = (130, 38)
 
 ## Large Sigh Bubble
-define gui.sigh_l_padding = (65, 0, 65, 100)
-define gui.sigh_l_pos = (110, 38)
-define gui.sigh_l_xysize = (529,418)
+define gui.sigh_l_padding = (45, 60, 45, 110)
+define gui.sigh_l_offset = (125, 38)
 
 
 ## Localization ################################################################
