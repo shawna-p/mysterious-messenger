@@ -8,21 +8,11 @@ screen messenger_screen():
         # This is the infinite value from earlier which
         # tells the viewport to always scroll to
         # the bottom
-        yadj.value = yadjValue 
-        # Set up how many messages the player can scroll back and see
-        chatLength = len(chatlog) - 1
-        begin = chatLength - bubbles_to_keep
-        if begin >= 0:
-            pass
-        else:
-            begin = 0
-        
+        yadj.value = yadjValue         
         finalchat = None
-        if chatLength > 0:
+        if len(chatlog) > 0:
             finalchat = chatlog[-1]
-            if finalchat.who == answer:
-                if begin > 0:
-                    begin -= 1  
+            
 
     frame:
         align (0.5, 1.0)
@@ -40,50 +30,49 @@ screen messenger_screen():
             has vbox
             spacing 10
             xfill True
-            for i index id(i) in chatlog[begin:]:
+            for i index id(i) in chatlog[-bubbles_to_keep:]:
                 fixed:
                     yfit True
-                    xfit True
+                    xfill True
+                    if i.who.name == 'msg' or i.who.name == 'filler':
+                        use special_msg(i)
                     # This trick means that the program displays
                     # an invisible bubble behind the visible one
                     # so the animation doesn't "slide" in
-                    if i == finalchat:
-                        use chat_animation(i, True, True)
+                    elif i == finalchat:
                         use chat_animation(i, True)
-                    else:
-                        use chat_animation(i, False)
+                    if i.who.name != 'msg' and i.who.name != 'filler':
+                        use chat_animation(i)                    
                 null height 10
                         
+## This displays the special messages like "xyz
+## has entered the chatroom"
+screen special_msg(i):
+    
+    frame:
+        style i.who.name + '_bubble'            
+        text i.what:
+            style i.who.name + '_bubble_text'
+            if (i.who.name == 'msg' and persistent.dialogue_outlines):
+                outlines [ (1, "#000a", absolute(0), absolute(0))]
+                font gui.sans_serif_1b
+
+        alt i.alt_text(False)
 
 ## This screen does the heavy lifting for displaying
 ## all the messages, names, profile pictures, etc
-screen chat_animation(i, animate=True, anti=False):
+screen chat_animation(i, anti=False):
 
+    frame:        
+        style i.pfp_style
+        if not anti:
+            add i.who.get_pfp(110)
 
-    # This displays the special messages like "xyz
-    # has entered the chatroom"
-    if (i.who.name == 'msg' or i.who.name == 'filler') and not anti:
-        frame:
-            style i.who.name + '_bubble'            
-            text i.what:
-                style i.who.name + '_bubble_text'
-                if (i.who.name == 'msg' and persistent.dialogue_outlines):
-                    outlines [ (1, "#000a", absolute(0), absolute(0))]
-                    font gui.sans_serif_1b
-
-            alt i.alt_text(anti)
-            
-
-    # Otherwise it's a regular character; add
-    # their profile picture
-    elif i.who.file_id and i.who.file_id != 'delete':
-        frame:
-            xysize (110, 110)
-            style i.pfp_style
-            if not anti:
-                add i.who.get_pfp(110)
-
-        # Add their nickname
+    # Add their nickname
+    frame:
+        ysize 40 xmaximum 435
+        background None padding (0,0)
+        style i.name_frame_style
         if not anti:
             text i.who.name style i.name_style:
                 color nickColour
@@ -98,79 +87,89 @@ screen chat_animation(i, animate=True, anti=False):
                     font gui.sans_serif_1b
         else:
             text i.who.name at invisible alt i.alt_who(anti)
-        # Now add the dialogue
-        if not i.has_new(animate): # Not a "regular" dialogue bubble
-            frame at i.msg_animation(animate, anti):
-                # Check if it's an image
-                if i.img:
-                    style i.img_style
-                    if "{image" in i.what:
-                        text i.what alt i.alt_text(anti)
-                    else: # it's a CG                            
-                        $ fullsizeCG = cg_helper(i.what)
-                        imagebutton:
-                            focus_mask True
-                            idle smallCG(fullsizeCG)
-                            if not choosing:
-                                action [SetVariable("fullsizeCG", 
-                                            cg_helper(i.what)), 
-                                            Call("viewCG"), 
-                                            Return()]
-                            alt i.alt_text(anti)
-
-                # Not an image; check if it's a special bubble
-                elif i.specBubble != None and i.specBubble != 'glow2':
+    
+    # Now add the dialogue
+    if not i.has_new: # Not a "regular" dialogue bubble
+        # Not an image; check if it's a special bubble        
+        if i.specBubble != None and i.specBubble != 'glow2':
+            fixed at i.msg_animation(anti):
+                offset i.spec_bubble_offset
+                fit_first True
+                add i.bubble_bg
+                frame:                                    
                     style i.bubble_style
-                    background i.bubble_bg # e.g. 'sigh_m'
+                    #add "#f0f3"
+                    yfill True xfill True
                     text i.what style 'special_bubble' alt i.alt_text(anti)
+                #add "#0ff1"
+        # Check if it's an image
+        elif i.img:
+            frame at i.msg_animation(anti):
+                style i.img_style
+                if "{image" in i.what:
+                    text i.what alt i.alt_text(anti)
+                else: # it's a CG                            
+                    $ fullsizeCG = cg_helper(i.what)
+                    imagebutton:
+                        focus_mask True
+                        idle smallCG(fullsizeCG)
+                        if not choosing:
+                            action [SetVariable("fullsizeCG", 
+                                        cg_helper(i.what)), 
+                                        Call("viewCG"), 
+                                        Return()]
+                        alt i.alt_text(anti)
+                
 
-                # Not img or special bubble; check if glow variant
-                elif i.bounce:
-                    # Note: MC has no glowing bubble so there is
-                    # no variant for them
-                    style 'glow_bubble'
-                    background i.bubble_bg
-                    # This checks if the text needs to wrap or not
-                    if i.dialogue_width > gui.longer_than:
-                        text i.what:
-                            style 'bubble_text_long' 
-                            min_width gui.long_line_min_width
-                    else:            
-                        text i.what style 'bubble_text'
-                    alt i.alt_text(anti)
+        # Not img or special bubble; check if glow variant
+        elif i.bounce:
+            frame at i.msg_animation(anti):
+                # Note: MC has no glowing bubble so there is
+                # no variant for them
+                style 'glow_bubble'
+                background i.bubble_bg
+                # This checks if the text needs to wrap or not
+                if i.dialogue_width > gui.longer_than:
+                    text i.what:
+                        style 'bubble_text_long' 
+                        min_width gui.long_line_min_width
+                else:            
+                    text i.what style 'bubble_text'
+                alt i.alt_text(anti)
 
-                # Otherwise it must be regular MC dialogue
-                else:
-                    style i.bubble_style
+        # Otherwise it must be regular MC dialogue
+        else:
+            frame at i.msg_animation(anti):
+                style i.bubble_style
+                background i.bubble_bg
+                if i.dialogue_width > gui.longer_than:
+                    text i.what:
+                        style 'bubble_text_long'
+                        min_width gui.long_line_min_width
+                else:            
+                    text i.what style "bubble_text"
+                alt i.alt_text(anti)
+
+    # This does indeed need the 'NEW' sign
+    else:
+        frame at i.msg_animation(anti):
+            pos (138,24)
+            xsize 500
+            background None
+            vbox:
+                spacing -20
+                order_reverse True
+                add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
+                frame:
+                    padding (25,12,20,12)
                     background i.bubble_bg
-                    if i.dialogue_width > gui.longer_than:
-                        text i.what:
+                    text i.what:
+                        if i.dialogue_width > gui.longer_than:
                             style 'bubble_text_long'
                             min_width gui.long_line_min_width
-                    else:            
-                        text i.what style "bubble_text"
+                        else:
+                            style 'bubble_text'
                     alt i.alt_text(anti)
-
-        # This does indeed need the 'NEW' sign
-        else:
-            frame at i.msg_animation(animate, anti):
-                pos (138,24)
-                xsize 500
-                background None
-                vbox:
-                    spacing -20
-                    order_reverse True
-                    add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
-                    frame:
-                        padding (25,12,20,12)
-                        background i.bubble_bg
-                        text i.what:
-                            if i.dialogue_width > gui.longer_than:
-                                style 'bubble_text_long'
-                                min_width gui.long_line_min_width
-                            else:
-                                style 'bubble_text'
-                        alt i.alt_text(anti)
                                 
 
    
