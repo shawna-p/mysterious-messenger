@@ -17,7 +17,7 @@ label example_text():
             r "{=sser2b}any incoming phone calls or text message won't be delivered until after the VN.{/=sser2b}" 
         "Yes, and I can't play it until after this chatroom, right?":
             m "Yes, and I can't play it until after this chatroom, right?"   (pauseVal=0)
-            r "{=curly}Right! ^^{/=curly}"   (bounce=True, specBubble="round_s")
+            r "{=curly}Right! ^^{/=curly}"   (bounce=True, specBubble="flower_s")
             r "Any incoming phone calls or text message won't be delivered until after the story mode VN (Visual Novel) section, too." 
             
     r "So even though there are text messages to be delivered after this chatroom," 

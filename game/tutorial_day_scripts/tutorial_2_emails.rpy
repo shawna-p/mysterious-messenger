@@ -52,7 +52,7 @@ label example_email_expired():
     z "Oh... [they_re] not here."   (bounce=True, specBubble="sigh_m")
     z "Hmm." 
     z "Well, you can always buy back this chatroom and let me know if you want to invite them or not!" 
-    z "I'll see you around~"   (bounce=True, specBubble="round_m")
+    z "I'll see you around~"   (bounce=True, specBubble="flower_m")
     call exit(z)
     jump chat_end
 
