@@ -61,13 +61,21 @@ init -4 python:
                 return 'chat_name_MC'
             else:
                 return 'chat_name'
+
+        @property
+        def name_frame_style(self):
+            """Return the style for the frame around the chat name."""
+
+            if self.who.right_msgr:
+                return 'chat_name_frame_MC'
+            else:
+                return 'chat_name_frame'
         
-        def has_new(self, animate):
+        @property
+        def has_new(self):
             """Return True if this message should have a NEW sign."""
 
-            if not animate:
-                return False
-            elif self.bounce:
+            if self.bounce:
                 return False
             elif self.who.right_msgr:
                 return False
@@ -75,14 +83,13 @@ init -4 python:
                 return False
             return True
 
-        def msg_animation(self, animate, anti):
+        def msg_animation(self, anti):
             """Return the animation used for this message."""
+            
             if anti and self.bounce:
                 return invisible_bounce
             elif anti:
-                return invisible
-            elif not animate and not anti:
-                return null_anim
+                return invisible            
             elif self.bounce:
                 return incoming_message_bounce
             else:
@@ -107,16 +114,109 @@ init -4 python:
                 return 'reg_bubble'
             elif not self.specBubble and self.bounce:
                 return 'glow_bubble'
-            # Multiple round/square variants have the same styling as
-            # the original round/square bubble
-            elif self.specBubble[:6] == "round2":
-                return "round_" + self.specBubble[-1:]
-            elif self.specBubble[:7] == "square2":
-                return "square_" + self.specBubble[-1:]
             elif self.specBubble == "glow2":
                 return 'glow_bubble'
-            else:
-                return self.specBubble
+            
+            # Otherwise, there is a special bubble            
+            bubble_style = self.specBubble
+
+            # Multiple round/square variants have the same styling as
+            # the original round/square bubble
+            if self.specBubble == "round2_s" and self.who.file_id == 's':
+                return self.who.file_id + '_' + bubble_style
+
+            if self.specBubble[:6] == "round2":
+                bubble_style = "round_" + self.specBubble[-1:]
+            elif self.specBubble[:7] == "square2":                
+                bubble_style = "square_" + self.specBubble[-1:]
+
+            
+
+            return self.who.file_id + '_' + bubble_style
+
+            # if self.specBubble == "spike_s" and self.who in [ja, ju]:
+            #     # Two variations on the small spike bubble
+            #     return 'spike_s2'
+            # elif self.specBubble == "cloud_l" and self.who in [y]:
+            #     return 'cloud_l2'
+            # #elif self.specBubble == "cloud_l" and self.who in [sa]:
+            # else:
+            #     return self.specBubble
+
+        @property
+        def spec_bubble_offset(self):
+            """Return the offset used for this special bubble."""
+
+            bubble_style = self.specBubble
+            # Multiple round/square variants have the same styling as
+            # the original round/square bubble
+            if self.specBubble[:6] == "round2":
+                bubble_style = "round_" + self.specBubble[-1:]
+            elif self.specBubble[:7] == "square2":
+                bubble_style = "square_" + self.specBubble[-1:]
+            bubble_style += '_offset'
+            
+            ## Rule exceptions
+            full_style = self.who.file_id + '_' + self.specBubble
+            if full_style == 'ju_cloud_l':
+                return (115, 5)
+            elif full_style == 'ju_square_m':
+                return (140, 5)
+            elif full_style == 'ju_round_l':
+                return (110, 27)
+            elif full_style == 'ju_square_s':
+                return (140, 10)
+            elif full_style == 'ju_square_l':
+                return (135, 0)
+            elif full_style == 'ju_round_m':
+                return (130, 30)
+            elif full_style == 'ja_square_l':
+                return (120, 10)
+            elif full_style == 'ja_cloud_m':
+                return (125, 35)
+            elif full_style == 'ja_round_l':
+                return (110, 8)
+            elif full_style == 'ja_square_m':
+                return (135, 15)
+            elif full_style == 'r_square_l':
+                return (120, 5)
+            elif full_style == 'r_square2_l':
+                return (110, 2)
+            elif full_style == 'r_square_m' or full_style == 'r_square2_m':
+                return (135, 10)
+            elif full_style == 'v_square_l':
+                return (120, 15)
+            elif full_style == 'v_round_s':
+                return (150, 25)
+            elif full_style == 'v_square_s':
+                return (135, 30)
+            elif full_style == 's_cloud_l':
+                return (128, 34)
+            elif full_style == 's_round2_s':
+                return (120, 28)
+            elif full_style == 's_round2_l' or full_style == 's_round_l':
+                return (110, 15)
+            elif full_style == 'sa_square_m':
+                return (125, 15)
+            elif full_style == 'sa_square_s':
+                return (125, 18)
+            elif full_style == 'sa_square_l':
+                return (120, 0)
+            elif full_style == 'y_cloud_l':
+                return (100, 22)
+            elif full_style == 'y_cloud_m':
+                return (110, 25)
+            elif full_style == 'y_round_l':
+                return (120, 20)
+            elif full_style == 'z_square_l':
+                return (105, 10)
+            elif full_style == 'z_flower_l':
+                return (115, 10)
+
+
+
+            return getattr(store.gui, bubble_style)
+
 
         @property
         def img_style(self):
