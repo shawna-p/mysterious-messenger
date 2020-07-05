@@ -98,10 +98,8 @@ screen chat_animation(i, anti=False):
                 add i.bubble_bg
                 frame:                                    
                     style i.bubble_style
-                    #add "#f0f3"
                     yfill True xfill True
                     text i.what style 'special_bubble' alt i.alt_text(anti)
-                #add "#0ff1"
         # Check if it's an image
         elif i.img:
             frame at i.msg_animation(anti):
