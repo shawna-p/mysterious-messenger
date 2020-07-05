@@ -8,8 +8,7 @@ label example_chat():
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
        
     call hack 
-    call chat_begin("hack") 
-        
+    call chat_begin("hack")  
     call play_music(mystic_chat)
     call enter(u) 
     u "{=curly}Hello, [name] ^^{/=curly}" 
@@ -743,11 +742,11 @@ label sigh_s():
     jump bubbles
     
 label round_s():    
-    z "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    z "Some small text" (pauseVal=0.35, bounce=True, specBubble="flower_s")
     ju "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
     ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
     s "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
-    r "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
+    r "Some small text" (pauseVal=0.35, bounce=True, specBubble="flower_s")
     s "Some small text" (pauseVal=0.35, bounce=True, specBubble="round2_s")
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
@@ -811,11 +810,11 @@ label sigh_m():
     jump bubbles
     
 label round_m():    
-    z "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    z "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="flower_m")
     ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
-    r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
+    r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="flower_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round2_m")
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
@@ -879,11 +878,11 @@ label sigh_l():
     jump bubbles
     
 label round_l():    
-    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="flower_l")
     ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
-    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
+    r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="flower_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round2_l")
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
