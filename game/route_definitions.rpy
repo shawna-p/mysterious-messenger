@@ -115,7 +115,10 @@ init -6 python:
             else:
                 self.trigger_time = trigger_time
             self.participants = participants or []
-            self.original_participants = deepcopy(participants)
+            if len(self.participants) == 0:
+                self.original_participants = []
+            else:
+                self.original_participants = deepcopy(participants)
             self.plot_branch = plot_branch
 
             # If this chatroom has a VN after it, it goes here
