@@ -25,7 +25,7 @@ init 5:
     transform new_fade:
         alpha 0.0
         linear 0.2 alpha 1.0
-        0.5
+        0.2
         linear 0.5 alpha 0.0
 
     #***********************************
