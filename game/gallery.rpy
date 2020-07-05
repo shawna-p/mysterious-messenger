@@ -1,15 +1,43 @@
 python early:
 
-    ## This class holds the information needed to display
-    ## all the CGs associated with a certain album
     class Album(renpy.store.object):
+        """
+        Class which holds the information needed to display all the CGs
+        associated with a certain album.
+
+        Attributes:
+        -----------
+        img : string
+            The image name of the Displayable to use.
+        locked_img : string
+            The file path to the image that will be used as the "locked"
+            thumbnail icon.
+        thumbnail : string
+            The file path to the image that will be used for the thumbnail.
+        unlocked : bool
+            True if this image can be viewed by the player.
+        seen_in_album : bool
+            True if this image has been viewed full-screen in the album.                   
+        """
+
         def __init__(self, img, thumbnail=False, 
                     locked_img="CGs/album_unlock.png"):
-            # images should be 750x1334
+            """
+            Creates an Album object to store information about gallery images.
+
+            Parameters:
+            -----------
+            img : string
+                The image name of the Displayable to use. Typically 750x1334px.
+            thumbnail : string
+                The file path to the image that will be used for the thumbnail.
+                Should be 155x155px.
+            locked_img : string
+                The file path to the image that will be used in the "locked"
+                thumbnail icon. Should be 155x155px.
+            """
             self.img = img
             self.__locked_img = locked_img
-
-            # Thumbnails should be 155x155
             if thumbnail:
                 self.__thumbnail = thumbnail
             else:
@@ -21,15 +49,18 @@ python early:
             self.__seen_in_album = False
             
         def unlock(self):
-            global new_cg
+            """Unlock this image in the album."""
+
             if not self.unlocked:
                 self.unlocked = True
                 # Set a var so Album shows "NEW"
-                new_cg += 1            
+                store.new_cg += 1            
             renpy.retain_after_load()
 
         @property
         def thumbnail(self):
+            """Return the correct thumbnail for this image."""
+
             if self.unlocked:
                 return self.__thumbnail
             else:
@@ -39,12 +70,16 @@ python early:
         def thumbnail(self, new_thumb):
             self.__thumbnail = new_thumb
 
-        ## Retrieves the CG's thumbnail, regardless of unlock state
         def get_thumb(self):
+            """Retrieve the CG's thumbnail, regardless of its unlock state."""
+            
             return self.__thumbnail
         
         def check_if_seen(self):
-            # Check if the CG was 'shown' to the player
+            """
+            Check if this image was shown to the player and if so, unlock it.
+            """
+            
             if renpy.seen_image(self.img):
                 self.unlock()
 
@@ -54,18 +89,24 @@ python early:
 
         @seen_in_album.setter
         def seen_in_album(self, new_bool):
+            """Sets whether this image has been seen in the album yet."""
+
             if getattr(store, 'new_cg', False) and not self.__seen_in_album:
                 if new_bool:
                     store.new_cg -= 1
             self.__seen_in_album = new_bool
                 
         def __eq__(self, other):
+            """Checks for equality between two Album objects."""
+
             if getattr(other, 'img', False):
                 return self.img == other.img
             else:
                 return False
 
         def __ne__(self, other):
+            """Checks for equality between two Album objects."""
+
             if getattr(other, 'img', False):
                 return self.img != other.img
             else:
@@ -73,12 +114,14 @@ python early:
           
 init python:
 
-    ## This function updates p_album to have
-    ## the same items as update
-    def merge_albums(p_album, update):        
+    def merge_albums(p_album, update):   
+        """Update p_album to have the same items as update."""
+
+        print("Merging albums")
         for photo in update:
             if photo not in p_album:
                 p_album.append(photo)
+                print("Added a photo,",photo)
             else:
                 # Ensure thumbnails are updated
                 for p_photo in p_album:
@@ -86,9 +129,9 @@ init python:
                         p_photo.thumbnail = photo.get_thumb()
         return p_album
 
-    ## Makes sure all seen images are unlocked
-    ## in the player's album
     def check_for_CGs(all_albums):
+        """Make sure all seen images are unlocked in the player's album."""
+
         for p, a in all_albums:
             # Only need to go through persistent albums
             for cg in p:
@@ -96,16 +139,21 @@ init python:
         return
 
     def has_unseen(album):
+        """Return True if an album has a photo that hasn't been seen."""
+
         for photo in album:
             if not photo.seen_in_album and photo.unlocked:
                 return True
         return False
         
-    ## This is a callback for the translucent image displayed
-    ## on top of the CGs. It is draggable to the left and right
-    ## of the screen, and if successful, displays the next or 
-    ## previous available image to the player
     def drag_box(drags, drop):
+        """
+        A callback for the translucent image displayed on top of the CGs
+        when viewed full-screen. It is draggable to the left and right of
+        the screen, and if a drop is successful, it displays the next or
+        previous available album image.
+        """
+
         global album_info_for_CG, fullsizeCG, swipe_anim
         global prev_cg_left, prev_cg_right
         al = album_info_for_CG[0]
@@ -165,11 +213,10 @@ init python:
                             
             renpy.restart_interaction()
                 
-    ## This is a simple callback to hide or show
-    ## the "Close" sign when the image is clicked
     def toggle_close_drag():
-        global close_visible
-        close_visible = not close_visible
+        """A callback to hide or show the 'Close' sign."""
+
+        store.close_visible = not close_visible
         renpy.restart_interaction()
 
 
