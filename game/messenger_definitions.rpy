@@ -129,19 +129,8 @@ init -4 python:
                 bubble_style = "round_" + self.specBubble[-1:]
             elif self.specBubble[:7] == "square2":                
                 bubble_style = "square_" + self.specBubble[-1:]
-
             
-
             return self.who.file_id + '_' + bubble_style
-
-            # if self.specBubble == "spike_s" and self.who in [ja, ju]:
-            #     # Two variations on the small spike bubble
-            #     return 'spike_s2'
-            # elif self.specBubble == "cloud_l" and self.who in [y]:
-            #     return 'cloud_l2'
-            # #elif self.specBubble == "cloud_l" and self.who in [sa]:
-            # else:
-            #     return self.specBubble
 
         @property
         def spec_bubble_offset(self):

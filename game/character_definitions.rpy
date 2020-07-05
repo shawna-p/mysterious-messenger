@@ -490,6 +490,11 @@ init -5 python:
                 self.vn_char(what, **kwargs)
                 return
 
+            if (specBubble and specBubble[:7] == "round"
+                    and (self.file_id == 'r' or self.file_id == 'z')):
+                # Correct this to the new 'flower' variant if applicable
+                specBubble = "flower_" + specBubble[-1:]
+
             # If the player is texting, add this to the character's
             # TextMessage object instead
             if store.text_person is not None:
