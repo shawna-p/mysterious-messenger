@@ -367,6 +367,12 @@ init -6 python:
         route : RouteDay[]
             A giant list of RouteDay objects occasionally interspersed with
             strings like "Good End"
+        default_branch : RouteDay[]
+            A list of RouteDay objects. The first item in the list should
+            be a string like "Good End". The 'default' path for the player
+            to take; it should be the longest continuous route and is
+            typically the route the player will start on until/unless
+            they branch onto a different route later.
         """
 
         def __init__(self, default_branch, branch_list=None, 
@@ -400,6 +406,8 @@ init -6 python:
                 first list item in default_branch. Typically this is True
                 unless the route has no branching paths.           
             """
+
+            self.default_branch = default_branch
 
             if branch_list is None:
                 branch_list = []
