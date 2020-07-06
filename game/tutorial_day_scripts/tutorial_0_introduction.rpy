@@ -8,7 +8,7 @@
     # calls after it by using labels such as `starter_chat_incoming_ja` or 
     # `after_starter_chat`. You can also include a VN section before this
     # chatroom.
-    $ new_route_setup(route=tutorial_good_end)
+    $ new_route_setup(route=tutorial_route)
 
     # This tells the program which characters' profiles you want to see
     # on the hub screen / available for phone calls / etc
