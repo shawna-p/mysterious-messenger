@@ -7,6 +7,7 @@ init python:
         """
         Update this save file for compatibility with new versions.
         """
+
         while store._version != "2.1":
             float_ver = float(store._version)
             # Update persistent values to be compatible with v2.0            
@@ -44,6 +45,8 @@ init python:
                                             day.archive_list[
                                                 -1].chatroom_label)
                 store._version = '2.1'
+
+            store._version = "2.1"
                                         
 
     def find_route_endings(route, chatlist, titles):
@@ -202,7 +205,7 @@ init python:
 ## loading. It also advances the game day if real-time
 ## mode is active
 ########################################################     
-label after_load():    
+label after_load():
     python:
         if persistent.real_time:
             if persistent.load_instr == '+1 day':
@@ -288,6 +291,4 @@ label after_load():
     if popup_msg != "":
         show screen confirm(yes_action=Hide('confirm'), message=popup_msg)
     return     
-
-    
 
