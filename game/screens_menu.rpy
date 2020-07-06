@@ -20,8 +20,9 @@ init python:
 
     import time
 
-    ## Used to get the player's name from input
     class NameInput(InputValue):
+        """Retrieve the player's name from input."""
+
         def __init__(self):
             self.the_name = "Rainbow"
                                     
@@ -66,25 +67,30 @@ init python:
             # renpy.run(self.Disable())                
             # raise renpy.IgnoreEvent()
             
-    ## Checks if the given string has at least one letter from the alphabet
     def has_alpha(mystring):
+        """Check if the given string has at least one alphabet character."""
         for c in "aeiouyAEIOUYbcdfghjklmnpqrstvwxzBCDFGHJKLMNPQRSTVWXZ":
             if c in mystring:
                 return True
         return False
 
-    ## Ensures the given string only includes alphabet characters and 
-    ## spaces, dashes, or apostrophes
     def has_valid_chars(mystring):
+        """
+        Check if the given string includes only valid alphabet characters.
+        Also includes spaces, dashes, and apostrophes.
+        """
+
         for c in mystring:
             if c not in " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ":
                 return False
         return True
         
-    ## This picks a greeting depending on the time of day and plays it
-    ## Makes use of a class called DayGreeting to find sound clips and the 
-    ## corresponding translations
-    def chat_greet():  
+    def chat_greet():
+        """
+        Pick a greeting depending on the time of day and play it.
+        Makes use of a DayGreeting class to find sound clips and
+        corresponding translations.
+        """ 
         global greet_text_english, greet_text_korean 
         global greet_char, greet_list
         greet_char = renpy.random.choice(greet_list)
@@ -136,8 +142,9 @@ init python:
                             the_greeting].sound_file, channel="voice_sfx")
         
         
-    ## Sets the player's pronouns, if they change them
     def set_pronouns():
+        """Set the player's pronouns and pronoun variables."""
+
         global they, them, their, theirs, themself, they_re
         global They, Them, Their, Theirs, Themself, They_re
         global is_are, has_have, s_verb
@@ -191,8 +198,9 @@ init python:
             s_verb = ""
         renpy.retain_after_load()
 
-    ## Ensures the player's name and profile picture are correctly set
     def set_name_pfp():
+        """Ensure the player's name and profile picture are set correctly."""
+
         global name, persistent
         name = persistent.name
         # if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
