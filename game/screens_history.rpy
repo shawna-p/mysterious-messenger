@@ -108,9 +108,9 @@ image history_chat_alone = Transform("Menu Screens/History/chat_history_alone.pn
 
 init python:
 
-    # This function lets the program know whether or not it
-    # should display this particular item in the history screen
     def display_history(item, index, archive_list):
+        """Return True if the History should display this particular item."""
+        
         global persistent
         # First check if it's a chatroom
         if (isinstance(item, ChatHistory)
@@ -132,16 +132,17 @@ init python:
         # Otherwise all has failed so don't display it
         return False
 
-    ## Returns true if there is at least one phone call in the
-    ## given list that has been seen
     def calls_available_history(calls):
+        """Return True if at least one phone call in calls has been seen."""
+        
         for c in calls:
             if persistent.completed_chatrooms.get(c):
                 return True
         return False
 
-    ## Finds the caller of this phone call given its label
     def get_caller(c):
+        """Find the caller of this phone call from its label."""
+
         file_id = c.split('_')[-1]
         for p in store.all_characters:
             if file_id == p.file_id:
