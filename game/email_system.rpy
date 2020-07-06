@@ -820,8 +820,7 @@ screen open_email(e):
                             + '/' + e.sent_time.day):
                                 color '#fff' 
                                 size 27
-                    text ('[[Time] ' + e.sent_time.twelve_hour + ':' 
-                            + e.sent_time.minute + ' ' + e.sent_time.am_pm):
+                    text ('[[Time] ' + e.sent_time.get_twelve_hour()):
                                 size 27 
                                 color '#fff'
                 

@@ -8,14 +8,14 @@ init -6 python:
     renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
     
     def set_voicesfx_volume(value=None):
+        """Set the volume of the voice sfx channel."""
+
         if value is None:
             return MixerValue('voice_sfx')
         else:
             return SetMixer('voice_sfx', value)
             
     
-    ## A class that makes it much easier to fetch the time for any
-    ## given chat entry/text message/phone call/etc
     class MyTime(object):
         """
         A class that fetches the current time/date information and stores
@@ -110,7 +110,19 @@ init -6 python:
             return (self.twelve_hour + ":" + self.minute
                 + " " + self.am_pm + ", " + self.day + "/"
                 + self.month_num)
+        
+        def get_twelve_hour(self):
+            """Return the time formatted as 10:45 AM"""
+            
+            return self.twelve_hour + ':' + self.minute + ' ' + self.am_pm
 
+        def get_text_msg_time(self):
+            """Return the time formatted for text messages."""
+
+            return (self.day + '/' + self.month_num 
+                        + '/' + self.year + ' ' 
+                        + self.twelve_hour + ':' 
+                        + self.minute + self.am_pm)
             
     def upTime(day=None, thetime=None):
         """
@@ -149,6 +161,15 @@ init -6 python:
         """Set up variables for a new route."""
 
         global chat_archive, current_chatroom, starter_story
+
+        if (isinstance(route, store.Route) or isinstance(route, Route)):
+            # Got a Route object; use the default route
+            try:
+                route = route.default_branch
+            except AttributeError:
+                setattr(route, 'default_branch', [])
+                print("Error: Given Route object does not have a default_branch field.")
+
         if (len(route) > 0 
                 and (isinstance(route[0], RouteDay) 
                     or isinstance(route[0], store.RouteDay))):

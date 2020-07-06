@@ -82,10 +82,7 @@ screen text_hub_display(i):
                     spacing 30
                 else:
                     spacing 10
-                text (text_time.day + '/' + text_time.month_num 
-                        + '/' + text_time.year + ' ' 
-                        + text_time.twelve_hour + ':' 
-                        + text_time.minute + text_time.am_pm)
+                text text_time.get_text_msg_time()
                 hbox:
                     if last_text and text_read:
                         add 'read_text_envelope'
@@ -136,6 +133,8 @@ style text_timestamp_hbox:
 
 init python:
     def allocate_text_popup():
+        """Allocate a screen for the text message popup."""
+
         possible_screens = ["text_msg_popup", "text_pop_2", "text_pop_3"]
         available_screens = [ x for x in possible_screens 
                                 if not renpy.get_screen(x) ]
@@ -357,6 +356,8 @@ screen text_date_separator(text_time):
 
 init python:
     def award_text_hp(who):
+        """Award the player a heart point with who."""
+
         who.text_msg.heart_person.increase_heart(who.text_msg.bad_heart)
         if who.text_msg.heart_person == store.sa:
             store.r.increase_heart(who.text_msg.bad_heart)
@@ -472,9 +473,7 @@ screen text_animation(i, animate=False, anti=False):
         my_width = int(z[0])
         my_height = int(z[1])
         
-        text_time = (i.thetime.twelve_hour 
-                        + ':' + i.thetime.minute 
-                        + ' ' + i.thetime.am_pm)
+        text_time = i.thetime.get_twelve_hour()
 
         if anti:
             transformVar = invisible
