@@ -1,10 +1,25 @@
 
 init python:
-    ## This corrects the dialogue into a filepath for the program
-    ## and unlocks the CG or adds it to the to-unlock list
     def cg_helper(what, who=False, instant_unlock=False):
+        """
+        Correct the dialogue into a filepath for unlocking a CG or
+        adding it to an unlock list to unlock later.
+        
+        Parameters:
+        -----------
+        what : string
+            The dialogue that triggered this CG to be unlocked. Generally
+            a simplified path to the CG.
+        who : ChatCharacter
+            The person who sent the message with the CG.
+        instant_unlock : bool
+            True if this CG should be unlocked immediately. Otherwise, it is
+            added to a list and unlocked later (used, for example, in
+            unlocking CGs sent through text message).
+        """
+
         if what[:3] == "cg ":
-            # don't need to add it
+            # don't need to add cg to the start of this filepath
             filepath = what
         else:
             filepath = "cg " + what
@@ -23,6 +38,8 @@ init python:
         return filepath
 
     def smallCG(bigCG):
+        """Return a downsized version of bigCG."""
+
         if bigCG[:3] == "cg ":
             pass
         else:

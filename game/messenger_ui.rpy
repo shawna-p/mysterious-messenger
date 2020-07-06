@@ -180,9 +180,9 @@ image in_chat_display = DynamicDisplayable(in_chat_fn)
 default myClock = Clock(120) 
 
 init python:
-    ## Used for a dynamic displayable to display the 
-    ## names of the characters in the chatroom
     def in_chat_fn(st, at):
+        """Display the names of the characters in the chatroom."""
+
         list_of_char = ''
         for index, chara in enumerate(store.in_chat):
             list_of_char += chara
@@ -191,9 +191,9 @@ init python:
 
         return Text(list_of_char, style='in_chat_list_style'), 0.1
 
-    ## Displays the charging or fully charged icons depending on
-    ## battery level
     def battery_charge_icon(st, at):    
+        """Display the charging or fully charged battery icons."""
+
         # 0 = no idea what the status is, or -1
         # 1 = running on battery, not plugged in
         # 2 = plugged in, no battery available
@@ -207,9 +207,9 @@ init python:
         else:
             return Transform('transparent', size=(18,26)), 0.5
 
-    ## Returns the correct battery level image to use depending
-    ## on remaining power
     def battery_level_bar(st, at):
+        """Return the battery level image to use depending on remaining power."""
+
         battery = renpy.display.behavior.pygame.power.get_power_info()
         if battery.percent > 50:
             img1 = "battery_high"
@@ -221,9 +221,12 @@ init python:
         return Fixed(img1, Fixed('charging_icon', 
             size=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
-    ## Returns a compound image of the battery empty image plus the
-    ## correct charging/charged image to make up a full bar icon
     def battery_empty_bar(st, at):
+        """
+        Return a compound image of the battery empty image plus the
+        correct charging/charged image to make up a full battery icon.
+        """
+
         battery = renpy.display.behavior.pygame.power.get_power_info()
         return Fixed("battery_empty_img", 
                 Fixed('charging_icon', 
@@ -370,6 +373,8 @@ default using_timed_menus = False
 init python:
 
     def timed_answer_modifier(count_time):
+        """Return count_time modified to account for the current pv."""
+
         modifier = 1.00
         if renpy.is_skipping():
             # Max Speed active

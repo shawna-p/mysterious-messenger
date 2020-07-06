@@ -1,7 +1,8 @@
 init -1 python:
 
-    ## Picks a random position for the star to appear at
     def star_func(trans,st,at):
+        """Display the star at a random position."""
+
         trans.ypos = renpy.random.random()
         trans.xpos = renpy.random.random()
         return None

@@ -3,9 +3,9 @@
 #************************************ 
     
 init python:
-    ## This function allows the program to show up to three
-    ## heart icons on the screen at once
     def allocate_heart_screen():
+        """Allocate a screen to display a heart icon."""
+
         possible_screens = ["heart_icon_screen", "hicon2", "hicon3"]
         available_screens = [ x for x in possible_screens 
                                 if not renpy.get_screen(x) ]
@@ -17,10 +17,9 @@ init python:
             renpy.hide_screen(possible_screens[0])
             return possible_screens[0]
     
-    ## This allocates a notification screen that can
-    ## be used to display popup messages
-    ## Here it is used to display heart icon messages
     def allocate_notification_screen(can_pause=False):
+        """Allocate a screen to display a popup notification."""
+
         possible_screens = ["stackable_notifications", 
                             "stackable_notifications_2",
                             "stackable_notifications_3",
@@ -37,9 +36,9 @@ init python:
             renpy.hide_screen(possible_screens[0])
             return possible_screens[0]
     
-    ## This function is just a slightly quicker way to hide all the
-    ## allocated notification screens
     def hide_stackable_notifications():
+        """Hide all notification screens."""
+
         renpy.hide_screen('stackable_notifications')
         renpy.hide_screen('stackable_notifications_2')
         renpy.hide_screen('stackable_notifications_3')
@@ -47,8 +46,9 @@ init python:
         renpy.hide_screen('stackable_notifications_5')
         return
 
-    # Hide all the heart icon screens
     def hide_heart_icons():
+        """Hide all the heart icon screens."""
+
         renpy.hide_screen('heart_icon_screen')
         renpy.hide_screen('hicon2')
         renpy.hide_screen('hicon3')
@@ -203,10 +203,11 @@ screen heart_break_screen(character):
 # Chat Speed Modifiers
 #####################################
 
-## This speeds up/slows down the speed of the chat
-
 init python:
+
     def speed_num_fn(st, at):
+        """Display the SPEED number in-chat."""
+
         speednum = "!!"
         # Minimum pv is 0.1
         # Maximum is ~1.4

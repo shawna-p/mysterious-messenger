@@ -268,7 +268,7 @@ init -4 python:
 
     class ReplayEntry(renpy.store.object):
         """
-        Class that stores the information needed chatroom messages that
+        Class that stores the information needed for chatroom messages that
         are replayed in the history.
 
         Attributes:

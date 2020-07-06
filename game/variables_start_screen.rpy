@@ -1,9 +1,22 @@
 init -6 python:
-    ## This class makes it easier to keep track of the different 
-    ## daily greetings. Most don't have translations, so they
-    ## default to a generic text message
     class DayGreeting(object):
+        """
+        Class to keep track of different daily greetings. Can include
+        Korean/English translations.
+
+        Attributes:
+        -----------
+        sound_file : string
+            Path to the file for the greeting sound.
+        english : string
+            Dialogue of the greeting, in English.
+        korean : string
+            Dialogue of the greeting, in Korean.
+        """
+
         def __init__(self, sound_file, english=False, korean=False):
+            """Creates a DayGreeting object to store a daily greeting."""
+        
             self.sound_file = sound_file
             self.english = english
             self.korean = korean
