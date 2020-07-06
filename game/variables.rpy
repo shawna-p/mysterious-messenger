@@ -520,7 +520,7 @@ image blue_chatcircle:
         alignaround(.5, .5)
         linear 4 rotate 420
         repeat
-image chat_text = "Menu Screens/Chat Hub/main01_chattext.png"
+
 image chat_icon = "Menu Screens/Chat Hub/main01_chaticon.png"
 image gray_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn.png"
 image gray_mainbtn_hover = "btn_hover:gray_mainbtn"
