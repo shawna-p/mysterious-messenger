@@ -547,7 +547,7 @@ init python:
                 test_pair = (random.randint(the_min+1, the_max),
                             random.randint(1, min( ((len(txt)-10)//x), 6)))
                 if loop_counter > 20:
-                    print("looped to 20")
+                    # print("looped to 20")
                     break
             if loop_counter <= 20:
                 random_nums.append( test_pair )
@@ -558,10 +558,10 @@ init python:
             for i in range(stringlen):
                 if txt[position+i] == '{':
                     symbol_str += '{'
-                    print("Found a {{ at", position+i, ", ignoring")
+                    # print("Found a {{ at", position+i, ", ignoring")
                 elif txt[position+i] == '\n':
                     symbol_str += '\n'
-                    print("Found a newline")
+                    # print("Found a newline")
                 else:
                     symbol_str += random.choice(symbols)
             # new_txt will be whatever txt was up until the position
