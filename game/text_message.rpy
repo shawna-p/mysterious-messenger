@@ -363,7 +363,7 @@ init python:
             store.r.increase_heart(who.text_msg.bad_heart)
         elif who.text_msg.heart_person == store.r:
             store.sa.increase_heart(who.text_msg.bad_heart)
-        if not persistent.heart_notifications:
+        if persistent.animated_icons:
             renpy.show_screen('heart_icon_screen', 
                 character=who.text_msg.heart_person)
         else:
