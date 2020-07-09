@@ -17,6 +17,19 @@ init python:
             renpy.hide_screen(possible_screens[0])
             return possible_screens[0]
     
+    def allocate_hg_screen():
+        """Allocate a screen to award an hourglass."""
+
+        possible_screens = ['hourglass_animation', 'hg_icon2', 'hg_icon3']
+        available_screens = [ x for x in possible_screens 
+                                if not renpy.get_screen(x) ]
+        
+        if available_screens:
+            return available_screens[0]
+        else:
+            renpy.hide_screen(possible_screens[0])
+            return possible_screens[0]
+
     def allocate_notification_screen(can_pause=False):
         """Allocate a screen to display a popup notification."""
 
@@ -68,9 +81,9 @@ label heart_icon(character, bad=False):
                     r.increase_heart(bad)
                 chatroom_hp += 1
                 persistent.HP += 1
-            if (not observing and not persistent.heart_notifications):
+            if (not observing and persistent.animated_icons):
                 renpy.show_screen(allocate_heart_screen(), character=character)
-            elif (not observing and persistent.heart_notifications):
+            elif (not observing and not persistent.animated_icons):
                 msg = character.name + " +1"
                 renpy.show_screen(allocate_notification_screen(True), msg)
     # This is shown during a real-time text conversation
@@ -81,7 +94,7 @@ label heart_icon(character, bad=False):
         elif character == sa:
             $ r.increase_heart(bad)
         $ persistent.HP += 1
-        if persistent.heart_notifications:
+        if not persistent.animated_icons:
             $ msg = character.name + " +1"
             $ renpy.show_screen(allocate_notification_screen(True), msg)
         else:
@@ -159,9 +172,9 @@ label heart_break(character):
                 sa.decrease_heart()
             chatroom_hp -= 1
             persistent.HP -= 1     
-    if (not observing and not persistent.heart_notifications):
+    if (not observing and persistent.animated_icons):
         show screen heart_break_screen(character)
-    elif (not observing and persistent.heart_notifications):
+    elif (not observing and not persistent.animated_icons):
         $ msg = character.name + " -1"
         $ renpy.show_screen(allocate_notification_screen(True), msg)
     return
@@ -197,6 +210,79 @@ screen heart_break_screen(character):
                              character)
         
     timer 0.6 action [Hide('heart_break_screen')]
+
+
+image hg_1 = "Heart Point/hourglass_1.png"
+image hg_2 = "Heart Point/hourglass_2.png"
+
+## Screen that displays the hourglass animation when the player
+## receives an hourglass
+screen hourglass_animation(hide_screen='hourglass_animation'):
+
+    zorder 20
+
+    add 'hg_1' at hourglass_anim(0.0) align (0.5, 0.5)
+    add 'hg_2' at hourglass_anim_2(firstbouncein 
+            + firstbounceout + secbouncein, 0.7):
+        align (0.5, 0.5)   
+
+    timer arbitrary_delay+smallzoom+0.3+zoomouttime:
+        action Hide(hide_screen)
+
+## Additional screens for allocation
+screen hg_icon2():
+    zorder 20
+    use hourglass_animation('hg_icon2')
+
+screen hg_icon3():
+    zorder 20
+    use hourglass_animation('hg_icon3')
+
+
+transform hourglass_anim(delay=0.0):
+    zoom 1.0
+    parallel:
+        # Bounce 1
+        easein firstbouncein zoom 2.6
+        easeout firstbounceout zoom 1.0
+        # Bounce 2
+        easein secbouncein zoom 2.1
+        easeout smallzoom zoom 1.15
+        # Grow larger
+        easein bigzoom zoom 5.75
+    parallel:
+        # And fade out
+        linear firstbouncein + firstbounceout + secbouncein + smallzoom
+        linear fadeinout alpha 0.0
+
+transform hourglass_anim_2(delay=0.0, proportion=1.0):
+    alpha 0.0 zoom proportion*2.1#1.83
+    linear delay
+    parallel:
+        # Image gets smaller
+        easeout smallzoom zoom 1.15*proportion#1.0
+    parallel:
+        # Image becomes visible
+        linear arbitrary_delay
+        linear 0.3 alpha 1.0
+    parallel:
+        # Image becomes larger
+        easeout smallzoom
+        easein bigzoom zoom proportion*5.75#5.0
+    parallel:
+        # Image becomes transparent
+        linear arbitrary_delay+smallzoom
+        linear zoomouttime-0.3 alpha 0.0
+
+
+define firstbouncein = 0.23 # 1.0
+define firstbounceout = 0.23 # 0.8
+define secbouncein = 0.2 # 0.5
+define smallzoom = 0.32 # 0.7
+define bigzoom = 1.2 # 2.0
+define arbitrary_delay = 0.1 # 0.3
+define zoomouttime = 0.8 # 1.6
+define fadeinout = 0.6
 
 
 #####################################
