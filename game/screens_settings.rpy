@@ -730,8 +730,8 @@ screen preferences():
                     use toggle_buttons('banners', "Chatroom Banners")
                     use toggle_buttons('autoanswer_timed_menus', 
                                         "Auto-Answer Timed Menus")
-                    use toggle_buttons('heart_notifications', 
-                                        "Heart Icon Notifications")
+                    use toggle_buttons('animated_icons', 
+                                        "Animated Icons")
                     use toggle_buttons('dialogue_outlines', 
                                         "Dialogue Outlines")
                     
@@ -801,6 +801,8 @@ screen toggle_buttons(field, title):
             text_style 'toggle_panel_button_text'
             if len(title) > 16:
                 text_size 25
+            if len(title) > 24:
+                text_size 22
             action ToggleField(persistent, field)
 
 transform toggle_btn_transform:
