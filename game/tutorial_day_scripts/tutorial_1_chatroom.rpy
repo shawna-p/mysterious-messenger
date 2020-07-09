@@ -298,27 +298,28 @@ label heart_icons():
     z "or it's hard to tell them apart,"
     z "There's also an option to turn them into text popups that look like this:"
     show screen stackable_notifications(z.name + " +1")
-    z "Would you like to use heart icons or the text notifications?"
+    z "The animation when you receive an hourglass in a chatroom will also be turned into a text popup."
+    z "Would you like to use animated icons or the text notifications?"
     call answer
     menu:
-        "I want the regular heart icons.":
-            m "I want the regular heart icons." (pauseVal=0)
-            $ persistent.heart_notifications = False
+        "I want the regular animated icons.":
+            m "I want the regular animated icons." (pauseVal=0)
+            $ persistent.animated_icons = True
             z "{=curly}Got it!{/=curly}" (bounce=True)
             z "You'll see the regular heart animation then."
 
         "I want the text notifications.":
             m "I want the text notifications." (pauseVal=0)
-            $ persistent.heart_notifications = True
+            $ persistent.animated_icons = False
             z "{=curly}Got it!{/=curly}" (bounce=True)
             z "You'll see the text popup whenever someone likes your response."
 
     z "If you change your mind on what kind of icon you want,"
-    z "There's a toggle in the {b}Settings{/b} called {b}Heart Icon Text Notifications{/b}"
+    z "There's a toggle in the {b}Settings{/b} called {b}Animated Icons{/b}"
     
     z "{=sser2}Anyway, so getting a heart point will look like this:{/=sser2}"
     call heart_icon(z) 
-    if persistent.heart_notifications:
+    if not persistent.animated_icons:
         z "And you can lose heart points, too."
         z "You just write {b}call heart_break(z){/b} and give it the ChatCharacter variable you're losing a point with instead of z"
     else:
