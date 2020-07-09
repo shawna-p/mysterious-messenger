@@ -348,6 +348,8 @@ default current_chatroom = ChatHistory('title', 'chatroom_label', '00:00')
 default most_recent_chat = None
 default name = 'Rainbow'
 default hacked_effect = False
+# True if the player can receive hourglasses in chatrooms
+default persistent.receive_hg = True
 
 # Checks if the player is on a route or not
 default persistent.on_route = False
