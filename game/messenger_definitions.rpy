@@ -344,7 +344,7 @@ init -4 python:
         bounce : bool
             True if this message should 'bounce' when it animates in.
             Used for glowing and special speech bubble variants.
-        specBubble : string or Nonee
+        specBubble : string or None
             String containing part of the image path to the relevant
             speech bubble.
 
@@ -361,6 +361,8 @@ init -4 python:
         # use the default one
         if pauseVal is None:
             pauseVal = pv
+        else:
+            pauseVal *= pv
 
         # Now check to see if the most recent message was skipped
         # Pausing in the middle of the chat often causes the
@@ -405,14 +407,47 @@ init -4 python:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
         
+        # Some special bubbles will award the player with a heart icon
+        award_hourglass(specBubble)
+
+
         # Add this entry to the chatlog
         chatlog.append(ChatEntry(who, what, upTime(), 
                             img, bounce, specBubble))
         # Create a rollback checkpoint
         renpy.checkpoint()
         
-    
-            
+    def award_hourglass(specBubble):
+        """Show the hourglass icon and award the player a heart point."""
+
+        if specBubble not in ['cloud_l', 'round_l', 'square_l', 'flower_l',
+                'square2_l', 'round2_l']:
+            return
+
+        # Don't give HG when rewatching a chatroom, or not participating,
+        # or if receiving hourglasses is turned off
+        if (store.observing or store.current_chatroom.expired
+                or not store.persistent.receive_hg):
+            return
+        
+        # There'll be some random function here
+        if store.hourglass_bag.draw():
+            if not persistent.animated_icons:
+                renpy.show_screen(allocate_notification_screen(True),
+                    message="Hourglass +1")
+            else:
+                renpy.show_screen(allocate_hg_screen())
+            renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
+            store.chatroom_hg += 1
+        
+        if True not in store.hourglass_bag.bag:
+            store.hourglass_bag.new_choices([ False for i in range(8) ]
+                + [True for i in range(2) ])
+
+
+
+        
+
     def pauseFailsafe():
         """
         Check if the previous entry was successfully added to the chatlog,
@@ -546,7 +581,9 @@ default oldPV = pv
 default bubbles_to_keep = 20
 # Keeps track of the current background for calls such as "shake"
 default current_background = "morning"
-
+# Semi-randomizes awarding hourglasses
+default hourglass_bag = RandomBag([ False for i in range(8) ]
+    + [True for i in range(2) ])
 
     
     
