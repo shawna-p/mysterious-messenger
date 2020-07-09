@@ -64,7 +64,8 @@ init python:
             """Reset the bag with new choices."""
 
             self.choices = choices
-            self.bag = [ ]
+            self.bag = list(self.choices)
+            renpy.random.shuffle(self.bag)
             
     class SpaceThought(renpy.store.object):
         """
