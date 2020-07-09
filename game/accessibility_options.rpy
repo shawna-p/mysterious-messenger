@@ -16,6 +16,8 @@ default persistent.audio_captions = False
 default persistent.autoanswer_timed_menus = False
 # Displays notifications instead of heart icons
 default persistent.heart_notifications = False
+# New version of the above option
+default persistent.animated_icons = True
 # Adds outline to VN dialogue
 default persistent.dialogue_outlines = False
 # Controls the contrast of the starry night background

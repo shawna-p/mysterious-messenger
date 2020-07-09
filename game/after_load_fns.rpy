@@ -8,14 +8,18 @@ init python:
         Update this save file for compatibility with new versions.
         """
 
-        while store._version != "2.1":
-            float_ver = float(store._version)
-            # Update persistent values to be compatible with v2.0            
+        while store._version != "2.2":
+            if store._version == "2.1.1":
+                float_ver = 2.1001
+            else:
+                float_ver = float(store._version)
+                        
+            # Update persistent values to be compatible with v2.0           
             if float_ver < 2.00:
                 reset_old_persistent()
                 store._version = '2.00'
 
-
+            # Update Routes for the history screen
             if float_ver <= 2.00:
                 try:
                     for r in all_routes:
@@ -46,7 +50,12 @@ init python:
                                                 -1].chatroom_label)
                 store._version = '2.1'
 
-            store._version = "2.1"
+            # persistent.heart_notification changed to persistent.animated_icons
+            if float_ver < 2.2:
+                store.persistent.animated_icons = not store.persistent.heart_notifications
+                store._version = "2.2"
+            
+            store._version = "2.2"
                                         
 
     def find_route_endings(route, chatlist, titles):
@@ -105,6 +114,7 @@ init python:
         temp_audio_captions = store.persistent.__dict__['audio_captions']
         temp_autoanswer_timed_menus = store.persistent.__dict__['autoanswer_timed_menus']
         temp_heart_notifications = store.persistent.__dict__['heart_notifications']
+        temp_animated_icons = store.persistent.__dict__['animated_icons']
         temp_dialogue_outlines = store.persistent.__dict__['dialogue_outlines']
         temp_starry_contrast = store.persistent.__dict__['starry_contrast']
         temp_window_darken_pct = store.persistent.__dict__['window_darken_pct']
@@ -140,6 +150,7 @@ init python:
         store.persistent.audio_captions = temp_audio_captions
         store.persistent.autoanswer_timed_menus = temp_autoanswer_timed_menus
         store.persistent.heart_notifications = temp_heart_notifications
+        store.persistent.animated_icons = temp_animated_icons
         store.persistent.dialogue_outlines = temp_dialogue_outlines
         store.persistent.starry_contrast = temp_starry_contrast
         store.persistent.window_darken_pct = temp_window_darken_pct
