@@ -495,6 +495,8 @@ init -4 python:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
             
+        award_hourglass(chatbackup.specBubble)
+
         chatlog.append(ChatEntry(chatbackup.who, chatbackup.what, 
                                     upTime(), chatbackup.img, 
                                     chatbackup.bounce, 
