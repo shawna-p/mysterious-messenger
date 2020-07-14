@@ -23,7 +23,8 @@ screen select_history():
         frame: 
             vbox:      
                 button:
-                    action Show('photo_album', Dissolve(0.5))
+                    action [Function(check_for_CGs, all_albums=all_albums),
+                            Show('photo_album', Dissolve(0.5))]
                     hbox:
                         add 'history_icon_album' yalign 0.5
                         text 'ALBUM'
