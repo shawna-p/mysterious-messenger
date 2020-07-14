@@ -202,8 +202,13 @@ init python:
         # is making a choice/on a choice menu
         store.choosing = False
         print("all_albums", all_albums)
-        for p_album, reg_album in all_albums:
-            merge_albums(p_album, reg_album)
+
+        if isinstance(all_albums[0], list):    
+            for p_album, reg_album in all_albums:
+                merge_albums(p_album, reg_album)
+        else: # Should be a string
+            for alb in all_albums:
+                merge_albums_string(alb)
         
         set_name_pfp()
             
