@@ -69,7 +69,7 @@ label splashscreen():
 label before_main_menu():
     if persistent.first_boot:
         call screen profile_pic
-        $ define_variables()
+    $ define_variables()
     return
     
 screen loading_screen():
