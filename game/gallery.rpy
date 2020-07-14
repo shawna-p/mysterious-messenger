@@ -36,6 +36,7 @@ python early:
                 The file path to the image that will be used in the "locked"
                 thumbnail icon. Should be 155x155px.
             """
+            
             self.img = img
             self.__locked_img = locked_img
             if thumbnail:
@@ -114,29 +115,63 @@ python early:
           
 init python:
 
-    def merge_albums(p_album, update):   
-        """Update p_album to have the same items as update."""
+    import string
 
-        print("Merging albums")
+    def merge_albums(p_album, update):   
+        """
+        Update p_album to have the same items as update. Ensures that the
+        unlocked status of the photo is preserved.
+        """
+        
+        # Add photos in update to p_album
         for photo in update:
             if photo not in p_album:
                 p_album.append(photo)
-                print("Added a photo,",photo)
             else:
                 # Ensure thumbnails are updated
                 for p_photo in p_album:
                     if photo == p_photo:
                         p_photo.thumbnail = photo.get_thumb()
+        # Remove photos in p_album that aren't in update
+        for photo in p_album:
+            if photo not in update:
+                p_album.remove(photo)
         return p_album
+
+    def merge_albums_string(alb):
+        """Update persistent albums to be consistent with regular albums."""
+        
+        if alb[-6:] != "_album":
+            alb += "_album"
+        reg_album = getattr(store, convert_to_file_name(alb))
+        per_album = getattr(store.persistent, convert_to_file_name(alb))
+
+        merge_albums(per_album, reg_album)
 
     def check_for_CGs(all_albums):
         """Make sure all seen images are unlocked in the player's album."""
 
-        for p, a in all_albums:
-            # Only need to go through persistent albums
-            for cg in p:
-                cg.check_if_seen()
+        if isinstance(all_albums[0], list):
+            for p, a in all_albums:
+                # Only need to go through persistent albums
+                for cg in p:
+                    cg.check_if_seen()
+        else:
+            for alb in all_albums:
+                a = alb
+                if alb[-6:] != "_album":
+                    a += "_album"                
+                per_album = getattr(store.persistent, convert_to_file_name(a))
+                for cg in per_album:
+                    cg.check_if_seen()
         return
+
+    def add_to_album(album, photo_list):
+        """Add the photos in photo_list to album."""
+
+        for photo in photo_list:
+            if photo not in album:
+                album.append(photo)
 
     def has_unseen(album):
         """Return True if an album has a photo that hasn't been seen."""
@@ -145,6 +180,54 @@ init python:
             if not photo.seen_in_album and photo.unlocked:
                 return True
         return False
+
+    def get_char_from_file_id(file_id):
+        """
+        Return the character name associated with the given file_id, or a
+        capitalized version of the file_id otherwise.
+
+        Used to retrieve Album titles/labels.
+        """
+
+        for char in store.all_characters:
+            if char.file_id == file_id:
+                return char.name
+        
+        return string.capwords(file_id)
+
+    def convert_to_file_name(file_id):
+        """Convert file_id into a computer-readable format for file names."""
+
+        new_id = file_id
+
+        if ' ' in file_id:
+            new_id = new_id.replace(' ', '_')
+        if "'" in file_id:
+            new_id = new_id.replace("'", "")
+        
+        return new_id.lower()
+
+
+    def hide_albums(album_list):
+        """Hide the albums in album_list unless they have an unlocked photo."""
+
+        global all_albums        
+        has_unlocked = False
+
+        for album in album_list:
+            for photo in getattr(store.persistent, album + "_album"):
+                if photo.unlocked:
+                    # This album can remain visible
+                    has_unlocked = True
+                    break
+            if not has_unlocked:
+                # None of the photos in this album are unlocked;
+                # it shouldn't be visible in all_albums
+                if album in all_albums:
+                    all_albums.remove(album)
+            has_unlocked = False
+            
+
         
     def drag_box(drags, drop):
         """
@@ -219,23 +302,8 @@ init python:
         store.close_visible = not close_visible
         renpy.restart_interaction()
 
-
-#************************************
-# CGs
-#************************************
-
-# CGs are automatically resized in the chatroom, but you have to
-# make sure the original dimensions are 750x1334
-# The name of the cg must be "cg " + the name of the album minus
-# "album" e.g. ju_album -> "ju", common_album -> "common"
-# + a number or some other indicator of what the image is
-image cg common_1 = "CGs/common_album/cg-1.png"
-image cg common_2 = "CGs/common_album/cg-2.png"
-image cg common_3 = "CGs/common_album/cg-3.png"
-
-image cg s_1 = "CGs/s_album/cg-1.png"
-
-image cg r_1 = "CGs/r_album/cg-1.png"
+    
+            
 
 default fullsizeCG = "cg common_1"
 # This lets the player know if there are new CGs in
@@ -244,76 +312,8 @@ default new_cg = 0
 
 image cg_frame = 'CGs/photo_frame.png'
 image cg_frame_dark = 'CGs/photo_frame_dark.png'
-image cg_label_common = 'CGs/label_bg_common.png'  
-image cg_label_ja = 'CGs/label_bg_ja.png'  
-image cg_label_ju = 'CGs/label_bg_ju.png'  
-image cg_label_other = 'CGs/label_bg_other.png'  
-image cg_label_r = 'CGs/label_bg_r.png'  
-image cg_label_s = 'CGs/label_bg_s.png'  
-image cg_label_u = 'CGs/label_bg_u.png'  
-image cg_label_v = 'CGs/label_bg_v.png'  
-image cg_label_y = 'CGs/label_bg_y.png'  
-image cg_label_z = 'CGs/label_bg_z.png' 
-
-image ja_album_cover = 'CGs/ja_album_cover.png'
-image ju_album_cover = 'CGs/ju_album_cover.png'
-image r_album_cover = 'CGs/r_album_cover.png'
-image s_album_cover = 'CGs/s_album_cover.png'
-image u_album_cover = 'CGs/u_album_cover.png'
-image v_album_cover = 'CGs/v_album_cover.png'
-image y_album_cover = 'CGs/y_album_cover.png'
-image z_album_cover = 'CGs/z_album_cover.png'
-image common_album_cover = 'CGs/common_album_cover.png'
 
 image translucent_img = 'translucent.png'
-    
-#************************************
-# Album Declarations
-#************************************
-## These are the persistent photo album variables
-## They let you keep unlocked photos available across
-## different playthroughs
-default persistent.ja_album = []
-default persistent.ju_album = []
-default persistent.r_album = []
-default persistent.s_album = []
-default persistent.u_album = []
-default persistent.v_album = []
-default persistent.y_album = []
-default persistent.z_album = []
-default persistent.common_album = []
-
-## In order to allow for albums to be easily expanded,
-## these variables are used. This is where you actually
-## declare all of the Album objects you need
-default ja_album = [ ]
-default ju_album = [ ]
-default r_album = [ Album("cg r_1") ]
-default s_album = [ Album("cg s_1") ]
-default u_album = []
-default v_album = []
-default y_album = []
-default z_album = []
-default common_album = [ Album("cg common_1"),
-                        Album("cg common_2"),
-                        Album("cg common_3")]
-
-# This list allows the program to automatically merge the persistent
-# and regular albums each time the game is started
-# Each item in the list is a tuple that has the persistent album as its
-# first item and the regular album variable as its second
-default all_albums = [  
-    [persistent.ju_album, ju_album],
-    [persistent.z_album, z_album],
-    [persistent.s_album, s_album],
-    [persistent.y_album, y_album],
-    [persistent.ja_album, ja_album],
-    [persistent.v_album, v_album],
-    [persistent.u_album, u_album],
-    [persistent.r_album, r_album],
-    [persistent.common_album, common_album]
-]
-
     
 ## This screen shows all of the various characters/folders
 ## available in the photo gallery
@@ -326,48 +326,109 @@ screen photo_album():
         on 'replace' action FileSave(mm_auto, confirm=False)
         on 'show' action FileSave(mm_auto, confirm=False)
     
-    if main_menu:
-        $ return_action = Show('select_history', Dissolve(0.5))
-    else:
-        $ return_action = Show('chat_home', Dissolve(0.5))
+    python:
+        if main_menu:
+            return_action = Show('select_history', Dissolve(0.5))
+        else:
+            return_action = Show('chat_home', Dissolve(0.5))
+
+        grid_row = -(-len(all_albums) // 3)
+        full_grids = (len(all_albums) // 3) * 3
+
+        null_height = (((1170 - (220*grid_row) - (40*(grid_row-1))) // 2) - 50)
 
     use menu_header('Photo Album', return_action):
     
-        # A grid of buttons.
-        frame:
-            xysize (750, 1170)
-            align (0.5, 0.5)
-            has vbox
-            align (0.5, 0.4)
-            spacing 40
-            # Each hbox can have a maximum of 3 characters in it, but you can
-            # have less than three as well. You can also add another row by
-            # adding another hbox
-            hbox:
-                use char_album('cg_label_ju', 'Jumin Han', 
-                                persistent.ju_album, 'ju_album_cover')            
-                use char_album('cg_label_z', 'ZEN', 
-                                persistent.z_album, 'z_album_cover')
-                use char_album('cg_label_s', '707', 
-                                persistent.s_album, 's_album_cover')
-            hbox:
-                use char_album('cg_label_y', 'Yoosung★', 
-                                persistent.y_album, 'y_album_cover')
-                use char_album('cg_label_ja', 'Jaehee Kang', 
-                                persistent.ja_album, 'ja_album_cover')
-                use char_album('cg_label_v', 'V', 
-                                persistent.v_album, 'v_album_cover')
-            hbox:
-                use char_album('cg_label_u', 'Unknown', 
-                                persistent.u_album, 'u_album_cover')
-                use char_album('cg_label_r', 'Ray', 
-                                persistent.r_album, 'r_album_cover')
-                use char_album('cg_label_common', 'Common', 
-                                persistent.common_album, 'common_album_cover')
+        if isinstance(all_albums[0], list):
+            # Retained for backwards compatibility. Displays the albums.
+            frame:
+                xysize (750, 1170)
+                align (0.5, 0.5)
+                has vbox
+                align (0.5, 0.4)
+                spacing 40
+                # Each hbox can have a maximum of 3 characters in it, but you can
+                # have less than three as well. You can also add another row by
+                # adding another hbox
+                hbox:
+                    use char_album('cg_label_ju', 'Jumin Han', 
+                                    persistent.ju_album, 'ju_album_cover')            
+                    use char_album('cg_label_z', 'ZEN', 
+                                    persistent.z_album, 'z_album_cover')
+                    use char_album('cg_label_s', '707', 
+                                    persistent.s_album, 's_album_cover')
+                hbox:
+                    use char_album('cg_label_y', 'Yoosung★', 
+                                    persistent.y_album, 'y_album_cover')
+                    use char_album('cg_label_ja', 'Jaehee Kang', 
+                                    persistent.ja_album, 'ja_album_cover')
+                    use char_album('cg_label_v', 'V', 
+                                    persistent.v_album, 'v_album_cover')
+                hbox:
+                    use char_album('cg_label_u', 'Unknown', 
+                                    persistent.u_album, 'u_album_cover')
+                    use char_album('cg_label_r', 'Ray', 
+                                    persistent.r_album, 'r_album_cover')
+                    use char_album('cg_label_common', 'Common', 
+                                    persistent.common_album, 'common_album_cover')
+        else:   
+            viewport:
+                draggable True
+                mousewheel True
+                scrollbars "vertical"
+                align (0.5, 0.5)
+                xysize(750, 1170)
+
+                has vbox
+                # Centers the grid in the viewport, if necessary
+                if null_height > 0:
+                    null height null_height
+
+                grid 5 grid_row:       
+                    align (0.5, 0.5)
+                    # Negative xspacing allows the program to center
+                    # two items below a row of 3, if necessary
+                    xspacing -134
+                    yspacing 40
+                    for i in range(0, full_grids, 3):                    
+                        use char_album(all_albums[i])
+                        null
+                        use char_album(all_albums[i+1])
+                        null
+                        use char_album(all_albums[i+2])
+
+                    # Fill in uneven grid spots
+                    if len(all_albums) % 3 == 2:
+                        null
+                        use char_album(all_albums[-2])
+                        null
+                        use char_album(all_albums[-1])
+                        null
+                    elif len(all_albums) % 3 == 1:
+                        null
+                        null
+                        use char_album(all_albums[-1])
+                        null
+                        null
+
+                    
+        
+        
             
 ## This displays a button with an image and a caption
 ## that will take you to the desired character's album
-screen char_album(caption, name, album, cover):
+screen char_album(caption, name=None, album=None, cover=None):
+
+    python:
+        if name is None:
+            # Caption is actually the file_id
+            file_id = caption
+            caption = 'cg_label_' + convert_to_file_name(file_id)
+            name = get_char_from_file_id(file_id)
+            album = getattr(store.persistent,
+                    convert_to_file_name(file_id) + "_album")
+            cover = convert_to_file_name(file_id) + "_album_cover"
+
 
     button:
         vbox:
