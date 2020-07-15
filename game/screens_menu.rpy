@@ -430,18 +430,21 @@ style menu_text_small is text:
 screen route_select_screen():
     tag menu
     use menu_header("Mode Select", Show('main_menu', Dissolve(0.5))):
-        fixed:   
+        frame:
             xysize (720, 1170)
             yalign 1.0
             xalign 0.5
-            # New code after here
-            vbox:
-                style 'route_select_vbox'
-                button:
-                    style 'route_select_button'
-                    action Start()
-                    text "Start Game" style 'menu_text_small' align (0.5, 0.5)
-                
+            if persistent.custom_route_select:
+                use custom_route_select_screen
+            else:
+                vbox:
+                    style 'route_select_vbox'
+                    button:
+                        style 'route_select_button'
+                        action Start()
+                        text "Start Game" style 'menu_text_small' align (0.5, 0.5)                   
+
+
 style route_select_vbox:
     xysize (700, 750)
     align (0.5, 0.5)
@@ -450,6 +453,7 @@ style route_select_vbox:
 style route_select_button:
     is right_menu_button
     xysize (700, 320)
+    align (0.5, 0.5)
   
 ## Load and Save screens #######################################################
 ##
@@ -910,7 +914,7 @@ screen menu_header(title, return_action=NullAction,
                         action return_action
 
          
-    if title == "Save" or title == "Load":
+    if title == "Save" or title == "Load" or title == "Mode Select":
         transclude
     else:
         frame:
@@ -1138,7 +1142,8 @@ screen chat_home(reshow=False):
                     if new_cg > 0:
                         add 'new_text' align (1.0, 0.1) xoffset 15
                     selected new_cg > 0
-                    action [Show('photo_album', Dissolve(0.5))]
+                    action [Function(check_for_CGs, all_albums=all_albums),
+                            Show('photo_album', Dissolve(0.5))]
                     add "album_icon" xalign 0.5 yalign 0.35
                     text "ALBUM"
 
@@ -1430,6 +1435,12 @@ screen developer_settings():
                         action ToggleField(persistent, "real_time")
                     textbutton _("Hacked Effect"):
                         action ToggleVariable('hacked_effect')
+                    textbutton _("Receive Hourglasses in Chatrooms"):
+                        action ToggleField(persistent, 'receive_hg')
+                    textbutton _("Use custom route select screen"):
+                        action ToggleField(persistent, 'custom_route_select')
+            
+
             textbutton _('Fix Persistent'):
                 style "other_settings_end_button"
                 text_style 'other_settings_end_button_text'
