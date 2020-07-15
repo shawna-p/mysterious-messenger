@@ -1,7 +1,7 @@
 label other_storytelling():
 
     call chat_begin('evening')
-    call play_music(same_old_fresh_air)
+    play music same_old_fresh_air
     y "Hi, [name]!" (bounce=True)
     y "I'm here to show off another feature you can use to tell stories with this program ^^"
     y "Remember how this route started with a phone call and then became a chatroom?"
@@ -45,7 +45,7 @@ label other_storytelling():
     call vn_during_chat('other_storytelling_vn_2', clearchat_on_return=True,
                         new_bg='night')
 
-    call play_music(same_old_fresh_air)
+    play music same_old_fresh_air
     call enter(y)
     y "{=curly}Hello again!{/=curly}" (bounce=True)
     y "See how the background has changed and the message history is gone?"
@@ -69,7 +69,7 @@ label other_storytelling_vn_1():
 
 label other_storytelling_vn_2():
     scene bg yoosung_room_night with fade
-    call play_music(mystic_chat)
+    play music mystic_chat
     show yoosung neutral
     y "Okay so this is a different VN section."
     y grin "Pretend like it's a whole new scene! Time has passed!"
@@ -78,7 +78,7 @@ label other_storytelling_vn_2():
 
 label other_storytelling_expired():
     call chat_begin('evening')
-    call play_music(same_old_fresh_air)
+    play music same_old_fresh_air
 
     y "Aww, I wanted to talk to [name]..."
     y "Looks like [they_re] not here."

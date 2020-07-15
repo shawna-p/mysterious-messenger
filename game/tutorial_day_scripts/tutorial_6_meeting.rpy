@@ -15,7 +15,7 @@ label popcorn_chat():
     $ ja.prof_pic = 'Profile Pics/Jaehee/jae-2.jpg'
     $ ju.prof_pic = 'Profile Pics/Jumin/ju-18.jpg'
     
-    call play_music(urban_night_cityscape)
+    play music urban_night_cityscape
     
     ju "Zen's written some strange things." 
     ja "{image=jaehee_happy}" (img=True)
@@ -118,7 +118,7 @@ label popcorn_chat_expired():
     call chat_begin("morning") 
     $ ja.prof_pic = 'Profile Pics/Jaehee/jae-2.jpg'
     $ ju.prof_pic = 'Profile Pics/Jumin/ju-18.jpg'   
-    call play_music(urban_night_cityscape)
+    play music urban_night_cityscape
     ju "Zen's written some strange things." 
     ja "{image=jaehee_happy}"   (img=True)
     ja "There is a meeting with the Women Artists group today." 
@@ -221,7 +221,7 @@ label popcorn_chat_vn_ju():
     
     # This is how you play sound effects during a VN. 
     # Some are already defined in variables_music_sound.rpy
-    call play_sfx(car_moving_sfx)
+    play sound car_moving_sfx
     # If you don't specify a speaker, the 'narrator' will say this line
     "(Moving...)"
     
@@ -229,7 +229,7 @@ label popcorn_chat_vn_ju():
     pause
     
     # You set the background music the same way you do for chatrooms
-    call play_music(urban_night_cityscape)
+    play music urban_night_cityscape
     
     # This is how you show the characters. Some, like Jumin, have both
     # 'front' and 'side' positions, so you need to specify which one.  
@@ -286,7 +286,7 @@ label popcorn_chat_vn_ju():
     ja "...Should I write all this down?"
     show jumin front angry at vn_right
     ju "Every single word."
-    call play_sfx(door_knock_sfx)
+    play sound door_knock_sfx
     "(A knock on the door)"
     
     # Now that Jaehee is on screen, you don't need to repeat the
@@ -296,7 +296,7 @@ label popcorn_chat_vn_ju():
     ja "Someone is knocking."
     ju "I can't let anyone interfere with such an important meeting."
     ja worried "Something could have occurred in your home. I'll open the door."
-    call play_sfx(door_open_sfx)
+    play sound door_open_sfx
     "(Door opened)"
     ja serious "Come in..."
     hide jumin
@@ -320,7 +320,7 @@ label popcorn_chat_vn_ju():
     show sarah smirk at vn_center
     sarah_vn "I will~ Oh my, but I don't think I've seen you before. I'm Jumin's fiancee, Sarah! Oh... but your mascara's a bit clumpy. I think you should go to the bathroom and fix it."
     
-    call play_music(mysterious_clues_v2)
+    play music mysterious_clues_v2
     
     menu:
         extend ''   # You should put this after every menu option; it

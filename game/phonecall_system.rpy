@@ -722,7 +722,7 @@ screen phone_say(who, what):
 
 ## Allows the program to jump to the incoming call
 label new_incoming_call(phonecall):
-    play music persistent.phone_tone loop
+    play music persistent.phone_tone loop nocaption
     call screen incoming_call(phonecall=phonecall)
     return
  

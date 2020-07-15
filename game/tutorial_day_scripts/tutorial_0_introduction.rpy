@@ -131,7 +131,7 @@
     call hack 
     call chat_begin('hack') 
         
-    call play_music(mystic_chat)
+    play music mystic_chat
     
     call enter(u) 
     u "You're here!" 

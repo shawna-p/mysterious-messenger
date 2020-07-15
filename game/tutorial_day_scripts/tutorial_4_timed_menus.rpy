@@ -4,7 +4,7 @@
 label timed_menus():
 
     call chat_begin("earlyMorn") 
-    call play_music(geniusly_hacked_bebop)
+    play music geniusly_hacked_bebop
     s "{size=+10}Hiya!{/size}"   (bounce=True, specBubble="round2_s")
     s "{=curly}I'm here to tell you all about timed menus~{/=curly}" 
     s "They work mostly like regular menus," 

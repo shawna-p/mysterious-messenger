@@ -10,10 +10,10 @@ label tutorial_chat():
     call chat_begin("earlyMorn") 
     
     # Look for music in variables_music_sound.rpy
-    # This is a call rather than Ren'Py's built-in play music
-    # feature so that it works with chatroom replay and accessibility
-    # features such as audio captions
-    call play_music(geniusly_hacked_bebop)
+    # A Creator-Defined statement defined in 01statements.rpy overrides
+    # Ren'Py's default method of playing music so it's compatible with
+    # audio captions.
+    play music geniusly_hacked_bebop
     
     # Use 'call answer' before any menu to bring up the answer button
     call answer 
@@ -99,7 +99,7 @@ label tutorial_chat():
     # Another play_music call will automatically "override" 
     # the previous play statement and only one set of 
     # background music will play on the music channel at once
-    call play_music(dark_secret)
+    play music dark_secret
     s "{=ser1b}Big trouble...{/=ser1b}"
     y "What trouble?"
     s "{=ser1}It's...{/=ser1}"
@@ -576,7 +576,7 @@ label coffee2():
 label tutorial_chat_expired():
 
     call chat_begin("earlyMorn") 
-    call play_music(geniusly_hacked_bebop)
+    play music geniusly_hacked_bebop
     s "Phew... I almost died." 
     call enter(y)
     s "The insane amount of work I have is making me so stressed..." 
@@ -589,7 +589,7 @@ label tutorial_chat_expired():
     s "Ur learning how to make coffee...???" 
     y "Yup^^" 
     s "{=ser1b}No way. U can't.{/=ser1b}" 
-    call play_music(dark_secret)
+    play music dark_secret
     y "What?" 
     s "{=ser1b}Did u drink the coffee already!?!?!?!?{/=ser1b}" 
     y "Yeah... Why?" 

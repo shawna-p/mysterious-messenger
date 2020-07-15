@@ -10,7 +10,7 @@ label example_text_vn_r():
     scene bg mint_eye_room
     
     # This will play music during the VN.
-    call play_music(mint_eye)
+    play music mint_eye
     
     show saeran smile
     r "Hello! Welcome to Story Mode, also known as Visual Novel mode."

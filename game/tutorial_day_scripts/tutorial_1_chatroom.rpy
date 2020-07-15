@@ -9,7 +9,7 @@ label example_chat():
        
     call hack 
     call chat_begin("hack")  
-    call play_music(mystic_chat)
+    play music mystic_chat
     call enter(u) 
     u "{=curly}Hello, [name] ^^{/=curly}" 
     u "I thought you might come by." 
@@ -99,7 +99,7 @@ label emojis():
     call hack 
     call chat_begin("morning",False,False) 
     
-    call play_music(geniusly_hacked_bebop)
+    play music geniusly_hacked_bebop
     call enter(s) 
     s "O" (pauseVal=0.1)
     s "M" (pauseVal=0.1)
@@ -223,7 +223,7 @@ label banners():
 
     call hack 
     call chat_begin("noon",False,False) 
-    call play_music(same_old_fresh_air)
+    play music same_old_fresh_air
     
     call enter(y) 
     y "{=curly}Hello!{/=curly}"
@@ -288,7 +288,7 @@ label heart_icons():
 
     call hack 
     call chat_begin("evening",False,False) 
-    call play_music(narcissistic_jazz)
+    play music narcissistic_jazz
     
     call enter(z) 
     z "{image=zen_wink}" (img=True)
@@ -377,7 +377,7 @@ label screen_shake():
     
     call hack 
     call chat_begin("night",False,False) 
-    call play_music(lonesome_practicalism)
+    play music lonesome_practicalism
 
     call enter(ja) 
     ja "{=ser1}Hello, [name].{/=ser1}"
@@ -444,7 +444,7 @@ label screen_shake():
 label ending():
     call hack 
     call chat_begin("hack",False,False) 
-    call play_music(mystic_chat)
+    play music mystic_chat
     
     call enter(u) 
     u "{=curly}You're back!{/=curly}" (bounce=True)
@@ -515,7 +515,7 @@ label example_chat_expired():
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))   
     call hack 
     call chat_begin("hack") 
-    call play_music(mystic_chat)
+    play music mystic_chat
     call enter(u) 
     u "Oh, [name]'s not here." 
     u "It looks like you let this chatroom expire, huh?" 

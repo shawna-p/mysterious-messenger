@@ -3,7 +3,7 @@
 label plot_branch_tutorial():
     call chat_begin("hack") 
     call hack 
-    call play_music(mystic_chat)
+    play music mystic_chat
     call enter(u) 
 
     u "{=curly}Hello again!{/=curly}"   (bounce=True)
@@ -59,7 +59,7 @@ label plot_branch_tutorial():
 label plot_branch_tutorial_expired():
     call chat_begin("hack") 
     call hack 
-    call play_music(mystic_chat)
+    play music mystic_chat
     call enter(u)
     u "It seems [name] is getting close to the end of Tutorial day," 
     u "but [they_re] not here right now T_T" 
@@ -157,7 +157,7 @@ label plot_branch_tutorial_branch():
 label tutorial_bad_end():
 
     call chat_begin('noon') 
-    call play_music(i_miss_happy_rika)
+    play music i_miss_happy_rika
 
     v "Hello, [name]." 
     v "{=ser2}I came to make an announcement.{/=ser2}" 
@@ -191,7 +191,7 @@ label tutorial_bad_end():
 ## This is the label you see if the previous chatroom has expired
 label tutorial_bad_end_expired():
     call chat_begin('noon')
-    call play_music(i_miss_happy_rika)
+    play music i_miss_happy_rika
     v "Hello, everyone." 
     v "{=ser2}I came to make an announcement.{/=ser2}" 
     v "It doesn't look like we'll be able to have the party after all," 
@@ -211,7 +211,7 @@ label plot_branch_tutorial_vn():
     scene bg rika_apartment with fade
     pause
     
-    call play_music(mysterious_clues_v2)
+    play music mysterious_clues_v2
     show saeran unknown
     u "Hi, [name]."
     u smile "Looks like you've made it to the Good End! So I've come to take you to paradise."
@@ -256,7 +256,7 @@ label plot_branch_tutorial_vn():
 label tutorial_good_end():
     call chat_begin('hack') 
     call hack 
-    call play_music(mystic_chat)
+    play music mystic_chat
     u "{=curly}Thanks very much for playing through this first day!{/=curly}" 
     u "I hope it makes you excited to try programming your own things." 
     u "Be sure to contact me if you run into any problems or bugs," 
@@ -301,7 +301,7 @@ label tutorial_good_end_party():
 ## You can write this much the same way as any regular VN mode section
 label plot_branch_bre():
     call vn_begin
-    call play_music(mint_eye_piano)
+    play music mint_eye_piano
     scene mint_eye_room with fade
     pause
     show saeran sad 

@@ -19,7 +19,7 @@ label hack_example():
     call enter(sa)
     call redhack    
     call chat_begin('redhack', False, False)
-    call play_music(mysterious_clues_v2)
+    play music mysterious_clues_v2
     sa "Oh, so you want to know more about glitchy effects, do you?" 
     sa "You want to make use of my hacking skills?" 
     sa "Freak out your users?"   (bounce=True, specBubble="glow2")
