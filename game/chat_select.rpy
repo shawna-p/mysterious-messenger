@@ -115,7 +115,7 @@ screen day_select(day, day_num):
             is_today = False
             # If the player has at least seen the first chat of this day,
             # it is selectable ("playable")
-            if (main_menu and len(day.archive_list) > 1
+            if (len(day.archive_list) > 1
                     and not isinstance(day.archive_list[0], ChatHistory)
                     and not isinstance(day.archive_list[0], 
                         store.ChatHistory)):
@@ -124,15 +124,12 @@ screen day_select(day, day_num):
                         or persistent.completed_chatrooms.get(
                             day.archive_list[1].expired_chat)):
                     playable = True                
-            elif (main_menu and day.archive_list 
+            elif (day.archive_list 
                     and (persistent.completed_chatrooms.get(
                                 day.archive_list[0].chatroom_label)
                     or persistent.completed_chatrooms.get(
                                 day.archive_list[0].expired_chat))):
-                playable = True
-            elif (not main_menu and day.archive_list 
-                    and day.archive_list[0].played):
-                playable = True
+                playable = True            
             else:
                 playable = False
 
