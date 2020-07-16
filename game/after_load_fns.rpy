@@ -8,9 +8,11 @@ init python:
         Update this save file for compatibility with new versions.
         """
 
-        while store._version != "2.2":
+        while store._version != "2.2.1":
             if store._version == "2.1.1":
                 float_ver = 2.1001
+            elif store._version == "2.2.1":
+                float_ver = 2.2001
             else:
                 float_ver = float(store._version)
                         
@@ -54,8 +56,11 @@ init python:
             if float_ver < 2.2:
                 store.persistent.animated_icons = not store.persistent.heart_notifications
                 store._version = "2.2"
+
             
-            store._version = "2.2"
+                
+            
+            store._version = "2.2.1"
                                         
 
     def find_route_endings(route, chatlist, titles):
