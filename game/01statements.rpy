@@ -1,5 +1,6 @@
 python early hide:
-
+    # These statements replace Ren'Py's default `play music` and `play sound`
+    # implementations so they are compatible with audio captions.
     def warp_audio(p):
         """
         Determines if we should play this statement while warping.
