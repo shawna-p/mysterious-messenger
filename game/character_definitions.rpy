@@ -12,6 +12,7 @@ init offset = -1
 # voice during phone calls or VN mode
 # For ease of remembering, Phone Call characters are just their 
 # ChatCharacter variables + '_phone' e.g. ja -> ja_phone
+
 # This is a default phone character that you can "inherit" the style
 # from rather than declaring all the individual properties
 define phone_character = Character(None, 
