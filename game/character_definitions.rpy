@@ -277,6 +277,11 @@ default character_list = [ju, z, s, y, ja, v, m, r, ri]
 # 'greet ' + their file id
 default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
 
+# Add ChatCharacter objects to this list if they should not have a 
+# voice toggle in the settings screen
+# Unknown and Saeran are lumped into Ray's voice button and MC doesn't speak
+default novoice_chars = [u, sa, m]
+
 init offset = 0
 
 ## *************************************
