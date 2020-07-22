@@ -1023,7 +1023,7 @@ screen sound_settings():
                     for c in all_characters:
                         # Unknown and Saeran are lumped into Ray's
                         # voice button and MC doesn't speak
-                        if c not in [u, sa, m]:
+                        if c not in novoice_chars:
                             use voice_buttons(c)
                     use voice_buttons("Other", 'other')      
                         
