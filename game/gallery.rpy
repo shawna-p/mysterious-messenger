@@ -189,9 +189,13 @@ init python:
         Used to retrieve Album titles/labels.
         """
 
-        for char in store.all_characters:
-            if char.file_id == file_id:
-                return char.name
+        try:
+            char = getattr(store, file_id)
+            return char.name
+        except AttributeError:            
+            for char in store.all_characters:
+                if char.file_id == file_id:
+                    return char.name
         
         return string.capwords(file_id)
 
