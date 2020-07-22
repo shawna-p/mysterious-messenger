@@ -102,6 +102,8 @@ init -6 python:
                 self.save_img = 'yoosung'
             elif save_img == 'zen' or save_img == 'z':
                 self.save_img = 'zen'
+            elif save_img[:5] != "save_":
+                self.save_img = "save_" + save_img
             else:
                 # e.g. auto / another / april / casual
                 #      deep / xmas
@@ -349,8 +351,10 @@ init -6 python:
                 self.day_icon = 'day_y'
             elif day_icon == 'zen' or day_icon == 'z':
                 self.day_icon = 'day_z'
+            elif day_icon[:4] != "day_":
+                self.day_icon = "day_" + day_icon
             else:
-                self.day_icon = 'day_common2'
+                self.day_icon = day_icon
 
     class Route(renpy.store.object):
         """
@@ -377,7 +381,7 @@ init -6 python:
 
         def __init__(self, default_branch, branch_list=None, 
                     route_history_title="Common",
-                    has_end_title=True):
+                    has_end_title="unset"):
             """
             Creates a Route object to store an entire route.
 
@@ -406,6 +410,14 @@ init -6 python:
                 first list item in default_branch. Typically this is True
                 unless the route has no branching paths.           
             """
+
+            if has_end_title == "unset":
+                # This variable will be True if there are branches,
+                # and False otherwise.
+                if branch_list is not None:
+                    has_end_title = True
+                else:
+                    has_end_title = False
 
             self.default_branch = default_branch
 
