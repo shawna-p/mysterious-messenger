@@ -3,8 +3,7 @@
 # used throughout the game. It's organized as follows:
 #   python definitions:
 #       class NameInput(InputValue)
-#       def chat_greet(hour, greet_char)
-#       def set_pronouns()
+#       def chat_greet()
 #   variable definitions
 #   screen main_menu()
 #       screen route_select_screen()
@@ -95,109 +94,59 @@ init python:
         global greet_char, greet_list
         greet_char = renpy.random.choice(greet_list)
         hour = int(time.strftime('%H', time.localtime()))
-
-        greet_text_english = "Welcome to my Mystic Messenger Generator!"
-        # If translations were included, the text would be set like this
-        # greet_text_english=morning_greeting[greet_char][the_greeting].english
-        # greet_text_korean = morning_greeting[greet_char][the_greeting].korean
         
         if hour >= 6 and hour < 12:  # morning
-            greet_text_english = "Good morning! " + greet_text_english
-            
             num_greetings = len(morning_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
+            
+            greet_text_english = ("Good morning! " 
+                + morning_greeting[greet_char][the_greeting].english)
+            greet_text_korean = morning_greeting[greet_char][the_greeting].korean
             renpy.play(morning_greeting[greet_char][the_greeting].sound_file, 
                 channel="voice_sfx")
             
         elif hour >=12 and hour < 18:    # afternoon
-            greet_text_english = "Good afternoon! " + greet_text_english
-            
             num_greetings = len(afternoon_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
+            
+            greet_text_english = ("Good afternoon! " 
+                + afternoon_greeting[greet_char][the_greeting].english)
+            greet_text_korean = afternoon_greeting[greet_char][the_greeting].korean
             renpy.play(afternoon_greeting[greet_char][the_greeting].sound_file, 
                 channel="voice_sfx")
             
         elif hour >= 18 and hour < 22:  # evening
-            greet_text_english = "Good evening! " + greet_text_english
-            
             num_greetings = len(evening_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
+            
+            greet_text_english = ("Good evening! " 
+                + evening_greeting[greet_char][the_greeting].english)
+            greet_text_korean = evening_greeting[greet_char][the_greeting].korean
             renpy.play(evening_greeting[greet_char][the_greeting].sound_file, 
                 channel="voice_sfx")
             
         elif hour >= 22 or hour < 2: # night
-            greet_text_english = "It's getting late! " + greet_text_english
-            
             num_greetings = len(night_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
+            
+            greet_text_english = ("It's getting late! "
+                + night_greeting[greet_char][the_greeting].english)
+            greet_text_korean = night_greeting[greet_char][the_greeting].korean
             renpy.play(night_greeting[greet_char][the_greeting].sound_file, 
                 channel="voice_sfx")
             
         else:   # late night/early morning
-            greet_text_english = "You're up late! " + greet_text_english
-            
             num_greetings = len(late_night_greeting[greet_char])
             the_greeting = renpy.random.randint(1, num_greetings) - 1
+            
+            greet_text_english = ("You're up late! "
+                + late_night_greeting[greet_char][the_greeting].english)
+            greet_text_korean = late_night_greeting[greet_char][the_greeting].korean
             renpy.play(late_night_greeting[greet_char][
                             the_greeting].sound_file, channel="voice_sfx")
         
         
-    def set_pronouns():
-        """Set the player's pronouns and pronoun variables."""
-
-        global they, them, their, theirs, themself, they_re
-        global They, Them, Their, Theirs, Themself, They_re
-        global is_are, has_have, s_verb
-        if persistent.pronoun == "female":
-            they = "she"
-            them = "her"
-            their = "her"
-            theirs = "hers"
-            themself = "herself"
-            they_re = "she's"
-            They_re = "She's"
-            They = "She"
-            Them = "Her"
-            Their = "Her"
-            Theirs = "Hers"
-            Themself = "Herself"   
-            is_are = "is"
-            has_have = "has"
-            s_verb = "s"
-        elif persistent.pronoun == "male":
-            they = "he"
-            them = "him"
-            their = "his"
-            theirs = "his"
-            themself = "himself"
-            they_re = "he's"
-            They_re = "He's"
-            They = "He"
-            Them = "Him"
-            Their = "His"
-            Theirs = "His"
-            Themself = "Himself"
-            is_are = "is"
-            has_have = "has"
-            s_verb = "s"
-        elif persistent.pronoun == "non binary":
-            they = "they"
-            them = "them"
-            their = "their"
-            theirs = "theirs"
-            themself = "themself"
-            they_re = "they're"
-            They_re = "They're"
-            They = "They"
-            Them = "Them"
-            Their = "Their"
-            Theirs = "Theirs"
-            Themself = "Themself"
-            is_are = "are"
-            has_have = "have"
-            s_verb = ""
-        renpy.retain_after_load()
-
+    
     def set_name_pfp():
         """Ensure the player's name and profile picture are set correctly."""
 
@@ -218,18 +167,6 @@ init python:
 ## Chips available
 default hbc_bag = RandomBag([ False, False, False, 
                               False, False, True, True ])
-
-
-## Greeting Text
-## (Eventually these will be stored in the Day_Greet object to be
-## pulled alongside the sound file)
-default greet_text_korean = "제 프로그램으로 환영합니다!"
-default greet_text_english = "Welcome to my Mystic Messenger Generator!"
-
-## This lets the program randomly pick a greet
-## character to display for greetings       
-default greet_list = [x.file_id for x in all_characters if (x != r and x != m)]
-default greet_char = greet_list[0]
 
 
 ## Main Menu screen ############################################################
@@ -282,8 +219,8 @@ screen main_menu():
             xysize(500,120)
             background "greeting_bubble" padding (35, 5, 10, 5)
             has vbox
-            text greet_text_korean style "greet_text" size 25
-            text greet_text_english style "greet_text"
+            text "[greet_text_korean]" style "greet_text" size 25
+            text "[greet_text_english]" style "greet_text"
 
     # The main menu buttons. Note that some currently don't take
     # you to the screen you'd want as those features have yet to 
