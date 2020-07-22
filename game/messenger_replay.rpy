@@ -42,18 +42,10 @@ label exit(chara):
 # Play audio/music/SFX
 #************************************
 # This allows the program to keep track of when to play
-# music during a chatroom or VN
+# music during a chatroom or VN. This call has now been integrated
+# into a CDS but is left in for backwards compatibility
 label play_music(file):
     play music file loop
-    if persistent.audio_captions:
-        $ notification = ("♪ " + 
-                music_dictionary[renpy.sound.get_playing('music')] + " ♪")
-        show screen notify(notification)
-    if (not observing and not persistent.testing_mode
-            and not vn_choice):
-        # Add this music to the replay_log
-        $ music_entry = ("play music", file)
-        $ current_chatroom.replay_log.append(music_entry)
     return
 
 #************************************

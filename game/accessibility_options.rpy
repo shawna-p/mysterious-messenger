@@ -28,13 +28,11 @@ default persistent.animated_backgrounds = False
 default persistent.past_choices = False
 
 ## This label plays sound effects and also shows an audio
-## caption if the player has that option turned on
+## caption if the player has that option turned on.
+## This call has now been integrated into a CDS but is left in
+## for backwards compatibility
 label play_sfx(sfx):
     play sound sfx
-    if persistent.audio_captions:
-        $ notification = ("SFX: " + 
-                sfx_dictionary[renpy.sound.get_playing('sound')])
-        show screen notify(notification)
     return
 
 ## These variables are used to make the VN window more or less transparent
