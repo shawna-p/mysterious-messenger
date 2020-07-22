@@ -145,9 +145,13 @@ init python:
         """Find the caller of this phone call from its label."""
 
         file_id = c.split('_')[-1]
-        for p in store.all_characters:
-            if file_id == p.file_id:
-                return PhoneCall(p, 'n/a')
+        try:
+            char = getattr(store, file_id)
+            return PhoneCall(char, 'n/a')
+        except AttributeError:            
+            for p in store.all_characters:
+                if file_id == p.file_id:
+                    return PhoneCall(p, 'n/a')
         return PhoneCall(None, 'n/a')
 
 # True if the player is viewing a replay of an expired chatroom
