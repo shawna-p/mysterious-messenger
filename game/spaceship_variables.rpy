@@ -112,16 +112,3 @@ image space_black_box = Frame("Menu Screens/Spaceship/main03_black_box.png",30,3
 image space_continue = "Menu Screens/Spaceship/Continue.png"
 image space_continue_hover = "Menu Screens/Spaceship/Continue_hover.png"
 
-## ********************************
-## Spaceship thought images
-## ********************************
-
-image ja_spacethought = "Menu Screens/Spaceship/ja_spacethought.png"
-image ju_spacethought = "Menu Screens/Spaceship/ju_spacethought.png"
-image r_spacethought = "Menu Screens/Spaceship/r_spacethought.png"
-image ri_spacethought = "Menu Screens/Spaceship/ri_spacethought.png"
-image s_spacethought = "Menu Screens/Spaceship/s_spacethought.png"
-image sa_spacethought = "Menu Screens/Spaceship/sa_spacethought.png"
-image v_spacethought = "Menu Screens/Spaceship/v_spacethought.png"
-image y_spacethought = "Menu Screens/Spaceship/y_spacethought.png"
-image z_spacethought = "Menu Screens/Spaceship/z_spacethought.png"

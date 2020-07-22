@@ -321,23 +321,6 @@ image transparent_img = '#0000'
 # Short forms/Startup Variables
 # ********************************
 
-# Extra variables since the player can
-# choose their pronouns
-default they = "they"
-default them = "them"
-default their = "their"
-default theirs = "theirs"
-default themself = "themself"
-default they_re = "they're"
-default They_re = "They're"
-default They = "They"
-default Them = "Them"
-default Their = "Their"
-default Theirs = "Theirs"
-default Themself = "Themself" 
-default is_are = "are"
-default has_have = "have"
-default s_verb = ""
 
 # Displays all the messages in a chatroom
 default chatlog = []
@@ -409,17 +392,7 @@ default persistent.HG = 100
 ## Image Definitions - Menu
 ##******************************
 
-# Character Greetings
-image greet ja = "Menu Screens/Main Menu/ja_greeting.png"
-image greet ju = "Menu Screens/Main Menu/ju_greeting.png"
-image greet sa = "Menu Screens/Main Menu/sa_greeting.png"
-image greet r = 'greet sa'
-image greet ri = "Menu Screens/Main Menu/ri_greeting.png"
-image greet s = "Menu Screens/Main Menu/s_greeting.png"
-image greet u = "Menu Screens/Main Menu/u_greeting.png"
-image greet v = "Menu Screens/Main Menu/v_greeting.png"
-image greet y = "Menu Screens/Main Menu/y_greeting.png"
-image greet z = "Menu Screens/Main Menu/z_greeting.png"
+
     
 image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
 image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.png", 20, 20)
@@ -574,23 +547,6 @@ image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",70,
 image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_hover.png",70,70)
     
 
-## ********************************
-## Save & Load Images
-## ********************************
-image save_auto = "Menu Screens/Main Menu/msgsl_icon_m.png"
-image save_another = "Menu Screens/Main Menu/msgsl_image_another.png"
-image save_april = "Menu Screens/Main Menu/msgsl_image_april.png"
-image save_casual = "Menu Screens/Main Menu/msgsl_image_casual.png"
-image save_deep = "Menu Screens/Main Menu/msgsl_image_deep.png"
-image save_jaehee = "Menu Screens/Main Menu/msgsl_image_jaehee.png"
-image save_jumin = "Menu Screens/Main Menu/msgsl_image_jumin.png"
-image save_ray = "Menu Screens/Main Menu/msgsl_image_ray.png"
-image save_empty = "Menu Screens/Main Menu/msgsl_image_save.png"
-image save_seven = "Menu Screens/Main Menu/msgsl_image_seven.png"
-image save_v = "Menu Screens/Main Menu/msgsl_image_v.png"
-image save_xmas = "Menu Screens/Main Menu/msgsl_image_xmas.png"
-image save_yoosung = "Menu Screens/Main Menu/msgsl_image_yoosung.png"
-image save_zen = "Menu Screens/Main Menu/msgsl_image_zen.png"
 
 
 ## ********************************
@@ -664,16 +620,6 @@ image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.png", 60,60,60,1
 ## ********************************
 ## Chat Select Screen
 ## ********************************
-
-image day_common1 = 'Menu Screens/Day Select/day_common1.png'
-image day_common2 = 'Menu Screens/Day Select/day_common2.png'
-image day_ja = 'Menu Screens/Day Select/day_ja.png'
-image day_ju = 'Menu Screens/Day Select/day_ju.png'
-image day_r = 'Menu Screens/Day Select/day_r.png'
-image day_s = 'Menu Screens/Day Select/day_s.png'
-image day_v = 'Menu Screens/Day Select/day_v.png'
-image day_y = 'Menu Screens/Day Select/day_y.png'
-image day_z = 'Menu Screens/Day Select/day_z.png'
 
 image day_selected = Frame('Menu Screens/Day Select/daychat01_day_mint.png', 50, 50)
 image day_selected_hover = Frame('Menu Screens/Day Select/daychat01_day_mint_hover.png', 50, 50)
@@ -836,18 +782,6 @@ image chat_continue = Frame('Menu Screens/Day Select/daychat01_chat_continue.png
 image chat_selected_hover = Frame('Menu Screens/Day Select/daychat01_chat_mint_hover.png',190, 70, 40, 50)
 image chat_hover_box = Frame('Menu Screens/Day Select/daychat_vn_selectable.png', 0,0,0,0)
 
-image vn_other = 'Menu Screens/Day Select/vn_other.png'
-image vn_ja = 'Menu Screens/Day Select/vn_ja.png'
-image vn_ju = 'Menu Screens/Day Select/vn_ju.png'
-image vn_r = 'Menu Screens/Day Select/vn_r.png'
-image vn_ri = 'Menu Screens/Day Select/vn_ri.png'
-image vn_sa = 'Menu Screens/Day Select/vn_sa.png'
-image vn_s = 'Menu Screens/Day Select/vn_s.png'
-image vn_v = 'Menu Screens/Day Select/vn_v.png'
-image vn_y = 'Menu Screens/Day Select/vn_y.png'
-image vn_z = 'Menu Screens/Day Select/vn_z.png'
-image vn_party = 'Menu Screens/Day Select/vn_party.png'
-image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.png'
 
 ## ********************************
 ## Phone Call Screen
@@ -912,17 +846,6 @@ image call_play = 'Phone Calls/call_button_play.png'
 image call_replay_active = 'Phone Calls/call_button_replay_active.png'
 image call_replay_inactive = 'Phone Calls/call_button_replay_inactive.png'
 image call_connect_triangle = 'Phone Calls/call_connect_waiting.png'
-
-image sa_contact = 'Phone Calls/call_contact_saeran.png'
-image s_contact = 'Phone Calls/call_contact_707.png'
-image empty_contact = 'Phone Calls/call_contact_empty.png'
-image ja_contact = 'Phone Calls/call_contact_jaehee.png'
-image ju_contact = 'Phone Calls/call_contact_jumin.png'
-image r_contact = 'Phone Calls/call_contact_ray.png'
-image v_contact = 'Phone Calls/call_contact_v.png'
-image y_contact = 'Phone Calls/call_contact_yoosung.png'
-image z_contact = 'Phone Calls/call_contact_zen.png'
-image ri_contact = 'Phone Calls/call_contact_rika.png'
 
 image contact_icon = 'Phone Calls/call_icon_contacts.png'
 image call_headphones = 'Phone Calls/call_icon_earphone_en.png'
