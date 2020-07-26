@@ -206,7 +206,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
                             Jump(c.text_msg.reply_label)],
                         
                         [Hide(hide_screen), 
-                            SetVariable('text_person', c),
+                            #SetVariable('text_person', c),
                             SetField(c.text_msg, 'read', True),
                             Hide('save_load'),
                             Hide('menu'),
