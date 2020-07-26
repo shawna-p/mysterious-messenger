@@ -484,41 +484,26 @@ screen chatroom_item(day, day_num, chatroom, index):
                     add 'day_reg_hacked_long' xoffset -210 yoffset -170
                     
                 vbox:
-                    spacing 18
+                    style_prefix 'chat_timeline'
                     # This box displays the trigger time and title of the
                     # chatroom; optionally at a scrolling transform so you 
                     # can read the entire title
                     hbox:
-                        spacing 30
                         frame:
-                            xysize (75,27)
                             xoffset 77
                             yoffset 13
                             text chatroom.trigger_time:
-                                color '#fff' 
                                 size 27 
-                                xalign 0.5 yalign 0.5 
+                                xalign 0.5
                                 text_align 0.5
                         viewport:
-                            yoffset 13
-                            xoffset 77                
                             xysize(chat_title_width,27)
                             if len(chatroom.title) > 30: 
                                 frame:
                                     xysize(chat_title_width,27)
-                                    text chatroom.title at chat_title_scroll:
-                                        color '#fff' 
-                                        size 25 
-                                        xalign 0.0 yalign 0.5 
-                                        text_align 0.0 
-                                        layout 'nobreak' 
+                                    text chatroom.title at chat_title_scroll
                             else:
-                                text chatroom.title:
-                                    color '#fff' 
-                                    size 25 
-                                    xalign 0.0 yalign 0.5 
-                                    text_align 0.0 
-                                    layout 'nobreak'
+                                text chatroom.title
                     # Shows a list of all the people who were in/
                     # are in this chatroom
                     viewport:
@@ -562,18 +547,13 @@ screen chatroom_item(day, day_num, chatroom, index):
     # If there's a VN object, display it now
     if my_vn and not my_vn.party:
         frame:
-            xysize(700, 160)
-            xalign 0.0
-            xoffset 10
-            
+            style_prefix 'reg_timeline_vn'
             has hbox
             add 'vn_marker'
             
             button:
-                xysize(555, 126)
                 foreground vn_foreground
                 hover_foreground vn_hover
-                activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
                 if (my_vn.available 
                         and can_play 
                         and ((not solo_vn and chatroom.played) or solo_vn)):
@@ -593,15 +573,9 @@ screen chatroom_item(day, day_num, chatroom, index):
     # It's the VN that leads to the party
     if my_vn and my_vn.party:
         frame:
-            xysize(600, 300)
-            xalign 1.0
-           
+            style_prefix 'party_timeline_vn'           
             button:
-                xysize(463, 185)
-                xalign 0.5
-                yalign 0.5
                 background vn_background                
-                activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
                 if my_vn.available and can_play:
                     hover_foreground vn_background
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
@@ -656,6 +630,52 @@ screen chatroom_item(day, day_num, chatroom, index):
                 action Show("confirm", message=("Please proceed after"
                             + " completing the unseen old conversations."),
                         yes_action=Hide('confirm'))
+
+style chat_timeline_vbox:
+    spacing 18
+
+style chat_timeline_hbox:
+    is hbox
+    spacing 30
+
+style chat_timeline_frame:
+    xysize (75,30)
+    padding (0,0,0,0)
+
+style chat_timeline_text:
+    color '#fff' 
+    size 25 
+    yoffset -4
+    xalign 0.0 yalign 0.0
+    text_align 0.0 
+    layout 'nobreak' 
+
+style chat_timeline_viewport:
+    yoffset 13
+    xoffset 77        
+
+style reg_timeline_vn_frame:
+    xysize(700, 160)
+    xalign 0.0
+    xoffset 10
+
+style reg_timeline_vn_hbox:
+    is hbox
+
+style reg_timeline_vn_button:
+    xysize(555, 126)
+    activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
+
+style party_timeline_vn_frame:
+    xysize(600, 300)
+    xalign 1.0
+
+style party_timeline_vn_button:
+    xysize(463, 185)
+    xalign 0.5
+    yalign 0.5
+    activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
+
 
 ## A small screen intended to reduce the indentation of 
 ## the chatroom_timeline screen. Shows a button that

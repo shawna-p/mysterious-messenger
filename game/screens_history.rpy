@@ -269,42 +269,26 @@ screen chatroom_item_history(chatroom):
                     
                 
             vbox:
-                yoffset 3
-                spacing 18
+                style_prefix 'chat_timeline'
                 # This box displays the trigger time and title of 
                 # the chatroom; optionally at a scrolling transform 
                 # so you can read the entire title
                 hbox:
-                    spacing 30
                     frame:
-                        xysize (75,27)
                         xoffset 77
                         yoffset 13
                         text chatroom.trigger_time:
-                            color '#fff' 
                             size 27 
-                            xalign 0.5 yalign 0.5 
+                            xalign 0.5
                             text_align 0.5
-                    viewport:
-                        yoffset 13
-                        xoffset 77                
+                    viewport:               
                         xysize(400,27)
                         if len(chatroom.title) > 30: 
                             frame:
                                 xysize(400,27)
-                                text chatroom.title at chat_title_scroll:
-                                    color '#fff' 
-                                    size 25 
-                                    xalign 0.0 yalign 0.5 
-                                    text_align 0.0 
-                                    layout 'nobreak' 
+                                text chatroom.title at chat_title_scroll
                         else:
-                            text chatroom.title:
-                                color '#fff' 
-                                size 25 
-                                xalign 0.0 yalign 0.5 
-                                text_align 0.0 
-                                layout 'nobreak'
+                            text chatroom.title
                 # Shows a list of all the people who were in/
                 # are in this chatroom
                 viewport:
@@ -327,22 +311,16 @@ screen chatroom_item_history(chatroom):
     # If there's a VN object, display it
     if my_vn and not my_vn.party:
         frame:
-            xysize(700, 160)
-            xalign 0.0
-            xoffset 10
-            
+            style_prefix 'reg_timeline_vn'            
             has hbox
             add 'vn_marker'
             
             button:
-                xysize(555, 126)
                 foreground 'vn_active'
                 hover_foreground 'vn_active_hover'
-                activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
                 action [Preference("auto-forward", "disable"),
                         Replay(my_vn.vn_label,
-                                scope=replay_dictionary)] 
-                
+                                scope=replay_dictionary)]                 
                 if my_vn.who:
                     add 'vn_' + my_vn.who.file_id xoffset -5
                 else:
@@ -351,15 +329,9 @@ screen chatroom_item_history(chatroom):
     # It's the VN that leads to the party
     if my_vn and my_vn.party:
         frame:
-            xysize(600, 300)
-            xalign 1.0
-        
+            style_prefix 'party_timeline_vn'        
             button:
-                xysize(463, 185)
-                xalign 0.5
-                yalign 0.5
                 background 'vn_party'              
-                activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
                 if my_vn.available and can_play:
                     hover_foreground 'vn_party'
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
@@ -369,10 +341,14 @@ screen chatroom_item_history(chatroom):
                                 scope=replay_dictionary)]  
 
     # Now add an hbox of the phone calls available after this chatroom
-    if (is_chatroom and (chatroom.incoming_calls_list 
+    if ((is_chatroom and (chatroom.incoming_calls_list 
                 or chatroom.outgoing_calls_list)
             and calls_available_history(chatroom.incoming_calls_list + 
-                                            chatroom.outgoing_calls_list)):
+                                            chatroom.outgoing_calls_list))
+        or (is_vn and my_vn.trigger_time and (my_vn.incoming_calls_list
+                or my_vn.outgoing_calls_list) 
+            and calls_available_history(my_vn.incoming_calls_list 
+                                        + my_vn.outgoing_calls_list))):
         hbox:
             xalign 1.0
             xoffset -40
