@@ -211,6 +211,10 @@ init -6 python:
 
         return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
 
+    def get_text_width(the_text, the_style='default'):
+        """Return the width of text with a certain style applied."""
+        return int(Text(the_text, style=the_style).size()[0])
+
     
     config.displayable_prefix["btn_hover"] = btn_hover_img
     config.displayable_prefix["center_bg"] = center_bg_img
@@ -773,6 +777,9 @@ image vn_selected_hover = 'Menu Screens/Day Select/daychat01_vn_mint_hover.png'
 image vn_active_hover = 'Menu Screens/Day Select/vn_active_hover.png'
 image vn_marker = 'Menu Screens/Day Select/daychat01_vn_marker.png'
 image vn_time_bg = 'Menu Screens/Day Select/daychat01_chat_timebg.png'
+
+image solo_vn_active = "Menu Screens/Day Select/solo_vn_active.png"
+image solo_vn_hover = "Menu Screens/Day Select/solo_vn_hover.png"
 
 image chat_active = Frame('Menu Screens/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
 image chat_inactive = Frame('Menu Screens/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)

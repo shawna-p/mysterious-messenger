@@ -544,8 +544,36 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 renpy.restart_interaction, Hide('confirm')], 
                                 no_action=Hide('confirm'))
 
+    if solo_vn:
+        $ the_title = "A chatroom title that is very looong"
+        $ title_len = get_text_width(the_title, 'chat_timeline_text')
+        button:
+            style_prefix 'solo_vn'     
+            foreground 'solo_vn_active'
+            hover_foreground Fixed('solo_vn_active', 'solo_vn_hover')
+            if (my_vn.available 
+                    and can_play):
+                # Note: afm is ~30 at its slowest, 0 when it's off, 
+                # and 1 at its fastest
+                # This Preference means the player always has to
+                # manually enable auto-forward in a new story mode
+                action [Preference("auto-forward", "disable"), 
+                        SetVariable('current_chatroom', chatroom), 
+                        Jump(my_vn.vn_label)]
+            add 'vn_' + my_vn.who.file_id align (1.0, 1.0) xoffset 3 yoffset 5
+            hbox:
+                frame:
+                    text my_vn.trigger_time
+                viewport:
+                    frame:
+                        xsize 350
+                        if title_len >= 350:
+                            text the_title at chat_title_scroll
+                        else:
+                            text the_title
+
     # If there's a VN object, display it now
-    if my_vn and not my_vn.party:
+    elif my_vn and not my_vn.party:
         frame:
             style_prefix 'reg_timeline_vn'
             has hbox
@@ -571,7 +599,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                     add 'vn_other' xoffset -5
     
     # It's the VN that leads to the party
-    if my_vn and my_vn.party:
+    elif my_vn and my_vn.party:
         frame:
             style_prefix 'party_timeline_vn'           
             button:

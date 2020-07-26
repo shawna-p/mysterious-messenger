@@ -223,8 +223,6 @@ screen chatroom_item_history(chatroom):
     if not is_chatroom and not is_vn:
         text chatroom color "#fff" font gui.sans_serif_1b xalign 0.575
     elif is_chatroom:
-    
-        
         frame:
             xoffset 70
             xysize (620, 160)
@@ -306,10 +304,31 @@ screen chatroom_item_history(chatroom):
                                     if person.participant_pic:
                                         add person.participant_pic
 
-            
+    # It's a solo VN with a time
+    if my_vn and my_vn.trigger_time:
+        $ the_title = "A chatroom title that is very looong"
+        $ title_len = get_text_width(the_title, 'chat_timeline_text')
+        button:
+            style_prefix 'solo_vn'     
+            foreground 'solo_vn_active'
+            hover_foreground Fixed('solo_vn_active', 'solo_vn_hover')
+            action [Preference("auto-forward", "disable"),
+                    Replay(my_vn.vn_label,
+                        scope=replay_dictionary)]          
+            add 'vn_' + my_vn.who.file_id align (1.0, 1.0) xoffset 3 yoffset 5
+            hbox:
+                frame:
+                    text my_vn.trigger_time
+                viewport:
+                    frame:
+                        xsize 350
+                        if title_len >= 350:
+                            text the_title at chat_title_scroll
+                        else:
+                            text the_title
 
     # If there's a VN object, display it
-    if my_vn and not my_vn.party:
+    elif my_vn and not my_vn.party:
         frame:
             style_prefix 'reg_timeline_vn'            
             has hbox
@@ -327,7 +346,7 @@ screen chatroom_item_history(chatroom):
                     add 'vn_other' xoffset -5
     
     # It's the VN that leads to the party
-    if my_vn and my_vn.party:
+    elif my_vn and my_vn.party:
         frame:
             style_prefix 'party_timeline_vn'        
             button:
@@ -412,4 +431,21 @@ style timeline_hbox:
     xoffset 70
     xalign 0.0
 
+style solo_vn_button:
+    xoffset 77
+    xysize (604, 173)
+    xalign 0.0
 
+style solo_vn_hbox:
+    spacing 30
+    xoffset 77
+    yoffset 10
+
+style solo_vn_frame:
+    xysize (75, 30)
+
+style solo_vn_text:
+    is chat_timeline_text
+
+style solo_vn_viewport:
+    xysize (350, 30)
