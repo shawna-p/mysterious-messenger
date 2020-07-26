@@ -150,24 +150,21 @@ screen chat_animation(i, anti=False):
 
     # This does indeed need the 'NEW' sign
     else:
-        frame at i.msg_animation(anti):
-            pos (138,24)
-            xsize 500
-            background None
-            vbox:
-                spacing -20
-                order_reverse True
-                add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
-                frame:
-                    padding (25,12,20,12)
-                    background i.bubble_bg
-                    text i.what:
-                        if i.dialogue_width > gui.longer_than:
-                            style 'bubble_text_long'
-                            min_width gui.long_line_min_width
-                        else:
-                            style 'bubble_text'
-                    alt i.alt_text(anti)
+        vbox at i.msg_animation(anti):
+            pos (138, 24)
+            spacing -20
+            order_reverse True
+            add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
+            frame:
+                padding (25,12,20,5)
+                background i.bubble_bg
+                text i.what:
+                    if i.dialogue_width > gui.longer_than:
+                        style 'bubble_text_long'
+                        min_width gui.long_line_min_width
+                    else:
+                        style 'bubble_text'
+                alt i.alt_text(anti)
                                 
 
    
