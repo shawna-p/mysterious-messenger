@@ -349,7 +349,12 @@ screen chatroom_item(day, day_num, chatroom, index):
         anim = null_anim
         if hacked_effect and persistent.hacking_effects:
             anim = hacked_anim
-        my_vn = chatroom.vn_obj
+        if isinstance(chatroom, ChatHistory):
+            my_vn = chatroom.vn_obj
+            solo_vn = False
+        else:
+            my_vn = chatroom
+            solo_vn = True
         can_play = False
         # Several items vary in width if the chatroom is expired
         # or if hack effects are active
@@ -368,13 +373,14 @@ screen chatroom_item(day, day_num, chatroom, index):
                 vn_foreground = 'vn_active'
                 vn_hover = 'vn_active_hover'   
                 can_play = True
+            elif solo_vn and my_vn.available and wasplayed:
+                vn_foreground = 'vn_selected'
+                vn_hover = 'vn_selected_hover'
+                can_play = True 
             elif my_vn.available and wasplayed and chatroom.played:
                 vn_foreground = 'vn_selected'
                 vn_hover = 'vn_selected_hover'
                 can_play = True
-            elif chatroom.expired:
-                vn_foreground = 'vn_inactive'
-                vn_hover = 'vn_inactive'
             else:
                 vn_foreground = 'vn_inactive'
                 vn_hover = 'vn_inactive'
@@ -409,7 +415,8 @@ screen chatroom_item(day, day_num, chatroom, index):
                 part_anim = participant_scroll
             elif ((len(chatroom.participants) > 6
                      and not chatroom.participated)
-                     or (chatroom.expired and len(chatroom.participants) > 4)):
+                     or (chatroom.expired
+                        and len(chatroom.participants) > 4)):
                 part_anim = participant_scroll
             else:
                 part_anim = null_anim
@@ -444,112 +451,113 @@ screen chatroom_item(day, day_num, chatroom, index):
         textbutton _(chatroom.trigger_time[:2] + ':00'):
             style 'timeline_button'
             text_style 'timeline_button_text'
-        
-    hbox:
-        style 'timeline_hbox'
-        button at anim(10):
-            xysize (chat_box_width, 160)
-            xalign 0.0
-            background chat_bkgr
-            hover_foreground chat_hover
-            if can_play and wasplayed:
-                # Determines where to take the player depending
-                # on whether this chatroom is expired or not
-                if chatroom.expired and not chatroom.played:
-                    action [SetVariable('current_chatroom', chatroom), 
-                            Jump(chatroom.expired_chat)]
-                else:
-                    if (chatroom.played 
-                            and not persistent.testing_mode
-                            and chatroom.replay_log != []):
-                        action [SetVariable('current_chatroom', chatroom),
-                            SetVariable('observing', True),
-                            Jump('rewatch_chatroom')]
-                    else:
+
+    if not solo_vn:
+        hbox:
+            style 'timeline_hbox'
+            button at anim(10):
+                xysize (chat_box_width, 160)
+                xalign 0.0
+                background chat_bkgr
+                hover_foreground chat_hover
+                if can_play and wasplayed:
+                    # Determines where to take the player depending
+                    # on whether this chatroom is expired or not
+                    if chatroom.expired and not chatroom.played:
                         action [SetVariable('current_chatroom', chatroom), 
-                                Jump(chatroom.chatroom_label)]
+                                Jump(chatroom.expired_chat)]
+                    else:
+                        if (chatroom.played 
+                                and not persistent.testing_mode
+                                and chatroom.replay_log != []):
+                            action [SetVariable('current_chatroom', chatroom),
+                                SetVariable('observing', True),
+                                Jump('rewatch_chatroom')]
+                        else:
+                            action [SetVariable('current_chatroom', chatroom), 
+                                    Jump(chatroom.chatroom_label)]
+                        
+                if (hacked_effect and chatroom.expired 
+                        and persistent.hacking_effects):
+                    add 'day_reg_hacked' xoffset -185 yoffset -178
+                elif hacked_effect and persistent.hacking_effects:
+                    add 'day_reg_hacked_long' xoffset -210 yoffset -170
                     
-            if (hacked_effect and chatroom.expired 
-                    and persistent.hacking_effects):
-                add 'day_reg_hacked' xoffset -185 yoffset -178
-            elif hacked_effect and persistent.hacking_effects:
-                add 'day_reg_hacked_long' xoffset -210 yoffset -170
-                
-            vbox:
-                spacing 18
-                # This box displays the trigger time and title of the
-                # chatroom; optionally at a scrolling transform so you 
-                # can read the entire title
-                hbox:
-                    spacing 30
-                    frame:
-                        xysize (75,27)
-                        xoffset 77
-                        yoffset 13
-                        text chatroom.trigger_time:
-                            color '#fff' 
-                            size 27 
-                            xalign 0.5 yalign 0.5 
-                            text_align 0.5
-                    viewport:
-                        yoffset 13
-                        xoffset 77                
-                        xysize(chat_title_width,27)
-                        if len(chatroom.title) > 30: 
-                            frame:
-                                xysize(chat_title_width,27)
-                                text chatroom.title at chat_title_scroll:
+                vbox:
+                    spacing 18
+                    # This box displays the trigger time and title of the
+                    # chatroom; optionally at a scrolling transform so you 
+                    # can read the entire title
+                    hbox:
+                        spacing 30
+                        frame:
+                            xysize (75,27)
+                            xoffset 77
+                            yoffset 13
+                            text chatroom.trigger_time:
+                                color '#fff' 
+                                size 27 
+                                xalign 0.5 yalign 0.5 
+                                text_align 0.5
+                        viewport:
+                            yoffset 13
+                            xoffset 77                
+                            xysize(chat_title_width,27)
+                            if len(chatroom.title) > 30: 
+                                frame:
+                                    xysize(chat_title_width,27)
+                                    text chatroom.title at chat_title_scroll:
+                                        color '#fff' 
+                                        size 25 
+                                        xalign 0.0 yalign 0.5 
+                                        text_align 0.0 
+                                        layout 'nobreak' 
+                            else:
+                                text chatroom.title:
                                     color '#fff' 
                                     size 25 
                                     xalign 0.0 yalign 0.5 
                                     text_align 0.0 
-                                    layout 'nobreak' 
-                        else:
-                            text chatroom.title:
-                                color '#fff' 
-                                size 25 
-                                xalign 0.0 yalign 0.5 
-                                text_align 0.0 
-                                layout 'nobreak'
-                # Shows a list of all the people who were in/
-                # are in this chatroom
-                viewport:
-                    xysize(partic_viewport_width, 85)
-                    yoffset 13
-                    xoffset 77            
-                    yalign 0.5
-                    frame:
+                                    layout 'nobreak'
+                    # Shows a list of all the people who were in/
+                    # are in this chatroom
+                    viewport:
                         xysize(partic_viewport_width, 85)
-                        hbox at part_anim:
-                            spacing 5
-                            if chatroom.participants:
-                                for person in chatroom.participants:
-                                    if person.participant_pic:
-                                        add person.participant_pic
-                                
-                            if chatroom.participated and chatroom.played:
-                                add m.get_pfp(80)
+                        yoffset 13
+                        xoffset 77            
+                        yalign 0.5
+                        frame:
+                            xysize(partic_viewport_width, 85)
+                            hbox at part_anim:
+                                spacing 5
+                                if chatroom.participants:
+                                    for person in chatroom.participants:
+                                        if person.participant_pic:
+                                            add person.participant_pic
+                                    
+                                if chatroom.participated and chatroom.played:
+                                    add m.get_pfp(80)
 
-        # If this chat is expired and hasn't been bought back,
-        # show a button allowing the player to buy this chat again            
-        if chatroom.expired and not chatroom.buyback:
-            imagebutton:
-                yalign 0.9
-                xalign 0.5
-                idle 'expired_chat'
-                hover_background 'btn_hover:expired_chat'
-                if chatroom.available or persistent.testing_mode:
-                    action Show('confirm', message=("Would you like to"
-                                + " participate in the chat conversation"
-                                + " that has passed?"),
-                            yes_action=[SetField(chatroom, 'expired', False),
-                            SetField(chatroom, 'buyback', True),
-                            SetField(chatroom, 'played', False),
-                            SetField(chatroom, 'replay_log', []),
-                            Function(chatroom.reset_participants),
-                            renpy.retain_after_load,
-                            renpy.restart_interaction, Hide('confirm')], 
-                            no_action=Hide('confirm'))
+            # If this chat is expired and hasn't been bought back,
+            # show a button allowing the player to buy this chat again            
+            if chatroom.expired and not chatroom.buyback:
+                imagebutton:
+                    yalign 0.9
+                    xalign 0.5
+                    idle 'expired_chat'
+                    hover_background 'btn_hover:expired_chat'
+                    if chatroom.available or persistent.testing_mode:
+                        action Show('confirm', message=("Would you like to"
+                                    + " participate in the chat conversation"
+                                    + " that has passed?"),
+                                yes_action=[SetField(chatroom, 'expired', False),
+                                SetField(chatroom, 'buyback', True),
+                                SetField(chatroom, 'played', False),
+                                SetField(chatroom, 'replay_log', []),
+                                Function(chatroom.reset_participants),
+                                renpy.retain_after_load,
+                                renpy.restart_interaction, Hide('confirm')], 
+                                no_action=Hide('confirm'))
 
     # If there's a VN object, display it now
     if my_vn and not my_vn.party:
@@ -568,7 +576,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
                 if (my_vn.available 
                         and can_play 
-                        and chatroom.played):
+                        and ((not solo_vn and chatroom.played) or solo_vn)):
                     # Note: afm is ~30 at its slowest, 0 when it's off, 
                     # and 1 at its fastest
                     # This Preference means the player always has to
