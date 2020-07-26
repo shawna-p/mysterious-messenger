@@ -225,10 +225,22 @@ init -6 python:
         trigger_time : string
             Formatted as "00:00" in 24-hour time. The time this VN should
             show up at, if it is not attached to a chatroom.
+        plot_branch : PlotBranch or False
+            Keeps track of plot branch information if the story should
+            branch after this chatroom.
+        save_img : string
+            A short version of the file path used to display the icon next
+            to a save file when this is the active chatroom.
+        outgoing_calls_list : string[]
+            List of the labels used for phone calls that should follow this
+            VN, if it is separate. Also used in the History screen.
+        incoming_calls_list : string[]
+            List of the labels used for incoming phone calls that should
+            occur after this VN. Also used in the History screen.
         """
 
-        def __init__(self, vn_label, who=None, 
-                    party=False, trigger_time=False):
+        def __init__(self, vn_label, who=None, party=False, trigger_time=False,
+                    plot_branch=False, save_img='auto'):
             """
             Create a VNMode object to keep track of information for a Visual
             Novel section.
@@ -244,6 +256,12 @@ init -6 python:
             trigger_time : string
                 Formatted as "00:00" in 24-hour time. The time this VN should
                 show up at, if it is not attached to a chatroom.
+            plot_branch : PlotBranch or False
+                Keeps track of plot branch information if the story should
+                branch after this chatroom.
+            save_img : string
+                A short version of the file path used to display the icon next
+                to a save file when this is the active VN.
             """
 
             self.vn_label = vn_label
@@ -253,7 +271,94 @@ init -6 python:
             self.party = party
             # Not currently used; useful for having VN mode
             # sections separate from a chatroom
-            self.trigger_time = trigger_time
+            if trigger_time:
+                # Ensure the trigger time is set up properly
+                # It corrects times like 3:45 to 03:45
+                if ':' in trigger_time[:2]:
+                    self.trigger_time = '0' + trigger_time
+                else:
+                    self.trigger_time = trigger_time
+            else:
+                self.trigger_time = trigger_time
+
+            self.plot_branch = plot_branch
+            self.save_img = save_img
+
+            if self.trigger_time:
+                self.outgoing_calls_list = [ (self.vn_label + '_outgoing_' 
+                    + x.file_id) for x in store.all_characters 
+                    if renpy.has_label(self.vn_label + '_outgoing_' 
+                        + x.file_id)]
+                self.incoming_calls_list = [ (self.vn_label + '_incoming_' 
+                    + x.file_id) for x in store.all_characters 
+                    if renpy.has_label(self.vn_label + '_incoming_' 
+                        + x.file_id)]
+            else:
+                self.outgoing_calls_list = []
+                self.incoming_calls_list = []
+
+        @property
+        def vn_obj(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            return False
+
+        @property
+        def chatroom_label(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            return self.vn_label
+
+        @property
+        def expired(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            return False
+
+        @property
+        def buyback(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            return False
+        
+        @property
+        def buyahead(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            return False
+
+        @property
+        def participants(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            return []
+
+        def __eq__(self, other):
+            """Check for equality between two VNMode objects."""
+            if not isinstance(other, VNMode):
+                return False
+            return (self.vn_label == other.vn_label
+                    and self.who == other.who)
+        
+        def __ne__(self, other):
+            """Check for inequality between two VNMode objects."""
+            if not isinstance(other, ChatHistory):
+                return True
+
+            return (self.vn_label != other.vn_label
+                    or self.who != other.who)
 
     class PlotBranch(renpy.store.object):
         """
@@ -550,53 +655,52 @@ init -6 python:
         # Running on sequential mode
         if not persistent.real_time:
             for archive in chat_archive:
-                if archive.archive_list:
-                    for chatroom in archive.archive_list:
-                        # If they haven't played the currently
-                        # available chatroom, don't make anything new
-                        # available and stop
-                        if chatroom.available and not chatroom.played:
-                            triggered_next = True
-                            break
-                        # If the currently available chatroom is a plot branch
-                        # without a VN, don't make anything new available
-                        if (chatroom.available and not chatroom.vn_obj
-                                and chatroom.plot_branch):
-                            triggered_next = True
-                            break
-                        # If the chatroom has an unavailable VN after it,
-                        ## make that available and stop
-                        if (chatroom.played and chatroom.vn_obj 
-                                and not chatroom.vn_obj.available):
-                            chatroom.vn_obj.available = True
-                            triggered_next = True
-                            break
-                        # If they haven't played the VN yet, 
-                        # don't make anything new available and stop
-                        if (chatroom.played and chatroom.vn_obj 
-                                and chatroom.vn_obj.available 
-                                and not chatroom.vn_obj.played):
-                            triggered_next = True
-                            break              
-                        
-                        # If it's a plot branch with a played VN, don't
-                        # make anything new available and stop
-                        if (chatroom.played and chatroom.vn_obj
-                                and chatroom.plot_branch
-                                and chatroom.vn_obj.played):
-                            triggered_next = True
-                            break
+                for chatroom in archive.archive_list:
+                    # If they haven't played the currently
+                    # available chatroom, don't make anything new
+                    # available and stop
+                    if chatroom.available and not chatroom.played:
+                        triggered_next = True
+                        break
+                    # If the currently available chatroom is a plot branch
+                    # without a VN, don't make anything new available
+                    if (chatroom.available and not chatroom.vn_obj
+                            and chatroom.plot_branch):
+                        triggered_next = True
+                        break
+                    # If the chatroom has an unavailable VN after it,
+                    ## make that available and stop
+                    if (chatroom.played and chatroom.vn_obj 
+                            and not chatroom.vn_obj.available):
+                        chatroom.vn_obj.available = True
+                        triggered_next = True
+                        break
+                    # If they haven't played the VN yet, 
+                    # don't make anything new available and stop
+                    if (chatroom.played and chatroom.vn_obj 
+                            and chatroom.vn_obj.available 
+                            and not chatroom.vn_obj.played):
+                        triggered_next = True
+                        break              
+                    
+                    # If it's a plot branch with a played VN, don't
+                    # make anything new available and stop
+                    if (chatroom.played and chatroom.vn_obj
+                            and chatroom.plot_branch
+                            and chatroom.vn_obj.played):
+                        triggered_next = True
+                        break
 
-                        # If the current chatroom isn't available, 
-                        # make it available and stop. Also decrease 
-                        # the time old phone calls are available
-                        if not chatroom.available:
-                            chatroom.available = True
-                            current_chatroom = chatroom
-                            for phonecall in available_calls:
-                                phonecall.decrease_time()
-                            triggered_next = True
-                            break               
+                    # If the current chatroom isn't available, 
+                    # make it available and stop. Also decrease 
+                    # the time old phone calls are available
+                    if not chatroom.available:
+                        chatroom.available = True
+                        current_chatroom = chatroom
+                        for phonecall in available_calls:
+                            phonecall.decrease_time()
+                        triggered_next = True
+                        break               
                 if triggered_next:
                     break
             # Done making chatrooms available
@@ -786,7 +890,8 @@ init -6 python:
 
         # The previous chatroom expires if not played,
         # bought back, or bought ahead
-        if (not prev_chatroom.played
+        if (isinstance(prev_chatroom, ChatHistory)
+                and not prev_chatroom.played
                 and not prev_chatroom.buyback 
                 and not prev_chatroom.buyahead):
             prev_chatroom.expired = True
@@ -849,7 +954,7 @@ init -6 python:
                     if not chatroom.played: 
                         total += 1
                     if chatroom.plot_branch and break_for_branch:
-                        break
+                        return total
         return total
                 
         
@@ -860,7 +965,7 @@ init -6 python:
         """
 
         global incoming_call, available_calls, current_call
-        global persistent, text_person, all_characters
+        global persistent, all_characters
         
         delivered_text = False
 
@@ -1004,7 +1109,7 @@ init -6 python:
                         completed_chatrooms += 1
         # Be sure not to divide by zero
         if num_chatrooms == 0:
-            num_chatrooms == 1
+            num_chatrooms = 1
         return (completed_chatrooms * 100 // num_chatrooms)
     
               
