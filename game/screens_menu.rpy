@@ -794,6 +794,10 @@ screen menu_header(title, return_action=NullAction,
                                 Show('preferences')]
                     else:
                         action Show("preferences")  
+                else:
+                    action Function(print, "Settings won't work because: choice? ",
+                        renpy.get_screen("choice"), " in_call? ", renpy.get_screen("in_call"),
+                        " text person? ", text_person)
         else:
             null width 72
             
@@ -929,6 +933,7 @@ screen chat_home(reshow=False):
                     or renpy.get_screen('chip_end'),
                 SetField(persistent, 'just_loaded', False),
                 [SetField(persistent, 'just_loaded', False),
+                SetVariable('text_person', None),
                 Hide('chip_end'), renpy.retain_after_load,
                 FileSave(mm_auto, confirm=False)]) 
  
@@ -937,7 +942,8 @@ screen chat_home(reshow=False):
                     or renpy.get_screen('chip_cloud') 
                     or renpy.get_screen('chip_end'),
                 SetField(persistent, 'just_loaded', False),
-                [SetField(persistent, 'just_loaded', False), 
+                [SetField(persistent, 'just_loaded', False),
+                SetVariable('text_person', None),
                 Hide('chip_end'), renpy.retain_after_load, 
                 FileSave(mm_auto, confirm=False)]) 
 
@@ -1354,7 +1360,7 @@ screen developer_settings():
             null height 30
             
             frame:
-                xysize(650,280)
+                xysize(650,320)
                 background "menu_settings_panel"
                 text "Variables for testing":
                     style "settings_style" xpos 45 ypos -3
