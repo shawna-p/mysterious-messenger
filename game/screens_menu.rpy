@@ -93,6 +93,27 @@ init python:
         global greet_text_english, greet_text_korean 
         global greet_char, greet_list
         greet_char = renpy.random.choice(greet_list)
+
+        # Test that this character is indeed in the greetings lists
+        while greet_list:
+            try:
+                morning_greeting[greet_char]
+                afternoon_greeting[greet_char]
+                evening_greeting[greet_char]
+                night_greeting[greet_char]
+                late_night_greeting[greet_char]
+                break
+            except KeyError:
+                # This means the character doesn't have a greeting available
+                print("WARNING: Character", greet_char,
+                    "does not have greetings, but is included in greet_list.")
+                renpy.show_screen('notify',
+                    "WARNING: Character " + greet_char + " does not have "
+                    + "greetings, but is included in greet_list.")
+                greet_list.remove(greet_char)
+                greet_char = renpy.random.choice(greet_list)
+
+
         hour = int(time.strftime('%H', time.localtime()))
         
         if hour >= 6 and hour < 12:  # morning

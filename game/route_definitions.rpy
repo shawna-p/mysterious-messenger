@@ -225,6 +225,8 @@ init -6 python:
         trigger_time : string
             Formatted as "00:00" in 24-hour time. The time this VN should
             show up at, if it is not attached to a chatroom.
+        title : string
+            The title for the VN as it should show up in the History screen.
         plot_branch : PlotBranch or False
             Keeps track of plot branch information if the story should
             branch after this chatroom.
@@ -240,7 +242,7 @@ init -6 python:
         """
 
         def __init__(self, vn_label, who=None, party=False, trigger_time=False,
-                    plot_branch=False, save_img='auto'):
+                    title="", plot_branch=False, save_img='auto'):
             """
             Create a VNMode object to keep track of information for a Visual
             Novel section.
@@ -256,6 +258,8 @@ init -6 python:
             trigger_time : string
                 Formatted as "00:00" in 24-hour time. The time this VN should
                 show up at, if it is not attached to a chatroom.
+            title : string
+                The title for the VN for the History screen.
             plot_branch : PlotBranch or False
                 Keeps track of plot branch information if the story should
                 branch after this chatroom.
@@ -269,8 +273,7 @@ init -6 python:
             self.played = False
             self.available = False
             self.party = party
-            # Not currently used; useful for having VN mode
-            # sections separate from a chatroom
+            self.title = title
             if trigger_time:
                 # Ensure the trigger time is set up properly
                 # It corrects times like 3:45 to 03:45
@@ -359,6 +362,13 @@ init -6 python:
 
             return (self.vn_label != other.vn_label
                     or self.who != other.who)
+
+    def SoloVN(title, vn_label, trigger_time, who=None, plot_branch=False,
+                party=False, save_img='auto'):
+        """Return a VNMode object with the given parameters."""
+        
+        return VNMode(vn_label, who, party, trigger_time,
+                title, plot_branch, save_img)
 
     class PlotBranch(renpy.store.object):
         """
