@@ -895,7 +895,8 @@ screen guestbook():
                         background guest.thumbnail
                         action Show('guest_info_popup', 
                                 guest=guest, unlocked=False)
-                    elif persistent.guestbook[guest.name] == "attended":
+                    elif (persistent.guestbook[guest.name] == "attended"
+                            or persistent.guestbook[guest.name] == 'viewed'):
                         # The guest has attended the party
                         background guest.thumbnail
                         action Show('guest_info_popup',
@@ -960,17 +961,35 @@ screen guest_info_popup(guest, unlocked):
                             if unlocked:
                                 idle 'guest_story'
                                 hover Transform('guest_story', zoom=1.1)
-                                action [Preference('auto-forward', 'disable'),
+                                action [Preference('auto-forward', 
+                                        'disable'),
                                     Replay('guest_info', 
-                                    {'guest_replay_info' : (guest.comment_who, 
-                                                            guest.comment_what,
-                                                            guest.comment_img)
-                                    }, False)]
+                                    {'guest_replay_info' : 
+                                        guest}, False),
+                                    SetDict(persistent.guestbook, 
+                                        guest.name, 'viewed'),
+                                    Function(renpy.retain_after_load)]
                             else:
                                 idle 'guest_story_locked'
 default guest_replay_info = None
 label guest_info():
-    $ who, what, expr = guest_replay_info
+    python:
+        who = guest_replay_info.comment_who
+        what = guest_replay_info.comment_what
+        expr = guest_replay_info.comment_img
+
+        # Award an hourglass if this is the first time
+        # the player has seen this guest's guestbook
+        if persistent.guestbook[guest_replay_info.name] == 'attended':
+            persistent.guestbook[guest_replay_info.name] = 'viewed'
+            if not persistent.animated_icons:
+                renpy.show_screen(allocate_notification_screen(False),
+                    message="Hourglass +1")
+            else:
+                renpy.show_screen(allocate_hg_screen())
+            renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
+            persistent.HG += 1
+
     call vn_begin()
     $ viewing_guest = True
     scene bg rfa_party_3
