@@ -779,6 +779,8 @@ image vn_marker = 'Menu Screens/Day Select/daychat01_vn_marker.png'
 image vn_time_bg = 'Menu Screens/Day Select/daychat01_chat_timebg.png'
 
 image solo_vn_active = "Menu Screens/Day Select/solo_vn_active.png"
+image solo_vn_inactive = "Menu Screens/Day Select/solo_vn_inactive.png"
+image solo_vn_selected = "Menu Screens/Day Select/solo_vn_mint.png"
 image solo_vn_hover = "Menu Screens/Day Select/solo_vn_hover.png"
 
 image chat_active = Frame('Menu Screens/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
