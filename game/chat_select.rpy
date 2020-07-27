@@ -498,7 +498,8 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 text_align 0.5
                         viewport:
                             xysize(chat_title_width,27)
-                            if len(chatroom.title) > 30: 
+                            if get_text_width(chatroom.title, 
+                                    'chat_timeline_text') >= chat_title_width:
                                 frame:
                                     xysize(chat_title_width,27)
                                     text chatroom.title at chat_title_scroll
@@ -545,12 +546,10 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 no_action=Hide('confirm'))
 
     if solo_vn:
-        $ the_title = "A chatroom title that is very looong"
-        $ title_len = get_text_width(the_title, 'chat_timeline_text')
         button:
             style_prefix 'solo_vn'     
-            foreground 'solo_vn_active'
-            hover_foreground Fixed('solo_vn_active', 'solo_vn_hover')
+            foreground 'solo_' + vn_foreground
+            hover_foreground Fixed('solo_' + vn_foreground, 'solo_vn_hover')
             if (my_vn.available 
                     and can_play):
                 # Note: afm is ~30 at its slowest, 0 when it's off, 
@@ -567,10 +566,11 @@ screen chatroom_item(day, day_num, chatroom, index):
                 viewport:
                     frame:
                         xsize 350
-                        if title_len >= 350:
-                            text the_title at chat_title_scroll
+                        if get_text_width(my_vn.title,
+                                'chat_timeline_text') >= 350:
+                            text my_vn.title at chat_title_scroll
                         else:
-                            text the_title
+                            text my_vn.title
 
     # If there's a VN object, display it now
     elif my_vn and not my_vn.party:

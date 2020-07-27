@@ -281,7 +281,8 @@ screen chatroom_item_history(chatroom):
                             text_align 0.5
                     viewport:               
                         xysize(400,27)
-                        if len(chatroom.title) > 30: 
+                        if get_text_width(chatroom.title, 
+                                'chat_timeline_text') >= 400:
                             frame:
                                 xysize(400,27)
                                 text chatroom.title at chat_title_scroll
@@ -306,8 +307,6 @@ screen chatroom_item_history(chatroom):
 
     # It's a solo VN with a time
     if my_vn and my_vn.trigger_time:
-        $ the_title = "A chatroom title that is very looong"
-        $ title_len = get_text_width(the_title, 'chat_timeline_text')
         button:
             style_prefix 'solo_vn'     
             foreground 'solo_vn_active'
@@ -322,10 +321,11 @@ screen chatroom_item_history(chatroom):
                 viewport:
                     frame:
                         xsize 350
-                        if title_len >= 350:
-                            text the_title at chat_title_scroll
+                        if get_text_width(my_vn.title,
+                                'chat_timeline_text') >= 350:
+                            text my_vn.title at chat_title_scroll
                         else:
-                            text the_title
+                            text my_vn.title
 
     # If there's a VN object, display it
     elif my_vn and not my_vn.party:
