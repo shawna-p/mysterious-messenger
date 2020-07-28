@@ -430,7 +430,6 @@ init -4 python:
                 or not store.persistent.receive_hg):
             return
         
-        # There'll be some random function here
         if store.hourglass_bag.draw():
             if not persistent.animated_icons:
                 renpy.show_screen(allocate_notification_screen(True),
@@ -501,6 +500,93 @@ init -4 python:
                                     upTime(), chatbackup.img, 
                                     chatbackup.bounce, 
                                     chatbackup.specBubble))
+
+    def post_chat_actions(deliver_messages=True):
+        """
+        Send emails, deliver text messages and phone calls, and set
+        current chatroom status as appropriate.
+        """
+
+        global current_chatroom, persistent
+
+        # Mark this chatroom as played, if applicable
+        if not current_chatroom.played:
+            current_chatroom.played = True
+            # Add this label to the list of completed labels for the History
+            if current_chatroom.expired and not current_chatroom.buyback:
+                persistent.completed_chatrooms[
+                    current_chatroom.expired_chat] = True
+                current_chatroom.participated = False
+            else:
+                persistent.completed_chatrooms[
+                    current_chatroom.chatroom_label] = True
+                current_chatroom.participated = True
+            # This is the most recent chatroom if the player didn't
+            # buy it back to play through it and it isn't the intro
+            if not store.starter_story and not current_chatroom.buyback:
+                store.most_recent_chat = current_chatroom
+
+        # Otherwise if this was a VN, mark it as played
+        elif (current_chatroom.vn_obj 
+                and not current_chatroom.vn_obj.played
+                and current_chatroom.vn_obj.available):
+            current_chatroom.vn_obj.played = True
+            # Add this label to the list of completed labels
+            persistent.completed_chatrooms[
+                current_chatroom.vn_obj.vn_label] = True
+
+        # If the chatroom has expired or was bought back, then its
+        # post-chatroom content will have already been delivered
+        if not current_chatroom.expired and not current_chatroom.buyback:
+            # Check if there is a VN section; call after_ label if not
+            # or if the VN has been played through
+            if (deliver_messages and renpy.has_label('after_'
+                        + current_chatroom.chatroom_label)
+                    and (not current_chatroom.vn_obj
+                        or current_chatroom.vn_obj.played)):
+                # Call this chatroom's after_ label
+                call_after_label(current_chatroom.chatroom_label,
+                    current_chatroom.expired)
+                # Deliver calls
+                deliver_calls(current_chatroom.chatroom_label)
+            
+        # Deliver emails and trigger the next chatroom
+        deliver_emails()   
+        next_chatroom()
+        hide_all_popups()
+        # Make sure any images shown are unlocked
+        check_for_CGs(store.all_albums)
+        renpy.retain_after_load()
+        # Check to see if the honey buddha chips should be available
+        if not store.chips_available:
+            store.chips_available = store.hbc_bag.draw()
+        renpy.music.stop()
+                        
+    
+    def call_after_label(the_label, expired):
+        """Call the after_ label, with was_expired set appropriately."""
+
+        store.was_expired = expired
+        renpy.call('after_' + the_label)
+        store.was_expired = False
+
+    def reset_chatroom_vars():
+        """Reset variables and hide screens after a chatroom."""
+
+        config.skipping = False
+        store.choosing = False
+        store.observing = False
+        renpy.hide_screen('phone_overlay')
+        renpy.hide_screen('save_and_exit')
+        renpy.hide_screen('play_button')
+        renpy.hide_screen('answer_button')
+        renpy.hide_screen('pause_button')
+        renpy.hide_screen('messenger_screen')
+        renpy.hide_screen('animated_bg')
+        renpy.hide_screen('vn_overlay')
+        hide_all_popups()
+        renpy.music.stop()
+
 
 define chat_speed_increment = 0.15
 
