@@ -340,6 +340,14 @@ init -6 python:
             """
             return False
 
+        @buyahead.setter
+        def buyahead(self, other):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            pass
+
         @property
         def participants(self):
             """
@@ -1022,8 +1030,9 @@ init -6 python:
         
         global chat_archive, most_recent_chat
         # Figure out which VN to show the player
-        # Check if the new route's first item is a VN -- if so, it overrides
-        # the VN stored in the PlotBranch object
+        # If this route has a branch_vn, extract it and attach it to the
+        # current chatroom. It should be on the RouteDay object, which is
+        # second in the list ("Bad End", RouteDay(...))
         if len(new_route) > 1 and new_route[1].branch_vn:
             # Add this VN to the day with the plot branch
             most_recent_chat.vn_obj = new_route[1].branch_vn
@@ -1034,7 +1043,7 @@ init -6 python:
         for archive in chat_archive:
             for chat in archive.archive_list:
                 if chat.plot_branch:
-                    found_branch = True
+                    found_branch = chat
                     break
             if found_branch:
                 break
@@ -1042,7 +1051,9 @@ init -6 python:
 
         # Now get rid of all the chats past the plot branch
         while (chat_archive[a].archive_list 
-                and not chat_archive[a].archive_list[-1].plot_branch):
+                and not chat_archive[a].archive_list[-1] == found_branch):
+            # Remove the last item from the archive_list if it isn't the
+            # plot branch we're dealing with
             chat_archive[a].archive_list.pop()
 
         if a < len(chat_archive):
