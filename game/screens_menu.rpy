@@ -978,8 +978,12 @@ screen chat_home(reshow=False):
                 pfp_size = 105
             else:
                 pfp_size = 115
+            if m in character_list:
+                sub_num = 1
+            else:
+                sub_num = 0
             num_col = (741-8-16-pfp_size) // pfp_size
-            num_row = -(-(len(character_list)-1) // num_col)
+            num_row = -(-(len(character_list)-sub_num) // num_col)
             extra_space = (741-8-8-pfp_size) - (num_col * pfp_size)
                         
 
@@ -1007,7 +1011,7 @@ screen chat_home(reshow=False):
                             action [SetField(person, 'seen_updates', True),
                                 Show('chara_profile', who=person)]
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
-                for x in range(num_col*num_row - len(character_list) + 1):
+                for x in range(num_col*num_row - len(character_list) + sub_num):
                     null    
             
             imagebutton:
