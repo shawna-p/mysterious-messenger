@@ -203,6 +203,12 @@ init -6 python:
             """
 
             self.participants = deepcopy(self.original_participants)
+
+        @property
+        def party(self):
+            """Retain compatibility with VNMode objects."""
+
+            return False
             
             
     class VNMode(renpy.store.object):
@@ -301,6 +307,15 @@ init -6 python:
                 self.incoming_calls_list = []
 
         @property
+        def vn_img(self):
+            """Return the image used for this VN."""
+
+            if self.who:
+                return 'vn_' + self.who.file_id
+            else:
+                return 'vn_other'
+        
+        @property
         def vn_obj(self):
             """
             Allow ChatHistory and VNMode objects to be used
@@ -377,6 +392,12 @@ init -6 python:
         
         return VNMode(vn_label, who, party, trigger_time,
                 title, plot_branch, save_img)
+
+    def TheParty(vn_label, trigger_time=False, save_img='auto'):
+        """Return a VNMode object defined to be the party."""
+
+        return VNMode(vn_label, party=True, trigger_time=trigger_time,
+                        save_img=save_img)
 
     class PlotBranch(renpy.store.object):
         """
@@ -791,7 +812,7 @@ init -6 python:
                     today_day_num = day_index
                     continue
                 elif chat_index == 0 and day_index > 0:
-                    prev_chatroom = routeday[day_index-1].archive_list[-1]
+                    prev_chatroom = chat_archive[day_index-1].archive_list[-1]
 
                 else:
                     prev_chatroom = False
@@ -1028,7 +1049,7 @@ init -6 python:
     def merge_routes(new_route):
         """Merge new_route with the current route."""
         
-        global chat_archive, most_recent_chat
+        global chat_archive, most_recent_chat, current_chatroom
         # Figure out which VN to show the player
         # If this route has a branch_vn, extract it and attach it to the
         # current chatroom. It should be on the RouteDay object, which is
@@ -1037,12 +1058,23 @@ init -6 python:
             # Add this VN to the day with the plot branch
             most_recent_chat.vn_obj = new_route[1].branch_vn
 
-        # Find the day the plot branch was on
+        plot_branch_party = False
+        try:
+            if new_route[1].archive_list[0].party:
+                plot_branch_party = True
+        except:
+            print("Couldn't determine if new_route was the party")
+
+        # Find the day the plot branch was on UNLESS this is the party
+        # plot branch, in which case we're looking for the party
         a = 0
         found_branch = False
         for archive in chat_archive:
             for chat in archive.archive_list:
-                if chat.plot_branch:
+                if not plot_branch_party and chat.plot_branch:
+                    found_branch = chat
+                    break
+                elif plot_branch_party and chat.party:
                     found_branch = chat
                     break
             if found_branch:
@@ -1063,12 +1095,29 @@ init -6 python:
         # Remove the plot branch indicator
         most_recent_chat.plot_branch = False
 
+        # If this is the party, might need to update the current_chatroom
+        # to be the merged party
+        if plot_branch_party:
+            # Search through chat_archive to find the party we're replacing
+            for day in chat_archive:
+                for chat in day.archive_list:
+                    if chat.party and not chat.played:
+                        # This is the party to replace
+                        print("Found the replacement party")
+                        chat = new_route[1].archive_list[0]
+                        current_chatroom = chat
+                        print("current_chatroom is now", current_chatroom.chatroom_label)
+                        return
+
+
         # Merge the days on the new route
         for archive in chat_archive:
             for archive2 in new_route[1:]:
                 if archive2.day == archive.day:                    
                     archive.archive_list += archive2.archive_list
                     archive.day_icon = archive2.day_icon
+
+
 
 
 
