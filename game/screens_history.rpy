@@ -221,7 +221,16 @@ screen chatroom_item_history(chatroom):
 
     null height 10
     if not is_chatroom and not is_vn:
-        text chatroom color "#fff" font gui.sans_serif_1b xalign 0.575
+        # It's the name/title of the ending
+        frame:
+            xsize 570
+            yminimum 55
+            xalign 1.0
+            text chatroom:
+                text_align 0.5
+                color "#fff"
+                font gui.sans_serif_1b
+                xalign 0.5
     elif is_chatroom:
         frame:
             xoffset 70
@@ -306,7 +315,7 @@ screen chatroom_item_history(chatroom):
                                         add person.participant_pic
 
     # It's a solo VN with a time
-    if my_vn and my_vn.trigger_time:
+    if my_vn and my_vn.trigger_time and not my_vn.party:
         button:
             style_prefix 'solo_vn'     
             foreground 'solo_vn_active'
@@ -314,7 +323,7 @@ screen chatroom_item_history(chatroom):
             action [Preference("auto-forward", "disable"),
                     Replay(my_vn.vn_label,
                         scope=replay_dictionary)]          
-            add 'vn_' + my_vn.who.file_id align (1.0, 1.0) xoffset 3 yoffset 5
+            add my_vn.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
                 frame:
                     text my_vn.trigger_time
@@ -340,24 +349,18 @@ screen chatroom_item_history(chatroom):
                 action [Preference("auto-forward", "disable"),
                         Replay(my_vn.vn_label,
                                 scope=replay_dictionary)]                 
-                if my_vn.who:
-                    add 'vn_' + my_vn.who.file_id xoffset -5
-                else:
-                    add 'vn_other' xoffset -5
+                add my_vn.vn_img xoffset -5
     
     # It's the VN that leads to the party
     elif my_vn and my_vn.party:
         frame:
             style_prefix 'party_timeline_vn'        
             button:
-                background 'vn_party'              
-                if my_vn.available and can_play:
-                    hover_foreground 'vn_party'
-                    # Note: afm is ~30 at its slowest, 0 when it's off, 
-                    # and 1 at its fastest
-                    action [Preference("auto-forward", "disable"), 
-                            Replay(my_vn.vn_label,
-                                scope=replay_dictionary)]  
+                background 'vn_party'
+                hover_foreground 'vn_party'
+                action [Preference("auto-forward", "disable"), 
+                        Replay(my_vn.vn_label,
+                            scope=replay_dictionary)]  
 
     # Now add an hbox of the phone calls available after this chatroom
     if ((is_chatroom and (chatroom.incoming_calls_list 
