@@ -145,9 +145,6 @@ screen day_select(day, day_num):
             day_bkgr = 'day_inactive'
             day_bkgr_hover = 'day_inactive'
 
-        # DEBUG: Remove this
-        playable=True
-
     vbox:
         spacing 10
         vbox:
