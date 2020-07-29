@@ -145,6 +145,9 @@ screen day_select(day, day_num):
             day_bkgr = 'day_inactive'
             day_bkgr_hover = 'day_inactive'
 
+        # DEBUG: Remove this
+        playable=True
+
     vbox:
         spacing 10
         vbox:
@@ -236,6 +239,8 @@ style day_title:
     font gui.sans_serif_1
     yalign 0.5        
         
+
+default timeline_yadj = ui.adjustment()
 ########################################################
 ## This screen shows a timeline of the chatrooms on
 ## each particular day
@@ -265,7 +270,7 @@ screen chatroom_timeline(day, day_num):
             add 'day_vlink' size (15,1180) xalign 0.15
             viewport:
                 ysize 1190
-                yadjustment yadj            
+                yadjustment timeline_yadj
                 mousewheel True
                 draggable True    
                 side_spacing 5
@@ -314,6 +319,10 @@ screen chatroom_timeline(day, day_num):
 ## in the main screen; determines whether or not this chat
 ## was played, what day it was, etc
 screen chatroom_item(day, day_num, chatroom, index):
+
+    on 'hide' action [SetVariable('timeline_yinitial', timeline_yadj.value),
+        Function(print, "Setting yinitial to", timeline_yadj.value)]
+
     python:
         sametime = False
         wasplayed = False
@@ -385,10 +394,10 @@ screen chatroom_item(day, day_num, chatroom, index):
                 vn_foreground = 'vn_inactive'
                 vn_hover = 'vn_inactive'
         elif my_vn and my_vn.party:
-            if my_vn.available:
+            if my_vn.available and wasplayed:
                 vn_background = 'vn_party'
                 can_play = True
-            elif not my_vn.available:
+            else:
                 vn_background = 'vn_party_inactive'
                 
         # These statements determine how a chatroom button
@@ -474,7 +483,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 SetVariable('observing', True),
                                 Jump('rewatch_chatroom')]
                         else:
-                            action [SetVariable('current_chatroom', chatroom), 
+                            action [SetVariable('current_chatroom', chatroom),                                     
                                     Jump(chatroom.chatroom_label)]
                         
                 if (hacked_effect and chatroom.expired 
@@ -545,13 +554,12 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 renpy.restart_interaction, Hide('confirm')], 
                                 no_action=Hide('confirm'))
 
-    if solo_vn:
+    if solo_vn and not my_vn.party:
         button:
             style_prefix 'solo_vn'     
             foreground 'solo_' + vn_foreground
             hover_foreground Fixed('solo_' + vn_foreground, 'solo_vn_hover')
-            if (my_vn.available 
-                    and can_play):
+            if (my_vn.available and can_play):
                 # Note: afm is ~30 at its slowest, 0 when it's off, 
                 # and 1 at its fastest
                 # This Preference means the player always has to
@@ -559,7 +567,7 @@ screen chatroom_item(day, day_num, chatroom, index):
                 action [Preference("auto-forward", "disable"), 
                         SetVariable('current_chatroom', chatroom), 
                         Jump(my_vn.vn_label)]
-            add 'vn_' + my_vn.who.file_id align (1.0, 1.0) xoffset 3 yoffset 5
+            add my_vn.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
                 frame:
                     text my_vn.trigger_time
@@ -592,11 +600,8 @@ screen chatroom_item(day, day_num, chatroom, index):
                     action [Preference("auto-forward", "disable"), 
                             SetVariable('current_chatroom', chatroom), 
                             Jump(my_vn.vn_label)]      
+                add my_vn.vn_img xoffset -5
                 
-                if my_vn.who:
-                    add 'vn_' + my_vn.who.file_id xoffset -5
-                else:
-                    add 'vn_other' xoffset -5
     
     # It's the VN that leads to the party
     elif my_vn and my_vn.party:
@@ -606,18 +611,27 @@ screen chatroom_item(day, day_num, chatroom, index):
                 background vn_background                
                 if my_vn.available and can_play:
                     hover_foreground vn_background
-                    # Note: afm is ~30 at its slowest, 0 when it's off, 
-                    # and 1 at its fastest
-                    action Show('confirm', message=("If you start the party"
-                        + " before answering a guest's emails, that guest will"
-                        + " not attend the party. Continue?"),
-                        yes_action=[Preference("auto-forward", "disable"), 
-                            SetVariable('current_chatroom', chatroom),
-                            Hide('confirm'), 
-                            Jump('guest_party_showcase')],
-                            #Jump(my_vn.vn_label)],
-                        no_action=Hide('confirm'))
-            
+                    # If there's no branch, proceed to this party label as usual
+                    if not (renpy.has_label(my_vn.vn_label + '_branch')):
+                        action Show('confirm', message=("If you start the party"
+                            + " before answering a guest's emails, that guest"
+                            + " will not attend the party. Continue?"),
+                            yes_action=[Preference("auto-forward", "disable"), 
+                                SetVariable('current_chatroom', chatroom),
+                                Hide('confirm'), 
+                                Jump('guest_party_showcase')],
+                                #Jump(my_vn.vn_label)],
+                            no_action=Hide('confirm'))
+                    # Otherwise, we need to branch first
+                    else:
+                        action Show('confirm', message=("If you start the party"
+                            + " before answering a guest's emails, that guest"
+                            + " will not attend the party. Continue?"),
+                            yes_action=[Preference("auto-forward", "disable"), 
+                                SetVariable('current_chatroom', chatroom),
+                                Hide('confirm'), 
+                                Jump(my_vn.vn_label + '_branch')],
+                            no_action=Hide('confirm'))
         
     # There's a plot branch
     if chatroom.plot_branch:
@@ -759,6 +773,14 @@ screen timeline_continue_button(chat_time):
 ## This is used to continue the game after a plot branch    
 label plot_branch_end():
     python:
+        # CASE 0:
+        # Plot branch is actually the party
+        if ((isinstance(current_chatroom, VNMode) and current_chatroom.party)
+                or (isinstance(current_chatroom, ChatHistory)
+                    and current_chatroom.vn_obj
+                    and current_chatroom.vn_obj.party)):
+            # Need to send them to the party
+            renpy.jump('guest_party_showcase')
         # CASE 1
         # Plot branch is just a chatroom, has an after label
         if not current_chatroom.vn_obj:
@@ -848,7 +870,12 @@ label guest_party_showcase():
     $ viewing_guest = False
 
     # Now jump to the actual party
-    $ renpy.jump(current_chatroom.vn_obj.vn_label)
+    if (isinstance(current_chatroom, VNMode) and current_chatroom.party):
+        $ print("1. Jumping to", current_chatroom.vn_label)
+        jump expression current_chatroom.vn_label
+    else:
+        $ print("2. Jumping to", current_chatroom.vn_obj.vn_label)
+        jump expression current_chatroom.vn_obj.vn_label
 
 
 image rfa_logo = "Phone UI/main03_rfa_logo.png"
