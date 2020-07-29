@@ -26,36 +26,55 @@ label plot_branch_tutorial():
     u "{=ser1}You might have noticed that after this chatroom there's a \"Tap to unlock\" icon, right?{/=ser1}" 
     u "{=ser1}If you click it, the program will calculate whether or not you've fulfilled certain conditions,{/=ser1}" 
     u "{=ser1}and then it'll put you on a path based on the results.{/=ser1}" 
-    u "{=ser1}In this case, I'll to check whether or not you've successfully invited at least one guest to the party.{/=ser1}" 
-    
-    call answer 
-    menu:
-        "I'm not sure how to invite guests.":
-            m "I'm not sure how to invite guests." (pauseVal=0)
-            u "{=ser1}The \"Inviting Guests\" chatroom lets you invite Rainbow. {/=ser1}" 
-            u "{=ser1}You can also use that chatroom to speed up how fast you receive replies so you can finish the email chain,{/=ser1}" 
-            u "{=ser1}but that only works if you have {b}Testing Mode{/b} turned on in the Developer settings, accessed from the main hub screen.{/=ser1}" 
-        "(Continue listening)":
-            pass
-            
-    # This is one way you can alter responses based on certain conditions
-    # In this case, the program checks if the player has invited enough guests,
-    # and change the dialogue accordingly
-    if attending_guests() >= 1:
-        u "It looks like you've managed to invite at least one guest!" 
-        u "So if they do come to the party," 
-        u "{=curly}you'll get the Good End.{/=curly}" (bounce=True)
-    else:
-        u "It doesn't look like you've finished any email chains yet," 
-        u "{=sser2}so if you click the Plot Branch icon now, you'll get a bad end.{/=sser2}" 
-        u "You can still go back to finish up your emails before you click the Plot Branch icon so you get a different ending." 
+    u "{=ser1}In this case, it's going to check if you have the {b}Modified UI{/b} turned on.{/=ser1}"
+
+    call continue_answer("plot_branch_tutorial_menu1", 5)
+    call timed_pause(5)    
+    if timed_choose:
+        menu plot_branch_tutorial_menu1:    
+            "Modified UI?":
+                m "Modified UI?" (pauseVal=0)
+                u "{=ser1}Yes, it's an option in the {b}Settings{/b}.{/=ser1}"
+                u "{=ser1}It's under the {b}Preferences{/b} tab, below a couple of sliders.{/=ser1}"
         
+    # This is one way you can alter responses based on certain conditions
+    # In this case, the dialogue changes depending on whether or not the player
+    # has the custom UI enabled or not
+    if persistent.custom_footers:
+        u "It looks like you've already got it turned on!"
+        u "So if you go through the plot branch now,"
+        u "{=curly}you'll continue on to the Good End ^^{/=curly}" (bounce=True)
+        u "You can switch it off if you want the Bad Story End instead."
+    else:
+        u "{=ser1}You've currently got the \"Classic\" UI on,{/=ser1}"
+        u "{=ser1}So if you go through the plot branch now,{/=ser1}"
+        u "{=blocky}you'll get the Bad Story End.{/=blocky}"
+        u "{=ser1}Just head to {b}Preferences{/b} to toggle the UI changes.{/=ser1}"
+
+        call answer
+        menu:
+            "Can you change the UI for me now?":
+                m "Can you change the UI for me now?" (pauseVal=0)
+                u "{=curly}Oh! That's a good idea{/=curly}"
+                u "I'll do that right now."
+                u "{=curly}Tadaa!{/=curly}" (bounce=True)
+                $ persistent.custom_footers = True
+                u "{=curly}What do you think?{/=curly}"
+                u "You can switch it back whenever you like."
+                u "{=sser2}Now you'll continue on to the Good End if you go through the plot branch~{/=sser2}"
+            "I understand how to change the UI.":
+                m "I understand how to change the UI." (pauseVal=0)
+                u "All right!"
+
+    u "This is to demonstrate that you can have the plot branch for lots of different things."
     u "Anyway, that's enough from me." 
     u "{=curly}Click the Plot Branch icon to see what happens next!{/=curly}"   (bounce=True)
     call exit(u) 
     jump chat_end
+   
+        
 
-## This is the expired version of this chatroom
+## This is the expired version of the chatroom
 label plot_branch_tutorial_expired():
     call chat_begin("hack") 
     call hack 
@@ -63,24 +82,20 @@ label plot_branch_tutorial_expired():
     call enter(u)
     u "It seems [name] is getting close to the end of Tutorial day," 
     u "but [they_re] not here right now T_T" 
-    u "This is the last day before a plot branch" 
+    u "This is the last chatroom before a plot branch" 
     u "{=curly}so some exciting things might happen!{/=curly}"   (bounce=True)
     u "{=ser1}Once you click the plot branch button,{/=ser1}" 
     u "{=ser1}the program will calculate whether or not you've fulfilled certain conditions,{/=ser1}" 
     u "{=ser1}and then it'll set you on a path based on the results.{/=ser1}" 
-    u "{=ser1}In this case, it'll check whether or not you've successfully invited 1 guest to the party.{/=ser1}" 
-    u "If you haven't been getting emails, " 
-    u "make sure you buy back the \"Inviting Guests\" chatroom!"   (bounce=True)
-    u "You can turn on {b}Testing Mode{/b} in the Developer settings to replay it as many times as you like."
-    u "It'll let you invite Rainbow," 
-    u "and if you talk to Zen while you're working on an email chain, he'll make the guests send you replies faster." 
-    u "{=ser1}You can go through the \"Inviting Guests\" chatroom as many times as you like to finish the email chain and invite Rainbow.{/=ser1}" 
+    u "{=ser1}In this case, it'll check whether or not you have {b}Modified UI{/b} turned on.{/=ser1}"
+    u "{=ser1}Just head to {b}Preferences{/b} in the {b}Settings{/b} to toggle the UI changes.{/=ser1}"
     u "Well, I guess that's all from me. " 
     u "{=curly}You'll log in later to talk to us though, right? ^^{/=curly}"   (bounce=True)
     u "See you~" 
     call exit(u)
     jump chat_end
 
+    
 ## This is how the program knows what to do when it gets to a plot
 ##  branch. It's the label of the chatroom after which the plot 
 ## branch occurs, + _branch
@@ -129,11 +144,11 @@ label plot_branch_tutorial_branch():
     #     Good End
     # else:
     #     Bad Relationship End
-        
-    # This particular branch will check whether or not you managed 
-    # to successfully invite one guest to the party
-    if attending_guests() >= 1:
-        # Good End
+
+    # This particular branch will check whether or not the player
+    # has the Modified UI turned on
+    if persistent.custom_footers and participated_percentage(1) >= 20:
+        # Continue on to the good end and the party
         # Since this means the program should simply continue
         # on with the rest of the route, you can use
         $ continue_route()
@@ -147,16 +162,17 @@ label plot_branch_tutorial_branch():
     else:
         # Bad End
         $ merge_routes(tutorial_bad_end)
-        
+                
     # This is how you end a plot branch label; it'll trigger the
     # next chatroom for you
     jump plot_branch_end
+   
 
 ## This is the chatroom you get if you get the Bad End
 ## of the Tutorial Day
 label tutorial_bad_end():
 
-    call chat_begin('noon') 
+    call chat_begin('night') 
     play music i_miss_happy_rika
 
     v "Hello, [name]." 
@@ -204,7 +220,7 @@ label tutorial_bad_end_expired():
     jump chat_end_route
 
 ## You get this VN after the Plot Branch Tutorial
-## chatroom if you got the Good End
+## chatroom if you continue on to the Good End
 label plot_branch_tutorial_vn():
     call vn_begin 
 
@@ -253,10 +269,38 @@ label plot_branch_tutorial_vn():
 
 ## This is the chatroom you see if you get the Good End
 ## of the Tutorial Day
-label tutorial_good_end():
+label tutorial_end_example():
     call chat_begin('hack') 
     call hack 
     play music mystic_chat
+
+    u "Congratulations! You've almost made it to the party!" (bounce=True)
+    u "{=ser1}This particular party has a special kind of plot branch,{/=ser1}"
+    u "{=ser1}which will check if you've fulfilled certain conditions before deciding which version of the party you'll get.{/=ser1}"
+    u "{=ser1}In this case, it will check whether or not you've successfully invited at least one guest to the party.{/=ser1}" 
+    
+    call answer 
+    menu:
+        "I'm not sure how to invite guests.":
+            m "I'm not sure how to invite guests." (pauseVal=0)
+            u "{=ser1}The \"Inviting Guests\" chatroom lets you invite Rainbow. {/=ser1}" 
+            u "{=ser1}You can also use that chatroom to speed up how fast you receive replies so you can finish the email chain,{/=ser1}" 
+            u "{=ser1}but that only works if you have {b}Testing Mode{/b} turned on in the Developer settings, accessed from the main hub screen.{/=ser1}" 
+        "(Continue listening)":
+            pass
+            
+    # This is one way you can alter responses based on certain conditions
+    # In this case, the program checks if the player has invited enough guests,
+    # and change the dialogue accordingly
+    if attending_guests() >= 1:
+        u "It looks like you've managed to invite at least one guest!" 
+        u "So if they do come to the party," 
+        u "{=curly}you'll get the Good End.{/=curly}" (bounce=True)
+    else:
+        u "It doesn't look like you've finished any email chains yet," 
+        u "{=sser2}so if you click the Plot Branch icon now, you'll get the Normal End.{/=sser2}" 
+        u "You can still go back to finish up your emails before you click the Plot Branch icon so you get a different ending." 
+
     u "{=curly}Thanks very much for playing through this first day!{/=curly}" 
     u "I hope it makes you excited to try programming your own things." 
     u "Be sure to contact me if you run into any problems or bugs," 
@@ -265,12 +309,52 @@ label tutorial_good_end():
     call exit(u) 
     jump chat_end
     
-## This is the label the program jumps to if
-## the previous chatroom expires. However, in this
-## case it's the same as the original chatroom,
-## so to save code it's just a jump to it
-label tutorial_good_end_expired():
-    jump tutorial_good_end
+## This is the label the program jumps to if the previous chatroom expires. 
+label tutorial_end_example_expired():
+
+    call chat_begin('hack')
+    call hack
+    play music mystic_chat
+    u "Looks like [name] is nearly ready to go to the party~"
+    u "Too bad [they_re] not here T_T"
+    u "{=ser1}The party also has a plot branch condition,{/=ser1}"
+    u "{=ser1}which it uses to determine which ending you should get.{/=ser1}"
+    u "{=ser1}In this case, it'll check whether or not you've successfully invited 1 guest to the party.{/=ser1}" 
+    u "If you haven't been getting emails, " 
+    u "make sure you buy back the \"Inviting Guests\" chatroom!"   (bounce=True)
+    u "You can turn on {b}Testing Mode{/b} in the Developer settings to replay it as many times as you like."
+    u "It'll let you invite Rainbow," 
+    u "and if you talk to Zen while you're working on an email chain, he'll make the guests send you replies faster." 
+    u "{=ser1}You can go through the \"Inviting Guests\" chatroom as many times as you like to finish the email chain and invite Rainbow.{/=ser1}" 
+    u "All right, I should go."
+    u "{=curly}See you at the party ^^{/=curly}" (bounce=True)
+    call exit(u)
+    jump chat_end
+
+## If you would like the party to act as a plot branch, for example, as
+## a "Normal" vs "Good" ending, you will do so in a label called
+## the party's label name + _branch
+label tutorial_good_end_party_branch():
+    # This particular branch will check whether or not you managed 
+    # to successfully invite one guest to the party
+    if attending_guests() >= 1:
+        # Good End
+        $ continue_route()
+    else:
+        # Normal End
+        $ merge_routes(tutorial_normal_end)
+    jump plot_branch_end
+
+label plot_branch_normal_end():
+    call vn_begin
+    scene bg rika_apartment with fade
+    pause
+    show saeran unknown
+    u "Whooops this is the normal end."
+    u "Blah blah."
+    u "The end."
+    $ ending = 'normal'
+    jump vn_end_route
 
 ## And this is a very brief VN for the party    
 label tutorial_good_end_party():
