@@ -441,8 +441,7 @@ screen file_slots(title):
     default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), 
                         auto=_("Automatic saves"), quick=_("Quick saves"))
         
-    default the_day = "1st"
-    
+        
     python:      
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name  
@@ -453,9 +452,7 @@ screen file_slots(title):
         elif most_recent_chat is None:
             most_recent_chat = ChatHistory('Example Chatroom', 
                                             'example_chat', '00:01')
-        for day in chat_archive:
-            if most_recent_chat in day.archive_list:
-                the_day = day.day
+        
                         
     
     fixed:
@@ -473,13 +470,18 @@ screen file_slots(title):
             scrollbars "vertical" 
             
             # This adds the 'backup' save slot to the top when loading
-            if title == "Load" and FileLoadable(mm_auto):
-                $ save_title = (most_recent_chat.save_img + '|' 
-                                + the_day + '|' + most_recent_chat.title)
+            if title == "Load" and FileLoadable(mm_auto):                
                 if '|' in FileSaveName(mm_auto):
-                    $ rt, dn, cn = FileSaveName(mm_auto).split('|')
+                    $ info = FileSaveName(mm_auto).split('|')
+                    $ rt = info[0]
+                    $ dn = info[1]
+                    $ cn = info[2]
+                    if len(info) > 3:
+                        $ dn2 = info[3]
+                    else:
+                        $ dn2 = dn
                 else:                    
-                    $ rt, dn, cn = save_title.split('|')
+                    $ rt, dn, cn, dn2 = 'auto', '1st', 'Example Chatroom', '2nd'
             
                 button:
                     background 'save_auto_idle'
@@ -521,97 +523,35 @@ screen file_slots(title):
             ## This displays all the regular save slots
             for i in range(gui.file_slot_cols * gui.file_slot_rows):
 
-                $ slot = i + 1
-                
-                
-                $ save_title = (most_recent_chat.save_img + '|' 
-                                + the_day + '|' + most_recent_chat.title)
-                if '|' in FileSaveName(slot):
-                    $ rt, dn, cn = FileSaveName(slot).split('|')
-                else:                    
-                    $ rt, dn, cn = save_title.split('|')
-                    
-                $ file_time = FileTime(slot, empty="00:00")[-5:]
-                $ file_hour = file_time[:2]
-                $ file_min = file_time[-2:]
-                $ next_day_name = False
-                
                 python:
-                    # Compare file times to now
-                    # E.g. if the game was saved at 20:30, if now is 20:29
-                    # or earlier, it should load the next day
-                    if int(file_hour) > int(datetime.now().strftime('%H')):
-                        # Hour of save is greater; proceed to next day
-                        # Gets the name of the next day for loading purposes
-                        for index, archive in enumerate(chat_archive):
-                            if dn == archive.day:
-                                if index+1 < len(chat_archive):
-                                    next_day_name = chat_archive[index+1].day
-                                    break
-                    elif int(file_hour) == int(datetime.now().strftime('%H')):
-                        # Check minutes
-                        if int(file_min) > int(datetime.now().strftime('%M')):
-                            # Minutes of save are greater; proceed to
-                            # next day. Gets the name of the next day
-                            # for loading purposes
-                            for index, archive in enumerate(chat_archive):
-                                if dn == archive.day:
-                                    if index+1 < len(chat_archive):
-                                        next_day_name = (chat_archive[index+1].
-                                                                            day)
-                                        break
-                    else:
-                        next_day_name = False
-                
+                    slot = i + 1                
+                    if '|' in FileSaveName(slot):
+                        info = FileSaveName(slot).split('|')
+                        rt = info[0]
+                        dn = info[1]
+                        cn = info[2]
+                        if len(info) > 3:
+                            dn2 = info[3]
+                        else:
+                            dn2 = dn
+                    else:                    
+                        rt, dn, cn, dn2 = 'auto', '1st', 'Example', '2nd'
                     
-                if next_day_name:
-                    $ long_msg = ("There is a difference between the save"
-                                  + " time and the present time. It may cause"
-                                  + " missed conversations or phone calls"
-                                  + " during the time gap. Would you like to"
-                                  + " continue?\n\nSave Time: " + dn 
-                                  + " DAY " + file_time + "\n\nLoad Time: " 
-                                  + next_day_name + " DAY " 
-                                  + datetime.now().strftime('%H') + ":" 
-                                  + datetime.now().strftime('%M'))
-                else:
-                    $ long_msg = ("There is a difference between the save"
-                                  + " time and the present time. It may cause"
-                                  + " missed conversations or phone calls"
-                                  + " during the time gap. Would you like to"
-                                  + " continue?\n\nSave Time: " + dn + " DAY " 
-                                  + file_time + "\n\nLoad Time: " + dn 
-                                  + " DAY " + datetime.now().strftime('%H') 
-                                  + ":" + datetime.now().strftime('%M'))
-               
+                    
+                    
+                        
+                    file_time = FileTime(slot, empty="00:00")[-5:]
+                
 
                 button:
                     if title == "Save":
-                        action [SetVariable('save_name', save_title), 
+                        action [SetVariable('save_name', get_save_title()), 
                                 FileAction(slot),
                                 renpy.restart_interaction]
                     else: # title == "Load"
-                        if (next_day_name and FileLoadable(slot) 
-                                and persistent.real_time):
-                            action [Show("confirm", message=long_msg, 
-                                yes_action=[
-                                SetField(persistent, 'just_loaded', True),
-                                SetField(persistent, 'on_route', True), 
-                                SetField(persistent, 'load_instr', '+1 day'), 
-                                FileLoad(slot)], 
-                                no_action=Hide('confirm'))]
-                        elif FileLoadable(slot) and persistent.real_time:
-                            action [Show("confirm", message=long_msg, 
-                                yes_action=[
-                                SetField(persistent, 'just_loaded', True),
-                                SetField(persistent, 'on_route', True), 
-                                SetField(persistent, 'load_instr', 'Same day'),
-                                FileLoad(slot)], 
-                                no_action=Hide('confirm'))]
-                        elif not persistent.real_time and FileLoadable(slot):
-                            action [SetField(persistent, 'on_route', True), 
-                                    SetField(persistent, 'just_loaded', True),
-                                    FileAction(slot)]
+                        action Function(load_action, the_day=dn, next_day=dn2,
+                                file_time=FileTime(slot, empty="00:00"),
+                                slot=slot)
 
                     hbox:   
                         fixed:
@@ -652,6 +592,82 @@ screen file_slots(title):
 
                     key "save_delete" action FileDelete(slot)
 
+
+init python:
+
+    def get_save_title():
+        """Get the save title based on today's information."""
+
+        global most_recent_chat
+        # Find today
+        today = "1st"
+        tomorrow = "2nd"
+        for day_num, day in enumerate(store.chat_archive):
+            if most_recent_chat in day.archive_list:
+                today = day.day
+                if day_num+1 < len(store.chat_archive):
+                    tomorrow = store.chat_archive[day_num+1].day
+                else:
+                    tomorrow = today
+                break
+        
+        return (most_recent_chat.save_img + "|" + today + "|"
+                + most_recent_chat.title + "|" + tomorrow)
+
+        
+
+    def load_action(the_day, next_day, file_time, slot):
+           
+        file_time = file_time[-5:]
+        file_hour = file_time[:2]
+        file_min = file_time[-2:]
+        current_time = upTime()
+        current_hour = current_time.military_hour
+        current_min = current_time.minute
+        print("currrent_hour", current_hour, "current_min", current_min)
+
+        load_next_day = False
+    
+        # Compare file times to now
+        # E.g. if the game was saved at 20:30, if now is 20:29
+        # or earlier, it should load the next day
+        if (is_time_later(current_hour, current_min, file_hour, file_min)):
+            print("Advance to next day")
+            load_next_day = True
+            if the_day == next_day:
+                next_day = "NEXT"
+            load_msg = ("There is a difference between the save time and "
+                + "the present time. It may cause missed conversations or "
+                + "phone calls during the time gap. Would you like to "
+                + "continue?\n\nSave Time: " + the_day + " DAY "
+                + file_time + "\n\nLoad Time: " + next_day + " DAY "
+                + current_hour + ":" + current_min)
+        else:
+            load_msg = ("There is a difference between the save time and "
+                + "the present time. It may cause missed conversations or "
+                + "phone calls during the time gap. Would you like to "
+                + "continue?\n\nSave Time: " + the_day + " DAY "
+                + file_time + "\n\nLoad Time: " + the_day + " DAY "
+                + current_hour + ":" + current_min)
+        
+        if store.persistent.real_time:
+            if load_next_day:
+                load_var = '+1 day'
+            else:
+                load_var = 'Same day'
+            renpy.show_screen('confirm', message=load_msg,
+                yes_action=[SetField(persistent, 'just_loaded', True),
+                    SetField(persistent, 'on_route', True),
+                    SetField(persistent, 'load_instr', load_var),
+                    FileLoad(slot)],
+                no_action=Hide('confirm'))
+            return
+        
+        # Otherwise, it's not in real-time mode        
+        store.persistent.on_route = True
+        store.persistent.just_loaded = True
+        renpy.load(slot)
+        
 
 style save_load_vpgrid:
     is slot_vpgrid
