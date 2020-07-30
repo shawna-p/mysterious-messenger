@@ -29,6 +29,8 @@ screen chat_select(days=chat_archive):
                 # This iterates through each day in the given list
                 # (usually chat_archive)
                 for day_num, day in enumerate(days):
+                    if len(days) < 2:
+                        null width (750//2)-(263//2)-3
                     use day_select(day, day_num)
                     if (main_menu and day_num < len(days) -1):
                         null width -6
@@ -38,6 +40,8 @@ screen chat_select(days=chat_archive):
                             add 'day_hlink' xalign 0.5
 
 style hscrollbar:
+    unscrollable "hide"
+style scrollbar:
     unscrollable "hide"
                     
                 
@@ -170,7 +174,9 @@ screen day_select(day, day_num):
                     or (day.archive_list 
                         and (isinstance(day.archive_list[0], ChatHistory)
                             or isinstance(day.archive_list[0], 
-                                store.ChatHistory))
+                                store.ChatHistory
+                            or isinstance(day.archive_list[0], VNMode)
+                            or isinstance(day.archive_list[0], store.VNMode)))
                         and day.archive_list[0].available)):                
                 action [SetVariable('current_day', day), 
                         SetVariable('current_day_num', day_num),
@@ -221,8 +227,7 @@ screen day_select(day, day_num):
             and day.archive_list[-1].available):
         fixed:
             xysize (104,32)
-            yalign 0.4
-            
+            yalign 0.4            
             add 'day_hlink' xalign 0.5
     elif not main_menu:
         null width 104
@@ -728,7 +733,8 @@ screen timeline_continue_button(chat_time):
         action Show("confirm", message=("Would you like to purchase the next"
                                 + " day? You can participate in all the chat"
                                 + " conversations for the next 24 hours."), 
-                yes_action=[Function(chat_24_available), 
+                yes_action=[Function(chat_24_available),
+                    Function(next_chatroom),
                     renpy.retain_after_load, 
                     renpy.restart_interaction, 
                     Hide('confirm')], 
@@ -807,7 +813,7 @@ label plot_branch_end():
         # Now check if the player unlocked the next 24 hours
         # of chatrooms, and make those available
         if unlock_24_time:
-            chat_24_available(reset_24=False)           
+            chat_24_available()           
         next_chatroom()
         renpy.retain_after_load
         
