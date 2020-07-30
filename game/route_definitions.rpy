@@ -339,6 +339,14 @@ init -6 python:
             """
             return False
 
+        @expired.setter
+        def expired(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            pass
+
         @property
         def buyback(self):
             """
@@ -658,6 +666,16 @@ init -6 python:
                                 # (Since "1st" and "1st" won't match any
                                 # other days)
                                 break
+
+            to_remove = []
+            # Finally, get rid of any RouteDays that don't have content
+            for item in self.route:
+                if (item.archive_list == None
+                            or len(item.archive_list) == 0):
+                    to_remove.append(item)
+                    
+            for item in to_remove:
+                self.route.remove(item)
 
             # Add this route to the list of all routes
             if self not in store.all_routes:
@@ -1214,67 +1232,92 @@ init -6 python:
                         return chatroom.trigger_time
         return 'Unknown Time'
         
-    def chat_24_available(reset_24=True):
+    def chat_24_available():
         """Make the chatrooms for the next 24 hours available."""
 
         global chat_archive, today_day_num, days_to_expire, unlock_24_time
-        current_time = upTime()
-        if reset_24:
-            unlock_24_time = current_time
+        
+        # Record the time that this function was called at. If this isn't
+        # False, then we're trying to continue unlocking chatrooms (usually
+        # after a plot branch)
+        if not unlock_24_time:
+            unlock_time = upTime()
+            # First, advance the day
             days_to_expire += 1
-        # Check chatrooms for the current day
-        for chatroom in chat_archive[today_day_num].archive_list:
-            # Hour for this chatroom is greater than now; make available
-            if (int(current_time.military_hour) 
-                    < int(chatroom.trigger_time[:2])):
+            if days_to_expire > len(chat_archive):
+                days_to_expire = len(chat_archive)
+            expiry_day = days_to_expire
+            unlock_24_time = [expiry_day, upTime()]
+        else:
+            # Trying to continue unlocking; 
+            expiry_day = unlock_24_time[0]
+            unlock_time = unlock_24_time[1]
+        
+        # This functions much like the next_chatroom() function, only
+        # here instead of expiring chatrooms we make them available
+        for chat_index, chatroom in enumerate(chat_archive[expiry_day-2].archive_list):
+            # If this chatroom is already available, don't bother with it
+            if chatroom.available and (chatroom.buyahead or chatroom.played):
+                continue
+            # Otherwise, on this day, everything becomes available
+            chatroom.available = True
+            chatroom.buyahead = True
+            chatroom.expired = False
+            if chatroom.vn_obj:
+                chatroom.vn_obj.available = True
+            if chatroom.plot_branch:
+                # We haven't been able to make everything available in
+                # the future, so we return without resetting unlock_24_time
+                # or advancing the day
+                return
+
+        # Now check the next day
+        for chat_index, chatroom in enumerate(chat_archive[expiry_day-1].archive_list):
+            # Skip already available chatrooms
+            if chatroom.available and (chatroom.buyahead or chatroom.played):
+                continue
+            # Compare the trigger time to the time we're unlocking up to
+            if not is_time_later(unlock_time.military_hour, unlock_time.minute,
+                    chatroom.trigger_time[:2], chatroom.trigger_time[-2:]):
+                # Make this available
                 chatroom.available = True
                 chatroom.buyahead = True
-                if chatroom.plot_branch:
-                    if reset_24:
-                        today_day_num += 1
-                    return
-                    
-            # Hour is the same; check minute
-            elif (int(current_time.military_hour) 
-                    == int(chatroom.trigger_time[:2])):            
-                if int(current_time.minute) < int(chatroom.trigger_time[-2:]):
-                    # Minute is greater; make available
-                    chatroom.available = True
-                    chatroom.buyahead = True
-                    if chatroom.plot_branch:
-                        if reset_24:
-                            today_day_num += 1
-                        return
-        # Now check chatrooms for the next day
-        if chat_archive[today_day_num+1].archive_list:
-            for chatroom in chat_archive[today_day_num+1].archive_list:
-                # Hour for this chatroom is smaller than now; make available
-                if (int(current_time.military_hour) 
-                        > int(chatroom.trigger_time[:2])):
-                    chatroom.available = True
-                    chatroom.buyahead = True
-                    if chatroom.plot_branch:
-                        if reset_24:
-                            today_day_num += 1
-                        return
-                # Hour is the same; check minute
-                elif (int(current_time.military_hour) 
-                        == int(chatroom.trigger_time[:2])):            
-                    if (int(current_time.minute) 
-                            > int(chatroom.trigger_time[-2:])):
-                        # Minute is smaller; make available
-                        chatroom.available = True
-                        chatroom.buyahead = True
-                        if chatroom.plot_branch:
-                            if reset_24:
-                                today_day_num += 1
-                            return
-        # Increase the day number
-        if reset_24:
-            today_day_num += 1
-        # If the program was able to make everything available,
-        # unlock_24_time can be reset
-        unlock_24_time = False 
+                chatroom.expired = False
+                if chatroom.vn_obj:
+                    chatroom.vn_obj.available = True
+            else:
+                # We're done unlocking things
+                unlock_24_time = False
+                today_day_num = expiry_day-1
+                return
+            if chatroom.plot_branch:
+                # We haven't been able to make everything available in
+                # the future, so we return without resetting unlock_24_time
+                today_day_num = expiry_day-1
+                return
+
+
+
+    def is_time_later(current_hour, current_min, given_hour, given_min):
+        """Return True if the given hour/min is later than the current one."""
+
+        current_hour = int(current_hour)
+        current_min = int(current_min)
+        given_hour = int(given_hour)
+        given_min = int(given_min)
+
+        if given_hour > current_hour:
+            return True
+        elif given_hour < current_hour:
+            return False
+
+        # Check minutes if we've gotten this far; hour is the same
+        if given_min > current_min:
+            return True
+        else:
+            return False
+
+
                     
 # True if the chatroom before the 'after_' call was expired
 default was_expired = False
