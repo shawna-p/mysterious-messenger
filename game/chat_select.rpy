@@ -20,6 +20,7 @@ screen chat_select(days=chat_archive):
             xysize (720, 1100)
             yalign 0.85
             xalign 0.5
+            xadjustment day_select_xadj 
             mousewheel "horizontal"
             scrollbars "horizontal"
             draggable True
@@ -241,7 +242,7 @@ style day_title:
     font gui.sans_serif_1
     yalign 0.5        
         
-
+default day_select_xadj = ui.adjustment()
 default timeline_yadj = ui.adjustment()
 ########################################################
 ## This screen shows a timeline of the chatrooms on
