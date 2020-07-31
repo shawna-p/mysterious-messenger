@@ -82,6 +82,7 @@ screen continue_button():
         focus_mask None
         idle 'transparent_answer'
         action Return()
+        keysym "K_SPACE"
 
 #####################################
 # Pause/Play footers
@@ -99,6 +100,7 @@ screen pause_button():
         idle 'phone_pause'
         if not choosing:
             action [Call("play"), Return()]
+            keysym "K_SPACE"
      
     if not choosing:
         use fast_slow_buttons()
@@ -142,6 +144,7 @@ screen play_button():
         ypos 1220
         focus_mask True
         idle 'phone_play'
+        keysym "K_SPACE"
         action [Show('pause_button'), Return()]
     
     if not choosing:
@@ -155,6 +158,7 @@ screen fast_slow_buttons():
         yalign 0.997
         focus_mask None
         idle "fast_slow_button"
+        keysym "K_RIGHT"
         action [Function(fast_pv), 
                 Hide('speed_num'), 
                 Show("speed_num")]
@@ -165,6 +169,7 @@ screen fast_slow_buttons():
         yalign 0.997
         focus_mask None
         idle "fast_slow_button"
+        keysym "K_LEFT"
         action [Function(slow_pv), 
                 Hide('speed_num'), 
                 Show("speed_num")]
@@ -429,6 +434,7 @@ screen continue_answer_button(themenu):
         focus_mask None
         idle "transparent_answer"
         activate_sound "audio/sfx/UI/answer_screen.mp3"
+        keysym "K_SPACE"
         action [SetVariable("choosing", True), 
                 SetVariable('timed_choose', True), 
                 Hide('answer_countdown'),

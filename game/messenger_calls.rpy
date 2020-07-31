@@ -370,6 +370,7 @@ screen save_and_exit(end_route=False):
         ypos 1220
         focus_mask True
         idle "save_exit"
+        keysym "K_SPACE"
         if not end_route:
             action [Jump("press_save_and_exit")]
         else:
@@ -453,6 +454,7 @@ screen signature_screen(phone=True):
             if persistent.custom_footers:
                 text_color "#fff"
             action Return()
+            keysym "K_SPACE"
 
 style sig_screen_frame:
     xalign 0.5
