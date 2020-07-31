@@ -1153,8 +1153,6 @@ screen chat_home(reshow=False):
                     action Show('links')
                     add 'link_hex' align (0.5, 0.35)
                     text "LINKS"
-                    # add "discord" xalign 0.5 yalign 0.42
-                    # text "DISCORD" 
 
                 # Exit to main menu ("Link")     
                 button:
@@ -1162,16 +1160,10 @@ screen chat_home(reshow=False):
                     action [Function(renpy.full_restart)]
                     add 'exit_hex' align (0.6, 0.38)
                     text "MAIN MENU" size 18
-                    # add "github" xalign 0.5 yalign 0.3
-                    # text "GITHUB"
-
-                    
                     
             ## Spaceship    
             add "dot_line" xalign 0.5 yalign .97
-                
-            $ spaceship_xalign = spaceship_get_xalign(True)
-                
+                                
             if chips_available:       
             
                 if not reshow:
@@ -1221,7 +1213,7 @@ screen chat_home(reshow=False):
                 
                 fixed at spaceship_flight:
                     xysize (100,110)
-                    xalign 0.04#spaceship_xalign
+                    xalign 0.04
                     yalign 1.0
                     add "space_flame" xalign 0.5 yalign 1.0
                     add "spaceship" xalign 0.5 yalign 0.0
