@@ -340,7 +340,7 @@ init -6 python:
             return False
 
         @expired.setter
-        def expired(self):
+        def expired(self, other):
             """
             Allow ChatHistory and VNMode objects to be used
             somewhat interchangeably.
@@ -915,7 +915,10 @@ init -6 python:
         if sameday and (cur_min == trig_min or trig_min+1 == cur_min):
             expire_chatroom(prev_chat, cur_chat, deliver_incoming=True)
             # Let the player know a new chatroom is open
-            the_msg = "[[new chatroom] " + current_chatroom.title
+            if isinstance(cur_chat, ChatHistory):
+                the_msg = "[[new chatroom] " + cur_chat.title
+            elif isinstance(cur_chat, VNMode):
+                the_msg = "[[new story mode] " + cur_chat.title
             renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav', 
                                 'sound')
             renpy.show_screen('confirm',  message=the_msg, 
@@ -1265,11 +1268,12 @@ init -6 python:
             chatroom.expired = False
             if chatroom.vn_obj:
                 chatroom.vn_obj.available = True
-            if chatroom.plot_branch:
+            if chatroom.plot_branch:                
                 # We haven't been able to make everything available in
                 # the future, so we return without resetting unlock_24_time
                 # or advancing the day
                 return
+            
 
         # Now check the next day
         for chat_index, chatroom in enumerate(chat_archive[expiry_day-1].archive_list):
@@ -1296,6 +1300,10 @@ init -6 python:
                 today_day_num = expiry_day-1
                 return
 
+        # Otherwise, we may have been able to reach the end of the route
+        if expiry_day == len(chat_archive):
+            today_day_num = expiry_day - 1
+            return
 
 
     def is_time_later(current_hour, current_min, given_hour, given_min):
