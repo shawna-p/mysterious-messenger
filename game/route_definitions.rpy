@@ -54,6 +54,9 @@ init -6 python:
         incoming_calls_list : string[]
             List of the labels used for incoming phone calls that should
             occur after this chatroom. Also used in the History screen.
+        story_calls_list : PhoneCall[]
+            List of the labels used for story phone calls that should
+            occur after this chatroom. Also used in the History screen.
         """
 
         def __init__(self, title, chatroom_label, trigger_time, 
@@ -120,7 +123,7 @@ init -6 python:
             if len(self.participants) == 0:
                 self.original_participants = []
             else:
-                self.original_participants = deepcopy(participants)
+                self.original_participants = list(participants)
             self.plot_branch = plot_branch
 
             # If this chatroom has a VN after it, it goes here
@@ -167,6 +170,16 @@ init -6 python:
                 + x.file_id) for x in store.all_characters 
                 if renpy.has_label(self.chatroom_label + '_incoming_' 
                     + x.file_id)]
+
+            temp_story_calls = [ x for x in store.all_characters 
+                if renpy.has_label(self.chatroom_label + '_story_call_'
+                    + x.file_id)]
+            self.story_calls_list = []
+
+            for char in temp_story_calls:
+                self.story_calls_list.append(PhoneCall(char,
+                    self.chatroom_label + '_story_call_' + char.file_id,
+                    avail_timeout='test', story_call=True))
             
         def __eq__(self, other):
             """Check for equality between two ChatHistory objects."""
@@ -186,6 +199,52 @@ init -6 python:
             return (self.title != other.title
                     or self.chatroom_label != other.chatroom_label
                     or self.trigger_time != other.trigger_time)
+
+        def __deepcopy__(self, memo):
+            """
+            Return a deepcopy of a ChatHistory object. Maintained for
+            compatibility with __getattr__ implementation.
+            """
+
+            result = ChatHistory(self.title, self.chatroom_label, 
+                self.trigger_time, list(self.participants),
+                deepcopy(self.vn_obj, memo), deepcopy(self.plot_branch, memo),
+                self.save_img)
+            result.played = self.played
+            result.participated = self.participated
+            result.available = self.available
+            result.expired = self.expired
+            result.buyback = self.buyback
+            result.buyahead = self.buyahead
+            result.outgoing_calls_list = self.outgoing_calls_list
+            result.incoming_calls_list = self.incoming_calls_list
+            result.story_calls_list = copy(self.story_calls_list)
+            result.replay_log = []
+            return result
+
+
+        def __getattr__(self, name):
+            """
+            Ensure compatibility when accessing attributes that don't exist.
+            """
+
+            if name == 'story_calls_list':
+                
+                chatroom_label = self.__dict__['chatroom_label']
+                return [ PhoneCall(x, chatroom_label + '_story_call_'
+                            + x.file_id, avail_timeout='test', story_call=True)
+                        for x in store.all_characters 
+                        if renpy.has_label(chatroom_label + '_story_call_'
+                            + x.file_id)]
+                
+            try:
+                # print("ChatHistory getattr with", name)
+                # if name == 'chatroom_label':
+                #     raise AttributeError(name)
+                # print("with", self.__dict__['chatroom_label'])
+                return super(ChatHistory, self).__getattribute__(name)
+            except (KeyError, AttributeError) as e:
+                raise AttributeError(name)
                 
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
@@ -202,7 +261,7 @@ init -6 python:
             of a chatroom.
             """
 
-            self.participants = deepcopy(self.original_participants)
+            self.participants = list(self.original_participants)
 
         @property
         def party(self):
@@ -245,6 +304,9 @@ init -6 python:
         incoming_calls_list : string[]
             List of the labels used for incoming phone calls that should
             occur after this VN. Also used in the History screen.
+        story_calls_list : PhoneCall[]
+            List of the labels used for story phone calls that should
+            occur after this chatroom. Also used in the History screen.
         """
 
         def __init__(self, vn_label, who=None, party=False, trigger_time=False,
@@ -302,9 +364,21 @@ init -6 python:
                     + x.file_id) for x in store.all_characters 
                     if renpy.has_label(self.vn_label + '_incoming_' 
                         + x.file_id)]
+                temp_story_calls = [ x for x in store.all_characters 
+                    if renpy.has_label(self.chatroom_label + '_story_call_'
+                        + x.file_id)]
+                self.story_calls_list = []
+
+                for char in temp_story_calls:
+                    self.story_calls_list.append(PhoneCall(char,
+                        self.chatroom_label + '_story_call_' + char.file_id,
+                        avail_timeout='test', story_call=True))
+                
             else:
                 self.outgoing_calls_list = []
                 self.incoming_calls_list = []
+                self.story_calls_list = []
+            
 
         @property
         def vn_img(self):
@@ -322,6 +396,14 @@ init -6 python:
             somewhat interchangeably.
             """
             return False
+
+        @property
+        def original_participants(self):
+            """
+            Allow ChatHistory and VNMode objects to be used
+            somewhat interchangeably.
+            """
+            return []
 
         @property
         def chatroom_label(self):
@@ -379,6 +461,63 @@ init -6 python:
             """
             return []
 
+        def __deepcopy__(self, memo):
+            """
+            Return a deepcopy of a VNMode object. Maintained for compatibility
+            with __getattr__ implementation.
+            """
+
+            result = VNMode(self.vn_label, self.who, self.party,
+                self.trigger_time, self.title, deepcopy(self.plot_branch, memo),
+                self.save_img)
+            result.played = self.played
+            result.available = self.available
+            result.outgoing_calls_list = self.outgoing_calls_list
+            result.incoming_calls_list = self.incoming_calls_list
+            result.story_calls_list = copy(self.story_calls_list)
+            return result
+            
+
+        def __getattr__(self, name):
+            """
+            Ensure compatibility when accessing attributes that don't exist.
+            """
+
+            if name == 'title':
+                return ""
+            elif name == 'plot_branch':
+                return False
+            elif name == 'save_img':
+                return 'auto'
+            elif name == 'outgoing_calls_list':
+                vn_label = self.__dict__['vn_label']
+                return [ (vn_label + '_outgoing_' 
+                        + x.file_id) for x in store.all_characters 
+                        if renpy.has_label(vn_label + '_outgoing_' 
+                            + x.file_id)]
+            elif name == 'incoming_calls_list':
+                vn_label = self.__dict__['vn_label']
+                return [ (vn_label + '_incoming_' 
+                        + x.file_id) for x in store.all_characters 
+                        if renpy.has_label(vn_label + '_incoming_' 
+                            + x.file_id)]
+            elif name == 'story_calls_list':
+                vn_label = self.__dict__['vn_label']
+                return [ PhoneCall(x, vn_label + '_story_call_'
+                            + x.file_id, avail_timeout='test', story_call=True)
+                        for x in store.all_characters 
+                        if renpy.has_label(vn_label + '_story_call_'
+                            + x.file_id)]
+
+            try:
+                # print("VNMode getattr with", name)
+                # if name == 'vn_label':
+                #     raise AttributeError(name)
+                # print("with", self.__dict__['vn_label'])
+                return super(VNMode, self).__getattribute__(name)
+            except (KeyError, AttributeError) as e:
+                raise AttributeError(name)
+
         def __eq__(self, other):
             """Check for equality between two VNMode objects."""
             if not isinstance(other, VNMode):
@@ -388,7 +527,7 @@ init -6 python:
         
         def __ne__(self, other):
             """Check for inequality between two VNMode objects."""
-            if not isinstance(other, ChatHistory):
+            if not isinstance(other, VNMode):
                 return True
 
             return (self.vn_label != other.vn_label
@@ -618,7 +757,8 @@ init -6 python:
                 self.route_history_title = route_history_title[:-7]
             else:
                 self.route_history_title = route_history_title + " Route"
-            
+                       
+                        
             # Now combine the given branches into one large list        
             self.route = deepcopy(default_branch)
             # Add the branch title before the last item in the
@@ -680,6 +820,11 @@ init -6 python:
             # Add this route to the list of all routes
             if self not in store.all_routes:
                 store.all_routes.append(self)
+
+        def __getstate__(self):
+            """Tell Ren'Py this class is constant/doesn't need to be pickled."""
+            
+            return False
                             
     def next_chatroom():
         """
@@ -701,6 +846,9 @@ init -6 python:
                     chatroom.available = True
                     if chatroom.vn_obj:
                         chatroom.vn_obj.available = True
+                    if chatroom.story_calls_list:
+                        for phonecall in chatroom.story_calls_list:
+                            phonecall.available = True
                     if chatroom.plot_branch:
                         triggered_next = True
                         break
@@ -748,6 +896,20 @@ init -6 python:
                         triggered_next = True
                         break
 
+                    # If there is a story call attached to this chatroom
+                    # and not available, make it available and stop
+                    if (chatroom.played
+                            and (not chatroom.vn_obj or chatroom.vn_obj.played)
+                            and chatroom.story_calls_list):
+                        for phonecall in chatroom.story_calls_list:
+                            if not phonecall.available:
+                                phonecall.available = True
+                                # Only make one call available at a time
+                                triggered_next = True
+                                break
+                        if triggered_next:
+                            break
+                            
                     # If the current chatroom isn't available, 
                     # make it available and stop. Also decrease 
                     # the time old phone calls are available
@@ -795,6 +957,18 @@ init -6 python:
                 if (chatroom.played and chatroom.vn_obj
                         and not chatroom.vn_obj.available):
                     chatroom.vn_obj.available = True
+
+                # If there is a story call attached to this chatroom
+                # and not available, make it available and stop
+                if (chatroom.played
+                        and (not chatroom.vn_obj or chatroom.vn_obj.played)
+                        and chatroom.story_calls_list):
+                    for phonecall in chatroom.story_calls_list:
+                        if not phonecall.available:
+                            phonecall.available = True
+                            # Only make one call available at a time                            
+                            break
+                    
 
                 # Also, check if the previous chatroom was a plot branch
                 # If so, stop checking chatrooms until the player has
@@ -955,8 +1129,25 @@ init -6 python:
                 and not prev_chatroom.buyback 
                 and not prev_chatroom.buyahead):
             prev_chatroom.expired = True
+        # There's also the case where the chatroom or VN was played, but
+        # its corresponding story call was not. That call should expire.
+        elif ((isinstance(prev_chatroom, ChatHistory)
+                    or isinstance(prev_chatroom, VNMode))
+                and prev_chatroom.story_calls_list):
+            # Check if the call(s) have been played
+            all_calls_played = True
+            for phonecall in prev_chatroom.story_calls_list:
+                if (not phonecall.played
+                        and not phonecall.buyback
+                        and not phonecall.buyahead):
+                    phonecall.expired = True
+                    all_calls_played = False
+            if all_calls_played:
+                # No need to expire anything
+                return
         else:
             return
+
             
         # Set a time for the missed call; should be
         # equal to the trigger time for the current chatroom
@@ -1042,8 +1233,7 @@ init -6 python:
                     renpy.music.play(persistent.text_tone, 'sound')
                     popup_screen = allocate_text_popup()
                     renpy.show_screen(popup_screen, c=c) 
-                    break
-                    
+                    break                    
         else:
             for c in reversed(all_characters):
                 if (c.text_msg.msg_queue 
@@ -1137,9 +1327,6 @@ init -6 python:
                 if archive2.day == archive.day:                    
                     archive.archive_list += archive2.archive_list
                     archive.day_icon = archive2.day_icon
-
-
-
 
 
     def continue_route():
