@@ -214,14 +214,11 @@ screen day_select(day, day_num):
                     text '[chat_percent]%':
                         color '#fff' 
                         size 20 
-                        xalign 0.5 yalign 0.5
-                
+                        xalign 0.5 yalign 0.5                
         fixed:
             xfit True
             yfit True
             add day.day_icon
-
-
             
     if (not most_recent_day 
             and day.archive_list 
@@ -636,6 +633,35 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 Jump(my_vn.vn_label + '_branch')],
                             no_action=Hide('confirm'))
         
+    # If there are mandatory story calls, display them in an hbox
+    if chatroom.story_calls_list:
+        hbox:
+            xalign 1.0
+            xoffset -40
+            add Transform('call_mainicon', size=(60,60)):
+                align (0.5, 0.75)
+                # at transform if the call is available
+            for phonecall in chatroom.story_calls_list:
+                button:
+                    background Transform(phonecall.caller.file_id + '_contact', 
+                                                    size=(85,85))
+                    hover_background Fixed(Transform(phonecall.caller.file_id
+                                    + '_contact', size=(85,85)),
+                                    Transform(phonecall.caller.file_id
+                                    + '_contact', size=(85,85)))
+                    add Transform('contact_darken', 
+                                size=(85,85), alpha=0.3) align (0.5,0.5)
+                    add 'call_incoming_outline' align (1.0, 1.0)
+                    xysize (85,85)
+                    if (chatroom.played
+                            and (not chatroom.vn_obj
+                                or chatroom.vn_obj.played)):
+                        action [Preference("auto-forward", "enable"),
+                                Play('music', persistent.phone_tone),
+                                Show('incoming_call', 
+                                    phonecall=phonecall)]
+
+
     # There's a plot branch
     if chatroom.plot_branch:
         button:

@@ -10,6 +10,8 @@ init -6 python:
             ChatCharacter object of the other person in the phone call.
         phone_label : string
             The label to jump to for the phone call.
+        voicemail_label : string
+            Label to jump to for when the player misses this call.
         call_time : upTime or False
             The time the phone call was made at.
         call_status : string
@@ -17,14 +19,33 @@ init -6 python:
             or 'voicemail'.
         voicemail : bool
             True if this call is a voicemail message rather than a conversation.
+            Not to be confused with voicemail_label, which contains the message
+            a character will leave as a "voicemail" if this call is mandatory.
         playback : bool
             True if this conversation can be 'replayed' from the call history.
         avail_timeout : int
             How many chatrooms to wait until this call expires.
+        trigger_time : string
+            Formatted as "00:00" in 24-hour time. The time this call should
+            show up at, if it is not attached to a chatroom or VN. Unused.
+        played : bool
+            Tracks whether this phone call has been played.
+        available : bool
+            Tracks whether the program should allow the player to play this
+            phone call or if it should be greyed out/unavailable.
+        expired : bool
+            Tracks whether this phone call has expired.
+        buyback : bool
+            Tracks if the player bought back this phone call after it expired.
+        buyahead : bool
+            Tracks if the player bought this phone call ahead of time so it
+            can remain unlocked regardless of the current time.     
+        story_call : bool
+            True if this call is required by the story.
         """
 
         def __init__(self, caller, phone_label, call_status='incoming',
-                avail_timeout=2, voicemail=False):
+                avail_timeout=2, voicemail=False, story_call=False):
             """
             Creates a PhoneCall object to keep track of phone call information.
 
@@ -35,16 +56,20 @@ init -6 python:
             phone_label : string
                 The label to jump to for the phone call.
             call_status : string
-                Status of the phone call. One of 'incoming', 'outgoing', 'missed',
-                or 'voicemail'.
+                Status of the phone call. One of 'incoming', 'outgoing',
+                'missed', or 'voicemail'.
             avail_timeout : int
                 How many chatrooms to wait until this call expires.
             voicemail : bool
-                True if this call is a voicemail message rather than a conversation.
+                True if this call is a voicemail message rather than
+                a conversation.
+            story_call : bool
+                True if this call is required by the story.
             """
 
             self.caller = caller
             self.phone_label = phone_label
+            self.voicemail_label = phone_label + "_expired"
             self.call_time = False
             if (call_status == 'incoming' 
                     or call_status == 'outgoing' 
@@ -56,6 +81,15 @@ init -6 python:
             self.voicemail = voicemail
             self.playback = False
             self.avail_timeout = avail_timeout
+
+            self.played = False
+            self.available = False
+            self.story_call = story_call
+            # In case these are separate from chatrooms later
+            self.trigger_time = False
+            self.buyahead = False
+            self.buyback = False
+            self.expired = False
             
         def decrease_time(self):
             """
@@ -94,6 +128,83 @@ init -6 python:
                 self.call_status = 'outgoing'
             call_history.insert(0, self)
             observing = False
+
+        @property
+        def vn_obj(self):
+            """
+            Allow ChatHistory and PhoneCall objects to be used
+            somewhat interchangeably.
+            """
+            return False
+
+        @property
+        def chatroom_label(self):
+            """
+            Allow ChatHistory and PhoneCall objects to be used
+            somewhat interchangeably.
+            """
+            return self.phone_label
+
+        
+        @property
+        def participants(self):
+            """
+            Allow ChatHistory and PhoneCall objects to be used
+            somewhat interchangeably.
+            """
+            return []
+
+        def __deepcopy__(self, memo):
+            """
+            Return a deepcopy of a PhoneCall. Maintained for compatibility
+            with __getattr__ implementation.
+            """
+
+            result = PhoneCall(self.caller, self.phone_label, self.call_status,
+                self.avail_timeout, self.voicemail, self.story_call)
+            result.call_time = self.call_time
+            result.playback = self.playback
+            result.played = self.played
+            result.available = self.available
+            result.trigger_time = self.trigger_time
+            result.buyahead = self.buyahead
+            result.buyback = self.buyback
+            result.expired = self.expired
+            return result            
+
+        def __getattr__(self, name):
+            """
+            Ensure compatibility when accessing attributes that don't exist.
+            """            
+
+            if (name in ['played', 'available', 'story_call', 'trigger_time',
+                'buyahead', 'buyback', 'expired']):
+                return False
+
+            try:
+                # print("PhoneCall getattr with", name)
+                # if name == 'phone_label':
+                #     raise AttributeError(name)
+                # print("with", self.__dict__['phone_label'])
+                return super(PhoneCall, self).__getattribute__(name)
+            except (KeyError, AttributeError) as e:
+                raise AttributeError(name)        
+
+
+        def __eq__(self, other):
+            """Check for equality between two PhoneCall objects."""
+            if not isinstance(other, PhoneCall):
+                return False
+            return (self.phone_label == other.phone_label
+                    and self.caller == other.caller)
+        
+        def __ne__(self, other):
+            """Check for inequality between two PhoneCall objects."""
+            if not isinstance(other, PhoneCall):
+                return True
+
+            return (self.phone_label != other.phone_label
+                    or self.caller != other.caller)
 
     def call_hang_up_incoming(phonecall):  
         """
@@ -563,10 +674,10 @@ screen incoming_call(phonecall, countdown_time=10):
                 align (0.5, 0.6)
                 spacing 10
                 text "Incoming Call" color '#fff' xalign 0.5 size 40
-                if not starter_story:
+                if (not starter_story and not phonecall.story_call):
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
                 
-            if starter_story:
+            if starter_story or phonecall.story_call:
                 use phone_footer([Stop('music'), 
                                 SetVariable('current_call', phonecall), 
                                 Return()], 
@@ -584,7 +695,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
-    if not starter_story:
+    if not starter_story and not phonecall.story_call:
         timer 1.0 action If(call_countdown>1, 
                             SetScreenVariable("call_countdown", 
                             call_countdown-1),
