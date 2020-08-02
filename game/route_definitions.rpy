@@ -14,6 +14,8 @@ init -6 python:
             Title of the chatroom.
         chatroom_label : string
             Label to jump to to view this chatroom.
+        expired_chat : string
+            Label to jump to when this chatroom has expired.
         trigger_time : string
             Time this chatroom should be available at, if playing in real-time.
             Formatted as "00:00" in 24-hour time.
@@ -229,13 +231,13 @@ init -6 python:
             """
 
             if name == 'story_calls_list':
-                
-                chatroom_label = self.__dict__['chatroom_label']
-                return [ PhoneCall(x, chatroom_label + '_story_call_'
-                            + x.file_id, avail_timeout='test', story_call=True)
-                        for x in store.all_characters 
-                        if renpy.has_label(chatroom_label + '_story_call_'
-                            + x.file_id)]
+                return []
+                # chatroom_label = self.__dict__['chatroom_label']
+                # return [ PhoneCall(x, chatroom_label + '_story_call_'
+                #             + x.file_id, avail_timeout='test', story_call=True)
+                #         for x in store.all_characters 
+                #         if renpy.has_label(chatroom_label + '_story_call_'
+                #             + x.file_id)]
                 
             try:
                 # print("ChatHistory getattr with", name)
@@ -502,12 +504,13 @@ init -6 python:
                         if renpy.has_label(vn_label + '_incoming_' 
                             + x.file_id)]
             elif name == 'story_calls_list':
-                vn_label = self.__dict__['vn_label']
-                return [ PhoneCall(x, vn_label + '_story_call_'
-                            + x.file_id, avail_timeout='test', story_call=True)
-                        for x in store.all_characters 
-                        if renpy.has_label(vn_label + '_story_call_'
-                            + x.file_id)]
+                return []
+                # vn_label = self.__dict__['vn_label']
+                # return [ PhoneCall(x, vn_label + '_story_call_'
+                #             + x.file_id, avail_timeout='test', story_call=True)
+                #         for x in store.all_characters 
+                #         if renpy.has_label(vn_label + '_story_call_'
+                #             + x.file_id)]
 
             try:
                 # print("VNMode getattr with", name)
@@ -646,6 +649,7 @@ init -6 python:
                 self.day_icon = "day_" + day_icon
             else:
                 self.day_icon = day_icon
+       
 
     class Route(renpy.store.object):
         """
@@ -820,11 +824,6 @@ init -6 python:
             # Add this route to the list of all routes
             if self not in store.all_routes:
                 store.all_routes.append(self)
-
-        def __getstate__(self):
-            """Tell Ren'Py this class is constant/doesn't need to be pickled."""
-            
-            return False
                             
     def next_chatroom():
         """
