@@ -549,9 +549,9 @@ screen file_slots(title):
                                 FileAction(slot),
                                 renpy.restart_interaction]
                     else: # title == "Load"
-                        action Function(load_action, the_day=dn, next_day=dn2,
+                        action [Function(load_action, the_day=dn, next_day=dn2,
                                 file_time=FileTime(slot, empty="00:00"),
-                                slot=slot)
+                                slot=slot)]
 
                     hbox:   
                         fixed:
@@ -666,7 +666,7 @@ init python:
         # Otherwise, it's not in real-time mode        
         store.persistent.on_route = True
         store.persistent.just_loaded = True
-        renpy.load(slot)
+        renpy.run(FileLoad(slot))
         
 
 style save_load_vpgrid:
