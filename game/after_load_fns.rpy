@@ -8,7 +8,7 @@ init python:
         Update this save file for compatibility with new versions.
         """
 
-        while store._version != "2.2.1":
+        while store._version != "2.3":
             if store._version == "2.1.1":
                 float_ver = 2.1001
             elif store._version == "2.2.1":
@@ -20,6 +20,7 @@ init python:
             if float_ver < 2.00:
                 reset_old_persistent()
                 store._version = '2.00'
+                float_ver = 2.00
 
             # Update Routes for the history screen
             if float_ver <= 2.00:
@@ -51,16 +52,25 @@ init python:
                                             day.archive_list[
                                                 -1].chatroom_label)
                 store._version = '2.1'
+                float_ver = 2.1
 
             # persistent.heart_notification changed to persistent.animated_icons
             if float_ver < 2.2:
                 store.persistent.animated_icons = not store.persistent.heart_notifications
                 store._version = "2.2"
+                float_ver = 2.2
 
+            if float_ver < 2.3:
+                print("Checking ChatHistory")
+                # Update ChatHistory and VNMode objects
+                for day in store.chat_archive:
+                    for item in day.archive_list:
+                        if (isinstance(item, ChatHistory)):
+                            chathistory_to_chatroom(item, True)
+                store._version = '2.3'
+                float_ver = 2.3
             
-                
-            
-            store._version = "2.2.1"
+            store._version = "2.3"
                                         
 
     def find_route_endings(route, chatlist, titles):
