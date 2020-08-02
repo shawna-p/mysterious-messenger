@@ -374,7 +374,8 @@ label leave_inst_text():
     hide screen text_answer
     hide screen text_pause_button
     hide screen inactive_text_answer
-    $ text_person.finished_text()
+    if text_person is not None:
+        $ text_person.finished_text()
     $ text_person = None
     $ renpy.retain_after_load()    
     call screen text_message_hub
@@ -411,8 +412,8 @@ label text_end():
     if text_person is not None and text_person.real_time_text:        
         $ text_pauseFailsafe(text_person.text_msg.msg_list) 
     $ text_msg_reply = False
-    #if text_person is not None and text_person.real_time_text:
-    $ text_person.finished_text()
+    if text_person is not None:
+        $ text_person.finished_text()
     $ who = text_person
     $ text_person = None
     $ chatroom_hp = 0
@@ -421,7 +422,10 @@ label text_end():
     hide screen text_answer
     hide screen inactive_text_answer
     hide screen text_play_button
-    hide screen text_pause_button  
+    hide screen text_pause_button
+    if who is None:
+        call screen chat_home()
+        return
     call screen text_message_screen(who, animate=False)  
     return       
     # else:
