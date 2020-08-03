@@ -46,97 +46,37 @@ style scrollbar:
     unscrollable "hide"
                     
                 
-## This screen shows each day as well as a percentage
-## bar showing what percent of chatrooms on that day
-## have been viewed
+
+## This screen shows each day as well as a percentage bar showing what
+## percent of chatrooms on that day have been viewed
 screen day_select(day, day_num):
 
     python:
-        num_chatrooms = len(day.archive_list)
-        completed_chatrooms = 0
-        played_chatrooms = 0
+        most_recent_day = False        
         is_today = False
-        playable = False
-        most_recent_day = False
 
-        if not main_menu:
-            # Calculate the completion percentage
-            for index, i in enumerate(day.archive_list):
-                if i.played and not i.expired:
-                    completed_chatrooms += 1
-                if i.played:
-                    played_chatrooms += 1
-                # This also lets the program know if the player
-                # should be able to click on this day
-                if i.available:
-                    playable = True
-            if day_num == today_day_num:
-                most_recent_day = True
+        if day_num == today_day_num:
+            most_recent_day = True
 
-            # Do they still have chats to play on this day?
-            # If so, it's "today"
-            if played_chatrooms == len(day.archive_list):
-                # All the chatrooms on this day are played;
-                # it's not the current day unless there's
-                # a plot branch or an unplayed VN
-                if day.archive_list:
-                    if day.archive_list[-1].plot_branch:
-                        is_today = True
-                    elif (day.archive_list[-1].vn_obj 
-                            and not day.archive_list[-1].vn_obj.played):
-                        is_today = True
-
-            elif played_chatrooms == 0:
-                # None of the chatrooms in this day have been
-                # played; it's only today if all the chatrooms
-                # from the previous day are played
-                # If this is the first day, it's today
-                if day_num == 0:
-                    is_today = True
-                # Last chat in the previous day is played; it's today
-                elif (chat_archive[day_num-1].archive_list 
-                        and chat_archive[day_num-1].archive_list[-1].played 
-                        and (not chat_archive[day_num
-                                            -1].archive_list[-1].vn_obj 
-                        or (chat_archive[day_num-1].
-                            archive_list[-1].vn_obj.played))):
-                    is_today = True
-                else:
-                    is_today = False
-            
-            # Otherwise, this day is today if there are unplayed
-            # chatrooms left on it
-            elif played_chatrooms < len(day.archive_list):
-                is_today = True
-            
-            # Calculate the completion percentage, rounded to an int
-            if day.archive_list:
-                chat_percent = str(completed_chatrooms * 100 // num_chatrooms)
-            else:
-                chat_percent = '0'
-                num_chatrooms = 1
-
-        else:
+        # If it's the main menu, things are calculated differently.
+        if main_menu:
+            # There is no 'today' on the History screen.
             is_today = False
-            # If the player has at least seen the first chat of this day,
-            # it is selectable ("playable")
-            if (len(day.archive_list) > 1
-                    and not isinstance(day.archive_list[0], ChatHistory)
-                    and not isinstance(day.archive_list[0], 
-                        store.ChatHistory)):
-                if (persistent.completed_chatrooms.get(
-                        day.archive_list[1].chatroom_label)
-                        or persistent.completed_chatrooms.get(
-                            day.archive_list[1].expired_chat)):
-                    playable = True                
-            elif (day.archive_list 
-                    and (persistent.completed_chatrooms.get(
-                                day.archive_list[0].chatroom_label)
-                    or persistent.completed_chatrooms.get(
-                                day.archive_list[0].expired_chat))):
-                playable = True            
+            # This day is selectable if the player has seen at least the
+            # first item of the day
+            if day.archive_list:
+                playable = day.archive_list[0].was_played()
             else:
                 playable = False
+        else:
+            playable = day.has_playable
+            # If nothing has been played, the first day is 'today'
+            if day_num == 0 and day.played_percentage == 0:            
+                is_today = True
+            # Otherwise, this day is today if not everything was played yet
+            # or if there's a plot branch
+            elif day.is_today:
+                is_today = True
 
         # Background is determined by whether this day is today
         # and whether or not it is playable
@@ -154,34 +94,23 @@ screen day_select(day, day_num):
         spacing 10
         vbox:
             xysize (265,235)
-            if is_today and day.day != 'Final':
-                # This is the bouncy "TODAY" sign
-                add 'day_today' xalign 0.5 yalign 1.0
-            elif is_today and day.day == 'Final':
-                # This ensures the Final/Today signs don't
-                # conflict with each other
-                add 'day_today' xalign 0.5 yalign 1.0 yoffset 50
-                add 'final_day' xalign 0.5 yalign 1.0
-            elif day.day == 'Final':
-                # Adds the 'Final' sign to the final day
-                add 'final_day' xalign 0.5 yalign 1.0
+            if is_today:
+                # The bouncy 'TODAY' sign
+                add 'day_today' align (0.5, 1.0):
+                    if day.day == 'Final':
+                        yoffset 50
+            if day.day == 'Final':
+                add 'final_day' align (0.5, 1.0)            
                 
         textbutton _(day.day + " Day"):
             text_style 'day_title'
             xysize (265,152)
             background day_bkgr padding(-80, 0)
             hover_background day_bkgr_hover
-            if ((main_menu and playable)
-                    or (day.archive_list 
-                        and (isinstance(day.archive_list[0], ChatHistory)
-                            or isinstance(day.archive_list[0], 
-                                store.ChatHistory
-                            or isinstance(day.archive_list[0], VNMode)
-                            or isinstance(day.archive_list[0], store.VNMode)))
-                        and day.archive_list[0].available)):                
+            if playable:
                 action [SetVariable('current_day', day), 
                         SetVariable('current_day_num', day_num),
-                        Show('chatroom_timeline', day=day, day_num=day_num)]
+                        Show('timeline', day=day, day_num=day_num)]
                 activate_sound 'audio/sfx/UI/select_day.mp3'
             else:
                 action Show("confirm", message=("There are no chatrooms "
@@ -193,43 +122,52 @@ screen day_select(day, day_num):
         # This displays the chatroom completion percentage
         if not main_menu:
             frame:
-                xysize (265,35)                      
+                style_prefix 'day_percentage'
+                xysize (265,35)
+                background None                    
                 has hbox
-                align (0.5, 0.5)
-                spacing 5
                 frame:
                     xysize (180,35)
                     xalign 0.0
-                    background 'day_percent_border'
                     ypadding 2                    
                     bar:
-                        value completed_chatrooms
-                        range num_chatrooms
-                        xysize (170, 20)
-                        align (0.5, 0.5)
+                        value day.played_percentage
+                        range 100
                 frame:
                     xysize (80, 30)
                     align (0.5, 0.5)
                     background 'day_percent_border'
-                    text '[chat_percent]%':
-                        color '#fff' 
-                        size 20 
-                        xalign 0.5 yalign 0.5                
+                    text '[day.played_percentage]%'              
         fixed:
             xfit True
             yfit True
             add day.day_icon
             
-    if (not most_recent_day 
-            and day.archive_list 
-            and day.archive_list[-1].available):
+    if not main_menu:
         fixed:
             xysize (104,32)
             yalign 0.4            
-            add 'day_hlink' xalign 0.5
-    elif not main_menu:
-        null width 104
-        
+            if (not most_recent_day 
+                    and day.archive_list 
+                    and day.archive_list[-1].available):
+                add 'day_hlink' xalign 0.5
+    
+
+style day_percentage_frame:
+    background 'day_percent_border'
+
+style day_percentage_hbox:
+    align (0.5, 0.5)
+    spacing 5
+
+style day_percentage_bar:
+    xysize (170, 20)
+    align (0.5, 0.5)
+
+style day_percentage_text:
+    color '#fff' 
+    size 20 
+    xalign 0.5 yalign 0.5          
             
 style day_title:
     xalign 0.5
