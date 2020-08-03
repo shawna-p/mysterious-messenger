@@ -125,9 +125,8 @@ init -6 python:
                     + x.file_id)]
 
             self.story_calls_list = [
-                    PhoneCall(x, 
-                    self.item_label + '_story_call_' + x.file_id,
-                    avail_timeout='test', story_call=True)
+                    create_dependent_storycall(x, 
+                    self.item_label + '_story_call_' + x.file_id)
                 for x in store.all_characters 
                     if renpy.has_label(self.item_label + '_story_call_'
                         + x.file_id)]
@@ -222,6 +221,34 @@ init -6 python:
                     if (not phonecall.played and not phonecall.buyahead
                             and not phonecall.buyback):
                         phonecall.expired = True
+
+        def was_played(self, ever=True):
+            """
+            Return whether this item has been played by the player, whether
+            in expired format or regular. If ever=True, check if this has
+            been seen across any playthrough. Else, check if it has been
+            played on this particular playthrough.
+            """
+
+            if not ever:
+                return self.played
+            
+            if (store.persistent.completed_chatrooms.get(self.item_label)
+                    or store.persistent.completed_chatrooms.get(
+                        self.expired_label)):
+                return True
+            return False
+
+        def get_final_item(self):
+            """Return the final item to be played in this timeine item."""
+
+            if len(self.story_calls_list) > 0:
+                return self.story_calls_list[-1]
+            
+            if self.plot_branch and self.plot_branch.vn_after_branch:
+                return self.plot_branch.stored_vn
+
+            return self
 
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
@@ -347,7 +374,7 @@ init -6 python:
             if self.story_mode:
                 self.story_mode.available = True
 
-         def all_available(self):
+        def all_available(self):
             """
             Return True if everything associated with this item is available.
             """
@@ -406,6 +433,20 @@ init -6 python:
 
             return "[[new chatroom] " + self.title
 
+        def get_final_item(self):
+            """Return the final item to be played in this timeine item."""
+
+            if len(self.story_calls_list) > 0:
+                return self.story_calls_list[-1]
+                
+            if self.story_mode:
+                return self.story_mode
+            
+            if self.plot_branch and self.plot_branch.vn_after_branch:
+                return self.plot_branch.stored_vn
+
+            return self
+
 
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
@@ -456,7 +497,7 @@ init -6 python:
                 The character whose picture is on the StoryMode icon in
                 the timeline.
             plot_branch : bool
-                True if this chatroom should have a plot branch following it
+                True if this story mode should have a plot branch following it
                 and the StoryMode associated with the chatroom should appear
                 after the plot branch has been proceeded through; False if 
                 there is a plot branch but no corresponding StoryMode.
@@ -484,7 +525,11 @@ init -6 python:
                 return 'vn_' + self.who
             else:
                 return 'vn_other'
-        
+        @property 
+        def expired(self):
+            """StoryMode objects do not expire like other TimelineItems."""
+            return False
+
         @expired.setter
         def expired(self, other):
             """
@@ -510,9 +555,61 @@ init -6 python:
                         return True
             return False
 
+    class StoryCall(TimelineItem):
+        """
+        Class that stores information needed to display mandatory phone
+        calls on the timeine.
+
+        Attributes:
+        -----------
+        caller : ChatCharacter
+            The character who is calling the player.
+        """
+
+        def __init__(self, title, phone_label, trigger_time, caller,
+                plot_branch="None", save_img='auto'):
+            """
+            Create a StoryCall object to keep track of information for a
+            mandatory phone call.
+
+            Parameters:
+            -----------
+            title : string
+                Title of this phone call.
+            phone_label : string
+                The label to jump to to play this phone call.
+            trigger_time : string
+                Formatted as "00:00" in 24-hour time. The time this story
+                call should appear at, if it is not attached to a chatroom.
+            caller : ChatCharacter
+                The character who is calling the player.
+            plot_branch : bool
+                True if this story call should have a plot branch following it
+                and the StoryMode associated with the chatroom should appear
+                after the plot branch has been proceeded through; False if 
+                there is a plot branch but no corresponding StoryMode.
+            save_img : string
+                A short version of the file path used to display the icon next
+                to a save file when this is the active timeline item.
+            """
+
+            super(StoryCall, self).__init__(title, phone_label, trigger_time,
+                plot_branch, save_img)
+
+            self.caller = caller
+
+    def create_dependent_storycall(caller, phone_label):
+        """
+        Return a StoryCall which is tied to a chatroom or StoryMode and thus
+        doesn't need additional information.
+        """
+        return StoryCall(title="", phone_label=phone_label, trigger_time=False,
+            caller=caller)
+
+
     def create_dependent_VN(vn_label, who=None, party=False):
         """
-        Return a VN which is tied to a chatroom and thus doesn't need
+        Return a StoryMode which is tied to a chatroom and thus doesn't need
         additional information.
         """
         print("Making a StoryMode", vn_label)
@@ -718,6 +815,23 @@ init -6 python:
                 if (prev_item and past_trigger_time(item.trigger_time,
                         current_time, day_index+1 < days_to_expire, 
                         prev_item, item)):
+                    item.available = True
+                    today_day_num = day_index
+                elif prev_item:
+                    # This means this item isn't ready; everything has
+                    # been checked.
+                    stop_checking = True
+                    break
+            
+            if stop_checking:
+                break
+
+        # If by the end of this there is an incoming call, deliver it
+        if store.incoming_call:
+            store.current_call = store.incoming_call
+            store.incoming_call = False
+            renpy.call('new_incoming_call', phonecall=store.current_call)
+        return
                 
 
     def past_trigger_time(trig_time, cur_time, was_yesterday,
@@ -833,4 +947,7 @@ init -6 python:
 
         # Deliver all outstanding text messages
         deliver_all_text()
+        
+
+
         
