@@ -172,16 +172,7 @@ init -6 python:
                 + x.file_id) for x in store.all_characters 
                 if renpy.has_label(self.chatroom_label + '_incoming_' 
                     + x.file_id)]
-
-            temp_story_calls = [ x for x in store.all_characters 
-                if renpy.has_label(self.chatroom_label + '_story_call_'
-                    + x.file_id)]
-            self.story_calls_list = []
-
-            for char in temp_story_calls:
-                self.story_calls_list.append(PhoneCall(char,
-                    self.chatroom_label + '_story_call_' + char.file_id,
-                    avail_timeout='test', story_call=True))
+            
             
         def __eq__(self, other):
             """Check for equality between two ChatHistory objects."""
@@ -544,10 +535,10 @@ init -6 python:
                 title, plot_branch, save_img)
 
     def TheParty(vn_label, trigger_time=False, save_img='auto'):
-        """Return a VNMode object defined to be the party."""
+        """Return a StoryMode object defined to be the party."""
 
-        return VNMode(vn_label, party=True, trigger_time=trigger_time,
-                        save_img=save_img)
+        return StoryMode(title="The Party", vn_label=vn_label,
+            trigger_time=trigger_time, party=True, save_img=save_img)            
 
     class PlotBranch(renpy.store.object):
         """
@@ -630,25 +621,108 @@ init -6 python:
             day_icon = day_icon.lower()
             if day_icon == 'common':
                 self.day_icon = 'day_common1'
-            elif day_icon == 'jaehee' or day_icon == 'ja':
+            elif day_icon  in ['jaehee', 'ja']:
                 self.day_icon = 'day_ja'
-            elif day_icon == 'jumin' or day_icon == 'ju':
+            elif day_icon in ['jumin', 'ju']:
                 self.day_icon = 'day_ju'
-            elif day_icon == 'ray' or day_icon == 'r':
+            elif day_icon in ['ray', 'r']:
                 self.day_icon = 'day_r'
-            elif (day_icon == 'seven' or day_icon == '707' 
-                    or day_icon == 's'):
+            elif day_icon in ['seven', '707', 's']:
                 self.day_icon = 'day_s'
             elif day_icon == 'v':
                 self.day_icon = 'day_v'
-            elif day_icon == 'yoosung' or day_icon == 'y':
+            elif day_icon in ['yoosung', 'y']:
                 self.day_icon = 'day_y'
-            elif day_icon == 'zen' or day_icon == 'z':
+            elif day_icon in ['zen', 'z']:
                 self.day_icon = 'day_z'
             elif day_icon[:4] != "day_":
                 self.day_icon = "day_" + day_icon
             else:
                 self.day_icon = day_icon
+
+            self.convert_archive(False)            
+
+        def convert_archive(self, copy_everything=True):
+            """For compatibility: convert ChatHistory to ChatRoom."""
+            
+            new_archive_list = []
+
+            if (len(self.archive_list) > 0 
+                    and isinstance(self.archive_list[0], ChatHistory)):
+                for item in self.archive_list:
+                    if isinstance(item, ChatHistory):
+                        new_archive_list.append(chathistory_to_chatroom(item,
+                                                            copy_everything))
+                    else:
+                        new_archive_list.append(item)
+                
+                self.archive_list = new_archive_list
+
+            # Also ensure the branch_vn is a StoryMode object
+            if self.branch_vn and isinstance(self.branch_vn, VNMode):
+                new_vn = create_dependent_VN(self.branch_vn.vn_label,
+                    self.branch_vn.who, self.branch_vn.party)
+                self.branch_vn = new_vn               
+
+            print("\narchive_list is now", self.archive_list)
+
+
+        @property
+        def num_items(self):
+            """Return the number of timeline items on this day."""
+
+            return len(self.archive_list)
+
+        @property
+        def played_percentage(self):
+            """Return the percent of items that have been played."""
+
+            played = 0
+            total = self.num_items
+            for item in self.archive_list:
+                # TODO: could change this to account for played chatrooms
+                # with expired story calls
+                if item.played and not item.expired:
+                    played += 1
+            
+            if total == 0:
+                return 0
+            
+            return (played * 100) // total
+            
+        @property
+        def has_playable(self):
+            """Return True if this day has at least one playable item."""
+            
+            for item in self.archive_list:                
+                if isinstance(item, TimelineItem) and item.available:
+                    return True
+            
+            return False
+
+        @property
+        def is_today(self):
+            """Return True if there are still items to play on this day."""
+
+            for item in self.archive_list:
+                if item.available and not item.all_played():
+                    return True
+                if item.all_played() and item.plot_branch:
+                    return True
+
+            return False
+
+        @property
+        def all_played(self):
+            """Return True if everything on this day has been played."""
+
+            for item in self.archive_list:
+                if not item.all_played():
+                    return False
+
+            return True
+
+
        
 
     class Route(renpy.store.object):
@@ -723,40 +797,22 @@ init -6 python:
             self.ending_chatrooms = []
             for day in reversed(default_branch):
                 if day.archive_list:
-                    if day.archive_list[-1].vn_obj:
-                        self.ending_chatrooms.append(
-                            day.archive_list[-1].vn_obj.vn_label)
-                    elif (day.archive_list[-1].plot_branch
-                            and day.archive_list[
-                                -1].plot_branch.vn_after_branch):
-                        self.ending_chatrooms.append(day.archive_list[
-                            -1].plot_branch.stored_vn.vn_label)
-                    else:
-                        self.ending_chatrooms.append(
-                            day.archive_list[-1].chatroom_label)
+                    self.ending_chatrooms.append(
+                            day.archive_list[-1].get_final_item().item_label)                    
                     break
 
             for branch in branch_list:
                 for day in reversed(branch):
                     if day.archive_list:
-                        if day.archive_list[-1].vn_obj:
-                            self.ending_chatrooms.append(
-                                day.archive_list[-1].vn_obj.vn_label)
-                        elif (day.archive_list[-1].plot_branch
-                                and day.archive_list[
-                                    -1].plot_branch.vn_after_branch):
-                            self.ending_chatrooms.append(
-                                day.archive_list[
-                                    -1].plot_branch.stored_vn.vn_label)
-                        else:
-                            self.ending_chatrooms.append(
-                                day.archive_list[-1].chatroom_label)
+                        self.ending_chatrooms.append(
+                            day.archive_list[-1].get_final_item().item_label)                                                
                         break
                     elif day.branch_vn:
-                        self.ending_chatrooms.append(day.branch_vn.vn_label)
+                        self.ending_chatrooms.append(day.branch_vn.item_label)
                         break
 
-
+            # Add "Route" to the title of the route, unless it ends with
+            # " -route" in which case remove that before using it as a title
             if route_history_title[-7:] == " -route":
                 self.route_history_title = route_history_title[:-7]
             else:
@@ -777,16 +833,19 @@ init -6 python:
             if not isinstance(self.route[0], RouteDay):
                 self.route.pop(0)
 
-            # If the default branch has any "hidden" VNs in PlotBranch
+            # If the default branch has any "hidden" StoryModes in PlotBranch
             # objects, add them to the route proper
             for day in self.route:
-                for chat in day.archive_list:
-                    if ((isinstance(chat, ChatHistory) or 
-                            isinstance(chat, store.ChatHistory))
-                            and chat.plot_branch
-                            and chat.plot_branch.vn_after_branch):
-                        chat.vn_obj = chat.plot_branch.stored_vn
-                        chat.plot_branch = False
+                for item in day.archive_list:
+                    if (isinstance(item, TimelineItem)
+                            and item.plot_branch 
+                            and item.plot_branch.vn_after_branch):
+                        item.story_mode = item.plot_branch.stored_vn
+                        item.plot_branch = False
+                    elif not isinstance(item, TimelineItem):
+                        print("Got an item which is", item)
+                        if isinstance(item, VNMode):
+                            print("It's a VN, label", item.vn_label)
 
             if branch_list:
                 # First find the day in default_branch which aligns
