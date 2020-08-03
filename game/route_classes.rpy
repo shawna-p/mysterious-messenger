@@ -46,7 +46,26 @@ init -6 python:
 
         def __init__(self, title, item_label, trigger_time, plot_branch="None",
             save_img='auto'):
-            
+            """
+            Create a generic TimelineItem object.
+
+            Parameters:
+            -----------
+            title : string
+                Title of this item.
+            item_label : string
+                Label to jump to to view this item.
+            trigger_time : string
+                Time this item should be available at, if playing in real-time
+                mode. Formatted as "00:00" in 24-hour time.
+            plot_branch : PlotBranch
+                Keeps track of plot branch information if the story should
+                branch after this item.
+            save_img : string
+                A short version of the file path used to display the icon next
+                to a save file when this is the active timeline item.
+            """
+
             self.title = title
             self.item_label = item_label
 
@@ -112,7 +131,97 @@ init -6 python:
                 for x in store.all_characters 
                     if renpy.has_label(self.item_label + '_story_call_'
                         + x.file_id)]
+        
+        def unlock_all(self):
+            """Make all items associated with this TimelineItem available."""
+
+            self.available = True
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    phonecall.available = True
+
+        def all_available(self):
+            """
+            Return True if everything associated with this item is available.
+            """
+
+            if not self.available:
+                return False
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if not phonecall.available:
+                        return False
+            return True
+
+        def all_played(self):
+            """
+            Return True if everything associated with this item has been
+            played.
+            """
+
+            if not self.played:
+                return False
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if not phonecall.played:
+                        return False
+            return True
+
+        def make_next_available(self):
+            """
+            Make the next unavailable item associated with this item
+            available to play.
+            """
+
+            if not self.available:
+                self.available = True
+                return True
+            # Subsequent items are only available if previous ones were played
+            if not self.played:
+                return
             
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    # Subsequent items are only available if previous
+                    # ones were played
+                    if phonecall.available and not phonecall.played:
+                        return
+                    if not phonecall.available:
+                        phonecall.available = True
+                        return
+
+        def on_available_message(self):
+            """
+            Return a message to display to the player when this item
+            is available.
+            """
+            return "[[new story available]"
+
+        def can_expire(self):
+            """Return True if there are items that can be expired."""
+
+            if not self.played and not self.buyahead and not self.buyback:
+                return True
+            
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if (not phonecall.played and not phonecall.buyahead
+                            and not phonecall.buyback):
+                        return True
+            return False
+
+        def expire(self):
+            """Expire all items related to this timeline item."""
+
+            if not self.played and not self.buyahead and not self.buyback:
+                self.expired = True
+            
+            # Also expire any story calls associated with this item
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if (not phonecall.played and not phonecall.buyahead
+                            and not phonecall.buyback):
+                        phonecall.expired = True
 
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
@@ -223,15 +332,80 @@ init -6 python:
                             print("Looked for label", vnlabel)
                             # Should only be one StoryMode object per chat
                             break
-                if self.story_mode:
-                    print("Tried to create StoryMode object:", self.story_mode)
-
+                
             if self.plot_branch and self.plot_branch.vn_after_branch:
                 self.plot_branch.stored_vn = self.story_mode
                 self.story_mode = None
 
             self.participated = False
             self.replay_log = []
+
+        def unlock_all(self):
+            """Ensure all items associated with this chatroom are available."""
+
+            super(ChatRoom, self).unlock_all()
+            if self.story_mode:
+                self.story_mode.available = True
+
+         def all_available(self):
+            """
+            Return True if everything associated with this item is available.
+            """
+
+            if self.story_mode and not self.story_mode.available:
+                return False
+            return super(ChatRoom, self).all_available()
+            
+        def all_played(self):
+            """
+            Return True if everything associated with this item has been
+            played.
+            """
+
+            if self.story_mode and not self.story_mode.played:
+                return False
+            return super(ChatRoom, self).all_played()
+
+        def all_available(self):
+            """
+            Return True if everything associated with this item is available.
+            """
+
+            if self.story_mode and not self.story_mode.available:
+                return False
+            return super(ChatRoom, self).all_available()
+
+        def make_next_available(self):
+            """
+            Make the next unavailable item associated with this item
+            available to play.
+            """
+
+            if not self.available:
+                self.available = True
+                return True
+            # Subsequent items are only available if previous ones were played
+            if not self.played:
+                return
+            
+            if self.story_mode and not self.story_mode.available:
+                self.story_mode.available = True
+                return
+
+            # Don't make anything past the Story Mode available if it hasn't
+            # been played
+            if self.story_mode and not self.story_mode.played:
+                return
+            super(ChatRoom, self).make_next_available()
+
+        def on_available_message(self):
+            """
+            Return a message to display to the player when this item
+            is available.
+            """
+
+            return "[[new chatroom] " + self.title
+
 
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
@@ -293,8 +467,8 @@ init -6 python:
                 to a save file when this is the active timeline item.
             """
 
-            super(StoryMode, self).__init__(title, vn_label, trigger_time, plot_branch,
-                save_img)
+            super(StoryMode, self).__init__(title, vn_label, trigger_time,
+                plot_branch, save_img)
 
             if who is not None:
                 self.who = who.file_id
@@ -302,8 +476,39 @@ init -6 python:
                 self.who = None
             self.party = party
 
-        
+        @property
+        def vn_img(self):        
+            """Return the image that should be used in the timeline."""
 
+            if self.who:
+                return 'vn_' + self.who
+            else:
+                return 'vn_other'
+        
+        @expired.setter
+        def expired(self, other):
+            """
+            StoryMode objects do not expire like other TimelineItems.
+            """
+            pass
+
+        def on_available_message(self):
+            """
+            Return a message to display to the player when this item
+            is available.
+            """
+
+            return "[[new story mode] " + self.title
+        
+        def can_expire(self):
+            """Return True if there are items that can be expired."""
+            
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if (not phonecall.played and not phonecall.buyahead
+                            and not phonecall.buyback):
+                        return True
+            return False
 
     def create_dependent_VN(vn_label, who=None, party=False):
         """
@@ -397,4 +602,235 @@ init -6 python:
             print("story_calls_list:", item.story_calls_list, new_obj.story_calls_list)
 
         return new_obj
+        
+    def next_timeline_item():
+        """
+        Ensure the next timeline item is available to play. By default the 
+        program will unlock items sequentially, but if persistent.real_time is 
+        True it will unlock items according to their trigger time and the 
+        actual time of day.
+        """
+
+        global chat_archive, today_day_num, days_to_expire
+        global current_game_day
+
+        # If the player is in Testing Mode, make all items available
+        triggered_next = False
+        if persistent.testing_mode:
+            for archive in chat_archive:
+                for item in archive.archive_list:
+                    item.unlock_all()
+                    if item.plot_branch:
+                        triggered_next = True
+                        break
+                if triggered_next:
+                    break
+            return
+
+        triggered_next = False
+        # Next, check if the player is in sequential mode
+        if not store.persistent.real_time:
+            for archive in chat_archive:
+                for item in archive.archive_list:
+                    # If the player hasn't played everything associated with
+                    # this item, don't make anything new available and stop
+                    if not item.all_played():
+                        triggered_next = True
+                        break
+                    
+                    # Something associated with this item isn't available
+                    # to play yet. Make it available.
+                    if not item.all_available():
+                        decrease_calls = item.make_next_available()
+                        # If this was the "main" item in a chain of timeline
+                        # items, it triggers the phone calls to expire
+                        if decrease_calls:
+                            for phonecall in store.available_calls:
+                                phonecall.decrease_time()                            
+                        triggered_next = True
+                        break
+                    
+                    # Don't make anything available after a plot branch
+                    if item.plot_branch:
+                        triggered_next = True
+                        break
+                if triggered_next:
+                    break
+            # Done making items available
+            return
+        
+        # If the program isn't in sequential mode, they're in real-time mode.
+        # Check if any days have passed since this function was last called.
+        date_diff = date.today() - current_game_day
+        if date_diff.days > 0:
+            # At least one day has passed; increase days_to_expire
+            # Its maximum size is the length of the chat_archive.
+            days_to_expire = min(date_diff.days + days_to_expire,
+                                len(chat_archive))
+
+        # Update the current game date
+        current_game_day = date.today()
+        # Check what time it is to expire timeline items
+        current_time = upTime()
+
+        # Search through every item in the archive to see if there
+        # are any to be expired based on the current time of day.
+        stop_checking = False
+        for day_index, routeday in enumerate(chat_archive[:days_to_expire]):
+            for item_index, item in enumerate(routeday.archive_list):
+                # Independent of time, ensure all items associated with
+                # this item are available
+                if item.played and not item.all_available():
+                    item.make_next_available()
+
+                # If this item has a plot branch, don't check anything
+                # past it
+                if item.plot_branch:
+                    if not item.all_available():
+                        item.make_next_available()
+                    stop_checking = True
+                    break
+
+                if item.available:
+                    # The main item is already available; check if anything
+                    # later on should be available or should expire.
+                    continue
+
+                # Get the timeline item immediately before this one
+                if item_index == 0 and day_index == 0:
+                    prev_item = False
+                    # This is the first item of the route; it should
+                    # be available.
+                    item.available = True
+                    today_day_num = day_index
+                    continue                
+                elif item_index > 0:
+                    prev_item = routeday.archive_list[item_index-1]
+                # This is the first item of the day; previous item was the last
+                # item on the day before this one
+                elif item_index == 0 and day_index > 0:
+                    prev_item = chat_archive[day_index-1].archive_list[-1]
+                else:
+                    prev_item = False
+                
+                # If the program has gotten this far, this item is not yet
+                # available. Should it be made available?
+                if (prev_item and past_trigger_time(item.trigger_time,
+                        current_time, day_index+1 < days_to_expire, 
+                        prev_item, item)):
+                
+
+    def past_trigger_time(trig_time, cur_time, was_yesterday,
+            prev_item, cur_item):
+        """
+        A helper function for next_timeline_item() which determines if the
+        given trigger time is after the current time, and expires the
+        previous item if so.
+
+        Parameters:
+        -----------
+        trig_time : string
+            Formatted "00:00" in 24-hour time. The time this item is
+            supposed to trigger at.
+        cur_time : MyTime
+            A MyTime object containing information on the current time.        
+        was_yesterday : bool
+            True if this item occurred one or more days prior to the
+            current date.
+        prev_item : TimelineItem
+            The item in the timeline before the current one.
+        cur_item : TimelineItem
+            The current timeline item being checked.
+
+        Returns:
+        --------
+        bool
+            Expire the previous item if the trigger time has already passed
+            and return True. Otherwise, return False.
+        """
+
+        if was_yesterday:
+            # A day or more has passed since this item was supposed to be
+            # available. Expire the previous item and move on.
+            expire_item(prev_item, cur_item)
+            return True
+        
+        # Otherwise, compare times
+        trig_hour = int(trig_time[:2])
+        trig_min = int(trig_time[-2:])
+        cur_hour = int(cur_time.military_hour)
+        cur_min = int(cur_time.minute)
+
+        # If the trigger time is strictly later than the current time,
+        # then it isn't time to make it available or expire anything.
+        if is_time_later(cur_hour, cur_min, trig_hour, trig_min):
+            return False
+
+        if trig_hour < cur_hour:
+            expire_item(prev_item, cur_item)
+            return True
+        
+        # Otherwise, special case where the player has a grace period of 1
+        # minute to be notified of an item being available if the trigger
+        # time just passed
+        if (cur_min == trig_min) or (trig_min+1 == cur_min):
+            expire_item(prev_item, cur_item, deliver_incoming=True)
+
+            # Let the player know a new item is available
+            renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav', 
+                                'sound')
+            renpy.show_screen('confirm',  message=item.on_available_message(), 
+                              yes_action=Hide('confirm'))
+
+            return True
+
+        else:
+            expire_item(prev_item, cur_item)
+            return True
+
+        return False
+
+    def expire_item(prev_item, cur_item, deliver_incoming=False):
+        """
+        A helper function for next_timeline_item() which expires the
+        previous item and makes its phone calls and text messages available.
+
+        Parameters:
+        -----------
+        prev_item : TimelineItem
+            The item that should be expired.
+        cur_item : TimelineItem
+            The item following the expired item.
+        deliver_incoming : bool
+            If this item has *just* expired, this should be True and it
+            will trigger an incoming call (if available) from prev_item
+            rather than expiring it
+        """
+
+        # prev_item will expire unless it was played, bought back,
+        # or bought ahead
+        if prev_item.can_expire():
+            prev_item.expire()
+        else:
+            # There was no need to expire anything, so return
+            return
+
+        # Otherwise, an item was expired. Deliver its associated
+        # phone calls and text messages.
+        # Create a timestamp for calls.
+        call_timestamp = upTime(thehour=cur_item.trigger_time[:2],
+                themin=cur_item.trigger_time[-2:])
+        deliver_calls(prev_item.item_label, not deliver_calls, call_timestamp)
+        
+        # Check for a post-item label
+        if renpy.has_label('after_' + prev_item.item_label):
+            # This will ensure text messages etc are set up
+            store.was_expired = True
+            renpy.call_in_new_context('after_' + prev_item.item_label)
+            store.was_expired = False
+        for phonecall in store.available_calls:
+            phonecall.decrease_time()
+
+        # Deliver all outstanding text messages
+        deliver_all_text()
         
