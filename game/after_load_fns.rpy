@@ -61,12 +61,10 @@ init python:
                 float_ver = 2.2
 
             if float_ver < 2.3:
-                print("Checking ChatHistory")
                 # Update ChatHistory and VNMode objects
-                for day in store.chat_archive:
-                    for item in day.archive_list:
-                        if (isinstance(item, ChatHistory)):
-                            chathistory_to_chatroom(item, True)
+                for day in store.chat_archive:                    
+                    day.convert_archive(True)
+
                 store._version = '2.3'
                 float_ver = 2.3
             
