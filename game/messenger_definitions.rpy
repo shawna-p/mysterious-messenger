@@ -552,7 +552,7 @@ init -4 python:
             
         # Deliver emails and trigger the next chatroom
         deliver_emails()   
-        next_chatroom()
+        check_and_unlock_story()
         hide_all_popups()
         # Make sure any images shown are unlocked
         check_for_CGs(store.all_albums)

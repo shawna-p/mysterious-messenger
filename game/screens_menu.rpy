@@ -766,9 +766,9 @@ screen menu_header(title, return_action=NullAction,
     # # If the game is running on real-time, check once a minute
     # # if it's time for the next chatroom
     if persistent.real_time and not main_menu and not starter_story:
-        timer 60 action Function(next_chatroom) repeat True
-        on 'show' action Function(next_chatroom)
-        on 'replace' action Function(next_chatroom)
+        timer 60 action Function(check_and_unlock_story) repeat True
+        on 'show' action Function(check_and_unlock_story)
+        on 'replace' action Function(check_and_unlock_story)
         
     if (not renpy.get_screen('text_message_screen') 
             and not main_menu 
@@ -1107,11 +1107,11 @@ screen chat_home(reshow=False):
             button:
                 style 'big_menu_circle'
                 if persistent.real_time:
-                    action [Function(next_chatroom), 
+                    action [Function(check_and_unlock_story), 
                             Function(deliver_all_texts), 
-                            Show('chat_select')]
+                            Show('day_select')]
                 else:
-                    action [Function(deliver_all_texts), Show('chat_select')]
+                    action [Function(deliver_all_texts), Show('day_select')]
                 add "rfa_chatcircle" yalign 0.5 xalign 0.5
                 add "blue_chatcircle" xalign 0.5 yalign 0.5
                 add "chat_icon" xalign 0.5 yalign 0.5
@@ -1405,7 +1405,7 @@ screen developer_settings():
                     textbutton _("Testing Mode"):
                         action If(not main_menu,
                             [ToggleField(persistent, "testing_mode"),
-                            Function(next_chatroom)],
+                            Function(check_and_unlock_story)],
                             ToggleField(persistent, "testing_mode"))
                     textbutton _("Real-Time Mode"):
                         action ToggleField(persistent, "real_time")

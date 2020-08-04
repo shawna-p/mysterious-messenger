@@ -87,7 +87,7 @@ screen select_history_route():
             for route in all_routes:
                 textbutton _(route.route_history_title):
                     action [SetVariable('which_history_route', route.route),
-                            Show('chat_select', days=route.route)]
+                            Show('day_select', days=route.route)]
 
 style history_route_button:
     is other_settings_end_button
@@ -164,7 +164,7 @@ image contact_darken = "Menu Screens/History/contact_darken.png"
 image call_incoming_outline = Transform("Menu Screens/History/call_icon_incoming_outline.png", size=(32, 32))
 image call_outgoing_outline = Transform("Menu Screens/History/call_icon_outgoing_outline.png", size=(32, 32))
 
-screen chatroom_item_history(chatroom):
+screen timeline_item_history(chatroom):
 
     python:
         played_reg = False
@@ -218,7 +218,7 @@ screen chatroom_item_history(chatroom):
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name}
-
+    style_prefix None
     null height 10
     if not is_chatroom and not is_vn:
         # It's the name/title of the ending

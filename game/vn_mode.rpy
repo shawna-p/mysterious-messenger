@@ -17,7 +17,7 @@ label vn_begin(nvl=False):
     hide screen phone_overlay
     hide screen messenger_screen 
     hide screen pause_button
-    hide screen chatroom_timeline
+    hide screen timeline
     
     # Hide all the popup screens
     $ hide_all_popups()

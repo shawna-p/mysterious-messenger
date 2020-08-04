@@ -775,6 +775,7 @@ image vn_selected = 'Menu Screens/Day Select/daychat01_vn_mint.png'
 image vn_active = 'Menu Screens/Day Select/vn_active.png'
 image vn_selected_hover = 'Menu Screens/Day Select/daychat01_vn_mint_hover.png'
 image vn_active_hover = 'Menu Screens/Day Select/vn_active_hover.png'
+image vn_inactive_hover = 'vn_inactive'
 image vn_marker = 'Menu Screens/Day Select/daychat01_vn_marker.png'
 image vn_time_bg = 'Menu Screens/Day Select/daychat01_chat_timebg.png'
 
@@ -785,6 +786,7 @@ image solo_vn_hover = "Menu Screens/Day Select/solo_vn_hover.png"
 
 image chat_active = Frame('Menu Screens/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
 image chat_inactive = Frame('Menu Screens/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)
+image chat_inactive_hover = 'chat_inactive'
 image chat_selected = Frame('Menu Screens/Day Select/daychat01_chat_mint.png',190, 70, 40, 50)
 image chat_active_hover = Frame('Menu Screens/Day Select/daychat01_chat_active_hover.png',190, 70, 40, 50)
 image chat_continue = Frame('Menu Screens/Day Select/daychat01_chat_continue.png',190, 70, 40, 20)

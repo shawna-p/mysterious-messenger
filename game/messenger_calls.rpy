@@ -230,7 +230,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     scene bg black
     window auto
     hide screen starry_night
-    hide screen chatroom_timeline
+    hide screen timeline
 
     show screen vn_overlay
     $ vn_choice = True
@@ -349,7 +349,7 @@ label chat_back():
             $ deliver_calls(current_chatroom.chatroom_label, True)
         $ renpy.retain_after_load()
     $ renpy.set_return_stack([])
-    call screen chatroom_timeline(current_day, current_day_num)
+    call screen timeline(current_day, current_day_num)
     return
 
     
@@ -395,7 +395,7 @@ label press_save_and_exit():
         $ reset_chatroom_vars()        
         if _in_replay:
             $ renpy.end_replay()
-        call screen chatroom_timeline(current_day, current_day_num)
+        call screen timeline(current_day, current_day_num)
     else:
         call screen signature_screen(phone)        
         $ persistent.HG += chatroom_hg
@@ -415,7 +415,7 @@ label press_save_and_exit():
             return
         else:
             $ deliver_next()
-            call screen chatroom_timeline(current_day, current_day_num)
+            call screen timeline(current_day, current_day_num)
             return
     return
 
@@ -565,7 +565,7 @@ label skip_intro_setup():
     
     # Deliver emails and trigger the next chatroom (if applicable)
     $ deliver_emails()   
-    $ next_chatroom()
+    $ check_and_unlock_story()
     $ hide_all_popups()
     # Make sure any images shown are unlocked
     $ check_for_CGs(all_albums)
@@ -586,7 +586,7 @@ label skip_intro_setup():
         return
     else:
         $ deliver_next()
-        call screen chatroom_timeline(current_day, current_day_num)
+        call screen timeline(current_day, current_day_num)
         return
     return
     
