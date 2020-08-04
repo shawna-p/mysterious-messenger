@@ -509,7 +509,7 @@ init -6 python:
                 #     raise AttributeError(name)
                 # print("with", self.__dict__['vn_label'])
                 return super(VNMode, self).__getattribute__(name)
-            except (KeyError, AttributeError) as e:
+            except (KeyError, AttributeError) as e:                
                 raise AttributeError(name)
 
         def __eq__(self, other):
@@ -653,6 +653,9 @@ init -6 python:
                     if isinstance(item, ChatHistory):
                         new_archive_list.append(chathistory_to_chatroom(item,
                                                             copy_everything))
+                    elif isinstance(item, VNMode):
+                        new_archive_list.append(vnmode_to_storymode(item,
+                                                            copy_everything))
                     else:
                         new_archive_list.append(item)
                 
@@ -664,7 +667,6 @@ init -6 python:
                     self.branch_vn.who, self.branch_vn.party)
                 self.branch_vn = new_vn               
 
-            print("\narchive_list is now", self.archive_list)
 
 
         @property
@@ -884,30 +886,24 @@ init -6 python:
             if self not in store.all_routes:
                 store.all_routes.append(self)
                             
-    def next_chatroom():
+    def check_and_unlock_story():
         """
-        Ensure the next chatroom or VN section is available to play.
-        By default the program will unlock chatrooms sequentially, but if
-        persistent.real_time is True it will unlock chatrooms according to
-        their trigger time and the actual time of day.
+        Ensure the next timeline item is available to play. By default the 
+        program will unlock items sequentially, but if persistent.real_time is 
+        True it will unlock items according to their trigger time and the 
+        actual time of day.
         """
 
         global chat_archive, today_day_num, days_to_expire
         global current_game_day
 
-        # If the player is in Testing Mode, make all chatrooms
-        # and VNs available regardless
+        # If the player is in Testing Mode, make all items available
         triggered_next = False
         if persistent.testing_mode:
             for archive in chat_archive:
-                for chatroom in archive.archive_list:
-                    chatroom.available = True
-                    if chatroom.vn_obj:
-                        chatroom.vn_obj.available = True
-                    if chatroom.story_calls_list:
-                        for phonecall in chatroom.story_calls_list:
-                            phonecall.available = True
-                    if chatroom.plot_branch:
+                for item in archive.archive_list:
+                    item.unlock_all()
+                    if item.plot_branch:
                         triggered_next = True
                         break
                 if triggered_next:
@@ -915,333 +911,229 @@ init -6 python:
             return
 
         triggered_next = False
-        # Running on sequential mode
-        if not persistent.real_time:
+        # Next, check if the player is in sequential mode
+        if not store.persistent.real_time:
             for archive in chat_archive:
-                for chatroom in archive.archive_list:
-                    # If they haven't played the currently
-                    # available chatroom, don't make anything new
-                    # available and stop
-                    if chatroom.available and not chatroom.played:
+                for item in archive.archive_list:
+                    # If the player hasn't played everything associated with
+                    # this item, don't make anything new available and stop
+                    if not item.all_played():
                         triggered_next = True
                         break
-                    # If the currently available chatroom is a plot branch
-                    # without a VN, don't make anything new available
-                    if (chatroom.available and not chatroom.vn_obj
-                            and chatroom.plot_branch):
-                        triggered_next = True
-                        break
-                    # If the chatroom has an unavailable VN after it,
-                    ## make that available and stop
-                    if (chatroom.played and chatroom.vn_obj 
-                            and not chatroom.vn_obj.available):
-                        chatroom.vn_obj.available = True
-                        triggered_next = True
-                        break
-                    # If they haven't played the VN yet, 
-                    # don't make anything new available and stop
-                    if (chatroom.played and chatroom.vn_obj 
-                            and chatroom.vn_obj.available 
-                            and not chatroom.vn_obj.played):
-                        triggered_next = True
-                        break              
                     
-                    # If it's a plot branch with a played VN, don't
-                    # make anything new available and stop
-                    if (chatroom.played and chatroom.vn_obj
-                            and chatroom.plot_branch
-                            and chatroom.vn_obj.played):
+                    # Something associated with this item isn't available
+                    # to play yet. Make it available.
+                    if not item.all_available():
+                        decrease_calls = item.make_next_available()
+                        # If this was the "main" item in a chain of timeline
+                        # items, it triggers the phone calls to expire
+                        if decrease_calls:
+                            for phonecall in store.available_calls:
+                                phonecall.decrease_time()                            
                         triggered_next = True
                         break
-
-                    # If there is a story call attached to this chatroom
-                    # and not available, make it available and stop
-                    if (chatroom.played
-                            and (not chatroom.vn_obj or chatroom.vn_obj.played)
-                            and chatroom.story_calls_list):
-                        for phonecall in chatroom.story_calls_list:
-                            if not phonecall.available:
-                                phonecall.available = True
-                                # Only make one call available at a time
-                                triggered_next = True
-                                break
-                        if triggered_next:
-                            break
-                            
-                    # If the current chatroom isn't available, 
-                    # make it available and stop. Also decrease 
-                    # the time old phone calls are available
-                    if not chatroom.available:
-                        chatroom.available = True
-                        current_chatroom = chatroom
-                        for phonecall in available_calls:
-                            phonecall.decrease_time()
+                    
+                    # Don't make anything available after a plot branch
+                    if item.plot_branch:
                         triggered_next = True
-                        break               
+                        break
                 if triggered_next:
                     break
-            # Done making chatrooms available
+            # Done making items available
             return
-
-        # Otherwise, the game is running in real-time
-        # Check if any days have passed since this function was 
-        # last called
+        
+        # If the program isn't in sequential mode, they're in real-time mode.
+        # Check if any days have passed since this function was last called.
         date_diff = date.today() - current_game_day
         if date_diff.days > 0:
             # At least one day has passed; increase days_to_expire
-            days_to_expire += date_diff.days
-        # Ensure the # of days to expire doesn't exceed the 
-        # number of days in the route
-        if days_to_expire > len(chat_archive):
-            expiry_day = len(chat_archive)
-        else:
-            expiry_day = days_to_expire
+            # Its maximum size is the length of the chat_archive.
+            days_to_expire = min(date_diff.days + days_to_expire,
+                                len(chat_archive))
+
         # Update the current game date
-        current_game_day= date.today()
-        # Check what time it is to expire chatrooms
+        current_game_day = date.today()
+        # Check what time it is to expire timeline items
         current_time = upTime()
-        # Systemically look through every chatroom in the archive
-        # to see if there are any to be expired
+
+        # Search through every item in the archive to see if there
+        # are any to be expired based on the current time of day.
         stop_checking = False
-        for day_index, routeday in enumerate(chat_archive[:expiry_day]):
-            # Make sure this routeday actually has an archive list,
-            # otherwise check other routedays
-            if not routeday.archive_list:
-                continue
-            # Otherwise it's safe to assume this routeday has chatrooms
-            for chat_index, chatroom in enumerate(routeday.archive_list):
-                # Independent of time, check if there is a
-                # played chatroom with an unavailable VN
-                if (chatroom.played and chatroom.vn_obj
-                        and not chatroom.vn_obj.available):
-                    chatroom.vn_obj.available = True
+        for day_index, routeday in enumerate(chat_archive[:days_to_expire]):
+            for item_index, item in enumerate(routeday.archive_list):
+                # Independent of time, ensure all items associated with
+                # this item are available
+                if item.played and not item.all_available():
+                    item.make_next_available()
 
-                # If there is a story call attached to this chatroom
-                # and not available, make it available and stop
-                if (chatroom.played
-                        and (not chatroom.vn_obj or chatroom.vn_obj.played)
-                        and chatroom.story_calls_list):
-                    for phonecall in chatroom.story_calls_list:
-                        if not phonecall.available:
-                            phonecall.available = True
-                            # Only make one call available at a time                            
-                            break
-                    
-
-                # Also, check if the previous chatroom was a plot branch
-                # If so, stop checking chatrooms until the player has
-                # proceeded through it
-                if (chatroom.plot_branch and chatroom.available
-                        and (not chatroom.vn_obj
-                            or chatroom.vn_obj.available)):
+                # If this item has a plot branch, don't check anything
+                # past it
+                if item.plot_branch:
+                    if not item.all_available():
+                        item.make_next_available()
                     stop_checking = True
                     break
 
-                if (chat_index != 0 and len(routeday.archive_list) > 1
-                        and routeday.archive_list[chat_index-1].plot_branch
-                        and routeday.archive_list[chat_index-1].available
-                        and (not routeday.archive_list[chat_index-1].vn_obj
-                            or routeday.archive_list[chat_index
-                                                -1].vn_obj.available)):
-                    stop_checking = True
-                    break
-
-                # If the program has gotten this far and the current
-                # chatroom is available, keep looking for unavailable 
-                # chatrooms to trigger
-                if chatroom.available:
+                if item.available:
+                    # The main item is already available; check if anything
+                    # later on should be available or should expire.
                     continue
-                
-                if chat_index > 0:
-                    prev_chatroom = routeday.archive_list[chat_index-1]
-                elif chat_index == 0 and day_index == 0:
-                    prev_chatroom = False
-                    # First chatroom of the route; should just
-                    # make this available
-                    chatroom.available = True
+
+                # Get the timeline item immediately before this one
+                if item_index == 0 and day_index == 0:
+                    prev_item = False
+                    # This is the first item of the route; it should
+                    # be available.
+                    item.available = True
                     today_day_num = day_index
-                    continue
-                elif chat_index == 0 and day_index > 0:
-                    prev_chatroom = chat_archive[day_index-1].archive_list[-1]
-
+                    continue                
+                elif item_index > 0:
+                    prev_item = routeday.archive_list[item_index-1]
+                # This is the first item of the day; previous item was the last
+                # item on the day before this one
+                elif item_index == 0 and day_index > 0:
+                    prev_item = chat_archive[day_index-1].archive_list[-1]
                 else:
-                    prev_chatroom = False
-                # Otherwise, this chatroom is not available. Should
-                # it be made available?
-                if (prev_chatroom and past_trigger_time(chatroom.trigger_time, 
-                        current_time, day_index+1 == expiry_day,
-                        day_index+1 < expiry_day,
-                        prev_chatroom, chatroom)):
-                    chatroom.available = True
+                    prev_item = False
+                
+                # If the program has gotten this far, this item is not yet
+                # available. Should it be made available?
+                if (prev_item and past_trigger_time(item.trigger_time,
+                        current_time, day_index+1 < days_to_expire, 
+                        prev_item, item)):
+                    item.available = True
                     today_day_num = day_index
-                elif prev_chatroom:
-                    # That means this chatroom isn't ready; break
+                elif prev_item:
+                    # This means this item isn't ready; everything has
+                    # been checked.
                     stop_checking = True
                     break
-
+            
             if stop_checking:
                 break
+
         # If by the end of this there is an incoming call, deliver it
         if store.incoming_call:
             store.current_call = store.incoming_call
             store.incoming_call = False
             renpy.call('new_incoming_call', phonecall=store.current_call)
-    
+        return
+                
 
-    def past_trigger_time(trig_time, cur_time, sameday, was_yesterday,
-                          prev_chat, cur_chat):
+    def past_trigger_time(trig_time, cur_time, was_yesterday,
+            prev_item, cur_item):
         """
-        A helper function for next_chatroom() to determine if the given
-        trigger time is after the current time and expires the
-        chatroom before this one if so.
+        A helper function for next_timeline_item() which determines if the
+        given trigger time is after the current time, and expires the
+        previous item if so.
 
         Parameters:
         -----------
         trig_time : string
-            Formatted "00:00" in 24-hour time. The time this chatroom was
+            Formatted "00:00" in 24-hour time. The time this item is
             supposed to trigger at.
         cur_time : MyTime
-            A MyTime object containing information on the current time.
-        sameday : bool
-            True if the current date is the same day as this chatroom.
+            A MyTime object containing information on the current time.        
         was_yesterday : bool
-            True if this chatroom occurred one or more days prior to the
+            True if this item occurred one or more days prior to the
             current date.
-        prev_chat : ChatHistory
-            The chatroom before this one.
-        cur_chat : ChatHistory
-            The current chatroom being checked.
+        prev_item : TimelineItem
+            The item in the timeline before the current one.
+        cur_item : TimelineItem
+            The current timeline item being checked.
 
         Returns:
         --------
         bool
-            Return True if the given trigger time has already passed and
-            expire the previous chatroom. Otherwise, return False.
+            Expire the previous item if the trigger time has already passed
+            and return True. Otherwise, return False.
         """
 
         if was_yesterday:
-            # It's already a day or more past this chat; expire 
-            # the previous chatroom and move on
-            expire_chatroom(prev_chat, cur_chat)
+            # A day or more has passed since this item was supposed to be
+            # available. Expire the previous item and move on.
+            expire_item(prev_item, cur_item)
             return True
-
+        
+        # Otherwise, compare times
         trig_hour = int(trig_time[:2])
         trig_min = int(trig_time[-2:])
         cur_hour = int(cur_time.military_hour)
         cur_min = int(cur_time.minute)
 
-        # First, check the hours
-        if trig_hour < cur_hour:
-            expire_chatroom(prev_chat, cur_chat)
-            return True
-        elif trig_hour > cur_hour:
-            # Too early
-            return False
-        # Check minutes; if the minutes are close enough,
-        # check if the program should notify the user
-        if trig_min > cur_min:
+        # If the trigger time is strictly later than the current time,
+        # then it isn't time to make it available or expire anything.
+        if is_time_later(cur_hour, cur_min, trig_hour, trig_min):
             return False
 
-        # Player has a grace period of 1 minute to be informed
-        # of new chatrooms if the trigger time just passed
-        if sameday and (cur_min == trig_min or trig_min+1 == cur_min):
-            expire_chatroom(prev_chat, cur_chat, deliver_incoming=True)
-            # Let the player know a new chatroom is open
-            if isinstance(cur_chat, ChatHistory):
-                the_msg = "[[new chatroom] " + cur_chat.title
-            elif isinstance(cur_chat, VNMode):
-                the_msg = "[[new story mode] " + cur_chat.title
-            renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav', 
-                                'sound')
-            renpy.show_screen('confirm',  message=the_msg, 
-                              yes_action=Hide('confirm'))
+        if trig_hour < cur_hour:
+            expire_item(prev_item, cur_item)
             return True
         
-        if trig_min < cur_min:
-            expire_chatroom(prev_chat, cur_chat)
+        # Otherwise, special case where the player has a grace period of 1
+        # minute to be notified of an item being available if the trigger
+        # time just passed
+        if (cur_min == trig_min) or (trig_min+1 == cur_min):
+            expire_item(prev_item, cur_item, deliver_incoming=True)
+
+            # Let the player know a new item is available
+            renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav', 
+                                'sound')
+            renpy.show_screen('confirm',  message=item.on_available_message(), 
+                              yes_action=Hide('confirm'))
+
             return True
+
+        else:
+            expire_item(prev_item, cur_item)
+            return True
+
         return False
-            
-    def expire_chatroom(prev_chatroom, current_chatroom, 
-                                deliver_incoming=False):
+
+    def expire_item(prev_item, cur_item, deliver_incoming=False):
         """
-        A helper function for next_chatroom() which expires the previous
-        chatroom and makes its phone calls and text messages available.
+        A helper function for next_timeline_item() which expires the
+        previous item and makes its phone calls and text messages available.
 
         Parameters:
         -----------
-        prev_chatroom : ChatHistory
-            The chatroom that should be expired.
-        current_chatroom : ChatHistory
-            The chatroom following the expired chatroom.
+        prev_item : TimelineItem
+            The item that should be expired.
+        cur_item : TimelineItem
+            The item following the expired item.
         deliver_incoming : bool
-            If this chatroom has *just* expired, this should be True and
-            triggers an incoming call from prev_chatroom rather than
-            expiring it.
+            If this item has *just* expired, this should be True and it
+            will trigger an incoming call (if available) from prev_item
+            rather than expiring it
         """
 
-        # The previous chatroom expires if not played,
-        # bought back, or bought ahead
-        if (isinstance(prev_chatroom, ChatHistory)
-                and not prev_chatroom.played
-                and not prev_chatroom.buyback 
-                and not prev_chatroom.buyahead):
-            prev_chatroom.expired = True
-        # There's also the case where the chatroom or VN was played, but
-        # its corresponding story call was not. That call should expire.
-        elif ((isinstance(prev_chatroom, ChatHistory)
-                    or isinstance(prev_chatroom, VNMode))
-                and prev_chatroom.story_calls_list):
-            # Check if the call(s) have been played
-            all_calls_played = True
-            for phonecall in prev_chatroom.story_calls_list:
-                if (not phonecall.played
-                        and not phonecall.buyback
-                        and not phonecall.buyahead):
-                    phonecall.expired = True
-                    all_calls_played = False
-            if all_calls_played:
-                # No need to expire anything
-                return
+        # prev_item will expire unless it was played, bought back,
+        # or bought ahead
+        if prev_item.can_expire():
+            prev_item.expire()
         else:
+            # There was no need to expire anything, so return
             return
 
-            
-        # Set a time for the missed call; should be
-        # equal to the trigger time for the current chatroom
-        time_for_call = upTime()
-        time_for_call.twelve_hour = current_chatroom.trigger_time[:2]
-        if time_for_call.twelve_hour == '00':
-            time_for_call.twelve_hour = '12'
-            time_for_call.am_pm = 'AM'
-        elif time_for_call.twelve_hour == '12':
-            time_for_call.am_pm = 'PM'
-        elif int(time_for_call.twelve_hour) > 12:
-            time_for_call.twelve_hour = str(abs
-                                (12 - int(time_for_call.twelve_hour)))
-            time_for_call.am_pm = 'PM'
-        else:
-            time_for_call.am_pm = 'AM'                                    
-        time_for_call.minute = current_chatroom.trigger_time[-2:]
+        # Otherwise, an item was expired. Deliver its associated
+        # phone calls and text messages.
+        # Create a timestamp for calls.
+        call_timestamp = upTime(thehour=cur_item.trigger_time[:2],
+                themin=cur_item.trigger_time[-2:])
+        deliver_calls(prev_item.item_label, not deliver_calls, call_timestamp)
         
-        # There's a rare case where the program should trigger an 
-        # incoming call because this chatroom has *just* expired
-        if deliver_incoming:
-            deliver_calls(prev_chatroom.chatroom_label, False, time_for_call)
-        else:
-            deliver_calls(prev_chatroom.chatroom_label, True, time_for_call) 
-        
-        # Checks for a post-chatroom label
-        if renpy.has_label('after_' + prev_chatroom.chatroom_label): 
+        # Check for a post-item label
+        if renpy.has_label('after_' + prev_item.item_label):
             # This will ensure text messages etc are set up
             store.was_expired = True
-            renpy.call_in_new_context('after_' + prev_chatroom.chatroom_label)
+            renpy.call_in_new_context('after_' + prev_item.item_label)
             store.was_expired = False
-        for phonecall in available_calls:
+        for phonecall in store.available_calls:
             phonecall.decrease_time()
-            
-        # This delivers all outstanding text messages
-        deliver_all_texts()
+
+        # Deliver all outstanding text messages
+        deliver_all_text()
+       
       
 
     def num_future_chatrooms(break_for_branch=False):
@@ -1467,20 +1359,22 @@ init -6 python:
                         return False
         return False
         
-    def next_chat_time():
-        """Return the time the next chatroom should be available at."""
+    
+
+    def next_story_time():
+        """Return the time the next timeline item should be available at."""
 
         global chat_archive
         for archive in chat_archive:
             if archive.archive_list:
-                for chatroom in archive.archive_list:
-                    if chatroom.plot_branch and chatroom.available:
+                for item in archive.archive_list:
+                    if item.plot_branch and item.available:
                         return 'Plot Branch'
-                    if not chatroom.available:
-                        return chatroom.trigger_time
+                    if not item.available:
+                        return item.trigger_time
         return 'Unknown Time'
         
-    def chat_24_available():
+    def make_24h_available():
         """Make the chatrooms for the next 24 hours available."""
 
         global chat_archive, today_day_num, days_to_expire, unlock_24_time
@@ -1501,7 +1395,7 @@ init -6 python:
             expiry_day = unlock_24_time[0]
             unlock_time = unlock_24_time[1]
         
-        # This functions much like the next_chatroom() function, only
+        # This functions much like the check_and_unlock_story() function, only
         # here instead of expiring chatrooms we make them available
         for chat_index, chatroom in enumerate(chat_archive[expiry_day-2].archive_list):
             # If this chatroom is already available, don't bother with it
