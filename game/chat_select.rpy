@@ -1,7 +1,7 @@
 ########################################################
 ## This is the screen where you choose which day to play
 ########################################################
-screen chat_select(days=chat_archive):
+screen day_select(days=chat_archive):
 
     tag menu
     modal True
@@ -32,7 +32,7 @@ screen chat_select(days=chat_archive):
                 for day_num, day in enumerate(days):
                     if len(days) < 2:
                         null width (750//2)-(263//2)-3
-                    use day_select(day, day_num)
+                    use day_display(day, day_num)
                     if (main_menu and day_num < len(days) -1):
                         null width -6
                         fixed:
@@ -49,7 +49,7 @@ style scrollbar:
 
 ## This screen shows each day as well as a percentage bar showing what
 ## percent of chatrooms on that day have been viewed
-screen day_select(day, day_num):
+screen day_display(day, day_num):
 
     python:
         most_recent_day = False        
@@ -180,10 +180,10 @@ style day_title:
 default day_select_xadj = ui.adjustment()
 default timeline_yadj = ui.adjustment()
 ########################################################
-## This screen shows a timeline of the chatrooms on
-## each particular day
+## This screen shows a timeline of the timeline items
+## on each particular day.
 ########################################################
-screen chatroom_timeline(day, day_num):
+screen timeline(day, day_num):
 
     tag menu
     modal True
@@ -192,54 +192,46 @@ screen chatroom_timeline(day, day_num):
         on 'show' action [FileSave(mm_auto, confirm=False)]
         on 'replace' action [FileSave(mm_auto, confirm=False)]
 
-        $ chat_time = next_chat_time()
-        $ return_action = Show('chat_select', Dissolve(0.5))
+        $ story_time = next_story_time()
+        $ return_action = Show('day_select', Dissolve(0.5))
     else:
-        $ chat_time = None
-        $ return_action = Show('chat_select', Dissolve(0.5),
+        $ story_time = None
+        $ return_action = Show('day_select', Dissolve(0.5),
                             days=which_history_route)
     
     use menu_header(day.day, return_action):
         null height -19
-        fixed:   
-            xysize (720, 1190)
-            yalign 0.0
-            xalign 0.5   
+        fixed:
+            style_prefix 'timeline2'
             add 'day_vlink' size (15,1180) xalign 0.15
             viewport:
-                ysize 1190
                 yadjustment timeline_yadj
                 mousewheel True
                 draggable True    
-                side_spacing 5
-                scrollbars "vertical"        
-                vbox:
-                    xsize 700
-                    spacing 20      
-                            
-                    for index, chatroom in enumerate(day.archive_list):
-                        # Displays rows of all the available chats
-                        if not main_menu and chatroom.available:
-                            use chatroom_item(day, day_num, chatroom, index)
-                        # Use a different screen for the History
-                        elif (main_menu and display_history(chatroom, index,
-                                                            day.archive_list)):
-                            use chatroom_item_history(chatroom)
+                side_spacing 5  
+                scrollbars "vertical"      
+                has vbox                            
+                for i, item in enumerate(day.archive_list):
+                    # Displays rows of all the available chats
+                    if not main_menu and item.available:
+                        use timeline_item_display(day, day_num, item, i)
+                    # Use a different screen for the History
+                    elif (main_menu and display_history(item, i,
+                                                        day.archive_list)):
+                        use timeline_item_history(item)
 
-                    if (not main_menu and persistent.real_time 
-                            and day_num == today_day_num 
-                            and not unlock_24_time 
-                            and not chat_time == 'Unknown Time'
-                            and not chat_time == 'Plot Branch'):
-                        hbox:
-                            xysize (620, 110)
-                            xoffset 70
-                            xalign 0.0
-                            # Shows the 'Continue'/Buyahead button
-                            use timeline_continue_button(chat_time)                        
-                                
-                    null height 40                    
+                if (not main_menu and persistent.real_time 
+                        and day_num == today_day_num 
+                        and not unlock_24_time 
+                        and not story_time == 'Unknown Time'
+                        and not story_time == 'Plot Branch'):
+                    hbox:
+                        # Show the 'Continue'/Buyahead button
+                        use timeline_continue_button(story_time)
+                null height 40                    
     
+    # Show the 'hacked' timeline effects, if the player has them turned
+    # on and if applicable.
     if hacked_effect and persistent.hacking_effects:        
         timer 10:
             action [Show('tear', number=10, offtimeMult=0.4, 
@@ -250,179 +242,119 @@ screen chatroom_timeline(day, day_num):
                           ontimeMult=0.2, offsetMin=-10, offsetMax=30, 
                           w_timer=0.3),
                             Show('white_squares', w_timer=1.0)] repeat False
+        
+style timeline2_fixed:
+    xysize (720, 1190)
+    yalign 0.0
+    xalign 0.5   
+
+style timeline2_viewport:
+    ysize 1190
+
+style timeline2_vbox:
+    xsize 700
+    spacing 20
+
+style timeline2_hbox:
+    xysize (620, 110)
+    xoffset 70
+    xalign 0.0
 
 
-
-## Small screen largely intended to reduce the indentation
-## in the main screen; determines whether or not this chat
-## was played, what day it was, etc
-screen chatroom_item(day, day_num, chatroom, index):
-
-    on 'hide' action [SetVariable('timeline_yinitial', timeline_yadj.value),
-        Function(print, "Setting yinitial to", timeline_yadj.value)]
+## Displays a single timeline item and all its related timeline items
+## (e.g. StoryMode, StoryCalls, etc).
+screen timeline_item_display(day, day_num, item, index):
 
     python:
-        sametime = False
-        wasplayed = False
-        vn_background = ''
+        # Whether this item occurs in the same hour as the one before it
+        sametime = False        
         if index > 0:
-            # If this is the second or later chatroom, check if the
-            # chatroom just before this one occured in the same hour
-            if (chatroom.trigger_time[:2] 
-                == day.archive_list[index-1].trigger_time[:2]):
-                sametime = True
-            # Also check if the chatroom or VN before this chatroom
-            # was played
-            if day.archive_list[index-1].played:
-                if day.archive_list[index-1].vn_obj:
-                    wasplayed = day.archive_list[index-1].vn_obj.played
-                else:
-                    wasplayed = True
-        elif index == 0:
-            # This chatroom can be played if it's the very first
-            # chatroom of the route
-            if day_num == 0:
-                wasplayed = True
-            # Otherwise, check if the last chatroom of the previous
-            # day was played so the player can play this one
-            else:
-                if chat_archive[day_num-1].archive_list[-1].vn_obj:
-                    wasplayed = (chat_archive[day_num-1].
-                                    archive_list[-1].vn_obj.played)
-                else:
-                    wasplayed = (chat_archive[day_num-1].
-                                    archive_list[-1].played)
+            # This is the second or later item on the day
+            prev_item = day.archive_list[index-1]
+            sametime = (item.trigger_time[:2] == prev_item.trigger_time[:2])
+            was_played = prev_item.all_played()
+        elif index == 0 and day_num > 0:
+            # This is the first chatroom on a new day, but not the first day
+            prev_item = chat_archive[day_num-1].archive_list[-1]
+            was_played = prev_item.all_played()
+        else:
+            prev_item = None
+            was_played = True
 
-        anim = null_anim
+        # Some items vary in size depending on if hacked effects are
+        # active and whether or not the item has expired
         if hacked_effect and persistent.hacking_effects:
             anim = hacked_anim
-        if isinstance(chatroom, ChatHistory):
-            my_vn = chatroom.vn_obj
-            solo_vn = False
         else:
-            my_vn = chatroom
-            solo_vn = True
-        can_play = False
-        # Several items vary in width if the chatroom is expired
-        # or if hack effects are active
-        chat_title_width = 400
-        chat_box_width = 620
-        partic_viewport_width = 530
-        if chatroom.expired:
+            anim = null_anim
+
+        if item.expired:
             chat_title_width = 300
             chat_box_width = 520
             partic_viewport_width = 430
-            
-        # These statements determine how the VN mode
-        # should look -- active/inactive etc
-        if my_vn and not my_vn.party:
-            if my_vn.played:
-                vn_foreground = 'vn_active'
-                vn_hover = 'vn_active_hover'   
-                can_play = True
-            elif solo_vn and my_vn.available and wasplayed:
-                vn_foreground = 'vn_selected'
-                vn_hover = 'vn_selected_hover'
-                can_play = True 
-            elif my_vn.available and wasplayed and chatroom.played:
-                vn_foreground = 'vn_selected'
-                vn_hover = 'vn_selected_hover'
-                can_play = True
-            else:
-                vn_foreground = 'vn_inactive'
-                vn_hover = 'vn_inactive'
-        elif my_vn and my_vn.party:
-            if my_vn.available and wasplayed:
-                vn_background = 'vn_party'
-                can_play = True
-            else:
-                vn_background = 'vn_party_inactive'
-                
-        # These statements determine how a chatroom button
-        # should look -- active/inactive/etc
-        if chatroom.played:
-            chat_bkgr = 'chat_active'
-            chat_hover = 'chat_active_hover'  
-            can_play = True            
-        elif chatroom.available and wasplayed:
-            chat_bkgr = 'chat_selected'
-            chat_hover = 'chat_selected_hover'
-            can_play = True
-        elif chatroom.expired:
-            chat_bkgr = 'chat_inactive'
-            chat_hover = 'chat_inactive'
         else:
-            chat_bkgr = 'chat_inactive'
-            chat_hover = 'chat_inactive'
-        
-        # This determines if there are enough participants
-        # in this chat to make the viewport scroll automatically
-        if chatroom.participants:
-            if (len(chatroom.participants) > 5 and chatroom.participated):
-                part_anim = participant_scroll
-            elif ((len(chatroom.participants) > 6
-                     and not chatroom.participated)
-                     or (chatroom.expired
-                        and len(chatroom.participants) > 4)):
-                part_anim = participant_scroll
-            else:
-                part_anim = null_anim
-        else:
-            part_anim = null_anim
+            chat_title_width = 400
+            chat_box_width = 620
+            partic_viewport_width = 530
 
-        if persistent.testing_mode and chat_bkgr == 'chat_inactive':
-            chat_bkgr = 'chat_active'
-            chat_hover = 'chat_active_hover'
-            can_play = True
-            wasplayed = True
-        if persistent.testing_mode:
-            most_recent_chat = chatroom
-            can_play = True
-            wasplayed = True
-        if (persistent.testing_mode and my_vn 
-                and (vn_foreground == 'vn_inactive' 
-                    or vn_background == 'vn_party_inactive')):
-            if vn_foreground == 'vn_inactive':
-                vn_foreground = 'vn_active'
-                vn_hover = 'vn_active_hover'
-            elif vn_background == 'vn_party_inactive':
-                vn_background = 'vn_party'
-            can_play = True
-            wasplayed = True
+        # Determine if there are enough participants to make the
+        # participant viewport scroll automatically
+        part_anim = null_anim
+        if isinstance(item, ChatRoom) and item.participants:
+            num_participants = len(item.participants)
+            if item.participated:
+                num_participants += 1
+            if ((num_participants > 6)
+                    or (item.expired and num_participants > 4)):
+                part_anim = participant_scroll
+            
+        
+        if isinstance(item, StoryMode):
+            story_mode = item
+        elif isinstance(item, ChatRoom) and item.story_mode:
+            story_mode = item.story_mode
+            was_played = (was_played and item.played)
+        else:
+            story_mode = None
+
+        
+
+    style_prefix None
 
     null height 10
-                      
+
+    # Display an extra marker with the hour. If this item is during the
+    # same hour as the previous one, this is omitted.
     if not sametime:
-        # sametime means these chatrooms occur during the
-        # same hour. If it's false, show the hour above this chat
-        textbutton _(chatroom.trigger_time[:2] + ':00'):
+        textbutton _(item.trigger_time[:2] + ':00'):
             style 'timeline_button'
             text_style 'timeline_button_text'
 
-    if not solo_vn:
+    # A ChatRoom
+    if isinstance(item, ChatRoom):
         hbox:
             style 'timeline_hbox'
             button at anim(10):
                 xysize (chat_box_width, 160)
                 xalign 0.0
-                background chat_bkgr
-                hover_foreground chat_hover
-                if can_play and wasplayed:
-                    # Determines where to take the player depending
+                background item.get_timeline_img(was_played)
+                hover_foreground item.get_timeline_img(was_played) + '_hover'
+                if item.available and was_played:
+                    # Determine where to take the player depending
                     # on whether this chatroom is expired or not
-                    if chatroom.expired and not chatroom.played:
-                        action [SetVariable('current_chatroom', chatroom), 
-                                Jump(chatroom.expired_chat)]
+                    if item.expired and not item.played:
+                        action [SetVariable('current_chatroom', item), 
+                                Jump(item.expired_label)]
                     else:
-                        if (chatroom.played 
+                        if (item.played 
                                 and not persistent.testing_mode
-                                and chatroom.replay_log != []):
-                            action [SetVariable('current_chatroom', chatroom),
+                                and item.replay_log != []):
+                            action [SetVariable('current_chatroom', item),
                                 SetVariable('observing', True),
                                 Jump('rewatch_chatroom')]
                         else:
-                            action [SetVariable('current_chatroom', chatroom),                                     
-                                    Jump(chatroom.chatroom_label)]
+                            action [SetVariable('current_chatroom', item),                                     
+                                    Jump(item.item_label)]
                         
                 if (hacked_effect and chatroom.expired 
                         and persistent.hacking_effects):
@@ -439,19 +371,19 @@ screen chatroom_item(day, day_num, chatroom, index):
                         frame:
                             xoffset 77
                             yoffset 13
-                            text chatroom.trigger_time:
+                            text item.trigger_time:
                                 size 27 
                                 xalign 0.5
                                 text_align 0.5
                         viewport:
                             xysize(chat_title_width,27)
-                            if get_text_width(chatroom.title, 
+                            if get_text_width(item.title, 
                                     'chat_timeline_text') >= chat_title_width:
                                 frame:
                                     xysize(chat_title_width,27)
-                                    text chatroom.title at chat_title_scroll
+                                    text item.title at chat_title_scroll
                             else:
-                                text chatroom.title
+                                text item.title
                     # Shows a list of all the people who were in/
                     # are in this chatroom
                     viewport:
@@ -463,102 +395,100 @@ screen chatroom_item(day, day_num, chatroom, index):
                             xysize(partic_viewport_width, 85)
                             hbox at part_anim:
                                 spacing 5
-                                if chatroom.participants:
-                                    for person in chatroom.participants:
+                                if item.participants:
+                                    for person in item.participants:
                                         if person.participant_pic:
                                             add person.participant_pic
                                     
-                                if chatroom.participated and chatroom.played:
+                                if item.participated and item.played:
                                     add m.get_pfp(80)
 
             # If this chat is expired and hasn't been bought back,
             # show a button allowing the player to buy this chat again            
-            if chatroom.expired and not chatroom.buyback:
+            if item.expired and not item.buyback:
                 imagebutton:
                     yalign 0.9
                     xalign 0.5
                     idle 'expired_chat'
                     hover_background 'btn_hover:expired_chat'
-                    if chatroom.available or persistent.testing_mode:
+                    if item.available or persistent.testing_mode:
                         action Show('confirm', message=("Would you like to"
                                     + " participate in the chat conversation"
                                     + " that has passed?"),
-                                yes_action=[SetField(chatroom, 'expired', False),
-                                SetField(chatroom, 'buyback', True),
-                                SetField(chatroom, 'played', False),
-                                SetField(chatroom, 'replay_log', []),
-                                Function(chatroom.reset_participants),
+                                yes_action=[SetField(item, 'expired', False),
+                                SetField(item, 'buyback', True),
+                                SetField(item, 'played', False),
+                                SetField(item, 'replay_log', []),
+                                Function(item.reset_participants),
                                 renpy.retain_after_load,
                                 renpy.restart_interaction, Hide('confirm')], 
                                 no_action=Hide('confirm'))
 
-    if solo_vn and not my_vn.party:
+    # A lone StoryMode item
+    if isinstance(item, StoryMode) and not item.party:
         button:
             style_prefix 'solo_vn'     
-            foreground 'solo_' + vn_foreground
-            hover_foreground Fixed('solo_' + vn_foreground, 'solo_vn_hover')
-            if (my_vn.available and can_play):
+            foreground 'solo_' + item.get_timeline_img(was_played)
+            hover_foreground Fixed('solo_' + item.get_timeline_img(was_played),
+                                'solo_vn_hover')
+            if item.available and was_played:
                 # Note: afm is ~30 at its slowest, 0 when it's off, 
                 # and 1 at its fastest
                 # This Preference means the player always has to
                 # manually enable auto-forward in a new story mode
                 action [Preference("auto-forward", "disable"), 
-                        SetVariable('current_chatroom', chatroom), 
-                        Jump(my_vn.vn_label)]
-            add my_vn.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
+                        SetVariable('current_chatroom', item), 
+                        Jump(item.item_label)]
+            add item.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
                 frame:
-                    text my_vn.trigger_time
+                    text item.trigger_time
                 viewport:
                     frame:
                         xsize 350
-                        if get_text_width(my_vn.title,
+                        if get_text_width(item.title,
                                 'chat_timeline_text') >= 350:
-                            text my_vn.title at chat_title_scroll
+                            text item.title at chat_title_scroll
                         else:
-                            text my_vn.title
+                            text item.title
 
-    # If there's a VN object, display it now
-    elif my_vn and not my_vn.party:
+    # A StoryMode connected to a chatroom
+    if (isinstance(item, ChatRoom) and item.story_mode 
+            and not item.story_mode.party):
         frame:
             style_prefix 'reg_timeline_vn'
             has hbox
-            add 'vn_marker'
-            
+            add 'vn_marker'            
             button:
-                foreground vn_foreground
-                hover_foreground vn_hover
-                if (my_vn.available 
-                        and can_play 
-                        and ((not solo_vn and chatroom.played) or solo_vn)):
-                    # Note: afm is ~30 at its slowest, 0 when it's off, 
-                    # and 1 at its fastest
+                foreground item.story_mode.get_timeline_img(was_played)
+                hover_foreground (item.story_mode.get_timeline_img(was_played)
+                                    + '_hover')
+                if item.story_mode.available and was_played:
                     # This Preference means the player always has to
                     # manually enable auto-forward in a new story mode
                     action [Preference("auto-forward", "disable"), 
-                            SetVariable('current_chatroom', chatroom), 
-                            Jump(my_vn.vn_label)]      
-                add my_vn.vn_img xoffset -5
+                            SetVariable('current_chatroom', item), 
+                            Jump(item.story_mode.item_label)]      
+                add item.story_mode.vn_img xoffset -5
                 
     
     # It's the VN that leads to the party
-    elif my_vn and my_vn.party:
+    if story_mode and story_mode.party:
         frame:
             style_prefix 'party_timeline_vn'           
             button:
-                background vn_background                
-                if my_vn.available and can_play:
-                    hover_foreground vn_background
+                background story_mode.get_timeline_img(was_played)               
+                if story_mode.available and was_played:
+                    hover_foreground story_mode.get_timeline_img(was_played)
                     # If there's no branch, proceed to this party label as usual
-                    if not (renpy.has_label(my_vn.vn_label + '_branch')):
+                    if not (renpy.has_label(story_mode.item_label + '_branch')):
                         action Show('confirm', message=("If you start the party"
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
                             yes_action=[Preference("auto-forward", "disable"), 
-                                SetVariable('current_chatroom', chatroom),
+                                SetVariable('current_chatroom', item),
                                 Hide('confirm'), 
                                 Jump('guest_party_showcase')],
-                                #Jump(my_vn.vn_label)],
                             no_action=Hide('confirm'))
                     # Otherwise, we need to branch first
                     else:
@@ -566,20 +496,20 @@ screen chatroom_item(day, day_num, chatroom, index):
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
                             yes_action=[Preference("auto-forward", "disable"), 
-                                SetVariable('current_chatroom', chatroom),
+                                SetVariable('current_chatroom', item),
                                 Hide('confirm'), 
-                                Jump(my_vn.vn_label + '_branch')],
+                                Jump(story_mode.item_label + '_branch')],
                             no_action=Hide('confirm'))
         
     # If there are mandatory story calls, display them in an hbox
-    if chatroom.story_calls_list:
+    if item.story_calls_list:
         hbox:
             xalign 1.0
             xoffset -40
             add Transform('call_mainicon', size=(60,60)):
                 align (0.5, 0.75)
                 # at transform if the call is available
-            for phonecall in chatroom.story_calls_list:
+            for phonecall in item.story_calls_list:
                 button:
                     background Transform(phonecall.caller.file_id + '_contact', 
                                                     size=(85,85))
@@ -591,9 +521,10 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 size=(85,85), alpha=0.3) align (0.5,0.5)
                     add 'call_incoming_outline' align (1.0, 1.0)
                     xysize (85,85)
-                    if (chatroom.played
-                            and (not chatroom.vn_obj
-                                or chatroom.vn_obj.played)):
+                    if (item.played and ((isinstance(item, ChatRoom)
+                                and (not item.story_mode 
+                                    or item.story_mode.played))
+                            or not (isinstance(item, ChatRoom)))):                    
                         action [Preference("auto-forward", "enable"),
                                 Play('music', persistent.phone_tone),
                                 Show('incoming_call', 
@@ -601,7 +532,7 @@ screen chatroom_item(day, day_num, chatroom, index):
 
 
     # There's a plot branch
-    if chatroom.plot_branch:
+    if item.plot_branch:
         button:
             xysize(330, 85)
             background 'input_popup_bkgr'
@@ -623,17 +554,17 @@ screen chatroom_item(day, day_num, chatroom, index):
                                 + " Missed chatrooms may appear depending on"
                                 + " the time right now. Continue?"), 
                             yes_action=[Hide('confirm'), 
-                            SetVariable('most_recent_chat', chatroom),
-                            SetVariable('current_chatroom', chatroom),
-                            Jump(chatroom.chatroom_label + '_branch')], 
+                            SetVariable('most_recent_chat', item),
+                            SetVariable('current_chatroom', item),
+                            Jump(item.item_label + '_branch')], 
                             no_action=Hide('confirm'))           
                 else:
                     action Show("confirm", message=("The game branches here."
                             + " Continue?"), 
                         yes_action=[Hide('confirm'), 
-                        SetVariable('current_chatroom', chatroom),
-                        SetVariable('most_recent_chat', chatroom),
-                        Jump(chatroom.chatroom_label + '_branch')], 
+                        SetVariable('current_chatroom', item),
+                        SetVariable('most_recent_chat', item),
+                        Jump(item.item_label + '_branch')], 
                         no_action=Hide('confirm'))                 
             else:
                 action Show("confirm", message=("Please proceed after"
@@ -686,20 +617,16 @@ style party_timeline_vn_button:
     activate_sound 'audio/sfx/UI/select_vn_mode.mp3'
 
 
-## A small screen intended to reduce the indentation of 
-## the chatroom_timeline screen. Shows a button that
-## lets the player purchase the next 24 hours/continue
-screen timeline_continue_button(chat_time):
+## A small screen intended to reduce the indentation of the timeline screen.
+## Shows a button that lets the player purchase the next 24 hours in advance.
+screen timeline_continue_button(story_time):
+    style_prefix 'timeline_continue'
     button:
-        xysize (620, 110)
-        xalign 0.0
-        background 'chat_continue'
-        hover_background 'btn_hover:chat_continue'
         action Show("confirm", message=("Would you like to purchase the next"
                                 + " day? You can participate in all the chat"
                                 + " conversations for the next 24 hours."), 
-                yes_action=[Function(chat_24_available),
-                    Function(next_chatroom),
+                yes_action=[Function(make_24h_available),
+                    Function(check_and_unlock_story),
                     renpy.retain_after_load, 
                     renpy.restart_interaction, 
                     Hide('confirm')], 
@@ -709,34 +636,46 @@ screen timeline_continue_button(chat_time):
                             yzoom=0.75):
                 xoffset -210 yoffset -120            
         vbox:
-            spacing 18
             hbox:
-                spacing 30
                 frame:
                     xysize (75,27)
                     xoffset 77
-                    yoffset 13
+                    yalign 0.0
                     add Transform("header_hg", zoom=0.8) xalign 0.5 yalign 0.5
                 viewport:
-                    yoffset 13
-                    xoffset 77                
-                    xysize(400,27)
-                    text "Continue...":
-                        color '#fff' 
-                        size 25 
-                        xalign 0.0 yalign 0.5 
-                        text_align 0.0 
-                        layout 'nobreak'
+                    text "Continue..."
             frame:
-                xysize(430, 35)
-                yoffset 13
-                xoffset 75       
-                yalign 0.5
-                text "Next chatroom opens at " + chat_time:
-                    color '#fff' 
-                    size 25 
-                    yalign 0.5 
-                    text_align 0.0
+                text "Next chatroom opens at " + chat_time
+
+style timeline_continue_button:
+    xysize (620, 110)
+    xalign 0.0
+    background 'chat_continue'
+    hover_background 'btn_hover:chat_continue'
+
+style timeline_continue_vbox:
+    spacing 18
+
+style timeline_continue_hbox:
+    spacing 30
+
+style timeline_continue_frame:
+    xysize(430, 35)
+    yoffset 13
+    xoffset 75       
+    yalign 0.5
+
+style timeline_continue_viewport:
+    yoffset 13
+    xoffset 77                
+    xysize(400,27)
+
+style timeline_continue_text:
+    color '#fff' 
+    size 25 
+    xalign 0.0 yalign 0.5 
+    text_align 0.0 
+    layout 'nobreak'
     
 ## This is used to continue the game after a plot branch    
 label plot_branch_end():
@@ -778,11 +717,11 @@ label plot_branch_end():
         # Now check if the player unlocked the next 24 hours
         # of chatrooms, and make those available
         if unlock_24_time:
-            chat_24_available()           
-        next_chatroom()
+            make_24h_available()           
+        check_and_unlock_story()
         renpy.retain_after_load
         
-    call screen chat_select
+    call screen day_select
     return
                 
 
