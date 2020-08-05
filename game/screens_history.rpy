@@ -161,10 +161,11 @@ default expired_replay = False
 default persistent.completed_chatrooms = {}
 
 image contact_darken = "Menu Screens/History/contact_darken.png"
-image call_incoming_outline = Transform("Menu Screens/History/call_icon_incoming_outline.png", size=(32, 32))
-image call_outgoing_outline = Transform("Menu Screens/History/call_icon_outgoing_outline.png", size=(32, 32))
+image call_incoming_outline = "Menu Screens/History/call_icon_incoming_outline.png"
+image call_outgoing_outline = "Menu Screens/History/call_icon_outgoing_outline.png"
+image call_missed_outline = "Menu Screens/History/call_icon_missed_outline.png"
 
-screen timeline_item_history(chatroom):
+screen timeline_item_history_old(chatroom):
 
     python:
         played_reg = False
@@ -416,6 +417,31 @@ screen timeline_item_history(chatroom):
                             'name': persistent.name,
                             'current_call': get_caller(c)})
                        
+style history_item_text_frame:
+    xsize 570
+    yminimum 55
+    xalign 1.0
+
+style history_item_text_text:
+    text_align 0.5
+    color "#fff"
+    font gui.sans_serif_1b
+    xalign 0.5
+
+style history_chatroom_frame:
+    xoffset 70
+    xysize (620, 160)
+    xalign 0.0
+    background 'chat_active'
+
+style history_chatroom_hbox:
+    align (0.98,0.83)
+    spacing 10
+
+style history_chatroom_button:
+    xysize (80,80)
+
+
 
 style timeline_button:
     xysize (181,62)    
