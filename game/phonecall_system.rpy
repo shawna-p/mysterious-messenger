@@ -585,7 +585,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 if (not starter_story and not phonecall.story_call):
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
                 
-            if starter_story or phonecall.story_call:
+            if starter_story or isinstance(phonecall, StoryCall):
                 use phone_footer([Stop('music'), 
                                 SetVariable('current_call', phonecall), 
                                 Return()], 
@@ -603,7 +603,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
-    if not starter_story and not phonecall.story_call:
+    if not starter_story and not isinstance(phonecall, StoryCall):
         timer 1.0 action If(call_countdown>1, 
                             SetScreenVariable("call_countdown", 
                             call_countdown-1),
