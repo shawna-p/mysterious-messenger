@@ -496,12 +496,6 @@ init -6 python:
                             + x.file_id)]
             elif name == 'story_calls_list':
                 return []
-                # vn_label = self.__dict__['vn_label']
-                # return [ PhoneCall(x, vn_label + '_story_call_'
-                #             + x.file_id, avail_timeout='test', story_call=True)
-                #         for x in store.all_characters 
-                #         if renpy.has_label(vn_label + '_story_call_'
-                #             + x.file_id)]
 
             try:
                 # print("VNMode getattr with", name)
@@ -643,7 +637,11 @@ init -6 python:
             self.convert_archive(False)            
 
         def convert_archive(self, copy_everything=True):
-            """For compatibility: convert ChatHistory to ChatRoom."""
+            """
+            For compatibility: convert ChatHistory to ChatRoom and VNMode
+            to StoryMode. If copy_everything is True, it will also copy
+            internal fields such as `played` and `available`.
+            """
             
             new_archive_list = []
 
@@ -1118,8 +1116,7 @@ init -6 python:
         # Otherwise, an item was expired. Deliver its associated
         # phone calls and text messages.
         # Create a timestamp for calls.
-        call_timestamp = upTime(thehour=cur_item.trigger_time[:2],
-                themin=cur_item.trigger_time[-2:])
+        call_timestamp = upTime(thetime=cur_item.trigger_time)
         deliver_calls(prev_item.item_label, not deliver_calls, call_timestamp)
         
         # Check for a post-item label
@@ -1132,7 +1129,7 @@ init -6 python:
             phonecall.decrease_time()
 
         # Deliver all outstanding text messages
-        deliver_all_text()
+        deliver_all_texts()
        
       
 
@@ -1347,16 +1344,9 @@ init -6 python:
         global chat_archive
         for archive in chat_archive:
             if archive.archive_list:
-                for chatroom in archive.archive_list:
-                    if (chatroom.played 
-                            and chatroom.plot_branch 
-                            and (not chatroom.vn_obj 
-                                or chatroom.vn_obj.played)):
-                        return True
-                    elif chatroom.vn_obj and not chatroom.vn_obj.played:
-                        return False
-                    elif not chatroom.played:
-                        return False
+                for item in archive.archive_list:
+                    if (item.plot_branch and item.all_played()):
+                        return True                
         return False
         
     
