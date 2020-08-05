@@ -308,14 +308,29 @@ screen timeline_item_display(day, day_num, item, index):
                     or (item.expired and num_participants > 4)):
                 part_anim = participant_scroll
             
-        
+        # ChatRoom story mode displays similarly to solo StoryMode in
+        # some cases
         if isinstance(item, StoryMode):
             story_mode = item
+            can_play_story_mode = was_played
         elif isinstance(item, ChatRoom) and item.story_mode:
             story_mode = item.story_mode
-            was_played = (was_played and item.played)
+            can_play_story_mode = (was_played and item.played)
         else:
+            can_play_story_mode = True
             story_mode = None
+
+        # StoryCall items display the same if they are alone or not
+        if isinstance(item, StoryCall):
+            story_calls = [item]
+            can_play_calls = was_played
+        elif isinstance(item, TimelineItem) and item.story_calls_list:
+            story_calls = item.story_calls_list
+            can_play_calls = (was_played and can_play_story_mode
+                and (not story_mode or story_mode.played))
+        else:
+            can_play_calls = True
+            story_calls = None
 
         
 
@@ -338,7 +353,7 @@ screen timeline_item_display(day, day_num, item, index):
                 xysize (chat_box_width, 160)
                 xalign 0.0
                 background item.get_timeline_img(was_played)
-                hover_foreground item.get_timeline_img(was_played) + '_hover'
+                hover_foreground 'chat_timeline_hover'
                 if item.available and was_played:
                     # Determine where to take the player depending
                     # on whether this chatroom is expired or not
@@ -428,10 +443,10 @@ screen timeline_item_display(day, day_num, item, index):
     if isinstance(item, StoryMode) and not item.party:
         button:
             style_prefix 'solo_vn'     
-            foreground 'solo_' + item.get_timeline_img(was_played)
-            hover_foreground Fixed('solo_' + item.get_timeline_img(was_played),
-                                'solo_vn_hover')
-            if item.available and was_played:
+            foreground 'solo_' + item.get_timeline_img(can_play_story_mode)
+            hover_foreground Fixed('solo_' 
+                + item.get_timeline_img(can_play_story_mode), 'solo_vn_hover')
+            if item.available and can_play_story_mode:
                 # Note: afm is ~30 at its slowest, 0 when it's off, 
                 # and 1 at its fastest
                 # This Preference means the player always has to
@@ -460,10 +475,10 @@ screen timeline_item_display(day, day_num, item, index):
             has hbox
             add 'vn_marker'            
             button:
-                foreground item.story_mode.get_timeline_img(was_played)
-                hover_foreground (item.story_mode.get_timeline_img(was_played)
-                                    + '_hover')
-                if item.story_mode.available and was_played:
+                foreground item.story_mode.get_timeline_img(can_play_story_mode)
+                hover_foreground (item.story_mode.get_timeline_img(
+                        can_play_story_mode) + '_hover')
+                if item.story_mode.available and can_play_story_mode:
                     # This Preference means the player always has to
                     # manually enable auto-forward in a new story mode
                     action [Preference("auto-forward", "disable"), 
@@ -477,9 +492,9 @@ screen timeline_item_display(day, day_num, item, index):
         frame:
             style_prefix 'party_timeline_vn'           
             button:
-                background story_mode.get_timeline_img(was_played)               
-                if story_mode.available and was_played:
-                    hover_foreground story_mode.get_timeline_img(was_played)
+                background story_mode.get_timeline_img(can_play_story_mode)               
+                if story_mode.available and can_play_story_mode:
+                    hover_foreground story_mode.get_timeline_img(can_play_story_mode)
                     # If there's no branch, proceed to this party label as usual
                     if not (renpy.has_label(story_mode.item_label + '_branch')):
                         action Show('confirm', message=("If you start the party"
@@ -501,34 +516,12 @@ screen timeline_item_display(day, day_num, item, index):
                                 Jump(story_mode.item_label + '_branch')],
                             no_action=Hide('confirm'))
         
-    # If there are mandatory story calls, display them in an hbox
-    if item.story_calls_list:
-        hbox:
-            xalign 1.0
-            xoffset -40
-            add Transform('call_mainicon', size=(60,60)):
-                align (0.5, 0.75)
-                # at transform if the call is available
-            for phonecall in item.story_calls_list:
-                button:
-                    background Transform(phonecall.caller.file_id + '_contact', 
-                                                    size=(85,85))
-                    hover_background Fixed(Transform(phonecall.caller.file_id
-                                    + '_contact', size=(85,85)),
-                                    Transform(phonecall.caller.file_id
-                                    + '_contact', size=(85,85)))
-                    add Transform('contact_darken', 
-                                size=(85,85), alpha=0.3) align (0.5,0.5)
-                    add 'call_incoming_outline' align (1.0, 1.0)
-                    xysize (85,85)
-                    if (item.played and ((isinstance(item, ChatRoom)
-                                and (not item.story_mode 
-                                    or item.story_mode.played))
-                            or not (isinstance(item, ChatRoom)))):                    
-                        action [Preference("auto-forward", "enable"),
-                                Play('music', persistent.phone_tone),
-                                Show('incoming_call', 
-                                    phonecall=phonecall)]
+    # If there are mandatory story calls, display them
+    if story_calls:
+        for i, phonecall in enumerate(story_calls):
+            if i > 0:
+                $ can_play_calls = (can_play_calls and story_calls[i-1].played)
+            use timeline_story_calls(phonecall, item, can_play_calls)
 
 
     # There's a plot branch
