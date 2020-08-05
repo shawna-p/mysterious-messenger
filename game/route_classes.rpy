@@ -233,9 +233,7 @@ init -6 python:
             if not ever:
                 return self.played
             
-            if (store.persistent.completed_chatrooms.get(self.item_label)
-                    or store.persistent.completed_chatrooms.get(
-                        self.expired_label)):
+            if (self.played_regular() or self.played_expired()):
                 return True
             return False
 
@@ -257,6 +255,16 @@ init -6 python:
             """
             print("Got default timeline image")
             return "#59efc7"
+
+        def played_regular(self):
+            """Return True if the regular label of this item has been played."""
+
+            return store.persistent.completed_chatrooms.get(self.item_label)
+
+        def played_expired(self):
+            """Return True if the expired label of this item has been played."""
+
+            return store.persistent.completed_chatrooms.get(self.expired_label)
 
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
@@ -636,6 +644,25 @@ init -6 python:
 
             self.caller = caller
 
+        def get_timeline_img(self, was_played=True):
+            """
+            Return the hover image that should be used for this item.
+            was_played is True if any prior items were played first.
+            """
+            
+            if self.played:
+                return 'story_call_active'
+            elif self.available and was_played:
+                return 'story_call_selected'
+            else:
+                return 'story_call_inactive'
+
+        @property
+        def phone_label(self):
+            """Maintain compatibility with PhoneCall objects."""
+            
+            return self.item_label
+
     def create_dependent_storycall(caller, phone_label):
         """
         Return a StoryCall which is tied to a chatroom or StoryMode and thus
@@ -769,6 +796,366 @@ init -6 python:
         
     
 
+screen timeline_item_history(item):
+
+    python:
+        # Determine if the participants list needs to scroll or not
+        part_anim = null_anim
+        if isinstance(item, ChatRoom) and item.participants:
+            if len(item.participants) > 4:
+                part_anim = participant_scroll
+
+        # ChatRoom story mode displays similarly to solo StoryMode in
+        # some cases
+        if isinstance(item, StoryMode):
+            story_mode = item
+        elif isinstance(item, ChatRoom) and item.story_mode:
+            story_mode = item.story_mode
+        else:
+            story_mode = None
+
+        # StoryCall items display the same if they are alone or not
+        if isinstance(item, StoryCall):
+            story_calls = [item]
+        elif isinstance(item, TimelineItem) and item.story_calls_list:
+            story_calls = item.story_calls_list
+        else:
+            story_calls = None
 
 
+        replay_dictionary = {'observing': True,
+                            'current_chatroom': item,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name}
 
+        expired_replay_dictionary = {'expired_replay': True,
+                            'observing': True,
+                            'current_chatroom': item,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name}
+    style_prefix None
+    null height 10
+    if not isinstance(item, TimelineItem):
+        # It's the name/title of the ending
+        frame:
+            style_prefix 'history_item_text'
+            text item
+    elif isinstance(item, ChatRoom):
+        frame:
+            style_prefix 'history_chatroom'
+            # These are the two buttons to replay the chat
+            hbox:
+                button:
+                    if item.played_expired():
+                        background 'history_chat_active'  
+                        hover_foreground '#fff5'                      
+                        action Replay(item.expired_label, 
+                                        scope=expired_replay_dictionary)
+                    else:
+                        background Fixed('history_chat_inactive', "#000c")
+                        foreground "#0003"
+                        action Show("confirm", message=("You have not yet"
+                                + " viewed this chat in-game."),
+                            yes_action=Hide('confirm'))
+                    add 'history_chat_alone' align (0.5, 0.5)
+                    if not item.played_expired():
+                        add 'plot_lock' align (0.5, 0.5)
+                button:
+                    if item.played_regular():
+                        hover_foreground '#fff5'
+                        background 'history_chat_active'                        
+                        action Replay(item.item_label,
+                                        scope=replay_dictionary)
+                    else:
+                        background Fixed('history_chat_inactive', "#000c")
+                        foreground "#0003"
+                        action Show("confirm", message=("You have not yet"
+                                + " viewed this chat in-game."),
+                            yes_action=Hide('confirm'))
+                    add 'history_chat_participated' align (0.5, 0.5)
+                    if not item.played_regular():
+                        add 'plot_lock' align (0.5, 0.5)
+                    
+                
+            vbox:
+                style_prefix 'chat_timeline'
+                # This box displays the trigger time and title of 
+                # the chatroom; optionally at a scrolling transform 
+                # so you can read the entire title
+                hbox:
+                    frame:
+                        xoffset 77
+                        yoffset 13
+                        text item.trigger_time:
+                            size 27 
+                            xalign 0.5
+                            text_align 0.5
+                    viewport:               
+                        xysize(400,27)
+                        if get_text_width(item.title, 
+                                'chat_timeline_text') >= 400:
+                            frame:
+                                xysize(400,27)
+                                text item.title at chat_title_scroll
+                        else:
+                            text item.title
+                # Shows a list of all the people who start in this chatroom
+                viewport:
+                    xysize(530, 85)
+                    yoffset 13
+                    xoffset 77            
+                    yalign 0.5
+                    frame:
+                        xysize(355, 85)
+                        hbox at part_anim:
+                            yalign 0.5
+                            spacing 5
+                            if item.original_participants:
+                                for person in item.original_participants:
+                                    if person.participant_pic:
+                                        add person.participant_pic
+
+    # It's a solo StoryMode with a time
+    if story_mode and story_mode.trigger_time and not story_mode.party:
+        button:
+            style_prefix 'solo_vn'     
+            foreground 'solo_vn_active'
+            hover_foreground Fixed('solo_vn_active', 'solo_vn_hover')
+            action [Preference("auto-forward", "disable"),
+                    Replay(story_mode.item_label,
+                        scope=replay_dictionary)]          
+            add story_mode.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
+            hbox:
+                frame:
+                    text story_mode.trigger_time
+                viewport:
+                    frame:
+                        xsize 350
+                        if get_text_width(story_mode.title,
+                                'chat_timeline_text') >= 350:
+                            text story_mode.title at chat_title_scroll
+                        else:
+                            text story_mode.title
+
+    # It's a StoryMode without a time
+    elif story_mode and not story_mode.party:
+        frame:
+            style_prefix 'reg_timeline_vn'            
+            has hbox
+            add 'vn_marker'            
+            button:
+                foreground 'vn_active'
+                hover_foreground 'vn_active_hover'
+                action [Preference("auto-forward", "disable"),
+                        Replay(story_mode.item_label,
+                                scope=replay_dictionary)]                 
+                add story_mode.vn_img xoffset -5
+    
+    # It's the StoryMode that leads to the party
+    elif story_mode and story_mode.party:
+        frame:
+            style_prefix 'party_timeline_vn'        
+            button:
+                background 'vn_party'
+                hover_foreground 'vn_party'
+                action [Preference("auto-forward", "disable"), 
+                        Replay(story_mode.item_label,
+                            scope=replay_dictionary)]  
+
+    if story_calls:
+        # There are story calls to display
+        for phonecall in story_calls:
+            use history_timeline_story_calls(phonecall, item)
+
+    # Now add an hbox of the phone calls available after this chatroom
+    if (isinstance(item, TimelineItem) 
+            and (item.incoming_calls_list or item.outgoing_calls_list)):
+        hbox:
+            xalign 1.0
+            xoffset -40
+            add Transform('call_mainicon', size=(60,60)) align (0.5, 0.75)
+            if item.incoming_calls_list:
+                use history_calls_list(item, item.incoming_calls_list, 'incoming')
+            if item.outgoing_calls_list:
+                use history_calls_list(item, item.outgoing_calls_list, 'outgoing')
+
+screen history_timeline_story_calls(phonecall, item):
+    
+    frame:
+        xoffset 70
+        background 'story_call_history'
+        xysize (625, 111)
+        xalign 0.0
+        hbox:
+            yoffset 12 xoffset 78
+            spacing 25
+            # First add the profile picture of the caller
+            fixed:
+                fit_first True
+                add phonecall.caller.participant_pic:
+                    xalign 0.0
+                add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
+            vbox:
+                spacing 25
+                hbox:
+                    spacing 30
+                    # The time of the call
+                    $ the_time = phonecall.trigger_time or item.trigger_time
+                    text the_time style 'chat_timeline_text'
+                    # The title of the chatroom
+                    text phonecall.caller.name style 'chat_timeline_text'
+                # Thing that says the caller's name
+                fixed:
+                    $ the_title = phonecall.title or "Story Call"
+                    text the_title style 'chat_timeline_text'
+                
+        # The replay icons
+        hbox:
+            align (0.99,0.6)            
+            spacing 10
+            button:
+                xysize (80,80)
+                if phonecall.played_expired():
+                    background 'history_chat_active'  
+                    hover_foreground '#fff5'                      
+                    action Replay(phonecall.expired_label, 
+                                    scope={'expired_replay': True,
+                            'observing': True,
+                            'current_chatroom': item,
+                            'current_day': current_day,
+                            'current_day_num': current_day_num,
+                            'name': persistent.name,
+                            'current_call': PhoneCall(phonecall.caller, 'n/a')})
+                else:
+                    background Fixed('history_chat_inactive', "#000c")
+                    foreground "#0003"
+                    action Show("confirm", message=("You have not yet"
+                        + " viewed this call in-game."),
+                    yes_action=Hide('confirm'))
+                add 'call_missed_outline' align (0.5, 0.5)
+                if not phonecall.played_expired():
+                    add 'plot_lock' align (0.5, 0.5)
+            button:
+                xysize(80,80)
+                if phonecall.played_regular():
+                    hover_foreground '#fff5'
+                    background 'history_chat_active'                        
+                    action Replay(phonecall.item_label,
+                                    scope={'observing': True,
+                    'current_chatroom': item,
+                    'current_day': current_day,
+                    'current_day_num': current_day_num,
+                    'name': persistent.name,
+                    'current_call': PhoneCall(phonecall.caller, 'n/a')})
+                else:
+                    background Fixed('history_chat_inactive', "#000c")
+                    foreground "#0003"
+                    action Show("confirm", message=("You have not yet"
+                        + " viewed this call in-game."),
+                    yes_action=Hide('confirm'))
+                add 'call_incoming_outline' align (0.5, 0.5)
+                if not phonecall.played_regular():
+                    add 'plot_lock' align (0.5, 0.5)
+
+screen history_calls_list(item, call_list, call_icon):    
+    for c in call_list:
+        if persistent.completed_chatrooms.get(c):
+            button:
+                background Transform(c.split('_')[-1] + '_contact', 
+                                                size=(85,85))
+                hover_background Fixed(Transform(c.split('_')[-1] + '_contact',
+                                size=(85,85)), Transform(c.split('_')[-1]
+                                + '_contact', size=(85,85)))
+                add Transform('contact_darken', size=(85,85), alpha=0.3):
+                    align (0.5,0.5)
+                add Transform('call_' + call_icon + '_outline', size=(32, 32)):
+                    align (1.0, 1.0)
+                xysize (85,85)
+                action Replay(c, scope={'observing': True,
+                    'current_chatroom': item,
+                    'current_day': current_day,
+                    'current_day_num': current_day_num,
+                    'name': persistent.name,
+                    'current_call': get_caller(c)})
+
+                       
+
+
+screen timeline_story_calls(phonecall, item, was_played):
+    python:
+        if phonecall.expired:
+            call_title_width = 300
+            call_box_width = 520
+        else:
+            call_title_width = 400
+            call_box_width = 620
+
+    hbox:
+        style 'timeline_hbox'
+        ysize 111
+        button:
+            xysize (call_box_width, 111)
+            background phonecall.get_timeline_img(was_played)
+            hover_foreground 'story_call_hover'
+            if phonecall.available and was_played:
+                # Determine where to take the player based on whether this
+                # item has expired or not
+                if phonecall.expired and not phonecall.played:
+                    action [SetVariable('current_chatroom', item), 
+                        Preference("auto-forward", "enable"),                    
+                        Jump(phonecall.expired_label)]
+                else:
+                    if (phonecall.played and not persistent.testing_mode):
+                        action [SetVariable('current_chatroom', item),
+                            SetVariable('observing', True),
+                            Preference("auto-forward", "enable"),
+                            Jump(phonecall.item_label)]
+                    else:
+                        action [SetVariable('current_chatroom', item),
+                            Preference("auto-forward", "enable"),
+                            # Make it look like an incoming call
+                            Play('music', persistent.phone_tone),
+                            Show('incoming_call', 
+                                phonecall=phonecall)]
+            hbox:
+                yoffset 12 xoffset 78
+                spacing 25
+                # First add the profile picture of the caller
+                fixed:
+                    fit_first True
+                    add phonecall.caller.participant_pic:
+                        xalign 0.0
+                    add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
+                vbox:
+                    spacing 25
+                    hbox:
+                        spacing 30
+                        # The time of the call
+                        $ the_time = phonecall.trigger_time or item.trigger_time
+                        text the_time style 'chat_timeline_text'
+                        # The title of the chatroom
+                        text phonecall.caller.name style 'chat_timeline_text'
+                    # Thing that says the caller's name
+                    fixed:
+                        $ the_title = phonecall.title or "Story Call"
+                        text the_title style 'chat_timeline_text'
+        
+        if phonecall.expired and not phonecall.buyback:
+            imagebutton:
+                yalign 0.9
+                xalign 0.5
+                idle 'expired_chat'
+                hover_background 'btn_hover:expired_chat'
+                if phonecall.available or persistent.testing_mode:
+                    action Show('confirm', message=("Would you like to"
+                                + " call " + phonecall.caller.name + " back to "
+                                + " participate in this phone call?"),
+                            yes_action=[SetField(phonecall, 'expired', False),
+                            SetField(phonecall, 'buyback', True),
+                            SetField(phonecall, 'played', False),
+                            renpy.retain_after_load,
+                            renpy.restart_interaction, Hide('confirm')], 
+                            no_action=Hide('confirm'))
+        
