@@ -189,6 +189,37 @@ init -6 python:
                         phonecall.available = True
                         return
 
+        def mark_next_played(self):
+            """
+            Mark the next unplayed item as played.
+            """
+
+            if not self.played:
+                self.played = True
+                # Add this label to the list of completed labels for the History
+                if self.expired and not self.buyback:
+                    store.persistent.completed_chatrooms[
+                        self.expired_label] = True
+                else:
+                    store.persistent.completed_chatrooms[
+                        self.item_label] = True
+                return True
+            
+            # Otherwise, check story calls
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if not phonecall.played:
+                        phonecall.played = True
+                        if phonecall.expired and not phonecall.buyback:
+                            store.persistent.completed_chatrooms[
+                                phonecall.expired_label] = True
+                        else:
+                            store.persistent.completed_chatrooms[
+                                phonecall.item_label] = True
+                        return True
+
+            return False
+
         def on_available_message(self):
             """
             Return a message to display to the player when this item
@@ -265,6 +296,38 @@ init -6 python:
             """Return True if the expired label of this item has been played."""
 
             return store.persistent.completed_chatrooms.get(self.expired_label)
+
+        def buy_ahead(self):
+            """
+            Make all items related to this item available and set buyahead.
+            Return True if successful, and False if encountered a plot branch.
+            """
+
+            self.available = True
+            self.buyahead = True
+            self.expired = False
+
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    phonecall.buy_ahead()
+            
+            if self.plot_branch:
+                return False
+            return True
+
+        def call_after_label(self, new_context=False):
+            """Call this item's after_ label, if it exists."""
+
+            if not renpy.has_label('after_' + self.item_label):
+                return
+            
+            store.was_expired = self.expired
+            if new_context:
+                renpy.call_in_new_context('after_' + self.item_label)
+            else:
+                renpy.call('after_' + self.item_label)
+            store.was_expired = False
+            return
 
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
@@ -409,15 +472,7 @@ init -6 python:
                 return False
             return super(ChatRoom, self).all_played()
 
-        def all_available(self):
-            """
-            Return True if everything associated with this item is available.
-            """
-
-            if self.story_mode and not self.story_mode.available:
-                return False
-            return super(ChatRoom, self).all_available()
-
+        
         def make_next_available(self):
             """
             Make the next unavailable item associated with this item
@@ -440,6 +495,35 @@ init -6 python:
             if self.story_mode and not self.story_mode.played:
                 return
             super(ChatRoom, self).make_next_available()
+
+        def mark_next_played(self):
+            """
+            Mark the next unplayed item as played.
+            """
+
+            if not self.played:
+                self.played = True
+                # Add this label to the list of completed labels for the History
+                if self.expired and not self.buyback:
+                    store.persistent.completed_chatrooms[
+                        self.expired_label] = True
+                    self.participated = False
+                else:
+                    store.persistent.completed_chatrooms[
+                        self.item_label] = True
+                    self.participated = True
+                return True
+
+            if self.story_mode and not self.story_mode.played:
+                self.story_mode.played = True
+                # StoryMode doesn't expire
+                store.persistent.completed_chatrooms[
+                    self.story_mode.item_label] = True
+
+                return True
+
+            return super(ChatRoom, self).mark_next_played()
+            
 
         def on_available_message(self):
             """
@@ -468,6 +552,9 @@ init -6 python:
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
             """
+
+            if store.persistent.testing_mode:
+                return 'chat_active'
             
             if self.played:
                 return 'chat_active'
@@ -491,6 +578,19 @@ init -6 python:
             """
 
             self.participants = list(self.original_participants)
+
+        def buy_ahead(self):
+            """
+            Make all items related to this item available and set buyahead.
+            Return True if successful, and False if encountered a plot branch.
+            """
+
+            if self.story_mode:
+                self.story_mode.available = True
+            
+            return super(ChatRoom, self).buy_ahead()
+            
+
 
     class StoryMode(TimelineItem):
         """
@@ -589,6 +689,12 @@ init -6 python:
             was_played is True if any prior items were played first.
             """
             
+            if store.persistent.testing_mode:
+                if self.party:
+                    return 'vn_party'
+                else:
+                    return 'vn_active'
+
             if self.party:
                 if self.available and was_played:
                     return 'vn_party'
@@ -649,6 +755,9 @@ init -6 python:
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
             """
+
+            if store.persistent.testing_mode:
+                return 'story_call_active'
             
             if self.played:
                 return 'story_call_active'
@@ -1081,8 +1190,6 @@ screen history_calls_list(item, call_list, call_icon):
                     'current_call': get_caller(c)})
 
                        
-
-
 screen timeline_story_calls(phonecall, item, was_played):
     python:
         if phonecall.expired:
@@ -1144,7 +1251,7 @@ screen timeline_story_calls(phonecall, item, was_played):
         
         if phonecall.expired and not phonecall.buyback:
             imagebutton:
-                yalign 0.9
+                yalign 0.85
                 xalign 0.5
                 idle 'expired_chat'
                 hover_background 'btn_hover:expired_chat'
@@ -1157,5 +1264,5 @@ screen timeline_story_calls(phonecall, item, was_played):
                             SetField(phonecall, 'played', False),
                             renpy.retain_after_load,
                             renpy.restart_interaction, Hide('confirm')], 
-                            no_action=Hide('confirm'))
-        
+                            no_action=Hide('confirm'))    
+
