@@ -788,7 +788,7 @@ image chat_active = Frame('Menu Screens/Day Select/daychat01_chat_active.png',19
 image chat_inactive = Frame('Menu Screens/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)
 image chat_continue = Frame('Menu Screens/Day Select/daychat01_chat_continue.png',190, 70, 40, 20)
 image chat_selected = Frame('Menu Screens/Day Select/daychat01_chat_mint.png',190, 70, 40, 50)
-image chat_timeline_hover = Frame('Menu Screens/Day Select/daychat01_chat_hover.png')
+image chat_timeline_hover = Frame('Menu Screens/Day Select/daychat01_chat_hover.png', 190, 70, 40, 50)
 
 image story_call_active = Frame('Menu Screens/Day Select/story_call_active.png', 290, 56, 40, 50)
 image story_call_inactive = Frame('Menu Screens/Day Select/story_call_inactive.png', 290, 56, 40, 50)
