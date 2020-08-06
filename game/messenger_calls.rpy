@@ -163,17 +163,7 @@ label chat_end():
 ## return the player to the main menu
 label chat_end_route():
     call screen save_and_exit(True)
-    $ config.skipping = False
-    $ choosing = False
-    hide screen phone_overlay
-    hide screen save_and_exit
-    hide screen play_button
-    hide screen answer_button
-    hide screen pause_button
-    hide screen messenger_screen
-    $ hide_all_popups()
-    $ renpy.hide_screen('animated_bg')
-    stop music
+    $ reset_chatroom_vars()
     
     if ending == 'good':
         scene bg good_end
@@ -181,17 +171,13 @@ label chat_end_route():
         scene bg normal_end
     elif ending == 'bad':
         scene bg bad_end
+    elif ending:
+        scene
+        show expression ending
     $ ending = False
+
+    $ current_chatroom.mark_next_played()
     
-    if current_chatroom.expired and not current_chatroom.buyback:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.expired_chat] = True
-    else:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.chatroom_label] = True
-    if current_chatroom.vn_obj:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.vn_obj.vn_label] = True
     pause
     if _in_replay:
         $ renpy.end_replay()
@@ -213,18 +199,8 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     # before jumping to the VN
     $ renpy.pause(pv*2.0)
     call screen continue_button
-
     # Hide all the chatroom screens
-    $ config.skipping = False
-    $ choosing = False
-    hide screen phone_overlay
-    hide screen save_and_exit
-    hide screen play_button
-    hide screen answer_button
-    hide screen pause_button
-    hide screen messenger_screen
-    $ hide_all_popups()
-    $ renpy.hide_screen('animated_bg')
+    $ reset_chatroom_vars(for_vn=True)    
 
     # Setup the VN stuff
     scene bg black
@@ -296,7 +272,6 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
                     current_chatroom.add_participant(person)
 
     
-
     # If this is part of a replayed chatroom, go back to
     # the replay log (NOT replayed from the History in the
     # main menu)
@@ -341,12 +316,10 @@ label chat_back():
         # Deliver text and calls        
         # Checks for a post-chatroom label; triggers even if there's a VN
         # and delivers text messages, phone calls etc
-        if (renpy.has_label('after_' + current_chatroom.chatroom_label)
-                and not current_chatroom.plot_branch):
-            $ call_after_label(current_chatroom.chatroom_label, expired=True)
         if not current_chatroom.plot_branch:
+            $ current_chatroom.call_after_label()                
             $ deliver_all_texts()
-            $ deliver_calls(current_chatroom.chatroom_label, True)
+            $ deliver_calls(current_chatroom.item_label, True)
         $ renpy.retain_after_load()
     $ renpy.set_return_stack([])
     call screen timeline(current_day, current_day_num)
@@ -536,33 +509,16 @@ label skip_intro_setup():
     $ renpy.hide_screen('animated_bg')
     show screen loading_screen
         
+    $ current_chatroom.mark_next_played()        
     if not current_chatroom.expired and not current_chatroom.buyback:
         # Checks for a post-chatroom label; won't trigger 
         # if there's a VN section
         # Otherwise delivers phone calls/texts/etc
-        if (renpy.has_label('after_' + current_chatroom.chatroom_label) 
-                and not current_chatroom.vn_obj): 
-            $ was_expired = current_chatroom.expired
-            $ renpy.call('after_' + current_chatroom.chatroom_label)
-            $ was_expired = False
+        if current_chatroom.all_played():
+            current_chatroom.call_after_label()        
         # Add this label to the list of completed labels
-        $ persistent.completed_chatrooms[
-                            current_chatroom.chatroom_label] = True
-        
-    
-    if not current_chatroom.expired and not current_chatroom.buyback:
         $ deliver_calls(current_chatroom.chatroom_label)
-        
-    if current_chatroom.expired and not current_chatroom.buyback:
-        $ current_chatroom.participated = False
-        # Add this label to the list of completed labels
-        $ persistent.completed_chatrooms[
-                        current_chatroom.expired_chat] = True
-    else:
-        $ current_chatroom.participated = True
-        $ persistent.completed_chatrooms[
-                        current_chatroom.chatroom_label] = True
-    
+                
     # Deliver emails and trigger the next chatroom (if applicable)
     $ deliver_emails()   
     $ check_and_unlock_story()
