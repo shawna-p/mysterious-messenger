@@ -915,19 +915,17 @@ init -6 python:
                 for item in archive.archive_list:
                     # If the player hasn't played everything associated with
                     # this item, don't make anything new available and stop
-                    if not item.all_played():
+                    if item.all_available() and not item.all_played():
                         triggered_next = True
                         break
                     
                     # Something associated with this item isn't available
                     # to play yet. Make it available.
                     if not item.all_available():
-                        decrease_calls = item.make_next_available()
-                        # If this was the "main" item in a chain of timeline
-                        # items, it triggers the phone calls to expire
-                        if decrease_calls:
-                            for phonecall in store.available_calls:
-                                phonecall.decrease_time()                            
+                        # Phone calls count down when new items are available
+                        item.unlock_all()                                                
+                        for phonecall in store.available_calls:
+                            phonecall.decrease_time()                            
                         triggered_next = True
                         break
                     
@@ -959,16 +957,11 @@ init -6 python:
         stop_checking = False
         for day_index, routeday in enumerate(chat_archive[:days_to_expire]):
             for item_index, item in enumerate(routeday.archive_list):
-                # Independent of time, ensure all items associated with
-                # this item are available
-                if item.played and not item.all_available():
-                    item.make_next_available()
-
                 # If this item has a plot branch, don't check anything
                 # past it
                 if item.plot_branch:
                     if not item.all_available():
-                        item.make_next_available()
+                        item.unlock_all()
                     stop_checking = True
                     break
 
@@ -982,7 +975,7 @@ init -6 python:
                     prev_item = False
                     # This is the first item of the route; it should
                     # be available.
-                    item.available = True
+                    item.unlock_all()
                     today_day_num = day_index
                     continue                
                 elif item_index > 0:
@@ -999,7 +992,7 @@ init -6 python:
                 if (prev_item and past_trigger_time(item.trigger_time,
                         current_time, day_index+1 < days_to_expire, 
                         prev_item, item)):
-                    item.available = True
+                    item.unlock_all()
                     today_day_num = day_index
                 elif prev_item:
                     # This means this item isn't ready; everything has
@@ -1077,7 +1070,7 @@ init -6 python:
             # Let the player know a new item is available
             renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav', 
                                 'sound')
-            renpy.show_screen('confirm',  message=item.on_available_message(), 
+            renpy.show_screen('confirm',  message=cur_item.on_available_message(), 
                               yes_action=Hide('confirm'))
 
             return True
@@ -1120,11 +1113,8 @@ init -6 python:
         deliver_calls(prev_item.item_label, not deliver_calls, call_timestamp)
         
         # Check for a post-item label
-        if renpy.has_label('after_' + prev_item.item_label):
-            # This will ensure text messages etc are set up
-            store.was_expired = True
-            renpy.call_in_new_context('after_' + prev_item.item_label)
-            store.was_expired = False
+        # This will ensure text messages etc are set up
+        prev_item.call_after_label(True)        
         for phonecall in store.available_calls:
             phonecall.decrease_time()
 
@@ -1341,8 +1331,7 @@ init -6 python:
     def can_branch():
         """Return True if the player can proceed through the plot branch."""
 
-        global chat_archive
-        for archive in chat_archive:
+        for archive in store.chat_archive:
             if archive.archive_list:
                 for item in archive.archive_list:
                     if (item.plot_branch and item.all_played()):
@@ -1387,45 +1376,34 @@ init -6 python:
         
         # This functions much like the check_and_unlock_story() function, only
         # here instead of expiring chatrooms we make them available
-        for chat_index, chatroom in enumerate(chat_archive[expiry_day-2].archive_list):
-            # If this chatroom is already available, don't bother with it
-            if chatroom.available and (chatroom.buyahead or chatroom.played):
+        for i, item in enumerate(chat_archive[expiry_day-2].archive_list):
+            # If this item is already available, don't bother with it
+            if item.available and (item.buyahead or item.played):
                 continue
             # Otherwise, on this day, everything becomes available
-            chatroom.available = True
-            chatroom.buyahead = True
-            chatroom.expired = False
-            if chatroom.vn_obj:
-                chatroom.vn_obj.available = True
-            if chatroom.plot_branch:                
+            if not item.buy_ahead():
                 # We haven't been able to make everything available in
                 # the future, so we return without resetting unlock_24_time
                 # or advancing the day
                 return
-            
 
         # Now check the next day
-        for chat_index, chatroom in enumerate(chat_archive[expiry_day-1].archive_list):
-            # Skip already available chatrooms
-            if chatroom.available and (chatroom.buyahead or chatroom.played):
+        for i, item in enumerate(chat_archive[expiry_day-1].archive_list):
+            # Skip already available items
+            if item.available and (item.buyahead or item.played):
                 continue
             # Compare the trigger time to the time we're unlocking up to
             if not is_time_later(unlock_time.military_hour, unlock_time.minute,
-                    chatroom.trigger_time[:2], chatroom.trigger_time[-2:]):
+                    item.trigger_time[:2], item.trigger_time[-2:]):
                 # Make this available
-                chatroom.available = True
-                chatroom.buyahead = True
-                chatroom.expired = False
-                if chatroom.vn_obj:
-                    chatroom.vn_obj.available = True
+                if not item.buy_ahead():
+                    # We haven't been able to make everything available in
+                    # the future, so we return without resetting unlock_24_time
+                    today_day_num = expiry_day-1
+                    return
             else:
                 # We're done unlocking things
                 unlock_24_time = False
-                today_day_num = expiry_day-1
-                return
-            if chatroom.plot_branch:
-                # We haven't been able to make everything available in
-                # the future, so we return without resetting unlock_24_time
                 today_day_num = expiry_day-1
                 return
 
