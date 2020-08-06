@@ -326,18 +326,23 @@ screen timeline_item_display(day, day_num, item, index):
             can_play_calls = was_played
         elif isinstance(item, TimelineItem) and item.story_calls_list:
             story_calls = item.story_calls_list
-            can_play_calls = (was_played and can_play_story_mode
+            can_play_calls = (was_played and item.played
+                and can_play_story_mode
                 and (not story_mode or story_mode.played))
         else:
             can_play_calls = True
             story_calls = None
 
+        if persistent.testing_mode:
+            was_played = True
+            can_play_calls = True
+            can_play_story_mode = True
         
 
     style_prefix None
 
     null height 10
-
+ 
     # Display an extra marker with the hour. If this item is during the
     # same hour as the previous one, this is omitted.
     if not sametime:
@@ -519,7 +524,7 @@ screen timeline_item_display(day, day_num, item, index):
     # If there are mandatory story calls, display them
     if story_calls:
         for i, phonecall in enumerate(story_calls):
-            if i > 0:
+            if i > 0 and not persistent.testing_mode:
                 $ can_play_calls = (can_play_calls and story_calls[i-1].played)
             use timeline_story_calls(phonecall, item, can_play_calls)
 
@@ -563,6 +568,9 @@ screen timeline_item_display(day, day_num, item, index):
                 action Show("confirm", message=("Please proceed after"
                             + " completing the unseen old conversations."),
                         yes_action=Hide('confirm'))
+
+            
+        
 
 style chat_timeline_vbox:
     spacing 18
@@ -638,7 +646,7 @@ screen timeline_continue_button(story_time):
                 viewport:
                     text "Continue..."
             frame:
-                text "Next chatroom opens at " + chat_time
+                text "Next chatroom opens at " + story_time
 
 style timeline_continue_button:
     xysize (620, 110)
@@ -673,39 +681,22 @@ style timeline_continue_text:
 ## This is used to continue the game after a plot branch    
 label plot_branch_end():
     python:
-        # CASE 0:
+        # CASE 1:
         # Plot branch is actually the party
-        if ((isinstance(current_chatroom, VNMode) and current_chatroom.party)
-                or (isinstance(current_chatroom, ChatHistory)
-                    and current_chatroom.vn_obj
-                    and current_chatroom.vn_obj.party)):
+        if ((isinstance(current_chatroom, StoryMode)
+                    and current_chatroom.party)
+                or (isinstance(current_chatroom, ChatRoom)
+                    and current_chatroom.story_mode
+                    and current_chatroom.story_mode.party)):        
             # Need to send them to the party
             renpy.jump('guest_party_showcase')
-        # CASE 1
-        # Plot branch is just a chatroom, has an after label
-        if not current_chatroom.vn_obj:
-            if renpy.has_label('after_' + current_chatroom.chatroom_label):
-                was_expired = current_chatroom.expired
-                renpy.call('after_' + current_chatroom.chatroom_label)
-                was_expired = False
-            # Deliver calls/texts/etc
-            deliver_calls(current_chatroom.chatroom_label)
-            deliver_emails()   
+        
         # CASE 2
-        # Plot branch is after a chatroom, after branching there's a VN
-        elif current_chatroom.vn_obj and not current_chatroom.vn_obj.played:
-            # Don't deliver anything yet
-            pass
-        # CASE 3
-        # Plot branch is after a chatroom with a VN
-        elif current_chatroom.vn_obj and current_chatroom.vn_obj.played:
-            if renpy.has_label('after_' + current_chatroom.chatroom_label):
-                was_expired = current_chatroom.expired
-                renpy.call('after_' + current_chatroom.chatroom_label)
-                was_expired = False
-            # Deliver calls/texts/etc
-            deliver_calls(current_chatroom.chatroom_label)
-            deliver_emails()
+        # Everything has been played and the program can deliver 'after_' items
+        if current_chatroom.all_played():
+            current_chatroom.call_after_label()
+            deliver_calls(current_chatroom.item_label)
+            deliver_emails()        
 
         # Now check if the player unlocked the next 24 hours
         # of chatrooms, and make those available
