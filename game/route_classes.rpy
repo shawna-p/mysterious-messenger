@@ -328,6 +328,22 @@ init -6 python:
                 renpy.call('after_' + self.item_label)
             store.was_expired = False
             return
+        
+        def total_timeline_items(self, only_if_unplayed=False):
+            """Return the number of timeline items contained within this one."""
+
+            if not only_if_unplayed:
+                return 1 + len(self.story_calls_list)
+            
+            # Otherwise, count only unplayed items
+            total = 0
+            if not self.played:
+                total += 1
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if not phonecall.played:
+                        total += 1
+            return total
 
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
@@ -590,7 +606,17 @@ init -6 python:
             
             return super(ChatRoom, self).buy_ahead()
             
+        def total_timeline_items(self, only_if_unplayed=False):
+            """Return the number of timeline items contained within this one."""
 
+            if (self.story_mode 
+                    and ((only_if_unplayed and not self.story_mode.played)
+                        or (not only_if_unplayed))):
+                return 1 + super(ChatRoom,
+                    self).total_timeline_items(only_if_unplayed)
+            else:
+                return super(ChatRoom,
+                    self).total_timeline_items(only_if_unplayed)
 
     class StoryMode(TimelineItem):
         """
