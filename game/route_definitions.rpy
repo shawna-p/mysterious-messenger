@@ -1,532 +1,30 @@
-##******************************
-## USEFUL PYTHON FUNCTIONS
-##******************************
-init -6 python:
+# ######################################################
+# This file contains several definitions related to 
+# creating routes and plot branches.
+# It's organized as follows:
+#   python definitions:
+#       def TheParty(vn_label, trigger_time, save_img)
+#       class PlotBranch
+#       class RouteDay
+#       class Route
+#       def check_and_unlock_story()
+#       def past_trigger_time(trig_time, cur_time, was_yesterday,
+#             prev_item, cur_item)
+#       def expire_item(prev_item, cur_item, deliver_incoming)
+#       def num_future_timeline_items(break_for_branch, recursive)
+#       def deliver_next()
+#       def merge_routes(new_route)
+#       def continue_route()
+#       def participated_percentage(first_day, last_day)
+#       def can_branch()
+#       def next_story_time()
+#       def make_24h_available()
+#       def is_time_later(current_hour, current_min, given_hour, given_min)
+#   variable definitions:
+#       was_expired
+# ######################################################
 
-    class ChatHistory(renpy.store.object):
-        """
-        Class that stores past chatrooms and information needed to display
-        them in-game.
-
-        Attributes:
-        -----------
-        title : string
-            Title of the chatroom.
-        chatroom_label : string
-            Label to jump to to view this chatroom.
-        expired_chat : string
-            Label to jump to when this chatroom has expired.
-        trigger_time : string
-            Time this chatroom should be available at, if playing in real-time.
-            Formatted as "00:00" in 24-hour time.
-        participants : ChatCharacter[]
-            List of ChatCharacters who were present over the course of this
-            chatroom. Initially set to the characters who begin in the chat.
-        original_participants : ChatCharacter[]
-            List of characters who begin in the chatroom.
-        plot_branch : PlotBranch or False
-            Keeps track of plot branch information if the story should
-            branch after this chatroom.
-        vn_obj : VNMode
-            Contains the information for a VN Mode section following this
-            chatroom.
-        save_img : string
-            A short version of the file path used to display the icon next
-            to a save file when this is the active chatroom.
-        played : bool
-            Tracks whether this chatroom has been played.
-        participated : bool
-            Tracks whether the player participated in this chatroom.
-        available : bool
-            Tracks whether the program should allow the player to play this
-            chatroom or if it should be greyed out/unavailable.
-        expired : bool
-            Tracks whether this chatroom has expired.
-        buyback : bool
-            Tracks if the player bought back this chatroom after it expired.
-        buyahead : bool
-            Tracks if the player bought this chatroom ahead of time so it
-            can remain unlocked regardless of the current time.
-        replay_log : ReplayEntry[]
-            List of ReplayEntry objects that keeps track of how this chatroom
-            played out to display to the user during a replay.
-        outgoing_calls_list : string[]
-            List of the labels used for phone calls that should follow this
-            chatroom. Also used in the History screen.
-        incoming_calls_list : string[]
-            List of the labels used for incoming phone calls that should
-            occur after this chatroom. Also used in the History screen.
-        story_calls_list : PhoneCall[]
-            List of the labels used for story phone calls that should
-            occur after this chatroom. Also used in the History screen.
-        """
-
-        def __init__(self, title, chatroom_label, trigger_time, 
-                participants=None, vn_obj=False, plot_branch=False, 
-                save_img='auto'):
-            """
-            Creates a ChatHistory object to store information about a
-            particular chatroom on a route.
-
-            Parameters:
-            -----------
-            title : string
-                Title of the chatroom.
-            chatroom_label : string
-                Label to jump to to view this chatroom.
-            trigger_time : string
-                Time this chatroom should be available at, if playing in
-                real-time. Formatted as "00:00" in 24-hour time.
-            participants : ChatCharacter[]
-                List of ChatCharacters who were present over the course of this
-                chatroom. Initially set to the characters who begin in the chat.
-            vn_obj : VNMode
-                Contains the information for a VN Mode section following this
-                chatroom.
-            plot_branch : PlotBranch or False
-                Keeps track of plot branch information if the story should
-                branch after this chatroom.
-            save_img : string
-                A short version of the file path used to display the icon next
-                to a save file when this is the active chatroom.
-            """
-
-            self.title = title
-            save_img = save_img.lower()
-            if save_img == 'jaehee' or save_img == 'ja':
-                self.save_img = 'jaehee'
-            elif save_img == 'jumin' or save_img == 'ju':
-                self.save_img = 'jumin'
-            elif save_img == 'ray' or save_img == 'r':
-                self.save_img = 'ray'
-            elif save_img == 'seven' or save_img == '707' or save_img == 's':
-                self.save_img = 'seven'
-            elif save_img == 'v':
-                self.save_img = 'v'
-            elif save_img == 'yoosung' or save_img == 'y':
-                self.save_img = 'yoosung'
-            elif save_img == 'zen' or save_img == 'z':
-                self.save_img = 'zen'
-            elif save_img[:5] == "save_":
-                self.save_img = save_img[5:]
-            else:
-                # e.g. auto / another / april / casual
-                #      deep / xmas
-                self.save_img = save_img
-
-            self.chatroom_label = chatroom_label
-            # Ensure the trigger time is set up properly
-            # It corrects times like 3:45 to 03:45
-            if ':' in trigger_time[:2]:
-                self.trigger_time = '0' + trigger_time
-            else:
-                self.trigger_time = trigger_time
-            self.participants = participants or []
-            if len(self.participants) == 0:
-                self.original_participants = []
-            else:
-                self.original_participants = list(participants)
-            self.plot_branch = plot_branch
-
-            # If this chatroom has a VN after it, it goes here
-            # Look for a VN with the correct naming system
-            self.vn_obj = False
-            if vn_obj:
-                self.vn_obj = vn_obj
-            else:
-                # Check for a regular VN, no associated character
-                if renpy.has_label(self.chatroom_label + '_vn'):
-                    self.vn_obj = VNMode(self.chatroom_label + '_vn')
-                # Check for a party label
-                elif renpy.has_label(self.chatroom_label + '_party'):
-                    self.vn_obj = VNMode(self.chatroom_label + '_party',
-                                        party=True)
-                else:
-                    # Check for a character VN
-                    for c in store.all_characters:
-                        # VNs are called things like my_label_vn_r
-                        vnlabel = self.chatroom_label + '_vn_' + c.file_id
-                        if renpy.has_label(vnlabel):
-                            # Found the appropriate VN
-                            self.vn_obj = VNMode(vnlabel, c)
-                            # Should only ever be one VNMode object per chat
-                            break
-            
-            if self.plot_branch and self.plot_branch.vn_after_branch:
-                self.plot_branch.stored_vn = self.vn_obj
-                self.vn_obj = False
-            
-            self.played = False
-            self.participated = False
-            self.available = False
-            self.expired = False
-            self.expired_chat = chatroom_label + '_expired'
-            self.buyback = False
-            self.buyahead = False
-            self.replay_log = []
-            self.outgoing_calls_list = [ (self.chatroom_label + '_outgoing_' 
-                + x.file_id) for x in store.all_characters 
-                if renpy.has_label(self.chatroom_label + '_outgoing_' 
-                    + x.file_id)]
-            self.incoming_calls_list = [ (self.chatroom_label + '_incoming_' 
-                + x.file_id) for x in store.all_characters 
-                if renpy.has_label(self.chatroom_label + '_incoming_' 
-                    + x.file_id)]
-            
-            
-        def __eq__(self, other):
-            """Check for equality between two ChatHistory objects."""
-
-            if not isinstance(other, ChatHistory):
-                return False
-            return (self.title == other.title
-                    and self.chatroom_label == other.chatroom_label
-                    and self.trigger_time == other.trigger_time)
-        
-        def __ne__(self, other):
-            """Check for inequality between two ChatHistory objects."""
-
-            if not isinstance(other, ChatHistory):
-                return True
-
-            return (self.title != other.title
-                    or self.chatroom_label != other.chatroom_label
-                    or self.trigger_time != other.trigger_time)
-
-        def __deepcopy__(self, memo):
-            """
-            Return a deepcopy of a ChatHistory object. Maintained for
-            compatibility with __getattr__ implementation.
-            """
-
-            result = ChatHistory(self.title, self.chatroom_label, 
-                self.trigger_time, list(self.participants),
-                deepcopy(self.vn_obj, memo), deepcopy(self.plot_branch, memo),
-                self.save_img)
-            result.played = self.played
-            result.participated = self.participated
-            result.available = self.available
-            result.expired = self.expired
-            result.buyback = self.buyback
-            result.buyahead = self.buyahead
-            result.outgoing_calls_list = self.outgoing_calls_list
-            result.incoming_calls_list = self.incoming_calls_list
-            result.story_calls_list = copy(self.story_calls_list)
-            result.replay_log = []
-            return result
-
-
-        def __getattr__(self, name):
-            """
-            Ensure compatibility when accessing attributes that don't exist.
-            """
-
-            if name == 'story_calls_list':
-                return []
-                # chatroom_label = self.__dict__['chatroom_label']
-                # return [ PhoneCall(x, chatroom_label + '_story_call_'
-                #             + x.file_id, avail_timeout='test', story_call=True)
-                #         for x in store.all_characters 
-                #         if renpy.has_label(chatroom_label + '_story_call_'
-                #             + x.file_id)]
-                
-            try:
-                # print("ChatHistory getattr with", name)
-                # if name == 'chatroom_label':
-                #     raise AttributeError(name)
-                # print("with", self.__dict__['chatroom_label'])
-                return super(ChatHistory, self).__getattribute__(name)
-            except (KeyError, AttributeError) as e:
-                raise AttributeError(name)
-                
-        def add_participant(self, chara):
-            """Add a participant to the chatroom."""
-
-            if not (chara in self.participants):
-                print("added", chara.name, "to the participants list of", self.title)        
-                self.participants.append(chara)
-            return
-
-        def reset_participants(self):
-            """
-            Reset participants to the original set of participants before
-            the user played this chatroom. Used when a player backs out
-            of a chatroom.
-            """
-
-            self.participants = list(self.original_participants)
-
-        @property
-        def party(self):
-            """Retain compatibility with VNMode objects."""
-
-            return False
-            
-            
-    class VNMode(renpy.store.object):
-        """
-        Class that stores the information needed for the Visual Novel portions
-        of the game.
-
-        Attributes:
-        -----------
-        vn_label : string
-            The label to jump to for this VN.
-        who : ChatCharacter
-            The character whose picture is on the VN icon in the timeline.
-        played : bool
-            True if this VN has been played.
-        available : bool
-            True if this VN should be available to play.
-        party : bool
-            True if this VN is the "party".
-        trigger_time : string
-            Formatted as "00:00" in 24-hour time. The time this VN should
-            show up at, if it is not attached to a chatroom.
-        title : string
-            The title for the VN as it should show up in the History screen.
-        plot_branch : PlotBranch or False
-            Keeps track of plot branch information if the story should
-            branch after this chatroom.
-        save_img : string
-            A short version of the file path used to display the icon next
-            to a save file when this is the active chatroom.
-        outgoing_calls_list : string[]
-            List of the labels used for phone calls that should follow this
-            VN, if it is separate. Also used in the History screen.
-        incoming_calls_list : string[]
-            List of the labels used for incoming phone calls that should
-            occur after this VN. Also used in the History screen.
-        story_calls_list : PhoneCall[]
-            List of the labels used for story phone calls that should
-            occur after this chatroom. Also used in the History screen.
-        """
-
-        def __init__(self, vn_label, who=None, party=False, trigger_time=False,
-                    title="", plot_branch=False, save_img='auto'):
-            """
-            Create a VNMode object to keep track of information for a Visual
-            Novel section.
-
-            Parameters:
-            -----------
-            vn_label : string
-                The label to jump to for this VN.
-            who : ChatCharacter
-                The character whose picture is on the VN icon in the timeline.
-            party : bool
-                True if this VN is the "party".
-            trigger_time : string
-                Formatted as "00:00" in 24-hour time. The time this VN should
-                show up at, if it is not attached to a chatroom.
-            title : string
-                The title for the VN for the History screen.
-            plot_branch : PlotBranch or False
-                Keeps track of plot branch information if the story should
-                branch after this chatroom.
-            save_img : string
-                A short version of the file path used to display the icon next
-                to a save file when this is the active VN.
-            """
-
-            self.vn_label = vn_label
-            self.who = who
-            self.played = False
-            self.available = False
-            self.party = party
-            self.title = title
-            if trigger_time:
-                # Ensure the trigger time is set up properly
-                # It corrects times like 3:45 to 03:45
-                if ':' in trigger_time[:2]:
-                    self.trigger_time = '0' + trigger_time
-                else:
-                    self.trigger_time = trigger_time
-            else:
-                self.trigger_time = trigger_time
-
-            self.plot_branch = plot_branch
-            self.save_img = save_img
-
-            if self.trigger_time:
-                self.outgoing_calls_list = [ (self.vn_label + '_outgoing_' 
-                    + x.file_id) for x in store.all_characters 
-                    if renpy.has_label(self.vn_label + '_outgoing_' 
-                        + x.file_id)]
-                self.incoming_calls_list = [ (self.vn_label + '_incoming_' 
-                    + x.file_id) for x in store.all_characters 
-                    if renpy.has_label(self.vn_label + '_incoming_' 
-                        + x.file_id)]
-                temp_story_calls = [ x for x in store.all_characters 
-                    if renpy.has_label(self.chatroom_label + '_story_call_'
-                        + x.file_id)]
-                self.story_calls_list = []
-
-                for char in temp_story_calls:
-                    self.story_calls_list.append(PhoneCall(char,
-                        self.chatroom_label + '_story_call_' + char.file_id,
-                        avail_timeout='test', story_call=True))
-                
-            else:
-                self.outgoing_calls_list = []
-                self.incoming_calls_list = []
-                self.story_calls_list = []
-            
-
-        @property
-        def vn_img(self):
-            """Return the image used for this VN."""
-
-            if self.who:
-                return 'vn_' + self.who.file_id
-            else:
-                return 'vn_other'
-        
-        @property
-        def vn_obj(self):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            return False
-
-        @property
-        def original_participants(self):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            return []
-
-        @property
-        def chatroom_label(self):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            return self.vn_label
-
-        @property
-        def expired(self):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            return False
-
-        @expired.setter
-        def expired(self, other):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            pass
-
-        @property
-        def buyback(self):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            return False
-        
-        @property
-        def buyahead(self):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            return False
-
-        @buyahead.setter
-        def buyahead(self, other):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            pass
-
-        @property
-        def participants(self):
-            """
-            Allow ChatHistory and VNMode objects to be used
-            somewhat interchangeably.
-            """
-            return []
-
-        def __deepcopy__(self, memo):
-            """
-            Return a deepcopy of a VNMode object. Maintained for compatibility
-            with __getattr__ implementation.
-            """
-
-            result = VNMode(self.vn_label, self.who, self.party,
-                self.trigger_time, self.title, deepcopy(self.plot_branch, memo),
-                self.save_img)
-            result.played = self.played
-            result.available = self.available
-            result.outgoing_calls_list = self.outgoing_calls_list
-            result.incoming_calls_list = self.incoming_calls_list
-            result.story_calls_list = copy(self.story_calls_list)
-            return result
-            
-
-        def __getattr__(self, name):
-            """
-            Ensure compatibility when accessing attributes that don't exist.
-            """
-
-            if name == 'title':
-                return ""
-            elif name == 'plot_branch':
-                return False
-            elif name == 'save_img':
-                return 'auto'
-            elif name == 'outgoing_calls_list':
-                vn_label = self.__dict__['vn_label']
-                return [ (vn_label + '_outgoing_' 
-                        + x.file_id) for x in store.all_characters 
-                        if renpy.has_label(vn_label + '_outgoing_' 
-                            + x.file_id)]
-            elif name == 'incoming_calls_list':
-                vn_label = self.__dict__['vn_label']
-                return [ (vn_label + '_incoming_' 
-                        + x.file_id) for x in store.all_characters 
-                        if renpy.has_label(vn_label + '_incoming_' 
-                            + x.file_id)]
-            elif name == 'story_calls_list':
-                return []
-
-            try:
-                # print("VNMode getattr with", name)
-                # if name == 'vn_label':
-                #     raise AttributeError(name)
-                # print("with", self.__dict__['vn_label'])
-                return super(VNMode, self).__getattribute__(name)
-            except (KeyError, AttributeError) as e:                
-                raise AttributeError(name)
-
-        def __eq__(self, other):
-            """Check for equality between two VNMode objects."""
-            if not isinstance(other, VNMode):
-                return False
-            return (self.vn_label == other.vn_label
-                    and self.who == other.who)
-        
-        def __ne__(self, other):
-            """Check for inequality between two VNMode objects."""
-            if not isinstance(other, VNMode):
-                return True
-
-            return (self.vn_label != other.vn_label
-                    or self.who != other.who)
-
-    def SoloVN(title, vn_label, trigger_time, who=None, plot_branch=False,
-                party=False, save_img='auto'):
-        """Return a VNMode object with the given parameters."""
-        
-        return VNMode(vn_label, who, party, trigger_time,
-                title, plot_branch, save_img)
+init -6 python:       
 
     def TheParty(vn_label, trigger_time=False, save_img='auto'):
         """Return a StoryMode object defined to be the party."""
@@ -586,7 +84,7 @@ init -6 python:
         """
 
         def __init__(self, day, archive_list=None, day_icon='day_common2',
-                        branch_vn=False):
+                        branch_vn=None):
             """
             Creates a RouteDay object to hold information on a day's worth
             of chatrooms.
@@ -597,15 +95,16 @@ init -6 python:
                 The name/number of the day as it should show up in the timeline.
                 Typically "1st" or "Final". Is followed by the word "Day" in
                 the timeline.
-            archive_list : ChatHistory[]
-                A list of ChatHistory objects that encompasses all the chatrooms
-                that should be available on this day.
+            archive_list : TimelineItem[]
+                A list of TimelineItem objects that encompasses all the
+                story items that should be available on this day.
             day_icon : string
-                The icon for the route this day is considered a part of. Used to
-                display an icon in the day timeline screen.    
-            branch_vn : VNMode
-                If this day has a VN that should be show as soon as soon as it's
-                merged onto the main route after a plot branch, it is stored here.
+                The icon for the route this day is considered a part of. Used
+                to display an icon in the day timeline screen.    
+            branch_vn : StoryMode
+                If this day has a StoryMode that should be shown as soon as
+                soon as it's merged onto the main route after a plot branch,
+                it is stored here.
             """
 
             self.day = day
@@ -722,7 +221,20 @@ init -6 python:
 
             return True
 
+        @property
+        def get_branch_item(self):
+            """
+            Return the item in branch_vn, converting it to StoryMode if
+            necessary.
+            """
 
+            if not self.branch_vn:
+                return False
+            # Check if the item needs to be converted
+            if isinstance(self.branch_vn, VNMode):
+                self.branch_vn = vnmode_to_storymode(self.branch_vn)
+            return self.branch_vn
+            
        
 
     class Route(renpy.store.object):
@@ -1123,25 +635,32 @@ init -6 python:
        
       
 
-    def num_future_chatrooms(break_for_branch=False):
+    def num_future_timeline_items(break_for_branch=False, recursive=False):
         """
-        Return how many chatrooms remain in the current route. Used so emails
-        are always delivered before the party.
+        Return how many timeline items remain in the current route.
+        Used so emails are always delivered before the party.
 
         Parameters:
         -----------
         break_for_branch : bool
             True if the program should only list the number of chatrooms
             remaining before a plot branch.
+        recursive : bool
+            If False, the program counts a TimelineItem as a "unit". If True,
+            each individual TimelineItem contained within the parent item is
+            also counted.
         """
         
         total = 0
         for archive in store.chat_archive:
             if archive.archive_list:
-                for chatroom in archive.archive_list:
-                    if not chatroom.played: 
+                for item in archive.archive_list:
+                    if recursive:
+                        # Count individual items
+                        total += item.total_timeline_items(True)
+                    elif not item.played:
                         total += 1
-                    if chatroom.plot_branch and break_for_branch:
+                    if item.plot_branch and break_for_branch:
                         return total
         return total
                 
@@ -1198,17 +717,16 @@ init -6 python:
         """Merge new_route with the current route."""
         
         global chat_archive, most_recent_chat, current_chatroom
-        # Figure out which VN to show the player
-        # If this route has a branch_vn, extract it and attach it to the
-        # current chatroom. It should be on the RouteDay object, which is
-        # second in the list ("Bad End", RouteDay(...))
+
+        # If the first item of the merged route has a branch_vn, it gets added
+        # to the main TimelineItem that contained the branch
         if len(new_route) > 1 and new_route[1].branch_vn:
-            # Add this VN to the day with the plot branch
-            most_recent_chat.vn_obj = new_route[1].branch_vn
+            most_recent_chat.story_mode = new_route[1].get_branch_item
 
         plot_branch_party = False
         try:
-            if new_route[1].archive_list[0].party:
+            # Test if this RouteDay only includes the party            
+            new_route[1].archive_list[0].party:
                 plot_branch_party = True
         except:
             print("Couldn't determine if new_route was the party")
@@ -1216,14 +734,14 @@ init -6 python:
         # Find the day the plot branch was on UNLESS this is the party
         # plot branch, in which case we're looking for the party
         a = 0
-        found_branch = False
+        found_branch = None
         for archive in chat_archive:
-            for chat in archive.archive_list:
-                if not plot_branch_party and chat.plot_branch:
-                    found_branch = chat
+            for item in archive.archive_list:
+                if not plot_branch_party and item.plot_branch:
+                    found_branch = item
                     break
-                elif plot_branch_party and chat.party:
-                    found_branch = chat
+                elif plot_branch_party and item.party:
+                    found_branch = item
                     break
             if found_branch:
                 break
@@ -1248,13 +766,14 @@ init -6 python:
         if plot_branch_party:
             # Search through chat_archive to find the party we're replacing
             for day in chat_archive:
-                for chat in day.archive_list:
-                    if chat.party and not chat.played:
+                for item in day.archive_list:
+                    if (isinstance(item, StoryMode)
+                            and item.party and not item.played):
                         # This is the party to replace
                         print("Found the replacement party")
-                        chat = new_route[1].archive_list[0]
-                        current_chatroom = chat
-                        print("current_chatroom is now", current_chatroom.chatroom_label)
+                        item = new_route[1].archive_list[0]
+                        current_chatroom = item
+                        print("current_chatroom is now", current_chatroom.item_label)
                         return
 
 
@@ -1264,16 +783,18 @@ init -6 python:
                 if archive2.day == archive.day:                    
                     archive.archive_list += archive2.archive_list
                     archive.day_icon = archive2.day_icon
+                    continue
 
 
     def continue_route():
         """Clean up the current route to continue after a plot branch."""
 
         global most_recent_chat
+        
         if (most_recent_chat.plot_branch 
                 and most_recent_chat.plot_branch.vn_after_branch):
             # This chat has a stored VN to add to the chat itself
-            most_recent_chat.vn_obj = most_recent_chat.plot_branch.stored_vn
+            most_recent_chat.story_mode = most_recent_chat.plot_branch.stored_vn
 
         # Remove the plot branch indicator
         most_recent_chat.plot_branch = False
