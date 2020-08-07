@@ -499,52 +499,37 @@ label skip_intro_setup():
     $ most_recent_chat = chat_archive[0].archive_list[0]
     $ chatroom_hp = 0
     $ chatroom_hg = 0
-    $ config.skipping = False        
-    $ choosing = False
-    hide screen phone_overlay
-    hide screen messenger_screen
-    hide screen save_and_exit
-    hide screen vn_overlay
-    hide screen pause_button
-    $ renpy.hide_screen('animated_bg')
+    $ reset_chatroom_vars()
+    
     show screen loading_screen
         
+    # Add this label to the list of completed labels
     $ current_chatroom.mark_next_played()        
     if not current_chatroom.expired and not current_chatroom.buyback:
-        # Checks for a post-chatroom label; won't trigger 
-        # if there's a VN section
+        # Checks for a post-chatroom label
         # Otherwise delivers phone calls/texts/etc
-        if current_chatroom.all_played():
-            current_chatroom.call_after_label()        
-        # Add this label to the list of completed labels
-        $ deliver_calls(current_chatroom.chatroom_label)
+        $ current_chatroom.call_after_label()        
+        $ deliver_calls(current_chatroom.item_label)
                 
     # Deliver emails and trigger the next chatroom (if applicable)
     $ deliver_emails()   
     $ check_and_unlock_story()
-    $ hide_all_popups()
     # Make sure any images shown are unlocked
     $ check_for_CGs(all_albums)
     $ renpy.retain_after_load()
     # Check to see if the honey buddha chips should be available
     if not chips_available:
         $ chips_available = hbc_bag.draw()
-    
-    stop music
+        
     # This helps clean up the transition between sections
     # in case it takes the program a few moments to calculate
     # messages, emails, etc
     pause 0.2
     hide screen loading_screen
-    if starter_story:
-        $ starter_story = False
-        call screen chat_home
-        return
-    else:
-        $ deliver_next()
-        call screen timeline(current_day, current_day_num)
-        return
+    $ starter_story = False
+    call screen chat_home
     return
+    
     
     
     
