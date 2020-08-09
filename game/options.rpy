@@ -41,7 +41,7 @@ define config.auto_voice = "voice files/{id}.mp3"
 
 ## These functions get called on an after_load to ensure compatibility
 ## with future versions
-define config.after_load_callbacks = [ update_var_compatibility ]
+define config.after_load_callbacks = [ update_var_compatibility, advance_day ]
 ## Checks for new chatrooms at about 20Hz
 # define config.periodic_callback = check_for_new_chatroom
 

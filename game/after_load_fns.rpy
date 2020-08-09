@@ -82,9 +82,9 @@ init python:
         ending_indices = []
         for i, chat in enumerate(chatlist):
             if (not isinstance(chat, store.ChatHistory)
-                and not isinstance(chat, ChatHistory)
-                and not isinstance(chat, VNMode)
-                and not isinstance(chat, store.VNMode)):
+                    and not isinstance(chat, ChatHistory)
+                    and not isinstance(chat, VNMode)
+                    and not isinstance(chat, store.VNMode)):
                 if chat not in titles:
                     extra_ending_titles.append(chat)
                     ending_indices.append(i)
@@ -228,38 +228,55 @@ init python:
         return
 
 
-########################################################
-## This directs the player back to the chat hub after
-## loading. It also advances the game day if real-time
-## mode is active
-########################################################     
-label after_load():
-    python:
+    ########################################################
+    ## This directs the player back to the chat hub after
+    ## loading. It also advances the game day if real-time
+    ## mode is active
+    ########################################################
+    def advance_day():   
+        global persistent     
         if persistent.real_time:
             if persistent.load_instr == '+1 day':
-                days_to_expire += 1
-                current_game_day = date.today()
+                store.days_to_expire += 1
+                store.current_game_day = date.today()
             elif persistent.load_instr == 'Same day':
-                current_game_day = date.today()
+                store.current_game_day = date.today()
             elif persistent.load_instr == 'Auto':
-                date_diff = date.today() - current_game_day
-                days_to_expire += date_diff.days
-                current_game_day = date.today()
+                store.date_diff = date.today() - current_game_day
+                store.days_to_expire += date_diff.days
+                store.current_game_day = date.today()
+
+            if store.days_to_expire > len(store.chat_archive):
+                store.days_to_expire = len(store.chat_archive)
             persistent.load_instr = False
         else:
             # The program keeps track of the current day even if
             # not in real-time mode in case the player switches
             # to real-time mode
-            current_game_day = date.today()
+            store.current_game_day = date.today()
     
+        # Make sure that today_day_num is correct
+        d = len(store.chat_archive)
+        for day in reversed(store.chat_archive):
+            d -= 1
+            if day.has_playable:
+                store.today_day_num = d
+                print("today_day_num is", store.today_day_num)
+                break
+        
+        if d == len(store.chat_archive):
+            store.today_day_num = 0
+            print("2. today_day_num is", store.today_day_num)
+            
+
         no_email_notif = True
-        for email in email_list:
+        for email in store.email_list:
             if not email.notified:
-                no_email_notif = False
+                no_email_notif = False                
         if no_email_notif:
             renpy.hide_screen('email_popup')
         no_text_notif = True
-        for c in all_characters:
+        for c in store.all_characters:
             if not c.text_msg.notified:
                 no_text_notif = False
                 break
@@ -284,7 +301,7 @@ label after_load():
         popup_msg = ""
         n_email = unread_emails()
         n_text = new_message_count()
-        n_call = unseen_calls
+        n_call = store.unseen_calls
         
         if n_email + n_text + n_call > 0:
             # Show the player a notification of unread messages
@@ -316,7 +333,11 @@ label after_load():
                     popup_msg += "s"
             
             popup_msg += "."            
-    if popup_msg != "":
-        show screen confirm(yes_action=Hide('confirm'), message=popup_msg)
-    return     
+        if popup_msg != "":
+            renpy.show_screen('confirm', yes_action=Hide('confirm'),
+                message=popup_msg)
+        return   
+
+label after_load():
+    return
 
