@@ -361,7 +361,7 @@ label press_save_and_exit():
             and chat_archive[0].archive_list):
         $ most_recent_chat = chat_archive[0].archive_list[0]
     elif most_recent_chat is None:
-        $ most_recent_chat = ChatHistory('Example Chatroom', 
+        $ most_recent_chat = ChatRoom('Example Chatroom', 
                                         'example_chat', '00:01')
         
     if observing or _in_replay:

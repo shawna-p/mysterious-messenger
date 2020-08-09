@@ -166,8 +166,7 @@ init -6 python:
             # Got a Route object; use the default route
             try:
                 route = route.default_branch
-            except AttributeError:
-                setattr(route, 'default_branch', [])
+            except AttributeError:                
                 print("Error: Given Route object does not have a default_branch field.")
 
         if (len(route) > 0 
@@ -180,7 +179,7 @@ init -6 python:
         if participants is None:
             participants = []
         define_variables()
-        current_chatroom = ChatHistory('Starter Chat', chatroom_label, 
+        current_chatroom = ChatRoom('Starter Chat', chatroom_label, 
                                         '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
         # VNs for a starter chat/opening
@@ -330,7 +329,7 @@ image transparent_img = '#0000'
 default chatlog = []
 # A list of the characters currently in the chatroom
 default in_chat = []
-default current_chatroom = ChatHistory('title', 'chatroom_label', '00:00')
+default current_chatroom = ChatRoom('title', 'chatroom_label', '00:00')
 # Chat that should be used when saving the game
 default most_recent_chat = None
 default name = 'Rainbow'
