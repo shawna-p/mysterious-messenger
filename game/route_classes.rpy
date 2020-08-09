@@ -345,6 +345,38 @@ init -6 python:
                         total += 1
             return total
 
+        def participated_percentage(self, check_all=False):
+            """
+            Return the number of timeline items that have been participated in.
+
+            Parameters:
+            -----------
+            check_all : bool
+                If True, return a tuple with the number of participated items
+                vs the total number of items contained within this one.
+                StoryMode cannot expire and so is not included in the total.
+            """
+
+            if not check_all:
+                # Only return whether or not this item was played
+                if self.played and not self.expired:
+                    return 1.0
+                else:
+                    return 0.0
+            
+            # Otherwise, return a tuple
+            total = 1.0 + len(self.story_calls_list)
+            num_played = 0.0
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if phonecall.played and not phonecall.expired:
+                        num_played += 1.0
+
+            if self.played and not self.expired:
+                num_played += 1.0
+            return (num_played, total)
+
+
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
 
@@ -420,8 +452,7 @@ init -6 python:
 
             super(ChatRoom, self).__init__(title, chatroom_label, trigger_time,
                 plot_branch, save_img)
-            
-            print("ChatRoom label:", self.item_label)
+                        
             self.participants = participants or []
             if len(self.participants) == 0:
                 self.original_participants = []
@@ -437,13 +468,11 @@ init -6 python:
                 if renpy.has_label(self.item_label + '_vn'):
                     self.story_mode = create_dependent_VN(
                         self.item_label + '_vn')
-                    print("Looked for label", self.item_label + '_vn')
                 # Check for a party label
                 elif renpy.has_label(self.item_label + '_party'):
                     self.story_mode = create_dependent_VN(
                         self.item_label + '_party',
                         party=True)
-                    print("Looked for label", self.item_label + '_party')
                 # Check for VNs associated with a character
                 else:                    
                     for c in store.all_characters:
@@ -451,7 +480,6 @@ init -6 python:
                         vnlabel = self.item_label + '_vn_' + c.file_id
                         if renpy.has_label(vnlabel):
                             self.story_mode = create_dependent_VN(vnlabel, c)
-                            print("Looked for label", vnlabel)
                             # Should only be one StoryMode object per chat
                             break
                 
@@ -733,6 +761,32 @@ init -6 python:
             else:
                 return 'vn_inactive'
 
+        def participated_percentage(self, check_all=False):
+            """
+            Return the number of timeline items that have been participated in.
+
+            Parameters:
+            -----------
+            check_all : bool
+                If True, return a tuple with the number of participated items
+                vs the total number of items contained within this one.
+                StoryMode cannot expire and so is not included in the total.
+            """
+
+            if not check_all:
+                # Only return whether or not this item was played
+                return 0.0
+            
+            # Otherwise, return a tuple
+            total = len(self.story_calls_list)
+            num_played = 0.0
+            if len(self.story_calls_list) > 0:
+                for phonecall in self.story_calls_list:
+                    if phonecall.played and not phonecall.expired:
+                        num_played += 1.0
+            
+            return (num_played, total)
+
     class StoryCall(TimelineItem):
         """
         Class that stores information needed to display mandatory phone
@@ -812,23 +866,20 @@ init -6 python:
         Return a StoryMode which is tied to a chatroom and thus doesn't need
         additional information.
         """
-        print("Making a StoryMode", vn_label)
+        # print("Making a StoryMode", vn_label)
         return StoryMode(title="", vn_label=vn_label, trigger_time=False,
                 who=who, party=party)
 
     def vnmode_to_storymode(item, copy_everything=False):
         """Convert item to a StoryMode object and return it."""
 
-        print("LOOKING AT:", item.vn_label)
+        # print("LOOKING AT:", item.vn_label)
         if (item.plot_branch and item.plot_branch.stored_vn):
             pbranch = True
         elif isinstance(item.plot_branch, PlotBranch):
             pbranch = False
         else:
             pbranch = "None"
-
-        if pbranch != "None":
-            print("pbranch is", pbranch)
 
         new_obj = StoryMode(title=item.title, vn_label=item.vn_label,
             trigger_time=item.trigger_time, who=item.who,
@@ -845,7 +896,7 @@ init -6 python:
     def chathistory_to_chatroom(item, copy_everything=False):
         """Convert item to a ChatRoom object and return it."""
 
-        print("LOOKING AT:", item.title)
+        # print("LOOKING AT:", item.title)
 
         if (item.plot_branch and item.plot_branch.stored_vn):
             pbranch = True
@@ -853,9 +904,6 @@ init -6 python:
             pbranch = False
         else:
             pbranch = "None"
-
-        if pbranch != "None":
-            print("pbranch is", pbranch)
 
         new_obj = ChatRoom(title=item.title, chatroom_label=item.chatroom_label,
             trigger_time=item.trigger_time, participants=item.participants,
@@ -892,7 +940,9 @@ init -6 python:
             print("participants:", item.participants, new_obj.participants)
         if (item.plot_branch != new_obj.plot_branch
                 and not (item.plot_branch == False 
-                    and new_obj.plot_branch is None)):
+                    and new_obj.plot_branch is None)
+                and not (isinstance(item.plot_branch, PlotBranch)
+                    and isinstance(new_obj.plot_branch, PlotBranch))):
             print("plot_branch:", item.plot_branch, new_obj.plot_branch)
         if (item.plot_branch and item.plot_branch.stored_vn):
             if (item.plot_branch.stored_vn.vn_label 
