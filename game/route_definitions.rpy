@@ -163,31 +163,23 @@ init -6 python:
                 new_vn = create_dependent_VN(self.branch_vn.vn_label,
                     self.branch_vn.who, self.branch_vn.party)
                 self.branch_vn = new_vn               
-
-
-
-        @property
-        def num_items(self):
-            """Return the number of timeline items on this day."""
-
-            return len(self.archive_list)
-
-        @property
-        def played_percentage(self):
-            """Return the percent of items that have been played."""
+        
+        def participated_percentage(self, only_if_available=False):
+            """Return the percent of items that have been participated in."""
 
             played = 0
-            total = self.num_items
+            total = 0
             for item in self.archive_list:
-                # TODO: could change this to account for played chatrooms
-                # with expired story calls
-                if item.played and not item.expired:
-                    played += 1
+                if ((only_if_available and item.available)
+                        or not only_if_available):
+                    add_played, add_total = item.participated_percentage(True)
+                    played += add_played
+                    total += add_total
             
             if total == 0:
                 return 0
             
-            return (played * 100) // total
+            return int((played * 100) // total)
             
         @property
         def has_playable(self):
@@ -635,7 +627,7 @@ init -6 python:
        
       
 
-    def num_future_timeline_items(break_for_branch=False, recursive=False):
+    def num_future_timeline_items(break_for_branch=False, check_all=True):
         """
         Return how many timeline items remain in the current route.
         Used so emails are always delivered before the party.
@@ -645,7 +637,7 @@ init -6 python:
         break_for_branch : bool
             True if the program should only list the number of chatrooms
             remaining before a plot branch.
-        recursive : bool
+        check_all : bool
             If False, the program counts a TimelineItem as a "unit". If True,
             each individual TimelineItem contained within the parent item is
             also counted.
@@ -655,13 +647,14 @@ init -6 python:
         for archive in store.chat_archive:
             if archive.archive_list:
                 for item in archive.archive_list:
-                    if recursive:
+                    if check_all:
                         # Count individual items
                         total += item.total_timeline_items(True)
                     elif not item.played:
                         total += 1
                     if item.plot_branch and break_for_branch:
                         return total
+        print("DEBUG: There are", total, "items remaining")
         return total
                 
         
@@ -718,6 +711,11 @@ init -6 python:
         
         global chat_archive, most_recent_chat, current_chatroom
 
+        # May need to update the merged route to TimelineItems    
+        for day in new_route:
+            if isinstance(day, RouteDay):
+                day.convert_archive(False)
+
         # If the first item of the merged route has a branch_vn, it gets added
         # to the main TimelineItem that contained the branch
         if len(new_route) > 1 and new_route[1].branch_vn:
@@ -726,7 +724,7 @@ init -6 python:
         plot_branch_party = False
         try:
             # Test if this RouteDay only includes the party            
-            new_route[1].archive_list[0].party:
+            if new_route[1].archive_list[0].party:
                 plot_branch_party = True
         except:
             print("Couldn't determine if new_route was the party")
@@ -801,52 +799,44 @@ init -6 python:
 
     def participated_percentage(first_day=1, last_day=None):
         """
-        Return the percentage of chatrooms the player has participated in,
+        Return the percentage of story items the player has participated in,
         from first_day to last_day.
 
         Parameters:
         -----------
         first_day : int
-            The first day to check for chatroom completed percentage on. Note
+            The first day to check for item completed percentage on. Note
             that the number given here is not the index of the first day. A
             route with "Day 1" through to "Day 4" would provide first_day=1
             to check "Day 1" onwards.
         last_day : int or None
-            The last day to check for chatroom completed percentage on. As with
+            The last day to check for item completed percentage on. As with
             first_day, it is not the index number. To check all days until the
             end of this route, last_day should be None.
 
         Returns:
         --------
         int
-            A percentage of completed chatrooms, rounded down to the nearest
-            whole number. If 3/9 chatrooms were completed across the given
+            A percentage of completed items, rounded down to the nearest
+            whole number. If 3/9 items were completed across the given
             days, this function returns 33.
         """
 
-        global chat_archive
         # For example, if checking participation from Day 2 to
         # Day 4, then first_day = 2 and last_day = 4
         # However, index-wise, those will be from index 1 to 3
         # so subtract 1 from first_day
         first_day -= 1
         if last_day is None:
-            last_day = len(chat_archive)
+            last_day = len(store.chat_archive)
             
-        completed_chatrooms = 0
-        num_chatrooms = 0
-            
-        for archive in chat_archive[first_day:last_day]:
-            if archive.archive_list:
-                for chatroom in archive.archive_list:
-                    if chatroom.available:
-                        num_chatrooms += 1
-                    if chatroom.available and chatroom.participated:
-                        completed_chatrooms += 1
-        # Be sure not to divide by zero
-        if num_chatrooms == 0:
-            num_chatrooms = 1
-        return (completed_chatrooms * 100 // num_chatrooms)
+        total_days = last_day - first_day
+        total_percent = 0
+                    
+        for day in store.chat_archive[first_day:last_day]:
+            total_percent += day.participated_percentage(True)
+        
+        return (total_percent // total_days)
     
               
     def can_branch():
@@ -855,6 +845,8 @@ init -6 python:
         for archive in store.chat_archive:
             if archive.archive_list:
                 for item in archive.archive_list:
+                    if not item.all_played():
+                        return False
                     if (item.plot_branch and item.all_played()):
                         return True                
         return False
@@ -866,12 +858,11 @@ init -6 python:
 
         global chat_archive
         for archive in chat_archive:
-            if archive.archive_list:
-                for item in archive.archive_list:
-                    if item.plot_branch and item.available:
-                        return 'Plot Branch'
-                    if not item.available:
-                        return item.trigger_time
+            for item in archive.archive_list:
+                if item.plot_branch and item.available:
+                    return 'Plot Branch'
+                if not item.available:
+                    return item.trigger_time
         return 'Unknown Time'
         
     def make_24h_available():
