@@ -336,7 +336,7 @@ init python:
     class Guest(renpy.store.object):
         """
         This class stores necessary information about the guest, including
-        all of their email replies as well as their image thumbnail and name
+        all of their email replies as well as their image thumbnail and name.
 
         Attributes:
         -----------
@@ -567,22 +567,7 @@ default email_reply = False
 # List of all the guests the player has successfully
 # invited to the party
 default persistent.guestbook = { }
-default all_guests = [ ]
-
-## You can call this label in a chatroom with `call invite(guest_var)`
-## and it will trigger the guest to email the player
-label invite(guest):
-    # So you can't re-invite someone when replaying 
-    if not observing: 
-        $ guest.sent_time = upTime()
-        # Moves them to the front of the list
-        $ email_list.insert(0, Email(guest, guest.start_msg, guest.label1)) 
-        # The player has encountered this guest so the dictionary
-        # can be updated
-        if not persistent.guestbook[guest.name]:
-            $ persistent.guestbook[guest.name] = "seen"
-    return
-    
+default all_guests = [ ]    
 default current_email = None  
 
 ########################################################

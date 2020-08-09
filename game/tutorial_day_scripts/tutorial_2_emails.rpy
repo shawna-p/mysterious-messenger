@@ -13,7 +13,7 @@ label example_email():
     menu:
         "That sounds great!":
             m 'That sounds great!' (pauseVal=0)
-            call invite(rainbow) # Use this to invite your guest
+            invite rainbow # Use this to invite your guest
             z "Great! I'll tell her to send you a message."
         
         "I'll pass":

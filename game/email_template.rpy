@@ -11,7 +11,7 @@ default example_guest = Guest("example",
 ## The second string is the image to use for the guest's 
 ## thumbnail. It should be 155x155px
 ## Because the variable is 'example_guest', when you want to 
-## invite this person, you will write: call invite(example_guest)
+## invite this person, you will write: invite example_guest
 
 ## Initial Message
 """Dear [name],

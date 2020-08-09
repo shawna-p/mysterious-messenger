@@ -1,4 +1,84 @@
 python early hide:
+
+
+    def parse_invite_guest(l):
+        guest = l.simple_expression()
+        if not guest:
+            renpy.error("invite requires a guest to invite")
+
+        return dict(guest=guest)
+    
+    def execute_invite_guest(p):
+
+        if p["guest"] is not None:
+            guest = eval(p["guest"])
+        else:
+            renpy.error("invite requires a guest to invite.")
+
+        if not isinstance(guest, Guest):
+            print("Invited guest is not recognized as a Guest object.")
+            renpy.show_screen('script_error',
+                message="Invited guest %s is not recognized as a Guest object." % p["guest"],
+                link="Inviting-a-Guest", link_text="Inviting a Guest") 
+            return
+        elif guest is None:
+            print("Invited guest cannot be None.")
+            renpy.show_screen('script_error', message="Invited guest cannot be None.",
+                link="Inviting-a-Guest", link_text="Inviting a Guest") 
+            return
+
+
+        # So you can't re-invite a guest while replaying a chatroom
+        if not store.observing or store.persistent.testing_mode:
+            try:
+                guest.sent_time = upTime()
+                # Add them to the front of the email inbox
+                store.email_list.insert(0, Email(guest, guest.start_msg, guest.label1))
+                # The player has encountered the guest so the guestbook can be
+                # updated
+                if not store.persistent.guestbook[guest.name]:
+                    store.persistent.guestbook[guest.name] = "seen"
+            except:
+                print("WARNING: Guest %s could not be invited." % p["guest"])
+                renpy.show_screen('script_error',
+                    message="Guest %s could not be invited." % p["guest"],
+                    link="Inviting-a-Guest", link_text="Inviting a Guest")
+
+        return
+
+    def predict_invite_guest(p):
+        return [ ]
+
+    def lint_invite_guest(p):
+
+        guest = p["guest"]
+        eval_guest = None
+
+        try:
+            eval_guest = eval(p["guest"])
+        except:
+            renpy.error("invite requires a guest to invite.")
+
+        if eval_guest is None:
+            renpy.error("Invited guest cannot be None.")        
+
+        if not isinstance(eval_guest, Guest):
+            renpy.error("Invited guest %s is not recognized as a Guest object." % p["guest"])
+
+        return
+    
+    def warp_invite_guest(p):        
+        return True
+
+    renpy.register_statement('invite',
+        parse=parse_invite_guest,
+        execute=execute_invite_guest,
+        predict=predict_invite_guest,
+        lint=lint_invite_guest,
+        warp=warp_invite_guest)
+
+
+
     # These statements replace Ren'Py's default `play music` and `play sound`
     # implementations so they are compatible with audio captions.
     def warp_audio(p):
@@ -96,8 +176,9 @@ python early hide:
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
             except (KeyError, AttributeError) as e:
-                renpy.show_screen('notify',
-                    "WARNING: No Audio Caption defined for " + p["file"])
+                renpy.show_screen('script_error',
+                    message="No Audio Caption defined for %s" % p["file"],
+                    link="Adding-Music-and-SFX", link_text="Adding Music and SFX") 
                 print("WARNING: No Audio Caption defined for " + p["file"])
             
             if (not store.observing and not store.persistent.testing_mode
@@ -181,8 +262,9 @@ python early hide:
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
             except (KeyError, AttributeError) as e:
-                renpy.show_screen('notify',
-                    "WARNING: No Audio Caption defined for " + p["file"])
+                renpy.show_screen('script_error',
+                    message="No Audio Caption defined for %s" % p["file"],
+                    link="Adding-Music-and-SFX", link_text="Adding Music and SFX")                
                 print("WARNING: No Audio Caption defined for " + p["file"])
 
 
@@ -198,3 +280,4 @@ python early hide:
                               execute=execute_play_c_sound,
                               lint=lint_play_sound,
                               warp=warp_sound)
+

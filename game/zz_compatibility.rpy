@@ -20,6 +20,16 @@ init python:
     def num_future_chatrooms(break_for_branch=False):
         return num_future_timeline_items(break_for_branch)
 
+# Displays notifications instead of heart icons
+# Replaced with persistent.animated_icons
+default persistent.heart_notifications = False
+
+## Deprecated; replaced with `invite guest_var`. You can call this label with
+## `call invite(guest_var)` and it will trigger the guest to email the player.
+label invite(guest):
+    invite guest
+    return
+
 init -6 python:
 
     ## Deprecated classes for route setup
