@@ -44,8 +44,7 @@ style hscrollbar:
     unscrollable "hide"
 style scrollbar:
     unscrollable "hide"
-                    
-                
+                                    
 
 ## This screen shows each day as well as a percentage bar showing what
 ## percent of chatrooms on that day have been viewed
@@ -58,7 +57,7 @@ screen day_display(day, day_num):
         if day_num == today_day_num:
             most_recent_day = True
 
-        # If it's the main menu, things are calculated differently.
+        # On the main menu, is_today and playable are calculated differently.
         if main_menu:
             # There is no 'today' on the History screen.
             is_today = False
@@ -71,7 +70,7 @@ screen day_display(day, day_num):
         else:
             playable = day.has_playable
             # If nothing has been played, the first day is 'today'
-            if day_num == 0 and day.played_percentage == 0:            
+            if day_num == 0 and not day.archive_list[0].was_played():
                 is_today = True
             # Otherwise, this day is today if not everything was played yet
             # or if there's a plot branch
@@ -89,6 +88,8 @@ screen day_display(day, day_num):
         else:
             day_bkgr = 'day_inactive'
             day_bkgr_hover = 'day_inactive'
+
+        partic_percent = day.participated_percentage()
 
     vbox:
         spacing 10
@@ -127,20 +128,18 @@ screen day_display(day, day_num):
                 background None                    
                 has hbox
                 frame:
-                    xysize (180,35)
-                    xalign 0.0
-                    ypadding 2                    
+                    xysize (180,30)
+                    xalign 0.0                                     
                     bar:
-                        value day.played_percentage
+                        value partic_percent
                         range 100
                 frame:
                     xysize (80, 30)
                     align (0.5, 0.5)
                     background 'day_percent_border'
-                    text '[day.played_percentage]%'              
+                    text '[partic_percent]%'              
         fixed:
-            xfit True
-            yfit True
+            xfit True yfit True
             add day.day_icon
             
     if not main_menu:
@@ -154,7 +153,7 @@ screen day_display(day, day_num):
     
 
 style day_percentage_frame:
-    background 'day_percent_border'
+    background 'day_percent_border'    
 
 style day_percentage_hbox:
     align (0.5, 0.5)
@@ -228,7 +227,7 @@ screen timeline(day, day_num):
                     hbox:
                         # Show the 'Continue'/Buyahead button
                         use timeline_continue_button(story_time)
-                null height 40                    
+                null height 40                                   
     
     # Show the 'hacked' timeline effects, if the player has them turned
     # on and if applicable.
@@ -300,8 +299,8 @@ screen timeline_item_display(day, day_num, item, index):
         # Determine if there are enough participants to make the
         # participant viewport scroll automatically
         part_anim = null_anim
-        if isinstance(item, ChatRoom) and item.participants:
-            num_participants = len(item.participants)
+        if isinstance(item, ChatRoom) and item.participants:            
+            num_participants = len(item.participants)            
             if item.participated:
                 num_participants += 1
             if ((num_participants > 6)
