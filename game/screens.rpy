@@ -843,6 +843,34 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
     if no_action:
         key "game_menu" action no_action
 
+## Screen which displays script error messages to the user
+screen script_error(message, link=False, link_text=False):
+    modal True
+    zorder 190
+    python:
+        message = "{=sser1xb}{color=#f00}Script Error:\n{/color}{/=sser1xb}" + message
+        if link:
+            message += "\n\nLink to wiki:"
+    style_prefix "confirm"
+    add "gui/overlay/confirm.png"
+    frame:       
+        vbox:
+            label _(message):
+                style "confirm_prompt"
+                xalign 0.5
+            if link:
+                null height -53
+                textbutton "[link_text]":
+                    style 'button_text'
+                    text_style 'button_text'
+                    text_text_align 0.5 xalign 0.5 
+                    text_hover_underline True
+                    text_color "#00b08d"
+                    action OpenURL("https://github.com/shawna-p/mysterious-messenger/wiki/"
+                        + link)
+
+            hbox:                
+                textbutton _("Confirm") action Hide('script_error')
 
 style confirm_frame is gui_frame
 style confirm_prompt is gui_prompt
