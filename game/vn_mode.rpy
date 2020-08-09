@@ -31,9 +31,9 @@ label vn_begin(nvl=False):
     $ _history = True
     
     if (not _in_replay and 
-            ((isinstance(current_chatroom, ChatHistory)
-                and current_chatroom.vn_obj.played)
-            or (isinstance(current_chatroom, VNMode)
+            ((isinstance(current_chatroom, ChatRoom)
+                and current_chatroom.story_mode.played)
+            or (isinstance(current_chatroom, StoryMode)
                 and current_chatroom.played))):
         if not persistent.testing_mode:
             $ observing = True

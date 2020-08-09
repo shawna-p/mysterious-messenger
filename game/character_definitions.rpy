@@ -4,8 +4,8 @@ init offset = -1
 # Phone Call Characters
 # ****************************
 
-# These are separate from the characters above since they display 
-# more like VN mode. You won't actually see their name in-game. 
+# These are separate from the VN and chatroom character definitions since they
+# display more like VN mode. You won't actually see their name in-game. 
 # For most purposes, you can just copy any character besides m_phone 
 # and replace the name with the name you want. The main difference is 
 # in the voice tags, so that if you mute a character you won't hear their
@@ -54,13 +54,11 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 # ****************************                        
 ## CHARACTER DEFINITIONS ****************
 
-# Again, you can mostly just copy-paste a character 
-# definition from here and change the window_background
-# and voice_tag as appropriate
-# For ease of remembering, VN characters are just their 
-# ChatCharacter variables + "_vn" e.g. s -> s_vn
-# The who_color is also the background of the characters' 
-# speech bubbles rather than the default #fff5ca 
+# Again, you can copy-paste a character definition from here and change the
+# window_background and voice_tag as appropriate.
+# For ease of remembering, VN characters are just their ChatCharacter variables
+# + "_vn" e.g. s -> s_vn. The who_color is also the background of the
+# characters' speech bubbles rather than the default #fff5ca 
 
 # This is the 'generic' VN character, which you can inherit from
 # for any new character you want to create
@@ -137,7 +135,7 @@ default z_vn = Character("Zen", kind=vn_character,
     image="zen")
                             
 ## Note: The MC's name will show up in VN mode in this program. 
-## If you'd like it to be blank, just replace persistent.name with None
+## If you'd like it to be blank, just replace "persistent.name" with None
 default m_vn = Character("persistent.name", kind=vn_character, 
                         who_color="#ffffed", dynamic=True)
 
@@ -159,8 +157,7 @@ default chief_vn = Character("Chief Han", kind=vn_character,
 ## Chatroom Characters
 ##****************************
 
-## Chatroom character declarations
-## Format is: 
+## Chatroom character declarations. Format is: 
 ##  name - nickname for the chatrooms
 ##  file_id - short form appended to file names like speech bubbles
 ##  prof_pic - profile pic (110x110 - 314x314)
@@ -265,15 +262,13 @@ default filler = ChatCharacter("filler")
 default answer = ChatCharacter('answer', 'delete')
 default chat_pause = ChatCharacter('pause', 'delete')
 
-# This list is used *specifically* to display characters you can
-# see on the main menu -- they have profiles and show up in your
-# phone contacts
+# This list is used *specifically* to display characters you can see on the
+# main menu -- they have profiles and show up in your phone contacts
 default character_list = [ju, z, s, y, ja, v, m, r, ri]
-# This is the list of characters who you can see your heart
-# points for in the Profile screen. Currently it is a duplicate
-# of the above list, but without 'm'. You could also write it as
-# default heart_point_chars = [ju, ja, s, y, z] for example
-# Every character in the list should have an image called 
+# This is the list of characters who you can see your heart points for in the
+# Profile screen. Currently it is a duplicate of the above list, but without
+# 'm'. You could also write it as default heart_point_chars = [ju, ja, s, y, z]
+# for example. Every character in the list should have an image called 
 # 'greet ' + their file id
 default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
 
@@ -382,13 +377,12 @@ init offset = 0
 ## ********* MAIN CHARACTERS *********
 
 ## TO DECLARE YOUR OWN CHARACTER:
-# For starters, I would really recommend keeping accessories like 
-# glasses separate from facial expressions, so you can avoid doing 
-# what I've done here, which includes having a transparent image as
-# a sort of 'dummy' glasses attribute. That aside, characters are generally
-# declared with a body and face group, and sometimes have a 'yoffset' value 
-# that simply puts their sprite lower down on the screen (so the characters 
-# have the correct relative heights to one another). Other than that, 
+# For starters, keep accessories like glasses separate from facial expressions,
+# so you can avoid doing what is done here, which includes having a transparent
+# image as a sort of 'dummy' glasses attribute. That aside, characters are
+# generally declared with a body and face group, and sometimes have a 'yoffset'
+# value that simply puts their sprite lower down on the screen (so the
+# characters have the correct relative heights to one another). Other than that, 
 # everything is the same as you'll find in Ren'Py's layeredimage documentation
 
 ## ****************************

@@ -14,9 +14,7 @@ default persistent.hacking_effects = True
 default persistent.audio_captions = False
 # Allows the player to toggle timed menus on or off
 default persistent.autoanswer_timed_menus = False
-# Displays notifications instead of heart icons
-default persistent.heart_notifications = False
-# New version of the above option
+# Displays notifications instead of animated icons
 default persistent.animated_icons = True
 # Adds outline to VN dialogue
 default persistent.dialogue_outlines = False
@@ -56,8 +54,6 @@ init python:
             persistent.vn_window_alpha = 1.0
             persistent.vn_window_dark = float((persistent.window_darken_pct
                                                          - 50) / 50.0)
-
-   
 
 
 
