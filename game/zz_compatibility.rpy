@@ -6,18 +6,22 @@ init python:
 
     # Renamed to next_story_time
     def next_chat_time():
+        print("WARNING: Deprecated function next_chat_time used.")
         return next_story_time()
 
     # Renamed to make_24h_available
     def chat_24_available():
+        print("WARNING: Deprecated function chat_24_available used.")
         return make_24h_available()
 
     # Renamed to check_and_unlock_story
     def next_chatroom():
+        print("WARNING: Deprecated function next_chatroom used.")
         return check_and_unlock_story()
 
     # Renamed to num_future_timeline_items
     def num_future_chatrooms(break_for_branch=False):
+        print("WARNING: Deprecated function num_future_chatrooms used.")
         return num_future_timeline_items(break_for_branch)
 
 # Displays notifications instead of heart icons
@@ -27,7 +31,25 @@ default persistent.heart_notifications = False
 ## Deprecated; replaced with `invite guest_var`. You can call this label with
 ## `call invite(guest_var)` and it will trigger the guest to email the player.
 label invite(guest):
+    $ print("WARNING: Deprecated label invite(guest) used.")
     invite guest
+    return
+
+# Deprecated; replaced with `award heart u` where `u` is the character to award
+# the heart for. Call this to display the heart icon for a given character
+label heart_icon(character, bad=False):
+    $ print("WARNING: Deprecated label heart_icon(character) used.")
+    if bad:
+        award heart character bad
+    else:
+        award heart character    
+    return
+
+# Deprecated; replaced with `break heart u` where `u` is the character to
+# remove a heart for. Like the heart icon, call this to display the heart break.
+label heart_break(character):
+    $ print("WARNING: Deprecated label heart_break(character) used.")
+    break heart character    
     return
 
 init -6 python:
