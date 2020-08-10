@@ -492,6 +492,9 @@ init python:
             self.msg1_bad = msg1_bad
             self.msg2_bad = msg2_bad
             self.msg3_bad = msg3_bad
+
+            # Make sure the name does not have spaces or apostrophes
+            name = convert_to_file_name(name)
             
             self.label1 = name + '_reply1'
             self.label2 = name + '_reply2'
@@ -578,54 +581,27 @@ screen email_popup(e):
 
     #modal True
     zorder 100
-    default current_email = None
     
     frame:
-        xysize (510,300)
-        background 'left_corner_menu_dark'
-        xalign 0.5
-        yalign 0.4
+        style_prefix 'email_popup'
         imagebutton:
             align (1.0, 0.0)
             idle 'input_close'
             hover 'input_close_hover'
-            action Hide('email_popup')
-            
+            action Hide('email_popup')            
         hbox:
-            yalign 0.09
-            xalign 0.05
-            spacing 15
             add 'new_text_envelope'
-            text 'NEW':
-                color '#73f1cf' 
-                yalign 1.0 
-                font gui.sans_serif_1b
-        
+            text 'NEW'        
         vbox:
-            align (0.5, 0.72)
-            spacing 15
-            xysize (450, 100)
             hbox:
-                align (0.5, 0.5)
-                xsize 470
-                spacing 10               
+                style_prefix 'email_popup2'  
                 add Transform(e.guest.thumbnail, zoom=0.6)
-                text "You have a new message from @" + e.guest.name:
-                    color '#fff' 
-                    size 25 
-                    align(0.5, 0.5)
+                text "You have a new message from @" + e.guest.name
 
             # This button takes you directly to the email. It is
             # included so long as the email popup is not shown
             # during phone calls or chatrooms
-            textbutton _('Go to'): 
-                text_style 'mode_select'
-                xalign 0.5
-                xsize 220
-                ysize 70
-                text_size 28
-                background 'menu_select_btn' padding(20,20)
-                hover_foreground 'menu_select_btn_hover'
+            textbutton _('Go to'):
                 if (not (renpy.get_screen('in_call') 
                         or renpy.get_screen('incoming_call') 
                         or renpy.get_screen('outgoing call'))):
@@ -638,6 +614,50 @@ screen email_popup(e):
                             Show('email_hub')]
                     
     timer 3.25 action Hide('email_popup', Dissolve(0.25))
+
+style email_popup_frame:
+    xysize (510,300)
+    background 'left_corner_menu_dark'
+    xalign 0.5
+    yalign 0.4
+
+style email_popup_hbox:
+    yalign 0.09
+    xalign 0.05
+    spacing 15
+
+style email_popup_text:
+    color '#73f1cf' 
+    yalign 1.0 
+    font gui.sans_serif_1b
+
+style email_popup_vbox:
+    align (0.5, 0.72)
+    spacing 15
+    xysize (450, 100)
+
+style email_popup_button:
+    xalign 0.5
+    xsize 220
+    ysize 70
+    padding (20,20)
+    background 'menu_select_btn'
+    hover_foreground 'menu_select_btn_hover'
+
+style email_popup_button_text:
+    is mode_select
+    size 28
+
+style email_popup2_hbox:
+    align (0.5, 0.5)
+    xsize 470
+    spacing 10             
+
+style email_popup2_text:
+    color '#fff' 
+    size 25 
+    align(0.5, 0.5)
+
 
 ########################################################
 ## This screen shows a list of the emails you've 
@@ -656,23 +676,16 @@ screen email_hub():
         
     use menu_header('Email', Show('chat_home', Dissolve(0.5))):
         frame:
-            background 'left_corner_menu' padding(20,20)
-            xysize (685, 1100)
-            align (0.5, 0.75)
+            style_prefix 'email_hub'
             has vbox
-            spacing 40
-            align (0.5, 0.0)
-            null height -15
-            
+            null height -15            
             if len(email_list) == 0:
-                text "Inbox is empty" color '#fff' xalign 0.5 yalign 0.0
+                text "Inbox is empty"
             for e in email_list[current_page*7:current_page*7+7]:      
                 use email_button(e)
-                    
-            
+                                
         hbox:
-            align (0.5, 0.99)
-            spacing 15
+            style_prefix 'email_hub'
             imagebutton:
                 idle Transform("email_next", xzoom=-1)
                 align (0.5, 0.5)
@@ -682,10 +695,7 @@ screen email_hub():
                 
             for index in range(num_pages):
                 textbutton _(str(index+1)):
-                    text_color '#fff' 
-                    align (0.5, 0.5)
                     action SetScreenVariable('current_page', index)
-                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
                 
             imagebutton:
                 idle "email_next"
@@ -694,30 +704,54 @@ screen email_hub():
                     action SetScreenVariable('current_page', current_page+1)
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
             
+style email_hub_frame:
+    background 'left_corner_menu' 
+    padding (20,20)
+    xysize (685, 1100)
+    align (0.5, 0.75)
+
+style email_hub_vbox:
+    spacing 40
+    align (0.5, 0.0)
+
+style email_hub_text:
+    color '#fff'
+    xalign 0.5
+    yalign 0.0
+
+style email_hub_hbox:
+    align (0.5, 0.99)
+    spacing 15
+
+style email_hub_button:
+    align (0.5, 0.5)
+    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+
+style email_hub_image_button:
+    is email_hub_button
+
+style email_hub_button_text:
+    color '#fff' 
+
+
 ########################################################  
 ## This shows the buttons you can click on in order to 
 ## open and read your emails   
 ########################################################
 screen email_button(e):
     button:
-        align (0.5, 0.5)
+        style_prefix 'email_btn'
         if e.read:
             background 'email_panel'
         else:
             background 'email_mint'
-            
-        xysize (644, 111)
-        hover_foreground 'white_transparent'
+        
         action [SetVariable("current_email", e), 
                 SetField(e, 'read', True), 
                 Show('open_email', e=e)]
           
         hbox:
-            align (0.0, 0.0)
-            spacing 10
             fixed:
-                xysize (80,111)
-                align (0.5, 0.5)
                 if not e.read:
                     add 'email_unread' align(1.0, 0.5)
                 elif e.reply_label:
@@ -727,12 +761,8 @@ screen email_button(e):
             add Transform(e.guest.thumbnail, size=(94, 94)) align(0.5, 0.3)
             null width -10
             vbox:
-                align(0.5, 0.4)
-                spacing 15
                 frame:
-                    align(0.0, 0.0)
-                    xysize(190, 30)
-                    text '@' + e.guest.name style 'email_address'
+                    text '@' + e.guest.name
                 hbox:
                     align(0.3, 0.5)
                     spacing 8
@@ -740,8 +770,8 @@ screen email_button(e):
                     add e.second_msg()
                     add e.third_msg()
             frame:
-                xysize(240,111)
-                align (0.0, 0.0)
+                xysize(240,90)
+                align (0.0, 0.3)
                 if e.completed():
                     # 3/3 messages correct
                     add 'email_completed_3' align(0.5, 0.5)
@@ -757,11 +787,34 @@ screen email_button(e):
                         add 'email_failed' align(0.5, 0.5)
                 elif e.timeout:
                     add 'email_timeout' align(0.5, 0.5)
-                    
-style email_address:
+
+style email_btn_button:
+    align (0.5, 0.5)    
+    xysize (644, 111)
+    hover_foreground 'white_transparent'
+
+style email_btn_hbox:
+    align (0.0, 0.0)
+    spacing 10
+
+style email_btn_fixed:
+    xysize (80,111)
+    align (0.5, 0.5)
+
+style email_btn_vbox:
+    align(0.5, 0.2)
+    spacing 12
+
+style email_btn_frame:
+    align(0.0, 0.0)
+    xysize(185, 38)
+
+style email_btn_text:
     font gui.curlicue_font
     color '#fff'
     size 27
+    align (0.0, 0.0)
+
     
 ########################################################    
 ## This is the screen that displays the email you've 
@@ -774,67 +827,88 @@ screen open_email(e):
     add 'choice_darken'
         
     frame:
-        maximum(685, 800)
-        background 'left_corner_menu_dark' padding(20,20)
-        align (0.5, 0.5)
+        style_prefix 'open_email'
         imagebutton:
-            align (1.0, 0.0)
-            xoffset 20
-            yoffset -20
             idle 'input_close'
             hover 'input_close_hover'
-            action Hide('open_email')
-            
+            action Hide('open_email')            
         vbox:
-            spacing 15
-            align (0.0, 0.0)
             hbox:
-                spacing 10
-                align (0.0, 0.0)
-                add e.guest.thumbnail
-                
-                vbox:
-                    align(0.0, 0.0)
+                add e.guest.thumbnail                
+                vbox:                    
                     spacing 10
                     fixed:
-                        align (0.0, 0.0)
-                        xsize 280
-                        ysize 80
-                        text 'From: ' + e.guest.name color '#fff'
+                        text 'From: ' + e.guest.name
                     text ('[[Date] ' + e.sent_time.month_num 
                             + '/' + e.sent_time.day):
-                                color '#fff' 
                                 size 27
                     text ('[[Time] ' + e.sent_time.get_twelve_hour()):
-                                size 27 
-                                color '#fff'
+                                size 27                                 
                 
                 textbutton _('Reply'):
-                    text_style 'mode_select'
-                    align (0.5, 1.0)
-                    xsize 170
-                    ysize 70
-                    text_size 28
-                    background 'menu_select_btn' padding(20,20)
-                    hover_foreground 'menu_select_btn_hover'
                     if e.reply_label and not e.reply and not e.timeout:
                         action e.send_reply
                     else:
                         foreground 'menu_select_btn_inactive'
 
             frame:
-                background 'email_open_transparent' padding(20,20)
-                xysize (625, 585)
-                align (0.5,0.5)
+                style 'open_email_frame2'
                 viewport:
-                    align (0.5, 0.5)
-                    xysize (585, 545)
                     scrollbars 'vertical'
                     mousewheel True
-                    draggable True
-                    
-                    text e.msg size 28
+                    draggable True                    
+                    text e.msg size 28 color "#000"
   
+style open_email_frame:
+    maximum(685, 800)
+    background 'left_corner_menu_dark' padding(20,20)
+    align (0.5, 0.5)
+
+style open_email_image_button:
+    align (1.0, 0.0)
+    xoffset 20
+    yoffset -20
+
+style open_email_vbox:    
+    spacing 15
+    align (0.0, 0.0)
+
+style open_email_hbox:
+    spacing 10
+    align (0.0, 0.0)
+
+style open_email_fixed:
+    align (0.0, 0.0)
+    xsize 280
+    ysize 80
+
+style open_email_text:
+    color "#fff"
+
+style open_email_button:
+    align (0.5, 1.0)
+    xsize 170
+    ysize 70
+    size 28
+    background 'menu_select_btn'
+    padding (20,20)
+    hover_foreground 'menu_select_btn_hover'
+
+style open_email_button_text:
+    is mode_select
+
+style open_email_frame2:
+    background 'email_open_transparent'
+    padding(20,20)
+    xysize (625, 585)
+    align (0.5,0.5)
+
+style open_email_viewport:
+    align (0.5, 0.5)
+    xysize (585, 545)
+
+
+
 ## This is the label you call at the end of
 ## an email choice menu
 label email_end():
@@ -956,6 +1030,7 @@ screen guest_info_popup(guest, unlocked):
                                     Function(renpy.retain_after_load)]
                             else:
                                 idle 'guest_story_locked'
+
 default guest_replay_info = None
 label guest_info():
     python:
