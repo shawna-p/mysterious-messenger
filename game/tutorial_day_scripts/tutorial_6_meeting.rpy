@@ -121,60 +121,60 @@ label popcorn_chat_expired():
     play music urban_night_cityscape
     # This is an alternative way of writing chatroom dialogue.
     # It's a little easier to write, though you need to use the right keywords.
-    chat ju "Zen's written some strange things." 
-    chat ja "{image=jaehee_happy}" # Note this is automatically recognized as
+    msg ju "Zen's written some strange things." 
+    msg ja "{image=jaehee_happy}" # Note this is automatically recognized as
                                    # an image
-    chat ja "There is a meeting with the Women Artists group today." 
-    chat ja "I'm telling you this before you come to the office..." 
-    chat ja "The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting." 
-    chat ju "He's not in his right mind to dream about Elizabeth the 3rd going missing." sser1 xbold
-    chat ja "Isn't it up to him to dream about whatever he wants?" 
-    chat ja "{image=jaehee_well}"
-    chat ju "Don't tell me you believe in his \"psychic\" dream." 
-    chat ja "I don't believe in it..." 
-    chat ju "Even if it isn't true..." 
-    chat ju "It might be good to come up with a plan to protect Elizabeth the 3rd just in case." 
-    chat ja "{image=jaehee_well}"
-    chat ja "This is not the time for that..." 
-    chat ju "Perhaps Zen had that dream last night" 
-    chat ju "because he harbors feelings towards her." 
-    chat ja "I doubt that is the case, as he left the chatroom saying his nose got itchy." blocky
-    chat ju "If he has a problem, I'll consider referring him to a therapist." 
-    chat ja "I don't think there's a need for that. We are free to imagine whatever we want, after all;;" curly
-    chat ju "Hmm" 
-    chat ju "I wish [name] was here." 
-    chat ju "I feel like [they] understand[s_verb] me very well." 
-    chat ju "{image=jumin_smile}"
-    chat ju "Assistant Kang." 
-    chat ju "I'd like to invite [name] to the morning meeting today." sser1 xbold
-    chat ja "What do you mean?" 
-    chat ju "{u}Cancel the meeting that was planned and you, me, and [name], the three of us will discuss a plan that will ensure Elizabeth the 3rd's safety.{/u}" 
-    chat ja "I don't think you should cancel a meeting that was already planned because of one dream." 
-    chat ju "It's not because of the dream. I've always been bothered by how free she was to roam around the house..." 
-    chat ja "The number of security cameras and guards in your penthouse is probably higher than the employees here." blocky
-    chat ju "That's not what's important." 
-    chat ju "I don't think you understand very well, so I'll need to hear [name]'s opinion." bounce
-    chat ja "But [they_re] not even here...;;" 
-    chat ju "I'm sure [they]'ll read the messenger soon. Call [them] if you must." sser2
-    chat ju "Tell [them] to come to the C&R building right away." sser2
-    chat ja "-_-" 
-    chat ja "{image=jaehee_well}"
-    chat ja "Why are we talking about this now?;;" curly
-    chat ja "I don't feel good about this..." curly
-    chat ju "Stop talking about something else and prepare for the meeting." sser1 xbold
-    chat ja "Yes, Mr. Han..." 
-    chat ja "[name], when you read this," 
-    chat ja "The C&R building is the second tallest building in the city so I'll assume you know where it is." 
-    chat ja "Please go to the information desk and say your name and that you're an RFA member. I will tell them to show you to the conference room." 
-    chat ju "Good." 
-    chat ju "Then I'll have to go and get ready." 
-    chat ju "[name]... I'll look forward to your wonderful ideas." bounce
+    msg ja "There is a meeting with the Women Artists group today." 
+    msg ja "I'm telling you this before you come to the office..." 
+    msg ja "The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting." 
+    msg ju "He's not in his right mind to dream about Elizabeth the 3rd going missing." sser1 xbold
+    msg ja "Isn't it up to him to dream about whatever he wants?" 
+    msg ja "{image=jaehee_well}"
+    msg ju "Don't tell me you believe in his \"psychic\" dream." 
+    msg ja "I don't believe in it..." 
+    msg ju "Even if it isn't true..." 
+    msg ju "It might be good to come up with a plan to protect Elizabeth the 3rd just in case." 
+    msg ja "{image=jaehee_well}"
+    msg ja "This is not the time for that..." 
+    msg ju "Perhaps Zen had that dream last night" 
+    msg ju "because he harbors feelings towards her." 
+    msg ja "I doubt that is the case, as he left the chatroom saying his nose got itchy." blocky
+    msg ju "If he has a problem, I'll consider referring him to a therapist." 
+    msg ja "I don't think there's a need for that. We are free to imagine whatever we want, after all;;" curly
+    msg ju "Hmm" 
+    msg ju "I wish [name] was here." 
+    msg ju "I feel like [they] understand[s_verb] me very well." 
+    msg ju "{image=jumin_smile}"
+    msg ju "Assistant Kang." 
+    msg ju "I'd like to invite [name] to the morning meeting today." sser1 xbold
+    msg ja "What do you mean?" 
+    msg ju "{u}Cancel the meeting that was planned and you, me, and [name], the three of us will discuss a plan that will ensure Elizabeth the 3rd's safety.{/u}" 
+    msg ja "I don't think you should cancel a meeting that was already planned because of one dream." 
+    msg ju "It's not because of the dream. I've always been bothered by how free she was to roam around the house..." 
+    msg ja "The number of security cameras and guards in your penthouse is probably higher than the employees here." blocky
+    msg ju "That's not what's important." 
+    msg ju "I don't think you understand very well, so I'll need to hear [name]'s opinion." bounce
+    msg ja "But [they_re] not even here...;;" 
+    msg ju "I'm sure [they]'ll read the messenger soon. Call [them] if you must." sser2
+    msg ju "Tell [them] to come to the C&R building right away." sser2
+    msg ja "-_-" 
+    msg ja "{image=jaehee_well}"
+    msg ja "Why are we talking about this now?;;" curly
+    msg ja "I don't feel good about this..." curly
+    msg ju "Stop talking about something else and prepare for the meeting." sser1 xbold
+    msg ja "Yes, Mr. Han..." 
+    msg ja "[name], when you read this," 
+    msg ja "The C&R building is the second tallest building in the city so I'll assume you know where it is." 
+    msg ja "Please go to the information desk and say your name and that you're an RFA member. I will tell them to show you to the conference room." 
+    msg ju "Good." 
+    msg ju "Then I'll have to go and get ready." 
+    msg ju "[name]... I'll look forward to your wonderful ideas." bounce
     call exit(ju)
-    chat ja "{image=jaehee_huff}"
-    chat ja "There's not even an hour left until the meeting and he wants to cancel his appointment..." curly
-    chat ja "Haha..." 
-    chat ja "So the three of us will have a meeting..." 
-    chat ja "I must go as well." 
+    msg ja "{image=jaehee_huff}"
+    msg ja "There's not even an hour left until the meeting and he wants to cancel his appointment..." curly
+    msg ja "Haha..." 
+    msg ja "So the three of us will have a meeting..." 
+    msg ja "I must go as well." 
     call exit(ja)
     jump chat_end
 
