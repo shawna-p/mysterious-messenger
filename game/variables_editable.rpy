@@ -172,3 +172,16 @@ image vn_z = 'Menu Screens/Day Select/vn_z.png'
 image vn_party = 'Menu Screens/Day Select/vn_party.png'
 image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.png'
 
+########################################
+## CUSTOM MESSENGER IMAGES
+########################################
+# If you'd like to use custom fonts with the chat CDS, you must add them
+# to these lists.
+define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
+define bold_xbold_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2']
+# Similarly, if you have any custom bubbles defined, add them here.
+define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
+    'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
+    'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
+    'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
+    'flower_s', 'glow2']
