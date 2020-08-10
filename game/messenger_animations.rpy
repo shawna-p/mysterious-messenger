@@ -6,41 +6,27 @@ init python:
     def allocate_heart_screen():
         """Allocate a screen to display a heart icon."""
 
-        possible_screens = ["heart_icon_screen", "hicon2", "hicon3"]
-        available_screens = [ x for x in possible_screens 
-                                if not renpy.get_screen(x) ]
-        if len(available_screens) < len(possible_screens):
-            renpy.pause(0.1)
-        if available_screens:
-            return available_screens[0]
-        else:
-            renpy.hide_screen(possible_screens[0])
-            return possible_screens[0]
-    
+        return allocate_screen(["heart_icon_screen", "hicon2", "hicon3"], True)
+            
     def allocate_hg_screen():
         """Allocate a screen to award an hourglass."""
-
-        possible_screens = ['hourglass_animation', 'hg_icon2', 'hg_icon3']
-        available_screens = [ x for x in possible_screens 
-                                if not renpy.get_screen(x) ]
         
-        if available_screens:
-            return available_screens[0]
-        else:
-            renpy.hide_screen(possible_screens[0])
-            return possible_screens[0]
-
+        return allocate_screen(['hourglass_animation', 'hg_icon2', 'hg_icon3'])
+        
     def allocate_notification_screen(can_pause=False):
         """Allocate a screen to display a popup notification."""
 
-        possible_screens = ["stackable_notifications", 
+        return allocate_screen(["stackable_notifications", 
                             "stackable_notifications_2",
                             "stackable_notifications_3",
                             "stackable_notifications_4",
-                            "stackable_notifications_5"]
-        available_screens = [ x for x in possible_screens 
-                                if not renpy.get_screen(x) ]
+                            "stackable_notifications_5"], can_pause)
         
+    def allocate_screen(possible_screens, can_pause=False):
+        """Generic allocate screen function."""
+
+        available_screens = [ x for x in possible_screens 
+                                if not renpy.get_screen(x) ]        
         if can_pause and len(available_screens) < len(possible_screens):
             renpy.pause(0.1)
         if available_screens:
@@ -51,6 +37,10 @@ init python:
     
     def hide_stackable_notifications():
         """Hide all notification screens."""
+
+        renpy.hide_screen('hourglass_animation')
+        renpy.hide_screen('hg_icon2')
+        renpy.hide_screen('hg_icon3')
 
         renpy.hide_screen('stackable_notifications')
         renpy.hide_screen('stackable_notifications_2')
@@ -67,47 +57,10 @@ init python:
         renpy.hide_screen('hicon3')
         return
 
-# Call this to display the heart icon for a given character
-label heart_icon(character, bad=False):
-    if text_person is None:
-        python:            
-            if not observing:
-                character.increase_heart(bad)
-                # Ensure both Ray and Saeran share the same number
-                # of heart points
-                if character == r:
-                    sa.increase_heart(bad)
-                elif character == sa:
-                    r.increase_heart(bad)
-                chatroom_hp += 1
-                persistent.HP += 1
-            if (not observing and persistent.animated_icons):
-                renpy.show_screen(allocate_heart_screen(), character=character)
-            elif (not observing and not persistent.animated_icons):
-                msg = character.name + " +1"
-                renpy.show_screen(allocate_notification_screen(True), msg)
-    # This is shown during a real-time text conversation
-    elif text_person.real_time_text:
-        $ character.increase_heart(bad)
-        if character == r:
-            $ sa.increase_heart(bad)
-        elif character == sa:
-            $ r.increase_heart(bad)
-        $ persistent.HP += 1
-        if not persistent.animated_icons:
-            $ msg = character.name + " +1"
-            $ renpy.show_screen(allocate_notification_screen(True), msg)
-        else:
-            show screen heart_icon_screen(character)
-    # This is not a real-time text, so store the heart to 
-    # display after this message is delivered
-    else:
-        $ add_heart(text_person, character, bad)
-    return
     
-# Displays the heart on-screen
+# Display the heart icon on-screen
 screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
-    zorder 20   
+    zorder 20
 
     fixed at heart:
         yfit True
@@ -126,7 +79,7 @@ screen hicon3(character):
     use heart_icon_screen(character, 'hicon3')
 
 ## This screen is used to display text notifications
-## about whom the player received a heart point with
+## as an alternative to animated icons
 screen stackable_notifications(message, hide_screen='stackable_notifications'):
     zorder 100
     button at stack_notify_appear:
@@ -161,53 +114,31 @@ transform stack_notify_appear:
     on hide:
         linear .5 alpha 0.0 yoffset -310
         
-# Like the heart icon, call this to display the heart break   
-label heart_break(character):
-    python:        
-        if not observing:
-            character.decrease_heart()
-            if character == sa:
-                r.decrease_heart()
-            elif character == r:
-                sa.decrease_heart()
-            chatroom_hp -= 1
-            persistent.HP -= 1     
-    if (not observing and persistent.animated_icons):
-        show screen heart_break_screen(character)
-    elif (not observing and not persistent.animated_icons):
-        $ msg = character.name + " -1"
-        $ renpy.show_screen(allocate_notification_screen(True), msg)
-    return
 
-# Displays the heartbreak on-screen
+# Display the heartbreak on-screen
 screen heart_break_screen(character):
     zorder 20
    
     fixed at heartbreak(0.0):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/heartbreak_0.png",
-                             character)
+        add heart_break_img("Heart Point/heartbreak_0.png", character)
     fixed at heartbreak(0.12):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/heartbreak_1.png",
-                             character)
+        add heart_break_img("Heart Point/heartbreak_1.png", character)
     fixed at heartbreak(0.24):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/heartbreak_2.png",
-                             character)
+        add heart_break_img("Heart Point/heartbreak_2.png", character)
     fixed at heartbreak(0.36):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/heartbreak_3.png",
-                             character)
+        add heart_break_img("Heart Point/heartbreak_3.png", character)
     fixed at heartbreak(0.48):
         yfit True
         xfit True
-        add heart_break_img("Heart Point/heartbreak_4.png",
-                             character)
+        add heart_break_img("Heart Point/heartbreak_4.png", character)
         
     timer 0.6 action [Hide('heart_break_screen')]
 
@@ -295,8 +226,7 @@ init python:
         """Display the SPEED number in-chat."""
 
         speednum = "!!"
-        # Minimum pv is 0.1
-        # Maximum is ~1.4
+        # Minimum pv is 0.1, maximum is ~1.4
         # 5 = 0.8
         # So it goes 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
         speednum = str(int((round(9.0 - ((store.pv - 0.2) / 0.15), 1))))
