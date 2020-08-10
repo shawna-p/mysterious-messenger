@@ -117,7 +117,7 @@ label menu_a1():
             # You show heart icons in the same way as chatrooms
             # It will appear after the player opens the text message
             # and sees V's response
-            call heart_icon(v)
+            award heart v
             v "You're very welcome!"
             v "Hope to talk to you again soon." 
         
@@ -151,7 +151,7 @@ label menu_a2():
         "That's a nice picture of you!":
             m "That's a nice picture of you!" (pauseVal=0)
             r "{image=ray_happy}" (img=True)
-            call heart_icon(r)
+            award heart r
             r "Thank you ^^"
             
     # Real-time text messages end the same way as regular ones

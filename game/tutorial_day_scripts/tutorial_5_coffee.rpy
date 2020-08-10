@@ -29,11 +29,11 @@ label tutorial_chat():
             m "{=sser2}Seven, get a good night's rest?{/=sser2}" (pauseVal=0)
             s "{=sser2}Heya [name]{/=sser2}"
             
-            # You have to call heart icons yourself. Just pass it the variable
+            # You have to award heart points yourself. Just pass it the variable
             # of the name of the character whose heart icon you want
             # (character_definitions.rpy has the variable names if you're 
             # not sure) 
-            call heart_icon(s) 
+            award heart s 
             s "{=sser2}Ya. Slept like a rock.{/=sser2}"
         # This is a special option which only appears if you've played
         # through this chatroom at least once across all playthroughs
@@ -56,7 +56,7 @@ label tutorial_chat():
             m "Just take it out on Yoosung." (pauseVal=0)
             s "{=sser2}[name]...{/=sser2}"
             s "{=sser2}Ur pretty smart lol{/=sser2}" (bounce=True, specBubble="cloud_m")
-            call heart_icon(s) 
+            award heart s 
         "You should play games.":
             m "You should play games." (pauseVal=0)
             s "o_o Game??"
@@ -75,12 +75,12 @@ label tutorial_chat():
         "Yoosung~ I missed you.":
             m "Yoosung~ I missed you." (pauseVal=0)
             y "{=sser2}Thanks for being so welcoming.{/=sser2}"
-            call heart_icon(y) 
+            award heart y 
             y "{=sser2}Hello ^^{/=sser2}"
         "Omg. He really came.":
             m "Omg. He really came." (pauseVal=0)
             s "{=sser2}heya{/=sser2}"
-            call heart_icon(s) 
+            award heart s 
             y "{=sser2}Hmm?{/=sser2}"
             y "I smell a trap somewhere..."
             
@@ -125,13 +125,13 @@ label tutorial_chat():
         "Ya. U'll be in trouble if u drink coffee.":
             m "Ya. U'll be in trouble if u drink coffee." (pauseVal=0)
             s "{=sser2}Ya...{/=sser2}"
-            call heart_icon(s) 
+            award heart s 
             s "{=sser2}{size=+12}U can never ever!!! drink coffee.{/size}{/=sser2}"
             s "{=sser2}Seeing ur typos above, it seems like ur symptoms are showing already.{/=sser2}"
         "Seven's just messing around lol":
             m "Seven's just messing around lol" (pauseVal=0)
             y "Right? lolol"
-            call heart_icon(y) 
+            award heart y 
             s "{=ser1xb}Not joking.{/=ser1xb}"
             s "{=ser1}I'm dead serious.{/=ser1}"
             y "{=sser2}Puppy food?{/=sser2}"
@@ -173,7 +173,7 @@ label tutorial_chat():
         "You should prepare yourself.":
             m "You should prepare yourself." (pauseVal=0)
             s "Ya. Go prepare to faint."
-            call heart_icon(s) 
+            award heart s 
         "I think fainting is a bit too much...":
             m "I think fainting is a bit too much..." (pauseVal=0)
             y "{=sser2}What?{/=sser2}"
@@ -197,7 +197,7 @@ label tutorial_chat():
             y "{=sser1b}!!{/=sser1b}" 
             call shake
             s "Ya"
-            call heart_icon(s) 
+            award heart s 
         "Whoever named it is a bit...;;":
             m "Whoever named it is a bit...;;" (pauseVal=0)
             s "{=blocky}It was made up at the last min so no choice.{/=blocky}"
@@ -224,13 +224,13 @@ label tutorial_chat():
         "Last year there were about 1024 deaths in the country...":
             m "Last year there were about 1024 deaths in the country..." (pauseVal=0)
             s "{=sser2}Oh! That number's nice. It's the 10th multiple of 2.{/=sser2}"
-            call heart_icon(s) 
+            award heart s 
             y "{=sser2}Omg. Can't believe I have such a serious disease T_T{/=sser2}"
             y "{=sser2}I'm so svchoecked to type pertoperly T_T{/=sser2}"
         "What's wrong with the name lolololol A disease called Drink Caffeine and Faint lololol":
             m "What's wrong with the name lolololol A disease called Drink Caffeine and Faint lololol" (pauseVal=0)
             y "{=sser2}lololol I know... It is funny T_T{/=sser2}"
-            call heart_icon(y) 
+            award heart y 
             y "{=sser2}But I can't believe I have it.{/=sser2}"
             y "{image=yoosung_cry}" (img=True)
             
@@ -257,19 +257,19 @@ label tutorial_chat():
                     # This is the 'heartbreak' animation; call it the same 
                     # way you would a heart icon except use heart_break(y) 
                     # instead of heart_icon(y)
-                    call heart_break(y) 
+                    break heart y
                     y "{=curly}I thought u were crying by sweating{/=curly}"
                 "T_T. You have to return.":
                     m "T_T. You have to return." (pauseVal=0)
                     y "{=curly}Yup T_T I will return!!{/=curly}"
-                    call heart_icon(y) 
+                    award heart y 
                     s "{=sser2}Gahh... Tears r blocking my sight.{/=sser2}"
                     
         "A stroke of good luck in this misfortune":
             m "A stroke of good luck in this misfortune" (pauseVal=0)
             y "I should at least pass out at home T_T"
             s "Ya"
-            call heart_icon(s) 
+            award heart s 
     
     y "{image=yoosung_cry}" (img=True)
     y "Thanks for telling me Seven."
@@ -280,12 +280,12 @@ label tutorial_chat():
         "Call Seven if something happens.":
             m "Call Seven if something happens." (pauseVal=0)
             s "{=sser2}Ya. I'll always be here for u ^^{/=sser2}"
-            call heart_icon(s) 
+            award heart s 
             y "Thank you T_T"
         "Call me if anything happens":
             m "Call me if anything happens" (pauseVal=0) 
             y "{=sser2}Okay. Thank you so much T_T{/=sser2}"
-            call heart_icon(y) 
+            award heart y 
             
     s "{=sser2}Oh.{/=sser2}"
     s "{=sser2}I recommend drinking chocolate milk before u faint.{/=sser2}"
@@ -302,7 +302,7 @@ label tutorial_chat():
             y "Why do u keep sweating...?"
             y "{=sser2}U must be really worried for me.{/=sser2}"
             y "{size=+12}I'm touched!!{/size}"
-            call heart_icon(y) 
+            award heart y 
         "No need ^^":
             m "No need ^^" (pauseVal=0) 
             y "I should know my body better."
@@ -331,7 +331,7 @@ label tutorial_chat():
         "Seven, look out for my health too":
             m "Seven, look out for my health too" (pauseVal=0)
             s "{=sser2}U can trust me...^^{/=sser2}"
-            call heart_icon(s) 
+            award heart s 
             y "{=sser2}That's good thinking... [name].{/=sser2}"
         ";;;":
             m ";;;" (pauseVal=0) 
@@ -360,11 +360,11 @@ label tutorial_chat():
             y "{image=yoosung_puff}" (img=True)
             y "{=curly}{size=+5}Do you mean that?{/size}{/=curly}"
             y "{=curly}I'm hurt...{/=curly}"
-            call heart_break(y) 
+            break heart y
         "I'll wake you up...":
             m "I'll wake you up..." (pauseVal=0)
             y "Oh...! Thank you." (bounce=True)
-            call heart_icon(y) 
+            award heart y 
             y "{image=yoosung_happy}" (img=True)
         "Seven is just playing with you lolol":
             m "{=sser2}Seven is just playing with you lolol{/=sser2}" (pauseVal=0)
@@ -534,7 +534,7 @@ label coffee1():
             # Add heart icons the same way as a chatroom. You can
             # only give one heart per reply if the conversation is not
             # real-time, like this one
-            call heart_icon(s)
+            award heart s
             s "<3 <3 <3"
             s "Agent 707 will do his best to come to the chatroom more often meow!"
         
@@ -542,7 +542,7 @@ label coffee1():
             m "I feel bad for Yoosung though..."
             # You can also award heart points for characters
             # not in the conversation
-            call heart_icon(y)
+            award heart y
             s "Nah~ he'll be fine"
             s "I'm sure he'd be happy you're worried for him tho lolol"
 
@@ -555,7 +555,7 @@ label coffee2():
     menu:
         "Drink that chocolate milk!":
             m "Drink that chocolate milk!"
-            call heart_icon(y)
+            award heart y
             y "I will!! I bought a lot of it..."
             y "It could be worse... I could've had classes tomorrow T_T"
             y "Thanks for worrying."

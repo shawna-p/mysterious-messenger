@@ -189,7 +189,7 @@ label tutorial_bad_end():
         "I'm really sorry, V.":
             m "I'm really sorry, V."   (pauseVal=0)
             v "No need to apologize, [name]."   (bounce=True)
-            call heart_icon(v) 
+            award heart v 
             v "I'm sure you did the best you could." 
             v "{=sser2}We simply didn't have enough time...{/=sser2}" 
             
