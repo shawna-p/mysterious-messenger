@@ -1,12 +1,275 @@
 python early hide:
 
-    def parse_chat_stmt(l):
+    def parse_message_args(what, ffont, bold, xbold, big, img, spec_bubble):
+        """
+        Parse the arguments for a message and add them to the dialogue if
+        applicable. Also check for errors in ffont and spec_bubble.
+
+        Parameters:
+        -----------
+        what : string
+            The dialogue being sent.
+        ffont : string
+            The font that should be used.
+        bold: bool
+            True if this text is bold.
+        xbold : bool
+            True if this text is extra bold.
+        big : bool
+            True if the size of this text should be increased.
+        img : bool
+            True if this message contains an image.
+        spec_bubble : string
+            Contains the name of the special bubble.
+
+        Returns:
+        --------
+        tuple of dialogue, img, spec_bubble
+            After evaluating `what` and the arguments, returns `dialogue` which
+            contains the correct text tags for font and size, as well as img
+            and spec_bubble, as they may have been corrected.
+        """
+
+        # Ensure the font is known
+        if not ffont in store.all_fonts_list:
+            print("WARNING: The font %s for dialogue \"" + what + "\" could "
+                + "not be evaluated." % ffont)
+            renpy.show_screen('script_error',
+                    message=("The font %s for dialogue \"" + what + "\" could "
+                        + "not be evaluated." % ffont))
+            # Use the default font instead
+            ffont = 'sser1'
+
+        # Ensure the special bubble is known
+        if spec_bubble and not spec_bubble in store.all_bubbles_list:
+            print("WARNING: The special bubble %s for dialogue \"" + what 
+                + "\" could not be evaluated." % spec_bubble)
+            renpy.show_screen('script_error',
+                    message=("The special bubble %s for dialogue \"" + what 
+                        + "\" could not be evaluated." % spec_bubble))
+            # Don't use a special bubble
+            spec_bubble = None
+
+        # Construct the actual "what" statement
+        dialogue = what
+        # First, the size
+        if big:
+            dialogue = "{size=+10}" + dialogue + "{/size}"
+        
+        # Next, construct the font
+        d_font = ffont
+        extra_item = False
+        if bold and ffont in store.bold_xbold_fonts_list:
+            d_font = d_font + 'b'
+        elif xbold and ffont in store.bold_xbold_fonts_list:
+            d_font = d_font + 'xb'
+        elif (bold or xbold):
+            extra_item = 'b'       
+
+        # Add the font around the dialogue, unless it's the default
+        if d_font != 'sser1':
+            dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
+        if extra_item:
+            dialogue = ("{" + extra_item + "}" + dialogue + "{/" 
+                + extra_item + "}")
+        
+        # There is a special bubble; check if need to correct it
+        if (spec_bubble and spec_bubble[:7] == "round"
+                and (who.file_id == 'r' or who.file_id == 'z')):
+            # Correct this to the new 'flower' variant if applicable
+            spec_bubble = "flower_" + spec_bubble[-1:]
+
+        if what in store.emoji_lookup:
+            # Automatically set img to True
+            img = True
+
+        return dialogue, img, spec_bubble
+
+    def parse_sub_block(l, messages=[]):
+        print("parse_sub_block called with")
+        for item in messages:
+            if isinstance(item, dict):
+                print(item['what'])
+            else:
+                print("string:|"+ item + "|")
+        print("")
+        while l.advance():
+            with l.catch_error():
+                try:
+                    line = parse_msg_stmt(l, check_time=True)
+                    messages.append(line)       
+                    print("Successfully appended", messages[-1]['what'])
+                except:
+                    print("Might have come across a python conditional")
+                    try:
+                        # If that didn't work, assume it's a python conditional
+                        messages.append(l.delimited_python(':'))
+                        # messages.append(l.rest()[:-1])
+                    except:
+                        print("Couldn't get the delimited python")
+                    try:
+                        print("Going to parse the subblock")
+                        ll = l.subblock_lexer()
+                        messages = parse_sub_block(ll, messages)
+                        messages.append('end')
+                        print("Added a python conditional and 'end'")
+                        continue                        
+                    except:
+                        print("It didn't work")
+        print("returning messages")
+        return messages
+
+    def parse_backlog_stmt(l):
+
+        # First, we need the person whose text message backlog this is
+        # who = 'ju'
+        who = l.simple_expression()
+        # For whatever reason negative numbers get stored with "who", so
+        # separate it
+        if ' ' in who:
+            actual_who = who.split(' ')[0]
+            day = who.split(' ')[1]
+            who = actual_who
+        else:        
+            # See if there is a number for how many days in the past
+            day = l.integer()
+            if day is None:
+                day = 0
+        l.require(':')
+        l.expect_eol()
+        
+        # Parse the statements in the subblock and store it
+        messages = [ ]
+        ll = l.subblock_lexer()
+
+        messages = parse_sub_block(ll, messages)       
+
+        print("We got who:", who, "day", day, "messages:\n")
+        for item in messages:
+            if isinstance(item, dict):
+                print(item['what'])
+            else:
+                print(item)
+        return dict(who=who,
+                    day=day,
+                    messages=messages)
+    
+    def predict_backlog_stmt(p):
+        return [ ]
+
+    def execute_backlog_stmt(p):
+
+        # Get the 'who' and 'day' of this backlog
+        try:
+            sender = eval(p['who'])
+            day = eval(p['day'])
+        except:
+            renpy.error("Could not parse arguments of backlog CDS.")
+
+        # Double-check 'sender' is a ChatCharacter
+        if not isinstance(sender, ChatCharacter):
+            print("WARNING: The ChatCharacter %s for dialogue \"" + what
+                + "\" could not be evaluated." % p['who'])
+            renpy.show_screen('script_error',
+                    message=("The ChatCharacter %s for dialogue " + what 
+                        + " could not be evaluated." % p['who']),
+                    link="Adding-a-New-Character-to-Chatrooms",
+                    link_text="Adding a New Character to Chatrooms")
+            return
+
+        # Now we know whose backlog to add this to.
+        condition = True
+        condition_outcomes = []
+        for d in p['messages']:
+            if isinstance(d, dict):
+                if not condition:
+                    print("Skipping %s because condition is False" % d['what'])
+                    continue
+                try:
+                    print("Printing a statement")
+                    who = eval(d["who"])       
+                    what = eval(d["what"])
+                    ffont = d["ffont"]            
+                    bold = d["bold"]
+                    xbold = d["xbold"]        
+                    big = d["big"]
+                    img = d["img"]        
+                    timestamp = d['timestamp']
+                except:
+                    renpy.error("Could not parse arguments of backlog CDS")
+                    return
+                # Get the correct dialogue and img
+                dialogue, img, spec_bubble = parse_message_args(                
+                    what, ffont, bold, xbold, big, img, False)
+                # Create the 'when' timestamp
+                if timestamp:
+                    when = upTime(day, timestamp)
+                else:
+                    when = upTime(day)
+                sender.text_backlog(who, dialogue, when, img)      
+            elif d == 'end':
+                print("This marks the end of a conditional")
+                condition = True
+            else:
+                # This is a conditional! Evaluate it
+                try:
+                    print("d is", d)
+                    if 'if' in d:
+                        print("if statement")
+                        condition_outcomes = []
+                        condition = d[3:]
+                        condition = eval(condition)
+                        condition_outcomes.append(condition)
+                    elif len(d) > 0:
+                        print("elif statement")
+                        if len(condition_outcomes) == 0:
+                            condition = False
+                            continue
+                        if True in condition_outcomes:
+                            condition = False
+                            continue                        
+                        condition = eval(d)
+                        condition_outcomes.append(condition)
+                    else:
+                        print("else statement")
+                        if len(condition_outcomes) == 0:
+                            condition = False
+                            continue
+                        # Condition was probably else
+                        if True in condition_outcomes:
+                            condition = False
+                        else:
+                            condition = True                        
+                    
+                    print("condition_outcomes:", condition_outcomes)
+                    print("condition:", condition)
+                except:
+                    print("Couldn't evaluate condition")
+            
+                  
+
+
+        return
+    
+    def lint_backlog_stmt(p):
+        return
+
+    def next_backlog_stmt(p, advance=True):
+        return None
+    
+    def predict_next_backlog_stmt(p):
+        return [ next_backlog_stmt(p, advance=False) ]
+    
+
+    def parse_msg_stmt(l, check_time=False):
 
         who = l.simple_expression()
+        if who in ['elif', 'if']:
+            raise AttributeError
         what = l.simple_expression()
 
         if not who or not what:
-            renpy.error("chat requires a speaker and some dialogue")
+            renpy.error("msg requires a speaker and some dialogue")
 
         ffont = 'sser1'
         pv = "None"
@@ -16,12 +279,13 @@ python early hide:
         img = False
         bounce = False
         spec_bubble = None
+        timestamp = False
 
         bubble_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l', 'round_m',
-                    'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
-                    'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l',
-                    'square2_m', 'square2_s', 'round2_l', 'round2_m', 'round2_s',
-                    'flower_l', 'flower_m', 'flower_s', 'glow2']
+                'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
+                'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l',
+                'square2_m', 'square2_s', 'round2_l', 'round2_m', 'round2_s',
+                'flower_l', 'flower_m', 'flower_s', 'glow2']
         
         font_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
         
@@ -30,19 +294,31 @@ python early hide:
             if l.eol():
                 break
 
+            # If you preface the argument with `font`, you can use custom
+            # fonts
             if l.keyword('font'):
                 ffont = l.simple_expression()
                 if ffont is None:
-                    renpy.error('expected font for chat argument')  
-                if ffont not in font_list:
-                    renpy.error("given font %s is not recognized in chat CDS" % ffont)
+                    renpy.error('expected font for msg argument')                  
                 continue
+            # Similarly, prefacing a bubble argument with `bubble` allows you
+            # to use custom bubbles
+            if l.keyword('bubble'):
+                spec_bubble = l.simple_expression()
+                if spec_bubble is None:
+                    renpy.error('expected special bubble for msg argument')
             if l.keyword('pv'):
                 pv = l.simple_expression()
                 if pv is None:
                     renpy.error('expected simple expression for pv value')
                 continue
 
+            if check_time:
+                if l.keyword('time'):
+                    timestamp = l.match("\d\d:\d\d")
+                if timestamp is None:
+                    renpy.error('expected timestamp for time argument')
+                continue
             if l.keyword('bold'):
                 bold = True
                 xbold = False
@@ -72,7 +348,7 @@ python early hide:
                 ffont = item
                 continue
 
-            renpy.error("couldn't recognize chat argument")
+            renpy.error("couldn't recognize msg argument")
 
         return dict(who=who,
                     what=what,
@@ -83,10 +359,11 @@ python early hide:
                     big=big,
                     img=img,
                     bounce=bounce,
-                    spec_bubble=spec_bubble)
+                    spec_bubble=spec_bubble,
+                    timestamp=timestamp)
 
 
-    def execute_chat_stmt(p):
+    def execute_msg_stmt(p):
         try:
             who = eval(p["who"])       
             what = eval(p["what"])        
@@ -99,13 +376,13 @@ python early hide:
             bounce = p["bounce"]        
             spec_bubble = p["spec_bubble"]
         except:
-            renpy.error("Could not parse arguments of chat CDS")
+            renpy.error("Could not parse arguments of msg CDS")
             return
 
         # Double-check 'who' is a ChatCharacter
         if not isinstance(who, ChatCharacter):
-            print("WARNING: The ChatCharacter %s for dialogue", what, "could not",
-                "be evaluated." % p['who'])
+            print("WARNING: The ChatCharacter %s for dialogue \"" + what
+                + "\" could not be evaluated." % p['who'])
             renpy.show_screen('script_error',
                     message=("The ChatCharacter %s for dialogue " + what 
                         + " could not be evaluated." % p['who']),
@@ -113,71 +390,91 @@ python early hide:
                     link_text="Adding a New Character to Chatrooms")
             return
 
-        # Construct the actual "what" statement
-        dialogue = what
-        # First, the size
-        if big:
-            dialogue = "{size=+10}" + dialogue + "{/size}"
-        
-        # Next, construct the font
-        d_font = ffont
-        extra_item = False
-        if bold and ffont in ['sser1', 'sser2', 'ser1', 'ser2']:
-            d_font = d_font + 'b'
-        elif xbold and ffont in ['sser1', 'sser2', 'ser1', 'ser2']:
-            d_font = d_font + 'xb'
-        elif (bold or xbold) and ffont in ['curly', 'blocky']:
-            extra_item = 'b'        
+        dialogue, img, spec_bubble = parse_message_args(what, ffont, bold,
+                                                xbold, big, img, spec_bubble)
 
-        # Add the font around the dialogue, unless it's the default
-        if d_font != 'sser1':
-            dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
-        if extra_item:
-            dialogue = ("{" + extra_item + "}" + dialogue + "{/" 
-                + extra_item + "}")
-        
-        # There is a special bubble; check if need to correct it
-        if (spec_bubble and spec_bubble[:7] == "round"
-                and (who.file_id == 'r' or who.file_id == 'z')):
-            # Correct this to the new 'flower' variant if applicable
-            spec_bubble = "flower_" + spec_bubble[-1:]
-
-        if what in store.emoji_lookup:
-            # Automatically set img to True
-            img = True
-        
-        # Add an entry to the replay_log if the player is not observing
-        # this chat
-        if not store.observing:
-            new_pv = pv
-            # For replays, MC shouldn't reply instantly
-            if who.right_msgr and new_pv == 0:
-                new_pv = None
-                store.current_chatroom.replay_log.append(ReplayEntry(
-                        who, dialogue, new_pv, img, bounce, spec_bubble))
-            
-        # Now add this dialogue to the chatlog
-        addchat(who, dialogue, pauseVal=pv, img=img, bounce=bounce,
-            specBubble=spec_bubble)
+        # What to do with this dialogue depends on if it's for a chatroom
+        # or a text message
+        if store.text_person is not None:
+            # If the player is on the text message screen, then show the
+            # message in real-time
+            if store.text_person.real_time_text and store.text_msg_reply:
+                addtext_realtime(who, dialogue, pauseVal=pv, img=img)
+            # If they're not on the text message screen, this is "backlog"
+            # to a text conversation
+            elif store.text_person.real_time_text:
+                if not who.right_msgr:
+                    store.text_person.text_msg.notified = False
+                if img and "{image" not in what:
+                    cg_helper(what, who, False)
+                store.text_person.text_msg.msg_list.append(ChatEntry(
+                    who, dialogue, upTime(), img))
+            # Otherwise, this is a regular text conversation and is added
+            # all at once
+            else:
+                addtext(who, dialogue, img)
+        # This is for a chatroom
+        else:
+            # Add an entry to the replay_log if the player is not observing
+            # this chat
+            if not store.observing:
+                new_pv = pv
+                # For replays, MC shouldn't reply instantly
+                if who.right_msgr and new_pv == 0:
+                    new_pv = None
+                    store.current_chatroom.replay_log.append(ReplayEntry(
+                            who, dialogue, new_pv, img, bounce, spec_bubble))
+                
+            # Now add this dialogue to the chatlog
+            addchat(who, dialogue, pauseVal=pv, img=img, bounce=bounce,
+                specBubble=spec_bubble)
         
         return
 
-    def lint_chat_stmt(p):
+    def lint_msg_stmt(p):
+        try:
+            who = eval(p["who"])       
+            what = eval(p["what"])        
+            pv = eval(p["pv"])
+            ffont = p["ffont"]            
+            bold = p["bold"]
+            xbold = p["xbold"]        
+            big = p["big"]
+            img = p["img"]        
+            bounce = p["bounce"]        
+            spec_bubble = p["spec_bubble"]
+        except:
+            renpy.error("Could not parse arguments of msg CDS")            
+
+        # Double-check 'who' is a ChatCharacter
+        if not isinstance(who, ChatCharacter):
+            renpy.error("The ChatCharacter %s for dialogue \"" + what
+                + "\" could not be evaluated." % p['who'])                        
         return
     
-    def predict_chat_stmt(p):
+    def predict_msg_stmt(p):
         return [ ]
     
-    def warp_chat_stmt(p):
+    def warp_msg_stmt(p):
         return True
     
 
-    renpy.register_statement('chat',
-        parse=parse_chat_stmt,
-        execute=execute_chat_stmt,
-        predict=predict_chat_stmt,
-        lint=lint_chat_stmt,
-        warp=warp_chat_stmt)
+    renpy.register_statement('msg',
+        parse=parse_msg_stmt,
+        execute=execute_msg_stmt,
+        predict=predict_msg_stmt,
+        lint=lint_msg_stmt,
+        warp=warp_msg_stmt)
+    
+    renpy.register_statement('add backlog',
+        parse=parse_backlog_stmt,
+        next=next_backlog_stmt,
+        # predict_next=predict_next_backlog_stmt,
+        execute=execute_backlog_stmt,
+        predict=predict_backlog_stmt,
+        lint=lint_msg_stmt,
+        warp=warp_msg_stmt,
+        block=True)
 
     ## Creator-defined statements for awarding and rescinding heart points
     def parse_award_heart(l):
