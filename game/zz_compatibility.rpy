@@ -52,6 +52,38 @@ label heart_break(character):
     break heart character    
     return
 
+#************************************
+# Chatroom Enter/Exit
+#************************************
+# This does some of the code for you when you want a character
+# to enter/exit a chatroom. It adds characters to the chatroom's
+# participant list if they enter during a chatroom.
+
+# Deprecated; replaced with `enter chatroom u` where `u` is the
+# character entering the chatroom
+label enter(chara):
+    $ print("WARNING: Deprecated label enter(chara) used.")
+    enter chatroom chara
+    return
+    
+# Deprecated; replaced with `exit chatroom u` where `u` is the character
+# exiting the chatroom
+label exit(chara):
+    $ print("WARNING: Deprecated label exit(chara) used.")
+    exit chatroom chara
+    return
+
+#************************************
+# Play audio/music/SFX
+#************************************
+# This allows the program to keep track of when to play
+# music during a chatroom or VN. This call has now been integrated
+# into a CDS but is left in for backwards compatibility
+label play_music(file):
+    play music file loop
+    return
+
+
 init -6 python:
 
     ## Deprecated classes for route setup
