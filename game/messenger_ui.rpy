@@ -43,27 +43,10 @@ screen answer_button():
         idle 'transparent_answer'
         activate_sound "audio/sfx/UI/answer_screen.mp3"
         action [Show('pause_button'), Return()] 
+        keysym "K_SPACE"
 
     if not choosing:
-        # Fast button
-        imagebutton:
-            xalign 0.985
-            yalign 0.997
-            focus_mask None
-            idle "fast_slow_button"
-            action [Function(fast_pv), 
-                    Hide('speed_num'), 
-                    Show("speed_num")]
-                
-        # Slow button
-        imagebutton:
-            xalign 0.015
-            yalign 0.997
-            focus_mask None
-            idle "fast_slow_button"
-            action [Function(slow_pv), 
-                    Hide('speed_num'), 
-                    Show("speed_num")]
+        use fast_slow_buttons()
 
 #####################################
 # Continue Button
@@ -330,6 +313,7 @@ screen phone_overlay():
                 align (0.5, 0.5)
                 idle 'back_arrow_btn'
                 hover Transform('back_arrow_btn', zoom=1.2)
+                keysym "K_BACKSPACE"
                 if observing or current_chatroom.expired:
                     action Jump('chat_back')
                 else:
@@ -347,19 +331,21 @@ screen phone_overlay():
 # Default countdown time is 5 seconds
 screen answer_countdown(themenu, count_time=5):
     zorder 5
-    timer count_time repeat False action If(persistent.autoanswer_timed_menus, 
-                                
-                                    [ Hide('answer_countdown'), 
-                                    Hide('continue_answer_button'),
-                                    Show('pause_button'),
-                                    SetVariable('choosing', True),
-                                    SetVariable('timed_choose', True),
-                                    Jump(themenu) ],
+    timer count_time:
+        repeat False
+        action If(persistent.autoanswer_timed_menus, 
+        
+            [ Hide('answer_countdown'), 
+            Hide('continue_answer_button'),
+            Show('pause_button'),
+            SetVariable('choosing', True),
+            SetVariable('timed_choose', True),
+            Jump(themenu) ],
 
-                                    [ Hide('answer_countdown'), 
-                                    Hide('continue_answer_button'), 
-                                    Show('pause_button'), 
-                                    SetVariable("timed_choose", False) ])
+            [ Hide('answer_countdown'), 
+            Hide('continue_answer_button'), 
+            Show('pause_button'), 
+            SetVariable("timed_choose", False) ])
 
     bar value AnimatedValue(0, count_time, count_time, count_time):
         at alpha_dissolve 

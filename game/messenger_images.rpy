@@ -2,7 +2,6 @@
 ## Chatroom Images
 ## ********************************
 
-
 image answerbutton: 
     block:
         "answer_dark" with Dissolve(0.5, alpha=True)
@@ -80,13 +79,11 @@ image save_exit = ConditionSwitch(
 )
 
 
-
 image fast_slow_button = "Phone UI/fast-slow-transparent.png"
 image maxSpeed = Transform("Phone UI/max_speed_active.png", zoom=1.1)
 image noMaxSpeed = Transform("Phone UI/max_speed_inactive.png", zoom=1.1)
 image speed_txt = ParameterizedText(style="speednum_style")
 image close_button = Transform(Solid("#00000066"), size=(750,99))
-
 
 image signature = ConditionSwitch(
     "persistent.custom_footers", "Phone UI/signature01-dark.png",
