@@ -173,7 +173,7 @@ image vn_party = 'Menu Screens/Day Select/vn_party.png'
 image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.png'
 
 ########################################
-## CUSTOM MESSENGER IMAGES
+## CUSTOM MESSENGER ITEMS
 ########################################
 # If you'd like to use custom fonts with the chat CDS, you must add them
 # to these lists.
@@ -185,3 +185,105 @@ define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
     'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
     'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
     'flower_s', 'glow2']
+# All possible backgrounds are defined here. If they are a static image,
+# they should be defined as `image bg morning` and the list contains 'morning'.
+define all_static_backgrounds = ['morning', 'noon', 'evening', 'hack',
+                'redhack', 'night', 'earlyMorn', 'redcrack']
+# If there is an animated version, it goes here. They should be defined as
+# `screen animated_evening` and the list contains 'evening'.
+# Animated backgrounds should have a `zorder` of 0 and be tagged `animated_bg`.
+define all_animated_backgrounds = ['morning', 'noon', 'evening', 'night', 
+                'earlyMorn']
+# This should be the same string as seen in all_static_backgrounds and
+# all_animated_backgrounds. Any backgrounds in here will display chatroom
+# nicknames in black. Otherwise, they are displayed in white.
+define black_text_bgs = ['morning', 'noon', 'evening']
+
+init python:
+
+    def custom_bubble_bg(msg):
+        """
+        A special function which is used for a ChatEntry's `bubble_bg` property.
+        It allows you to read from and modify the ChatEntry object in case
+        you want to use a special bubble background.
+
+        Parameters:
+        -----------
+        msg : ChatEntry
+            A ChatEntry object containing the information on this particular
+            message.
+        
+        Returns:
+        --------
+        string or False
+            If this function returns False, the program will use the default
+            background for this message. Otherwise, this should return a string
+            or a Displayable such as a Frame() that will be used as the
+            background for this bubble.
+        """
+
+        ## An example might look like the following:
+        # if (msg.specBubble and msg.who.file_id == 'u'):
+        #     ## This allows Unknown to use Ray's special bubbles
+        #     return "Bubble/Special/r_" + msg.specBubble + ".png"        
+
+        return False
+        
+    def custom_bubble_offset(msg):
+        """
+        A special function which is used for a ChatEntry's `spec_bubble_offset`
+        property. It allows you to read from and modify the ChatEntry object
+        in case you want to use a special style.
+
+        Parameters:
+        -----------
+        msg : ChatEntry
+            A ChatEntry object containing the information on this particular
+            message.
+        
+        Returns:
+        --------
+        tuple(int, int) or False
+            If this function returns False, the program will use the default
+            styling for this message. Otherwise, this should return a tuple
+            of two ints for the x and y pos of this bubble.
+        """
+
+        ## An example might look like the following:
+        # if msg.specBubble == 'my_special_bubble':
+        #     return (120, 30)
+
+        return False
+
+    def custom_bubble_style(msg):
+        """
+        A special function which is used for a ChatEntry's `bubble_style`
+        property. It allows you to read from and modify the ChatEntry object
+        in case you want to return a special style.
+
+        Parameters:
+        -----------
+        msg : ChatEntry
+            A ChatEntry object containing the information on this particular
+            message.
+        
+        Returns:
+        --------
+        string or False
+            If this function returns False, the program will use the default
+            styling for this message. Otherwise, this should return a string
+            with the name of the style to use.
+        """
+
+        ## An example might look like the following:
+        # if msg.specBubble == 'my_special_bubble':
+        #     return 'my_special_style'
+        ## See below for a definition of this possible style
+
+        return False
+
+
+## An example of a style that could be used for custom_bubble_style
+# style my_special_style:
+#     padding (20, 40, 20, 30)
+
