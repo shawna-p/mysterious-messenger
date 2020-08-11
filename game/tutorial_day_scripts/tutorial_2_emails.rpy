@@ -40,7 +40,7 @@ label example_email():
     z "and has a template to invite other people."
     z "Anyway, enjoy~!"
     
-    call exit(z) 
+    exit chatroom z 
             
     jump chat_end
 
@@ -53,7 +53,7 @@ label example_email_expired():
     z "Hmm." 
     z "Well, you can always buy back this chatroom and let me know if you want to invite them or not!" 
     z "I'll see you around~"   (bounce=True, specBubble="flower_m")
-    call exit(z)
+    exit chatroom z
     jump chat_end
 
 ## This is how you will set up guests for the party. A template can be found

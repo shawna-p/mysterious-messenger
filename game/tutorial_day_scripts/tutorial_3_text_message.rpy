@@ -28,7 +28,7 @@ label example_text():
     r "Anyway, I won't keep you." 
     r "See you soon!" 
 
-    call exit(r)
+    exit chatroom r
     
     # Use this to end the chat and return to the main menu
     jump chat_end
@@ -45,7 +45,7 @@ label example_text_expired():
     r "But you can often call characters back if not much time has passed since they called!" 
     r "Anyway, you can buy this chatroom back for some alternative information too." 
     r "Talk to you soon!" 
-    call exit(r)
+    exit chatroom r
     jump chat_end
     
 ## Put anything you want to have happen after the chatroom ends here, 

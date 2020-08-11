@@ -133,7 +133,7 @@
         
     play music mystic_chat
     
-    call enter(u) 
+    enter chatroom u 
     u "You're here!" 
     u "Thank you for helping me ^^" 
     u "As you can see, this is a sort of \"introductory\" chatroom. It works a lot like the other chatrooms," 
@@ -148,6 +148,6 @@
             u "It showcases some of the features so you know what sorts of things you can do with the program." 
     
     u "I won't keep you much longer. Enjoy the program!" 
-    call exit(u) 
+    exit chatroom u 
     
     jump chat_end

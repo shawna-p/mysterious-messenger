@@ -68,7 +68,7 @@ label tutorial_chat():
     # Use this to display the message "Yoosung★ has entered the chatroom"
     # Just pass the variable for the character who's entering
     # This adds them to the 'participant' list you see on the chatroom select
-    call enter(y) 
+    enter chatroom y 
     
     call answer 
     menu:
@@ -340,7 +340,7 @@ label tutorial_chat():
     # Similar to the 'enter' function, call this when a character leaves
     # the chatroom. Passing it the character's ChatCharacter variable
     # will cause it to display '707 has left the chatroom.'
-    call exit(s) 
+    exit chatroom s 
     y "{=curly}T_T What am I gonna do...{/=curly}"
     y "{=curly}[name]...{/=curly}"
     y "{=curly}If I faint and don't wake up...{/=curly}"
@@ -380,7 +380,7 @@ label tutorial_chat():
             
     y "{=sser2}First, I should get some chocolate milk...{/=sser2}"
     y "{=sser2}I'm gonna go to the supermarket~!{/=sser2}"
-    call exit(y) 
+    exit chatroom y 
     
     # Use this to end the chat and return to the main menu
     jump chat_end
@@ -578,7 +578,7 @@ label tutorial_chat_expired():
     call chat_begin("earlyMorn") 
     play music geniusly_hacked_bebop
     s "Phew... I almost died." 
-    call enter(y)
+    enter chatroom y
     s "The insane amount of work I have is making me so stressed..." 
     s "How do I get rid of this stress...?!" 
     y "Hey Seven" 
@@ -660,14 +660,14 @@ label tutorial_chat_expired():
     y "Yup!" 
     y "Have a good night!!" 
     s "{=blocky}{size=+10}lol{/size}{/=blocky}" 
-    call exit(s)
+    exit chatroom s
     y "T_T What am I gonna do..." 
     y "[name]" 
     y "If I pass out and don't wake up..." 
     y "Please work hard on my behalf" 
     y "and host the party again.... T_T" 
     y "I'd better go buy some chocolate milk." 
-    call exit(y)
+    exit chatroom y
     jump chat_end
 
 

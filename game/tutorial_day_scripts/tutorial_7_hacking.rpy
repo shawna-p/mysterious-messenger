@@ -3,7 +3,7 @@
 label hack_example():
 
     call chat_begin("night")
-    call enter(u)
+    enter chatroom u
     u "Before we start -- are you okay with seeing flashing 'hacked' animations?"
     u "If not, we can turn them off."
     call answer
@@ -15,8 +15,8 @@ label hack_example():
             m "Yes, you can keep the flashing animations on." (pauseVal=0)
             $ persistent.hacking_effects = True
     u "Got it. See you around."
-    call exit(u)
-    call enter(sa)
+    exit chatroom u
+    enter chatroom sa
     call redhack    
     call chat_begin('redhack', False, False)
     play music mysterious_clues_v2
@@ -79,7 +79,7 @@ label hack_example():
     call redhack
     sa "Don't miss me too much~"   (bounce=True)
     sa "{image=saeran_expecting}"   (img=True)
-    call exit(sa)
+    exit chatroom sa
 
     jump chat_end
  
@@ -89,7 +89,7 @@ label hack_example_expired():
     call chat_begin("night")
     call redhack
     call chat_begin('redhack', False, False)
-    call enter(sa)
+    enter chatroom sa
     sa "Oh so I'm not good enough for you to log in?" 
     sa "I'm not good enough for you?"
     call white_square_screen(t=0.2, p=0.01) 
@@ -108,7 +108,7 @@ label hack_example_expired():
     call tear_screen(number=50, offtimeMult=0.4, ontimeMult=0.2, 
                         offsetMin=-50, offsetMax=50, w_timer=0.18, p=0.01)
     call white_square_screen(t=0.16, p=0.17)
-    call exit(sa)
+    exit chatroom sa
     call redhack
     call chat_begin('night', True, False)
     jump chat_end

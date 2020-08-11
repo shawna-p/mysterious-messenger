@@ -94,7 +94,7 @@ label popcorn_chat():
     ju "Good." 
     ju "Then I'll have to go and get ready." 
     ju "[name]... I'll look forward to your wonderful ideas."   (bounce=True)
-    call exit(ju) 
+    exit chatroom ju 
     ja "{image=jaehee_huff}" (img=True)
     ja "{=curly}There's not even an hour left until the meeting and he wants to cancel his appointment...{/=curly}" 
     ja "Haha..." 
@@ -107,7 +107,7 @@ label popcorn_chat():
             m "Not at all~ See ya later."   (pauseVal=0)
     ja "Yes..." 
     ja "Please let me know as soon as you're there."
-    call exit(ja) 
+    exit chatroom ja 
     
     jump chat_end   
     
@@ -169,13 +169,13 @@ label popcorn_chat_expired():
     msg ju "Good." 
     msg ju "Then I'll have to go and get ready." 
     msg ju "[name]... I'll look forward to your wonderful ideas." bounce
-    call exit(ju)
+    exit chatroom ju
     msg ja "{image=jaehee_huff}"
     msg ja "There's not even an hour left until the meeting and he wants to cancel his appointment..." curly
     msg ja "Haha..." 
     msg ja "So the three of us will have a meeting..." 
     msg ja "I must go as well." 
-    call exit(ja)
+    exit chatroom ja
     jump chat_end
 
 
