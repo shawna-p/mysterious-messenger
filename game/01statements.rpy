@@ -1,5 +1,115 @@
 python early hide:
 
+    ########################################
+    ## ENTER AND EXIT CHATROOM CDS
+    ########################################
+
+    def parse_enter_exit(l):
+        who = l.simple_expression()
+        if not who:
+            renpy.error("chatroom enter/exit requires a character.")
+        return dict(who=who)
+
+    def execute_enter_chat(p):
+        if p["who"] is not None:
+            who = eval(p["who"])
+        else:
+            renpy.error("enter chatroom requires a ChatCharacter")
+        
+        if who is None or not isinstance(who, ChatCharacter):
+            print("WARNING: variable %s provided to enter chatroom is not recognized as a ChatCharacter." % p["who"])
+            renpy.show_screen('script_error',
+                message="Variable %s provided to enter chatroom is not recognized as a ChatCharacter.",
+                link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
+                link_text="How to make a character enter/exit the chatroom")
+            return
+        
+        enter_string = who.name + " has entered the chatroom."
+        if (not store.observing and not store.persistent.testing_mode
+                and not store.vn_choice
+                and renpy.get_screen('phone_overlay')):
+            # Add this as a replay entry
+            enter_entry = ("enter", who)
+            store.current_chatroom.replay_log.append(enter_entry)
+        
+        addchat(store.special_msg, enter_string, store.pv)
+        if who.name not in store.in_chat:
+            store.in_chat.append(who.name)
+
+        if not store.observing:
+            store.current_chatroom.add_participant(who)
+        
+        # Refresh the screen
+        renpy.restart_interaction()
+        return
+
+    def execute_exit_chat(p):
+        if p["who"] is not None:
+            who = eval(p["who"])
+        else:
+            renpy.error("exit chatroom requires a ChatCharacter")
+        
+        if who is None or not isinstance(who, ChatCharacter):
+            print("WARNING: variable %s provided to exit chatroom is not recognized as a ChatCharacter." % p["who"])
+            renpy.show_screen('script_error',
+                message="Variable %s provided to exit chatroom is not recognized as a ChatCharacter.",
+                link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
+                link_text="How to make a character enter/exit the chatroom")
+            return
+        
+        exit_string = who.name + " has left the chatroom."
+        if (not store.observing and not store.persistent.testing_mode
+                and not store.vn_choice
+                and renpy.get_screen('phone_overlay')):
+            # Add this as a replay entry
+            exit_entry = ("exit", who)
+            store.current_chatroom.replay_log.append(exit_entry)
+        
+        addchat(store.special_msg, exit_string, store.pv)
+        if who.name in store.in_chat:
+            store.in_chat.remove(who.name)
+        
+        # Refresh the screen
+        renpy.restart_interaction()
+        return
+
+    def lint_enter_exit(l):
+        who = p["who"]
+        eval_who = None
+        try:
+            eval_who = eval(p["who"])
+        except:
+            renpy.error("enter and exit functions require a ChatCharacter")
+
+        if eval_who is None:
+            renpy.error("The person entering or exiting the chatroom to cannot be None.")
+        
+        if not isinstance(eval_who, ChatCharacter):
+            renpy.error("%s is not recognized as a ChatCharacter object for entering or exiting chatrooms." % p["who"])
+        return
+
+    def predict_enter_exit(p):
+        return [ ]
+    def warp_enter_exit(p):
+        return True
+
+    renpy.register_statement('enter chatroom',
+        parse=parse_enter_exit,
+        execute=execute_enter_chat,
+        predict=predict_enter_exit,
+        lint=lint_enter_exit,
+        warp=warp_enter_exit)
+    
+    renpy.register_statement('exit chatroom',
+        parse=parse_enter_exit,
+        execute=execute_exit_chat,
+        predict=predict_enter_exit,
+        lint=lint_enter_exit,
+        warp=warp_enter_exit)
+
+    ########################################
+    ## MSG AND BACKLOG CDS
+    ########################################
     def parse_message_args(what, ffont, bold, xbold, big, img, spec_bubble):
         """
         Parse the arguments for a message and add them to the dialogue if
@@ -86,43 +196,43 @@ python early hide:
         return dialogue, img, spec_bubble
 
     def parse_sub_block(l, messages=[]):
-        print("parse_sub_block called with")
-        for item in messages:
-            if isinstance(item, dict):
-                print(item['what'])
-            else:
-                print("string:|"+ item + "|")
-        print("")
+        """
+        Parse l for messages or conditional python statements. If a sub-block
+        is discovered, this function recursively calls itself to parse the
+        whole statement.
+
+        Parameters:
+        -----------
+        l : Lexer
+            The lexer that is parsing the block.
+        messages : list of dict, string
+            Contains dictionaries corresponding to messages as well as strings
+            corresponding to conditional statements. 'end' indicates the end
+            of a conditional statement's block.
+        """
+
         while l.advance():
             with l.catch_error():
                 try:
                     line = parse_msg_stmt(l, check_time=True)
                     messages.append(line)       
-                    print("Successfully appended", messages[-1]['what'])
                 except:
-                    print("Might have come across a python conditional")
                     try:
                         # If that didn't work, assume it's a python conditional
                         messages.append(l.delimited_python(':'))
-                        # messages.append(l.rest()[:-1])
                     except:
                         print("Couldn't get the delimited python")
                     try:
-                        print("Going to parse the subblock")
                         ll = l.subblock_lexer()
                         messages = parse_sub_block(ll, messages)
                         messages.append('end')
-                        print("Added a python conditional and 'end'")
                         continue                        
                     except:
-                        print("It didn't work")
-        print("returning messages")
+                        print("Couldn't parse the subblock")
         return messages
 
     def parse_backlog_stmt(l):
-
-        # First, we need the person whose text message backlog this is
-        # who = 'ju'
+        # First, we need the person whose text message backlog this is        
         who = l.simple_expression()
         # For whatever reason negative numbers get stored with "who", so
         # separate it
@@ -134,22 +244,16 @@ python early hide:
             # See if there is a number for how many days in the past
             day = l.integer()
             if day is None:
-                day = 0
+                day = '0'
         l.require(':')
         l.expect_eol()
-        
+
         # Parse the statements in the subblock and store it
         messages = [ ]
         ll = l.subblock_lexer()
-
+        # This function recursively calls itself to check all sub-blocks
         messages = parse_sub_block(ll, messages)       
-
-        print("We got who:", who, "day", day, "messages:\n")
-        for item in messages:
-            if isinstance(item, dict):
-                print(item['what'])
-            else:
-                print(item)
+        
         return dict(who=who,
                     day=day,
                     messages=messages)
@@ -158,7 +262,6 @@ python early hide:
         return [ ]
 
     def execute_backlog_stmt(p):
-
         # Get the 'who' and 'day' of this backlog
         try:
             sender = eval(p['who'])
@@ -183,10 +286,8 @@ python early hide:
         for d in p['messages']:
             if isinstance(d, dict):
                 if not condition:
-                    print("Skipping %s because condition is False" % d['what'])
                     continue
                 try:
-                    print("Printing a statement")
                     who = eval(d["who"])       
                     what = eval(d["what"])
                     ffont = d["ffont"]            
@@ -196,8 +297,13 @@ python early hide:
                     img = d["img"]        
                     timestamp = d['timestamp']
                 except:
-                    renpy.error("Could not parse arguments of backlog CDS")
+                    print("WARNING: The arguments for dialogue %s could not "
+                        + "be evaluated." % p['what'])
+                    renpy.show_screen('script_error',
+                            message=("The arguments for dialogue %s could not " 
+                                + "be evaluated." % p['what']))
                     return
+
                 # Get the correct dialogue and img
                 dialogue, img, spec_bubble = parse_message_args(                
                     what, ffont, bold, xbold, big, img, False)
@@ -208,20 +314,18 @@ python early hide:
                     when = upTime(day)
                 sender.text_backlog(who, dialogue, when, img)      
             elif d == 'end':
-                print("This marks the end of a conditional")
                 condition = True
             else:
-                # This is a conditional! Evaluate it
+                # This is a conditional; Evaluate it
                 try:
-                    print("d is", d)
-                    if 'if' in d:
-                        print("if statement")
+                    # This is an 'if' statement
+                    if 'if ' in d:
                         condition_outcomes = []
                         condition = d[3:]
                         condition = eval(condition)
                         condition_outcomes.append(condition)
+                    # This is an 'elif' statement
                     elif len(d) > 0:
-                        print("elif statement")
                         if len(condition_outcomes) == 0:
                             condition = False
                             continue
@@ -230,41 +334,76 @@ python early hide:
                             continue                        
                         condition = eval(d)
                         condition_outcomes.append(condition)
+                    # This is an 'else' statement
                     else:
-                        print("else statement")
                         if len(condition_outcomes) == 0:
                             condition = False
                             continue
-                        # Condition was probably else
                         if True in condition_outcomes:
                             condition = False
                         else:
                             condition = True                        
-                    
-                    print("condition_outcomes:", condition_outcomes)
-                    print("condition:", condition)
                 except:
-                    print("Couldn't evaluate condition")
-            
-                  
-
-
+                    print("WARNING: Could not evaluate conditional statement "
+                        + "for line with dialogue %s" % p['what'])
+                    renpy.show_screen('script_error',
+                        message="Could not evaluate conditional statement "
+                            + "for line with dialogue %s" % p['what'])
+                    return                  
         return
     
-    def lint_backlog_stmt(p):
+    def lint_backlog_stmt(p):        
+        try:
+            sender = eval(p['who'])
+        except:
+            renpy.error("ChatCharacter not defined in backlog statement.")
+        
+        try:
+            day = eval(p['day'])
+        except:
+            renpy.error("Could not determine day in backlog statement.")
+
+        if not isinstance(sender, ChatCharacter):
+            renpy.error("Sender of backlog is not recognized as a ChatCharacter.")
+
+        for d in p['messages']:
+            if isinstance(d, dict):
+                try:
+                    who = eval(d["who"])       
+                    what = eval(d["what"])
+                    ffont = d["ffont"]            
+                    bold = d["bold"]
+                    xbold = d["xbold"]        
+                    big = d["big"]
+                    img = d["img"]        
+                    timestamp = d['timestamp']
+                except:
+                    renpy.error("Could not parse arguments of backlog CDS")
+        
+                # Check text tags
+                tte = renpy.check_text_tags(what)
+                if tte:
+                    renpy.error(tte)
+            elif d != 'end':
+                # It's a condition
+                try:
+                    if 'if ' in d:
+                        condition = d[3:]
+                        condition = eval(condition)
+                    elif len(d) > 0:
+                        condition = eval(d)
+                except:
+                    renpy.error("Could not evaluate condition for backlog.")
         return
 
-    def next_backlog_stmt(p, advance=True):
-        return None
     
-    def predict_next_backlog_stmt(p):
-        return [ next_backlog_stmt(p, advance=False) ]
-    
-
     def parse_msg_stmt(l, check_time=False):
 
         who = l.simple_expression()
-        if who in ['elif', 'if']:
+        # This is also used to parse backlogs; if it begins with if/elif/else
+        # then we were trying to evaluate a python string so it should raise
+        # an error and stop parsing
+        if who in ['elif', 'if', 'else']:
             raise AttributeError
         what = l.simple_expression()
 
@@ -315,6 +454,7 @@ python early hide:
 
             if check_time:
                 if l.keyword('time'):
+                    # Timestamp needs to be of the format ##:##
                     timestamp = l.match("\d\d:\d\d")
                 if timestamp is None:
                     renpy.error('expected timestamp for time argument')
@@ -390,6 +530,7 @@ python early hide:
                     link_text="Adding a New Character to Chatrooms")
             return
 
+        # Correct 'what' into dialogue with the right text tags
         dialogue, img, spec_bubble = parse_message_args(what, ffont, bold,
                                                 xbold, big, img, spec_bubble)
 
@@ -431,7 +572,7 @@ python early hide:
         
         return
 
-    def lint_msg_stmt(p):
+    def lint_msg_stmt(p):        
         try:
             who = eval(p["who"])       
             what = eval(p["what"])        
@@ -468,14 +609,15 @@ python early hide:
     
     renpy.register_statement('add backlog',
         parse=parse_backlog_stmt,
-        next=next_backlog_stmt,
-        # predict_next=predict_next_backlog_stmt,
         execute=execute_backlog_stmt,
         predict=predict_backlog_stmt,
-        lint=lint_msg_stmt,
+        lint=lint_backlog_stmt,
         warp=warp_msg_stmt,
         block=True)
 
+    ########################################
+    ## AWARD/BREAK HEART CDS
+    ########################################
     ## Creator-defined statements for awarding and rescinding heart points
     def parse_award_heart(l):
 
@@ -629,6 +771,9 @@ python early hide:
         lint=lint_award_heart,
         warp=warp_award_heart)
 
+    ########################################
+    ## INVITE GUEST CDS
+    ########################################
     # Definitions that allow you to write `invite guest` in Ren'Py script
     def parse_invite_guest(l):
         guest = l.simple_expression()
@@ -707,7 +852,9 @@ python early hide:
         warp=warp_invite_guest)
 
 
-
+    ########################################
+    ## PLAY MUSIC/SOUND REPLACEMENT CDS
+    ########################################
     # These statements replace Ren'Py's default `play music` and `play sound`
     # implementations so they are compatible with audio captions.
     def warp_audio(p):
