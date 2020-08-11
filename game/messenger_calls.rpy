@@ -17,12 +17,12 @@
 #####################################
 
 # This simplifies things when you're setting up a chatroom,
-# so call it when you're about to begin
+# so call it when you're about to begin.
 # Pass it the name of the background you want (enclosed in
-# single ' or double " quotes)
+# single ' or double " quotes).
 # Note that it automatically clears the chatlog, so if you want
 # to change the background but not clear the messages on-screen,
-# you also have to pass it 'False' as its second argument
+# you also have to pass it 'False' as its second argument.
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
     if starter_story:
@@ -86,8 +86,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
             set_name_pfp()
             if resetHP:
                 for c in all_characters:
-                    c.reset_pfp()
-        
+                    c.reset_pfp()        
     
     # This resets the heart points you've collected from
     # previous chatrooms so it begins at 0 again   
@@ -118,8 +117,7 @@ label set_chatroom_background(new_bg):
     # You need to add other backgrounds here if you define
     # new ones
     $ current_background = new_bg
-    if new_bg in ['morning', 'noon', 'evening', 'hack', 'redhack',
-                  'night', 'earlyMorn', 'redcrack']:
+    if new_bg in all_static_backgrounds:
         scene
         $ renpy.show('bg ' + new_bg)
     # If the background is misspelled/etc, set a generic
@@ -127,26 +125,33 @@ label set_chatroom_background(new_bg):
     else:
         scene bg black
         $ current_background = 'morning'
+        $ print("WARNING: Could not find the background \"bg " + new_bg + "\"")
+        $ renpy.show_screen('script_error',
+            message="Could not find the background \"bg " + new_bg + "\"")
 
     if persistent.animated_backgrounds:
-        if new_bg in ['morning', 'noon', 'evening', 'night', 'earlyMorn']:
-            $ renpy.show_screen('animated_' + new_bg)
+        if new_bg in all_animated_backgrounds:
+            python:
+                try:
+                    renpy.show_screen('animated_' + new_bg)
+                except:
+                    print("WARNING: Could not find the screen \"animated_" + new_bg + "\"")
+                    renpy.show_screen('script_error',
+                        message="Could not find the screen \"animated_" + new_bg + "\"")
         elif new_bg == 'hack':
             show screen animated_hack_background
         elif new_bg == 'redhack':
             show screen animated_hack_background(red=True)
 
-    if new_bg in ['morning', 'noon', 'evening']:
+    if new_bg in black_text_bgs:
         $ nickColour = black
     else:
         $ nickColour = white
         
-
     # Add this background to the replay log
     if not observing and not persistent.testing_mode:
         $ bg_entry = ("background", current_background)
         $ current_chatroom.replay_log.append(bg_entry)
-
 
     return
 
@@ -158,9 +163,8 @@ label chat_end():
     call screen save_and_exit    
     return
     
-## Call this label at the very end of the route
-## to show a good/bad/normal ending sign and
-## return the player to the main menu
+## Call this label at the very end of the route to show a good/bad/normal
+# ending sign and return the player to the main menu
 label chat_end_route():
     call screen save_and_exit(True)
     $ reset_chatroom_vars()
@@ -325,9 +329,7 @@ label chat_back():
     call screen timeline(current_day, current_day_num)
     return
 
-    
 
-        
 #####################################
 # Save & Exit
 #####################################
