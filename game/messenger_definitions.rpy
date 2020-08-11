@@ -53,6 +53,7 @@ init -4 python:
             self.bounce = bounce
             self.specBubble = specBubble
 
+            
         @property
         def name_style(self):
             """Return the name style for this message."""
@@ -120,6 +121,18 @@ init -4 python:
             # Otherwise, there is a special bubble            
             bubble_style = self.specBubble
 
+            # Allow for custom bubble styling
+            try:
+                custom_style = custom_bubble_style(self)
+                if custom_style:
+                    return custom_style
+            except:
+                print("WARNING: Could not evaluate the function 'custom_"
+                    + "bubble_style'.")
+                renpy.show_screen('script_error',
+                        message=("Could not evaluate the function 'custom_"
+                            + "bubble_style'."))
+
             # Multiple round/square variants have the same styling as
             # the original round/square bubble
             if self.specBubble == "round2_s" and self.who.file_id == 's':
@@ -145,6 +158,18 @@ init -4 python:
                 bubble_style = "square_" + self.specBubble[-1:]
             bubble_style += '_offset'
             
+            # Allow for custom bubble styling
+            try:
+                custom_offset = custom_bubble_offset(self)
+                if custom_offset:
+                    return custom_offset
+            except:
+                print("WARNING: Could not evaluate the function 'custom_"
+                    + "bubble_offset'.")
+                renpy.show_screen('script_error',
+                        message=("Could not evaluate the function 'custom_"
+                            + "bubble_offset'."))
+
             ## Rule exceptions
             full_style = self.who.file_id + '_' + self.specBubble
             if full_style == 'ju_cloud_l':
@@ -202,8 +227,6 @@ init -4 python:
             elif full_style == 'z_flower_l':
                 return (115, 10)
 
-
-
             return getattr(store.gui, bubble_style)
 
 
@@ -219,6 +242,18 @@ init -4 python:
         @property
         def bubble_bg(self):
             """Return the background used for this bubble."""
+
+            # Allow for custom bubble backgrounds
+            try:
+                custom_bg = custom_bubble_bg(self)
+                if custom_bg:
+                    return custom_bg
+            except:
+                print("WARNING: Could not evaluate the function 'custom_"
+                    + "bubble_bg'.")
+                renpy.show_screen('script_error',
+                        message=("Could not evaluate the function 'custom_"
+                            + "bubble_bg'."))
 
             # If this is a special bubble, set the background to said bubble
             if self.specBubble and self.specBubble != 'glow2':
@@ -349,6 +384,7 @@ init -4 python:
             speech bubble.
 
         Result:
+        -------
             A new entry is added to the chatlog.
         """
 
@@ -381,7 +417,7 @@ init -4 python:
         if pauseVal == 0:
             pass
         elif who.file_id == 'delete':
-            renpy.pause(pv)
+            messenger_pause(pv)
         else:
             typeTime = what.count(' ') + 1 # equal to the # of words
             # Since average reading speed is 200 wpm or 3.3 wps
@@ -389,7 +425,7 @@ init -4 python:
             if typeTime < 1.5:
                 typeTime = 1.5
             typeTime = typeTime * pauseVal
-            renpy.pause(typeTime)
+            messenger_pause(typeTime, True)
             
         # If it's an image, first check if it's an emoji
         # If so, it has an associated sound file
@@ -410,12 +446,20 @@ init -4 python:
         # Some special bubbles will award the player with a heart icon
         award_hourglass(specBubble)
 
-
         # Add this entry to the chatlog
         chatlog.append(ChatEntry(who, what, upTime(), 
                             img, bounce, specBubble))
         # Create a rollback checkpoint
         renpy.checkpoint()
+
+    def messenger_pause(length, actually_wait=False):
+        """Pause for length, unless skipping."""
+
+        if actually_wait and renpy.is_skipping():
+            renpy.pause(0.1)
+            return
+        if not renpy.is_skipping():
+            renpy.pause(length)
         
     def award_hourglass(specBubble):
         """Show the hourglass icon and award the player a heart point."""
@@ -443,9 +487,7 @@ init -4 python:
             store.hourglass_bag.new_choices([ False for i in range(8) ]
                 + [True for i in range(2) ])
 
-
-
-        
+       
 
     def pauseFailsafe():
         """
@@ -480,7 +522,7 @@ init -4 python:
             if typeTime < 1.5:
                 typeTime = 1.5
             typeTime = typeTime * oldPV
-            renpy.pause(typeTime)
+            messenger_pause(typeTime, True)
         
         if chatbackup.img:
             if "{image =" in chatbackup.what:
@@ -509,7 +551,6 @@ init -4 python:
 
         global current_chatroom, persistent
 
-
         if current_chatroom.mark_next_played():
             # Indicates the program was able to successfully mark the next
             # item in this TimelineItem played
@@ -517,7 +558,6 @@ init -4 python:
             # buy it back to play through it and it isn't the intro
             if not store.starter_story and not current_chatroom.buyback:
                 store.most_recent_chat = current_chatroom
-
         
         # If the chatroom has expired or was bought back, then its
         # post-chatroom content will have already been delivered
@@ -613,8 +653,6 @@ init python:
 
         return im.MatrixColor('Bubble/white-Bubble.png', 
                             im.matrix.colorize('#000', bubble_color))
-
-    
 
             
 ## Note: There is also a custom version of the chat footers
