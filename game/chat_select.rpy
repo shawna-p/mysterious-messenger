@@ -568,8 +568,84 @@ screen timeline_item_display(day, day_num, item, index):
                             + " completing the unseen old conversations."),
                         yes_action=Hide('confirm'))
 
-            
+## Screen to display story calls
+screen timeline_story_calls(phonecall, item, was_played):
+    python:
+        if phonecall.expired:
+            call_title_width = 300
+            call_box_width = 520
+        else:
+            call_title_width = 400
+            call_box_width = 620
+
+    hbox:
+        style 'timeline_hbox'
+        ysize 111
+        button:
+            xysize (call_box_width, 111)
+            background phonecall.get_timeline_img(was_played)
+            hover_foreground 'story_call_hover'
+            if phonecall.available and was_played:
+                # Determine where to take the player based on whether this
+                # item has expired or not
+                if phonecall.expired and not phonecall.played:
+                    action [SetVariable('current_chatroom', item),
+                        SetVariable('current_call', phonecall), 
+                        Preference("auto-forward", "enable"),                    
+                        Jump(phonecall.expired_label)]
+                else:
+                    if (phonecall.played and not persistent.testing_mode):
+                        action [SetVariable('current_chatroom', item),
+                            SetVariable('current_call', phonecall),
+                            SetVariable('observing', True),
+                            Preference("auto-forward", "enable"),
+                            Jump(phonecall.item_label)]
+                    else:
+                        action [SetVariable('current_chatroom', item),
+                            Preference("auto-forward", "enable"),
+                            # Make it look like an incoming call
+                            Play('music', persistent.phone_tone),
+                            Show('incoming_call', 
+                                phonecall=phonecall)]
+            hbox:
+                yoffset 12 xoffset 78
+                spacing 25
+                # First add the profile picture of the caller
+                fixed:
+                    fit_first True
+                    add phonecall.caller.participant_pic:
+                        xalign 0.0
+                    add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
+                vbox:
+                    spacing 25
+                    hbox:
+                        spacing 30
+                        # The time of the call
+                        $ the_time = phonecall.trigger_time or item.trigger_time
+                        text the_time style 'chat_timeline_text'
+                        # The title of the chatroom
+                        text phonecall.caller.name style 'chat_timeline_text'
+                    # Thing that says the caller's name
+                    fixed:
+                        $ the_title = phonecall.title or "Story Call"
+                        text the_title style 'chat_timeline_text'
         
+        if phonecall.expired and not phonecall.buyback:
+            imagebutton:
+                yalign 0.85
+                xalign 0.5
+                idle 'expired_chat'
+                hover_background 'btn_hover:expired_chat'
+                if phonecall.available or persistent.testing_mode:
+                    action Show('confirm', message=("Would you like to"
+                                + " call " + phonecall.caller.name + " back to "
+                                + " participate in this phone call?"),
+                            yes_action=[SetField(phonecall, 'expired', False),
+                            SetField(phonecall, 'buyback', True),
+                            SetField(phonecall, 'played', False),
+                            renpy.retain_after_load,
+                            renpy.restart_interaction, Hide('confirm')], 
+                            no_action=Hide('confirm'))    
 
 style chat_timeline_vbox:
     spacing 18
@@ -761,10 +837,10 @@ label guest_party_showcase():
 
     # Now jump to the actual party
     if (isinstance(current_chatroom, VNMode) and current_chatroom.party):
-        $ print("1. Jumping to", current_chatroom.vn_label)
+        $ print_file("1. Jumping to", current_chatroom.vn_label)
         jump expression current_chatroom.vn_label
     else:
-        $ print("2. Jumping to", current_chatroom.vn_obj.vn_label)
+        $ print_file("2. Jumping to", current_chatroom.vn_obj.vn_label)
         jump expression current_chatroom.vn_obj.vn_label
 
 
