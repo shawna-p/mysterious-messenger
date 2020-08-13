@@ -273,12 +273,40 @@ init -5 python:
                 self.good_heart += 1
             else:
                 self.bad_heart += 1
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.heart_points += 1
+                    if not bad:
+                        store.r.good_heart += 1
+                    else:
+                        store.r.bad_heart += 1
+                elif self == store.r:
+                    store.sa.heart_points += 1
+                    if not bad:
+                        store.sa.good_heart += 1
+                    else:
+                        store.sa.bad_heart += 1
+            except:
+                print_file("Couldn't sync Saeran and Ray's heart points.")
         
         def decrease_heart(self):
             """Decrement the good heart points for this character."""
 
             self.heart_points -= 1
             self.good_heart -= 1
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.heart_points -= 1
+                    store.r.good_heart -= 1
+                elif self == store.r:
+                    store.sa.heart_points -= 1
+                    store.sa.good_heart -= 1
+            except:
+                print_file("Couldn't sync Saeran and Ray's heart points.")
             
         def reset_heart(self):
             """Reset all heart points for this character."""
@@ -286,6 +314,19 @@ init -5 python:
             self.heart_points = 0
             self.good_heart = 0
             self.bad_heart = 0
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.heart_points = 0
+                    store.r.good_heart = 0
+                    store.r.bad_heart = 0
+                elif self == store.r:
+                    store.sa.heart_points = 0
+                    store.sa.good_heart = 0
+                    store.sa.bad_heart = 0
+            except:
+                print_file("Couldn't sync Saeran and Ray's heart points.")
 
         @property
         def prof_pic(self):
