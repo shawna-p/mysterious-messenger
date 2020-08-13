@@ -33,6 +33,13 @@ init -6 python:
         buyahead : bool
             True if the player bought this item ahead of time so it can
             remain unlocked regardless of the current time.
+        parent : TimelineItem
+            If this item is part of a "family" of TimelineItems, this links
+            to its parent.
+        delivered_post_items : bool
+            True if the after_ label has been called for this TimelineItem.
+        after_label : string
+            Label to jump to to deliver post-item content.
         outgoing_calls_list : string[]
             List of the labels used for phone calls that should follow this
             timeline item. Also used in the History screen.
@@ -44,7 +51,7 @@ init -6 python:
             occur after this item. Also used in the History screen.
         """
 
-        def __init__(self, title, item_label, trigger_time, plot_branch="None",
+        def __init__(self, title, item_label, trigger_time, plot_branch=None,
             save_img='auto'):
             """
             Create a generic TimelineItem object.
@@ -69,7 +76,7 @@ init -6 python:
             self.title = title
             self.item_label = item_label
 
-            if plot_branch == "None":
+            if plot_branch is None:
                 # There is no plot branch
                 self.plot_branch = None
             elif isinstance(plot_branch, PlotBranch):
@@ -114,6 +121,9 @@ init -6 python:
             self.expired = False
             self.buyback = False
             self.buyahead = False
+            self.parent = None
+            self.delivered_post_items = False
+            self.after_label = "after_" + item_label
 
             self.outgoing_calls_list = [ (self.item_label + '_outgoing_' 
                 + x.file_id) for x in store.all_characters 
@@ -125,7 +135,7 @@ init -6 python:
                     + x.file_id)]
 
             self.story_calls_list = [
-                    create_dependent_storycall(x, 
+                    create_dependent_storycall(self, x, 
                     self.item_label + '_story_call_' + x.file_id)
                 for x in store.all_characters 
                     if renpy.has_label(self.item_label + '_story_call_'
@@ -240,7 +250,7 @@ init -6 python:
                         return True
             return False
 
-        def expire(self):
+        def expire_all(self):
             """Expire all items related to this timeline item."""
 
             if not self.played and not self.buyahead and not self.buyback:
@@ -252,6 +262,13 @@ init -6 python:
                     if (not phonecall.played and not phonecall.buyahead
                             and not phonecall.buyback):
                         phonecall.expired = True
+
+        def expire(self):
+            """Expire just this particular item due to player action."""
+
+            self.expired = True
+            self.buyback = False
+            self.buyahead = False
 
         def was_played(self, ever=True):
             """
@@ -271,12 +288,26 @@ init -6 python:
         def get_final_item(self):
             """Return the final item to be played in this timeine item."""
 
-            if len(self.story_calls_list) > 0:
-                return self.story_calls_list[-1]
-            
             if self.plot_branch and self.plot_branch.vn_after_branch:
                 return self.plot_branch.stored_vn
+            
+            if len(self.story_calls_list) > 0:
+                return self.story_calls_list[-1]
 
+            return self
+        
+        def get_item_before_branch(self):
+            """Return the final item that happens before a plot branch."""
+
+            if self.parent and self.parent.plot_branch:
+                if len(self.parent.story_calls_list) > 0:
+                    return self.parent.story_calls_list[-1]
+                # Otherwise this item is basically guaranteed to be a
+                # StoryMode, since ChatRooms don't have parents
+                return self
+            # Otherwise, this item doesn't have a parent
+            if len(self.story_calls_list) > 0:
+                return self.story_calls[-1]
             return self
 
         def get_timeline_img(self, was_played=True):
@@ -284,7 +315,7 @@ init -6 python:
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
             """
-            print("Got default timeline image")
+            print_file("Got default timeline image")
             return "#59efc7"
 
         def played_regular(self):
@@ -318,14 +349,15 @@ init -6 python:
         def call_after_label(self, new_context=False):
             """Call this item's after_ label, if it exists."""
 
-            if not renpy.has_label('after_' + self.item_label):
+            self.delivered_post_items = True
+            if not renpy.has_label(self.after_label):
                 return
             
             store.was_expired = self.expired
             if new_context:
-                renpy.call_in_new_context('after_' + self.item_label)
+                renpy.call_in_new_context(self.after_label)
             else:
-                renpy.call('after_' + self.item_label)
+                renpy.call(self.after_label)
             store.was_expired = False
             return
         
@@ -418,7 +450,7 @@ init -6 python:
         """
 
         def __init__(self, title, chatroom_label, trigger_time,
-                participants=None, story_mode=None, plot_branch="None",
+                participants=None, story_mode=None, plot_branch=None,
                 save_img='auto'):
             """
             Create a ChatRoom object to store information about a particular
@@ -466,11 +498,11 @@ init -6 python:
                 # Check for labels to auto-define StoryMode objects
                 # First check for the default VN with no associated character
                 if renpy.has_label(self.item_label + '_vn'):
-                    self.story_mode = create_dependent_VN(
+                    self.story_mode = create_dependent_VN(self,
                         self.item_label + '_vn')
                 # Check for a party label
                 elif renpy.has_label(self.item_label + '_party'):
-                    self.story_mode = create_dependent_VN(
+                    self.story_mode = create_dependent_VN(self,
                         self.item_label + '_party',
                         party=True)
                 # Check for VNs associated with a character
@@ -479,7 +511,8 @@ init -6 python:
                         # VNs are called things like my_label_vn_r
                         vnlabel = self.item_label + '_vn_' + c.file_id
                         if renpy.has_label(vnlabel):
-                            self.story_mode = create_dependent_VN(vnlabel, c)
+                            self.story_mode = create_dependent_VN(self, 
+                                                                vnlabel, c)
                             # Should only be one StoryMode object per chat
                             break
                 
@@ -580,14 +613,14 @@ init -6 python:
         def get_final_item(self):
             """Return the final item to be played in this timeine item."""
 
-            if len(self.story_calls_list) > 0:
-                return self.story_calls_list[-1]
-                
-            if self.story_mode:
-                return self.story_mode
-            
             if self.plot_branch and self.plot_branch.vn_after_branch:
                 return self.plot_branch.stored_vn
+                
+            if len(self.story_calls_list) > 0:
+                return self.story_calls_list[-1]
+            
+            if self.story_mode:
+                return self.story_mode
 
             return self
 
@@ -606,6 +639,28 @@ init -6 python:
                 return 'chat_selected'
             else:
                 return 'chat_inactive'
+
+        def expire(self):
+            """Expire just this particular item due to player action."""
+
+            # This chatroom has no longer been participated in
+            self.participated = False
+            # Its replay log is reset
+            self.replay_log = []
+            # Participants are reset
+            self.reset_participants()
+
+            super(ChatRoom, self).expire()
+        
+        def get_item_before_branch(self):
+            """Return the final item that happens before a plot branch."""
+
+            # ChatRooms don't have a parent
+            if len(self.story_calls_list) > 0:
+                return self.story_calls[-1]
+            else if self.story_mode:
+                return self.story_mode
+            return self
 
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
@@ -661,7 +716,7 @@ init -6 python:
         """
 
         def __init__(self, title, vn_label, trigger_time, who=None,
-                plot_branch="None", party=False, save_img='auto'):
+                plot_branch=None, party=False, save_img='auto'):
             """
             Create a StoryMode object to keep track of information for a 
             Story Mode section.
@@ -799,7 +854,7 @@ init -6 python:
         """
 
         def __init__(self, title, phone_label, trigger_time, caller,
-                plot_branch="None", save_img='auto'):
+                plot_branch=None, save_img='auto'):
             """
             Create a StoryCall object to keep track of information for a
             mandatory phone call.
@@ -852,34 +907,37 @@ init -6 python:
             
             return self.item_label
 
-    def create_dependent_storycall(caller, phone_label):
+    def create_dependent_storycall(parent, caller, phone_label):
         """
         Return a StoryCall which is tied to a chatroom or StoryMode and thus
         doesn't need additional information.
         """
-        return StoryCall(title="", phone_label=phone_label, trigger_time=False,
+        temp = StoryCall(title="", phone_label=phone_label, trigger_time=False,
             caller=caller)
+        temp.parent = parent
+        return temp
 
 
-    def create_dependent_VN(vn_label, who=None, party=False):
+    def create_dependent_VN(parent, vn_label, who=None, party=False):
         """
         Return a StoryMode which is tied to a chatroom and thus doesn't need
         additional information.
-        """
-        # print("Making a StoryMode", vn_label)
-        return StoryMode(title="", vn_label=vn_label, trigger_time=False,
+        """        
+        temp = StoryMode(title="", vn_label=vn_label, trigger_time=False,
                 who=who, party=party)
+        temp.parent = parent
+        return temp
 
     def vnmode_to_storymode(item, copy_everything=False):
         """Convert item to a StoryMode object and return it."""
 
-        # print("LOOKING AT:", item.vn_label)
+        # print_file("LOOKING AT:", item.vn_label)
         if (item.plot_branch and item.plot_branch.stored_vn):
             pbranch = True
         elif isinstance(item.plot_branch, PlotBranch):
             pbranch = False
         else:
-            pbranch = "None"
+            pbranch = None
 
         new_obj = StoryMode(title=item.title, vn_label=item.vn_label,
             trigger_time=item.trigger_time, who=item.who,
@@ -896,19 +954,24 @@ init -6 python:
     def chathistory_to_chatroom(item, copy_everything=False):
         """Convert item to a ChatRoom object and return it."""
 
-        # print("LOOKING AT:", item.title)
+        # print_file("LOOKING AT:", item.title)
 
         if (item.plot_branch and item.plot_branch.stored_vn):
             pbranch = True
         elif isinstance(item.plot_branch, PlotBranch):
             pbranch = False
         else:
-            pbranch = "None"
+            pbranch = None
 
         new_obj = ChatRoom(title=item.title, chatroom_label=item.chatroom_label,
             trigger_time=item.trigger_time, participants=item.participants,
             plot_branch=pbranch, save_img=item.save_img)
 
+        if item.vn_obj:
+            try:
+                new_obj.story_mode.parent = new_obj
+            except:
+                print_file("couldn't give new_obj.story_mode a parent")
         
         if copy_everything:
             # Need to check all other fields as well
@@ -929,416 +992,291 @@ init -6 python:
 
         # Test to see if the two items are the same
         if item.title != new_obj.title:
-            print("title:", item.title, new_obj.title)
+            print_file("title:", item.title, new_obj.title)
         if item.chatroom_label != new_obj.item_label:
-            print("label:", item.chatroom_label, new_obj.item_label)
+            print_file("label:", item.chatroom_label, new_obj.item_label)
         if item.expired_chat != new_obj.expired_label:
-            print("expired:", item.expired_chat, new_obj.expired_label)
+            print_file("expired:", item.expired_chat, new_obj.expired_label)
         if item.trigger_time != new_obj.trigger_time:
-            print("time:", item.trigger_time, new_obj.trigger_time)
+            print_file("time:", item.trigger_time, new_obj.trigger_time)
         if item.participants != new_obj.participants:
-            print("participants:", item.participants, new_obj.participants)
+            print_file("participants:", item.participants, new_obj.participants)
         if (item.plot_branch != new_obj.plot_branch
                 and not (item.plot_branch == False 
                     and new_obj.plot_branch is None)
                 and not (isinstance(item.plot_branch, PlotBranch)
                     and isinstance(new_obj.plot_branch, PlotBranch))):
-            print("plot_branch:", item.plot_branch, new_obj.plot_branch)
+            print_file("plot_branch:", item.plot_branch, new_obj.plot_branch)
         if (item.plot_branch and item.plot_branch.stored_vn):
             if (item.plot_branch.stored_vn.vn_label 
                     != new_obj.plot_branch.stored_vn.item_label):
-                print("plot_branch stored VN:", item.plot_branch.stored_vn.vn_label,
+                print_file("plot_branch stored VN:", item.plot_branch.stored_vn.vn_label,
                     new_obj.plot_branch.stored_vn.item_label)
         if (item.vn_obj and new_obj.story_mode):
             if item.vn_obj.vn_label != new_obj.story_mode.item_label:
-                print("vn/story mode:", item.vn_obj.vn_label, 
+                print_file("vn/story mode:", item.vn_obj.vn_label, 
                     new_obj.story_mode.item_label)
         if (item.vn_obj and not new_obj.story_mode):
-            print("\ \ \ So we don't have an equivalent story mode for some reason")
-            print("vn/story mode:", item.vn_obj, new_obj.story_mode)
+            print_file("\ \ \ So we don't have an equivalent story mode for some reason")
+            print_file("vn/story mode:", item.vn_obj, new_obj.story_mode)
         if item.save_img != new_obj.save_img:
-            print("save_img:", item.save_img, new_obj.save_img)
+            print_file("save_img:", item.save_img, new_obj.save_img)
         if item.played != new_obj.played:
-            print("played:", item.played, new_obj.played)
+            print_file("played:", item.played, new_obj.played)
         if item.participated != new_obj.participated:
-            print("participated:", item.participated, new_obj.participated)
+            print_file("participated:", item.participated, new_obj.participated)
         if item.available != new_obj.available:
-            print("available:", item.available, new_obj.available)
+            print_file("available:", item.available, new_obj.available)
         if item.expired != new_obj.expired:
-            print("expired:", item.expired, new_obj.expired)
+            print_file("expired:", item.expired, new_obj.expired)
         if item.buyback != new_obj.buyback:
-            print("buyback:", item.buyback, new_obj.buyback)
+            print_file("buyback:", item.buyback, new_obj.buyback)
         if item.buyahead != new_obj.buyahead:
-            print("buyahead:", item.buyahead, new_obj.buyahead)
+            print_file("buyahead:", item.buyahead, new_obj.buyahead)
         if item.outgoing_calls_list != new_obj.outgoing_calls_list:
-            print("outgoing_calls_list:", item.outgoing_calls_list, new_obj.outgoing_calls_list)
+            print_file("outgoing_calls_list:", item.outgoing_calls_list, new_obj.outgoing_calls_list)
         if item.incoming_calls_list != new_obj.incoming_calls_list:
-            print("incoming_calls_list:", item.incoming_calls_list, new_obj.incoming_calls_list)
+            print_file("incoming_calls_list:", item.incoming_calls_list, new_obj.incoming_calls_list)
         if item.story_calls_list != new_obj.story_calls_list:
-            print("story_calls_list:", item.story_calls_list, new_obj.story_calls_list)
+            print_file("story_calls_list:", item.story_calls_list, new_obj.story_calls_list)
 
         return new_obj
         
-    
+## The label that is called when a timeline item has been completed
+label end_timeline_item():
+    $ end_timeline_item_checks()
 
-screen timeline_item_history(item):
+    if observing:
+        $ observing = False
+        call screen timeline(current_day, current_day_num)
+        return
 
-    python:
-        # Determine if the participants list needs to scroll or not
-        part_anim = null_anim
-        if isinstance(item, ChatRoom) and item.participants:
-            if len(item.participants) > 4:
-                part_anim = participant_scroll
+    # Otherwise, this is the first time this item has been played
+    if isinstance(current_timeline_item, ChatRoom):
+        call screen signature_screen(True)
+    elif isinstance(current_timeline_item, StoryMode):
+        call screen signature_screen(False)
 
-        # ChatRoom story mode displays similarly to solo StoryMode in
-        # some cases
-        if isinstance(item, StoryMode):
-            story_mode = item
-        elif isinstance(item, ChatRoom) and item.story_mode:
-            story_mode = item.story_mode
+    $ finish_timeline_item(current_timeline_item)
+    if starter_story:
+        $ starter_story = False
+        call screen chat_home
+        return
+    $ deliver_next()
+    call screen timeline(current_day, current_day_num)
+    return
+
+## The label that is called when the program exits out of a timeline item
+## early, expiring it
+label exit_item_early():
+    # This ends replays and resets variables
+    # This item is only set as the most recent item if the player wasn't
+    # replaying it
+    $ end_timeline_item_checks()
+    if observing:
+        $ observing = False
+        call screen timeline(current_day, current_day_num)
+        return
+    # Otherwise, this item will expire
+
+
+    return
+
+init python:
+
+    def expire_timeline_item(item):
+        """Expire this timeline item and set the appropriate variables."""
+
+        # Show the loading screen while these actions are carried out
+        renpy.show_screen('loading_screen')
+
+        # Get the parent of this item
+        if not item.parent:
+            the_parent = item
         else:
-            story_mode = None
-
-        # StoryCall items display the same if they are alone or not
-        if isinstance(item, StoryCall):
-            story_calls = [item]
-        elif isinstance(item, TimelineItem) and item.story_calls_list:
-            story_calls = item.story_calls_list
-        else:
-            story_calls = None
-
-
-        replay_dictionary = {'observing': True,
-                            'current_chatroom': item,
-                            'current_day': current_day,
-                            'current_day_num': current_day_num,
-                            'name': persistent.name}
-
-        expired_replay_dictionary = {'expired_replay': True,
-                            'observing': True,
-                            'current_chatroom': item,
-                            'current_day': current_day,
-                            'current_day_num': current_day_num,
-                            'name': persistent.name}
-    style_prefix None
-    null height 10
-    if not isinstance(item, TimelineItem):
-        # It's the name/title of the ending
-        frame:
-            style_prefix 'history_item_text'
-            text item
-    elif isinstance(item, ChatRoom):
-        frame:
-            style_prefix 'history_chatroom'
-            # These are the two buttons to replay the chat
-            hbox:
-                button:
-                    if item.played_expired():
-                        background 'history_chat_active'  
-                        hover_foreground '#fff5'                      
-                        action Replay(item.expired_label, 
-                                        scope=expired_replay_dictionary)
-                    else:
-                        background Fixed('history_chat_inactive', "#000c")
-                        foreground "#0003"
-                        action Show("confirm", message=("You have not yet"
-                                + " viewed this chat in-game."),
-                            yes_action=Hide('confirm'))
-                    add 'history_chat_alone' align (0.5, 0.5)
-                    if not item.played_expired():
-                        add 'plot_lock' align (0.5, 0.5)
-                button:
-                    if item.played_regular():
-                        hover_foreground '#fff5'
-                        background 'history_chat_active'                        
-                        action Replay(item.item_label,
-                                        scope=replay_dictionary)
-                    else:
-                        background Fixed('history_chat_inactive', "#000c")
-                        foreground "#0003"
-                        action Show("confirm", message=("You have not yet"
-                                + " viewed this chat in-game."),
-                            yes_action=Hide('confirm'))
-                    add 'history_chat_participated' align (0.5, 0.5)
-                    if not item.played_regular():
-                        add 'plot_lock' align (0.5, 0.5)
-                    
-                
-            vbox:
-                style_prefix 'chat_timeline'
-                # This box displays the trigger time and title of 
-                # the chatroom; optionally at a scrolling transform 
-                # so you can read the entire title
-                hbox:
-                    frame:
-                        xoffset 77
-                        yoffset 13
-                        text item.trigger_time:
-                            size 27 
-                            xalign 0.5
-                            text_align 0.5
-                    viewport:               
-                        xysize(400,27)
-                        if get_text_width(item.title, 
-                                'chat_timeline_text') >= 400:
-                            frame:
-                                xysize(400,27)
-                                text item.title at chat_title_scroll
-                        else:
-                            text item.title
-                # Shows a list of all the people who start in this chatroom
-                viewport:
-                    xysize(530, 85)
-                    yoffset 13
-                    xoffset 77            
-                    yalign 0.5
-                    frame:
-                        xysize(355, 85)
-                        hbox at part_anim:
-                            yalign 0.5
-                            spacing 5
-                            if item.original_participants:
-                                for person in item.original_participants:
-                                    if person.participant_pic:
-                                        add person.participant_pic
-
-    # It's a solo StoryMode with a time
-    if story_mode and story_mode.trigger_time and not story_mode.party:
-        button:
-            style_prefix 'solo_vn'     
-            foreground 'solo_vn_active'
-            hover_foreground Fixed('solo_vn_active', 'solo_vn_hover')
-            action [Preference("auto-forward", "disable"),
-                    Replay(story_mode.item_label,
-                        scope=replay_dictionary)]          
-            add story_mode.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
-            hbox:
-                frame:
-                    text story_mode.trigger_time
-                viewport:
-                    frame:
-                        xsize 350
-                        if get_text_width(story_mode.title,
-                                'chat_timeline_text') >= 350:
-                            text story_mode.title at chat_title_scroll
-                        else:
-                            text story_mode.title
-
-    # It's a StoryMode without a time
-    elif story_mode and not story_mode.party:
-        frame:
-            style_prefix 'reg_timeline_vn'            
-            has hbox
-            add 'vn_marker'            
-            button:
-                foreground 'vn_active'
-                hover_foreground 'vn_active_hover'
-                action [Preference("auto-forward", "disable"),
-                        Replay(story_mode.item_label,
-                                scope=replay_dictionary)]                 
-                add story_mode.vn_img xoffset -5
-    
-    # It's the StoryMode that leads to the party
-    elif story_mode and story_mode.party:
-        frame:
-            style_prefix 'party_timeline_vn'        
-            button:
-                background 'vn_party'
-                hover_foreground 'vn_party'
-                action [Preference("auto-forward", "disable"), 
-                        Replay(story_mode.item_label,
-                            scope=replay_dictionary)]  
-
-    if story_calls:
-        # There are story calls to display
-        for phonecall in story_calls:
-            use history_timeline_story_calls(phonecall, item)
-
-    # Now add an hbox of the phone calls available after this chatroom
-    if (isinstance(item, TimelineItem) 
-            and (item.incoming_calls_list or item.outgoing_calls_list)):
-        hbox:
-            xalign 1.0
-            xoffset -40
-            add Transform('call_mainicon', size=(60,60)) align (0.5, 0.75)
-            if item.incoming_calls_list:
-                use history_calls_list(item, item.incoming_calls_list, 'incoming')
-            if item.outgoing_calls_list:
-                use history_calls_list(item, item.outgoing_calls_list, 'outgoing')
-
-screen history_timeline_story_calls(phonecall, item):
-    
-    frame:
-        xoffset 70
-        background 'story_call_history'
-        xysize (625, 111)
-        xalign 0.0
-        hbox:
-            yoffset 12 xoffset 78
-            spacing 25
-            # First add the profile picture of the caller
-            fixed:
-                fit_first True
-                add phonecall.caller.participant_pic:
-                    xalign 0.0
-                add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
-            vbox:
-                spacing 25
-                hbox:
-                    spacing 30
-                    # The time of the call
-                    $ the_time = phonecall.trigger_time or item.trigger_time
-                    text the_time style 'chat_timeline_text'
-                    # The title of the chatroom
-                    text phonecall.caller.name style 'chat_timeline_text'
-                # Thing that says the caller's name
-                fixed:
-                    $ the_title = phonecall.title or "Story Call"
-                    text the_title style 'chat_timeline_text'
-                
-        # The replay icons
-        hbox:
-            align (0.99,0.6)            
-            spacing 10
-            button:
-                xysize (80,80)
-                if phonecall.played_expired():
-                    background 'history_chat_active'  
-                    hover_foreground '#fff5'                      
-                    action Replay(phonecall.expired_label, 
-                                    scope={'expired_replay': True,
-                            'observing': True,
-                            'current_chatroom': item,
-                            'current_day': current_day,
-                            'current_day_num': current_day_num,
-                            'name': persistent.name,
-                            'current_call': PhoneCall(phonecall.caller, 'n/a')})
-                else:
-                    background Fixed('history_chat_inactive', "#000c")
-                    foreground "#0003"
-                    action Show("confirm", message=("You have not yet"
-                        + " viewed this call in-game."),
-                    yes_action=Hide('confirm'))
-                add 'call_missed_outline' align (0.5, 0.5)
-                if not phonecall.played_expired():
-                    add 'plot_lock' align (0.5, 0.5)
-            button:
-                xysize(80,80)
-                if phonecall.played_regular():
-                    hover_foreground '#fff5'
-                    background 'history_chat_active'                        
-                    action Replay(phonecall.item_label,
-                                    scope={'observing': True,
-                    'current_chatroom': item,
-                    'current_day': current_day,
-                    'current_day_num': current_day_num,
-                    'name': persistent.name,
-                    'current_call': PhoneCall(phonecall.caller, 'n/a')})
-                else:
-                    background Fixed('history_chat_inactive', "#000c")
-                    foreground "#0003"
-                    action Show("confirm", message=("You have not yet"
-                        + " viewed this call in-game."),
-                    yes_action=Hide('confirm'))
-                add 'call_incoming_outline' align (0.5, 0.5)
-                if not phonecall.played_regular():
-                    add 'plot_lock' align (0.5, 0.5)
-
-screen history_calls_list(item, call_list, call_icon):    
-    for c in call_list:
-        if persistent.completed_chatrooms.get(c):
-            button:
-                background Transform(c.split('_')[-1] + '_contact', 
-                                                size=(85,85))
-                hover_background Fixed(Transform(c.split('_')[-1] + '_contact',
-                                size=(85,85)), Transform(c.split('_')[-1]
-                                + '_contact', size=(85,85)))
-                add Transform('contact_darken', size=(85,85), alpha=0.3):
-                    align (0.5,0.5)
-                add Transform('call_' + call_icon + '_outline', size=(32, 32)):
-                    align (1.0, 1.0)
-                xysize (85,85)
-                action Replay(c, scope={'observing': True,
-                    'current_chatroom': item,
-                    'current_day': current_day,
-                    'current_day_num': current_day_num,
-                    'name': persistent.name,
-                    'current_call': get_caller(c)})
-
-                       
-screen timeline_story_calls(phonecall, item, was_played):
-    python:
-        if phonecall.expired:
-            call_title_width = 300
-            call_box_width = 520
-        else:
-            call_title_width = 400
-            call_box_width = 620
-
-    hbox:
-        style 'timeline_hbox'
-        ysize 111
-        button:
-            xysize (call_box_width, 111)
-            background phonecall.get_timeline_img(was_played)
-            hover_foreground 'story_call_hover'
-            if phonecall.available and was_played:
-                # Determine where to take the player based on whether this
-                # item has expired or not
-                if phonecall.expired and not phonecall.played:
-                    action [SetVariable('current_chatroom', item), 
-                        Preference("auto-forward", "enable"),                    
-                        Jump(phonecall.expired_label)]
-                else:
-                    if (phonecall.played and not persistent.testing_mode):
-                        action [SetVariable('current_chatroom', item),
-                            SetVariable('observing', True),
-                            Preference("auto-forward", "enable"),
-                            Jump(phonecall.item_label)]
-                    else:
-                        action [SetVariable('current_chatroom', item),
-                            Preference("auto-forward", "enable"),
-                            # Make it look like an incoming call
-                            Play('music', persistent.phone_tone),
-                            Show('incoming_call', 
-                                phonecall=phonecall)]
-            hbox:
-                yoffset 12 xoffset 78
-                spacing 25
-                # First add the profile picture of the caller
-                fixed:
-                    fit_first True
-                    add phonecall.caller.participant_pic:
-                        xalign 0.0
-                    add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
-                vbox:
-                    spacing 25
-                    hbox:
-                        spacing 30
-                        # The time of the call
-                        $ the_time = phonecall.trigger_time or item.trigger_time
-                        text the_time style 'chat_timeline_text'
-                        # The title of the chatroom
-                        text phonecall.caller.name style 'chat_timeline_text'
-                    # Thing that says the caller's name
-                    fixed:
-                        $ the_title = phonecall.title or "Story Call"
-                        text the_title style 'chat_timeline_text'
+            the_parent = item.parent
         
-        if phonecall.expired and not phonecall.buyback:
-            imagebutton:
-                yalign 0.85
-                xalign 0.5
-                idle 'expired_chat'
-                hover_background 'btn_hover:expired_chat'
-                if phonecall.available or persistent.testing_mode:
-                    action Show('confirm', message=("Would you like to"
-                                + " call " + phonecall.caller.name + " back to "
-                                + " participate in this phone call?"),
-                            yes_action=[SetField(phonecall, 'expired', False),
-                            SetField(phonecall, 'buyback', True),
-                            SetField(phonecall, 'played', False),
-                            renpy.retain_after_load,
-                            renpy.restart_interaction, Hide('confirm')], 
-                            no_action=Hide('confirm'))    
+        # This item expires
+        item.expire()
+        
+        # Remove any heart points the player earned during this item
+        rescind_chatroom_hp()
+        # Hourglasses aren't added to the player's totals until the end,
+        # so they can simply be reset
+        store.chatroom_hg = 0
+
+        reset_story_vars(item)
+
+        # Only deliver post-item content if it hasn't already been delivered.
+        if not the_parent.plot_branch and 
+
+        # Clean up the transition between the end of an item and returning
+        renpy.pause(0.1)
+        renpy.hide_screen('loading_screen')
+        return
+        
+
+    def end_timeline_item_checks():
+        """
+        Perform additional logic to finish off a TimelineItem, like resetting
+        story variables to return to the menu screens.
+        """
+        
+        # This item simply ends if the user is in Replay
+        if _in_replay:
+            renpy.end_replay()
+
+        # First, ensure most_recent_item is not None
+        if (store.most_recent_item is None
+                and store.chat_archive
+                and store.chat_archive[0].archive_list):
+            store.most_recent_item = store.chat_archive[0].archive_list[0]
+        # Warn the user if no TimelineItems could be found
+        elif store.most_recent_item is None:
+            store.most_recent_item = ChatRoom('Example Chatroom',
+                'example_chat', '00:01')
+            print("WARNING: Could not find any TimelineItems for this route.")
+            renpy.show_screen('script_error',
+                message="Could not find any TimelineItems for this route.")
+        
+        # Next, if the player was simply observing/replaying this item,
+        # reset the appropriate variables and take them back to the 
+        # timeline screen
+        if store.observing:
+            reset_story_vars(store.current_timeline_item)
+            # Main label will take players back to the timeline screen            
+        return
+        
+    def finish_timeline_item(item, deliver_messages=True):
+        """Finish resetting variables and screens for this TimelineItem."""
+        
+        # Show the loading screen while these actions are carried out
+        renpy.show_screen('loading_screen')
+
+        # Determine chatroom heart points (HP)
+        store.persistent.HP += get_chatroom_hp()
+        store.chatroom_hp = {'good': [], 'bad': [], 'break': []}
+        # Give the player their hourglasses
+        store.persistent.HG += store.chatroom_hg
+        store.chatroom_hg = 0
+
+        # Mark the most recent item as played
+        if not item.parent:
+            # This is the 'parent' item
+            the_parent = item   
+        else:
+            the_parent = item.parent            
+        
+        # If the program was able to successfully mark the next item played,
+        # then this is the most recent item if the player didn't buy it
+        # back and it isn't the intro
+        if (the_parent.mark_next_played()
+                and not store.starter_story
+                and not item.buyback):
+            store.most_recent_item = item
+        
+        # Deliver post-item content if this is not the last item before
+        # a plot branch
+        if (not item.delivered_post_items
+                and not item == item.get_item_before_branch()):
+        # If the parent item has expired or was bought back, then its
+        # post-item content will have already been delivered
+        # if (not the_parent.expired
+        #         and not the_parent.buyback
+        #         and the_parent.all_played()
+        #         and deliver_messages):
+        #     # Otherwise, the parent's after_ label is called
+        #     parent.call_after_label()
+        #     deliver_calls(parent.item_label)
+        
+        # Next, deliver emails and unlock the next story item
+        deliver_emails()
+        check_and_unlock_story()
+
+        # Reset variables
+        reset_story_vars(item)
+
+        # Ensure any seen CGs are unlocked
+        check_for_CGs(store.all_albums)
+
+        # Save variables
+        renpy.retain_after_load()
+
+        # Check to see if honey buddha chips should be available
+        if not store.chips_available:
+            store.chips_available = store.hbc_bag.draw()
+        
+        # Clean up the transition between the end of an item and returning
+        renpy.pause(0.1)
+        renpy.hide_screen('loading_screen')
+        return
+
+
+        
+
+
+    def get_chatroom_hp():
+        """Return the total number of heart points earned in a chatroom."""
+
+        return (len(store.chatroom_hp['good'])
+                    + len(store.chatroom_hp['bad'])
+                    - len(store.chatroom_hp['break']))
+
+    def rescind_chatroom_hp():
+        """Resets the heart points earned during this chatroom."""
+
+        global chatroom_hp
+
+        for chara in chatroom_hp['good']:
+            chara.decrease_heart()
+        for chara in chatroom_hp['bad']:
+            chara.heart_points -= 1
+            chara.bad_heart -= 1
+            # Saeran and Ray share heart points
+            if chara == store.sa:
+                store.r.heart_points -= 1
+                store.r.bad_heart -= 1
+            elif chara == store.r:
+                store.sa.heart_points -= 1
+                store.sa.bad_heart -= 1
+        for chara in chatroom_hp['break']:
+            chara.increase_heart()
+
+        # Remove points from persistent.HP
+        store.persistent.HP -= get_chatroom_hp()
+        
+        # Reset chatroom_hp
+        chatroom_hp = {'good': [], 'bad': [], 'break': []}
+
+
+    def reset_story_vars(item, vn_jump=False):
+        """
+        Reset variables associated with the current item, such as hiding
+        chatroom screens and resetting chatroom heart point totals.
+        """
+
+        config.skipping = False
+        config.skipping = False
+        store.choosing = False
+
+        # Hide chatroom screens
+        renpy.hide_screen('phone_overlay')
+        renpy.hide_screen('save_and_exit')
+        renpy.hide_screen('play_button')
+        renpy.hide_screen('answer_button')
+        renpy.hide_screen('pause_button')
+        renpy.hide_screen('messenger_screen')
+        renpy.hide_screen('animated_bg')
+        renpy.hide_screen('vn_overlay')        
+        hide_all_popups()
+
+        # Switch off variables
+        store.vn_choice = False
+        
+        if not vn_jump:
+            store.observing = False
+            renpy.music.stop()
+
+
+        
 
