@@ -63,7 +63,7 @@ init -6 python:
             
         def decrease_time(self):
             """
-            Counts towards expiring this phone call so it is no longer
+            Count towards expiring this phone call so it is no longer
             available. By default phone calls will time out after two
             chatrooms.
             """
@@ -467,12 +467,38 @@ label hang_up():
         $ call_hang_up(phonecall=current_call)
     call screen phone_calls
     return
+
+## Hanging up a story call is like backing out of an active chatroom.
+label hang_up_story_call():
+    python:
+        if observing or current_call.expired or _in_replay:
+            # No repercussions, just watching.
+            if _in_replay:
+                renpy.end_replay()
+        else:
+            # If you hang up a story call, it expires
+            current_call.expired = True
+            # And if you bought it back, it still expires
+            current_call.buyback = False
+            current_call.buyahead = False
+            # This is the most recent item because it hasn't been played
+            most_recent_chat = current_chatroom
+            # Deliver texts and calls
+            if not current_chatroom.plot_branch:
+                current_chatroom.call_after_label()
+                deliver_all_texts()
+                deliver_calls(current_chatroom.item_label, True)
+            renpy.retain_after_load()
+        renpy.set_return_stack([])
+    call screen timeline(current_day, current_day_num)
+    return
+
     
 ########################################################
 ## This is the screen that displays the dialogue when
 ## you're in a phone call
 ########################################################
-screen in_call(who=ja):
+screen in_call(who=ja, story_call=False):
 
     tag menu
     on 'show' action [renpy.music.stop(), 
@@ -501,9 +527,20 @@ screen in_call(who=ja):
                     text "{0:01}:".format(countup//60) 
                     text "{0:01}".format((countup%60)//10)
                     text "{0:01}".format((countup%60)%10)
-            if not starter_story:
+            if not starter_story and not story_call:
                 use phone_footer(False, "call_pause", 
-                                [Hide('say'), Jump('hang_up')])
+                                [Hide('phone_say'), Jump('hang_up')])
+            elif story_call:
+                use phone_footer(answer_action=False, 
+                    center_item='call_pause', 
+                    hangup_action=Show("confirm", message=("Do you really want "
+                        + "to hang up this call? Please note that you cannot "
+                        + "participate once you leave. If you want to "
+                        + "participate in this call again, you will need to "
+                        + "buy it back."), 
+                        yes_action=[Hide('confirm'), Hide('phone_say'),
+                            Jump('hang_up_story_call')], 
+                        no_action=Hide('confirm')) )
             else:
                 use phone_footer(False, "call_pause", False)
                                    
@@ -582,14 +619,21 @@ screen incoming_call(phonecall, countdown_time=10):
                 align (0.5, 0.6)
                 spacing 10
                 text "Incoming Call" color '#fff' xalign 0.5 size 40
-                if (not starter_story and not phonecall.story_call):
+                if (not starter_story and not isinstance(phonecall, StoryCall)):
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
                 
-            if starter_story or isinstance(phonecall, StoryCall):
+            if starter_story:
                 use phone_footer([Stop('music'), 
                                 SetVariable('current_call', phonecall), 
                                 Return()], 
                                     "headphones", False)
+            elif isinstance(phonecall, StoryCall):
+                use phone_footer([Stop('music'), 
+                                Preference("auto-forward", "enable"), 
+                                SetVariable('current_call', phonecall), 
+                                Jump(phonecall.item_label)],
+                                "headphones",
+                                False)
             else:
                 use phone_footer([Stop('music'), 
                                 Preference("auto-forward", "enable"), 
@@ -766,12 +810,15 @@ label phone_begin():
         $ set_name_pfp()
         $ set_pronouns()
         
-    show screen in_call(current_call.caller)
+    show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
     return
     
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call
 label phone_end():
+    if isinstance(current_call, StoryCall):
+        $ in_phone_call = False
+        
     if not starter_story:
         if not observing:
             $ current_call.finished()
