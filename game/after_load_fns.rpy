@@ -261,12 +261,12 @@ init python:
             d -= 1
             if day.has_playable:
                 store.today_day_num = d
-                print("today_day_num is", store.today_day_num)
+                print_file("today_day_num is", store.today_day_num)
                 break
         
         if d == len(store.chat_archive):
             store.today_day_num = 0
-            print("2. today_day_num is", store.today_day_num)
+            print_file("2. today_day_num is", store.today_day_num)
             
 
         no_email_notif = True

@@ -315,10 +315,10 @@ init -6 python:
                 #             + x.file_id)]
                 
             try:
-                # print("ChatHistory getattr with", name)
+                # print_file("ChatHistory getattr with", name)
                 # if name == 'chatroom_label':
                 #     raise AttributeError(name)
-                # print("with", self.__dict__['chatroom_label'])
+                # print_file("with", self.__dict__['chatroom_label'])
                 return super(ChatHistory, self).__getattribute__(name)
             except (KeyError, AttributeError) as e:
                 raise AttributeError(name)
@@ -327,7 +327,7 @@ init -6 python:
             """Add a participant to the chatroom."""
 
             if not (chara in self.participants):
-                print("added", chara.name, "to the participants list of", self.title)        
+                print_file("added", chara.name, "to the participants list of", self.title)        
                 self.participants.append(chara)
             return
 
@@ -582,10 +582,10 @@ init -6 python:
                 return []
 
             try:
-                # print("VNMode getattr with", name)
+                # print_file("VNMode getattr with", name)
                 # if name == 'vn_label':
                 #     raise AttributeError(name)
-                # print("with", self.__dict__['vn_label'])
+                # print_file("with", self.__dict__['vn_label'])
                 return super(VNMode, self).__getattribute__(name)
             except (KeyError, AttributeError) as e:                
                 raise AttributeError(name)

@@ -60,7 +60,7 @@ default textmsg_CG = False
 label viewCG(textmsg=False):
     $ close_visible = True
     $ textmsg_CG = textmsg
-    # $ print("viewCG, pre_choosing", pre_choosing, "textmsg_CG", textmsg_CG, "CG_who", CG_who, "CG_who.real_time_text", CG_who.real_time_text, "text_person", text_person)
+    # $ print_file("viewCG, pre_choosing", pre_choosing, "textmsg_CG", textmsg_CG, "CG_who", CG_who, "CG_who.real_time_text", CG_who.real_time_text, "text_person", text_person)
     call screen viewCG_fullsize()
     return
     

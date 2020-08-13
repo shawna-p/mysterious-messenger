@@ -66,7 +66,7 @@ label tutorial_chat():
     s "{size=+12}I summon Yoosung! Abracadabra{/size}" (bounce=True, specBubble="spike_l")
     
     # Use this to display the message "Yoosung★ has entered the chatroom"
-    # Just pass the variable for the character who's entering
+    # Just use the variable for the character who's entering
     # This adds them to the 'participant' list you see on the chatroom select
     enter chatroom y 
     
@@ -96,7 +96,7 @@ label tutorial_chat():
     s "{=ser1}{size=+12}Did you already drink the coffee!?!?!?!?{/size}{/=ser1}"
     y "Yeah... Why?"
     
-    # Another play_music call will automatically "override" 
+    # Another `play music` will automatically "override" 
     # the previous play statement and only one set of 
     # background music will play on the music channel at once
     play music dark_secret
@@ -456,8 +456,7 @@ label tutorial_chat_incoming_z:
             z "I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams."            
             z "Two birds with one stone, no?"            
             z "I can sing anything you want, so tell me whenever. I'll practice just for you."
-    
-    
+        
     z "Aw yeah~! Starting my day with hearing your voice gives me so much energy."    
     z "I have to leave early for work. I hope only good things happen today! To you and to me, haha."    
     z "Then I'll call you later."    

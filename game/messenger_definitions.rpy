@@ -41,7 +41,7 @@ init -4 python:
             bounce : bool
                 True if this message should 'bounce' when it animates in.
                 Used for glowing and special speech bubble variants.
-            specBubble : string or Nonee
+            specBubble : string or None
                 String containing part of the image path to the relevant
                 speech bubble.            
             """
@@ -404,9 +404,8 @@ init -4 python:
         # Pausing in the middle of the chat often causes the
         # program to skip a message, and this will catch that
         if who.file_id != 'delete':
-            pauseFailsafe() # This ensures the message that was
-                            # supposed to be posted was, in fact,
-                            # posted
+            pauseFailsafe() # This ensures the message that was supposed to
+                            # be posted was, in fact, posted
             # Store the current message in the backup
             chatbackup = ChatEntry(who, what, upTime(), 
                                     img, bounce, specBubble)
@@ -483,6 +482,10 @@ init -4 python:
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
             store.chatroom_hg += 1
         
+        # Hourglass awards are pseudo-random. The program draws from a 'bag'
+        # that contains 10 choices, two of which are True. If it gets True,
+        # it shows an hourglass. If all the True options are gone, even if
+        # there are many False options left, it resets the bag.
         if True not in store.hourglass_bag.bag:
             store.hourglass_bag.new_choices([ False for i in range(8) ]
                 + [True for i in range(2) ])

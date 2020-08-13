@@ -317,7 +317,7 @@ screen main_menu():
                 vbox:              
                     add "menu_dlc" align (0.5, 0.5)
                     text "Developer"
-     
+    
 style greet_text is text:
     color "#ffffff"
     size 27
@@ -624,7 +624,7 @@ init python:
         current_time = upTime()
         current_hour = current_time.military_hour
         current_min = current_time.minute
-        print("currrent_hour", current_hour, "current_min", current_min)
+        print_file("currrent_hour", current_hour, "current_min", current_min)
 
         load_next_day = False
     
@@ -632,7 +632,7 @@ init python:
         # E.g. if the game was saved at 20:30, if now is 20:29
         # or earlier, it should load the next day
         if (is_time_later(current_hour, current_min, file_hour, file_min)):
-            print("Advance to next day")
+            print_file("Advance to next day")
             load_next_day = True
             if the_day == next_day:
                 next_day = "NEXT"

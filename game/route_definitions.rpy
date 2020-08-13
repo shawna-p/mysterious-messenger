@@ -160,7 +160,7 @@ init -6 python:
 
             # Also ensure the branch_vn is a StoryMode object
             if self.branch_vn and isinstance(self.branch_vn, VNMode):
-                new_vn = create_dependent_VN(self.branch_vn.vn_label,
+                new_vn = create_dependent_VN(None, self.branch_vn.vn_label,
                     self.branch_vn.who, self.branch_vn.party)
                 self.branch_vn = new_vn               
         
@@ -170,8 +170,9 @@ init -6 python:
             played = 0
             total = 0
             for item in self.archive_list:
-                if ((only_if_available and item.available)
-                        or not only_if_available):
+                if (isinstance(item, TimelineItem)
+                        and ((only_if_available and item.available)
+                            or not only_if_available)):
                     add_played, add_total = item.participated_percentage(True)
                     played += add_played
                     total += add_total
@@ -301,15 +302,21 @@ init -6 python:
             self.ending_chatrooms = []
             for day in reversed(default_branch):
                 if day.archive_list:
-                    self.ending_chatrooms.append(
-                            day.archive_list[-1].get_final_item().item_label)                    
+                    try:
+                        self.ending_chatrooms.append(
+                            day.archive_list[-1].get_final_item().item_label)
+                    except:
+                        print_file(day.archive_list[-1].title, "has no final item?")                                      
                     break
 
             for branch in branch_list:
                 for day in reversed(branch):
                     if day.archive_list:
-                        self.ending_chatrooms.append(
-                            day.archive_list[-1].get_final_item().item_label)                                                
+                        try:
+                            self.ending_chatrooms.append(
+                                day.archive_list[-1].get_final_item().item_label)
+                        except:
+                            print_file(day.archive_list[-1].title, "has no final item?")
                         break
                     elif day.branch_vn:
                         self.ending_chatrooms.append(day.branch_vn.item_label)
@@ -347,9 +354,9 @@ init -6 python:
                         item.story_mode = item.plot_branch.stored_vn
                         item.plot_branch = False
                     elif not isinstance(item, TimelineItem):
-                        print("Got an item which is", item)
+                        print_file("Got an item which is", item)
                         if isinstance(item, VNMode):
-                            print("It's a VN, label", item.vn_label)
+                            print_file("It's a VN, label", item.vn_label)
 
             if branch_list:
                 # First find the day in default_branch which aligns
@@ -605,7 +612,7 @@ init -6 python:
         # prev_item will expire unless it was played, bought back,
         # or bought ahead
         if prev_item.can_expire():
-            prev_item.expire()
+            prev_item.expire_all()
         else:
             # There was no need to expire anything, so return
             return
@@ -654,7 +661,7 @@ init -6 python:
                         total += 1
                     if item.plot_branch and break_for_branch:
                         return total
-        print("DEBUG: There are", total, "items remaining")
+        print_file("DEBUG: There are", total, "items remaining")
         return total
                 
         
@@ -727,7 +734,7 @@ init -6 python:
             if new_route[1].archive_list[0].party:
                 plot_branch_party = True
         except:
-            print("Couldn't determine if new_route was the party")
+            print_file("Couldn't determine if new_route was the party")
 
         # Find the day the plot branch was on UNLESS this is the party
         # plot branch, in which case we're looking for the party
@@ -768,10 +775,10 @@ init -6 python:
                     if (isinstance(item, StoryMode)
                             and item.party and not item.played):
                         # This is the party to replace
-                        print("Found the replacement party")
+                        print_file("Found the replacement party")
                         item = new_route[1].archive_list[0]
                         current_chatroom = item
-                        print("current_chatroom is now", current_chatroom.item_label)
+                        print_file("current_chatroom is now", current_chatroom.item_label)
                         return
 
 

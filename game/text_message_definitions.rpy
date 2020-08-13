@@ -210,7 +210,7 @@ init -6 python:
         elif store.text_person:
             textlog = store.text_person.text_msg.msg_list
         else:
-            print("There's no one to text")
+            print_file("There's no one to text")
             return
 
         if pauseVal == None:
@@ -416,7 +416,7 @@ label text_end():
         $ text_person.finished_text()
     $ who = text_person
     $ text_person = None
-    $ chatroom_hp = 0
+    $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
     $ textbackup = ChatEntry(filler,"","")
     $ renpy.retain_after_load()        
     hide screen text_answer

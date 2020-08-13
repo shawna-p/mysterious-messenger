@@ -10,7 +10,7 @@ label vn_begin(nvl=False):
     if starter_story:
         $ set_name_pfp()
     window auto
-    $ chatroom_hp = 0
+    $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
     scene bg black
     stop music
     hide screen starry_night

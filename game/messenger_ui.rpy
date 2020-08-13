@@ -196,7 +196,7 @@ init python:
             return Transform('transparent', size=(18,26)), 0.5
 
     def battery_level_bar(st, at):
-        """Return the battery level image to use depending on remaining power."""
+        """Return the battery level image to use based on remaining power."""
 
         battery = renpy.display.behavior.pygame.power.get_power_info()
         if battery.percent > 50:
@@ -356,7 +356,6 @@ screen answer_countdown(themenu, count_time=5):
 # Continue Answer
 #************************************
 
-
 default timed_choose = False
 default reply_instant = False
 default using_timed_menus = False
@@ -384,12 +383,12 @@ label timed_pause(count_time):
         pause timed_answer_modifier(count_time)
     return
 
-# Timed answers to speed up/slow down based on how fast 
-# the player has the chat speed set to. Default is 0.8,
-# increased/decreased by 0.15 (aka increased/decreased by
-# 18.75% each time)
-# So if the chat is at 3x normal speed, the time to answer
-# the menu is decreased by 3x
+## Timed answers to speed up/slow down based on how fast 
+## the player has the chat speed set to. Default is 0.8,
+## increased/decreased by 0.15 (aka increased/decreased by
+## 18.75% each time).
+## So if the chat is at 3x normal speed, the time to answer
+## the menu is decreased by 3x.
 label continue_answer(themenu, count_time=5):
     # Timed menus don't show up for players who are skipping 
     # through entire conversations or who are replaying an existing
