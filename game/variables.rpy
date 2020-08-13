@@ -167,7 +167,7 @@ init -6 python:
             try:
                 route = route.default_branch
             except AttributeError:                
-                print("Error: Given Route object does not have a default_branch field.")
+                print_file("Error: Given Route object does not have a default_branch field.")
 
         if (len(route) > 0 
                 and (isinstance(route[0], RouteDay) 
@@ -209,14 +209,42 @@ init -6 python:
         """
 
         return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
+    
+    def center_crop_bg_img(s):
+        """
+        A displayable prefix function which crops and centers a background
+        image to display as 'shake'.
+        """
+
+        return Fixed(Crop((0, (1334-1125)//2, 750, 1125), s,
+                    xalign=0.5, yalign=0.5), size=(750,1334))
 
     def get_text_width(the_text, the_style='default'):
         """Return the width of text with a certain style applied."""
         return int(Text(the_text, style=the_style).size()[0])
 
-    
+    def print_file(*args):
+        """Print debug statements to a file for debugging."""
+
+        DEBUG = False
+        if DEBUG is None:
+            return
+
+        if not DEBUG:
+            print(args)
+            return
+        # Otherwise, print this to a file for debugging
+        try:
+            f = open("debug.txt", "a")
+            #f.write(args)
+            print(args, file=f)
+            f.close()
+        except:
+            print("Print to file did not work:", args)
+
     config.displayable_prefix["btn_hover"] = btn_hover_img
     config.displayable_prefix["center_bg"] = center_bg_img
+    config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
 
 # This tells the program to randomly shuffle the order
 # of responses
@@ -302,15 +330,15 @@ image bg hack = "Phone UI/bg-hack.jpg"
 image bg redhack = "Phone UI/bg-redhack.jpg"
 image bg redcrack = "Phone UI/bg-redhack-crack.png"
 
-image morning = "bg morning"
-image evening = "bg evening"
-image night = "bg night"
-image earlyMorn = "bg earlyMorn"
-image noon = "bg noon"
+# image morning = "bg morning"
+# image evening = "bg evening"
+# image night = "bg night"
+# image earlyMorn = "bg earlyMorn"
+# image noon = "bg noon"
 
-image hack = "Phone UI/bg-hack-shake.png"
-image redhack = "Phone UI/bg-redhack-shake.png"
-image redcrack = "Phone UI/bg-redhack-crack-shake.png"
+# image hack = "center_crop_bg:bg hack"
+# image redhack = "center_crop_bg:bg redhack"
+# image redcrack = "center_crop_bg:bg redcrack"
 image black = "#000000"
 
 # A starry night background with some static stars;
@@ -358,8 +386,9 @@ default choosing = False
 # view a CG when you should be answering a prompt
 default pre_choosing = False
 
-# Total number of hp (heart points) received in a chatroom
-default chatroom_hp = 0
+# This keeps track of the sorts of heart points earned over a chatroom
+# so it can reset them if the player backs out of it.
+default chatroom_hp = {'good': [], 'bad': [], 'break': []}
 # Total number of hg (hourglasses) earned per chatroom
 default chatroom_hg = 0
 
