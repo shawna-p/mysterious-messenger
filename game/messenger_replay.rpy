@@ -1,5 +1,3 @@
-
-
 #************************************
 # Screen Shake
 #************************************
@@ -7,7 +5,7 @@
 # shake the screen during a chatroom
 label shake():
     if persistent.screenshake:
-        show expression current_background at shake
+        show expression "center_crop_bg:bg " + current_background at shake
     if (not observing and not persistent.testing_mode
             and not vn_choice
             and renpy.get_screen('phone_overlay')):
@@ -244,17 +242,23 @@ label chatroom_replay():
                                 renpy.pause(0.5, hard=False)
                             renpy.hide_screen('hack_screen')
                 elif first == "play music":
-                    renpy.music.play(second, channel='music', loop=True)
-                    if persistent.audio_captions:
-                        notification = ("♪ " + 
-                            music_dictionary[renpy.sound.get_playing('music')] 
-                            + " ♪")
-                        renpy.show_screen('notify', notification)
+                    try:
+                        notification =  ("♪ " + 
+                                music_dictionary[second] + " ♪")
+                        if persistent.audio_captions:
+                            renpy.show_screen('notify', notification)
+                    except (KeyError, AttributeError) as e:
+                        renpy.show_screen('script_error',
+                            message="No Audio Caption defined for %s" % second,
+                            link="Adding-Music-and-SFX",
+                            link_text="Adding Music and SFX") 
+                        print("WARNING: No Audio Caption defined for " + second)
+                    renpy.music.play(second, loop=True)
                 elif first == "shake":
                     current_background = second
                     if persistent.screenshake:
-                        renpy.show(second, at_list=[shake])
-                elif first == "enter":
+                        renpy.show("center_crop_bg:bg "+second, at_list=[shake])
+                elif first == "enter":                        
                     mystring = second.name + " has entered the chatroom."
                     addchat(special_msg, mystring, pv)
                     if second.name not in in_chat:
@@ -267,24 +271,7 @@ label chatroom_replay():
                         in_chat.remove(second.name)
                     renpy.restart_interaction()
                 elif first == "background":
-                    renpy.scene()
-                    current_background = second
-                    renpy.show('bg ' + second)
-                    if (persistent.animated_backgrounds
-                            and second in ['morning', 'noon', 'evening',
-                                           'night', 'earlyMorn']):
-                        renpy.show_screen('animated_' + second)
-                    elif (persistent.animated_backgrounds
-                            and second == 'redhack'):
-                        renpy.show_screen('animated_hack_background', red=True)
-                    elif (persistent.animated_backgrounds
-                            and second == 'hack'):
-                        renpy.show_screen('animated_hack_background')
-                    
-                    if second in ['morning', 'noon', 'evening']:
-                        nickColour = black
-                    else:
-                        nickColour = white
+                    set_chatroom_background(new_bg=second)                    
                 elif first == "invert":
                     if persistent.hacking_effects:
                         renpy.show_screen('invert', w_timer=second)
@@ -310,7 +297,7 @@ label chatroom_replay():
                     
                 
             else:
-                print("something's wacky", entry)
+                print_file("something's wacky", entry)
 
     $ chatroom_replay_index = 0
     $ replay_from = 0
