@@ -2,7 +2,7 @@
 ## This file contains several functions related to
 ## the messenger system. It's organized as follows:
 ##   label chat_begin
-##   label set_chatroom_background
+##   def set_chatroom_background
 ##   label chat_end
 ##   label chat_end_route
 ##   label vn_during_chat
@@ -37,7 +37,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
                         # line
     # Reset the heart points for this chatroom
     if resetHP:
-        $ chatroom_hp = 0
+        $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
 
     # Make sure the messenger screens are showing
     hide screen starry_night
@@ -62,7 +62,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     if clearchat:
         $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
 
-    call set_chatroom_background(background)
+    $ set_chatroom_background(background)
 
     # If you've already played this chatroom in your current runthrough,
     # viewing it again causes this variable to be True. It prevents you
@@ -112,48 +112,50 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 ## This label simplifies setting up backgrounds for chatrooms
 ## It takes the name of a background and shows the corresponding
 ## static or animated background
-label set_chatroom_background(new_bg):
-    # Sets the correct background and nickname colour
-    # You need to add other backgrounds here if you define
-    # new ones
-    $ current_background = new_bg
-    if new_bg in all_static_backgrounds:
-        scene
-        $ renpy.show('bg ' + new_bg)
-    # If the background is misspelled/etc, set a generic
-    # black background
-    else:
-        scene bg black
-        $ current_background = 'morning'
-        $ print("WARNING: Could not find the background \"bg " + new_bg + "\"")
-        $ renpy.show_screen('script_error',
-            message="Could not find the background \"bg " + new_bg + "\"")
-
-    if persistent.animated_backgrounds:
-        if new_bg in all_animated_backgrounds:
-            python:
+init python:
+    def set_chatroom_background(new_bg):
+        """Set the correct background and nickname colour."""
+        store.current_background = new_bg
+        if new_bg in store.all_static_backgrounds:
+            renpy.scene()
+            renpy.show('bg ' + new_bg)        
+        # If the background is misspelled or can't be found, set
+        # a generic black background
+        else:
+            renpy.scene()
+            renpy.show('bg black')
+            store.current_background = 'morning'
+            print("WARNING: Could not find the background \"bg " + new_bg + "\"")
+            renpy.show_screen('script_error',
+                message="Could not find the background \"bg " + new_bg + "\"")
+        
+        if store.persistent.animated_backgrounds:
+            if new_bg in store.all_animated_backgrounds:
                 try:
                     renpy.show_screen('animated_' + new_bg)
                 except:
-                    print("WARNING: Could not find the screen \"animated_" + new_bg + "\"")
+                    print("WARNING: Could not find the screen \"animated_"
+                        + new_bg + "\"")
                     renpy.show_screen('script_error',
-                        message="Could not find the screen \"animated_" + new_bg + "\"")
-        elif new_bg == 'hack':
-            show screen animated_hack_background
-        elif new_bg == 'redhack':
-            show screen animated_hack_background(red=True)
+                        message="Could not find the screen \"animated_"
+                            + new_bg + "\"")
+            elif new_bg == 'hack':
+                renpy.show_screen('animated_hack_background')
+            elif new_bg == 'redhack':
+                renpy.show_screen('animated_hack_background', red=True)
 
-    if new_bg in black_text_bgs:
-        $ nickColour = black
-    else:
-        $ nickColour = white
+        if new_bg in store.black_text_bgs:
+            store.nickColour = store.black
+        else:
+            store.nickColour = store.white
+
+        # Add this background to the replay log, if applicable
+        if not store.observing and not store.persistent.testing_mode:
+            bg_entry = ('background', store.current_background)
+            store.current_chatroom.replay_log.append(bg_entry)
         
-    # Add this background to the replay log
-    if not observing and not persistent.testing_mode:
-        $ bg_entry = ("background", current_background)
-        $ current_chatroom.replay_log.append(bg_entry)
+        return
 
-    return
 
 ## Call this label to show the save & exit sign
 label chat_end():
@@ -252,9 +254,9 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
         show screen pause_button
         window hide
         if new_bg:
-            call set_chatroom_background(new_bg)
+            $ set_chatroom_background(new_bg)
         else:
-            call set_chatroom_background(current_background)
+            $ set_chatroom_background(current_background)
         pause 0.5
         hide screen non_menu_loading_screen
     else:
@@ -263,9 +265,9 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
         show screen pause_button
         window hide
         if new_bg:
-            call set_chatroom_background(new_bg)
+            $ set_chatroom_background(new_bg)
         else:
-            call set_chatroom_background(current_background)
+            $ set_chatroom_background(current_background)
 
     python:
         if reset_participants:
@@ -313,7 +315,7 @@ label chat_back():
         $ current_chatroom.replay_log = []
         # Reset participants
         $ current_chatroom.reset_participants()
-        $ chatroom_hp = 0
+        $ rescind_chatroom_hp()
         $ chatroom_hg = 0
         $ most_recent_chat = current_chatroom
         $ reset_chatroom_vars()
@@ -374,7 +376,7 @@ label press_save_and_exit():
     else:
         call screen signature_screen(phone)        
         $ persistent.HG += chatroom_hg
-        $ chatroom_hp = 0
+        $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
         $ chatroom_hg = 0
         $ reset_chatroom_vars()
         show screen loading_screen        
@@ -416,7 +418,7 @@ screen signature_screen(phone=True):
             style_prefix "sig_points"            
             frame:
                 background 'heart_sign'
-                text str(chatroom_hp)
+                text str(get_chatroom_hp())
             frame:
                 background 'hg_sign'
                 text str(chatroom_hg)
@@ -499,7 +501,7 @@ label skip_intro_setup():
         $ vn_choice = False
         $ phone = False
     $ most_recent_chat = chat_archive[0].archive_list[0]
-    $ chatroom_hp = 0
+    $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
     $ chatroom_hg = 0
     $ reset_chatroom_vars()
     

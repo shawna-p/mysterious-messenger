@@ -221,14 +221,14 @@ python early hide:
                         # If that didn't work, assume it's a python conditional
                         messages.append(l.delimited_python(':'))
                     except:
-                        print("Couldn't get the delimited python")
+                        print_file("Couldn't get the delimited python")
                     try:
                         ll = l.subblock_lexer()
                         messages = parse_sub_block(ll, messages)
                         messages.append('end')
                         continue                        
                     except:
-                        print("Couldn't parse the subblock")
+                        print_file("Couldn't parse the subblock")
         return messages
 
     def parse_backlog_stmt(l):
@@ -662,14 +662,12 @@ python early hide:
                 if not store.observing:
                     who.increase_heart(bad)
                     if store.text_person is None:
-                        store.chatroom_hp += 1
-                    store.persistent.HP += 1
-
-                    # Saeran and Ray share the same heart points
-                    if who == store.r:
-                        store.sa.increase_heart(bad)
-                    elif who == store.sa:
-                        store.r.increase_heart(bad)
+                        # store.chatroom_hp += 1
+                        if bad:
+                            store.chatroom_hp['bad'].append(who)
+                        else:
+                            store.chatroom_hp['good'].append(who)
+                    store.persistent.HP += 1                    
 
                     if store.persistent.animated_icons:
                         renpy.show_screen(allocate_heart_screen(), character=who)
@@ -738,14 +736,10 @@ python early hide:
             return
         
         if not store.observing:
-            who.decrease_heart()
-            if who == store.sa:
-                r.decrease_heart()
-            elif who == store.r:
-                sa.decrease_heart()
+            who.decrease_heart()            
 
             if store.text_person is None:
-                store.chatroom_hp -= 1
+                store.chatroom_hp['break'].append(who)
             store.persistent.HP -= 1
 
             if store.persistent.animated_icons:
