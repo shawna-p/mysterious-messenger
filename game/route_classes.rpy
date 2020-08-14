@@ -40,6 +40,9 @@ init -6 python:
             True if the after_ label has been called for this TimelineItem.
         after_label : string
             Label to jump to to deliver post-item content.
+        phonecall_label : string
+            Label to use to construct phone calls that take place after
+            this item.
         outgoing_calls_list : string[]
             List of the labels used for phone calls that should follow this
             timeline item. Also used in the History screen.
@@ -124,6 +127,7 @@ init -6 python:
             self.parent = None
             self.delivered_post_items = False
             self.after_label = "after_" + item_label
+            self.phonecall_label = item_label
 
             self.outgoing_calls_list = [ (self.item_label + '_outgoing_' 
                 + x.file_id) for x in store.all_characters 
@@ -359,6 +363,13 @@ init -6 python:
             else:
                 renpy.call(self.after_label)
             store.was_expired = False
+            return
+        
+        def deliver_calls(self):
+            """Deliver phone calls associated with this item."""
+
+            if self.phonecall_label:
+                deliver_calls(self.phonecall_label, expired=self.expired)
             return
         
         def total_timeline_items(self, only_if_unplayed=False):
@@ -658,7 +669,7 @@ init -6 python:
             # ChatRooms don't have a parent
             if len(self.story_calls_list) > 0:
                 return self.story_calls[-1]
-            else if self.story_mode:
+            elif self.story_mode:
                 return self.story_mode
             return self
 
@@ -928,119 +939,7 @@ init -6 python:
         temp.parent = parent
         return temp
 
-    def vnmode_to_storymode(item, copy_everything=False):
-        """Convert item to a StoryMode object and return it."""
-
-        # print_file("LOOKING AT:", item.vn_label)
-        if (item.plot_branch and item.plot_branch.stored_vn):
-            pbranch = True
-        elif isinstance(item.plot_branch, PlotBranch):
-            pbranch = False
-        else:
-            pbranch = None
-
-        new_obj = StoryMode(title=item.title, vn_label=item.vn_label,
-            trigger_time=item.trigger_time, who=item.who,
-            plot_branch=pbranch, party=item.party,
-            save_img=item.save_img)
-
-        if copy_everything:
-            new_obj.played = item.played
-            new_obj.available = item.available
-        
-        return new_obj
-            
-
-    def chathistory_to_chatroom(item, copy_everything=False):
-        """Convert item to a ChatRoom object and return it."""
-
-        # print_file("LOOKING AT:", item.title)
-
-        if (item.plot_branch and item.plot_branch.stored_vn):
-            pbranch = True
-        elif isinstance(item.plot_branch, PlotBranch):
-            pbranch = False
-        else:
-            pbranch = None
-
-        new_obj = ChatRoom(title=item.title, chatroom_label=item.chatroom_label,
-            trigger_time=item.trigger_time, participants=item.participants,
-            plot_branch=pbranch, save_img=item.save_img)
-
-        if item.vn_obj:
-            try:
-                new_obj.story_mode.parent = new_obj
-            except:
-                print_file("couldn't give new_obj.story_mode a parent")
-        
-        if copy_everything:
-            # Need to check all other fields as well
-            # It's okay to copy list addresses since the program won't be
-            # using the originals any more
-            new_obj.original_participants = item.original_participants
-            new_obj.played = item.played
-            new_obj.participated = item.participated
-            new_obj.available = item.available
-            new_obj.expired = item.expired
-            new_obj.buyback = item.buyback
-            new_obj.buyahead = item.buyahead
-            new_obj.replay_log = item.replay_log
-            if item.vn_obj:
-                new_obj.story_mode.played = item.vn_obj.played
-                new_obj.story_mode.available = item.vn_obj.available
-           
-
-        # Test to see if the two items are the same
-        if item.title != new_obj.title:
-            print_file("title:", item.title, new_obj.title)
-        if item.chatroom_label != new_obj.item_label:
-            print_file("label:", item.chatroom_label, new_obj.item_label)
-        if item.expired_chat != new_obj.expired_label:
-            print_file("expired:", item.expired_chat, new_obj.expired_label)
-        if item.trigger_time != new_obj.trigger_time:
-            print_file("time:", item.trigger_time, new_obj.trigger_time)
-        if item.participants != new_obj.participants:
-            print_file("participants:", item.participants, new_obj.participants)
-        if (item.plot_branch != new_obj.plot_branch
-                and not (item.plot_branch == False 
-                    and new_obj.plot_branch is None)
-                and not (isinstance(item.plot_branch, PlotBranch)
-                    and isinstance(new_obj.plot_branch, PlotBranch))):
-            print_file("plot_branch:", item.plot_branch, new_obj.plot_branch)
-        if (item.plot_branch and item.plot_branch.stored_vn):
-            if (item.plot_branch.stored_vn.vn_label 
-                    != new_obj.plot_branch.stored_vn.item_label):
-                print_file("plot_branch stored VN:", item.plot_branch.stored_vn.vn_label,
-                    new_obj.plot_branch.stored_vn.item_label)
-        if (item.vn_obj and new_obj.story_mode):
-            if item.vn_obj.vn_label != new_obj.story_mode.item_label:
-                print_file("vn/story mode:", item.vn_obj.vn_label, 
-                    new_obj.story_mode.item_label)
-        if (item.vn_obj and not new_obj.story_mode):
-            print_file("\ \ \ So we don't have an equivalent story mode for some reason")
-            print_file("vn/story mode:", item.vn_obj, new_obj.story_mode)
-        if item.save_img != new_obj.save_img:
-            print_file("save_img:", item.save_img, new_obj.save_img)
-        if item.played != new_obj.played:
-            print_file("played:", item.played, new_obj.played)
-        if item.participated != new_obj.participated:
-            print_file("participated:", item.participated, new_obj.participated)
-        if item.available != new_obj.available:
-            print_file("available:", item.available, new_obj.available)
-        if item.expired != new_obj.expired:
-            print_file("expired:", item.expired, new_obj.expired)
-        if item.buyback != new_obj.buyback:
-            print_file("buyback:", item.buyback, new_obj.buyback)
-        if item.buyahead != new_obj.buyahead:
-            print_file("buyahead:", item.buyahead, new_obj.buyahead)
-        if item.outgoing_calls_list != new_obj.outgoing_calls_list:
-            print_file("outgoing_calls_list:", item.outgoing_calls_list, new_obj.outgoing_calls_list)
-        if item.incoming_calls_list != new_obj.incoming_calls_list:
-            print_file("incoming_calls_list:", item.incoming_calls_list, new_obj.incoming_calls_list)
-        if item.story_calls_list != new_obj.story_calls_list:
-            print_file("story_calls_list:", item.story_calls_list, new_obj.story_calls_list)
-
-        return new_obj
+    
         
 ## The label that is called when a timeline item has been completed
 label end_timeline_item():
@@ -1078,8 +977,9 @@ label exit_item_early():
         call screen timeline(current_day, current_day_num)
         return
     # Otherwise, this item will expire
-
-
+    $ expire_timeline_item(current_timeline_item)
+    $ renpy.set_return_stack([])
+    call screen timeline(current_day, current_day_num)
     return
 
 init python:
@@ -1107,8 +1007,14 @@ init python:
 
         reset_story_vars(item)
 
-        # Only deliver post-item content if it hasn't already been delivered.
-        if not the_parent.plot_branch and 
+        # Deliver post-item content if it isn't the item immediately
+        # prior to a plot branch
+        if item == item.get_item_before_branch():
+            item.call_after_label()
+            item.deliver_calls()
+            deliver_all_texts()
+        
+        renpy.retain_after_load()
 
         # Clean up the transition between the end of an item and returning
         renpy.pause(0.1)
@@ -1173,21 +1079,15 @@ init python:
         if (the_parent.mark_next_played()
                 and not store.starter_story
                 and not item.buyback):
-            store.most_recent_item = item
+            store.most_recent_item = the_parent
         
         # Deliver post-item content if this is not the last item before
         # a plot branch
         if (not item.delivered_post_items
                 and not item == item.get_item_before_branch()):
-        # If the parent item has expired or was bought back, then its
-        # post-item content will have already been delivered
-        # if (not the_parent.expired
-        #         and not the_parent.buyback
-        #         and the_parent.all_played()
-        #         and deliver_messages):
-        #     # Otherwise, the parent's after_ label is called
-        #     parent.call_after_label()
-        #     deliver_calls(parent.item_label)
+            item.call_after_label()
+            item.deliver_calls()
+                         
         
         # Next, deliver emails and unlock the next story item
         deliver_emails()
