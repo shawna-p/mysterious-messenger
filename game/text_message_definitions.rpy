@@ -72,23 +72,33 @@ init -6 python:
         def deliver(self):
             """Transfer messages from the msg_queue to the player's inbox."""
             
-            # If not on the text message screen, add these 
-            # messages to the regular message list
-            if self.msg_queue and not renpy.get_screen('text_message_screen'):
-                self.msg_list.extend(self.msg_queue)
-                self.msg_queue = []                
-                # If the last message was sent by someone other
-                # than the MC
-                if not self.msg_list[-1].who.right_msgr:
-                    # Notify the player of the delivered message
-                    self.read = False
-                    renpy.music.play(persistent.text_tone, 'sound')
-                    popup_screen = allocate_text_popup()
-                    renpy.show_screen(popup_screen, 
-                        c=self.msg_list[-1].who)
-                    self.notified = True
+            if not self.msg_queue:
+                return
+
+            delivered_text = False
+            # Only deliver these messages if their timestamp has passed
+            while len(self.msg_queue) > 0:
+                if self.msg_queue[0].thetime.has_occurred():
+                    self.msg_list.append(self.msg_queue.pop(0))
+                    delivered_text = True
                 else:
-                    self.read = True
+                    break
+
+            if not delivered_text:
+                return
+
+            # If the last message was sent by someone other than the MC
+            if not self.msg_list[-1].who.right_msgr:
+                # Notify the player of the delivered message
+                self.read = False
+            else:
+                self.read = True
+            if not self.read and not renpy.get_screen('text_message_screen'):
+                renpy.music.play(persistent.text_tone, 'sound')
+                popup_screen = allocate_text_popup()
+                renpy.show_screen(popup_screen, 
+                    c=self.msg_list[-1].who)
+                self.notified = True
             renpy.retain_after_load()
             
         def reply(self):
@@ -210,7 +220,7 @@ init -6 python:
         elif store.text_person:
             textlog = store.text_person.text_msg.msg_list
         else:
-            print_file("There's no one to text")
+            print_file("ERROR: There's no one to text")
             return
 
         if pauseVal == None:
@@ -327,12 +337,19 @@ init -6 python:
 
         global name
         name_cut = num_char + 6 - len(name)
+        if not last_msg:
+            return "Couldn't find a message"
+        last_msg.what = renpy.filter_text_tags(last_msg.what, allow=['image'])
         
-        if last_msg and ("{image" in last_msg.what or last_msg.img):
+        if(last_msg.img or "{image" in last_msg.what):
             if last_msg.who.right_msgr:
                 return "You sent an image."
             else:
-                return last_msg.who.name + " sent an image."
+                msg = last_msg.who.name + " sent an image."
+                if len(msg) > num_char:
+                    return msg[:num_char] + '...'
+                else:
+                    return msg
 
         if "[" in last_msg.what:
             # Do some cleanup to ensure variables aren't cut up
@@ -349,9 +366,9 @@ init -6 python:
             else:
                 return msg
 
-        if last_msg and len(last_msg.what) > num_char:
+        if len(last_msg.what) > num_char:
             return last_msg.what[:num_char] + '...'
-        elif last_msg:
+        else:
             return last_msg.what[:num_char]
             
 
