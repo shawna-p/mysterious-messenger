@@ -29,6 +29,10 @@ init -5 python:
             can be provided with the same file name + "-b" e.g. if prof_pic is
             "ja-default.png", the program searches for a file called
             "ja-default-b.png" for the big profile picture.
+        bonus_pfp : string
+            File path to the profile picture the player can manually set for
+            this character. It automatically gets priority over their default
+            profile picture.
         participant_pic : string
             File path to the "participant" picture for this character. Used
             on the Timeline screen to indicate this character was present.
@@ -170,6 +174,8 @@ init -5 python:
                     self.big_prof_pic = large_pfp
             if self.file_id == 'm':
                 self.prof_pic = store.persistent.MC_pic
+
+            self.__bonus_pfp = None
 
             self.participant_pic = participant_pic
             self.cover_pic = cover_pic
@@ -364,9 +370,27 @@ init -5 python:
             on the_size, resized to the given size.
             """
 
+            max_small = 110 * 1.5
+            # If this character has a bonus_pfp, it gets priority
+            try:
+                the_pic = self.__bonus_pfp
+            except AttributeError:
+                the_pic = False
+
+            if the_pic and the_size <= max_small:
+                return Transform(the_pic, size=(the_size, the_size))
+            elif the_pic:
+                # Check for a larger version
+                big_name = the_pic.split('.')
+                large_pfp = big_name[0] + '-b.' + big_name[1]
+                if renpy.loadable(large_pfp):
+                    return Transform(large_pfp, size=(the_size, the_size))
+                else:
+                    return Transform(the_pic, size=(the_size, the_size))
+                
+
             # Regular profile pic is 110x110
             # Big pfp is 314x314
-            max_small = 110 * 1.5
             if self != store.m:
                 if the_size <= max_small:
                     return Transform(self.__prof_pic, 
