@@ -179,6 +179,15 @@ image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.png'
 # to these lists.
 define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
 define bold_xbold_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2']
+# And if you want them to be used in text messages, you must add them to
+# this dictionary along with a path to its .ttf file
+define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
+            'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb, 
+            'ser2' : gui.serif_2, 'ser2b' : gui.serif_2b,
+            'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1, 
+            'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb, 
+            'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font}
 # Similarly, if you have any custom bubbles defined, add them here.
 define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
     'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
@@ -198,6 +207,8 @@ define all_animated_backgrounds = ['morning', 'noon', 'evening', 'night',
 # all_animated_backgrounds. Any backgrounds in here will display chatroom
 # nicknames in black. Otherwise, they are displayed in white.
 define black_text_bgs = ['morning', 'noon', 'evening']
+
+
 
 init python:
 
