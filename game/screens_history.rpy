@@ -187,14 +187,14 @@ screen timeline_item_history(item):
 
 
         replay_dictionary = {'observing': True,
-                            'current_chatroom': item,
+                            'current_timeline_item': item,
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name}
 
         expired_replay_dictionary = {'expired_replay': True,
                             'observing': True,
-                            'current_chatroom': item,
+                            'current_timeline_item': item,
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name}
@@ -386,7 +386,7 @@ screen history_timeline_story_calls(phonecall, item):
                     action Replay(phonecall.expired_label, 
                                     scope={'expired_replay': True,
                             'observing': True,
-                            'current_chatroom': item,
+                            'current_timeline_item': item,
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name,
@@ -408,7 +408,7 @@ screen history_timeline_story_calls(phonecall, item):
                     background 'history_chat_active'                        
                     action Replay(phonecall.item_label,
                         scope={'observing': True,
-                        'current_chatroom': item,
+                        'current_timeline_item': item,
                         'current_day': current_day,
                         'current_day_num': current_day_num,
                         'name': persistent.name,
@@ -440,7 +440,7 @@ screen history_calls_list(item, call_list, call_icon):
                     align (1.0, 1.0)
                 xysize (85,85)
                 action Replay(c, scope={'observing': True,
-                    'current_chatroom': item,
+                    'current_timeline_item': item,
                     'current_day': current_day,
                     'current_day_num': current_day_num,
                     'name': persistent.name,

@@ -399,13 +399,13 @@ init -6 python:
         actual time of day.
         """
 
-        global chat_archive, today_day_num, days_to_expire
+        global story_archive, today_day_num, days_to_expire
         global current_game_day
 
         # If the player is in Testing Mode, make all items available
         triggered_next = False
         if persistent.testing_mode:
-            for archive in chat_archive:
+            for archive in story_archive:
                 for item in archive.archive_list:
                     item.unlock_all()
                     if item.plot_branch:
@@ -418,7 +418,7 @@ init -6 python:
         triggered_next = False
         # Next, check if the player is in sequential mode
         if not store.persistent.real_time:
-            for archive in chat_archive:
+            for archive in story_archive:
                 for item in archive.archive_list:
                     # If the player hasn't played everything associated with
                     # this item, don't make anything new available and stop
@@ -450,9 +450,9 @@ init -6 python:
         date_diff = date.today() - current_game_day
         if date_diff.days > 0:
             # At least one day has passed; increase days_to_expire
-            # Its maximum size is the length of the chat_archive.
+            # Its maximum size is the length of the story_archive.
             days_to_expire = min(date_diff.days + days_to_expire,
-                                len(chat_archive))
+                                len(story_archive))
 
         # Update the current game date
         current_game_day = date.today()
@@ -462,7 +462,7 @@ init -6 python:
         # Search through every item in the archive to see if there
         # are any to be expired based on the current time of day.
         stop_checking = False
-        for day_index, routeday in enumerate(chat_archive[:days_to_expire]):
+        for day_index, routeday in enumerate(story_archive[:days_to_expire]):
             for item_index, item in enumerate(routeday.archive_list):
                 # If this item has a plot branch, don't check anything
                 # past it
@@ -490,7 +490,7 @@ init -6 python:
                 # This is the first item of the day; previous item was the last
                 # item on the day before this one
                 elif item_index == 0 and day_index > 0:
-                    prev_item = chat_archive[day_index-1].archive_list[-1]
+                    prev_item = story_archive[day_index-1].archive_list[-1]
                 else:
                     prev_item = False
                 
@@ -652,7 +652,7 @@ init -6 python:
         """
         
         total = 0
-        for archive in store.chat_archive:
+        for archive in store.story_archive:
             if archive.archive_list:
                 for item in archive.archive_list:
                     if check_all:
@@ -703,7 +703,7 @@ init -6 python:
     def merge_routes(new_route):
         """Merge new_route with the current route."""
         
-        global chat_archive, most_recent_chat, current_chatroom
+        global story_archive, most_recent_item, current_timeline_item
 
         # May need to update the merged route to TimelineItems    
         for day in new_route:
@@ -713,7 +713,7 @@ init -6 python:
         # If the first item of the merged route has a branch_vn, it gets added
         # to the main TimelineItem that contained the branch
         if len(new_route) > 1 and new_route[1].branch_vn:
-            most_recent_chat.story_mode = new_route[1].get_branch_item
+            most_recent_item.story_mode = new_route[1].get_branch_item
 
         plot_branch_party = False
         try:
@@ -727,7 +727,7 @@ init -6 python:
         # plot branch, in which case we're looking for the party
         a = 0
         found_branch = None
-        for archive in chat_archive:
+        for archive in story_archive:
             for item in archive.archive_list:
                 if not plot_branch_party and item.plot_branch:
                     found_branch = item
@@ -740,37 +740,37 @@ init -6 python:
             a += 1
 
         # Now get rid of all the chats past the plot branch
-        while (chat_archive[a].archive_list 
-                and not chat_archive[a].archive_list[-1] == found_branch):
+        while (story_archive[a].archive_list 
+                and not story_archive[a].archive_list[-1] == found_branch):
             # Remove the last item from the archive_list if it isn't the
             # plot branch we're dealing with
-            chat_archive[a].archive_list.pop()
+            story_archive[a].archive_list.pop()
 
-        if a < len(chat_archive):
-            for archive in chat_archive[a+1:]:
+        if a < len(story_archive):
+            for archive in story_archive[a+1:]:
                 archive.archive_list = []
 
         # Remove the plot branch indicator
-        most_recent_chat.plot_branch = False
+        most_recent_item.plot_branch = False
 
-        # If this is the party, might need to update the current_chatroom
+        # If this is the party, might need to update the current_timeline_item
         # to be the merged party
         if plot_branch_party:
-            # Search through chat_archive to find the party we're replacing
-            for day in chat_archive:
+            # Search through story_archive to find the party we're replacing
+            for day in story_archive:
                 for item in day.archive_list:
                     if (isinstance(item, StoryMode)
                             and item.party and not item.played):
                         # This is the party to replace
                         print_file("Found the replacement party")
                         item = new_route[1].archive_list[0]
-                        current_chatroom = item
-                        print_file("current_chatroom is now", current_chatroom.item_label)
+                        current_timeline_item = item
+                        print_file("current_timeline_item is now", current_timeline_item.item_label)
                         return
 
 
         # Merge the days on the new route
-        for archive in chat_archive:
+        for archive in story_archive:
             for archive2 in new_route[1:]:
                 if archive2.day == archive.day:                    
                     archive.archive_list += archive2.archive_list
@@ -781,15 +781,15 @@ init -6 python:
     def continue_route():
         """Clean up the current route to continue after a plot branch."""
 
-        global most_recent_chat
+        global most_recent_item
         
-        if (most_recent_chat.plot_branch 
-                and most_recent_chat.plot_branch.vn_after_branch):
+        if (most_recent_item.plot_branch 
+                and most_recent_item.plot_branch.vn_after_branch):
             # This chat has a stored VN to add to the chat itself
-            most_recent_chat.story_mode = most_recent_chat.plot_branch.stored_vn
+            most_recent_item.story_mode = most_recent_item.plot_branch.stored_vn
 
         # Remove the plot branch indicator
-        most_recent_chat.plot_branch = False
+        most_recent_item.plot_branch = False
 
     def participated_percentage(first_day=1, last_day=None):
         """
@@ -822,12 +822,12 @@ init -6 python:
         # so subtract 1 from first_day
         first_day -= 1
         if last_day is None:
-            last_day = len(store.chat_archive)
+            last_day = len(store.story_archive)
             
         total_days = last_day - first_day
         total_percent = 0
                     
-        for day in store.chat_archive[first_day:last_day]:
+        for day in store.story_archive[first_day:last_day]:
             total_percent += day.participated_percentage(True)
         
         return (total_percent // total_days)
@@ -836,7 +836,7 @@ init -6 python:
     def can_branch():
         """Return True if the player can proceed through the plot branch."""
 
-        for archive in store.chat_archive:
+        for archive in store.story_archive:
             if archive.archive_list:
                 for item in archive.archive_list:
                     if not item.all_played():
@@ -850,14 +850,14 @@ init -6 python:
         Return the time of the next TimelineItem, regardless of availability.
         """
 
-        global chat_archive
+        global story_archive
 
         if compare_from is None:
             compare_from = store.current_timeline_item
 
         return_next_item = False
         item_index = 0
-        for day_i, day in enumerate(chat_archive):
+        for day_i, day in enumerate(story_archive):
             for item in day.archive_list:
                 if return_next_item:
                     return (item.get_trigger_time(), day_i - item_index)
@@ -869,12 +869,12 @@ init -6 python:
     def get_item_day(item):
         """Return the index number of the day this item is on."""
 
-        global chat_archive
-        for day_i, day in enumerate(chat_archive):
+        global story_archive
+        for day_i, day in enumerate(story_archive):
             for item2 in day.archive_list:
                 if item == item2:
                     return day_i
-        print_file("Couldn't find item in chat_archive")
+        print_file("Couldn't find item in story_archive")
         return store.today_day_num
 
     def get_random_time(begin, end, day_diff=0):
@@ -913,15 +913,16 @@ init -6 python:
             random_hour -= 24                
 
         # Now return the time, formatted as 00:00 in a string
-        return (str(random_hour) + ":" + str(random_min), new_day_diff)
+        return ("{:02d}".format(random_hour) + ":"
+            + "{:02d}".format(random_min), new_day_diff)
            
 
 
     def next_story_time():
         """Return the time the next timeline item should be available at."""
 
-        global chat_archive
-        for archive in chat_archive:
+        global story_archive
+        for archive in story_archive:
             for item in archive.archive_list:
                 if item.plot_branch and item.available:
                     return 'Plot Branch'
@@ -932,7 +933,7 @@ init -6 python:
     def make_24h_available():
         """Make the chatrooms for the next 24 hours available."""
 
-        global chat_archive, today_day_num, days_to_expire, unlock_24_time
+        global story_archive, today_day_num, days_to_expire, unlock_24_time
         
         # Record the time that this function was called at. If this isn't
         # False, then we're trying to continue unlocking chatrooms (usually
@@ -941,8 +942,8 @@ init -6 python:
             unlock_time = upTime()
             # First, advance the day
             days_to_expire += 1
-            if days_to_expire > len(chat_archive):
-                days_to_expire = len(chat_archive)
+            if days_to_expire > len(story_archive):
+                days_to_expire = len(story_archive)
             expiry_day = days_to_expire
             unlock_24_time = [expiry_day, upTime()]
         else:
@@ -952,7 +953,7 @@ init -6 python:
         
         # This functions much like the check_and_unlock_story() function, only
         # here instead of expiring chatrooms we make them available
-        for i, item in enumerate(chat_archive[expiry_day-2].archive_list):
+        for i, item in enumerate(story_archive[expiry_day-2].archive_list):
             # If this item is already available, don't bother with it
             if item.available and (item.buyahead or item.played):
                 continue
@@ -964,7 +965,7 @@ init -6 python:
                 return
 
         # Now check the next day
-        for i, item in enumerate(chat_archive[expiry_day-1].archive_list):
+        for i, item in enumerate(story_archive[expiry_day-1].archive_list):
             # Skip already available items
             if item.available and (item.buyahead or item.played):
                 continue
@@ -984,7 +985,7 @@ init -6 python:
                 return
 
         # Otherwise, we may have been able to reach the end of the route
-        if expiry_day == len(chat_archive):
+        if expiry_day == len(story_archive):
             today_day_num = expiry_day - 1
             return
 

@@ -482,12 +482,12 @@ label hang_up_story_call():
             current_call.buyback = False
             current_call.buyahead = False
             # This is the most recent item because it hasn't been played
-            most_recent_chat = current_chatroom
+            most_recent_item = current_timeline_item
             # Deliver texts and calls
-            if not current_chatroom.plot_branch:
-                current_chatroom.call_after_label()
+            if not current_timeline_item.plot_branch:
+                current_timeline_item.call_after_label()
                 deliver_all_texts()
-                deliver_calls(current_chatroom.item_label, True)
+                deliver_calls(current_timeline_item.item_label, True)
             renpy.retain_after_load()
         renpy.set_return_stack([])
     call screen timeline(current_day, current_day_num)

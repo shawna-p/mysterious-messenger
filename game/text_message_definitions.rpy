@@ -433,7 +433,7 @@ label text_end():
         $ text_person.finished_text()
     $ who = text_person
     $ text_person = None
-    $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
+    $ collected_hp = {'good': [], 'bad': [], 'break': []}
     $ textbackup = ChatEntry(filler,"","")
     $ renpy.retain_after_load()        
     hide screen text_answer

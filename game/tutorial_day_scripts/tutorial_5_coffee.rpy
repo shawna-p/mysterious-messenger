@@ -38,7 +38,7 @@ label tutorial_chat():
         # This is a special option which only appears if you've played
         # through this chatroom at least once across all playthroughs
         "(Jump to end)" if persistent.completed_chatrooms.get(
-                                        current_chatroom.chatroom_label):
+                                        current_timeline_item.item_label):
             # It's simply useful for test purposes as it jumps
             # to the end of the chatroom, and wouldn't be included
             # in a proper release

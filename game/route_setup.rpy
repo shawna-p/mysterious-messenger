@@ -7,7 +7,8 @@ init -7:
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
 # for you
-default chat_archive = []
+default chat_archive = None
+default story_archive = []
 
 default tutorial_good_end = ["Good End",
     RouteDay('Tutorial', 

@@ -37,7 +37,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
                         # line
     # Reset the heart points for this chatroom
     if resetHP:
-        $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
+        $ collected_hp = {'good': [], 'bad': [], 'break': []}
 
     # Make sure the messenger screens are showing
     hide screen starry_night
@@ -68,7 +68,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     # viewing it again causes this variable to be True. It prevents you
     # from receiving heart points again and only lets you select choices
     # you've selected on this or previous playthroughs
-    if current_chatroom.played:
+    if current_timeline_item.played:
         if not persistent.testing_mode:
             $ observing = True     
         else:
@@ -93,17 +93,17 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     if resetHP:
         $ in_chat = []
         if not observing:
-            $ current_chatroom.reset_participants()
+            $ current_timeline_item.reset_participants()
         python:
-            for person in current_chatroom.original_participants:
+            for person in current_timeline_item.original_participants:
                 if person.name not in in_chat:
                     in_chat.append(person.name)
             
         # If the player is participating, add them to the list of
         # people in the chat
-        if (not current_chatroom.expired 
-                or current_chatroom.buyback 
-                or current_chatroom.buyahead):
+        if (not current_timeline_item.expired 
+                or current_timeline_item.buyback 
+                or current_timeline_item.buyahead):
             if not expired_replay:
                 $ in_chat.append(m.name)
         
@@ -152,7 +152,7 @@ init python:
         # Add this background to the replay log, if applicable
         if not store.observing and not store.persistent.testing_mode:
             bg_entry = ('background', store.current_background)
-            store.current_chatroom.replay_log.append(bg_entry)
+            store.current_timeline_item.replay_log.append(bg_entry)
         
         return
 
@@ -182,7 +182,7 @@ label chat_end_route():
         show expression ending
     $ ending = False
 
-    $ current_chatroom.mark_next_played()
+    $ current_timeline_item.mark_next_played()
     
     pause
     if _in_replay:
@@ -199,7 +199,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     if (not observing and not persistent.testing_mode):
         $ vn_jump_entry = ("vn jump", 
             [vn_label, clearchat_on_return, new_bg, reset_participants])
-        $ current_chatroom.replay_log.append(vn_jump_entry)
+        $ current_timeline_item.replay_log.append(vn_jump_entry)
 
     # Give the player a moment to read the last of the messages
     # before jumping to the VN
@@ -275,7 +275,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
             for person in reset_participants:
                 in_chat.append(person.name)
                 if not observing:
-                    current_chatroom.add_participant(person)
+                    current_timeline_item.add_participant(person)
 
     
     # If this is part of a replayed chatroom, go back to
@@ -299,33 +299,33 @@ screen non_menu_loading_screen():
 label chat_back():
     # If you're replaying a chatroom or it's already
     # expired, you can back out without repercussions
-    if observing or current_chatroom.expired or _in_replay:
+    if observing or current_timeline_item.expired or _in_replay:
         $ reset_chatroom_vars()
         if _in_replay:
             $ renpy.end_replay()
     else:
         # If you back out of a chatroom, it expires
-        $ current_chatroom.expired = True        
+        $ current_timeline_item.expired = True        
         # And if you bought it back, it still expires
-        $ current_chatroom.buyback = False
-        $ current_chatroom.buyahead = False
-        $ current_chatroom.participated = False
+        $ current_timeline_item.buyback = False
+        $ current_timeline_item.buyahead = False
+        $ current_timeline_item.participated = False
         # The replay log should reset since the player hasn't
         # seen the entire chatroom
-        $ current_chatroom.replay_log = []
+        $ current_timeline_item.replay_log = []
         # Reset participants
-        $ current_chatroom.reset_participants()
-        $ rescind_chatroom_hp()
-        $ chatroom_hg = 0
-        $ most_recent_chat = current_chatroom
+        $ current_timeline_item.reset_participants()
+        $ rescind_collected_hp()
+        $ collected_hg = 0
+        $ most_recent_item = current_timeline_item
         $ reset_chatroom_vars()
-        # Deliver text and calls        
+        # Deliver text and calls
         # Checks for a post-chatroom label; triggers even if there's a VN
         # and delivers text messages, phone calls etc
-        if not current_chatroom.plot_branch:
-            $ current_chatroom.call_after_label()                
+        if not current_timeline_item.plot_branch:
+            $ current_timeline_item.call_after_label()                
             $ deliver_all_texts()
-            $ deliver_calls(current_chatroom.item_label, True)
+            $ deliver_calls(current_timeline_item.item_label, True)
         $ renpy.retain_after_load()
     $ renpy.set_return_stack([])
     call screen timeline(current_day, current_day_num)
@@ -360,12 +360,12 @@ label press_save_and_exit():
     else:
         $ phone = True
     
-    if (most_recent_chat is None 
-            and chat_archive 
-            and chat_archive[0].archive_list):
-        $ most_recent_chat = chat_archive[0].archive_list[0]
-    elif most_recent_chat is None:
-        $ most_recent_chat = ChatRoom('Example Chatroom', 
+    if (most_recent_item is None 
+            and story_archive 
+            and story_archive[0].archive_list):
+        $ most_recent_item = story_archive[0].archive_list[0]
+    elif most_recent_item is None:
+        $ most_recent_item = ChatRoom('Example Chatroom', 
                                         'example_chat', '00:01')
         
     if observing or _in_replay:
@@ -375,12 +375,12 @@ label press_save_and_exit():
         call screen timeline(current_day, current_day_num)
     else:
         call screen signature_screen(phone)        
-        $ persistent.HG += chatroom_hg
-        $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
-        $ chatroom_hg = 0
+        $ persistent.HG += collected_hg
+        $ collected_hp = {'good': [], 'bad': [], 'break': []}
+        $ collected_hg = 0
         $ reset_chatroom_vars()
         show screen loading_screen        
-        $ post_chat_actions(not current_chatroom.plot_branch)
+        $ post_chat_actions(not current_timeline_item.plot_branch)
         # This helps clean up the transition between sections
         # in case it takes the program a few moments to calculate
         # messages, emails, etc
@@ -418,10 +418,10 @@ screen signature_screen(phone=True):
             style_prefix "sig_points"            
             frame:
                 background 'heart_sign'
-                text str(get_chatroom_hp())
+                text str(get_collected_hp())
             frame:
                 background 'hg_sign'
-                text str(chatroom_hg)
+                text str(collected_hg)
         
         text "I hereby agree to treat this conversation as confidential.":
             if persistent.custom_footers:
@@ -500,20 +500,20 @@ label skip_intro_setup():
     if vn_choice:
         $ vn_choice = False
         $ phone = False
-    $ most_recent_chat = chat_archive[0].archive_list[0]
-    $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
-    $ chatroom_hg = 0
+    $ most_recent_item = story_archive[0].archive_list[0]
+    $ collected_hp = {'good': [], 'bad': [], 'break': []}
+    $ collected_hg = 0
     $ reset_chatroom_vars()
     
     show screen loading_screen
         
     # Add this label to the list of completed labels
-    $ current_chatroom.mark_next_played()        
-    if not current_chatroom.expired and not current_chatroom.buyback:
+    $ current_timeline_item.mark_next_played()        
+    if not current_timeline_item.expired and not current_timeline_item.buyback:
         # Checks for a post-chatroom label
         # Otherwise delivers phone calls/texts/etc
-        $ current_chatroom.call_after_label()        
-        $ deliver_calls(current_chatroom.item_label)
+        $ current_timeline_item.call_after_label()        
+        $ deliver_calls(current_timeline_item.item_label)
                 
     # Deliver emails and trigger the next chatroom (if applicable)
     $ deliver_emails()   

@@ -314,7 +314,7 @@ screen phone_overlay():
                 idle 'back_arrow_btn'
                 hover Transform('back_arrow_btn', zoom=1.2)
                 keysym "K_BACKSPACE"
-                if observing or current_chatroom.expired:
+                if observing or current_timeline_item.expired:
                     action Jump('chat_back')
                 else:
                     action Show("confirm", message="Do you really want to exit this chatroom? Please note that you cannot participate once you leave. If you want to enter this chatroom again, you will need to buy it back.", 

@@ -445,12 +445,12 @@ screen file_slots(title):
     python:      
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name  
-        if (most_recent_chat is None 
-                and chat_archive
-                and chat_archive[0].archive_list):
-            most_recent_chat = chat_archive[0].archive_list[0]
-        elif most_recent_chat is None:
-            most_recent_chat = ChatRoom('Example Chatroom', 
+        if (most_recent_item is None 
+                and story_archive
+                and story_archive[0].archive_list):
+            most_recent_item = story_archive[0].archive_list[0]
+        elif most_recent_item is None:
+            most_recent_item = ChatRoom('Example Chatroom', 
                                             'example_chat', '00:01')
         
                         
@@ -598,21 +598,21 @@ init python:
     def get_save_title():
         """Get the save title based on today's information."""
 
-        global most_recent_chat
+        global most_recent_item
         # Find today
         today = "1st"
         tomorrow = "2nd"
-        for day_num, day in enumerate(store.chat_archive):
-            if most_recent_chat in day.archive_list:
+        for day_num, day in enumerate(store.story_archive):
+            if most_recent_item in day.archive_list:
                 today = day.day
-                if day_num+1 < len(store.chat_archive):
-                    tomorrow = store.chat_archive[day_num+1].day
+                if day_num+1 < len(store.story_archive):
+                    tomorrow = store.story_archive[day_num+1].day
                 else:
                     tomorrow = today
                 break
         
-        return (most_recent_chat.save_img + "|" + today + "|"
-                + most_recent_chat.title + "|" + tomorrow)
+        return (most_recent_item.save_img + "|" + today + "|"
+                + most_recent_item.title + "|" + tomorrow)
 
         
 

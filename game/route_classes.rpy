@@ -1037,7 +1037,7 @@ init python:
         item.expire()
         
         # Remove any heart points the player earned during this item
-        rescind_chatroom_hp()
+        rescind_collected_hp()
         # Hourglasses aren't added to the player's totals until the end,
         # so they can simply be reset
         store.chatroom_hg = 0
@@ -1075,9 +1075,9 @@ init python:
 
         # First, ensure most_recent_item is not None
         if (store.most_recent_item is None
-                and store.chat_archive
-                and store.chat_archive[0].archive_list):
-            store.most_recent_item = store.chat_archive[0].archive_list[0]
+                and store.story_archive
+                and store.story_archive[0].archive_list):
+            store.most_recent_item = store.story_archive[0].archive_list[0]
         # Warn the user if no TimelineItems could be found
         elif store.most_recent_item is None:
             store.most_recent_item = ChatRoom('Example Chatroom',
@@ -1101,8 +1101,8 @@ init python:
         renpy.show_screen('loading_screen')
 
         # Determine chatroom heart points (HP)
-        store.persistent.HP += get_chatroom_hp()
-        store.chatroom_hp = {'good': [], 'bad': [], 'break': []}
+        store.persistent.HP += get_collected_hp()
+        store.collected_hp = {'good': [], 'bad': [], 'break': []}
         # Give the player their hourglasses
         store.persistent.HG += store.chatroom_hg
         store.chatroom_hg = 0
@@ -1152,21 +1152,21 @@ init python:
         return        
 
 
-    def get_chatroom_hp():
+    def get_collected_hp():
         """Return the total number of heart points earned in a chatroom."""
 
-        return (len(store.chatroom_hp['good'])
-                    + len(store.chatroom_hp['bad'])
-                    - len(store.chatroom_hp['break']))
+        return (len(store.collected_hp['good'])
+                    + len(store.collected_hp['bad'])
+                    - len(store.collected_hp['break']))
 
-    def rescind_chatroom_hp():
+    def rescind_collected_hp():
         """Resets the heart points earned during this chatroom."""
 
-        global chatroom_hp
+        global collected_hp
 
-        for chara in chatroom_hp['good']:
+        for chara in collected_hp['good']:
             chara.decrease_heart()
-        for chara in chatroom_hp['bad']:
+        for chara in collected_hp['bad']:
             chara.heart_points -= 1
             chara.bad_heart -= 1
             # Saeran and Ray share heart points
@@ -1176,14 +1176,14 @@ init python:
             elif chara == store.r:
                 store.sa.heart_points -= 1
                 store.sa.bad_heart -= 1
-        for chara in chatroom_hp['break']:
+        for chara in collected_hp['break']:
             chara.increase_heart()
 
         # Remove points from persistent.HP
-        store.persistent.HP -= get_chatroom_hp()
+        store.persistent.HP -= get_collected_hp()
         
-        # Reset chatroom_hp
-        chatroom_hp = {'good': [], 'bad': [], 'break': []}
+        # Reset collected_hp
+        collected_hp = {'good': [], 'bad': [], 'break': []}
 
 
     def reset_story_vars(item, vn_jump=False):
@@ -1228,7 +1228,7 @@ init python:
         renpy.music.stop(channel='music')
 
         # Reset heart points
-        store.chatroom_hp = {'good': [], 'bad': [], 'break': []}
+        store.collected_hp = {'good': [], 'bad': [], 'break': []}
 
         renpy.hide_screen('starry_night')
         renpy.hide_screen('animated_bg')

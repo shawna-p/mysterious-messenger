@@ -588,7 +588,7 @@ init -5 python:
                     # For replays, MC shouldn't reply instantly
                     if self.right_msgr and new_pv == 0:
                         new_pv = None
-                    store.current_chatroom.replay_log.append(ReplayEntry(
+                    store.current_timeline_item.replay_log.append(ReplayEntry(
                         self, what, new_pv, img, bounce, specBubble))
                     
                 addchat(self, what, pauseVal=pauseVal, img=img, 

@@ -8,7 +8,7 @@ init python:
         Update this save file for compatibility with new versions.
         """
 
-        while store._version != "2.3":
+        while store._version != "3.0":
             if store._version == "2.1.1":
                 float_ver = 2.1001
             elif store._version == "2.2.1":
@@ -60,15 +60,27 @@ init python:
                 store._version = "2.2"
                 float_ver = 2.2
 
-            if float_ver < 2.3:
+            if float_ver < 3.0:
                 # Update ChatHistory and VNMode objects
                 for day in store.chat_archive:                    
                     day.convert_archive(True)
 
-                store._version = '2.3'
-                float_ver = 2.3
+                # Update several variables
+                store.current_timeline_item = store.current_chatroom
+                store.current_chatroom = None
+                store.story_archive = store.chat_archive
+                store.chat_archive = None
+                store.most_recent_item = store.most_recent_chat
+                store.most_recent_chat = None
+                store.collected_hp = store.chatroom_hp
+                store.collected_hg = store.chatroom_hg
+                store.chatroom_hp = None
+                store.chatroom_hg = None
+
+                store._version = '3.0'
+                float_ver = 3.0
             
-            store._version = "2.3"
+            store._version = "3.0"
                                         
 
     def find_route_endings(route, chatlist, titles):
@@ -379,8 +391,8 @@ init python:
                 store.days_to_expire += date_diff.days
                 store.current_game_day = date.today()
 
-            if store.days_to_expire > len(store.chat_archive):
-                store.days_to_expire = len(store.chat_archive)
+            if store.days_to_expire > len(store.story_archive):
+                store.days_to_expire = len(store.story_archive)
             persistent.load_instr = False
         else:
             # The program keeps track of the current day even if
@@ -389,15 +401,15 @@ init python:
             store.current_game_day = date.today()
     
         # Make sure that today_day_num is correct
-        d = len(store.chat_archive)
-        for day in reversed(store.chat_archive):
+        d = len(store.story_archive)
+        for day in reversed(store.story_archive):
             d -= 1
             if day.has_playable:
                 store.today_day_num = d
                 print_file("today_day_num is", store.today_day_num)
                 break
         
-        if d == len(store.chat_archive):
+        if d == len(store.story_archive):
             store.today_day_num = 0
             print_file("2. today_day_num is", store.today_day_num)
             

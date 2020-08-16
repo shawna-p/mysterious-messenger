@@ -197,7 +197,7 @@ init python:
                 self.deliver_reply = deliver_reply
             else:
                 if not test:
-                    max_num = num_future_chatrooms(self.before_branch) - 1
+                    max_num = num_future_timeline_items(self.before_branch) - 1
                     min_num = 1
                     msg_remain = 3 - self.msg_num
                     if msg_remain == 0:

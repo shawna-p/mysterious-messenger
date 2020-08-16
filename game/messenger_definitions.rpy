@@ -469,7 +469,7 @@ init -4 python:
 
         # Don't give HG when rewatching a chatroom, or not participating,
         # or if receiving hourglasses is turned off
-        if (store.observing or store.current_chatroom.expired
+        if (store.observing or store.current_timeline_item.expired
                 or not store.persistent.receive_hg):
             return
         
@@ -552,25 +552,25 @@ init -4 python:
         current chatroom status as appropriate.
         """
 
-        global current_chatroom, persistent
+        global current_timeline_item, persistent
 
-        if current_chatroom.mark_next_played():
+        if current_timeline_item.mark_next_played():
             # Indicates the program was able to successfully mark the next
             # item in this TimelineItem played
             # This is the most recent chatroom if the player didn't
             # buy it back to play through it and it isn't the intro
-            if not store.starter_story and not current_chatroom.buyback:
-                store.most_recent_chat = current_chatroom
+            if not store.starter_story and not current_timeline_item.buyback:
+                store.most_recent_item = current_timeline_item
         
         # If the chatroom has expired or was bought back, then its
         # post-chatroom content will have already been delivered
-        if (not current_chatroom.expired 
-                and not current_chatroom.buyback
-                #and current_chatroom.all_played()
+        if (not current_timeline_item.expired 
+                and not current_timeline_item.buyback
+                #and current_timeline_item.all_played()
                 and deliver_messages):
-            current_chatroom.call_after_label()    
-            if current_chatroom.phonecall_label:    
-                deliver_calls(current_chatroom.phonecall_label)
+            current_timeline_item.call_after_label()    
+            if current_timeline_item.phonecall_label:    
+                deliver_calls(current_timeline_item.phonecall_label)
             
         # Deliver emails and trigger the next chatroom
         deliver_emails()   

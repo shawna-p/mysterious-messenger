@@ -10,7 +10,7 @@ label vn_begin(nvl=False):
     if starter_story:
         $ set_name_pfp()
     window auto
-    $ chatroom_hp = {'good': [], 'bad': [], 'break': []}
+    $ collected_hp = {'good': [], 'bad': [], 'break': []}
     scene bg black
     stop music
     hide screen starry_night
@@ -31,10 +31,10 @@ label vn_begin(nvl=False):
     $ _history = True
     
     if (not _in_replay and 
-            ((isinstance(current_chatroom, ChatRoom)
-                and current_chatroom.story_mode.played)
-            or (isinstance(current_chatroom, StoryMode)
-                and current_chatroom.played))):
+            ((isinstance(current_timeline_item, ChatRoom)
+                and current_timeline_item.story_mode.played)
+            or (isinstance(current_timeline_item, StoryMode)
+                and current_timeline_item.played))):
         if not persistent.testing_mode:
             $ observing = True
         else:
@@ -68,15 +68,15 @@ label vn_end_route():
     elif ending == 'bad':
         scene bg bad_end
     $ ending = False
-    if current_chatroom.expired and not current_chatroom.buyback:
+    if current_timeline_item.expired and not current_timeline_item.buyback:
         $ persistent.completed_chatrooms[
-                        current_chatroom.expired_chat] = True
+                        current_timeline_item.expired_chat] = True
     else:
         $ persistent.completed_chatrooms[
-                        current_chatroom.chatroom_label] = True
-    if current_chatroom.vn_obj:
+                        current_timeline_item.chatroom_label] = True
+    if current_timeline_item.vn_obj:
         $ persistent.completed_chatrooms[
-                        current_chatroom.vn_obj.vn_label] = True
+                        current_timeline_item.vn_obj.vn_label] = True
 
     pause
     if _in_replay:

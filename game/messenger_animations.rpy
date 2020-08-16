@@ -278,7 +278,7 @@ label hack():
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         $ hack_entry = ("hack", "regular")
-        $ current_chatroom.replay_log.append(hack_entry)
+        $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
         show screen hack_screen('hack scroll')
         pause 3.0
@@ -289,7 +289,7 @@ label redhack():
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         $ hack_entry = ("hack", "red")
-        $ current_chatroom.replay_log.append(hack_entry)
+        $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
         show screen hack_screen('redhack scroll')
         pause 3.0
@@ -307,7 +307,7 @@ label banner(banner):
     if (not observing and not persistent.testing_mode
             and not vn_choice):
         $ banner_entry = ("banner", banner)
-        $ current_chatroom.replay_log.append(banner_entry)
+        $ current_timeline_item.replay_log.append(banner_entry)
     if persistent.banners:
         show screen banner_screen(banner)
     return

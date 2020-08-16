@@ -1,7 +1,7 @@
 ########################################################
 ## This is the screen where you choose which day to play
 ########################################################
-screen day_select(days=chat_archive):
+screen day_select(days=story_archive):
 
     tag menu
     modal True
@@ -28,7 +28,7 @@ screen day_select(days=chat_archive):
             hbox:
                 spacing 3
                 # This iterates through each day in the given list
-                # (usually chat_archive)
+                # (usually story_archive)
                 for day_num, day in enumerate(days):
                     if len(days) < 2:
                         null width (750//2)-(263//2)-3
@@ -274,7 +274,7 @@ screen timeline_item_display(day, day_num, item, index):
             was_played = prev_item.all_played()
         elif index == 0 and day_num > 0:
             # This is the first chatroom on a new day, but not the first day
-            prev_item = chat_archive[day_num-1].archive_list[-1]
+            prev_item = story_archive[day_num-1].archive_list[-1]
             was_played = prev_item.all_played()
         else:
             prev_item = None
@@ -362,17 +362,17 @@ screen timeline_item_display(day, day_num, item, index):
                     # Determine where to take the player depending
                     # on whether this chatroom is expired or not
                     if item.expired and not item.played:
-                        action [SetVariable('current_chatroom', item), 
+                        action [SetVariable('current_timeline_item', item), 
                                 Jump(item.expired_label)]
                     else:
                         if (item.played 
                                 and not persistent.testing_mode
                                 and item.replay_log != []):
-                            action [SetVariable('current_chatroom', item),
+                            action [SetVariable('current_timeline_item', item),
                                 SetVariable('observing', True),
                                 Jump('rewatch_chatroom')]
                         else:
-                            action [SetVariable('current_chatroom', item),                                     
+                            action [SetVariable('current_timeline_item', item),                                     
                                     Jump(item.item_label)]
                         
                 if (hacked_effect and chatroom.expired 
@@ -456,7 +456,7 @@ screen timeline_item_display(day, day_num, item, index):
                 # This Preference means the player always has to
                 # manually enable auto-forward in a new story mode
                 action [Preference("auto-forward", "disable"), 
-                        SetVariable('current_chatroom', item), 
+                        SetVariable('current_timeline_item', item), 
                         Jump(item.item_label)]
             add item.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
@@ -486,7 +486,7 @@ screen timeline_item_display(day, day_num, item, index):
                     # This Preference means the player always has to
                     # manually enable auto-forward in a new story mode
                     action [Preference("auto-forward", "disable"), 
-                            SetVariable('current_chatroom', item), 
+                            SetVariable('current_timeline_item', item), 
                             Jump(item.story_mode.item_label)]      
                 add item.story_mode.vn_img xoffset -5
                 
@@ -505,7 +505,7 @@ screen timeline_item_display(day, day_num, item, index):
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
                             yes_action=[Preference("auto-forward", "disable"), 
-                                SetVariable('current_chatroom', item),
+                                SetVariable('current_timeline_item', item),
                                 Hide('confirm'), 
                                 Jump('guest_party_showcase')],
                             no_action=Hide('confirm'))
@@ -515,7 +515,7 @@ screen timeline_item_display(day, day_num, item, index):
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
                             yes_action=[Preference("auto-forward", "disable"), 
-                                SetVariable('current_chatroom', item),
+                                SetVariable('current_timeline_item', item),
                                 Hide('confirm'), 
                                 Jump(story_mode.item_label + '_branch')],
                             no_action=Hide('confirm'))
@@ -551,16 +551,16 @@ screen timeline_item_display(day, day_num, item, index):
                                 + " Missed chatrooms may appear depending on"
                                 + " the time right now. Continue?"), 
                             yes_action=[Hide('confirm'), 
-                            SetVariable('most_recent_chat', item),
-                            SetVariable('current_chatroom', item),
+                            SetVariable('most_recent_item', item),
+                            SetVariable('current_timeline_item', item),
                             Jump(item.item_label + '_branch')], 
                             no_action=Hide('confirm'))           
                 else:
                     action Show("confirm", message=("The game branches here."
                             + " Continue?"), 
                         yes_action=[Hide('confirm'), 
-                        SetVariable('current_chatroom', item),
-                        SetVariable('most_recent_chat', item),
+                        SetVariable('current_timeline_item', item),
+                        SetVariable('most_recent_item', item),
                         Jump(item.item_label + '_branch')], 
                         no_action=Hide('confirm'))                 
             else:
@@ -589,19 +589,19 @@ screen timeline_story_calls(phonecall, item, was_played):
                 # Determine where to take the player based on whether this
                 # item has expired or not
                 if phonecall.expired and not phonecall.played:
-                    action [SetVariable('current_chatroom', item),
+                    action [SetVariable('current_timeline_item', item),
                         SetVariable('current_call', phonecall), 
                         Preference("auto-forward", "enable"),                    
                         Jump(phonecall.expired_label)]
                 else:
                     if (phonecall.played and not persistent.testing_mode):
-                        action [SetVariable('current_chatroom', item),
+                        action [SetVariable('current_timeline_item', item),
                             SetVariable('current_call', phonecall),
                             SetVariable('observing', True),
                             Preference("auto-forward", "enable"),
                             Jump(phonecall.item_label)]
                     else:
-                        action [SetVariable('current_chatroom', item),
+                        action [SetVariable('current_timeline_item', item),
                             Preference("auto-forward", "enable"),
                             # Make it look like an incoming call
                             Play('music', persistent.phone_tone),
@@ -758,17 +758,17 @@ label plot_branch_end():
     python:
         # CASE 1:
         # Plot branch is actually the party
-        if (isinstance(current_chatroom, StoryMode)
-                    and current_chatroom.party):
+        if (isinstance(current_timeline_item, StoryMode)
+                    and current_timeline_item.party):
             # Need to send them to the party
             renpy.jump('guest_party_showcase')
         
         # CASE 2
         # Everything has been played and the program can deliver 'after_' items
-        if current_chatroom.all_played():
-            current_chatroom.call_after_label()
-            if current_chatroom.phonecall_label:
-                deliver_calls(current_chatroom.phonecall_label)
+        if current_timeline_item.all_played():
+            current_timeline_item.call_after_label()
+            if current_timeline_item.phonecall_label:
+                deliver_calls(current_timeline_item.phonecall_label)
             deliver_emails()        
 
         # Now check if the player unlocked the next 24 hours
@@ -834,12 +834,12 @@ label guest_party_showcase():
     $ viewing_guest = False
 
     # Now jump to the actual party
-    if (isinstance(current_chatroom, VNMode) and current_chatroom.party):
-        $ print_file("1. Jumping to", current_chatroom.vn_label)
-        jump expression current_chatroom.vn_label
+    if (isinstance(current_timeline_item, VNMode) and current_timeline_item.party):
+        $ print_file("1. Jumping to", current_timeline_item.vn_label)
+        jump expression current_timeline_item.vn_label
     else:
-        $ print_file("2. Jumping to", current_chatroom.vn_obj.vn_label)
-        jump expression current_chatroom.vn_obj.vn_label
+        $ print_file("2. Jumping to", current_timeline_item.vn_obj.vn_label)
+        jump expression current_timeline_item.vn_obj.vn_label
 
 
 image rfa_logo = "Phone UI/main03_rfa_logo.png"

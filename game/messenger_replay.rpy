@@ -11,7 +11,7 @@ label shake():
             and renpy.get_screen('phone_overlay')):
         # Add this shake to the replay_log
         $ shake_entry = ("shake", current_background)
-        $ current_chatroom.replay_log.append(shake_entry)
+        $ current_timeline_item.replay_log.append(shake_entry)
     return
 
 #************************************
@@ -34,9 +34,9 @@ label invert_screen(t=0, p=0):
         else:
             $ tlen = t
         $ effect_entry = ("invert", tlen)
-        $ current_chatroom.replay_log.append(effect_entry)
+        $ current_timeline_item.replay_log.append(effect_entry)
         if p != 0:
-            $ current_chatroom.replay_log.append(("pause", p))
+            $ current_timeline_item.replay_log.append(("pause", p))
     if p != 0 and persistent.hacking_effects:
         pause p
     return
@@ -56,9 +56,9 @@ label white_square_screen(t=0, p=0):
         else:
             $ tlen = t
         $ effect_entry = ("white squares", tlen)
-        $ current_chatroom.replay_log.append(effect_entry)
+        $ current_timeline_item.replay_log.append(effect_entry)
         if p != 0:
-            $ current_chatroom.replay_log.append(("pause", p))
+            $ current_timeline_item.replay_log.append(("pause", p))
     if p != 0 and persistent.hacking_effects:
         pause p
     return
@@ -78,9 +78,9 @@ label hack_rectangle_screen(t=0, p=0):
         else:
             $ tlen = t
         $ effect_entry = ("hack squares", tlen)
-        $ current_chatroom.replay_log.append(effect_entry)
+        $ current_timeline_item.replay_log.append(effect_entry)
         if p != 0:
-            $ current_chatroom.replay_log.append(("pause", p))
+            $ current_timeline_item.replay_log.append(("pause", p))
     if p != 0 and persistent.hacking_effects:
         pause p
     return 
@@ -99,9 +99,9 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
         # Add this to the replay_log
         $ effect_entry = ("tear", [number, offtimeMult, ontimeMult, offsetMin, 
                                     offsetMax, w_timer])
-        $ current_chatroom.replay_log.append(effect_entry)
+        $ current_timeline_item.replay_log.append(effect_entry)
         if p != 0:
-            $ current_chatroom.replay_log.append(("pause", p))
+            $ current_timeline_item.replay_log.append(("pause", p))
     if p != 0 and persistent.hacking_effects:
         pause p
     return 
@@ -113,7 +113,7 @@ label remove_entries(num=1):
             and renpy.get_screen('phone_overlay')):
         # Add this to the replay_log
         $ remove_entry = ("remove", num)
-        $ current_chatroom.replay_log.append(remove_entry)
+        $ current_timeline_item.replay_log.append(remove_entry)
     $ del chatlog[num:]
     return
 
@@ -153,15 +153,15 @@ label rewatch_chatroom():
         
     python:
         in_chat = []
-        for person in current_chatroom.original_participants:
+        for person in current_timeline_item.original_participants:
             if person.name not in in_chat:
                 in_chat.append(person.name)
             
         # If the player participated, add them to the list of
         # people in the chat
-        if (not current_chatroom.expired 
-                or current_chatroom.buyback 
-                or current_chatroom.buyahead):
+        if (not current_timeline_item.expired 
+                or current_timeline_item.buyback 
+                or current_timeline_item.buyahead):
             in_chat.append(m.name)
 
     # Set a generic background just in case
@@ -172,7 +172,7 @@ label rewatch_chatroom():
 label chatroom_replay():
     # Now start the loop to iterate through the replay_log
     python:
-        for i, entry in enumerate(current_chatroom.replay_log[replay_from:]):
+        for i, entry in enumerate(current_timeline_item.replay_log[replay_from:]):
             chatroom_replay_index += 1
             if isinstance(entry, ReplayEntry):
                 # pop it through the addchat function
