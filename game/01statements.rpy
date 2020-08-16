@@ -110,7 +110,8 @@ python early hide:
     ########################################
     ## MSG AND BACKLOG CDS
     ########################################
-    def parse_message_args(what, ffont, bold, xbold, big, img, spec_bubble):
+    def parse_message_args(what, ffont, bold, xbold, big, img, spec_bubble,
+            is_text_msg=False):
         """
         Parse the arguments for a message and add them to the dialogue if
         applicable. Also check for errors in ffont and spec_bubble.
@@ -163,7 +164,7 @@ python early hide:
         # Construct the actual "what" statement
         dialogue = what
         # First, the size
-        if big:
+        if big and (not is_text_msg or ffont != 'curly'):
             dialogue = "{size=+10}" + dialogue + "{/size}"
         
         # Next, construct the font
@@ -174,11 +175,22 @@ python early hide:
         elif xbold and ffont in store.bold_xbold_fonts_list:
             d_font = d_font + 'xb'
         elif (bold or xbold):
-            extra_item = 'b'       
+            extra_item = 'b'
 
-        # Add the font around the dialogue, unless it's the default
-        if d_font != 'sser1':
-            dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
+        if is_text_msg and ffont in store.font_dict:
+            # Can construct this for text messages
+            if ffont == 'curly' and big:
+                dialogue = "{size=+20}" + dialogue + "{/size}"
+            elif ffont == 'curly':
+                dialogue = "{size=+6}" + dialogue + "{/size}"
+            if ffont != 'sser1':
+                dialogue = ("{font=" + store.font_dict[d_font] + "}"
+                    + dialogue + "{/font}")            
+        else:
+            # Add the font around the dialogue, unless it's the default
+            if d_font != 'sser1':
+                dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
+        
         if extra_item:
             dialogue = ("{" + extra_item + "}" + dialogue + "{/" 
                 + extra_item + "}")
@@ -195,7 +207,7 @@ python early hide:
 
         return dialogue, img, spec_bubble
 
-    def parse_sub_block(l, messages=[]):
+    def parse_sub_block(l, messages=[], check_time=False):
         """
         Parse l for messages or conditional python statements. If a sub-block
         is discovered, this function recursively calls itself to parse the
@@ -214,21 +226,21 @@ python early hide:
         while l.advance():
             with l.catch_error():
                 try:
-                    line = parse_msg_stmt(l, check_time=True)
-                    messages.append(line)       
+                    line = parse_msg_stmt(l, check_time=check_time)
+                    messages.append(line)     
                 except:
                     try:
                         # If that didn't work, assume it's a python conditional
                         messages.append(l.delimited_python(':'))
                     except:
-                        print_file("Couldn't get the delimited python")
+                        print("Couldn't get the delimited python")
                     try:
                         ll = l.subblock_lexer()
-                        messages = parse_sub_block(ll, messages)
+                        messages = parse_sub_block(ll, messages, check_time)
                         messages.append('end')
                         continue                        
                     except:
-                        print_file("Couldn't parse the subblock")
+                        print("Couldn't parse the subblock")
         return messages
 
     def parse_backlog_stmt(l):
@@ -248,11 +260,11 @@ python early hide:
         l.require(':')
         l.expect_eol()
 
-        # Parse the statements in the subblock and store it
+        # Parse the statements in the subblock and store them
         messages = [ ]
         ll = l.subblock_lexer()
         # This function recursively calls itself to check all sub-blocks
-        messages = parse_sub_block(ll, messages)       
+        messages = parse_sub_block(ll, messages, check_time=True)       
         
         return dict(who=who,
                     day=day,
@@ -613,6 +625,273 @@ python early hide:
         predict=predict_backlog_stmt,
         lint=lint_backlog_stmt,
         warp=warp_msg_stmt,
+        block=True)
+
+    ########################################
+    ## TEXT MESSAGE CDS
+    ########################################
+
+    def parse_compose_text(l):
+        # What compose text CDSs look like:
+        # compose text who <real_time> <deliver_at [00:00, random]>:
+        # compose text s real_time deliver_at 09:30:
+        # compose text z deliver_at random:
+
+        # First, require the variable of the person whose text message
+        # conversation this belongs to
+        who = l.simple_expression()
+
+        real_time = False
+        delivery_time = False
+
+        # Next, there are some optional arguments
+        while True:            
+            
+            if l.eol():
+                renpy.error("Reached end of line without a colon")
+                break
+
+            if l.keyword('real_time'):
+                real_time = True
+                continue
+
+            if l.keyword('deliver_at'):
+                timestamp = l.match("\d\d:\d\d")
+                if timestamp is None:
+                    # Try matching it to the word `random`
+                    timestamp = l.word()
+                    if l.word == 'random':
+                        delivery_time = "random"
+                    else:
+                        renpy.error("Could not parse argument for deliver_at")
+                continue   
+            
+            if l.match(":"):                
+                l.expect_eol()
+                break
+
+            renpy.error("couldn't recognize compose text argument")
+        
+        # Parse the statements in the subblock and store them
+        messages = [ ]
+        ll = l.subblock_lexer()
+        # This function recursively calls itself to check all sub-blocks
+        messages = parse_sub_block(ll, messages)
+
+        return dict(who=who,
+                    real_time=real_time,
+                    delivery_time=delivery_time,
+                    messages=messages)
+
+    def execute_compose_text(p):
+        # Get the non-message arguments of this day
+        try:
+            sender = eval(p['who'])
+            real_time = p['real_time']
+            delivery_time = p['delivery_time']
+            messages = p['messages']
+        except:
+            renpy.error("Could not parse arguments of compose text CDS.")
+
+        # Double-check 'sender' is a ChatCharacter
+        if not isinstance(sender, ChatCharacter):
+            print("WARNING: The ChatCharacter %s for dialogue \"" + what
+                + "\" could not be evaluated." % p['who'])
+            renpy.show_screen('script_error',
+                    message=("The ChatCharacter %s for dialogue " + what 
+                        + " could not be evaluated." % p['who']),
+                    link="Adding-a-New-Character-to-Chatrooms",
+                    link_text="Adding a New Character to Chatrooms")
+            return
+        
+        sender.set_real_time_text(real_time)
+        sender.text_msg.read = False
+        store.textbackup = 'Reset'
+        store.text_person = sender
+
+        send_now = True
+        generate_timestamps = False
+        # Create the 'when' timestamp. Several cases to consider:
+        # CASE 1:
+        # This is either being expired from check_and_unlock_story in real-time,
+        # or it's the current timeline item. The text message can have the
+        # real time stamp.    
+        print("real time is", store.persistent.real_time, "and starter story is", store.starter_story)            
+        if store.persistent.real_time:
+            # Determine how many days ago this item was
+            if store.expiring_item:
+                check_item = store.expiring_item
+                day_index = get_item_day(store.expiring_item)
+                day_diff = store.days_to_expire - day_index + 1
+            else:
+                check_item = store.current_timeline_item
+                day_index = store.today_day_num
+                day_diff = 0
+            # Create the timestamp
+            if delivery_time and delivery_time != 'random':
+                when = upTime(day=day_diff, thetime=delivery_time)
+                print("1. we've got a timestamp that looks like", when.get_text_msg_time())
+            elif not delivery_time:
+                when = upTime(day=day_diff,
+                    thetime=check_item.get_trigger_time())
+                print("2. we've got a timestamp that looks like", when.get_text_msg_time())
+            else:
+                # Need to generate a random delivery time
+                begin = check_item.get_trigger_time()
+                print("begin is", begin, "and day_diff is", day_diff)
+                # day_diff2 is the difference between the checked item
+                # and its closest item
+                end, day_diff2 = closest_item_time(check_item)
+                print("end is", end, "and day_diff2 is", day_diff2)
+                random_time, final_day_diff = get_random_time(
+                    begin=begin, end=end, day_diff=day_diff2
+                )
+                # final_day_diff is the difference between the checked
+                # item and the new generated random time
+                # Set day_diff equal to the difference between the
+                # current day and the day of the random time
+                day_diff = (store.days_to_expire - day_index
+                    + 1 + final_day_diff)
+                # Now make the time stamp
+                when = upTime(day=day_diff, thetime=random_time)
+            # It's possible the program generated a timestamp in the
+            # future, and this message shouldn't be sent now
+            send_now = when.has_occurred()
+            generate_timestamps = True
+            print('send_now is', send_now, "and we've got a timestamp that looks like", when.get_text_msg_time())
+        # CASE 2:
+        # Program is running sequentially OR player has bought
+        # the next 24 hours in advance
+        # After_ items are delivered after the player has played
+        # that item
+        elif ((store.persistent.real_time and not store.expiring_item)
+                or not store.persistent.real_time):
+            # There is no point manufacturing timestamps, as all items
+            # are simply delivered after the item is played
+            when = upTime()
+            
+        # CASE 3:
+        # The player backed out of this item and expired it. Now its
+        # after_ items are delivered immediately
+        else:
+            when = upTime()
+
+        message_queue = []
+
+        # Now we know whose text messages to add this to.
+        condition = True
+        condition_outcomes = []
+        for d in p['messages']:
+            if isinstance(d, dict):
+                if not condition:
+                    continue
+                try:
+                    who = eval(d["who"])       
+                    what = eval(d["what"])
+                    ffont = d["ffont"]            
+                    bold = d["bold"]
+                    xbold = d["xbold"]        
+                    big = d["big"]
+                    img = d["img"]        
+                except:
+                    print("WARNING: The arguments for dialogue %s could not "
+                        + "be evaluated." % p['what'])
+                    renpy.show_screen('script_error',
+                            message=("The arguments for dialogue %s could not " 
+                                + "be evaluated." % p['what']))
+                    return
+
+                # Get the correct dialogue and img
+                dialogue, img, spec_bubble = parse_message_args(                
+                    what, ffont, bold, xbold, big, img, False, is_text_msg=True)
+                
+                # Add messages to send to a list first
+                message_queue.append(ChatEntry(who, dialogue, when, img))
+                sender.text_msg.notified = False
+                if img and "{image" not in dialogue:
+                    # Add the CG to the unlock list
+                    cg_helper(what, who, instant_unlock=False)
+
+            elif d == 'end':
+                condition = True
+            else:
+                # This is a conditional; Evaluate it
+                try:
+                    # This is an 'if' statement
+                    if 'if ' in d:
+                        condition_outcomes = []
+                        condition = d[3:]
+                        condition = eval(condition)
+                        condition_outcomes.append(condition)
+                    # This is an 'elif' statement
+                    elif len(d) > 0:
+                        if len(condition_outcomes) == 0:
+                            condition = False
+                            continue
+                        if True in condition_outcomes:
+                            condition = False
+                            continue                        
+                        condition = eval(d)
+                        condition_outcomes.append(condition)
+                    # This is an 'else' statement
+                    else:
+                        if len(condition_outcomes) == 0:
+                            condition = False
+                            continue
+                        if True in condition_outcomes:
+                            condition = False
+                        else:
+                            condition = True                        
+                except:
+                    print("WARNING: Could not evaluate conditional statement "
+                        + "for line with dialogue %s" % p['what'])
+                    renpy.show_screen('script_error',
+                        message="Could not evaluate conditional statement "
+                            + "for line with dialogue %s" % p['what'])
+                    return          
+
+        # Now go through and adjust the timestamps of each message if needed
+        if generate_timestamps:
+            if send_now:
+                # These messages are sent in the past; calculate backwards
+                backwards_sec = 0
+                for msg in reversed(message_queue):
+                    msg.thetime.adjust_time(timedelta(seconds=backwards_sec))
+                    typeTime = msg.what.count(' ') + 1 # equal to the # of words
+                    # Since average reading speed is 200 wpm or 3.3 wps
+                    typeTime = typeTime / 3
+                    if typeTime < 1.5:
+                        typeTime = 1.5
+                    typeTime = typeTime * store.pv
+                    backwards_sec -= typeTime
+
+            else:
+                # These messages will be sent in the future; calculate forwards
+                forwards_sec = 0
+                for msg in message_queue:
+                    msg.thetime.adjust_time(timedelta(seconds=forwards_sec))
+                    typeTime = msg.what.count(' ') + 1 # equal to the # of words
+                    # Since average reading speed is 200 wpm or 3.3 wps
+                    typeTime = typeTime / 3
+                    if typeTime < 1.5:
+                        typeTime = 1.5
+                    typeTime = typeTime * store.pv
+                    forwards_sec += typeTime
+                                
+        # Add these messages to the sender's msg_queue
+        sender.text_msg.msg_queue.extend(message_queue)
+        print_file("Extended " + sender.file_id + "'s msg_queue")
+
+        return
+
+    def lint_compose_text(p):
+        return
+
+    renpy.register_statement('compose text',
+        parse=parse_compose_text,
+        execute=execute_compose_text,
+        lint=lint_compose_text,
+        warp=lambda : True,
         block=True)
 
     ########################################
@@ -1050,4 +1329,72 @@ python early hide:
                               execute=execute_play_c_sound,
                               lint=lint_play_sound,
                               warp=warp_sound)
+
+    ########################################
+    ## SET CHATROOM BACKGROUND CDS
+    ########################################
+    def parse_chat_bg(l):
+        # Just get the rest of the line
+        img = l.rest()
+        if img is None:
+            renpy.error("chat_bg requires a background")
+        return img
+
+    def execute_chat_bg(new_bg):
+        """Set the correct background and nickname colour."""
+        store.current_background = new_bg
+        if new_bg in store.all_static_backgrounds:
+            renpy.scene()
+            renpy.show('bg ' + new_bg)
+        # If the background is misspelled or can't be found, set
+        # a generic black background
+        else:
+            renpy.scene()
+            renpy.show('bg black')
+            store.current_background = 'morning'
+            print("WARNING: Could not find the background \"bg " + new_bg + "\"")
+            renpy.show_screen('script_error',
+                message="Could not find the background \"bg " + new_bg + "\"")
+        
+        if store.persistent.animated_backgrounds:
+            if new_bg in store.all_animated_backgrounds:
+                try:
+                    renpy.show_screen('animated_' + new_bg)
+                except:
+                    print("WARNING: Could not find the screen \"animated_"
+                        + new_bg + "\"")
+                    renpy.show_screen('script_error',
+                        message="Could not find the screen \"animated_"
+                            + new_bg + "\"")
+            elif new_bg == 'hack':
+                renpy.show_screen('animated_hack_background')
+            elif new_bg == 'redhack':
+                renpy.show_screen('animated_hack_background', red=True)
+
+        if new_bg in store.black_text_bgs:
+            store.nickColour = store.black
+        else:
+            store.nickColour = store.white
+
+        # Add this background to the replay log, if applicable
+        if not store.observing and not store.persistent.testing_mode:
+            bg_entry = ('background', store.current_background)
+            store.current_chatroom.replay_log.append(bg_entry)
+        
+        return
+    
+    def predict_chat_bg(p):
+        return [ 'bg ' + p, 'bg black' ]
+
+    def lint_chat_bg(p):
+        if p is None:
+            renpy.error("chat_bg requires a background")
+        return
+        
+    renpy.register_statement('chat_bg',
+                              parse=parse_chat_bg,
+                              execute=execute_chat_bg,
+                              predict=predict_chat_bg,
+                              lint=lint_chat_bg,
+                              warp=lambda : True)
 
