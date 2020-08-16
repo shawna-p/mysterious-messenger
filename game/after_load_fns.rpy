@@ -254,6 +254,14 @@ init python:
             new_obj.story_mode.phonecall_label = new_obj.phonecall_label
             new_obj.phonecall_label = None
         
+        # Need to update plot branch labels as well for compatibility so they
+        # act as they were intended to when they were created
+        if item.plot_branch and item.plot_branch.stored_vn:
+            new_obj.plot_branch.stored_vn.after_label = new_obj.after_label
+            new_obj.after_label = None
+            new_obj.plot_branch.stored_vn.phonecall_label = new_obj.phonecall_label
+            new_obj.phonecall_label = None
+
         if copy_everything:
             # Need to check all other fields as well
             # It's okay to copy list addresses since the program won't be
@@ -261,7 +269,7 @@ init python:
             new_obj.original_participants = item.original_participants
             new_obj.played = item.played
             if new_obj.played:
-                new_obj.delivered_post_items = True
+                new_obj.delivered_post_items = True            
             new_obj.participated = item.participated
             new_obj.available = item.available
             new_obj.expired = item.expired
@@ -271,6 +279,8 @@ init python:
             if item.vn_obj:
                 new_obj.story_mode.played = item.vn_obj.played
                 new_obj.story_mode.available = item.vn_obj.available
+                if new_obj.story_mode.played:
+                    new_obj.story_mode.delivered_post_items = True            
            
 
         # Test to see if the two items are the same
@@ -320,8 +330,8 @@ init python:
             print_file("outgoing_calls_list:", item.outgoing_calls_list, new_obj.outgoing_calls_list)
         if item.incoming_calls_list != new_obj.incoming_calls_list:
             print_file("incoming_calls_list:", item.incoming_calls_list, new_obj.incoming_calls_list)
-        if item.story_calls_list != new_obj.story_calls_list:
-            print_file("story_calls_list:", item.story_calls_list, new_obj.story_calls_list)
+        # if item.story_calls_list != new_obj.story_calls_list:
+        #     print_file("story_calls_list:", item.story_calls_list, new_obj.story_calls_list)
 
         return new_obj
 
