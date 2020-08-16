@@ -758,11 +758,8 @@ label plot_branch_end():
     python:
         # CASE 1:
         # Plot branch is actually the party
-        if ((isinstance(current_chatroom, StoryMode)
-                    and current_chatroom.party)
-                or (isinstance(current_chatroom, ChatRoom)
-                    and current_chatroom.story_mode
-                    and current_chatroom.story_mode.party)):        
+        if (isinstance(current_chatroom, StoryMode)
+                    and current_chatroom.party):
             # Need to send them to the party
             renpy.jump('guest_party_showcase')
         
@@ -770,7 +767,8 @@ label plot_branch_end():
         # Everything has been played and the program can deliver 'after_' items
         if current_chatroom.all_played():
             current_chatroom.call_after_label()
-            deliver_calls(current_chatroom.item_label)
+            if current_chatroom.phonecall_label:
+                deliver_calls(current_chatroom.phonecall_label)
             deliver_emails()        
 
         # Now check if the player unlocked the next 24 hours

@@ -566,10 +566,11 @@ init -4 python:
         # post-chatroom content will have already been delivered
         if (not current_chatroom.expired 
                 and not current_chatroom.buyback
-                and current_chatroom.all_played()
+                #and current_chatroom.all_played()
                 and deliver_messages):
-            current_chatroom.call_after_label()        
-            deliver_calls(current_chatroom.item_label)
+            current_chatroom.call_after_label()    
+            if current_chatroom.phonecall_label:    
+                deliver_calls(current_chatroom.phonecall_label)
             
         # Deliver emails and trigger the next chatroom
         deliver_emails()   
