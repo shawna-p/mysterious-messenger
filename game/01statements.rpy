@@ -30,14 +30,14 @@ python early hide:
                 and renpy.get_screen('phone_overlay')):
             # Add this as a replay entry
             enter_entry = ("enter", who)
-            store.current_chatroom.replay_log.append(enter_entry)
+            store.current_timeline_item.replay_log.append(enter_entry)
         
         addchat(store.special_msg, enter_string, store.pv)
         if who.name not in store.in_chat:
             store.in_chat.append(who.name)
 
         if not store.observing:
-            store.current_chatroom.add_participant(who)
+            store.current_timeline_item.add_participant(who)
         
         # Refresh the screen
         renpy.restart_interaction()
@@ -63,7 +63,7 @@ python early hide:
                 and renpy.get_screen('phone_overlay')):
             # Add this as a replay entry
             exit_entry = ("exit", who)
-            store.current_chatroom.replay_log.append(exit_entry)
+            store.current_timeline_item.replay_log.append(exit_entry)
         
         addchat(store.special_msg, exit_string, store.pv)
         if who.name in store.in_chat:
@@ -207,7 +207,7 @@ python early hide:
 
         return dialogue, img, spec_bubble
 
-    def parse_sub_block(l, messages=[], check_time=False):
+    def parse_sub_block(l, messages=[], check_time=False, is_text_msg=False):
         """
         Parse l for messages or conditional python statements. If a sub-block
         is discovered, this function recursively calls itself to parse the
@@ -226,8 +226,12 @@ python early hide:
         while l.advance():
             with l.catch_error():
                 try:
-                    line = parse_msg_stmt(l, check_time=check_time)
-                    messages.append(line)     
+                    if is_text_msg and l.keyword('pause'):
+                        p_time = l.rest()
+                        messages.append('pause' + '|' + p_time)
+                    else:
+                        line = parse_msg_stmt(l, check_time=check_time)
+                        messages.append(line)
                 except:
                     try:
                         # If that didn't work, assume it's a python conditional
@@ -575,7 +579,7 @@ python early hide:
                 # For replays, MC shouldn't reply instantly
                 if who.right_msgr and new_pv == 0:
                     new_pv = None
-                    store.current_chatroom.replay_log.append(ReplayEntry(
+                    store.current_timeline_item.replay_log.append(ReplayEntry(
                             who, dialogue, new_pv, img, bounce, spec_bubble))
                 
             # Now add this dialogue to the chatlog
@@ -656,27 +660,25 @@ python early hide:
                 continue
 
             if l.keyword('deliver_at'):
-                timestamp = l.match("\d\d:\d\d")
-                if timestamp is None:
+                delivery_time = l.match("\d\d:\d\d")
+                if delivery_time is None:
                     # Try matching it to the word `random`
-                    timestamp = l.word()
-                    if l.word == 'random':
-                        delivery_time = "random"
-                    else:
+                    delivery_time = l.match('random')
+                    if delivery_time is None:
                         renpy.error("Could not parse argument for deliver_at")
                 continue   
             
-            if l.match(":"):                
+            if l.match(":") and not l.match("\d\d:\d\d"):
                 l.expect_eol()
                 break
 
             renpy.error("couldn't recognize compose text argument")
-        
+
         # Parse the statements in the subblock and store them
         messages = [ ]
         ll = l.subblock_lexer()
         # This function recursively calls itself to check all sub-blocks
-        messages = parse_sub_block(ll, messages)
+        messages = parse_sub_block(ll, messages, is_text_msg=True)
 
         return dict(who=who,
                     real_time=real_time,
@@ -716,17 +718,20 @@ python early hide:
         # This is either being expired from check_and_unlock_story in real-time,
         # or it's the current timeline item. The text message can have the
         # real time stamp.    
-        print("real time is", store.persistent.real_time, "and starter story is", store.starter_story)            
+        print("real time is", store.persistent.real_time, "and starter story is", store.starter_story)
+        print("Delivery_time is", delivery_time)        
         if store.persistent.real_time:
             # Determine how many days ago this item was
             if store.expiring_item:
                 check_item = store.expiring_item
                 day_index = get_item_day(store.expiring_item)
-                day_diff = store.days_to_expire - day_index + 1
+                day_diff = store.days_to_expire - day_index - 1                
             else:
                 check_item = store.current_timeline_item
                 day_index = store.today_day_num
                 day_diff = 0
+            print("For the timestamp: check_item", check_item.item_label,
+                "day_index", day_index, "day_diff", day_diff, "days_to_expire", store.days_to_expire)
             # Create the timestamp
             if delivery_time and delivery_time != 'random':
                 when = upTime(day=day_diff, thetime=delivery_time)
@@ -751,7 +756,7 @@ python early hide:
                 # Set day_diff equal to the difference between the
                 # current day and the day of the random time
                 day_diff = (store.days_to_expire - day_index
-                    + 1 + final_day_diff)
+                    - 1 + final_day_diff)
                 # Now make the time stamp
                 when = upTime(day=day_diff, thetime=random_time)
             # It's possible the program generated a timestamp in the
@@ -806,11 +811,17 @@ python early hide:
                     what, ffont, bold, xbold, big, img, False, is_text_msg=True)
                 
                 # Add messages to send to a list first
-                message_queue.append(ChatEntry(who, dialogue, when, img))
+                message_queue.append(ChatEntry(who, dialogue, deepcopy(when), img))
                 sender.text_msg.notified = False
                 if img and "{image" not in dialogue:
                     # Add the CG to the unlock list
                     cg_helper(what, who, instant_unlock=False)
+
+            elif d[:5] == 'pause':
+                if not condition:
+                    continue
+                else:
+                    message_queue.append(d)
 
             elif d == 'end':
                 condition = True
@@ -852,31 +863,43 @@ python early hide:
 
         # Now go through and adjust the timestamps of each message if needed
         if generate_timestamps:
-            if send_now:
-                # These messages are sent in the past; calculate backwards
-                backwards_sec = 0
-                for msg in reversed(message_queue):
-                    msg.thetime.adjust_time(timedelta(seconds=backwards_sec))
-                    typeTime = msg.what.count(' ') + 1 # equal to the # of words
-                    # Since average reading speed is 200 wpm or 3.3 wps
-                    typeTime = typeTime / 3
-                    if typeTime < 1.5:
-                        typeTime = 1.5
-                    typeTime = typeTime * store.pv
-                    backwards_sec -= typeTime
+            new_queue = []
+            total_sec = 0
+            while len(message_queue) > 0:
+                if send_now:
+                    msg = message_queue.pop()
+                else:
+                    msg = message_queue.pop(0)
 
-            else:
-                # These messages will be sent in the future; calculate forwards
-                forwards_sec = 0
-                for msg in message_queue:
-                    msg.thetime.adjust_time(timedelta(seconds=forwards_sec))
-                    typeTime = msg.what.count(' ') + 1 # equal to the # of words
-                    # Since average reading speed is 200 wpm or 3.3 wps
-                    typeTime = typeTime / 3
-                    if typeTime < 1.5:
-                        typeTime = 1.5
-                    typeTime = typeTime * store.pv
-                    forwards_sec += typeTime
+                if not isinstance(msg, ChatEntry):
+                    # It's a pause argument
+                    try:
+                        pause_time = eval(msg.split('|')[1])
+                        if send_now:
+                            total_sec -= pause_time
+                        else:
+                            total_sec += pause_time
+                    except:
+                        print("ERROR: couldn't evaluate text message pause argument")
+                    print("Adjusted total_sec by", pause_time)
+                    continue
+
+                msg.thetime.adjust_time(timedelta(seconds=total_sec))
+                typeTime = msg.what.count(' ') + 1 # equal to the # of words
+                # Since average reading speed is 200 wpm or 3.3 wps
+                typeTime = typeTime / 3
+                if typeTime < 1.5:
+                    typeTime = 1.5
+                typeTime = typeTime * store.pv
+                if send_now:
+                    total_sec -= typeTime
+                    new_queue.insert(0, msg)
+                else:
+                    total_sec += typeTime
+                    new_queue.append(msg)
+                print("Added message", msg.what, "time", msg.thetime.stopwatch_time)
+            message_queue = new_queue
+            
                                 
         # Add these messages to the sender's msg_queue
         sender.text_msg.msg_queue.extend(message_queue)
@@ -941,11 +964,11 @@ python early hide:
                 if not store.observing:
                     who.increase_heart(bad)
                     if store.text_person is None:
-                        # store.chatroom_hp += 1
+                        # store.collected_hp += 1
                         if bad:
-                            store.chatroom_hp['bad'].append(who)
+                            store.collected_hp['bad'].append(who)
                         else:
-                            store.chatroom_hp['good'].append(who)
+                            store.collected_hp['good'].append(who)
                     store.persistent.HP += 1                    
 
                     if store.persistent.animated_icons:
@@ -1018,7 +1041,7 @@ python early hide:
             who.decrease_heart()            
 
             if store.text_person is None:
-                store.chatroom_hp['break'].append(who)
+                store.collected_hp['break'].append(who)
             store.persistent.HP -= 1
 
             if store.persistent.animated_icons:
@@ -1237,7 +1260,7 @@ python early hide:
                     music_entry = ("play music", getattr(store, p["file"]))
                 except AttributeError:
                     music_entry = ("play music", p["file"])
-                store.current_chatroom.replay_log.append(music_entry)
+                store.current_timeline_item.replay_log.append(music_entry)
         
         renpy.music.play(_audio_eval(p["file"]),
                          fadeout=eval(p["fadeout"]),
@@ -1379,7 +1402,7 @@ python early hide:
         # Add this background to the replay log, if applicable
         if not store.observing and not store.persistent.testing_mode:
             bg_entry = ('background', store.current_background)
-            store.current_chatroom.replay_log.append(bg_entry)
+            store.current_timeline_item.replay_log.append(bg_entry)
         
         return
     
