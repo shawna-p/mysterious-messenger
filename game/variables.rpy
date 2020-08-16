@@ -1,5 +1,5 @@
 init -6 python:
-    from datetime import datetime, date
+    from datetime import datetime, date, timedelta
     from copy import copy, deepcopy
     
     ## This defines another voice channel which the emoji
@@ -64,44 +64,64 @@ init -6 python:
                 The minutes for this timestamp e.g. "42".
             """
 
-            if day is None:
-                thetime = datetime.now()
-                
-            else:
-                # Do some calculations to test time manually
-                # Find out how many seconds in the given number
-                # of days
-                num_seconds = day * 60 * 60 * 24
-                # Get the current UNIX timestamp
-                unix_seconds = time.time()
-                # Create a new timestamp
-                new_timestamp = unix_seconds + num_seconds
-                thetime = datetime.fromtimestamp(new_timestamp)
+            self.datetime = datetime.now()
+            
+            day_diff = 0
+            hour_diff = 0
+            min_diff = 0
+            
+            # Do some calculations for the date, if it's in the past or future
+            if day is not None:            
+                day_diff = day * 60 * 60 * 24
+            if thehour is not None:
+                hour_diff = int(thehour) - int(self.datetime.strftime('%H'))
+                hour_diff = hour_diff * 60 * 60
+            if themin is not None:
+                min_diff = int(themin) - int(self.datetime.strftime('%M'))
+                min_dif = min_diff * 60
 
-            self.short_weekday = thetime.strftime('%a')  
-            self.weekday = thetime.strftime('%A')        
-            self.short_month = thetime.strftime('%b')    
-            self.month = thetime.strftime('%B')          
-            self.month_num = thetime.strftime('%m')      
-            self.year = thetime.strftime('%Y')           
-            self.day = thetime.strftime('%d')            
-                            
-            if themin is None:
-                self.twelve_hour = thetime.strftime('%I')
-                self.military_hour = thetime.strftime('%H')
-                self.minute = thetime.strftime('%M')
-                self.second = thetime.strftime('%S')
-                self.am_pm = thetime.strftime('%p')
-            else:
-                if int(thehour) > 12:
-                    self.twelve_hour = str(int(thehour)-12)
-                    self.am_pm = 'PM'
-                else:
-                    self.twelve_hour = thehour
-                    self.am_pm = 'AM'
-                self.military_hour = thehour
-                self.minute = themin
-                self.second = '00'  
+            unix_seconds = time.time()
+            new_timestamp = unix_seconds + day_diff + hour_diff + min_diff
+            
+            self.datetime = datetime.fromtimestamp(new_timestamp)
+    
+        @property
+        def short_weekday(self):
+            return self.datetime.strftime('%a')
+        @property
+        def weekday(self):
+            return self.datetime.strftime('%A')
+        @property
+        def short_month(self):
+            return self.datetime.strftime('%b')
+        @property
+        def month(self):
+            return self.datetime.strftime('%B')
+        @property
+        def month_num(self):
+            return self.datetime.strftime('%m')
+        @property
+        def year(self):
+            return self.datetime.strftime('%Y')
+        @property
+        def day(self):
+            return self.datetime.strftime('%d')
+        @property
+        def twelve_hour(self):
+            return self.datetime.strftime('%I')
+        @property
+        def military_hour(self):
+            return self.datetime.strftime('%H')
+        @property
+        def minute(self):
+            return self.datetime.strftime('%M')
+        @property
+        def second(self):
+            return self.datetime.strftime('%S')
+        @property
+        def am_pm(self):
+            return self.datetime.strftime('%p')
+
 
         def get_phone_time(self):
             """Return the time formatted as displayed for phone calls."""
@@ -123,6 +143,50 @@ init -6 python:
                         + '/' + self.year + ' ' 
                         + self.twelve_hour + ':' 
                         + self.minute + self.am_pm)
+        
+        def has_occurred(self):
+            """
+            Return True if this time has already passed compared to
+            the current date and time.
+            """
+
+            try:
+                if self.datetime <= datetime.now():
+                    return True
+                return False
+            except:
+                print_file("Could not compare datetime objects")
+
+            cur_time = upTime()
+            # Check the year
+            if int(self.year) < int(cur_time.year):
+                return True
+            elif int(self.year) > int(cur_time.year):
+                return False
+            # Check the month
+            if int(self.month_num) < int(cur_time.month_num):
+                return True
+            elif int(self.month_num) > int(cur_time.month_num):
+                return False
+            # Check the day
+            if int(self.day) < int(cur_time.day):
+                return True
+            elif int(self.day) > int(cur_time.day):
+                return False
+            # Check the hour
+            if int(self.military_hour) < int(cur_time.military_hour):
+                return True
+            elif int(self.military_hour) > int(cur_time.military_hour):
+                return False
+            # Check the minutes
+            if int(self.minute) <= int(cur_time.minute):
+                return True
+            else:
+                return False
+
+        def adjust_time(self, td):
+            """Adjust the datetime according to timedelta td."""
+
             
     def upTime(day=None, thetime=None):
         """
@@ -231,7 +295,7 @@ init -6 python:
             return
 
         if not DEBUG:
-            print(args)
+            print(*args)
             return
         # Otherwise, print this to a file for debugging
         try:
@@ -303,6 +367,8 @@ default vn_choice = False
 default current_call = False
 # True if the player is beginning a new game
 default starter_story = False
+# When expiring items, this is equal to the item being expired
+default expiring_item = None
 
 # VN mode preferences
 default preferences.afm_time = 15
