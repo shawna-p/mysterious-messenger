@@ -353,10 +353,6 @@ init -6 python:
                             and item.plot_branch.vn_after_branch):
                         item.story_mode = item.plot_branch.stored_vn
                         item.plot_branch = False
-                    elif not isinstance(item, TimelineItem):
-                        print_file("Got an item which is", item)
-                        if isinstance(item, VNMode):
-                            print_file("It's a VN, label", item.vn_label)
 
             if branch_list:
                 # First find the day in default_branch which aligns
@@ -522,7 +518,7 @@ init -6 python:
         return
                 
 
-    def past_trigger_time(trig_time, cur_time, was_yesterday,
+    def past_trigger_time(trig_time, cur_time, day_index,
             prev_item, cur_item):
         """
         A helper function for next_timeline_item() which determines if the
@@ -536,9 +532,8 @@ init -6 python:
             supposed to trigger at.
         cur_time : MyTime
             A MyTime object containing information on the current time.        
-        was_yesterday : bool
-            True if this item occurred one or more days prior to the
-            current date.
+        day_index : int
+            Index of the current day.
         prev_item : TimelineItem
             The item in the timeline before the current one.
         cur_item : TimelineItem
@@ -551,10 +546,15 @@ init -6 python:
             and return True. Otherwise, return False.
         """
 
+        # was_yesterday is True if this item occurred one or more days prior
+        # to the current time
+        was_yesterday = day_index+1 < store.days_to_expire
+        day_difference = store.days_to_expire - day_index + 1
+
         if was_yesterday:
             # A day or more has passed since this item was supposed to be
             # available. Expire the previous item and move on.
-            expire_item(prev_item, cur_item)
+            expire_item(prev_item, cur_item, day_diff=day_difference)
             return True
         
         # Otherwise, compare times
@@ -592,7 +592,7 @@ init -6 python:
 
         return False
 
-    def expire_item(prev_item, cur_item, deliver_incoming=False):
+    def expire_item(prev_item, cur_item, deliver_incoming=False, day_diff=0):
         """
         A helper function for next_timeline_item() which expires the
         previous item and makes its phone calls and text messages available.
@@ -620,17 +620,18 @@ init -6 python:
         # Otherwise, an item was expired. Deliver its associated
         # phone calls and text messages.
         # Create a timestamp for calls.
-        call_timestamp = upTime(thetime=cur_item.trigger_time)
-        deliver_calls(prev_item.item_label, not deliver_calls, call_timestamp)
-        
-        # Check for a post-item label
-        # This will ensure text messages etc are set up
-        prev_item.call_after_label(True)        
+        call_timestamp = upTime(day=day_diff, thetime=cur_item.trigger_time)
+        if prev_item.phonecall_label:
+            deliver_calls(prev_item.phonecall_label,
+                not deliver_incoming, call_timestamp)
+                      
         for phonecall in store.available_calls:
             phonecall.decrease_time()
 
         # Deliver all outstanding text messages
         deliver_all_texts()
+        
+        return
        
       
 
@@ -675,36 +676,22 @@ init -6 python:
         global persistent, all_characters
         
         delivered_text = False
+        shuffled_characters = list(store.all_characters)
+        renpy.random.shuffle(shuffled_characters)
 
-        if renpy.random.randint(0, 1):
-            for c in all_characters:
-                if (c.text_msg.msg_queue 
-                        and not c.real_time_text and not delivered_text):
-                    c.text_msg.deliver()
-                    delivered_text = True
-                # Real-time texts notify the player differently
-                elif (c.real_time_text and not c.text_msg.read 
-                        and not c.text_msg.notified):
-                    c.text_msg.notified = True
-                    renpy.music.play(persistent.text_tone, 'sound')
-                    popup_screen = allocate_text_popup()
-                    renpy.show_screen(popup_screen, c=c) 
-                    break                    
-        else:
-            for c in reversed(all_characters):
-                if (c.text_msg.msg_queue 
-                        and not c.real_time_text and not delivered_text):
-                    c.text_msg.deliver()
-                    delivered_text = True
-                # Real-time texts notify the player differently
-                elif (c.real_time_text and not c.text_msg.read 
-                        and not c.text_msg.notified):
-                    c.text_msg.notified = True
-                    renpy.music.play(persistent.text_tone, 'sound')
-                    popup_screen = allocate_text_popup()
-                    renpy.show_screen(popup_screen, c=c) 
-                    break
-                    
+        for c in shuffled_characters:
+            if (c.text_msg.msg_queue and not delivered_text):
+                c.text_msg.deliver()
+                delivered_text = True
+            # Real-time texts notify the player differently
+            if (c.real_time_text and not c.text_msg.read 
+                    and not c.text_msg.notified):
+                c.text_msg.notified = True
+                renpy.music.play(persistent.text_tone, 'sound')
+                popup_screen = allocate_text_popup()
+                renpy.show_screen(popup_screen, c=c) 
+                break                    
+        
         # Deliver the incoming call, if there is one
         if incoming_call:
             current_call = incoming_call
@@ -858,7 +845,77 @@ init -6 python:
                         return True                
         return False
         
-    
+    def closest_item_time(compare_from=None):
+        """
+        Return the time of the next TimelineItem, regardless of availability.
+        """
+
+        global chat_archive
+
+        if compare_from is None:
+            compare_from = store.current_timeline_item
+
+        return_next_item = False
+        item_index = 0
+        for day_i, day in enumerate(chat_archive):
+            for item in day.archive_list:
+                if return_next_item:
+                    return (item.get_trigger_time(), day_i - item_index)
+                if item == compare_from:
+                    return_next_item = True
+                    item_index = day_i
+        return None, 0
+
+    def get_item_day(item):
+        """Return the index number of the day this item is on."""
+
+        global chat_archive
+        for day_i, day in enumerate(chat_archive):
+            for item2 in day.archive_list:
+                if item == item2:
+                    return day_i
+        print_file("Couldn't find item in chat_archive")
+        return store.today_day_num
+
+    def get_random_time(begin, end, day_diff=0):
+        """Return a random time between begin and end."""
+
+        if end is None:
+            return begin
+        
+        # Turn times into ints
+        begin_hour = int(begin[:2])
+        begin_min = int(begin[-2:])
+        end_hour = int(end[:2])
+        end_min = int(end[-2:])
+
+        hour_next_day = False
+        min_next_day = False
+        new_day_diff = 0
+
+        # Add hours to the ending time depending on the date difference
+        if day_diff > 0:
+            end_hour += (24 * day_diff)
+
+        # Convert the times into one full number
+        begin_num = begin_hour * 60 + begin_min
+        end_num = end_hour * 60 + end_min
+
+        # Generate a number between begin and end
+        random_num = renpy.random.randint(begin_num, end_num)
+        # Retrieve the hours and minutes
+        random_hour = random_num // 60
+        random_min = random_num % 60
+
+        # If the hour >= 24, it is the next day
+        while random_hour >= 24:
+            new_day_diff += 1
+            random_hour -= 24                
+
+        # Now return the time, formatted as 00:00 in a string
+        return (str(random_hour) + ":" + str(random_min), new_day_diff)
+           
+
 
     def next_story_time():
         """Return the time the next timeline item should be available at."""
