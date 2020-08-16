@@ -69,7 +69,7 @@ init -6 python:
             day_diff = 0
             hour_diff = 0
             min_diff = 0
-            
+
             # Do some calculations for the date, if it's in the past or future
             if day is not None:            
                 day_diff = day * 60 * 60 * 24
@@ -78,13 +78,13 @@ init -6 python:
                 hour_diff = hour_diff * 60 * 60
             if themin is not None:
                 min_diff = int(themin) - int(self.datetime.strftime('%M'))
-                min_dif = min_diff * 60
+                min_diff = min_diff * 60
 
             unix_seconds = time.time()
             new_timestamp = unix_seconds + day_diff + hour_diff + min_diff
             
             self.datetime = datetime.fromtimestamp(new_timestamp)
-    
+
         @property
         def short_weekday(self):
             return self.datetime.strftime('%a')
@@ -186,7 +186,13 @@ init -6 python:
 
         def adjust_time(self, td):
             """Adjust the datetime according to timedelta td."""
-
+            print("Adjusting time. Before adjustment:", self.stopwatch_time)
+            self.datetime += td
+            print("After adjustment:", self.stopwatch_time)
+            
+        @property
+        def stopwatch_time(self):
+            return self.military_hour + ":" + self.minute + ":" + self.second
             
     def upTime(day=None, thetime=None):
         """
@@ -224,7 +230,7 @@ init -6 python:
     def new_route_setup(route, chatroom_label='starter_chat', participants=None):
         """Set up variables for a new route."""
 
-        global chat_archive, current_chatroom, starter_story
+        global story_archive, current_timeline_item, starter_story
 
         if (isinstance(route, store.Route) or isinstance(route, Route)):
             # Got a Route object; use the default route
@@ -236,14 +242,14 @@ init -6 python:
         if (len(route) > 0 
                 and (isinstance(route[0], RouteDay) 
                     or isinstance(route[0], store.RouteDay))):
-            chat_archive = route
+            story_archive = route
         else:
-            chat_archive = route[1:]
+            story_archive = route[1:]
         
         if participants is None:
             participants = []
         define_variables()
-        current_chatroom = ChatRoom('Starter Chat', chatroom_label, 
+        current_timeline_item = ChatRoom('Starter Chat', chatroom_label, 
                                         '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
         # VNs for a starter chat/opening
@@ -423,9 +429,11 @@ image transparent_img = '#0000'
 default chatlog = []
 # A list of the characters currently in the chatroom
 default in_chat = []
-default current_chatroom = ChatRoom('title', 'chatroom_label', '00:00')
+default current_chatroom = None # old version; unused
+default current_timeline_item = ChatRoom('title', 'chatroom_label', '00:00')
 # Chat that should be used when saving the game
-default most_recent_chat = None
+default most_recent_chat = None # old version; unused
+default most_recent_item = None
 default name = 'Rainbow'
 default hacked_effect = False
 # True if the player can receive hourglasses in chatrooms
@@ -452,11 +460,13 @@ default choosing = False
 # view a CG when you should be answering a prompt
 default pre_choosing = False
 
-# This keeps track of the sorts of heart points earned over a chatroom
+# This keeps track of the sorts of heart points earned over a timeline item
 # so it can reset them if the player backs out of it.
-default chatroom_hp = {'good': [], 'bad': [], 'break': []}
-# Total number of hg (hourglasses) earned per chatroom
-default chatroom_hg = 0
+default chatroom_hp = None # Old version; unused
+default collected_hp = {'good': [], 'bad': [], 'break': []} 
+# Total number of hg (hourglasses) earned per timeline item
+default chatroom_hg = None # Old version; unused
+default collected_hg = 0
 
 # Keeps track of the ending the game should show the player
 default ending = False
