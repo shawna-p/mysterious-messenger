@@ -186,9 +186,7 @@ init -6 python:
 
         def adjust_time(self, td):
             """Adjust the datetime according to timedelta td."""
-            print("Adjusting time. Before adjustment:", self.stopwatch_time)
             self.datetime += td
-            print("After adjustment:", self.stopwatch_time)
             
         @property
         def stopwatch_time(self):
