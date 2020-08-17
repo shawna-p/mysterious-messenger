@@ -148,15 +148,35 @@ init -6 python:
         def unlock_all(self):
             """Make all items associated with this TimelineItem available."""
 
+            if self.parent:
+                self.parent.unlock_all()
+                return
             self.available = True
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
                     phonecall.available = True
 
+        # def __iter__(self):
+        #     """Iterate over all the TimelineItems contained within this one."""
+        #     # see Iterator Types
+        #     # >> BASICMETHODS ATTRIBUTEMETHODS CALLABLEMETHODS
+        #     # >> SEQUENCEMETHODS MAPPINGMETHODS NUMBERMETHODS CLASSES
+
+        # def __contains__(self, item):
+        #     """Determine if a certain item is in this object."""
+        #     if item is self:
+        #         return True
+        #     if item in self.story_calls_list:
+        #         return True
+        #     return False
+
         def all_available(self):
             """
             Return True if everything associated with this item is available.
             """
+
+            if self.parent:
+                return self.parent.all_available()
 
             if not self.available:
                 return False
@@ -253,6 +273,21 @@ init -6 python:
                             and not phonecall.buyback):
                         return True
             return False
+
+        def deliver_next_after_content(self):
+            """
+            Ensure all played items have had their content delivered after a
+            plot branch.
+            """
+
+            if self.played and not self.delivered_post_item:
+                self.call_after_label(True)
+                if self.phonecall_label:
+                    deliver_calls(self.phonecall_label)
+
+            for phonecall in self.story_calls_list:
+               phonecall.deliver_next_after_content()
+                
 
         def expire_all(self):
             """Expire all items related to this timeline item."""
@@ -702,10 +737,26 @@ init -6 python:
 
             # ChatRooms don't have a parent
             if len(self.story_calls_list) > 0:
-                return self.story_calls[-1]
+                return self.story_calls_list[-1]
             elif self.story_mode:
                 return self.story_mode
             return self
+
+        def deliver_next_after_content(self):
+            """
+            Ensure all played items have had their content delivered after a
+            plot branch.
+            """           
+
+            if self.played and not self.delivered_post_items:
+                self.call_after_label(True)
+                if self.phonecall_label:
+                    deliver_calls(self.phonecall_label)
+
+            if self.story_mode and not self.story_mode.delivered_post_items:
+                self.story_mode.deliver_next_after_content()
+            
+            super(ChatRoom, self).deliver_next_after_content()
 
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
@@ -980,7 +1031,53 @@ init -6 python:
         
 ## The label that is called when a timeline item has been completed
 label end_timeline_item():
-    $ end_timeline_item_checks()
+    call begin_timeline_item(current_timeline_item)
+    $ print_file("Got to end_timeline_item with", current_timeline_item.item_label)
+    # Call the item label so that it returns here when it's done
+    if isinstance(current_timeline_item, ChatRoom):
+        $ print_file("This item is a ChatRoom")
+        if (current_timeline_item.expired 
+                and not current_timeline_item.played
+                and not current_timeline_item.buyback):
+            $ renpy.call(current_timeline_item.expired_label)
+        elif (current_timeline_item.played 
+                and not store.persistent.testing_mode
+                and len(current_timeline_item.replay_log) > 0):
+            $ renpy.call('rewatch_chatroom')
+        else:
+            $ renpy.call(current_timeline_item.item_label)
+    
+    elif isinstance(current_timeline_item, StoryMode):
+        $ print_file("This item is a StoryMode")
+        if (current_timeline_item.party 
+                and not renpy.has_label(
+                    current_timeline_item.item_label + '_branch')):
+            $ renpy.hide_screen('confirm')
+            $ renpy.call('guest_party_showcase')
+        elif current_timeline_item.party:
+            $ renpy.hide_screen('confirm')
+            $ renpy.call(current_timeline_item.item_label + '_branch')
+        else:
+            $ renpy.call(current_timeline_item.item_label)
+    
+    elif isinstance(current_timeline_item, StoryCall):
+        $ print_file("This item is a StoryCall. in_phone_call is", in_phone_call)
+        if (current_timeline_item.expired
+                and not current_timeline_item.buyback):
+            $ renpy.show_screen('in_call', who=current_timeline_item.caller,
+                story_call=True)   
+            $ renpy.call(current_timeline_item.expired_label)
+        else:
+            if not current_timeline_item.played:
+                play music persistent.phone_tone loop nocaption
+                $ renpy.call_screen('incoming_call',
+                    phonecall=current_timeline_item)
+            $ renpy.show_screen('in_call',
+                who=current_timeline_item.caller, story_call=True)
+            $ renpy.call(current_timeline_item.item_label)
+
+    $ print_file("Finished the label and returned to end_timeline_item")
+    call end_timeline_item_checks()
 
     if observing:
         $ observing = False
@@ -989,11 +1086,13 @@ label end_timeline_item():
 
     # Otherwise, this is the first time this item has been played
     if isinstance(current_timeline_item, ChatRoom):
+        call screen save_and_exit(True)
         call screen signature_screen(True)
     elif isinstance(current_timeline_item, StoryMode):
         call screen signature_screen(False)
 
-    $ finish_timeline_item(current_timeline_item)
+    call finish_timeline_item(current_timeline_item)
+    
     if starter_story:
         $ starter_story = False
         call screen chat_home
@@ -1008,22 +1107,22 @@ label exit_item_early():
     # This ends replays and resets variables
     # This item is only set as the most recent item if the player wasn't
     # replaying it
-    $ end_timeline_item_checks()
+    call end_timeline_item_checks()
     if observing:
         $ observing = False
         call screen timeline(current_day, current_day_num)
         return
     # Otherwise, this item will expire
-    $ expire_timeline_item(current_timeline_item)
+    call expire_timeline_item(current_timeline_item)
     $ renpy.set_return_stack([])
     call screen timeline(current_day, current_day_num)
     return
 
-init python:
 
-    def expire_timeline_item(item):
-        """Expire this timeline item and set the appropriate variables."""
-
+## Expire this timeline item and set the appropriate variables.
+## This is a label and not a python function for performance reasons.
+label expire_timeline_item(item):
+    python:
         # Show the loading screen while these actions are carried out
         renpy.show_screen('loading_screen')
 
@@ -1047,7 +1146,7 @@ init python:
         # Deliver post-item content if it isn't the item immediately
         # prior to a plot branch
         if item == item.get_item_before_branch():
-            item.call_after_label()
+            item.call_after_label(True)
             item.deliver_calls()
             deliver_all_texts()
         
@@ -1056,31 +1155,30 @@ init python:
         # Clean up the transition between the end of an item and returning
         renpy.pause(0.1)
         renpy.hide_screen('loading_screen')
-        return
+    return
         
 
-    def end_timeline_item_checks():
-        """
-        Perform additional logic to finish off a TimelineItem, like resetting
-        story variables to return to the menu screens.
-        """
-        
+
+## Perform additional logic to finish off a TimelineItem, like resetting
+## story variables to return to the menu screens.
+label end_timeline_item_checks():
+    python:
         # This item simply ends if the user is in Replay
         if _in_replay:
             renpy.end_replay()
 
-        if store.starter_story:
-            store.persistent.first_boot = False
-            store.persistent.on_route = True
+        if starter_story:
+            persistent.first_boot = False
+            persistent.on_route = True
 
         # First, ensure most_recent_item is not None
-        if (store.most_recent_item is None
-                and store.story_archive
-                and store.story_archive[0].archive_list):
-            store.most_recent_item = store.story_archive[0].archive_list[0]
+        if (most_recent_item is None
+                and story_archive
+                and story_archive[0].archive_list):
+            most_recent_item = story_archive[0].archive_list[0]
         # Warn the user if no TimelineItems could be found
-        elif store.most_recent_item is None:
-            store.most_recent_item = ChatRoom('Example Chatroom',
+        elif most_recent_item is None:
+            most_recent_item = ChatRoom('Example Chatroom',
                 'example_chat', '00:01')
             print("WARNING: Could not find any TimelineItems for this route.")
             renpy.show_screen('script_error',
@@ -1089,23 +1187,24 @@ init python:
         # Next, if the player was simply observing/replaying this item,
         # reset the appropriate variables and take them back to the 
         # timeline screen
-        if store.observing:
-            reset_story_vars(store.current_timeline_item)
+        if observing:
+            reset_story_vars(current_timeline_item)
             # Main label will take players back to the timeline screen            
-        return
+    return
         
-    def finish_timeline_item(item, deliver_messages=True):
-        """Finish resetting variables and screens for this TimelineItem."""
-        
+## Finish resetting variables and screens for this TimelineItem.
+label finish_timeline_item(item, deliver_messages=True):
+    python:
         # Show the loading screen while these actions are carried out
         renpy.show_screen('loading_screen')
+        renpy.pause(0.1)
 
-        # Determine chatroom heart points (HP)
-        store.persistent.HP += get_collected_hp()
-        store.collected_hp = {'good': [], 'bad': [], 'break': []}
+        # Determine collected heart points (HP)
+        persistent.HP += get_collected_hp()
+        collected_hp = {'good': [], 'bad': [], 'break': []}
         # Give the player their hourglasses
-        store.persistent.HG += store.chatroom_hg
-        store.chatroom_hg = 0
+        persistent.HG += collected_hg
+        collected_hg = 0
 
         # Mark the most recent item as played
         if not item.parent:
@@ -1118,15 +1217,15 @@ init python:
         # then this is the most recent item if the player didn't buy it
         # back and it isn't the intro
         if (the_parent.mark_next_played()
-                and not store.starter_story
+                and not starter_story
                 and not item.buyback):
-            store.most_recent_item = the_parent
+            most_recent_item = the_parent
         
         # Deliver post-item content if this is not the last item before
         # a plot branch
         if (not item.delivered_post_items
                 and not item == item.get_item_before_branch()):
-            item.call_after_label()
+            item.call_after_label(True)
             item.deliver_calls()                         
         
         # Next, deliver emails and unlock the next story item
@@ -1137,20 +1236,139 @@ init python:
         reset_story_vars(item)
 
         # Ensure any seen CGs are unlocked
-        check_for_CGs(store.all_albums)
+        check_for_CGs(all_albums)
 
         # Save variables
         renpy.retain_after_load()
 
         # Check to see if honey buddha chips should be available
-        if not store.chips_available:
-            store.chips_available = store.hbc_bag.draw()
+        if not chips_available:
+            chips_available = hbc_bag.draw()
         
         # Clean up the transition between the end of an item and returning
         renpy.pause(0.1)
         renpy.hide_screen('loading_screen')
-        return        
+    return        
 
+##Set up the correct variables and screens to view this TimelineItem.
+label begin_timeline_item(item):
+    python:
+        # Clean up the transition
+        # renpy.show_screen('loading_screen')
+        # renpy.pause(0.1)
+
+        if starter_story:
+            set_name_pfp()
+        renpy.music.stop(channel='music')
+
+        # Set this item as the current timeline item
+        # current_timeline_item = item
+
+        # Reset heart points
+        collected_hp = {'good': [], 'bad': [], 'break': []}
+
+        renpy.hide_screen('starry_night')
+        renpy.hide_screen('animated_bg')
+        renpy.hide_screen('timeline')
+        hide_all_popups()
+
+        text_msg_reply = False
+        in_phone_call = False
+        vn_choice = False
+        email_reply = False
+
+        # Special variable is set when rewatching an item to prevent changing
+        # what was said or receiving heart points again, for example.
+        if item.played:
+            if not persistent.testing_mode:
+                observing = True
+            else:
+                observing = False
+        else:
+            observinng = False
+
+        # If watching this item from the History, observing is always True.
+        # Pronouns, name, and profile picture must be re-set and all characters'
+        # profile pictures should be the default
+        if _in_replay:
+            observing = True
+            set_pronouns()
+            set_name_pfp()
+            for c in all_characters:
+                c.reset_pfp()
+                
+        print_file("Beginning timeline item with", item.item_label, "which is a",
+            "chatroom?", isinstance(item, ChatRoom), "StoryMode?",
+            isinstance(item, StoryMode), "StoryCall?", isinstance(item, StoryCall))
+        # Chatroom setup
+        if isinstance(item, ChatRoom):
+            # Make sure messenger screens are showing
+            renpy.show_screen('phone_overlay')
+            renpy.show_screen('messenger_screen')
+            renpy.show_screen('pause_button')
+
+            # Clear the chatlog
+            chatlog = []
+            # Fill the beginning of the chat with 'empty space' so messages
+            # appear at the bottom of the screen
+            addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+
+            text_person = None
+            _window_hide()
+
+            # Set up the participants list
+            in_chat = []
+            if not observing:
+                item.reset_participants()
+            for person in item.original_participants:
+                if person.name not in in_chat:
+                    in_chat.append(person.name)
+
+            # If the player is participating, add them to the participants list
+            if ((not item.expired or item.buyback or item.buyahead)
+                    and not expired_replay):
+                in_chat.append(m.name)
+                        
+
+        # Story Mode/VN setup
+        elif isinstance(item, StoryMode):
+            _window_auto = True
+            renpy.scene()
+            renpy.show('bg black')
+
+            renpy.hide_screen('phone_overlay')
+            renpy.hide_screen('messenger_screen')
+            renpy.hide_screen('pause_button')
+
+            if item.is_nvl:
+                nvl_clear()
+            else:
+                renpy.show_screen('vn_overlay')
+            
+            vn_choice = True
+            # Clear the history log screen
+            _history_list = []
+            history = True
+
+            preferences.afm_enable = False #Preference('auto-forward', 'disable')
+            
+        # Story phone calls
+        elif isinstance(item, StoryCall):
+            _history = False
+            in_phone_call = True
+            preferences.afm_enable = True
+            current_call = item
+
+            renpy.hide_screen('incoming_call')
+            renpy.hide_screen('outgoing_call')
+         
+
+        renpy.retain_after_load()  
+        # renpy.pause(0.1)
+        # renpy.hide_screen('loading_screen')                        
+    return   
+
+init python:
 
     def get_collected_hp():
         """Return the total number of heart points earned in a chatroom."""
@@ -1217,108 +1435,39 @@ init python:
             store.observing = False
             renpy.music.stop()
 
-    def begin_timeline_item(item):
-        """
-        Set up the correct variables and screens to view this TimelineItem.
-        """
+             
 
+    def execute_plot_branch(item):
+        """Execute the plot branch for the given item."""
+        
+        store.most_recent_item = item
+        store.current_timeline_item = item
 
-        if store.starter_story:
-            set_name_pfp()
-        renpy.music.stop(channel='music')
+        renpy.call_in_new_context(item.item_label + '_branch')
 
-        # Reset heart points
-        store.collected_hp = {'good': [], 'bad': [], 'break': []}
+        # CASE 1:
+        # Plot branch is actually the party
+        if (isinstance(item, StoryMode) and item.party):
+            # Need to send them to the party
+            renpy.jump('guest_party_showcase')
+            return
+        
+        # CASE 2
+        # Can deliver the after_ contents of the item immediately before
+        # the plot branch
+        if not item.all_available():
+            item.unlock_all()
+        # Deliver content in after_ label as well as phone calls
+        item.deliver_next_after_content()
+        deliver_emails()        
 
-        renpy.hide_screen('starry_night')
-        renpy.hide_screen('animated_bg')
-        renpy.hide_screen('timeline')
-        hide_all_popups()
-
-        store.text_msg_reply = False
-        store.in_phone_call = False
-        store.vn_choice = False
-        store.email_reply = False
-
-        # Special variable is set when rewatching an item to prevent changing
-        # what was said or receiving heart points again, for example.
-        if item.played:
-            if not store.persistent.testing_mode:
-                store.observing = True
-            else:
-                store.observing = False
-        else:
-            store.observinng = False
-
-        # If watching this item from the History, observing is always True.
-        # Pronouns, name, and profile picture must be re-set and all characters'
-        # profile pictures should be the default
-        if _in_replay:
-            store.observing = True
-            set_pronouns()
-            set_name_pfp()
-            for c in store.all_characters:
-                c.reset_pfp()
-                
-
-        # Chatroom setup
-        if isinstance(item, ChatRoom):
-            # Make sure messenger screens are showing
-            renpy.show_screen('phone_overlay')
-            renpy.show_screen('messenger_screen')
-            renpy.show_screen('pause_button')
-
-            # Clear the chatlog
-            store.chatlog = []
-            # Fill the beginning of the chat with 'empty space' so messages
-            # appear at the bottom of the screen
-            addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
-
-            store.text_person = None
-            _window_hide()
-
-            # Set up the participants list
-            store.in_chat = []
-            if not store.observing:
-                item.reset_participants()
-            for person in item.original_participants:
-                if person.name not in store.in_chat:
-                    store.in_chat.append(person.name)
-
-            # If the player is participating, add them to the participants list
-            if ((not item.expired or item.buyback or item.buyahead)
-                    and not store.expired_replay):
-                store.in_chat.append(store.m.name)
-
-        # Story Mode/VN setup
-        elif isinstance(item, StoryMode):
-            store._window_auto = True
-            renpy.scene()
-            renpy.show('bg black')
-
-            renpy.hide_screen('phone_overlay')
-            renpy.hide_screen('messenger_screen')
-            renpy.hide_screen('pause_button')
-
-            if item.is_nvl:
-                nvl_clear()
-            else:
-                renpy.show_screen('vn_overlay')
-            
-            store.vn_choice = True
-            # Clear the history log screen
-            store._history_list = []
-            store.history = True
-
-        # Story phone calls
-        elif isinstance(item, StoryCall):
-            store._history = False
-            store.in_phone_call = True
-
-            renpy.hide_screen('incoming_call')
-            renpy.hide_screen('outgoing_call')
-
-            renpy.show_screen('in_call', who=item.caller, story_call=True)
-            
+        # Now check if the player unlocked the next 24 hours
+        # of chatrooms, and make those available
+        if unlock_24_time:
+            make_24h_available()           
+        check_and_unlock_story()
+        renpy.retain_after_load
+        renpy.call_screen('day_select')
+        return
     
         

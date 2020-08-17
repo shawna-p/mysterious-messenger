@@ -359,21 +359,9 @@ screen timeline_item_display(day, day_num, item, index):
                 background item.get_timeline_img(was_played)
                 hover_foreground 'chat_timeline_hover'
                 if item.available and was_played:
-                    # Determine where to take the player depending
-                    # on whether this chatroom is expired or not
-                    if item.expired and not item.played:
-                        action [SetVariable('current_timeline_item', item), 
-                                Jump(item.expired_label)]
-                    else:
-                        if (item.played 
-                                and not persistent.testing_mode
-                                and item.replay_log != []):
-                            action [SetVariable('current_timeline_item', item),
-                                SetVariable('observing', True),
-                                Jump('rewatch_chatroom')]
-                        else:
-                            action [SetVariable('current_timeline_item', item),                                     
-                                    Jump(item.item_label)]
+                    action [SetVariable('current_timeline_item', item),
+                            Jump('end_timeline_item')]
+                    #action Function(begin_timeline_item, item=item)                   
                         
                 if (hacked_effect and chatroom.expired 
                         and persistent.hacking_effects):
@@ -455,9 +443,7 @@ screen timeline_item_display(day, day_num, item, index):
                 # and 1 at its fastest
                 # This Preference means the player always has to
                 # manually enable auto-forward in a new story mode
-                action [Preference("auto-forward", "disable"), 
-                        SetVariable('current_timeline_item', item), 
-                        Jump(item.item_label)]
+                action Function(begin_timeline_item, item=item)
             add item.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
                 frame:
@@ -483,11 +469,7 @@ screen timeline_item_display(day, day_num, item, index):
                 hover_foreground (item.story_mode.get_timeline_img(
                         can_play_story_mode) + '_hover')
                 if item.story_mode.available and can_play_story_mode:
-                    # This Preference means the player always has to
-                    # manually enable auto-forward in a new story mode
-                    action [Preference("auto-forward", "disable"), 
-                            SetVariable('current_timeline_item', item), 
-                            Jump(item.story_mode.item_label)]      
+                    action Function(begin_timeline_item, item=item.story_mode)                    
                 add item.story_mode.vn_img xoffset -5
                 
     
@@ -504,20 +486,16 @@ screen timeline_item_display(day, day_num, item, index):
                         action Show('confirm', message=("If you start the party"
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
-                            yes_action=[Preference("auto-forward", "disable"), 
-                                SetVariable('current_timeline_item', item),
-                                Hide('confirm'), 
-                                Jump('guest_party_showcase')],
+                            yes_action=Function(begin_timeline_item,
+                                item=story_mode),
                             no_action=Hide('confirm'))
                     # Otherwise, we need to branch first
                     else:
                         action Show('confirm', message=("If you start the party"
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
-                            yes_action=[Preference("auto-forward", "disable"), 
-                                SetVariable('current_timeline_item', item),
-                                Hide('confirm'), 
-                                Jump(story_mode.item_label + '_branch')],
+                            yes_action=Function(begin_timeline_item,
+                                item=story_mode),
                             no_action=Hide('confirm'))
         
     # If there are mandatory story calls, display them
@@ -551,17 +529,13 @@ screen timeline_item_display(day, day_num, item, index):
                                 + " Missed chatrooms may appear depending on"
                                 + " the time right now. Continue?"), 
                             yes_action=[Hide('confirm'), 
-                            SetVariable('most_recent_item', item),
-                            SetVariable('current_timeline_item', item),
-                            Jump(item.item_label + '_branch')], 
-                            no_action=Hide('confirm'))           
+                            Function(execute_plot_branch, item=item)], 
+                            no_action=Hide('confirm'))
                 else:
                     action Show("confirm", message=("The game branches here."
                             + " Continue?"), 
                         yes_action=[Hide('confirm'), 
-                        SetVariable('current_timeline_item', item),
-                        SetVariable('most_recent_item', item),
-                        Jump(item.item_label + '_branch')], 
+                        Function(execute_plot_branch, item=item)], 
                         no_action=Hide('confirm'))                 
             else:
                 action Show("confirm", message=("Please proceed after"
@@ -586,27 +560,9 @@ screen timeline_story_calls(phonecall, item, was_played):
             background phonecall.get_timeline_img(was_played)
             hover_foreground 'story_call_hover'
             if phonecall.available and was_played:
-                # Determine where to take the player based on whether this
-                # item has expired or not
-                if phonecall.expired and not phonecall.played:
-                    action [SetVariable('current_timeline_item', item),
-                        SetVariable('current_call', phonecall), 
-                        Preference("auto-forward", "enable"),                    
-                        Jump(phonecall.expired_label)]
-                else:
-                    if (phonecall.played and not persistent.testing_mode):
-                        action [SetVariable('current_timeline_item', item),
-                            SetVariable('current_call', phonecall),
-                            SetVariable('observing', True),
-                            Preference("auto-forward", "enable"),
-                            Jump(phonecall.item_label)]
-                    else:
-                        action [SetVariable('current_timeline_item', item),
-                            Preference("auto-forward", "enable"),
-                            # Make it look like an incoming call
-                            Play('music', persistent.phone_tone),
-                            Show('incoming_call', 
-                                phonecall=phonecall)]
+                #action Function(begin_timeline_item, item=phonecall)                
+                action [SetVariable('current_timeline_item', phonecall),
+                            Jump('end_timeline_item')]
             hbox:
                 yoffset 12 xoffset 78
                 spacing 25

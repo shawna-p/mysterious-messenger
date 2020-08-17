@@ -1365,6 +1365,9 @@ python early hide:
 
     def execute_chat_bg(new_bg):
         """Set the correct background and nickname colour."""
+        
+        set_chatroom_background(new_bg)
+        return
         store.current_background = new_bg
         if new_bg in store.all_static_backgrounds:
             renpy.scene()

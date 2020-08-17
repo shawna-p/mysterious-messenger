@@ -628,10 +628,7 @@ screen incoming_call(phonecall, countdown_time=10):
                                 Return()], 
                                     "headphones", False)
             elif isinstance(phonecall, StoryCall):
-                use phone_footer([Stop('music'), 
-                                Preference("auto-forward", "enable"), 
-                                SetVariable('current_call', phonecall), 
-                                Jump(phonecall.item_label)],
+                use phone_footer(Return(),
                                 "headphones",
                                 False)
             else:

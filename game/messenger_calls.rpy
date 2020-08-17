@@ -25,6 +25,14 @@
 # you also have to pass it 'False' as its second argument.
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
+    $ set_chatroom_background(background)
+    if clearchat:
+        $ chatlog = []
+        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+    if resetHP:
+        $ collected_hp = {'good': [], 'bad': [], 'break': []}
+    return
+
     if starter_story:
         $ set_name_pfp()
     stop music
@@ -159,6 +167,7 @@ init python:
 
 ## Call this label to show the save & exit sign
 label chat_end():
+    return
     if starter_story:        
         $ persistent.first_boot = False
         $ persistent.on_route = True
