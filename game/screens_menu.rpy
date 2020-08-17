@@ -536,9 +536,6 @@ screen file_slots(title):
                             dn2 = dn
                     else:                    
                         rt, dn, cn, dn2 = 'auto', '1st', 'Example', '2nd'
-                    
-                    
-                    
                         
                     file_time = FileTime(slot, empty="00:00")[-5:]
                 
@@ -599,11 +596,16 @@ init python:
         """Get the save title based on today's information."""
 
         global most_recent_item
+
+        if most_recent_item.parent:
+            save_title_item = most_recent_item.parent
+        else:
+            save_title_item = most_recent_item
         # Find today
         today = "1st"
         tomorrow = "2nd"
         for day_num, day in enumerate(store.story_archive):
-            if most_recent_item in day.archive_list:
+            if save_title_item in day.archive_list:
                 today = day.day
                 if day_num+1 < len(store.story_archive):
                     tomorrow = store.story_archive[day_num+1].day
@@ -611,8 +613,8 @@ init python:
                     tomorrow = today
                 break
         
-        return (most_recent_item.save_img + "|" + today + "|"
-                + most_recent_item.title + "|" + tomorrow)
+        return (save_title_item.save_img + "|" + today + "|"
+                + save_title_item.title + "|" + tomorrow)
 
         
 
