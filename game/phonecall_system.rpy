@@ -789,25 +789,11 @@ label new_incoming_call(phonecall):
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
 label phone_begin():
+    if isinstance(current_call, StoryCall):
+        return
     if starter_story:
         $ set_name_pfp()
-    stop music
-    # This stops it from recording the dialogue
-    # from the phone call in the history log
-    $ _history = False
-    $ in_phone_call = True
-    hide screen incoming_call
-    hide screen outgoing_call
-    
-    # Hide all the popup screens
-    $ hide_all_popups()
-    
-    if _in_replay:
-        $ observing = True
-        $ set_name_pfp()
-        $ set_pronouns()
-        
-    show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
+        jump play_phone_call
     return
     
 ## This label sets the appropriate variables/actions when you finish
@@ -815,7 +801,7 @@ label phone_begin():
 label phone_end():
     if isinstance(current_call, StoryCall):
         $ in_phone_call = False
-        
+        return
     if not starter_story:
         if not observing:
             $ current_call.finished()

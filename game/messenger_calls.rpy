@@ -25,12 +25,14 @@
 # you also have to pass it 'False' as its second argument.
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
-    $ set_chatroom_background(background)
+    $ set_chatroom_background(background)    
     if clearchat:
         $ chatlog = []
-        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0.1)
     if resetHP:
         $ collected_hp = {'good': [], 'bad': [], 'break': []}
+    if starter_story:
+        call begin_timeline_item(current_timeline_item)
     return
 
     if starter_story:
@@ -123,6 +125,10 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 init python:
     def set_chatroom_background(new_bg):
         """Set the correct background and nickname colour."""
+        print('new_bg is', new_bg)
+        if new_bg[:3] == 'bg ':
+            new_bg = new_bg[3:]
+
         store.current_background = new_bg
         if new_bg in store.all_static_backgrounds:
             renpy.scene()
@@ -167,11 +173,13 @@ init python:
 
 ## Call this label to show the save & exit sign
 label chat_end():
-    return
-    if starter_story:        
-        $ persistent.first_boot = False
-        $ persistent.on_route = True
-    call screen save_and_exit    
+    if starter_story:
+        call end_timeline_item_checks()
+        call screen save_and_exit(True)
+        call screen signature_screen(True)
+        call finish_timeline_item(current_timeline_item)
+        $ starter_story = False
+        call screen chat_home
     return
     
 ## Call this label at the very end of the route to show a good/bad/normal
