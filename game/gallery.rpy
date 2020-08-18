@@ -40,11 +40,21 @@ python early:
             self.img = img
             self.__locked_img = locked_img
             if thumbnail:
-                self.__thumbnail = thumbnail
+                self.__thumbnail = thumbnail            
             else:
-                # If no thumbnail is provided, the program
-                # will automatically crop and scale the CG
-                self.__thumbnail = Transform(Crop((0, 200, 750, 750), img), 
+                if '.' not in self.img:
+                    # Retrieve the file name associated with this displayable
+                    test = renpy.display.image.get_registered_image(img).filename
+                else:
+                    test = self.img
+                thumb_name = test.split('.')
+                thumbnail = thumb_name[0] + '-thumb.' + thumb_name[1]
+                if renpy.loadable(thumbnail):
+                    self.__thumbnail = thumbnail
+                else:
+                    # If no thumbnail is provided, the program
+                    # will automatically crop and scale the CG
+                    self.__thumbnail = Transform(Crop((0, 200, 750, 750), img), 
                                                         size=(155,155))
             self.unlocked = False
             self.__seen_in_album = False
