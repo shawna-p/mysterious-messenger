@@ -8,16 +8,16 @@ python early hide:
         who = l.simple_expression()
         if not who:
             renpy.error("chatroom enter/exit requires a character.")
-        return dict(who=who)
+        return who
 
-    def execute_enter_chat(p):
-        if p["who"] is not None:
-            who = eval(p["who"])
+    def execute_enter_chat(d_who):
+        if d_who is not None:
+            who = eval(d_who)
         else:
             renpy.error("enter chatroom requires a ChatCharacter")
         
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable %s provided to enter chatroom is not recognized as a ChatCharacter." % p["who"])
+            print("WARNING: variable %s provided to enter chatroom is not recognized as a ChatCharacter." % d_who)
             renpy.show_screen('script_error',
                 message="Variable %s provided to enter chatroom is not recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
@@ -32,7 +32,7 @@ python early hide:
             enter_entry = ("enter", who)
             store.current_timeline_item.replay_log.append(enter_entry)
         
-        addchat(store.special_msg, enter_string, store.pv)
+        addchat(store.special_msg, enter_string, 1.1)
         if who.name not in store.in_chat:
             store.in_chat.append(who.name)
 
@@ -43,14 +43,14 @@ python early hide:
         renpy.restart_interaction()
         return
 
-    def execute_exit_chat(p):
-        if p["who"] is not None:
-            who = eval(p["who"])
+    def execute_exit_chat(d_who):
+        if d_who is not None:
+            who = eval(d_who)
         else:
             renpy.error("exit chatroom requires a ChatCharacter")
         
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable %s provided to exit chatroom is not recognized as a ChatCharacter." % p["who"])
+            print("WARNING: variable %s provided to exit chatroom is not recognized as a ChatCharacter." % d_who)
             renpy.show_screen('script_error',
                 message="Variable %s provided to exit chatroom is not recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
@@ -65,7 +65,7 @@ python early hide:
             exit_entry = ("exit", who)
             store.current_timeline_item.replay_log.append(exit_entry)
         
-        addchat(store.special_msg, exit_string, store.pv)
+        addchat(store.special_msg, exit_string, 1.1)
         if who.name in store.in_chat:
             store.in_chat.remove(who.name)
         
@@ -73,11 +73,10 @@ python early hide:
         renpy.restart_interaction()
         return
 
-    def lint_enter_exit(l):
-        who = p["who"]
+    def lint_enter_exit(who):        
         eval_who = None
         try:
-            eval_who = eval(p["who"])
+            eval_who = eval(who)
         except:
             renpy.error("enter and exit functions require a ChatCharacter")
 
@@ -1424,3 +1423,4 @@ python early hide:
                               lint=lint_chat_bg,
                               warp=lambda : True)
 
+   
