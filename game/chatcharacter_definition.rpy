@@ -335,6 +335,24 @@ init -5 python:
                 print_file("Couldn't sync Saeran and Ray's heart points.")
 
         @property
+        def bonus_pfp(self):
+            """Return this character's bonus profile picture."""
+
+            try:
+                return self.__bonus_pfp
+            except:
+                return False
+        
+        @bonus_pfp.setter
+        def bonus_pfp(self, new_img):
+            """Set the bonus profile picture for this character."""
+
+            try:
+                self.__bonus_pfp = new_img
+            except:
+                return
+
+        @property
         def prof_pic(self):
             """Return this character's profile picture."""
 
@@ -350,6 +368,7 @@ init -5 python:
 
             if new_img == False:
                 self.__prof_pic = False
+                return
             elif isImg(new_img):            
                 self.__prof_pic = new_img
                 self.seen_updates = False
@@ -364,6 +383,27 @@ init -5 python:
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
         
+            # Add this profile picture to the persistent list of profile
+            # pictures the player has seen.
+            try:
+                persistent_pfp_list = getattr(store.persistent,
+                    self.file_id + '_profile_pictures')
+            except:
+                print("WARNING: Could not find variable persistent." 
+                    + self.file_id + "_profile_pictures. Did you forget to "
+                    + "default this variable?")
+                renpy.show_screen('script_error',
+                        message=("Could not find variable persistent." 
+                            + self.file_id + "_profile_pictures. Did you "
+                            +" forget to default this variable?"))
+                return
+
+            if persistent_pfp_list is None:
+                persistent_pfp_list = []
+            if not self.__prof_pic in persistent_pfp_list:
+                persistent_pfp_list.append(self.__prof_pic)
+            
+
         def get_pfp(self, the_size):
             """
             Return the large or small profile picture depending
@@ -607,3 +647,94 @@ init -5 python:
             if not isinstance(other, ChatCharacter):
                 return True
             return self.file_id != other.file_id
+
+    def register_pfp(files=None, condition='seen', folder="", ext="",
+            filter_out=None, filter_keep=None):
+        """
+        Return a list of (folder + file + ext, condition) tuples. Used to 
+        construct the list of profile pictures the user is allowed to change 
+        the characters' picture to.
+
+        Arguments:
+        ----------
+        files : string[] or string
+            List of file paths that lead to a profile picture image.
+        condition : string
+            String that evaluates to a python condition which will be used
+            to determine whether this image is unlocked or not. The default,
+            'seen', evaluates whether or not this image has been seen by the
+            player as a CG or a profile picture.
+        folder : string
+            Folder for where to find this file, e.g. "Profile Pics/Jaehee/".
+            Automatically prepended to each file name when searching.
+        ext : string
+            Extension for this file e.g. "png". Automatically appended to each
+            file name when searching.
+        filter_out : string
+            If included, searches through files in `folder` that do *not*
+            contain filter_out.
+        filter_keep : string
+            If included, searches through files in `folder` that *do* contain
+            filter_keep.
+        """
+
+        if len(folder) > 0 and folder[-1] != "/":
+            folder += "/"
+        if len(ext) > 0 and ext[0] != ".":
+            ext = "." + ext        
+        result = []
+
+        if filter_out is None and filter_keep is None:
+            if not isinstance(files, list):            
+                # Just a single item
+                item = folder + files + ext
+                if isImg(item):
+                    return [ (folder + files + ext, condition)]
+                else:
+                    print("WARNING: " + item + " is not recognized as an "
+                        + "image file.")
+                    renpy.show_screen('script_error',
+                        message=(item + " is not recognized as an image file."))
+                    return
+            # Otherwise, iterate through the list
+            for file in files:
+                item = folder + file + ext
+                if isImg(item):
+                    result.append((item, condition))
+                else:
+                    print("WARNING: " + item + " is not recognized as an "
+                        + "image file.")
+                    renpy.show_screen('script_error',
+                        message=(item + " is not recognized as an image file."))
+            return result
+
+        # Otherwise, one of the filter conditions is True
+        folder = 'images/' + folder
+        file_list = [ pic for pic in renpy.list_files() if folder in pic
+            and isImg(pic) ]
+        # Filter by extension, if available
+        if ext:
+            result = [ pic for pic in file_list if ext in pic ]
+        else:
+            result = file_list
+
+        if filter_out is None:
+            # Just filter_keep
+            file_list = [ pic for pic in result if filter_keep in pic ]
+        elif filter_keep is None:
+            # Just filter_out
+            file_list = [ pic for pic in result if filter_out not in pic ]
+        else:
+            # Both
+            file_list = [ pic for pic in result if (filter_out not in pic
+                and filter_keep in pic) ]
+
+        # Now construct an (item, condition) tuple out of each item
+        result = []
+        if len(file_list) > 0:
+            for item in file_list:
+                result.append((item, condition))
+        return result
+        
+
+        
