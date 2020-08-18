@@ -360,7 +360,7 @@ screen timeline_item_display(day, day_num, item, index):
                 hover_foreground 'chat_timeline_hover'
                 if item.available and was_played:
                     action [SetVariable('current_timeline_item', item),
-                            Jump('end_timeline_item')]
+                            Jump('play_timeline_item')]
                     #action Function(begin_timeline_item, item=item)                   
                         
                 if (hacked_effect and chatroom.expired 
@@ -562,7 +562,7 @@ screen timeline_story_calls(phonecall, item, was_played):
             if phonecall.available and was_played:
                 #action Function(begin_timeline_item, item=phonecall)                
                 action [SetVariable('current_timeline_item', phonecall),
-                            Jump('end_timeline_item')]
+                            Jump('play_timeline_item')]
             hbox:
                 yoffset 12 xoffset 78
                 spacing 25
