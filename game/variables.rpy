@@ -310,6 +310,16 @@ init -6 python:
         except:
             print("Print to file did not work:", args)
 
+    def combine_lists(*args):
+        """Combine args into one giant list and return it."""
+        result = []
+        for arg in args:
+            if isinstance(arg, list):
+                result.extend(arg)
+            else:
+                result.append(arg)
+        return result
+
     config.displayable_prefix["btn_hover"] = btn_hover_img
     config.displayable_prefix["center_bg"] = center_bg_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
@@ -553,6 +563,7 @@ image save_btn = "Menu Screens/Main Menu/menu_save_btn.png"
 image load_btn = "Menu Screens/Main Menu/menu_load_btn.png"
 image name_line = "Menu Screens/Main Menu/menu_underline.png"
 image menu_edit = "Menu Screens/Main Menu/menu_pencil_long.png"
+image menu_pencil = "Menu Screens/Main Menu/menu_pencil.png"
           
 image radio_on = "Menu Screens/Main Menu/menu_radio_on.png"
 image radio_off = "Menu Screens/Main Menu/menu_radio_off.png"
@@ -642,7 +653,7 @@ image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.png"
 ## ********************************
 ## Profile Picture Screen
 ## ********************************
-image profile_outline = "Menu Screens/Chat Hub/profile_outline.png"
+image profile_outline = Frame('#fff', 5, 5)
 image profile_cover_photo = "Cover Photos/profile_cover_photo.png"
 
 
