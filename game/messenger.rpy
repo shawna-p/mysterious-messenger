@@ -34,14 +34,16 @@ screen messenger_screen():
                 fixed:
                     yfit True
                     xfill True
-                    if i.who.name == 'msg' or i.who.name == 'filler':
+                    if i.who.name in ['msg', 'filler']:
                         use special_msg(i)
+                    elif i.who == answer:
+                        pass                        
                     # This trick means that the program displays
                     # an invisible bubble behind the visible one
                     # so the animation doesn't "slide" in
                     elif i == finalchat:
                         use chat_animation(i, True)
-                    if i.who.name != 'msg' and i.who.name != 'filler':
+                    if i.who.name not in ['msg', 'filler', 'answer']:
                         use chat_animation(i)                    
                 null height 10
                         

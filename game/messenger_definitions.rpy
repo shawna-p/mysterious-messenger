@@ -417,6 +417,9 @@ init -4 python:
             pass
         elif who.file_id == 'delete':
             messenger_pause(pv)
+            return
+        elif who.name in ['msg', 'filler']:
+            messenger_pause(pv, True)    
         else:
             typeTime = what.count(' ') + 1 # equal to the # of words
             # Since average reading speed is 200 wpm or 3.3 wps
@@ -480,7 +483,7 @@ init -4 python:
             else:
                 renpy.show_screen(allocate_hg_screen())
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
-            store.chatroom_hg += 1
+            store.collected_hg += 1
         
         # Hourglass awards are pseudo-random. The program draws from a 'bag'
         # that contains 10 choices, two of which are True. If it gets True,

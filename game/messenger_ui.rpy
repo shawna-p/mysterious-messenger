@@ -12,6 +12,7 @@ label answer(from_cg=False):
         else:
             $ pauseFailsafe()   
         $ pre_choosing = True
+        $ addchat(answer, '', 0.1)
         call screen answer_button
         show screen pause_button
     # Otherwise it's a real-time text conversation

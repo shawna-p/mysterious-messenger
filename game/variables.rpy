@@ -305,7 +305,7 @@ init -6 python:
         try:
             f = open("debug.txt", "a")
             #f.write(args)
-            print(args, file=f)
+            print(*args, file=f)
             f.close()
         except:
             print("Print to file did not work:", args)
