@@ -1027,12 +1027,47 @@ init -6 python:
         temp.parent = parent
         return temp
 
+## The label that is called to play a (non-story) phone call
+label play_phone_call():
+    if starter_story:
+        $ set_name_pfp()
+    stop music
+    # This stops it from recording the dialogue
+    # from the phone call in the history log
+    $ _history = False
+    $ in_phone_call = True
+    hide screen incoming_call
+    hide screen outgoing_call
     
+    # Hide all the popup screens
+    $ hide_all_popups()
+    
+    if _in_replay:
+        $ observing = True
+        $ set_name_pfp()
+        $ set_pronouns()
         
-## The label that is called when a timeline item has been completed
-label end_timeline_item():
+    show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
+    if not starter_story:
+        # Play the phone call
+        $ renpy.call(current_call.phone_label)
+        $ renpy.end_replay()
+        if not observing:
+            $ current_call.finished()
+            $ persistent.completed_chatrooms[current_call.phone_label] = True
+        $ in_phone_call = False
+        $ current_call = False    
+        $ observing = False
+        $ _history = True
+        $ renpy.retain_after_load()
+        call screen phone_calls
+    return
+
+        
+## The label that is called to begin and end a timeline item
+label play_timeline_item():
     call begin_timeline_item(current_timeline_item)
-    $ print_file("Got to end_timeline_item with", current_timeline_item.item_label)
+    $ print_file("Got to play_timeline_item with", current_timeline_item.item_label)
     # Call the item label so that it returns here when it's done
     if isinstance(current_timeline_item, ChatRoom):
         $ print_file("This item is a ChatRoom")
@@ -1070,13 +1105,12 @@ label end_timeline_item():
         else:
             if not current_timeline_item.played:
                 play music persistent.phone_tone loop nocaption
-                $ renpy.call_screen('incoming_call',
-                    phonecall=current_timeline_item)
+                call screen incoming_call(phonecall=current_timeline_item)                    
             $ renpy.show_screen('in_call',
                 who=current_timeline_item.caller, story_call=True)
             $ renpy.call(current_timeline_item.item_label)
 
-    $ print_file("Finished the label and returned to end_timeline_item")
+    $ print_file("Finished the label and returned to play_timeline_item")
     call end_timeline_item_checks()
 
     if observing:
@@ -1097,7 +1131,6 @@ label end_timeline_item():
         $ starter_story = False
         call screen chat_home
         return
-    $ deliver_next()
     call screen timeline(current_day, current_day_num)
     return
 
@@ -1139,7 +1172,7 @@ label expire_timeline_item(item):
         rescind_collected_hp()
         # Hourglasses aren't added to the player's totals until the end,
         # so they can simply be reset
-        store.chatroom_hg = 0
+        store.collected_hg = 0
 
         reset_story_vars(item)
 
@@ -1188,17 +1221,15 @@ label end_timeline_item_checks():
         # reset the appropriate variables and take them back to the 
         # timeline screen
         if observing:
-            reset_story_vars(current_timeline_item)
+            reset_story_vars()
             # Main label will take players back to the timeline screen            
     return
         
 ## Finish resetting variables and screens for this TimelineItem.
 label finish_timeline_item(item, deliver_messages=True):
-    python:
-        # Show the loading screen while these actions are carried out
-        renpy.show_screen('loading_screen')
-        renpy.pause(0.1)
+    scene bg black
 
+    python:
         # Determine collected heart points (HP)
         persistent.HP += get_collected_hp()
         collected_hp = {'good': [], 'bad': [], 'break': []}
@@ -1216,8 +1247,8 @@ label finish_timeline_item(item, deliver_messages=True):
         # If the program was able to successfully mark the next item played,
         # then this is the most recent item if the player didn't buy it
         # back and it isn't the intro
-        if (the_parent.mark_next_played()
-                and not starter_story
+        if (not starter_story 
+                and the_parent.mark_next_played()
                 and not item.buyback):
             most_recent_item = the_parent
         
@@ -1232,9 +1263,6 @@ label finish_timeline_item(item, deliver_messages=True):
         deliver_emails()
         check_and_unlock_story()
 
-        # Reset variables
-        reset_story_vars(item)
-
         # Ensure any seen CGs are unlocked
         check_for_CGs(all_albums)
 
@@ -1245,9 +1273,10 @@ label finish_timeline_item(item, deliver_messages=True):
         if not chips_available:
             chips_available = hbc_bag.draw()
         
-        # Clean up the transition between the end of an item and returning
-        renpy.pause(0.1)
-        renpy.hide_screen('loading_screen')
+        deliver_next()
+
+        # Reset variables
+        reset_story_vars(item)
     return        
 
 ##Set up the correct variables and screens to view this TimelineItem.
@@ -1404,10 +1433,10 @@ init python:
         collected_hp = {'good': [], 'bad': [], 'break': []}
 
 
-    def reset_story_vars(item, vn_jump=False):
+    def reset_story_vars(vn_jump=False):
         """
         Reset variables associated with the current item, such as hiding
-        chatroom screens and resetting chatroom heart point totals.
+        chatroom screens and resetting collected heart point totals.
         """
 
         config.skipping = False
@@ -1429,10 +1458,9 @@ init python:
         store.vn_choice = False
         store.in_phone_call = False
         store._history = True
-
+        store.current_call = False
         
         if not vn_jump:
-            store.observing = False
             renpy.music.stop()
 
              
@@ -1470,4 +1498,61 @@ init python:
         renpy.call_screen('day_select')
         return
     
-        
+    def custom_show(name, at_list=None, layer='master', what=None,
+            zorder=0, tag=None, behind=None, **kwargs):
+        """
+        A custom statement which replaces the default `show` statement in order
+        to work with chatrooms.
+
+        Parameters:
+        -----------
+        name : string
+            The name of the image to show.
+        at_list : transforms[]
+            A list of transforms that are applied to the image. The equivalent
+            of the `at` property.
+        layer : string
+            Gives the name of the layer on which the image will be shown. The
+            equivalent of the `onlayer` property. If None, uses the default
+            layer associated with the tag.
+        what : Displayable or None
+            A displayable that will be shown in lieu of looking on the image.
+            (The equivalent of the `show expression` statement). When a `what`
+            parameter is given, `name` can be used to associate a tag with
+            the image.
+        zorder : int
+            The equivalent of the `zorder` property. If None, the zorder is
+            preserved if it exists, and is otherwise set to 0.
+        tag : string
+            Specifies the image tag of the shown image. The equivalent of the
+            `as` property.
+        behind : string[]
+            A list of image tags that this image is shown behind. The equivalent
+            of the `behind` property.
+
+        Result:
+        -------
+            Displays the image on the screen according to the given parameters.
+        """
+
+        if (not name == ('bg', 'black')
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            # The messenger screen is showing, therefore this statement is
+            # likely being used in conjunction with `scene` to display a
+            # chatroom background
+            print('Using custom show statement with', name)
+            if isinstance(name, tuple) and name[0] == 'bg':
+                set_chatroom_background(name[1])
+            elif isinstance(name, tuple):
+                set_chatroom_background(name[0])
+            else:
+                set_chatroom_background(name)
+            return
+
+        at_list = at_list or []
+        behind = behind or []
+
+        renpy.show(name, at_list, layer, what, zorder, tag, behind, **kwargs)
+
+define config.show = custom_show
