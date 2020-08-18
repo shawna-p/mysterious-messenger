@@ -1459,11 +1459,14 @@ screen chara_profile(who):
 
             add who.cover_pic yoffset -10
             
-            fixed:
-                xfit True yfit True
+            button:                
                 xalign 0.1 yalign 0.62
                 add who.get_pfp(314)
-                add 'profile_outline'    
+                background 'profile_outline'
+                hover_foreground Fixed(Transform('#fff3', size=(328, 324)),
+                                Transform('menu_pencil', align=(0.95, 0.05)))
+                padding (7, 5)
+                action Show('pick_chara_pfp', who=who)
             fixed:
                 xysize (350,75)
                 xalign 0.96
@@ -1473,6 +1476,63 @@ screen chara_profile(who):
                 xysize (700, 260)
                 yalign 0.95
                 text who.status style "profile_status"
+
+## Screen that lets you choose a profile picture for a character
+screen pick_chara_pfp(who):
+    modal True
+    python:
+        try:
+            pfp_list = getattr(store, who.file_id + '_unlockable_pfps')
+        except:
+            print("ERROR: Could not find unlockable_pfps variable")
+            pfp_list = []
+        num_rows = -(-(len(pfp_list)+1) // 4)
+
+    add "#000a"
+    frame:
+        xysize(675,1000)
+        background "menu_settings_panel_bright"
+        align (0.5, 0.5)
+        
+        imagebutton:
+            align (1.0, 0.0)
+            xoffset 3 yoffset -3
+            idle 'input_close'
+            hover 'input_close_hover'
+            action [Hide('pick_chara_pfp')]
+            
+        text "Choose " + who.name + "'s profile picture":
+            style "settings_style" xpos 25 ypos 5
+           
+        vpgrid:
+            rows num_rows
+            cols 4
+            xysize (650, 925)
+            yfill True
+            draggable True
+            mousewheel True
+            #if len(album):
+            scrollbars "vertical"
+            
+            side_xalign 1.0
+            side_spacing 15
+            align (0.5, 0.85)
+            spacing 20
+
+            button:
+                background "#f0fa"
+                xysize (140, 140)
+                text "Revert to default" text_align 0.5 align (0.5, 0.5)
+                hover_background "#f0fa"
+                action SetField(who, 'bonus_pfp', False)
+            for img in pfp_list:
+                # Do a check here or something
+                button:
+                    xysize (140, 140)
+                    background Transform(img[0], size=(140, 140))
+                    hover_foreground "#fff3"
+                    action SetField(who, 'bonus_pfp', img[0])
+
     
 style profile_header_text:        
     align (0.5, 0.5)
