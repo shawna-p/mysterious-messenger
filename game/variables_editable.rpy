@@ -92,6 +92,58 @@ image greet y = "Menu Screens/Main Menu/y_greeting.png"
 image greet z = "Menu Screens/Main Menu/z_greeting.png"
 
 ########################################
+## BONUS PROFILE PICTURES
+########################################
+# Contains all the profile pictures you've seen this character have
+default persistent.ja_profile_pictures = []
+default persistent.ju_profile_pictures = []
+default persistent.sa_profile_pictures = []
+default persistent.r_profile_pictures = []
+default persistent.ri_profile_pictures = []
+default persistent.s_profile_pictures = []
+default persistent.u_profile_pictures = []
+default persistent.v_profile_pictures = []
+default persistent.y_profile_pictures = []
+default persistent.z_profile_pictures = []
+
+# These variables use `register_pfp` to make a big list of the profile pictures
+# the user can unlock for each character.
+define ja_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Jaehee/", filter_out='-b.'),
+    register_pfp(folder="CGs/ja_album/", filter_keep='-thumb.')
+)
+define ju_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Jumin/", filter_out='-b.'),
+    register_pfp(folder="CGs/ju_album/", filter_keep='-thumb.')
+)
+define sa_unlockable_pfps = [] # Saeran uses Ray's pictures
+define r_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Saeran/", filter_out='-b.'),
+    register_pfp(folder="Profile Pics/Ray/", filter_out='-b.'),
+    register_pfp(folder="CGs/r_album/", filter_keep='-thumb.')
+)
+define ri_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Rika/", filter_out='-b.')
+)
+define s_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Seven/", filter_out='-b.'),
+    register_pfp(folder="CGs/s_album/", filter_keep='-thumb.')
+)
+define u_unlockable_pfps = []
+define v_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/V/", filter_out='-b.'),
+    register_pfp(folder="CGs/v_album/", filter_keep='-thumb.')
+)
+define y_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Yoosung/", filter_out='-b.'),
+    register_pfp(folder="CGs/y_album/", filter_keep='-thumb.')
+)
+define z_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Zen/", filter_out='-b.'),
+    register_pfp(folder="CGs/z_album/", filter_keep='-thumb.')
+)
+
+########################################
 ## SPACESHIP THOUGHT IMAGES
 ########################################
 # These image are rounded and 651x374
