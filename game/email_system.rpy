@@ -915,7 +915,7 @@ label email_end():
     $ renpy.retain_after_load()
     return
 
-image guest_locked = "Email/Thumbnails/guest_unlock_icon.png"
+image img_locked = "CGs/album_unlock.png"
 
 screen guestbook():
     tag menu
@@ -962,7 +962,7 @@ screen guestbook():
                             guest=guest, unlocked=True)
                     else:
                         # This guest is unknown to the player
-                        background 'guest_locked'
+                        background 'img_locked'
                         action Show("confirm", 
                             message="You have not yet\nencountered this guest",
                             yes_action=Hide('confirm'))
