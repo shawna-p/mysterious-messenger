@@ -316,7 +316,7 @@ screen phone_overlay():
                 hover Transform('back_arrow_btn', zoom=1.2)
                 keysym "K_BACKSPACE"
                 if observing or current_timeline_item.expired:
-                    action Jump('exit_item_early')
+                    action Jump('just_return') #Jump('exit_item_early')
                 else:
                     action Show("confirm", message=("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
