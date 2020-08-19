@@ -385,23 +385,13 @@ init -5 python:
         
             # Add this profile picture to the persistent list of profile
             # pictures the player has seen.
-            try:
-                persistent_pfp_list = getattr(store.persistent,
-                    self.file_id + '_profile_pictures')
-            except:
-                print("WARNING: Could not find variable persistent." 
-                    + self.file_id + "_profile_pictures. Did you forget to "
-                    + "default this variable?")
-                renpy.show_screen('script_error',
-                        message=("Could not find variable persistent." 
-                            + self.file_id + "_profile_pictures. Did you "
-                            +" forget to default this variable?"))
+            if self.file_id == 'm':
                 return
-
-            if persistent_pfp_list is None:
-                persistent_pfp_list = []
-            if not self.__prof_pic in persistent_pfp_list:
-                persistent_pfp_list.append(self.__prof_pic)
+            if store.persistent.unlocked_prof_pics is None:
+                store.persistent.unlocked_prof_pics = []
+            if not self.__prof_pic in store.persistent.unlocked_prof_pics:
+                store.persistent.unlocked_prof_pics.append(
+                    self.__prof_pic)
             
 
         def get_pfp(self, the_size):
@@ -737,4 +727,5 @@ init -5 python:
         return result
         
 
-        
+# Contains all the profile pictures you've seen in the game
+default persistent.unlocked_prof_pics = []      

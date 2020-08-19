@@ -42,16 +42,14 @@ python early:
             if thumbnail:
                 self.__thumbnail = thumbnail            
             else:
-                if '.' not in self.img:
-                    # Retrieve the file name associated with this displayable
-                    test = renpy.display.image.get_registered_image(img).filename
-                else:
-                    test = self.img
-                thumb_name = test.split('.')
-                thumbnail = thumb_name[0] + '-thumb.' + thumb_name[1]
-                if renpy.loadable(thumbnail):
-                    self.__thumbnail = thumbnail
-                else:
+                if self.filename:
+                    thumb_name = self.filename.split('.')
+                    thumbnail = thumb_name[0] + '-thumb.' + thumb_name[1]
+                    if renpy.loadable(thumbnail):
+                        self.__thumbnail = thumbnail
+                    else:
+                        thumbnail = False
+                if not thumbnail:
                     # If no thumbnail is provided, the program
                     # will automatically crop and scale the CG
                     self.__thumbnail = Transform(Crop((0, 200, 750, 750), img), 
@@ -59,13 +57,29 @@ python early:
             self.unlocked = False
             self.__seen_in_album = False
             
+        @property
+        def filename(self):
+            """Return the file name (including extension) for this image."""
+            if '.' in self.img:
+                return self.img
+            try:
+                return renpy.display.image.get_registered_image(self.img).filename
+            except:
+                print("WARNING: Could not retrieve filename associated with",
+                    self.img)
+            return False
+
         def unlock(self):
             """Unlock this image in the album."""
 
             if not self.unlocked:
                 self.unlocked = True
                 # Set a var so Album shows "NEW"
-                store.new_cg += 1            
+                store.new_cg += 1   
+                # Add this to the list of unlocked profile pictures
+                if self.__thumbnail not in store.persistent.unlocked_prof_pics:
+                    store.persistent.unlocked_prof_pics.append(
+                        self.__thumbnail)
             renpy.retain_after_load()
 
         @property
@@ -142,6 +156,7 @@ init python:
                 for p_photo in p_album:
                     if photo == p_photo:
                         p_photo.thumbnail = photo.get_thumb()
+                        break
         # Remove photos in p_album that aren't in update
         for photo in p_album:
             if photo not in update:

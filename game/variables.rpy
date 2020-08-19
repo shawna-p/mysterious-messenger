@@ -312,12 +312,16 @@ init -6 python:
 
     def combine_lists(*args):
         """Combine args into one giant list and return it."""
+        
         result = []
         for arg in args:
             if isinstance(arg, list):
-                result.extend(arg)
+                for pic in arg:
+                    if pic not in result:
+                        result.append(pic)                
             else:
-                result.append(arg)
+                if arg not in result:
+                    result.append(arg)
         return result
 
     config.displayable_prefix["btn_hover"] = btn_hover_img

@@ -77,11 +77,40 @@ init python:
                 store.chatroom_hp = None
                 store.chatroom_hg = None
 
+                # Unlock profile pictures
+                for chara in store.all_characters:
+                    unlock_profile_pics(chara)
+
                 store._version = '3.0'
                 float_ver = 3.0
             
             store._version = "3.0"
                                         
+    def unlock_profile_pics(who):
+        """Ensure seen CGs and profile pictures are unlocked where possible."""
+
+        # Add album thumbnails
+        try:
+            if who.file_id in store.all_albums:
+                album = getattr(store.persistent, who.file_id + '_album', [])
+            else:
+                album = []
+            for pic in album:
+                if (pic.unlocked 
+                        and pic not in store.persistent.unlocked_prof_pics):
+                    store.persistent.unlocked_prof_pics.append(
+                        pic.get_thumb())
+        except:
+            print("ERROR: Could not add " + who.file_id + "'s album",
+                "pictures to unlock list.")
+
+        # Add currently shown profile picture
+        if who.prof_pic not in store.persistent.unlocked_prof_pics:
+            store.persistent.unlocked_prof_pics.append(who.prof_pic)
+        # Add default profile picture
+        if who.default_prof_pic not in store.persistent.unlocked_prof_pics:
+            store.persistent.unlocked_prof_pics.append(who.default_prof_pic)
+
 
     def find_route_endings(route, chatlist, titles):
         """
@@ -369,6 +398,19 @@ init python:
         
         set_name_pfp()
             
+        if not store.persistent.unlocked_prof_pics:        
+            for chara in store.all_characters:
+                unlock_profile_pics(chara)
+        # store.persistent.unlocked_prof_pics = list(dict.fromkeys(store.persistent.unlocked_prof_pics))
+        # to_remove = []
+        # for item in store.persistent.unlocked_prof_pics:
+        #     if 'Image' in item:
+        #         to_remove.append(item)
+        #     if 'Drop ' in item:
+        #         to_remove.append(item)
+        # for item in to_remove:
+        #     if item in store.persistent.unlocked_prof_pics:
+        #         store.persistent.unlocked_prof_pics.remove(item)
         renpy.retain_after_load()
         return
 
