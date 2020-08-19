@@ -1482,7 +1482,10 @@ screen pick_chara_pfp(who):
     modal True
     python:
         try:
-            pfp_list = getattr(store, who.file_id + '_unlockable_pfps')
+            if who == sa:
+                pfp_list = getattr(store, 'r_unlockable_pfps')
+            else:
+                pfp_list = getattr(store, who.file_id + '_unlockable_pfps')
         except:
             print("ERROR: Could not find unlockable_pfps variable")
             pfp_list = []
@@ -1490,48 +1493,91 @@ screen pick_chara_pfp(who):
 
     add "#000a"
     frame:
-        xysize(675,1000)
-        background "menu_settings_panel_bright"
-        align (0.5, 0.5)
-        
+        style_prefix 'pick_pfp'        
         imagebutton:
-            align (1.0, 0.0)
-            xoffset 3 yoffset -3
             idle 'input_close'
             hover 'input_close_hover'
             action [Hide('pick_chara_pfp')]
             
-        text "Choose " + who.name + "'s profile picture":
-            style "settings_style" xpos 25 ypos 5
+        text "Choose " + who.name + "'s profile picture"
            
         vpgrid:
             rows num_rows
             cols 4
-            xysize (650, 925)
-            yfill True
             draggable True
             mousewheel True
-            #if len(album):
-            scrollbars "vertical"
-            
-            side_xalign 1.0
-            side_spacing 15
-            align (0.5, 0.85)
-            spacing 20
-
+            scrollbars "vertical"   
             button:
-                background "#f0fa"
-                xysize (140, 140)
-                text "Revert to default" text_align 0.5 align (0.5, 0.5)
-                hover_background "#f0fa"
+                background 'menu_ringtone_box'
+                text "Revert to default" style 'pick_pfp_text2'
+                hover_foreground "menu_ringtone_box"
                 action SetField(who, 'bonus_pfp', False)
-            for img in pfp_list:
-                # Do a check here or something
+            for img, condition in pfp_list:                
                 button:
-                    xysize (140, 140)
-                    background Transform(img[0], size=(140, 140))
-                    hover_foreground "#fff3"
-                    action SetField(who, 'bonus_pfp', img[0])
+                    if is_unlocked_pfp(img, condition):
+                        background Transform(img, size=(140, 140))
+                        hover_foreground "#fff3"
+                        action SetField(who, 'bonus_pfp', img)
+                    else:
+                        background Transform('img_locked', size=(140, 140))
+                        action Show('confirm', message=("You have not yet "
+                            + "unlocked this profile picture."),
+                        yes_action=Hide('confirm'))
+
+style pick_pfp_frame:
+    xysize(675,1000)
+    background Fixed("menu_settings_panel_bright", "menu_settings_panel_bright")
+    align (0.5, 0.5)
+
+style pick_pfp_image_button:
+    align (1.0, 0.0)
+    xoffset 3 yoffset -3
+
+style pick_pfp_text:
+    is settings_style
+    xpos 25 ypos 3
+
+style pick_pfp_vpgrid:
+    xysize (650, 925)     
+    xoffset 15
+    spacing 20
+
+style pick_pfp_side:
+    xalign 1.0
+    yalign 0.8
+    spacing 15
+
+style pick_pfp_button:
+    xysize (140, 140)
+
+style pick_pfp_text2:
+    text_align 0.5
+    align (0.5, 0.5)
+
+init python:
+    def is_unlocked_pfp(img, condition):
+        """
+        Return True if this image should be unlocked as a selectable
+        bonus profile picture.
+        """
+
+        if condition != 'seen':
+            # Evaluate the condition
+            try:
+                return eval(condition)
+            except:
+                print("ERROR: Could not evaluate unlock condition on image.")
+                return False
+
+        # Otherwise, need to check if this image has been seen
+        pfp_list = store.persistent.unlocked_prof_pics
+        if img in pfp_list:
+            return True
+        if img[:7] == 'images/' and img[7:] in pfp_list:
+            return True
+        # Could also check if it's been registered under a different name
+        return False
+
 
     
 style profile_header_text:        
