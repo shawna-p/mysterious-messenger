@@ -94,17 +94,6 @@ image greet z = "Menu Screens/Main Menu/z_greeting.png"
 ########################################
 ## BONUS PROFILE PICTURES
 ########################################
-# Contains all the profile pictures you've seen this character have
-default persistent.ja_profile_pictures = []
-default persistent.ju_profile_pictures = []
-default persistent.sa_profile_pictures = []
-default persistent.r_profile_pictures = []
-default persistent.ri_profile_pictures = []
-default persistent.s_profile_pictures = []
-default persistent.u_profile_pictures = []
-default persistent.v_profile_pictures = []
-default persistent.y_profile_pictures = []
-default persistent.z_profile_pictures = []
 
 # These variables use `register_pfp` to make a big list of the profile pictures
 # the user can unlock for each character.
