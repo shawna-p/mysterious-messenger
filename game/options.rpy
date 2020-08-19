@@ -42,6 +42,11 @@ define config.auto_voice = "voice files/{id}.mp3"
 ## These functions get called on an after_load to ensure compatibility
 ## with future versions
 define config.after_load_callbacks = [ update_var_compatibility, advance_day ]
+
+## Error-checking callbacks
+# define config.missing_image_callback = handle_missing_image
+define config.missing_label_callback = handle_missing_label
+
 ## Checks for new chatrooms at about 20Hz
 # define config.periodic_callback = check_for_new_chatroom
 

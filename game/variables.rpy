@@ -304,7 +304,6 @@ init -6 python:
         # Otherwise, print this to a file for debugging
         try:
             f = open("debug.txt", "a")
-            #f.write(args)
             print(*args, file=f)
             f.close()
         except:
@@ -324,6 +323,36 @@ init -6 python:
                     result.append(arg)
         return result
 
+    def handle_missing_image(img):
+        """Give a generic image to use when an image cannot be found."""
+        # Currently unimplemented due to engine bug where the program does not
+        # recognize files in the `gui` folder
+
+        print("WARNING: Could not find the image", img)
+        renpy.show_screen('script_error',
+                message=("Could not find the image " + str(img)))
+
+        return Image('Menu Screens/Main Menu/loading_close.png', size=(100, 100))
+
+    def handle_missing_label(lbl):
+        """
+        Determine how Ren'Py should proceed if it cannot find the given label.
+        """
+
+        print("WARNING: Could not find the label", lbl)
+        renpy.show_screen('script_error',
+                message=("Could not find the label " + str(lbl)))
+        
+        if lbl == store.current_timeline_item.item_label:
+            # Couldn't find this item's correct label; use `just_return` as a
+            # replacement since it just returns
+            return 'just_return'
+        if lbl == store.current_timeline_item.expired_label:
+            # Try jumping to the regular, non-expired label
+            return store.current_timeline_item.item_label
+        # Otherwise, it might be more of an internal issue
+        return None
+
     config.displayable_prefix["btn_hover"] = btn_hover_img
     config.displayable_prefix["center_bg"] = center_bg_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
@@ -331,6 +360,9 @@ init -6 python:
 # This tells the program to randomly shuffle the order
 # of responses
 default shuffle = True
+
+label just_return:
+    return
 
 init python:
     # This lets the program shuffle menu options
