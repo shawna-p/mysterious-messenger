@@ -57,6 +57,12 @@ init python:
     def MC_pic_display(st, at):
         """Ensure the MC's profile picture is always up-to-date."""
 
+        # Check for a larger version
+        if '.' in store.persistent.MC_pic:
+            big_name = store.persistent.MC_pic.split('.')
+            large_pfp = big_name[0] + '-b.' + big_name[1]
+            if renpy.loadable(large_pfp):
+                return Transform(large_pfp, size=(363, 363)), None        
         return Transform(store.persistent.MC_pic, size=(363,363)), None
 
     def MC_name_display(st, at):
@@ -81,7 +87,7 @@ init -6 python:
         extension_list = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
         
         for ext in extension_list:
-            if ext in pic:
+            if ext in pic and renpy.loadable(pic):
                 return True        
         return False
         
@@ -233,8 +239,9 @@ screen pic_and_pronouns():
                 focus_mask True
                 xalign 0.055
                 idle 'change_mc_pfp' 
-                action [Function(MC_pic_change),
-                        renpy.restart_interaction]
+                action Show('pick_mc_pfp')
+                # action [Function(MC_pic_change),
+                #         renpy.restart_interaction]
             # Edit MC's Name
             fixed:
                 add "name_line" yalign 1.0
@@ -289,7 +296,38 @@ screen pic_and_pronouns():
                 spacing 10
                 add 'they_them_pronoun_radio'
                 text 'they/them' style 'pronoun_radio_text'
-             
+
+screen pick_mc_pfp():
+    modal True
+    python:
+        pfp_list = [ pic for pic 
+            in renpy.list_files() if 'Drop Your Profile Picture Here/' in pic 
+            and isImg(pic) ] + persistent.unlocked_prof_pics
+        num_rows = -(-(len(pfp_list) ) // 4)
+
+    add "#000d"
+    frame:
+        style_prefix 'pick_pfp'        
+        imagebutton:
+            idle 'input_close'
+            hover 'input_close_hover'
+            action [Hide('pick_mc_pfp')]
+            
+        text "Choose your profile picture"
+           
+        vpgrid:
+            rows num_rows
+            cols 4
+            draggable True
+            mousewheel True
+            scrollbars "vertical"   
+            for img in pfp_list:                
+                button:                    
+                    background Transform(img, size=(140, 140))
+                    hover_foreground "#fff3"
+                    action SetField(persistent, 'MC_pic', img)
+                    
+
 image she_her_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'female'", "radio_on",
     'True', "radio_off", predict_all=True)
