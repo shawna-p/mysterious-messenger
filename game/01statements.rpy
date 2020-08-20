@@ -936,7 +936,7 @@ python early hide:
         # Add these messages to the sender's msg_queue
         sender.text_msg.msg_queue.extend(message_queue)
         print_file("Extended " + sender.file_id + "'s msg_queue")        
-
+        store.text_person = None
         return
 
     def lint_compose_text(p):

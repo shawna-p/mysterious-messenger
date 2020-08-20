@@ -33,18 +33,33 @@ init -6 python:
             message.
         """
 
-        def __init__(self):
+        def __init__(self, sender):
             """Create a TextMessage object."""
 
+            self.sender = sender
             self.msg_list = []
             self.msg_queue = []
-            self.reply_label = False
+            self.__reply_label = False
             self.__read = False
             self.heart = False
             self.heart_person = None
             self.bad_heart = False
             self.cg_unlock_list = []
             self.notified = True
+
+        @property
+        def reply_label(self):
+            """Return the reply label for this conversation."""
+            if len(self.msg_queue) > 0:
+                return False
+            else:
+                return self.__reply_label
+
+        @reply_label.setter
+        def reply_label(self, new_label):
+            """Set the reply label for this conversation."""
+
+            self.__reply_label = new_label
 
         @property
         def read(self):
@@ -70,10 +85,13 @@ init -6 python:
             renpy.restart_interaction()         
     
         def deliver(self):
-            """Transfer messages from the msg_queue to the player's inbox."""
+            """
+            Transfer messages from the msg_queue to the player's inbox.
+            Return True if it was able to deliver a message.
+            """
             
             if not self.msg_queue:
-                return
+                return False
 
             delivered_text = False
             # Only deliver these messages if their timestamp has passed
@@ -85,7 +103,7 @@ init -6 python:
                     break
 
             if not delivered_text:
-                return
+                return False
 
             # If the last message was sent by someone other than the MC
             if not self.msg_list[-1].who.right_msgr:
@@ -96,10 +114,14 @@ init -6 python:
             if not self.read and not renpy.get_screen('text_message_screen'):
                 renpy.music.play(persistent.text_tone, 'sound')
                 popup_screen = allocate_text_popup()
-                renpy.show_screen(popup_screen, 
-                    c=self.msg_list[-1].who)
+                try:
+                    sender = self.sender
+                except AttributeError:
+                    sender = self.msg_list[-1].who
+                renpy.show_screen(popup_screen, c=sender)
                 self.notified = True
             renpy.retain_after_load()
+            return True
             
         def reply(self):
             """Mark the message as read and jump to the reply label."""
@@ -131,16 +153,9 @@ init -6 python:
 
         for c in store.all_characters:
             # First check for regular texts
-            if (c.text_msg.msg_queue 
-                    and not c.real_time_text):
+            if (c.text_msg.msg_queue):
                 c.text_msg.deliver()
-            # Deliver real-time texts
-            elif (c.real_time_text and not c.text_msg.read 
-                    and not c.text_msg.notified):
-                c.text_msg.notified = True
-                renpy.music.play(persistent.text_tone, 'sound')
-                popup_screen = allocate_text_popup()
-                renpy.show_screen(popup_screen, c=c) 
+            
         
     def new_message_count():
         """Return the number of unread messages from all characters."""
@@ -382,8 +397,7 @@ default CG_who = None
 ## A label that lets the player leave instant text message
 ## conversations. The conversation is then lost
 label leave_inst_text():
-    $ text_msg_reply = False
-    $ textlog = text_person.text_msg.msg_list                        
+    $ text_msg_reply = False    
     $ config.skipping = False           
     $ choosing = False
     $ textbackup = 'Reset'
@@ -400,14 +414,6 @@ label leave_inst_text():
     return
     
 label text_begin(who): 
-    return   
-    $ text_person = who
-    $ text_msg_reply = True
-    $ who.text_msg.read = True
-    if who.real_time_text:
-        show screen text_message_screen(who)
-        show screen text_pause_button
-    $ renpy.retain_after_load()
     return
         
 label compose_text(who, real_time=False):
@@ -428,23 +434,4 @@ label compose_text_end(text_label=False):
 
 ## Set end variables when a text message menu is completed 
 label text_end():
-    return
-    if text_person is not None and text_person.real_time_text:        
-        $ text_pauseFailsafe(text_person.text_msg.msg_list) 
-    $ text_msg_reply = False
-    if text_person is not None:
-        $ text_person.finished_text()
-    $ who = text_person
-    $ text_person = None
-    $ collected_hp = {'good': [], 'bad': [], 'break': []}
-    $ textbackup = ChatEntry(filler,"","")
-    $ renpy.retain_after_load()        
-    hide screen text_answer
-    hide screen inactive_text_answer
-    hide screen text_play_button
-    hide screen text_pause_button
-    if who is None:
-        call screen chat_home()
-        return
-    call screen text_message_screen(who, animate=False)  
     return
