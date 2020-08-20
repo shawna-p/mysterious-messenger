@@ -1113,7 +1113,8 @@ label play_timeline_item():
     $ print_file("Finished the label and returned to play_timeline_item")
     call end_timeline_item_checks()
 
-    if observing:
+    if observing or (current_timeline_item.expired
+            and not current_timeline_item.buyback):
         $ observing = False
         call screen timeline(current_day, current_day_num)
         return
@@ -1397,8 +1398,58 @@ label begin_timeline_item(item):
         # renpy.hide_screen('loading_screen')                        
     return   
 
-init python:
+label play_text_message():
+    # text_person should be set before the program gets here
+    # Make sure variables are okay?
+    python:
+        try:
+            print_file("text_msg_reply is", text_msg_reply)
+            print_file("For text messages, text_person is ", text_person.file_id)
+        except:
+            print_file("ERROR: Couldn't get text person")
+    # $ text_message_begin()
+    # TODO: check if they have a label to jump to?
+    if text_person.real_time_text:
+        show screen text_message_screen(who)
+        show screen text_pause_button
+    $ renpy.call(text_person.text_label)
+    $ print_file("Returned from text message label")
+    python:
+        if text_person is not None and text_person.real_time_text:
+            text_pauseFailsafe(text_person.text_msg.msg_list)
+        text_msg_reply = False
+        if text_person is not None:
+            text_person.finished_text()
+        who = text_person
+        text_person = None
+        # Determine collected heart points (HP)
+        persistent.HP += get_collected_hp()
+        collected_hp = {'good': [], 'bad': [], 'break': []}
+        # Give the player their hourglasses
+        persistent.HG += collected_hg
+        collected_hg = 0
+        textbackup = ChatEntry(filler,"","")
+        renpy.retain_after_load()
+    hide screen text_answer
+    hide screen inactive_text_answer
+    hide screen text_play_button
+    hide screen text_pause_button
+    if who is None:
+        call screen chat_home()
+        return
+    call screen text_message_screen(who, animate=False)  
+    return
 
+
+init python:
+    def text_message_begin(text_person):
+        store.text_person = text_person
+        store.CG_who = store.text_person
+        store.text_msg_reply = True
+        store.text_person.text_msg_read = True
+        renpy.retain_after_load()
+        return
+        
     def get_collected_hp():
         """Return the total number of heart points earned in a chatroom."""
 
