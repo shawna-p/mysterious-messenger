@@ -57,13 +57,11 @@ screen text_hub_display(i):
         # just show the messages
         action If((text_label and i.real_time_text),
 
-                    [SetVariable('CG_who', i),
-                    SetField(i.text_msg, 'read', True),
-                    Jump(text_label)],
+                    [Function(text_message_begin, text_person=i),
+                    Jump('play_text_message')],                   
 
-                    [SetVariable('CG_who', i),
-                    SetField(i.text_msg, 'read', True),
-                    Show('text_message_screen', sender=i, animate=False)])        
+                    [Function(text_message_begin, text_person=i),                    
+                    Show('text_message_screen', sender=i, animate=False)])       
 
         hbox:                               
             fixed:
@@ -310,7 +308,7 @@ screen text_message_footer(c):
                 background 'text_answer_active'
                 hover_background 'text_answer_animation'  
                 if not renpy.get_screen("choice"):
-                    action [Jump(c.text_msg.reply_label)]
+                    action [Jump('play_text_message')]
                     activate_sound "audio/sfx/UI/answer_screen.mp3"
             else:
                 background 'text_answer_inactive'
