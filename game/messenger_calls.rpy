@@ -35,90 +35,6 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
         call begin_timeline_item(current_timeline_item)
     return
 
-    if starter_story:
-        $ set_name_pfp()
-    stop music
-    if clearchat:
-        $ chatlog = []
-        # $ pv = 0.8    # This resets the chatroom "speed"
-                        # Ordinarily it would reset for every
-                        # new chatroom, and if you want that
-                        # functionality you can un-comment this
-                        # line
-    # Reset the heart points for this chatroom
-    if resetHP:
-        $ collected_hp = {'good': [], 'bad': [], 'break': []}
-
-    # Make sure the messenger screens are showing
-    hide screen starry_night
-    $ renpy.hide_screen('animated_bg')
-    show screen phone_overlay
-    show screen messenger_screen 
-    show screen pause_button
-    
-    # Hide all the popup screens
-    $ hide_all_popups()
-    
-    $ text_person = None
-    window hide
-    $ text_msg_reply = False
-    $ in_phone_call = False
-    $ vn_choice = False
-    $ email_reply = False
-    
-    # Fills the beginning of the screen with 'empty space' 
-    # so the messages begin showing up at the bottom of the 
-    # screen (otherwise they start at the top)
-    if clearchat:
-        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
-
-    $ set_chatroom_background(background)
-
-    # If you've already played this chatroom in your current runthrough,
-    # viewing it again causes this variable to be True. It prevents you
-    # from receiving heart points again and only lets you select choices
-    # you've selected on this or previous playthroughs
-    if current_timeline_item.played:
-        if not persistent.testing_mode:
-            $ observing = True     
-        else:
-            $ observing = False
-    else:
-        $ observing = False
-
-    # If you're viewing this from the history, observing is True
-    # Pronouns, name, and profile picture must also be re-set
-    # and all the characters' profile pictures should be the default
-    if _in_replay:
-        python:
-            observing = True
-            set_pronouns()
-            set_name_pfp()
-            if resetHP:
-                for c in all_characters:
-                    c.reset_pfp()        
-    
-    # This resets the heart points you've collected from
-    # previous chatrooms so it begins at 0 again   
-    if resetHP:
-        $ in_chat = []
-        if not observing:
-            $ current_timeline_item.reset_participants()
-        python:
-            for person in current_timeline_item.original_participants:
-                if person.name not in in_chat:
-                    in_chat.append(person.name)
-            
-        # If the player is participating, add them to the list of
-        # people in the chat
-        if (not current_timeline_item.expired 
-                or current_timeline_item.buyback 
-                or current_timeline_item.buyahead):
-            if not expired_replay:
-                $ in_chat.append(m.name)
-        
-    return
-
 ## This label simplifies setting up backgrounds for chatrooms
 ## It takes the name of a background and shows the corresponding
 ## static or animated background
@@ -314,39 +230,7 @@ screen non_menu_loading_screen():
 ## This label takes care of what happens when the
 ## player hits the back button during a chatroom
 label chat_back():
-    # If you're replaying a chatroom or it's already
-    # expired, you can back out without repercussions
-    if observing or current_timeline_item.expired or _in_replay:
-        $ reset_chatroom_vars()
-        if _in_replay:
-            $ renpy.end_replay()
-    else:
-        # If you back out of a chatroom, it expires
-        $ current_timeline_item.expired = True        
-        # And if you bought it back, it still expires
-        $ current_timeline_item.buyback = False
-        $ current_timeline_item.buyahead = False
-        $ current_timeline_item.participated = False
-        # The replay log should reset since the player hasn't
-        # seen the entire chatroom
-        $ current_timeline_item.replay_log = []
-        # Reset participants
-        $ current_timeline_item.reset_participants()
-        $ rescind_collected_hp()
-        $ collected_hg = 0
-        $ most_recent_item = current_timeline_item
-        $ reset_chatroom_vars()
-        # Deliver text and calls
-        # Checks for a post-chatroom label; triggers even if there's a VN
-        # and delivers text messages, phone calls etc
-        if not current_timeline_item.plot_branch:
-            $ current_timeline_item.call_after_label()                
-            $ deliver_all_texts()
-            $ deliver_calls(current_timeline_item.item_label, True)
-        $ renpy.retain_after_load()
-    $ renpy.set_return_stack([])
-    call screen timeline(current_day, current_day_num)
-    return
+    jump exit_item_early
 
 
 #####################################
@@ -370,47 +254,7 @@ screen save_and_exit(end_route=False):
         else:
             action Return()
         
-label press_save_and_exit():
-    if vn_choice:
-        $ vn_choice = False
-        $ phone = False
-    else:
-        $ phone = True
-    
-    if (most_recent_item is None 
-            and story_archive 
-            and story_archive[0].archive_list):
-        $ most_recent_item = story_archive[0].archive_list[0]
-    elif most_recent_item is None:
-        $ most_recent_item = ChatRoom('Example Chatroom', 
-                                        'example_chat', '00:01')
-        
-    if observing or _in_replay:
-        $ reset_chatroom_vars()        
-        if _in_replay:
-            $ renpy.end_replay()
-        call screen timeline(current_day, current_day_num)
-    else:
-        call screen signature_screen(phone)        
-        $ persistent.HG += collected_hg
-        $ collected_hp = {'good': [], 'bad': [], 'break': []}
-        $ collected_hg = 0
-        $ reset_chatroom_vars()
-        show screen loading_screen        
-        $ post_chat_actions(not current_timeline_item.plot_branch)
-        # This helps clean up the transition between sections
-        # in case it takes the program a few moments to calculate
-        # messages, emails, etc
-        pause 0.2
-        hide screen loading_screen
-        if starter_story:
-            $ starter_story = False
-            call screen chat_home
-            return
-        else:
-            $ deliver_next()
-            call screen timeline(current_day, current_day_num)
-            return
+label press_save_and_exit():    
     return
 
     
@@ -520,10 +364,10 @@ label skip_intro_setup():
     $ most_recent_item = story_archive[0].archive_list[0]
     $ collected_hp = {'good': [], 'bad': [], 'break': []}
     $ collected_hg = 0
-    $ reset_chatroom_vars()
+    $ reset_story_vars()
     
     show screen loading_screen
-        
+    
     # Add this label to the list of completed labels
     $ current_timeline_item.mark_next_played()        
     if not current_timeline_item.expired and not current_timeline_item.buyback:
@@ -548,7 +392,9 @@ label skip_intro_setup():
     pause 0.2
     hide screen loading_screen
     $ starter_story = False
+    $ print("\nAbout to call chat_home")
     call screen chat_home
+    $ print("\nWe did indeed return here")
     return
     
     

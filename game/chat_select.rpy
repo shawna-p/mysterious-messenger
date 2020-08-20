@@ -443,7 +443,8 @@ screen timeline_item_display(day, day_num, item, index):
                 # and 1 at its fastest
                 # This Preference means the player always has to
                 # manually enable auto-forward in a new story mode
-                action Function(begin_timeline_item, item=item)
+                action [SetVariable('current_timeline_item', item),
+                        Jump('play_timeline_item')]
             add item.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
                 frame:
@@ -469,7 +470,9 @@ screen timeline_item_display(day, day_num, item, index):
                 hover_foreground (item.story_mode.get_timeline_img(
                         can_play_story_mode) + '_hover')
                 if item.story_mode.available and can_play_story_mode:
-                    action Function(begin_timeline_item, item=item.story_mode)                    
+                    action [SetVariable('current_timeline_item',
+                                item.story_mode),
+                            Jump('play_timeline_item')]                   
                 add item.story_mode.vn_img xoffset -5
                 
     
@@ -486,16 +489,18 @@ screen timeline_item_display(day, day_num, item, index):
                         action Show('confirm', message=("If you start the party"
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
-                            yes_action=Function(begin_timeline_item,
-                                item=story_mode),
+                            yes_action=[SetVariable('current_timeline_item',
+                                    item),
+                                Jump('play_timeline_item')],
                             no_action=Hide('confirm'))
                     # Otherwise, we need to branch first
                     else:
                         action Show('confirm', message=("If you start the party"
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
-                            yes_action=Function(begin_timeline_item,
-                                item=story_mode),
+                            yes_action=[SetVariable('current_timeline_item',
+                                    story_mode),
+                                Jump('play_timeline_item')],
                             no_action=Hide('confirm'))
         
     # If there are mandatory story calls, display them

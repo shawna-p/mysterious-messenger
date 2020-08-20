@@ -1112,9 +1112,7 @@ label play_timeline_item():
 
     $ print_file("Finished the label and returned to play_timeline_item")
     call end_timeline_item_checks()
-
-    if observing or (current_timeline_item.expired
-            and not current_timeline_item.buyback):
+    if observing:
         $ observing = False
         call screen timeline(current_day, current_day_num)
         return
@@ -1131,7 +1129,7 @@ label play_timeline_item():
     if starter_story:
         $ starter_story = False
         call screen chat_home
-        return
+        return     
     call screen timeline(current_day, current_day_num)
     return
 
@@ -1142,15 +1140,17 @@ label exit_item_early():
     # This item is only set as the most recent item if the player wasn't
     # replaying it
     call end_timeline_item_checks()
-    if observing:
-        $ observing = False
-        call screen timeline(current_day, current_day_num)
-        return
-    # Otherwise, this item will expire
-    call expire_timeline_item(current_timeline_item)
-    $ renpy.set_return_stack([])
+    if not observing and (not current_timeline_item.expired
+            or current_timeline_item.buyback):
+        # Item expires
+        call expire_timeline_item(current_timeline_item)
+    else:
+        $ observing = False    
+    # Pop the return to play_timeline_item
+    $ renpy.pop_call()
     call screen timeline(current_day, current_day_num)
     return
+    
 
 
 ## Expire this timeline item and set the appropriate variables.
@@ -1315,7 +1315,7 @@ label begin_timeline_item(item):
             else:
                 observing = False
         else:
-            observinng = False
+            observing = False
 
         # If watching this item from the History, observing is always True.
         # Pronouns, name, and profile picture must be re-set and all characters'
@@ -1401,6 +1401,7 @@ label begin_timeline_item(item):
 label play_text_message():
     # text_person should be set before the program gets here
     # Make sure variables are okay?
+    $ print_file("Got to play text message")
     python:
         try:
             print_file("text_msg_reply is", text_msg_reply)
@@ -1419,9 +1420,7 @@ label play_text_message():
             text_pauseFailsafe(text_person.text_msg.msg_list)
         text_msg_reply = False
         if text_person is not None:
-            text_person.finished_text()
-        who = text_person
-        text_person = None
+            text_person.finished_text()        
         # Determine collected heart points (HP)
         persistent.HP += get_collected_hp()
         collected_hp = {'good': [], 'bad': [], 'break': []}
@@ -1429,15 +1428,17 @@ label play_text_message():
         persistent.HG += collected_hg
         collected_hg = 0
         textbackup = ChatEntry(filler,"","")
+        who = text_person
+        text_person = None
         renpy.retain_after_load()
     hide screen text_answer
     hide screen inactive_text_answer
     hide screen text_play_button
     hide screen text_pause_button
     if who is None:
-        call screen chat_home()
+        call screen timeline(current_day, current_day_num)
         return
-    call screen text_message_screen(who, animate=False)  
+    call screen text_message_screen(who, animate=False)
     return
 
 

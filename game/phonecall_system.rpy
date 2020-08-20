@@ -465,34 +465,10 @@ label hang_up():
         $ observing = False
     else:
         $ call_hang_up(phonecall=current_call)
+    # Pop the call to play_phone_call
+    $ renpy.pop_call()
     call screen phone_calls
     return
-
-## Hanging up a story call is like backing out of an active chatroom.
-label hang_up_story_call():
-    python:
-        if observing or current_call.expired or _in_replay:
-            # No repercussions, just watching.
-            if _in_replay:
-                renpy.end_replay()
-        else:
-            # If you hang up a story call, it expires
-            current_call.expired = True
-            # And if you bought it back, it still expires
-            current_call.buyback = False
-            current_call.buyahead = False
-            # This is the most recent item because it hasn't been played
-            most_recent_item = current_timeline_item
-            # Deliver texts and calls
-            if not current_timeline_item.plot_branch:
-                current_timeline_item.call_after_label()
-                deliver_all_texts()
-                deliver_calls(current_timeline_item.item_label, True)
-            renpy.retain_after_load()
-        renpy.set_return_stack([])
-    call screen timeline(current_day, current_day_num)
-    return
-
     
 ########################################################
 ## This is the screen that displays the dialogue when
@@ -539,7 +515,7 @@ screen in_call(who=ja, story_call=False):
                         + "participate in this call again, you will need to "
                         + "buy it back."), 
                         yes_action=[Hide('confirm'), Hide('phone_say'),
-                            Jump('hang_up_story_call')], 
+                            Jump('exit_item_early')], 
                         no_action=Hide('confirm')) )
             else:
                 use phone_footer(False, "call_pause", False)
@@ -799,6 +775,7 @@ label phone_begin():
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call
 label phone_end():
+    return
     if isinstance(current_call, StoryCall):
         $ in_phone_call = False
         return
@@ -812,7 +789,7 @@ label phone_end():
         $ observing = False
         $ _history = True
         $ renpy.retain_after_load()
-        $ renpy.end_replay()
+        $ renpy.end_replay()        
         call screen phone_calls
     return
     

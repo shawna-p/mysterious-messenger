@@ -395,6 +395,7 @@ label leave_inst_text():
         $ text_person.finished_text()
     $ text_person = None
     $ renpy.retain_after_load()    
+    $ renpy.pop_call()
     call screen text_message_hub
     return
     

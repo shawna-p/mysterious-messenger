@@ -213,6 +213,7 @@ label hbc_helper():
 
     call screen chip_end(prize_heart, prize_hg, new_hp_total, 
                          new_hg_total, prize_text)
+    #$ renpy.pop_call()
     call screen chat_home()
     return
 
