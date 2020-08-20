@@ -7,6 +7,7 @@
 #####################################
 
 label vn_begin(nvl=False):
+    return
     if starter_story:
         $ set_name_pfp()
     window auto
@@ -50,6 +51,7 @@ label vn_begin(nvl=False):
         
 ## Call to end a VN section
 label vn_end():
+    return
     if _in_replay:
         $ renpy.end_replay()
     hide screen vn_overlay 
