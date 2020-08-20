@@ -196,24 +196,22 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
                 textbutton _('Go to'):
                     action If ((c.real_time_text and c.text_msg.reply_label),
 
-                        [Hide(hide_screen),
+                        [Function(text_message_begin, text_person=c),
                             Hide('save_load'),
                             Hide('menu'),
                             Hide('chat_footer'),
                             Hide('phone_overlay'),
                             Hide('settings_screen'),
-                            SetVariable('CG_who', c),
-                            Jump(c.text_msg.reply_label)],
+                            Hide(hide_screen),
+                            Jump('play_text_message')],
                         
-                        [Hide(hide_screen), 
-                            #SetVariable('text_person', c),
-                            SetField(c.text_msg, 'read', True),
+                        [Function(text_message_begin, text_person=c),                            
                             Hide('save_load'),
                             Hide('menu'),
                             Hide('chat_footer'), 
                             Hide('phone_overlay'), 
                             Hide('settings_screen'),
-                            SetVariable('CG_who', c),
+                            Hide(hide_screen),                            
                             Show('text_message_screen', sender=c, 
                                 animate=False)])
             else:
@@ -275,12 +273,6 @@ style text_popup_button:
 style text_popup_button_text:
     is mode_select
     size 28
-
-
-
-
-
-
 
 ## Additional screens to allow us to display multiple popups
 screen text_pop_2(c):
