@@ -228,6 +228,9 @@ python early hide:
                     if is_text_msg and l.keyword('pause'):
                         p_time = l.rest()
                         messages.append('pause' + '|' + p_time)
+                    elif is_text_msg and l.keyword('label'):
+                        label_name = l.rest()
+                        messages.append('label' + '|' + label_name)
                     else:
                         line = parse_msg_stmt(l, check_time=check_time)
                         messages.append(line)
@@ -639,6 +642,7 @@ python early hide:
         # compose text who <real_time> <deliver_at [00:00, random]>:
         # compose text s real_time deliver_at 09:30:
         # compose text z deliver_at random:
+        # compose text y deliver_at next_item:
 
         # First, require the variable of the person whose text message
         # conversation this belongs to
@@ -660,12 +664,17 @@ python early hide:
 
             if l.keyword('deliver_at'):
                 delivery_time = l.match("\d\d:\d\d")
-                if delivery_time is None:
-                    # Try matching it to the word `random`
-                    delivery_time = l.match('random')
-                    if delivery_time is None:
-                        renpy.error("Could not parse argument for deliver_at")
-                continue   
+                if delivery_time is not None:
+                    continue
+                # Try matching it to the word `random`
+                delivery_time = l.match('random')
+                if delivery_time is not None:
+                    continue
+                # Try matching it to the word `next_item`
+                delivery_time = l.match('next_item')
+                if delivery_time is not None:
+                    continue
+                renpy.error("Could not parse argument for deliver_at")
             
             if l.match(":") and not l.match("\d\d:\d\d"):
                 l.expect_eol()
@@ -717,8 +726,7 @@ python early hide:
         # This is either being expired from check_and_unlock_story in real-time,
         # or it's the current timeline item. The text message can have the
         # real time stamp.    
-        print("real time is", store.persistent.real_time, "and starter story is", store.starter_story)
-        print("Delivery_time is", delivery_time)        
+        print_file("Delivery_time is", delivery_time)        
         if store.persistent.real_time:
             # Determine how many days ago this item was
             if store.expiring_item:
@@ -729,24 +737,33 @@ python early hide:
                 check_item = store.current_timeline_item
                 day_index = store.today_day_num
                 day_diff = 0
-            print("For the timestamp: check_item", check_item.item_label,
-                "day_index", day_index, "day_diff", day_diff, "days_to_expire", store.days_to_expire)
+            print_file("For the timestamp: check_item", check_item.item_label,
+                "day_index", day_index, "day_diff", day_diff, "days_to_expire",
+                store.days_to_expire)
             # Create the timestamp
-            if delivery_time and delivery_time != 'random':
+            if (delivery_time and delivery_time != 'random'
+                    and delivery_time != 'next_item'):
                 when = upTime(day=day_diff, thetime=delivery_time)
-                print("1. we've got a timestamp that looks like", when.get_text_msg_time())
+                print_file("1. we've got a timestamp that looks like", when.get_text_msg_time())
             elif not delivery_time:
                 when = upTime(day=day_diff,
                     thetime=check_item.get_trigger_time())
-                print("2. we've got a timestamp that looks like", when.get_text_msg_time())
+                print_file("2. we've got a timestamp that looks like", when.get_text_msg_time())
             else:
                 # Need to generate a random delivery time
                 begin = check_item.get_trigger_time()
-                print("begin is", begin, "and day_diff is", day_diff)
+                end, day_diff2 = closest_item_time(check_item)
+                # If we got `next_item`, then it goes *after* this chat
+                if delivery_time == 'next_item':
+                    begin = end
+                    end, day_diff3 = closest_item_time(begin)
+                    begin = begin.get_trigger_time()
+                    day_diff2 += day_diff3
+                end = end.get_trigger_time()
+                print_file("begin is", begin, "and day_diff is", day_diff)
                 # day_diff2 is the difference between the checked item
                 # and its closest item
-                end, day_diff2 = closest_item_time(check_item)
-                print("end is", end, "and day_diff2 is", day_diff2)
+                print_file("end is", end, "and day_diff2 is", day_diff2)
                 random_time, final_day_diff = get_random_time(
                     begin=begin, end=end, day_diff=day_diff2
                 )
@@ -762,7 +779,8 @@ python early hide:
             # future, and this message shouldn't be sent now
             send_now = when.has_occurred()
             generate_timestamps = True
-            print('send_now is', send_now, "and we've got a timestamp that looks like", when.get_text_msg_time())
+            print_file('send_now is', send_now, "and we've got a timestamp that looks like",
+                when.get_text_msg_time())
         # CASE 2:
         # Program is running sequentially OR player has bought
         # the next 24 hours in advance
@@ -817,11 +835,21 @@ python early hide:
                     cg_helper(what, who, instant_unlock=False)
 
             elif d[:5] == 'pause':
-                if not condition:
+                if not condition or not generate_timestamps:
                     continue
                 else:
                     message_queue.append(d)
-
+            elif d[:5] == 'label':
+                if not condition:
+                    continue
+                try:
+                    arg, val = d.split('|')
+                except:
+                    print("ERROR: could not split text message argument")
+                    continue
+                if arg == 'label':
+                    # It's the label to jump to to reply
+                    sender.text_label = val
             elif d == 'end':
                 condition = True
             else:
@@ -871,16 +899,22 @@ python early hide:
                     msg = message_queue.pop(0)
 
                 if not isinstance(msg, ChatEntry):
-                    # It's a pause argument
                     try:
-                        pause_time = eval(msg.split('|')[1])
-                        if send_now:
-                            total_sec -= pause_time
-                        else:
-                            total_sec += pause_time
+                        arg, val = msg.split('|')
                     except:
-                        print("ERROR: couldn't evaluate text message pause argument")
-                    print("Adjusted total_sec by", pause_time)
+                        print("ERROR: could not split text message argument")
+                        continue
+                    # It's a pause argument
+                    if arg == 'pause':
+                        try:
+                            pause_time = eval(val)
+                            if send_now:
+                                total_sec -= pause_time
+                            else:
+                                total_sec += pause_time
+                        except:
+                            print("ERROR: couldn't evaluate text message pause argument")
+                        print_file("Adjusted total_sec by", pause_time)                    
                     continue
 
                 msg.thetime.adjust_time(timedelta(seconds=total_sec))
@@ -896,13 +930,12 @@ python early hide:
                 else:
                     total_sec += typeTime
                     new_queue.append(msg)
-                print("Added message", msg.what, "time", msg.thetime.stopwatch_time)
+                print_file("Added message", msg.what, "time", msg.thetime.stopwatch_time)
             message_queue = new_queue
-            
-                                
+                                       
         # Add these messages to the sender's msg_queue
         sender.text_msg.msg_queue.extend(message_queue)
-        print_file("Extended " + sender.file_id + "'s msg_queue")
+        print_file("Extended " + sender.file_id + "'s msg_queue")        
 
         return
 
