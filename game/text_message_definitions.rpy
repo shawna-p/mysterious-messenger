@@ -398,7 +398,8 @@ label leave_inst_text():
     call screen text_message_hub
     return
     
-label text_begin(who):    
+label text_begin(who): 
+    return   
     $ text_person = who
     $ text_msg_reply = True
     $ who.text_msg.read = True
@@ -426,6 +427,7 @@ label compose_text_end(text_label=False):
 
 ## Set end variables when a text message menu is completed 
 label text_end():
+    return
     if text_person is not None and text_person.real_time_text:        
         $ text_pauseFailsafe(text_person.text_msg.msg_list) 
     $ text_msg_reply = False
@@ -444,7 +446,4 @@ label text_end():
         call screen chat_home()
         return
     call screen text_message_screen(who, animate=False)  
-    return       
-    # else:
-    #     $ renpy.retain_after_load()
-    #     return
+    return
