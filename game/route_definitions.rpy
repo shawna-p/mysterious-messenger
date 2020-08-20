@@ -860,7 +860,7 @@ init -6 python:
         for day_i, day in enumerate(story_archive):
             for item in day.archive_list:
                 if return_next_item:
-                    return (item.get_trigger_time(), day_i - item_index)
+                    return (item, day_i - item_index)
                 if item == compare_from:
                     return_next_item = True
                     item_index = day_i
