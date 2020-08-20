@@ -315,7 +315,7 @@ screen phone_overlay():
                 idle 'back_arrow_btn'
                 hover Transform('back_arrow_btn', zoom=1.2)
                 keysym "K_BACKSPACE"
-                if observing or current_timeline_item.expired:
+                if observing or current_timeline_item.expired or _in_replay:
                     action Jump('just_return') #Jump('exit_item_early')
                 else:
                     action Show("confirm", message=("Do you really want to "
