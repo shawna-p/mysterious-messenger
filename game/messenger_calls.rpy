@@ -91,7 +91,7 @@ init python:
 label chat_end():
     if starter_story:
         call end_timeline_item_checks()
-        call screen save_and_exit(True)
+        call screen save_and_exit()
         call screen signature_screen(True)
         call finish_timeline_item(current_timeline_item)
         $ starter_story = False
@@ -101,7 +101,7 @@ label chat_end():
 ## Call this label at the very end of the route to show a good/bad/normal
 # ending sign and return the player to the main menu
 label chat_end_route():
-    call screen save_and_exit(True)
+    call screen save_and_exit()
     $ reset_chatroom_vars()
     
     if ending == 'good':
@@ -238,7 +238,7 @@ label chat_back():
 #####################################
    
 # This is the screen that shows Save & Exit at the bottom
-screen save_and_exit(end_route=False):
+screen save_and_exit():
     zorder 4
     tag chat_footer
     imagebutton:
@@ -249,10 +249,7 @@ screen save_and_exit(end_route=False):
         focus_mask True
         idle "save_exit"
         keysym "K_SPACE"
-        if not end_route:
-            action [Jump("press_save_and_exit")]
-        else:
-            action Return()
+        action Return()
         
 label press_save_and_exit():    
     return
@@ -392,9 +389,9 @@ label skip_intro_setup():
     pause 0.2
     hide screen loading_screen
     $ starter_story = False
-    $ print("\nAbout to call chat_home")
+    $ print_file("\nAbout to call chat_home")
     call screen chat_home
-    $ print("\nWe did indeed return here")
+    $ print_file("\nWe did indeed return here")
     return
     
     
