@@ -514,7 +514,8 @@ init -6 python:
         if store.incoming_call:
             store.current_call = store.incoming_call
             store.incoming_call = False
-            renpy.call('new_incoming_call', phonecall=store.current_call)
+            renpy.music.play(persistent.phone_tone, 'music', loop=True)
+            renpy.show_screen('incoming_call', phonecall=store.current_call)  
         return
                 
 
@@ -681,23 +682,14 @@ init -6 python:
 
         for c in shuffled_characters:
             if (c.text_msg.msg_queue and not delivered_text):
-                c.text_msg.deliver()
-                delivered_text = True
-            # Real-time texts notify the player differently
-            if (c.real_time_text and not c.text_msg.read 
-                    and not c.text_msg.notified):
-                c.text_msg.notified = True
-                renpy.music.play(persistent.text_tone, 'sound')
-                popup_screen = allocate_text_popup()
-                renpy.show_screen(popup_screen, c=c) 
-                break                    
+                delivered_text = c.text_msg.deliver()                
         
         # Deliver the incoming call, if there is one
         if incoming_call:
             current_call = incoming_call
             incoming_call = False
-            renpy.call('new_incoming_call', phonecall=current_call)
-            
+            renpy.music.play(persistent.phone_tone, 'music', loop=True)
+            renpy.show_screen('incoming_call', phonecall=current_call)            
         
     
     def merge_routes(new_route):

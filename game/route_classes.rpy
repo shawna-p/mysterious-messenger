@@ -1029,6 +1029,7 @@ init -6 python:
 
 ## The label that is called to play a (non-story) phone call
 label play_phone_call():
+    $ print_file("Got to play phone call")
     if starter_story:
         $ set_name_pfp()
     stop music
@@ -1046,11 +1047,13 @@ label play_phone_call():
         $ observing = True
         $ set_name_pfp()
         $ set_pronouns()
-        
+    $ print_file("Also, in_phone_call is", in_phone_call)
     show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
     if not starter_story:
         # Play the phone call
+        $ print_file("About to call the label")
         $ renpy.call(current_call.phone_label)
+        $ print_file("Returned from the phone call")
         $ renpy.end_replay()
         if not observing:
             $ current_call.finished()
@@ -1119,7 +1122,7 @@ label play_timeline_item():
 
     # Otherwise, this is the first time this item has been played
     if isinstance(current_timeline_item, ChatRoom):
-        call screen save_and_exit(True)
+        call screen save_and_exit()
         call screen signature_screen(True)
     elif isinstance(current_timeline_item, StoryMode):
         call screen signature_screen(False)
@@ -1411,7 +1414,7 @@ label play_text_message():
     # $ text_message_begin()
     # TODO: check if they have a label to jump to?
     if text_person.real_time_text:
-        show screen text_message_screen(who)
+        show screen text_message_screen(text_person)
         show screen text_pause_button
     $ renpy.call(text_person.text_label)
     $ print_file("Returned from text message label")
@@ -1442,12 +1445,14 @@ label play_text_message():
     return
 
 
+
 init python:
     def text_message_begin(text_person):
         store.text_person = text_person
         store.CG_who = store.text_person
-        store.text_msg_reply = True
-        store.text_person.text_msg_read = True
+        if text_person.text_msg.reply_label:
+            store.text_msg_reply = True
+        store.text_person.text_msg.read = True
         renpy.retain_after_load()
         return
         

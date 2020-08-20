@@ -292,7 +292,7 @@ screen phone_calls():
                             if i.playback:
                                 action [SetVariable('observing', True),
                                         SetVariable('current_call', i),
-                                        Jump(i.phone_label)]
+                                        Jump('play_phone_call')]
 
                         imagebutton:                        
                             idle 'call_back' 
@@ -611,7 +611,7 @@ screen incoming_call(phonecall, countdown_time=10):
                 use phone_footer([Stop('music'), 
                                 Preference("auto-forward", "enable"), 
                                 SetVariable('current_call', phonecall), 
-                                Jump(phonecall.phone_label)],
+                                Jump('play_phone_call')],
                                 "headphones",
                                 [Stop('music'), 
                                 Function(call_hang_up_incoming, current_call),
@@ -736,12 +736,12 @@ screen outgoing_call(phonecall, voicemail=False):
     if voicemail:
         timer randint(8, 10) action If(phonecall, [Stop('music'), 
                                         SetVariable('current_call', phonecall), 
-                                        Jump(phonecall.phone_label)], 
+                                        Jump('play_phone_call')], 
                                         Show('phone_calls'))
     else:
         timer randint(2, 7) action [Stop('music'), 
                                     SetVariable('current_call', phonecall), 
-                                    Jump(phonecall.phone_label)]
+                                    Jump('play_phone_call')]
     
 ## Screen used to say dialogue for phone characters
 screen phone_say(who, what):
@@ -756,7 +756,8 @@ screen phone_say(who, what):
     
 
 
-## Allows the program to jump to the incoming call
+## Allows the program to jump to the incoming call; now only used for the
+## intro
 label new_incoming_call(phonecall):
     play music persistent.phone_tone loop nocaption
     call screen incoming_call(phonecall=phonecall)
@@ -776,22 +777,7 @@ label phone_begin():
 ## a phone call
 label phone_end():
     return
-    if isinstance(current_call, StoryCall):
-        $ in_phone_call = False
-        return
-    if not starter_story:
-        if not observing:
-            $ current_call.finished()
-        $ in_phone_call = False
-        if not _in_replay and not observing:
-            $ persistent.completed_chatrooms[current_call.phone_label] = True
-        $ current_call = False    
-        $ observing = False
-        $ _history = True
-        $ renpy.retain_after_load()
-        $ renpy.end_replay()        
-        call screen phone_calls
-    return
+    
     
 ##*************************************************
 ## VOICEMAILS
