@@ -353,6 +353,24 @@ init -6 python:
         # Otherwise, it might be more of an internal issue
         return None
 
+    def change_some_vars():
+        """For testing."""
+        print("\nbefore: my_test_var", my_test_var, "store.my_test_var", store.my_test_var)
+        if store.my_test_var == "Nothing":
+            store.my_test_var = "Ping!"
+        elif store.my_test_var == "Ping!":
+            store.my_test_var = "Pong!"
+        else:
+            store.my_test_var = "Nothing"
+        print("\nafter: my_test_var", my_test_var, "store.my_test_var", store.my_test_var)        
+        return
+
+    def context_test():
+        print("We're in a new context")
+        print("The call stack depth is", renpy.call_stack_depth())
+        print("Nesting level is", renpy.context_nesting_level())
+        print("Current context is", renpy.context())
+
     config.displayable_prefix["btn_hover"] = btn_hover_img
     config.displayable_prefix["center_bg"] = center_bg_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
@@ -360,8 +378,10 @@ init -6 python:
 # This tells the program to randomly shuffle the order
 # of responses
 default shuffle = True
-
-label just_return:
+default my_test_var = "Nothing"
+## A label the program can jump to in the event it cannot find a 
+## regular label to jump to
+label just_return():
     return
 
 init python:
@@ -378,6 +398,15 @@ init python:
             renpy.random.shuffle(items)
             items.append(last)
         shuffle = True
+
+        
+        # If observing, check which items have already been seen
+        if store.observing:
+            items = [ i for i in items if i[1].get_chosen() ]
+        # For testing
+        print_file("List of items is:")
+        for i in items:
+            print_file("   ", i[0])
         return renpy_menu(items)
     
     # Don't let the player rollback the game
