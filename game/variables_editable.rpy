@@ -339,3 +339,11 @@ init python:
 # style my_special_style:
 #     padding (20, 40, 20, 30)
 
+########################################
+## MISCELLANEOUS VARIABLES
+########################################
+# If True, choices in a menu are treated as "paraphrased" -- that is, 
+# it is your responsibility to write out exactly what you want the MC to
+# say after a choice. If False, the program will automatically make the MC
+# say the choice dialogue.
+default paraphrase_choices = True
