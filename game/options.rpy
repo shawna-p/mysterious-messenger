@@ -17,7 +17,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "3.0"
+define config.version = (3, 0, 0)
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -46,6 +46,7 @@ define config.after_load_callbacks = [ update_var_compatibility, advance_day ]
 ## Error-checking callbacks
 # define config.missing_image_callback = handle_missing_image
 define config.missing_label_callback = handle_missing_label
+define config.context_callback = context_test
 
 ## Checks for new chatrooms at about 20Hz
 # define config.periodic_callback = check_for_new_chatroom

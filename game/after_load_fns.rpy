@@ -8,83 +8,83 @@ init python:
         Update this save file for compatibility with new versions.
         """
 
-        while store._version != "3.0":
-            if store._version == "2.1.1":
-                float_ver = 2.1001
-            elif store._version == "2.2.1":
-                float_ver = 2.2001
+        if not isinstance(store._version, tuple):
+            # Turn the version into a tuple like (3, 0, 0)
+            tuple_ver = store._version.split('.')
+            if len(tuple_ver) < 3:
+                tuple_ver = (int(tuple_ver[0]), int(tuple_ver[1]), 0)
             else:
-                float_ver = float(store._version)
+                tuple_ver = (int(tuple_ver[0]), int(tuple_ver[1]), int(tuple_ver[2]))
+            store._version = tuple_ver
+            
                         
-            # Update persistent values to be compatible with v2.0           
-            if float_ver < 2.00:
-                reset_old_persistent()
-                store._version = '2.00'
-                float_ver = 2.00
+        # Update persistent values to be compatible with v2.0           
+        if store._version < (2, 0, 0):
+            reset_old_persistent()
+            store._version = (2, 0, 0)
 
-            # Update Routes for the history screen
-            if float_ver <= 2.00:
-                try:
-                    for r in all_routes:
-                        test = r.ending_chatrooms
-                except AttributeError:
-                    for r in all_routes:
-                        setattr(r, 'ending_chatrooms', [])
-                        # Not 100% accurate, but for most cases
-                        # should be all right; check number of strings
-                        # in the route
-                        ending_titles = []
+        # Update Routes for the history screen
+        if store._version <= (2, 0, 0):
+            try:
+                for r in all_routes:
+                    test = r.ending_chatrooms
+            except AttributeError:
+                for r in all_routes:
+                    setattr(r, 'ending_chatrooms', [])
+                    # Not 100% accurate, but for most cases
+                    # should be all right; check number of strings
+                    # in the route
+                    ending_titles = []
+                    for day in reversed(r.route):
+                        if day.archive_list:
+                            ending_titles.extend(find_route_endings(r, 
+                                day.archive_list, ending_titles))
+                    if ending_titles == []:
+                        # There were no titles; final chatroom is
+                        # just the last one
                         for day in reversed(r.route):
                             if day.archive_list:
-                                ending_titles.extend(find_route_endings(r, 
-                                    day.archive_list, ending_titles))
-                        if ending_titles == []:
-                            # There were no titles; final chatroom is
-                            # just the last one
-                            for day in reversed(r.route):
-                                if day.archive_list:
-                                    if day.archive_list[-1].vn_obj:
-                                        r.ending_chatrooms.append(
-                                            day.archive_list[
-                                                -1].vn_obj.vn_label)
-                                    else:
-                                        r.ending_chatrooms.append(
-                                            day.archive_list[
-                                                -1].chatroom_label)
-                store._version = '2.1'
-                float_ver = 2.1
+                                if day.archive_list[-1].vn_obj:
+                                    r.ending_chatrooms.append(
+                                        day.archive_list[
+                                            -1].vn_obj.vn_label)
+                                else:
+                                    r.ending_chatrooms.append(
+                                        day.archive_list[
+                                            -1].chatroom_label)
+            store._version = (2, 1, 0)                
 
-            # persistent.heart_notification changed to persistent.animated_icons
-            if float_ver < 2.2:
-                store.persistent.animated_icons = not store.persistent.heart_notifications
-                store._version = "2.2"
-                float_ver = 2.2
+        # persistent.heart_notification changed to persistent.animated_icons
+        if store._version < (2, 2, 0):
+            store.persistent.animated_icons = not store.persistent.heart_notifications
+            store._version = (2, 2, 0)
 
-            if float_ver < 3.0:
-                # Update ChatHistory and VNMode objects
-                for day in store.chat_archive:                    
-                    day.convert_archive(True)
+        if store._version < (3, 0, 0):
+            # Update ChatHistory and VNMode objects
+            for day in store.chat_archive:                    
+                day.convert_archive(True)
 
-                # Update several variables
-                store.current_timeline_item = store.current_chatroom
-                store.current_chatroom = None
-                store.story_archive = store.chat_archive
-                store.chat_archive = None
-                store.most_recent_item = store.most_recent_chat
-                store.most_recent_chat = None
-                store.collected_hp = store.chatroom_hp
-                store.collected_hg = store.chatroom_hg
-                store.chatroom_hp = None
-                store.chatroom_hg = None
+            # Update several variables
+            store.current_timeline_item = store.current_chatroom
+            store.current_chatroom = None
+            store.story_archive = store.chat_archive
+            store.chat_archive = None
+            store.most_recent_item = store.most_recent_chat
+            store.most_recent_chat = None
+            store.collected_hp = store.chatroom_hp
+            store.collected_hg = store.chatroom_hg
+            store.chatroom_hp = None
+            store.chatroom_hg = None
+            store.paraphrase_choices = True
+            # Check if chat_archive is the tutorial day one though, since
+            # it'll likely be changed to have paraphrased choices
 
-                # Unlock profile pictures
-                for chara in store.all_characters:
-                    unlock_profile_pics(chara)
+            # Unlock profile pictures
+            for chara in store.all_characters:
+                unlock_profile_pics(chara)
 
-                store._version = '3.0'
-                float_ver = 3.0
-            
-            store._version = "3.0"
+            store._version = (3, 0, 0)
+                        
                                         
     def unlock_profile_pics(who):
         """Ensure seen CGs and profile pictures are unlocked where possible."""
