@@ -399,7 +399,7 @@ label continue_answer(themenu, count_time=5):
     # chatroom. Not allowing 'observing' players to choose an
     # answer avoids the problem of players who didn't initially 
     # choose an answer being unable to continue
-    if not renpy.is_skipping() and not observing:
+    if not renpy.is_skipping():# and not observing:
         $ using_timed_menus = True
         show screen answer_countdown(themenu, timed_answer_modifier(count_time))
         hide screen viewCG
