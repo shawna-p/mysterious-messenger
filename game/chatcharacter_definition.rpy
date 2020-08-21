@@ -573,12 +573,17 @@ init -5 python:
             to the chat log and also to the replay log.
             """
 
-            print_file("Gonna add some dialogue, \"" + what + "\" Stats:", "\n   in_phone_call:", store.in_phone_call,
-                "\n   vn_choice:", store.vn_choice, "\n   text_person:", store.text_person,
-                "\n   observing:", store.observing, "\n   text_msg_reply:", store.text_msg_reply)
+            # Check if we just got out of a menu and there's dialogue
+            # for the main character
+            if (self != store.m and not store.dialogue_paraphrase
+                    and store.dialogue_picked != ""):
+                say_choice_caption(store.dialogue_picked, 
+                    store.dialogue_paraphrase, store.dialogue_pv)
+
             # Allows you to still use this object even in phone
             # calls and VN mode
             if store.in_phone_call:
+
                 # If in phone call, use the phone_call character
                 self.phone_char(what, **kwargs)
                 return
@@ -595,27 +600,15 @@ init -5 python:
             # If the player is texting, add this to the character's
             # TextMessage object instead
             if store.text_person is not None:
-                print_file("About to add entry for text_person", store.text_person.file_id)
                 # If they're on the text message screen, show the
                 # message real-time
                 if store.text_person.real_time_text and store.text_msg_reply:
-                    print_file("Adding realtime text")
                     addtext_realtime(self, what, pauseVal=pauseVal, img=img)
                 # If they're not in the midst of a text conversation,
                 # this is "backlog"
-                elif store.text_person.real_time_text:
-                    if not self.right_msgr:
-                        store.text_person.text_msg.notified = False
-                    if img and "{image" not in what:
-                        cg_helper(what, self, False)
-                    print_file("Appending text message", what, "to real-time backlog")
-                    store.text_person.text_msg.msg_list.append(ChatEntry(
-                        self, what, upTime(), img))
-                # Otherwise this is a regular text conversation and
-                # is added all at once
                 else:
-                    print_file("adding this text message", what, "regularly")
                     addtext(self, what, img)
+                return
             else:
                 # Make sure the player isn't observing; otherwise add
                 # entries to the replay_log

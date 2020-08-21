@@ -24,6 +24,10 @@ python early hide:
                 link_text="How to make a character enter/exit the chatroom")
             return
         
+        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
+            say_choice_caption(store.dialogue_picked, 
+                store.dialogue_paraphrase, store.dialogue_pv)
+
         enter_string = who.name + " has entered the chatroom."
         if (not store.observing and not store.persistent.testing_mode
                 and not store.vn_choice
@@ -57,6 +61,10 @@ python early hide:
                 link_text="How to make a character enter/exit the chatroom")
             return
         
+        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
+            say_choice_caption(store.dialogue_picked, 
+                store.dialogue_paraphrase, store.dialogue_pv)
+
         exit_string = who.name + " has left the chatroom."
         if (not store.observing and not store.persistent.testing_mode
                 and not store.vn_choice

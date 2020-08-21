@@ -293,15 +293,49 @@ style input:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
-screen choice(items):
+init python:
+    def say_choice_caption(dialogue, paraphrase, p=0):
+        """
+        Have the main character say the caption that was given
+        to the most recently chosen choice.
+        """
+
+        if paraphrase:
+            store.dialogue_picked = ""
+            store.dialogue_paraphrase = store.paraphrase_choices
+            store.dialogue_pv = 0
+            return
+        # Otherwise, send this dialogue to the appropriate channel  
+        print_file("Executing dialogue", dialogue, "as non-paraphrase")   
+        
+        store.m(dialogue, pauseVal=p)        
+        store.dialogue_picked = ""
+        store.dialogue_paraphrase = store.paraphrase_choices
+        store.dialogue_pv = 0
+        return
+    
+    def set_paraphrase(screen_pref, item_pref):
+        """Determine whether this choice caption was paraphrased or not."""
+        if item_pref is not None:
+            # The item set its own preference
+            store.dialogue_paraphrase = item_pref
+            return
+        # Otherwise, use the screen's preference
+        store.dialogue_paraphrase = screen_pref
+
+default dialogue_picked = ""
+default dialogue_paraphrase = True
+default dialogue_pv = 0
+
+screen choice(items, paraphrase=paraphrase_choices):
     zorder 150
     modal True
-    
-    python:
-        if persistent.custom_footers and not renpy.is_skipping():
-            the_anim = choice_anim
-        else:
-            the_anim = null_anim   
+        
+    if persistent.custom_footers and not renpy.is_skipping():
+        default the_anim = choice_anim
+    else:
+        default the_anim = null_anim   
+
  
     add "choice_darken"
 
@@ -324,7 +358,18 @@ screen choice(items):
                                 or not text_person.real_time_text),
                             [Show('text_message_screen',
                                         sender=text_person),
-                                i.action], [i.action])
+                                i.action,
+                                SetVariable('dialogue_picked', i.caption),
+                                Function(set_paraphrase, screen_pref=paraphrase,
+                                    item_pref=(i.kwargs.get('paraphrase',
+                                    None)))
+                                ], 
+                            [i.action,
+                                SetVariable('dialogue_picked', i.caption),
+                                Function(set_paraphrase, screen_pref=paraphrase,
+                                    item_pref=(i.kwargs.get('paraphrase',
+                                    None)))
+                            ])
     
     # For VN mode and phone calls
     elif in_phone_call or vn_choice:
@@ -347,7 +392,12 @@ screen choice(items):
                             foreground 'seen_choice_check_circle'
                             background 'call_choice_check'
                             hover_background 'call_choice_check_hover'
-                        action [i.action]
+                        action [i.action,
+                            SetVariable('dialogue_picked', i.caption),
+                            Function(set_paraphrase, screen_pref=paraphrase,
+                                item_pref=(i.kwargs.get('paraphrase',
+                                None)))
+                            ]
             # Not a perfect solution, but hopefully provides an 'out'
             # to players who somehow didn't choose a menu option and
             # are now in observing mode
@@ -399,7 +449,6 @@ screen choice(items):
                                 hover_background 'call_choice_check_hover'
                             else:
                                 foreground 'seen_choice_check'
-
                         action If(using_timed_menus, 
                             [SetVariable('reply_instant', True), 
                                 SetVariable('using_timed_menus', False),
@@ -408,9 +457,19 @@ screen choice(items):
                                 # to the bottom
                                 Hide('messenger_screen'),
                                 Show('messenger_screen'),
-
-                                i.action],
-                            [i.action])
+                                i.action,
+                                SetVariable('dialogue_picked', i.caption),
+                                Function(set_paraphrase, screen_pref=paraphrase,
+                                    item_pref=(i.kwargs.get('paraphrase',
+                                    None))),
+                                SetVariable('dialogue_pv', None)
+                                    ],
+                            [i.action,
+                                SetVariable('dialogue_picked', i.caption),
+                                Function(set_paraphrase, screen_pref=paraphrase,
+                                    item_pref=(i.kwargs.get('paraphrase',
+                                    None)))
+                                ])
                 
             # Not a perfect solution, but hopefully provides an 'out'
             # to players who somehow didn't choose a menu option and
