@@ -280,7 +280,7 @@ init -6 python:
             plot branch.
             """
 
-            if self.played and not self.delivered_post_item:
+            if self.played and not self.delivered_post_items:
                 self.call_after_label(True)
                 if self.phonecall_label:
                     deliver_calls(self.phonecall_label)
@@ -344,7 +344,10 @@ init -6 python:
             return self
         
         def get_item_before_branch(self):
-            """Return the final item that happens before a plot branch."""
+            """
+            Return the final item that happens before a plot branch, if there
+            is a plot branch on this item.
+            """
 
             if self.parent and self.parent.plot_branch:
                 if len(self.parent.story_calls_list) > 0:
@@ -352,7 +355,12 @@ init -6 python:
                 # Otherwise this item is basically guaranteed to be a
                 # StoryMode, since ChatRooms don't have parents
                 return self
+            elif self.parent:
+                return None
+
             # Otherwise, this item doesn't have a parent
+            if not item.plot_branch:
+                return None
             if len(self.story_calls_list) > 0:
                 return self.story_calls[-1]
             return self
@@ -395,6 +403,11 @@ init -6 python:
 
         def call_after_label(self, new_context=False):
             """Call this item's after_ label, if it exists."""
+
+            print_file("Calling after_ label.", "\n   delivered_post_items:",
+                self.delivered_post_items, "\n   this item's label:",
+                self.item_label, "\n   This item's after_label:",
+                self.after_label)
 
             if self.delivered_post_items:
                 return
@@ -733,7 +746,13 @@ init -6 python:
             super(ChatRoom, self).expire(backed_out)
         
         def get_item_before_branch(self):
-            """Return the final item that happens before a plot branch."""
+            """
+            Return the final item that happens before a plot branch, if
+            there is a plot branch on this item.
+            """
+
+            if not item.plot_branch:
+                return None
 
             # ChatRooms don't have a parent
             if len(self.story_calls_list) > 0:
@@ -1053,6 +1072,9 @@ label play_phone_call():
         # Play the phone call
         $ print_file("About to call the label")
         $ renpy.call(current_call.phone_label)
+        if (not dialogue_paraphrase and dialogue_picked != ""):
+            $ say_choice_caption(dialogue_picked, 
+                dialogue_paraphrase, dialogue_pv)
         $ print_file("Returned from the phone call")
         $ renpy.end_replay()
         if not observing:
@@ -1114,6 +1136,8 @@ label play_timeline_item():
             $ renpy.call(current_timeline_item.item_label)
 
     $ print_file("Finished the label and returned to play_timeline_item")
+    if (not dialogue_paraphrase and dialogue_picked != ""):
+        $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
     call end_timeline_item_checks()
     if observing:
         $ observing = False
@@ -1258,8 +1282,13 @@ label finish_timeline_item(item, deliver_messages=True):
         
         # Deliver post-item content if this is not the last item before
         # a plot branch
-        if (not item.delivered_post_items
-                and not item == item.get_item_before_branch()):
+        if item.get_item_before_branch():
+            print_file("\n   And the item before the branch is:", item.get_item_before_branch().item_label)
+        if (not item == item.get_item_before_branch()):
+            # Switch off variables so the program can deliver text messages
+            vn_choice = False
+            in_phone_call = False
+            current_call = False
             item.call_after_label(True)
             item.deliver_calls()                         
         
@@ -1419,6 +1448,9 @@ label play_text_message():
     $ renpy.call(text_person.text_label)
     $ print_file("Returned from text message label")
     python:
+        if (not dialogue_paraphrase and dialogue_picked != ""):
+            say_choice_caption(dialogue_picked, 
+                dialogue_paraphrase, dialogue_pv)
         if text_person is not None and text_person.real_time_text:
             text_pauseFailsafe(text_person.text_msg.msg_list)
         text_msg_reply = False
@@ -1514,8 +1546,8 @@ init python:
         # Switch off variables
         store.vn_choice = False
         store.in_phone_call = False
-        store._history = True
         store.current_call = False
+        store._history = True        
         
         if not vn_jump:
             renpy.music.stop()
@@ -1592,6 +1624,11 @@ init python:
             Displays the image on the screen according to the given parameters.
         """
 
+        # This helps paraphrasing to work with VN mode
+        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
+            say_choice_caption(store.dialogue_picked, 
+                store.dialogue_paraphrase, store.dialogue_pv)
+
         if (not name == ('bg', 'black')
                 and renpy.get_screen('messenger_screen')
                 and not at_list):
@@ -1611,5 +1648,33 @@ init python:
         behind = behind or []
 
         renpy.show(name, at_list, layer, what, zorder, tag, behind, **kwargs)
+    
+    def custom_hide(name, layer=None):
+        """
+        A custom statement which replaces the default `hide` statement for
+        compatibility with other program features such as menu paraphrasing.
+
+        Parameters:
+        -----------        
+        name : string
+            The name of the image to hide. Only the image tag is used, and any
+            image with the tag is hidden (the precise name does not matter).
+        layer : string
+            The layer on which this function operates. If None, uses the
+            default layer associated with the tag. 
+
+        Result:
+        -------
+            Executes a say statement for the main character if applicable and
+            hides the given image.
+        """
+
+        # This helps paraphrasing to work with VN mode
+        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
+            say_choice_caption(store.dialogue_picked, 
+                store.dialogue_paraphrase, store.dialogue_pv)
+
+        renpy.hide(name, layer)
 
 define config.show = custom_show
+define config.hide = custom_hide
