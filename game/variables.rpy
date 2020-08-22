@@ -339,6 +339,8 @@ init -6 python:
         Determine how Ren'Py should proceed if it cannot find the given label.
         """
 
+        if lbl in ['main_menu', '_library_main_menu']:
+            return None
         print("WARNING: Could not find the label", lbl)
         renpy.show_screen('script_error',
                 message=("Could not find the label " + str(lbl)))
