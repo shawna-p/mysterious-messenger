@@ -1,16 +1,16 @@
 #####################################
 # Answer Button
-##################################### 
+#####################################
 
 # Call this label before you show a menu
 # to show the answer button
-label answer(from_cg=False): 
+label answer(from_cg=False):
     # Check if it's from the messenger or a text message
     if not text_person:
         if from_cg:
             hide screen viewCG
         else:
-            $ pauseFailsafe()   
+            $ pauseFailsafe()
         $ pre_choosing = True
         $ addchat(answer, '', 0.1)
         call screen answer_button
@@ -24,9 +24,9 @@ label answer(from_cg=False):
         $ pre_choosing = True
         call screen text_answer
         show screen text_pause_button
-            
+
     return
-        
+
 screen answer_button():
     zorder 4
     tag chat_footer
@@ -37,13 +37,13 @@ screen answer_button():
     else:
         add "pausebutton" xalign 0.96 yalign 0.16
         add "answerbutton" ypos 1220
-    
+
     imagebutton:
         ypos 1220
         focus_mask None
         idle 'transparent_answer'
         activate_sound "audio/sfx/UI/answer_screen.mp3"
-        action [Show('pause_button'), Return()] 
+        action [Show('pause_button'), Return()]
         keysym "K_SPACE"
 
     if not choosing:
@@ -51,7 +51,7 @@ screen answer_button():
 
 #####################################
 # Continue Button
-##################################### 
+#####################################
 ## This button appears when transitioning from
 ## a chatroom directly into a VN
 screen continue_button():
@@ -71,13 +71,13 @@ screen continue_button():
 #####################################
 # Pause/Play footers
 #####################################
-   
+
 # This is the screen that shows the pause button
 # (but the chat is still playing)
 screen pause_button():
     zorder 4
     tag chat_footer
-    
+
     imagebutton:
         ypos 1220
         focus_mask True
@@ -85,15 +85,15 @@ screen pause_button():
         if not choosing:
             action [Call("play"), Return()]
             keysym "K_SPACE"
-     
+
     if not choosing:
         use fast_slow_buttons()
-        
+
 
 # This is automatically called when you pause the chat;
-# it makes sure no messages are skipped        
+# it makes sure no messages are skipped
 label play():
-    if (observing and not vn_choice and not text_msg_reply 
+    if (observing and not vn_choice and not text_msg_reply
             and not in_phone_call and not email_reply):
         # Rewatching a chatroom
         call screen play_button
@@ -109,7 +109,7 @@ label play():
         call screen text_play_button
         show screen text_pause_button
     return
-    
+
 # This screen is visible when the chat is paused;
 # shows the play button
 screen play_button():
@@ -130,7 +130,7 @@ screen play_button():
         idle 'phone_play'
         keysym "K_SPACE"
         action [Show('pause_button'), Return()]
-    
+
     if not choosing:
         use fast_slow_buttons()
 
@@ -143,10 +143,10 @@ screen fast_slow_buttons():
         focus_mask None
         idle "fast_slow_button"
         keysym "K_RIGHT"
-        action [Function(fast_pv), 
-                Hide('speed_num'), 
+        action [Function(fast_pv),
+                Hide('speed_num'),
                 Show("speed_num")]
-            
+
     # Slow button
     imagebutton:
         xalign 0.015
@@ -154,10 +154,10 @@ screen fast_slow_buttons():
         focus_mask None
         idle "fast_slow_button"
         keysym "K_LEFT"
-        action [Function(slow_pv), 
-                Hide('speed_num'), 
+        action [Function(slow_pv),
+                Hide('speed_num'),
                 Show("speed_num")]
-        
+
 
 #####################################
 # Chat Header Overlay
@@ -166,7 +166,7 @@ screen fast_slow_buttons():
 # Displays a list of the characters in the chatroom
 image in_chat_display = DynamicDisplayable(in_chat_fn)
 # The clock that gets displayed in chatrooms
-default myClock = Clock(120) 
+default myClock = Clock(120)
 
 init python:
     def in_chat_fn(st, at):
@@ -180,7 +180,7 @@ init python:
 
         return Text(list_of_char, style='in_chat_list_style'), 0.1
 
-    def battery_charge_icon(st, at):    
+    def battery_charge_icon(st, at):
         """Display the charging or fully charged battery icons."""
 
         # 0 = no idea what the status is, or -1
@@ -207,7 +207,7 @@ init python:
         else:
             img1 = 'battery_med'
 
-        return Fixed(img1, Fixed('charging_icon', 
+        return Fixed(img1, Fixed('charging_icon',
             size=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
     def battery_empty_bar(st, at):
@@ -217,8 +217,8 @@ init python:
         """
 
         battery = renpy.display.behavior.pygame.power.get_power_info()
-        return Fixed("battery_empty_img", 
-                Fixed('charging_icon', 
+        return Fixed("battery_empty_img",
+                Fixed('charging_icon',
                 size=(18,26), xalign=0.5, yalign=0.4)), 0.5
 
 image battery_remaining = DynamicDisplayable(battery_level_bar)
@@ -240,10 +240,10 @@ style battery_bar_undetected:
     bottom_bar "battery_high"
 
 ## This screen shows the header/footer above the chat
-screen phone_overlay():  
+screen phone_overlay():
     zorder 2
     add 'phone_ui'  # You can set this to your own image
-           
+
     $ battery = renpy.display.behavior.pygame.power.get_power_info()
 
     fixed:
@@ -271,14 +271,15 @@ screen phone_overlay():
                 if starter_story:
                     idle 'skip_intro_idle'
                     hover 'skip_intro_hover'
+                    action [SetField(persistent, 'first_boot', False),
+                            SetField(persistent, 'on_route', True),
+                            SetVariable('vn_choice', True),
+                            Jump('chat_end')]
                 else:
                     idle 'skip_to_end_idle'
                     hover 'skip_to_end_hover'
-                action [SetField(persistent, 'first_boot', False),
-                        SetField(persistent, 'on_route', True),
-                        SetVariable('vn_choice', True),
-                        Jump('just_return')]
-                
+                    action [Jump('just_return')]
+
     frame:
         yalign 0.04
         if starter_story:
@@ -286,30 +287,30 @@ screen phone_overlay():
         else:
             xalign 0.62
         xysize (350, 100)
-        add 'in_chat_display'   
+        add 'in_chat_display'
 
     # 0 = no idea what status is, or -1
     # 1 = running on battery, not plugged in
     # 2 = plugged in, no battery available
     # 3 = plugged in, charging
     # 4 = plugged in, battery fully charged
-    hbox:           
+    hbox:
         align (1.0, 0.0)
         spacing 15
         fixed:
             xysize (20, 48)
             if battery.state >= 1 and battery.state != 2:
                 bar:
-                    value StaticValue(value=float(battery.percent)/100.0, 
+                    value StaticValue(value=float(battery.percent)/100.0,
                         range=1.0)
                     style 'battery_bar'
             else:
                 bar:
-                    value StaticValue(value=float(75)/100.0, 
+                    value StaticValue(value=float(75)/100.0,
                         range=1.0)
                     style 'battery_bar_undetected'
-        add myClock xoffset -10 yalign 0.5 
-    
+        add myClock xoffset -10 yalign 0.5
+
     if not starter_story:
         fixed:
             xysize (50,50)
@@ -326,10 +327,10 @@ screen phone_overlay():
                     action Show("confirm", message=("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
                         + "participate once you leave. If you want to enter "
-                        + "this chatroom again, you will need to buy it back."), 
-                                    yes_action=[Hide('confirm'), 
-                                    Jump('exit_item_early')], 
-                                    no_action=Hide('confirm'))    
+                        + "this chatroom again, you will need to buy it back."),
+                                    yes_action=[Hide('confirm'),
+                                    Jump('exit_item_early')],
+                                    no_action=Hide('confirm'))
 
 
 #************************************
@@ -342,24 +343,24 @@ screen answer_countdown(themenu, count_time=5):
     zorder 5
     timer count_time:
         repeat False
-        action If(persistent.autoanswer_timed_menus, 
-        
-            [ Hide('answer_countdown'), 
+        action If(persistent.autoanswer_timed_menus,
+
+            [ Hide('answer_countdown'),
             Hide('continue_answer_button'),
             Show('pause_button'),
             SetVariable('choosing', True),
             SetVariable('timed_choose', True),
             Jump(themenu) ],
 
-            [ Hide('answer_countdown'), 
-            Hide('continue_answer_button'), 
-            Show('pause_button'), 
+            [ Hide('answer_countdown'),
+            Hide('continue_answer_button'),
+            Show('pause_button'),
             SetVariable("timed_choose", False) ])
 
     bar value AnimatedValue(0, count_time, count_time, count_time):
-        at alpha_dissolve 
+        at alpha_dissolve
         style 'answer_bar'
-        
+
 
 #************************************
 # Continue Answer
@@ -379,10 +380,10 @@ init python:
             # Max Speed active
             modifier = 0.0
         else:
-            modifier = 0.1875 * (((store.pv - 0.2) / 
+            modifier = 0.1875 * (((store.pv - 0.2) /
                                 store.chat_speed_increment) - 4)
         return count_time + (count_time * modifier)
-        
+
 ## A helper label which will pause the chat for the given
 ## number of seconds in count_time, multiplied by a modifier
 ## depending on how fast the chat speed is
@@ -392,17 +393,17 @@ label timed_pause(count_time):
         pause timed_answer_modifier(count_time)
     return
 
-## Timed answers to speed up/slow down based on how fast 
+## Timed answers to speed up/slow down based on how fast
 ## the player has the chat speed set to. Default is 0.8,
 ## increased/decreased by 0.15 (aka increased/decreased by
 ## 18.75% each time).
 ## So if the chat is at 3x normal speed, the time to answer
 ## the menu is decreased by 3x.
 label continue_answer(themenu, count_time=5):
-    # Timed menus don't show up for players who are skipping 
+    # Timed menus don't show up for players who are skipping
     # through entire conversations or who are replaying an existing
     # chatroom. Not allowing 'observing' players to choose an
-    # answer avoids the problem of players who didn't initially 
+    # answer avoids the problem of players who didn't initially
     # choose an answer being unable to continue
     if not renpy.is_skipping() and not observing:
         $ using_timed_menus = True
@@ -422,37 +423,37 @@ screen continue_answer_button(themenu):
         add "custom_answerbutton" ypos 1220
     else:
         add "answerbutton" ypos 1220
-    
+
     imagebutton:
         ypos 1220
         focus_mask None
         idle "transparent_answer"
         activate_sound "audio/sfx/UI/answer_screen.mp3"
         keysym "K_SPACE"
-        action [SetVariable("choosing", True), 
-                SetVariable('timed_choose', True), 
+        action [SetVariable("choosing", True),
+                SetVariable('timed_choose', True),
                 Hide('answer_countdown'),
-                Hide('continue_answer_button'), 
-                Show('pause_button'), 
-                Jump(themenu)] 
-    
+                Hide('continue_answer_button'),
+                Show('pause_button'),
+                Jump(themenu)]
+
     # If the player starts skipping in the middle of the menu,
     # they either forfeit the ability to pick an answer or
     # the program auto-selects the answer button for them
     if renpy.is_skipping() and not observing:
-        timer 0.01 action If(persistent.autoanswer_timed_menus,                                 
-                            [ Hide('answer_countdown'), 
+        timer 0.01 action If(persistent.autoanswer_timed_menus,
+                            [ Hide('answer_countdown'),
                             Hide('continue_answer_button'),
                             Show('pause_button'),
                             SetVariable('choosing', True),
                             SetVariable('timed_choose', True),
                             Jump(themenu) ],
 
-                            [ Hide('answer_countdown'), 
-                            Hide('continue_answer_button'), 
-                            Show('pause_button'), 
+                            [ Hide('answer_countdown'),
+                            Hide('continue_answer_button'),
+                            Show('pause_button'),
                             SetVariable("timed_choose", False) ])
-        
+
 style answer_bar:
     bar_invert True
     thumb 'gui/slider/horizontal_idle_thumb.png'
@@ -462,4 +463,3 @@ style answer_bar:
     right_gutter 18
     thumb_offset 18
     ypos 1210
-    
