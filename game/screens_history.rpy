@@ -114,6 +114,9 @@ init python:
         
         global persistent
 
+        if persistent.testing_mode:
+            return True
+
         # If it's a TimelineItem, it's only visible if the expired or regular
         # version has been seen
         if isinstance(item, TimelineItem):
@@ -141,12 +144,12 @@ init python:
         file_id = c.split('_')[-1]
         try:
             char = getattr(store, file_id)
-            return PhoneCall(char, 'n/a')
+            return PhoneCall(char, c)
         except AttributeError:            
             for p in store.all_characters:
                 if file_id == p.file_id:
-                    return PhoneCall(p, 'n/a')
-        return PhoneCall(None, 'n/a')
+                    return PhoneCall(p, c)
+        return PhoneCall(None, c)
 
 # True if the player is viewing a replay of an expired chatroom
 default expired_replay = False
@@ -185,7 +188,6 @@ screen timeline_item_history(item):
         else:
             story_calls = None
 
-
         replay_dictionary = {'observing': True,
                             'current_timeline_item': item,
                             'current_day': current_day,
@@ -198,6 +200,10 @@ screen timeline_item_history(item):
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name}
+        
+        replay_dict_story = copy(replay_dictionary)
+        replay_dict_story['current_timeline_item'] = story_mode
+
     style_prefix None
     null height 10
     if not isinstance(item, TimelineItem):
@@ -214,7 +220,7 @@ screen timeline_item_history(item):
                     if item.played_expired():
                         background 'history_chat_active'  
                         hover_foreground '#fff5'                      
-                        action Replay(item.expired_label, 
+                        action Replay('play_timeline_item', 
                                         scope=expired_replay_dictionary)
                     else:
                         background Fixed('history_chat_inactive', "#000c")
@@ -229,7 +235,7 @@ screen timeline_item_history(item):
                     if item.played_regular():
                         hover_foreground '#fff5'
                         background 'history_chat_active'                        
-                        action Replay(item.item_label,
+                        action Replay('play_timeline_item',
                                         scope=replay_dictionary)
                     else:
                         background Fixed('history_chat_inactive', "#000c")
@@ -287,7 +293,7 @@ screen timeline_item_history(item):
             foreground 'solo_vn_active'
             hover_foreground Fixed('solo_vn_active', 'solo_vn_hover')
             action [Preference("auto-forward", "disable"),
-                    Replay(story_mode.item_label,
+                    Replay('play_timeline_item',
                         scope=replay_dictionary)]          
             add story_mode.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
@@ -312,8 +318,8 @@ screen timeline_item_history(item):
                 foreground 'vn_active'
                 hover_foreground 'vn_active_hover'
                 action [Preference("auto-forward", "disable"),
-                        Replay(story_mode.item_label,
-                                scope=replay_dictionary)]                 
+                        Replay('play_timeline_item',
+                                scope=replay_dict_story)]
                 add story_mode.vn_img xoffset -5
     
     # It's the StoryMode that leads to the party
@@ -324,8 +330,8 @@ screen timeline_item_history(item):
                 background 'vn_party'
                 hover_foreground 'vn_party'
                 action [Preference("auto-forward", "disable"), 
-                        Replay(story_mode.item_label,
-                            scope=replay_dictionary)]  
+                        Replay('play_timeline_item',
+                            scope=replay_dict_story)]  
 
     if story_calls:
         # There are story calls to display
@@ -383,14 +389,14 @@ screen history_timeline_story_calls(phonecall, item):
                 if phonecall.played_expired():
                     background 'history_chat_active'  
                     hover_foreground '#fff5'                      
-                    action Replay(phonecall.expired_label, 
+                    action Replay('play_timeline_item', 
                                     scope={'expired_replay': True,
                             'observing': True,
-                            'current_timeline_item': item,
+                            'current_timeline_item': phonecall,
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name,
-                            'current_call': PhoneCall(phonecall.caller, 'n/a')},
+                            'current_call': phonecall},
                             locked=False)
                 else:
                     background Fixed('history_chat_inactive', "#000c")
@@ -406,13 +412,13 @@ screen history_timeline_story_calls(phonecall, item):
                 if phonecall.played_regular():
                     hover_foreground '#fff5'
                     background 'history_chat_active'                        
-                    action Replay(phonecall.item_label,
+                    action Replay('play_timeline_item',
                         scope={'observing': True,
-                        'current_timeline_item': item,
+                        'current_timeline_item': phonecall,
                         'current_day': current_day,
                         'current_day_num': current_day_num,
                         'name': persistent.name,
-                        'current_call': PhoneCall(phonecall.caller, 'n/a')},
+                        'current_call': phonecall},
                         locked=False)
                 else:
                     background Fixed('history_chat_inactive', "#000c")
@@ -439,7 +445,7 @@ screen history_calls_list(item, call_list, call_icon):
                 add Transform('call_' + call_icon + '_outline', size=(32, 32)):
                     align (1.0, 1.0)
                 xysize (85,85)
-                action Replay(c, scope={'observing': True,
+                action Replay('play_phone_call', scope={'observing': True,
                     'current_timeline_item': item,
                     'current_day': current_day,
                     'current_day_num': current_day_num,
