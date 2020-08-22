@@ -15,7 +15,7 @@ python early hide:
             who = eval(d_who)
         else:
             renpy.error("enter chatroom requires a ChatCharacter")
-        
+
         if who is None or not isinstance(who, ChatCharacter):
             print("WARNING: variable %s provided to enter chatroom is not recognized as a ChatCharacter." % d_who)
             renpy.show_screen('script_error',
@@ -23,9 +23,9 @@ python early hide:
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
                 link_text="How to make a character enter/exit the chatroom")
             return
-        
+
         if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
-            say_choice_caption(store.dialogue_picked, 
+            say_choice_caption(store.dialogue_picked,
                 store.dialogue_paraphrase, store.dialogue_pv)
 
         enter_string = who.name + " has entered the chatroom."
@@ -35,14 +35,14 @@ python early hide:
             # Add this as a replay entry
             enter_entry = ("enter", who)
             store.current_timeline_item.replay_log.append(enter_entry)
-        
+
         addchat(store.special_msg, enter_string, 1.1)
         if who.name not in store.in_chat:
             store.in_chat.append(who.name)
 
         if not store.observing:
             store.current_timeline_item.add_participant(who)
-        
+
         # Refresh the screen
         renpy.restart_interaction()
         return
@@ -52,7 +52,7 @@ python early hide:
             who = eval(d_who)
         else:
             renpy.error("exit chatroom requires a ChatCharacter")
-        
+
         if who is None or not isinstance(who, ChatCharacter):
             print("WARNING: variable %s provided to exit chatroom is not recognized as a ChatCharacter." % d_who)
             renpy.show_screen('script_error',
@@ -60,9 +60,9 @@ python early hide:
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
                 link_text="How to make a character enter/exit the chatroom")
             return
-        
+
         if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
-            say_choice_caption(store.dialogue_picked, 
+            say_choice_caption(store.dialogue_picked,
                 store.dialogue_paraphrase, store.dialogue_pv)
 
         exit_string = who.name + " has left the chatroom."
@@ -72,16 +72,16 @@ python early hide:
             # Add this as a replay entry
             exit_entry = ("exit", who)
             store.current_timeline_item.replay_log.append(exit_entry)
-        
+
         addchat(store.special_msg, exit_string, 1.1)
         if who.name in store.in_chat:
             store.in_chat.remove(who.name)
-        
+
         # Refresh the screen
         renpy.restart_interaction()
         return
 
-    def lint_enter_exit(who):        
+    def lint_enter_exit(who):
         eval_who = None
         try:
             eval_who = eval(who)
@@ -90,7 +90,7 @@ python early hide:
 
         if eval_who is None:
             renpy.error("The person entering or exiting the chatroom to cannot be None.")
-        
+
         if not isinstance(eval_who, ChatCharacter):
             renpy.error("%s is not recognized as a ChatCharacter object for entering or exiting chatrooms." % p["who"])
         return
@@ -106,7 +106,7 @@ python early hide:
         predict=predict_enter_exit,
         lint=lint_enter_exit,
         warp=warp_enter_exit)
-    
+
     renpy.register_statement('exit chatroom',
         parse=parse_enter_exit,
         execute=execute_exit_chat,
@@ -160,10 +160,10 @@ python early hide:
 
         # Ensure the special bubble is known
         if spec_bubble and not spec_bubble in store.all_bubbles_list:
-            print("WARNING: The special bubble %s for dialogue \"" + what 
+            print("WARNING: The special bubble %s for dialogue \"" + what
                 + "\" could not be evaluated." % spec_bubble)
             renpy.show_screen('script_error',
-                    message=("The special bubble %s for dialogue \"" + what 
+                    message=("The special bubble %s for dialogue \"" + what
                         + "\" could not be evaluated." % spec_bubble))
             # Don't use a special bubble
             spec_bubble = None
@@ -173,7 +173,7 @@ python early hide:
         # First, the size
         if big and (not is_text_msg or ffont != 'curly'):
             dialogue = "{size=+10}" + dialogue + "{/size}"
-        
+
         # Next, construct the font
         d_font = ffont
         extra_item = False
@@ -192,16 +192,16 @@ python early hide:
                 dialogue = "{size=+6}" + dialogue + "{/size}"
             if ffont != 'sser1':
                 dialogue = ("{font=" + store.font_dict[d_font] + "}"
-                    + dialogue + "{/font}")            
+                    + dialogue + "{/font}")
         else:
             # Add the font around the dialogue, unless it's the default
             if d_font != 'sser1':
                 dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
-        
+
         if extra_item:
-            dialogue = ("{" + extra_item + "}" + dialogue + "{/" 
+            dialogue = ("{" + extra_item + "}" + dialogue + "{/"
                 + extra_item + "}")
-        
+
         # There is a special bubble; check if need to correct it
         if (spec_bubble and spec_bubble[:7] == "round"
                 and (who.file_id == 'r' or who.file_id == 'z')):
@@ -252,13 +252,13 @@ python early hide:
                         ll = l.subblock_lexer()
                         messages = parse_sub_block(ll, messages, check_time)
                         messages.append('end')
-                        continue                        
+                        continue
                     except:
                         print("Couldn't parse the subblock")
         return messages
 
     def parse_backlog_stmt(l):
-        # First, we need the person whose text message backlog this is        
+        # First, we need the person whose text message backlog this is
         who = l.simple_expression()
         # For whatever reason negative numbers get stored with "who", so
         # separate it
@@ -266,7 +266,7 @@ python early hide:
             actual_who = who.split(' ')[0]
             day = who.split(' ')[1]
             who = actual_who
-        else:        
+        else:
             # See if there is a number for how many days in the past
             day = l.integer()
             if day is None:
@@ -278,12 +278,13 @@ python early hide:
         messages = [ ]
         ll = l.subblock_lexer()
         # This function recursively calls itself to check all sub-blocks
-        messages = parse_sub_block(ll, messages, check_time=True)       
-        
+        messages = parse_sub_block(ll, messages, check_time=True,
+            is_text_msg=True)
+
         return dict(who=who,
                     day=day,
                     messages=messages)
-    
+
     def predict_backlog_stmt(p):
         return [ ]
 
@@ -300,7 +301,7 @@ python early hide:
             print("WARNING: The ChatCharacter %s for dialogue \"" + what
                 + "\" could not be evaluated." % p['who'])
             renpy.show_screen('script_error',
-                    message=("The ChatCharacter %s for dialogue " + what 
+                    message=("The ChatCharacter %s for dialogue " + what
                         + " could not be evaluated." % p['who']),
                     link="Adding-a-New-Character-to-Chatrooms",
                     link_text="Adding a New Character to Chatrooms")
@@ -309,36 +310,44 @@ python early hide:
         # Now we know whose backlog to add this to.
         condition = True
         condition_outcomes = []
+        backlog = []
+        what = "First message"
         for d in p['messages']:
             if isinstance(d, dict):
                 if not condition:
                     continue
                 try:
-                    who = eval(d["who"])       
+                    who = eval(d["who"])
                     what = eval(d["what"])
-                    ffont = d["ffont"]            
+                    ffont = d["ffont"]
                     bold = d["bold"]
-                    xbold = d["xbold"]        
+                    xbold = d["xbold"]
                     big = d["big"]
-                    img = d["img"]        
+                    img = d["img"]
                     timestamp = d['timestamp']
                 except:
                     print("WARNING: The arguments for dialogue %s could not "
-                        + "be evaluated." % p['what'])
+                        + "be evaluated." % d['what'])
                     renpy.show_screen('script_error',
-                            message=("The arguments for dialogue %s could not " 
-                                + "be evaluated." % p['what']))
+                            message=("The arguments for dialogue %s could not "
+                                + "be evaluated." % d['what']))
                     return
 
                 # Get the correct dialogue and img
-                dialogue, img, spec_bubble = parse_message_args(                
+                dialogue, img, spec_bubble = parse_message_args(
                     what, ffont, bold, xbold, big, img, False)
                 # Create the 'when' timestamp
                 if timestamp:
                     when = upTime(day, timestamp)
                 else:
                     when = upTime(day)
-                sender.text_backlog(who, dialogue, when, img)      
+                backlog.append((ChatEntry(who, dialogue, when, img), timestamp))
+                # sender.text_backlog(who, dialogue, when, img)
+            elif d[:5] == 'pause':
+                if not condition:
+                    continue
+                else:
+                    backlog.append(d.split('|'))
             elif d == 'end':
                 condition = True
             else:
@@ -357,7 +366,7 @@ python early hide:
                             continue
                         if True in condition_outcomes:
                             condition = False
-                            continue                        
+                            continue
                         condition = eval(d)
                         condition_outcomes.append(condition)
                     # This is an 'else' statement
@@ -368,22 +377,66 @@ python early hide:
                         if True in condition_outcomes:
                             condition = False
                         else:
-                            condition = True                        
+                            condition = True
                 except:
                     print("WARNING: Could not evaluate conditional statement "
-                        + "for line with dialogue %s" % p['what'])
+                        + "for line with dialogue %s" % what)
                     renpy.show_screen('script_error',
                         message="Could not evaluate conditional statement "
-                            + "for line with dialogue %s" % p['what'])
-                    return                  
+                            + "for line with dialogue %s" % what)
+                    return
+        if len(backlog) == 0:
+            return
+        # Adjust timestamps for typing time
+        total_sec = 0
+        start_time = None
+        for msg, timestamp in backlog:
+            # Everything should be a tuple
+            if isinstance(msg, ChatEntry):
+                if start_time is None and not timestamp:
+                    print("WARNING: Did not get an initial timestamp for %s's"
+                        + " text message backlog." % sender.name)
+                    renpy.show_screen('script_error',
+                            message=("Did not get an initial timestamp for %s's"
+                                + " text message backlog." % sender.name))
+                    start_time = '00:00'
+                elif start_time is None:
+                    start_time = timestamp
+
+                if not timestamp:
+                    # Adjust this time stamp
+                    when = upTime(day, start_time)
+                    when.adjust_time(timedelta(seconds=total_sec))
+                    msg.thetime = when
+                else:
+                    start_time = timestamp
+                    total_sec = 0
+                typeTime = msg.what.count(' ') + 1 # equal to the # of words
+                # Since average reading speed is 200 wpm or 3.3 wps
+                # This is backlog so we can be liberal about pauses and timing
+                if typeTime < 1.5:
+                    typeTime = 1.5
+                total_sec += typeTime
+                sender.text_msg.msg_list.append(msg)
+                print_file("Added message", msg.what, "time", msg.thetime.stopwatch_time,
+                    "to", sender.name + "'s text backlog")
+
+            elif msg == 'pause':
+                try:
+                    pause_time = eval(timestamp)
+                    total_sec += pause_time
+                except:
+                    print("ERROR: couldn't evaluate text message pause argument")
+
+        sender.text_msg.read = True
         return
-    
-    def lint_backlog_stmt(p):        
+
+    def lint_backlog_stmt(p):
         try:
             sender = eval(p['who'])
         except:
             renpy.error("ChatCharacter not defined in backlog statement.")
-        
+
         try:
             day = eval(p['day'])
         except:
@@ -395,17 +448,17 @@ python early hide:
         for d in p['messages']:
             if isinstance(d, dict):
                 try:
-                    who = eval(d["who"])       
+                    who = eval(d["who"])
                     what = eval(d["what"])
-                    ffont = d["ffont"]            
+                    ffont = d["ffont"]
                     bold = d["bold"]
-                    xbold = d["xbold"]        
+                    xbold = d["xbold"]
                     big = d["big"]
-                    img = d["img"]        
+                    img = d["img"]
                     timestamp = d['timestamp']
                 except:
                     renpy.error("Could not parse arguments of backlog CDS")
-        
+
                 # Check text tags
                 tte = renpy.check_text_tags(what)
                 if tte:
@@ -422,7 +475,7 @@ python early hide:
                     renpy.error("Could not evaluate condition for backlog.")
         return
 
-    
+
     def parse_msg_stmt(l, check_time=False):
 
         who = l.simple_expression()
@@ -451,9 +504,9 @@ python early hide:
                 'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l',
                 'square2_m', 'square2_s', 'round2_l', 'round2_m', 'round2_s',
                 'flower_l', 'flower_m', 'flower_s', 'glow2']
-        
+
         font_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
-        
+
         while True:
 
             if l.eol():
@@ -464,7 +517,7 @@ python early hide:
             if l.keyword('font'):
                 ffont = l.simple_expression()
                 if ffont is None:
-                    renpy.error('expected font for msg argument')                  
+                    renpy.error('expected font for msg argument')
                 continue
             # Similarly, prefacing a bubble argument with `bubble` allows you
             # to use custom bubbles
@@ -531,15 +584,15 @@ python early hide:
 
     def execute_msg_stmt(p):
         try:
-            who = eval(p["who"])       
-            what = eval(p["what"])        
+            who = eval(p["who"])
+            what = eval(p["what"])
             pv = eval(p["pv"])
-            ffont = p["ffont"]            
+            ffont = p["ffont"]
             bold = p["bold"]
-            xbold = p["xbold"]        
+            xbold = p["xbold"]
             big = p["big"]
-            img = p["img"]        
-            bounce = p["bounce"]        
+            img = p["img"]
+            bounce = p["bounce"]
             spec_bubble = p["spec_bubble"]
         except:
             renpy.error("Could not parse arguments of msg CDS")
@@ -550,7 +603,7 @@ python early hide:
             print("WARNING: The ChatCharacter %s for dialogue \"" + what
                 + "\" could not be evaluated." % p['who'])
             renpy.show_screen('script_error',
-                    message=("The ChatCharacter %s for dialogue " + what 
+                    message=("The ChatCharacter %s for dialogue " + what
                         + " could not be evaluated." % p['who']),
                     link="Adding-a-New-Character-to-Chatrooms",
                     link_text="Adding a New Character to Chatrooms")
@@ -591,40 +644,56 @@ python early hide:
                     new_pv = None
                     store.current_timeline_item.replay_log.append(ReplayEntry(
                             who, dialogue, new_pv, img, bounce, spec_bubble))
-                
+
             # Now add this dialogue to the chatlog
             addchat(who, dialogue, pauseVal=pv, img=img, bounce=bounce,
                 specBubble=spec_bubble)
-        
+
         return
 
-    def lint_msg_stmt(p):        
+    def lint_msg_stmt(p):
         try:
-            who = eval(p["who"])       
-            what = eval(p["what"])        
+            who = eval(p["who"])
+            what = eval(p["what"])
             pv = eval(p["pv"])
-            ffont = p["ffont"]            
+            ffont = p["ffont"]
             bold = p["bold"]
-            xbold = p["xbold"]        
+            xbold = p["xbold"]
             big = p["big"]
-            img = p["img"]        
-            bounce = p["bounce"]        
+            img = p["img"]
+            bounce = p["bounce"]
             spec_bubble = p["spec_bubble"]
         except:
-            renpy.error("Could not parse arguments of msg CDS")            
+            renpy.error("Could not parse arguments of msg CDS")
 
         # Double-check 'who' is a ChatCharacter
         if not isinstance(who, ChatCharacter):
             renpy.error("The ChatCharacter %s for dialogue \"" + what
-                + "\" could not be evaluated." % p['who'])                        
+                + "\" could not be evaluated." % p['who'])
         return
-    
+
     def predict_msg_stmt(p):
+        # Predict possible images used
+        try:
+            what = eval(p['what'])
+        except:
+            renpy.error("Could not evaluate what argument of custom say")
+            return [ ]
+        if p['img'] and "{image" in what:
+            # Get the image that will be used
+            img = what.split('=')[2].strip()[:-1]
+            return [ img ]
+        elif p['img']:
+            if what[:3] != 'cg ':
+                img = 'cg ' + what
+            else:
+                img = what
+            return [ img ]
         return [ ]
-    
+
     def warp_msg_stmt(p):
         return True
-    
+
 
     renpy.register_statement('msg',
         parse=parse_msg_stmt,
@@ -632,7 +701,7 @@ python early hide:
         predict=predict_msg_stmt,
         lint=lint_msg_stmt,
         warp=warp_msg_stmt)
-    
+
     renpy.register_statement('add backlog',
         parse=parse_backlog_stmt,
         execute=execute_backlog_stmt,
@@ -660,8 +729,8 @@ python early hide:
         delivery_time = False
 
         # Next, there are some optional arguments
-        while True:            
-            
+        while True:
+
             if l.eol():
                 renpy.error("Reached end of line without a colon")
                 break
@@ -683,7 +752,7 @@ python early hide:
                 if delivery_time is not None:
                     continue
                 renpy.error("Could not parse argument for deliver_at")
-            
+
             if l.match(":") and not l.match("\d\d:\d\d"):
                 l.expect_eol()
                 break
@@ -716,12 +785,12 @@ python early hide:
             print("WARNING: The ChatCharacter %s for dialogue \"" + what
                 + "\" could not be evaluated." % p['who'])
             renpy.show_screen('script_error',
-                    message=("The ChatCharacter %s for dialogue " + what 
+                    message=("The ChatCharacter %s for dialogue " + what
                         + " could not be evaluated." % p['who']),
                     link="Adding-a-New-Character-to-Chatrooms",
                     link_text="Adding a New Character to Chatrooms")
             return
-        
+
         sender.set_real_time_text(real_time)
         sender.text_msg.read = False
         store.textbackup = 'Reset'
@@ -733,14 +802,14 @@ python early hide:
         # CASE 1:
         # This is either being expired from check_and_unlock_story in real-time,
         # or it's the current timeline item. The text message can have the
-        # real time stamp.    
-        print_file("Delivery_time is", delivery_time)        
+        # real time stamp.
+        print_file("Delivery_time is", delivery_time)
         if store.persistent.real_time:
             # Determine how many days ago this item was
             if store.expiring_item:
                 check_item = store.expiring_item
                 day_index = get_item_day(store.expiring_item)
-                day_diff = store.days_to_expire - day_index - 1                
+                day_diff = store.days_to_expire - day_index - 1
             else:
                 check_item = store.current_timeline_item
                 day_index = store.today_day_num
@@ -799,7 +868,7 @@ python early hide:
             # There is no point manufacturing timestamps, as all items
             # are simply delivered after the item is played
             when = upTime()
-            
+
         # CASE 3:
         # The player backed out of this item and expired it. Now its
         # after_ items are delivered immediately
@@ -816,25 +885,25 @@ python early hide:
                 if not condition:
                     continue
                 try:
-                    who = eval(d["who"])       
+                    who = eval(d["who"])
                     what = eval(d["what"])
-                    ffont = d["ffont"]            
+                    ffont = d["ffont"]
                     bold = d["bold"]
-                    xbold = d["xbold"]        
+                    xbold = d["xbold"]
                     big = d["big"]
-                    img = d["img"]        
+                    img = d["img"]
                 except:
                     print("WARNING: The arguments for dialogue %s could not "
-                        + "be evaluated." % p['what'])
+                        + "be evaluated." % d['what'])
                     renpy.show_screen('script_error',
-                            message=("The arguments for dialogue %s could not " 
-                                + "be evaluated." % p['what']))
+                            message=("The arguments for dialogue %s could not "
+                                + "be evaluated." % d['what']))
                     return
 
                 # Get the correct dialogue and img
-                dialogue, img, spec_bubble = parse_message_args(                
+                dialogue, img, spec_bubble = parse_message_args(
                     what, ffont, bold, xbold, big, img, False, is_text_msg=True)
-                
+
                 # Add messages to send to a list first
                 message_queue.append(ChatEntry(who, dialogue, deepcopy(when), img))
                 sender.text_msg.notified = False
@@ -876,7 +945,7 @@ python early hide:
                             continue
                         if True in condition_outcomes:
                             condition = False
-                            continue                        
+                            continue
                         condition = eval(d)
                         condition_outcomes.append(condition)
                     # This is an 'else' statement
@@ -887,14 +956,14 @@ python early hide:
                         if True in condition_outcomes:
                             condition = False
                         else:
-                            condition = True                        
+                            condition = True
                 except:
                     print("WARNING: Could not evaluate conditional statement "
-                        + "for line with dialogue %s" % p['what'])
+                        + "for line with dialogue %s" % d['what'])
                     renpy.show_screen('script_error',
                         message="Could not evaluate conditional statement "
-                            + "for line with dialogue %s" % p['what'])
-                    return          
+                            + "for line with dialogue %s" % d['what'])
+                    return
 
         # Now go through and adjust the timestamps of each message if needed
         if generate_timestamps:
@@ -922,7 +991,7 @@ python early hide:
                                 total_sec += pause_time
                         except:
                             print("ERROR: couldn't evaluate text message pause argument")
-                        print_file("Adjusted total_sec by", pause_time)                    
+                        print_file("Adjusted total_sec by", pause_time)
                     continue
 
                 msg.thetime.adjust_time(timedelta(seconds=total_sec))
@@ -931,7 +1000,6 @@ python early hide:
                 typeTime = typeTime / 3
                 if typeTime < 1.5:
                     typeTime = 1.5
-                typeTime = typeTime * store.pv
                 if send_now:
                     total_sec -= typeTime
                     new_queue.insert(0, msg)
@@ -940,10 +1008,10 @@ python early hide:
                     new_queue.append(msg)
                 print_file("Added message", msg.what, "time", msg.thetime.stopwatch_time)
             message_queue = new_queue
-                                       
+
         # Add these messages to the sender's msg_queue
         sender.text_msg.msg_queue.extend(message_queue)
-        print_file("Extended " + sender.file_id + "'s msg_queue")        
+        print_file("Extended " + sender.file_id + "'s msg_queue")
         store.text_person = None
         return
 
@@ -975,7 +1043,7 @@ python early hide:
             if l.keyword('bad'):
                 bad = True
                 continue
-            
+
             renpy.error("Could not parse statement.")
 
         return dict(who=who, bad=bad)
@@ -986,7 +1054,7 @@ python early hide:
             who = eval(p["who"])
         else:
             renpy.error("award heart requires a ChatCharacter the heart belongs to")
-        
+
         if who is None or not isinstance(who, ChatCharacter):
             print("WARNING: variable %s provided to award heart is not recognized as a ChatCharacter." % p["who"])
             renpy.show_screen('script_error',
@@ -994,7 +1062,7 @@ python early hide:
                 link="Useful-Chatroom-Functions#how-to-show-a-heart-icon",
                 link_text="How to show a heart icon")
             return
-        
+
 
         bad = p["bad"]
 
@@ -1009,13 +1077,13 @@ python early hide:
                             store.collected_hp['bad'].append(who)
                         else:
                             store.collected_hp['good'].append(who)
-                    store.persistent.HP += 1                    
+                    store.persistent.HP += 1
 
                     if store.persistent.animated_icons:
                         renpy.show_screen(allocate_heart_screen(), character=who)
                     else:
                         msg = who.name + " +1"
-                        renpy.show_screen(allocate_notification_screen(True), msg)                    
+                        renpy.show_screen(allocate_notification_screen(True), msg)
             except:
                 print("WARNING: Heart could not be awarded for %s." % p["who"])
                 renpy.show_screen('script_error',
@@ -1027,11 +1095,11 @@ python early hide:
         else:
             add_heart(store.text_person, who, bad)
         return
-        
-            
+
+
     def predict_award_heart(p):
         return [ ]
-    
+
     def warp_award_heart(p):
         return True
 
@@ -1046,10 +1114,10 @@ python early hide:
 
         if eval_who is None:
             renpy.error("The person the heart belongs to cannot be None.")
-        
+
         if not isinstance(eval_who, ChatCharacter):
             renpy.error("%s is not recognized as a ChatCharacter object for the heart icon." % p["who"])
-        
+
         return
 
     renpy.register_statement('award heart',
@@ -1061,14 +1129,14 @@ python early hide:
 
     def parse_break_heart(l):
         who = l.simple_expression()
-        return dict(who=who)        
+        return dict(who=who)
 
     def execute_break_heart(p):
         if p["who"] is not None:
             who = eval(p["who"])
         else:
             renpy.error("break heart requires a ChatCharacter the heart belongs to")
-        
+
         if who is None or not isinstance(who, ChatCharacter):
             print("WARNING: variable %s provided to break heart is not recognized as a ChatCharacter." % p["who"])
             renpy.show_screen('script_error',
@@ -1076,9 +1144,9 @@ python early hide:
                 link="Useful-Chatroom-Functions#how-to-show-a-heart-icon",
                 link_text="How to show a heart icon")
             return
-        
+
         if not store.observing:
-            who.decrease_heart()            
+            who.decrease_heart()
 
             if store.text_person is None:
                 store.collected_hp['break'].append(who)
@@ -1117,7 +1185,7 @@ python early hide:
             renpy.error("invite requires a guest to invite")
 
         return dict(guest=guest)
-    
+
     def execute_invite_guest(p):
 
         if p["guest"] is not None:
@@ -1129,12 +1197,12 @@ python early hide:
             print("WARNING: Invited guest is not recognized as a Guest object.")
             renpy.show_screen('script_error',
                 message="Invited guest %s is not recognized as a Guest object." % p["guest"],
-                link="Inviting-a-Guest", link_text="Inviting a Guest") 
+                link="Inviting-a-Guest", link_text="Inviting a Guest")
             return
         elif guest is None:
             print("WARNING: Invited guest cannot be None.")
             renpy.show_screen('script_error', message="Invited guest cannot be None.",
-                link="Inviting-a-Guest", link_text="Inviting a Guest") 
+                link="Inviting-a-Guest", link_text="Inviting a Guest")
             return
 
 
@@ -1170,14 +1238,14 @@ python early hide:
             renpy.error("invite requires a guest to invite.")
 
         if eval_guest is None:
-            renpy.error("Invited guest cannot be None.")        
+            renpy.error("Invited guest cannot be None.")
 
         if not isinstance(eval_guest, Guest):
             renpy.error("Invited guest %s is not recognized as a Guest object." % p["guest"])
 
         return
-    
-    def warp_invite_guest(p):        
+
+    def warp_invite_guest(p):
         return True
 
     renpy.register_statement('invite',
@@ -1255,7 +1323,7 @@ python early hide:
             if l.keyword('if_changed'):
                 if_changed = True
                 continue
-            
+
             if l.keyword('nocaption'):
                 captions = False
                 continue
@@ -1282,7 +1350,7 @@ python early hide:
 
         if captions:
             try:
-                notification =  ("♪ " + 
+                notification =  ("♪ " +
                         store.music_dictionary[getattr(store, p["file"])]
                         + " ♪")
                 if store.persistent.audio_captions:
@@ -1290,9 +1358,9 @@ python early hide:
             except (KeyError, AttributeError) as e:
                 renpy.show_screen('script_error',
                     message="No Audio Caption defined for %s" % p["file"],
-                    link="Adding-Music-and-SFX", link_text="Adding Music and SFX") 
+                    link="Adding-Music-and-SFX", link_text="Adding Music and SFX")
                 print("WARNING: No Audio Caption defined for " + p["file"])
-            
+
             if (not store.observing and not store.persistent.testing_mode
                     and not store.vn_choice):
                 # Add this music to the replay_log
@@ -1301,14 +1369,14 @@ python early hide:
                 except AttributeError:
                     music_entry = ("play music", p["file"])
                 store.current_timeline_item.replay_log.append(music_entry)
-        
+
         renpy.music.play(_audio_eval(p["file"]),
                          fadeout=eval(p["fadeout"]),
                          fadein=eval(p["fadein"]),
                          channel=channel,
                          loop=p.get("loop", None),
                          if_changed=p.get("if_changed", False))
-    
+
     def predict_play_music(p):
         return [ ]
 
@@ -1369,14 +1437,14 @@ python early hide:
 
         if captions:
             try:
-                notification = ("SFX: " + 
+                notification = ("SFX: " +
                         store.sfx_dictionary[getattr(store, p["file"])])
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
             except (KeyError, AttributeError) as e:
                 renpy.show_screen('script_error',
                     message="No Audio Caption defined for %s" % p["file"],
-                    link="Adding-Music-and-SFX", link_text="Adding Music and SFX")                
+                    link="Adding-Music-and-SFX", link_text="Adding Music and SFX")
                 print("WARNING: No Audio Caption defined for " + p["file"])
 
 
@@ -1386,13 +1454,11 @@ python early hide:
                          loop=loop,
                          channel=channel)
 
-    
+
     renpy.register_statement('play sound',
                               parse=parse_play_music,
                               execute=execute_play_c_sound,
                               lint=lint_play_sound,
                               warp=warp_sound)
 
-    
 
-   
