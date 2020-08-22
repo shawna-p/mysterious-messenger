@@ -302,7 +302,9 @@ screen pick_mc_pfp():
     python:
         pfp_list = [ pic for pic 
             in renpy.list_files() if 'Drop Your Profile Picture Here/' in pic 
-            and isImg(pic) ] + persistent.unlocked_prof_pics
+            and isImg(pic) ]
+        if not persistent.first_boot:
+            pfp_list.extend(persistent.unlocked_prof_pics)
         num_rows = -(-(len(pfp_list) ) // 4)
 
     add "#000d"
@@ -322,11 +324,36 @@ screen pick_mc_pfp():
             mousewheel True
             scrollbars "vertical"   
             for img in pfp_list:                
-                button:                    
+                button:     
+                    padding (0, 0)               
                     background Transform(img, size=(140, 140))
-                    hover_foreground "#fff3"
-                    action SetField(persistent, 'MC_pic', img)
-                    
+                    if can_use_mc_pic(img):
+                        hover_foreground "#fff3"
+                        action SetField(persistent, 'MC_pic', img)
+                    else:
+                        add "#0005" size (140, 140)
+                        add 'plot_lock' align (0.5, 0.5)
+                        add 'header_hg' align (0.95, 0.95)
+                        action Show('confirm', message=("Would you like to "
+                            + "unlock this profile picture for 1 hourglass?"),
+                            yes_action=[SetField(persistent, 'HG', 
+                                    persistent.HG-1),
+                                AddToSet(persistent.mc_unlocked_pfps, img),
+                                Hide('confirm')],
+                            no_action=Hide('confirm')
+                                    )
+
+init python:
+    def can_use_mc_pic(img):
+        """
+        Return True if this image can be used as a profile picture for the MC.
+        """
+        if store.persistent.testing_mode:
+            return True
+        if 'Drop Your Profile Picture Here/' in img:
+            return True
+        return (img in store.persistent.mc_unlocked_pfps)
+
 
 image she_her_pronoun_radio = ConditionSwitch(
     "persistent.pronoun == 'female'", "radio_on",
