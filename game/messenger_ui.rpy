@@ -261,19 +261,23 @@ screen phone_overlay():
             selected_hover "maxSpeed"
             if not choosing:
                 action Skip()
-    if starter_story:
+    if starter_story or persistent.testing_mode:
         fixed:
             xysize (150, 80)
             align (0.99, 0.055)
             imagebutton:
                 align (0.5, 0.5)
                 focus_mask True
-                idle 'skip_intro_idle'
-                hover 'skip_intro_hover'
+                if starter_story:
+                    idle 'skip_intro_idle'
+                    hover 'skip_intro_hover'
+                else:
+                    idle 'skip_to_end_idle'
+                    hover 'skip_to_end_hover'
                 action [SetField(persistent, 'first_boot', False),
                         SetField(persistent, 'on_route', True),
                         SetVariable('vn_choice', True),
-                        Jump('press_save_and_exit')]
+                        Jump('just_return')]
                 
     frame:
         yalign 0.04
@@ -315,8 +319,9 @@ screen phone_overlay():
                 idle 'back_arrow_btn'
                 hover Transform('back_arrow_btn', zoom=1.2)
                 keysym "K_BACKSPACE"
-                if observing or current_timeline_item.expired or _in_replay:
-                    action Jump('just_return') #Jump('exit_item_early')
+                if (observing or (current_timeline_item.expired
+                        and not current_timeline_item.buyback) or _in_replay):
+                    action Jump('exit_item_early')
                 else:
                     action Show("confirm", message=("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
@@ -399,7 +404,7 @@ label continue_answer(themenu, count_time=5):
     # chatroom. Not allowing 'observing' players to choose an
     # answer avoids the problem of players who didn't initially 
     # choose an answer being unable to continue
-    if not renpy.is_skipping():# and not observing:
+    if not renpy.is_skipping() and not observing:
         $ using_timed_menus = True
         show screen answer_countdown(themenu, timed_answer_modifier(count_time))
         hide screen viewCG

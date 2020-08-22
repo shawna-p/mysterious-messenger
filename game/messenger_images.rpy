@@ -133,6 +133,8 @@ image battery_charging = "Phone UI/battery_charging.png"
 
 image skip_intro_idle = "Phone UI/skip_intro_available.png"
 image skip_intro_hover = "Phone UI/skip_intro_pressed.png"
+image skip_to_end_idle = "Phone UI/skip_to_end_available.png"
+image skip_to_end_hover = "Phone UI/skip_to_end_pressed.png"
 
 image hack scroll: 
     "hack_long"
