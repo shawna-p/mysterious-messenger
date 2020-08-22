@@ -32,7 +32,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
     if resetHP:
         $ collected_hp = {'good': [], 'bad': [], 'break': []}
     if starter_story:
-        call begin_timeline_item(current_timeline_item)
+        $ begin_timeline_item(current_timeline_item)
     return
 
 ## This label simplifies setting up backgrounds for chatrooms
@@ -90,10 +90,10 @@ init python:
 ## Call this label to show the save & exit sign
 label chat_end():
     if starter_story:
-        call end_timeline_item_checks()
+        $ end_timeline_item_checks()
         call screen save_and_exit()
         call screen signature_screen(True)
-        call finish_timeline_item(current_timeline_item)
+        $ finish_timeline_item(current_timeline_item)
         $ starter_story = False
         call screen chat_home
     return
