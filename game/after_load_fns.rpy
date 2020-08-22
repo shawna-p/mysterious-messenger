@@ -7,7 +7,7 @@ init python:
         """
         Update this save file for compatibility with new versions.
         """
-
+        
         if not isinstance(store._version, tuple):
             # Turn the version into a tuple like (3, 0, 0)
             tuple_ver = store._version.split('.')
@@ -74,8 +74,7 @@ init python:
             store.collected_hp = store.chatroom_hp
             store.collected_hg = store.chatroom_hg
             store.chatroom_hp = None
-            store.chatroom_hg = None
-            store.paraphrase_choices = True
+            store.chatroom_hg = None            
             # Check if chat_archive is the tutorial day one though, since
             # it'll likely be changed to have paraphrased choices
 
@@ -84,6 +83,9 @@ init python:
                 unlock_profile_pics(chara)
 
             store._version = (3, 0, 0)
+        
+        # Turn the version back into a string
+        store._version = '.'.join(map(str, store._version))        
                         
                                         
     def unlock_profile_pics(who):
