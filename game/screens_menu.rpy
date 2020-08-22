@@ -1417,7 +1417,7 @@ screen developer_settings():
                         action ToggleField(persistent, 'receive_hg')
                     textbutton _("Use custom route select screen"):
                         action ToggleField(persistent, 'custom_route_select')
-            
+                                
 
             textbutton _('Fix Persistent'):
                 style "other_settings_end_button"
