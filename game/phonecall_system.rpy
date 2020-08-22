@@ -509,14 +509,19 @@ screen in_call(who=ja, story_call=False):
             elif story_call:
                 use phone_footer(answer_action=False, 
                     center_item='call_pause', 
-                    hangup_action=Show("confirm", message=("Do you really want "
+                    hangup_action=If(observing or (current_call.expired
+                            and not current_call.buyback),
+                        [Jump('exit_item_early')],
+
+                        [Show("confirm", message=("Do you really want "
                         + "to hang up this call? Please note that you cannot "
                         + "participate once you leave. If you want to "
                         + "participate in this call again, you will need to "
                         + "buy it back."), 
                         yes_action=[Hide('confirm'), Hide('phone_say'),
                             Jump('exit_item_early')], 
-                        no_action=Hide('confirm')) )
+                        no_action=Hide('confirm'))] 
+                        ))
             else:
                 use phone_footer(False, "call_pause", False)
                                    
