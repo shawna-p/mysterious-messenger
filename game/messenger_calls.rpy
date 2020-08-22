@@ -256,8 +256,7 @@ label press_save_and_exit():
 
     
 # This shows the signature screen, which records your total heart points
-# It shows hourglass points as well but currently there is no way to get
-# more hourglasses
+# It shows hourglass points as well
 screen signature_screen(phone=True):
     zorder 5
     modal True
@@ -268,22 +267,33 @@ screen signature_screen(phone=True):
     frame:        
         has vbox
         spacing 10
-        null height 80
+        null height 70
+        if (observing or (current_timeline_item.expired 
+                and not current_timeline_item.buyback)):
+            null height 10
         text "This conversation will be archived in the RFA records.":
+            layout 'subtitle'
+            size 30
             if persistent.custom_footers:
-                color "#fff"
-        hbox:
-            style_prefix "sig_points"            
-            frame:
-                background 'heart_sign'
-                text str(get_collected_hp())
-            frame:
-                background 'hg_sign'
-                text str(collected_hg)
+                color "#fff"            
+        if not (observing or (current_timeline_item.expired 
+                and not current_timeline_item.buyback)):
+            hbox:
+                style_prefix "sig_points"            
+                frame:
+                    background 'heart_sign'
+                    text str(get_collected_hp())
+                frame:
+                    background 'hg_sign'
+                    text str(collected_hg)
         
         text "I hereby agree to treat this conversation as confidential.":
             if persistent.custom_footers:
                 color "#fff"
+        
+        if (observing or (current_timeline_item.expired 
+                and not current_timeline_item.buyback)):
+            null height 15
         
         textbutton _('sign'): 
             if persistent.custom_footers:
