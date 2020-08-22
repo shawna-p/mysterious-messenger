@@ -579,6 +579,20 @@ init -5 python:
                     and store.dialogue_picked != ""):
                 say_choice_caption(store.dialogue_picked, 
                     store.dialogue_paraphrase, store.dialogue_pv)
+            
+            if self == store.m and not kwargs.get('from_paraphrase', None):
+                # This didn't come from `say_choice_caption`, but the MC is
+                # speaking. Is this the same dialogue that was going to be
+                # posted?
+                if what == store.dialogue_picked:
+                    # Clear the stored no-paraphrase items
+                    store.dialogue_picked = ""
+                    store.dialogue_paraphrase = store.paraphrase_choices
+                    store.dialogue_pv = 0
+                    # If paraphrase_choices is None, set it to True
+                    if store.paraphrase_choices is None:
+                        store.paraphrase_choices = True
+
 
             # Allows you to still use this object even in phone
             # calls and VN mode

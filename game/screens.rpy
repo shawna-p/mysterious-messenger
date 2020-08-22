@@ -308,7 +308,7 @@ init python:
         # Otherwise, send this dialogue to the appropriate channel  
         print_file("Executing dialogue", dialogue, "as non-paraphrase")   
         
-        store.m(dialogue, pauseVal=p)        
+        store.m(dialogue, pauseVal=p, from_paraphrase=True)        
         store.dialogue_picked = ""
         store.dialogue_paraphrase = store.paraphrase_choices
         store.dialogue_pv = 0
@@ -318,18 +318,36 @@ init python:
         """Determine whether this choice caption was paraphrased or not."""
         if item_pref is not None:
             # The item set its own preference
-            store.dialogue_paraphrase = item_pref
-            return
-        # Otherwise, use the screen's preference
-        store.dialogue_paraphrase = screen_pref
+            store.dialogue_paraphrase = item_pref            
+        elif screen_pref is not None:
+            # Otherwise, use the screen's preference
+            store.dialogue_paraphrase = screen_pref        
+        else:
+            # All else fails, use the default preference
+            store.dialogue_paraphrase = store.paraphrase_choices
+        
+        # Now do some calculations to see if we can manually determine what
+        # store.paraphrase_choices should be
+        if store.paraphrase_choices is None:
+            # If the menu set a preference, global is probably the opposite
+            # of the menu
+            if screen_pref is not None:
+                store.paraphrase_choices = not screen_pref
+            # Otherwise if the item set a preference, global is probably
+            # the opposite of the choice
+            elif item_pref is not None:
+                store.paraphrase_choices = not item_pref
+
+        return
 
 default dialogue_picked = ""
 default dialogue_paraphrase = True
 default dialogue_pv = 0
 
-screen choice(items, paraphrase=paraphrase_choices):
+screen choice(items, paraphrase=None):
     zorder 150
     modal True
+    
         
     if persistent.custom_footers and not renpy.is_skipping():
         default the_anim = choice_anim

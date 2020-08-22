@@ -346,4 +346,6 @@ init python:
 # it is your responsibility to write out exactly what you want the MC to
 # say after a choice. If False, the program will automatically make the MC
 # say the choice dialogue.
-default paraphrase_choices = True
+# If None, the program tries to dynamically figure out what the value
+# should be based on the first menu of choices it comes across.
+default paraphrase_choices = None
