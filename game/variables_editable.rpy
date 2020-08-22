@@ -132,6 +132,9 @@ define z_unlockable_pfps = combine_lists(
     register_pfp(folder="CGs/z_album/", filter_keep='-thumb.')
 )
 
+# List of images the player has unlocked and can use as a profile picture
+default persistent.mc_unlocked_pfps = [ ]
+
 ########################################
 ## SPACESHIP THOUGHT IMAGES
 ########################################
