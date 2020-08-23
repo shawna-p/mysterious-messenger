@@ -42,14 +42,14 @@ label heart_icon(character, bad=False):
     if bad:
         award heart character bad
     else:
-        award heart character    
+        award heart character
     return
 
 # Deprecated; replaced with `break heart u` where `u` is the character to
 # remove a heart for. Like the heart icon, call this to display the heart break.
 label heart_break(character):
     $ print("WARNING: Deprecated label heart_break(character) used.")
-    break heart character    
+    break heart character
     return
 
 #************************************
@@ -65,7 +65,7 @@ label enter(chara):
     $ print("WARNING: Deprecated label enter(chara) used.")
     enter chatroom chara
     return
-    
+
 # Deprecated; replaced with `exit chatroom u` where `u` is the character
 # exiting the chatroom
 label exit(chara):
@@ -82,6 +82,15 @@ label exit(chara):
 label play_music(file):
     play music file loop
     return
+
+## This label plays sound effects and also shows an audio
+## caption if the player has that option turned on.
+## This call has now been integrated into a CDS but is left in
+## for backwards compatibility
+label play_sfx(sfx):
+    play sound sfx
+    return
+
 
 
 init -6 python:
@@ -145,8 +154,8 @@ init -6 python:
             occur after this chatroom. Also used in the History screen.
         """
 
-        def __init__(self, title, chatroom_label, trigger_time, 
-                participants=None, vn_obj=False, plot_branch=False, 
+        def __init__(self, title, chatroom_label, trigger_time,
+                participants=None, vn_obj=False, plot_branch=False,
                 save_img='auto'):
             """
             Creates a ChatHistory object to store information about a
@@ -235,11 +244,11 @@ init -6 python:
                             self.vn_obj = VNMode(vnlabel, c)
                             # Should only ever be one VNMode object per chat
                             break
-            
+
             if self.plot_branch and self.plot_branch.vn_after_branch:
                 self.plot_branch.stored_vn = self.vn_obj
                 self.vn_obj = False
-            
+
             self.played = False
             self.participated = False
             self.available = False
@@ -248,16 +257,16 @@ init -6 python:
             self.buyback = False
             self.buyahead = False
             self.replay_log = []
-            self.outgoing_calls_list = [ (self.chatroom_label + '_outgoing_' 
-                + x.file_id) for x in store.all_characters 
-                if renpy.has_label(self.chatroom_label + '_outgoing_' 
+            self.outgoing_calls_list = [ (self.chatroom_label + '_outgoing_'
+                + x.file_id) for x in store.all_characters
+                if renpy.has_label(self.chatroom_label + '_outgoing_'
                     + x.file_id)]
-            self.incoming_calls_list = [ (self.chatroom_label + '_incoming_' 
-                + x.file_id) for x in store.all_characters 
-                if renpy.has_label(self.chatroom_label + '_incoming_' 
+            self.incoming_calls_list = [ (self.chatroom_label + '_incoming_'
+                + x.file_id) for x in store.all_characters
+                if renpy.has_label(self.chatroom_label + '_incoming_'
                     + x.file_id)]
-            
-            
+
+
         def __eq__(self, other):
             """Check for equality between two ChatHistory objects."""
 
@@ -266,7 +275,7 @@ init -6 python:
             return (self.title == other.title
                     and self.chatroom_label == other.chatroom_label
                     and self.trigger_time == other.trigger_time)
-        
+
         def __ne__(self, other):
             """Check for inequality between two ChatHistory objects."""
 
@@ -283,7 +292,7 @@ init -6 python:
             compatibility with __getattr__ implementation.
             """
 
-            result = ChatHistory(self.title, self.chatroom_label, 
+            result = ChatHistory(self.title, self.chatroom_label,
                 self.trigger_time, list(self.participants),
                 deepcopy(self.vn_obj, memo), deepcopy(self.plot_branch, memo),
                 self.save_img)
@@ -310,10 +319,10 @@ init -6 python:
                 # chatroom_label = self.__dict__['chatroom_label']
                 # return [ PhoneCall(x, chatroom_label + '_story_call_'
                 #             + x.file_id, avail_timeout='test', story_call=True)
-                #         for x in store.all_characters 
+                #         for x in store.all_characters
                 #         if renpy.has_label(chatroom_label + '_story_call_'
                 #             + x.file_id)]
-                
+
             try:
                 # print_file("ChatHistory getattr with", name)
                 # if name == 'chatroom_label':
@@ -322,12 +331,12 @@ init -6 python:
                 return super(ChatHistory, self).__getattribute__(name)
             except (KeyError, AttributeError) as e:
                 raise AttributeError(name)
-                
+
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
 
             if not (chara in self.participants):
-                print_file("added", chara.name, "to the participants list of", self.title)        
+                print_file("added", chara.name, "to the participants list of", self.title)
                 self.participants.append(chara)
             return
 
@@ -345,8 +354,8 @@ init -6 python:
             """Retain compatibility with VNMode objects."""
 
             return False
-            
-            
+
+
     class VNMode(renpy.store.object):
         """
         Class that stores the information needed for the Visual Novel portions
@@ -433,15 +442,15 @@ init -6 python:
             self.save_img = save_img
 
             if self.trigger_time:
-                self.outgoing_calls_list = [ (self.vn_label + '_outgoing_' 
-                    + x.file_id) for x in store.all_characters 
-                    if renpy.has_label(self.vn_label + '_outgoing_' 
+                self.outgoing_calls_list = [ (self.vn_label + '_outgoing_'
+                    + x.file_id) for x in store.all_characters
+                    if renpy.has_label(self.vn_label + '_outgoing_'
                         + x.file_id)]
-                self.incoming_calls_list = [ (self.vn_label + '_incoming_' 
-                    + x.file_id) for x in store.all_characters 
-                    if renpy.has_label(self.vn_label + '_incoming_' 
+                self.incoming_calls_list = [ (self.vn_label + '_incoming_'
+                    + x.file_id) for x in store.all_characters
+                    if renpy.has_label(self.vn_label + '_incoming_'
                         + x.file_id)]
-                temp_story_calls = [ x for x in store.all_characters 
+                temp_story_calls = [ x for x in store.all_characters
                     if renpy.has_label(self.chatroom_label + '_story_call_'
                         + x.file_id)]
                 self.story_calls_list = []
@@ -450,12 +459,12 @@ init -6 python:
                     self.story_calls_list.append(PhoneCall(char,
                         self.chatroom_label + '_story_call_' + char.file_id,
                         avail_timeout='test', story_call=True))
-                
+
             else:
                 self.outgoing_calls_list = []
                 self.incoming_calls_list = []
                 self.story_calls_list = []
-            
+
 
         @property
         def vn_img(self):
@@ -465,7 +474,7 @@ init -6 python:
                 return 'vn_' + self.who.file_id
             else:
                 return 'vn_other'
-        
+
         @property
         def vn_obj(self):
             """
@@ -513,7 +522,7 @@ init -6 python:
             somewhat interchangeably.
             """
             return False
-        
+
         @property
         def buyahead(self):
             """
@@ -553,7 +562,7 @@ init -6 python:
             result.incoming_calls_list = self.incoming_calls_list
             result.story_calls_list = copy(self.story_calls_list)
             return result
-            
+
 
         def __getattr__(self, name):
             """
@@ -568,15 +577,15 @@ init -6 python:
                 return 'auto'
             elif name == 'outgoing_calls_list':
                 vn_label = self.__dict__['vn_label']
-                return [ (vn_label + '_outgoing_' 
-                        + x.file_id) for x in store.all_characters 
-                        if renpy.has_label(vn_label + '_outgoing_' 
+                return [ (vn_label + '_outgoing_'
+                        + x.file_id) for x in store.all_characters
+                        if renpy.has_label(vn_label + '_outgoing_'
                             + x.file_id)]
             elif name == 'incoming_calls_list':
                 vn_label = self.__dict__['vn_label']
-                return [ (vn_label + '_incoming_' 
-                        + x.file_id) for x in store.all_characters 
-                        if renpy.has_label(vn_label + '_incoming_' 
+                return [ (vn_label + '_incoming_'
+                        + x.file_id) for x in store.all_characters
+                        if renpy.has_label(vn_label + '_incoming_'
                             + x.file_id)]
             elif name == 'story_calls_list':
                 return []
@@ -587,7 +596,7 @@ init -6 python:
                 #     raise AttributeError(name)
                 # print_file("with", self.__dict__['vn_label'])
                 return super(VNMode, self).__getattribute__(name)
-            except (KeyError, AttributeError) as e:                
+            except (KeyError, AttributeError) as e:
                 raise AttributeError(name)
 
         def __eq__(self, other):
@@ -596,7 +605,7 @@ init -6 python:
                 return False
             return (self.vn_label == other.vn_label
                     and self.who == other.who)
-        
+
         def __ne__(self, other):
             """Check for inequality between two VNMode objects."""
             if not isinstance(other, VNMode):
