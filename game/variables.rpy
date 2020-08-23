@@ -1,12 +1,12 @@
 init -6 python:
     from datetime import datetime, date, timedelta
     from copy import copy, deepcopy
-    
+
     ## This defines another voice channel which the emoji
-    ## sound effects play on. Players can adjust the volume 
+    ## sound effects play on. Players can adjust the volume
     ## of the emojis separately from voice, music, and sfx
     renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
-    
+
     def set_voicesfx_volume(value=None):
         """Set the volume of the voice sfx channel."""
 
@@ -14,8 +14,8 @@ init -6 python:
             return MixerValue('voice_sfx')
         else:
             return SetMixer('voice_sfx', value)
-            
-    
+
+
     class MyTime(object):
         """
         A class that fetches the current time/date information and stores
@@ -46,9 +46,9 @@ init -6 python:
         second : string
             Second for the time e.g. "10"
         am_pm : string
-            Equal to "PM" or "AM" depending on the time.     
+            Equal to "PM" or "AM" depending on the time.
         """
-        
+
         def __init__(self, day=None, thehour=None, themin=None):
             """
             Create a MyTime object to store date and time information.
@@ -65,13 +65,13 @@ init -6 python:
             """
 
             self.datetime = datetime.now()
-            
+
             day_diff = 0
             hour_diff = 0
             min_diff = 0
 
             # Do some calculations for the date, if it's in the past or future
-            if day is not None:            
+            if day is not None:
                 day_diff = day * 60 * 60 * 24
             if thehour is not None:
                 hour_diff = int(thehour) - int(self.datetime.strftime('%H'))
@@ -82,7 +82,7 @@ init -6 python:
 
             unix_seconds = time.time()
             new_timestamp = unix_seconds + day_diff + hour_diff + min_diff
-            
+
             self.datetime = datetime.fromtimestamp(new_timestamp)
 
         @property
@@ -130,20 +130,20 @@ init -6 python:
             return (self.twelve_hour + ":" + self.minute
                 + " " + self.am_pm + ", " + self.day + "/"
                 + self.month_num)
-        
+
         def get_twelve_hour(self):
             """Return the time formatted as 10:45 AM"""
-            
+
             return self.twelve_hour + ':' + self.minute + ' ' + self.am_pm
 
         def get_text_msg_time(self):
             """Return the time formatted for text messages."""
 
-            return (self.day + '/' + self.month_num 
-                        + '/' + self.year + ' ' 
-                        + self.twelve_hour + ':' 
+            return (self.day + '/' + self.month_num
+                        + '/' + self.year + ' '
+                        + self.twelve_hour + ':'
                         + self.minute + self.am_pm)
-        
+
         def has_occurred(self):
             """
             Return True if this time has already passed compared to
@@ -187,11 +187,11 @@ init -6 python:
         def adjust_time(self, td):
             """Adjust the datetime according to timedelta td."""
             self.datetime += td
-            
+
         @property
         def stopwatch_time(self):
             return self.military_hour + ":" + self.minute + ":" + self.second
-            
+
     def upTime(day=None, thetime=None):
         """
         Return a MyTime object with the current time, or a time based
@@ -234,20 +234,20 @@ init -6 python:
             # Got a Route object; use the default route
             try:
                 route = route.default_branch
-            except AttributeError:                
+            except AttributeError:
                 print_file("Error: Given Route object does not have a default_branch field.")
 
-        if (len(route) > 0 
-                and (isinstance(route[0], RouteDay) 
+        if (len(route) > 0
+                and (isinstance(route[0], RouteDay)
                     or isinstance(route[0], store.RouteDay))):
             story_archive = route
         else:
             story_archive = route[1:]
-        
+
         if participants is None:
             participants = []
         define_variables()
-        current_timeline_item = ChatRoom('Starter Chat', chatroom_label, 
+        current_timeline_item = ChatRoom('Starter Chat', chatroom_label,
                                         '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
         # VNs for a starter chat/opening
@@ -264,10 +264,10 @@ init -6 python:
         renpy.hide_screen('hide screen email_popup')
         hide_stackable_notifications()
         hide_heart_icons()
-        
+
     def btn_hover_img(s):
         """A displayable prefix function to make button hover images."""
-        
+
         return Fixed(s, Transform(s, alpha=0.5))
 
     def center_bg_img(s):
@@ -277,7 +277,7 @@ init -6 python:
         """
 
         return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
-    
+
     def center_crop_bg_img(s):
         """
         A displayable prefix function which crops and centers a background
@@ -311,13 +311,13 @@ init -6 python:
 
     def combine_lists(*args):
         """Combine args into one giant list and return it."""
-        
+
         result = []
         for arg in args:
             if isinstance(arg, list):
                 for pic in arg:
                     if pic not in result:
-                        result.append(pic)                
+                        result.append(pic)
             else:
                 if arg not in result:
                     result.append(arg)
@@ -344,7 +344,7 @@ init -6 python:
         print("WARNING: Could not find the label", lbl)
         renpy.show_screen('script_error',
                 message=("Could not find the label " + str(lbl)))
-        
+
         if lbl == store.current_timeline_item.item_label:
             # Couldn't find this item's correct label; use `just_return` as a
             # replacement since it just returns
@@ -364,10 +364,11 @@ init -6 python:
             store.my_test_var = "Pong!"
         else:
             store.my_test_var = "Nothing"
-        print("\nafter: my_test_var", my_test_var, "store.my_test_var", store.my_test_var)        
+        print("\nafter: my_test_var", my_test_var, "store.my_test_var", store.my_test_var)
         return
 
     def context_test():
+        return
         print("We're in a new context")
         print("The call stack depth is", renpy.call_stack_depth())
         print("Nesting level is", renpy.context_nesting_level())
@@ -381,7 +382,7 @@ init -6 python:
 # of responses
 default shuffle = True
 default my_test_var = "Nothing"
-## A label the program can jump to in the event it cannot find a 
+## A label the program can jump to in the event it cannot find a
 ## regular label to jump to
 label just_return():
     return
@@ -401,7 +402,7 @@ init python:
             items.append(last)
         shuffle = True
 
-        
+
         # If observing, check which items have already been seen
         if store.observing:
             items = [ i for i in items if i[1].get_chosen() ]
@@ -410,19 +411,19 @@ init python:
         for i in items:
             print_file("   ", i[0])
         return renpy_menu(items)
-    
+
     # Don't let the player rollback the game
     # by scrolling
     config.keymap['rollback'].remove('mousedown_4')
 
-            
+
 # Name of the currently played day, e.g. '1st'
-default current_day = False     
+default current_day = False
 # Number of the day the player is currently
 # going through
-default current_day_num = 0   
+default current_day_num = 0
 # Number of the day considered 'today'
-default today_day_num = 0    
+default today_day_num = 0
 # Useful when unlocking the next 24 hours
 # of chats in real-time mode
 default unlock_24_time = False
@@ -531,14 +532,14 @@ default observing = False
 # If so, the program uses this variable to disable most buttons
 default choosing = False
 
-# Detects if the answer screen should be showing. Useful if you 
+# Detects if the answer screen should be showing. Useful if you
 # view a CG when you should be answering a prompt
 default pre_choosing = False
 
 # This keeps track of the sorts of heart points earned over a timeline item
 # so it can reset them if the player backs out of it.
 default chatroom_hp = None # Old version; unused
-default collected_hp = {'good': [], 'bad': [], 'break': []} 
+default collected_hp = {'good': [], 'bad': [], 'break': []}
 # Total number of hg (hourglasses) earned per timeline item
 default chatroom_hg = None # Old version; unused
 default collected_hg = 0
@@ -555,8 +556,8 @@ image new_sign = "Bubble/main01_new.png"
 
 define _preferences.show_empty_window = False
 
-                           
-                                
+
+
 #************************************
 # Persistent Variables
 #************************************
@@ -576,13 +577,13 @@ default persistent.HG = 100
 ##******************************
 
 
-    
+
 image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
 image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.png", 20, 20)
 
 image rfa_greet:
-    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association", 
-                color="#ffffff", size=30, slow=True, 
+    Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association",
+                color="#ffffff", size=30, slow=True,
                 font=curlicue_font, slow_cps=8, bold=True)
     10.0
     "transparent"
@@ -624,14 +625,14 @@ image header_hg = "Menu Screens/Main Menu/header_hg.png"
 image header_heart = "Menu Screens/Main Menu/header_heart.png"
 
 # Profile Page
-image menu_header = Frame("Menu Screens/Main Menu/menu_header.png", 0, 50) 
+image menu_header = Frame("Menu Screens/Main Menu/menu_header.png", 0, 50)
 image menu_back = "Menu Screens/Main Menu/menu_back_btn.png"
 image save_btn = "Menu Screens/Main Menu/menu_save_btn.png"
 image load_btn = "Menu Screens/Main Menu/menu_load_btn.png"
 image name_line = "Menu Screens/Main Menu/menu_underline.png"
 image menu_edit = "Menu Screens/Main Menu/menu_pencil_long.png"
 image menu_pencil = "Menu Screens/Main Menu/menu_pencil.png"
-          
+
 image radio_on = "Menu Screens/Main Menu/menu_radio_on.png"
 image radio_off = "Menu Screens/Main Menu/menu_radio_off.png"
 
@@ -640,7 +641,7 @@ image settings_gear = "Menu Screens/Main Menu/menu_settings_gear.png"
 # Save/Load
 image save_auto_idle = Frame("Menu Screens/Main Menu/save_auto_idle.png", 20, 20)
 image save_auto_hover = Frame("btn_hover:save_auto_idle", 20, 20)
-                    
+
 
 # Just for fun, this is the animation when you hover over the settings
 # button. It makes the gear look like it's turning
@@ -652,7 +653,7 @@ image settings_gear_rotate:
         rotate 0
         linear 1.0 rotate 45
         repeat
-        
+
 # Other Settings
 image menu_select_btn = Frame("Menu Screens/Main Menu/menu_select_button.png",60, 70, 130, 60)
 image menu_select_btn_hover = Transform('menu_select_btn', alpha=0.5)
@@ -660,7 +661,7 @@ image menu_select_btn_inactive = Frame("Menu Screens/Main Menu/menu_select_butto
 
 
 ## ********************************
-## Chat Home Screen 
+## Chat Home Screen
 ## ********************************
 
 image gray_chatbtn = "Menu Screens/Chat Hub/main01_chatbtn.png"
@@ -671,7 +672,7 @@ image rfa_chatcircle:
         rotate 0
         alignaround(.5, .5)
         linear 13.0 rotate -360
-        repeat        
+        repeat
 image blue_chatcircle:
     "Menu Screens/Chat Hub/main01_chatcircle_big.png"
     block:
@@ -729,7 +730,7 @@ image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.png"
 image input_square = Frame("Menu Screens/Main Menu/main02_text_input.png",40,40)
 image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",70,70)
 image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_hover.png",70,70)
-    
+
 
 
 
@@ -787,10 +788,10 @@ image text_answer_animation:
     'Text Messages/answer_animation/17.png'
     0.1
     repeat
-    
+
 image text_pause_button = 'Text Messages/msgsl_text_pause.png'
 image text_play_button = 'Text Messages/msgsl_text_play.png'
-    
+
 image text_popup_bkgr = "Text Messages/msgsl_popup_edge.png"
 image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.png", 0,0)
 image text_answer_idle = "Text Messages/chat-bg02_2.png"
@@ -932,9 +933,9 @@ image hacked_white_squares:
             Transform('chat_hack_thin', yzoom=1.0, alpha=0.95, yalign=0.6)
             pause 0.02
     Transform('chat_hack_filled', yzoom=0.4, alpha=0.0, yalign=0.85)
-            
-  
-    
+
+
+
 image day_today:
     'Menu Screens/Day Select/daychat_today.png'
     block:
@@ -1053,7 +1054,7 @@ image call_choice_hover = Frame('Phone Calls/call_select_button_hover.png', 90, 
 
 image call_choice_check = Frame('Phone Calls/call_select_button_check.png', 70, 70)
 image call_choice_check_hover = Frame('Phone Calls/call_select_button_hover_check.png', 90, 90)
-                                
+
 
 
 ## ********************************
