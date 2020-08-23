@@ -82,7 +82,7 @@ init python:
                 # Unlock profile pictures
                 unlock_profile_pics(chara)
                 # Ensure new fields are added
-                rebuild_character(chara)
+                rebuild_character(chara, give_spendable=True)
 
             store._version = (3, 0, 0)
 
@@ -380,10 +380,10 @@ init python:
 
         return new_obj
 
-    def rebuild_character(chara):
+    def rebuild_character(chara, give_spendable=False):
         """
         Copy all of chara's fields into a new ChatCharacter object and
-        return it.
+        replace chara with it.
         """
 
         new_c = ChatCharacter(chara.name, chara.file_id, chara.prof_pic,
@@ -402,8 +402,39 @@ init python:
         #   bad_heart
         #   text_msg
         #   real_time_text
+        new_c.default_prof_pic = chara.default_prof_pic
+        new_c.seen_updates = chara.seen_updates
+        new_c.heart_points = chara.heart_points
+        new_c.good_heart = chara.good_heart
+        new_c.bad_heart = chara.bad_heart
+        new_c.real_time_text = chara.real_time_text
 
+        text_obj = chara.text_msg
+        new_text = TextMessage(new_c)
+        new_text.msg_list = text_obj.msg_list
+        new_text.msg_queue = text_obj.msg_queue
+        new_text.reply_label = text_obj.reply_label
+        new_text.read = text_obj.read
+        new_text.cg_unlock_list = text_obj.cg_unlock_list
+        new_text.notified = text_obj.notified
+        # This may cause the player to miss out on a heart point but avoids
+        # problems when re-defining characters
+        new_text.heart = False
+        new_text.heart_person = None
+        new_text.bad_heart = False
 
+        new_c.text_msg = new_text
+
+        if give_spendable:
+            # Give the player spendable hearts based on how many they've
+            # earned with this character
+            if chara.file_id not in store.persistent.spendable_hearts:
+                store.persistent.spendable_hearts[chara.file_id] = chara.heart_points
+            else:
+                store.persistent.spendable_hearts[chara.file_id] += chara.heart_points
+
+        # Replace this character object
+        chara = new_c
 
 
     def define_variables():

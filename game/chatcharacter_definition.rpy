@@ -338,8 +338,6 @@ init -5 python:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
             self.__bad_heart = points
 
-        ## Add a heart point to the character -- good or bad
-        ## depending on the second argument
         def increase_heart(self, bad=False):
             """
             Add a heart point to this character's total. Good heart points
