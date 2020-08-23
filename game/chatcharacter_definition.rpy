@@ -89,14 +89,14 @@ init -5 python:
             name. Used for self-voicing e.g. "seven oh seven"
         """
 
-        def __init__(self, name, file_id=False, prof_pic=False, 
-                participant_pic=False, heart_color='#000000', 
-                cover_pic=False, status=False, bubble_color=False, 
+        def __init__(self, name, file_id=False, prof_pic=False,
+                participant_pic=False, heart_color='#000000',
+                cover_pic=False, status=False, bubble_color=False,
                 glow_color=False, emote_list=False, voicemail=False,
                 right_msgr=False, homepage_pic=False,
                 phone_char=False, vn_char=False,
-                pronunciation_help=False):               
-                
+                pronunciation_help=False):
+
             """
             Creates a ChatCharacter object for use in the messenger.
 
@@ -108,10 +108,10 @@ init -5 python:
                 String appended to file names associated with this character,
                 such as speech bubbles.
             prof_pic : string
-                File path to the image used for this character's profile 
-                picture. Expected size is 110x110. A larger version, up to 
-                314x314 pixels, can be provided with the same file name + "-b" 
-                e.g. if prof_pic is "ja-default.png", the program searches for 
+                File path to the image used for this character's profile
+                picture. Expected size is 110x110. A larger version, up to
+                314x314 pixels, can be provided with the same file name + "-b"
+                e.g. if prof_pic is "ja-default.png", the program searches for
                 a file called "ja-default-b.png" for the big profile picture.
             participant_pic : string
                 File path to the "participant" picture for this character. Used
@@ -153,7 +153,7 @@ init -5 python:
             """
 
 
-            self.name = name            
+            self.name = name
             self.file_id = file_id
             self.big_prof_pic = prof_pic
             self.prof_pic = prof_pic
@@ -181,16 +181,16 @@ init -5 python:
             self.cover_pic = cover_pic
             self.status = status
             if voicemail:
-                self.__voicemail = PhoneCall(self, voicemail, 'voicemail', 
+                self.__voicemail = PhoneCall(self, voicemail, 'voicemail',
                                             2, True)
             else:
-                self.__voicemail = PhoneCall(self, 
+                self.__voicemail = PhoneCall(self,
                                     'voicemail_1', 'voicemail', 2, True)
 
             # All heart points start at 0
-            self.heart_points = 0  
-            self.good_heart = 0
-            self.bad_heart = 0
+            self.__heart_points = 0
+            self.__good_heart = 0
+            self.__bad_heart = 0
             self.heart_color = heart_color
             self.glow_color = glow_color
             self.bubble_color = bubble_color
@@ -200,14 +200,14 @@ init -5 python:
                 if not self.bubble_color:
                     reg_bub_img = "Bubble/" + self.file_id + "-Bubble.png"
                     # This person is the messenger; typically MC
-                    if self.right_msgr: 
+                    if self.right_msgr:
                         reg_bub_img = Transform(reg_bub_img, xzoom=-1)
                         self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
                     else:
                         self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
                 else:
                     reg_bub_img = reg_bubble_fn(self.bubble_color)
-                    if self.right_msgr: 
+                    if self.right_msgr:
                         reg_bub_img = Transform(reg_bub_img, xzoom=-1)
                         self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
                     else:
@@ -221,13 +221,13 @@ init -5 python:
                         glow_bubble_fn(self.glow_color), 25, 25
                     )
             else:
-                self.reg_bubble_img = Frame("Bubble/white-Bubble.png", 
+                self.reg_bubble_img = Frame("Bubble/white-Bubble.png",
                                             25,18,18,18)
                 self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.png",
                                             25,25)
 
             self.emote_list = emote_list
-            
+
             self.text_msg = TextMessage(self)
             self.real_time_text = False
 
@@ -248,7 +248,7 @@ init -5 python:
             # Any initialized character should go in all_characters
             if self not in store.all_characters and self.prof_pic:
                 store.all_characters.append(self)
-            
+
         @property
         def voicemail(self):
             """Return this character's voicemail PhoneCall object."""
@@ -258,7 +258,7 @@ init -5 python:
         def voicemail(self, new_label):
             """Update this character's voicemail label."""
             self.__voicemail.phone_label = new_label
-                        
+
         def finished_text(self):
             """
             Reset the text message label after the conversation is complete.
@@ -266,7 +266,79 @@ init -5 python:
 
             self.text_msg.reply_label = False
 
-        ## Adds a heart point to the character -- good or bad
+        @property
+        def heart_points(self):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    return store.r.heart_points
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            return self.__heart_points
+
+        @heart_points.setter
+        def heart_points(self, points):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.heart_points = points
+                    return
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            self.__heart_points = points
+
+        @property
+        def good_heart(self):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    return store.r.good_heart
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            return self.__good_heart
+
+        @good_heart.setter
+        def good_heart(self, points):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.good_heart = points
+                    return
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            self.__good_heart = points
+
+        @property
+        def bad_heart(self):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    return store.r.bad_heart
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+            return self.__bad_heart
+
+        @bad_heart.setter
+        def bad_heart(self, points):
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.bad_heart = points
+                    return
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+            self.__bad_heart = points
+
+        ## Add a heart point to the character -- good or bad
         ## depending on the second argument
         def increase_heart(self, bad=False):
             """
@@ -274,65 +346,48 @@ init -5 python:
             count towards good ends and bad points towards bad ends.
             """
 
+            if self == store.sa:
+                try:
+                    store.r.increase_heart(bad)
+                    return
+                except:
+                    print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
             self.heart_points += 1
             if not bad:
                 self.good_heart += 1
             else:
                 self.bad_heart += 1
 
-            # Try to sync Saeran and Ray's heart points
-            try:
-                if self == store.sa:
-                    store.r.heart_points += 1
-                    if not bad:
-                        store.r.good_heart += 1
-                    else:
-                        store.r.bad_heart += 1
-                elif self == store.r:
-                    store.sa.heart_points += 1
-                    if not bad:
-                        store.sa.good_heart += 1
-                    else:
-                        store.sa.bad_heart += 1
-            except:
-                print_file("Couldn't sync Saeran and Ray's heart points.")
-        
+            # All hearts count towards spendable hearts
+            if self.file_id not in store.persistent.spendable_hearts:
+                store.persistent.spendable_hearts[self.file_id] = 1
+            else:
+                store.persistent.spendable_hearts[self.file_id] += 1
+
+
         def decrease_heart(self):
             """Decrement the good heart points for this character."""
+
+            if self == store.sa:
+                # Try to sync Saeran and Ray's heart points
+                try:
+                    if self == store.sa:
+                        store.r.decrease_heart()
+                        return
+                except:
+                    print_file("Couldn't sync Saeran and Ray's heart points.")
+
 
             self.heart_points -= 1
             self.good_heart -= 1
 
-            # Try to sync Saeran and Ray's heart points
-            try:
-                if self == store.sa:
-                    store.r.heart_points -= 1
-                    store.r.good_heart -= 1
-                elif self == store.r:
-                    store.sa.heart_points -= 1
-                    store.sa.good_heart -= 1
-            except:
-                print_file("Couldn't sync Saeran and Ray's heart points.")
-            
         def reset_heart(self):
             """Reset all heart points for this character."""
 
             self.heart_points = 0
             self.good_heart = 0
             self.bad_heart = 0
-
-            # Try to sync Saeran and Ray's heart points
-            try:
-                if self == store.sa:
-                    store.r.heart_points = 0
-                    store.r.good_heart = 0
-                    store.r.bad_heart = 0
-                elif self == store.r:
-                    store.sa.heart_points = 0
-                    store.sa.good_heart = 0
-                    store.sa.bad_heart = 0
-            except:
-                print_file("Couldn't sync Saeran and Ray's heart points.")
 
         @property
         def bonus_pfp(self):
@@ -342,7 +397,7 @@ init -5 python:
                 return self.__bonus_pfp
             except:
                 return False
-        
+
         @bonus_pfp.setter
         def bonus_pfp(self, new_img):
             """Set the bonus profile picture for this character."""
@@ -357,7 +412,7 @@ init -5 python:
             """Return this character's profile picture."""
 
             return self.__prof_pic
-            
+
         @prof_pic.setter
         def prof_pic(self, new_img):
             """
@@ -369,7 +424,7 @@ init -5 python:
             if new_img == False:
                 self.__prof_pic = False
                 return
-            elif isImg(new_img):            
+            elif isImg(new_img):
                 self.__prof_pic = new_img
                 self.seen_updates = False
 
@@ -382,7 +437,7 @@ init -5 python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
-        
+
             # Add this profile picture to the persistent list of profile
             # pictures the player has seen.
             if self.file_id == 'm':
@@ -392,7 +447,7 @@ init -5 python:
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
                 store.persistent.unlocked_prof_pics.append(
                     self.__prof_pic)
-            
+
 
         def get_pfp(self, the_size):
             """
@@ -417,19 +472,19 @@ init -5 python:
                     return Transform(large_pfp, size=(the_size, the_size))
                 else:
                     return Transform(the_pic, size=(the_size, the_size))
-                
+
 
             # Regular profile pic is 110x110
             # Big pfp is 314x314
             if self != store.m:
                 if the_size <= max_small:
-                    return Transform(self.__prof_pic, 
+                    return Transform(self.__prof_pic,
                                     size=(the_size, the_size))
                 else:
-                    return Transform(self.__big_prof_pic, 
+                    return Transform(self.__big_prof_pic,
                                     size=(the_size, the_size))
             else:
-                return Transform(store.persistent.MC_pic, 
+                return Transform(store.persistent.MC_pic,
                                     size=(the_size, the_size))
 
         def reset_pfp(self):
@@ -439,7 +494,7 @@ init -5 python:
             """
 
             self.prof_pic = self.default_prof_pic
-        
+
         @property
         def cover_pic(self):
             """Return this character's cover photo."""
@@ -455,12 +510,12 @@ init -5 python:
             elif isImg(new_img):
                 self.__cover_pic = new_img
                 self.seen_updates = False
-            
+
         @property
         def status(self):
             """Set this character's status update."""
-            
-            return self.__status 
+
+            return self.__status
 
         @status.setter
         def status(self, new_status):
@@ -481,7 +536,7 @@ init -5 python:
         @seen_updates.setter
         def seen_updates(self, new_bool):
             """Set seen_updates."""
-            
+
             self.__seen_updates = new_bool
 
         @property
@@ -499,7 +554,7 @@ init -5 python:
         @property
         def text_label(self):
             """
-            Return the label used to reply to a text message with 
+            Return the label used to reply to a text message with
             this character.
             """
 
@@ -531,7 +586,7 @@ init -5 python:
             self.text_msg.msg_list.append(ChatEntry(who, what,
                 when, img))
             self.text_msg.read = True
-            
+
         def do_extend(self, **kwargs):
             """
             Allow this ChatCharacter object to act as a proxy for the
@@ -543,7 +598,7 @@ init -5 python:
             elif store.vn_choice:
                 self.vn_char.do_extend()
 
-        def __call__(self, what, pauseVal=None, img=False, 
+        def __call__(self, what, pauseVal=None, img=False,
                     bounce=False, specBubble=None, **kwargs):
             """
             Send this character's dialogue to the program.
@@ -567,7 +622,7 @@ init -5 python:
             -------
             If the player is in a phone call, this ChatCharacter's phone call
             Character will be used to say the given dialogue. If the player
-            is in VN mode, use this ChatCharacter's VN Character to say the 
+            is in VN mode, use this ChatCharacter's VN Character to say the
             given dialogue. If the player is texting, add the given dialogue
             to the text message conversation. Otherwise, add these messages
             to the chat log and also to the replay log.
@@ -577,9 +632,9 @@ init -5 python:
             # for the main character
             if (self != store.m and not store.dialogue_paraphrase
                     and store.dialogue_picked != ""):
-                say_choice_caption(store.dialogue_picked, 
+                say_choice_caption(store.dialogue_picked,
                     store.dialogue_paraphrase, store.dialogue_pv)
-            
+
             if self == store.m and not kwargs.get('from_paraphrase', None):
                 # This didn't come from `say_choice_caption`, but the MC is
                 # speaking. Is this the same dialogue that was going to be
@@ -633,17 +688,17 @@ init -5 python:
                         new_pv = None
                     store.current_timeline_item.replay_log.append(ReplayEntry(
                         self, what, new_pv, img, bounce, specBubble))
-                    
-                addchat(self, what, pauseVal=pauseVal, img=img, 
+
+                addchat(self, what, pauseVal=pauseVal, img=img,
                             bounce=bounce, specBubble=specBubble)
-    
+
         def __eq__(self, other):
             """Check for equality between two ChatCharacter objects."""
 
             if not isinstance(other, ChatCharacter):
                 return False
             return self.file_id == other.file_id
-        
+
         def __ne__(self, other):
             """Check for inequality between two ChatCharacter objects."""
 
@@ -654,8 +709,8 @@ init -5 python:
     def register_pfp(files=None, condition='seen', folder="", ext="",
             filter_out=None, filter_keep=None):
         """
-        Return a list of (folder + file + ext, condition) tuples. Used to 
-        construct the list of profile pictures the user is allowed to change 
+        Return a list of (folder + file + ext, condition) tuples. Used to
+        construct the list of profile pictures the user is allowed to change
         the characters' picture to.
 
         Arguments:
@@ -684,11 +739,11 @@ init -5 python:
         if len(folder) > 0 and folder[-1] != "/":
             folder += "/"
         if len(ext) > 0 and ext[0] != ".":
-            ext = "." + ext        
+            ext = "." + ext
         result = []
 
         if filter_out is None and filter_keep is None:
-            if not isinstance(files, list):            
+            if not isinstance(files, list):
                 # Just a single item
                 item = folder + files + ext
                 if isImg(item):
@@ -738,7 +793,10 @@ init -5 python:
             for item in file_list:
                 result.append((item, condition))
         return result
-        
+
 
 # Contains all the profile pictures you've seen in the game
-default persistent.unlocked_prof_pics = []      
+default persistent.unlocked_prof_pics = []
+# Contains a dictionary of the heart points the player has to spend on
+# each character
+default persistent.spendable_hearts = {}
