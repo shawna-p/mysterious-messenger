@@ -11,16 +11,16 @@
 
 ## ****************************************
 ## Glow Speech Bubble Style
-style glow_bubble:    
+style glow_bubble:
     xalign 0.0
     padding (25, 28, 25, 22)
     pos (138, 38)
 
-    
+
 ####################################
 ## Speech bubbles - For TEXT
 ####################################
-    
+
 # Text style for regular bubbles
 style bubble_text:
     is text
@@ -28,16 +28,16 @@ style bubble_text:
     xalign 0.0
     yalign 0.5
     font gui.sans_serif_1
-    
+
 # This text style is shown when the text wraps
 # It forces the width to be a certain length
 style bubble_text_long:
-    is bubble_text    
+    is bubble_text
     xsize gui.phone_text_xsize_long
-    
-    
+
+
 # This is for the "special" speech bubbles
-# It's mostly just telling it to center the text
+# It centers the text and evens the line breaks
 style special_bubble:
     is text
     text_align 0.5
@@ -46,7 +46,6 @@ style special_bubble:
     xcenter 0.5
     font gui.sans_serif_1
     layout 'subtitle'
-    #align (.5, .5)
 
 ####################################
 ## Speech bubbles - REGULAR variant
@@ -54,12 +53,12 @@ style special_bubble:
 
 ## ****************************************
 ## Regular Speech Bubble Style
-style reg_bubble_MC:    
+style reg_bubble_MC:
     padding (20, 15, 20, 9)
     pos (750-138-5,38)
     xanchor 1.0
-        
-style reg_bubble:  
+
+style reg_bubble:
     padding (20, 15, 20, 9)
     pos (138, 38)
 
@@ -69,12 +68,12 @@ style reg_bubble:
 style reg_bubble_MC_text:
     background 'mc_text_msg_bubble'
     padding (20,12,60,12)
-        
+
 # Other characters' text message speech bubble
-style reg_bubble_text:        
+style reg_bubble_text:
     background 'npc_text_msg_bubble'
     padding (60,12,20,12)
-    
+
 ## ****************************************
 ## Style for the enter/exit bubble
 style msg_bubble:
@@ -83,7 +82,7 @@ style msg_bubble:
     xalign 0.5
     xfill True
     ysize 49
-            
+
 style msg_bubble_text:
     is text
     text_align 0.5
@@ -91,31 +90,31 @@ style msg_bubble_text:
     size gui.text_size - 10
     color "#ffffff"
     xalign 0.5
-    
+
 ## ****************************************
 ## Style for 'padding' dialogue that pushes
 ## text to the bottom
 style filler_bubble:
     padding (5, 10)
-            
+
 style filler_bubble_text:
     size 35
 
-    
+
 ####################################
 ## Super Special Bubbles
 ####################################
-   
+
 ## SPIKE
 style spike_s:
     padding gui.spike_s_padding
 
 style spike_s2:
     padding gui.spike_s2_padding
-    
+
 style spike_m:
     padding gui.spike_m_padding
-    
+
 style spike_l:
     padding gui.spike_l_padding
 
@@ -150,13 +149,13 @@ style z_spike_l is spike_l
 
 style cloud_s:
     padding gui.cloud_s_padding
-    
+
 style cloud_m:
     padding gui.cloud_m_padding
-    
+
 style cloud_l:
     padding gui.cloud_l_padding
-    
+
 style cloud_l2:
     padding gui.cloud_l2_padding
 
@@ -187,7 +186,7 @@ style v_cloud_m is cloud_m
 style y_cloud_m is cloud_m:
     padding (85, 60, 50, 25)
 style z_cloud_m is cloud_m
-    
+
 # gui.cloud_l_padding = (65, 40, 70, 80)
 style ja_cloud_l is cloud_l:
     padding (65, 70, 80, 70)
@@ -206,13 +205,13 @@ style z_cloud_l is cloud_l:
 ## SPECIAL BUBBLE 1 (ROUND)
 style round_s:
     padding gui.round_s_padding
-    
+
 style round_m:
     padding gui.round_m_padding
-    
+
 style round_l:
     padding gui.round_l_padding
-    
+
 # round_s_padding = (40, 30, 40, 20)
 style ja_round_s is round_s:
     top_padding 40
@@ -263,13 +262,13 @@ style z_round_l is round_l
 ## SPECIAL BUBBLE 2 (SQUARE)
 style square_s:
     padding gui.square_s_padding
-    
+
 style square_m:
     padding gui.square_m_padding
-    
+
 style square_l:
     padding gui.square_l_padding
-    
+
 # square_s_padding = (40, 30, 50, 25)
 style ja_square_s is square_s:
     padding (55, 55, 70, 40)
@@ -351,14 +350,14 @@ style r_flower_l is flower_l
 ## SIGH BUBBLE
 style sigh_s:
     padding gui.sigh_s_padding
-    
+
 style sigh_m:
     padding gui.sigh_m_padding
-    
+
 style sigh_l:
     padding gui.sigh_l_padding
 
-    
+
 style ja_sigh_s is sigh_s
 style ju_sigh_s is sigh_s
 style r_sigh_s is sigh_s
@@ -385,26 +384,30 @@ style sa_sigh_l is sigh_l
 style v_sigh_l is sigh_l
 style y_sigh_l is sigh_l
 style z_sigh_l is sigh_l
-        
+
 default bubble_list = [ ['Bubble/', '-Bubble.png'], ['Bubble/', '-Glow.png'],
-                        ['Bubble/Special/', '_cloud_l.png'], 
-                        ['Bubble/Special/', '_cloud_m.png'], 
+                        ['Bubble/Special/', '_cloud_l.png'],
+                        ['Bubble/Special/', '_cloud_m.png'],
                         ['Bubble/Special/', '_cloud_s.png'],
-                        ['Bubble/Special/', '_round_l.png'], 
-                        ['Bubble/Special/', '_round_m.png'], 
+                        ['Bubble/Special/', '_round_l.png'],
+                        ['Bubble/Special/', '_round_m.png'],
                         ['Bubble/Special/', '_round_s.png'],
-                        ['Bubble/Special/', '_sigh_l.png'], 
-                        ['Bubble/Special/', '_sigh_m.png'], 
+                        ['Bubble/Special/', '_sigh_l.png'],
+                        ['Bubble/Special/', '_sigh_m.png'],
                         ['Bubble/Special/', '_sigh_s.png'],
-                        ['Bubble/Special/', '_square_l.png'], 
-                        ['Bubble/Special/', '_square_m.png'], 
+                        ['Bubble/Special/', '_square_l.png'],
+                        ['Bubble/Special/', '_square_m.png'],
                         ['Bubble/Special/', '_square_s.png'],
-                        ['Bubble/Special/', '_spike_l.png'], 
-                        ['Bubble/Special/', '_spike_m.png'], 
+                        ['Bubble/Special/', '_spike_l.png'],
+                        ['Bubble/Special/', '_spike_m.png'],
                         ['Bubble/Special/', '_spike_s.png'],
-                        ['Bubble/Special/', '_square2_l.png'], 
-                        ['Bubble/Special/', '_square2_m.png'], 
+                        ['Bubble/Special/', '_square2_l.png'],
+                        ['Bubble/Special/', '_square2_m.png'],
                         ['Bubble/Special/', '_square2_s.png'],
-                        ['Bubble/Special/', '_round2_l.png'], 
-                        ['Bubble/Special/', '_round2_m.png'], 
-                        ['Bubble/Special/', '_round2_s.png'] ]
+                        ['Bubble/Special/', '_round2_l.png'],
+                        ['Bubble/Special/', '_round2_m.png'],
+                        ['Bubble/Special/', '_round2_s.png'],
+                        ['Bubble/Special/', '_flower_s.png'],
+                        ['Bubble/Special/', '_flower_m.png'],
+                        ['Bubble/Special/', '_flower_l.png'],
+                        ['Bubble/Special/', '_glow2.png'] ]
