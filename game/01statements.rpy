@@ -286,7 +286,14 @@ python early hide:
                     messages=messages)
 
     def predict_backlog_stmt(p):
-        return [ ]
+        messages = p['messages']
+        images = []
+        for msg_dict in messages:
+            try:
+                images.extend(predict_msg_stmt(msg_dict))
+            except:
+                print("ERROR: Could not predict images for backlog statement.")
+        return images
 
     def execute_backlog_stmt(p):
         # Get the 'who' and 'day' of this backlog
@@ -711,9 +718,8 @@ python early hide:
         block=True)
 
     ########################################
-    ## TEXT MESSAGE CDS
+    ## COMPOSE TEXT MESSAGE CDS
     ########################################
-
     def parse_compose_text(l):
         # What compose text CDSs look like:
         # compose text who <real_time> <deliver_at [00:00, random]>:
@@ -1021,6 +1027,7 @@ python early hide:
     renpy.register_statement('compose text',
         parse=parse_compose_text,
         execute=execute_compose_text,
+        predict=predict_backlog_stmt,
         lint=lint_compose_text,
         warp=lambda : True,
         block=True)
