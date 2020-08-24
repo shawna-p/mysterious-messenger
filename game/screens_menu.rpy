@@ -1425,22 +1425,19 @@ screen developer_settings():
                 ysize 80
                 yalign 1.0
                 if not main_menu:
-                    action Show('confirm', message=("Resetting "
+                    action CConfirm(("Resetting "
                         + "your persistent variables may cause "
                         + "information to be lost. You will "
                         + "need to start a new game after resetting "
                         + "your persistent variables.\nContinue?"),
-                        yes_action=[Function(reset_old_persistent),
-                            Jump('restart_game')],
-                        no_action=Hide('confirm'))
+                        [Function(reset_old_persistent),
+                            Jump('restart_game')])
                 else:
-                    action Show('confirm', message=("Resetting your persistent"
+                    action CConfirm(("Resetting your persistent"
                         + " variables may cause information to be lost. You "
                         + "will need to start a new game after resetting your "
                         + "persistent variables.\nContinue?"),
-                        yes_action=[Function(reset_old_persistent),
-                                    Hide('confirm')],
-                        no_action=Hide('confirm'))
+                        yes_action=[Function(reset_old_persistent)])
 
 
 
@@ -1520,9 +1517,8 @@ screen pick_chara_pfp(who):
                         action SetField(who, 'bonus_pfp', img)
                     else:
                         background Transform('img_locked', size=(140, 140))
-                        action Show('confirm', message=("You have not yet "
-                            + "unlocked this profile picture."),
-                        yes_action=Hide('confirm'))
+                        action CConfirm(("You have not yet "
+                            + "unlocked this profile picture."))
 
     frame:
         background "space_black_box"

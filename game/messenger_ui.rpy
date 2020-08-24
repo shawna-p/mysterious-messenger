@@ -324,13 +324,11 @@ screen phone_overlay():
                         and not current_timeline_item.buyback) or _in_replay):
                     action Jump('exit_item_early')
                 else:
-                    action Show("confirm", message=("Do you really want to "
+                    action CConfirm(("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
                         + "participate once you leave. If you want to enter "
                         + "this chatroom again, you will need to buy it back."),
-                                    yes_action=[Hide('confirm'),
-                                    Jump('exit_item_early')],
-                                    no_action=Hide('confirm'))
+                                    [Jump('exit_item_early')])
 
 
 #************************************

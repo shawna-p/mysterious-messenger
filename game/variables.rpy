@@ -15,6 +15,22 @@ init -6 python:
         else:
             return SetMixer('voice_sfx', value)
 
+    class CConfirm(Show):
+        """A specialized Action for showing confirmation prompts to the player."""
+
+        def __init__(self, msg, yes=None, *args, **kwargs):
+            if yes is None:
+                yes = Hide('confirm')
+                no = None
+            else:
+                no = Hide('confirm')
+                if isinstance(yes, list):
+                    yes.insert(0, Hide('confirm'))
+                elif yes != Hide('confirm'):
+                    yes = [Hide('confirm'), yes]
+            super(CConfirm, self).__init__('confirm', None, *args, message=msg,
+                yes_action=yes, no_action=no, **kwargs)
+
 
     class MyTime(object):
         """

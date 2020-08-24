@@ -19,9 +19,9 @@ screen select_history():
 
     use menu_header("History", Show('main_menu', Dissolve(0.5))):
 
-        style_prefix "select_history" 
-        frame: 
-            vbox:      
+        style_prefix "select_history"
+        frame:
+            vbox:
                 button:
                     action [Function(check_for_CGs, all_albums=all_albums),
                             Show('photo_album', Dissolve(0.5))]
@@ -32,7 +32,7 @@ screen select_history():
                     action Show('select_history_route', Dissolve(0.5))
                     hbox:
                         add 'history_icon_chat' yalign 0.5
-                        text "CHAT HISTORY" 
+                        text "CHAT HISTORY"
 
                 button:
                     action Show('guestbook', Dissolve(0.5))
@@ -60,9 +60,9 @@ style select_history_button:
 
 style select_history_text:
     is default
-    color "#fff" 
-    size 28 
-    xsize 50 
+    color "#fff"
+    size 28
+    xsize 50
     font gui.sans_serif_1b
     align (0.5, 0.5)
 
@@ -111,7 +111,7 @@ init python:
 
     def display_history(item, index, archive_list):
         """Return True if the History should display this particular item."""
-        
+
         global persistent
 
         if persistent.testing_mode:
@@ -120,7 +120,7 @@ init python:
         # If it's a TimelineItem, it's only visible if the expired or regular
         # version has been seen
         if isinstance(item, TimelineItem):
-            return item.was_played(ever=True)        
+            return item.was_played(ever=True)
 
         # Otherwise, it's a text label
         # Check if the item immediately after it is visible
@@ -132,7 +132,7 @@ init python:
 
     def calls_available_history(calls):
         """Return True if at least one phone call in calls has been seen."""
-        
+
         for c in calls:
             if persistent.completed_chatrooms.get(c):
                 return True
@@ -145,7 +145,7 @@ init python:
         try:
             char = getattr(store, file_id)
             return PhoneCall(char, c)
-        except AttributeError:            
+        except AttributeError:
             for p in store.all_characters:
                 if file_id == p.file_id:
                     return PhoneCall(p, c)
@@ -200,7 +200,7 @@ screen timeline_item_history(item):
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name}
-        
+
         replay_dict_story = copy(replay_dictionary)
         replay_dict_story['current_timeline_item'] = story_mode
 
@@ -218,52 +218,50 @@ screen timeline_item_history(item):
             hbox:
                 button:
                     if item.played_expired():
-                        background 'history_chat_active'  
-                        hover_foreground '#fff5'                      
-                        action Replay('play_timeline_item', 
+                        background 'history_chat_active'
+                        hover_foreground '#fff5'
+                        action Replay('play_timeline_item',
                                         scope=expired_replay_dictionary)
                     else:
                         background Fixed('history_chat_inactive', "#000c")
                         foreground "#0003"
-                        action Show("confirm", message=("You have not yet"
-                                + " viewed this chat in-game."),
-                            yes_action=Hide('confirm'))
+                        action CConfirm(("You have not yet"
+                                + " viewed this chat in-game."))
                     add 'history_chat_alone' align (0.5, 0.5)
                     if not item.played_expired():
                         add 'plot_lock' align (0.5, 0.5)
                 button:
                     if item.played_regular():
                         hover_foreground '#fff5'
-                        background 'history_chat_active'                        
+                        background 'history_chat_active'
                         action Replay('play_timeline_item',
                                         scope=replay_dictionary)
                     else:
                         background Fixed('history_chat_inactive', "#000c")
                         foreground "#0003"
-                        action Show("confirm", message=("You have not yet"
-                                + " viewed this chat in-game."),
-                            yes_action=Hide('confirm'))
+                        action CConfirm(("You have not yet"
+                                + " viewed this chat in-game."))
                     add 'history_chat_participated' align (0.5, 0.5)
                     if not item.played_regular():
                         add 'plot_lock' align (0.5, 0.5)
-                    
-                
+
+
             vbox:
                 style_prefix 'chat_timeline'
-                # This box displays the trigger time and title of 
-                # the chatroom; optionally at a scrolling transform 
+                # This box displays the trigger time and title of
+                # the chatroom; optionally at a scrolling transform
                 # so you can read the entire title
                 hbox:
                     frame:
                         xoffset 77
                         yoffset 13
                         text item.trigger_time:
-                            size 27 
+                            size 27
                             xalign 0.5
                             text_align 0.5
-                    viewport:               
+                    viewport:
                         xysize(400,27)
-                        if get_text_width(item.title, 
+                        if get_text_width(item.title,
                                 'chat_timeline_text') >= 400:
                             frame:
                                 xysize(400,27)
@@ -274,7 +272,7 @@ screen timeline_item_history(item):
                 viewport:
                     xysize(530, 85)
                     yoffset 13
-                    xoffset 77            
+                    xoffset 77
                     yalign 0.5
                     frame:
                         xysize(355, 85)
@@ -289,12 +287,12 @@ screen timeline_item_history(item):
     # It's a solo StoryMode with a time
     if story_mode and story_mode.trigger_time and not story_mode.party:
         button:
-            style_prefix 'solo_vn'     
+            style_prefix 'solo_vn'
             foreground 'solo_vn_active'
             hover_foreground Fixed('solo_vn_active', 'solo_vn_hover')
             action [Preference("auto-forward", "disable"),
                     Replay('play_timeline_item',
-                        scope=replay_dictionary)]          
+                        scope=replay_dictionary)]
             add story_mode.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
                 frame:
@@ -311,9 +309,9 @@ screen timeline_item_history(item):
     # It's a StoryMode without a time
     elif story_mode and not story_mode.party:
         frame:
-            style_prefix 'reg_timeline_vn'            
+            style_prefix 'reg_timeline_vn'
             has hbox
-            add 'vn_marker'            
+            add 'vn_marker'
             button:
                 foreground 'vn_active'
                 hover_foreground 'vn_active_hover'
@@ -321,17 +319,17 @@ screen timeline_item_history(item):
                         Replay('play_timeline_item',
                                 scope=replay_dict_story)]
                 add story_mode.vn_img xoffset -5
-    
+
     # It's the StoryMode that leads to the party
     elif story_mode and story_mode.party:
         frame:
-            style_prefix 'party_timeline_vn'        
+            style_prefix 'party_timeline_vn'
             button:
                 background 'vn_party'
                 hover_foreground 'vn_party'
-                action [Preference("auto-forward", "disable"), 
+                action [Preference("auto-forward", "disable"),
                         Replay('play_timeline_item',
-                            scope=replay_dict_story)]  
+                            scope=replay_dict_story)]
 
     if story_calls:
         # There are story calls to display
@@ -339,7 +337,7 @@ screen timeline_item_history(item):
             use history_timeline_story_calls(phonecall, item)
 
     # Now add an hbox of the phone calls available after this chatroom
-    if (isinstance(item, TimelineItem) 
+    if (isinstance(item, TimelineItem)
             and (item.incoming_calls_list or item.outgoing_calls_list)):
         hbox:
             xalign 1.0
@@ -351,7 +349,7 @@ screen timeline_item_history(item):
                 use history_calls_list(item, item.outgoing_calls_list, 'outgoing')
 
 screen history_timeline_story_calls(phonecall, item):
-    
+
     frame:
         xoffset 70
         background 'story_call_history'
@@ -379,17 +377,17 @@ screen history_timeline_story_calls(phonecall, item):
                 fixed:
                     $ the_title = phonecall.title or "Story Call"
                     text the_title style 'chat_timeline_text'
-                
+
         # The replay icons
         hbox:
-            align (0.99,0.6)            
+            align (0.99,0.6)
             spacing 10
             button:
                 xysize (80,80)
                 if phonecall.played_expired():
-                    background 'history_chat_active'  
-                    hover_foreground '#fff5'                      
-                    action Replay('play_timeline_item', 
+                    background 'history_chat_active'
+                    hover_foreground '#fff5'
+                    action Replay('play_timeline_item',
                                     scope={'expired_replay': True,
                             'observing': True,
                             'current_timeline_item': phonecall,
@@ -401,9 +399,8 @@ screen history_timeline_story_calls(phonecall, item):
                 else:
                     background Fixed('history_chat_inactive', "#000c")
                     foreground "#0003"
-                    action Show("confirm", message=("You have not yet"
-                        + " viewed this call in-game."),
-                        yes_action=Hide('confirm'))
+                    action CConfirm(("You have not yet"
+                        + " viewed this call in-game."))
                 add 'call_missed_outline' align (0.5, 0.5)
                 if not phonecall.played_expired():
                     add 'plot_lock' align (0.5, 0.5)
@@ -411,7 +408,7 @@ screen history_timeline_story_calls(phonecall, item):
                 xysize(80,80)
                 if phonecall.played_regular():
                     hover_foreground '#fff5'
-                    background 'history_chat_active'                        
+                    background 'history_chat_active'
                     action Replay('play_timeline_item',
                         scope={'observing': True,
                         'current_timeline_item': phonecall,
@@ -423,19 +420,18 @@ screen history_timeline_story_calls(phonecall, item):
                 else:
                     background Fixed('history_chat_inactive', "#000c")
                     foreground "#0003"
-                    action Show("confirm", message=("You have not yet"
-                        + " viewed this call in-game."),
-                        yes_action=Hide('confirm'))
+                    action CConfirm(("You have not yet"
+                        + " viewed this call in-game."))
                 add 'call_incoming_outline' align (0.5, 0.5)
                 if not phonecall.played_regular():
                     add 'plot_lock' align (0.5, 0.5)
 
 ## Shows regular phone calls that were available after this TimelineItem
-screen history_calls_list(item, call_list, call_icon):    
+screen history_calls_list(item, call_list, call_icon):
     for c in call_list:
         if persistent.completed_chatrooms.get(c):
             button:
-                background Transform(c.split('_')[-1] + '_contact', 
+                background Transform(c.split('_')[-1] + '_contact',
                                                 size=(85,85))
                 hover_background Fixed(Transform(c.split('_')[-1] + '_contact',
                                 size=(85,85)), Transform(c.split('_')[-1]
@@ -451,8 +447,8 @@ screen history_calls_list(item, call_list, call_icon):
                     'current_day_num': current_day_num,
                     'name': persistent.name,
                     'current_call': get_caller(c)})
-                    
-                                         
+
+
 style history_item_text_frame:
     xsize 570
     yminimum 55
@@ -480,7 +476,7 @@ style history_chatroom_button:
 
 
 style timeline_button:
-    xysize (181,62)    
+    xysize (181,62)
     text_align 0.5
     xalign 0.05
     yalign 0.5

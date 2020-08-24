@@ -24,12 +24,12 @@ init python:
         """
 
         global m, persistent
-        
+
         # If not using a custom pic, check if one's available
         # Populate the list with the file names
         file_list = renpy.list_files()
         # This now has a list of the available images
-        user_pic_list = [ pic for pic in file_list 
+        user_pic_list = [ pic for pic in file_list
                 if 'Drop Your Profile Picture Here/' in pic and isImg(pic)]
         # Check if there are indeed available files
         if user_pic_list:
@@ -50,7 +50,7 @@ init python:
                 persistent.MC_pic = user_pic_list[-1]
         else:
             persistent.MC_pic = 'Profile Pics/MC/MC-1.png'
-            
+
         # m.prof_pic = persistent.MC_pic
         renpy.retain_after_load()
 
@@ -62,22 +62,22 @@ init python:
             big_name = store.persistent.MC_pic.split('.')
             large_pfp = big_name[0] + '-b.' + big_name[1]
             if renpy.loadable(large_pfp):
-                return Transform(large_pfp, size=(363, 363)), None        
+                return Transform(large_pfp, size=(363, 363)), None
         return Transform(store.persistent.MC_pic, size=(363,363)), None
 
     def MC_name_display(st, at):
         """Ensure the MC's name is always up-to-date."""
 
-        return Text(persistent.name, 
+        return Text(persistent.name,
             color ="#fff",
             text_align =0.0,
             hover_color ="#d7d7d7",
             font = gui.serif_1,
             xalign =0.06,
             yalign =0.455), None
-    
+
 init -6 python:
-    
+
     def isImg(pic):
         """Return True if pic is determined to be an image file."""
 
@@ -85,56 +85,56 @@ init -6 python:
         #     return False
         pic = pic.lower()
         extension_list = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
-        
+
         for ext in extension_list:
             if ext in pic and renpy.loadable(pic):
-                return True        
+                return True
         return False
-        
-    
-default email_tone_dict = { 
-    'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav', 
-    'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',     
+
+
+default email_tone_dict = {
+    'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav',
+    'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',
     'Default 3': 'audio/sfx/Ringtones etc/email_basic_3.wav'
 }
-                          
-default text_tone_dict = {  
-    'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav', 
-    'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',     
+
+default text_tone_dict = {
+    'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav',
+    'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',
     'Jaehee Kang': 'audio/sfx/Ringtones etc/text_basic_ja.wav',
     '707': 'audio/sfx/Ringtones etc/text_basic_s.wav',
     'Yoosung★': 'audio/sfx/Ringtones etc/text_basic_y.wav',
     'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav'
 }
-                            
-default ringtone_dict = {   
-    'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav', 
-    'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',     
+
+default ringtone_dict = {
+    'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav',
+    'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',
     'Jaehee Kang': 'audio/sfx/Ringtones etc/phone_basic_ja.wav',
     '707': 'audio/sfx/Ringtones etc/phone_basic_s.wav',
     'Yoosung★': 'audio/sfx/Ringtones etc/phone_basic_y.wav',
     'ZEN': 'audio/sfx/Ringtones etc/phone_basic_z.wav'
 }
-                        
+
 # This is organized as a list of lists. The first item is the name of
 # the category. The second item is a list of the names of the tones
 # as you defined them above in the dictionary. To define more categories,
 # put a comma after the second-last bracket and define another list like
 # shown below
-default email_tone_list = [ 
+default email_tone_list = [
     ["Basic", ['Default 1', 'Default 2', 'Default 3' ]]
 ]
-                          
-default text_tone_list = [ 
-    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang', 
+
+default text_tone_list = [
+    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
                 '707', 'Yoosung★', 'ZEN' ]]
 ]
-                          
-default ringtone_list = [ 
-    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang', 
+
+default ringtone_list = [
+    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
                 '707','Yoosung★', 'ZEN' ]]
 ]
-                          
+
 default persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
 default persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
 default persistent.email_tone = 'audio/sfx/Ringtones etc/email_basic_1.wav'
@@ -153,27 +153,27 @@ screen settings_tabs(active_tab):
     # "Backgrounds" of the different panels
     hbox:
         # Preferences / Sound / Others tab
-        textbutton _('Preferences'):            
+        textbutton _('Preferences'):
             if active_tab == "Preferences":
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"
                 action Show("preferences", Dissolve(0.5))
-                
+
         textbutton _('Sound'):
             if active_tab == "Sound":
                 background "menu_tab_active"
             else:
-                background "menu_tab_inactive"                
-                action Show("sound_settings", Dissolve(0.5))                
-            
+                background "menu_tab_inactive"
+                action Show("sound_settings", Dissolve(0.5))
+
         textbutton _('Others'):
             if active_tab == "Others":
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"
-                action Show("other_settings", Dissolve(0.5))                
-                
+                action Show("other_settings", Dissolve(0.5))
+
 style settings_tabs_hbox is empty
 style settings_tabs_button is empty
 style settings_tabs_button_text is default
@@ -193,14 +193,14 @@ style settings_tabs_button_text:
     text_align 0.5
     xalign 0.5
     yalign 0.5
-        
+
 ##########################################################
 ## The "Profile" screen. Allows you the player to
 ## change their profile pic, name, and preferred pronouns
 ##########################################################
 
 screen profile_pic():
-    
+
     tag menu
     modal True
 
@@ -208,10 +208,10 @@ screen profile_pic():
         use menu_header("Customize your Profile"):
             use pic_and_pronouns()
             null height 50
-            textbutton _('Confirm'):  
+            textbutton _('Confirm'):
                 style 'other_settings_end_button'
-                text_style 'mode_select'  
-                align (0.5, 0.5)      
+                text_style 'mode_select'
+                align (0.5, 0.5)
                 action [Return()]
 
     else:
@@ -231,14 +231,14 @@ screen pic_and_pronouns():
     null height 5
     hbox:
         spacing 7
-        frame:        
+        frame:
             style 'profile_pic_frame'
             has vbox
             # MC's profile picture
             imagebutton:
                 focus_mask True
                 xalign 0.055
-                idle 'change_mc_pfp' 
+                idle 'change_mc_pfp'
                 action Show('pick_mc_pfp')
                 # action [Function(MC_pic_change),
                 #         renpy.restart_interaction]
@@ -252,26 +252,26 @@ screen pic_and_pronouns():
                 # is the alternative, which uses DynamicDisplayables to ensure
                 # the name and pfp are up to date
                 add 'mc_name_switch'
-                
+
                 imagebutton:
                     style 'profile_pic_imagebutton'
-                    idle "menu_edit"            
+                    idle "menu_edit"
                     hover Transform("menu_edit", zoom=1.03)
-                    # Save the old name so the program can reset it if 
+                    # Save the old name so the program can reset it if
                     # the player doesn't want to change it
-                    action [SetVariable('old_name', persistent.name),   
-                        Show('input_popup', prompt='Please input a name.')] 
-            
-        
+                    action [SetVariable('old_name', persistent.name),
+                        Show('input_popup', prompt='Please input a name.')]
+
+
         # Pick your pronouns
         frame:
             style 'pronoun_frame'
-            style_prefix "pronoun_window"        
-            has vbox        
+            style_prefix "pronoun_window"
+            has vbox
             text "Preferred Pronouns"
-            button:     
-                action [SetField(persistent, "pronoun", "female"), 
-                        Function(set_pronouns)] 
+            button:
+                action [SetField(persistent, "pronoun", "female"),
+                        Function(set_pronouns)]
                 has hbox
                 spacing 10
                 # This is a slightly unusual way of doing the radio buttons,
@@ -279,18 +279,18 @@ screen pic_and_pronouns():
                 # odd edge case the first time you start the game
                 add 'she_her_pronoun_radio'
                 text 'she/her' style 'pronoun_radio_text'
-                
+
             button:
-                action [SetField(persistent, "pronoun", "male"), 
+                action [SetField(persistent, "pronoun", "male"),
                         Function(set_pronouns)]
                 has hbox
                 spacing 10
                 add 'he_him_pronoun_radio'
                 text 'he/him' style 'pronoun_radio_text'
-                
-                
+
+
             button:
-                action [SetField(persistent, "pronoun", "non binary"), 
+                action [SetField(persistent, "pronoun", "non binary"),
                         Function(set_pronouns)]
                 has hbox
                 spacing 10
@@ -300,8 +300,8 @@ screen pic_and_pronouns():
 screen pick_mc_pfp():
     modal True
     python:
-        pfp_list = [ pic for pic 
-            in renpy.list_files() if 'Drop Your Profile Picture Here/' in pic 
+        pfp_list = [ pic for pic
+            in renpy.list_files() if 'Drop Your Profile Picture Here/' in pic
             and isImg(pic) ]
         if not persistent.first_boot:
             pfp_list.extend(persistent.unlocked_prof_pics)
@@ -309,23 +309,23 @@ screen pick_mc_pfp():
 
     add "#000d"
     frame:
-        style_prefix 'pick_pfp'        
+        style_prefix 'pick_pfp'
         imagebutton:
             idle 'input_close'
             hover 'input_close_hover'
             action [Hide('pick_mc_pfp')]
-            
+
         text "Choose your profile picture"
-           
+
         vpgrid:
             rows num_rows
             cols 4
             draggable True
             mousewheel True
-            scrollbars "vertical"   
-            for img in pfp_list:                
-                button:     
-                    padding (0, 0)               
+            scrollbars "vertical"
+            for img in pfp_list:
+                button:
+                    padding (0, 0)
                     background Transform(img, size=(140, 140))
                     if can_use_mc_pic(img):
                         hover_foreground "#fff3"
@@ -334,14 +334,11 @@ screen pick_mc_pfp():
                         add "#0005" size (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
                         add 'header_hg' align (0.95, 0.95)
-                        action Show('confirm', message=("Would you like to "
+                        action CConfirm(("Would you like to "
                             + "unlock this profile picture for 1 hourglass?"),
-                            yes_action=[SetField(persistent, 'HG', 
-                                    persistent.HG-1),
-                                AddToSet(persistent.mc_unlocked_pfps, img),
-                                Hide('confirm')],
-                            no_action=Hide('confirm')
-                                    )
+                            [SetField(persistent, 'HG',
+                                persistent.HG-1),
+                            AddToSet(persistent.mc_unlocked_pfps, img)])
 
 init python:
     def can_use_mc_pic(img):
@@ -412,7 +409,7 @@ screen points_and_saveload():
                         frame:
                             xsize 75
                             xalign 1.0
-                            text ("[[" + str(num_completed) 
+                            text ("[[" + str(num_completed)
                                     + "/" + str(num_routes) + "]"):
                                 color "#fff" size 28
 
@@ -428,7 +425,7 @@ screen points_and_saveload():
                 for c in heart_point_chars:
                     use heart_point_grid(c)
 
-            
+
             hbox:
                 spacing 20
                 xalign 0.5
@@ -441,7 +438,7 @@ screen points_and_saveload():
                     idle Transform("save_btn", align=(0.5, 0.5))
                     hover Transform("save_btn", zoom=1.1)
                     action Show("save", Dissolve(0.5))
-                    
+
                 imagebutton:
                     style_prefix None
                     xysize (161, 70)
@@ -465,7 +462,7 @@ style point_indicator:
     size 40
     color "#fff"
     text_align 0.5
-    xalign 0.5  
+    xalign 0.5
 
 style profile_pic_frame:
     xysize(370, 440)
@@ -509,9 +506,9 @@ style pronoun_window_text:
     text_align 0.5
 
 style pronoun_radio_text:
-    color '#fff' 
+    color '#fff'
     hover_color '#ddd'
-            
+
 style pronoun_window_vbox:
     xysize (240,300)
     xalign 0.5
@@ -525,34 +522,34 @@ default old_name = "Rainbow"
 screen input_popup(prompt=''):
 
     python:
-            
-        input = Input(value=NameInput(), 
+
+        input = Input(value=NameInput(),
                 style="my_input", length=20,
                 allow=" -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-                
+
     zorder 100
     modal True
     key 'K_RETURN' action Hide('input_popup')
     key 'K_KP_ENTER' action Hide('input_popup')
 
     style_prefix "my_input"
-    frame:      
-        imagebutton: 
+    frame:
+        imagebutton:
             align (1.0, 0.0)
             idle 'input_close'
-            hover 'input_close_hover'           
-            action [SetField(m, 'name', old_name), 
-                    SetVariable('name', old_name), 
-                    SetField(persistent, 'name', old_name), 
+            hover 'input_close_hover'
+            action [SetField(m, 'name', old_name),
+                    SetVariable('name', old_name),
+                    SetField(persistent, 'name', old_name),
                     renpy.retain_after_load, Hide('input_popup')]
-        vbox:            
-            text prompt 
-            fixed:                
+        vbox:
+            text prompt
+            fixed:
                 add 'input_square'
                 add input xalign 0.5 yalign 0.5
             textbutton _('Confirm'):
                 text_style 'mode_select'
-                style 'my_input_textbutton'                
+                style 'my_input_textbutton'
                 action [Hide('input_popup')]
 
 style my_input_frame:
@@ -560,7 +557,7 @@ style my_input_frame:
     xalign 0.5
     yalign 0.4
     xysize(550,313)
-    background 'input_popup_bkgr'       
+    background 'input_popup_bkgr'
 
 style my_input_vbox:
     is empty
@@ -570,13 +567,13 @@ style my_input_vbox:
 
 style my_input_text:
     is default
-    color '#fff' 
-    xalign 0.5 
+    color '#fff'
+    xalign 0.5
     text_align 0.5
 
 style my_input_fixed:
     is empty
-    xsize 500 
+    xsize 500
     ysize 75
     xalign 0.5
 
@@ -618,20 +615,19 @@ screen other_settings():
                     textbutton "20" action SetVariable('bubbles_to_keep', 20)
                     textbutton "40" action SetVariable('bubbles_to_keep', 40)
                     textbutton "60" action SetVariable('bubbles_to_keep', 60)
-            
-                
+
+
         null height 10
         frame:
-            style_prefix "other_settings_end"            
+            style_prefix "other_settings_end"
             has hbox
-            textbutton _('Go to Mode Select'):          
-                action [Function(renpy.full_restart)]                
+            textbutton _('Go to Mode Select'):
+                action [Function(renpy.full_restart)]
             textbutton _('Start Over'):
-                action Show("confirm", message=("Are you sure you want to"
+                action CConfirm(("Are you sure you want to"
                         + " start over? You'll be unable to return to this"
-                        + " point except through a save file."), 
-                        yes_action=[Hide('confirm'), 
-                        Jump("restart_game")], no_action=Hide('confirm'))
+                        + " point except through a save file."),
+                        [Jump("restart_game")])
         null height 459
         hbox:
             spacing 20
@@ -645,7 +641,7 @@ screen other_settings():
                 idle Transform("save_btn", align=(0.5, 0.5))
                 hover Transform("save_btn", zoom=1.1)
                 action Show("save", Dissolve(0.5))
-                
+
             imagebutton:
                 style_prefix None
                 xysize (161, 70)
@@ -688,7 +684,7 @@ style bubble_select_hbox:
 ## The "Others" tab of the settings screen
 ## Includes VN options and Ringtone selection
 ########################################################
-              
+
 screen preferences():
 
     tag settings_screen
@@ -696,7 +692,7 @@ screen preferences():
 
     use menu_header("Settings", Hide('preferences', Dissolve(0.5))):
         use settings_tabs("Preferences")
-            
+
         viewport:
             style 'other_settings_viewport'
             draggable True
@@ -705,30 +701,30 @@ screen preferences():
             xoffset 20
             scrollbars "vertical"
             style_prefix "other_settings"
-            has vbox            
+            has vbox
             #null height -5
             frame:
                 xysize (675,480)
                 background "menu_settings_panel"
                 text "Other Settings" style "settings_style" xpos 45 ypos 2
                 style_prefix "settings_slider"
-                vbox:               
-                    null height 30 # For the 'title'          
-                    hbox:                        
-                        textbutton _("Text Speed")                           
+                vbox:
+                    null height 30 # For the 'title'
+                    hbox:
+                        textbutton _("Text Speed")
                         bar value Preference("text speed")
-                        
+
                     hbox:
                         textbutton _("Auto-Forward Time")
                         bar value Preference("auto-forward time"):
                             bar_invert True
-                    
+
                     hbox:
                         textbutton _("VN Window Opacity"):
-                            action [SetField(persistent, 'window_darken_pct', 
+                            action [SetField(persistent, 'window_darken_pct',
                                         50),
                                     Function(adjust_vn_alpha)]
-                        bar value FieldValue(persistent, 'window_darken_pct', 
+                        bar value FieldValue(persistent, 'window_darken_pct',
                                 100, style='sound_settings_slider', step=10,
                                 action=Function(adjust_vn_alpha))
 
@@ -736,24 +732,24 @@ screen preferences():
                         textbutton _("Background Contrast"):
                             action [SetField(persistent, 'starry_contrast', 0)]
                         bar value FieldValue(persistent, 'starry_contrast',
-                                    1.0, style='sound_settings_slider', 
+                                    1.0, style='sound_settings_slider',
                                     step=0.1)
 
                     null height 5
-                    hbox:   
+                    hbox:
                         xsize 650
-                        xalign 0.5                     
+                        xalign 0.5
                         style_prefix "check"
                         textbutton _("Modified UI"):
                             action ToggleField(persistent, "custom_footers")
                         textbutton _("Animated Backgrounds"):
                             text_size 26
-                            action [ToggleField(persistent, 
+                            action [ToggleField(persistent,
                                     'animated_backgrounds'),
                                     SetField(persistent,
                                     'screenshake', False)]
                             selected persistent.animated_backgrounds
-                
+
             frame:
                 xysize(675,190)
                 background "menu_settings_panel"
@@ -793,38 +789,38 @@ screen preferences():
                     use toggle_buttons('hacking_effects', "Hacking Effects")
                     use toggle_buttons('screenshake', "Screen Shake")
                     use toggle_buttons('banners', "Chatroom Banners")
-                    use toggle_buttons('autoanswer_timed_menus', 
+                    use toggle_buttons('autoanswer_timed_menus',
                                         "Auto-Answer Timed Menus")
-                    use toggle_buttons('animated_icons', 
+                    use toggle_buttons('animated_icons',
                                         "Animated Icons")
-                    use toggle_buttons('dialogue_outlines', 
+                    use toggle_buttons('dialogue_outlines',
                                         "Dialogue Outlines")
-                    
+
 
             # This will let you recompile the fonts in the game
-            # to be more readable        
+            # to be more readable
             # frame:
-            #     style_prefix 'tone_selection'                
+            #     style_prefix 'tone_selection'
             #     text "Font Selection" style "settings_style" xpos 55 ypos 5
             #     vbox:
             #         null height 30
-            #         button:                        
+            #         button:
             #             vbox:
             #                 align (0.5, 0.5)
             #                 text "Change Fonts" style 'ringtone_change'
             #             action Show('adjust_fonts')
 
-                                
+
                 # Additional vboxes of type "radio_pref" or "check_pref" can be
                 # added here, to add additional creator-defined preferences.
-    
+
 style ringtone_change:
     color '#fff'
     size 28
     xalign 0.5
     text_align 0.5
     yalign 0.5
-    
+
 style ringtone_description:
     color '#fff'
     size 20
@@ -835,9 +831,9 @@ style ringtone_description:
 style settings_style:
     color "#ffffff"
     font gui.sans_serif_1
-    
 
-image toggle_btn_bg = "Menu Screens/Main Menu/toggle_panel_background.png" 
+
+image toggle_btn_bg = "Menu Screens/Main Menu/toggle_panel_background.png"
 image toggle_btn_on = "Menu Screens/Main Menu/toggle_panel_selected_foreground.png"
 image toggle_btn_off = "Menu Screens/Main Menu/toggle_panel_foreground.png"
 
@@ -860,7 +856,7 @@ screen toggle_buttons(field, title):
                 focus_mask True
                 yalign 0.5
                 action ToggleField(persistent, field)
-            
+
         textbutton title:
             style 'toggle_panel_button'
             text_style 'toggle_panel_button_text'
@@ -953,10 +949,10 @@ style sound_tags:
 style settings_slider_button_text is sound_tags
 
 style settings_slider_slider:
-    xsize 380 
-    yalign 0.5 
-    thumb_offset 18 
-    left_gutter 18 
+    xsize 380
+    yalign 0.5
+    thumb_offset 18
+    left_gutter 18
 
 style check_fixed:
     is default
@@ -985,9 +981,9 @@ style other_settings_end_button_text:
 
 # *********************************
 # Restart Game -- resets variables
-# *********************************       
+# *********************************
 label restart_game():
-    
+
     show screen loading_screen
     pause 0.2
     python:
@@ -995,16 +991,16 @@ label restart_game():
         # Remove heart points from all the characters
         for person in all_characters:
             person.reset_heart()
-        
+
         # More resets here as needed
         persistent.on_route = False
         check_for_CGs(all_albums)
         renpy.full_restart()
     return
-        
+
 ## Preferences screen ##########################################################
 ##
-## The preferences screen allows the player to configure the game 
+## The preferences screen allows the player to configure the game
 ## to better suit themselves.
 ##
 
@@ -1022,23 +1018,23 @@ screen sound_settings():
             scrollbars "vertical"
             side_spacing 5
             has vbox
-    
+
             null height -5
             # Volume sliders and toggles for muting everything
             # or using audio captions
-            frame:      
+            frame:
                 has fixed
-                yfit True          
+                yfit True
                 text "Sound" style "settings_style" xpos 55 ypos -5
                 style_prefix "sound_settings"
-                vbox:                      
+                vbox:
                     null height 45
-                    hbox:                    
+                    hbox:
                         textbutton _("BGM") action ToggleMute("music")
                         bar value Preference("music volume")
                     hbox:
                         textbutton _("SFX") action ToggleMute("sfx")
-                        bar value Preference("sound volume") 
+                        bar value Preference("sound volume")
                         if config.sample_sound:
                             textbutton _("Test"):
                                 style 'test_buttons'
@@ -1060,14 +1056,14 @@ screen sound_settings():
                                 style 'test_buttons'
                                 text_style 'test_buttons_text'
                                 action Play("voice_sfx", sample_voice_sfx)
-                        
+
                     textbutton _("Mute All"):
                         style "mute_all_button" xalign 0.0 xoffset 15
                         action Preference("all mute", "toggle")
                     textbutton _("Audio Captions"):
                         style "mute_all_button" xalign 0.0 xoffset 15
                         action ToggleField(persistent, 'audio_captions')
-                
+
             # Mute the voices of specific characters
             frame:
                 xysize(675,390)
@@ -1090,38 +1086,38 @@ screen sound_settings():
                         # voice button and MC doesn't speak
                         if c not in novoice_chars:
                             use voice_buttons(c)
-                    use voice_buttons("Other", 'other')      
-                        
+                    use voice_buttons("Other", 'other')
+
             frame:
-                style_prefix 'tone_selection'                
+                style_prefix 'tone_selection'
                 text "Ringtone" style "settings_style" xpos 55 ypos 5
                 vbox:
                     null height 30
-                    button:                        
+                    button:
                         vbox:
                             align (0.5, 0.5)
                             text "Text Sound" style 'ringtone_change'
                             text persistent.text_tone_name:
                                 style 'ringtone_description'
-                        action Show('ringtone_dropdown', 
+                        action Show('ringtone_dropdown',
                                 title='Text Sound', tone='text')
-                    
+
                     button:
                         vbox:
                             align (0.5, 0.5)
                             text "Email Sound" style 'ringtone_change'
                             text persistent.email_tone_name:
                                 style 'ringtone_description'
-                        action Show('ringtone_dropdown', 
+                        action Show('ringtone_dropdown',
                                 title='Email Sound', tone='text')
-                        
+
                     button:
                         vbox:
                             align (0.5, 0.5)
                             text "Ringtone" style 'ringtone_change'
                             text persistent.phone_tone_name:
                                 style 'ringtone_description'
-                        action Show('ringtone_dropdown', 
+                        action Show('ringtone_dropdown',
                                 title='Ringtone', tone='text')
 
 style sound_settings_frame:
@@ -1220,7 +1216,7 @@ screen voice_buttons(char, voice_char=None):
 style voice_toggle_on:
     color "#99ffea"
     hover_color "#43ffd8"
-    
+
 style voice_toggle_off:
     color "#a3a3a3"
     hover_color "#d0d0d0"
@@ -1235,16 +1231,16 @@ screen ringtone_dropdown(title, tone):
         xysize(675,1000)
         background "menu_settings_panel_bright"
         align (0.5, 0.5)
-        
+
         imagebutton:
             align (1.0, 0.0)
             xoffset 3 yoffset -3
             idle 'input_close'
             hover 'input_close_hover'
             action [Stop('sound'), Hide('ringtone_dropdown')]
-            
+
         text title style "settings_style" xpos 55 ypos 5
-           
+
         viewport:
             xysize(600, 940)
             xalign 0.5
@@ -1258,8 +1254,8 @@ screen ringtone_dropdown(title, tone):
             spacing 15
             xalign 0.5
             yalign 0.5
-            
-            
+
+
             # Text message tones
             if title == 'Text Sound':
                 $ the_list = text_tone_list
@@ -1273,14 +1269,14 @@ screen ringtone_dropdown(title, tone):
                 $ the_list = ringtone_list
                 $ the_dict = ringtone_dict
                 $ p_field = 'phone_tone'
-                
+
             for pair in the_list:
                 # Name of the category
                 null height 10
                 text pair[0] color '#fff' xalign 0.5 text_align 0.5
                 null height 10
-                
-                # List of the ringtones                
+
+                # List of the ringtones
                 for tone in pair[1]:
                     textbutton _(tone):
                         style 'ringtone_button'
@@ -1288,32 +1284,31 @@ screen ringtone_dropdown(title, tone):
                         selected getattr(persistent, p_field) == the_dict[tone]
                         if title != "Ringtone":
                             activate_sound the_dict[tone]
-                            action [SetField(persistent, 
+                            action [SetField(persistent,
                                         p_field, the_dict[tone]),
-                                    SetField(persistent, 
+                                    SetField(persistent,
                                         p_field + '_name', tone)]
                         else:
-                            action [Stop('sound'), 
-                                    Play('music', "<silence 5.0>"),                                   
-                                    Play('sound', ("<from 0 to 5>" 
+                            action [Stop('sound'),
+                                    Play('music', "<silence 5.0>"),
+                                    Play('sound', ("<from 0 to 5>"
                                         + the_dict[tone])),
-                                    SetField(persistent, 
+                                    SetField(persistent,
                                         p_field, the_dict[tone]),
-                                    SetField(persistent, 
+                                    SetField(persistent,
                                         p_field + '_name', tone)]
-                    
+
 style ringtone_button:
     xysize(450, 60)
     background '#fff'
-    align (0.5, 0.5)  
-    selected_background "#d0d0d0"   
+    align (0.5, 0.5)
+    selected_background "#d0d0d0"
 
 style ringtone_button_text:
-    color '#000' 
-    xalign 0.5 
-    text_align 0.5 
-    yalign 0.5    
+    color '#000'
+    xalign 0.5
+    text_align 0.5
+    yalign 0.5
     hover_color "#12736d"
-                    
-                    
-                    
+
+
