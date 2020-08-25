@@ -232,11 +232,11 @@ init -6 python:
                 self.played = True
                 # Add this label to the list of completed labels for the History
                 if self.expired and not self.buyback:
-                    store.persistent.completed_chatrooms[
-                        self.expired_label] = True
+                    store.persistent.completed_story.add(
+                        self.expired_label)
                 else:
-                    store.persistent.completed_chatrooms[
-                        self.item_label] = True
+                    store.persistent.completed_story.add(
+                        self.item_label)
                 return True
 
             # Otherwise, check story calls
@@ -245,11 +245,11 @@ init -6 python:
                     if not phonecall.played:
                         phonecall.played = True
                         if phonecall.expired and not phonecall.buyback:
-                            store.persistent.completed_chatrooms[
-                                phonecall.expired_label] = True
+                            store.persistent.completed_story.add(
+                                phonecall.expired_label)
                         else:
-                            store.persistent.completed_chatrooms[
-                                phonecall.item_label] = True
+                            store.persistent.completed_story.add(
+                                phonecall.item_label)
                         return True
 
             return False
@@ -376,12 +376,12 @@ init -6 python:
         def played_regular(self):
             """Return True if the regular label of this item has been played."""
 
-            return store.persistent.completed_chatrooms.get(self.item_label)
+            return self.item_label in store.persistent.completed_story
 
         def played_expired(self):
             """Return True if the expired label of this item has been played."""
 
-            return store.persistent.completed_chatrooms.get(self.expired_label)
+            return self.expired_label in store.persistent.completed_story
 
         def buy_ahead(self):
             """
@@ -663,20 +663,20 @@ init -6 python:
                 self.played = True
                 # Add this label to the list of completed labels for the History
                 if self.expired and not self.buyback:
-                    store.persistent.completed_chatrooms[
-                        self.expired_label] = True
+                    store.persistent.completed_story.add(
+                        self.expired_label)
                     self.participated = False
                 else:
-                    store.persistent.completed_chatrooms[
-                        self.item_label] = True
+                    store.persistent.completed_story.add(
+                        self.item_label)
                     self.participated = True
                 return True
 
             if self.story_mode and not self.story_mode.played:
                 self.story_mode.played = True
                 # StoryMode doesn't expire
-                store.persistent.completed_chatrooms[
-                    self.story_mode.item_label] = True
+                store.persistent.completed_story.add(
+                    self.story_mode.item_label)
 
                 return True
 
@@ -1461,7 +1461,7 @@ label play_phone_call():
         $ renpy.end_replay()
         if not observing:
             $ current_call.finished()
-            $ persistent.completed_chatrooms[current_call.phone_label] = True
+            $ persistent.completed_story.add(current_call.phone_label)
         $ in_phone_call = False
         $ current_call = False
         $ observing = False

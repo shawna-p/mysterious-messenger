@@ -24,7 +24,7 @@ init python:
             store._version = (2, 0, 0)
 
         # Update Routes for the history screen
-        if store._version <= (2, 0, 0):
+        if store._version < (2, 1, 0):
             try:
                 for r in all_routes:
                     test = r.ending_chatrooms
@@ -75,6 +75,8 @@ init python:
             store.collected_hg = store.chatroom_hg
             store.chatroom_hp = None
             store.chatroom_hg = None
+            store.persistent.completed_story = set(store.persistent.completed_chatrooms.keys())
+            store.persistent.completed_chatrooms = None
             # Check if chat_archive is the tutorial day one though, since
             # it'll likely be changed to have paraphrased choices
 
