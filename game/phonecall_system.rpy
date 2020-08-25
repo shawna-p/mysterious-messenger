@@ -509,8 +509,8 @@ screen in_call(who=ja, story_call=False):
             elif story_call:
                 use phone_footer(answer_action=False,
                     center_item='call_pause',
-                    hangup_action=If(observing or (current_call.expired
-                            and not current_call.buyback),
+                    hangup_action=If(observing or (current_timeline_item.expired
+                            and not current_timeline_item.buyback),
                         [Jump('exit_item_early')],
 
                         CConfirm(("Do you really want "
