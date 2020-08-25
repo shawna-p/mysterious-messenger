@@ -497,7 +497,7 @@ screen in_call(who=ja, story_call=False):
             vbox:
                 style_prefix 'phone_timer'
                 add AlphaMask(who.get_pfp(130),
-                        'rounded-rectangle-mask.png') xalign 0.5
+                        'rounded-rectangle-mask.webp') xalign 0.5
                 text who.name size 45
                 hbox:
                     text "{0:01}:".format(countup//60)

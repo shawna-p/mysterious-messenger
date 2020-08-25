@@ -6,9 +6,9 @@ init -1 python:
         trans.ypos = renpy.random.random()
         trans.xpos = renpy.random.random()
         return None
-        
+
 ## These are the stars that will be animated
-image small_star_static = "Menu Screens/Main Menu/small-star.png"
+image small_star_static = "Menu Screens/Main Menu/small-star.webp"
 
 image small star:
     function star_func
@@ -21,8 +21,8 @@ image small star:
         renpy.random.randint(3, 7) + renpy.random.random()
         repeat
 
-image medium_star_static = "Menu Screens/Main Menu/medium-star.png"
-        
+image medium_star_static = "Menu Screens/Main Menu/medium-star.webp"
+
 image medium star:
     function star_func
     block:
@@ -31,7 +31,7 @@ image medium star:
         "transparent_img" with Dissolve(1.0, alpha=True)
         1.3
         repeat
-        
+
 
 
 # This makes it easier to call the starry night background
@@ -45,7 +45,7 @@ screen starry_night():
     for j in range(11):
         add "medium star"
     add Transform("#000", alpha=persistent.starry_contrast)
-    
+
 
 image load_circle:
     'loading_circle_stationary'
@@ -53,12 +53,12 @@ image load_circle:
         rotate 0
         linear 2.0 rotate 360
         repeat
-        
-image load_tip = "Menu Screens/Main Menu/loading_tip.png"
-image load_close = "Menu Screens/Main Menu/loading_close.png"
-image load_tip_panel = Frame("Menu Screens/Main Menu/loading_tip_panel.png", 300,100,80,80)
 
-label splashscreen():    
+image load_tip = "Menu Screens/Main Menu/loading_tip.webp"
+image load_close = "Menu Screens/Main Menu/loading_close.webp"
+image load_tip_panel = Frame("Menu Screens/Main Menu/loading_tip_panel.webp", 300,100,80,80)
+
+label splashscreen():
     show screen loading_screen
     pause 1.0
     hide screen loading_screen
@@ -71,37 +71,37 @@ label before_main_menu():
         call screen profile_pic
     $ define_variables()
     return
-    
+
 screen loading_screen():
 
     zorder 90
     tag menu
-    
+
     use starry_night()
-    
+
     frame:
         maximum(600,320)
         xalign 0.5
         yalign 0.42
         add "load_tip_panel"
-        
+
     frame:
         maximum(540, 140)
         xalign 0.5
         yalign 0.445
         text renpy.random.choice(loading_tips) style "loading_tip"
-        
-    text "Loading..." style "loading_text" 
-    
+
+    text "Loading..." style "loading_text"
+
     add 'load_circle' xalign 0.5 yalign 0.745
     imagebutton:
-        xalign 0.966 
+        xalign 0.966
         yalign 0.018
         idle 'load_close'
         hover Transform('load_close', zoom=1.05)
         action [Return()]
-        
-        
+
+
     add 'load_tip 'xalign 0.13 yalign 0.32
 
 style loading_text:
@@ -111,7 +111,7 @@ style loading_text:
     text_align 0.5
     font gui.sans_serif_1
     size 34
-    
+
 style loading_tip:
     xalign 0.5
     text_align 0.5
@@ -120,7 +120,7 @@ style loading_tip:
     font gui.sans_serif_1
     size 34
 
-default loading_tips = [ 
+default loading_tips = [
     "Please make sure the game is not quit or interrupted during save or load.",
     "Tap the Links button in the hub screen to go to the Mysterious Messenger Discord.",
     "Want to contribute to the program? Submit a pull request to the Mysterious Messenger Github!",

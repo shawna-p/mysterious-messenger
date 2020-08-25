@@ -348,7 +348,7 @@ init -6 python:
         renpy.show_screen('script_error',
                 message=("Could not find the image " + str(img)))
 
-        return Image('Menu Screens/Main Menu/loading_close.png', size=(100, 100))
+        return Image('Menu Screens/Main Menu/loading_close.webp', size=(100, 100))
 
     def handle_missing_label(lbl):
         """
@@ -484,15 +484,15 @@ default persistent.testing_mode = False
 # Chatroom Backgrounds
 #************************************
 
-image bg morning = "center_bg:Phone UI/bg-morning.png"
-image bg evening = "center_bg:Phone UI/bg-evening.png"
-image bg night = "center_bg:Phone UI/bg-night.png"
-image bg earlyMorn = "center_bg:Phone UI/bg-earlyMorn.png"
-image bg noon = "center_bg:Phone UI/bg-noon.png"
+image bg morning = "center_bg:Phone UI/bg-morning.webp"
+image bg evening = "center_bg:Phone UI/bg-evening.webp"
+image bg night = "center_bg:Phone UI/bg-night.webp"
+image bg earlyMorn = "center_bg:Phone UI/bg-earlyMorn.webp"
+image bg noon = "center_bg:Phone UI/bg-noon.webp"
 
-image bg hack = "Phone UI/bg-hack.jpg"
-image bg redhack = "Phone UI/bg-redhack.jpg"
-image bg redcrack = "Phone UI/bg-redhack-crack.png"
+image bg hack = "Phone UI/bg-hack.webp"
+image bg redhack = "Phone UI/bg-redhack.webp"
+image bg redcrack = "Phone UI/bg-redhack-crack.webp"
 
 # image morning = "bg morning"
 # image evening = "bg evening"
@@ -507,9 +507,9 @@ image black = "#000000"
 
 # A starry night background with some static stars;
 # used in menu screens
-image bg starry_night = "Menu Screens/Main Menu/bg-starry-night.png"
-image hack_long = "Phone UI/Hack-Long.png"
-image red_hack_long = "Phone UI/Hack-Red-Long.png"
+image bg starry_night = "Menu Screens/Main Menu/bg-starry-night.webp"
+image hack_long = "Phone UI/Hack-Long.webp"
+image red_hack_long = "Phone UI/Hack-Red-Long.webp"
 image transparent_img = '#0000'
 
 # ********************************
@@ -568,7 +568,7 @@ default ending = False
 define white = "#ffffff"
 define black = "#000000"
 
-image new_sign = "Bubble/main01_new.png"
+image new_sign = "Bubble/main01_new.webp"
 
 define _preferences.show_empty_window = False
 
@@ -580,7 +580,7 @@ define _preferences.show_empty_window = False
 
 default persistent.pronoun = "non binary"
 
-default persistent.MC_pic = 'Profile Pics/MC/MC-1.png'
+default persistent.MC_pic = 'Profile Pics/MC/MC-1.webp'
 default persistent.name = "Rainbow"
 
 default persistent.HP = 0
@@ -594,8 +594,8 @@ default persistent.HG = 100
 
 
 
-image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.png", 40, 10, 10, 10)
-image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.png", 20, 20)
+image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.webp", 40, 10, 10, 10)
+image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.webp", 20, 20)
 
 image rfa_greet:
     Text("{k=-1}>>>>>>>{/k}  Welcome to Rika's Fundraising Association",
@@ -607,62 +607,62 @@ image rfa_greet:
     repeat
 
 # Background Menu Squares
-image right_corner_menu = Frame("Menu Screens/Main Menu/right_corner_menu.png", 45, 45)
+image right_corner_menu = Frame("Menu Screens/Main Menu/right_corner_menu.webp", 45, 45)
 image right_corner_menu_hover = Transform('right_corner_menu', alpha=0.5)
-image left_corner_menu = Frame("Menu Screens/Main Menu/left_corner_menu.png", 45, 45)
+image left_corner_menu = Frame("Menu Screens/Main Menu/left_corner_menu.webp", 45, 45)
 image left_corner_menu_hover = Transform('left_corner_menu', alpha=0.5)
 
 # Menu Icons
-image menu_after_ending = "Menu Screens/Main Menu/after_ending.png"
-image menu_dlc = "Menu Screens/Main Menu/dlc.png"
-image menu_history = "Menu Screens/Main Menu/history.png"
-image menu_save_load = "Menu Screens/Main Menu/save_load.png"
-image menu_original_story = "Menu Screens/Main Menu/original_story.png"
+image menu_after_ending = "Menu Screens/Main Menu/after_ending.webp"
+image menu_dlc = "Menu Screens/Main Menu/dlc.webp"
+image menu_history = "Menu Screens/Main Menu/history.webp"
+image menu_save_load = "Menu Screens/Main Menu/save_load.webp"
+image menu_original_story = "Menu Screens/Main Menu/original_story.webp"
 
 # Settings panel
-image menu_settings_panel = Frame("Menu Screens/Main Menu/settings_sound_panel.png",60,200,60,120)
-image menu_settings_panel_bright = Frame("Menu Screens/Main Menu/settings_sound_panel_bright.png",60,200,60,120)
-image menu_settings_panel_light = Frame("Menu Screens/Main Menu/settings_sound_panel_light.png",60,200,60,120)
-image menu_sound_sfx = "Menu Screens/Main Menu/settings_sound_sfx.png"
-image menu_other_box = Frame("Menu Screens/Main Menu/settings_sound_sfx.png", 10, 10)
-image menu_ringtone_box = Frame("Menu Screens/Main Menu/daychat01_3.png", 35, 35)
+image menu_settings_panel = Frame("Menu Screens/Main Menu/settings_sound_panel.webp",60,200,60,120)
+image menu_settings_panel_bright = Frame("Menu Screens/Main Menu/settings_sound_panel_bright.webp",60,200,60,120)
+image menu_settings_panel_light = Frame("Menu Screens/Main Menu/settings_sound_panel_light.webp",60,200,60,120)
+image menu_sound_sfx = "Menu Screens/Main Menu/settings_sound_sfx.webp"
+image menu_other_box = Frame("Menu Screens/Main Menu/settings_sound_sfx.webp", 10, 10)
+image menu_ringtone_box = Frame("Menu Screens/Main Menu/daychat01_3.webp", 35, 35)
 
 # Settings tabs
-image menu_tab_inactive = Frame("Menu Screens/Main Menu/settings_tab_inactive.png",10,10)
-image menu_tab_inactive_hover2 = Frame("Menu Screens/Main Menu/settings_tab_inactive_hover2.png",10,10)
-image menu_tab_active = Frame("Menu Screens/Main Menu/settings_tab_active.png",25,25)
-image menu_tab_inactive_hover = Frame("Menu Screens/Main Menu/settings_tab_inactive_hover.png",10,10)
+image menu_tab_inactive = Frame("Menu Screens/Main Menu/settings_tab_inactive.webp",10,10)
+image menu_tab_inactive_hover2 = Frame("Menu Screens/Main Menu/settings_tab_inactive_hover2.webp",10,10)
+image menu_tab_active = Frame("Menu Screens/Main Menu/settings_tab_active.webp",25,25)
+image menu_tab_inactive_hover = Frame("Menu Screens/Main Menu/settings_tab_inactive_hover.webp",10,10)
 
 # Header Images
-image header_plus = "Menu Screens/Main Menu/header_plus.png"
-image header_plus_hover = "Menu Screens/Main Menu/header_plus_hover.png"
-image header_tray = "Menu Screens/Main Menu/header_tray.png"
-image header_hg = "Menu Screens/Main Menu/header_hg.png"
-image header_heart = "Menu Screens/Main Menu/header_heart.png"
+image header_plus = "Menu Screens/Main Menu/header_plus.webp"
+image header_plus_hover = "Menu Screens/Main Menu/header_plus_hover.webp"
+image header_tray = "Menu Screens/Main Menu/header_tray.webp"
+image header_hg = "Menu Screens/Main Menu/header_hg.webp"
+image header_heart = "Menu Screens/Main Menu/header_heart.webp"
 
 # Profile Page
-image menu_header = Frame("Menu Screens/Main Menu/menu_header.png", 0, 50)
-image menu_back = "Menu Screens/Main Menu/menu_back_btn.png"
-image save_btn = "Menu Screens/Main Menu/menu_save_btn.png"
-image load_btn = "Menu Screens/Main Menu/menu_load_btn.png"
-image name_line = "Menu Screens/Main Menu/menu_underline.png"
-image menu_edit = "Menu Screens/Main Menu/menu_pencil_long.png"
-image menu_pencil = "Menu Screens/Main Menu/menu_pencil.png"
+image menu_header = Frame("Menu Screens/Main Menu/menu_header.webp", 0, 50)
+image menu_back = "Menu Screens/Main Menu/menu_back_btn.webp"
+image save_btn = "Menu Screens/Main Menu/menu_save_btn.webp"
+image load_btn = "Menu Screens/Main Menu/menu_load_btn.webp"
+image name_line = "Menu Screens/Main Menu/menu_underline.webp"
+image menu_edit = "Menu Screens/Main Menu/menu_pencil_long.webp"
+image menu_pencil = "Menu Screens/Main Menu/menu_pencil.webp"
 
-image radio_on = "Menu Screens/Main Menu/menu_radio_on.png"
-image radio_off = "Menu Screens/Main Menu/menu_radio_off.png"
+image radio_on = "Menu Screens/Main Menu/menu_radio_on.webp"
+image radio_off = "Menu Screens/Main Menu/menu_radio_off.webp"
 
-image settings_gear = "Menu Screens/Main Menu/menu_settings_gear.png"
+image settings_gear = "Menu Screens/Main Menu/menu_settings_gear.webp"
 
 # Save/Load
-image save_auto_idle = Frame("Menu Screens/Main Menu/save_auto_idle.png", 20, 20)
+image save_auto_idle = Frame("Menu Screens/Main Menu/save_auto_idle.webp", 20, 20)
 image save_auto_hover = Frame("btn_hover:save_auto_idle", 20, 20)
 
 
 # Just for fun, this is the animation when you hover over the settings
 # button. It makes the gear look like it's turning
 image settings_gear_rotate:
-    "Menu Screens/Main Menu/menu_settings_gear.png"
+    "Menu Screens/Main Menu/menu_settings_gear.webp"
     xpos -10
     ypos -10
     block:
@@ -671,81 +671,81 @@ image settings_gear_rotate:
         repeat
 
 # Other Settings
-image menu_select_btn = Frame("Menu Screens/Main Menu/menu_select_button.png",60, 70, 130, 60)
+image menu_select_btn = Frame("Menu Screens/Main Menu/menu_select_button.webp",60, 70, 130, 60)
 image menu_select_btn_hover = Transform('menu_select_btn', alpha=0.5)
-image menu_select_btn_inactive = Frame("Menu Screens/Main Menu/menu_select_button_inactive.png",60,60)
+image menu_select_btn_inactive = Frame("Menu Screens/Main Menu/menu_select_button_inactive.webp",60,60)
 
 
 ## ********************************
 ## Chat Home Screen
 ## ********************************
 
-image gray_chatbtn = "Menu Screens/Chat Hub/main01_chatbtn.png"
+image gray_chatbtn = "Menu Screens/Chat Hub/main01_chatbtn.webp"
 image gray_chatbtn_hover = "btn_hover:gray_chatbtn"
 image rfa_chatcircle:
-    "Menu Screens/Chat Hub/main01_chatcircle.png"
+    "Menu Screens/Chat Hub/main01_chatcircle.webp"
     block:
         rotate 0
         alignaround(.5, .5)
         linear 13.0 rotate -360
         repeat
 image blue_chatcircle:
-    "Menu Screens/Chat Hub/main01_chatcircle_big.png"
+    "Menu Screens/Chat Hub/main01_chatcircle_big.webp"
     block:
         rotate 60
         alignaround(.5, .5)
         linear 4 rotate 420
         repeat
 
-image chat_icon = "Menu Screens/Chat Hub/main01_chaticon.png"
-image gray_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn.png"
+image chat_icon = "Menu Screens/Chat Hub/main01_chaticon.webp"
+image gray_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn.webp"
 image gray_mainbtn_hover = "btn_hover:gray_mainbtn"
-image blue_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn_lit.png"
+image blue_mainbtn = "Menu Screens/Chat Hub/main01_mainbtn_lit.webp"
 image blue_mainbtn_hover = 'btn_hover:blue_mainbtn'
 image gray_maincircle:
-    "Menu Screens/Chat Hub/main01_maincircle.png"
+    "Menu Screens/Chat Hub/main01_maincircle.webp"
     block:
         rotate -120
         alignaround(.5, .5)
         linear 4 rotate -480
         repeat
 image blue_maincircle:
-    "Menu Screens/Chat Hub/main01_maincircle_lit.png"
+    "Menu Screens/Chat Hub/main01_maincircle_lit.webp"
     block:
         rotate 180
         alignaround(.5, .5)
         linear 4 rotate 540
         repeat
-image call_mainicon = "Menu Screens/Chat Hub/main01_mainicon_call.png"
-image email_mainicon = "Menu Screens/Chat Hub/main01_mainicon_email.png"
-image msg_mainicon = "Menu Screens/Chat Hub/main01_mainicon_message.png"
+image call_mainicon = "Menu Screens/Chat Hub/main01_mainicon_call.webp"
+image email_mainicon = "Menu Screens/Chat Hub/main01_mainicon_email.webp"
+image msg_mainicon = "Menu Screens/Chat Hub/main01_mainicon_message.webp"
 
-image profile_pic_select_square = Transform("Menu Screens/Chat Hub/profile_pic_select_square.png", size=(95, 95))
+image profile_pic_select_square = Transform("Menu Screens/Chat Hub/profile_pic_select_square.webp", size=(95, 95))
 
-image white_hex = "Menu Screens/Chat Hub/main01_subbtn.png"
-image blue_hex = "Menu Screens/Chat Hub/main01_subbtn_lit.png"
-image red_hex = "Menu Screens/Chat Hub/main01_subbtn_shop.png"
+image white_hex = "Menu Screens/Chat Hub/main01_subbtn.webp"
+image blue_hex = "Menu Screens/Chat Hub/main01_subbtn_lit.webp"
+image red_hex = "Menu Screens/Chat Hub/main01_subbtn_shop.webp"
 image white_hex_hover = 'btn_hover:white_hex'
 image blue_hex_hover = 'btn_hover:blue_hex'
 image red_hex_hover = 'btn_hover:red_hex'
 
-image album_icon = "Menu Screens/Chat Hub/main01_subicon_album.png"
-image guest_icon = "Menu Screens/Chat Hub/main01_subicon_guest.png"
+image album_icon = "Menu Screens/Chat Hub/main01_subicon_album.webp"
+image guest_icon = "Menu Screens/Chat Hub/main01_subicon_guest.webp"
 
-image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.png"
+image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.webp"
 
 ## ********************************
 ## Profile Picture Screen
 ## ********************************
 image profile_outline = Frame('#fff', 5, 5)
-image profile_cover_photo = "Cover Photos/profile_cover_photo.png"
+image profile_cover_photo = "Cover Photos/profile_cover_photo.webp"
 
 
-image input_close = "Menu Screens/Main Menu/main02_close_button.png"
-image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.png"
-image input_square = Frame("Menu Screens/Main Menu/main02_text_input.png",40,40)
-image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",70,70)
-image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_hover.png",70,70)
+image input_close = "Menu Screens/Main Menu/main02_close_button.webp"
+image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.webp"
+image input_square = Frame("Menu Screens/Main Menu/main02_text_input.webp",40,40)
+image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.webp",70,70)
+image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_hover.webp",70,70)
 
 
 
@@ -754,85 +754,85 @@ image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_ho
 ## Text Message Screen
 ## ********************************
 
-image new_text_envelope = 'Text Messages/main03_email_unread.png'
-image read_text_envelope = 'Text Messages/main03_email_read.png'
-image new_text = 'Text Messages/new_text.png'
-image header_envelope = 'Text Messages/header_envelope.png'
+image new_text_envelope = 'Text Messages/main03_email_unread.webp'
+image read_text_envelope = 'Text Messages/main03_email_read.webp'
+image new_text = 'Text Messages/new_text.webp'
+image header_envelope = 'Text Messages/header_envelope.webp'
 
-image message_idle_bkgr = Frame('Text Messages/message_idle_background.png',20,20,20,20)
+image message_idle_bkgr = Frame('Text Messages/message_idle_background.webp',20,20,20,20)
 image message_hover_bkgr = 'btn_hover:message_idle_bkgr'
-image unread_message_idle_bkgr = Frame('Text Messages/message_idle_background_unread.png',20,20,20,20)
+image unread_message_idle_bkgr = Frame('Text Messages/message_idle_background_unread.webp',20,20,20,20)
 image unread_message_hover_bkgr = 'btn_hover:unread_message_idle_bkgr'
 
-image text_msg_line = Frame('Text Messages/msgsl_line.png', 40,2)
-image text_answer_active = 'Text Messages/msgsl_button_answer_active.png'
-image text_answer_inactive = 'Text Messages/msgsl_button_answer_inactive.png'
-image text_answer_text = 'Text Messages/msgsl_text_answer.png'
+image text_msg_line = Frame('Text Messages/msgsl_line.webp', 40,2)
+image text_answer_active = 'Text Messages/msgsl_button_answer_active.webp'
+image text_answer_inactive = 'Text Messages/msgsl_button_answer_inactive.webp'
+image text_answer_text = 'Text Messages/msgsl_text_answer.webp'
 image text_answer_animation:
-    'Text Messages/answer_animation/1.png'
+    'Text Messages/answer_animation/1.webp'
     0.1
-    'Text Messages/answer_animation/2.png'
+    'Text Messages/answer_animation/2.webp'
     0.1
-    'Text Messages/answer_animation/3.png'
+    'Text Messages/answer_animation/3.webp'
     0.1
-    'Text Messages/answer_animation/4.png'
+    'Text Messages/answer_animation/4.webp'
     0.1
-    'Text Messages/answer_animation/5.png'
+    'Text Messages/answer_animation/5.webp'
     0.1
-    'Text Messages/answer_animation/6.png'
+    'Text Messages/answer_animation/6.webp'
     0.1
-    'Text Messages/answer_animation/7.png'
+    'Text Messages/answer_animation/7.webp'
     0.1
-    'Text Messages/answer_animation/8.png'
+    'Text Messages/answer_animation/8.webp'
     0.1
-    'Text Messages/answer_animation/9.png'
+    'Text Messages/answer_animation/9.webp'
     0.1
-    'Text Messages/answer_animation/10.png'
+    'Text Messages/answer_animation/10.webp'
     0.1
-    'Text Messages/answer_animation/11.png'
+    'Text Messages/answer_animation/11.webp'
     0.1
-    'Text Messages/answer_animation/12.png'
+    'Text Messages/answer_animation/12.webp'
     0.1
-    'Text Messages/answer_animation/13.png'
+    'Text Messages/answer_animation/13.webp'
     0.1
-    'Text Messages/answer_animation/14.png'
+    'Text Messages/answer_animation/14.webp'
     0.1
-    'Text Messages/answer_animation/15.png'
+    'Text Messages/answer_animation/15.webp'
     0.1
-    'Text Messages/answer_animation/16.png'
+    'Text Messages/answer_animation/16.webp'
     0.1
-    'Text Messages/answer_animation/17.png'
+    'Text Messages/answer_animation/17.webp'
     0.1
     repeat
 
-image text_pause_button = 'Text Messages/msgsl_text_pause.png'
-image text_play_button = 'Text Messages/msgsl_text_play.png'
+image text_pause_button = 'Text Messages/msgsl_text_pause.webp'
+image text_play_button = 'Text Messages/msgsl_text_play.webp'
 
-image text_popup_bkgr = "Text Messages/msgsl_popup_edge.png"
-image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.png", 0,0)
-image text_answer_idle = "Text Messages/chat-bg02_2.png"
-image text_answer_hover = "Text Messages/chat-bg02_3.png"
-image new_text_count = "Text Messages/new_msg_count.png"
+image text_popup_bkgr = "Text Messages/msgsl_popup_edge.webp"
+image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.webp", 0,0)
+image text_answer_idle = "Text Messages/chat-bg02_2.webp"
+image text_answer_hover = "Text Messages/chat-bg02_3.webp"
+image new_text_count = "Text Messages/new_msg_count.webp"
 
-image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.png", 60,60,60,10)
-image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.png", 60,60,60,10)
+image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.webp", 60,60,60,10)
+image npc_text_msg_bubble = Frame("Text Messages/msgsl_text_npc.webp", 60,60,60,10)
 
 
 ## ********************************
 ## Chat Select Screen
 ## ********************************
 
-image day_selected = Frame('Menu Screens/Day Select/daychat01_day_mint.png', 50, 50)
-image day_selected_hover = Frame('Menu Screens/Day Select/daychat01_day_mint_hover.png', 50, 50)
-image day_inactive = Frame('Menu Screens/Day Select/daychat01_day_inactive.png', 50, 50)
-image day_active = Frame('Menu Screens/Day Select/daychat01_day_active.png', 50, 50)
-image day_active_hover = Frame('Menu Screens/Day Select/daychat01_day_active_hover.png', 50, 50)
-image day_reg_hacked = 'Menu Screens/Day Select/chatlist_hacking.png'
-image day_reg_hacked_long = 'Menu Screens/Day Select/chatlist_hacking_long.png'
+image day_selected = Frame('Menu Screens/Day Select/daychat01_day_mint.webp', 50, 50)
+image day_selected_hover = Frame('Menu Screens/Day Select/daychat01_day_mint_hover.webp', 50, 50)
+image day_inactive = Frame('Menu Screens/Day Select/daychat01_day_inactive.webp', 50, 50)
+image day_active = Frame('Menu Screens/Day Select/daychat01_day_active.webp', 50, 50)
+image day_active_hover = Frame('Menu Screens/Day Select/daychat01_day_active_hover.webp', 50, 50)
+image day_reg_hacked = 'Menu Screens/Day Select/chatlist_hacking.webp'
+image day_reg_hacked_long = 'Menu Screens/Day Select/chatlist_hacking_long.webp'
 
-image chat_hack_thin = 'Menu Screens/Day Select/chat_hacking_thin.png'
-image chat_hack_thick = 'Menu Screens/Day Select/chat_hacking_thick.png'
-image chat_hack_filled = 'Menu Screens/Day Select/chat_hacking_filled.png'
+image chat_hack_thin = 'Menu Screens/Day Select/chat_hacking_thin.webp'
+image chat_hack_thick = 'Menu Screens/Day Select/chat_hacking_thick.webp'
+image chat_hack_filled = 'Menu Screens/Day Select/chat_hacking_filled.webp'
 
 image hacked_white_squares:
 
@@ -953,54 +953,54 @@ image hacked_white_squares:
 
 
 image day_today:
-    'Menu Screens/Day Select/daychat_today.png'
+    'Menu Screens/Day Select/daychat_today.webp'
     block:
         easein 0.5 yoffset -20
         easeout 0.5 yoffset 0
         repeat
-image final_day = 'Menu Screens/Day Select/daychat_finalday.png'
-image day_percent = Frame('Menu Screens/Day Select/daychat_percent.png', 15, 15)
-image day_percent_bg = Frame('Menu Screens/Day Select/daychat_percent_bg.png', 15, 15)
-image day_percent_border = Frame('Menu Screens/Day Select/daychat_percent_border.png', 15, 15)
-image day_hlink = 'Menu Screens/Day Select/daychat_hlink.png'
-image plot_lock = 'Menu Screens/Day Select/plot_lock.png'
-image expired_chat = 'Menu Screens/Day Select/daychat_hg.png'
+image final_day = 'Menu Screens/Day Select/daychat_finalday.webp'
+image day_percent = Frame('Menu Screens/Day Select/daychat_percent.webp', 15, 15)
+image day_percent_bg = Frame('Menu Screens/Day Select/daychat_percent_bg.webp', 15, 15)
+image day_percent_border = Frame('Menu Screens/Day Select/daychat_percent_border.webp', 15, 15)
+image day_hlink = 'Menu Screens/Day Select/daychat_hlink.webp'
+image plot_lock = 'Menu Screens/Day Select/plot_lock.webp'
+image expired_chat = 'Menu Screens/Day Select/daychat_hg.webp'
 
-image day_vlink = Tile('Menu Screens/Day Select/daychat_vlink.png')
-image vn_inactive = 'Menu Screens/Day Select/vn_inactive.png'
-image vn_selected = 'Menu Screens/Day Select/daychat01_vn_mint.png'
-image vn_active = 'Menu Screens/Day Select/vn_active.png'
-image vn_selected_hover = 'Menu Screens/Day Select/daychat01_vn_mint_hover.png'
-image vn_active_hover = 'Menu Screens/Day Select/vn_active_hover.png'
+image day_vlink = Tile('Menu Screens/Day Select/daychat_vlink.webp')
+image vn_inactive = 'Menu Screens/Day Select/vn_inactive.webp'
+image vn_selected = 'Menu Screens/Day Select/daychat01_vn_mint.webp'
+image vn_active = 'Menu Screens/Day Select/vn_active.webp'
+image vn_selected_hover = 'Menu Screens/Day Select/daychat01_vn_mint_hover.webp'
+image vn_active_hover = 'Menu Screens/Day Select/vn_active_hover.webp'
 image vn_inactive_hover = 'vn_inactive'
-image vn_marker = 'Menu Screens/Day Select/daychat01_vn_marker.png'
-image vn_time_bg = 'Menu Screens/Day Select/daychat01_chat_timebg.png'
+image vn_marker = 'Menu Screens/Day Select/daychat01_vn_marker.webp'
+image vn_time_bg = 'Menu Screens/Day Select/daychat01_chat_timebg.webp'
 
-image solo_vn_active = "Menu Screens/Day Select/solo_vn_active.png"
-image solo_vn_inactive = "Menu Screens/Day Select/solo_vn_inactive.png"
-image solo_vn_selected = "Menu Screens/Day Select/solo_vn_mint.png"
-image solo_vn_hover = "Menu Screens/Day Select/solo_vn_hover.png"
+image solo_vn_active = "Menu Screens/Day Select/solo_vn_active.webp"
+image solo_vn_inactive = "Menu Screens/Day Select/solo_vn_inactive.webp"
+image solo_vn_selected = "Menu Screens/Day Select/solo_vn_mint.webp"
+image solo_vn_hover = "Menu Screens/Day Select/solo_vn_hover.webp"
 
-image chat_active = Frame('Menu Screens/Day Select/daychat01_chat_active.png',190, 70, 40, 50)
-image chat_inactive = Frame('Menu Screens/Day Select/daychat01_chat_inactive.png',190, 70, 40, 50)
-image chat_continue = Frame('Menu Screens/Day Select/daychat01_chat_continue.png',190, 70, 40, 20)
-image chat_selected = Frame('Menu Screens/Day Select/daychat01_chat_mint.png',190, 70, 40, 50)
-image chat_timeline_hover = Frame('Menu Screens/Day Select/daychat01_chat_hover.png', 190, 70, 40, 50)
+image chat_active = Frame('Menu Screens/Day Select/daychat01_chat_active.webp',190, 70, 40, 50)
+image chat_inactive = Frame('Menu Screens/Day Select/daychat01_chat_inactive.webp',190, 70, 40, 50)
+image chat_continue = Frame('Menu Screens/Day Select/daychat01_chat_continue.webp',190, 70, 40, 20)
+image chat_selected = Frame('Menu Screens/Day Select/daychat01_chat_mint.webp',190, 70, 40, 50)
+image chat_timeline_hover = Frame('Menu Screens/Day Select/daychat01_chat_hover.webp', 190, 70, 40, 50)
 
-image story_call_active = Frame('Menu Screens/Day Select/story_call_active.png', 290, 56, 40, 50)
-image story_call_inactive = Frame('Menu Screens/Day Select/story_call_inactive.png', 290, 56, 40, 50)
-image story_call_selected = Frame('Menu Screens/Day Select/story_call_mint.png', 290, 56, 40, 50)
-image story_call_hover = Frame('Menu Screens/Day Select/story_call_hover.png', 290, 56, 40, 50)
-image story_call_history = 'Menu Screens/Day Select/story_call_history.png'
+image story_call_active = Frame('Menu Screens/Day Select/story_call_active.webp', 290, 56, 40, 50)
+image story_call_inactive = Frame('Menu Screens/Day Select/story_call_inactive.webp', 290, 56, 40, 50)
+image story_call_selected = Frame('Menu Screens/Day Select/story_call_mint.webp', 290, 56, 40, 50)
+image story_call_hover = Frame('Menu Screens/Day Select/story_call_hover.webp', 290, 56, 40, 50)
+image story_call_history = 'Menu Screens/Day Select/story_call_history.webp'
 
 ## ********************************
 ## Phone Call Screen
 ## ********************************
 
-image call_back = 'Phone Calls/call.png'
+image call_back = 'Phone Calls/call.webp'
 
 image call_signal_sl:
-    Transform('Phone Calls/call_ani_0.png', xzoom=-1)
+    Transform('Phone Calls/call_ani_0.webp', xzoom=-1)
     block:
         alpha 0.0
         1.0
@@ -1008,7 +1008,7 @@ image call_signal_sl:
         3.0
         repeat
 image call_signal_ml:
-    Transform('Phone Calls/call_ani_1.png', xzoom=-1)
+    Transform('Phone Calls/call_ani_1.webp', xzoom=-1)
     block:
         alpha 0.0
         2.0
@@ -1016,7 +1016,7 @@ image call_signal_ml:
         2.0
         repeat
 image call_signal_ll:
-    Transform('Phone Calls/call_ani_2.png', xzoom=-1)
+    Transform('Phone Calls/call_ani_2.webp', xzoom=-1)
     block:
         alpha 0.0
         3.0
@@ -1024,7 +1024,7 @@ image call_signal_ll:
         1.0
         repeat
 image call_signal_sr:
-    'Phone Calls/call_ani_0.png'
+    'Phone Calls/call_ani_0.webp'
     block:
         alpha 0.0
         1.0
@@ -1032,7 +1032,7 @@ image call_signal_sr:
         3.0
         repeat
 image call_signal_mr:
-    'Phone Calls/call_ani_1.png'
+    'Phone Calls/call_ani_1.webp'
     block:
         alpha 0.0
         2.0
@@ -1040,7 +1040,7 @@ image call_signal_mr:
         2.0
         repeat
 image call_signal_lr:
-    'Phone Calls/call_ani_2.png'
+    'Phone Calls/call_ani_2.webp'
     block:
         alpha 0.0
         3.0
@@ -1048,28 +1048,28 @@ image call_signal_lr:
         1.0
         repeat
 
-image call_overlay = Frame('Phone Calls/call_back_screen.png', 0, 0)
-image call_answer = 'Phone Calls/call_button_answer.png'
-image call_hang_up = 'Phone Calls/call_button_hang_up.png'
-image call_pause = 'Phone Calls/call_button_pause.png'
-image call_play = 'Phone Calls/call_button_play.png'
-image call_replay_active = 'Phone Calls/call_button_replay_active.png'
-image call_replay_inactive = 'Phone Calls/call_button_replay_inactive.png'
-image call_connect_triangle = 'Phone Calls/call_connect_waiting.png'
+image call_overlay = Frame('Phone Calls/call_back_screen.webp', 0, 0)
+image call_answer = 'Phone Calls/call_button_answer.webp'
+image call_hang_up = 'Phone Calls/call_button_hang_up.webp'
+image call_pause = 'Phone Calls/call_button_pause.webp'
+image call_play = 'Phone Calls/call_button_play.webp'
+image call_replay_active = 'Phone Calls/call_button_replay_active.webp'
+image call_replay_inactive = 'Phone Calls/call_button_replay_inactive.webp'
+image call_connect_triangle = 'Phone Calls/call_connect_waiting.webp'
 
-image contact_icon = 'Phone Calls/call_icon_contacts.png'
-image call_headphones = 'Phone Calls/call_icon_earphone_en.png'
-image call_history_icon = 'Phone Calls/call_icon_history.png'
-image call_incoming = 'Phone Calls/call_icon_incoming.png'
-image call_missed = 'Phone Calls/call_icon_missed.png'
-image call_outgoing = 'Phone Calls/call_icon_outgoing.png'
-image call_voicemail = 'Phone Calls/call_icon_voicemail.png'
+image contact_icon = 'Phone Calls/call_icon_contacts.webp'
+image call_headphones = 'Phone Calls/call_icon_earphone_en.webp'
+image call_history_icon = 'Phone Calls/call_icon_history.webp'
+image call_incoming = 'Phone Calls/call_icon_incoming.webp'
+image call_missed = 'Phone Calls/call_icon_missed.webp'
+image call_outgoing = 'Phone Calls/call_icon_outgoing.webp'
+image call_voicemail = 'Phone Calls/call_icon_voicemail.webp'
 
-image call_choice = Frame('Phone Calls/call_select_button.png', 70, 70)
-image call_choice_hover = Frame('Phone Calls/call_select_button_hover.png', 90, 90)
+image call_choice = Frame('Phone Calls/call_select_button.webp', 70, 70)
+image call_choice_hover = Frame('Phone Calls/call_select_button_hover.webp', 90, 90)
 
-image call_choice_check = Frame('Phone Calls/call_select_button_check.png', 70, 70)
-image call_choice_check_hover = Frame('Phone Calls/call_select_button_hover_check.png', 90, 90)
+image call_choice_check = Frame('Phone Calls/call_select_button_check.webp', 70, 70)
+image call_choice_check_hover = Frame('Phone Calls/call_select_button_hover_check.webp', 90, 90)
 
 
 
@@ -1077,21 +1077,21 @@ image call_choice_check_hover = Frame('Phone Calls/call_select_button_hover_chec
 ## Email Screen
 ## ********************************
 
-image email_completed_3 = "Email/main03_email_completed_01.png"
-image email_completed_2 = "Email/main03_completed_02.png"
-image email_completed_1 = "Email/main03_completed_03.png"
-image email_failed = "Email/main03_email_failed.png"
-image email_timeout = "Email/main03_email_timeout.png"
-image email_good = "Email/main03_email_good.png"
-image email_bad = "Email/main03_email_bad.png"
-image email_inactive = "Email/main03_email_inactive.png"
-image email_panel = "Email/main03_email_panel.png"
-image email_read = "Email/main03_email_read.png"
-image email_replied = "Email/main03_email_replied.png"
-image email_unread = "Email/main03_email_unread.png"
-image email_next = "Email/main03_email_next_button.png"
-image email_mint = "Email/main03_email_mint.png"
-image white_transparent = Frame("Email/white_transparent.png", 0, 0)
-image email_open_transparent = Frame("Email/email_open_transparent.png", 0, 0)
-image left_corner_menu_dark = Frame("Email/left_corner_menu_dark.png", 45, 45)
+image email_completed_3 = "Email/main03_email_completed_01.webp"
+image email_completed_2 = "Email/main03_completed_02.webp"
+image email_completed_1 = "Email/main03_completed_03.webp"
+image email_failed = "Email/main03_email_failed.webp"
+image email_timeout = "Email/main03_email_timeout.webp"
+image email_good = "Email/main03_email_good.webp"
+image email_bad = "Email/main03_email_bad.webp"
+image email_inactive = "Email/main03_email_inactive.webp"
+image email_panel = "Email/main03_email_panel.webp"
+image email_read = "Email/main03_email_read.webp"
+image email_replied = "Email/main03_email_replied.webp"
+image email_unread = "Email/main03_email_unread.webp"
+image email_next = "Email/main03_email_next_button.webp"
+image email_mint = "Email/main03_email_mint.webp"
+image white_transparent = Frame("Email/white_transparent.webp", 0, 0)
+image email_open_transparent = Frame("Email/email_open_transparent.webp", 0, 0)
+image left_corner_menu_dark = Frame("Email/left_corner_menu_dark.webp", 45, 45)
 

@@ -69,7 +69,7 @@ init python:
             self.__read = False
             self.notified = False
             self.before_branch = (guest.thumbnail
-                == "Email/Thumbnails/rainbow_unicorn_guest_icon.png")
+                == "Email/Thumbnails/rainbow_unicorn_guest_icon.webp")
 
         def __eq__(self, other):
             """
@@ -915,7 +915,7 @@ label email_end():
     $ renpy.retain_after_load()
     return
 
-image img_locked = "CGs/album_unlock.png"
+image img_locked = "CGs/album_unlock.webp"
 
 screen guestbook():
     tag menu
@@ -968,9 +968,9 @@ screen guestbook():
             for i in range((4*num_rows) - len(persistent.guestbook)):
                 null
 
-image guest_story = 'Email/story_available.png'
-image guest_story_locked = 'Email/story_locked.png'
-image guest_descrip_bg = Frame('Email/guest_orange_shade.png', 0, 0)
+image guest_story = 'Email/story_available.webp'
+image guest_story_locked = 'Email/story_locked.webp'
+image guest_descrip_bg = Frame('Email/guest_orange_shade.webp', 0, 0)
 
 default viewing_guest = False
 screen guest_info_popup(guest, unlocked):

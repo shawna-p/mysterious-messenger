@@ -21,7 +21,7 @@ python early:
         """
 
         def __init__(self, img, thumbnail=False,
-                    locked_img="CGs/album_unlock.png"):
+                    locked_img="CGs/album_unlock.webp"):
             """
             Creates an Album object to store information about gallery images.
 
@@ -339,10 +339,10 @@ default fullsizeCG = "cg common_1"
 # the album
 default new_cg = 0
 
-image cg_frame = 'CGs/photo_frame.png'
-image cg_frame_dark = 'CGs/photo_frame_dark.png'
+image cg_frame = 'CGs/photo_frame.webp'
+image cg_frame_dark = 'CGs/photo_frame_dark.webp'
 
-image translucent_img = 'translucent.png'
+image translucent_img = 'translucent.webp'
 
 ## This screen shows all of the various characters/folders
 ## available in the photo gallery

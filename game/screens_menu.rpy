@@ -176,7 +176,7 @@ init python:
         # if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
         #     m.prof_pic = persistent.MC_pic
         # else:
-        #     m.prof_pic = 'Profile Pics/MC/MC-1.png'
+        #     m.prof_pic = 'Profile Pics/MC/MC-1.webp'
         # if m.name != persistent.name:
         #     m.name = persistent.name
         renpy.retain_after_load()
@@ -943,19 +943,19 @@ default chips_available = False
 default spaceship_xalign = 0.04
 default reset_spaceship_pos = False
 
-image github = "Menu Screens/Chat Hub/github.png"
-image discord = "Menu Screens/Chat Hub/discord.png"
-image kofi = "Menu Screens/Chat Hub/ko-fi.png"
+image github = "Menu Screens/Chat Hub/github.webp"
+image discord = "Menu Screens/Chat Hub/discord.webp"
+image kofi = "Menu Screens/Chat Hub/ko-fi.webp"
 ## Icon made by Freepik from www.flaticon.com
-image developer_settings = "Menu Screens/Chat Hub/global-settings-freepik-red.png"
+image developer_settings = "Menu Screens/Chat Hub/global-settings-freepik-red.webp"
 ## Icon made by Creaticca Creative Agency from www.flaticon.com
-image link_hex = "Menu Screens/Chat Hub/link-creaticca-creative-agency.png"
+image link_hex = "Menu Screens/Chat Hub/link-creaticca-creative-agency.webp"
 ## Icon made by Pixel perfect from www.flaticon.com
-image exit_hex = "Menu Screens/Chat Hub/exit-pixel-perfect.png"
+image exit_hex = "Menu Screens/Chat Hub/exit-pixel-perfect.webp"
 
 
-image new_profile_update = Frame("Menu Screens/Chat Hub/main_profile_new_update.png", 0, 0)
-image no_profile_update = Frame("Menu Screens/Chat Hub/main_profile_normal.png", 0, 0)
+image new_profile_update = Frame("Menu Screens/Chat Hub/main_profile_new_update.webp", 0, 0)
+image no_profile_update = Frame("Menu Screens/Chat Hub/main_profile_normal.webp", 0, 0)
 
 screen chat_home(reshow=False):
 

@@ -223,12 +223,13 @@ init python:
     # Put images into the images archive.
     build.classify("game/**.jpg", "images")
     build.classify("game/**.png", "images")
+    build.classify("game/**.webp", "images")
 
     # Put music into the music archive.
     build.classify("game/**.mp3", "music")
     build.classify("game/**.wav", "music")
     build.classify("game/**.ogg", "music")
-    
+
     # Put fonts into the fonts archive
     build.classify("game/**.ttf", "fonts")
 

@@ -49,7 +49,7 @@ init python:
             else:
                 persistent.MC_pic = user_pic_list[-1]
         else:
-            persistent.MC_pic = 'Profile Pics/MC/MC-1.png'
+            persistent.MC_pic = 'Profile Pics/MC/MC-1.webp'
 
         # m.prof_pic = persistent.MC_pic
         renpy.retain_after_load()
@@ -372,10 +372,13 @@ init python:
 
         num_end = 0
         # Go through default branch backwards to find ending
-        for lbl in r.ending_chatrooms:
-            if store.persistent.completed_chatrooms.get(lbl):
-                num_end += 1
-        return num_end
+        try:
+            for lbl in r.ending_chatrooms:
+                if lbl in store.persistent.completed_story:
+                    num_end += 1
+            return num_end
+        except:
+            return 0
 
 
 # Shows how many heart points the player has earned with each
@@ -834,9 +837,9 @@ style settings_style:
     font gui.sans_serif_1
 
 
-image toggle_btn_bg = "Menu Screens/Main Menu/toggle_panel_background.png"
-image toggle_btn_on = "Menu Screens/Main Menu/toggle_panel_selected_foreground.png"
-image toggle_btn_off = "Menu Screens/Main Menu/toggle_panel_foreground.png"
+image toggle_btn_bg = "Menu Screens/Main Menu/toggle_panel_background.webp"
+image toggle_btn_on = "Menu Screens/Main Menu/toggle_panel_selected_foreground.webp"
+image toggle_btn_off = "Menu Screens/Main Menu/toggle_panel_foreground.webp"
 
 ## A screen to assist in showing the persistent toggleable options
 screen toggle_buttons(field, title):

@@ -536,7 +536,7 @@ define gui.flower_l_offset = (110,0)
 define gui.sigh_s_padding = (20, 30, 25, 50)
 define gui.sigh_s_offset = (140, 38)
 
-## Medium Sigh Bubble 
+## Medium Sigh Bubble
 define gui.sigh_m_padding = (30, 40, 40, 80)
 define gui.sigh_m_offset = (130, 38)
 

@@ -258,11 +258,11 @@ init -4 python:
             # If this is a special bubble, set the background to said bubble
             if self.specBubble and self.specBubble != 'glow2':
                 return ("Bubble/Special/" + self.who.file_id + "_"
-                    + self.specBubble + ".png")
+                    + self.specBubble + ".webp")
             # Special case for the second glowing bubble variant
             elif self.specBubble and self.specBubble == 'glow2':
                 return Frame("Bubble/Special/" + self.who.file_id
-                    + "_" + self.specBubble + ".png", 25, 25)
+                    + "_" + self.specBubble + ".webp", 25, 25)
             # Glow bubble
             elif self.bounce:
                 return self.who.glow_bubble_img
@@ -639,10 +639,10 @@ init python:
         """
 
         if character.heart_color:
-            return im.MatrixColor("Heart Point/Unknown Heart Point.png",
+            return im.MatrixColor("Heart Point/Unknown Heart Point.webp",
                     im.matrix.colorize("#000000", character.heart_color))
         else:
-            return "Heart Point/Unknown Heart Point.png"
+            return "Heart Point/Unknown Heart Point.webp"
 
     def heart_break_img(picture, character):
         """
@@ -654,18 +654,18 @@ init python:
             return im.MatrixColor(picture,
                     im.matrix.colorize("#000000", character.heart_color))
         else:
-            return "Heart Point/heartbreak_0.png"
+            return "Heart Point/heartbreak_0.webp"
 
     def glow_bubble_fn(glow_color='#000'):
         """Recolour a generic glowing bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/Special/sa_glow2.png',
+        return im.MatrixColor('Bubble/Special/sa_glow2.webp',
                             im.matrix.colorize(glow_color, '#fff'))
 
     def reg_bubble_fn(bubble_color='#000'):
         """Recolour a generic message bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/white-Bubble.png',
+        return im.MatrixColor('Bubble/white-Bubble.webp',
                             im.matrix.colorize('#000', bubble_color))
 
 

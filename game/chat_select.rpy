@@ -768,8 +768,8 @@ label guest_party_showcase():
         jump expression current_timeline_item.story_mode.item_label
     return
 
-image rfa_logo = "Phone UI/main03_rfa_logo.png"
-image guest_count_bkgr = "Email/guest_count_bkgr.png"
+image rfa_logo = "Phone UI/main03_rfa_logo.webp"
+image guest_count_bkgr = "Email/guest_count_bkgr.webp"
 
 
 ## Screen that shows the player the total number of guests

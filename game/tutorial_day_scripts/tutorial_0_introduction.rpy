@@ -52,10 +52,12 @@
             # should not have to do this. It simply makes it easier
             # for players who have already played through the game
             # to get to the chat hub
-            $ persistent.first_boot = False
-            $ persistent.on_route = True
-            $ vn_choice = True
-            jump press_save_and_exit
+            $ paraphrase_choices = False
+            jump skip_intro_setup
+            # $ persistent.first_boot = False
+            # $ persistent.on_route = True
+            # $ vn_choice = True
+            # jump press_save_and_exit
             
     u """
     
@@ -121,7 +123,7 @@
     # allows you to continue on with a chatroom instead of
     # ending the introduction here
     call phone_end 
-    # This ensure the transition from phone to chatroom is smoother
+    # This ensures the transition from phone to chatroom is smoother
     scene bg black
     
     # Instead of ending the label here, you can continue with

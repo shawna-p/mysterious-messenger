@@ -4,13 +4,13 @@
 ## seen in-game
 ###############################################
 
-image history_button = Frame('Menu Screens/History/main02_button_01.png',
+image history_button = Frame('Menu Screens/History/main02_button_01.webp',
                                 49, 52, 270, 53)
 image history_button_hover = 'btn_hover:history_button'
-image history_icon_album = 'Menu Screens/History/history_icon_album.png'
-image history_icon_chat = 'Menu Screens/History/history_icon_chat.png'
-image history_icon_call = 'Menu Screens/History/history_icon_call.png'
-image history_icon_guest = 'Menu Screens/History/history_icon_guest.png'
+image history_icon_album = 'Menu Screens/History/history_icon_album.webp'
+image history_icon_chat = 'Menu Screens/History/history_icon_chat.webp'
+image history_icon_call = 'Menu Screens/History/history_icon_call.webp'
+image history_icon_guest = 'Menu Screens/History/history_icon_guest.webp'
 
 ## This screen lets you view the album or the chat history
 screen select_history():
@@ -102,10 +102,10 @@ style history_route_vbox:
     align (0.5, 0.5)
     spacing 30
 
-image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.png", 10,10)
-image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.png", 10,10)
-image history_chat_participated = Transform("Menu Screens/History/chat_history_participated.png", zoom=0.8)
-image history_chat_alone = Transform("Menu Screens/History/chat_history_alone.png", zoom=0.8)
+image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.webp", 10,10)
+image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.webp", 10,10)
+image history_chat_participated = Transform("Menu Screens/History/chat_history_participated.webp", zoom=0.8)
+image history_chat_alone = Transform("Menu Screens/History/chat_history_alone.webp", zoom=0.8)
 
 init python:
 
@@ -134,7 +134,7 @@ init python:
         """Return True if at least one phone call in calls has been seen."""
 
         for c in calls:
-            if persistent.completed_chatrooms.get(c):
+            if c in persistent.completed_story:
                 return True
         return False
 
@@ -153,14 +153,15 @@ init python:
 
 # True if the player is viewing a replay of an expired chatroom
 default expired_replay = False
-# This is a dictionary that holds a giant list of all the
+# This is a set that holds a giant list of all the
 # labels the player has seen/played through
-default persistent.completed_chatrooms = {}
+default persistent.completed_story = set()
+default persistent.completed_chatrooms = {} # Deprecated
 
-image contact_darken = "Menu Screens/History/contact_darken.png"
-image call_incoming_outline = "Menu Screens/History/call_icon_incoming_outline.png"
-image call_outgoing_outline = "Menu Screens/History/call_icon_outgoing_outline.png"
-image call_missed_outline = "Menu Screens/History/call_icon_missed_outline.png"
+image contact_darken = "Menu Screens/History/contact_darken.webp"
+image call_incoming_outline = "Menu Screens/History/call_icon_incoming_outline.webp"
+image call_outgoing_outline = "Menu Screens/History/call_icon_outgoing_outline.webp"
+image call_missed_outline = "Menu Screens/History/call_icon_missed_outline.webp"
 
 screen timeline_item_history(item):
 
@@ -429,7 +430,7 @@ screen history_timeline_story_calls(phonecall, item):
 ## Shows regular phone calls that were available after this TimelineItem
 screen history_calls_list(item, call_list, call_icon):
     for c in call_list:
-        if persistent.completed_chatrooms.get(c):
+        if c in persistent.completed_story:
             button:
                 background Transform(c.split('_')[-1] + '_contact',
                                                 size=(85,85))

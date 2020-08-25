@@ -27,8 +27,8 @@ init -5 python:
             File path to the image used for this character's profile picture.
             Expected size is 110x110. A larger version, up to 314x314 pixels,
             can be provided with the same file name + "-b" e.g. if prof_pic is
-            "ja-default.png", the program searches for a file called
-            "ja-default-b.png" for the big profile picture.
+            "ja-default.webp", the program searches for a file called
+            "ja-default-b.webp" for the big profile picture.
         bonus_pfp : string
             File path to the profile picture the player can manually set for
             this character. It automatically gets priority over their default
@@ -111,8 +111,8 @@ init -5 python:
                 File path to the image used for this character's profile
                 picture. Expected size is 110x110. A larger version, up to
                 314x314 pixels, can be provided with the same file name + "-b"
-                e.g. if prof_pic is "ja-default.png", the program searches for
-                a file called "ja-default-b.png" for the big profile picture.
+                e.g. if prof_pic is "ja-default.webp", the program searches for
+                a file called "ja-default-b.webp" for the big profile picture.
             participant_pic : string
                 File path to the "participant" picture for this character. Used
                 on the Timeline screen to indicate this character was present.
@@ -197,7 +197,7 @@ init -5 python:
 
             if self.file_id:
                 if not self.bubble_color:
-                    reg_bub_img = "Bubble/" + self.file_id + "-Bubble.png"
+                    reg_bub_img = "Bubble/" + self.file_id + "-Bubble.webp"
                     # This person is the messenger; typically MC
                     if self.right_msgr:
                         reg_bub_img = Transform(reg_bub_img, xzoom=-1)
@@ -213,16 +213,16 @@ init -5 python:
                         self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
 
                 if not self.glow_color:
-                    glow_bub_img = "Bubble/" + self.file_id + "-Glow.png"
+                    glow_bub_img = "Bubble/" + self.file_id + "-Glow.webp"
                     self.glow_bubble_img = Frame(glow_bub_img, 25,25)
                 else:
                     self.glow_bubble_img = Frame(
                         glow_bubble_fn(self.glow_color), 25, 25
                     )
             else:
-                self.reg_bubble_img = Frame("Bubble/white-Bubble.png",
+                self.reg_bubble_img = Frame("Bubble/white-Bubble.webp",
                                             25,18,18,18)
-                self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.png",
+                self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.webp",
                                             25,25)
 
             self.emote_list = emote_list
@@ -233,11 +233,11 @@ init -5 python:
             if phone_char:
                 self.phone_char = phone_char
             else:
-                self.phone_char = store.phone_character
+                self.phone_char = Character(self.name, kind=phone_character)
             if vn_char:
                 self.vn_char = vn_char
             else:
-                self.vn_char = store.narrator
+                self.vn_char = Character(self.name, kind=vn_character)
 
             if pronunciation_help:
                 self.p_name = pronunciation_help
@@ -760,7 +760,6 @@ init -5 python:
             return result
 
         # Otherwise, one of the filter conditions is True
-        folder = 'images/' + folder
         file_list = [ pic for pic in renpy.list_files() if folder in pic
             and isImg(pic) ]
         # Filter by extension, if available
