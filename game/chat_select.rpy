@@ -528,12 +528,13 @@ screen timeline_item_display(day, day_num, item, index):
                     action CConfirm(("The game branches here."
                                 + " Missed story may appear depending on"
                                 + " the time right now. Continue?"),
-                            [Hide('confirm'),
-                            Function(execute_plot_branch, item=item)])
+                            [SetVariable('current_timeline_item', item),
+                                Jump('execute_plot_branch')])
                 else:
                     action CConfirm(("The game branches here."
                             + " Continue?"),
-                        yes_action=[Function(execute_plot_branch, item=item)])
+                        [SetVariable('current_timeline_item', item),
+                            Jump('execute_plot_branch')])
             else:
                 action CConfirm(("Please proceed after"
                             + " completing the unseen old conversations."))
@@ -556,7 +557,6 @@ screen timeline_story_calls(phonecall, item, was_played):
             background phonecall.get_timeline_img(was_played)
             hover_foreground 'story_call_hover'
             if phonecall.available and was_played:
-                #action Function(begin_timeline_item, item=phonecall)
                 action [SetVariable('current_timeline_item', phonecall),
                             Jump('play_timeline_item')]
             hbox:
@@ -654,9 +654,8 @@ screen timeline_continue_button(story_time):
                                 + " conversations for the next 24 hours."),
                 [Function(make_24h_available),
                     Function(check_and_unlock_story),
-                    renpy.retain_after_load,
-                    renpy.restart_interaction,
-                    Hide('confirm')])
+                    Function(renpy.retain_after_load),
+                    Function(renpy.restart_interaction)])
         if hacked_effect and persistent.hacking_effects:
             add Transform('day_reg_hacked_long',
                             yzoom=0.75):
@@ -704,31 +703,8 @@ style timeline_continue_text:
     layout 'nobreak'
 
 ## This is used to continue the game after a plot branch
+## Has now been replaced with the execute_plot_branch label
 label plot_branch_end():
-    python:
-        # CASE 1:
-        # Plot branch is actually the party
-        if (isinstance(current_timeline_item, StoryMode)
-                    and current_timeline_item.party):
-            # Need to send them to the party
-            renpy.jump('guest_party_showcase')
-
-        # CASE 2
-        # Everything has been played and the program can deliver 'after_' items
-        if current_timeline_item.all_played():
-            current_timeline_item.call_after_label()
-            if current_timeline_item.phonecall_label:
-                deliver_calls(current_timeline_item.phonecall_label)
-            deliver_emails()
-
-        # Now check if the player unlocked the next 24 hours
-        # of chatrooms, and make those available
-        if unlock_24_time:
-            make_24h_available()
-        check_and_unlock_story()
-        renpy.retain_after_load
-
-    call screen day_select
     return
 
 
@@ -784,26 +760,17 @@ label guest_party_showcase():
     $ viewing_guest = False
 
     # Now jump to the actual party
-    if (isinstance(current_timeline_item, VNMode) and current_timeline_item.party):
-        $ print_file("1. Jumping to", current_timeline_item.vn_label)
-        jump expression current_timeline_item.vn_label
+    if (isinstance(current_timeline_item, StoryMode) and current_timeline_item.party):
+        $ print_file("1. Jumping to", current_timeline_item.item_label)
+        jump expression current_timeline_item.item_label
     else:
-        $ print_file("2. Jumping to", current_timeline_item.vn_obj.vn_label)
-        jump expression current_timeline_item.vn_obj.vn_label
-
+        $ print_file("2. Jumping to", current_timeline_item.story_mode.item_label)
+        jump expression current_timeline_item.story_mode.item_label
+    return
 
 image rfa_logo = "Phone UI/main03_rfa_logo.png"
 image guest_count_bkgr = "Email/guest_count_bkgr.png"
 
-# It seems 15+ guests is A grade and 6- guests is D grade
-# This program has its own arbitrary grade calculations instead
-image party_grade = ConditionSwitch(
-    "guest_countup >= 20", "Email/a_grade.png",
-    "guest_countup >= 10", "Email/b_grade.png",
-    "guest_countup >= 5", "Email/c_grade.png",
-    "guest_countup >= 2", "Email/d_grade.png",
-    True, "Email/e_grade.png",
-)
 
 ## Screen that shows the player the total number of guests
 ## attending the party
