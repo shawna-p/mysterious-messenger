@@ -18,7 +18,7 @@ init python:
             Them = "Her"
             Their = "Her"
             Theirs = "Hers"
-            Themself = "Herself"   
+            Themself = "Herself"
             is_are = "is"
             has_have = "has"
             s_verb = "s"
@@ -71,7 +71,7 @@ default They = "They"
 default Them = "Them"
 default Their = "Their"
 default Theirs = "Theirs"
-default Themself = "Themself" 
+default Themself = "Themself"
 default is_are = "are"
 default has_have = "have"
 default s_verb = ""
@@ -217,6 +217,20 @@ image vn_party = 'Menu Screens/Day Select/vn_party.png'
 image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.png'
 
 ########################################
+## PARTY RANKING
+########################################
+# It seems 15+ guests is A grade and 6- guests is D grade.
+# This program has its own arbitrary grade calculations instead.
+# Feel free to replace the numbers with more suitable ones.
+image party_grade = ConditionSwitch(
+    "guest_countup >= 20", "Email/a_grade.png",
+    "guest_countup >= 10", "Email/b_grade.png",
+    "guest_countup >= 5", "Email/c_grade.png",
+    "guest_countup >= 2", "Email/d_grade.png",
+    True, "Email/e_grade.png",
+)
+
+########################################
 ## CUSTOM MESSENGER ITEMS
 ########################################
 # If you'd like to use custom fonts with the chat CDS, you must add them
@@ -226,10 +240,10 @@ define bold_xbold_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2']
 # And if you want them to be used in text messages, you must add them to
 # this dictionary along with a path to its .ttf file
 define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
-            'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb, 
+            'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb,
             'ser2' : gui.serif_2, 'ser2b' : gui.serif_2b,
-            'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1, 
-            'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb, 
+            'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
+            'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
             'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
             'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font}
 # Similarly, if you have any custom bubbles defined, add them here.
@@ -245,7 +259,7 @@ define all_static_backgrounds = ['morning', 'noon', 'evening', 'hack',
 # If there is an animated version, it goes here. They should be defined as
 # `screen animated_evening` and the list contains 'evening'.
 # Animated backgrounds should have a `zorder` of 0 and be tagged `animated_bg`.
-define all_animated_backgrounds = ['morning', 'noon', 'evening', 'night', 
+define all_animated_backgrounds = ['morning', 'noon', 'evening', 'night',
                 'earlyMorn']
 # This should be the same string as seen in all_static_backgrounds and
 # all_animated_backgrounds. Any backgrounds in here will display chatroom
@@ -267,7 +281,7 @@ init python:
         msg : ChatEntry
             A ChatEntry object containing the information on this particular
             message.
-        
+
         Returns:
         --------
         string or False
@@ -280,10 +294,10 @@ init python:
         ## An example might look like the following:
         # if (msg.specBubble and msg.who.file_id == 'u'):
         #     ## This allows Unknown to use Ray's special bubbles
-        #     return "Bubble/Special/r_" + msg.specBubble + ".png"        
+        #     return "Bubble/Special/r_" + msg.specBubble + ".png"
 
         return False
-        
+
     def custom_bubble_offset(msg):
         """
         A special function which is used for a ChatEntry's `spec_bubble_offset`
@@ -295,7 +309,7 @@ init python:
         msg : ChatEntry
             A ChatEntry object containing the information on this particular
             message.
-        
+
         Returns:
         --------
         tuple(int, int) or False
@@ -321,7 +335,7 @@ init python:
         msg : ChatEntry
             A ChatEntry object containing the information on this particular
             message.
-        
+
         Returns:
         --------
         string or False
@@ -345,7 +359,7 @@ init python:
 ########################################
 ## MISCELLANEOUS VARIABLES
 ########################################
-# If True, choices in a menu are treated as "paraphrased" -- that is, 
+# If True, choices in a menu are treated as "paraphrased" -- that is,
 # it is your responsibility to write out exactly what you want the MC to
 # say after a choice. If False, the program will automatically make the MC
 # say the choice dialogue.
