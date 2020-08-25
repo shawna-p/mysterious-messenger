@@ -113,6 +113,8 @@ label menu_a1():
     # You don't include `call answer` before this menu
     menu:    
         "Thanks for showing me this.":
+            # You also don't need (pauseVal=0) after the MC's messages, because
+            # they aren't sent in real-time
             m "Thanks for showing me this."
             # You show heart icons in the same way as chatrooms
             # It will appear after the player opens the text message
