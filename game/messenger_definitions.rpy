@@ -22,7 +22,7 @@ init -4 python:
             speech bubble.
         """
 
-        def __init__(self, who, what, thetime, img=False, 
+        def __init__(self, who, what, thetime, img=False,
                         bounce=False, specBubble=None):
             """
             Creates a ChatEntry object to display a message in the messenger.
@@ -36,16 +36,16 @@ init -4 python:
             thetime : MyTime
                 MyTime object containing the time the message was sent at.
             img : bool
-                True if this message contains an image, such as an emoji 
+                True if this message contains an image, such as an emoji
                 or a CG.
             bounce : bool
                 True if this message should 'bounce' when it animates in.
                 Used for glowing and special speech bubble variants.
             specBubble : string or None
                 String containing part of the image path to the relevant
-                speech bubble.            
+                speech bubble.
             """
-            
+
             self.who = who
             self.what = what
             self.thetime = thetime
@@ -53,7 +53,7 @@ init -4 python:
             self.bounce = bounce
             self.specBubble = specBubble
 
-            
+
         @property
         def name_style(self):
             """Return the name style for this message."""
@@ -71,7 +71,7 @@ init -4 python:
                 return 'chat_name_frame_MC'
             else:
                 return 'chat_name_frame'
-        
+
         @property
         def has_new(self):
             """Return True if this message should have a NEW sign."""
@@ -86,11 +86,11 @@ init -4 python:
 
         def msg_animation(self, anti):
             """Return the animation used for this message."""
-            
+
             if anti and self.bounce:
                 return invisible_bounce
             elif anti:
-                return invisible            
+                return invisible
             elif self.bounce:
                 return incoming_message_bounce
             else:
@@ -104,21 +104,21 @@ init -4 python:
                 return 'MC_profpic'
             else:
                 return 'profpic'
-        
+
         @property
         def bubble_style(self):
             """Return the style used for regular bubbles."""
 
             if self.who.right_msgr:
-                return 'reg_bubble_MC'            
+                return 'reg_bubble_MC'
             elif not self.specBubble and not self.bounce:
                 return 'reg_bubble'
             elif not self.specBubble and self.bounce:
                 return 'glow_bubble'
             elif self.specBubble == "glow2":
                 return 'glow_bubble'
-            
-            # Otherwise, there is a special bubble            
+
+            # Otherwise, there is a special bubble
             bubble_style = self.specBubble
 
             # Allow for custom bubble styling
@@ -140,9 +140,9 @@ init -4 python:
 
             if self.specBubble[:6] == "round2":
                 bubble_style = "round_" + self.specBubble[-1:]
-            elif self.specBubble[:7] == "square2":                
+            elif self.specBubble[:7] == "square2":
                 bubble_style = "square_" + self.specBubble[-1:]
-            
+
             return self.who.file_id + '_' + bubble_style
 
         @property
@@ -157,7 +157,7 @@ init -4 python:
             elif self.specBubble[:7] == "square2":
                 bubble_style = "square_" + self.specBubble[-1:]
             bubble_style += '_offset'
-            
+
             # Allow for custom bubble styling
             try:
                 custom_offset = custom_bubble_offset(self)
@@ -257,11 +257,11 @@ init -4 python:
 
             # If this is a special bubble, set the background to said bubble
             if self.specBubble and self.specBubble != 'glow2':
-                return ("Bubble/Special/" + self.who.file_id + "_" 
+                return ("Bubble/Special/" + self.who.file_id + "_"
                     + self.specBubble + ".png")
             # Special case for the second glowing bubble variant
             elif self.specBubble and self.specBubble == 'glow2':
-                return Frame("Bubble/Special/" + self.who.file_id 
+                return Frame("Bubble/Special/" + self.who.file_id
                     + "_" + self.specBubble + ".png", 25, 25)
             # Glow bubble
             elif self.bounce:
@@ -281,7 +281,7 @@ init -4 python:
             if self.img:
                 return self.who.p_name + " sent a photo"
             else:
-                return renpy.filter_text_tags(self.what, 
+                return renpy.filter_text_tags(self.what,
                                     allow=gui.history_allow_tags)
 
         def alt_who(self, anti):
@@ -297,8 +297,8 @@ init -4 python:
             """Return the width of this dialogue."""
 
             return int(Text(self.what).size()[0])
-            
-            
+
+
 
 
     class ReplayEntry(renpy.store.object):
@@ -338,14 +338,14 @@ init -4 python:
             pauseVal : float or None
                 Stores the pauseVal multiplier for this particular message.
             img : bool
-                True if this message contains an image, such as an emoji 
+                True if this message contains an image, such as an emoji
                 or a CG.
             bounce : bool
                 True if this message should 'bounce' when it animates in.
                 Used for glowing and special speech bubble variants.
             specBubble : string or Nonee
                 String containing part of the image path to the relevant
-                speech bubble.            
+                speech bubble.
             """
 
             self.who = who
@@ -357,7 +357,7 @@ init -4 python:
 
     ##************************************
     ## For ease of adding Chatlog entries
-    ##************************************   
+    ##************************************
 
     def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
         """
@@ -374,7 +374,7 @@ init -4 python:
         pauseVal : float or None
             Stores the pauseVal multiplier for this particular message.
         img : bool
-            True if this message contains an image, such as an emoji 
+            True if this message contains an image, such as an emoji
             or a CG.
         bounce : bool
             True if this message should 'bounce' when it animates in.
@@ -392,13 +392,20 @@ init -4 python:
         global persistent, cg_testing
         choosing = False
         pre_choosing = False
-                
+
         # If the program didn't get an explicit pauseVal,
         # use the default one
         if pauseVal is None:
             pauseVal = pv
         else:
             pauseVal *= pv
+
+        # If this is the first message after "filler", it gets a pv of 0
+        if (len(store.chatlog) > 0
+                and store.chatlog[-1].who.name == 'filler'):
+            pauseVal = 0.1
+        elif who.name == 'filler':
+            pauseVal = 0
 
         # Now check to see if the most recent message was skipped
         # Pausing in the middle of the chat often causes the
@@ -407,11 +414,11 @@ init -4 python:
             pauseFailsafe() # This ensures the message that was supposed to
                             # be posted was, in fact, posted
             # Store the current message in the backup
-            chatbackup = ChatEntry(who, what, upTime(), 
+            chatbackup = ChatEntry(who, what, upTime(),
                                     img, bounce, specBubble)
             oldPV = pauseVal
-            
-        # Now calculate how long to wait before 
+
+        # Now calculate how long to wait before
         # posting messages to simulate typing time
         if pauseVal == 0:
             pass
@@ -419,7 +426,7 @@ init -4 python:
             messenger_pause(pv)
             return
         elif who.name in ['msg', 'filler']:
-            messenger_pause(pv, True)    
+            messenger_pause(pauseVal, True)
         else:
             typeTime = what.count(' ') + 1 # equal to the # of words
             # Since average reading speed is 200 wpm or 3.3 wps
@@ -428,11 +435,11 @@ init -4 python:
                 typeTime = 1.5
             typeTime = typeTime * pauseVal
             messenger_pause(typeTime, True)
-            
+
         # If it's an image, first check if it's an emoji
         # If so, it has an associated sound file
         if img:
-            # Try to adjust the {image=seven_wow} etc statement to 
+            # Try to adjust the {image=seven_wow} etc statement to
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')
@@ -444,12 +451,12 @@ init -4 python:
             elif "{image" not in what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
-        
+
         # Some special bubbles will award the player with a heart icon
         award_hourglass(specBubble)
 
         # Add this entry to the chatlog
-        chatlog.append(ChatEntry(who, what, upTime(), 
+        chatlog.append(ChatEntry(who, what, upTime(),
                             img, bounce, specBubble))
         # Create a rollback checkpoint
         renpy.checkpoint()
@@ -462,7 +469,7 @@ init -4 python:
             return
         if not renpy.is_skipping():
             renpy.pause(length)
-        
+
     def award_hourglass(specBubble):
         """Show the hourglass icon and award the player a heart point."""
 
@@ -475,7 +482,7 @@ init -4 python:
         if (store.observing or store.current_timeline_item.expired
                 or not store.persistent.receive_hg):
             return
-        
+
         if store.hourglass_bag.draw():
             if not persistent.animated_icons:
                 renpy.show_screen(allocate_notification_screen(True),
@@ -484,7 +491,7 @@ init -4 python:
                 renpy.show_screen(allocate_hg_screen())
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
             store.collected_hg += 1
-        
+
         # Hourglass awards are pseudo-random. The program draws from a 'bag'
         # that contains 10 choices, two of which are True. If it gets True,
         # it shows an hourglass. If all the True options are gone, even if
@@ -493,7 +500,7 @@ init -4 python:
             store.hourglass_bag.new_choices([ False for i in range(8) ]
                 + [True for i in range(2) ])
 
-       
+
 
     def pauseFailsafe():
         """
@@ -513,12 +520,12 @@ init -4 python:
                 return
         elif last_chat.who == filler:
             return
-                
-        if (last_chat.who.file_id == chatbackup.who.file_id 
+
+        if (last_chat.who.file_id == chatbackup.who.file_id
                 and last_chat.what == chatbackup.what):
             # the last entry was successfully added; return
             return
-       
+
         # add the backup entry to the chatlog
         if reply_instant:
             reply_instant = False
@@ -529,7 +536,7 @@ init -4 python:
                 typeTime = 1.5
             typeTime = typeTime * oldPV
             messenger_pause(typeTime, True)
-        
+
         if chatbackup.img:
             if "{image =" in chatbackup.what:
                 first, last = chatbackup.what.split('=')
@@ -541,12 +548,12 @@ init -4 python:
             elif "{image" not in chatbackup.what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
-            
+
         award_hourglass(chatbackup.specBubble)
 
-        chatlog.append(ChatEntry(chatbackup.who, chatbackup.what, 
-                                    upTime(), chatbackup.img, 
-                                    chatbackup.bounce, 
+        chatlog.append(ChatEntry(chatbackup.who, chatbackup.what,
+                                    upTime(), chatbackup.img,
+                                    chatbackup.bounce,
                                     chatbackup.specBubble))
 
     def post_chat_actions(deliver_messages=True):
@@ -564,19 +571,19 @@ init -4 python:
             # buy it back to play through it and it isn't the intro
             if not store.starter_story and not current_timeline_item.buyback:
                 store.most_recent_item = current_timeline_item
-        
+
         # If the chatroom has expired or was bought back, then its
         # post-chatroom content will have already been delivered
-        if (not current_timeline_item.expired 
+        if (not current_timeline_item.expired
                 and not current_timeline_item.buyback
                 #and current_timeline_item.all_played()
                 and deliver_messages):
-            current_timeline_item.call_after_label()    
-            if current_timeline_item.phonecall_label:    
+            current_timeline_item.call_after_label()
+            if current_timeline_item.phonecall_label:
                 deliver_calls(current_timeline_item.phonecall_label)
-            
+
         # Deliver emails and trigger the next chatroom
-        deliver_emails()   
+        deliver_emails()
         check_and_unlock_story()
         hide_all_popups()
         # Make sure any images shown are unlocked
@@ -586,8 +593,8 @@ init -4 python:
         if not store.chips_available:
             store.chips_available = store.hbc_bag.draw()
         renpy.music.stop()
-                       
-  
+
+
     def reset_chatroom_vars(for_vn=False):
         """Reset variables and hide screens after a chatroom."""
 
@@ -616,9 +623,9 @@ init python:
     def slow_pv():
         global pv
         if pv <= 1.3:
-            pv += store.chat_speed_increment  
+            pv += store.chat_speed_increment
         return
-        
+
     def fast_pv():
         global pv
         if pv >= 0.3:
@@ -632,11 +639,11 @@ init python:
         """
 
         if character.heart_color:
-            return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
+            return im.MatrixColor("Heart Point/Unknown Heart Point.png",
                     im.matrix.colorize("#000000", character.heart_color))
         else:
             return "Heart Point/Unknown Heart Point.png"
-        
+
     def heart_break_img(picture, character):
         """
         Dynamically recolour the heartbreak icon to the colour associated
@@ -644,24 +651,24 @@ init python:
         """
 
         if character.heart_color:
-            return im.MatrixColor(picture, 
+            return im.MatrixColor(picture,
                     im.matrix.colorize("#000000", character.heart_color))
         else:
             return "Heart Point/heartbreak_0.png"
-        
+
     def glow_bubble_fn(glow_color='#000'):
         """Recolour a generic glowing bubble with the given colour."""
-        
-        return im.MatrixColor('Bubble/Special/sa_glow2.png', 
+
+        return im.MatrixColor('Bubble/Special/sa_glow2.png',
                             im.matrix.colorize(glow_color, '#fff'))
-    
+
     def reg_bubble_fn(bubble_color='#000'):
         """Recolour a generic message bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/white-Bubble.png', 
+        return im.MatrixColor('Bubble/white-Bubble.png',
                             im.matrix.colorize('#000', bubble_color))
 
-            
+
 ## Note: There is also a custom version of the chat footers
 ## (pause/play/save & exit/answer) that you can use by setting
 ## this variable to True. Otherwise, it will use the original assets
@@ -691,6 +698,6 @@ default current_background = "morning"
 default hourglass_bag = RandomBag([ False for i in range(8) ]
     + [True for i in range(2) ])
 
-    
-    
-        
+
+
+
