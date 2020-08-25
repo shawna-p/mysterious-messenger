@@ -513,14 +513,14 @@ screen in_call(who=ja, story_call=False):
                             and not current_call.buyback),
                         [Jump('exit_item_early')],
 
-                        [CConfirm(("Do you really want "
+                        CConfirm(("Do you really want "
                         + "to hang up this call? Please note that you cannot "
                         + "participate once you leave. If you want to "
                         + "participate in this call again, you will need to "
                         + "buy it back."),
                         [Hide('phone_say'),
                             Jump('exit_item_early')]
-                        ))
+                        )))
             else:
                 use phone_footer(False, "call_pause", False)
 
