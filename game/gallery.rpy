@@ -78,7 +78,7 @@ python early:
                 store.new_cg += 1
                 # Add this to the list of unlocked profile pictures
                 if self.__thumbnail not in store.persistent.unlocked_prof_pics:
-                    store.persistent.unlocked_prof_pics.append(
+                    store.persistent.unlocked_prof_pics.add(
                         self.__thumbnail)
             renpy.retain_after_load()
 

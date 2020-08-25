@@ -102,7 +102,7 @@ init python:
             for pic in album:
                 if (pic.unlocked
                         and pic not in store.persistent.unlocked_prof_pics):
-                    store.persistent.unlocked_prof_pics.append(
+                    store.persistent.unlocked_prof_pics.add(
                         pic.get_thumb())
         except:
             print("ERROR: Could not add " + who.file_id + "'s album",
@@ -110,10 +110,10 @@ init python:
 
         # Add currently shown profile picture
         if who.prof_pic not in store.persistent.unlocked_prof_pics:
-            store.persistent.unlocked_prof_pics.append(who.prof_pic)
+            store.persistent.unlocked_prof_pics.add(who.prof_pic)
         # Add default profile picture
         if who.default_prof_pic not in store.persistent.unlocked_prof_pics:
-            store.persistent.unlocked_prof_pics.append(who.default_prof_pic)
+            store.persistent.unlocked_prof_pics.add(who.default_prof_pic)
 
 
     def find_route_endings(route, chatlist, titles):
@@ -457,7 +457,7 @@ init python:
                 merge_albums_string(alb)
 
         set_name_pfp()
-
+        #store.persistent.unlocked_prof_pics = set()
         if not store.persistent.unlocked_prof_pics:
             for chara in store.all_characters:
                 unlock_profile_pics(chara)

@@ -152,11 +152,10 @@ init -5 python:
                 name. Used for self-voicing e.g. "seven oh seven"
             """
 
-
             self.name = name
             self.file_id = file_id
             self.big_prof_pic = prof_pic
-            self.prof_pic = prof_pic
+            self.__prof_pic = prof_pic
             self.default_prof_pic = prof_pic
             if not homepage_pic:
                 self.homepage_pic = prof_pic
@@ -441,9 +440,9 @@ init -5 python:
             if self.file_id == 'm':
                 return
             if store.persistent.unlocked_prof_pics is None:
-                store.persistent.unlocked_prof_pics = []
+                store.persistent.unlocked_prof_pics = set()
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
-                store.persistent.unlocked_prof_pics.append(
+                store.persistent.unlocked_prof_pics.add(
                     self.__prof_pic)
 
 
@@ -474,16 +473,12 @@ init -5 python:
 
             # Regular profile pic is 110x110
             # Big pfp is 314x314
-            if self != store.m:
-                if the_size <= max_small:
-                    return Transform(self.__prof_pic,
-                                    size=(the_size, the_size))
-                else:
-                    return Transform(self.__big_prof_pic,
-                                    size=(the_size, the_size))
+            if the_size <= max_small:
+                return Transform(self.__prof_pic,
+                                size=(the_size, the_size))
             else:
-                return Transform(store.persistent.MC_pic,
-                                    size=(the_size, the_size))
+                return Transform(self.__big_prof_pic,
+                                size=(the_size, the_size))
 
         def reset_pfp(self):
             """
@@ -637,6 +632,7 @@ init -5 python:
                 # This didn't come from `say_choice_caption`, but the MC is
                 # speaking. Is this the same dialogue that was going to be
                 # posted?
+                # print("what =", what, "dialogue_picked =", store.dialogue_picked)
                 if what == store.dialogue_picked:
                     # Clear the stored no-paraphrase items
                     store.dialogue_picked = ""
@@ -650,7 +646,6 @@ init -5 python:
             # Allows you to still use this object even in phone
             # calls and VN mode
             if store.in_phone_call:
-
                 # If in phone call, use the phone_call character
                 self.phone_char(what, **kwargs)
                 return
@@ -794,7 +789,7 @@ init -5 python:
 
 
 # Contains all the profile pictures you've seen in the game
-default persistent.unlocked_prof_pics = []
+default persistent.unlocked_prof_pics = set()
 # Contains a dictionary of the heart points the player has to spend on
 # each character
 default persistent.spendable_hearts = {}
