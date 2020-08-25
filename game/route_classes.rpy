@@ -1341,10 +1341,10 @@ label exit_item_early():
         # Item expires
         $ expire_timeline_item(current_timeline_item)
     else:
-        $ reset_story_vars(current_timeline_item)
         $ observing = False
     # Pop the return to play_timeline_item
     $ renpy.pop_call()
+    $ reset_story_vars(current_timeline_item)
     call screen timeline(current_day, current_day_num)
     return
 
@@ -1368,8 +1368,6 @@ init python:
         # Hourglasses aren't added to the player's totals until the end,
         # so they can simply be reset
         store.collected_hg = 0
-
-        reset_story_vars(item)
 
         # Deliver post-item content if it isn't the item immediately
         # prior to a plot branch
@@ -1548,15 +1546,25 @@ init python:
         chatroom screens and resetting collected heart point totals.
         """
 
-        # renpy.scene()
-        # renpy.exports.show(name='bg', what=Solid(RED))
+        renpy.scene()
+        renpy.exports.show(name='bg', what=Solid(BLACK))
+
+        if not vn_jump:
+            renpy.music.stop()
 
         config.skipping = False
         config.skipping = False
         store.choosing = False
 
+        # Switch off variables
+        store.vn_choice = False
+        store.in_phone_call = False
+        store.current_call = False
+        store._history = True
+
         # Hide chatroom screens
         renpy.hide_screen('phone_overlay')
+        renpy.hide_screen('in_call')
         renpy.hide_screen('save_and_exit')
         renpy.hide_screen('play_button')
         renpy.hide_screen('answer_button')
@@ -1565,15 +1573,6 @@ init python:
         renpy.hide_screen('animated_bg')
         renpy.hide_screen('vn_overlay')
         hide_all_popups()
-
-        # Switch off variables
-        store.vn_choice = False
-        store.in_phone_call = False
-        store.current_call = False
-        store._history = True
-
-        if not vn_jump:
-            renpy.music.stop()
 
 
     def custom_show(name, at_list=None, layer='master', what=None,
