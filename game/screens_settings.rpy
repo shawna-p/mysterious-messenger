@@ -329,7 +329,8 @@ screen pick_mc_pfp():
                     background Transform(img, size=(140, 140))
                     if can_use_mc_pic(img):
                         hover_foreground "#fff3"
-                        action SetField(persistent, 'MC_pic', img)
+                        action [SetField(persistent, 'MC_pic', img),
+                            SetField(m, 'prof_pic', persistent.MC_pic)]
                     else:
                         add "#0005" size (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
