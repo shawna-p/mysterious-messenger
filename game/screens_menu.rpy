@@ -796,11 +796,11 @@ screen menu_header(title, return_action=NullAction,
                     imagebutton:
                         idle "header_plus"
                         hover "header_plus_hover"
-                        action Show('confirm', message="There are no in-game "
+                        action CConfirm(("There are no in-game "
                             + "purchases in this application. However, if "
-                            + "you'd like to support its development, you can ",
+                            + "you'd like to support its development, you can "),
                             #+ "{a=https://ko-fi.com/somniarre}check out my Ko-Fi here.{/a}",
-                            yes_action=Hide('confirm'), show_link=True)
+                            show_link=True)
                         #if not renpy.get_screen("choice"):
                         #    action NullAction
                     frame:
@@ -883,13 +883,10 @@ screen menu_header(title, return_action=NullAction,
                     # If the player is texting in real time, leaving
                     # text messages works differently
                     elif text_person and text_person.real_time_text:
-                        action Show("confirm",
-                                    message=("Do you really want to leave this"
+                        action CConfirm(("Do you really want to leave this"
                                     + " text message? You won't be able to"
                                     + " continue this conversation."),
-                                    yes_action=[Hide('confirm'),
-                                    Jump('leave_inst_text')],
-                                    no_action=Hide('confirm'))
+                                    [Jump('leave_inst_text')])
                     else:
                         action return_action
 
@@ -1437,7 +1434,7 @@ screen developer_settings():
                         + " variables may cause information to be lost. You "
                         + "will need to start a new game after resetting your "
                         + "persistent variables.\nContinue?"),
-                        yes_action=[Function(reset_old_persistent)])
+                        [Function(reset_old_persistent)])
 
 
 
