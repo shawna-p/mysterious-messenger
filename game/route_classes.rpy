@@ -1472,7 +1472,38 @@ label play_phone_call():
         call screen phone_calls
     return
 
+## Execute the plot branch for the given item.
+label execute_plot_branch:
 
+    $ most_recent_item = current_timeline_item
+    $ item = current_timeline_item
+
+    $ renpy.call(item.item_label + '_branch')
+
+    # CASE 1:
+    # Plot branch is actually the party
+    if (isinstance(item, StoryMode) and item.party):
+        # Need to send them to the party
+        jump guest_party_showcase
+        return
+
+    # CASE 2
+    # Can deliver the after_ contents of the item immediately before
+    # the plot branch
+    if not item.all_available():
+        $ item.unlock_all()
+    # Deliver content in after_ label as well as phone calls
+    $ item.deliver_next_after_content()
+    $ deliver_emails()
+
+    # Now check if the player unlocked the next 24 hours
+    # of chatrooms, and make those available
+    if unlock_24_time:
+        $ make_24h_available()
+    $ check_and_unlock_story()
+    $ renpy.retain_after_load
+    call screen day_select
+    return
 
 init python:
     def text_message_begin(text_person):
@@ -1544,39 +1575,6 @@ init python:
         if not vn_jump:
             renpy.music.stop()
 
-
-    def execute_plot_branch(item):
-        """Execute the plot branch for the given item."""
-
-        store.most_recent_item = item
-        store.current_timeline_item = item
-
-        renpy.call_in_new_context(item.item_label + '_branch')
-
-        # CASE 1:
-        # Plot branch is actually the party
-        if (isinstance(item, StoryMode) and item.party):
-            # Need to send them to the party
-            renpy.jump('guest_party_showcase')
-            return
-
-        # CASE 2
-        # Can deliver the after_ contents of the item immediately before
-        # the plot branch
-        if not item.all_available():
-            item.unlock_all()
-        # Deliver content in after_ label as well as phone calls
-        item.deliver_next_after_content()
-        deliver_emails()
-
-        # Now check if the player unlocked the next 24 hours
-        # of chatrooms, and make those available
-        if unlock_24_time:
-            make_24h_available()
-        check_and_unlock_story()
-        renpy.retain_after_load
-        renpy.call_screen('day_select')
-        return
 
     def custom_show(name, at_list=None, layer='master', what=None,
             zorder=0, tag=None, behind=None, **kwargs):
