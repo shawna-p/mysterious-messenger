@@ -61,8 +61,11 @@ init python:
         if '.' in store.persistent.MC_pic:
             big_name = store.persistent.MC_pic.split('.')
             large_pfp = big_name[0] + '-b.' + big_name[1]
+            other_large_pfp = big_name[0] + '-b.webp'
             if renpy.loadable(large_pfp):
                 return Transform(large_pfp, size=(363, 363)), None
+            elif renpy.loadable(other_large_pfp):
+                return Transform(other_large_pfp, size=(363, 363)), None
         return Transform(store.persistent.MC_pic, size=(363,363)), None
 
     def MC_name_display(st, at):
@@ -992,10 +995,6 @@ label restart_game():
     pause 0.2
     python:
         renpy.end_replay()
-        # Remove heart points from all the characters
-        for person in all_characters:
-            person.reset_heart()
-
         # More resets here as needed
         persistent.on_route = False
         check_for_CGs(all_albums)

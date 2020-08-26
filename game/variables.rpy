@@ -344,11 +344,20 @@ init -6 python:
         # Currently unimplemented due to engine bug where the program does not
         # recognize files in the `gui` folder
 
-        print("WARNING: Could not find the image", img)
-        renpy.show_screen('script_error',
-                message=("Could not find the image " + str(img)))
+        # First try to see if the image has an equivalent .webp version
+        if '.webp' not in img:
+            new_img = img.split('.')[0] + '.webp'
+            if renpy.loadable(new_img):
+                return Image(new_img)
+            return None
 
-        return Image('Menu Screens/Main Menu/loading_close.webp', size=(100, 100))
+
+        # print("WARNING: Could not find the image", img)
+        # renpy.show_screen('script_error',
+        #         message=("Could not find the image " + str(img)))
+        # Otherwise, assume we couldn't find it
+        return None
+
 
     def handle_missing_label(lbl):
         """

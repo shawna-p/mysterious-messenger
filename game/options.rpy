@@ -44,7 +44,7 @@ define config.auto_voice = "voice files/{id}.mp3"
 define config.after_load_callbacks = [ update_var_compatibility, advance_day ]
 
 ## Error-checking callbacks
-# define config.missing_image_callback = handle_missing_image
+define config.missing_image_callback = handle_missing_image
 define config.missing_label_callback = handle_missing_label
 define config.context_callback = context_test
 

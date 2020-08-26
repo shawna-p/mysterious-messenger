@@ -155,25 +155,14 @@ init -5 python:
             self.name = name
             self.file_id = file_id
             self.big_prof_pic = prof_pic
-            self.__prof_pic = prof_pic
+            self.__prof_pic = False
+            self.prof_pic = prof_pic
             self.default_prof_pic = prof_pic
             if not homepage_pic:
                 self.homepage_pic = prof_pic
             else:
                 self.homepage_pic = homepage_pic
-            self.seen_updates = False
-
-            # If the program finds a "big" version of this profile picture,
-            # it uses that when displaying the profile picture at higher
-            # resolutions
-            if self.prof_pic:
-                big_name = self.prof_pic.split('.')
-                large_pfp = big_name[0] + '-b.' + big_name[1]
-                if renpy.loadable(large_pfp):
-                    self.big_prof_pic = large_pfp
-            if self.file_id == 'm':
-                self.prof_pic = store.persistent.MC_pic
-
+            self.__seen_updates = False
             self.__bonus_pfp = None
 
             self.participant_pic = participant_pic
@@ -424,6 +413,8 @@ init -5 python:
             elif isImg(new_img):
                 self.__prof_pic = new_img
                 self.seen_updates = False
+            elif isImg(new_img.split('.')[0] + '.webp'):
+                self.__prof_pic = new_img.split('.')[0] + '.webp'
 
             if self.file_id == 'm': # This is the MC
                 self.__prof_pic = store.persistent.MC_pic
@@ -434,6 +425,8 @@ init -5 python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
+                elif renpy.loadable(big_name[0] + '-b.webp'):
+                    self.big_prof_pic = big_name[0] + '-b.webp'
 
             # Add this profile picture to the persistent list of profile
             # pictures the player has seen.

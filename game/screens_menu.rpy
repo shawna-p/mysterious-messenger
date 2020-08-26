@@ -1586,6 +1586,11 @@ init python:
         if img[:7] == 'images/' and img[7:] in pfp_list:
             return True
         # Could also check if it's been registered under a different name
+        no_ext = img.split('.')[0]
+        if (no_ext + '.png' in pfp_list or no_ext[7:] + '.png' in pfp_list):
+            return True
+        if (no_ext + '.jpg' in pfp_list or no_ext[7:] + '.jpg' in pfp_list):
+            return True
         return False
 
 
