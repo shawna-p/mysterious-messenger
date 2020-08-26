@@ -556,65 +556,6 @@ init -4 python:
                                     chatbackup.bounce,
                                     chatbackup.specBubble))
 
-    def post_chat_actions(deliver_messages=True):
-        """
-        Send emails, deliver text messages and phone calls, and set
-        current chatroom status as appropriate.
-        """
-
-        global current_timeline_item, persistent
-
-        if current_timeline_item.mark_next_played():
-            # Indicates the program was able to successfully mark the next
-            # item in this TimelineItem played
-            # This is the most recent chatroom if the player didn't
-            # buy it back to play through it and it isn't the intro
-            if not store.starter_story and not current_timeline_item.buyback:
-                store.most_recent_item = current_timeline_item
-
-        # If the chatroom has expired or was bought back, then its
-        # post-chatroom content will have already been delivered
-        if (not current_timeline_item.expired
-                and not current_timeline_item.buyback
-                #and current_timeline_item.all_played()
-                and deliver_messages):
-            current_timeline_item.call_after_label()
-            if current_timeline_item.phonecall_label:
-                deliver_calls(current_timeline_item.phonecall_label)
-
-        # Deliver emails and trigger the next chatroom
-        deliver_emails()
-        check_and_unlock_story()
-        hide_all_popups()
-        # Make sure any images shown are unlocked
-        check_for_CGs(store.all_albums)
-        renpy.retain_after_load()
-        # Check to see if the honey buddha chips should be available
-        if not store.chips_available:
-            store.chips_available = store.hbc_bag.draw()
-        renpy.music.stop()
-
-
-    def reset_chatroom_vars(for_vn=False):
-        """Reset variables and hide screens after a chatroom."""
-
-        config.skipping = False
-        store.choosing = False
-        if not for_vn:
-            store.observing = False
-        renpy.hide_screen('phone_overlay')
-        renpy.hide_screen('save_and_exit')
-        renpy.hide_screen('play_button')
-        renpy.hide_screen('answer_button')
-        renpy.hide_screen('pause_button')
-        renpy.hide_screen('messenger_screen')
-        renpy.hide_screen('animated_bg')
-        renpy.hide_screen('vn_overlay')
-        hide_all_popups()
-        if not for_vn:
-            renpy.music.stop()
-
-
 define chat_speed_increment = 0.15
 
 init python:

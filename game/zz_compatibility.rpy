@@ -24,6 +24,16 @@ init python:
         print("WARNING: Deprecated function num_future_chatrooms used.")
         return num_future_timeline_items(break_for_branch)
 
+    # Renamed to reset_story_vars
+    def reset_chatroom_vars(for_vn=False):
+        print("WARNING: Deprecated function reset_chatroom_vars used.")
+        return reset_story_vars(for_vn)
+
+    ## Split into several functions; most similar to finish_timeline_item
+    def post_chat_actions(deliver_messages=True):
+        return finish_timeline_item(store.current_timeline_item,
+            deliver_messages=deliver_messages)
+
 # Displays notifications instead of heart icons
 # Replaced with persistent.animated_icons
 default persistent.heart_notifications = False
@@ -51,6 +61,13 @@ label heart_break(character):
     $ print("WARNING: Deprecated label heart_break(character) used.")
     break heart character
     return
+
+
+## Deprecated; replaced with `exit_item_early`. Determines what happens
+## when the 'back' button is pressed during a chatroom.
+label chat_back():
+    jump exit_item_early
+
 
 #************************************
 # Chatroom Enter/Exit
