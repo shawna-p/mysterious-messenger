@@ -59,31 +59,7 @@ label vn_end():
     jump press_save_and_exit
 
 label vn_end_route():
-    $ config.skipping = False
-    $ choosing = False
-    stop music
-
-    if ending == 'good':
-        scene bg good_end
-    elif ending == 'normal':
-        scene bg normal_end
-    elif ending == 'bad':
-        scene bg bad_end
-    $ ending = False
-    if current_timeline_item.expired and not current_timeline_item.buyback:
-        $ persistent.completed_story.add(
-                        current_timeline_item.expired_chat)
-    else:
-        $ persistent.completed_story.add(
-                        current_timeline_item.chatroom_label)
-    if current_timeline_item.vn_obj:
-        $ persistent.completed_story.add(
-                        current_timeline_item.vn_obj.vn_label)
-
-    pause
-    if _in_replay:
-        $ renpy.end_replay()
-    jump restart_game
+    jump end_route
 
 #####################################
 ## This screen shows the clock

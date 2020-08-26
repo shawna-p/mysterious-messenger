@@ -25,7 +25,7 @@
 # you also have to pass it 'False' as its second argument.
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
-    $ set_chatroom_background(background)    
+    $ set_chatroom_background(background)
     if clearchat:
         $ chatlog = []
         $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0.1)
@@ -48,7 +48,7 @@ init python:
         store.current_background = new_bg
         if new_bg in store.all_static_backgrounds:
             renpy.scene()
-            renpy.show('bg ' + new_bg)        
+            renpy.show('bg ' + new_bg)
         # If the background is misspelled or can't be found, set
         # a generic black background
         else:
@@ -58,7 +58,7 @@ init python:
             print("WARNING: Could not find the background \"bg " + new_bg + "\"")
             renpy.show_screen('script_error',
                 message="Could not find the background \"bg " + new_bg + "\"")
-        
+
         if store.persistent.animated_backgrounds:
             if new_bg in store.all_animated_backgrounds:
                 try:
@@ -83,7 +83,7 @@ init python:
         if not store.observing and not store.persistent.testing_mode:
             bg_entry = ('background', store.current_background)
             store.current_timeline_item.replay_log.append(bg_entry)
-        
+
         return
 
 
@@ -97,40 +97,21 @@ label chat_end():
         $ starter_story = False
         call screen chat_home
     return
-    
+
 ## Call this label at the very end of the route to show a good/bad/normal
 # ending sign and return the player to the main menu
 label chat_end_route():
-    call screen save_and_exit()
-    $ reset_chatroom_vars()
-    
-    if ending == 'good':
-        scene bg good_end
-    elif ending == 'normal':
-        scene bg normal_end
-    elif ending == 'bad':
-        scene bg bad_end
-    elif ending:
-        scene
-        show expression ending
-    $ ending = False
-
-    $ current_timeline_item.mark_next_played()
-    
-    pause
-    if _in_replay:
-        $ renpy.end_replay()
-    jump restart_game
+    jump end_route()
 
 ## This label clears the necessary chatroom variables to allow
 ## you to show a VN section in the middle of a chatroom
 ## The VN section needs to be defined in its own separate label
 label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
                      reset_participants=False, end_after_vn=False):
-    
+
     # Add an instruction for the replay log
     if (not observing and not persistent.testing_mode):
-        $ vn_jump_entry = ("vn jump", 
+        $ vn_jump_entry = ("vn jump",
             [vn_label, clearchat_on_return, new_bg, reset_participants])
         $ current_timeline_item.replay_log.append(vn_jump_entry)
 
@@ -139,7 +120,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     $ renpy.pause(pv*2.0)
     call screen continue_button
     # Hide all the chatroom screens
-    $ reset_chatroom_vars(for_vn=True)    
+    $ reset_chatroom_vars(for_vn=True)
 
     # Setup the VN stuff
     scene bg black
@@ -172,18 +153,18 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     $ choosing = False
     $ config.skipping = False
     $ hide_all_popups()
-    
+
     if clearchat_on_return:
         $ chatlog = []
         $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
-    
-    
+
+
     if not clearchat_on_return:
         # If the chat isn't cleared this cleans up the transition
         # between VN and chatroom
         show screen non_menu_loading_screen
         show screen phone_overlay
-        show screen messenger_screen 
+        show screen messenger_screen
         show screen pause_button
         window hide
         if new_bg:
@@ -194,7 +175,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
         hide screen non_menu_loading_screen
     else:
         show screen phone_overlay
-        show screen messenger_screen 
+        show screen messenger_screen
         show screen pause_button
         window hide
         if new_bg:
@@ -210,11 +191,11 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
                 if not observing:
                     current_timeline_item.add_participant(person)
 
-    
+
     # If this is part of a replayed chatroom, go back to
     # the replay log (NOT replayed from the History in the
     # main menu)
-    if (observing and not vn_choice and not text_msg_reply 
+    if (observing and not vn_choice and not text_msg_reply
             and not in_phone_call and not email_reply
             and not _in_replay):
         $ replay_from = chatroom_replay_index
@@ -236,7 +217,7 @@ label chat_back():
 #####################################
 # Save & Exit
 #####################################
-   
+
 # This is the screen that shows Save & Exit at the bottom
 screen save_and_exit():
     zorder 4
@@ -250,11 +231,11 @@ screen save_and_exit():
         idle "save_exit"
         keysym "K_SPACE"
         action Return()
-        
-label press_save_and_exit():    
+
+label press_save_and_exit():
     return
 
-    
+
 # This shows the signature screen, which records your total heart points
 # It shows hourglass points as well
 screen signature_screen(phone=True):
@@ -264,38 +245,38 @@ screen signature_screen(phone=True):
     if phone:
         add "save_exit" ypos 1220
     add "choice_darken"
-    frame:        
+    frame:
         has vbox
         spacing 10
         null height 70
-        if (observing or (current_timeline_item.expired 
+        if (observing or (current_timeline_item.expired
                 and not current_timeline_item.buyback)):
             null height 10
         text "This conversation will be archived in the RFA records.":
             layout 'subtitle'
             size 30
             if persistent.custom_footers:
-                color "#fff"            
-        if not (observing or (current_timeline_item.expired 
+                color "#fff"
+        if not (observing or (current_timeline_item.expired
                 and not current_timeline_item.buyback)):
             hbox:
-                style_prefix "sig_points"            
+                style_prefix "sig_points"
                 frame:
                     background 'heart_sign'
                     text str(get_collected_hp())
                 frame:
                     background 'hg_sign'
                     text str(collected_hg)
-        
+
         text "I hereby agree to treat this conversation as confidential.":
             if persistent.custom_footers:
                 color "#fff"
-        
-        if (observing or (current_timeline_item.expired 
+
+        if (observing or (current_timeline_item.expired
                 and not current_timeline_item.buyback)):
             null height 15
-        
-        textbutton _('sign'): 
+
+        textbutton _('sign'):
             if persistent.custom_footers:
                 text_color "#fff"
             action Return()
@@ -326,7 +307,7 @@ style sig_points_frame:
     xsize 154
     padding (62, 12, 20, 12)
 
-style sig_points_text:        
+style sig_points_text:
     is text
     yalign 1.0
     xalign 1.0
@@ -336,7 +317,7 @@ style sig_points_text:
 
 style sig_screen_text:
     is text
-    xalign 0.5         
+    xalign 0.5
     text_align 0.5
     size 25
     xsize 600
@@ -352,19 +333,19 @@ style sig_screen_button:
 
 style sig_screen_button_text:
     is text
-    xalign 0.5   
-    yalign 0.607   
+    xalign 0.5
+    yalign 0.607
     text_align 0.5
     size 30
     font gui.sans_serif_1
-    
+
 ## Jumping to this label during an introductory/prologue label
 ## allows the program to properly set up variables before taking
 ## the player to the chat home screen
 label skip_intro_setup():
     $ persistent.first_boot = False
     $ persistent.on_route = True
-    
+
     if vn_choice:
         $ vn_choice = False
         $ phone = False
@@ -372,19 +353,19 @@ label skip_intro_setup():
     $ collected_hp = {'good': [], 'bad': [], 'break': []}
     $ collected_hg = 0
     $ reset_story_vars()
-    
+
     show screen loading_screen
-    
+
     # Add this label to the list of completed labels
-    $ current_timeline_item.mark_next_played()        
+    $ current_timeline_item.mark_next_played()
     if not current_timeline_item.expired and not current_timeline_item.buyback:
         # Checks for a post-chatroom label
         # Otherwise delivers phone calls/texts/etc
-        $ current_timeline_item.call_after_label()        
+        $ current_timeline_item.call_after_label()
         $ deliver_calls(current_timeline_item.item_label)
-                
+
     # Deliver emails and trigger the next chatroom (if applicable)
-    $ deliver_emails()   
+    $ deliver_emails()
     $ check_and_unlock_story()
     # Make sure any images shown are unlocked
     $ check_for_CGs(all_albums)
@@ -392,7 +373,7 @@ label skip_intro_setup():
     # Check to see if the honey buddha chips should be available
     if not chips_available:
         $ chips_available = hbc_bag.draw()
-        
+
     # This helps clean up the transition between sections
     # in case it takes the program a few moments to calculate
     # messages, emails, etc
@@ -403,10 +384,9 @@ label skip_intro_setup():
     call screen chat_home
     $ print_file("\nWe did indeed return here")
     return
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+

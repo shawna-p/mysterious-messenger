@@ -1300,7 +1300,7 @@ init python:
         # a plot branch
         if item.get_item_before_branch():
             print_file("\n   And the item before the branch is:", item.get_item_before_branch().item_label)
-        if (not item == item.get_item_before_branch()):
+        if deliver_messages and (not item == item.get_item_before_branch()):
             # Switch off variables so the program can deliver text messages
             store.vn_choice = False
             store.in_phone_call = False
@@ -1471,7 +1471,7 @@ label play_phone_call():
     return
 
 ## Execute the plot branch for the given item.
-label execute_plot_branch:
+label execute_plot_branch():
 
     $ most_recent_item = current_timeline_item
     $ item = current_timeline_item
@@ -1502,6 +1502,30 @@ label execute_plot_branch:
     $ renpy.retain_after_load
     call screen day_select
     return
+
+## Label which shows the ending screen of the route and returns the player
+## to the main menu
+label end_route():
+    if isinstance(current_timeline_item, ChatRoom):
+        call screen save_and_exit()
+    if not isinstance(current_timeline_item, StoryCall):
+        call screen signature_screen(isinstance(current_timeline_item, ChatRoom))
+
+    $ reset_story_vars()
+    if ending == 'good':
+        scene bg good_end
+    elif ending == 'normal':
+        scene bg normal_end
+    elif ending == 'bad':
+        scene bg bad_end
+    else:
+        scene
+        show expression ending
+    $ ending = False
+    $ finish_timeline_item(current_timeline_item, deliver_messages=False)
+    pause
+    jump restart_game
+
 
 init python:
     def text_message_begin(text_person):
