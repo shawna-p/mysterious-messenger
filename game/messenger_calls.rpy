@@ -101,7 +101,7 @@ label chat_end():
 ## Call this label at the very end of the route to show a good/bad/normal
 # ending sign and return the player to the main menu
 label chat_end_route():
-    jump end_route()
+    jump end_route
 
 ## This label clears the necessary chatroom variables to allow
 ## you to show a VN section in the middle of a chatroom
@@ -120,13 +120,10 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     $ renpy.pause(pv*2.0)
     call screen continue_button
     # Hide all the chatroom screens
-    $ reset_chatroom_vars(for_vn=True)
+    $ reset_story_vars(vn_jump=True)
 
     # Setup the VN stuff
-    scene bg black
     window auto
-    hide screen starry_night
-    hide screen timeline
 
     show screen vn_overlay
     $ vn_choice = True
@@ -144,20 +141,10 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     if end_after_vn:
         return
 
-    scene bg black
-    $ text_msg_reply = False
-    $ in_phone_call = False
-    $ vn_choice = False
-    $ email_reply = False
-    hide screen vn_overlay
-    $ choosing = False
-    $ config.skipping = False
-    $ hide_all_popups()
-
+    $ reset_story_vars(vn_jump=True)
     if clearchat_on_return:
         $ chatlog = []
         $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
-
 
     if not clearchat_on_return:
         # If the chat isn't cleared this cleans up the transition
@@ -191,7 +178,6 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
                 if not observing:
                     current_timeline_item.add_participant(person)
 
-
     # If this is part of a replayed chatroom, go back to
     # the replay log (NOT replayed from the History in the
     # main menu)
@@ -207,11 +193,6 @@ screen non_menu_loading_screen():
     zorder 100
     add Solid("#000")
     use loading_screen
-
-## This label takes care of what happens when the
-## player hits the back button during a chatroom
-label chat_back():
-    jump exit_item_early
 
 
 #####################################
