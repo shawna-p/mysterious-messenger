@@ -459,7 +459,7 @@ init python:
                 merge_albums_string(alb)
 
         set_name_pfp()
-        #store.persistent.unlocked_prof_pics = set()
+
         if not store.persistent.unlocked_prof_pics:
             for chara in store.all_characters:
                 unlock_profile_pics(chara)

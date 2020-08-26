@@ -432,7 +432,9 @@ init -5 python:
             # pictures the player has seen.
             if self.file_id == 'm':
                 return
-            if store.persistent.unlocked_prof_pics is None:
+
+            if (store.persistent.unlocked_prof_pics is None
+                    or not isinstance(store.persistent.unlocked_prof_pics, set)):
                 store.persistent.unlocked_prof_pics = set()
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
                 store.persistent.unlocked_prof_pics.add(
