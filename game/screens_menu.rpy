@@ -1186,7 +1186,7 @@ screen chat_home(reshow=False):
                             activate_sound 'audio/sfx/UI/select_6.mp3'
                             action Show('chip_tap')
 
-                if reshow:
+                else:
                     fixed at chip_anim(0):
                         xysize(90,70)
                         xalign 0.93
