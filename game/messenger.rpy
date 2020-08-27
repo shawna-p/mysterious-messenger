@@ -8,11 +8,11 @@ screen messenger_screen():
         # This is the infinite value from earlier which
         # tells the viewport to always scroll to
         # the bottom
-        yadj.value = yadjValue         
+        yadj.value = yadjValue
         finalchat = None
         if len(chatlog) > 0:
             finalchat = chatlog[-1]
-            
+
 
     frame:
         align (0.5, 1.0)
@@ -26,7 +26,7 @@ screen messenger_screen():
             mousewheel True
             ysize 1080
             xfill True
-                            
+
             has vbox
             spacing 10
             xfill True
@@ -37,22 +37,22 @@ screen messenger_screen():
                     if i.who.name in ['msg', 'filler']:
                         use special_msg(i)
                     elif i.who == answer:
-                        pass                        
+                        pass
                     # This trick means that the program displays
                     # an invisible bubble behind the visible one
                     # so the animation doesn't "slide" in
                     elif i == finalchat:
                         use chat_animation(i, True)
                     if i.who.name not in ['msg', 'filler', 'answer']:
-                        use chat_animation(i)                    
+                        use chat_animation(i)
                 null height 10
-                        
+
 ## This displays the special messages like "xyz
 ## has entered the chatroom"
 screen special_msg(i):
-    
+
     frame:
-        style i.who.name + '_bubble'            
+        style i.who.name + '_bubble'
         text i.what:
             style i.who.name + '_bubble_text'
             if (i.who.name == 'msg' and persistent.dialogue_outlines):
@@ -65,7 +65,7 @@ screen special_msg(i):
 ## all the messages, names, profile pictures, etc
 screen chat_animation(i, anti=False):
 
-    frame:        
+    frame:
         style i.pfp_style
         if not anti:
             add i.who.get_pfp(110)
@@ -81,7 +81,7 @@ screen chat_animation(i, anti=False):
                 alt i.alt_who(anti)
                 if persistent.dialogue_outlines:
                     if nickColour == black:
-                        outlines [ (1, "#fffa", 
+                        outlines [ (1, "#fffa",
                                 absolute(0), absolute(0)) ]
                     else:
                         outlines [ (1, "#000a",
@@ -89,16 +89,16 @@ screen chat_animation(i, anti=False):
                     font gui.sans_serif_1b
         else:
             text i.who.name at invisible alt i.alt_who(anti)
-    
+
     # Now add the dialogue
     if not i.has_new: # Not a "regular" dialogue bubble
-        # Not an image; check if it's a special bubble        
+        # Not an image; check if it's a special bubble
         if i.specBubble != None and i.specBubble != 'glow2':
             fixed at i.msg_animation(anti):
                 offset i.spec_bubble_offset
                 fit_first True
                 add i.bubble_bg
-                frame:                                    
+                frame:
                     style i.bubble_style
                     yfill True xfill True
                     text i.what style 'special_bubble' alt i.alt_text(anti)
@@ -108,18 +108,18 @@ screen chat_animation(i, anti=False):
                 style i.img_style
                 if "{image" in i.what:
                     text i.what alt i.alt_text(anti)
-                else: # it's a CG                            
+                else: # it's a CG
                     $ fullsizeCG = cg_helper(i.what)
                     imagebutton:
                         focus_mask True
                         idle smallCG(fullsizeCG)
                         if not choosing:
-                            action [SetVariable("fullsizeCG", 
-                                        cg_helper(i.what)), 
-                                        Call("viewCG"), 
+                            action [SetVariable("fullsizeCG",
+                                        cg_helper(i.what)),
+                                        Jump("viewCG"),
                                         Return()]
                         alt i.alt_text(anti)
-                
+
 
         # Not img or special bubble; check if glow variant
         elif i.bounce:
@@ -131,9 +131,9 @@ screen chat_animation(i, anti=False):
                 # This checks if the text needs to wrap or not
                 if i.dialogue_width > gui.longer_than:
                     text i.what:
-                        style 'bubble_text_long' 
+                        style 'bubble_text_long'
                         min_width gui.long_line_min_width
-                else:            
+                else:
                     text i.what style 'bubble_text'
                 alt i.alt_text(anti)
 
@@ -146,7 +146,7 @@ screen chat_animation(i, anti=False):
                     text i.what:
                         style 'bubble_text_long'
                         min_width gui.long_line_min_width
-                else:            
+                else:
                     text i.what style "bubble_text"
                 alt i.alt_text(anti)
 
@@ -167,14 +167,13 @@ screen chat_animation(i, anti=False):
                     else:
                         style 'bubble_text'
                 alt i.alt_text(anti)
-                                
 
-   
 
-                                
-                            
 
-        
-                
-     
-            
+
+
+
+
+
+
+

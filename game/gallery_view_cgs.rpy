@@ -4,7 +4,7 @@ init python:
         """
         Correct the dialogue into a filepath for unlocking a CG or
         adding it to an unlock list to unlock later.
-        
+
         Parameters:
         -----------
         what : string
@@ -53,19 +53,21 @@ init python:
 #####################################
 # View CGs
 #####################################
-    
+
 default close_visible = True
 default textmsg_CG = False
 
 label viewCG(textmsg=False):
+    if textmsg:
+        $ renpy.pop_call()
     $ close_visible = True
     $ textmsg_CG = textmsg
     # $ print_file("viewCG, pre_choosing", pre_choosing, "textmsg_CG", textmsg_CG, "CG_who", CG_who, "CG_who.real_time_text", CG_who.real_time_text, "text_person", text_person)
     call screen viewCG_fullsize()
     return
-    
+
 ## This is the screen where you can view a full-sized CG when you
-## click it. It has a "Close" button that appears/disappears 
+## click it. It has a "Close" button that appears/disappears
 ## when you click the CG
 
 screen viewCG_fullsize():
@@ -76,7 +78,7 @@ screen viewCG_fullsize():
         focus_mask True
         idle fullsizeCG
         action ToggleVariable("close_visible", False, True)
-        
+
     if close_visible:
         imagebutton:
             xalign 0.5
@@ -88,31 +90,31 @@ screen viewCG_fullsize():
                 action [Call("answer", from_cg=True)]
             # From a text message, not real time texting
             elif textmsg_CG and not CG_who.real_time_text:
-                action [Hide("viewCG_fullsize"), 
+                action [Hide("viewCG_fullsize"),
                         Show("text_message_screen", sender=CG_who)]
             # From a real time text message, before an answer button
             elif textmsg_CG and pre_choosing:
-                action [Hide("viewCG_fullsize"), 
-                        Show("text_message_screen", sender=CG_who), 
+                action [Hide("viewCG_fullsize"),
+                        Show("text_message_screen", sender=CG_who),
                         Call("answer", from_cg=True)]
-                
+
             # From a real time text message, not before an answer button
             elif textmsg_CG and text_person:
-                action [Hide("viewCG_fullsize"), 
-                        Show("text_message_screen", 
-                            sender=CG_who), Call('play')]
+                action [Hide("viewCG_fullsize"),
+                        Show("text_message_screen",
+                            sender=CG_who), Jump('play')]
             # Convo is over, just viewing CGs in a text message
             elif textmsg_CG:
-                action [Hide("viewCG_fullsize"), 
+                action [Hide("viewCG_fullsize"),
                         Show("text_message_screen", sender=CG_who,
                             animate=False)]
             # From the chatroom, not before an answer button
             else:
-                action [Call("play")]
-        
+                action [Jump("play")]
+
         text "Close" style "CG_close":
             if persistent.dialogue_outlines:
-                outlines [ (2, "#000", 
+                outlines [ (2, "#000",
                             absolute(0), absolute(0)) ]
                 font gui.sans_serif_1xb
 

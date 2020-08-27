@@ -5,6 +5,8 @@
 # Call this label before you show a menu
 # to show the answer button
 label answer(from_cg=False):
+    if from_cg:
+        $ renpy.pop_call()
     # Check if it's from the messenger or a text message
     if not text_person:
         if from_cg:
@@ -320,8 +322,7 @@ screen phone_overlay():
                 idle 'back_arrow_btn'
                 hover Transform('back_arrow_btn', zoom=1.2)
                 keysym "K_BACKSPACE"
-                if (observing or (current_timeline_item.expired
-                        and not current_timeline_item.buyback) or _in_replay):
+                if (observing or current_timeline_item.currently_expired or _in_replay):
                     action Jump('exit_item_early')
                 else:
                     action CConfirm(("Do you really want to "
