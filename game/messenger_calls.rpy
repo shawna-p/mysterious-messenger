@@ -230,16 +230,14 @@ screen signature_screen(phone=True):
         has vbox
         spacing 10
         null height 70
-        if (observing or (current_timeline_item.expired
-                and not current_timeline_item.buyback)):
+        if (observing or current_timeline_item.currently_expired):
             null height 10
         text "This conversation will be archived in the RFA records.":
             layout 'subtitle'
             size 30
             if persistent.custom_footers:
                 color "#fff"
-        if not (observing or (current_timeline_item.expired
-                and not current_timeline_item.buyback)):
+        if not (observing or current_timeline_item.currently_expired):
             hbox:
                 style_prefix "sig_points"
                 frame:
@@ -253,8 +251,7 @@ screen signature_screen(phone=True):
             if persistent.custom_footers:
                 color "#fff"
 
-        if (observing or (current_timeline_item.expired
-                and not current_timeline_item.buyback)):
+        if (observing or current_timeline_item.currently_expired):
             null height 15
 
         textbutton _('sign'):
@@ -339,7 +336,7 @@ label skip_intro_setup():
 
     # Add this label to the list of completed labels
     $ current_timeline_item.mark_next_played()
-    if not current_timeline_item.expired and not current_timeline_item.buyback:
+    if not current_timeline_item.expired:
         # Checks for a post-chatroom label
         # Otherwise delivers phone calls/texts/etc
         $ current_timeline_item.call_after_label()

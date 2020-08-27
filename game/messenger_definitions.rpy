@@ -479,7 +479,7 @@ init -4 python:
 
         # Don't give HG when rewatching a chatroom, or not participating,
         # or if receiving hourglasses is turned off
-        if (store.observing or store.current_timeline_item.expired
+        if (store.observing or store.current_timeline_item.currently_expired
                 or not store.persistent.receive_hg):
             return
 

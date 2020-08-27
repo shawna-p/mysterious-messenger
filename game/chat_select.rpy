@@ -286,7 +286,7 @@ screen timeline_item_display(day, day_num, item, index):
         else:
             anim = null_anim
 
-        if item.expired:
+        if item.currently_expired:
             chat_title_width = 300
             chat_box_width = 520
             partic_viewport_width = 430
@@ -303,7 +303,7 @@ screen timeline_item_display(day, day_num, item, index):
             if item.participated:
                 num_participants += 1
             if ((num_participants > 6)
-                    or (item.expired and num_participants > 4)):
+                    or ((item.currently_expired and num_participants > 4)):
                 part_anim = participant_scroll
 
         # ChatRoom story mode displays similarly to solo StoryMode in
@@ -361,7 +361,7 @@ screen timeline_item_display(day, day_num, item, index):
                     action [SetVariable('current_timeline_item', item),
                             Jump('play_timeline_item')]
 
-                if (hacked_effect and item.expired
+                if (hacked_effect and item.currently_expired
                         and persistent.hacking_effects):
                     add 'day_reg_hacked' xoffset -185 yoffset -178
                 elif hacked_effect and persistent.hacking_effects:
@@ -410,7 +410,7 @@ screen timeline_item_display(day, day_num, item, index):
 
             # If this chat is expired and hasn't been bought back,
             # show a button allowing the player to buy this chat again
-            if item.expired and not item.buyback:
+            if item.currently_expired:
                 imagebutton:
                     yalign 0.9
                     xalign 0.5
@@ -420,8 +420,7 @@ screen timeline_item_display(day, day_num, item, index):
                         action CConfirm(("Would you like to"
                                     + " participate in the chat conversation"
                                     + " that has passed?"),
-                                [SetField(item, 'expired', False),
-                                SetField(item, 'buyback', True),
+                                [SetField(item, 'buyback', True),
                                 SetField(item, 'played', False),
                                 SetField(item, 'replay_log', []),
                                 Function(item.reset_participants),
@@ -542,7 +541,7 @@ screen timeline_item_display(day, day_num, item, index):
 ## Screen to display story calls
 screen timeline_story_calls(phonecall, item, was_played):
     python:
-        if phonecall.expired:
+        if phonecall.currently_expired:
             call_title_width = 300
             call_box_width = 520
         else:
@@ -582,7 +581,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                         $ the_title = phonecall.title or "Story Call"
                         text the_title style 'chat_timeline_text'
 
-        if phonecall.expired and not phonecall.buyback:
+        if phonecall.currently_expired:
             imagebutton:
                 yalign 0.85
                 xalign 0.5
@@ -592,8 +591,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                     action CConfirm(("Would you like to"
                                 + " call " + phonecall.caller.name + " back to "
                                 + " participate in this phone call?"),
-                            [SetField(phonecall, 'expired', False),
-                            SetField(phonecall, 'buyback', True),
+                            [SetField(phonecall, 'buyback', True),
                             SetField(phonecall, 'played', False),
                             Function(renpy.retain_after_load),
                             Function(renpy.restart_interaction)])

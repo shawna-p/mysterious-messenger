@@ -231,7 +231,7 @@ init -6 python:
             if not self.played:
                 self.played = True
                 # Add this label to the list of completed labels for the History
-                if self.expired and not self.buyback:
+                if self.currently_expired:
                     store.persistent.completed_story.add(
                         self.expired_label)
                 else:
@@ -244,7 +244,7 @@ init -6 python:
                 for phonecall in self.story_calls_list:
                     if not phonecall.played:
                         phonecall.played = True
-                        if phonecall.expired and not phonecall.buyback:
+                        if phonecall.currently_expired:
                             store.persistent.completed_story.add(
                                 phonecall.expired_label)
                         else:
@@ -282,8 +282,7 @@ init -6 python:
 
             if self.played and not self.delivered_post_items:
                 self.call_after_label(True)
-                if self.phonecall_label:
-                    deliver_calls(self.phonecall_label)
+                self.deliver_calls()
 
             for phonecall in self.story_calls_list:
                phonecall.deliver_next_after_content()
@@ -489,6 +488,10 @@ init -6 python:
                 num_played += 1.0
             return (num_played, total)
 
+        @property
+        def currently_expired(self):
+            """Return if this item is currently expired."""
+            return (self.expired and not self.buyback)
 
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
@@ -662,7 +665,7 @@ init -6 python:
             if not self.played:
                 self.played = True
                 # Add this label to the list of completed labels for the History
-                if self.expired and not self.buyback:
+                if self.currently_expired:
                     store.persistent.completed_story.add(
                         self.expired_label)
                     self.participated = False
@@ -769,8 +772,7 @@ init -6 python:
 
             if self.played and not self.delivered_post_items:
                 self.call_after_label(True)
-                if self.phonecall_label:
-                    deliver_calls(self.phonecall_label)
+                self.deliver_calls()
 
             if self.story_mode and not self.story_mode.delivered_post_items:
                 self.story_mode.deliver_next_after_content()
@@ -934,6 +936,18 @@ init -6 python:
             else:
                 return 'vn_inactive'
 
+        def deliver_calls(self):
+            """Deliver phone calls associated with this item."""
+
+            if (self.parent and self.phonecall_label
+                    and self.phonecall_label != self.item_label):
+                deliver_calls(self.phonecall_label, expired=parent.expired)
+                return
+
+            if self.phonecall_label:
+                deliver_calls(self.phonecall_label, expired=self.expired)
+            return
+
         def participated_percentage(self, check_all=False):
             """
             Return the number of timeline items that have been participated in.
@@ -948,14 +962,14 @@ init -6 python:
 
             if not check_all:
                 # Only return whether or not this item was played
-                return 0.0
+                return 1.0
 
             # Otherwise, return a tuple
             total = len(self.story_calls_list)
             num_played = 0.0
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
-                    if phonecall.played and not phonecall.expired:
+                    if phonecall.played and not phonecall.currently_expired:
                         num_played += 1.0
 
             return (num_played, total)
