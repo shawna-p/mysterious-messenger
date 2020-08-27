@@ -463,9 +463,9 @@ init python:
             comment_what : string
                 What the comment_who character will say about the guest.
             comment_img : string
-                A string corresponding to a defined image or layeredimage attributes
-                that will be used to display the sprite of the character speaking
-                about this guest e.g. "zen front party happy".
+                A string corresponding to a defined image or layeredimage
+                attributes that will be used to display the sprite of the
+                character speaking about this guest e.g. "zen front party happy"
             dialogue_name : string
                 The name of the guest as it should appear in their dialogue box
                 when they arrive at the party e.g. "Long Cat"
@@ -510,6 +510,24 @@ init python:
             self.comment_img = comment_img
             self.dialogue_name = dialogue_name
             self.dialogue_what = dialogue_what
+
+            # Attempt to set some of the comment info manually if not provided
+            if not self.large_img:
+                self.large_img = self.thumbnail
+            if not self.short_desc:
+                self.short_desc = ("No description was entered in this guest's"
+                    + " Guest definition.")
+            if not self.personal_info:
+                self.personal_info = ("No personal info was given in this"
+                    " guest's Guest definition")
+            if not self.comment_who:
+                self.comment_who = store.narrator
+            if not self.comment_what:
+                self.comment_what = "No comment was entered for this guest."
+            if not self.dialogue_name:
+                self.dialogue_name = string.capwords(self.name)
+            if not self.dialogue_what:
+                self.dialogue_what = "This guest was not given anything to say."
 
             # Add the guest to the guestbook
             if self.name not in store.persistent.guestbook:
@@ -600,18 +618,21 @@ screen email_popup(e):
 
             # This button takes you directly to the email. It is
             # included so long as the email popup is not shown
-            # during phone calls or chatrooms
+            # during phone calls or chatrooms.
             textbutton _('Go to'):
                 if (not (renpy.get_screen('in_call')
                         or renpy.get_screen('incoming_call')
                         or renpy.get_screen('outgoing call'))):
-                    action [Hide('email_popup'),
+                    action If (((not (renpy.get_screen('in_call')
+                            or renpy.get_screen('incoming_call')
+                            or renpy.get_screen('outgoing call')))),
+                        [Hide('email_popup'),
                             Hide('save_load'),
                             Hide('menu'),
                             Hide('chat_footer'),
                             Hide('phone_overlay'),
                             Hide('settings_screen'),
-                            Show('email_hub')]
+                            Show('email_hub')], None)
 
     timer 3.25 action Hide('email_popup', Dissolve(0.25))
 
@@ -1048,7 +1069,7 @@ label guest_info():
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
             persistent.HG += 1
 
-    call vn_begin()
+    $ begin_timeline_item(StoryMode("Guest", "guest_info", "00:00"))
     $ viewing_guest = True
     scene bg rfa_party_3
     show expression expr
