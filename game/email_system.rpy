@@ -324,6 +324,8 @@ init python:
             email_reply = True
             renpy.call_in_new_context(self.reply_label)
             email_reply = False
+            renpy.retain_after_load()
+            return
 
         def send_sooner(self):
             """Increase the timeout and deliver_reply counters. For testing."""
@@ -1029,8 +1031,7 @@ screen guest_info_popup(guest, unlocked):
                     fixed:
                         xsize 620//2
                         yfit True
-                        yalign 0.5
-                        xalign 0.5
+                        align (0.5, 0.5)
                         add guest.large_img
                     fixed:
                         xysize (int(273*1.1), int(93*1.1))
