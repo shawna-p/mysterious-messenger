@@ -81,8 +81,6 @@ define gui.notify_text_size = 25
 ## The size of the game's title.
 define gui.title_text_size = 60
 
-
-
 define gui.curly_font = gui.preference('curly_font', "fonts/Sandoll Misaeng (Curly Font).ttf")
 define gui.serif_1 = gui.preference('serif_1', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf")
 define gui.serif_1b = gui.preference('serif_1b', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf")
@@ -98,6 +96,12 @@ define gui.sans_serif_2b = gui.preference('sans_serif_2b', "fonts/SeoulNamsan (S
 define gui.sans_serif_2xb = gui.preference('sans_serif_2xb', "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanEB.ttf")
 define gui.blocky_font = gui.preference('blocky_font', "fonts/BM-HANNA (Bold Font).ttf")
 define gui.curlicue_font = gui.preference('curlicue_font', "fonts/NanumBarunpenR.ttf")
+
+init python:
+    config.font_replacement_map[gui.serif_1, True, False] = (gui.serif_1xb, False, False)
+    config.font_replacement_map[gui.serif_2, True, False] = (gui.serif_2xb, False, False)
+    config.font_replacement_map[gui.sans_serif_1, True, False] = (gui.sans_serif_1xb, False, False)
+    config.font_replacement_map[gui.sans_serif_2, True, False] = (gui.sans_serif_2xb, False, False)
 
 ## Main and Game Menus #########################################################
 
