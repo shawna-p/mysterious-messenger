@@ -243,6 +243,9 @@ init python:
         global all_albums
         has_unlocked = False
 
+        if not isinstance(album_list, list):
+            album_list = [ album_list ]
+
         for album in album_list:
             for photo in getattr(store.persistent, album + "_album"):
                 if photo.unlocked:
@@ -255,7 +258,6 @@ init python:
                 if album in all_albums:
                     all_albums.remove(album)
             has_unlocked = False
-
 
 
     def drag_box(drags, drop):
@@ -279,7 +281,7 @@ init python:
 
         else:
             for item in drags:
-                # Moves the translucent image back to its
+                # Move the translucent image back to its
                 # default position
                 item.snap(0, 0)
 
@@ -348,7 +350,7 @@ image translucent_img = 'translucent.webp'
 ## available in the photo gallery
 screen photo_album():
 
-    # Ensure this replaces the main menu.
+    # Ensure this replaces other menu screens
     tag menu
 
     if not main_menu:
@@ -441,9 +443,6 @@ screen photo_album():
                         null
 
 
-
-
-
 ## This displays a button with an image and a caption
 ## that will take you to the desired character's album
 screen char_album(caption, name=None, album=None, cover=None):
@@ -457,7 +456,6 @@ screen char_album(caption, name=None, album=None, cover=None):
             album = getattr(store.persistent,
                     convert_to_file_name(file_id) + "_album")
             cover = convert_to_file_name(file_id) + "_album_cover"
-
 
     button:
         vbox:
