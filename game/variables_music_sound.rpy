@@ -57,7 +57,7 @@ define xmas_urban_night_cityscape = "audio/music/Urban Night Cityscape (ver. X-M
 # audio caption
 # Add your music to the bottom of the list so it will have a description
 # when audio captions are turned on
-default music_dictionary = {
+define music_dictionary = {
     mystic_chat : "Upbeat saxophone music",
     mystic_chat2 : "Upbeat saxophone music with electric guitar",
     mysterious_clues : "Sinister bell music",
@@ -104,7 +104,6 @@ default music_dictionary = {
     april_mystic_chat : "Upbeat 8-bit music",
     april_mysterious_clues : "Sinister 8-bit music",
     april_dark_secret : "Suspenseful 8-bit music"
-
 }
 
 

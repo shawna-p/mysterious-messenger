@@ -302,8 +302,7 @@ screen timeline_item_display(day, day_num, item, index):
             num_participants = len(item.participants)
             if item.participated:
                 num_participants += 1
-            if ((num_participants > 6)
-                    or ((item.currently_expired and num_participants > 4)):
+            if num_participants > 6:
                 part_anim = participant_scroll
 
         # ChatRoom story mode displays similarly to solo StoryMode in

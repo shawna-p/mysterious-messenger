@@ -941,7 +941,7 @@ init -6 python:
 
             if (self.parent and self.phonecall_label
                     and self.phonecall_label != self.item_label):
-                deliver_calls(self.phonecall_label, expired=parent.expired)
+                deliver_calls(self.phonecall_label, expired=self.parent.expired)
                 return
 
             if self.phonecall_label:
