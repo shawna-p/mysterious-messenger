@@ -16,7 +16,6 @@ image cg s_1 = "CGs/s_album/cg-1.webp"
 image cg r_1 = "CGs/r_album/cg-1.webp"
 
 
-
 #************************************
 # Album Cover Images
 #************************************
@@ -45,9 +44,9 @@ image common_album_cover = 'CGs/common_album_cover.webp'
 #************************************
 # Album Declarations
 #************************************
-## These are the persistent photo album variables
+## These are the persistent photo album variables.
 ## They let you keep unlocked photos available across
-## different playthroughs
+## different playthroughs.
 default persistent.ja_album = []
 default persistent.ju_album = []
 default persistent.r_album = []
@@ -60,7 +59,7 @@ default persistent.common_album = []
 
 ## In order to allow for albums to be easily expanded,
 ## these variables are used. This is where you actually
-## declare all of the Album objects you need
+## declare all of the Album objects you need.
 default ja_album = []
 default ju_album = []
 default r_album = [ Album("cg r_1") ]

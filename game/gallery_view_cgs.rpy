@@ -68,8 +68,7 @@ label viewCG(textmsg=False):
 
 ## This is the screen where you can view a full-sized CG when you
 ## click it. It has a "Close" button that appears/disappears
-## when you click the CG
-
+## when you click the CG.
 screen viewCG_fullsize():
     zorder 5
     imagebutton:
