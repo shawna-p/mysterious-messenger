@@ -89,7 +89,7 @@ init python:
         }
 
 ## These are defined for the (currently unused) create_a_chatroom
-default jaehee_emotes = ['{image=jaehee_angry}',
+define jaehee_emotes = ['{image=jaehee_angry}',
                     '{image=jaehee_happy}',
                     '{image=jaehee_hehe}',
                     '{image=jaehee_huff}',
@@ -99,16 +99,16 @@ default jaehee_emotes = ['{image=jaehee_angry}',
                     '{image=jaehee_well}',
                     '{image=jaehee_wow}']
 
-default jumin_emotes = [ '{image=jumin_angry}',
+define jumin_emotes = [ '{image=jumin_angry}',
                     '{image=jumin_sad}',
                     '{image=jumin_smile}',
                     '{image=jumin_well}']
 
-default rika_emotes = ['{image=rika_happy}',
+define rika_emotes = ['{image=rika_happy}',
                         '{image=rika_pout}',
                         '{image=rika_cry}']
 
-default ray_emotes = ['{image=ray_cry}',
+define ray_emotes = ['{image=ray_cry}',
                     '{image=ray_happy}',
                     '{image=ray_huff}',
                     '{image=ray_question}',
@@ -124,12 +124,12 @@ default ray_emotes = ['{image=ray_cry}',
                     '{image=saeran2_well}',
                     '{image=saeran2_wink}']
 
-default saeran_emotes = ['{image=saeran_expecting}',
+define saeran_emotes = ['{image=saeran_expecting}',
                     '{image=saeran_happy}',
                     '{image=saeran_questioning}',
                     '{image=saeran_well}']
 
-default seven_emotes = ['{image=seven_cry}',
+define seven_emotes = ['{image=seven_cry}',
                     '{image=seven_huff}',
                     '{image=seven_khee}',
                     '{image=seven_love}',
@@ -139,12 +139,12 @@ default seven_emotes = ['{image=seven_cry}',
                     '{image=seven_yahoo}',
                     '{image=seven_yoohoo}']
 
-default v_emotes = ['{image=v_shock}',
+define v_emotes = ['{image=v_shock}',
                     '{image=v_smile}',
                     '{image=v_well}',
                     '{image=v_wink}']
 
-default yoosung_emotes = ['{image=yoosung_angry}',
+define yoosung_emotes = ['{image=yoosung_angry}',
                     '{image=yoosung_cry}',
                     '{image=yoosung_happy}',
                     '{image=yoosung_huff}',
@@ -155,7 +155,7 @@ default yoosung_emotes = ['{image=yoosung_angry}',
                     '{image=yoosung_wow}',
                     '{image=yoosung_yahoo}']
 
-default zen_emotes = ['{image=zen_angry}',
+define zen_emotes = ['{image=zen_angry}',
                     '{image=zen_happy}',
                     '{image=zen_hmm}',
                     '{image=zen_oyeah}',
@@ -165,7 +165,7 @@ default zen_emotes = ['{image=zen_angry}',
                     '{image=zen_well}',
                     '{image=zen_wink}']
 
-default all_emotes = (jaehee_emotes + jumin_emotes + rika_emotes
+define all_emotes = (jaehee_emotes + jumin_emotes + rika_emotes
                     + ray_emotes + seven_emotes + saeran_emotes
                     + v_emotes + yoosung_emotes + zen_emotes)
 
