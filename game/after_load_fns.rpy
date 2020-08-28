@@ -77,6 +77,9 @@ init python:
             store.chatroom_hg = None
             store.persistent.completed_story = set(store.persistent.completed_chatrooms.keys())
             store.persistent.completed_chatrooms = None
+
+            # Update music variables to their .ogg counterparts
+            update_music()
             # Check if chat_archive is the tutorial day one though, since
             # it'll likely be changed to have paraphrased choices
 
@@ -90,6 +93,11 @@ init python:
 
         # Turn the version back into a string
         store._version = '.'.join(map(str, store._version))
+
+    def update_music():
+        if '.mp3' in store.music_dictionary.keys()[0]:
+            store.music_dictionary = dict((key.split('.mp3')[0] + '.ogg', value)
+                for (key, value) in store.music_dictionary.items())
 
 
     def unlock_profile_pics(who):
