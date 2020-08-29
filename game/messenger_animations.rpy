@@ -57,6 +57,28 @@ init python:
         renpy.hide_screen('hicon3')
         return
 
+    def heart_icon(character):
+        """
+        Dynamically recolour the heart icon to the colour associated with
+        this character.
+        """
+        try:
+            return im.MatrixColor("Heart Point/Unknown Heart Point.webp",
+                im.matrix.colorize("#000000", character.heart_color))
+        except:
+            return "Heart Point/Unknown Heart Point.webp"
+
+    def heart_break_img(picture, character):
+        """
+        Dynamically recolour the heartbreak icon to the colour associated
+        with this character.
+        """
+
+        if character.heart_color:
+            return im.MatrixColor(picture,
+                    im.matrix.colorize("#000000", character.heart_color))
+        else:
+            return "Heart Point/heartbreak_0.webp"
 
 # Display the heart icon on-screen
 screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
