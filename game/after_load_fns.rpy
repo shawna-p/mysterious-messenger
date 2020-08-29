@@ -61,22 +61,29 @@ init python:
 
         if store._version < (3, 0, 0):
             # Update ChatHistory and VNMode objects
-            for day in store.chat_archive:
-                day.convert_archive(True)
+            if store.chat_archive:
+                for day in store.chat_archive:
+                    day.convert_archive(True)
 
             # Update several variables
-            store.current_timeline_item = store.current_chatroom
-            store.current_chatroom = None
-            store.story_archive = store.chat_archive
-            store.chat_archive = None
-            store.most_recent_item = store.most_recent_chat
-            store.most_recent_chat = None
-            store.collected_hp = store.chatroom_hp
-            store.collected_hg = store.chatroom_hg
-            store.chatroom_hp = None
-            store.chatroom_hg = None
-            store.persistent.completed_story = set(store.persistent.completed_chatrooms.keys())
-            store.persistent.completed_chatrooms = None
+            if store.current_chatroom:
+                store.current_timeline_item = store.current_chatroom
+                store.current_chatroom = None
+            if store.chat_archive:
+                store.story_archive = store.chat_archive
+                store.chat_archive = None
+            if store.most_recent_chat:
+                store.most_recent_item = store.most_recent_chat
+                store.most_recent_chat = None
+            if store.chatroom_hp:
+                store.collected_hp = store.chatroom_hp
+                store.collected_hg = store.chatroom_hg
+                store.chatroom_hp = None
+                store.chatroom_hg = None
+            if store.persistent.completed_chatrooms:
+                store.persistent.completed_story = set(
+                    store.persistent.completed_chatrooms.keys())
+                store.persistent.completed_chatrooms = None
 
             # Update music variables to their .ogg counterparts
             update_music()

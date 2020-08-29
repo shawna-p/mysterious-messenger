@@ -169,7 +169,7 @@ label rewatch_chatroom():
     jump chatroom_replay
 
 label chatroom_replay():
-    # Now start the loop to iterate through the replay_log
+    # Start the loop to iterate through the replay_log
     python:
         for i, entry in enumerate(current_timeline_item.replay_log[replay_from:]):
             chatroom_replay_index += 1

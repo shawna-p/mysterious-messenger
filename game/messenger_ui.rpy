@@ -85,7 +85,7 @@ screen pause_button():
         focus_mask True
         idle 'phone_pause'
         if not choosing:
-            action [Call("play"), Return()]
+            action [Jump("play"), Return()]
             keysym "K_SPACE"
 
     if not choosing:
