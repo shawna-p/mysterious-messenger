@@ -1105,7 +1105,14 @@ python early hide:
 
 
     def predict_award_heart(p):
-        return [ ]
+        if not persistent.animated_icons:
+            return [ ]
+        if p["who"] is not None:
+            try:
+                who = eval(p["who"])
+            except:
+                return [ ]
+        return [ heart_icon(who) ]
 
     def warp_award_heart(p):
         return True
@@ -1166,10 +1173,24 @@ python early hide:
                 renpy.show_screen(allocate_notification_screen(True), msg)
         return
 
+    def predict_break_heart(p):
+        if not persistent.animated_icons:
+            return [ ]
+        if p["who"] is not None:
+            try:
+                who = eval(p["who"])
+            except:
+                return [ ]
+        return [ heart_break_img("Heart Point/heartbreak_0.webp", who),
+                heart_break_img("Heart Point/heartbreak_1.webp", who),
+                heart_break_img("Heart Point/heartbreak_2.webp", who),
+                heart_break_img("Heart Point/heartbreak_3.webp", who),
+                heart_break_img("Heart Point/heartbreak_4.webp", who) ]
+
     renpy.register_statement('break heart',
         parse=parse_break_heart,
         execute=execute_break_heart,
-        predict=predict_award_heart,
+        predict=predict_break_heart,
         lint=lint_award_heart,
         warp=warp_award_heart)
 
@@ -1178,7 +1199,7 @@ python early hide:
     renpy.register_statement('heart break',
         parse=parse_break_heart,
         execute=execute_break_heart,
-        predict=predict_award_heart,
+        predict=predict_break_heart,
         lint=lint_award_heart,
         warp=warp_award_heart)
 
@@ -1262,7 +1283,32 @@ python early hide:
         lint=lint_invite_guest,
         warp=warp_invite_guest)
 
+    ########################################
+    ## CLEAR CHAT CDS
+    ########################################
+    # Definitions that allow you to clear the chatlog in a chatroom.
+    def parse_clear_chat(l):
+        reset_participants = False
+        if l.keyword('participants'):
+            reset_participants = True
+        return reset_participants
 
+    def execute_clear_chat(reset_participants):
+        store.chatlog = []
+        addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+        if reset_participants:
+            store.in_chat = []
+            if not store.observing:
+                current_timeline_item.reset_participants()
+            for person in current_timeline_item.original_participants:
+                if person.name not in store.in_chat:
+                    store.in_chat.append(person.name)
+        return
+
+    renpy.register_statement('clear chat',
+        parse=parse_clear_chat,
+        execute=execute_clear_chat,
+        warp=lambda : True)
     ########################################
     ## PLAY MUSIC/SOUND REPLACEMENT CDS
     ########################################
