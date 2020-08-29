@@ -40,7 +40,7 @@ init -6 python:
                 Status of the phone call. One of 'incoming', 'outgoing',
                 'missed', or 'voicemail'.
             avail_timeout : int
-                How many chatrooms to wait until this call expires.
+                How many story items to wait until this call expires.
             voicemail : bool
                 True if this call is a voicemail message rather than
                 a conversation.
@@ -159,7 +159,7 @@ init -6 python:
 
     def deliver_calls(lbl, expired=False, call_time=False):
         """
-        Make any phonecalls associated with the current chatroom available.
+        Make any phonecalls associated with the current story item available.
         """
 
         global available_calls, incoming_call, call_history
@@ -184,7 +184,7 @@ init -6 python:
                     incoming_call = PhoneCall(c, lbl + '_incoming_'
                                     + c.file_id, 'incoming')
 
-        # The player backed out of a chatroom; no missed call but should
+        # The player backed out of the item; no missed call but should
         # add it to the outgoing calls list
         if expired and not call_time and missed_call and phonecall:
             if phonecall not in available_calls:
@@ -208,7 +208,7 @@ default unseen_calls = 0
 # True if the player is in a phone call (for choice menus etc)
 default in_phone_call = False
 # Number of seconds to wait for the player to pick up incoming calls
-default call_countdown = 10
+define call_countdown = 10
 
 ########################################################
 ## The phone menu screen, which displays a list of all
@@ -465,6 +465,10 @@ label hang_up():
         $ observing = False
     else:
         $ call_hang_up(phonecall=current_call)
+    $ in_phone_call = False
+    $ current_call = False
+    $ _history = True
+    $ renpy.retain_after_load()
     # Pop the call to play_phone_call
     $ renpy.pop_call()
     call screen phone_calls
@@ -764,21 +768,22 @@ screen phone_say(who, what):
 ## intro
 label new_incoming_call(phonecall):
     play music persistent.phone_tone loop nocaption
-    call screen incoming_call(phonecall=phonecall)
+    if isinstance(phonecall, PhoneCall):
+        call screen incoming_call(phonecall=phonecall)
+    else:
+        call screen incoming_call(phonecall=PhoneCall(phonecall, 'n/a'))
     return
 
 ## This label sets up the appropriate variables/actions when you begin
 ## a phone call
-label phone_begin():
+label phone_begin(resetHP=True):
     if isinstance(current_call, StoryCall):
         return
-    if starter_story:
-        $ set_name_pfp()
-        jump play_phone_call
+    $ begin_timeline_item(generic_storycall, resetHP=resetHP)
     return
 
 ## This label sets the appropriate variables/actions when you finish
-## a phone call
+## a phone call. Now largely moot.
 label phone_end():
     return
 

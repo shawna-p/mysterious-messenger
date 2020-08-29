@@ -441,6 +441,12 @@ init python:
     # by scrolling
     config.keymap['rollback'].remove('mousedown_4')
 
+init offset = 4
+## Generic variables that are used for some program calls and setup.
+default generic_chatroom = ChatRoom('Chatroom', 'generic_chatroom', '00:00')
+default generic_storymode = StoryMode('Story Mode', 'generic_storymode', '00:00')
+default generic_storycall = StoryCall('Story Call', 'generic_storycall', '00:00', None)
+init offset = 0
 
 # Name of the currently played day, e.g. '1st'
 default current_day = False
@@ -524,7 +530,6 @@ image transparent_img = '#0000'
 # ********************************
 # Short forms/Startup Variables
 # ********************************
-
 
 # Displays all the messages in a chatroom
 default chatlog = []
