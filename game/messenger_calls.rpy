@@ -26,13 +26,7 @@
 
 label chat_begin(background=None, clearchat=True, resetHP=True):
     $ set_chatroom_background(background)
-    if clearchat:
-        $ chatlog = []
-        $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0.1)
-    if resetHP:
-        $ collected_hp = {'good': [], 'bad': [], 'break': []}
-    if starter_story:
-        $ begin_timeline_item(current_timeline_item)
+    $ begin_timeline_item(generic_chatroom, clearchat, resetHP)
     return
 
 ## This label simplifies setting up backgrounds for chatrooms
@@ -41,7 +35,7 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 init python:
     def set_chatroom_background(new_bg):
         """Set the correct background and nickname colour."""
-        print('new_bg is', new_bg)
+
         if new_bg[:3] == 'bg ':
             new_bg = new_bg[3:]
 
@@ -87,7 +81,7 @@ init python:
         return
 
 
-## Call this label to show the save & exit sign
+## This label ends a chatroom.
 label chat_end():
     if starter_story:
         $ end_timeline_item_checks()
@@ -98,8 +92,8 @@ label chat_end():
         call screen chat_home
     return
 
-## Call this label at the very end of the route to show a good/bad/normal
-# ending sign and return the player to the main menu
+## Jump to this label at the very end of the route to show a good/bad/normal
+# ending sign and return the player to the main menu.
 label chat_end_route():
     jump end_route
 
