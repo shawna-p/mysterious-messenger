@@ -1137,19 +1137,21 @@ label play_timeline_item():
 
 init python:
     ## Set up the correct variables and screens to view this TimelineItem.
-    def begin_timeline_item(item):
+    def begin_timeline_item(item, clearchat=True, resetHP=True, stop_music=True):
         # renpy.scene()
         # renpy.exports.show(name='bg', what=Solid(FUCHSIA))
 
         if store.starter_story:
             set_name_pfp()
-        renpy.music.stop(channel='music')
+        if stop_music:
+            renpy.music.stop(channel='music')
 
         # Set this item as the current timeline item
         # current_timeline_item = item
 
         # Reset heart points
-        store.collected_hp = {'good': [], 'bad': [], 'break': []}
+        if resetHP:
+            store.collected_hp = {'good': [], 'bad': [], 'break': []}
 
         renpy.hide_screen('starry_night')
         renpy.hide_screen('animated_bg')
@@ -1163,13 +1165,15 @@ init python:
 
         # Special variable is set when rewatching an item to prevent changing
         # what was said or receiving heart points again, for example.
-        if item.played:
-            if not store.persistent.testing_mode:
-                store.observing = True
+        if item not in [store.generic_chatroom, store.generic_storycall,
+                store.generic_storymode]:
+            if item.played:
+                if not store.persistent.testing_mode:
+                    store.observing = True
+                else:
+                    store.observing = False
             else:
                 store.observing = False
-        else:
-            store.observing = False
 
         # If watching this item from the History, observing is always True.
         # Pronouns, name, and profile picture must be re-set and all characters'
@@ -1194,26 +1198,29 @@ init python:
             renpy.show_screen('pause_button')
 
             # Clear the chatlog
-            store.chatlog = []
-            # Fill the beginning of the chat with 'empty space' so messages
-            # appear at the bottom of the screen
-            addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+            if clearchat:
+                store.chatlog = []
+                # Fill the beginning of the chat with 'empty space' so messages
+                # appear at the bottom of the screen
+                addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
 
             store.text_person = None
             store._window_hide()
 
             # Set up the participants list
-            store.in_chat = []
-            if not store.observing:
-                item.reset_participants()
-            for person in item.original_participants:
-                if person.name not in store.in_chat:
-                    store.in_chat.append(person.name)
+            if resetHP:
+                store.in_chat = []
+                if not store.observing:
+                    item.reset_participants()
+                for person in item.original_participants:
+                    if person.name not in store.in_chat:
+                        store.in_chat.append(person.name)
 
-            # If the player is participating, add them to the participants list
-            if ((not item.expired or item.buyback or item.buyahead)
-                    and not expired_replay):
-                store.in_chat.append(m.name)
+                # If the player is participating, add them to the
+                # participants list
+                if ((not item.expired or item.buyback or item.buyahead)
+                        and not expired_replay):
+                    store.in_chat.append(m.name)
 
 
         # Story Mode/VN setup
@@ -1655,7 +1662,48 @@ init python:
             say_choice_caption(store.dialogue_picked,
                 store.dialogue_paraphrase, store.dialogue_pv)
 
-        if (not name == ('bg', 'black')
+        # The scrolling hack effect should be shown
+        if ('hack' in name and 'effect' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('hack')
+            return
+        elif ('redhack' in name and 'effect' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('redhack')
+            return
+        ## Banners
+        elif ('lightning' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='lightning')
+            return
+        elif ('well' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='well')
+            return
+        elif ('annoy' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='annoy')
+            return
+        elif ('heart' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='heart')
+            return
+        ## The shake effect
+        elif ( name == ('shake',)
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('shake')
+            return
+
+
+        ## Chatroom backgrounds
+        elif (not name == ('bg', 'black')
                 and renpy.get_screen('messenger_screen')
                 and not at_list):
             # The messenger screen is showing, therefore this statement is
