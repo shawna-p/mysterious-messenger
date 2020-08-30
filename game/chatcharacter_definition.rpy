@@ -778,12 +778,83 @@ init -5 python:
         result = []
         if len(file_list) > 0:
             for item in file_list:
-                result.append((item, condition))
+                if item[:7] == 'images/':
+                    result.append((item[7:], condition))
+                else:
+                    result.append((item, condition))
         return result
 
+    def change_mc_pfp_callback():
+        """
+        Function that is called whenever the main character changes their
+        profile picture.
+        """
 
+        print_file("Calling the pfp callback")
+        if not store.mc_pfp_callback:
+            return
+
+        if store.mc_pfp_time is None:
+            time_diff = None
+        elif store.mc_previous_pfp is None:
+            store.mc_previous_pfp = store.persistent.MC_pic
+            time_diff = None
+        elif store.mc_previous_pfp == store.persistent.MC_pic:
+            # Picture wasn't changed
+            time_diff = None
+        else:
+            time_diff = upTime().datetime - store.mc_pfp_time.datetime
+        store.mc_pfp_time = upTime()
+
+        # Find whose profile picture this is
+        who = None
+        for chara in store.all_characters:
+            try:
+                pfp_list = [img for img, cond in getattr(store, chara.file_id + '_unlockable_pfps')]
+                print_file("Looking at", chara.file_id,"unlockable pfps")
+                if (store.persistent.MC_pic in pfp_list):
+                    who = chara
+                    break
+                elif ('images/' in store.persistent.MC_pic
+                        and store.persistent.MC_pic[7:] in pfp_list):
+                    who = chara
+                    break
+            except:
+                print_file("Couldn't look at", chara.file_id)
+                continue
+        old_pfp = store.mc_previous_pfp
+        store.mc_previous_pfp = store.persistent.MC_pic
+
+        # No time passed since the picture was last changed
+        if time_diff is None:
+            return
+
+        try:
+            lbl = store.mc_pfp_callback(time_diff, old_pfp, who)
+        except:
+            print("WARNING: Could not use mc_pfp_callback. Do you have at",
+                "least three function parameters?")
+            renpy.show_screen('script_error',
+                message="Could not use mc_pfp_callback. Do you have at least"
+                    + " three function parameters?")
+            return
+        if not lbl:
+            return
+        # Otherwise, got a label to jump to. Only jump to it if it hasn't
+        # been seen in this playthrough.
+        if renpy.has_label(lbl) and lbl not in store.seen_pfp_callbacks:
+            store.seen_pfp_callbacks.add(lbl)
+            renpy.call_in_new_context(lbl)
+        return
+
+# The time the main character's profile picture was last changed at
+default mc_pfp_time = None
+# The previous picture the player had before the current one
+default mc_previous_pfp = None
 # Contains all the profile pictures you've seen in the game
 default persistent.unlocked_prof_pics = set()
+# Contains the profile pictures the player has purchased with heart points
+default persistent.bought_prof_pics = set()
 # Contains a dictionary of the heart points the player has to spend on
 # each character
 default persistent.spendable_hearts = {}
