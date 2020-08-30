@@ -218,7 +218,8 @@ screen profile_pic():
                 action [Return()]
 
     else:
-        use menu_header("Profile", Show('chat_home', Dissolve(0.5))):
+        use menu_header("Profile", [Function(change_mc_pfp_callback),
+                Show('chat_home', Dissolve(0.5))]):
             use pic_and_pronouns()
             if not main_menu:
                 use points_and_saveload()
@@ -340,9 +341,12 @@ screen pick_mc_pfp():
                         add 'header_hg' align (0.95, 0.95)
                         action CConfirm(("Would you like to "
                             + "unlock this profile picture for 1 hourglass?"),
-                            [SetField(persistent, 'HG',
-                                persistent.HG-1),
-                            AddToSet(persistent.mc_unlocked_pfps, img)])
+                            If(persistent.HG>0,
+                                [SetField(persistent, 'HG',
+                                    persistent.HG-1),
+                                AddToSet(persistent.mc_unlocked_pfps, img)],
+                                [CConfirm("You do not have enough hourglasses"
+                                    + " to purchase this picture.")]))
 
 init python:
     def can_use_mc_pic(img):
@@ -979,7 +983,8 @@ style other_settings_end_hbox:
 style other_settings_end_button:
     xsize 240
     ysize 120
-    background 'menu_select_btn' padding(20,20)
+    background 'menu_select_btn'
+    padding(20,20)
     hover_foreground 'menu_select_btn_hover'
 
 style other_settings_end_button_text:
