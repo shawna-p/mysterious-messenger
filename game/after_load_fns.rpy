@@ -118,7 +118,8 @@ init python:
                 album = []
             for pic in album:
                 if (pic.unlocked
-                        and pic not in store.persistent.unlocked_prof_pics):
+                        and pic.get_thumb()
+                            not in store.persistent.unlocked_prof_pics):
                     store.persistent.unlocked_prof_pics.add(
                         pic.get_thumb())
         except:
@@ -478,6 +479,7 @@ init python:
         if not store.persistent.unlocked_prof_pics:
             for chara in store.all_characters:
                 unlock_profile_pics(chara)
+
         # store.persistent.unlocked_prof_pics = list(dict.fromkeys(store.persistent.unlocked_prof_pics))
         # to_remove = []
         # for item in store.persistent.unlocked_prof_pics:

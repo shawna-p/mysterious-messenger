@@ -93,10 +93,36 @@ python early:
 
         @thumbnail.setter
         def thumbnail(self, new_thumb):
+            try:
+                if not renpy.loadable(self.__thumbnail):
+                    thumb_name = self.__thumbnail.split('.')[0] + '.webp'
+                    if renpy.loadable(thumb_name):
+                        self.__thumbnail = thumb_name
+                        return
+            except:
+                # Assume it was a cropped image
+                img = self.filename.split('.')[0] + '.webp'
+                if renpy.loadable(img):
+                    self.__thumbnail = Transform(Crop((0, 200, 750, 750),
+                                                    img), size=(155,155))
+                    return
+
             self.__thumbnail = new_thumb
 
         def get_thumb(self):
             """Retrieve the CG's thumbnail, regardless of its unlock state."""
+
+            try:
+                if not renpy.loadable(self.__thumbnail):
+                    thumb_name = self.__thumbnail.split('.')[0] + '.webp'
+                    if renpy.loadable(thumb_name):
+                        self.__thumbnail = thumb_name
+            except:
+                # Assume it was a cropped image
+                img = self.filename.split('.')[0] + '.webp'
+                if renpy.loadable(img):
+                    self.__thumbnail = Transform(Crop((0, 200, 750, 750),
+                                                    img), size=(155,155))
 
             return self.__thumbnail
 
@@ -194,9 +220,16 @@ init python:
     def add_to_album(album, photo_list):
         """Add the photos in photo_list to album."""
 
+        global all_albums
         for photo in photo_list:
             if photo not in album:
                 album.append(photo)
+        if isinstance(all_albums[0], list):
+            for p_album, reg_album in all_albums:
+                merge_albums(p_album, reg_album)
+        else: # Should be a string
+            for alb in all_albums:
+                merge_albums_string(alb)
 
     def has_unseen(album):
         """Return True if an album has a photo that hasn't been seen."""
