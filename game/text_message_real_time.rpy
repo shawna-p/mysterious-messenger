@@ -54,7 +54,7 @@ screen text_pause_button():
         focus_mask True
         idle "text_pause_button"
         if not choosing:
-            action [Jump("play"), Return()]
+            action [Call("play"), Return()]
 
 
 ## This screen is visible when the chat is paused;

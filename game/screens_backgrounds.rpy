@@ -169,7 +169,8 @@ screen animated_night():
 screen animated_earlyMorn():
     zorder 0
     tag animated_bg
-    add 'Phone UI/earlymorn_background.webp' at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
+    add 'Phone UI/earlymorn_background.webp' at topbottom_pan(150, 0, 0, 0,
+                                                            -946, 1.0, 0, 1.0)
 
     fixed:
         xysize (750, 1134)
@@ -373,7 +374,8 @@ transform slow_pan(timing, init_x, x_move, y_timing=0, init_y=0, y_move=0):
         yalign 0.0 yoffset init_y
         easein y_timing yoffset y_move + init_y subpixel True
 
-transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move, start_alpha, delay_2, disappear=0.0, fadein_alpha=1.0):
+transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move,
+        start_alpha, delay_2, disappear=0.0, fadein_alpha=1.0):
     yalign 0.0 yoffset init_y alpha start_alpha
     # Total distance to move is y_move + init_y
     parallel:
@@ -384,7 +386,8 @@ transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move, start_alpha,
         delay_2
         alpha disappear
 
-transform fadein_out(delay1, fadein, fadeout, delay_2, start_alpha, end_alpha=0.0):
+transform fadein_out(delay1, fadein, fadeout, delay_2,
+        start_alpha, end_alpha=0.0):
     alpha start_alpha
     delay1
     linear fadein alpha 0.3
@@ -527,6 +530,8 @@ transform star_twinkle_out(delay1, x_min, x_max, y_min, y_max):
 
 init python:
     def scramble_text(txt):
+        """Find random blocks of text to replace with symbols."""
+
         symbols = ['!', '@', '#', '$', '%', '^', '&', '*']
         new_txt = ""
         random_nums = []
@@ -770,7 +775,8 @@ init -100 python:
             vars(self).update(state)
             self.init()
 
-        def __init__(self, image, count, xspeed, yspeed, border, start, fluttering, flutteringspeed, fast, rotate=False):
+        def __init__(self, image, count, xspeed, yspeed, border, start,
+                fluttering, flutteringspeed, fast, rotate=False):
             self.image = renpy.easy.displayable(image)
             self.count = count
             self.xspeed = xspeed
@@ -837,7 +843,8 @@ init -100 python:
 
     class SnowBlossomParticle2(renpy.python.NoRollback):
 
-        def __init__(self, image, xspeed, yspeed, border, start, fluttering, flutteringspeed, offset, fast, rotate):
+        def __init__(self, image, xspeed, yspeed, border, start, fluttering,
+                flutteringspeed, offset, fast, rotate):
 
             # safety.
             if yspeed == 0:
