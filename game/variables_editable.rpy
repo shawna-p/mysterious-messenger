@@ -47,6 +47,14 @@ init python:
         renpy.retain_after_load()
 
 ########################################
+## HISTORY VARIABLES
+########################################
+# Define extra history items here, such as route prologues
+define extra_history_items = [
+    ("Tutorial Prologue", "start")
+    ]
+
+########################################
 ## PRONOUN VARIABLES
 ########################################
 # Extra variables since the player can choose their pronouns
@@ -124,6 +132,76 @@ define z_unlockable_pfps = combine_lists(
 
 # List of images the player has unlocked and can use as a profile picture
 default persistent.mc_unlocked_pfps = [ ]
+
+# Number of heart points it costs to unlock a profile picture
+define pfp_cost = 5
+
+# A function that will be called when the player changes their
+# profile picture. The function should take three arguments: 1) the
+# time that has passed since the picture was last changed, 2) the profile
+# picture before this one (the current one can be accessed through
+# store.persistent.MC_pic), and 3) the ChatCharacter associated with the
+# profile picture (or None if it's a default picture). If it returns a string,
+# the program will call that string as a label (e.g. for text messages).
+define mc_pfp_callback = bonus_pfp_dialogue
+# This holds a list of the labels the program has already jumped to during
+# profile picture callbacks
+default seen_pfp_callbacks = set()
+
+init -1 python:
+    def bonus_pfp_dialogue(time_diff, prev_pic, who):
+        """
+        An example callback function for when the player changes their
+        profile picture.
+        """
+
+        if who:
+            print_file("Got to this function with", time_diff.seconds, prev_pic, who.file_id)
+        else:
+            print_file("Got to this function with", time_diff.seconds, prev_pic, "and no who")
+        # time_diff is a timedelta object. Its most useful fields for
+        # this function are `days` and `seconds`. There are no minutes/hours
+        # fields so you have to do some math.
+        # if time_diff.days < 1:
+        #     # It's been less than a day since it was last changed
+        #     return
+        # if time_diff.seconds < 60*60:
+        #     # It's been less than an hour since it was last changed
+        if time_diff.seconds < 10:
+            return
+        # Otherwise, figure out what to do based on the other properties
+        print_file("today day num", store.today_day_num, "MC_pic",
+            store.persistent.MC_pic)
+        if (store.today_day_num == 0
+                and who == store.r
+                and store.persistent.MC_pic == 'CGs/r_album/cg-1-thumb.webp'):
+            # This is Ray's flower image
+
+            return 'ray_pfp_callback_1'
+
+label ray_pfp_callback_1:
+    $ print_file("Got to the label")
+    compose text r real_time:
+        r "Oh, haha."
+        r "I just realized you changed your profile picture."
+        label ray_pfp_callback_1_menu_1
+    return
+
+label ray_pfp_callback_1_menu_1:
+    call answer
+    menu:
+        "Yeah! I really like it.":
+            m "Yeah! I really like it." (pauseVal=0)
+            r "Oh ^^"
+            award heart r
+            r "Well, I'm glad you can use it, then."
+            r "{image=ray_smile}" (img=True)
+        "I thought it'd be funny.":
+            r "Ah. I see."
+            r "Well, I hope you're enjoying yourself."
+    return
+
+
 
 ########################################
 ## SPACESHIP THOUGHT IMAGES
