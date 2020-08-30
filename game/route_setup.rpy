@@ -1,17 +1,17 @@
 # This variable keeps track of all the routes you've defined in order
-# to display it in the History screen from the main menu
-# You should generally not need to modify it
+# to display it in the History screen from the main menu.
+# You should generally not need to modify it.
 init -7:
     default all_routes = []
 
 # This archive will store every chatroom in the game. If done correctly,
 # the program will automatically set variables and make chatrooms available
-# for you
+# for you.
 default chat_archive = None
 default story_archive = []
 
 default tutorial_good_end = ["Good End",
-    RouteDay('Tutorial', 
+    RouteDay('Tutorial',
         [ChatHistory('Example Chatroom', 'example_chat', '00:01'),
         ChatHistory('Inviting Guests','example_email', '09:11', [z]),
         ChatHistory('Text Message Example', 'example_text', '09:53', [r]),
@@ -24,8 +24,8 @@ default tutorial_good_end = ["Good End",
         ChatHistory('Plot Branches', 'plot_branch_tutorial', '21:44', [], plot_branch=PlotBranch(True)),
         ChatHistory("Onwards!", 'tutorial_end_example', '22:26', [u]),
         TheParty('tutorial_good_end_party', '23:54')
-        ]),                                    
-    RouteDay('1st'),                        
+        ]),
+    RouteDay('1st'),
     RouteDay('2nd'),
     RouteDay('3rd'),
     RouteDay('4th'),
@@ -36,12 +36,12 @@ default tutorial_good_end = ["Good End",
     RouteDay('9th'),
     RouteDay('10th'),
     RouteDay('Final')]
-                        
+
 default tutorial_bad_end = ["Bad Story End",
-    RouteDay('Tutorial', 
+    RouteDay('Tutorial',
         [ChatHistory('An Unfinished Task', 'tutorial_bad_end', '23:26', [v])] )]
 default tutorial_bre = ["Bad Relationship End",
-    RouteDay('Tutorial', 
+    RouteDay('Tutorial',
             branch_vn= VNMode('plot_branch_bre'))]
 default tutorial_normal_end = ["Normal End",
     RouteDay('Tutorial',
@@ -52,7 +52,8 @@ default tutorial_route = Route(
                         branch_list=[tutorial_normal_end,
                                      tutorial_bad_end,
                                      tutorial_bre],
-                        route_history_title='Tutorial')
+                        route_history_title='Tutorial',
+                        history_background="Menu Screens/Main Menu/tutorial_day_route_bg.webp")
 
 
 
@@ -66,7 +67,7 @@ default tutorial_route = Route(
 # default seven_bad_end_3 = ["Bad Story End 3", RouteDay("10th", [...])]
 # default seven_bre_1 = ["Bad Relationship End 1", RouteDay("7th", [...])]
 # default seven_bre_2 = ["Bad Relationship End 1", RouteDay("10th", [...])]
-# default seven_normal_end = ["Normal End", RouteDay("Final", 
+# default seven_normal_end = ["Normal End", RouteDay("Final",
 #                                 [TheParty('seven_route_normal_party', '12:00')])]
 
 # default seven_route = Route(
@@ -81,7 +82,7 @@ default tutorial_route = Route(
 # default zen_bad_end_3 = ["Bad Story End 3", RouteDay("10th", [...])]
 # default zen_bre_1 = ["Bad Relationship End 1", RouteDay("7th", [...])]
 # default zen_bre_2 = ["Bad Relationship End 2", RouteDay("10th", [...])]
-# default zen_normal_end = ["Normal End", RouteDay("Final", 
+# default zen_normal_end = ["Normal End", RouteDay("Final",
 #                                 [TheParty('zen_route_normal_party', '12:00')])]
 
 # default zen_route = Route(

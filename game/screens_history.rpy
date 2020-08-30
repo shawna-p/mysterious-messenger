@@ -84,8 +84,28 @@ screen select_history_route():
             xysize (750, 1070)
             style_prefix 'history_route'
             has vbox
+            if extra_history_items:
+                $ full_items = (len(extra_history_items) // 3) * 3
+                $ leftovers = len(extra_history_items) % 3
+                for i in range(0, full_items, 3):
+                    hbox:
+                        use extra_history_hbox([extra_history_items[i],
+                            extra_history_items[i+1],
+                            extra_history_items[i+2]])
+                if leftovers == 2:
+                    hbox:
+                        use extra_history_hbox([extra_history_items[-2],
+                            extra_history_items[-1]])
+                elif leftovers == 1:
+                    hbox:
+                        use extra_history_hbox([extra_history_items[-1]])
+
             for route in all_routes:
                 textbutton _(route.route_history_title):
+                    if route.history_background:
+                        background Transform(route.history_background, alpha=0.8)
+                        hover_background route.history_background
+                        foreground 'menu_select_btn_clear'
                     action [SetVariable('which_history_route', route.route),
                             Show('day_select', days=route.route)]
 
@@ -97,10 +117,28 @@ style history_route_button:
 
 style history_route_button_text:
     is mode_select
+    text_align 1.0
+    align (0.95, 0.5)
 
 style history_route_vbox:
     align (0.5, 0.5)
     spacing 30
+
+style history_route_hbox:
+    align (0.5, 0.5)
+    spacing 20
+
+screen extra_history_hbox(items):
+    for title, lbl in items:
+        textbutton _(title):
+            xsize min((650 // len(items) - 20), 305)
+            text_text_align 0.5
+            text_align (0.5, 0.5)
+            action Replay(lbl,
+                    scope={'observing': True,
+                'current_timeline_item': None,
+                'starter_story': True,
+                'name': persistent.name})
 
 image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.webp", 10,10)
 image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.webp", 10,10)
