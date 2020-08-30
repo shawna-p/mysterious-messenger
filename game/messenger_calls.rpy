@@ -315,6 +315,8 @@ style sig_screen_button_text:
 ## allows the program to properly set up variables before taking
 ## the player to the chat home screen
 label skip_intro_setup():
+    if _in_replay:
+        $ renpy.end_replay()
     $ persistent.first_boot = False
     $ persistent.on_route = True
 
@@ -329,7 +331,7 @@ label skip_intro_setup():
     show screen loading_screen
 
     # Add this label to the list of completed labels
-    $ current_timeline_item.mark_next_played()
+    $ current_timeline_item.mark_self_played()
     if not current_timeline_item.expired:
         # Checks for a post-chatroom label
         # Otherwise delivers phone calls/texts/etc

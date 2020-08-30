@@ -101,7 +101,7 @@ screen viewCG_fullsize():
             elif textmsg_CG and text_person:
                 action [Hide("viewCG_fullsize"),
                         Show("text_message_screen",
-                            sender=CG_who), Jump('play')]
+                            sender=CG_who), Call('play')]
             # Convo is over, just viewing CGs in a text message
             elif textmsg_CG:
                 action [Hide("viewCG_fullsize"),
@@ -109,7 +109,7 @@ screen viewCG_fullsize():
                             animate=False)]
             # From the chatroom, not before an answer button
             else:
-                action [Jump("play")]
+                action [Call("play")]
 
         text "Close" style "CG_close":
             if persistent.dialogue_outlines:
