@@ -63,8 +63,12 @@ screen day_display(day, day_num):
             is_today = False
             # This day is selectable if the player has seen at least the
             # first item of the day
-            if day.archive_list:
+            if (day.archive_list
+                    and isinstance(day.archive_list[0], TimelineItem)):
                 playable = day.archive_list[0].was_played()
+            elif (day.archive_list
+                    and isinstance(day.archive_list[1], TimelineItem)):
+                playable = day.archive_list[1].was_played()
             else:
                 playable = False
         else:
