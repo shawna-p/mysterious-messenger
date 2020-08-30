@@ -780,6 +780,8 @@ label phone_begin(resetHP=True):
     if isinstance(current_call, StoryCall):
         return
     $ begin_timeline_item(generic_storycall, resetHP=resetHP)
+    $ print_file("Current call", current_call)
+    show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
     return
 
 ## This label sets the appropriate variables/actions when you finish

@@ -83,9 +83,14 @@ init -6 python:
                 # There is no plot branch
                 self.plot_branch = None
             elif isinstance(plot_branch, PlotBranch):
-                self.plot_branch = plot_branch
+                try:
+                    new_branch = PlotBranch(plot_branch.vn_after_branch)
+                    new_branch.story_mode = plot_branch.stored_vn
+                    self.plot_branch = new_branch
+                except:
+                    self.plot_branch = plot_branch
             elif plot_branch:
-                # plot branch should have vn_after_branch=True
+                # plot branch should have branch_story_mode=True
                 self.plot_branch = PlotBranch(True)
             else:
                 self.plot_branch = PlotBranch(False)
@@ -223,9 +228,9 @@ init -6 python:
                         phonecall.available = True
                         return
 
-        def mark_next_played(self):
+        def mark_self_played(self):
             """
-            Mark the next unplayed item as played.
+            Mark this item as played. Return True if this was successful.
             """
 
             if not self.played:
@@ -238,19 +243,6 @@ init -6 python:
                     store.persistent.completed_story.add(
                         self.item_label)
                 return True
-
-            # Otherwise, check story calls
-            if len(self.story_calls_list) > 0:
-                for phonecall in self.story_calls_list:
-                    if not phonecall.played:
-                        phonecall.played = True
-                        if phonecall.currently_expired:
-                            store.persistent.completed_story.add(
-                                phonecall.expired_label)
-                        else:
-                            store.persistent.completed_story.add(
-                                phonecall.item_label)
-                        return True
 
             return False
 
@@ -332,10 +324,10 @@ init -6 python:
             return False
 
         def get_final_item(self):
-            """Return the final item to be played in this timeine item."""
+            """Return the final item to be played in this timeline item."""
 
-            if self.plot_branch and self.plot_branch.vn_after_branch:
-                return self.plot_branch.stored_vn
+            if self.plot_branch and self.plot_branch.branch_story_mode:
+                return self.plot_branch.story_mode
 
             if len(self.story_calls_list) > 0:
                 return self.story_calls_list[-1]
@@ -656,35 +648,6 @@ init -6 python:
             if self.story_mode and not self.story_mode.played:
                 return
             super(ChatRoom, self).make_next_available()
-
-        def mark_next_played(self):
-            """
-            Mark the next unplayed item as played.
-            """
-
-            if not self.played:
-                self.played = True
-                # Add this label to the list of completed labels for the History
-                if self.currently_expired:
-                    store.persistent.completed_story.add(
-                        self.expired_label)
-                    self.participated = False
-                else:
-                    store.persistent.completed_story.add(
-                        self.item_label)
-                    self.participated = True
-                return True
-
-            if self.story_mode and not self.story_mode.played:
-                self.story_mode.played = True
-                # StoryMode doesn't expire
-                store.persistent.completed_story.add(
-                    self.story_mode.item_label)
-
-                return True
-
-            return super(ChatRoom, self).mark_next_played()
-
 
         def on_available_message(self):
             """
@@ -1250,7 +1213,8 @@ init python:
             store._history = False
             store.in_phone_call = True
             preferences.afm_enable = True
-            store.current_call = item
+            if not starter_story:
+                store.current_call = item
 
             renpy.hide_screen('incoming_call')
             renpy.hide_screen('outgoing_call')
@@ -1309,11 +1273,10 @@ init python:
         else:
             the_parent = item.parent
 
-        # If the program was able to successfully mark the next item played,
-        # then this is the most recent item if the player didn't buy it
-        # back and it isn't the intro
+        # If this item hasn't been played before, then this is the most
+        # recent item if the player didn't buy it back and it isn't the intro
         if (not store.starter_story
-                and the_parent.mark_next_played()
+                and item.mark_self_played()
                 and not item.buyback):
             store.most_recent_item = the_parent
 
