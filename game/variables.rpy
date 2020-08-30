@@ -685,9 +685,10 @@ image settings_gear_rotate:
         repeat
 
 # Other Settings
-image menu_select_btn = Frame("Menu Screens/Main Menu/menu_select_button.webp",60, 70, 130, 60)
+image menu_select_btn = Frame("Menu Screens/Main Menu/menu_select_button.webp",60, 80, 130, 60)
 image menu_select_btn_hover = Transform('menu_select_btn', alpha=0.5)
 image menu_select_btn_inactive = Frame("Menu Screens/Main Menu/menu_select_button_inactive.webp",60,60)
+image menu_select_btn_clear = Frame("Menu Screens/Main Menu/menu_select_button_clear.webp",60, 80, 130, 60)
 
 
 ## ********************************
