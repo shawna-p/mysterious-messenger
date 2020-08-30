@@ -1,5 +1,5 @@
 # ######################################################
-# This file contains several definitions related to 
+# This file contains several definitions related to
 # creating routes and plot branches.
 # It's organized as follows:
 #   python definitions:
@@ -24,13 +24,13 @@
 #       was_expired
 # ######################################################
 
-init -6 python:       
+init -6 python:
 
     def TheParty(vn_label, trigger_time=False, save_img='auto'):
         """Return a StoryMode object defined to be the party."""
 
         return StoryMode(title="The Party", vn_label=vn_label,
-            trigger_time=trigger_time, party=True, save_img=save_img)            
+            trigger_time=trigger_time, party=True, save_img=save_img)
 
     class PlotBranch(renpy.store.object):
         """
@@ -38,32 +38,65 @@ init -6 python:
 
         Attributes:
         -----------
-        vn_after_branch : bool
-            True if the VN associated with the chatroom that has this plot
+        branch_story_mode : bool
+            True if the StoryMode associated with the item that has this plot
             branch should appear after the plot branch has been proceeded
             through.
-        stored_vn : VNMode
-            The VN that should appear after the plot branch, if applicable.
+        story_mode : StoryMode
+            The StoryMode that should appear after the plot branch, if
+            applicable.
         """
 
-        def __init__(self, vn_after_branch=False):
+        def __init__(self, branch_story_mode=False, vn_after_branch=False):
             """
             Create a PlotBranch object to store plot branch information.
 
             Parameters:
             -----------
+            branch_story_mode : bool
+                True if the StoryMode associated with the item that has this
+                plot branch should appear after the plot branch has been
+                proceeded through.
             vn_after_branch : bool
-                True if the VN associated with the chatroom that has this plot
-                branch should appear after the plot branch has been proceeded
-                through.
+                The old version of the above variable; retained for
+                compatibility.
             """
 
-            self.vn_after_branch = vn_after_branch
-            self.stored_vn = None
-            
+            self.branch_story_mode = branch_story_mode or vn_after_branch
+            self.story_mode = None
+
+        ## Properties and setters for compatibility
+        @property
+        def stored_vn(self):
+            try:
+                return self.story_mode
+            except AttributeError:
+                return self.__dict__['stored_vn']
+
+        @property
+        def vn_after_branch(self):
+            try:
+                return self.branch_story_mode
+            except AttributeError:
+                return self.__dict__['vn_after_branch']
+
+        @stored_vn.setter
+        def stored_vn(self, new_item):
+            try:
+                self.story_mode = new_item
+            except AttributeError:
+                self.__dict__['stored_vn'] = new_item
+
+        @vn_after_branch.setter
+        def vn_after_branch(self, new_bool):
+            try:
+                self.branch_story_mode = new_bool
+            except AttributeError:
+                self.__dict__['vn_after_branch'] = new_bool
+
     class RouteDay(renpy.store.object):
         """
-        Class that stores a day's worth of chatrooms in order to display
+        Class that stores a day's worth of story items in order to display
         in a timeline for the player.
 
         Attributes:
@@ -72,22 +105,23 @@ init -6 python:
             The name/number of the day as it should show up in the timeline.
             Typically "1st" or "Final". Is followed by the word "Day" in
             the timeline.
-        archive_list : ChatHistory[]
-            A list of ChatHistory objects that encompasses all the chatrooms
+        archive_list : TimelineItem[]
+            A list of TimelineItem objects that encompasses all the story items
             that should be available on this day.
-        branch_vn : VNMode
-            If this day has a VN that should be show as soon as soon as it's
-            merged onto the main route after a plot branch, it is stored here.
+        branch_vn : StoryMode
+            If this day has a StoryMode that should be shown as soon as soon as
+            it's merged onto the main route after a plot branch, it is stored
+            here.
         day_icon : string
             The icon for the route this day is considered a part of. Used to
-            display an icon in the day timeline screen.        
+            display an icon in the day timeline screen.
         """
 
         def __init__(self, day, archive_list=None, day_icon='day_common2',
                         branch_vn=None):
             """
             Creates a RouteDay object to hold information on a day's worth
-            of chatrooms.
+            of story items.
 
             Parameters:
             -----------
@@ -100,7 +134,7 @@ init -6 python:
                 story items that should be available on this day.
             day_icon : string
                 The icon for the route this day is considered a part of. Used
-                to display an icon in the day timeline screen.    
+                to display an icon in the day timeline screen.
             branch_vn : StoryMode
                 If this day has a StoryMode that should be shown as soon as
                 soon as it's merged onto the main route after a plot branch,
@@ -133,7 +167,7 @@ init -6 python:
             else:
                 self.day_icon = day_icon
 
-            self.convert_archive(False)            
+            self.convert_archive(False)
 
         def convert_archive(self, copy_everything=True):
             """
@@ -141,10 +175,10 @@ init -6 python:
             to StoryMode. If copy_everything is True, it will also copy
             internal fields such as `played` and `available`.
             """
-            
+
             new_archive_list = []
 
-            if (len(self.archive_list) > 0 
+            if (len(self.archive_list) > 0
                     and isinstance(self.archive_list[0], ChatHistory)):
                 for item in self.archive_list:
                     if isinstance(item, ChatHistory):
@@ -155,15 +189,15 @@ init -6 python:
                                                             copy_everything))
                     else:
                         new_archive_list.append(item)
-                
+
                 self.archive_list = new_archive_list
 
             # Also ensure the branch_vn is a StoryMode object
             if self.branch_vn and isinstance(self.branch_vn, VNMode):
                 new_vn = create_dependent_VN(None, self.branch_vn.vn_label,
                     self.branch_vn.who, self.branch_vn.party)
-                self.branch_vn = new_vn               
-        
+                self.branch_vn = new_vn
+
         def participated_percentage(self, only_if_available=False):
             """Return the percent of items that have been participated in."""
 
@@ -176,20 +210,20 @@ init -6 python:
                     add_played, add_total = item.participated_percentage(True)
                     played += add_played
                     total += add_total
-            
+
             if total == 0:
                 return 0
-            
+
             return int((played * 100) // total)
-            
+
         @property
         def has_playable(self):
             """Return True if this day has at least one playable item."""
-            
-            for item in self.archive_list:                
+
+            for item in self.archive_list:
                 if isinstance(item, TimelineItem) and item.available:
                     return True
-            
+
             return False
 
         @property
@@ -227,8 +261,8 @@ init -6 python:
             if isinstance(self.branch_vn, VNMode):
                 self.branch_vn = vnmode_to_storymode(self.branch_vn)
             return self.branch_vn
-            
-       
+
+
 
     class Route(renpy.store.object):
         """
@@ -237,8 +271,8 @@ init -6 python:
 
         Attributes:
         -----------
-        ending_chatrooms : string[]
-            List of the label names for the chatroom or VN that finishes
+        ending_labels : string[]
+            List of the label names for the story item that finishes
             each route.
         route_history_title : string
             Name of the route as it should show up in the History screen.
@@ -251,11 +285,13 @@ init -6 python:
             to take; it should be the longest continuous route and is
             typically the route the player will start on until/unless
             they branch onto a different route later.
+        history_background : string
+            Background image used for this route in the History screen.
         """
 
-        def __init__(self, default_branch, branch_list=None, 
+        def __init__(self, default_branch, branch_list=None,
                     route_history_title="Common",
-                    has_end_title="unset"):
+                    has_end_title="unset", history_background=None):
             """
             Creates a Route object to store an entire route.
 
@@ -273,7 +309,7 @@ init -6 python:
                 are collections of RouteDay objects the player will proceed
                 through if they branch onto this route.
             route_history_title : string
-                The title of this route as it should show up in the History 
+                The title of this route as it should show up in the History
                 screen. " Route" is appended to the end of the given string,
                 but to exclude it the argument " -route" can be added e.g.
                 route_history_title = "Special Event -route" will show up in
@@ -282,7 +318,9 @@ init -6 python:
                 True if this route should have a title over the final chatroom
                 such as "Good End". This will be the title provided as the
                 first list item in default_branch. Typically this is True
-                unless the route has no branching paths.           
+                unless the route has no branching paths.
+            history_background : string
+                Background image used for this route in the History screen.
             """
 
             if has_end_title == "unset":
@@ -294,32 +332,37 @@ init -6 python:
                     has_end_title = False
 
             self.default_branch = default_branch
+            if history_background:
+                self.history_background = AlphaMask(history_background,
+                    "Menu Screens/Main Menu/route-mask.webp")
+            else:
+                self.history_background = None
 
             if branch_list is None:
                 branch_list = []
 
             # Names of the labels of each ending chatroom or VN
-            self.ending_chatrooms = []
+            self.ending_labels = []
             for day in reversed(default_branch):
                 if day.archive_list:
                     try:
-                        self.ending_chatrooms.append(
+                        self.ending_labels.append(
                             day.archive_list[-1].get_final_item().item_label)
                     except:
-                        print_file(day.archive_list[-1].title, "has no final item?")                                      
+                        print_file(day.archive_list[-1].title, "has no final item?")
                     break
 
             for branch in branch_list:
                 for day in reversed(branch):
                     if day.archive_list:
                         try:
-                            self.ending_chatrooms.append(
+                            self.ending_labels.append(
                                 day.archive_list[-1].get_final_item().item_label)
                         except:
                             print_file(day.archive_list[-1].title, "has no final item?")
                         break
                     elif day.branch_vn:
-                        self.ending_chatrooms.append(day.branch_vn.item_label)
+                        self.ending_labels.append(day.branch_vn.item_label)
                         break
 
             # Add "Route" to the title of the route, unless it ends with
@@ -328,16 +371,16 @@ init -6 python:
                 self.route_history_title = route_history_title[:-7]
             else:
                 self.route_history_title = route_history_title + " Route"
-                       
-                        
-            # Now combine the given branches into one large list        
+
+
+            # Now combine the given branches into one large list
             self.route = deepcopy(default_branch)
             # Add the branch title before the last item in the
             # default branch
             if has_end_title:
                 for r in reversed(self.route):
                     if r.archive_list:
-                        r.archive_list.insert(len(r.archive_list)-1, 
+                        r.archive_list.insert(len(r.archive_list)-1,
                                                         self.route[0])
                         break
             # Get rid of the route title for the default branch
@@ -349,7 +392,7 @@ init -6 python:
             for day in self.route:
                 for item in day.archive_list:
                     if (isinstance(item, TimelineItem)
-                            and item.plot_branch 
+                            and item.plot_branch
                             and item.plot_branch.vn_after_branch):
                         item.story_mode = item.plot_branch.stored_vn
                         item.plot_branch = False
@@ -383,19 +426,34 @@ init -6 python:
                 if (item.archive_list == None
                             or len(item.archive_list) == 0):
                     to_remove.append(item)
-                    
+
             for item in to_remove:
                 self.route.remove(item)
 
             # Add this route to the list of all routes
             if self not in store.all_routes:
                 store.all_routes.append(self)
-                            
+
+        # Properties and setters to maintain compatibility
+        @property
+        def ending_chatrooms(self):
+            try:
+                return self.ending_labels
+            except AttributeError:
+                return self.__dict__['ending_chatrooms']
+
+        @ending_chatrooms.setter
+        def ending_chatrooms(self, newitem):
+            try:
+                self.ending_labels = newitem
+            except AttributeError:
+                self.__dict__['ending_chatrooms'] = newitem
+
     def check_and_unlock_story():
         """
-        Ensure the next timeline item is available to play. By default the 
-        program will unlock items sequentially, but if persistent.real_time is 
-        True it will unlock items according to their trigger time and the 
+        Ensure the next timeline item is available to play. By default the
+        program will unlock items sequentially, but if persistent.real_time is
+        True it will unlock items according to their trigger time and the
         actual time of day.
         """
 
@@ -425,17 +483,17 @@ init -6 python:
                     if item.all_available() and not item.all_played():
                         triggered_next = True
                         break
-                    
+
                     # Something associated with this item isn't available
                     # to play yet. Make it available.
                     if not item.all_available():
                         # Phone calls count down when new items are available
-                        item.unlock_all()                                                
+                        item.unlock_all()
                         for phonecall in store.available_calls:
-                            phonecall.decrease_time()                            
+                            phonecall.decrease_time()
                         triggered_next = True
                         break
-                    
+
                     # Don't make anything available after a plot branch
                     if item.plot_branch:
                         triggered_next = True
@@ -444,7 +502,7 @@ init -6 python:
                     break
             # Done making items available
             return
-        
+
         # If the program isn't in sequential mode, they're in real-time mode.
         # Check if any days have passed since this function was last called.
         date_diff = date.today() - current_game_day
@@ -484,7 +542,7 @@ init -6 python:
                     # be available.
                     item.unlock_all()
                     today_day_num = day_index
-                    continue                
+                    continue
                 elif item_index > 0:
                     prev_item = routeday.archive_list[item_index-1]
                 # This is the first item of the day; previous item was the last
@@ -493,11 +551,11 @@ init -6 python:
                     prev_item = story_archive[day_index-1].archive_list[-1]
                 else:
                     prev_item = False
-                
+
                 # If the program has gotten this far, this item is not yet
                 # available. Should it be made available?
                 if (prev_item and past_trigger_time(item.trigger_time,
-                        current_time, day_index+1 < days_to_expire, 
+                        current_time, day_index+1 < days_to_expire,
                         prev_item, item)):
                     item.unlock_all()
                     today_day_num = day_index
@@ -506,7 +564,7 @@ init -6 python:
                     # been checked.
                     stop_checking = True
                     break
-            
+
             if stop_checking:
                 break
 
@@ -515,9 +573,9 @@ init -6 python:
             store.current_call = store.incoming_call
             store.incoming_call = False
             renpy.music.play(persistent.phone_tone, 'music', loop=True)
-            renpy.show_screen('incoming_call', phonecall=store.current_call)  
+            renpy.show_screen('incoming_call', phonecall=store.current_call)
         return
-                
+
 
     def past_trigger_time(trig_time, cur_time, day_index,
             prev_item, cur_item):
@@ -532,7 +590,7 @@ init -6 python:
             Formatted "00:00" in 24-hour time. The time this item is
             supposed to trigger at.
         cur_time : MyTime
-            A MyTime object containing information on the current time.        
+            A MyTime object containing information on the current time.
         day_index : int
             Index of the current day.
         prev_item : TimelineItem
@@ -557,7 +615,7 @@ init -6 python:
             # available. Expire the previous item and move on.
             expire_item(prev_item, cur_item, day_diff=day_difference)
             return True
-        
+
         # Otherwise, compare times
         trig_hour = int(trig_time[:2])
         trig_min = int(trig_time[-2:])
@@ -572,7 +630,7 @@ init -6 python:
         if trig_hour < cur_hour:
             expire_item(prev_item, cur_item)
             return True
-        
+
         # Otherwise, special case where the player has a grace period of 1
         # minute to be notified of an item being available if the trigger
         # time just passed
@@ -580,9 +638,9 @@ init -6 python:
             expire_item(prev_item, cur_item, deliver_incoming=True)
 
             # Let the player know a new item is available
-            renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav', 
+            renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav',
                                 'sound')
-            renpy.show_screen('confirm',  message=cur_item.on_available_message(), 
+            renpy.show_screen('confirm',  message=cur_item.on_available_message(),
                               yes_action=Hide('confirm'))
 
             return True
@@ -625,16 +683,16 @@ init -6 python:
         if prev_item.phonecall_label:
             deliver_calls(prev_item.phonecall_label,
                 not deliver_incoming, call_timestamp)
-                      
+
         for phonecall in store.available_calls:
             phonecall.decrease_time()
 
         # Deliver all outstanding text messages
         deliver_all_texts()
-        
+
         return
-       
-      
+
+
 
     def num_future_timeline_items(break_for_branch=False, check_all=True):
         """
@@ -644,14 +702,14 @@ init -6 python:
         Parameters:
         -----------
         break_for_branch : bool
-            True if the program should only list the number of chatrooms
+            True if the program should only list the number of timeline items
             remaining before a plot branch.
         check_all : bool
             If False, the program counts a TimelineItem as a "unit". If True,
             each individual TimelineItem contained within the parent item is
             also counted.
         """
-        
+
         total = 0
         for archive in store.story_archive:
             if archive.archive_list:
@@ -665,8 +723,8 @@ init -6 python:
                         return total
         print_file("DEBUG: There are", total, "items remaining")
         return total
-                
-        
+
+
     def deliver_next():
         """
         Deliver the next available text message and trigger an incoming
@@ -675,29 +733,29 @@ init -6 python:
 
         global incoming_call, available_calls, current_call
         global persistent, all_characters
-        
+
         delivered_text = False
         shuffled_characters = list(store.all_characters)
         renpy.random.shuffle(shuffled_characters)
 
         for c in shuffled_characters:
             if (c.text_msg.msg_queue and not delivered_text):
-                delivered_text = c.text_msg.deliver()                
-        
+                delivered_text = c.text_msg.deliver()
+
         # Deliver the incoming call, if there is one
         if incoming_call:
             current_call = incoming_call
             incoming_call = False
             renpy.music.play(persistent.phone_tone, 'music', loop=True)
-            renpy.show_screen('incoming_call', phonecall=current_call)            
-        
-    
+            renpy.show_screen('incoming_call', phonecall=current_call)
+
+
     def merge_routes(new_route):
         """Merge new_route with the current route."""
-        
+
         global story_archive, most_recent_item, current_timeline_item
 
-        # May need to update the merged route to TimelineItems    
+        # May need to update the merged route to TimelineItems
         for day in new_route:
             if isinstance(day, RouteDay):
                 day.convert_archive(False)
@@ -709,14 +767,14 @@ init -6 python:
 
         plot_branch_party = False
         try:
-            # Test if this RouteDay only includes the party            
+            # Test if this RouteDay only includes the party
             if new_route[1].archive_list[0].party:
                 plot_branch_party = True
         except:
             print_file("Couldn't determine if new_route was the party")
 
         # Find the day the plot branch was on UNLESS this is the party
-        # plot branch, in which case we're looking for the party
+        # plot branch, in which case look for the party
         a = 0
         found_branch = None
         for archive in story_archive:
@@ -732,10 +790,10 @@ init -6 python:
             a += 1
 
         # Now get rid of all the chats past the plot branch
-        while (story_archive[a].archive_list 
+        while (story_archive[a].archive_list
                 and not story_archive[a].archive_list[-1] == found_branch):
             # Remove the last item from the archive_list if it isn't the
-            # plot branch we're dealing with
+            # plot branch being dealt with
             story_archive[a].archive_list.pop()
 
         if a < len(story_archive):
@@ -748,7 +806,7 @@ init -6 python:
         # If this is the party, might need to update the current_timeline_item
         # to be the merged party
         if plot_branch_party:
-            # Search through story_archive to find the party we're replacing
+            # Search through story_archive to find the party being replaced
             for day in story_archive:
                 for item in day.archive_list:
                     if (isinstance(item, StoryMode)
@@ -764,7 +822,7 @@ init -6 python:
         # Merge the days on the new route
         for archive in story_archive:
             for archive2 in new_route[1:]:
-                if archive2.day == archive.day:                    
+                if archive2.day == archive.day:
                     archive.archive_list += archive2.archive_list
                     archive.day_icon = archive2.day_icon
                     continue
@@ -774,11 +832,11 @@ init -6 python:
         """Clean up the current route to continue after a plot branch."""
 
         global most_recent_item
-        
-        if (most_recent_item.plot_branch 
-                and most_recent_item.plot_branch.vn_after_branch):
-            # This chat has a stored VN to add to the chat itself
-            most_recent_item.story_mode = most_recent_item.plot_branch.stored_vn
+
+        if (most_recent_item.plot_branch
+                and most_recent_item.plot_branch.branch_story_mode):
+            # This chat has a stored StoryMode to add to the parent item
+            most_recent_item.story_mode = most_recent_item.plot_branch.story_mode
 
         # Remove the plot branch indicator
         most_recent_item.plot_branch = False
@@ -815,16 +873,16 @@ init -6 python:
         first_day -= 1
         if last_day is None:
             last_day = len(store.story_archive)
-            
+
         total_days = last_day - first_day
         total_percent = 0
-                    
+
         for day in store.story_archive[first_day:last_day]:
             total_percent += day.participated_percentage(True)
-        
+
         return (total_percent // total_days)
-    
-              
+
+
     def can_branch():
         """Return True if the player can proceed through the plot branch."""
 
@@ -834,12 +892,26 @@ init -6 python:
                     if not item.all_played():
                         return False
                     if (item.plot_branch and item.all_played()):
-                        return True                
+                        return True
         return False
-        
+
     def closest_item_time(compare_from=None):
         """
         Return the time of the next TimelineItem, regardless of availability.
+
+        Parameters:
+        -----------
+        compare_from : TimelineItem
+            The TimelineItem to find the closest time to. If None, uses the
+            current_timeline_item.
+
+        Returns:
+        --------
+        (TimelineItem, int)
+            Return the nearest TimelineItem, as well as an int representing
+            the number of days between them. For example, item A is on Day 1
+            at 23:55 and item B is on Day 2 at 01:33. The function will return
+            item B and the number 1 as the items are 1 day apart.
         """
 
         global story_archive
@@ -870,26 +942,41 @@ init -6 python:
         return store.today_day_num
 
     def get_random_time(begin, end, day_diff=0):
-        """Return a random time between begin and end."""
+        """
+        Return a random time between begin and end.
+
+        Parameters:
+        -----------
+        begin : string
+            The beginning time, formatted as 00:00.
+        end : string
+            The ending time, formatted as 00:00.
+        day_diff : int
+            The number of days between begin and end.
+
+        Returns:
+        --------
+        string, int
+            Return a string representing the time, formatted as 00:00, and
+            an int representing the number of days from the time in begin.
+        """
 
         if end is None:
             return begin
-        
+
         # Turn times into ints
         begin_hour = int(begin[:2])
         begin_min = int(begin[-2:])
         end_hour = int(end[:2])
         end_min = int(end[-2:])
 
-        hour_next_day = False
-        min_next_day = False
         new_day_diff = 0
 
         # Add hours to the ending time depending on the date difference
         if day_diff > 0:
             end_hour += (24 * day_diff)
 
-        # Convert the times into one full number
+        # Convert the times into one large number of minutes
         begin_num = begin_hour * 60 + begin_min
         end_num = end_hour * 60 + end_min
 
@@ -902,12 +989,12 @@ init -6 python:
         # If the hour >= 24, it is the next day
         while random_hour >= 24:
             new_day_diff += 1
-            random_hour -= 24                
+            random_hour -= 24
 
         # Now return the time, formatted as 00:00 in a string
         return ("{:02d}".format(random_hour) + ":"
             + "{:02d}".format(random_min), new_day_diff)
-           
+
 
 
     def next_story_time():
@@ -921,15 +1008,15 @@ init -6 python:
                 if not item.available:
                     return item.trigger_time
         return 'Unknown Time'
-        
+
     def make_24h_available():
         """Make the chatrooms for the next 24 hours available."""
 
         global story_archive, today_day_num, days_to_expire, unlock_24_time
-        
+
         # Record the time that this function was called at. If this isn't
-        # False, then we're trying to continue unlocking chatrooms (usually
-        # after a plot branch)
+        # False, then the program is trying to continue unlocking chatrooms
+        # (usually after a plot branch)
         if not unlock_24_time:
             unlock_time = upTime()
             # First, advance the day
@@ -939,21 +1026,20 @@ init -6 python:
             expiry_day = days_to_expire
             unlock_24_time = [expiry_day, upTime()]
         else:
-            # Trying to continue unlocking; 
+            # Trying to continue unlocking
             expiry_day = unlock_24_time[0]
             unlock_time = unlock_24_time[1]
-        
+
         # This functions much like the check_and_unlock_story() function, only
-        # here instead of expiring chatrooms we make them available
+        # here instead of expiring chatrooms, make them available
         for i, item in enumerate(story_archive[expiry_day-2].archive_list):
             # If this item is already available, don't bother with it
             if item.available and (item.buyahead or item.played):
                 continue
             # Otherwise, on this day, everything becomes available
             if not item.buy_ahead():
-                # We haven't been able to make everything available in
-                # the future, so we return without resetting unlock_24_time
-                # or advancing the day
+                # Unable to make everything available in the future, so return
+                # without resetting unlock_24_time or advancing the day
                 return
 
         # Now check the next day
@@ -961,22 +1047,22 @@ init -6 python:
             # Skip already available items
             if item.available and (item.buyahead or item.played):
                 continue
-            # Compare the trigger time to the time we're unlocking up to
+            # Compare the trigger time to the time to unlock up to
             if not is_time_later(unlock_time.military_hour, unlock_time.minute,
                     item.trigger_time[:2], item.trigger_time[-2:]):
                 # Make this available
                 if not item.buy_ahead():
-                    # We haven't been able to make everything available in
-                    # the future, so we return without resetting unlock_24_time
+                    # Unable to make everything available in the future,
+                    # so return without resetting unlock_24_time
                     today_day_num = expiry_day-1
                     return
             else:
-                # We're done unlocking things
+                # Done unlocking things
                 unlock_24_time = False
                 today_day_num = expiry_day-1
                 return
 
-        # Otherwise, we may have been able to reach the end of the route
+        # Otherwise, may have been able to reach the end of the route
         if expiry_day == len(story_archive):
             today_day_num = expiry_day - 1
             return
@@ -995,14 +1081,13 @@ init -6 python:
         elif given_hour < current_hour:
             return False
 
-        # Check minutes if we've gotten this far; hour is the same
+        # Check minutes; hour is the same
         if given_min > current_min:
             return True
         else:
             return False
 
 
-                    
+
 # True if the chatroom before the 'after_' call was expired
 default was_expired = False
-        
