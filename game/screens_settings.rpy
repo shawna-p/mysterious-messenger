@@ -95,56 +95,12 @@ init -6 python:
         return False
 
 
-default email_tone_dict = {
-    'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav',
-    'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',
-    'Default 3': 'audio/sfx/Ringtones etc/email_basic_3.wav'
-}
-
-default text_tone_dict = {
-    'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav',
-    'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',
-    'Jaehee Kang': 'audio/sfx/Ringtones etc/text_basic_ja.wav',
-    '707': 'audio/sfx/Ringtones etc/text_basic_s.wav',
-    'Yoosung★': 'audio/sfx/Ringtones etc/text_basic_y.wav',
-    'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav'
-}
-
-default ringtone_dict = {
-    'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav',
-    'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',
-    'Jaehee Kang': 'audio/sfx/Ringtones etc/phone_basic_ja.wav',
-    '707': 'audio/sfx/Ringtones etc/phone_basic_s.wav',
-    'Yoosung★': 'audio/sfx/Ringtones etc/phone_basic_y.wav',
-    'ZEN': 'audio/sfx/Ringtones etc/phone_basic_z.wav'
-}
-
-# This is organized as a list of lists. The first item is the name of
-# the category. The second item is a list of the names of the tones
-# as you defined them above in the dictionary. To define more categories,
-# put a comma after the second-last bracket and define another list like
-# shown below
-default email_tone_list = [
-    ["Basic", ['Default 1', 'Default 2', 'Default 3' ]]
-]
-
-default text_tone_list = [
-    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
-                '707', 'Yoosung★', 'ZEN' ]]
-]
-
-default ringtone_list = [
-    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
-                '707','Yoosung★', 'ZEN' ]]
-]
-
 default persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
 default persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
 default persistent.email_tone = 'audio/sfx/Ringtones etc/email_basic_1.wav'
 default persistent.phone_tone_name = "Default"
 default persistent.text_tone_name = "Default"
 default persistent.email_tone_name = "Default 1"
-
 
 ########################################################
 ## The three tabs on the Settings screen
