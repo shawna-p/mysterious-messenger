@@ -241,6 +241,45 @@ init -6 python:
         else:
             return MyTime()
 
+    class MyTimeDelta(store.object):
+        """
+        A class with properties to make it easy to parse a timedelta object.
+        It represents the length of time between two datetime objects.
+
+        Attributes:
+        -----------
+        days : int
+            Number of days represented in this object.
+        hours : int
+            Number of hours represented in this object.
+        minutes : int
+            Number of minutes represented in this object.
+        seconds : int
+            Number of seconds represented in this object.
+        td : timedelta
+            The timedelta object this class is wrapping.
+        """
+
+        def __init__(self, td):
+            """
+            Create a MyTimeDelta object for easier access of fields.
+
+            Parameters:
+            -----------
+            td : timedelta
+                The timedelta object this object is wrapping.
+            """
+
+            self.td = td
+
+            # Determine total number of seconds
+            self.seconds = int(td.total_seconds())
+            # Calculate the other fields
+            self.minutes = self.seconds // 60
+            self.hours = self.minutes // 60
+            self.days = self.hours // 24
+
+
     def new_route_setup(route, chatroom_label='starter_chat', participants=None):
         """Set up variables for a new route."""
 
