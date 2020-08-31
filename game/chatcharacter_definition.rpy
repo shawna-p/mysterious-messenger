@@ -829,6 +829,9 @@ init -5 python:
         if time_diff is None:
             return
 
+        # Wrap the time diff in a MyTimeDelta object
+        time_diff = MyTimeDelta(time_diff)
+
         try:
             lbl = store.mc_pfp_callback(time_diff, old_pfp, who)
         except:
@@ -841,10 +844,16 @@ init -5 python:
         if not lbl:
             return
         # Otherwise, got a label to jump to. Only jump to it if it hasn't
-        # been seen in this playthrough.
-        if renpy.has_label(lbl) and lbl not in store.seen_pfp_callbacks:
-            store.seen_pfp_callbacks.add(lbl)
-            renpy.call_in_new_context(lbl)
+        # been seen in this playthrough (or if testing mode is on).
+        # First, check if the returned label is a list
+        if not isinstance(lbl, list):
+            lbl = [lbl]
+        for l in lbl:
+            if renpy.has_label(l) and (store.persistent.testing_mode
+                    or l not in store.seen_pfp_callbacks):
+                store.seen_pfp_callbacks.add(l)
+                renpy.call_in_new_context(l)
+                return
         return
 
 # The time the main character's profile picture was last changed at

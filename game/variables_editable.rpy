@@ -155,18 +155,11 @@ init -1 python:
         profile picture.
         """
 
-        if who:
-            print_file("Got to this function with", time_diff.seconds, prev_pic, who.file_id)
-        else:
-            print_file("Got to this function with", time_diff.seconds, prev_pic, "and no who")
-        # time_diff is a timedelta object. Its most useful fields for
-        # this function are `days` and `seconds`. There are no minutes/hours
-        # fields so you have to do some math.
-        # if time_diff.days < 1:
-        #     # It's been less than a day since it was last changed
-        #     return
-        # if time_diff.seconds < 60*60:
-        #     # It's been less than an hour since it was last changed
+        # time_diff is a timedelta object wrapped in a MyTimeDelta class to
+        # make accessing fields easier. Its most useful fields are `days`,
+        # `minutes`, `hours`, and `seconds`. Each field is rounded DOWN to the
+        # nearest value e.g. if 2 minutes have passed, seconds = 120,
+        # minutes = 2, and hours and days = 0.
         if time_diff.seconds < 10:
             return
         # Otherwise, figure out what to do based on the other properties
@@ -176,11 +169,12 @@ init -1 python:
                 and who == store.r
                 and store.persistent.MC_pic == 'CGs/r_album/cg-1-thumb.webp'):
             # This is Ray's flower image
-
             return 'ray_pfp_callback_1'
+        # You can also return a list of labels, in which case the first unplayed
+        # label in the list will be called. This is so you can have different
+        # events occur the first time a condition is met vs the second time etc
 
 label ray_pfp_callback_1:
-    $ print_file("Got to the label")
     compose text r real_time:
         r "Oh, haha."
         r "I just realized you changed your profile picture."
@@ -283,6 +277,54 @@ image vn_y = 'Menu Screens/Day Select/vn_y.webp'
 image vn_z = 'Menu Screens/Day Select/vn_z.webp'
 image vn_party = 'Menu Screens/Day Select/vn_party.webp'
 image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.webp'
+
+########################################
+## RINGTONES
+########################################
+## Here you can customize the ringtones available for emails,
+## text messages, and phone calls.
+define email_tone_dict = {
+    'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav',
+    'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',
+    'Default 3': 'audio/sfx/Ringtones etc/email_basic_3.wav'
+}
+
+define text_tone_dict = {
+    'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav',
+    'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',
+    'Jaehee Kang': 'audio/sfx/Ringtones etc/text_basic_ja.wav',
+    '707': 'audio/sfx/Ringtones etc/text_basic_s.wav',
+    'Yoosung★': 'audio/sfx/Ringtones etc/text_basic_y.wav',
+    'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav'
+}
+
+define ringtone_dict = {
+    'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav',
+    'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',
+    'Jaehee Kang': 'audio/sfx/Ringtones etc/phone_basic_ja.wav',
+    '707': 'audio/sfx/Ringtones etc/phone_basic_s.wav',
+    'Yoosung★': 'audio/sfx/Ringtones etc/phone_basic_y.wav',
+    'ZEN': 'audio/sfx/Ringtones etc/phone_basic_z.wav'
+}
+
+# This is organized as a list of lists. The first item is the name of
+# the category. The second item is a list of the names of the tones
+# as you defined them above in the dictionary. To define more categories,
+# put a comma after the second-last bracket and define another list like
+# shown below
+default email_tone_list = [
+    ["Basic", ['Default 1', 'Default 2', 'Default 3' ]]
+]
+
+default text_tone_list = [
+    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
+                '707', 'Yoosung★', 'ZEN' ]]
+]
+
+default ringtone_list = [
+    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
+                '707','Yoosung★', 'ZEN' ]]
+]
 
 ########################################
 ## PARTY RANKING
