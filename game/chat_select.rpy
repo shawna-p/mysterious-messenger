@@ -423,11 +423,7 @@ screen timeline_item_display(day, day_num, item, index):
                         action CConfirm(("Would you like to"
                                     + " participate in the chat conversation"
                                     + " that has passed?"),
-                                [SetField(item, 'buyback', True),
-                                SetField(item, 'played', False),
-                                SetField(item, 'replay_log', []),
-                                Function(item.reset_participants),
-                                Function(renpy.retain_after_load),
+                                [Function(item.buy_back),
                                 Function(renpy.restart_interaction)])
 
     # A lone StoryMode item
@@ -594,9 +590,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                     action CConfirm(("Would you like to"
                                 + " call " + phonecall.caller.name + " back to "
                                 + " participate in this phone call?"),
-                            [SetField(phonecall, 'buyback', True),
-                            SetField(phonecall, 'played', False),
-                            Function(renpy.retain_after_load),
+                            [Function(phonecall.buy_ahead),
                             Function(renpy.restart_interaction)])
 
 style chat_timeline_vbox:
