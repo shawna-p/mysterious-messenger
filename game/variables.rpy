@@ -419,18 +419,6 @@ init -6 python:
         # Otherwise, it might be more of an internal issue
         return None
 
-    def change_some_vars():
-        """For testing."""
-        print("\nbefore: my_test_var", my_test_var, "store.my_test_var", store.my_test_var)
-        if store.my_test_var == "Nothing":
-            store.my_test_var = "Ping!"
-        elif store.my_test_var == "Ping!":
-            store.my_test_var = "Pong!"
-        else:
-            store.my_test_var = "Nothing"
-        print("\nafter: my_test_var", my_test_var, "store.my_test_var", store.my_test_var)
-        return
-
     def context_test():
         return
         print("We're in a new context")
@@ -445,7 +433,6 @@ init -6 python:
 # This tells the program to randomly shuffle the order
 # of responses
 default shuffle = True
-default my_test_var = "Nothing"
 ## A label the program can jump to in the event it cannot find a
 ## regular label to jump to
 label just_return():
@@ -466,10 +453,18 @@ init python:
             items.append(last)
         shuffle = True
 
-
         # If observing, check which items have already been seen
-        if store.observing:
+        new_items = []
+        print_file("Observing?", store.observing, "in replay?", store._in_replay,
+            "current choices?", store.current_choices)
+        if store.observing and not store._in_replay and store.current_choices:
+            # Restrict choices to what's been selected this playthrough
+            the_choice = store.current_choices.pop(0)
+            new_items = [ i for i in items if i[0] == the_choice ]
+        if store.observing and not new_items:
             items = [ i for i in items if i[1].get_chosen() ]
+        elif new_items:
+            items = new_items
         # For testing
         print_file("List of items is:")
         for i in items:
@@ -485,6 +480,7 @@ init offset = 4
 default generic_chatroom = ChatRoom('Chatroom', 'generic_chatroom', '00:00')
 default generic_storymode = StoryMode('Story Mode', 'generic_storymode', '00:00')
 default generic_storycall = StoryCall('Story Call', 'generic_storycall', '00:00', None)
+default generic_timeline_items = [generic_chatroom, generic_storycall, generic_storymode]
 init offset = 0
 
 # Name of the currently played day, e.g. '1st'

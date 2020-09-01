@@ -36,6 +36,9 @@ init -6 python:
         parent : TimelineItem
             If this item is part of a "family" of TimelineItems, this links
             to its parent.
+        choices : string[]
+            A list of the choices that were made when the player played this
+            StoryMode.
         delivered_post_items : bool
             True if the after_ label has been called for this TimelineItem.
         after_label : string
@@ -130,6 +133,7 @@ init -6 python:
             self.buyback = False
             self.buyahead = False
             self.parent = None
+            self.choices = []
             self.delivered_post_items = False
             self.after_label = "after_" + item_label
             self.phonecall_label = item_label
@@ -392,6 +396,16 @@ init -6 python:
                 return False
             return True
 
+        def buy_back(self):
+            """Make this item available again after it expired."""
+
+            self.buyback = True
+            self.played = False
+            self.choices = []
+
+            renpy.retain_after_load()
+
+
         def call_after_label(self, new_context=False):
             """Call this item's after_ label, if it exists."""
 
@@ -484,6 +498,12 @@ init -6 python:
         def currently_expired(self):
             """Return if this item is currently expired."""
             return (self.expired and not self.buyback)
+
+        def add_to_choices(self, choice):
+            """Add choice to the list of choices."""
+
+            if not self.currently_expired and not store.observing:
+                self.choices.append(choice)
 
         def __eq__(self, other):
             """Check for equality between two TimelineItem objects."""
@@ -769,6 +789,13 @@ init -6 python:
 
             return super(ChatRoom, self).buy_ahead()
 
+        def buy_back(self):
+            """Make this item available again after it expired."""
+
+            self.replay_log = []
+            self.reset_participants()
+            super(ChatRoom, self).buy_back()
+
         def total_timeline_items(self, only_if_unplayed=False):
             """Return the number of timeline items contained within this one."""
 
@@ -936,6 +963,9 @@ init -6 python:
                         num_played += 1.0
 
             return (num_played, total)
+
+
+
 
     class StoryCall(TimelineItem):
         """
@@ -1125,6 +1155,9 @@ init python:
         store.in_phone_call = False
         store.vn_choice = False
         store.email_reply = False
+        if item not in store.generic_timeline_items:
+            store.current_choices = []
+            store.current_call = None
 
         # Special variable is set when rewatching an item to prevent changing
         # what was said or receiving heart points again, for example.
@@ -1149,6 +1182,11 @@ init python:
                 c.reset_pfp()
             if store.expired_replay:
                 item.expired = True
+
+        # Only allow the player to pick choices they've seen on this playthrough
+        if (store.observing and not store._in_replay
+                and item not in store.generic_timeline_items):
+            store.current_choices = list(item.choices)
 
         print_file("Beginning timeline item with", item.item_label, "which is a",
             "chatroom?", isinstance(item, ChatRoom), "StoryMode?",
@@ -1213,7 +1251,7 @@ init python:
             store._history = False
             store.in_phone_call = True
             preferences.afm_enable = True
-            if not starter_story:
+            if not starter_story and not item == generic_storycall:
                 store.current_call = item
 
             renpy.hide_screen('incoming_call')
@@ -1436,7 +1474,9 @@ label play_phone_call():
     show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
     if not starter_story:
         # Play the phone call
-        $ print_file("About to call the label")
+        if observing:
+            $ store.current_choices = list(current_call.choices)
+        $ print_file("About to call the label. Choices is", store.current_choices)
         $ renpy.call(current_call.phone_label)
         if (not dialogue_paraphrase and dialogue_picked != ""):
             $ say_choice_caption(dialogue_picked,
@@ -1559,6 +1599,7 @@ init python:
 
         if not vn_jump:
             renpy.music.stop()
+            store.current_choices = []
 
         config.skipping = False
         config.skipping = False

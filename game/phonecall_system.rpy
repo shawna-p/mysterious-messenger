@@ -23,6 +23,8 @@ init -6 python:
             True if this conversation can be 'replayed' from the call history.
         avail_timeout : int
             How many chatrooms to wait until this call expires.
+        choices : string[]
+            A list of the choices the player selected when playing this call.
         """
 
         def __init__(self, caller, phone_label, call_status='incoming',
@@ -59,7 +61,34 @@ init -6 python:
             self.voicemail = voicemail
             self.playback = False
             self.avail_timeout = avail_timeout
+            self.__choices = []
 
+        @property
+        def choices(self):
+            try:
+                print_file("Returning choices", self.__choices)
+                return self.__choices
+            except AttributeError:
+                print_file("Couldn't return choices")
+                return []
+
+        @choices.setter
+        def choices(self, new_choices):
+            try:
+                self.__choices = new_choices
+            except AttributeError:
+                return
+
+        def add_to_choices(self, choice):
+            """Add choice to list of choices."""
+
+            if not store.observing:
+                try:
+                    self.choices.append(choice)
+                    print_file("2. Adding", choice, "to phonecall choices")
+                except AttributeError:
+                    print_file("Couldn't add", choice, "to phonecall choices")
+                    return
 
         def decrease_time(self):
             """

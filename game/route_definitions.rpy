@@ -573,7 +573,7 @@ init -6 python:
             store.current_call = store.incoming_call
             store.incoming_call = False
             renpy.music.play(persistent.phone_tone, 'music', loop=True)
-            renpy.show_screen('incoming_call', phonecall=store.current_call)
+            renpy.jump('new_incoming_call', phonecall=store.current_call)
         return
 
 
@@ -1091,3 +1091,5 @@ init -6 python:
 
 # True if the chatroom before the 'after_' call was expired
 default was_expired = False
+# The list of choices for this current timeline item
+default current_choices = []

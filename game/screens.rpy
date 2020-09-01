@@ -314,8 +314,18 @@ init python:
         store.dialogue_pv = 0
         return
 
-    def set_paraphrase(screen_pref, item_pref):
+    def set_paraphrase(screen_pref, item_pref, save_choices=False):
         """Determine whether this choice caption was paraphrased or not."""
+
+        # First, this item gets saved to the timelineitem's choices,
+        # if applicable
+        if save_choices and (not store.in_phone_call
+                or isinstance(store.current_call, TimelineItem)):
+            store.current_timeline_item.add_to_choices(store.dialogue_picked)
+        elif save_choices and store.in_phone_call:
+            # This is a regular phone call
+            store.current_call.add_to_choices(store.dialogue_picked)
+
         if item_pref is not None:
             # The item set its own preference
             store.dialogue_paraphrase = item_pref
@@ -391,40 +401,26 @@ screen choice(items, paraphrase=None):
 
     # For VN mode and phone calls
     elif in_phone_call or vn_choice:
-        $ can_see_answer = 0
-
         vbox:
             style_prefix 'phone_vn_choice'
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
-                if observing:
-                    $ fnum = 0
-                if not observing or i.chosen:
-                    $ can_see_answer += 1
-                    textbutton i.caption at the_anim(fnum):
-                        if persistent.dialogue_outlines:
-                            text_outlines [ (absolute(2), "#000",
-                                absolute(0), absolute(0)) ]
-                        if (persistent.past_choices
-                                and i.chosen):
-                            foreground 'seen_choice_check_circle'
-                            background 'call_choice_check'
-                            hover_background 'call_choice_check_hover'
-                        action [i.action,
-                            SetVariable('dialogue_picked', i.caption),
-                            Function(set_paraphrase, screen_pref=paraphrase,
-                                item_pref=(i.kwargs.get('paraphrase',
-                                None)))
-                            ]
-            # Not a perfect solution, but hopefully provides an 'out'
-            # to players who somehow didn't choose a menu option and
-            # are now in observing mode
-            if can_see_answer == 0:
-                textbutton _("(Continue)"):
+                textbutton i.caption at the_anim(fnum):
                     if persistent.dialogue_outlines:
                         text_outlines [ (absolute(2), "#000",
-                                absolute(0), absolute(0)) ]
-                    action [SetVariable('timed_choose', False), Return()]
+                            absolute(0), absolute(0)) ]
+                    if (persistent.past_choices and not observing
+                            and i.chosen):
+                        foreground 'seen_choice_check_circle'
+                        background 'call_choice_check'
+                        hover_background 'call_choice_check_hover'
+                    action [i.action,
+                        SetVariable('dialogue_picked', i.caption),
+                        Function(set_paraphrase, screen_pref=paraphrase,
+                            item_pref=(i.kwargs.get('paraphrase',
+                            None)),
+                            save_choices=True)
+                        ]
 
     # For emails
     elif email_reply:
@@ -459,7 +455,7 @@ screen choice(items, paraphrase=None):
                             text_outlines [ (2, "#fff",
                                 absolute(0), absolute(0)) ]
 
-                        if (persistent.past_choices
+                        if (persistent.past_choices and not observing
                                 and i.chosen):
                             if persistent.custom_footers:
                                 foreground 'seen_choice_check_circle'
