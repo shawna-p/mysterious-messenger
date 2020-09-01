@@ -183,13 +183,14 @@ screen chip_cloud():
     zorder 100
 
     add "choice_darken"
-    fixed at chip_wobble2:
+    button at chip_wobble2:
         xysize (481, 598)
         xalign 0.5
         yalign 0.6
         add "space_chip"
+        action Show('chip_end')
 
-    fixed at hide_dissolve:
+    button at hide_dissolve:
         xysize (750, 640)
         xalign 0.5
         yalign 0.6
@@ -198,6 +199,7 @@ screen chip_cloud():
         add 'cloud_3' xpos 10 ypos 300 at cloud_shuffle3
         add 'cloud_4' xpos 300 at cloud_shuffle4
         add 'cloud_5' xpos 350 ypos 20 at cloud_shuffle5
+        action Show('chip_end')
 
     timer 2.5 action [Show('chip_end')]
 
