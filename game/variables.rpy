@@ -462,8 +462,8 @@ init python:
             the_choice = store.current_choices.pop(0)
             new_items = [ i for i in items if i[0] == the_choice ]
         if store.observing and not new_items:
-            items = [ i for i in items if i[1].get_chosen() ]
-        elif new_items:
+            new_items = [ i for i in items if i[1].get_chosen() ]
+        if new_items:
             items = new_items
         # For testing
         print_file("List of items is:")

@@ -454,7 +454,6 @@ screen file_slots(title):
                                             'example_chat', '00:01')
 
 
-
     fixed:
         # This ensures the input will get the enter event before any of the
         # buttons do.

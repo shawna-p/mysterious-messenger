@@ -512,8 +512,6 @@ style history_chatroom_hbox:
 style history_chatroom_button:
     xysize (80,80)
 
-
-
 style timeline_button:
     xysize (181,62)
     text_align 0.5

@@ -454,6 +454,10 @@ init -5 python:
             except AttributeError:
                 the_pic = False
 
+            # Make sure MC's pic is up to date
+            if self == store.m:
+                self.prof_pic = store.persistent.MC_pic
+
             if the_pic and the_size <= max_small:
                 return Transform(the_pic, size=(the_size, the_size))
             elif the_pic:

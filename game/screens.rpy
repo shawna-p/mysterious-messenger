@@ -435,65 +435,52 @@ screen choice(items, paraphrase=None):
 
     # For everything else (e.g. chatrooms)
     else:
-        $ can_see_answer = 0
         vbox:
             if persistent.custom_footers:
                 style_prefix 'phone_vn_choice'
             else:
                 style_prefix 'choice'
             for num, i in enumerate(items):
-                if not observing or i.chosen:
-                    $ can_see_answer += 1
-                    $ fnum = float(num*0.2)
-                    textbutton i.caption at the_anim(fnum):
-                        if (persistent.dialogue_outlines
-                                and persistent.custom_footers):
-                            text_outlines [ (2, "#000",
-                                absolute(0), absolute(0)) ]
-                        elif (persistent.dialogue_outlines
-                                and not persistent.custom_footers):
-                            text_outlines [ (2, "#fff",
-                                absolute(0), absolute(0)) ]
+                $ fnum = float(num*0.2)
+                textbutton i.caption at the_anim(fnum):
+                    if (persistent.dialogue_outlines
+                            and persistent.custom_footers):
+                        text_outlines [ (2, "#000",
+                            absolute(0), absolute(0)) ]
+                    elif (persistent.dialogue_outlines
+                            and not persistent.custom_footers):
+                        text_outlines [ (2, "#fff",
+                            absolute(0), absolute(0)) ]
 
-                        if (persistent.past_choices and not observing
-                                and i.chosen):
-                            if persistent.custom_footers:
-                                foreground 'seen_choice_check_circle'
-                                background 'call_choice_check'
-                                hover_background 'call_choice_check_hover'
-                            else:
-                                foreground 'seen_choice_check'
-                        action If(using_timed_menus,
-                            [SetVariable('reply_instant', True),
-                                SetVariable('using_timed_menus', False),
-                                Hide('answer_countdown'),
-                                # This ensures the messenger scrolls
-                                # to the bottom
-                                Hide('messenger_screen'),
-                                Show('messenger_screen'),
-                                i.action,
-                                SetVariable('dialogue_picked', i.caption),
-                                Function(set_paraphrase, screen_pref=paraphrase,
-                                    item_pref=(i.kwargs.get('paraphrase',
-                                    None))),
-                                SetVariable('dialogue_pv', None)
-                                    ],
-                            [i.action,
-                                SetVariable('dialogue_picked', i.caption),
-                                Function(set_paraphrase, screen_pref=paraphrase,
-                                    item_pref=(i.kwargs.get('paraphrase',
-                                    None)))
-                                ])
-
-            # Not a perfect solution, but hopefully provides an 'out'
-            # to players who somehow didn't choose a menu option and
-            # are now in observing mode
-            if can_see_answer == 0:
-                textbutton _("(Continue)"):
-                    if persistent.dialogue_outlines:
-                        text_outlines [ (absolute(2), "#000",
-                                absolute(0), absolute(0)) ]
-                    action [SetVariable('timed_choose', False), Return()]
+                    if (persistent.past_choices and not observing
+                            and i.chosen):
+                        if persistent.custom_footers:
+                            foreground 'seen_choice_check_circle'
+                            background 'call_choice_check'
+                            hover_background 'call_choice_check_hover'
+                        else:
+                            foreground 'seen_choice_check'
+                    action If(using_timed_menus,
+                        [SetVariable('reply_instant', True),
+                            SetVariable('using_timed_menus', False),
+                            Hide('answer_countdown'),
+                            # This ensures the messenger scrolls
+                            # to the bottom
+                            Hide('messenger_screen'),
+                            Show('messenger_screen'),
+                            i.action,
+                            SetVariable('dialogue_picked', i.caption),
+                            Function(set_paraphrase, screen_pref=paraphrase,
+                                item_pref=(i.kwargs.get('paraphrase',
+                                None))),
+                            SetVariable('dialogue_pv', None)
+                                ],
+                        [i.action,
+                            SetVariable('dialogue_picked', i.caption),
+                            Function(set_paraphrase, screen_pref=paraphrase,
+                                item_pref=(i.kwargs.get('paraphrase',
+                                None)))
+                            ])
 
 
 image seen_choice_check = Image('Menu Screens/Main Menu/main02_tick.webp',
@@ -1098,7 +1085,7 @@ screen nvl(dialogue, items=None):
     window:
         style "nvl_window"
         frame:
-            background "transparent.webp"     # or use any semi-transparent image you like
+            background "transparent.webp"
             align (0.5, 0.2)
 
 
