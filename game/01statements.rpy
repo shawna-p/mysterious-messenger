@@ -482,6 +482,13 @@ python early hide:
                     renpy.error("Could not evaluate condition for backlog.")
         return
 
+    def translate_backlog_stmt(p):
+        messages = p['messages']
+
+        translation = [ ]
+        for msg in messages:
+            translation.extend(translate_msg_stmt(msg))
+        return translation
 
     def parse_msg_stmt(l, check_time=False):
 
@@ -701,10 +708,21 @@ python early hide:
     def warp_msg_stmt(p):
         return True
 
+    def translate_msg_stmt(p):
+        # Get the 'what'
+        try:
+            what = eval(p['what'])
+        except:
+            print("WARNING: Could not extract dialogue for translation.")
+
+        if "{image" not in what:
+            return [ what ]
+        return [ ]
 
     renpy.register_statement('msg',
         parse=parse_msg_stmt,
         execute=execute_msg_stmt,
+        translation_strings=translate_msg_stmt,
         predict=predict_msg_stmt,
         lint=lint_msg_stmt,
         warp=warp_msg_stmt)
@@ -713,6 +731,7 @@ python early hide:
         parse=parse_backlog_stmt,
         execute=execute_backlog_stmt,
         predict=predict_backlog_stmt,
+        translation_strings=translate_backlog_stmt,
         lint=lint_backlog_stmt,
         warp=warp_msg_stmt,
         block=True)
@@ -1028,6 +1047,7 @@ python early hide:
         parse=parse_compose_text,
         execute=execute_compose_text,
         predict=predict_backlog_stmt,
+        translation_strings=translate_backlog_stmt,
         lint=lint_compose_text,
         warp=lambda : True,
         block=True)
