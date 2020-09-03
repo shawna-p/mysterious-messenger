@@ -85,6 +85,13 @@ init python:
                     store.persistent.completed_chatrooms.keys())
                 store.persistent.completed_chatrooms = None
 
+            if store.persistent.pronoun == 'non binary':
+                store.persistent.pronoun = 'they/them'
+            elif store.persistent.pronoun == 'female':
+                store.persistent.pronoun = 'she/her'
+            elif store.persistent.pronoun == 'male':
+                store.persistent.pronoun = 'he/him'
+
             # Update music variables to their .ogg counterparts
             update_music()
             # Check if chat_archive is the tutorial day one though, since

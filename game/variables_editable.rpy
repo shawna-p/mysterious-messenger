@@ -6,7 +6,7 @@ init python:
         global they, them, their, theirs, themself, they_re
         global They, Them, Their, Theirs, Themself, They_re
         global is_are, has_have, s_verb
-        if persistent.pronoun == "female":
+        if persistent.pronoun == "she/her":
             they = "she"
             them = "her"
             their = "her"
@@ -16,7 +16,7 @@ init python:
             is_are = "is"
             has_have = "has"
             s_verb = "s"
-        elif persistent.pronoun == "male":
+        elif persistent.pronoun == "he/him":
             they = "he"
             them = "him"
             their = "his"
@@ -26,7 +26,7 @@ init python:
             is_are = "is"
             has_have = "has"
             s_verb = "s"
-        elif persistent.pronoun == "non binary":
+        elif persistent.pronoun == "they/them":
             they = "they"
             them = "them"
             their = "their"
@@ -41,18 +41,10 @@ init python:
         They = string.capwords(they)
         Them = string.capwords(them)
         Their = string.capwords(their)
-        Theirs = string.capwords(Theirs)
-        Themself = string.capwords(Themself)
+        Theirs = string.capwords(theirs)
+        Themself = string.capwords(themself)
         # Save all variables
         renpy.retain_after_load()
-
-########################################
-## HISTORY VARIABLES
-########################################
-# Define extra history items here, such as route prologues
-define extra_history_items = [
-    ("Tutorial Prologue", "start")
-    ]
 
 ########################################
 ## PRONOUN VARIABLES
@@ -75,6 +67,15 @@ default has_have = "have"
 default s_verb = ""
 
 ########################################
+## HISTORY VARIABLES
+########################################
+# Define extra history items here, such as route prologues. The first string
+# is the name of the button, and the second is the label it's found at.
+define extra_history_items = [
+    ("Tutorial Prologue", "start")
+    ]
+
+########################################
 ## GREETING IMAGES
 ########################################
 # These image are approximately 121x107 up to 143x127
@@ -88,6 +89,9 @@ image greet u = "Menu Screens/Main Menu/u_greeting.webp"
 image greet v = "Menu Screens/Main Menu/v_greeting.webp"
 image greet y = "Menu Screens/Main Menu/y_greeting.webp"
 image greet z = "Menu Screens/Main Menu/z_greeting.webp"
+
+# Add a character here if they do not have a greet image.
+default no_greet_chars = [r, m]
 
 ########################################
 ## BONUS PROFILE PICTURES
@@ -130,10 +134,11 @@ define z_unlockable_pfps = combine_lists(
     register_pfp(folder="CGs/z_album/", filter_keep='-thumb.')
 )
 
-# List of images the player has unlocked and can use as a profile picture
+# List of images the player has unlocked and can use as a profile picture.
+# Automatically includes everything in the Drop Your Profile Picture Here folder
 default persistent.mc_unlocked_pfps = [ ]
 
-# Number of heart points it costs to unlock a profile picture
+# Number of heart points it costs to unlock a profile picture.
 define pfp_cost = 5
 
 # A function that will be called when the player changes their
@@ -143,10 +148,8 @@ define pfp_cost = 5
 # store.persistent.MC_pic), and 3) the ChatCharacter associated with the
 # profile picture (or None if it's a default picture). If it returns a string,
 # the program will call that string as a label (e.g. for text messages).
-define mc_pfp_callback = bonus_pfp_dialogue
-# This holds a list of the labels the program has already jumped to during
-# profile picture callbacks
-default seen_pfp_callbacks = set()
+default mc_pfp_callback = bonus_pfp_dialogue
+
 
 init -1 python:
     def bonus_pfp_dialogue(time_diff, prev_pic, who):
@@ -343,7 +346,7 @@ image party_grade = ConditionSwitch(
 ########################################
 ## CUSTOM MESSENGER ITEMS
 ########################################
-# If you'd like to use custom fonts with the chat CDS, you must add them
+# If you'd like to use custom fonts with the msg CDS, you must add them
 # to these lists.
 define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
 define bold_xbold_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2']
@@ -356,12 +359,14 @@ define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
             'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
             'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
             'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font}
+
 # Similarly, if you have any custom bubbles defined, add them here.
 define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
     'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
     'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
     'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
     'flower_s', 'glow2']
+
 # All possible backgrounds are defined here. If they are a static image,
 # they should be defined as `image bg morning` and the list contains 'morning'.
 define all_static_backgrounds = ['morning', 'noon', 'evening', 'hack',
