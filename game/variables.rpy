@@ -2,21 +2,8 @@ init -6 python:
     from datetime import datetime, date, timedelta
     from copy import copy, deepcopy
 
-    ## This defines another voice channel which the emoji
-    ## sound effects play on. Players can adjust the volume
-    ## of the emojis separately from voice, music, and sfx
-    renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
-
-    def set_voicesfx_volume(value=None):
-        """Set the volume of the voice sfx channel."""
-
-        if value is None:
-            return MixerValue('voice_sfx')
-        else:
-            return SetMixer('voice_sfx', value)
-
     class CConfirm(Show):
-        """A specialized Action for showing confirmation prompts to the player."""
+        """A special Action for showing confirmation prompts to the player."""
 
         def __init__(self, msg, yes=None, *args, **kwargs):
             if yes is None:
@@ -204,6 +191,30 @@ init -6 python:
             """Adjust the datetime according to timedelta td."""
             self.datetime += td
 
+        def time_diff_minimum(self, other_time, day=None, hour=None,
+                minute=None):
+            """
+            Return True if the other_time is at least the given time later
+            than this time.
+            """
+
+            try:
+                td = self.datetime - other_time.datetime
+                mtd = MyTimeDelta(td)
+                if day and mtd.days >= day:
+                    return True
+                if hour and mtd.hours >= hour:
+                    return True
+                if minute and mtd.minutes >= minute:
+                    return True
+                return False
+            except AttributeError:
+                if day and int(self.day) + day <= int(other_time.day):
+                    return True
+                # Not going to do any more complex calculations
+                print_file("WARNING: Can't properly compare time differences.")
+                return False
+
         @property
         def stopwatch_time(self):
             return self.military_hour + ":" + self.minute + ":" + self.second
@@ -290,7 +301,8 @@ init -6 python:
             try:
                 route = route.default_branch
             except AttributeError:
-                print_file("Error: Given Route object does not have a default_branch field.")
+                print("WARNING: Given Route object does not have a ",
+                    "default_branch field.")
 
         if (len(route) > 0
                 and (isinstance(route[0], RouteDay)
@@ -342,6 +354,11 @@ init -6 python:
         return Fixed(Crop((0, (1334-1125)//2, 750, 1125), s,
                     xalign=0.5, yalign=0.5), size=(750,1334))
 
+    ## Displayable prefix definitions
+    config.displayable_prefix["btn_hover"] = btn_hover_img
+    config.displayable_prefix["center_bg"] = center_bg_img
+    config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
+
     def get_text_width(the_text, the_style='default'):
         """Return the width of text with a certain style applied."""
         return int(Text(the_text, style=the_style).size()[0])
@@ -380,8 +397,6 @@ init -6 python:
 
     def handle_missing_image(img):
         """Give a generic image to use when an image cannot be found."""
-        # Currently unimplemented due to engine bug where the program does not
-        # recognize files in the `gui` folder
 
         # First try to see if the image has an equivalent .webp version
         if '.webp' not in img:
@@ -390,10 +405,6 @@ init -6 python:
                 return Image(new_img)
             return None
 
-
-        # print("WARNING: Could not find the image", img)
-        # renpy.show_screen('script_error',
-        #         message=("Could not find the image " + str(img)))
         # Otherwise, assume we couldn't find it
         return None
 
@@ -419,26 +430,7 @@ init -6 python:
         # Otherwise, it might be more of an internal issue
         return None
 
-    def context_test():
-        return
-        print("We're in a new context")
-        print("The call stack depth is", renpy.call_stack_depth())
-        print("Nesting level is", renpy.context_nesting_level())
-        print("Current context is", renpy.context())
 
-    config.displayable_prefix["btn_hover"] = btn_hover_img
-    config.displayable_prefix["center_bg"] = center_bg_img
-    config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
-
-# This tells the program to randomly shuffle the order
-# of responses
-default shuffle = True
-## A label the program can jump to in the event it cannot find a
-## regular label to jump to
-label just_return():
-    return
-
-init python:
     # This lets the program shuffle menu options
     renpy_menu = menu
     def menu(items):
@@ -474,6 +466,14 @@ init python:
     # Don't let the player rollback the game
     # by scrolling
     config.keymap['rollback'].remove('mousedown_4')
+
+## A label the program can jump to in the event it cannot find a
+## regular label to jump to
+label just_return():
+    return
+# This tells the program to randomly shuffle the order
+# of responses
+default shuffle = True
 
 init offset = 4
 ## Generic variables that are used for some program calls and setup.
@@ -543,16 +543,6 @@ image bg noon = "center_bg:Phone UI/bg-noon.webp"
 image bg hack = "Phone UI/bg-hack.webp"
 image bg redhack = "Phone UI/bg-redhack.webp"
 image bg redcrack = "Phone UI/bg-redhack-crack.webp"
-
-# image morning = "bg morning"
-# image evening = "bg evening"
-# image night = "bg night"
-# image earlyMorn = "bg earlyMorn"
-# image noon = "bg noon"
-
-# image hack = "center_crop_bg:bg hack"
-# image redhack = "center_crop_bg:bg redhack"
-# image redcrack = "center_crop_bg:bg redcrack"
 image black = "#000000"
 
 # A starry night background with some static stars;
@@ -589,7 +579,6 @@ default persistent.real_time = False
 # Check if the program needs to manually load the chat home screen
 default persistent.just_loaded = False
 
-
 # Set to True if you're viewing a previously-seen chatroom/call/etc
 default observing = False
 
@@ -622,12 +611,11 @@ image new_sign = "Bubble/main01_new.webp"
 define _preferences.show_empty_window = False
 
 
-
 #************************************
 # Persistent Variables
 #************************************
 
-default persistent.pronoun = "non binary"
+default persistent.pronoun = "they/them"
 
 default persistent.MC_pic = 'Profile Pics/MC/MC-1.webp'
 default persistent.name = "Rainbow"
@@ -636,12 +624,9 @@ default persistent.HP = 0
 default persistent.HG = 100
 
 
-
 ##******************************
 ## Image Definitions - Menu
 ##******************************
-
-
 
 image greeting_bubble = Frame("Menu Screens/Main Menu/greeting_bubble.webp", 40, 10, 10, 10)
 image greeting_panel = Frame("Menu Screens/Main Menu/greeting_panel.webp", 20, 20)
@@ -709,7 +694,7 @@ image save_auto_hover = Frame("btn_hover:save_auto_idle", 20, 20)
 
 
 # Just for fun, this is the animation when you hover over the settings
-# button. It makes the gear look like it's turning
+# button. It makes the gear look like it's turning.
 image settings_gear_rotate:
     "Menu Screens/Main Menu/menu_settings_gear.webp"
     xpos -10
@@ -790,14 +775,11 @@ image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.webp"
 image profile_outline = Frame('#fff', 5, 5)
 image profile_cover_photo = "Cover Photos/profile_cover_photo.webp"
 
-
 image input_close = "Menu Screens/Main Menu/main02_close_button.webp"
 image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.webp"
 image input_square = Frame("Menu Screens/Main Menu/main02_text_input.webp",40,40)
 image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.webp",70,70)
 image input_popup_bkgr_hover = Frame("Menu Screens/Main Menu/menu_popup_bkgrd_hover.webp",70,70)
-
-
 
 
 ## ********************************
