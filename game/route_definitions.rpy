@@ -1093,3 +1093,5 @@ init -6 python:
 default was_expired = False
 # The list of choices for this current timeline item
 default current_choices = []
+# A dictionary that keeps track of the end participants for each chatroom.
+default persistent.chatroom_participants = {}

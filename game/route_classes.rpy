@@ -762,6 +762,18 @@ init -6 python:
 
             super(ChatRoom, self).deliver_next_after_content()
 
+        def mark_self_played(self):
+            """
+            Mark this item as played. Return True if this was successful.
+            """
+
+            successful = super(ChatRoom, self).mark_self_played()
+            if not successful:
+                return False
+            # Otherwise, add the participants to a dictionary
+            store.persistent.chatroom_participants[self.title] = list(self.participants)
+            return True
+
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
 
