@@ -106,6 +106,33 @@ init -4 python:
                 return 'profpic'
 
         @property
+        def reg_text_style(self):
+            """Return the style used for regular text messages."""
+
+            if self.who.right_msgr:
+                return 'text_msg_mc_fixed'
+            else:
+                return 'text_msg_npc_fixed'
+
+        @property
+        def text_bubble_style(self):
+            """Return the style used for regular text message bubbles."""
+
+            if self.who.right_msgr:
+                return 'reg_bubble_MC_text'
+            else:
+                return 'reg_bubble_text'
+
+        @property
+        def text_img_style(self):
+            """Return the style used for images in text messages."""
+
+            if self.who.right_msgr:
+                return 'mc_img_text_message'
+            else:
+                return 'img_text_message'
+
+        @property
         def bubble_style(self):
             """Return the style used for regular bubbles."""
 

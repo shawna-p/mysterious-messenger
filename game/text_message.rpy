@@ -33,7 +33,7 @@ screen text_message_hub():
                     if i.text_msg.msg_list and i.text_msg.read:
                         use text_hub_display(i)
 
-
+## Displays an individual message preview
 screen text_hub_display(i):
 
     python:
@@ -53,7 +53,7 @@ screen text_hub_display(i):
     button:
         style_prefix 'text_msg'
         selected last_text and text_read
-        # If there's a label jump to it, otherwise
+        # If there's a label, jump to it, otherwise
         # just show the messages
         action If((text_label and i.real_time_text),
 
@@ -133,16 +133,10 @@ init python:
     def allocate_text_popup():
         """Allocate a screen for the text message popup."""
 
-        possible_screens = ["text_msg_popup", "text_pop_2", "text_pop_3"]
-        available_screens = [ x for x in possible_screens
-                                if not renpy.get_screen(x) ]
-        if available_screens:
-            return available_screens[0]
-        else:
-            return possible_screens[0]
+        return allocate_screen(["text_msg_popup", "text_pop_2", "text_pop_3"])
 
 ########################################################
-## This screen takes care of the popups that notify
+## This screen displays the popups that notify
 ## the user when there is a new text message
 ########################################################
 screen text_msg_popup(c, hide_screen='text_msg_popup'):
@@ -166,7 +160,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
             idle 'input_close'
             hover 'input_close_hover'
             if not randint(0,3):
-                action [Hide(hide_screen), deliver_next]
+                action [Hide(hide_screen), Function(deliver_next)]
             else:
                 action [Hide(hide_screen)]
 
@@ -216,7 +210,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
                 null height 70
     timer 3.25:
         action If(randint(0,1), [Hide(hide_screen, Dissolve(0.25)),
-                                deliver_next],
+                                Function(deliver_next)],
                                 [Hide(hide_screen, Dissolve(0.25))])
 
 
@@ -272,7 +266,7 @@ style text_popup_button_text:
     is mode_select
     size 28
 
-## Additional screens to allow us to display multiple popups
+## Additional screens to allow the program to display multiple popups
 screen text_pop_2(c):
     zorder 99
     use text_msg_popup(c, 'text_pop_2')
@@ -322,21 +316,29 @@ screen text_date_separator(text_time):
     $ the_time = the_time + text_time.day + ' ' + text_time.weekday
 
     hbox:
-        spacing 10
-        xalign 0.5
-        ysize 80
-        xsize 740
+        style_prefix 'date_separator'
         frame:
-            ymaximum 40
-            xmaximum 240
-            yalign 0.5
-            background 'text_msg_line'
-        text the_time size 25 color '#fff' yalign 0.5
+            null
+        text the_time
         frame:
-            ymaximum 40
-            yalign 0.5
-            xmaximum 240
-            background 'text_msg_line'
+            null
+
+style date_separator_hbox:
+    spacing 10
+    xalign 0.5
+    ysize 80
+    xsize 740
+style date_separator_frame:
+    ymaximum 40
+    xmaximum 240
+    yalign 0.5
+    background 'text_msg_line'
+style date_separator_text:
+    size 25
+    color '#fff'
+    yalign 0.5
+
+
 
 ########################################################
 ## This is the screen that actually displays the
@@ -377,8 +379,6 @@ screen text_message_screen(sender, animate=True):
             action [Function(award_text_hp, who=sender)]
 
 
-
-
     default prev_msg = None
 
     use menu_header(sender.name, [SetVariable('CG_who', None),
@@ -387,13 +387,6 @@ screen text_message_screen(sender, animate=True):
     python:
         yadj.value = yadjValue
         textlog = sender.text_msg.msg_list
-
-        chatLength = len(textlog) - 1
-        begin = chatLength - bubbles_to_keep
-        if begin >= 0:
-            pass
-        else:
-            begin = 0
 
     viewport: # viewport id "VP":
         yinitial 1.0
@@ -407,17 +400,18 @@ screen text_message_screen(sender, animate=True):
         has vbox
         spacing 20
 
-        for i index id(i) in textlog[begin:]:
-            if chatLength > 0 and (prev_msg is not None):
-                if i.thetime.day != prev_msg.thetime.day:
-                    use text_date_separator(i.thetime)
-            if (len(textlog) > 0
-                    and textlog[0] == i):
+        for i index id(i) in textlog[-bubbles_to_keep:]:
+            # Show the date separator if applicable
+            if (len(textlog) > 0 and (prev_msg is not None)
+                    and i.thetime.time_diff_minimum(prev_msg.thetime, day=1)):
+                use text_date_separator(i.thetime)
+            if (len(textlog) > 0 and textlog[0] == i):
                 use text_date_separator(i.thetime)
             fixed:
                 yfit True
                 xfit True
-                use text_animation(i, False, True)
+                if i == textlog[-1]:
+                    use text_animation(i, False, True)
                 use text_animation(i, (sender.real_time_text
                     and i == textlog[-1] and animate))
             $ prev_msg = i
@@ -436,30 +430,6 @@ screen text_message_screen(sender, animate=True):
 screen text_animation(i, animate=False, anti=False):
     python:
         transformVar = incoming_message
-        if i.who.right_msgr:
-            picStyle = 'MC_profpic_text'
-            reg_style = 'text_msg_mc_fixed'
-            reg_bubble = 'reg_bubble_MC_text'
-            hbox_ypos = 5
-            img_style = 'mc_img_text_message'
-        else:
-            picStyle = 'profpic_text'
-            reg_style = 'text_msg_npc_fixed'
-            reg_bubble = 'reg_bubble_text'
-            hbox_ypos = -10
-            img_style = 'img_text_message'
-
-        # This determines how long the line of text is.
-        # If it needs to wrap it, it will pad the bubble
-        # out to the appropriate length
-        # Otherwise each bubble would be exactly as wide as
-        # it needs to be and no more
-        t = Text(i.what)
-        z = t.size()
-        my_width = int(z[0])
-        my_height = int(z[1])
-
-        text_time = i.thetime.get_twelve_hour()
 
         if anti:
             transformVar = invisible
@@ -478,17 +448,17 @@ screen text_animation(i, animate=False, anti=False):
                 xalign 1.0
                 box_reverse True
             xmaximum 750
-            style reg_style
+            style i.reg_text_style
             null width 18
             frame:
-                style picStyle
+                style i.pfp_style + '_text'
                 if not anti and i.who.prof_pic:
                     add i.who.get_pfp(110)
 
             frame at transformVar:
                 # Check if it's an image
                 if i.img and not "{image" in i.what:
-                    style img_style
+                    style i.text_img_style
                     $ fullsizeCG = cg_helper(i.what)
                     imagebutton:
                         focus_mask True
@@ -499,11 +469,10 @@ screen text_animation(i, animate=False, anti=False):
                                     Call("viewCG", textmsg=True),
                                     Return()]
 
-
                 else:
-                    style reg_bubble
+                    style i.text_bubble_style
                     yalign 0.0
-                    if my_width > gui.longer_than:
+                    if i.dialogue_width > gui.longer_than:
                         text i.what:
                             style "bubble_text_long"
                             min_width gui.long_line_min_width
@@ -514,7 +483,7 @@ screen text_animation(i, animate=False, anti=False):
                         text i.what style "bubble_text" color '#fff'
 
             if i != filler and not anti:
-                text text_time:
+                text i.thetime.get_twelve_hour():
                     color '#fff'
                     yalign 1.0
                     size 23
