@@ -123,11 +123,12 @@ style loading_tip:
 default loading_tips = [
     "Please make sure the game is not quit or interrupted during save or load.",
     "Tap the Links button in the hub screen to go to the Mysterious Messenger Discord.",
-    "Want to contribute to the program? Submit a pull request to the Mysterious Messenger Github!",
+    "Want to contribute to the program? Submit a pull request to the Mysterious Messenger GitHub!",
     "There are many accessibility options in the Settings menu.",
     "Found a bug? Report it on the Mysterious Messenger GitHub.",
     "Like the program? Consider donating to my Ko-Fi in Links.",
     "Is there a feature you want to see? Let me know in the Mysterious Messenger Discord.",
     "Did you know? You can turn on Audio Captions from the Settings menu.",
-    "You can toggle animated backgrounds on or off from the Settings menu."
+    "You can toggle animated backgrounds on or off from the Settings menu.",
+    "Testing Mode in the Developer menu makes it easy to test routes."
 ]

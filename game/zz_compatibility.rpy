@@ -1,6 +1,7 @@
 ## This file contains deprecated functions, classes, screens, and labels
 ## that are no longer required for the current version of Mysterious Messenger
-## but are maintained here for backwards compatibility
+## but are maintained here for backwards compatibility. Use of old features
+## often results in a printout to the console but no averse in-game effects.
 
 init python:
 

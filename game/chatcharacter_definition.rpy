@@ -871,3 +871,6 @@ default persistent.bought_prof_pics = set()
 # Contains a dictionary of the heart points the player has to spend on
 # each character
 default persistent.spendable_hearts = {}
+# This holds a list of the labels the program has already jumped to during
+# profile picture callbacks
+default seen_pfp_callbacks = set()

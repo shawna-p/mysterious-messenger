@@ -8,55 +8,10 @@
 
 label vn_begin(nvl=False):
     return
-    if starter_story:
-        $ set_name_pfp()
-    window auto
-    $ collected_hp = {'good': [], 'bad': [], 'break': []}
-    scene bg black
-    stop music
-    hide screen starry_night
-    hide screen phone_overlay
-    hide screen messenger_screen
-    hide screen pause_button
-    hide screen timeline
-
-    # Hide all the popup screens
-    $ hide_all_popups()
-
-    if not nvl:
-        show screen vn_overlay
-    else:
-        nvl clear
-    $ vn_choice = True
-    $ _history_list = [] # This clears the History screen
-    $ _history = True
-
-    if (not _in_replay and
-            ((isinstance(current_timeline_item, ChatRoom)
-                and current_timeline_item.story_mode.played)
-            or (isinstance(current_timeline_item, StoryMode)
-                and current_timeline_item.played))):
-        if not persistent.testing_mode:
-            $ observing = True
-        else:
-            pass
-    else:
-        $ observing = False
-    if _in_replay:
-        $ observing = True
-        $ set_name_pfp()
-        $ set_pronouns()
-
-    return
 
 ## Call to end a VN section
 label vn_end():
     return
-    if _in_replay:
-        $ renpy.end_replay()
-    hide screen vn_overlay
-    $ renpy.retain_after_load()
-    jump press_save_and_exit
 
 label vn_end_route():
     jump end_route

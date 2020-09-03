@@ -230,7 +230,7 @@ screen pic_and_pronouns():
             has vbox
             text "Preferred Pronouns"
             button:
-                action [SetField(persistent, "pronoun", "female"),
+                action [SetField(persistent, "pronoun", "she/her"),
                         Function(set_pronouns)]
                 has hbox
                 spacing 10
@@ -241,7 +241,7 @@ screen pic_and_pronouns():
                 text 'she/her' style 'pronoun_radio_text'
 
             button:
-                action [SetField(persistent, "pronoun", "male"),
+                action [SetField(persistent, "pronoun", "he/him"),
                         Function(set_pronouns)]
                 has hbox
                 spacing 10
@@ -250,7 +250,7 @@ screen pic_and_pronouns():
 
 
             button:
-                action [SetField(persistent, "pronoun", "non binary"),
+                action [SetField(persistent, "pronoun", "they/them"),
                         Function(set_pronouns)]
                 has hbox
                 spacing 10

@@ -54,9 +54,9 @@ define xmas_same_old_fresh_air = "audio/music/Same Old Fresh Air (ver. X-Mas Org
 define xmas_urban_night_cityscape = "audio/music/Urban Night Cityscape (ver. X-Mas Orgol).ogg"
 
 # A dictionary of all the music for the game and its corresponding
-# audio caption
-# Add your music to the bottom of the list so it will have a description
-# when audio captions are turned on
+# audio caption.
+# Add your music to the bottom of the dictionary so it will have a description
+# when audio captions are turned on.
 define music_dictionary = {
     mystic_chat : "Upbeat saxophone music",
     mystic_chat2 : "Upbeat saxophone music with electric guitar",
@@ -118,7 +118,7 @@ define door_open_sfx = "audio/sfx/door open.mp3"
 ## Similar to the music dictionary, this contains a list of all the available
 ## sfx in the game along with a caption that will be shown if the player
 ## has audio captions turned on
-default sfx_dictionary = {
+define sfx_dictionary = {
     car_moving_sfx : "Sound of a car moving",
     door_knock_sfx : "A knock at the door",
     door_open_sfx : "The door opens"
