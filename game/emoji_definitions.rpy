@@ -5,6 +5,19 @@ init offset = -10
 
 init python:
 
+    ## This defines another voice channel which the emoji
+    ## sound effects play on. Players can adjust the volume
+    ## of the emojis separately from voice, music, and sfx
+    renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
+
+    def set_voicesfx_volume(value=None):
+        """Set the volume of the voice sfx channel."""
+
+        if value is None:
+            return MixerValue('voice_sfx')
+        else:
+            return SetMixer('voice_sfx', value)
+
     ## This list contains all of the emojis, linked to the correct sound
     ## effect. Essentially, if the dialogue matches the item on the left
     ## (e.g. {image=jaehee_angry}) then it will play the sound effect on
