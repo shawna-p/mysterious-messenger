@@ -189,6 +189,16 @@ init python:
                     return PhoneCall(p, c)
         return PhoneCall(None, c)
 
+    def get_participants(item):
+        """Get the participants for this item."""
+
+        # First, check if this item has a dictionary entry
+        if store.persistent.chatroom_participants.get(item.title):
+            return store.persistent.chatroom_participants[item.title]
+
+        # Otherwise, just return the original participant list
+        return item.original_participants
+
 # True if the player is viewing a replay of an expired chatroom
 default expired_replay = False
 # This is a set that holds a giant list of all the
@@ -207,7 +217,7 @@ screen timeline_item_history(item):
         # Determine if the participants list needs to scroll or not
         part_anim = null_anim
         if isinstance(item, ChatRoom) and item.participants:
-            if len(item.participants) > 4:
+            if len(get_participants(item)) > 4:
                 part_anim = participant_scroll
 
         # ChatRoom story mode displays similarly to solo StoryMode in
@@ -318,8 +328,8 @@ screen timeline_item_history(item):
                         hbox at part_anim:
                             yalign 0.5
                             spacing 5
-                            if item.original_participants:
-                                for person in item.original_participants:
+                            if get_participants(item):
+                                for person in get_participants(item):
                                     if person.participant_pic:
                                         add person.participant_pic
 
