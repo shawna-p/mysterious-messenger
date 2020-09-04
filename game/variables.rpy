@@ -147,6 +147,13 @@ init -6 python:
                         + self.twelve_hour + ':'
                         + self.minute + self.am_pm)
 
+        @property
+        def text_separator_time(self):
+            """Return the time formatted for the text message date separator."""
+
+            the_time = (self.year + '.' + self.month_num + '.' + self.day
+                + ' ' + self.weekday)
+
         def has_occurred(self):
             """
             Return True if this time has already passed compared to
