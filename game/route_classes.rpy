@@ -165,27 +165,14 @@ init -6 python:
                 for phonecall in self.story_calls_list:
                     phonecall.available = True
 
-        # def __iter__(self):
-        #     """Iterate over all the TimelineItems contained within this one."""
-        #     # see Iterator Types
-        #     # >> BASICMETHODS ATTRIBUTEMETHODS CALLABLEMETHODS
-        #     # >> SEQUENCEMETHODS MAPPINGMETHODS NUMBERMETHODS CLASSES
-
-        # def __contains__(self, item):
-        #     """Determine if a certain item is in this object."""
-        #     if item is self:
-        #         return True
-        #     if item in self.story_calls_list:
-        #         return True
-        #     return False
-
+        @property
         def all_available(self):
             """
             Return True if everything associated with this item is available.
             """
 
             if self.parent:
-                return self.parent.all_available()
+                return self.parent.all_available
 
             if not self.available:
                 return False
@@ -195,6 +182,7 @@ init -6 python:
                         return False
             return True
 
+        @property
         def all_played(self):
             """
             Return True if everything associated with this item has been
@@ -208,29 +196,6 @@ init -6 python:
                     if not phonecall.played:
                         return False
             return True
-
-        def make_next_available(self):
-            """
-            Make the next unavailable item associated with this item
-            available to play.
-            """
-
-            if not self.available:
-                self.available = True
-                return True
-            # Subsequent items are only available if previous ones were played
-            if not self.played:
-                return
-
-            if len(self.story_calls_list) > 0:
-                for phonecall in self.story_calls_list:
-                    # Subsequent items are only available if previous
-                    # ones were played
-                    if phonecall.available and not phonecall.played:
-                        return
-                    if not phonecall.available:
-                        phonecall.available = True
-                        return
 
         def mark_self_played(self):
             """
@@ -250,6 +215,7 @@ init -6 python:
 
             return False
 
+        @property
         def on_available_message(self):
             """
             Return a message to display to the player when this item
@@ -257,6 +223,7 @@ init -6 python:
             """
             return "[[new story available]"
 
+        @property
         def can_expire(self):
             """Return True if there are items that can be expired."""
 
@@ -265,8 +232,7 @@ init -6 python:
 
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
-                    if (not phonecall.played and not phonecall.buyahead
-                            and not phonecall.buyback):
+                    if phonecall.can_expire:
                         return True
             return False
 
@@ -303,6 +269,7 @@ init -6 python:
             self.expired = True
             self.buyback = False
             self.buyahead = False
+            self.choices = []
 
             # If this item has an after_label, it is triggered
             if backed_out:
@@ -365,7 +332,7 @@ init -6 python:
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
             """
-            print_file("Got default timeline image")
+            print_file("WARNING: Got default timeline image")
             return "#59efc7"
 
         def played_regular(self):
@@ -626,6 +593,7 @@ init -6 python:
             if self.story_mode:
                 self.story_mode.available = True
 
+        @property
         def all_available(self):
             """
             Return True if everything associated with this item is available.
@@ -633,8 +601,9 @@ init -6 python:
 
             if self.story_mode and not self.story_mode.available:
                 return False
-            return super(ChatRoom, self).all_available()
+            return super(ChatRoom, self).all_available
 
+        @property
         def all_played(self):
             """
             Return True if everything associated with this item has been
@@ -643,32 +612,9 @@ init -6 python:
 
             if self.story_mode and not self.story_mode.played:
                 return False
-            return super(ChatRoom, self).all_played()
+            return super(ChatRoom, self).all_played
 
-
-        def make_next_available(self):
-            """
-            Make the next unavailable item associated with this item
-            available to play.
-            """
-
-            if not self.available:
-                self.available = True
-                return True
-            # Subsequent items are only available if previous ones were played
-            if not self.played:
-                return
-
-            if self.story_mode and not self.story_mode.available:
-                self.story_mode.available = True
-                return
-
-            # Don't make anything past the Story Mode available if it hasn't
-            # been played
-            if self.story_mode and not self.story_mode.played:
-                return
-            super(ChatRoom, self).make_next_available()
-
+        @property
         def on_available_message(self):
             """
             Return a message to display to the player when this item
@@ -896,6 +842,7 @@ init -6 python:
             """
             pass
 
+        @property
         def on_available_message(self):
             """
             Return a message to display to the player when this item
@@ -904,13 +851,13 @@ init -6 python:
 
             return "[[new story mode] " + self.title
 
+        @property
         def can_expire(self):
             """Return True if there are items that can be expired."""
 
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
-                    if (not phonecall.played and not phonecall.buyahead
-                            and not phonecall.buyback):
+                    if phonecall.can_expire:
                         return True
             return False
 
@@ -1044,6 +991,15 @@ init -6 python:
 
             return self.item_label
 
+        @property
+        def on_available_message(self):
+            """
+            Return a message to display to the player when this item
+            is available.
+            """
+
+            return "[[new story call] " + self.title
+
     def create_dependent_storycall(parent, caller, phone_label):
         """
         Return a StoryCall which is tied to a chatroom or StoryMode and thus
@@ -1142,7 +1098,8 @@ label play_timeline_item():
 
 init python:
     ## Set up the correct variables and screens to view this TimelineItem.
-    def begin_timeline_item(item, clearchat=True, resetHP=True, stop_music=True):
+    def begin_timeline_item(item, clearchat=True, resetHP=True, stop_music=True,
+            is_vn=False):
         # renpy.scene()
         # renpy.exports.show(name='bg', what=Solid(FUCHSIA))
 
@@ -1173,8 +1130,7 @@ init python:
 
         # Special variable is set when rewatching an item to prevent changing
         # what was said or receiving heart points again, for example.
-        if item not in [store.generic_chatroom, store.generic_storycall,
-                store.generic_storymode]:
+        if item not in store.generic_timeline_items:
             if item.played:
                 if not store.persistent.testing_mode:
                     store.observing = True
@@ -1246,7 +1202,7 @@ init python:
             renpy.hide_screen('messenger_screen')
             renpy.hide_screen('pause_button')
 
-            if item.is_nvl:
+            if item.is_nvl or is_vn:
                 nvl_clear()
             else:
                 renpy.show_screen('vn_overlay')
@@ -1384,15 +1340,8 @@ label exit_item_early():
 
 
 init python:
-    ## Expire this timeline item and set the appropriate variables.
-    ## This is a label and not a python function for performance reasons.
     def expire_timeline_item(item):
-
-        # Get the parent of this item
-        if not item.parent:
-            the_parent = item
-        else:
-            the_parent = item.parent
+        """Expire this timeline item and set the appropriate variables."""
 
         # This item expires
         item.expire()
@@ -1405,7 +1354,7 @@ init python:
 
         # Deliver post-item content if it isn't the item immediately
         # prior to a plot branch
-        if item == item.get_item_before_branch():
+        if item != item.get_item_before_branch():
             item.call_after_label(True)
             item.deliver_calls()
             deliver_all_texts()
@@ -1524,7 +1473,7 @@ label execute_plot_branch():
     # CASE 2
     # Can deliver the after_ contents of the item immediately before
     # the plot branch
-    if not item.all_available():
+    if not item.all_available:
         $ item.unlock_all()
     # Deliver content in after_ label as well as phone calls
     $ item.deliver_next_after_content()
@@ -1562,6 +1511,20 @@ label end_route():
     pause
     jump restart_game
 
+label end_prologue():
+    if not in_phone_call and not vn_choice:
+        # It's a chatroom
+        $ chat = True
+    else:
+        $ chat = False
+    $ end_timeline_item_checks()
+    if chat:
+        call screen save_and_exit()
+    call screen signature_screen(chat)
+    $ finish_timeline_item(current_timeline_item)
+    $ starter_story = False
+    call screen chat_home
+    return
 
 init python:
     def text_message_begin(text_person):
