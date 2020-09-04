@@ -816,6 +816,8 @@ label phone_begin(resetHP=True):
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call. Now largely moot.
 label phone_end():
+    if starter_story:
+        jump prologue_end
     return
 
 

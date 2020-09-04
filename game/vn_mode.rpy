@@ -7,10 +7,13 @@
 #####################################
 
 label vn_begin(nvl=False):
+    $ begin_timeline_item(generic_storymode, is_vn=nvl)
     return
 
 ## Call to end a VN section
 label vn_end():
+    if starter_story:
+        jump end_prologue
     return
 
 label vn_end_route():

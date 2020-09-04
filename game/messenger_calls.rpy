@@ -84,12 +84,7 @@ init python:
 ## This label ends a chatroom.
 label chat_end():
     if starter_story:
-        $ end_timeline_item_checks()
-        call screen save_and_exit()
-        call screen signature_screen(True)
-        $ finish_timeline_item(current_timeline_item)
-        $ starter_story = False
-        call screen chat_home
+        jump end_prologue
     return
 
 ## Jump to this label at the very end of the route to show a good/bad/normal
