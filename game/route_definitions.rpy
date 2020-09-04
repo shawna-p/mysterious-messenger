@@ -231,9 +231,9 @@ init -6 python:
             """Return True if there are still items to play on this day."""
 
             for item in self.archive_list:
-                if item.available and not item.all_played():
+                if item.available and not item.all_played:
                     return True
-                if item.all_played() and item.plot_branch:
+                if item.all_played and item.plot_branch:
                     return True
 
             return False
@@ -243,7 +243,7 @@ init -6 python:
             """Return True if everything on this day has been played."""
 
             for item in self.archive_list:
-                if not item.all_played():
+                if not item.all_played:
                     return False
 
             return True
@@ -480,13 +480,13 @@ init -6 python:
                 for item in archive.archive_list:
                     # If the player hasn't played everything associated with
                     # this item, don't make anything new available and stop
-                    if item.all_available() and not item.all_played():
+                    if item.all_available and not item.all_played:
                         triggered_next = True
                         break
 
                     # Something associated with this item isn't available
                     # to play yet. Make it available.
-                    if not item.all_available():
+                    if not item.all_available
                         # Phone calls count down when new items are available
                         item.unlock_all()
                         for phonecall in store.available_calls:
@@ -525,7 +525,7 @@ init -6 python:
                 # If this item has a plot branch, don't check anything
                 # past it
                 if item.plot_branch:
-                    if not item.all_available():
+                    if not item.all_available:
                         item.unlock_all()
                     stop_checking = True
                     break
@@ -640,7 +640,7 @@ init -6 python:
             # Let the player know a new item is available
             renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav',
                                 'sound')
-            renpy.show_screen('confirm',  message=cur_item.on_available_message(),
+            renpy.show_screen('confirm',  message=cur_item.on_available_message,
                               yes_action=Hide('confirm'))
 
             return True
@@ -670,7 +670,7 @@ init -6 python:
 
         # prev_item will expire unless it was played, bought back,
         # or bought ahead
-        if prev_item.can_expire():
+        if prev_item.can_expire:
             prev_item.expire_all()
         else:
             # There was no need to expire anything, so return
@@ -889,9 +889,9 @@ init -6 python:
         for archive in store.story_archive:
             if archive.archive_list:
                 for item in archive.archive_list:
-                    if not item.all_played():
+                    if not item.all_played:
                         return False
-                    if (item.plot_branch and item.all_played()):
+                    if (item.plot_branch and item.all_played:
                         return True
         return False
 

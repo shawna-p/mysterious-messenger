@@ -274,11 +274,11 @@ screen timeline_item_display(day, day_num, item, index):
             # This is the second or later item on the day
             prev_item = day.archive_list[index-1]
             sametime = (item.trigger_time[:2] == prev_item.trigger_time[:2])
-            was_played = prev_item.all_played()
+            was_played = prev_item.all_played
         elif index == 0 and day_num > 0:
             # This is the first item on a new day, but not the first day
             prev_item = story_archive[day_num-1].archive_list[-1]
-            was_played = prev_item.all_played()
+            was_played = prev_item.all_played
         else:
             prev_item = None
             was_played = True

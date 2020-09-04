@@ -713,7 +713,7 @@ python early hide:
         try:
             what = eval(p['what'])
         except:
-            print("WARNING: Could not extract dialogue for translation.")
+            return [ ]
 
         if "{image" not in what:
             return [ what ]

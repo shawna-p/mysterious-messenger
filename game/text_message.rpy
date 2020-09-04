@@ -312,16 +312,13 @@ screen text_message_footer(c):
 ## have a time difference of one day or more
 screen text_date_separator(text_time):
 
-    $ the_time = text_time.year + '.' + text_time.month_num + '.'
-    $ the_time = the_time + text_time.day + ' ' + text_time.weekday
-
     hbox:
         style_prefix 'date_separator'
         frame:
-            null
-        text the_time
+            background 'text_msg_line'
+        text text_time.text_separator_time
         frame:
-            null
+            background 'text_msg_line'
 
 style date_separator_hbox:
     spacing 10
@@ -332,23 +329,15 @@ style date_separator_frame:
     ymaximum 40
     xmaximum 240
     yalign 0.5
-    background 'text_msg_line'
 style date_separator_text:
     size 25
     color '#fff'
     yalign 0.5
 
 
-
-########################################################
-## This is the screen that actually displays the
-## message, though it mostly borrows from the chatroom
-## display screen
-########################################################
-
 init python:
     def award_text_hp(who):
-        """Award the player a heart point with who."""
+        """Award the player a heart point with who during a text message."""
 
         who.text_msg.heart_person.increase_heart(who.text_msg.bad_heart)
         if persistent.animated_icons:
@@ -363,6 +352,11 @@ init python:
         store.persistent.HP += 1
 
 
+########################################################
+## This is the screen that actually displays the
+## message, though it mostly borrows from the chatroom
+## display screen
+########################################################
 screen text_message_screen(sender, animate=True):
 
     tag menu

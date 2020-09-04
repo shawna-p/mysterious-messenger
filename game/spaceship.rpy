@@ -211,7 +211,7 @@ screen chip_end():
     tag chip_bag
     zorder 100
 
-    default prize_heart, prize_hg, prize_text = calculate_chip_prize()
+    $ prize_heart, prize_hg, prize_text = calculate_chip_prize()
 
     add "choice_darken"
 
