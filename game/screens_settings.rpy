@@ -317,13 +317,13 @@ init python:
 
 
 image she_her_pronoun_radio = ConditionSwitch(
-    "persistent.pronoun == 'female'", "radio_on",
+    "persistent.pronoun == 'she/her'", "radio_on",
     'True', "radio_off", predict_all=True)
 image he_him_pronoun_radio = ConditionSwitch(
-    "persistent.pronoun == 'male'", "radio_on",
+    "persistent.pronoun == 'he/him'", "radio_on",
     'True', "radio_off", predict_all=True)
 image they_them_pronoun_radio = ConditionSwitch(
-    "persistent.pronoun == 'non binary'", "radio_on",
+    "persistent.pronoun == 'they/them'", "radio_on",
     'True', "radio_off", predict_all=True)
 image mc_name_switch = DynamicDisplayable(MC_name_display)
 image change_mc_pfp = DynamicDisplayable(MC_pic_display)
