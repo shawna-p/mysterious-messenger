@@ -134,6 +134,7 @@ screen day_display(day, day_num):
                     xysize (180,30)
                     xalign 0.0
                     bar:
+                        style 'day_percentage_bar'
                         value partic_percent
                         range 100
                 frame:
@@ -358,7 +359,7 @@ screen timeline_item_display(day, day_num, item, index):
             button at anim(10):
                 xysize (chat_box_width, 160)
                 xalign 0.0
-                background item.get_timeline_img(was_played)
+                background item.timeline_img(was_played)
                 hover_foreground 'chat_timeline_hover'
                 if item.available and was_played:
                     action [SetVariable('current_timeline_item', item),
@@ -430,9 +431,9 @@ screen timeline_item_display(day, day_num, item, index):
     if isinstance(item, StoryMode) and not item.party:
         button:
             style_prefix 'solo_vn'
-            foreground 'solo_' + item.get_timeline_img(can_play_story_mode)
+            foreground 'solo_' + item.timeline_img(can_play_story_mode)
             hover_foreground Fixed('solo_'
-                + item.get_timeline_img(can_play_story_mode), 'solo_vn_hover')
+                + item.timeline_img(can_play_story_mode), 'solo_vn_hover')
             if item.available and can_play_story_mode:
                 # Note: afm is ~30 at its slowest, 0 when it's off,
                 # and 1 at its fastest
@@ -461,8 +462,8 @@ screen timeline_item_display(day, day_num, item, index):
             has hbox
             add 'vn_marker'
             button:
-                foreground item.story_mode.get_timeline_img(can_play_story_mode)
-                hover_foreground (item.story_mode.get_timeline_img(
+                foreground item.story_mode.timeline_img(can_play_story_mode)
+                hover_foreground (item.story_mode.timeline_img(
                         can_play_story_mode) + '_hover')
                 if item.story_mode.available and can_play_story_mode:
                     action [SetVariable('current_timeline_item',
@@ -476,9 +477,9 @@ screen timeline_item_display(day, day_num, item, index):
         frame:
             style_prefix 'party_timeline_vn'
             button:
-                background story_mode.get_timeline_img(can_play_story_mode)
+                background story_mode.timeline_img(can_play_story_mode)
                 if story_mode.available and can_play_story_mode:
-                    hover_foreground story_mode.get_timeline_img(can_play_story_mode)
+                    hover_foreground story_mode.timeline_img(can_play_story_mode)
                     # If there's no branch, proceed to this party label as usual
                     if not (renpy.has_label(story_mode.item_label + '_branch')):
                         action CConfirm(("If you start the party"
@@ -552,7 +553,7 @@ screen timeline_story_calls(phonecall, item, was_played):
         ysize 111
         button:
             xysize (call_box_width, 111)
-            background phonecall.get_timeline_img(was_played)
+            background phonecall.timeline_img(was_played)
             hover_foreground 'story_call_hover'
             if phonecall.available and was_played:
                 action [SetVariable('current_timeline_item', phonecall),
@@ -644,13 +645,15 @@ style party_timeline_vn_button:
 screen timeline_continue_button(story_time):
     style_prefix 'timeline_continue'
     button:
-        action CConfirm(("Would you like to purchase the next"
+        action If(played_all_available(),
+            CConfirm(("Would you like to purchase the next"
                                 + " day? You can participate in all "
                                 + " conversations for the next 24 hours."),
                 [Function(make_24h_available),
                     Function(check_and_unlock_story),
                     Function(renpy.retain_after_load),
-                    Function(renpy.restart_interaction)])
+                    Function(renpy.restart_interaction)]),
+            CConfirm("You have not played all the available story yet."))
         if hacked_effect and persistent.hacking_effects:
             add Transform('day_reg_hacked_long',
                             yzoom=0.75):
