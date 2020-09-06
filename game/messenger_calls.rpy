@@ -83,7 +83,7 @@ init python:
 
 ## This label ends a chatroom.
 label chat_end():
-    if starter_story:
+    if starter_story and not renpy.get_return_stack():
         jump end_prologue
     return
 

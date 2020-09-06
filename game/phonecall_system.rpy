@@ -816,7 +816,7 @@ label phone_begin(resetHP=True):
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call. Now largely moot.
 label phone_end():
-    if starter_story:
+    if starter_story and not renpy.get_return_stack():
         jump end_prologue
     return
 

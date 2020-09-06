@@ -12,7 +12,7 @@ label vn_begin(nvl=False):
 
 ## Call to end a VN section
 label vn_end():
-    if starter_story:
+    if starter_story and not renpy.get_return_stack():
         jump end_prologue
     return
 
