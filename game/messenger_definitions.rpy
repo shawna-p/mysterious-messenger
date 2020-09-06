@@ -455,11 +455,7 @@ init -4 python:
         elif who.name in ['msg', 'filler']:
             messenger_pause(pauseVal, True)
         else:
-            typeTime = what.count(' ') + 1 # equal to the # of words
-            # Since average reading speed is 200 wpm or 3.3 wps
-            typeTime = typeTime / 3
-            if typeTime < 1.5:
-                typeTime = 1.5
+            typeTime = calculate_type_time(what)
             typeTime = typeTime * pauseVal
             messenger_pause(typeTime, True)
 
@@ -487,6 +483,16 @@ init -4 python:
                             img, bounce, specBubble))
         # Create a rollback checkpoint
         renpy.checkpoint()
+
+    def calculate_type_time(what):
+        """Return the length of time to pause for 'what'."""
+
+        typeTime = what.count(' ') + 1 # equal to the # of words
+        # Since average reading speed is 200 wpm or 3.3 wps
+        typeTime = typeTime / 3
+        if typeTime < 1.5:
+            typeTime = 1.5
+        return typeTime
 
     def messenger_pause(length, actually_wait=False):
         """Pause for length, unless skipping."""
