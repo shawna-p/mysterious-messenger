@@ -817,7 +817,7 @@ label phone_begin(resetHP=True):
 ## a phone call. Now largely moot.
 label phone_end():
     if starter_story:
-        jump prologue_end
+        jump end_prologue
     return
 
 
