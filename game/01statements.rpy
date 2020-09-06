@@ -1050,7 +1050,7 @@ python early hide:
         parse=parse_compose_text,
         execute=execute_compose_text,
         predict=predict_backlog_stmt,
-        translation_strings=translate_backlog_stmt,
+        #translation_strings=translate_backlog_stmt,
         lint=lint_compose_text,
         warp=lambda : True,
         block=True)
@@ -1828,6 +1828,115 @@ python early hide:
                 "arguments", item_arguments[i][0], "and kwargs",
                 item_arguments[i][1])
         print("\nWHAT THE LABEL IS CALLED:", post_timed_menu(p))
+
+        ## OKAY time to parse the arguments for the set and conditions
+        ## It looks like each item in regular choices is a tuple of
+        ## (caption, ChoiceReturn) -> It's a MenuEntry tuple
+        ## After it's picked it gets a third entry which is False (?)
+        # `choice` is passed choices, set, args, kwargs, item_arguments
+        # It calls these items,  set_expr, args, kwargs, item_arguments
+        args = args or tuple()
+        kwargs = kwargs or dict()
+
+        # Filter out items already in the set
+        if p['menu_set']: # Do I have to evaluate this first?
+            set = renpy.python.py_eval(p['menu_set'])
+
+            new_items = [ ]
+            new_item_arguments = [ ]
+
+            for i, ia in zip(choices, item_arguments):
+                if i[0] not in set:
+                    new_items.append(i)
+                    new_item_arguments.append(ia)
+
+            items = new_items
+            item_arguments = new_item_arguments
+        else:
+            items = choices
+            set = None
+
+        # Filter the list of items to only include ones for which the
+        # condition is true.
+
+        location=renpy.game.context().current
+
+        new_items = [ ]
+
+        for (label, condition, value), (item_args, item_kwargs) in zip(items, item_arguments):
+            condition = renpy.python.py_eval(condition)
+
+            if (not renpy.config.menu_include_disabled) and (not condition):
+                continue
+
+            if value is not None:
+                new_items.append((label, renpy.ui.ChoiceReturn(label,
+                        value, location, sensitive=condition, args=item_args,
+                        kwargs=item_kwargs)))
+            else:
+                new_items.append((label, None))
+
+        # Check to see if there's at least one choice in set of items:
+        choices = [ value for label, value in new_items if value is not None ]
+
+        # If not, bail out.
+        # TODO: Could add a check here for observing and bail out if nothing
+        # shows up as chosen?
+        if not choices:
+            # Should just finish/go to post-execute label
+            return None
+
+        choices = new_items
+
+        # Time to construct some choices
+        # Currently choices is a list of (label, ChoiceReturn) tuples
+        # Time to turn it into MenuEntries
+        item_actions = [ ]
+        for (label, value) in choices:
+            if not label:
+                value = None
+            if isinstance(value, renpy.ui.ChoiceReturn):
+                action = value
+                chosen = action.get_chosen()
+                item_args = action.args
+                item_kwargs = action.kwargs
+            elif value is not None:
+                action = renpy.ui.ChoiceReturn(label, value, location)
+                chosen = action.get_chosen()
+                item_args = ()
+                item_kwargs = { }
+            else:
+                action = None
+                chosen = False
+                item_args = ()
+                item_kwargs = { }
+
+            if renpy.config.choice_screen_chosen:
+                me = renpy.exports.MenuEntry((label, action, chosen))
+            else:
+                me = renpy.exports.MenuEntry((label, action))
+
+            me.caption = label
+            me.action = action # Notably, this will return the SubParse object
+            me.chosen = chosen
+            me.args = item_args
+            me.kwargs = item_kwargs
+            me.subparse = p['items'][action.value][2]
+
+            item_actions.append(me)
+
+        ## Now to pass this somewhere as a comprehensible object:
+        menu_dict = dict(items=item_actions,
+                        menu_args=args,
+                        menu_kwargs=kwargs,
+                        menu_set=set,
+                        wait_time=wait_time,
+                        narration=narration,
+                        end_label=post_timed_menu(p))
+        store.timed_menu_dict = menu_dict
+        renpy.jump('execute_timed_menu')
+
+
 
         return
 

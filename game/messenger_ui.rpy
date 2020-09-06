@@ -338,23 +338,26 @@ screen phone_overlay():
 
 # This is a screen to test out timed responses
 # Default countdown time is 5 seconds
-screen answer_countdown(themenu, count_time=5):
+screen answer_countdown(themenu, count_time=5, custom_action=None):
     zorder 5
     timer count_time:
         repeat False
-        action If(persistent.autoanswer_timed_menus,
+        if custom_action:
+            action custom_action
+        else:
+            action If(persistent.autoanswer_timed_menus,
 
-            [ Hide('answer_countdown'),
-            Hide('continue_answer_button'),
-            Show('pause_button'),
-            SetVariable('choosing', True),
-            SetVariable('timed_choose', True),
-            Jump(themenu) ],
+                [ Hide('answer_countdown'),
+                Hide('continue_answer_button'),
+                Show('pause_button'),
+                SetVariable('choosing', True),
+                SetVariable('timed_choose', True),
+                Jump(themenu) ],
 
-            [ Hide('answer_countdown'),
-            Hide('continue_answer_button'),
-            Show('pause_button'),
-            SetVariable("timed_choose", False) ])
+                [ Hide('answer_countdown'),
+                Hide('continue_answer_button'),
+                Show('pause_button'),
+                SetVariable("timed_choose", False) ])
 
     bar value AnimatedValue(0, count_time, count_time, count_time):
         at alpha_dissolve
