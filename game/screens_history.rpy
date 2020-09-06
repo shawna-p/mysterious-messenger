@@ -266,7 +266,7 @@ screen timeline_item_history(item):
             # These are the two buttons to replay the chat
             hbox:
                 button:
-                    if item.played_expired():
+                    if item.played_expired:
                         background 'history_chat_active'
                         hover_foreground '#fff5'
                         action Replay('play_timeline_item',
@@ -277,10 +277,10 @@ screen timeline_item_history(item):
                         action CConfirm(("You have not yet"
                                 + " viewed this chat in-game."))
                     add 'history_chat_alone' align (0.5, 0.5)
-                    if not item.played_expired():
+                    if not item.played_expired:
                         add 'plot_lock' align (0.5, 0.5)
                 button:
-                    if item.played_regular():
+                    if item.played_regular:
                         hover_foreground '#fff5'
                         background 'history_chat_active'
                         action Replay('play_timeline_item',
@@ -291,7 +291,7 @@ screen timeline_item_history(item):
                         action CConfirm(("You have not yet"
                                 + " viewed this chat in-game."))
                     add 'history_chat_participated' align (0.5, 0.5)
-                    if not item.played_regular():
+                    if not item.played_regular:
                         add 'plot_lock' align (0.5, 0.5)
 
 
@@ -334,7 +334,7 @@ screen timeline_item_history(item):
                                         add person.participant_pic
 
     # It's a solo StoryMode with a time
-    if story_mode and story_mode.trigger_time and not story_mode.party:
+    if story_mode and story_mode.get_trigger_time() and not story_mode.party:
         button:
             style_prefix 'solo_vn'
             foreground 'solo_vn_active'
@@ -433,7 +433,7 @@ screen history_timeline_story_calls(phonecall, item):
             spacing 10
             button:
                 xysize (80,80)
-                if phonecall.played_expired():
+                if phonecall.played_expired:
                     background 'history_chat_active'
                     hover_foreground '#fff5'
                     action Replay('play_timeline_item',
@@ -451,11 +451,11 @@ screen history_timeline_story_calls(phonecall, item):
                     action CConfirm(("You have not yet"
                         + " viewed this call in-game."))
                 add 'call_missed_outline' align (0.5, 0.5)
-                if not phonecall.played_expired():
+                if not phonecall.played_expired:
                     add 'plot_lock' align (0.5, 0.5)
             button:
                 xysize(80,80)
-                if phonecall.played_regular():
+                if phonecall.played_regular:
                     hover_foreground '#fff5'
                     background 'history_chat_active'
                     action Replay('play_timeline_item',
@@ -472,7 +472,7 @@ screen history_timeline_story_calls(phonecall, item):
                     action CConfirm(("You have not yet"
                         + " viewed this call in-game."))
                 add 'call_incoming_outline' align (0.5, 0.5)
-                if not phonecall.played_regular():
+                if not phonecall.played_regular:
                     add 'plot_lock' align (0.5, 0.5)
 
 ## Shows regular phone calls that were available after this TimelineItem

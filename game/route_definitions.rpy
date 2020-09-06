@@ -347,7 +347,7 @@ init -6 python:
                 if day.archive_list:
                     try:
                         self.ending_labels.append(
-                            day.archive_list[-1].get_final_item().item_label)
+                            day.archive_list[-1].final_item.item_label)
                     except:
                         print_file(day.archive_list[-1].title, "has no final item?")
                     break
@@ -357,7 +357,7 @@ init -6 python:
                     if day.archive_list:
                         try:
                             self.ending_labels.append(
-                                day.archive_list[-1].get_final_item().item_label)
+                                day.archive_list[-1].final_item.item_label)
                         except:
                             print_file(day.archive_list[-1].title, "has no final item?")
                         break
@@ -486,7 +486,7 @@ init -6 python:
 
                     # Something associated with this item isn't available
                     # to play yet. Make it available.
-                    if not item.all_available
+                    if not item.all_available:
                         # Phone calls count down when new items are available
                         item.unlock_all()
                         for phonecall in store.available_calls:
@@ -891,7 +891,7 @@ init -6 python:
                 for item in archive.archive_list:
                     if not item.all_played:
                         return False
-                    if (item.plot_branch and item.all_played:
+                    if item.plot_branch and item.all_played:
                         return True
         return False
 
@@ -995,7 +995,16 @@ init -6 python:
         return ("{:02d}".format(random_hour) + ":"
             + "{:02d}".format(random_min), new_day_diff)
 
+    def played_all_available():
+        """Return True if the player has played all available story items."""
 
+        for archive in store.story_archive:
+            for item in archive.archive_list:
+                if item.available and not item.all_played:
+                    return False
+                elif not item.available:
+                    return True
+        return True
 
     def next_story_time():
         """Return the time the next timeline item should be available at."""
@@ -1032,7 +1041,8 @@ init -6 python:
 
         # This functions much like the check_and_unlock_story() function, only
         # here instead of expiring chatrooms, make them available
-        for i, item in enumerate(story_archive[expiry_day-2].archive_list):
+        for item in story_archive[expiry_day-2].archive_list:
+            print_file("Buy ahead:", item.title, "->", item.trigger_time)
             # If this item is already available, don't bother with it
             if item.available and (item.buyahead or item.played):
                 continue
@@ -1043,7 +1053,8 @@ init -6 python:
                 return
 
         # Now check the next day
-        for i, item in enumerate(story_archive[expiry_day-1].archive_list):
+        for item in story_archive[expiry_day-1].archive_list:
+            print_file("Next day buy ahead:", item.title, "->", item.trigger_time)
             # Skip already available items
             if item.available and (item.buyahead or item.played):
                 continue

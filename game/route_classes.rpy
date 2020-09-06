@@ -101,9 +101,9 @@ init -6 python:
             # Ensure the trigger time is set up properly
             # It corrects times like 3:45 to 03:45
             if trigger_time and ':' in trigger_time[:2]:
-                self.trigger_time = '0' + trigger_time
+                self.__trigger_time = '0' + trigger_time
             else:
-                self.trigger_time = trigger_time
+                self.__trigger_time = trigger_time
 
             save_img = save_img.lower()
             if save_img in ['jaehee', 'ja']:
@@ -290,11 +290,12 @@ init -6 python:
             if not ever:
                 return self.played
 
-            if (self.played_regular() or self.played_expired()):
+            if self.played_regular or self.played_expired:
                 return True
             return False
 
-        def get_final_item(self):
+        @property
+        def final_item(self):
             """Return the final item to be played in this timeline item."""
 
             if self.plot_branch and self.plot_branch.branch_story_mode:
@@ -327,7 +328,7 @@ init -6 python:
                 return self.story_calls[-1]
             return self
 
-        def get_timeline_img(self, was_played=True):
+        def timeline_img(self, was_played=True):
             """
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
@@ -335,11 +336,13 @@ init -6 python:
             print_file("WARNING: Got default timeline image")
             return "#59efc7"
 
+        @property
         def played_regular(self):
             """Return True if the regular label of this item has been played."""
 
             return self.item_label in store.persistent.completed_story
 
+        @property
         def played_expired(self):
             """Return True if the expired label of this item has been played."""
 
@@ -373,7 +376,7 @@ init -6 python:
             renpy.retain_after_load()
 
 
-        def call_after_label(self, new_context=False):
+        def call_after_label(self, new_context=True):
             """Call this item's after_ label, if it exists."""
 
             print_file("Calling after_ label.", "\n   delivered_post_items:",
@@ -403,16 +406,30 @@ init -6 python:
                 deliver_calls(self.phonecall_label, expired=self.expired)
             return
 
-        def get_trigger_time(self):
-            """Retrieve the trigger time of this item or its parent."""
+        @property
+        def trigger_time(self):
+            """Return the trigger time of this item or its parent."""
 
-            if self.trigger_time:
-                return self.trigger_time
+            if self.__trigger_time:
+                return self.__trigger_time
             elif self.parent and self.parent.trigger_time:
                 return self.parent.trigger_time
             else:
-                print_file("ERROR: Could not retrieve trigger_time")
-                return "00:00"
+                print("WARNING: Could not determine the time for the timeline",
+                    "item at", item.label)
+                renpy.show_screen('script_error',
+                    message=("Could not determine the time for the timeline "
+                        " item at " + item.label))
+                return "24:00"
+
+        @trigger_time.setter
+        def trigger_time(self, new_time):
+            """Set the trigger time."""
+
+            self.__trigger_time = new_time
+
+        def get_trigger_time(self):
+            return self.__trigger_time
 
         def total_timeline_items(self, only_if_unplayed=False):
             """Return the number of timeline items contained within this one."""
@@ -623,7 +640,8 @@ init -6 python:
 
             return "[[new chatroom] " + self.title
 
-        def get_final_item(self):
+        @property
+        def final_item(self):
             """Return the final item to be played in this timeine item."""
 
             if self.plot_branch and self.plot_branch.vn_after_branch:
@@ -637,7 +655,7 @@ init -6 python:
 
             return self
 
-        def get_timeline_img(self, was_played=True):
+        def timeline_img(self, was_played=True):
             """
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
@@ -861,7 +879,7 @@ init -6 python:
                         return True
             return False
 
-        def get_timeline_img(self, was_played=True):
+        def timeline_img(self, was_played=True):
             """
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
@@ -969,7 +987,7 @@ init -6 python:
 
             self.caller = caller
 
-        def get_timeline_img(self, was_played=True):
+        def timeline_img(self, was_played=True):
             """
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.

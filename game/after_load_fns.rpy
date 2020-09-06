@@ -360,8 +360,8 @@ init python:
             print_file("label:", item.chatroom_label, new_obj.item_label)
         if item.expired_chat != new_obj.expired_label:
             print_file("expired:", item.expired_chat, new_obj.expired_label)
-        if item.trigger_time != new_obj.trigger_time:
-            print_file("time:", item.trigger_time, new_obj.trigger_time)
+        if item.trigger_time != new_obj.get_trigger_time():
+            print_file("time:", item.trigger_time, new_obj.get_trigger_time())
         if item.participants != new_obj.participants:
             print_file("participants:", item.participants, new_obj.participants)
         if (item.plot_branch != new_obj.plot_branch
