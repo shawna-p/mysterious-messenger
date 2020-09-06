@@ -418,11 +418,7 @@ python early hide:
                 else:
                     start_time = timestamp
                     total_sec = 0
-                typeTime = msg.what.count(' ') + 1 # equal to the # of words
-                # Since average reading speed is 200 wpm or 3.3 wps
-                # This is backlog so we can be liberal about pauses and timing
-                if typeTime < 1.5:
-                    typeTime = 1.5
+                typeTime = calculate_type_time(msg.what)
                 total_sec += typeTime
                 sender.text_msg.msg_list.append(msg)
                 print_file("Added message", msg.what, "time", msg.thetime.stopwatch_time,
@@ -483,6 +479,8 @@ python early hide:
         return
 
     def translate_backlog_stmt(p):
+        # TODO: Remove this
+        return [ ]
         messages = p['messages']
 
         translation = [ ]
@@ -596,7 +594,7 @@ python early hide:
                     timestamp=timestamp)
 
 
-    def execute_msg_stmt(p):
+    def execute_msg_stmt(p, return_dict=False):
         try:
             who = eval(p["who"])
             what = eval(p["what"])
@@ -628,7 +626,15 @@ python early hide:
                                                 xbold, big, img, spec_bubble)
 
         # What to do with this dialogue depends on if it's for a chatroom
-        # or a text message
+        # or a text message, or for another CDS
+        if return_dict:
+            return dict(who=who,
+                        what=dialogue,
+                        pauseVal=pv,
+                        img=img,
+                        bounce=bounce,
+                        specBubble=spec_bubble)
+
         if store.text_person is not None:
             # If the player is on the text message screen, then show the
             # message in real-time
@@ -709,6 +715,7 @@ python early hide:
         return True
 
     def translate_msg_stmt(p):
+        return [ ]
         # Get the 'what'
         try:
             what = eval(p['what'])
@@ -1020,11 +1027,7 @@ python early hide:
                     continue
 
                 msg.thetime.adjust_time(timedelta(seconds=total_sec))
-                typeTime = msg.what.count(' ') + 1 # equal to the # of words
-                # Since average reading speed is 200 wpm or 3.3 wps
-                typeTime = typeTime / 3
-                if typeTime < 1.5:
-                    typeTime = 1.5
+                typeTime = calculate_type_time(msg.what)
                 if send_now:
                     total_sec -= typeTime
                     new_queue.insert(0, msg)
@@ -1533,5 +1536,339 @@ python early hide:
                               execute=execute_play_c_sound,
                               lint=lint_play_sound,
                               warp=warp_sound)
+    ########################################
+    ## TIMED MENU CDS
+    ########################################
+    ## Definitions that simplify declaring a timed menu
+    ## This is a helper to parse choice blocks
+    def parse_choice_block(l):
 
+        choice_block = l.renpy_block(empty=True)
+
+        return choice_block
+
+    ## A helper to parse menu arguments. Modified slightly from the engine
+    ## code at renpy/parser.py
+    def c_parse_arguments(l, include_wait=True):
+        """
+        Parse a list of arguments, if one is present.
+        """
+
+        arguments = [ ]
+        extrakw = None
+        extrapos = None
+        wait = None
+
+        if not l.match(r'\('):
+            return dict(args=arguments,
+                        kwargs=extrakw,
+                        pos=extrapos,
+                        wait=wait)
+
+        while True:
+
+            if l.match('\)'):
+                break
+
+            if l.match(r'\*\*'):
+
+                if extrakw is not None:
+                    l.error('a call may have only one ** argument')
+
+                extrakw = l.delimited_python("),")
+
+            elif l.match(r'\*'):
+                if extrapos is not None:
+                    l.error('a call may have only one * argument')
+
+                extrapos = l.delimited_python("),")
+
+            else:
+
+                state = l.checkpoint()
+
+                name = l.name()
+                if not (name and l.match(r'=')):
+                    l.revert(state)
+                    name = None
+
+                l.skip_whitespace()
+                if include_wait and name == 'wait':
+                    # This is a wait argument
+                    wait = l.delimited_python("),")
+                else:
+                    arguments.append((name, l.delimited_python("),")))
+
+            if l.match(r'\)'):
+                break
+
+            l.require(r',')
+
+        return dict(args=arguments,
+                    kwargs=extrakw,
+                    pos=extrapos,
+                    wait=wait)
+
+
+    ## A helper function to parse the choices of the menu. Modified from
+    ## renpy/parser.py
+    def parse_menu_options(stmtl, has_wait_time=False):
+        l = stmtl.subblock_lexer()
+
+        has_choice = False
+        after_caption = False
+
+        set = None
+
+        pre_menu_block = []
+
+        # Tuples of (label, condition, block)
+        items = [ ]
+        item_arguments = [ ]
+
+        while l.advance():
+
+            # The menu can have a set to exclude previously chosen items
+            if l.keyword('set'):
+                set = l.require(l.simple_expression)
+                l.expect_eol()
+                l.expect_noblock('timed menu set')
+                continue
+
+            # Try to parse for caption lines
+            if not after_caption:
+                state = l.checkpoint()
+
+                try:
+                    if after_caption:
+                        l.error("Cannot have a caption in the middle of a timed menu.")
+                    caption = parse_msg_stmt(l)
+                    #l.expect_eol()
+                    #l.expect_noblock('timed menu caption')
+                    pre_menu_block.append(caption)
+                    # Move on to the next line
+                    continue
+                except Exception as e:
+                    print("WARNING: couldn't parse possible caption for timed menu")
+                    print("Error was:", e)
+                    l.revert(state)
+
+            # Otherwise, this item should be a choice
+            has_choice = True
+            after_caption = True
+            condition = "True"
+
+            label = l.string()
+
+            if l.eol():
+
+                if l.subblock:
+                    l.error("Line is followed by a block, despite not being a "
+                        + "menu choice. Did you forget a colon at the end of "
+                        + "the line?")
+
+                l.error("Timed menus need a speaker to say dialogue.")
+
+            item_arguments.append(c_parse_arguments(l, include_wait=False))
+
+            # Check for conditional statements
+            if l.keyword('if'):
+                condition = l.require(l.python_expression)
+
+            l.require(':')
+            l.expect_eol()
+            l.expect_block('timed choice menuitem')
+
+            block = parse_choice_block(l.subblock_lexer())
+
+            items.append((label, condition, block))
+
+        if not has_choice:
+            stmtl.error("Menu does not contain any choices.")
+
+        if has_wait_time and pre_menu_block:
+            stmtl.error("Cannot specify a wait time and have a menu caption.")
+
+        if not has_wait_time and not pre_menu_block:
+            stmtl.error("If no wait time is specified, must provide a menu caption.")
+
+        # Ideally we should end up with:
+        # pre_menu_block : a block of msg-equivalent statements that are
+        #       supposed to execute while the menu is displaying.
+        # items : A list of (label, condition, block) that are the choices
+        #       for this menu
+        # set : The set to be used for this menu
+        # item_arguments : A list of arguments corresponding to each choice item
+
+        # Return these as a dictionary
+        return dict(pre_menu_block=pre_menu_block,
+                    items=items,
+                    item_arguments=item_arguments,
+                    menu_set=set)
+
+
+    def parse_timed_menu(l):
+        l.expect_block('timed menu statement')
+        # Declare a given label as a global label
+        label = l.label_name(declare=True)
+
+        arguments_dict = c_parse_arguments(l)
+
+        # IF we get an argument e.g. `timed menu (wait=5)` then this menu
+        # is supposed to wait 5 seconds and will NOT have dialogue shown while
+        # the menu is active
+        if arguments_dict and arguments_dict['wait'] is not None:
+            has_wait_time = True
+        else:
+            has_wait_time = False
+
+        # It needs a colon and a newline
+        l.require(':')
+        l.expect_eol()
+
+        choices_dict = parse_menu_options(l, has_wait_time)
+
+        # Update the choices dictionary with the menu arguments
+        choices_dict.update(arguments_dict)
+        choices_dict['label'] = label
+
+        return choices_dict
+
+    def lint_timed_menu(p):
+        return
+
+    def execute_timed_menu(p):
+
+        # Figure out how long we should show this menu on-screen for. This
+        # is either the `wait` argument or the length of time it will take
+        # to post all the chat messages
+        wait_time = 0
+        if p['wait'] is not None:
+            try:
+                wait_time = eval(p['wait'])
+            except:
+                print("WARNING: Could not evaluate the length of time to show",
+                    "the timed menu for.")
+                wait_time = 8
+        else:
+            # Try to evaluate the messages in the pre-menu block
+            try:
+                for msg in p['pre_menu_block']:
+                    what = eval(msg['what'])
+                    wait_time += calculate_type_time(what)
+            except:
+                print("WARNING: Could not evaluate the 'what' part of all the",
+                    "menu captions to calculate a time.")
+                wait_time = 8
+
+        # Now adjust the wait_time for the pv
+        wait_time *= store.pv
+        # TODO: Add a small pause buffer to the end of this?
+
+        # Try to evaluate arguments
+        arg_info = renpy.ast.ArgumentInfo(p['args'], p['pos'], p['kwargs'])
+        args, kwargs = arg_info.evaluate()
+
+        choices = [ ]
+        narration = [ ]
+        item_arguments = [ ]
+
+        for i, (label, condition, block) in enumerate(p['items']):
+            if renpy.config.say_menu_text_filter:
+                label = renpy.config.say_menu_text_filter(label)
+
+            has_item = False
+
+            if block is not None:
+                choices.append((label, condition, i))
+                has_item = True
+                # Make sure Ren'Py knows where to direct the program if possible
+                # renpy.ast.next_node(block[0])
+
+            if has_item:
+                # Add the arguments, or an empty tuple and dictionary if there
+                # are none
+                pargs = p['item_arguments']
+                if pargs and pargs[i] is not None:
+                    arg_info = renpy.ast.ArgumentInfo(pargs[i]['args'],
+                        pargs[i]['pos'], pargs[i]['kwargs'])
+                    item_arguments.append(arg_info.evaluate())
+                else:
+                    item_arguments.append((tuple(), dict()))
+
+
+        ## Dissect pre_menu_block into something displayable
+        for msg in p['pre_menu_block']:
+            narration.append(execute_msg_stmt(msg, return_dict=True))
+
+        # All right so now we have:
+        # choices : list of (label, condition, index) for all the choices
+        # item_arguments : list of (args, kwargs) corresponding to each choice
+        # narration : list of dict(who, what, pauseVal, img, bounce, specBubble)
+        # wait_time : pv-adjusted number of seconds to wait before this menu
+        #       times out
+        # args, kwargs : arguments for the menu itself (overall)
+        # p['items'] : Mostly I need the `block` from this tuple for the choices
+
+        # ...So I'm not sure what to do with this SubParse block thing
+        print("\n   TEST: SubParse is", p['items'][0][2])
+        print("   TEST: SubParse is", p['items'][0][2].block)
+        print("\n   TEST: SubParse is", p['items'][1][2])
+        print("   TEST: SubParse is", p['items'][1][2].block)
+
+        print("\nWHAT WE ENDED UP WITH FOR NARRATION")
+        for msg in narration:
+            print(msg['who'].name, ":", msg['what'], "pv=", msg['pauseVal'],
+                "img=", msg['img'], "bounce=", msg['bounce'], "specBubble=",
+                msg['specBubble'])
+        print("\nWHAT WE GOT FOR MENU ARGUMENTS:", args, "kwargs", kwargs)
+        print("\nHOW THE CHOICES LOOK")
+        for (label, condition, i) in choices:
+            print("Choice 1 is", label, "with condition", condition, "and",
+                "arguments", item_arguments[i][0], "and kwargs",
+                item_arguments[i][1])
+        print("\nWHAT THE LABEL IS CALLED:", post_timed_menu(p))
+
+        return
+
+    def predict_timed_menu(p):
+        return [ ]
+
+    def label_timed_menu(p):
+        return p['label']
+
+    def translate_timed_menu(p):
+        return [ ]
+
+    def post_timed_menu(p):
+        # Name of the label which points to the end of the menu
+        # If we were given a name for this menu, use that
+        if p['label']:
+            return p['label'] + "_end_for_internal_use"
+        # Otherwise, make up a label name based on the dialogue of the
+        # first choice (or the second, as needed)
+        try:
+            name = []
+            for j in range(len(p['items'])):
+                lim = min(len(p['items'][j][0]), 6)
+                name.extend([c for c in p['items'][j][0][1:lim] if c.isalpha()])
+            lbl = ''.join(name)
+            lbl += "_end_for_internal_use"
+        except:
+            print("ERROR: Couldn't figure out a name for the post_label")
+            return 'this_didnt_work'
+        return lbl
+
+
+    renpy.register_statement('timed menu',
+                            parse=parse_timed_menu,
+                            lint=lint_timed_menu,
+                            execute=execute_timed_menu,
+                            predict=predict_timed_menu,
+                            label=label_timed_menu,
+                            translation_strings=translate_timed_menu,
+                            force_begin_rollback=True,
+                            post_label=post_timed_menu,
+                            block=True
+                            )
 
