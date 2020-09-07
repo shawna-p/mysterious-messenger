@@ -325,7 +325,7 @@ python early hide:
                     continue
                 try:
                     who = eval(d["who"])
-                    what = eval(d["what"])
+                    what = d["what"]
                     ffont = d["ffont"]
                     bold = d["bold"]
                     xbold = d["xbold"]
@@ -452,7 +452,7 @@ python early hide:
             if isinstance(d, dict):
                 try:
                     who = eval(d["who"])
-                    what = eval(d["what"])
+                    what = d["what"]
                     ffont = d["ffont"]
                     bold = d["bold"]
                     xbold = d["xbold"]
@@ -488,7 +488,7 @@ python early hide:
             translation.extend(translate_msg_stmt(msg))
         return translation
 
-    def parse_msg_stmt(l, check_time=False):
+    def parse_msg_stmt(l, check_time=False, msg_prefix=False):
 
         who = l.simple_expression()
         # This is also used to parse backlogs; if it begins with if/elif/else
@@ -496,9 +496,12 @@ python early hide:
         # an error and stop parsing
         if who in ['elif', 'if', 'else']:
             raise AttributeError
-        what = l.simple_expression()
+        elif msg_prefix and who == 'msg':
+            who = l.simple_expression()
+        what = l.string()
 
         if not who or not what:
+            print("Who/What not registering. Who:", who, "what", what)
             renpy.error("msg requires a speaker and some dialogue")
 
         ffont = 'sser1'
@@ -597,7 +600,7 @@ python early hide:
     def execute_msg_stmt(p, return_dict=False):
         try:
             who = eval(p["who"])
-            what = eval(p["what"])
+            what = p["what"]
             pv = eval(p["pv"])
             ffont = p["ffont"]
             bold = p["bold"]
@@ -607,6 +610,7 @@ python early hide:
             bounce = p["bounce"]
             spec_bubble = p["spec_bubble"]
         except:
+            print_file("msg CDS failed. Results:", p['who'], p['what'], p['pv'])
             renpy.error("Could not parse arguments of msg CDS")
             return
 
@@ -674,7 +678,7 @@ python early hide:
     def lint_msg_stmt(p):
         try:
             who = eval(p["who"])
-            what = eval(p["what"])
+            what = p["what"]
             pv = eval(p["pv"])
             ffont = p["ffont"]
             bold = p["bold"]
@@ -695,7 +699,7 @@ python early hide:
     def predict_msg_stmt(p):
         # Predict possible images used
         try:
-            what = eval(p['what'])
+            what = p['what']
         except:
             renpy.error("Could not evaluate what argument of custom say")
             return [ ]
@@ -718,7 +722,7 @@ python early hide:
         return [ ]
         # Get the 'what'
         try:
-            what = eval(p['what'])
+            what = p['what']
         except:
             return [ ]
 
@@ -918,7 +922,7 @@ python early hide:
                     continue
                 try:
                     who = eval(d["who"])
-                    what = eval(d["what"])
+                    what = d["what"]
                     ffont = d["ffont"]
                     bold = d["bold"]
                     xbold = d["xbold"]
@@ -1609,6 +1613,83 @@ python early hide:
                     pos=extrapos,
                     wait=wait)
 
+    def parse_regular_dialogue(l):
+        """Parse a line of 'regular' dialogue as used by __call__"""
+
+        who = l.simple_expression()
+        if who == 'msg':
+            renpy.error("msg CDS received instead of regular dialogue.")
+        what = l.string()
+
+        if not who or not what:
+            renpy.error("msg requires a speaker and some dialogue")
+        print("got who/what", who, what)
+
+        # Parse the arguments
+        arg_dict = c_parse_arguments(l, False)
+
+        # If there are no arguments, raise an error to process this as
+        # a msg CDS
+        print("The argument dict for regular dialogue:")
+        print(arg_dict['args'], "kwargs", arg_dict['kwargs'],
+            "pos", arg_dict['pos'])
+        if (not arg_dict['args'] and not arg_dict['kwargs']
+                and not arg_dict['pos']):
+            renpy.error("dialogue may not be regular")
+
+        arg_info = renpy.ast.ArgumentInfo(arg_dict['args'],
+                    arg_dict['pos'], arg_dict['kwargs'])
+
+        return dict(who=who,
+                    what=what,
+                    arg_info=arg_info)
+
+    def execute_regular_dialogue(p):
+        """Turn a parsed line of regular dialogue into a proper dictionary."""
+
+        try:
+            who = eval(p['who'])
+            what = p['what']
+        except:
+            renpy.error("Could not parse arguments of msg CDS")
+            return
+
+        args, kwargs = p['arg_info'].evaluate()
+
+        pv = None
+        img = False
+        bounce = False
+        spec_bubble = None
+
+        # If there are any arguments, they get priority
+        for i, arg in enumerate(args):
+            if i == 0:
+                pv = arg
+            elif i == 1:
+                img = arg
+            elif i == 2:
+                bounce = arg
+            elif i == 3:
+                spec_bubble = arg
+
+        # Now the keywords
+        if kwargs.get('pauseVal', None):
+            pv = kwargs['pauseVal']
+        if kwargs.get('img', False):
+            img = kwargs['img']
+        if kwargs.get('bounce', False):
+            bounce = kwargs['bounce']
+        if kwargs.get('specBubble', None):
+            spec_bubble = kwargs['specBubble']
+
+        # Turn this into an easily digestible dictionary
+        return dict(who=who,
+                    what=what,
+                    pauseVal=pv,
+                    img=img,
+                    bounce=bounce,
+                    specBubble=spec_bubble)
+
 
     ## A helper function to parse the choices of the menu. Modified from
     ## renpy/parser.py
@@ -1639,12 +1720,13 @@ python early hide:
             if not after_caption:
                 state = l.checkpoint()
 
+                # Try to parse it as the __call__ statement uses
                 try:
                     if after_caption:
                         l.error("Cannot have a caption in the middle of a timed menu.")
-                    caption = parse_msg_stmt(l)
-                    #l.expect_eol()
-                    #l.expect_noblock('timed menu caption')
+                    caption = parse_regular_dialogue(l)
+                    l.expect_eol()
+                    l.expect_noblock('timed menu caption')
                     pre_menu_block.append(caption)
                     # Move on to the next line
                     continue
@@ -1652,6 +1734,22 @@ python early hide:
                     print("WARNING: couldn't parse possible caption for timed menu")
                     print("Error was:", e)
                     l.revert(state)
+
+                # Next try to parse it as a `msg` CDS
+                try:
+                    if after_caption:
+                        l.error("Cannot have a caption in the middle of a timed menu.")
+                    caption = parse_msg_stmt(l, msg_prefix=True)
+                    l.expect_eol()
+                    l.expect_noblock('timed menu caption')
+                    pre_menu_block.append(caption)
+                    # Move on to the next line
+                    continue
+                except Exception as e:
+                    print("WARNING: couldn't parse possible caption for timed menu")
+                    print("Error was:", e)
+                    l.revert(state)
+
 
             # Otherwise, this item should be a choice
             has_choice = True
@@ -1739,9 +1837,9 @@ python early hide:
 
     def execute_timed_menu(p):
 
-        # Figure out how long we should show this menu on-screen for. This
-        # is either the `wait` argument or the length of time it will take
-        # to post all the chat messages
+        # Figure out how long to show this menu on-screen for. This is either
+        # the `wait` argument or the length of time it will take to post all
+        # the chat messages
         wait_time = 0
         if p['wait'] is not None:
             try:
@@ -1754,8 +1852,7 @@ python early hide:
             # Try to evaluate the messages in the pre-menu block
             try:
                 for msg in p['pre_menu_block']:
-                    what = eval(msg['what'])
-                    wait_time += calculate_type_time(what)
+                    wait_time += calculate_type_time(msg['what'])
             except:
                 print("WARNING: Could not evaluate the 'what' part of all the",
                     "menu captions to calculate a time.")
@@ -1763,9 +1860,8 @@ python early hide:
 
         # Now adjust the wait_time for the pv
         wait_time *= store.pv
-        # TODO: Add a small pause buffer to the end of this?
 
-        # Try to evaluate arguments
+        # Try to evaluate arguments passed to the menu
         arg_info = renpy.ast.ArgumentInfo(p['args'], p['pos'], p['kwargs'])
         args, kwargs = arg_info.evaluate()
 
@@ -1777,29 +1873,28 @@ python early hide:
             if renpy.config.say_menu_text_filter:
                 label = renpy.config.say_menu_text_filter(label)
 
-            has_item = False
+            choices.append((label, condition, i))
 
-            if block is not None:
-                choices.append((label, condition, i))
-                has_item = True
-                # Make sure Ren'Py knows where to direct the program if possible
-                # renpy.ast.next_node(block[0])
-
-            if has_item:
-                # Add the arguments, or an empty tuple and dictionary if there
-                # are none
-                pargs = p['item_arguments']
-                if pargs and pargs[i] is not None:
-                    arg_info = renpy.ast.ArgumentInfo(pargs[i]['args'],
-                        pargs[i]['pos'], pargs[i]['kwargs'])
-                    item_arguments.append(arg_info.evaluate())
-                else:
-                    item_arguments.append((tuple(), dict()))
+            # Add the arguments, or an empty tuple and dictionary if there
+            # are none
+            pargs = p['item_arguments']
+            if pargs and pargs[i] is not None:
+                arg_info = renpy.ast.ArgumentInfo(pargs[i]['args'],
+                    pargs[i]['pos'], pargs[i]['kwargs'])
+                item_arguments.append(arg_info.evaluate())
+            else:
+                item_arguments.append((tuple(), dict()))
 
 
         ## Dissect pre_menu_block into something displayable
         for msg in p['pre_menu_block']:
-            narration.append(execute_msg_stmt(msg, return_dict=True))
+            if msg.get('arg_info', None):
+                # It was written like regular dialogue
+                print("parsing msg as regular dialogue.", msg)
+                narration.append(execute_regular_dialogue(msg))
+            else:
+                print("parsing msg as CDS.", msg)
+                narration.append(execute_msg_stmt(msg, return_dict=True))
 
         # All right so now we have:
         # choices : list of (label, condition, index) for all the choices
@@ -1917,7 +2012,7 @@ python early hide:
                 me = renpy.exports.MenuEntry((label, action))
 
             me.caption = label
-            me.action = action # Notably, this will return the SubParse object
+            me.action = action
             me.chosen = chosen
             me.args = item_args
             me.kwargs = item_kwargs
@@ -1946,9 +2041,6 @@ python early hide:
     def label_timed_menu(p):
         return p['label']
 
-    def translate_timed_menu(p):
-        return [ ]
-
     def post_timed_menu(p):
         # Name of the label which points to the end of the menu
         # If we were given a name for this menu, use that
@@ -1975,7 +2067,7 @@ python early hide:
                             execute=execute_timed_menu,
                             predict=predict_timed_menu,
                             label=label_timed_menu,
-                            translation_strings=translate_timed_menu,
+                            #translation_strings=translate_timed_menu,
                             force_begin_rollback=True,
                             post_label=post_timed_menu,
                             block=True
