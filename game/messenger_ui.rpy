@@ -339,7 +339,7 @@ screen phone_overlay():
 # This is a screen to test out timed responses
 # Default countdown time is 5 seconds
 screen answer_countdown(themenu, count_time=5, custom_action=None):
-    zorder 5
+    zorder 151
     timer count_time:
         repeat False
         if custom_action:
