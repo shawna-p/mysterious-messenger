@@ -22,6 +22,10 @@ init python:
                     set.add(rv)
 
         ## Do my own `chosen` marking?
+        # return (self.location, self.label) in self.chosen
+        # Mark this as chosen
+        item.action.chosen[(item.action.location, item.action.label)] = True
+
         store.timed_menu_dict = {}
         print_file("What are all the values of things?")
         print_file("   action:", item.action)
@@ -79,6 +83,7 @@ label execute_timed_menu():
                 Hide('timed_choice'),
                 Show('pause_button') ]))
 
+
     # Now show the narration behind the choices
     while narration:
         $ msg = narration.pop(0)
@@ -90,7 +95,9 @@ label execute_timed_menu():
     # If we got here, then the menu is over
     # Give it a small buffer
     $ messenger_pause(end_menu_buffer)
+    $ timed_menu_dict = {}
     hide screen timed_choice
+    pause 0.5
     jump expression end_label
 
 
@@ -106,24 +113,58 @@ screen timed_choice(items, paraphrase=None):
     else:
         default the_anim = null_anim
 
-    # For now, just show the choices on top of stuff
-    vbox:
-        style_prefix 'phone_vn_choice'
-        for num, i in enumerate(items):
-            $ fnum = float(num*0.2)
-            textbutton i.caption at the_anim(fnum):
-                if persistent.dialogue_outlines:
-                    text_outlines [ (absolute(2), "#000",
-                        absolute(0), absolute(0)) ]
-                if (persistent.past_choices and not observing
-                        and i.chosen):
-                    foreground 'seen_choice_check_circle'
-                    background 'call_choice_check'
-                    hover_background 'call_choice_check_hover'
-                action Function(execute_timed_menu_action, item=i, items=items)
-                #[i.action]
-                    # SetVariable('dialogue_picked', i.caption),
-                    # Function(set_paraphrase, screen_pref=paraphrase,
-                    #     item_pref=(i.kwargs.get('paraphrase',
-                    #     None)),
-                    #     save_choices=True)]
+    frame:
+        at shrink_away()
+        #background "#2828280a"
+        yalign 1.0
+        top_padding 20
+        xsize 750
+        ysize 220
+        yoffset -113-20
+        # For now, just show the choices on top of stuff
+        hbox:
+            style_prefix 'phone_vn_choice'
+            xalign 0.5
+            spacing 20
+            for num, i in enumerate(items):
+                $ fnum = float(num*0.2)
+                textbutton i.caption at the_anim(fnum):
+                    xmaximum 300
+                    text_xmaximum 250
+                    if persistent.dialogue_outlines:
+                        text_outlines [ (absolute(2), "#000",
+                            absolute(0), absolute(0)) ]
+                    if (persistent.past_choices and not observing
+                            and i.chosen):
+                        foreground 'seen_choice_check_circle'
+                        background 'call_choice_check'
+                        hover_background 'call_choice_check_hover'
+                    action Function(execute_timed_menu_action, item=i, items=items)
+                    #[i.action]
+                        # SetVariable('dialogue_picked', i.caption),
+                        # Function(set_paraphrase, screen_pref=paraphrase,
+                        #     item_pref=(i.kwargs.get('paraphrase',
+                        #     None)),
+                        #     save_choices=True)]
+        #add "answerbutton"
+    frame:
+        at wait_fade()
+        align (0.5, 1.0)
+        background "#282828"
+        xysize (750, 113)
+        text "Choose a reply" color "#fff" text_align 0.5 align (0.5, 0.5)
+
+transform shrink_away():
+    yzoom 0.0
+    ease 0.5 yzoom 1.0
+    on hide:
+        yzoom 1.0
+        ease 0.5 yzoom 0.0
+
+
+transform wait_fade():
+    alpha 0.0
+    linear 0.5 alpha 1.0
+    alpha 1.0
+    on hide:
+        linear 0.5 alpha 0.0
