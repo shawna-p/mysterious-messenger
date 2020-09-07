@@ -46,6 +46,8 @@ screen messenger_screen():
                     if i.who.name not in ['msg', 'filler', 'answer']:
                         use chat_animation(i)
                 null height 10
+            if timed_menu_dict:
+                null height 220
 
 ## This displays the special messages like "xyz
 ## has entered the chatroom"
