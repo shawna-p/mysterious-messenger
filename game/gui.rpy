@@ -81,8 +81,6 @@ define gui.notify_text_size = 25
 ## The size of the game's title.
 define gui.title_text_size = 60
 
-
-
 define gui.curly_font = gui.preference('curly_font', "fonts/Sandoll Misaeng (Curly Font).ttf")
 define gui.serif_1 = gui.preference('serif_1', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Regular.ttf")
 define gui.serif_1b = gui.preference('serif_1b', "fonts/NanumMyeongjo (Serif font 1)/NanumMyeongjo-Bold.ttf")
@@ -98,6 +96,12 @@ define gui.sans_serif_2b = gui.preference('sans_serif_2b', "fonts/SeoulNamsan (S
 define gui.sans_serif_2xb = gui.preference('sans_serif_2xb', "fonts/SeoulNamsan (Sans Serif Font 2)/SeoulNamsanEB.ttf")
 define gui.blocky_font = gui.preference('blocky_font', "fonts/BM-HANNA (Bold Font).ttf")
 define gui.curlicue_font = gui.preference('curlicue_font', "fonts/NanumBarunpenR.ttf")
+
+init python:
+    config.font_replacement_map[gui.serif_1, True, False] = (gui.serif_1xb, False, False)
+    config.font_replacement_map[gui.serif_2, True, False] = (gui.serif_2xb, False, False)
+    config.font_replacement_map[gui.sans_serif_1, True, False] = (gui.sans_serif_1xb, False, False)
+    config.font_replacement_map[gui.sans_serif_2, True, False] = (gui.sans_serif_2xb, False, False)
 
 ## Main and Game Menus #########################################################
 
@@ -536,7 +540,7 @@ define gui.flower_l_offset = (110,0)
 define gui.sigh_s_padding = (20, 30, 25, 50)
 define gui.sigh_s_offset = (140, 38)
 
-## Medium Sigh Bubble 
+## Medium Sigh Bubble
 define gui.sigh_m_padding = (30, 40, 40, 80)
 define gui.sigh_m_offset = (130, 38)
 
@@ -552,70 +556,5 @@ define gui.sigh_l_offset = (125, 38)
 ## www.renpy.org/doc/html/style_properties.html#style-property-language
 
 define gui.language = "unicode"
-
-
-################################################################################
-## Mobile devices
-################################################################################
-
-init python:
-
-    ## This increases the size of the quick buttons to make them easier to touch
-    ## on tablets and phones.
-    if renpy.variant("touch"):
-
-        gui.quick_button_borders = Borders(34, 12, 34, 0)
-
-    ## This changes the size and spacing of various GUI elements to ensure they
-    ## are easily visible on phones.
-    if renpy.variant("small"):
-
-        ## Font sizes.
-        #gui.text_size = 26
-        #gui.name_text_size = 31
-        #gui.notify_text_size = 22
-        #gui.interface_text_size = 26
-        #gui.button_text_size = 26
-        #gui.label_text_size = 29
-
-        ## Adjust the location of the textbox.
-        #gui.textbox_height = 203
-        #gui.name_xpos = 68
-        #gui.text_xpos = 76
-        #gui.text_width = 929
-
-        ## Change the size and spacing of various things.
-        #gui.slider_size = 31
-
-        #gui.choice_button_width = 1047
-
-        #gui.navigation_spacing = 17
-        #gui.pref_button_spacing = 9
-
-        gui.history_height = 161
-        gui.history_text_width = 583
-
-        gui.quick_button_text_size = 17
-
-        ## File button layout.
-        #gui.file_slot_cols = 2
-        #gui.file_slot_rows = 2
-
-        ## NVL-mode.
-        #gui.nvl_height = 144
-
-        #gui.nvl_name_width = 258
-        #gui.nvl_name_xpos = 275
-
-        #gui.nvl_text_width = 773
-        #gui.nvl_text_xpos = 292
-        #gui.nvl_text_ypos = 5
-
-        #gui.nvl_thought_width = 1047
-        #gui.nvl_thought_xpos = 17
-
-        #gui.nvl_button_width = 1047
-        #gui.nvl_button_xpos = 17
-
 
 

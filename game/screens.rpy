@@ -101,9 +101,9 @@ style frame:
 
 transform NullTransform:
     pass
-    
+
 screen say(who, what):
-    
+
     # In VN mode
     if not in_phone_call and not text_person and vn_choice:
         style_prefix "vn_mode"
@@ -116,7 +116,7 @@ screen say(who, what):
         # Darkens the VN window for more contrast
         window:
             add Transform('vn_window_darken', alpha=persistent.vn_window_dark)
-            
+
         window:
             id "window"
             if who is not None:
@@ -124,20 +124,20 @@ screen say(who, what):
                     style_prefix None
                     style "namebox"
                     text who id "who":
-                        if (persistent.vn_window_alpha < 0.2 
+                        if (persistent.vn_window_alpha < 0.2
                                 or persistent.dialogue_outlines):
-                            outlines [ (absolute(2), "#000", 
+                            outlines [ (absolute(2), "#000",
                                         absolute(0), absolute(0)) ]
                             font gui.sans_serif_1xb
 
             text what id "what":
                 style_prefix None
-                if (persistent.vn_window_alpha < 0.2 
+                if (persistent.vn_window_alpha < 0.2
                         or persistent.dialogue_outlines):
-                    outlines [ (absolute(2), "#000", 
+                    outlines [ (absolute(2), "#000",
                                 absolute(0), absolute(0)) ]
         if not viewing_guest:
-            # This is the overlay for VN mode 
+            # This is the overlay for VN mode
             # that shows the Auto/Skip/Log buttons
             hbox:
                 if persistent.vn_window_alpha < 0.1:
@@ -148,7 +148,7 @@ screen say(who, what):
                     selected_idle Text("Auto", style="vn_button")
                     selected_hover Text("Auto", style="vn_button_hover")
                     action Preference("auto-forward", "toggle")
-            
+
                 imagebutton:
                     idle Text("Skip", style="vn_button")
                     hover Text("Skip", style="vn_button_hover")
@@ -157,13 +157,13 @@ screen say(who, what):
                     selected_hover Text("Stop", style="vn_button_hover")
                     action Skip()
                     activate_sound 'audio/sfx/UI/vn_skip.mp3'
-                    
+
                 imagebutton:
                     idle Text("Log", style="vn_button")
                     hover Text("Log", style="vn_button_hover")
                     action Show('history')#ShowMenu('history')
-    
-    
+
+
     else:
         window id "window":
             style_prefix None
@@ -233,7 +233,7 @@ style call_window:
     xfill True
     ysize 500
     yalign 0.5
-    background 'call_overlay' 
+    background 'call_overlay'
     padding(50,50)
 
 style vn_button:
@@ -242,14 +242,14 @@ style vn_button:
     size 55
     outlines [(absolute(1), '#000', absolute(0), absolute(0))]
     kerning -1
-    
+
 style vn_button_hover:
     color "#999999"
     font gui.sans_serif_2
     size 55
     outlines [(absolute(1), '#000', absolute(0), absolute(0))]
     kerning -1
-    
+
 ## Input screen ################################################################
 ##
 ## This screen is used to display renpy.input. The prompt parameter is used to
@@ -293,16 +293,78 @@ style input:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
-screen choice(items):
+init python:
+    def say_choice_caption(dialogue, paraphrase, p=0):
+        """
+        Have the main character say the caption that was given
+        to the most recently chosen choice.
+        """
+
+        if paraphrase:
+            store.dialogue_picked = ""
+            store.dialogue_paraphrase = store.paraphrase_choices
+            store.dialogue_pv = 0
+            return
+        # Otherwise, send this dialogue to the appropriate channel
+        print_file("Executing dialogue", dialogue, "as non-paraphrase")
+
+        store.m(dialogue, pauseVal=p, from_paraphrase=True)
+        store.dialogue_picked = ""
+        store.dialogue_paraphrase = store.paraphrase_choices
+        store.dialogue_pv = 0
+        return
+
+    def set_paraphrase(screen_pref, item_pref, save_choices=False):
+        """Determine whether this choice caption was paraphrased or not."""
+
+        # First, this item gets saved to the timelineitem's choices,
+        # if applicable
+        if save_choices and (not store.in_phone_call
+                or isinstance(store.current_call, TimelineItem)):
+            store.current_timeline_item.add_to_choices(store.dialogue_picked)
+        elif save_choices and store.in_phone_call:
+            # This is a regular phone call
+            store.current_call.add_to_choices(store.dialogue_picked)
+
+        if item_pref is not None:
+            # The item set its own preference
+            store.dialogue_paraphrase = item_pref
+        elif screen_pref is not None:
+            # Otherwise, use the screen's preference
+            store.dialogue_paraphrase = screen_pref
+        else:
+            # All else fails, use the default preference
+            store.dialogue_paraphrase = store.paraphrase_choices
+
+        # Now do some calculations to see if we can manually determine what
+        # store.paraphrase_choices should be
+        if store.paraphrase_choices is None:
+            # If the menu set a preference, global is probably the opposite
+            # of the menu
+            if screen_pref is not None:
+                store.paraphrase_choices = not screen_pref
+            # Otherwise if the item set a preference, global is probably
+            # the opposite of the choice
+            elif item_pref is not None:
+                store.paraphrase_choices = not item_pref
+
+        return
+
+default dialogue_picked = ""
+default dialogue_paraphrase = True
+default dialogue_pv = 0
+
+screen choice(items, paraphrase=None):
     zorder 150
     modal True
-    
-    python:
-        if persistent.custom_footers and not renpy.is_skipping():
-            the_anim = choice_anim
-        else:
-            the_anim = null_anim   
- 
+
+
+    if persistent.custom_footers and not renpy.is_skipping():
+        default the_anim = choice_anim
+    else:
+        default the_anim = null_anim
+
+
     add "choice_darken"
 
     # For text messages
@@ -315,49 +377,51 @@ screen choice(items):
                 $ fnum = float(num*0.2)
                 textbutton i.caption at the_anim(fnum):
                     if persistent.dialogue_outlines:
-                        text_outlines [ (absolute(2), "#000", 
+                        text_outlines [ (absolute(2), "#000",
                                 absolute(0), absolute(0)) ]
                     if (persistent.past_choices
                             and i.chosen):
                         foreground 'seen_choice_check'
-                    action If((not text_person 
+                    action If((not text_person
                                 or not text_person.real_time_text),
                             [Show('text_message_screen',
                                         sender=text_person),
-                                i.action], [i.action])
-    
+                                i.action,
+                                SetVariable('dialogue_picked', i.caption),
+                                Function(set_paraphrase, screen_pref=paraphrase,
+                                    item_pref=(i.kwargs.get('paraphrase',
+                                    None)))
+                                ],
+                            [i.action,
+                                SetVariable('dialogue_picked', i.caption),
+                                Function(set_paraphrase, screen_pref=paraphrase,
+                                    item_pref=(i.kwargs.get('paraphrase',
+                                    None)))
+                            ])
+
     # For VN mode and phone calls
     elif in_phone_call or vn_choice:
-        $ can_see_answer = 0
-        
         vbox:
             style_prefix 'phone_vn_choice'
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
-                if observing:
-                    $ fnum = 0
-                if not observing or i.chosen:
-                    $ can_see_answer += 1
-                    textbutton i.caption at the_anim(fnum):
-                        if persistent.dialogue_outlines:
-                            text_outlines [ (absolute(2), "#000", 
-                                absolute(0), absolute(0)) ]
-                        if (persistent.past_choices
-                                and i.chosen):
-                            foreground 'seen_choice_check_circle'
-                            background 'call_choice_check'
-                            hover_background 'call_choice_check_hover'
-                        action [i.action]
-            # Not a perfect solution, but hopefully provides an 'out'
-            # to players who somehow didn't choose a menu option and
-            # are now in observing mode
-            if can_see_answer == 0:
-                textbutton _("(Continue)"):  
+                textbutton i.caption at the_anim(fnum):
                     if persistent.dialogue_outlines:
-                        text_outlines [ (absolute(2), "#000", 
-                                absolute(0), absolute(0)) ]
-                    action [SetVariable('timed_choose', False), Return()]
-            
+                        text_outlines [ (absolute(2), "#000",
+                            absolute(0), absolute(0)) ]
+                    if (persistent.past_choices and not observing
+                            and i.chosen):
+                        foreground 'seen_choice_check_circle'
+                        background 'call_choice_check'
+                        hover_background 'call_choice_check_hover'
+                    action [i.action,
+                        SetVariable('dialogue_picked', i.caption),
+                        Function(set_paraphrase, screen_pref=paraphrase,
+                            item_pref=(i.kwargs.get('paraphrase',
+                            None)),
+                            save_choices=True)
+                        ]
+
     # For emails
     elif email_reply:
         use email_hub
@@ -368,64 +432,60 @@ screen choice(items):
                 $ fnum = float(num*0.2)
                 textbutton i.caption at the_anim(fnum):
                     action [i.action]
-    
+
     # For everything else (e.g. chatrooms)
     else:
-        $ can_see_answer = 0
         vbox:
             if persistent.custom_footers:
                 style_prefix 'phone_vn_choice'
             else:
                 style_prefix 'choice'
             for num, i in enumerate(items):
-                if not observing or i.chosen:
-                    $ can_see_answer += 1
-                    $ fnum = float(num*0.2)
-                    textbutton i.caption at the_anim(fnum):
-                        if (persistent.dialogue_outlines 
-                                and persistent.custom_footers):
-                            text_outlines [ (2, "#000", 
-                                absolute(0), absolute(0)) ]
-                        elif (persistent.dialogue_outlines
-                                and not persistent.custom_footers):
-                            text_outlines [ (2, "#fff", 
-                                absolute(0), absolute(0)) ]
-                        
-                        if (persistent.past_choices
-                                and i.chosen):
-                            if persistent.custom_footers:
-                                foreground 'seen_choice_check_circle'
-                                background 'call_choice_check'
-                                hover_background 'call_choice_check_hover'
-                            else:
-                                foreground 'seen_choice_check'
+                $ fnum = float(num*0.2)
+                textbutton i.caption at the_anim(fnum):
+                    if (persistent.dialogue_outlines
+                            and persistent.custom_footers):
+                        text_outlines [ (2, "#000",
+                            absolute(0), absolute(0)) ]
+                    elif (persistent.dialogue_outlines
+                            and not persistent.custom_footers):
+                        text_outlines [ (2, "#fff",
+                            absolute(0), absolute(0)) ]
 
-                        action If(using_timed_menus, 
-                            [SetVariable('reply_instant', True), 
-                                SetVariable('using_timed_menus', False),
-                                Hide('answer_countdown'),
-                                # This ensures the messenger scrolls
-                                # to the bottom
-                                Hide('messenger_screen'),
-                                Show('messenger_screen'),
+                    if (persistent.past_choices and not observing
+                            and i.chosen):
+                        if persistent.custom_footers:
+                            foreground 'seen_choice_check_circle'
+                            background 'call_choice_check'
+                            hover_background 'call_choice_check_hover'
+                        else:
+                            foreground 'seen_choice_check'
+                    action If(using_timed_menus,
+                        [SetVariable('reply_instant', True),
+                            SetVariable('using_timed_menus', False),
+                            Hide('answer_countdown'),
+                            # This ensures the messenger scrolls
+                            # to the bottom
+                            Hide('messenger_screen'),
+                            Show('messenger_screen'),
+                            i.action,
+                            SetVariable('dialogue_picked', i.caption),
+                            Function(set_paraphrase, screen_pref=paraphrase,
+                                item_pref=(i.kwargs.get('paraphrase',
+                                None))),
+                            SetVariable('dialogue_pv', None)
+                                ],
+                        [i.action,
+                            SetVariable('dialogue_picked', i.caption),
+                            Function(set_paraphrase, screen_pref=paraphrase,
+                                item_pref=(i.kwargs.get('paraphrase',
+                                None)))
+                            ])
 
-                                i.action],
-                            [i.action])
-                
-            # Not a perfect solution, but hopefully provides an 'out'
-            # to players who somehow didn't choose a menu option and
-            # are now in observing mode
-            if can_see_answer == 0:
-                textbutton _("(Continue)"):
-                    if persistent.dialogue_outlines:
-                        text_outlines [ (absolute(2), "#000", 
-                                absolute(0), absolute(0)) ]
-                    action [SetVariable('timed_choose', False), Return()]
-                            
 
-image seen_choice_check = Image('Menu Screens/Main Menu/main02_tick.png', 
+image seen_choice_check = Image('Menu Screens/Main Menu/main02_tick.webp',
                             align=(0.99, 0.97))
-image seen_choice_check_circle = Image('Menu Screens/Main Menu/main02_tick_2.png', 
+image seen_choice_check_circle = Image('Menu Screens/Main Menu/main02_tick_2.webp',
                             align=(0.985, 0.955))
 
 ## When this is true, menu captions will be spoken by the narrator. When false,
@@ -460,12 +520,12 @@ style text_msg_choice_button_text:
 
 style phone_vn_choice_vbox:
     is choice_vbox
-    spacing 20 
+    spacing 20
 
 style phone_vn_choice_button:
     is choice_button
     xysize (740, 180)
-    background 'call_choice' 
+    background 'call_choice'
     hover_background 'call_choice_hover'
     padding(45,45)
     align (0.5, 0.5)
@@ -803,8 +863,8 @@ style help_label_text:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#confirm
 
-image menu_popup_bkgrd = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.png",60,60,60,60)
-image menu_popup_btn = Frame("Menu Screens/Main Menu/menu_popup_btn.png",20,20,20,20)
+image menu_popup_bkgrd = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.webp",60,60,60,60)
+image menu_popup_btn = Frame("Menu Screens/Main Menu/menu_popup_btn.webp",20,20,20,20)
 image menu_popup_btn_hover = Transform('menu_popup_btn', alpha=0.5)
 
 screen confirm(message, yes_action, no_action=False, show_link=False):
@@ -818,7 +878,7 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
 
     add "gui/overlay/confirm.png"
 
-    frame:       
+    frame:
         vbox:
             label _(message):
                 style "confirm_prompt"
@@ -828,21 +888,49 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
                 textbutton "check out my Ko-Fi here":
                     style 'button_text'
                     text_style 'button_text'
-                    text_text_align 0.5 xalign 0.5 
+                    text_text_align 0.5 xalign 0.5
                     text_hover_underline True
                     text_color "#00b08d"
                     action OpenURL("https://ko-fi.com/somniarre")
 
-            hbox:                
+            hbox:
                 textbutton _("Confirm") action yes_action
                 if no_action:
                     textbutton _("Cancel") action no_action
-                
+
 
     ## Right-click and escape answer "no".
     if no_action:
         key "game_menu" action no_action
 
+## Screen which displays script error messages to the user
+screen script_error(message, link=False, link_text=False):
+    modal True
+    zorder 190
+    python:
+        message = "{=sser1xb}{color=#f00}Script Error:\n{/color}{/=sser1xb}" + message
+        if link:
+            message += "\n\nLink to wiki:"
+    style_prefix "confirm"
+    add "gui/overlay/confirm.png"
+    frame:
+        vbox:
+            label _(message):
+                style "confirm_prompt"
+                xalign 0.5
+            if link:
+                null height -53
+                textbutton "[link_text]":
+                    style 'button_text'
+                    text_style 'button_text'
+                    text_text_align 0.5 xalign 0.5
+                    text_hover_underline True
+                    text_color "#00b08d"
+                    action OpenURL("https://github.com/shawna-p/mysterious-messenger/wiki/"
+                        + link)
+
+            hbox:
+                textbutton _("Confirm") action Hide('script_error')
 
 style confirm_frame is gui_frame
 style confirm_prompt is gui_prompt
@@ -875,7 +963,7 @@ style confirm_prompt_text:
 style confirm_button:
     #properties gui.button_properties("confirm_button")
     xsize 200
-    background "menu_popup_btn" 
+    background "menu_popup_btn"
     padding(20,20)
     hover_foreground "menu_popup_btn_hover"
 
@@ -992,21 +1080,21 @@ style notify_text:
 
 
 screen nvl(dialogue, items=None):
-   
-   
+
+
     window:
         style "nvl_window"
         frame:
-            background "transparent.png"     # or use any semi-transparent image you like
+            background "transparent.webp"
             align (0.5, 0.2)
-            
-            
+
+
             viewport:
                 #draggable True
                 mousewheel True
                 has vbox:
                     spacing 40 #gui.nvl_spacing
-                
+
                 use nvl_dialogue(dialogue)
 
                 ## Displays the menu, if given. The menu may be displayed
@@ -1105,4 +1193,3 @@ style nvl_button:
 style nvl_button_text:
     properties gui.button_text_properties("nvl_button")
 
-    

@@ -37,7 +37,7 @@ label other_storytelling():
     y "{=ser1}You might have noticed that the messages I sent you earlier are still in the history.{/=ser1}"
     y "{=ser1}If you want to start a new chatroom when you come back from the VN though, you can do that too.{/=ser1}"
     y "I'll demonstrate."
-    call exit(y)
+    exit chatroom y
 
     # These second arguments tell the program to clear the chat when
     # the player returns after the VN. It sets the background of the
@@ -46,13 +46,13 @@ label other_storytelling():
                         new_bg='night')
 
     play music same_old_fresh_air
-    call enter(y)
+    enter chatroom y
     y "{=curly}Hello again!{/=curly}" (bounce=True)
     y "See how the background has changed and the message history is gone?"
     y "{=curly}You can use this feature for a lot of neat things ^^{/=curly}"
     y "Good luck!" (bounce=True, specBubble="cloud_s")
     y "{image=yoosung_yahoo}" (img=True)
-    call exit(y)
+    exit chatroom y
     jump chat_end
 
 label other_storytelling_vn_1():
@@ -95,7 +95,7 @@ label other_storytelling_expired():
 
     y "There are more neat things you can do with it too."
     y "I hope you'll check them out!"
-    call exit(y)
+    exit chatroom y
     jump chat_end
 
     

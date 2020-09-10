@@ -17,11 +17,11 @@ python early:
         unlocked : bool
             True if this image can be viewed by the player.
         seen_in_album : bool
-            True if this image has been viewed full-screen in the album.                   
+            True if this image has been viewed full-screen in the album.
         """
 
-        def __init__(self, img, thumbnail=False, 
-                    locked_img="CGs/album_unlock.png"):
+        def __init__(self, img, thumbnail=False,
+                    locked_img="CGs/album_unlock.webp"):
             """
             Creates an Album object to store information about gallery images.
 
@@ -36,26 +36,50 @@ python early:
                 The file path to the image that will be used in the "locked"
                 thumbnail icon. Should be 155x155px.
             """
-            
+
             self.img = img
             self.__locked_img = locked_img
             if thumbnail:
                 self.__thumbnail = thumbnail
             else:
-                # If no thumbnail is provided, the program
-                # will automatically crop and scale the CG
-                self.__thumbnail = Transform(Crop((0, 200, 750, 750), img), 
+                if self.filename:
+                    thumb_name = self.filename.split('.')
+                    thumbnail = thumb_name[0] + '-thumb.' + thumb_name[1]
+                    if renpy.loadable(thumbnail):
+                        self.__thumbnail = thumbnail
+                    else:
+                        thumbnail = False
+                if not thumbnail:
+                    # If no thumbnail is provided, the program
+                    # will automatically crop and scale the CG
+                    self.__thumbnail = Transform(Crop((0, 200, 750, 750), img),
                                                         size=(155,155))
             self.unlocked = False
             self.__seen_in_album = False
-            
+
+        @property
+        def filename(self):
+            """Return the file name (including extension) for this image."""
+            if '.' in self.img:
+                return self.img
+            try:
+                return renpy.display.image.get_registered_image(self.img).filename
+            except:
+                print("WARNING: Could not retrieve filename associated with",
+                    self.img)
+            return False
+
         def unlock(self):
             """Unlock this image in the album."""
 
             if not self.unlocked:
                 self.unlocked = True
                 # Set a var so Album shows "NEW"
-                store.new_cg += 1            
+                store.new_cg += 1
+                # Add this to the list of unlocked profile pictures
+                if self.__thumbnail not in store.persistent.unlocked_prof_pics:
+                    store.persistent.unlocked_prof_pics.add(
+                        self.__thumbnail)
             renpy.retain_after_load()
 
         @property
@@ -69,18 +93,44 @@ python early:
 
         @thumbnail.setter
         def thumbnail(self, new_thumb):
+            try:
+                if not renpy.loadable(self.__thumbnail):
+                    thumb_name = self.__thumbnail.split('.')[0] + '.webp'
+                    if renpy.loadable(thumb_name):
+                        self.__thumbnail = thumb_name
+                        return
+            except:
+                # Assume it was a cropped image
+                img = self.filename.split('.')[0] + '.webp'
+                if renpy.loadable(img):
+                    self.__thumbnail = Transform(Crop((0, 200, 750, 750),
+                                                    img), size=(155,155))
+                    return
+
             self.__thumbnail = new_thumb
 
         def get_thumb(self):
             """Retrieve the CG's thumbnail, regardless of its unlock state."""
-            
+
+            try:
+                if not renpy.loadable(self.__thumbnail):
+                    thumb_name = self.__thumbnail.split('.')[0] + '.webp'
+                    if renpy.loadable(thumb_name):
+                        self.__thumbnail = thumb_name
+            except:
+                # Assume it was a cropped image
+                img = self.filename.split('.')[0] + '.webp'
+                if renpy.loadable(img):
+                    self.__thumbnail = Transform(Crop((0, 200, 750, 750),
+                                                    img), size=(155,155))
+
             return self.__thumbnail
-        
+
         def check_if_seen(self):
             """
             Check if this image was shown to the player and if so, unlock it.
             """
-            
+
             if renpy.seen_image(self.img):
                 self.unlock()
 
@@ -96,7 +146,7 @@ python early:
                 if new_bool:
                     store.new_cg -= 1
             self.__seen_in_album = new_bool
-                
+
         def __eq__(self, other):
             """Checks for equality between two Album objects."""
 
@@ -112,17 +162,17 @@ python early:
                 return self.img != other.img
             else:
                 return False
-          
+
 init python:
 
     import string
 
-    def merge_albums(p_album, update):   
+    def merge_albums(p_album, update):
         """
         Update p_album to have the same items as update. Ensures that the
         unlocked status of the photo is preserved.
         """
-        
+
         # Add photos in update to p_album
         for photo in update:
             if photo not in p_album:
@@ -132,6 +182,7 @@ init python:
                 for p_photo in p_album:
                     if photo == p_photo:
                         p_photo.thumbnail = photo.get_thumb()
+                        break
         # Remove photos in p_album that aren't in update
         for photo in p_album:
             if photo not in update:
@@ -140,7 +191,7 @@ init python:
 
     def merge_albums_string(alb):
         """Update persistent albums to be consistent with regular albums."""
-        
+
         if alb[-6:] != "_album":
             alb += "_album"
         reg_album = getattr(store, convert_to_file_name(alb))
@@ -160,7 +211,7 @@ init python:
             for alb in all_albums:
                 a = alb
                 if alb[-6:] != "_album":
-                    a += "_album"                
+                    a += "_album"
                 per_album = getattr(store.persistent, convert_to_file_name(a))
                 for cg in per_album:
                     cg.check_if_seen()
@@ -169,9 +220,16 @@ init python:
     def add_to_album(album, photo_list):
         """Add the photos in photo_list to album."""
 
+        global all_albums
         for photo in photo_list:
             if photo not in album:
                 album.append(photo)
+        if isinstance(all_albums[0], list):
+            for p_album, reg_album in all_albums:
+                merge_albums(p_album, reg_album)
+        else: # Should be a string
+            for alb in all_albums:
+                merge_albums_string(alb)
 
     def has_unseen(album):
         """Return True if an album has a photo that hasn't been seen."""
@@ -192,11 +250,11 @@ init python:
         try:
             char = getattr(store, file_id)
             return char.name
-        except AttributeError:            
+        except AttributeError:
             for char in store.all_characters:
                 if char.file_id == file_id:
                     return char.name
-        
+
         return string.capwords(file_id)
 
     def convert_to_file_name(file_id):
@@ -208,15 +266,18 @@ init python:
             new_id = new_id.replace(' ', '_')
         if "'" in file_id:
             new_id = new_id.replace("'", "")
-        
+
         return new_id.lower()
 
 
     def hide_albums(album_list):
         """Hide the albums in album_list unless they have an unlocked photo."""
 
-        global all_albums        
+        global all_albums
         has_unlocked = False
+
+        if not isinstance(album_list, list):
+            album_list = [ album_list ]
 
         for album in album_list:
             for photo in getattr(store.persistent, album + "_album"):
@@ -230,9 +291,8 @@ init python:
                 if album in all_albums:
                     all_albums.remove(album)
             has_unlocked = False
-            
 
-        
+
     def drag_box(drags, drop):
         """
         A callback for the translucent image displayed on top of the CGs
@@ -245,7 +305,7 @@ init python:
         global prev_cg_left, prev_cg_right
         al = album_info_for_CG[0]
         ind = album_info_for_CG[3]
-        
+
         # If the player somehow didn't swipe far enough, ignore
         # their swipe
         if not drop:
@@ -254,10 +314,10 @@ init python:
 
         else:
             for item in drags:
-                # Moves the translucent image back to its
+                # Move the translucent image back to its
                 # default position
                 item.snap(0, 0)
-                
+
             if drop.drag_name == "Right":
                 # The album goes back one item
                 # First check if it's the first item
@@ -277,7 +337,7 @@ init python:
                             else:
                                 swipe_anim = "right"
                             break
-                
+
             elif drop.drag_name == "Left":
                 # Go forward one item
                 # Check if it's the last item
@@ -297,39 +357,39 @@ init python:
                             else:
                                 swipe_anim = "left"
                             break
-                            
+
             renpy.restart_interaction()
-                
+
     def toggle_close_drag():
         """A callback to hide or show the 'Close' sign."""
 
         store.close_visible = not close_visible
         renpy.restart_interaction()
 
-    
-            
+
+
 
 default fullsizeCG = "cg common_1"
 # This lets the player know if there are new CGs in
 # the album
 default new_cg = 0
 
-image cg_frame = 'CGs/photo_frame.png'
-image cg_frame_dark = 'CGs/photo_frame_dark.png'
+image cg_frame = 'CGs/photo_frame.webp'
+image cg_frame_dark = 'CGs/photo_frame_dark.webp'
 
-image translucent_img = 'translucent.png'
-    
+image translucent_img = 'translucent.webp'
+
 ## This screen shows all of the various characters/folders
 ## available in the photo gallery
 screen photo_album():
 
-    # Ensure this replaces the main menu.
+    # Ensure this replaces other menu screens
     tag menu
-    
+
     if not main_menu:
         on 'replace' action FileSave(mm_auto, confirm=False)
         on 'show' action FileSave(mm_auto, confirm=False)
-    
+
     python:
         if main_menu:
             return_action = Show('select_history', Dissolve(0.5))
@@ -342,7 +402,7 @@ screen photo_album():
         null_height = (((1170 - (220*grid_row) - (40*(grid_row-1))) // 2) - 50)
 
     use menu_header('Photo Album', return_action):
-    
+
         if isinstance(all_albums[0], list):
             # Retained for backwards compatibility. Displays the albums.
             frame:
@@ -355,27 +415,27 @@ screen photo_album():
                 # have less than three as well. You can also add another row by
                 # adding another hbox
                 hbox:
-                    use char_album('cg_label_ju', 'Jumin Han', 
-                                    persistent.ju_album, 'ju_album_cover')            
-                    use char_album('cg_label_z', 'ZEN', 
+                    use char_album('cg_label_ju', 'Jumin Han',
+                                    persistent.ju_album, 'ju_album_cover')
+                    use char_album('cg_label_z', 'ZEN',
                                     persistent.z_album, 'z_album_cover')
-                    use char_album('cg_label_s', '707', 
+                    use char_album('cg_label_s', '707',
                                     persistent.s_album, 's_album_cover')
                 hbox:
-                    use char_album('cg_label_y', 'Yoosung★', 
+                    use char_album('cg_label_y', 'Yoosung★',
                                     persistent.y_album, 'y_album_cover')
-                    use char_album('cg_label_ja', 'Jaehee Kang', 
+                    use char_album('cg_label_ja', 'Jaehee Kang',
                                     persistent.ja_album, 'ja_album_cover')
-                    use char_album('cg_label_v', 'V', 
+                    use char_album('cg_label_v', 'V',
                                     persistent.v_album, 'v_album_cover')
                 hbox:
-                    use char_album('cg_label_u', 'Unknown', 
+                    use char_album('cg_label_u', 'Unknown',
                                     persistent.u_album, 'u_album_cover')
-                    use char_album('cg_label_r', 'Ray', 
+                    use char_album('cg_label_r', 'Ray',
                                     persistent.r_album, 'r_album_cover')
-                    use char_album('cg_label_common', 'Common', 
+                    use char_album('cg_label_common', 'Common',
                                     persistent.common_album, 'common_album_cover')
-        else:   
+        else:
             viewport:
                 draggable True
                 mousewheel True
@@ -388,13 +448,13 @@ screen photo_album():
                 if null_height > 0:
                     null height null_height
 
-                grid 5 grid_row:       
+                grid 5 grid_row:
                     align (0.5, 0.5)
                     # Negative xspacing allows the program to center
                     # two items below a row of 3, if necessary
                     xspacing -134
                     yspacing 40
-                    for i in range(0, full_grids, 3):                    
+                    for i in range(0, full_grids, 3):
                         use char_album(all_albums[i])
                         null
                         use char_album(all_albums[i+1])
@@ -415,10 +475,7 @@ screen photo_album():
                         null
                         null
 
-                    
-        
-        
-            
+
 ## This displays a button with an image and a caption
 ## that will take you to the desired character's album
 screen char_album(caption, name=None, album=None, cover=None):
@@ -433,12 +490,11 @@ screen char_album(caption, name=None, album=None, cover=None):
                     convert_to_file_name(file_id) + "_album")
             cover = convert_to_file_name(file_id) + "_album_cover"
 
-
     button:
         vbox:
             spacing 5
             xsize 245
-            
+
             fixed:
                 xysize (175, 150)
                 align (0.5, 0.5)
@@ -450,7 +506,7 @@ screen char_album(caption, name=None, album=None, cover=None):
                     align (1.0, 0.0)
                     xoffset 35
                     yoffset -42
-                
+
                 ## Window with the framed image
                 frame:
                     xysize (157, 137)
@@ -460,7 +516,7 @@ screen char_album(caption, name=None, album=None, cover=None):
 
                 if has_unseen(album):
                     add 'new_sign' align (1.0, 0.0)
-                    
+
             frame:
                 xysize (241, 64)
                 background caption
@@ -471,20 +527,20 @@ screen char_album(caption, name=None, album=None, cover=None):
                 else:
                     text name + ' (' + str(len(album)) + ')':
                         style 'album_text_short'
-                    
-        action Show('character_gallery', album=album, 
+
+        action Show('character_gallery', album=album,
                                 caption=caption, name=name)
-            
-        
-        
+
+
+
 ## This screen shows individual images unlocked for each character
 screen character_gallery(album, caption, name):
 
     tag menu
     $ num_rows = max(len(album) // 4 + (len(album) % 4 > 0), 1)
 
-    use menu_header('Photo Album', Show('photo_album', Dissolve(0.5))):    
-    
+    use menu_header('Photo Album', Show('photo_album', Dissolve(0.5))):
+
         vbox:
             align (0.5, 1.0)
             xysize (745, 1170)
@@ -499,7 +555,7 @@ screen character_gallery(album, caption, name):
                 else:
                     text name + ' (' + str(len(album)) + ')':
                         style 'album_text_short'
-            
+
             vpgrid id 'gallery_vp':
                 xysize (740, 1100)
                 yfill True
@@ -513,62 +569,60 @@ screen character_gallery(album, caption, name):
                 side_spacing 15
                 align (0.5, 0.0)
                 spacing 20
-                
+
 
                 for index, photo in enumerate(album):
                     imagebutton:
                         idle photo.thumbnail
                         if not photo.seen_in_album and photo.unlocked:
                             foreground 'new_sign'
-                        action If(photo.unlocked,                      
-                            [SetVariable("fullsizeCG", photo.img), 
+                        action If(photo.unlocked,
+                            [SetVariable("fullsizeCG", photo.img),
                             SetField(photo, 'seen_in_album', True),
                             SetVariable('close_visible', True),
                             SetVariable('album_info_for_CG',
                                 [album, caption, name, index]),
-                            Show('viewCG_fullsize_album', album=album, 
+                            Show('viewCG_fullsize_album', album=album,
                                 caption=caption, name=name)],
-                            
-                            Show("confirm", 
-                                    message="This image is not yet unlocked",
-                                    yes_action=Hide('confirm')))                  
-                
+
+                            CConfirm("This image is not yet unlocked"))
+
                 # This fills out the rest of the grid
                 for i in range((4*num_rows) - len(album)):
                     null
- 
+
 style album_text_short:
     align (0.5, 0.5)
     text_align 0.5
     color '#fff'
     font gui.sans_serif_1
     size 30
-    
+
 style album_text_long:
     align (0.5, 0.5)
     text_align 0.5
     color '#fff'
     font gui.sans_serif_1
     size 25
-    
+
 ## Some additional variables specifically used
 ## for the next label and screen
 default album_info_for_CG = []
 default swipe_anim = False
 default prev_cg_right = False
 default prev_cg_left = False
-  
+
 ## This is the screen where you can view a full-sized CG when you
-## click it. It has a working "Close" button that appears/disappears 
+## click it. It has a working "Close" button that appears/disappears
 ## when you click the CG. This particular variant lets the player
-## "swipe" to view the various images without backing out to the 
+## "swipe" to view the various images without backing out to the
 ## album screen to switch between them
 screen viewCG_fullsize_album(album, caption, name):
     zorder 5
     tag menu
-    
+
     use starry_night()
-       
+
     # This draggroup defines two hotspots on the left and
     # right side of the screen to detect which direction
     # the CG has been dragged. 'the_CG' is actually just a
@@ -595,7 +649,7 @@ screen viewCG_fullsize_album(album, caption, name):
             drag_offscreen True
             xalign 0.5
             yalign 0.5
-     
+
     # This slightly repetitive code makes the program
     # animate in the "swipes" as the player goes through
     # the album
@@ -627,7 +681,7 @@ screen viewCG_fullsize_album(album, caption, name):
             add fullsizeCG
     else:
         add fullsizeCG
-        
+
     # Show the close button if it's visible
     if close_visible:
         imagebutton:
@@ -635,15 +689,14 @@ screen viewCG_fullsize_album(album, caption, name):
             yalign 0.0
             focus_mask True
             idle "close_button"
-            action [SetVariable('prev_cg_left', False), 
+            action [SetVariable('prev_cg_left', False),
                     SetVariable('prev_cg_right', False),
-                    Show('character_gallery', album=album, 
+                    Show('character_gallery', album=album,
                         caption=caption, name=name)]
-        
+
         text "Close" style "CG_close":
             if persistent.dialogue_outlines:
-                outlines [ (2, "#000", 
+                outlines [ (2, "#000",
                             absolute(0), absolute(0)) ]
                 font gui.sans_serif_1b
-        
-        
+

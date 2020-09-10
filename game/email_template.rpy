@@ -2,16 +2,16 @@
 ## A TEMPLATE EMAIL GUEST
 ## ****************************************************
 
-default example_guest = Guest("example", 
-## The first string, "example", is what will show up in the 
+default example_guest = Guest("example",
+## The first string, "example", is what will show up in the
 ## email chain as the guest's 'email' e.g. "longcat" shows up
 ## as "@longcat" in the email chain. This is also the variable
 ## you use for reply labels, not the name of the variable
-"Email/Thumbnails/guest_unlock_icon.png",
-## The second string is the image to use for the guest's 
+"Email/Thumbnails/guest_unlock_icon.webp",
+## The second string is the image to use for the guest's
 ## thumbnail. It should be 155x155px
-## Because the variable is 'example_guest', when you want to 
-## invite this person, you will write: call invite(example_guest)
+## Because the variable is 'example_guest', when you want to
+## invite this person, you will write: invite example_guest
 
 ## Initial Message
 """Dear [name],
@@ -32,23 +32,23 @@ From, your example guest""", # don't forget the comma after the quotes
 ## First Message (correct)
 
 """This is what your character will send the guest after selecting the correct
-response to the email. You can use their name in the email by typing [name]""", 
+response to the email. You can use their name in the email by typing [name]""",
 
 ## Reply to correct message
 
-"""This is what the guest will send you after you replied 
+"""This is what the guest will send you after you replied
 to their first email correctly""",
 
 ## Answer -> INCORRECT ANSWER HERE
 ## First Message (incorrect)
 
-"""This is what your character writes to the guest when they 
+"""This is what your character writes to the guest when they
 choose the wrong response""",
 
 ## Reply to incorrect message
-    
+
 """And this is the response the guest will write you after you choose
-the incorrect response. Usually they say something that indicates they 
+the incorrect response. Usually they say something that indicates they
 don't want to go to the party""",
 
 ## SECOND MESSAGE - *Question the guest asked here*
@@ -60,7 +60,7 @@ don't want to go to the party""",
 
 ## Reply to correct message
 
-"""This is the guest's reply to your message after you choose the 
+"""This is the guest's reply to your message after you choose the
 correct response""",
 
 ## Answer -> INCORRECT ANSWER HERE
@@ -70,7 +70,7 @@ correct response""",
 
 ## Reply to incorrect message
 
-"""This is the guest's reply to your message after you choose the 
+"""This is the guest's reply to your message after you choose the
 wrong response""",
 
 ## THIRD MESSAGE - *Question the guest asked here*
@@ -82,8 +82,8 @@ wrong response""",
 
 ## Reply to correct message
 
-"""This is the guest's reply to your message after you chose the 
-correct response. It usually says something about seeing you at 
+"""This is the guest's reply to your message after you chose the
+correct response. It usually says something about seeing you at
 the party, as this is the final message""",
 
 ## Answer -> INCORRECT ANSWER HERE
@@ -93,12 +93,12 @@ the party, as this is the final message""",
 
 ## Reply to incorrect message
 
-"""This is the guest's reply to your message after you choose 
+"""This is the guest's reply to your message after you choose
 the wrong response."""
 
 ## These next fields are optional but used for the guestbook
 ## Large (usually chibi) image for the party, no wider than 315px
-"Email/Guest Images/rainbow_unicorn.png",
+"Email/Guest Images/rainbow_unicorn.webp",
 
 ## Short description about the guest
 "Example Guest, an example guest for this program.",
@@ -106,7 +106,7 @@ the wrong response."""
 ## Personal Info section on the guest
 "Example Guest was made for users to better understand how to create a guest.",
 
-## The ChatCharacter variable of the person who should talk about this 
+## The ChatCharacter variable of the person who should talk about this
 ## guest in the long description
 s,
 
@@ -124,7 +124,7 @@ s,
 "The guest will probably mention something about the party."
 ) # Don't forget a closing bracket at the end
 
-label example_reply1(): 
+label example_reply1():
     # The guest is called "example", so the
     # reply labels will be called
     # example_reply1, example_reply2, and example_reply3
@@ -135,34 +135,34 @@ label example_reply1():
             # Either answer can be correct, not necessarily the first option
             # The program will randomly shuffle the answers when showing
             # them to the user
-            $ current_email.set_reply(True) 
-        
+            $ current_email.set_reply(True)
+
         "Answer 2":
             # Similarly, passing 'False' indicates this was the wrong reply
             # and will fail the email chain
-            $ current_email.set_reply(False)            
-        
+            $ current_email.set_reply(False)
+
     jump email_end # This ensures your response is saved after you reply
-    
-label example_reply2(): 
+
+label example_reply2():
 
     menu:
         "Answer 1":
-            $ current_email.set_reply(True) 
-        
+            $ current_email.set_reply(True)
+
         "Answer 2":
-            $ current_email.set_reply(False)          
-        
+            $ current_email.set_reply(False)
+
     jump email_end
-    
-label example_reply3(): 
+
+label example_reply3():
 
     menu:
         "Answer 1":
-            $ current_email.set_reply(True) 
-        
+            $ current_email.set_reply(True)
+
         "Answer 2":
-            $ current_email.set_reply(False)    
-            
+            $ current_email.set_reply(False)
+
     jump email_end
 

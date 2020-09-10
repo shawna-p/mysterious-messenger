@@ -27,8 +27,12 @@ init -5 python:
             File path to the image used for this character's profile picture.
             Expected size is 110x110. A larger version, up to 314x314 pixels,
             can be provided with the same file name + "-b" e.g. if prof_pic is
-            "ja-default.png", the program searches for a file called
-            "ja-default-b.png" for the big profile picture.
+            "ja-default.webp", the program searches for a file called
+            "ja-default-b.webp" for the big profile picture.
+        bonus_pfp : string
+            File path to the profile picture the player can manually set for
+            this character. It automatically gets priority over their default
+            profile picture.
         participant_pic : string
             File path to the "participant" picture for this character. Used
             on the Timeline screen to indicate this character was present.
@@ -85,14 +89,14 @@ init -5 python:
             name. Used for self-voicing e.g. "seven oh seven"
         """
 
-        def __init__(self, name, file_id=False, prof_pic=False, 
-                participant_pic=False, heart_color='#000000', 
-                cover_pic=False, status=False, bubble_color=False, 
+        def __init__(self, name, file_id=False, prof_pic=False,
+                participant_pic=False, heart_color='#000000',
+                cover_pic=False, status=False, bubble_color=False,
                 glow_color=False, emote_list=False, voicemail=False,
                 right_msgr=False, homepage_pic=False,
                 phone_char=False, vn_char=False,
-                pronunciation_help=False):               
-                
+                pronunciation_help=False):
+
             """
             Creates a ChatCharacter object for use in the messenger.
 
@@ -104,11 +108,11 @@ init -5 python:
                 String appended to file names associated with this character,
                 such as speech bubbles.
             prof_pic : string
-                File path to the image used for this character's profile 
-                picture. Expected size is 110x110. A larger version, up to 
-                314x314 pixels, can be provided with the same file name + "-b" 
-                e.g. if prof_pic is "ja-default.png", the program searches for 
-                a file called "ja-default-b.png" for the big profile picture.
+                File path to the image used for this character's profile
+                picture. Expected size is 110x110. A larger version, up to
+                314x314 pixels, can be provided with the same file name + "-b"
+                e.g. if prof_pic is "ja-default.webp", the program searches for
+                a file called "ja-default-b.webp" for the big profile picture.
             participant_pic : string
                 File path to the "participant" picture for this character. Used
                 on the Timeline screen to indicate this character was present.
@@ -148,43 +152,33 @@ init -5 python:
                 name. Used for self-voicing e.g. "seven oh seven"
             """
 
-
-            self.name = name            
+            self.name = name
             self.file_id = file_id
             self.big_prof_pic = prof_pic
+            self.__prof_pic = False
             self.prof_pic = prof_pic
             self.default_prof_pic = prof_pic
             if not homepage_pic:
                 self.homepage_pic = prof_pic
             else:
                 self.homepage_pic = homepage_pic
-            self.seen_updates = False
-
-            # If the program finds a "big" version of this profile picture,
-            # it uses that when displaying the profile picture at higher
-            # resolutions
-            if self.prof_pic:
-                big_name = self.prof_pic.split('.')
-                large_pfp = big_name[0] + '-b.' + big_name[1]
-                if renpy.loadable(large_pfp):
-                    self.big_prof_pic = large_pfp
-            if self.file_id == 'm':
-                self.prof_pic = store.persistent.MC_pic
+            self.__seen_updates = False
+            self.__bonus_pfp = None
 
             self.participant_pic = participant_pic
             self.cover_pic = cover_pic
             self.status = status
             if voicemail:
-                self.__voicemail = PhoneCall(self, voicemail, 'voicemail', 
+                self.__voicemail = PhoneCall(self, voicemail, 'voicemail',
                                             2, True)
             else:
-                self.__voicemail = PhoneCall(self, 
+                self.__voicemail = PhoneCall(self,
                                     'voicemail_1', 'voicemail', 2, True)
 
             # All heart points start at 0
-            self.heart_points = 0  
-            self.good_heart = 0
-            self.bad_heart = 0
+            self.__heart_points = 0
+            self.__good_heart = 0
+            self.__bad_heart = 0
             self.heart_color = heart_color
             self.glow_color = glow_color
             self.bubble_color = bubble_color
@@ -192,47 +186,47 @@ init -5 python:
 
             if self.file_id:
                 if not self.bubble_color:
-                    reg_bub_img = "Bubble/" + self.file_id + "-Bubble.png"
+                    reg_bub_img = "Bubble/" + self.file_id + "-Bubble.webp"
                     # This person is the messenger; typically MC
-                    if self.right_msgr: 
+                    if self.right_msgr:
                         reg_bub_img = Transform(reg_bub_img, xzoom=-1)
                         self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
                     else:
                         self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
                 else:
                     reg_bub_img = reg_bubble_fn(self.bubble_color)
-                    if self.right_msgr: 
+                    if self.right_msgr:
                         reg_bub_img = Transform(reg_bub_img, xzoom=-1)
                         self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
                     else:
                         self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
 
                 if not self.glow_color:
-                    glow_bub_img = "Bubble/" + self.file_id + "-Glow.png"
+                    glow_bub_img = "Bubble/" + self.file_id + "-Glow.webp"
                     self.glow_bubble_img = Frame(glow_bub_img, 25,25)
                 else:
                     self.glow_bubble_img = Frame(
                         glow_bubble_fn(self.glow_color), 25, 25
                     )
             else:
-                self.reg_bubble_img = Frame("Bubble/white-Bubble.png", 
+                self.reg_bubble_img = Frame("Bubble/white-Bubble.webp",
                                             25,18,18,18)
-                self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.png",
+                self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.webp",
                                             25,25)
 
             self.emote_list = emote_list
-            
-            self.text_msg = TextMessage()
+
+            self.text_msg = TextMessage(self)
             self.real_time_text = False
 
             if phone_char:
                 self.phone_char = phone_char
             else:
-                self.phone_char = store.phone_character
+                self.phone_char = Character(self.name, kind=phone_character)
             if vn_char:
                 self.vn_char = vn_char
             else:
-                self.vn_char = store.narrator
+                self.vn_char = Character(self.name, kind=vn_character)
 
             if pronunciation_help:
                 self.p_name = pronunciation_help
@@ -242,7 +236,7 @@ init -5 python:
             # Any initialized character should go in all_characters
             if self not in store.all_characters and self.prof_pic:
                 store.all_characters.append(self)
-            
+
         @property
         def voicemail(self):
             """Return this character's voicemail PhoneCall object."""
@@ -252,7 +246,7 @@ init -5 python:
         def voicemail(self, new_label):
             """Update this character's voicemail label."""
             self.__voicemail.phone_label = new_label
-                        
+
         def finished_text(self):
             """
             Reset the text message label after the conversation is complete.
@@ -260,26 +254,120 @@ init -5 python:
 
             self.text_msg.reply_label = False
 
-        ## Adds a heart point to the character -- good or bad
-        ## depending on the second argument
+        @property
+        def heart_points(self):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    return store.r.heart_points
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            return self.__heart_points
+
+        @heart_points.setter
+        def heart_points(self, points):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.heart_points = points
+                    return
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            self.__heart_points = points
+
+        @property
+        def good_heart(self):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    return store.r.good_heart
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            return self.__good_heart
+
+        @good_heart.setter
+        def good_heart(self, points):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.good_heart = points
+                    return
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
+            self.__good_heart = points
+
+        @property
+        def bad_heart(self):
+
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    return store.r.bad_heart
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+            return self.__bad_heart
+
+        @bad_heart.setter
+        def bad_heart(self, points):
+            # Try to sync Saeran and Ray's heart points
+            try:
+                if self == store.sa:
+                    store.r.bad_heart = points
+                    return
+            except:
+                print("ERROR: Couldn't sync Saeran and Ray's heart points")
+            self.__bad_heart = points
+
         def increase_heart(self, bad=False):
             """
             Add a heart point to this character's total. Good heart points
             count towards good ends and bad points towards bad ends.
             """
 
+            if self == store.sa:
+                try:
+                    store.r.increase_heart(bad)
+                    return
+                except:
+                    print("ERROR: Couldn't sync Saeran and Ray's heart points")
+
             self.heart_points += 1
             if not bad:
                 self.good_heart += 1
             else:
                 self.bad_heart += 1
-        
+
+            # All hearts count towards spendable hearts
+            if self.file_id not in store.persistent.spendable_hearts:
+                store.persistent.spendable_hearts[self.file_id] = 1
+            else:
+                store.persistent.spendable_hearts[self.file_id] += 1
+
+
         def decrease_heart(self):
             """Decrement the good heart points for this character."""
 
+            if self == store.sa:
+                # Try to sync Saeran and Ray's heart points
+                try:
+                    if self == store.sa:
+                        store.r.decrease_heart()
+                        return
+                except:
+                    print_file("Couldn't sync Saeran and Ray's heart points.")
+
+
             self.heart_points -= 1
             self.good_heart -= 1
-            
+
         def reset_heart(self):
             """Reset all heart points for this character."""
 
@@ -288,11 +376,29 @@ init -5 python:
             self.bad_heart = 0
 
         @property
+        def bonus_pfp(self):
+            """Return this character's bonus profile picture."""
+
+            try:
+                return self.__bonus_pfp
+            except:
+                return False
+
+        @bonus_pfp.setter
+        def bonus_pfp(self, new_img):
+            """Set the bonus profile picture for this character."""
+
+            try:
+                self.__bonus_pfp = new_img
+            except:
+                return
+
+        @property
         def prof_pic(self):
             """Return this character's profile picture."""
 
             return self.__prof_pic
-            
+
         @prof_pic.setter
         def prof_pic(self, new_img):
             """
@@ -303,9 +409,12 @@ init -5 python:
 
             if new_img == False:
                 self.__prof_pic = False
-            elif isImg(new_img):            
+                return
+            elif isImg(new_img):
                 self.__prof_pic = new_img
                 self.seen_updates = False
+            elif isImg(new_img.split('.')[0] + '.webp'):
+                self.__prof_pic = new_img.split('.')[0] + '.webp'
 
             if self.file_id == 'm': # This is the MC
                 self.__prof_pic = store.persistent.MC_pic
@@ -316,26 +425,59 @@ init -5 python:
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     self.__big_prof_pic = large_pfp
-        
+                elif renpy.loadable(big_name[0] + '-b.webp'):
+                    self.big_prof_pic = big_name[0] + '-b.webp'
+
+            # Add this profile picture to the persistent list of profile
+            # pictures the player has seen.
+            if self.file_id == 'm':
+                return
+
+            if (store.persistent.unlocked_prof_pics is None
+                    or not isinstance(store.persistent.unlocked_prof_pics, set)):
+                store.persistent.unlocked_prof_pics = set()
+            if not self.__prof_pic in store.persistent.unlocked_prof_pics:
+                store.persistent.unlocked_prof_pics.add(
+                    self.__prof_pic)
+
+
         def get_pfp(self, the_size):
             """
             Return the large or small profile picture depending
             on the_size, resized to the given size.
             """
 
+            max_small = 110 * 1.5
+            # If this character has a bonus_pfp, it gets priority
+            try:
+                the_pic = self.__bonus_pfp
+            except AttributeError:
+                the_pic = False
+
+            # Make sure MC's pic is up to date
+            if self == store.m:
+                self.prof_pic = store.persistent.MC_pic
+
+            if the_pic and the_size <= max_small:
+                return Transform(the_pic, size=(the_size, the_size))
+            elif the_pic:
+                # Check for a larger version
+                big_name = the_pic.split('.')
+                large_pfp = big_name[0] + '-b.' + big_name[1]
+                if renpy.loadable(large_pfp):
+                    return Transform(large_pfp, size=(the_size, the_size))
+                else:
+                    return Transform(the_pic, size=(the_size, the_size))
+
+
             # Regular profile pic is 110x110
             # Big pfp is 314x314
-            max_small = 110 * 1.5
-            if self != store.m:
-                if the_size <= max_small:
-                    return Transform(self.__prof_pic, 
-                                    size=(the_size, the_size))
-                else:
-                    return Transform(self.__big_prof_pic, 
-                                    size=(the_size, the_size))
+            if the_size <= max_small:
+                return Transform(self.__prof_pic,
+                                size=(the_size, the_size))
             else:
-                return Transform(store.persistent.MC_pic, 
-                                    size=(the_size, the_size))
+                return Transform(self.__big_prof_pic,
+                                size=(the_size, the_size))
 
         def reset_pfp(self):
             """
@@ -344,7 +486,7 @@ init -5 python:
             """
 
             self.prof_pic = self.default_prof_pic
-        
+
         @property
         def cover_pic(self):
             """Return this character's cover photo."""
@@ -360,12 +502,12 @@ init -5 python:
             elif isImg(new_img):
                 self.__cover_pic = new_img
                 self.seen_updates = False
-            
+
         @property
         def status(self):
             """Set this character's status update."""
-            
-            return self.__status 
+
+            return self.__status
 
         @status.setter
         def status(self, new_status):
@@ -386,7 +528,7 @@ init -5 python:
         @seen_updates.setter
         def seen_updates(self, new_bool):
             """Set seen_updates."""
-            
+
             self.__seen_updates = new_bool
 
         @property
@@ -404,7 +546,7 @@ init -5 python:
         @property
         def text_label(self):
             """
-            Return the label used to reply to a text message with 
+            Return the label used to reply to a text message with
             this character.
             """
 
@@ -436,7 +578,7 @@ init -5 python:
             self.text_msg.msg_list.append(ChatEntry(who, what,
                 when, img))
             self.text_msg.read = True
-            
+
         def do_extend(self, **kwargs):
             """
             Allow this ChatCharacter object to act as a proxy for the
@@ -448,7 +590,7 @@ init -5 python:
             elif store.vn_choice:
                 self.vn_char.do_extend()
 
-        def __call__(self, what, pauseVal=None, img=False, 
+        def __call__(self, what, pauseVal=None, img=False,
                     bounce=False, specBubble=None, **kwargs):
             """
             Send this character's dialogue to the program.
@@ -472,11 +614,32 @@ init -5 python:
             -------
             If the player is in a phone call, this ChatCharacter's phone call
             Character will be used to say the given dialogue. If the player
-            is in VN mode, use this ChatCharacter's VN Character to say the 
+            is in VN mode, use this ChatCharacter's VN Character to say the
             given dialogue. If the player is texting, add the given dialogue
             to the text message conversation. Otherwise, add these messages
             to the chat log and also to the replay log.
             """
+
+            # Check if we just got out of a menu and there's dialogue
+            # for the main character
+            if (self != store.m and not store.dialogue_paraphrase
+                    and store.dialogue_picked != ""):
+                say_choice_caption(store.dialogue_picked,
+                    store.dialogue_paraphrase, store.dialogue_pv)
+
+            if self == store.m and not kwargs.get('from_paraphrase', None):
+                # This didn't come from `say_choice_caption`, but the MC is
+                # speaking. Is this the same dialogue that was going to be
+                # posted?
+                # print("what =", what, "dialogue_picked =", store.dialogue_picked)
+                if what == store.dialogue_picked:
+                    # Clear the stored no-paraphrase items
+                    store.dialogue_picked = ""
+                    store.dialogue_paraphrase = store.paraphrase_choices
+                    store.dialogue_pv = 0
+                    # If paraphrase_choices is None, set it to True
+                    if store.paraphrase_choices is None:
+                        store.paraphrase_choices = True
 
 
             # Allows you to still use this object even in phone
@@ -504,17 +667,9 @@ init -5 python:
                     addtext_realtime(self, what, pauseVal=pauseVal, img=img)
                 # If they're not in the midst of a text conversation,
                 # this is "backlog"
-                elif store.text_person.real_time_text:
-                    if not self.right_msgr:
-                        store.text_person.text_msg.notified = False
-                    if img and "{image" not in what:
-                        cg_helper(what, self, False)
-                    store.text_person.text_msg.msg_list.append(ChatEntry(
-                        self, what, upTime(), img))
-                # Otherwise this is a regular text conversation and
-                # is added all at once
                 else:
                     addtext(self, what, img)
+                return
             else:
                 # Make sure the player isn't observing; otherwise add
                 # entries to the replay_log
@@ -523,22 +678,199 @@ init -5 python:
                     # For replays, MC shouldn't reply instantly
                     if self.right_msgr and new_pv == 0:
                         new_pv = None
-                    store.current_chatroom.replay_log.append(ReplayEntry(
+                    store.current_timeline_item.replay_log.append(ReplayEntry(
                         self, what, new_pv, img, bounce, specBubble))
-                    
-                addchat(self, what, pauseVal=pauseVal, img=img, 
+
+                addchat(self, what, pauseVal=pauseVal, img=img,
                             bounce=bounce, specBubble=specBubble)
-    
+
         def __eq__(self, other):
             """Check for equality between two ChatCharacter objects."""
 
             if not isinstance(other, ChatCharacter):
                 return False
             return self.file_id == other.file_id
-        
+
         def __ne__(self, other):
             """Check for inequality between two ChatCharacter objects."""
 
             if not isinstance(other, ChatCharacter):
                 return True
             return self.file_id != other.file_id
+
+    def register_pfp(files=None, condition='seen', folder="", ext="",
+            filter_out=None, filter_keep=None):
+        """
+        Return a list of (folder + file + ext, condition) tuples. Used to
+        construct the list of profile pictures the user is allowed to change
+        the characters' picture to.
+
+        Arguments:
+        ----------
+        files : string[] or string
+            List of file paths that lead to a profile picture image.
+        condition : string
+            String that evaluates to a python condition which will be used
+            to determine whether this image is unlocked or not. The default,
+            'seen', evaluates whether or not this image has been seen by the
+            player as a CG or a profile picture.
+        folder : string
+            Folder for where to find this file, e.g. "Profile Pics/Jaehee/".
+            Automatically prepended to each file name when searching.
+        ext : string
+            Extension for this file e.g. "png". Automatically appended to each
+            file name when searching.
+        filter_out : string
+            If included, searches through files in `folder` that do *not*
+            contain filter_out.
+        filter_keep : string
+            If included, searches through files in `folder` that *do* contain
+            filter_keep.
+        """
+
+        if len(folder) > 0 and folder[-1] != "/":
+            folder += "/"
+        if len(ext) > 0 and ext[0] != ".":
+            ext = "." + ext
+        result = []
+
+        if filter_out is None and filter_keep is None:
+            if not isinstance(files, list):
+                # Just a single item
+                item = folder + files + ext
+                if isImg(item):
+                    return [ (folder + files + ext, condition)]
+                else:
+                    print("WARNING: " + item + " is not recognized as an "
+                        + "image file.")
+                    renpy.show_screen('script_error',
+                        message=(item + " is not recognized as an image file."))
+                    return
+            # Otherwise, iterate through the list
+            for file in files:
+                item = folder + file + ext
+                if isImg(item):
+                    result.append((item, condition))
+                else:
+                    print("WARNING: " + item + " is not recognized as an "
+                        + "image file.")
+                    renpy.show_screen('script_error',
+                        message=(item + " is not recognized as an image file."))
+            return result
+
+        # Otherwise, one of the filter conditions is True
+        file_list = [ pic for pic in renpy.list_files() if folder in pic
+            and isImg(pic) ]
+        # Filter by extension, if available
+        if ext:
+            result = [ pic for pic in file_list if ext in pic ]
+        else:
+            result = file_list
+
+        if filter_out is None:
+            # Just filter_keep
+            file_list = [ pic for pic in result if filter_keep in pic ]
+        elif filter_keep is None:
+            # Just filter_out
+            file_list = [ pic for pic in result if filter_out not in pic ]
+        else:
+            # Both
+            file_list = [ pic for pic in result if (filter_out not in pic
+                and filter_keep in pic) ]
+
+        # Now construct an (item, condition) tuple out of each item
+        result = []
+        if len(file_list) > 0:
+            for item in file_list:
+                if item[:7] == 'images/':
+                    result.append((item[7:], condition))
+                else:
+                    result.append((item, condition))
+        return result
+
+    def change_mc_pfp_callback():
+        """
+        Function that is called whenever the main character changes their
+        profile picture.
+        """
+
+        print_file("Calling the pfp callback")
+        if not store.mc_pfp_callback:
+            return
+
+        if store.mc_pfp_time is None:
+            time_diff = None
+        elif store.mc_previous_pfp is None:
+            store.mc_previous_pfp = store.persistent.MC_pic
+            time_diff = None
+        elif store.mc_previous_pfp == store.persistent.MC_pic:
+            # Picture wasn't changed
+            time_diff = None
+        else:
+            time_diff = upTime().datetime - store.mc_pfp_time.datetime
+        store.mc_pfp_time = upTime()
+
+        # Find whose profile picture this is
+        who = None
+        for chara in store.all_characters:
+            try:
+                pfp_list = [img for img, cond in getattr(store, chara.file_id + '_unlockable_pfps')]
+                print_file("Looking at", chara.file_id,"unlockable pfps")
+                if (store.persistent.MC_pic in pfp_list):
+                    who = chara
+                    break
+                elif ('images/' in store.persistent.MC_pic
+                        and store.persistent.MC_pic[7:] in pfp_list):
+                    who = chara
+                    break
+            except:
+                print_file("Couldn't look at", chara.file_id)
+                continue
+        old_pfp = store.mc_previous_pfp
+        store.mc_previous_pfp = store.persistent.MC_pic
+
+        # No time passed since the picture was last changed
+        if time_diff is None:
+            return
+
+        # Wrap the time diff in a MyTimeDelta object
+        time_diff = MyTimeDelta(time_diff)
+
+        try:
+            lbl = store.mc_pfp_callback(time_diff, old_pfp, who)
+        except:
+            print("WARNING: Could not use mc_pfp_callback. Do you have at",
+                "least three function parameters?")
+            renpy.show_screen('script_error',
+                message="Could not use mc_pfp_callback. Do you have at least"
+                    + " three function parameters?")
+            return
+        if not lbl:
+            return
+        # Otherwise, got a label to jump to. Only jump to it if it hasn't
+        # been seen in this playthrough (or if testing mode is on).
+        # First, check if the returned label is a list
+        if not isinstance(lbl, list):
+            lbl = [lbl]
+        for l in lbl:
+            if renpy.has_label(l) and (store.persistent.testing_mode
+                    or l not in store.seen_pfp_callbacks):
+                store.seen_pfp_callbacks.add(l)
+                renpy.call_in_new_context(l)
+                return
+        return
+
+# The time the main character's profile picture was last changed at
+default mc_pfp_time = None
+# The previous picture the player had before the current one
+default mc_previous_pfp = None
+# Contains all the profile pictures you've seen in the game
+default persistent.unlocked_prof_pics = set()
+# Contains the profile pictures the player has purchased with heart points
+default persistent.bought_prof_pics = set()
+# Contains a dictionary of the heart points the player has to spend on
+# each character
+default persistent.spendable_hearts = {}
+# This holds a list of the labels the program has already jumped to during
+# profile picture callbacks
+default seen_pfp_callbacks = set()

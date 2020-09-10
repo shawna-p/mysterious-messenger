@@ -22,7 +22,7 @@ init -4 python:
             speech bubble.
         """
 
-        def __init__(self, who, what, thetime, img=False, 
+        def __init__(self, who, what, thetime, img=False,
                         bounce=False, specBubble=None):
             """
             Creates a ChatEntry object to display a message in the messenger.
@@ -36,22 +36,23 @@ init -4 python:
             thetime : MyTime
                 MyTime object containing the time the message was sent at.
             img : bool
-                True if this message contains an image, such as an emoji 
+                True if this message contains an image, such as an emoji
                 or a CG.
             bounce : bool
                 True if this message should 'bounce' when it animates in.
                 Used for glowing and special speech bubble variants.
-            specBubble : string or Nonee
+            specBubble : string or None
                 String containing part of the image path to the relevant
-                speech bubble.            
+                speech bubble.
             """
-            
+
             self.who = who
             self.what = what
             self.thetime = thetime
             self.img = img
             self.bounce = bounce
             self.specBubble = specBubble
+
 
         @property
         def name_style(self):
@@ -70,7 +71,7 @@ init -4 python:
                 return 'chat_name_frame_MC'
             else:
                 return 'chat_name_frame'
-        
+
         @property
         def has_new(self):
             """Return True if this message should have a NEW sign."""
@@ -85,11 +86,11 @@ init -4 python:
 
         def msg_animation(self, anti):
             """Return the animation used for this message."""
-            
+
             if anti and self.bounce:
                 return invisible_bounce
             elif anti:
-                return invisible            
+                return invisible
             elif self.bounce:
                 return incoming_message_bounce
             else:
@@ -103,22 +104,61 @@ init -4 python:
                 return 'MC_profpic'
             else:
                 return 'profpic'
-        
+
+        @property
+        def reg_text_style(self):
+            """Return the style used for regular text messages."""
+
+            if self.who.right_msgr:
+                return 'text_msg_mc_fixed'
+            else:
+                return 'text_msg_npc_fixed'
+
+        @property
+        def text_bubble_style(self):
+            """Return the style used for regular text message bubbles."""
+
+            if self.who.right_msgr:
+                return 'reg_bubble_MC_text'
+            else:
+                return 'reg_bubble_text'
+
+        @property
+        def text_img_style(self):
+            """Return the style used for images in text messages."""
+
+            if self.who.right_msgr:
+                return 'mc_img_text_message'
+            else:
+                return 'img_text_message'
+
         @property
         def bubble_style(self):
             """Return the style used for regular bubbles."""
 
             if self.who.right_msgr:
-                return 'reg_bubble_MC'            
+                return 'reg_bubble_MC'
             elif not self.specBubble and not self.bounce:
                 return 'reg_bubble'
             elif not self.specBubble and self.bounce:
                 return 'glow_bubble'
             elif self.specBubble == "glow2":
                 return 'glow_bubble'
-            
-            # Otherwise, there is a special bubble            
+
+            # Otherwise, there is a special bubble
             bubble_style = self.specBubble
+
+            # Allow for custom bubble styling
+            try:
+                custom_style = custom_bubble_style(self)
+                if custom_style:
+                    return custom_style
+            except:
+                print("WARNING: Could not evaluate the function 'custom_"
+                    + "bubble_style'.")
+                renpy.show_screen('script_error',
+                        message=("Could not evaluate the function 'custom_"
+                            + "bubble_style'."))
 
             # Multiple round/square variants have the same styling as
             # the original round/square bubble
@@ -127,9 +167,9 @@ init -4 python:
 
             if self.specBubble[:6] == "round2":
                 bubble_style = "round_" + self.specBubble[-1:]
-            elif self.specBubble[:7] == "square2":                
+            elif self.specBubble[:7] == "square2":
                 bubble_style = "square_" + self.specBubble[-1:]
-            
+
             return self.who.file_id + '_' + bubble_style
 
         @property
@@ -144,7 +184,19 @@ init -4 python:
             elif self.specBubble[:7] == "square2":
                 bubble_style = "square_" + self.specBubble[-1:]
             bubble_style += '_offset'
-            
+
+            # Allow for custom bubble styling
+            try:
+                custom_offset = custom_bubble_offset(self)
+                if custom_offset:
+                    return custom_offset
+            except:
+                print("WARNING: Could not evaluate the function 'custom_"
+                    + "bubble_offset'.")
+                renpy.show_screen('script_error',
+                        message=("Could not evaluate the function 'custom_"
+                            + "bubble_offset'."))
+
             ## Rule exceptions
             full_style = self.who.file_id + '_' + self.specBubble
             if full_style == 'ju_cloud_l':
@@ -202,8 +254,6 @@ init -4 python:
             elif full_style == 'z_flower_l':
                 return (115, 10)
 
-
-
             return getattr(store.gui, bubble_style)
 
 
@@ -220,14 +270,26 @@ init -4 python:
         def bubble_bg(self):
             """Return the background used for this bubble."""
 
+            # Allow for custom bubble backgrounds
+            try:
+                custom_bg = custom_bubble_bg(self)
+                if custom_bg:
+                    return custom_bg
+            except:
+                print("WARNING: Could not evaluate the function 'custom_"
+                    + "bubble_bg'.")
+                renpy.show_screen('script_error',
+                        message=("Could not evaluate the function 'custom_"
+                            + "bubble_bg'."))
+
             # If this is a special bubble, set the background to said bubble
             if self.specBubble and self.specBubble != 'glow2':
-                return ("Bubble/Special/" + self.who.file_id + "_" 
-                    + self.specBubble + ".png")
+                return ("Bubble/Special/" + self.who.file_id + "_"
+                    + self.specBubble + ".webp")
             # Special case for the second glowing bubble variant
             elif self.specBubble and self.specBubble == 'glow2':
-                return Frame("Bubble/Special/" + self.who.file_id 
-                    + "_" + self.specBubble + ".png", 25, 25)
+                return Frame("Bubble/Special/" + self.who.file_id
+                    + "_" + self.specBubble + ".webp", 25, 25)
             # Glow bubble
             elif self.bounce:
                 return self.who.glow_bubble_img
@@ -246,7 +308,7 @@ init -4 python:
             if self.img:
                 return self.who.p_name + " sent a photo"
             else:
-                return renpy.filter_text_tags(self.what, 
+                return renpy.filter_text_tags(self.what,
                                     allow=gui.history_allow_tags)
 
         def alt_who(self, anti):
@@ -262,8 +324,8 @@ init -4 python:
             """Return the width of this dialogue."""
 
             return int(Text(self.what).size()[0])
-            
-            
+
+
 
 
     class ReplayEntry(renpy.store.object):
@@ -303,14 +365,14 @@ init -4 python:
             pauseVal : float or None
                 Stores the pauseVal multiplier for this particular message.
             img : bool
-                True if this message contains an image, such as an emoji 
+                True if this message contains an image, such as an emoji
                 or a CG.
             bounce : bool
                 True if this message should 'bounce' when it animates in.
                 Used for glowing and special speech bubble variants.
             specBubble : string or Nonee
                 String containing part of the image path to the relevant
-                speech bubble.            
+                speech bubble.
             """
 
             self.who = who
@@ -322,7 +384,7 @@ init -4 python:
 
     ##************************************
     ## For ease of adding Chatlog entries
-    ##************************************   
+    ##************************************
 
     def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
         """
@@ -339,7 +401,7 @@ init -4 python:
         pauseVal : float or None
             Stores the pauseVal multiplier for this particular message.
         img : bool
-            True if this message contains an image, such as an emoji 
+            True if this message contains an image, such as an emoji
             or a CG.
         bounce : bool
             True if this message should 'bounce' when it animates in.
@@ -349,6 +411,7 @@ init -4 python:
             speech bubble.
 
         Result:
+        -------
             A new entry is added to the chatlog.
         """
 
@@ -356,7 +419,7 @@ init -4 python:
         global persistent, cg_testing
         choosing = False
         pre_choosing = False
-                
+
         # If the program didn't get an explicit pauseVal,
         # use the default one
         if pauseVal is None:
@@ -364,37 +427,42 @@ init -4 python:
         else:
             pauseVal *= pv
 
+        # If this is the first message after "filler", it gets a pv of 0
+        if (len(store.chatlog) > 0
+                and store.chatlog[-1].who.name == 'filler'):
+            pauseVal = 0.1
+        elif who.name == 'filler':
+            pauseVal = 0
+
         # Now check to see if the most recent message was skipped
         # Pausing in the middle of the chat often causes the
         # program to skip a message, and this will catch that
         if who.file_id != 'delete':
-            pauseFailsafe() # This ensures the message that was
-                            # supposed to be posted was, in fact,
-                            # posted
+            pauseFailsafe() # This ensures the message that was supposed to
+                            # be posted was, in fact, posted
             # Store the current message in the backup
-            chatbackup = ChatEntry(who, what, upTime(), 
+            chatbackup = ChatEntry(who, what, upTime(),
                                     img, bounce, specBubble)
             oldPV = pauseVal
-            
-        # Now calculate how long to wait before 
+
+        # Now calculate how long to wait before
         # posting messages to simulate typing time
         if pauseVal == 0:
             pass
         elif who.file_id == 'delete':
-            renpy.pause(pv)
+            messenger_pause(pv)
+            return
+        elif who.name in ['msg', 'filler']:
+            messenger_pause(pauseVal, True)
         else:
-            typeTime = what.count(' ') + 1 # equal to the # of words
-            # Since average reading speed is 200 wpm or 3.3 wps
-            typeTime = typeTime / 3
-            if typeTime < 1.5:
-                typeTime = 1.5
+            typeTime = calculate_type_time(what)
             typeTime = typeTime * pauseVal
-            renpy.pause(typeTime)
-            
+            messenger_pause(typeTime, True)
+
         # If it's an image, first check if it's an emoji
         # If so, it has an associated sound file
         if img:
-            # Try to adjust the {image=seven_wow} etc statement to 
+            # Try to adjust the {image=seven_wow} etc statement to
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')
@@ -406,17 +474,35 @@ init -4 python:
             elif "{image" not in what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
-        
+
         # Some special bubbles will award the player with a heart icon
         award_hourglass(specBubble)
 
-
         # Add this entry to the chatlog
-        chatlog.append(ChatEntry(who, what, upTime(), 
+        chatlog.append(ChatEntry(who, what, upTime(),
                             img, bounce, specBubble))
         # Create a rollback checkpoint
         renpy.checkpoint()
-        
+
+    def calculate_type_time(what):
+        """Return the length of time to pause for 'what'."""
+
+        typeTime = what.count(' ') + 1 # equal to the # of words
+        # Since average reading speed is 200 wpm or 3.3 wps
+        typeTime = typeTime / 3
+        if typeTime < 1.5:
+            typeTime = 1.5
+        return typeTime
+
+    def messenger_pause(length, actually_wait=False):
+        """Pause for length, unless skipping."""
+
+        if actually_wait and renpy.is_skipping():
+            renpy.pause(0.1)
+            return
+        if not renpy.is_skipping():
+            renpy.pause(length)
+
     def award_hourglass(specBubble):
         """Show the hourglass icon and award the player a heart point."""
 
@@ -426,10 +512,10 @@ init -4 python:
 
         # Don't give HG when rewatching a chatroom, or not participating,
         # or if receiving hourglasses is turned off
-        if (store.observing or store.current_chatroom.expired
+        if (store.observing or store.current_timeline_item.currently_expired
                 or not store.persistent.receive_hg):
             return
-        
+
         if store.hourglass_bag.draw():
             if not persistent.animated_icons:
                 renpy.show_screen(allocate_notification_screen(True),
@@ -437,15 +523,17 @@ init -4 python:
             else:
                 renpy.show_screen(allocate_hg_screen())
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
-            store.chatroom_hg += 1
-        
+            store.collected_hg += 1
+
+        # Hourglass awards are pseudo-random. The program draws from a 'bag'
+        # that contains 10 choices, two of which are True. If it gets True,
+        # it shows an hourglass. If all the True options are gone, even if
+        # there are many False options left, it resets the bag.
         if True not in store.hourglass_bag.bag:
             store.hourglass_bag.new_choices([ False for i in range(8) ]
                 + [True for i in range(2) ])
 
 
-
-        
 
     def pauseFailsafe():
         """
@@ -465,12 +553,12 @@ init -4 python:
                 return
         elif last_chat.who == filler:
             return
-                
-        if (last_chat.who.file_id == chatbackup.who.file_id 
+
+        if (last_chat.who.file_id == chatbackup.who.file_id
                 and last_chat.what == chatbackup.what):
             # the last entry was successfully added; return
             return
-       
+
         # add the backup entry to the chatlog
         if reply_instant:
             reply_instant = False
@@ -480,8 +568,8 @@ init -4 python:
             if typeTime < 1.5:
                 typeTime = 1.5
             typeTime = typeTime * oldPV
-            renpy.pause(typeTime)
-        
+            messenger_pause(typeTime, True)
+
         if chatbackup.img:
             if "{image =" in chatbackup.what:
                 first, last = chatbackup.what.split('=')
@@ -493,100 +581,13 @@ init -4 python:
             elif "{image" not in chatbackup.what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
-            
+
         award_hourglass(chatbackup.specBubble)
 
-        chatlog.append(ChatEntry(chatbackup.who, chatbackup.what, 
-                                    upTime(), chatbackup.img, 
-                                    chatbackup.bounce, 
+        chatlog.append(ChatEntry(chatbackup.who, chatbackup.what,
+                                    upTime(), chatbackup.img,
+                                    chatbackup.bounce,
                                     chatbackup.specBubble))
-
-    def post_chat_actions(deliver_messages=True):
-        """
-        Send emails, deliver text messages and phone calls, and set
-        current chatroom status as appropriate.
-        """
-
-        global current_chatroom, persistent
-
-        # Mark this chatroom as played, if applicable
-        if not current_chatroom.played:
-            current_chatroom.played = True
-            # Add this label to the list of completed labels for the History
-            if current_chatroom.expired and not current_chatroom.buyback:
-                persistent.completed_chatrooms[
-                    current_chatroom.expired_chat] = True
-                current_chatroom.participated = False
-            else:
-                persistent.completed_chatrooms[
-                    current_chatroom.chatroom_label] = True
-                current_chatroom.participated = True
-            # This is the most recent chatroom if the player didn't
-            # buy it back to play through it and it isn't the intro
-            if not store.starter_story and not current_chatroom.buyback:
-                store.most_recent_chat = current_chatroom
-
-        # Otherwise if this was a VN, mark it as played
-        elif (current_chatroom.vn_obj 
-                and not current_chatroom.vn_obj.played
-                and current_chatroom.vn_obj.available):
-            current_chatroom.vn_obj.played = True
-            # Add this label to the list of completed labels
-            persistent.completed_chatrooms[
-                current_chatroom.vn_obj.vn_label] = True
-
-        # If the chatroom has expired or was bought back, then its
-        # post-chatroom content will have already been delivered
-        if not current_chatroom.expired and not current_chatroom.buyback:
-            # Check if there is a VN section; call after_ label if not
-            # or if the VN has been played through
-            if (deliver_messages and renpy.has_label('after_'
-                        + current_chatroom.chatroom_label)
-                    and (not current_chatroom.vn_obj
-                        or current_chatroom.vn_obj.played)):
-                # Call this chatroom's after_ label
-                call_after_label(current_chatroom.chatroom_label,
-                    current_chatroom.expired)
-                # Deliver calls
-                deliver_calls(current_chatroom.chatroom_label)
-            
-        # Deliver emails and trigger the next chatroom
-        deliver_emails()   
-        next_chatroom()
-        hide_all_popups()
-        # Make sure any images shown are unlocked
-        check_for_CGs(store.all_albums)
-        renpy.retain_after_load()
-        # Check to see if the honey buddha chips should be available
-        if not store.chips_available:
-            store.chips_available = store.hbc_bag.draw()
-        renpy.music.stop()
-                        
-    
-    def call_after_label(the_label, expired):
-        """Call the after_ label, with was_expired set appropriately."""
-
-        store.was_expired = expired
-        renpy.call('after_' + the_label)
-        store.was_expired = False
-
-    def reset_chatroom_vars():
-        """Reset variables and hide screens after a chatroom."""
-
-        config.skipping = False
-        store.choosing = False
-        store.observing = False
-        renpy.hide_screen('phone_overlay')
-        renpy.hide_screen('save_and_exit')
-        renpy.hide_screen('play_button')
-        renpy.hide_screen('answer_button')
-        renpy.hide_screen('pause_button')
-        renpy.hide_screen('messenger_screen')
-        renpy.hide_screen('animated_bg')
-        renpy.hide_screen('vn_overlay')
-        hide_all_popups()
-        renpy.music.stop()
-
 
 define chat_speed_increment = 0.15
 
@@ -596,54 +597,28 @@ init python:
     def slow_pv():
         global pv
         if pv <= 1.3:
-            pv += store.chat_speed_increment  
+            pv += store.chat_speed_increment
         return
-        
+
     def fast_pv():
         global pv
         if pv >= 0.3:
             pv -= store.chat_speed_increment
         return
 
-    def heart_icon(character):
-        """
-        Dynamically recolour the heart icon to the colour associated with
-        this character.
-        """
-
-        if character.heart_color:
-            return im.MatrixColor("Heart Point/Unknown Heart Point.png", 
-                    im.matrix.colorize("#000000", character.heart_color))
-        else:
-            return "Heart Point/Unknown Heart Point.png"
-        
-    def heart_break_img(picture, character):
-        """
-        Dynamically recolour the heartbreak icon to the colour associated
-        with this character.
-        """
-
-        if character.heart_color:
-            return im.MatrixColor(picture, 
-                    im.matrix.colorize("#000000", character.heart_color))
-        else:
-            return "Heart Point/heartbreak_0.png"
-        
     def glow_bubble_fn(glow_color='#000'):
         """Recolour a generic glowing bubble with the given colour."""
-        
-        return im.MatrixColor('Bubble/Special/sa_glow2.png', 
+
+        return im.MatrixColor('Bubble/Special/sa_glow2.webp',
                             im.matrix.colorize(glow_color, '#fff'))
-    
+
     def reg_bubble_fn(bubble_color='#000'):
         """Recolour a generic message bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/white-Bubble.png', 
+        return im.MatrixColor('Bubble/white-Bubble.webp',
                             im.matrix.colorize('#000', bubble_color))
 
-    
 
-            
 ## Note: There is also a custom version of the chat footers
 ## (pause/play/save & exit/answer) that you can use by setting
 ## this variable to True. Otherwise, it will use the original assets
@@ -673,6 +648,6 @@ default current_background = "morning"
 default hourglass_bag = RandomBag([ False for i in range(8) ]
     + [True for i in range(2) ])
 
-    
-    
-        
+
+
+

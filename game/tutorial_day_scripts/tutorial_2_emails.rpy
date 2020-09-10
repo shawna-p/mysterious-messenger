@@ -1,28 +1,29 @@
 
 label example_email():
 
-    call chat_begin('evening') 
+    #call chat_begin('evening')
+    scene evening
     play music narcissistic_jazz
-    
+
     z 'Hey, [name], I had an idea for a guest we should invite.'
     z 'Can we invite zentherainbowunicorn?'
-        
-    call answer 
+
+    call answer
     # This tells the program not to shuffle the last choice
-    $ shuffle = "last"  
+    $ shuffle = "last"
     menu:
         "That sounds great!":
             m 'That sounds great!' (pauseVal=0)
-            call invite(rainbow) # Use this to invite your guest
+            invite rainbow # Use this to invite your guest
             z "Great! I'll tell her to send you a message."
-        
+
         "I'll pass":
             m "I'll pass." (pauseVal=0)
-            z "Oh, okay. No problem!"    
-            
+            z "Oh, okay. No problem!"
+
         # This is for testing; it both makes any emails you haven't
-        # replied to timeout faster, and if you're waiting for the 
-        # guest to email you, it makes them reply more quickly. 
+        # replied to timeout faster, and if you're waiting for the
+        # guest to email you, it makes them reply more quickly.
         "I'd like to deliver my email replies more quickly." if email_list:
             m "I'd like to deliver my email replies more quickly." (pauseVal=0)
             z "Sure, I can take care of that."
@@ -39,29 +40,29 @@ label example_email():
     z "It shows how this invitation works,"
     z "and has a template to invite other people."
     z "Anyway, enjoy~!"
-    
-    call exit(z) 
-            
+
+    exit chatroom z
+
     jump chat_end
 
 ## This is the 'expired' version of the chatroom
 label example_email_expired():
     call chat_begin('evening')
     play music narcissistic_jazz
-    z "Hey, [name], I had an idea for a guest we should invite." 
+    z "Hey, [name], I had an idea for a guest we should invite."
     z "Oh... [they_re] not here."   (bounce=True, specBubble="sigh_m")
-    z "Hmm." 
-    z "Well, you can always buy back this chatroom and let me know if you want to invite them or not!" 
+    z "Hmm."
+    z "Well, you can always buy back this chatroom and let me know if you want to invite them or not!"
     z "I'll see you around~"   (bounce=True, specBubble="flower_m")
-    call exit(z)
+    exit chatroom z
     jump chat_end
 
 ## This is how you will set up guests for the party. A template can be found
-## in email_template.rpy. The first variable is the name of the guest, aka what 
+## in email_template.rpy. The first variable is the name of the guest, aka what
 ## shows up in the email hub as @guestname The second variable is the path
 ## to the image you'd like to use as the guest icon. It should be 155x155 px
-default rainbow = Guest("rainbow", 
-    "Email/Thumbnails/rainbow_unicorn_guest_icon.png",
+default rainbow = Guest("rainbow",
+    "Email/Thumbnails/rainbow_unicorn_guest_icon.webp",
 
 ## Initial Message
 """Hi [name]!
@@ -112,7 +113,7 @@ Sincerely,
 [name], the party coordinator""",
 
 ## Reply to incorrect message
-    
+
 """Hi again,
 
 Oh dear, I'm afraid I have terrible allergies and that may not work out well for me. I appreciate the time you've taken to email me but I may have to decline.
@@ -213,9 +214,9 @@ Sincerely,
 Rainbow Unicorn""",
 
 ## These next fields are optional but used for the guestbook
-## Large (usually chibi) image for the party, no wider than 
+## Large (usually chibi) image for the party, no wider than
 ## 315px or so
-"Email/Guest Images/rainbow_unicorn.png",
+"Email/Guest Images/rainbow_unicorn.webp",
 
 ## Short description about the guest
 "Rainbow Unicorn, the creator of this program.",
@@ -223,7 +224,7 @@ Rainbow Unicorn""",
 ## Personal Info section on the guest
 "Rainbow started working on this project back in 2018 and she's excited to share it with the world!",
 
-## The ChatCharacter variable of the person who should talk about this 
+## The ChatCharacter variable of the person who should talk about this
 ## guest in the long description
 z,
 
@@ -246,20 +247,20 @@ z,
 # is the first reply, it would be called Bob_reply1
 # Be sure to pay attention to any capitals you have in the guest's name
 # or the program won't be able to find the right label
-label rainbow_reply1(): 
+label rainbow_reply1():
 
     menu:
         'Indoor party.':
             # Passing 'True' indicates that this is the correct reply
-            $ current_email.set_reply(True) 
-        
+            $ current_email.set_reply(True)
+
         'Outdoor party.':
             # Similarly, passing 'False' indicates this was the wrong reply
             # and will fail the email chain
-            $ current_email.set_reply(False)            
-        
+            $ current_email.set_reply(False)
+
     jump email_end
-    
+
 
 label rainbow_reply2():
     menu:
@@ -270,12 +271,12 @@ label rainbow_reply2():
         'Heavy Metal.':
             $ current_email.set_reply(False)
     jump email_end
-    
+
 label rainbow_reply3():
     menu:
         'Spicy Food.':
             # You can also pass set_reply a number after True/False
-            # If you do, that will be the number of chatrooms after 
+            # If you do, that will be the number of chatrooms after
             # which the reply to your email will be sent to you.
             # Otherwise, the program calculates an appropriate number
             # based on how many chatrooms are yet to be played
@@ -283,5 +284,5 @@ label rainbow_reply3():
         'Seafood.':
             $ current_email.set_reply(False)
     jump email_end
-    
+
 

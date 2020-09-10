@@ -7,81 +7,17 @@
 #####################################
 
 label vn_begin(nvl=False):
-    if starter_story:
-        $ set_name_pfp()
-    window auto
-    $ chatroom_hp = 0
-    scene bg black
-    stop music
-    hide screen starry_night
-    hide screen phone_overlay
-    hide screen messenger_screen 
-    hide screen pause_button
-    hide screen chatroom_timeline
-    
-    # Hide all the popup screens
-    $ hide_all_popups()
-    
-    if not nvl:
-        show screen vn_overlay
-    else:
-        nvl clear
-    $ vn_choice = True
-    $ _history_list = [] # This clears the History screen
-    $ _history = True
-    
-    if (not _in_replay and 
-            ((isinstance(current_chatroom, ChatHistory)
-                and current_chatroom.vn_obj.played)
-            or (isinstance(current_chatroom, VNMode)
-                and current_chatroom.played))):
-        if not persistent.testing_mode:
-            $ observing = True
-        else:
-            pass
-    else:
-        $ observing = False
-    if _in_replay:
-        $ observing = True
-        $ set_name_pfp()
-        $ set_pronouns()
-        
+    $ begin_timeline_item(generic_storymode, is_vn=nvl)
     return
-        
+
 ## Call to end a VN section
 label vn_end():
-    if _in_replay:
-        $ renpy.end_replay()
-    hide screen vn_overlay 
-    $ renpy.retain_after_load()
-    jump press_save_and_exit
-        
-label vn_end_route():
-    $ config.skipping = False
-    $ choosing = False
-    stop music
-    
-    if ending == 'good':
-        scene bg good_end
-    elif ending == 'normal':
-        scene bg normal_end
-    elif ending == 'bad':
-        scene bg bad_end
-    $ ending = False
-    if current_chatroom.expired and not current_chatroom.buyback:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.expired_chat] = True
-    else:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.chatroom_label] = True
-    if current_chatroom.vn_obj:
-        $ persistent.completed_chatrooms[
-                        current_chatroom.vn_obj.vn_label] = True
+    if starter_story and not renpy.get_return_stack():
+        jump end_prologue
+    return
 
-    pause
-    if _in_replay:
-        $ renpy.end_replay()
-    jump restart_game
+label vn_end_route():
+    jump end_route
 
 #####################################
 ## This screen shows the clock
@@ -92,7 +28,7 @@ screen vn_overlay():
     hbox:
         add my_menu_clock xalign 0.0 yalign 0.0 xpos 5
 
-        
+
 ################################################
 ## This is the custom history screen
 ## for VN Mode
@@ -109,21 +45,21 @@ screen history():
     # Allow the user to darken the VN window for better contrast
     add Transform('#000', alpha=max(((persistent.vn_window_dark
                         + persistent.vn_window_alpha) / 2.0), 0.7))
-    
+
     # Close button
     button:
         xalign 1.0
         yalign 0.0
         focus_mask True
         add "close_button"
-        action Hide('history')#Return()        
+        action Hide('history')#Return()
         text "Close" style "CG_close":
             if persistent.dialogue_outlines:
-                outlines [ (2, "#000", 
+                outlines [ (2, "#000",
                             absolute(0), absolute(0)) ]
                 font gui.sans_serif_1xb
-    
-    
+
+
     viewport:
         yinitial 1.0
         scrollbars "vertical"
@@ -148,20 +84,20 @@ screen history():
                         label h.who + ':':
                             style "history_name"
                             if persistent.dialogue_outlines:
-                                text_outlines [ (absolute(2), "#000", 
+                                text_outlines [ (absolute(2), "#000",
                                             absolute(0), absolute(0)) ]
                                 text_font gui.sans_serif_1xb
 
-                            # Take the color of the who text from the 
+                            # Take the color of the who text from the
                             # Character, if set.
                             if "color" in h.who_args:
                                 text_color h.who_args["color"]
 
-                    $ what = renpy.filter_text_tags(h.what, 
+                    $ what = renpy.filter_text_tags(h.what,
                                     allow=gui.history_allow_tags)
                     text what:
                         if persistent.dialogue_outlines:
-                            outlines [ (absolute(2), "#000", 
+                            outlines [ (absolute(2), "#000",
                                         absolute(0), absolute(0)) ]
 
             if not _history_list:

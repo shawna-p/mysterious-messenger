@@ -4,7 +4,7 @@ label plot_branch_tutorial():
     call chat_begin("hack") 
     call hack 
     play music mystic_chat
-    call enter(u) 
+    enter chatroom u 
 
     u "{=curly}Hello again!{/=curly}"   (bounce=True)
     u "{=ser2}You're getting close to the end of the Tutorial day, huh?{/=ser2}" 
@@ -69,7 +69,7 @@ label plot_branch_tutorial():
     u "This is to demonstrate that you can have the plot branch for lots of different things."
     u "Anyway, that's enough from me." 
     u "{=curly}Click the Plot Branch icon to see what happens next!{/=curly}"   (bounce=True)
-    call exit(u) 
+    exit chatroom u 
     jump chat_end
    
         
@@ -79,7 +79,7 @@ label plot_branch_tutorial_expired():
     call chat_begin("hack") 
     call hack 
     play music mystic_chat
-    call enter(u)
+    enter chatroom u
     u "It seems [name] is getting close to the end of Tutorial day," 
     u "but [they_re] not here right now T_T" 
     u "This is the last chatroom before a plot branch" 
@@ -92,7 +92,7 @@ label plot_branch_tutorial_expired():
     u "Well, I guess that's all from me. " 
     u "{=curly}You'll log in later to talk to us though, right? ^^{/=curly}"   (bounce=True)
     u "See you~" 
-    call exit(u)
+    exit chatroom u
     jump chat_end
 
     
@@ -189,14 +189,14 @@ label tutorial_bad_end():
         "I'm really sorry, V.":
             m "I'm really sorry, V."   (pauseVal=0)
             v "No need to apologize, [name]."   (bounce=True)
-            call heart_icon(v) 
+            award heart v 
             v "I'm sure you did the best you could." 
             v "{=sser2}We simply didn't have enough time...{/=sser2}" 
             
     v "Anyway, that's all I had to say." 
     v "I hope you have a good day." 
     v "{image=v_smile}"   (img=True)
-    call exit(v) 
+    exit chatroom v 
     
     # This brings up the Save & Exit screen, after which
     # it will show either the 'good', 'normal', or 'bad'
@@ -215,7 +215,7 @@ label tutorial_bad_end_expired():
     v "Anyway, that's all I had to say." 
     v "I hope you have a good day." 
     v "{image=v_smile}"   (img=True)
-    call exit(v)
+    exit chatroom v
     $ ending = 'bad'
     jump chat_end_route
 
@@ -306,7 +306,7 @@ label tutorial_end_example():
     u "Be sure to contact me if you run into any problems or bugs," 
     u "and I'll do my best to take care of it ^^"   (bounce=True)
     u "See you later!" 
-    call exit(u) 
+    exit chatroom u 
     jump chat_end
     
 ## This is the label the program jumps to if the previous chatroom expires. 
@@ -328,7 +328,7 @@ label tutorial_end_example_expired():
     u "{=ser1}You can go through the \"Inviting Guests\" chatroom as many times as you like to finish the email chain and invite Rainbow.{/=ser1}" 
     u "All right, I should go."
     u "{=curly}See you at the party ^^{/=curly}" (bounce=True)
-    call exit(u)
+    exit chatroom u
     jump chat_end
 
 ## If you would like the party to act as a plot branch, for example, as

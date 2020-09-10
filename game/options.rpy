@@ -17,7 +17,7 @@ define gui.show_name = True
 
 ## The version of the game.
 
-define config.version = "2.2.1"
+define config.version = "2.3.0"#"3.0.0"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
@@ -41,7 +41,12 @@ define config.auto_voice = "voice files/{id}.mp3"
 
 ## These functions get called on an after_load to ensure compatibility
 ## with future versions
-define config.after_load_callbacks = [ update_var_compatibility ]
+define config.after_load_callbacks = [ update_var_compatibility, advance_day ]
+
+## Error-checking callbacks
+define config.missing_image_callback = handle_missing_image
+define config.missing_label_callback = handle_missing_label
+
 ## Checks for new chatrooms at about 20Hz
 # define config.periodic_callback = check_for_new_chatroom
 
@@ -50,7 +55,7 @@ define config.conditionswitch_predict_all = False
 
 # init python:
 #     def label_debug(title, reg_reached):
-#         print("Got to label", title)
+#         print_file("Got to label", title)
 #         return
 
 # define config.label_callback = label_debug
@@ -82,7 +87,7 @@ define sample_voice_sfx = "audio/sfx/Emotes/Seven/seven_wow.mp3"
 
 
 define config.default_afm_enable = None
-define config.layers = [ 'master', 'transient', 'screens', 'overlay' ]
+define config.layers = [ 'master', 'transient', 'animated_bg', 'screens', 'overlay' ]
 
 ## Transitions #################################################################
 ##
@@ -217,12 +222,13 @@ init python:
     # Put images into the images archive.
     build.classify("game/**.jpg", "images")
     build.classify("game/**.png", "images")
+    build.classify("game/**.webp", "images")
 
     # Put music into the music archive.
     build.classify("game/**.mp3", "music")
     build.classify("game/**.wav", "music")
     build.classify("game/**.ogg", "music")
-    
+
     # Put fonts into the fonts archive
     build.classify("game/**.ttf", "fonts")
 

@@ -28,7 +28,7 @@ label example_text():
     r "Anyway, I won't keep you." 
     r "See you soon!" 
 
-    call exit(r)
+    exit chatroom r
     
     # Use this to end the chat and return to the main menu
     jump chat_end
@@ -45,7 +45,7 @@ label example_text_expired():
     r "But you can often call characters back if not much time has passed since they called!" 
     r "Anyway, you can buy this chatroom back for some alternative information too." 
     r "Talk to you soon!" 
-    call exit(r)
+    exit chatroom r
     jump chat_end
     
 ## Put anything you want to have happen after the chatroom ends here, 
@@ -113,11 +113,13 @@ label menu_a1():
     # You don't include `call answer` before this menu
     menu:    
         "Thanks for showing me this.":
+            # You also don't need (pauseVal=0) after the MC's messages, because
+            # they aren't sent in real-time
             m "Thanks for showing me this."
             # You show heart icons in the same way as chatrooms
             # It will appear after the player opens the text message
             # and sees V's response
-            call heart_icon(v)
+            award heart v
             v "You're very welcome!"
             v "Hope to talk to you again soon." 
         
@@ -151,7 +153,7 @@ label menu_a2():
         "That's a nice picture of you!":
             m "That's a nice picture of you!" (pauseVal=0)
             r "{image=ray_happy}" (img=True)
-            call heart_icon(r)
+            award heart r
             r "Thank you ^^"
             
     # Real-time text messages end the same way as regular ones

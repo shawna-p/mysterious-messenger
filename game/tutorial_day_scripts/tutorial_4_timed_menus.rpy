@@ -73,7 +73,7 @@ label timed_menus():
     s "I hope this gives you some cool ideas for ways to write chatrooms!" 
     s "{image=seven_wow}"   (img=True)
     s "{=curly}Toodles~!{/=curly}"   (bounce=True, specBubble="cloud_s")
-    call exit(s)
+    exit chatroom s
     
     jump chat_end
     
