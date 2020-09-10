@@ -55,3 +55,4 @@ html_theme = 'alabaster'
 html_static_path = ['_static']
 
 highlight_language = "renpy"
+master_doc = 'index'
