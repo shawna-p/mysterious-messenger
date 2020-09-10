@@ -4,8 +4,10 @@
 # This allows the program to keep track of when it should
 # shake the screen during a chatroom
 label shake():
-    if persistent.screenshake:
+    if persistent.screenshake and not persistent.animated_backgrounds:
         show expression "center_crop_bg:bg " + current_background at shake
+    elif persistent.screenshake:
+        show layer animated_bg at shake
     if (not observing and not persistent.testing_mode
             and not vn_choice
             and renpy.get_screen('phone_overlay')):

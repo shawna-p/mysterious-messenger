@@ -56,7 +56,7 @@ init python:
         if store.persistent.animated_backgrounds:
             if new_bg in store.all_animated_backgrounds:
                 try:
-                    renpy.show_screen('animated_' + new_bg)
+                    renpy.show_screen('animated_' + new_bg, _layer='animated_bg')
                 except:
                     print("WARNING: Could not find the screen \"animated_"
                         + new_bg + "\"")
@@ -64,9 +64,9 @@ init python:
                         message="Could not find the screen \"animated_"
                             + new_bg + "\"")
             elif new_bg == 'hack':
-                renpy.show_screen('animated_hack_background')
+                renpy.show_screen('animated_hack_background', _layer='animated_bg')
             elif new_bg == 'redhack':
-                renpy.show_screen('animated_hack_background', red=True)
+                renpy.show_screen('animated_hack_background', red=True, _layer='animated_bg')
 
         if new_bg in store.black_text_bgs:
             store.nickColour = store.black
