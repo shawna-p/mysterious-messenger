@@ -95,13 +95,17 @@ screen pause_button():
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped
 label play():
-    if (observing and not vn_choice and not text_msg_reply
+    if (observing and not _in_replay
+            and not vn_choice and not text_msg_reply
             and not in_phone_call and not email_reply):
         # Rewatching a chatroom
         call screen play_button
         show screen pause_button
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
+    if _in_replay and timed_menu_dict:
+        # Haven't posted all the narration for a timed menu
+        jump no_timed_menu_choices
     if not text_person:
         # Playing a chatroom
         call screen play_button
