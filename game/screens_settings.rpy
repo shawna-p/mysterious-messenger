@@ -712,9 +712,7 @@ screen preferences():
                         textbutton _("Animated Backgrounds"):
                             text_size 26
                             action [ToggleField(persistent,
-                                    'animated_backgrounds'),
-                                    SetField(persistent,
-                                    'screenshake', False)]
+                                    'animated_backgrounds')]
                             selected persistent.animated_backgrounds
 
             frame:
