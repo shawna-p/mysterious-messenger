@@ -84,14 +84,18 @@ init -4 python:
                 return False
             return True
 
-        def msg_animation(self, anti):
+        def msg_animation(self, anti, no_anim):
             """Return the animation used for this message."""
 
             if anti and self.bounce:
                 return invisible_bounce
             elif anti:
                 return invisible
-            elif self.bounce:
+
+            if no_anim:
+                return null_anim
+
+            if self.bounce:
                 return incoming_message_bounce
             else:
                 return incoming_message
@@ -434,12 +438,15 @@ init -4 python:
         elif who.name == 'filler':
             pauseVal = 0
 
+
         # Now check to see if the most recent message was skipped
         # Pausing in the middle of the chat often causes the
         # program to skip a message, and this will catch that
         if who.file_id != 'delete':
-            pauseFailsafe() # This ensures the message that was supposed to
-                            # be posted was, in fact, posted
+            # This ensures the message that was supposed to
+            # be posted was, in fact, posted
+            if chatbackup:
+                pauseFailsafe()
             # Store the current message in the backup
             chatbackup = ChatEntry(who, what, upTime(),
                                     img, bounce, specBubble)
