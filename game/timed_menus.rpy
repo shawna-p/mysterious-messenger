@@ -258,63 +258,83 @@ screen timed_choice(items, paraphrased=None):
         default the_anim = choice_anim
     else:
         default the_anim = null_anim
-
-    python:
-        len_var = len(items) > 2
+    default item_len = len(items) > 2
 
     frame:
         at shrink_away()
-        if persistent.custom_footers:
-            yoffset -113-15
+        if persistent.custom_footers and item_len:
+            style_prefix 'new_three'
+        elif persistent.custom_footers:
+            style_prefix 'new_two'
+        elif not persistent.custom_footers and item_len:
+            style_prefix 'old_three'
         else:
-            yoffset -113-25
+            style_prefix 'old_two'
         hbox:
-            if persistent.custom_footers:
-                style_prefix 'phone_vn_choice'
-                if len_var:
-                    spacing 5
-                else:
-                    spacing 20
-            else:
-                style_prefix 'choice'
-                if len_var:
-                    spacing 2
-                else:
-                    spacing 20
-            xalign 0.5
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
-                textbutton i.caption at the_anim(fnum):
-                    text_text_align 0.5
-                    text_align (0.5, 0.5)
-                    if len_var:
-                        text_size 28
-                        xmaximum (750 // 3) - 4
-                        text_xmaximum (750 // 3) - 4 - 40
+                fixed:
+                    fit_first True
+                    ## This choice both appears and disappears
+                    if (i.kwargs.get('appear_time', None)
+                            and i.kwargs.get('disappear_time', None)):
+                        at choice_appear_disappear(
+                            begin_delay=i.kwargs['appear_time'],
+                            end_delay=(i.kwargs['disappear_time']
+                                - i.kwargs['appear_time']),
+                            mod=pv)
+                    ## This choice only appears
+                    elif i.kwargs.get('appear_time', None):
+                        at choice_appear(i.kwargs['appear_time'], pv)
+                    ## This choice only disappears
+                    elif i.kwargs.get('disappear_time', None):
+                        at choice_disappear(i.kwargs['disappear_time'], pv)
+                    ## This choice is simply on-screen
                     else:
-                        xmaximum (750 // 2) - 20
-                        text_xmaximum (750 // 2) - 20 - 40
-                    if (persistent.dialogue_outlines
-                            and persistent.custom_footers):
-                        text_outlines [ (2, "#000",
-                            absolute(0), absolute(0)) ]
-                    elif (persistent.dialogue_outlines
-                            and not persistent.custom_footers):
-                        text_outlines [ (2, "#fff",
-                            absolute(0), absolute(0)) ]
-                    if (persistent.past_choices and not observing
-                            and i.chosen):
-                        if persistent.custom_footers:
-                            foreground 'seen_choice_check_circle'
-                            background 'call_choice_check'
-                            hover_background 'call_choice_check_hover'
-                        else:
-                            foreground 'seen_choice_check'
-                    action [SetVariable('dialogue_picked', i.caption),
-                        Function(set_paraphrase, screen_pref=paraphrased,
-                            item_pref=(i.kwargs.get('paraphrased',
-                            None))),
-                        Function(execute_timed_menu_action, item=i)]
+                        at the_anim(fnum)
+
+                    textbutton i.caption:
+                        # Check if the caption is pretty long
+                        if (len(i.caption) > 60
+                                or (len(items) > 2 and len(i.caption) > 42)):
+                            text_size 25
+                        elif len(i.caption) > 42:
+                            text_size 28
+                        if (persistent.dialogue_outlines
+                                and persistent.custom_footers):
+                            text_outlines [ (2, "#000",
+                                absolute(0), absolute(0)) ]
+                        elif (persistent.dialogue_outlines
+                                and not persistent.custom_footers):
+                            text_outlines [ (2, "#fff",
+                                absolute(0), absolute(0)) ]
+
+
+                        if (persistent.past_choices and not observing
+                                and i.chosen):
+                            if persistent.custom_footers:
+                                foreground 'seen_choice_check_circle'
+                                background 'call_choice_check'
+                                hover_background 'call_choice_check_hover'
+                            else:
+                                foreground 'seen_choice_check'
+
+                        action [SetVariable('dialogue_picked', i.caption),
+                            Function(set_paraphrase, screen_pref=paraphrased,
+                                item_pref=(i.kwargs.get('paraphrased',
+                                None))),
+                            Function(execute_timed_menu_action, item=i)]
+
+
+                    if i.kwargs.get('disappear_time', None):
+                        add 'header_hg' align (0.5, 0.98):
+                            if i.kwargs.get('appear_time', None):
+                                at choice_disappear_hourglass(
+                                    pause_time=(i.kwargs['disappear_time']),
+                                    mod=pv)
+                            else:
+                                at choice_disappear_hourglass(
+                                    i.kwargs['disappear_time'], pv)
 
     frame:
         at wait_fade()
@@ -322,6 +342,72 @@ screen timed_choice(items, paraphrased=None):
         background "#282828"
         xysize (750, 113)
         text "Choose a reply" color "#fff" text_align 0.5 align (0.5, 0.5)
+
+transform choice_disappear_hourglass(pause_time=0.0, mod=0.8):
+    alpha 0.0 rotate 0
+    pause max((pause_time*mod) - (2.0*mod) - mod, 0.1)
+    block:
+        rotate 0
+        easein 0.25*mod alpha 0.6 zoom 1.1
+        easeout 0.25*mod alpha 1.0 zoom 1.0
+        pause 0.5
+        ease 1.0 rotate 180
+        repeat
+
+
+transform choice_disappear(pause_time=0.0, mod=0.8):
+    xzoom 1.0 alpha 1.0 zoom 1.0
+    pause max((pause_time*mod) - (2.0*mod) - mod, 0.1)
+    # Indicate it's about to expire
+    block:
+        easein 0.25*mod alpha 0.6 zoom 1.1
+        easeout 0.25*mod alpha 1.0 zoom 1.0
+        repeat 2
+    pause (pause_time*mod) - max((pause_time*mod) - (3.0*mod), 0.1) - mod
+    parallel:
+        ease 0.625*mod alpha 0.0
+    parallel:
+        ease 0.625*mod xzoom 0.01
+
+transform choice_appear(pause_time=0.0, mod=0.8):
+    xzoom 0.01 alpha 0.0
+    pause max(pause_time*mod, 0.1)
+    parallel:
+        pause 0.125*mod
+        ease 0.5*mod alpha 1.0
+    parallel:
+        ease 0.625*mod xzoom 1.0
+
+    on hover:
+        ease 0.5 yoffset 5
+        ease 0.5 yoffset -5
+        repeat
+    on idle:
+        linear 0.3 yoffset 0
+
+transform choice_appear_disappear(begin_delay=0.0, end_delay=1.0, mod=0.8):
+    xzoom 0.01 alpha 0.0
+    pause max(begin_delay*mod, 0.1)
+    parallel:
+        pause 0.125*mod
+        ease 0.5*mod alpha 1.0
+    parallel:
+        ease 0.625*mod xzoom 1.0
+
+    xzoom 1.0 alpha 1.0 zoom 1.0
+    pause max((end_delay*mod) - (2.0*mod) - mod, 0.1)
+    # Indicate it's about to expire
+    block:
+        easein 0.25*mod alpha 0.6 zoom 1.1
+        easeout 0.25*mod alpha 1.0 zoom 1.0
+        repeat 2
+    pause (end_delay*mod) - max((end_delay*mod) - (3.0*mod), 0.1) - mod
+    parallel:
+        ease 0.625*mod alpha 0.0
+    parallel:
+        ease 0.625*mod xzoom 0.01
+
+
 
 style choice_common_frame:
     yalign 1.0
@@ -394,7 +480,7 @@ style new_two_button:
     xmaximum (750 // 2) - 20
 
 style new_two_button_text:
-    is new_three_button_text
+    is new_three_text
     size 33
     xmaximum (750 // 2) - 20 - 50
 
@@ -403,13 +489,9 @@ style old_two_button:
     xmaximum (750 // 2) - 20
 
 style old_two_button_text:
-    is old_three_button_text
+    is old_three_text
     size 33
     xmaximum (750 // 2) - 20 - 40
-
-
-
-
 
 
 

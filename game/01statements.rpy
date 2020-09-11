@@ -1896,6 +1896,45 @@ python early hide:
                 print("parsing msg as CDS.", msg)
                 narration.append(execute_msg_stmt(msg, return_dict=True))
 
+        ## Look for keywords relating to how long these choices stay on-screen
+        for a, kw in item_arguments:
+            # Convert other arguments to more readable ones
+            if kw.get('appear_after', None):
+                kw['appear_before'] = kw['appear_after'] + 1
+            if kw.get('disappear_after', None):
+                kw['disappear_before'] = kw['disapper_after'] + 1
+
+            if kw.get('appear_before', None):
+                # There is a message during which this item should appear
+                if kw['appear_before'] <= 1:
+                    print("WARNING: A choice cannot appear before the timed menu.")
+                    renpy.show_screen('script_error',
+                        message=("A choice cannot appear before the timed menu."))
+                else:
+                    # Calculate the time this message should appear at. If the
+                    # user wants it to appear before the 4th message, it should
+                    # appear after the 3rd.
+                    arg_appear = 0
+                    for msg in narration[:(kw.get('appear_before', -1)-1)]:
+                        arg_appear += calculate_type_time(msg['what'])
+                    kw['appear_time'] = arg_appear
+
+            if kw.get('disappear_before', None):
+                # There is a message before which this message should disappear
+                if (kw['disappear_before'] <= kw.get('appear_before', 1)):
+                    print("WARNING: A timed menu choice cannot disappear",
+                        "before it is shown.")
+                    renpy.show_screen('script_error',
+                        message=("A timed menu choice cannot disappear before"
+                            + " it has been shown."))
+                else:
+                    arg_disappear = 0
+                    for msg in narration[:kw.get('disappear_before', -1)]:
+                        arg_disappear += calculate_type_time(msg['what'])
+                    kw['disappear_time'] = arg_disappear
+                    print_file("Got a disappear time of", kw['disappear_time'])
+
+
         # All right so now we have:
         # choices : list of (label, condition, index) for all the choices
         # item_arguments : list of (args, kwargs) corresponding to each choice
@@ -1934,7 +1973,7 @@ python early hide:
         kwargs = kwargs or dict()
 
         # Filter out items already in the set
-        if p['menu_set']: # Do I have to evaluate this first?
+        if p['menu_set']:
             set = renpy.python.py_eval(p['menu_set'])
 
             new_items = [ ]
@@ -1975,8 +2014,6 @@ python early hide:
         choices = [ value for label, value in new_items if value is not None ]
 
         # If not, bail out.
-        # TODO: Could add a check here for observing and bail out if nothing
-        # shows up as chosen?
         if not choices:
             # Should just finish/go to post-execute label
             return None
