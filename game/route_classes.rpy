@@ -1613,6 +1613,7 @@ init python:
         renpy.hide_screen('pause_button')
         renpy.hide_screen('messenger_screen')
         renpy.hide_screen('animated_bg')
+        renpy.hide_screen('animated_bg', layer='animated_bg')
         renpy.hide_screen('vn_overlay')
         hide_all_popups()
 
