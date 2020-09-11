@@ -294,13 +294,13 @@ style input:
 ## https://www.renpy.org/doc/html/screen_special.html#choice
 
 init python:
-    def say_choice_caption(dialogue, paraphrase, p=0):
+    def say_choice_caption(dialogue, paraphrased, p=0):
         """
         Have the main character say the caption that was given
         to the most recently chosen choice.
         """
 
-        if paraphrase:
+        if paraphrased:
             store.dialogue_picked = ""
             store.dialogue_paraphrase = store.paraphrase_choices
             store.dialogue_pv = 0
@@ -354,7 +354,7 @@ default dialogue_picked = ""
 default dialogue_paraphrase = True
 default dialogue_pv = 0
 
-screen choice(items, paraphrase=None):
+screen choice(items, paraphrased=None):
     zorder 150
     modal True
 
@@ -388,14 +388,14 @@ screen choice(items, paraphrase=None):
                                         sender=text_person),
                                 i.action,
                                 SetVariable('dialogue_picked', i.caption),
-                                Function(set_paraphrase, screen_pref=paraphrase,
-                                    item_pref=(i.kwargs.get('paraphrase',
+                                Function(set_paraphrase, screen_pref=paraphrased,
+                                    item_pref=(i.kwargs.get('paraphrased',
                                     None)))
                                 ],
                             [i.action,
                                 SetVariable('dialogue_picked', i.caption),
-                                Function(set_paraphrase, screen_pref=paraphrase,
-                                    item_pref=(i.kwargs.get('paraphrase',
+                                Function(set_paraphrase, screen_pref=paraphrased,
+                                    item_pref=(i.kwargs.get('paraphrased',
                                     None)))
                             ])
 
@@ -416,8 +416,8 @@ screen choice(items, paraphrase=None):
                         hover_background 'call_choice_check_hover'
                     action [i.action,
                         SetVariable('dialogue_picked', i.caption),
-                        Function(set_paraphrase, screen_pref=paraphrase,
-                            item_pref=(i.kwargs.get('paraphrase',
+                        Function(set_paraphrase, screen_pref=paraphrased,
+                            item_pref=(i.kwargs.get('paraphrased',
                             None)),
                             save_choices=True)
                         ]
@@ -470,15 +470,15 @@ screen choice(items, paraphrase=None):
                             Show('messenger_screen'),
                             i.action,
                             SetVariable('dialogue_picked', i.caption),
-                            Function(set_paraphrase, screen_pref=paraphrase,
-                                item_pref=(i.kwargs.get('paraphrase',
+                            Function(set_paraphrase, screen_pref=paraphrased,
+                                item_pref=(i.kwargs.get('paraphrased',
                                 None))),
                             SetVariable('dialogue_pv', None)
                                 ],
                         [i.action,
                             SetVariable('dialogue_picked', i.caption),
-                            Function(set_paraphrase, screen_pref=paraphrase,
-                                item_pref=(i.kwargs.get('paraphrase',
+                            Function(set_paraphrase, screen_pref=paraphrased,
+                                item_pref=(i.kwargs.get('paraphrased',
                                 None)))
                             ])
 
