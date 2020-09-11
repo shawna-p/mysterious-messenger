@@ -1,6 +1,6 @@
 ## This is set of screens which handles displaying the
 ## messages in the chatlog to the screen
-screen messenger_screen():
+screen messenger_screen(no_anim_list=None, animate_down=False):
 
     tag menu
     zorder 1
@@ -12,13 +12,17 @@ screen messenger_screen():
         finalchat = None
         if len(chatlog) > 0:
             finalchat = chatlog[-1]
-
+        if (no_anim_list and len(chatlog) > 20
+                and chatlog[-20] not in no_anim_list):
+            no_anim_list = None
 
     frame:
         align (0.5, 1.0)
         yoffset -114
         xfill True
         ysize 1080
+        if animate_down:
+            at slide_down(-220)
 
         viewport: # viewport id "VP":
             yadjustment yadj
@@ -43,10 +47,16 @@ screen messenger_screen():
                     # so the animation doesn't "slide" in
                     elif i == finalchat:
                         use chat_animation(i, True)
-                    if i.who.name not in ['msg', 'filler', 'answer']:
+                    if (i.who.name not in ['msg', 'filler', 'answer']
+                            and (no_anim_list is None
+                                or i not in no_anim_list)):
                         use chat_animation(i)
+                    elif (i.who.name not in ['msg', 'filler', 'answer']
+                            and i in no_anim_list):
+                        use chat_animation(i, no_anim=True)
                 null height 10
             if timed_menu_dict:
+                #add 'timed_menu_anim'
                 null height 220
 
 ## This displays the special messages like "xyz
@@ -65,7 +75,12 @@ screen special_msg(i):
 
 ## This screen does the heavy lifting for displaying
 ## all the messages, names, profile pictures, etc
-screen chat_animation(i, anti=False):
+screen chat_animation(i, anti=False, no_anim=False):
+
+    if no_anim:
+        $ new_anim = invisible
+    else:
+        $ new_anim = new_fade
 
     frame:
         style i.pfp_style
@@ -96,7 +111,7 @@ screen chat_animation(i, anti=False):
     if not i.has_new: # Not a "regular" dialogue bubble
         # Not an image; check if it's a special bubble
         if i.specBubble != None and i.specBubble != 'glow2':
-            fixed at i.msg_animation(anti):
+            fixed at i.msg_animation(anti, no_anim):
                 offset i.spec_bubble_offset
                 fit_first True
                 add i.bubble_bg
@@ -106,7 +121,7 @@ screen chat_animation(i, anti=False):
                     text i.what style 'special_bubble' alt i.alt_text(anti)
         # Check if it's an image
         elif i.img:
-            frame at i.msg_animation(anti):
+            frame at i.msg_animation(anti, no_anim):
                 style i.img_style
                 if "{image" in i.what:
                     text i.what alt i.alt_text(anti)
@@ -125,7 +140,7 @@ screen chat_animation(i, anti=False):
 
         # Not img or special bubble; check if glow variant
         elif i.bounce:
-            frame at i.msg_animation(anti):
+            frame at i.msg_animation(anti, no_anim):
                 # Note: MC has no glowing bubble so there is
                 # no variant for them
                 style 'glow_bubble'
@@ -141,7 +156,7 @@ screen chat_animation(i, anti=False):
 
         # Otherwise it must be regular MC dialogue
         else:
-            frame at i.msg_animation(anti):
+            frame at i.msg_animation(anti, no_anim):
                 style i.bubble_style
                 background i.bubble_bg
                 if i.dialogue_width > gui.longer_than:
@@ -154,11 +169,11 @@ screen chat_animation(i, anti=False):
 
     # This does indeed need the 'NEW' sign
     else:
-        vbox at i.msg_animation(anti):
+        vbox at i.msg_animation(anti, no_anim):
             pos (138, 24)
             spacing -20
             order_reverse True
-            add 'new_sign' align (1.0, 0.0) xoffset 40 at new_fade
+            add 'new_sign' align (1.0, 0.0) xoffset 40 at new_anim
             frame:
                 padding (25,12,20,5)
                 background i.bubble_bg
