@@ -1,6 +1,6 @@
 init python:
 
-    def execute_timed_menu_action(item):
+    def execute_timed_menu_action(item, jump_to_end=False):
         """
         Add the selected choice to the menu set if applicable and ensure
         it is marked as chosen, then proceed to the choice block.
@@ -19,38 +19,15 @@ init python:
                 set.add(item.caption)
 
         ## Mark this as chosen
-        item.action.chosen[(item.action.location, item.action.label)] = True
+        item.value.chosen[(item.value.location, item.value.label)] = True
 
-        renpy.jump('finish_timed_menu')
+        if jump_to_end:
+            end_label = store.timed_menu_dict['end_label']
+            store.timed_menu_dict = {}
+            renpy.jump(end_label)
+        else:
+            renpy.jump('finish_timed_menu')
 
-        # Hide the animation
-        renpy.hide_screen('timed_choice')
-        renpy.hide_screen('answer_countdown')
-        renpy.hide_screen('timed_menu_messages')
-        no_anim_list = store.chatlog[-20:]
-        renpy.show_screen('messenger_screen', no_anim_list=no_anim_list)
-        ## Add the chosen answer to the menu set
-        set = store.timed_menu_dict['menu_set']
-
-        if set is not None and item.caption is not None:
-            try:
-                set.append(item.caption)
-            except AttributeError:
-                set.add(item.caption)
-
-        ## Mark this as chosen
-        item.action.chosen[(item.action.location, item.action.label)] = True
-
-        ## Reset the menu
-        store.timed_menu_dict = {}
-        ## Get rid of the backup
-        store.chatbackup = None
-        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
-            say_choice_caption(store.dialogue_picked,
-                store.dialogue_paraphrase, store.dialogue_pv)
-        store.chatbackup = None
-        ## Set the next node as the block of items resulting from the choice
-        renpy.ast.next_node(item.subparse.block[0])
         return
 
 ## A duplicate of the messenger_screen screen that includes an animation
@@ -135,7 +112,7 @@ label execute_timed_menu():
         narration = timed_menu_dict['narration']
         items = timed_menu_dict['items']
         screen_kwargs = timed_menu_dict['menu_kwargs']
-        if screen_kwargs.get('paraphrase', None):
+        if screen_kwargs.get('paraphrased', None):
             para = True
         else:
             para = False
@@ -151,7 +128,7 @@ label execute_timed_menu():
 
         # The length of time the player has to read the final message
         # before the timer runs out
-        end_menu_buffer = 3.0 * pv
+        end_menu_buffer = 3.0 * persistent.timed_menu_pv
 
         if _in_replay:
             # If we're in replay, then the player only gets to see answers if
@@ -163,26 +140,17 @@ label execute_timed_menu():
                     break
             if not has_chosen:
                 # Special case where we don't show the menu
-                renpy.jump('no_timed_menu_choices')
+                renpy.jump('play_timed_menu_narration')
 
+    if persistent.autoanswer_timed_menus:
+        jump play_timed_menu_narration
 
     hide screen messenger_screen
     $ no_anim_list = chatlog[-20:-1]
     show screen timed_menu_messages(no_anim_list)
     show screen timed_choice(items, para)
     show screen answer_countdown(end_label, wait_time+(end_menu_buffer),
-        custom_action=If(persistent.autoanswer_timed_menus,
-
-                # Need to somehow keep the answers on-screen and pause
-                [ Hide('answer_countdown'),
-                Hide('timed_choice'),
-                Show('pause_button'),
-                SetVariable('choosing', True),
-                SetVariable('timed_choose', True) ],
-
-                [ Hide('answer_countdown'),
-                Hide('timed_choice'),
-                Show('pause_button') ]))
+        custom_action=[ Hide('answer_countdown'), Show('pause_button') ])
 
 
     # Now show the narration behind the choices
@@ -202,22 +170,41 @@ label execute_timed_menu():
     pause 0.5
     $ no_anim_list = chatlog[-20:]
     show screen messenger_screen(no_anim_list)
+    $ addchat(answer, '', 0.1)
     jump expression end_label
 
 ## A label used during a replay when the player has never chosen an answer
 ## in a timed menu
-label no_timed_menu_choices():
+label play_timed_menu_narration():
     # No new screens to show; just execute the narration and jump to
     # the end
     $ narration = timed_menu_dict['narration']
+
     while narration:
         $ msg = narration.pop(0)
         $ who = msg['who']
         $ who(what=msg['what'], pauseVal=msg['pauseVal'], img=msg['img'],
             bounce=msg['bounce'], specBubble=msg['specBubble'])
-    $ end_label = timed_menu_dict['end_label']
-    $ timed_menu_dict = {}
-    jump expression end_label
+
+    if _in_replay or not persistent.autoanswer_timed_menus:
+        $ end_label = timed_menu_dict['end_label']
+        $ timed_menu_dict = {}
+        jump expression end_label
+
+    # Otherwise, should have autoanswer timed menus on. When the menu is
+    # over, show the answer button and allow the player to make a choice
+    # like usual.
+    call answer
+    python:
+        items = timed_menu_dict['items']
+        items.append(timed_menu_dict['autoanswer'])
+        screen_kwargs = timed_menu_dict['menu_kwargs']
+        if screen_kwargs.get('paraphrased', None):
+            para = True
+        else:
+            para = False
+    call screen choice(items=items, paraphrased=para)
+    return
 
 
 ## A label triggered after the player makes a choice in a timed menu.
@@ -231,13 +218,14 @@ label finish_timed_menu():
 
     $ chatbackup = None
 
-    # Hide all the choice screens
-    hide screen timed_choice
-    hide screen answer_countdown
-    hide screen timed_menu_messages
-    # Show the original messenger screen; it should animate back down into
-    # position
-    show screen messenger_screen(no_anim_list=no_anim_list, animate_down=True)
+    if not persistent.autoanswer_timed_menus:
+        # Hide all the choice screens
+        hide screen timed_choice
+        hide screen answer_countdown
+        hide screen timed_menu_messages
+        # Show the original messenger screen; it should animate back down into
+        # position
+        show screen messenger_screen(no_anim_list=no_anim_list, animate_down=True)
 
     $ item = timed_menu_dict['item']
     $ timed_menu_dict = {}
@@ -282,13 +270,15 @@ screen timed_choice(items, paraphrased=None):
                             begin_delay=i.kwargs['appear_time'],
                             end_delay=(i.kwargs['disappear_time']
                                 - i.kwargs['appear_time']),
-                            mod=pv)
+                            mod=persistent.timed_menu_pv)
                     ## This choice only appears
                     elif i.kwargs.get('appear_time', None):
-                        at choice_appear(i.kwargs['appear_time'], pv)
+                        at choice_appear(i.kwargs['appear_time'],
+                            persistent.timed_menu_pv)
                     ## This choice only disappears
                     elif i.kwargs.get('disappear_time', None):
-                        at choice_disappear(i.kwargs['disappear_time'], pv)
+                        at choice_disappear(i.kwargs['disappear_time'],
+                            persistent.timed_menu_pv)
                     ## This choice is simply on-screen
                     else:
                         at the_anim(fnum)
@@ -323,7 +313,7 @@ screen timed_choice(items, paraphrased=None):
                             Function(set_paraphrase, screen_pref=paraphrased,
                                 item_pref=(i.kwargs.get('paraphrased',
                                 None))),
-                            Function(execute_timed_menu_action, item=i)]
+                                i.action]
 
 
                     if i.kwargs.get('disappear_time', None):
@@ -331,10 +321,11 @@ screen timed_choice(items, paraphrased=None):
                             if i.kwargs.get('appear_time', None):
                                 at choice_disappear_hourglass(
                                     pause_time=(i.kwargs['disappear_time']),
-                                    mod=pv)
+                                    mod=persistent.timed_menu_pv)
                             else:
                                 at choice_disappear_hourglass(
-                                    i.kwargs['disappear_time'], pv)
+                                    i.kwargs['disappear_time'],
+                                        persistent.timed_menu_pv)
 
     frame:
         at wait_fade()
@@ -480,7 +471,7 @@ style new_two_button:
     xmaximum (750 // 2) - 20
 
 style new_two_button_text:
-    is new_three_text
+    is new_three_button_text
     size 33
     xmaximum (750 // 2) - 20 - 50
 
@@ -489,7 +480,7 @@ style old_two_button:
     xmaximum (750 // 2) - 20
 
 style old_two_button_text:
-    is old_three_text
+    is old_three_button_text
     size 33
     xmaximum (750 // 2) - 20 - 40
 

@@ -1837,30 +1837,6 @@ python early hide:
 
     def execute_timed_menu(p):
 
-        # Figure out how long to show this menu on-screen for. This is either
-        # the `wait` argument or the length of time it will take to post all
-        # the chat messages
-        wait_time = 0
-        if p['wait'] is not None:
-            try:
-                wait_time = eval(p['wait'])
-            except:
-                print("WARNING: Could not evaluate the length of time to show",
-                    "the timed menu for.")
-                wait_time = 8
-        else:
-            # Try to evaluate the messages in the pre-menu block
-            try:
-                for msg in p['pre_menu_block']:
-                    wait_time += calculate_type_time(msg['what'])
-            except:
-                print("WARNING: Could not evaluate the 'what' part of all the",
-                    "menu captions to calculate a time.")
-                wait_time = 8
-
-        # Now adjust the wait_time for the pv
-        wait_time *= store.pv
-
         # Try to evaluate arguments passed to the menu
         arg_info = renpy.ast.ArgumentInfo(p['args'], p['pos'], p['kwargs'])
         args, kwargs = arg_info.evaluate()
@@ -1896,6 +1872,35 @@ python early hide:
                 print("parsing msg as CDS.", msg)
                 narration.append(execute_msg_stmt(msg, return_dict=True))
 
+
+        # Figure out how long to show this menu on-screen for. This is either
+        # the `wait` argument or the length of time it will take to post all
+        # the chat messages
+        wait_time = 0
+        if p['wait'] is not None:
+            try:
+                wait_time = eval(p['wait'])
+            except:
+                print("WARNING: Could not evaluate the length of time to show",
+                    "the timed menu for.")
+                wait_time = 8
+        else:
+            # Try to evaluate the messages in the pre-menu block
+            try:
+                for msg in narration:
+                    msg_time = calculate_type_time(msg['what'])
+                    if msg['pauseVal'] is not None:
+                        msg_time *= msg['pauseVal']
+                    wait_time += msg_time
+            except:
+                print("WARNING: Could not evaluate the 'what' part of all the",
+                    "menu captions to calculate a time.")
+                wait_time = 8
+
+        # Now adjust the wait_time for the pv
+        wait_time *= store.persistent.timed_menu_pv
+
+
         ## Look for keywords relating to how long these choices stay on-screen
         for a, kw in item_arguments:
             # Convert other arguments to more readable ones
@@ -1916,7 +1921,10 @@ python early hide:
                     # appear after the 3rd.
                     arg_appear = 0
                     for msg in narration[:(kw.get('appear_before', -1)-1)]:
-                        arg_appear += calculate_type_time(msg['what'])
+                        msg_time = calculate_type_time(msg['what'])
+                        if msg['pauseVal'] is not None:
+                            msg_time *= msg['pauseVal']
+                        arg_appear += msg_time
                     kw['appear_time'] = arg_appear
 
             if kw.get('disappear_before', None):
@@ -1930,38 +1938,13 @@ python early hide:
                 else:
                     arg_disappear = 0
                     for msg in narration[:kw.get('disappear_before', -1)]:
-                        arg_disappear += calculate_type_time(msg['what'])
+                        msg_time = calculate_type_time(msg['what'])
+                        if msg['pauseVal'] is not None:
+                            msg_time *= msg['pauseVal']
+                        arg_disappear += msg_time
                     kw['disappear_time'] = arg_disappear
                     print_file("Got a disappear time of", kw['disappear_time'])
 
-
-        # All right so now we have:
-        # choices : list of (label, condition, index) for all the choices
-        # item_arguments : list of (args, kwargs) corresponding to each choice
-        # narration : list of dict(who, what, pauseVal, img, bounce, specBubble)
-        # wait_time : pv-adjusted number of seconds to wait before this menu
-        #       times out
-        # args, kwargs : arguments for the menu itself (overall)
-        # p['items'] : Mostly I need the `block` from this tuple for the choices
-
-        # ...So I'm not sure what to do with this SubParse block thing
-        print("\n   TEST: SubParse is", p['items'][0][2])
-        print("   TEST: SubParse is", p['items'][0][2].block)
-        print("\n   TEST: SubParse is", p['items'][1][2])
-        print("   TEST: SubParse is", p['items'][1][2].block)
-
-        print("\nWHAT WE ENDED UP WITH FOR NARRATION")
-        for msg in narration:
-            print(msg['who'].name, ":", msg['what'], "pv=", msg['pauseVal'],
-                "img=", msg['img'], "bounce=", msg['bounce'], "specBubble=",
-                msg['specBubble'])
-        print("\nWHAT WE GOT FOR MENU ARGUMENTS:", args, "kwargs", kwargs)
-        print("\nHOW THE CHOICES LOOK")
-        for (label, condition, i) in choices:
-            print("Choice 1 is", label, "with condition", condition, "and",
-                "arguments", item_arguments[i][0], "and kwargs",
-                item_arguments[i][1])
-        print("\nWHAT THE LABEL IS CALLED:", post_timed_menu(p))
 
         ## OKAY time to parse the arguments for the set and conditions
         ## It looks like each item in regular choices is a tuple of
@@ -2028,34 +2011,54 @@ python early hide:
             if not label:
                 value = None
             if isinstance(value, renpy.ui.ChoiceReturn):
-                action = value
-                chosen = action.get_chosen()
-                item_args = action.args
-                item_kwargs = action.kwargs
+                new_val = value
+                chosen = value.get_chosen()
+                item_args = value.args
+                item_kwargs = value.kwargs
             elif value is not None:
-                action = renpy.ui.ChoiceReturn(label, value, location)
-                chosen = action.get_chosen()
+                new_val = renpy.ui.ChoiceReturn(label, value, location)
+                chosen = new_val.get_chosen()
                 item_args = ()
                 item_kwargs = { }
             else:
-                action = None
+                new_val = None
                 chosen = False
                 item_args = ()
                 item_kwargs = { }
 
             if renpy.config.choice_screen_chosen:
-                me = renpy.exports.MenuEntry((label, action, chosen))
+                me = renpy.exports.MenuEntry((label, new_val, chosen))
             else:
-                me = renpy.exports.MenuEntry((label, action))
+                me = renpy.exports.MenuEntry((label, new_val))
 
+            me.value = new_val
             me.caption = label
-            me.action = action
             me.chosen = chosen
             me.args = item_args
             me.kwargs = item_kwargs
-            me.subparse = p['items'][action.value][2]
+            if new_val:
+                me.subparse = p['items'][new_val.value][2]
+                me.action = Function(execute_timed_menu_action, item=me)
+            else:
+                me.subparse = None
+                me.action = None
 
             item_actions.append(me)
+
+        # Create a "dummy action" that can be used for autoanswer timed menu
+        label = "(Say nothing)"
+        value = renpy.ui.ChoiceReturn(label, item_actions[-1].value.value + 1,
+            location, sensitive=True, args=tuple(), kwargs=dict())
+        me = renpy.exports.MenuEntry((label, value))
+        me.value = value
+        me.caption = label
+        me.chosen = value.get_chosen()
+        me.args = tuple()
+        me.kwargs = dict()
+        me.subparse = False
+        me.action = Function(execute_timed_menu_action, item=me,
+                            jump_to_end=True)
+
 
         ## Now to pass this somewhere as a comprehensible object:
         menu_dict = dict(items=item_actions,
@@ -2064,7 +2067,8 @@ python early hide:
                         menu_set=set,
                         wait_time=wait_time,
                         narration=narration,
-                        end_label=post_timed_menu(p))
+                        end_label=post_timed_menu(p),
+                        autoanswer=me)
         store.timed_menu_dict = menu_dict
         renpy.jump('execute_timed_menu')
 
