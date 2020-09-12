@@ -184,36 +184,6 @@ init -5 python:
             self.bubble_color = bubble_color
             self.right_msgr = right_msgr
 
-            if self.file_id:
-                if not self.bubble_color:
-                    reg_bub_img = "Bubble/" + self.file_id + "-Bubble.webp"
-                    # This person is the messenger; typically MC
-                    if self.right_msgr:
-                        reg_bub_img = Transform(reg_bub_img, xzoom=-1)
-                        self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
-                    else:
-                        self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
-                else:
-                    reg_bub_img = reg_bubble_fn(self.bubble_color)
-                    if self.right_msgr:
-                        reg_bub_img = Transform(reg_bub_img, xzoom=-1)
-                        self.reg_bubble_img = Frame(reg_bub_img, 18,18,25,18)
-                    else:
-                        self.reg_bubble_img = Frame(reg_bub_img, 25,18,18,18)
-
-                if not self.glow_color:
-                    glow_bub_img = "Bubble/" + self.file_id + "-Glow.webp"
-                    self.glow_bubble_img = Frame(glow_bub_img, 25,25)
-                else:
-                    self.glow_bubble_img = Frame(
-                        glow_bubble_fn(self.glow_color), 25, 25
-                    )
-            else:
-                self.reg_bubble_img = Frame("Bubble/white-Bubble.webp",
-                                            25,18,18,18)
-                self.glow_bubble_img = Frame("Bubble/Special/sa_glow2.webp",
-                                            25,25)
-
             self.emote_list = emote_list
 
             self.text_msg = TextMessage(self)
@@ -236,6 +206,41 @@ init -5 python:
             # Any initialized character should go in all_characters
             if self not in store.all_characters and self.prof_pic:
                 store.all_characters.append(self)
+
+
+        @property
+        def reg_bubble_img(self):
+
+            if not self.file_id:
+                return Frame("Bubble/white-Bubble.webp", 25,18,18,18)
+
+            if not self.bubble_color:
+                reg_bub_img = "Bubble/" + self.file_id + "-Bubble.webp"
+                # This person is the messenger; typically MC
+                if self.right_msgr:
+                    reg_bub_img = Transform(reg_bub_img, xzoom=-1)
+                    return Frame(reg_bub_img, 18,18,25,18)
+                else:
+                    return Frame(reg_bub_img, 25,18,18,18)
+            else:
+                reg_bub_img = reg_bubble_fn(self.bubble_color)
+                if self.right_msgr:
+                    reg_bub_img = Transform(reg_bub_img, xzoom=-1)
+                    return Frame(reg_bub_img, 18,18,25,18)
+                else:
+                    return Frame(reg_bub_img, 25,18,18,18)
+
+        @property
+        def glow_bubble_img(self):
+
+            if not self.file_id:
+                return Frame("Bubble/Special/sa_glow2.webp", 25,25)
+
+            if not self.glow_color:
+                glow_bub_img = "Bubble/" + self.file_id + "-Glow.webp"
+                return Frame(glow_bub_img, 25,25)
+            else:
+                return Frame(glow_bubble_fn(self.glow_color), 25, 25)
 
         @property
         def voicemail(self):
@@ -622,12 +627,13 @@ init -5 python:
 
             # Check if we just got out of a menu and there's dialogue
             # for the main character
-            if (self != store.m and not store.dialogue_paraphrase
+            if (self != store.main_character and not store.dialogue_paraphrase
                     and store.dialogue_picked != ""):
                 say_choice_caption(store.dialogue_picked,
                     store.dialogue_paraphrase, store.dialogue_pv)
 
-            if self == store.m and not kwargs.get('from_paraphrase', None):
+            if (self == store.main_character
+                    and not kwargs.get('from_paraphrase', None)):
                 # This didn't come from `say_choice_caption`, but the MC is
                 # speaking. Is this the same dialogue that was going to be
                 # posted?
@@ -676,7 +682,7 @@ init -5 python:
                 if not store.observing:
                     new_pv = pauseVal
                     # For replays, MC shouldn't reply instantly
-                    if self.right_msgr and new_pv == 0:
+                    if self == store.main_character and new_pv == 0:
                         new_pv = None
                     store.current_timeline_item.replay_log.append(ReplayEntry(
                         self, what, new_pv, img, bounce, specBubble))

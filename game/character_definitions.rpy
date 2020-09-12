@@ -203,9 +203,8 @@ default ju = ChatCharacter("Jumin Han", 'ju',
                 phone_char=ju_phone, vn_char=ju_vn,
                 pronunciation_help="jumin han")
 default m = ChatCharacter("[persistent.name]", 'm',
-                persistent.MC_pic, right_msgr=True,
-                phone_char=m_phone, vn_char=m_vn,
-                pronunciation_help="you")
+                persistent.MC_pic, right_msgr=True, phone_char=m_phone,
+                vn_char=m_vn, pronunciation_help="you")
 default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.webp',
                 'Profile Pics/r_chat.webp', "#b81d7b",
                 "Cover Photos/profile_cover_photo.webp", "Ray's status",
@@ -278,6 +277,11 @@ default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
 # voice toggle in the settings screen
 # Unknown and Saeran are lumped into Ray's voice button and MC doesn't speak
 default novoice_chars = [u, sa, m]
+
+# If a character other than `m` is here, it will set them to display on
+# the right side of the messenger instead. During menus, this will be the
+# character who will speak non-paraphrased dialogue.
+default main_character = m
 
 init offset = 0
 

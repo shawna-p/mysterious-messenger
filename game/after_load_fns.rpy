@@ -487,6 +487,12 @@ init python:
             for chara in store.all_characters:
                 unlock_profile_pics(chara)
 
+        for chara in store.all_characters:
+            if chara == store.main_character:
+                chara.right_msgr = True
+            else:
+                chara.right_msgr = False
+
         # store.persistent.unlocked_prof_pics = list(dict.fromkeys(store.persistent.unlocked_prof_pics))
         # to_remove = []
         # for item in store.persistent.unlocked_prof_pics:
