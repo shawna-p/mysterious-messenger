@@ -426,10 +426,15 @@ init -4 python:
 
         # If the program didn't get an explicit pauseVal,
         # use the default one
-        if pauseVal is None:
-            pauseVal = pv
+        if store.timed_menu_dict and not persistent.autoanswer_timed_menus:
+            if pauseVal is None:
+                pauseVal = persistent.timed_menu_pv
+            else:
+                pauseVal *= persistent.timed_menu_pv
+        elif pauseVal is None:
+            pauseVal = persistent.pv
         else:
-            pauseVal *= pv
+            pauseVal *= persistent.pv
 
         # If this is the first message after "filler", it gets a pv of 0
         if (len(store.chatlog) > 0
@@ -457,7 +462,7 @@ init -4 python:
         if pauseVal == 0:
             pass
         elif who.file_id == 'delete':
-            messenger_pause(pv)
+            messenger_pause(persistent.pv)
             return
         elif who.name in ['msg', 'filler']:
             messenger_pause(pauseVal, True)
@@ -602,15 +607,17 @@ init python:
     # Increase/decrease the chat speed
     # It goes 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
     def slow_pv():
-        global pv
-        if pv <= 1.3:
-            pv += store.chat_speed_increment
+        global persistent
+        if persistent.pv <= 1.3:
+            persistent.pv += store.chat_speed_increment
+        store.pv = persistent.pv
         return
 
     def fast_pv():
-        global pv
-        if pv >= 0.3:
-            pv -= store.chat_speed_increment
+        global persistent
+        if persistent.pv >= 0.3:
+            persistent.pv -= store.chat_speed_increment
+        store.pv = persistent.pv
         return
 
     def glow_bubble_fn(glow_color='#000'):
@@ -641,6 +648,7 @@ default yadj = ui.adjustment()
 default nickColour = "#000000"
 # Default variable to adjust chat speed by
 default pv = 0.8
+default persistent.pv = 0.8
 # These two values are used for the pauseFailSafe function
 default chatbackup = ChatEntry(filler,"","")
 default oldPV = pv

@@ -261,13 +261,13 @@ label chatroom_replay():
                         renpy.show("center_crop_bg:bg "+second, at_list=[shake])
                 elif first == "enter":
                     mystring = second.name + " has entered the chatroom."
-                    addchat(special_msg, mystring, pv)
+                    addchat(special_msg, mystring, persistent.pv)
                     if second.name not in in_chat:
                         in_chat.append(second.name)
                     renpy.restart_interaction()
                 elif first == "exit":
                     mystring = second.name + " has left the chatroom."
-                    addchat(special_msg, mystring, pv)
+                    addchat(special_msg, mystring, persistent.pv)
                     if second.name in in_chat:
                         in_chat.remove(second.name)
                     renpy.restart_interaction()

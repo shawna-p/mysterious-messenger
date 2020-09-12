@@ -106,7 +106,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
 
     # Give the player a moment to read the last of the messages
     # before jumping to the VN
-    $ renpy.pause(pv*2.0)
+    $ renpy.pause(persistent.pv*2.0)
     call screen continue_button
     # Hide all the chatroom screens
     $ reset_story_vars(vn_jump=True)
