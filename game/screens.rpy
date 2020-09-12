@@ -308,7 +308,7 @@ init python:
         # Otherwise, send this dialogue to the appropriate channel
         print_file("Executing dialogue", dialogue, "as non-paraphrase")
 
-        store.m(dialogue, pauseVal=p, from_paraphrase=True)
+        store.main_character(dialogue, pauseVal=p, from_paraphrase=True)
         store.dialogue_picked = ""
         store.dialogue_paraphrase = store.paraphrase_choices
         store.dialogue_pv = 0
@@ -386,17 +386,17 @@ screen choice(items, paraphrased=None):
                                 or not text_person.real_time_text),
                             [Show('text_message_screen',
                                         sender=text_person),
-                                i.action,
                                 SetVariable('dialogue_picked', i.caption),
                                 Function(set_paraphrase, screen_pref=paraphrased,
                                     item_pref=(i.kwargs.get('paraphrased',
-                                    None)))
+                                    None))),
+                                i.action
                                 ],
-                            [i.action,
-                                SetVariable('dialogue_picked', i.caption),
+                            [SetVariable('dialogue_picked', i.caption),
                                 Function(set_paraphrase, screen_pref=paraphrased,
                                     item_pref=(i.kwargs.get('paraphrased',
-                                    None)))
+                                    None))),
+                                i.action
                             ])
 
     # For VN mode and phone calls
@@ -414,12 +414,12 @@ screen choice(items, paraphrased=None):
                         foreground 'seen_choice_check_circle'
                         background 'call_choice_check'
                         hover_background 'call_choice_check_hover'
-                    action [i.action,
-                        SetVariable('dialogue_picked', i.caption),
+                    action [SetVariable('dialogue_picked', i.caption),
                         Function(set_paraphrase, screen_pref=paraphrased,
                             item_pref=(i.kwargs.get('paraphrased',
                             None)),
-                            save_choices=True)
+                            save_choices=True),
+                        i.action
                         ]
 
     # For emails
@@ -468,18 +468,18 @@ screen choice(items, paraphrased=None):
                             # to the bottom
                             Hide('messenger_screen'),
                             Show('messenger_screen'),
-                            i.action,
                             SetVariable('dialogue_picked', i.caption),
                             Function(set_paraphrase, screen_pref=paraphrased,
                                 item_pref=(i.kwargs.get('paraphrased',
                                 None))),
-                            SetVariable('dialogue_pv', None)
+                            SetVariable('dialogue_pv', None),
+                            i.action
                                 ],
-                        [i.action,
-                            SetVariable('dialogue_picked', i.caption),
+                        [SetVariable('dialogue_picked', i.caption),
                             Function(set_paraphrase, screen_pref=paraphrased,
                                 item_pref=(i.kwargs.get('paraphrased',
-                                None)))
+                                None))),
+                            i.action
                             ])
 
 

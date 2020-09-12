@@ -239,7 +239,7 @@ init -6 python:
             return
 
         if pauseVal == None:
-            pauseVal = store.pv
+            pauseVal = store.persistent.pv
 
         if who.file_id != 'delete':
             text_pauseFailsafe(textlog)
@@ -249,7 +249,7 @@ init -6 python:
         if pauseVal == 0:
             pass
         elif who.file_id == 'delete':
-            renpy.pause(pv)
+            renpy.pause(store.persistent.pv)
         # Otherwise, pause to simulate typing time
         else:
             # Get the number of words in the message

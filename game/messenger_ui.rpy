@@ -103,9 +103,11 @@ label play():
         show screen pause_button
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
-    if _in_replay and timed_menu_dict:
+    if (_in_replay or persistent.autoanswer_timed_menus) and timed_menu_dict:
         # Haven't posted all the narration for a timed menu
-        jump no_timed_menu_choices
+        call screen play_button
+        show screen pause_button
+        jump play_timed_menu_narration
     if not text_person:
         # Playing a chatroom
         call screen play_button
@@ -386,7 +388,7 @@ init python:
             # Max Speed active
             modifier = 0.0
         else:
-            modifier = 0.1875 * (((store.pv - 0.2) /
+            modifier = 0.1875 * (((store.persistent.pv - 0.2) /
                                 store.chat_speed_increment) - 4)
         return count_time + (count_time * modifier)
 

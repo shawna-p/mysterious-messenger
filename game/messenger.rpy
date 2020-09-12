@@ -55,9 +55,6 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                             and i in no_anim_list):
                         use chat_animation(i, no_anim=True)
                 null height 10
-            if timed_menu_dict:
-                #add 'timed_menu_anim'
-                null height 220
 
 ## This displays the special messages like "xyz
 ## has entered the chatroom"
