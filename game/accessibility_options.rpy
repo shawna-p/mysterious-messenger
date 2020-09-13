@@ -12,10 +12,10 @@ default persistent.banners = True
 default persistent.hacking_effects = True
 # Shows a notification informing the player of audio cues
 default persistent.audio_captions = False
-# Allows the player to toggle timed menus on or off
-default persistent.autoanswer_timed_menus = False
+# Toggles whether timed menus are included or not
+default persistent.use_timed_menus = True
 # The speed multiplier for timed menus
-default persistent.timed_menu_pv = 0.8
+default persistent.timed_menu_pv = 1.0
 # Displays notifications instead of animated icons
 default persistent.animated_icons = True
 # Adds outline to VN dialogue

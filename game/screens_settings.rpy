@@ -671,7 +671,7 @@ screen preferences():
             has vbox
             #null height -5
             frame:
-                xysize (675,540)#480)
+                xysize (675,550)#480)
                 background "menu_settings_panel"
                 text "Other Settings" style "settings_style" xpos 45 ypos 2
                 style_prefix "settings_slider"
@@ -684,6 +684,17 @@ screen preferences():
                     hbox:
                         textbutton _("Auto-Forward Time")
                         bar value Preference("auto-forward time"):
+                            bar_invert True
+
+                    hbox:
+                        textbutton _("Timed Menu Speed"):
+                            action [SetField(persistent, 'timed_menu_pv',
+                                    persistent.pv)]
+                            # Timed menu speed multiplier
+                            # 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
+                        bar value FieldValue(persistent, 'timed_menu_pv',
+                                    2.0, style='sound_settings_slider',
+                                    offset=0.2):
                             bar_invert True
 
                     hbox:
@@ -701,17 +712,6 @@ screen preferences():
                         bar value FieldValue(persistent, 'starry_contrast',
                                     1.0, style='sound_settings_slider',
                                     step=0.1)
-
-                    hbox:
-                        textbutton _("Timed Menu Speed"):
-                            action [SetField(persistent, 'timed_menu_pv',
-                                    persistent.pv)]
-                            # Timed menu speed multiplier
-                            # 1.4, 1.25, 1.1, 0.95, 0.8, 0.65, 0.5, 0.35, 0.2
-                        bar value FieldValue(persistent, 'timed_menu_pv',
-                                    2.3, style='sound_settings_slider',
-                                    step=0.1, offset=0.2):
-                            bar_invert True
 
                     null height 5
                     hbox:
@@ -765,8 +765,8 @@ screen preferences():
                     use toggle_buttons('hacking_effects', "Hacking Effects")
                     use toggle_buttons('screenshake', "Screen Shake")
                     use toggle_buttons('banners', "Chatroom Banners")
-                    use toggle_buttons('autoanswer_timed_menus',
-                                        "Auto-Answer Timed Menus")
+                    use toggle_buttons('use_timed_menus',
+                                        "Timed Menus")
                     use toggle_buttons('animated_icons',
                                         "Animated Icons")
                     use toggle_buttons('dialogue_outlines',

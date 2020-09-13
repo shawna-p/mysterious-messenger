@@ -92,6 +92,11 @@ init python:
             elif store.persistent.pronoun == 'male':
                 store.persistent.pronoun = 'he/him'
 
+            if store.persistent.autoanswer_timed_menus is not None:
+                store.persistent.use_timed_menus = not store.persistent.autoanswer_timed_menus
+                store.persistent.autoanswer_timed_menus = None
+
+
             # Update music variables to their .ogg counterparts
             update_music()
             # Check if chat_archive is the tutorial day one though, since
