@@ -151,7 +151,7 @@ init -6 python:
         def text_separator_time(self):
             """Return the time formatted for the text message date separator."""
 
-            the_time = (self.year + '.' + self.month_num + '.' + self.day
+            return (self.year + '.' + self.month_num + '.' + self.day
                 + ' ' + self.weekday)
 
         def has_occurred(self):
