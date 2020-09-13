@@ -250,7 +250,7 @@ style battery_bar_undetected:
 ## This screen shows the header/footer above the chat
 screen phone_overlay():
     zorder 2
-    add 'phone_ui'  # You can set this to your own image
+    add 'phone_ui'
 
     $ battery = renpy.display.behavior.pygame.power.get_power_info()
 

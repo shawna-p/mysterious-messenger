@@ -38,6 +38,9 @@ init python:
 # Displays notifications instead of heart icons
 # Replaced with persistent.animated_icons
 default persistent.heart_notifications = False
+# Allows the player to toggle timed menus on or off.
+# Replaced with persistent.use_timed_menus
+default persistent.autoanswer_timed_menus = None
 
 ## Deprecated; replaced with `invite guest_var`. You can call this label with
 ## `call invite(guest_var)` and it will trigger the guest to email the player.

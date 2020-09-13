@@ -174,7 +174,7 @@ label execute_timed_menu():
     jump expression end_label
 
 ## A label used during a replay when the player has never chosen an answer
-## in a timed menu
+## in a timed menu, or if they have autoanswer timed menus turned on
 label play_timed_menu_narration():
     # No new screens to show; just execute the narration and jump to
     # the end
@@ -284,12 +284,13 @@ screen timed_choice(items, paraphrased=None):
                         at the_anim(fnum)
 
                     textbutton i.caption:
-                        # Check if the caption is pretty long
+                        # Check if the caption is long; reduce font size
                         if (len(i.caption) > 60
                                 or (len(items) > 2 and len(i.caption) > 42)):
                             text_size 25
                         elif len(i.caption) > 42:
                             text_size 28
+
                         if (persistent.dialogue_outlines
                                 and persistent.custom_footers):
                             text_outlines [ (2, "#000",
@@ -315,7 +316,8 @@ screen timed_choice(items, paraphrased=None):
                                 None))),
                                 i.action]
 
-
+                    ## A little hourglass animation to indicate this choice
+                    ## is about to expire
                     if i.kwargs.get('disappear_time', None):
                         add 'header_hg' align (0.5, 0.98):
                             if i.kwargs.get('appear_time', None):
