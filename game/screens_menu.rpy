@@ -881,7 +881,8 @@ screen menu_header(title, return_action=NullAction,
                         action Show('text_message_hub', Dissolve(0.5))
                     # If the player is texting in real time, leaving
                     # text messages works differently
-                    elif text_person and text_person.real_time_text:
+                    elif (text_person and text_person.real_time_text
+                            and text_person.text_msg.reply_label):
                         action CConfirm(("Do you really want to leave this"
                                     + " text message? You won't be able to"
                                     + " continue this conversation."),
@@ -1517,7 +1518,8 @@ screen pick_chara_pfp(who):
                             If(persistent.spendable_hearts.get(
                                 who.file_id, 0) >= pfp_cost,
                             [SetDict(persistent.spendable_hearts, who.file_id,
-                                persistent.spendable_hearts[who.file_id]-pfp_cost),
+                                persistent.spendable_hearts.get(who.file_id,
+                                0)-pfp_cost),
                             AddToSet(persistent.bought_prof_pics, img)],
                             CConfirm("You do not have enough heart points with "
                                 + who.name + " to purchase this picture.")))
