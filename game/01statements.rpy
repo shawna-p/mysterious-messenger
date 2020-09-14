@@ -2114,3 +2114,188 @@ python early hide:
                             block=True
                             )
 
+
+    def parse_continuous_menu(l):
+        l.require(':')
+        l.expect_eol()
+
+        block = l.subblock_lexer().renpy_block()
+
+        return {"block" : block}
+
+    def lint_continuous_menu(p):
+        return
+
+    def execute_continuous_menu(p):
+        # Should have received a subblock item
+        print("\nBLOCK IS", p['block'])
+        choice_id_lookup = {}
+        choice_begin = {}
+        choice_end = {}
+        # List of (beginning_index, end_index)
+        choice_pairs = [ ]
+
+        try:
+            for i, node in enumerate(p['block'].block):
+                if isinstance(node, renpy.ast.UserStatement):
+                    np = node.parsed[1]
+                    if node.parsed[0] == ('choice',):
+                        ## Got a choice
+                        choice_begin[post_choice_stmt(np)] = i
+                        choice_id_lookup[np['choice_id']] = post_choice_stmt(np)
+                    elif node.parsed[0] == ('end', 'choice',):
+                        ## Mark the end of the choice
+                        ## Fetch the id
+                        end_id = choice_id_lookup.get(np['choice_id'], None)
+                        if end_id is None:
+                            renpy.error("Need an identifier for choice statements.")
+                        # Add i+1 as the end index because the statement after
+                        # this one will be the PostUserStatement node
+                        choice_pairs.append((choice_begin[end_id], i+1))
+        except:
+            print("Couldn't parse the choices.")
+
+        print("This is the choice pairs list:", choice_pairs)
+        # Note: if a choice doesn't have a pair, we assume it ends at the end
+        # of the menu as a whole
+        beginning_ids = [b for b, e in choice_pairs ]
+        no_end_ids = [b for b in choice_begin.values() if b not in beginning_ids]
+        for i in no_end_ids:
+            choice_pairs.append((i, -1))
+        print("This is the ammended choice pairs list:", choice_pairs)
+        return
+
+        try:
+            for item in p['block'].block:
+                print(item)
+                if isinstance(item, renpy.ast.Translate):
+                    print("Found a translate block with:")
+                    for b in item.block:
+                        print(b)
+                if isinstance(item, renpy.ast.UserStatement):
+                    print("\nPrinting out info on the user statement")
+                    # parsed = (('msg',), p) where p is the parsed dictionary
+                    print("   parsed:", item.parsed)
+                    # line = 'msg u "Another test"'
+                    print("   line:", item.line)
+                    # block = a list of file/line num/literal line as a str
+                    print("   block:", item.block)
+                    # Name appears to be a unique ID ('tutorial.rpy', 12093, 3)
+                    print("   name:", item.name)
+                    print("Gonna try to execute the user statement")
+                    item.execute()
+        except:
+            print("Couldn't print block")
+        return
+
+    def label_continuous_menu(p):
+        return
+
+    def post_continuous_menu(p):
+        return
+
+    renpy.register_statement('continuous menu',
+                            parse=parse_continuous_menu,
+                            lint=lint_continuous_menu,
+                            execute=execute_continuous_menu,
+                            label=label_continuous_menu,
+                            force_begin_rollback=True,
+                            post_label=post_continuous_menu,
+                            block=True
+                            )
+
+    def parse_choice_stmt(l):
+        choice_id = l.simple_expression()
+        if choice_id is None:
+            renpy.error("Choice statement requires an identifier")
+
+        # Get caption
+        label = l.string()
+        args = c_parse_arguments(l, include_wait=False)
+        # Check for conditional statements
+        condition = 'True'
+        if l.keyword('if'):
+            condition = l.require(l.python_expression)
+
+        l.require(':')
+        l.expect_eol()
+        loc = l.get_location()
+        return dict(choice_id=choice_id,
+                    label=label,
+                    condition=condition,
+                    args=args,
+                    loc=loc)
+
+    def execute_choice_stmt(p):
+        print("Printing location", p['loc'])
+        print("Printing post_label", post_choice_stmt(p))
+        return
+
+    def post_choice_stmt(p):
+        lim = min(len(p['label']), 6)
+        name = [c for c in p['label'][1:lim] if c.isalpha()]
+        lbl = ''.join(name)
+        return "choice_" + p['choice_id'] + "_" + lbl + '_' + str(p['loc'][1])
+
+    renpy.register_statement('choice',
+                            parse=parse_choice_stmt,
+                            execute=execute_choice_stmt,
+                            post_label=post_choice_stmt,
+                            block=True)
+
+    def parse_end_choice(l):
+        choice_id = l.simple_expression()
+        if choice_id is None:
+            renpy.error("choice end requires an identifier")
+        loc = l.get_location()
+        return dict(choice_id=choice_id,
+                    loc=loc)
+
+    def execute_end_choice(p):
+        return
+
+    def post_end_choice(p):
+        return 'end_for_internal_use_' + p['choice_id'] + '_' + str(p['loc'][1])
+
+    renpy.register_statement('end choice',
+                            parse=parse_end_choice,
+                            execute=execute_end_choice,
+                            post_label=post_end_choice)
+
+# Thoughts on how continuous menus might work
+# s "Big trouble..."
+# continuous menu:
+#     y "What trouble?"
+#     s "It's..."
+#     always post:
+#         s "So, I check the health reports of all the members..."
+#     "Yoosung... what do we do now?":
+#         y "Why?"
+#         y "Did something happen?"
+#         s "Gah... I was just about to say."
+#     "What's big trouble?":
+#         y "Yeah. What is it?"
+#     "Seven's just messing around lol":
+#         y "Right? lolol"
+#         s "Not joking."
+#         s "I'm dead serious."
+
+#     y "Okay... Ur not saying that I can't dringak coffxee, r u?"
+#     y "*drink coffee?"
+#     always post:
+#         s "U can never ever!!! drink coffee."
+#         s "If u do, ur hands will start shaking and u'll faint eventually."
+#         y "Nah"
+#         y "I don't have that kind of allergy."
+#         y "No way~"
+#     "Ya. U'll be in trouble if u drink coffee.":
+#         s "Ya..."
+#         s "Seeing ur typos above, it seems like ur symptoms are showing already."
+
+# s "..."
+# s "I'm sorry."
+# s "U've already lost trust in me."
+# s "so u r not listening."
+# y "?"
+
+
