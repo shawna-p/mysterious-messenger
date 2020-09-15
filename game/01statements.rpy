@@ -2126,6 +2126,42 @@ python early hide:
     def lint_continuous_menu(p):
         return
 
+    def convert_node_to_time(node):
+        """Return how long a node should be on-screen for."""
+
+        if isinstance(node, renpy.ast.Say):
+            # May have been passed a pauseVal argument. If so, need to factor
+            # that in.
+            mult = 1.0
+            if node.arguments:
+                args, kwargs = node.arguments.evaluate()
+                if kwargs.get('pauseVal', -1) >= 0:
+                    mult = kwargs['pauseVal']
+            t = calculate_type_time(node.what)
+            t *= mult
+            print("Node's dialogue is", node.what, t)
+            return t
+        if isinstance(node, renpy.ast.UserStatement):
+            if node.parsed[0] != ('msg',):
+                return 0
+            # Otherwise, this is a msg CDS
+            np = node.parsed[1]
+            mult = 1.0
+            if np['pv'] != "None":
+                mult = eval(np['pv'])
+            t = calculate_type_time(np['what'])
+            t *= mult
+            print("Node's msg dialogue is", np['what'], t)
+            return t
+
+        if isinstance(node, list):
+            result = 0.0
+            for n in node:
+                result += convert_node_to_time(n)
+            return result
+        return 0.0
+
+
     def execute_continuous_menu(p):
         # Should have received a subblock item
         print("\nBLOCK IS", p['block'])
@@ -2136,13 +2172,19 @@ python early hide:
         choice_pairs = [ ]
 
         try:
+            dialogue_nodes = [ ]
             for i, node in enumerate(p['block'].block):
-                if isinstance(node, renpy.ast.UserStatement):
+                # Search through the nodes for `choice` and `end choice` CDSs.
+                # Also add relevant dialogue nodes to a list.
+                if isinstance(node, renpy.ast.Translate):
+                    dialogue_nodes.append(item.block)
+                elif isinstance(node, renpy.ast.UserStatement):
                     np = node.parsed[1]
                     if node.parsed[0] == ('choice',):
                         ## Got a choice
                         choice_begin[post_choice_stmt(np)] = i
                         choice_id_lookup[np['choice_id']] = post_choice_stmt(np)
+                        dialogue_nodes.append(None)
                     elif node.parsed[0] == ('end', 'choice',):
                         ## Mark the end of the choice
                         ## Fetch the id
@@ -2152,17 +2194,53 @@ python early hide:
                         # Add i+1 as the end index because the statement after
                         # this one will be the PostUserStatement node
                         choice_pairs.append((choice_begin[end_id], i+1))
+                        dialogue_nodes.append(None)
+                    elif node.parsed[0] == ('msg',):
+                        dialogue_nodes.append(node)
+                    else:
+                        dialogue_nodes.append(None)
+                else:
+                    dialogue_nodes.append(None)
         except:
             print("Couldn't parse the choices.")
 
         print("This is the choice pairs list:", choice_pairs)
-        # Note: if a choice doesn't have a pair, we assume it ends at the end
+        # Note: if a choice doesn't have a pair, assume it ends at the end
         # of the menu as a whole
         beginning_ids = [b for b, e in choice_pairs ]
         no_end_ids = [b for b in choice_begin.values() if b not in beginning_ids]
         for i in no_end_ids:
             choice_pairs.append((i, -1))
         print("This is the ammended choice pairs list:", choice_pairs)
+
+        # Time to convert the extracted dialogue nodes into something readable.
+        # Should generally have a list of ast.Say nodes and ast.UserStatement
+        # (msg) nodes.
+        node_times = [ ]
+        for node in dialogue_nodes:
+            if node is None:
+                node_times.append(0)
+                continue
+            node_times.append(convert_node_to_time(node))
+
+        # Now figure out how long each choice remains on-screen for
+        # A tuple of (beginning_index, end_index, time_to_post_dialogue)
+        choice_info = [ ]
+        for begin, end in choice_pairs:
+            dialogue_time = 0
+            # Look through the nodes in this section
+            if end == -1:
+                end = len(node_times)-1
+            for t in node_times[begin:end+1]:
+                print("Adding time", t, "to pair")
+                dialogue_time += t
+            choice_info.append((begin, end, dialogue_time))
+
+        # For testing
+        for b, e, t in choice_info:
+            print("Printing choice info:", b, e, t)
+
+
         return
 
         try:

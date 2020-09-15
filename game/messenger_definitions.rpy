@@ -501,7 +501,7 @@ init -4 python:
 
         typeTime = what.count(' ') + 1 # equal to the # of words
         # Since average reading speed is 200 wpm or 3.3 wps
-        typeTime = typeTime / 3
+        typeTime = typeTime / 3.0
         if typeTime < 1.5:
             typeTime = 1.5
         return typeTime
