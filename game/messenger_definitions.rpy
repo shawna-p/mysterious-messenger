@@ -426,7 +426,8 @@ init -4 python:
 
         # If the program didn't get an explicit pauseVal,
         # use the default one
-        if store.timed_menu_dict and not persistent.autoanswer_timed_menus:
+        if ((store.timed_menu_dict or store.c_menu_dict)
+                and not persistent.autoanswer_timed_menus):
             if pauseVal is None:
                 pauseVal = persistent.timed_menu_pv
             else:
