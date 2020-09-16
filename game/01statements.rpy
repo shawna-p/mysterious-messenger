@@ -2359,6 +2359,9 @@ python early hide:
         renpy.hide_screen("c_choice_1")
         renpy.hide_screen("c_choice_2")
         renpy.hide_screen("c_choice_3")
+        renpy.hide_screen("timed_menu_messages")
+        no_anim_list = store.chatlog[-20:-1]
+        renpy.show_screen('messenger_screen', no_anim_list=no_anim_list, animate_down=True)
         return
 
     renpy.register_statement('continuous menu',
@@ -2405,9 +2408,11 @@ python early hide:
         print("The choice id dict has", store.c_menu_dict['choice_id_dict'])
         item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
         print("Going to show", item)
+        if store.on_screen_choices <= 0:
+            renpy.hide_screen("messenger_screen")
+            no_anim_list = store.chatlog[-20:-1]
+            renpy.show_screen("timed_menu_messages", no_anim_list=no_anim_list)
         renpy.show_screen(allocate_choice_box(p['choice_id']), i=item)
-        renpy.show_screen(allocate_notification_screen(),
-            message="Showing choice:" + item.caption)
         store.on_screen_choices += 1
         return
 
@@ -2434,11 +2439,11 @@ python early hide:
     def execute_end_choice(p):
         choice_id_dict = store.c_menu_dict['choice_id_dict']
         item = choice_id_dict[p['choice_id']]
-        # hide_screen = store.c_menu_dict['showing_choices'][p['choice_id']]
-        # renpy.hide_screen(hide_screen)
-        renpy.show_screen(allocate_notification_screen(),
-            message="Hiding choice:" + item.caption)
         store.on_screen_choices -= 1
+        if store.on_screen_choices <= 0:
+            renpy.hide_screen("timed_menu_messages")
+            no_anim_list = store.chatlog[-20:]
+            renpy.show_screen('messenger_screen', no_anim_list=no_anim_list)
         return
 
     def post_end_choice(p):

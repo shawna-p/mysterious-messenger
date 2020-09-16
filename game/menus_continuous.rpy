@@ -17,10 +17,93 @@ init python:
             store.c_menu_dict['showing_choices'][choice_id] = result
         return result
 
+    def choice_move_left(trans, st, at):
+        """The transform function for the left choice."""
+
+        ## Center this choice if it's the only choice on-screen
+        if store.on_screen_choices == 1 and trans.xoffset != 0:
+            if trans.xoffset < 0:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+
+        ## Move this choice to the mid-left position if there are two choices
+        if store.on_screen_choices == 2 and trans.xoffset != -132:
+            if trans.xoffset < -132:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+
+        ## Move this choice to the fully left position if there are 3 choices
+        if store.on_screen_choices == 3 and trans.xoffset != -255:
+            if trans.xoffset < -255:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+        return 0.1
+
+    def choice_move_center(trans, st, at):
+        """The transform function for the center choice."""
+
+        ## Center this choice if it's the only choice on-screen
+        if store.on_screen_choices in [1, 3] and trans.xoffset != 0:
+            if trans.xoffset < 0:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+
+        ## This choice moves left or right depending on which other screen
+        ## is showing
+        if renpy.get_screen('c_choice_1') and trans.xoffset != 132:
+            if trans.xoffset < 132:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+
+        elif renpy.get_screen('c_choice_3') and trans.xoffset != -132:
+            if trans.xoffset < -132:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+        return 0.1
+
+    def choice_move_right(trans, st, at):
+        """The transform function for the right choice."""
+
+        ## Center this choice if it's the only choice on-screen
+        if store.on_screen_choices == 1 and trans.xoffset != 0:
+            if trans.xoffset < 0:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+
+        ## Move this choice to the mid-right position if there are two choices
+        if store.on_screen_choices == 2 and trans.xoffset != 132:
+            if trans.xoffset < 132:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+
+        ## Move this choice to the fully left position if there are 3 choices
+        if store.on_screen_choices == 3 and trans.xoffset != 255:
+            if trans.xoffset < 255:
+                trans.xoffset += store.choice_slide_speed
+            else:
+                trans.xoffset -= store.choice_slide_speed
+            return 0
+        return 0.1
+
 ## A label which handles displaying the dialogue for a continuous menu
 ## as well as the choices that will show up
 label execute_continuous_menu():
-    show screen test_choice_screen("A Test")
     if not c_menu_dict:
         $ print_file("ERROR: Something went wrong with continuous menus")
         return
@@ -35,21 +118,30 @@ label execute_continuous_menu():
 ## Dictionary which holds information needed to display continuous menus
 default c_menu_dict = { }
 default on_screen_choices = 0
+define choice_slide_speed = 3
 
 ## The screen which displays a single choice for a continuous menu.
-screen c_choice_1(i, x=-250, hide_screen='c_choice_1'):
+screen c_choice_1(i, hide_screen='c_choice_1'):
     zorder 150
 
     # Could check if the c_menu_dict['items'] only has two items
     # for two-item styling
     fixed:
-        at continue_appear_disappear(i.wait, persistent.timed_menu_pv)
+        if hide_screen == 'c_choice_1':
+            at continue_appear_disappear(i.wait, persistent.timed_menu_pv,
+                                        choice_move_left)
+        elif hide_screen == 'c_choice_2':
+            at continue_appear_disappear(i.wait, persistent.timed_menu_pv,
+                                        choice_move_center)
+        elif hide_screen == 'c_choice_3':
+            at continue_appear_disappear(i.wait, persistent.timed_menu_pv,
+                                        choice_move_right)
+
         if persistent.custom_footers:
             style_prefix 'new_three'
         else:
             style_prefix 'old_three'
         xalign 0.5
-        xoffset x
         yalign 1.0
         yoffset -113-20
         fit_first True
@@ -94,28 +186,31 @@ screen c_choice_1(i, x=-250, hide_screen='c_choice_1'):
 
 screen c_choice_2(i):
     zorder 150
-    use c_choice_1(i, x=-0, hide_screen='c_choice_2')
+    use c_choice_1(i, hide_screen='c_choice_2')
 
 screen c_choice_3(i):
     zorder 150
-    use c_choice_1(i, x=250, hide_screen='c_choice_3')
+    use c_choice_1(i, hide_screen='c_choice_3')
 
-transform continue_appear_disappear(end_delay, mod):
+transform continue_appear_disappear(end_delay, mod, fn):
     on show:
-        xzoom 0.01 alpha 0.0
         parallel:
-            pause 0.125*mod
-            ease 0.5*mod alpha 1.0
-        parallel:
-            ease 0.625*mod xzoom 1.0
+            xzoom 0.01 alpha 0.0
+            parallel:
+                pause 0.125*mod
+                ease 0.5*mod alpha 1.0
+            parallel:
+                ease 0.625*mod xzoom 1.0
 
-        xzoom 1.0 alpha 1.0 zoom 1.0
-        pause max((end_delay*mod) - (2.0*mod) - mod, 0.1)
-        # Indicate it's about to expire
-        block:
-            easein 0.25*mod alpha 0.7 zoom 1.1
-            easeout 0.25*mod alpha 1.0 zoom 1.0
-            repeat 2
+            xzoom 1.0 alpha 1.0 zoom 1.0
+            pause max((end_delay*mod) - (2.0*mod) - mod, 0.1)
+            # Indicate it's about to expire
+            block:
+                easein 0.25*mod alpha 0.7 zoom 1.1
+                easeout 0.25*mod alpha 1.0 zoom 1.0
+                repeat 2
+        parallel:
+            function fn
 
     on hide:
         # pause (end_delay*mod) - max((end_delay*mod) - (3.0*mod), 0.1) - mod
@@ -124,57 +219,3 @@ transform continue_appear_disappear(end_delay, mod):
         parallel:
             ease 0.625*mod xzoom 0.01
 
-
-init python:
-
-    ## Some experiments with CDDs here
-
-    class ChoiceBox(renpy.Displayable):
-
-        def __init__(self, item, **kwargs):
-
-            super(ChoiceBox, self).__init__(**kwargs)
-            # By default, this item should take up as much of the screen
-            # as it can
-            self.width = 740
-            self.height = 180
-            self.child = Fixed(xsize=self.width, ysize=self.height)
-
-
-        def render(self, width, height, st, at):
-
-            t = Fixed(xsize=self.width, ysize=self.height)
-            child_render = renpy.render(t, width, height, st, at)
-            self.width, self.height = child_render.get_size()
-            render = renpy.Render(self.width, self.height)
-            render.blit(child_render, (0, 0))
-            return render
-
-        def event(self, ev, x, y, st):
-
-            on_screen_choices = store.on_screen_choices
-            if on_screen_choices <= 0:
-                return self.child.event(ev, x, y, st)
-
-            if (750 // on_screen_choices) <= self.width:
-                self.width -= 100
-                renpy.redraw(self, 0)
-
-        def visit(self):
-            return [ self.child ]
-
-
-screen test_choice_screen(item):
-
-    zorder 150
-
-    button:
-        xminimum 50
-        ysize 180
-        background 'call_choice'
-        hover_background 'call_choice_hover'
-        yalign 0.8
-        yoffset -130
-        add ChoiceBox(item)
-        text item style 'phone_vn_choice_button_text'
-        action Function(print, "You pressed the button")
