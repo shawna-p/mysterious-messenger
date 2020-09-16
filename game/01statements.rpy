@@ -2408,6 +2408,7 @@ python early hide:
         renpy.show_screen(allocate_choice_box(p['choice_id']), i=item)
         renpy.show_screen(allocate_notification_screen(),
             message="Showing choice:" + item.caption)
+        store.on_screen_choices += 1
         return
 
     def post_choice_stmt(p):
@@ -2437,6 +2438,7 @@ python early hide:
         # renpy.hide_screen(hide_screen)
         renpy.show_screen(allocate_notification_screen(),
             message="Hiding choice:" + item.caption)
+        store.on_screen_choices -= 1
         return
 
     def post_end_choice(p):

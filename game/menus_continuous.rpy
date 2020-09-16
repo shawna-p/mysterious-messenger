@@ -20,6 +20,7 @@ init python:
 ## A label which handles displaying the dialogue for a continuous menu
 ## as well as the choices that will show up
 label execute_continuous_menu():
+    show screen test_choice_screen("A Test")
     if not c_menu_dict:
         $ print_file("ERROR: Something went wrong with continuous menus")
         return
@@ -33,7 +34,7 @@ label execute_continuous_menu():
 
 ## Dictionary which holds information needed to display continuous menus
 default c_menu_dict = { }
-
+default on_screen_choices = 0
 
 ## The screen which displays a single choice for a continuous menu.
 screen c_choice_1(i, x=-250, hide_screen='c_choice_1'):
@@ -122,3 +123,58 @@ transform continue_appear_disappear(end_delay, mod):
             ease 0.625*mod alpha 0.0
         parallel:
             ease 0.625*mod xzoom 0.01
+
+
+init python:
+
+    ## Some experiments with CDDs here
+
+    class ChoiceBox(renpy.Displayable):
+
+        def __init__(self, item, **kwargs):
+
+            super(ChoiceBox, self).__init__(**kwargs)
+            # By default, this item should take up as much of the screen
+            # as it can
+            self.width = 740
+            self.height = 180
+            self.child = Fixed(xsize=self.width, ysize=self.height)
+
+
+        def render(self, width, height, st, at):
+
+            t = Fixed(xsize=self.width, ysize=self.height)
+            child_render = renpy.render(t, width, height, st, at)
+            self.width, self.height = child_render.get_size()
+            render = renpy.Render(self.width, self.height)
+            render.blit(child_render, (0, 0))
+            return render
+
+        def event(self, ev, x, y, st):
+
+            on_screen_choices = store.on_screen_choices
+            if on_screen_choices <= 0:
+                return self.child.event(ev, x, y, st)
+
+            if (750 // on_screen_choices) <= self.width:
+                self.width -= 100
+                renpy.redraw(self, 0)
+
+        def visit(self):
+            return [ self.child ]
+
+
+screen test_choice_screen(item):
+
+    zorder 150
+
+    button:
+        xminimum 50
+        ysize 180
+        background 'call_choice'
+        hover_background 'call_choice_hover'
+        yalign 0.8
+        yoffset -130
+        add ChoiceBox(item)
+        text item style 'phone_vn_choice_button_text'
+        action Function(print, "You pressed the button")
