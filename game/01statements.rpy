@@ -2120,8 +2120,9 @@ python early hide:
         l.expect_eol()
 
         block = l.subblock_lexer().renpy_block()
+        loc = l.get_location()
 
-        return {"block" : block}
+        return {"block" : block, 'loc' : loc}
 
     def lint_continuous_menu(p):
         return
@@ -2153,6 +2154,9 @@ python early hide:
             t *= mult
             print("Node's msg dialogue is", np['what'], t)
             return t
+
+        if isinstance(node, renpy.ast.Translate):
+            return convert_node_to_time(node.block)
 
         if isinstance(node, list):
             result = 0.0
@@ -2229,17 +2233,93 @@ python early hide:
         for begin, end in choice_pairs:
             dialogue_time = 0
             # Look through the nodes in this section
+            final = p['block'].block[end]
             if end == -1:
                 end = len(node_times)-1
+                final = post_continuous_menu(p)
             for t in node_times[begin:end+1]:
                 print("Adding time", t, "to pair")
                 dialogue_time += t
-            choice_info.append((begin, end, dialogue_time))
+
+            choice_info.append((begin, end, dialogue_time, final))
 
         # For testing
-        for b, e, t in choice_info:
-            print("Printing choice info:", b, e, t)
+        for b, e, t, l in choice_info:
+            print("Printing choice info:", b, e, t, l)
 
+        # Need to package up choices for easy display. The program will get to
+        # a choice CDS and it needs to be able to retrieve information about
+        # how long it will be displayed on-screen and where its corresponding
+        # end choice label is.
+
+        # Should be a tuple of (dict, tuple) where dict is the dictionary for
+        # that choice and tuple is the choice_info for this item
+        choices = [(p['block'].block[b].parsed[1], (b, e, t, l))
+                    for b, e, t, l in choice_info]
+        print("choices is", choices)
+
+        # Filter out choices whose conditions are not True
+        new_items = [ ]
+        location = renpy.game.context().current
+
+        for np, info in choices:
+
+            condition = renpy.python.py_eval(np['condition'])
+
+            if (not renpy.config.menu_include_disabled) and (not condition):
+                continue
+
+            # Get the choice arguments
+            item_args = np['args']
+            arg_info = renpy.ast.ArgumentInfo(item_args['args'],
+                        item_args['pos'], item_args['kwargs'])
+            args, kwargs = arg_info.evaluate()
+            label = np['label']
+
+            new_items.append((label, renpy.ui.ChoiceReturn(label, begin,
+                location, sensitive=condition, args=args, kwargs=kwargs),
+                info, np['block'].block))
+
+        if len(new_items) == 0:
+            # There are no choices to show the player; should just
+            # execute the dialogue nodes
+            return None
+
+        item_actions = [ ]
+        choice_id_dict = { }
+        for (label, value, info, block) in new_items:
+            chosen = value.get_chosen()
+            item_args = value.args
+            item_kwargs = value.kwargs
+
+            me = renpy.exports.MenuEntry((label, value, chosen))
+
+            me.value = value
+            me.caption = label
+            me.chosen = chosen
+            me.args = item_args
+            me.kwargs = item_kwargs
+            me.wait = info[2]
+            me.choice_id = p['block'].block[info[0]].parsed[1]['choice_id']
+            # Determine what the action should be
+            if isinstance(info[3], renpy.ast.Node):
+                # If it's a node, then this choice has an explicit `end choice`
+                # CDS. Link that node to the end of the choice's block
+                block.extend(p['block'].block[info[1]:])
+                for a, b in zip(block, block[1:]):
+                    a.chain(b)
+            me.block = block
+            me.action = Function(execute_continuous_menu_action, item=me)
+            choice_id_dict[me.choice_id] = me
+            item_actions.append(me)
+
+        # Note: I'll need a dummy answer for when timed menus are off
+        # Also need to parse menu args/kwargs, but leave out sets
+        store.c_menu_dict = dict(items=item_actions,
+                                end_label=post_continuous_menu(p),
+                                narration=p['block'].block,
+                                choice_id_dict=choice_id_dict)
+        renpy.jump('execute_continuous_menu')
 
         return
 
@@ -2270,6 +2350,15 @@ python early hide:
         return
 
     def post_continuous_menu(p):
+        # lim = max(len(p['loc'][0]), -4)
+        name = [c for c in p['loc'][0][0:-4] if c.isalpha()]
+        lbl = ''.join(name)
+        return 'end_for_internal_use_' + lbl + '_' + str(p['loc'][1])
+
+    def post_execute_c_menu(p):
+        renpy.hide_screen("c_choice_1")
+        renpy.hide_screen("c_choice_2")
+        renpy.hide_screen("c_choice_3")
         return
 
     renpy.register_statement('continuous menu',
@@ -2279,6 +2368,7 @@ python early hide:
                             label=label_continuous_menu,
                             force_begin_rollback=True,
                             post_label=post_continuous_menu,
+                            post_execute=post_execute_c_menu,
                             block=True
                             )
 
@@ -2297,16 +2387,27 @@ python early hide:
 
         l.require(':')
         l.expect_eol()
+        l.expect_block('continuous menu choice')
+
+        block = parse_choice_block(l.subblock_lexer())
+
         loc = l.get_location()
+
         return dict(choice_id=choice_id,
                     label=label,
                     condition=condition,
                     args=args,
-                    loc=loc)
+                    loc=loc,
+                    block=block)
 
     def execute_choice_stmt(p):
-        print("Printing location", p['loc'])
-        print("Printing post_label", post_choice_stmt(p))
+        ## Only do this if the condition is True!
+        print("The choice id dict has", store.c_menu_dict['choice_id_dict'])
+        item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
+        print("Going to show", item)
+        renpy.show_screen(allocate_choice_box(p['choice_id']), i=item)
+        renpy.show_screen(allocate_notification_screen(),
+            message="Showing choice:" + item.caption)
         return
 
     def post_choice_stmt(p):
@@ -2330,6 +2431,12 @@ python early hide:
                     loc=loc)
 
     def execute_end_choice(p):
+        choice_id_dict = store.c_menu_dict['choice_id_dict']
+        item = choice_id_dict[p['choice_id']]
+        # hide_screen = store.c_menu_dict['showing_choices'][p['choice_id']]
+        # renpy.hide_screen(hide_screen)
+        renpy.show_screen(allocate_notification_screen(),
+            message="Hiding choice:" + item.caption)
         return
 
     def post_end_choice(p):
