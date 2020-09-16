@@ -42,8 +42,7 @@ screen c_choice_1(i, x=-250, hide_screen='c_choice_1'):
     # Could check if the c_menu_dict['items'] only has two items
     # for two-item styling
     fixed:
-        #at continue_appear_disappear(i.wait, persistent.timed_menu_pv)
-        at shrink_away()
+        at continue_appear_disappear(i.wait, persistent.timed_menu_pv)
         if persistent.custom_footers:
             style_prefix 'new_three'
         else:
@@ -109,13 +108,14 @@ transform continue_appear_disappear(end_delay, mod):
         parallel:
             ease 0.625*mod xzoom 1.0
 
-    xzoom 1.0 alpha 1.0 zoom 1.0
-    pause max((end_delay*mod) - (2.0*mod) - mod, 0.1)
-    # Indicate it's about to expire
-    block:
-        easein 0.25*mod alpha 0.6 zoom 1.1
-        easeout 0.25*mod alpha 1.0 zoom 1.0
-        repeat
+        xzoom 1.0 alpha 1.0 zoom 1.0
+        pause max((end_delay*mod) - (2.0*mod) - mod, 0.1)
+        # Indicate it's about to expire
+        block:
+            easein 0.25*mod alpha 0.7 zoom 1.1
+            easeout 0.25*mod alpha 1.0 zoom 1.0
+            repeat 2
+
     on hide:
         # pause (end_delay*mod) - max((end_delay*mod) - (3.0*mod), 0.1) - mod
         parallel:
