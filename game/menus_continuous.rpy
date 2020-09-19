@@ -1,5 +1,76 @@
 init python:
 
+    class ChoiceInfo(renpy.store.object):
+        """
+        A class which organizes information on a choice for a continuous menu.
+
+        Attributes:
+        -----------
+        begin : int
+            Index of the parent block where the choice begins.
+        end : int
+            Index of the parent block where the choice ends.
+        choice_id : string
+            Unique identifier for this particular choice.
+        wait_time : float
+            The time this choice will remain on-screen for after it is first
+            shown.
+        final_node : renpy.ast.Node
+            The final node to execute for this choice.
+        choice_dict : dict
+            A dictionary from the parsed choice CDS. Contains information on
+            the label and block for this choice, among other things.
+        """
+
+        def __init__(self, begin, end, choice_id=None):
+            """
+            Construct a ChoiceInfo object.
+
+            Parameters:
+            -----------
+            begin : int
+                Index of the parent block where the choice begins.
+            end : int
+                Index of the parent block where the choice ends.
+            choice_id : string
+                Unique identifier for this particular choice.
+            """
+
+            self.begin = begin
+            self.end = end
+            self.choice_id = choice_id
+            self.wait_time = 0.0
+            self.final_node = None
+            self.choice_dict = {}
+
+        def construct_action(self, nodes):
+            """Construct the block this choice should execute."""
+
+            block = self.choice_dict['block'].block
+
+            # If final is a node, then this choice has an explicit `end choice`
+            # CDS. The choice will execute, then jump to the end of the CDS.
+            if isinstance(self.final_node, renpy.ast.Node):
+                block.extend(nodes[self.end:])
+                for a, b in zip(block, block[1:]):
+                    a.chain(b)
+                return block
+
+            # Otherwise, the final action is the end of the menu. The choice
+            # action is simply to jump to the appropriate block
+            return block
+
+
+        def __str__(self):
+            """Print out a readable string representing this object."""
+
+            return ("<ChoiceInfo> object\n   begin: " + str(self.begin)
+                + "\n   end: " + str(self.end) + "\n   choice_id: "
+                + str(self.choice_id) + "\n   wait_time: " + str(self.wait_time)
+                + "\n   final_node: " + str(self.final_node))
+
+
+
     def execute_continuous_menu_action(item, jump_to_end=False):
         """
         Mark the selected choice as chosen and proceed to the choice
@@ -20,96 +91,111 @@ init python:
 
 
     def allocate_choice_box(choice_id):
-        result = allocate_screen(['c_choice_2', 'c_choice_1', 'c_choice_3'])
+        """Allocate an available choice screen."""
+
+        possible_screens = ['c_choice_2', 'c_choice_1', 'c_choice_3']
+
+        ## Make sure the least-recently allocated screens end up first in
+        ## the list
+        allocate_list = [ x for x in possible_screens
+                        if x not in store.recently_hidden_choice_screens ]
+        allocate_list.extend(store.recently_hidden_choice_screens)
+        result = allocate_screen(allocate_list)
+
         if store.c_menu_dict.get('showing_choices', None):
             store.c_menu_dict['showing_choices'][choice_id] = result
         else:
             store.c_menu_dict['showing_choices'] = {}
             store.c_menu_dict['showing_choices'][choice_id] = result
+
         return result
+
+    def adjust_xoffset(trans, x):
+        """Adjust the xoffset of trans to x."""
+
+        if trans.xoffset == x:
+            return 0.1
+
+        ## The desired xoffset may not divide nicely into the slide speed;
+        ## if we're off by a few pixels, just snap to position.
+        if ((trans.xoffset + store.choice_slide_speed) > x
+                and trans.xoffset < x):
+            trans.xoffset = x
+            return 0.1
+        elif ((trans.xoffset - store.choice_slide_speed) < x
+                and trans.xoffset > x):
+            trans.xoffset = x
+            return 0.1
+
+        if trans.xoffset < x:
+            trans.xoffset += store.choice_slide_speed
+        else:
+            trans.xoffset -= store.choice_slide_speed
+        return 0
 
     def choice_move_left(trans, st, at):
         """The transform function for the left choice."""
 
+        if c_menu_dict.get('max_choices', 3) < 3:
+            choice_offsets = store.choice_offsets_2
+        else:
+            choice_offsets = store.choice_offsets_3
+
         ## Center this choice if it's the only choice on-screen
-        if store.on_screen_choices == 1 and trans.xoffset != 0:
-            if trans.xoffset < 0:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if store.on_screen_choices == 1:
+            return adjust_xoffset(trans, choice_offsets[2])
 
         ## Move this choice to the mid-left position if there are two choices
-        if store.on_screen_choices == 2 and trans.xoffset != -132:
-            if trans.xoffset < -132:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if store.on_screen_choices == 2:
+            return adjust_xoffset(trans, choice_offsets[1])
 
         ## Move this choice to the fully left position if there are 3 choices
-        if store.on_screen_choices == 3 and trans.xoffset != -255:
-            if trans.xoffset < -255:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if store.on_screen_choices == 3:
+            return adjust_xoffset(trans, choice_offsets[0])
         return 0.1
 
     def choice_move_center(trans, st, at):
         """The transform function for the center choice."""
 
+        if c_menu_dict.get('max_choices', 3) < 3:
+            choice_offsets = store.choice_offsets_2
+        else:
+            choice_offsets = store.choice_offsets_3
+
         ## Center this choice if it's the only choice on-screen
-        if store.on_screen_choices in [1, 3] and trans.xoffset != 0:
-            if trans.xoffset < 0:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if store.on_screen_choices in [1, 3]:
+            return adjust_xoffset(trans, choice_offsets[2])
 
         ## This choice moves left or right depending on which other screen
         ## is showing
-        if renpy.get_screen('c_choice_1') and trans.xoffset != 132:
-            if trans.xoffset < 132:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if renpy.get_screen('c_choice_1'):
+            return adjust_xoffset(trans, choice_offsets[3])
 
-        elif renpy.get_screen('c_choice_3') and trans.xoffset != -132:
-            if trans.xoffset < -132:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        elif renpy.get_screen('c_choice_3'):
+            return adjust_xoffset(trans, choice_offsets[1])
         return 0.1
 
     def choice_move_right(trans, st, at):
         """The transform function for the right choice."""
 
+        if c_menu_dict.get('max_choices', 3) < 3:
+            choice_offsets = store.choice_offsets_2
+        else:
+            choice_offsets = store.choice_offsets_3
+
         ## Center this choice if it's the only choice on-screen
-        if store.on_screen_choices == 1 and trans.xoffset != 0:
-            if trans.xoffset < 0:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if store.on_screen_choices == 1:
+            return adjust_xoffset(trans, choice_offsets[2])
 
         ## Move this choice to the mid-right position if there are two choices
-        if store.on_screen_choices == 2 and trans.xoffset != 132:
-            if trans.xoffset < 132:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if store.on_screen_choices == 2:
+            return adjust_xoffset(trans, choice_offsets[3])
+
 
         ## Move this choice to the fully left position if there are 3 choices
-        if store.on_screen_choices == 3 and trans.xoffset != 255:
-            if trans.xoffset < 255:
-                trans.xoffset += store.choice_slide_speed
-            else:
-                trans.xoffset -= store.choice_slide_speed
-            return 0
+        if store.on_screen_choices == 3:
+            return adjust_xoffset(trans, choice_offsets[4])
+
         return 0.1
 
 ## A label which handles displaying the dialogue for a continuous menu
@@ -141,19 +227,20 @@ label finish_c_menu:
 
 
     ## Otherwise, this is the end of the menu
-    if not persistent.autoanswer_timed_menus:
+    if persistent.use_timed_menus:
         # Hide all the choice screens
-        hide screen timed_choice
-        hide screen answer_countdown
+        hide screen c_choice_1
+        hide screen c_choice_2
+        hide screen c_choice_3
         hide screen timed_menu_messages
         # Show the original messenger screen; it should animate back down into
         # position
         show screen messenger_screen(no_anim_list=no_anim_list, animate_down=True)
 
-    $ item = timed_menu_dict['item']
-    $ timed_menu_dict = {}
+    $ item = c_menu_dict['item']
+    $ c_menu_dict = {}
     # This executes the statements bundled after the choice
-    $ renpy.ast.next_node(item.subparse.block[0])
+    $ renpy.ast.next_node(item.block[0])
     return
 
 ## Dictionary which holds information needed to display continuous menus
@@ -163,29 +250,44 @@ default on_screen_choices = 0
 ## Size of the choices that are on-screen (approx 750 // on_screen_choices)
 default choice_box_size = 740
 ## Speed at which the animation for the choice boxes plays out
-define choice_slide_speed = 3
+define choice_slide_speed = 4
+## Offsets for the on-screen choices
+define choice_offsets_2 = (-185, -185, 0, 185, 185)
+define choice_offsets_3 = (-255, -132, 0, 132, 255)
+## Holds the most recently hidden choice screens to avoid pop-in
+default recently_hidden_choice_screens = []
 
 ## The screen which displays a single choice for a continuous menu.
 screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False):
     zorder 150
 
+    python:
+        if hide_screen == 'c_choice_1':
+            fn = choice_move_left
+        elif hide_screen == 'c_choice_2':
+            fn = choice_move_center
+        else:
+            fn = choice_move_right
+
     # Could check if the c_menu_dict['items'] only has two items
     # for two-item styling
     fixed:
-        if hide_screen == 'c_choice_1':
-            at continue_appear_disappear(i.wait, persistent.timed_menu_pv,
-                                        choice_move_left)
-        elif hide_screen == 'c_choice_2':
-            at continue_appear_disappear(i.wait, persistent.timed_menu_pv,
-                                        choice_move_center)
-        elif hide_screen == 'c_choice_3':
-            at continue_appear_disappear(i.wait, persistent.timed_menu_pv,
-                                        choice_move_right)
+        if first_choice:
+            at continue_appear_disappear_first(i.wait,
+                persistent.timed_menu_pv, fn)
+        else:
+            at continue_appear_disappear(i.wait, persistent.timed_menu_pv, fn)
 
         if persistent.custom_footers:
-            style_prefix 'new_three'
+            if c_menu_dict.get('max_choices', 3) < 3:
+                style_prefix 'new_two'
+            else:
+                style_prefix 'new_three'
         else:
-            style_prefix 'old_three'
+            if c_menu_dict.get('max_choices', 3) < 3:
+                style_prefix 'old_two'
+            else:
+                style_prefix 'old_three'
         xalign 0.5
         yalign 1.0
         yoffset -113-20
@@ -254,11 +356,10 @@ transform continue_appear_disappear(end_delay, mod, fn):
                 easein 0.25*mod alpha 0.7 zoom 1.1
                 easeout 0.25*mod alpha 1.0 zoom 1.0
                 repeat 2
-        # parallel:
-        #     function fn
+        parallel:
+            function fn
 
     on hide:
-        # pause (end_delay*mod) - max((end_delay*mod) - (3.0*mod), 0.1) - mod
         parallel:
             ease 0.625*mod alpha 0.0
         parallel:
@@ -281,11 +382,10 @@ transform continue_appear_disappear_first(end_delay, mod, fn):
                 easein 0.25*mod alpha 0.7 zoom 1.1
                 easeout 0.25*mod alpha 1.0 zoom 1.0
                 repeat 2
-        # parallel:
-        #     function fn
+        parallel:
+            function fn
 
     on hide:
-        # pause (end_delay*mod) - max((end_delay*mod) - (3.0*mod), 0.1) - mod
         parallel:
             ease 0.625*mod alpha 0.0
         parallel:

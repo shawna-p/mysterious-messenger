@@ -2167,14 +2167,20 @@ python early hide:
 
 
     def execute_continuous_menu(p):
-        # Should have received a subblock item
-        print("\nBLOCK IS", p['block'])
-        choice_id_lookup = {}
-        choice_begin = {}
-        choice_end = {}
-        # List of (beginning_index, end_index)
-        choice_pairs = [ ]
 
+        choice_id_lookup = {}
+        choice_begin_lookup = {}
+        # List of ChoiceInfo objects
+        choices = [ ]
+
+        after_menu_node = renpy.game.context().next_node
+        print_file("after_menu_node is", after_menu_node)
+
+        ## STEP ONE
+        ## Parse all the nodes in the SubParse block. Nodes containing dialogue
+        ## are added to a dialogue_nodes list, and nodes that do not contain
+        ## dialogue are added as None to retain indexing.
+        ## Choice pairs are assembled into a list of (begin, end) indexes.
         try:
             dialogue_nodes = [ ]
             for i, node in enumerate(p['block'].block):
@@ -2183,39 +2189,53 @@ python early hide:
                 if isinstance(node, renpy.ast.Translate):
                     dialogue_nodes.append(item.block)
                 elif isinstance(node, renpy.ast.UserStatement):
+                    # Get the parsed dictionary for the node
                     np = node.parsed[1]
                     if node.parsed[0] == ('choice',):
                         ## Got a choice
-                        choice_begin[post_choice_stmt(np)] = i
-                        choice_id_lookup[np['choice_id']] = post_choice_stmt(np)
+                        choice_id_lookup[np['choice_id']] = i
                         dialogue_nodes.append(None)
+                        choice_begin_lookup[i] = np['choice_id']
                     elif node.parsed[0] == ('end', 'choice',):
                         ## Mark the end of the choice
                         ## Fetch the id
-                        end_id = choice_id_lookup.get(np['choice_id'], None)
-                        if end_id is None:
+                        b_num = choice_id_lookup.get(np['choice_id'], None)
+                        if b_num is None:
                             renpy.error("Need an identifier for choice statements.")
                         # Add i+1 as the end index because the statement after
                         # this one will be the PostUserStatement node
-                        choice_pairs.append((choice_begin[end_id], i+1))
+                        choices.append(ChoiceInfo(b_num, i+1, np['choice_id']))
                         dialogue_nodes.append(None)
+
                     elif node.parsed[0] == ('msg',):
                         dialogue_nodes.append(node)
                     else:
                         dialogue_nodes.append(None)
+                elif isinstance(node, renpy.ast.If):
+                    ## This is a tricky case; need to evaluate if there are
+                    ## any statements in this If node that should be added
+                    ## to our list.
+                    added_if = False
+                    for condition, block in node.entries:
+                        if renpy.python.py_eval(condition):
+                            dialogue_nodes.append(block)
+                            added_if = True
+                            break
+                    if not added_if:
+                        dialogue_nodes.append(None)
+                elif isinstance(node, renpy.ast.Say):
+                    dialogue_nodes.append(node)
                 else:
                     dialogue_nodes.append(None)
         except:
-            print("Couldn't parse the choices.")
+            print_file("WARNING: Couldn't parse the choices.")
 
-        print("This is the choice pairs list:", choice_pairs)
-        # Note: if a choice doesn't have a pair, assume it ends at the end
-        # of the menu as a whole
-        beginning_ids = [b for b, e in choice_pairs ]
-        no_end_ids = [b for b in choice_begin.values() if b not in beginning_ids]
+        # If a choice doesn't have a pair, assume it ends at the end
+        # of the menu as a whole.
+        beginning_ids = [b.begin for b in choices ]
+        no_end_ids = [b for b in choice_id_lookup.values() if b not in beginning_ids]
         for i in no_end_ids:
-            choice_pairs.append((i, -1))
-        print("This is the ammended choice pairs list:", choice_pairs)
+            choices.append(ChoiceInfo(i, -1, choice_begin_lookup[i]))
 
         # Time to convert the extracted dialogue nodes into something readable.
         # Should generally have a list of ast.Say nodes and ast.UserStatement
@@ -2228,66 +2248,92 @@ python early hide:
             node_times.append(convert_node_to_time(node))
 
         # Now figure out how long each choice remains on-screen for
-        # A tuple of (beginning_index, end_index, time_to_post_dialogue)
-        choice_info = [ ]
-        for begin, end in choice_pairs:
+        # A tuple of (beginning_index, end_index, dialogue_time, final_node)
+        for c in choices:
             dialogue_time = 0
             # Look through the nodes in this section
-            final = p['block'].block[end]
-            if end == -1:
-                end = len(node_times)-1
-                final = post_continuous_menu(p)
-            for t in node_times[begin:end+1]:
-                print("Adding time", t, "to pair")
+            final = p['block'].block[c.end]
+            if c.end == -1:
+                c.end = len(node_times)-1
+                final = after_menu_node
+            for t in node_times[c.begin:c.end+1]:
                 dialogue_time += t
 
-            choice_info.append((begin, end, dialogue_time, final))
+            c.wait_time = dialogue_time
+            c.final_node = final
+            ## Add the choice dictionary
+            c.choice_dict = p['block'].block[c.begin].parsed[1]
 
-        # For testing
-        for b, e, t, l in choice_info:
-            print("Printing choice info:", b, e, t, l)
+
+        print_file("This is the ammended choice pairs list:")
+        for c in choices:
+            print_file(c)
 
         # Need to package up choices for easy display. The program will get to
         # a choice CDS and it needs to be able to retrieve information about
         # how long it will be displayed on-screen and where its corresponding
         # end choice label is.
 
-        # Should be a tuple of (dict, tuple) where dict is the dictionary for
-        # that choice and tuple is the choice_info for this item
-        choices = [(p['block'].block[b].parsed[1], (b, e, t, l))
-                    for b, e, t, l in choice_info]
-        print("choices is", choices)
 
         # Filter out choices whose conditions are not True
         new_items = [ ]
         location = renpy.game.context().current
 
-        for np, info in choices:
+        for c in choices:
 
-            condition = renpy.python.py_eval(np['condition'])
+            condition = renpy.python.py_eval(c.choice_dict['condition'])
 
             if (not renpy.config.menu_include_disabled) and (not condition):
                 continue
 
             # Get the choice arguments
-            item_args = np['args']
+            item_args = c.choice_dict['args']
             arg_info = renpy.ast.ArgumentInfo(item_args['args'],
                         item_args['pos'], item_args['kwargs'])
             args, kwargs = arg_info.evaluate()
-            label = np['label']
+            label = c.choice_dict['label']
 
-            new_items.append((label, renpy.ui.ChoiceReturn(label, begin,
-                location, sensitive=condition, args=args, kwargs=kwargs),
-                info, np['block'].block))
+            new_items.append((label, renpy.ui.ChoiceReturn(label, c.begin,
+                location, sensitive=condition, args=args, kwargs=kwargs), c))
 
         if len(new_items) == 0:
             # There are no choices to show the player; should just
             # execute the dialogue nodes
             return None
 
+        ## Calculate the maximum number of choices that are on-screen at
+        ## any given time. Should have a list of tuples that have begin/end
+        ## node information.
+        max_choices = 1
+        for l, r, c in new_items:
+            print("Looking at choice (", c.begin, ",", c.end, ")")
+            current_choices = 0
+            if i == len(new_items) - 1:
+                break
+
+            if c.end == -1:
+                final = len(p['block'].block) - 1
+            else:
+                final = c.end
+
+            for l2, r2, c2 in new_items:
+                print_file("Checking if", c2.begin, "in range", c.begin, "-", final)
+                if c2.begin in range(c.begin, final):
+                    current_choices += 1
+
+                if current_choices >= 3:
+                    break
+
+            # TODO: Maybe throw an error if more than 3 choices are on-screen
+            if current_choices >= 3:
+                max_choices = 3
+                break
+
+
+
         item_actions = [ ]
         choice_id_dict = { }
-        for (label, value, info, block) in new_items:
+        for (label, value, info) in new_items:
             chosen = value.get_chosen()
             item_args = value.args
             item_kwargs = value.kwargs
@@ -2299,16 +2345,9 @@ python early hide:
             me.chosen = chosen
             me.args = item_args
             me.kwargs = item_kwargs
-            me.wait = info[2]
-            me.choice_id = p['block'].block[info[0]].parsed[1]['choice_id']
-            # Determine what the action should be
-            if isinstance(info[3], renpy.ast.Node):
-                # If it's a node, then this choice has an explicit `end choice`
-                # CDS. Link that node to the end of the choice's block
-                block.extend(p['block'].block[info[1]:])
-                for a, b in zip(block, block[1:]):
-                    a.chain(b)
-            me.block = block
+            me.wait = info.wait_time
+            me.choice_id = info.choice_id
+            me.block = info.construct_action(p['block'].block)
             me.action = Function(execute_continuous_menu_action, item=me)
             choice_id_dict[me.choice_id] = me
             item_actions.append(me)
@@ -2318,7 +2357,8 @@ python early hide:
         store.c_menu_dict = dict(items=item_actions,
                                 end_label=post_continuous_menu(p),
                                 narration=p['block'].block,
-                                choice_id_dict=choice_id_dict)
+                                choice_id_dict=choice_id_dict,
+                                max_choices=max_choices)
         renpy.jump('execute_continuous_menu')
 
         return
@@ -2362,6 +2402,7 @@ python early hide:
         renpy.hide_screen("timed_menu_messages")
         no_anim_list = store.chatlog[-20:-1]
         renpy.show_screen('messenger_screen', no_anim_list=no_anim_list, animate_down=True)
+        print_file("executing after c menu")
         return
 
     renpy.register_statement('continuous menu',
@@ -2404,15 +2445,25 @@ python early hide:
                     block=block)
 
     def execute_choice_stmt(p):
-        ## Only do this if the condition is True!
-        print("The choice id dict has", store.c_menu_dict['choice_id_dict'])
+
+        ## Only show this choice if the condition is True
+        condition = renpy.python.py_eval(p['condition'])
+        if not condition:
+            return
+
         item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
-        print("Going to show", item)
+        first_choice = False
+
+        # Show the messenger screen animating up to reveal the choices
         if store.on_screen_choices <= 0:
+            first_choice = True
             renpy.hide_screen("messenger_screen")
             no_anim_list = store.chatlog[-20:-1]
             renpy.show_screen("timed_menu_messages", no_anim_list=no_anim_list)
-        renpy.show_screen(allocate_choice_box(p['choice_id']), i=item)
+
+        ## Allocate a choice box to display the choice in
+        renpy.show_screen(allocate_choice_box(p['choice_id']), i=item,
+                        first_choice=first_choice)
         store.on_screen_choices += 1
         return
 
@@ -2440,6 +2491,13 @@ python early hide:
         choice_id_dict = store.c_menu_dict['choice_id_dict']
         item = choice_id_dict[p['choice_id']]
         store.on_screen_choices -= 1
+        which_screen = store.c_menu_dict['showing_choices'].get(
+            p['choice_id'], None)
+        if which_screen:
+            if which_screen in store.recently_hidden_choice_screens:
+                store.recently_hidden_choice_screens.remove(which_screen)
+            store.recently_hidden_choice_screens.append(which_screen)
+
         if store.on_screen_choices <= 0:
             renpy.hide_screen("timed_menu_messages")
             no_anim_list = store.chatlog[-20:]
