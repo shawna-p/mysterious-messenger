@@ -144,7 +144,7 @@ label execute_timed_menu():
                 # Special case where we don't show the menu
                 renpy.jump('play_timed_menu_narration')
 
-    if persistent.autoanswer_timed_menus:
+    if not persistent.use_timed_menus:
         jump play_timed_menu_narration
 
     hide screen messenger_screen
@@ -188,7 +188,7 @@ label play_timed_menu_narration():
         $ who(what=msg['what'], pauseVal=msg['pauseVal'], img=msg['img'],
             bounce=msg['bounce'], specBubble=msg['specBubble'])
 
-    if _in_replay or not persistent.autoanswer_timed_menus:
+    if _in_replay or persistent.use_timed_menus:
         $ end_label = timed_menu_dict['end_label']
         $ timed_menu_dict = {}
         jump expression end_label
@@ -220,7 +220,7 @@ label finish_timed_menu():
 
     $ chatbackup = None
 
-    if not persistent.autoanswer_timed_menus:
+    if persistent.use_timed_menus:
         # Hide all the choice screens
         hide screen timed_choice
         hide screen answer_countdown

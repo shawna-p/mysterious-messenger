@@ -427,7 +427,7 @@ init -4 python:
         # If the program didn't get an explicit pauseVal,
         # use the default one
         if ((store.timed_menu_dict or store.c_menu_dict)
-                and not persistent.autoanswer_timed_menus):
+                and persistent.use_timed_menus):
             if pauseVal is None:
                 pauseVal = persistent.timed_menu_pv
             else:
@@ -571,6 +571,8 @@ init -4 python:
                 and last_chat.what == chatbackup.what):
             # the last entry was successfully added; return
             return
+
+        print_file("EXECUTING pause failsafe")
 
         # add the backup entry to the chatlog
         if reply_instant:

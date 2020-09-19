@@ -103,7 +103,7 @@ label play():
         show screen pause_button
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
-    if (_in_replay or persistent.autoanswer_timed_menus) and timed_menu_dict:
+    if (_in_replay or not persistent.use_timed_menus) and timed_menu_dict:
         # Haven't posted all the narration for a timed menu
         call screen play_button
         show screen pause_button
@@ -351,19 +351,20 @@ screen answer_countdown(themenu, count_time=5, custom_action=None):
         if custom_action:
             action custom_action
         else:
-            action If(persistent.autoanswer_timed_menus,
+            action If(persistent.use_timed_menus,
+
+                [ Hide('answer_countdown'),
+                Hide('continue_answer_button'),
+                Show('pause_button'),
+                SetVariable("timed_choose", False) ],
 
                 [ Hide('answer_countdown'),
                 Hide('continue_answer_button'),
                 Show('pause_button'),
                 SetVariable('choosing', True),
                 SetVariable('timed_choose', True),
-                Jump(themenu) ],
-
-                [ Hide('answer_countdown'),
-                Hide('continue_answer_button'),
-                Show('pause_button'),
-                SetVariable("timed_choose", False) ])
+                Jump(themenu) ]
+                )
 
     bar value AnimatedValue(0, count_time, count_time, count_time):
         at alpha_dissolve
@@ -449,18 +450,19 @@ screen continue_answer_button(themenu):
     # they either forfeit the ability to pick an answer or
     # the program auto-selects the answer button for them
     if renpy.is_skipping() and not observing:
-        timer 0.01 action If(persistent.autoanswer_timed_menus,
+        timer 0.01 action If(persistent.use_timed_menus,
+
+                            [ Hide('answer_countdown'),
+                            Hide('continue_answer_button'),
+                            Show('pause_button'),
+                            SetVariable("timed_choose", False) ],
+
                             [ Hide('answer_countdown'),
                             Hide('continue_answer_button'),
                             Show('pause_button'),
                             SetVariable('choosing', True),
                             SetVariable('timed_choose', True),
-                            Jump(themenu) ],
-
-                            [ Hide('answer_countdown'),
-                            Hide('continue_answer_button'),
-                            Show('pause_button'),
-                            SetVariable("timed_choose", False) ])
+                            Jump(themenu) ])
 
 style answer_bar:
     bar_invert True
