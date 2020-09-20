@@ -2175,6 +2175,7 @@ python early hide:
 
         after_menu_node = renpy.game.context().next_node
         print_file("after_menu_node is", after_menu_node)
+        print_file("after-after node is", after_menu_node.next)
 
         ## STEP ONE
         ## Parse all the nodes in the SubParse block. Nodes containing dialogue
@@ -2256,6 +2257,7 @@ python early hide:
             if c.end == -1:
                 c.end = len(node_times)-1
                 final = after_menu_node
+                c.end_with_menu = True
             for t in node_times[c.begin:c.end+1]:
                 dialogue_time += t
 

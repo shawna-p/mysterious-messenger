@@ -126,9 +126,6 @@ label example_chat():
     #msg u "It's good to see you here."
     #msg u "This is the new and improved timed menu system!" curly bounce
     continuous menu:
-        msg u "0 This is a test"
-        msg u "1 Another test"
-        msg u "2 Some more dialogue"
         choice 1 "This is a test choice":
             u "More dialogue."
             u "How does this parse?"
@@ -138,9 +135,14 @@ label example_chat():
             u "Blah blah"
         msg u "5 Some stuff blah blah"
         msg u "6 More"
+        msg u "And some dialogue."
+        msg u "While all three are on-screen."
         end choice 1
+        # choice 3 "Final choice.":
+        #     pass
         msg u "short but not actually 6 words"
         msg u "this one is going to be eight words"
+        #end choice 2
 
     u "Stuff after the menu"
     u "Normal stuff"

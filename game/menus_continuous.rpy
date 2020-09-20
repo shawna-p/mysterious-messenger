@@ -17,6 +17,8 @@ init python:
             shown.
         final_node : renpy.ast.Node
             The final node to execute for this choice.
+        end_with_menu : bool
+            True if this choice ends when the menu ends.
         choice_dict : dict
             A dictionary from the parsed choice CDS. Contains information on
             the label and block for this choice, among other things.
@@ -41,6 +43,7 @@ init python:
             self.choice_id = choice_id
             self.wait_time = 0.0
             self.final_node = None
+            self.end_with_menu = False
             self.choice_dict = {}
 
         def construct_action(self, nodes):
@@ -48,13 +51,14 @@ init python:
 
             block = self.choice_dict['block'].block
 
-            # If final is a node, then this choice has an explicit `end choice`
-            # CDS. The choice will execute, then jump to the end of the CDS.
-            if isinstance(self.final_node, renpy.ast.Node):
+            if self.end_with_menu:
+                block.append(self.final_node)
+            else:
                 block.extend(nodes[self.end:])
-                for a, b in zip(block, block[1:]):
-                    a.chain(b)
-                return block
+
+            for a, b in zip(block, block[1:]):
+                a.chain(b)
+            return block
 
             # Otherwise, the final action is the end of the menu. The choice
             # action is simply to jump to the appropriate block
@@ -87,6 +91,7 @@ init python:
             store.c_menu_dict = {}
             renpy.jump(end_label)
         else:
+            renpy.game.context().current = None
             renpy.jump('finish_c_menu')
 
 
@@ -206,9 +211,9 @@ label execute_continuous_menu():
         return
 
     $ narration = c_menu_dict['narration']
-    while narration:
-        $ node = narration.pop(0)
-        $ node.execute()
+    # while narration:
+    $ node = narration.pop(0)
+    $ node.execute()
 
     return
 
