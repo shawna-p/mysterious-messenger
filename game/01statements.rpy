@@ -2156,13 +2156,21 @@ python early hide:
             return t
 
         if isinstance(node, renpy.ast.Translate):
+            print("Translate block contains", node.block)
             return convert_node_to_time(node.block)
 
-        if isinstance(node, list):
+        is_list = True
+        try:
+            x = node[0]
+        except:
+            is_list = False
+
+        if isinstance(node, list) or is_list:
             result = 0.0
             for n in node:
                 result += convert_node_to_time(n)
             return result
+
         return 0.0
 
 
@@ -2174,8 +2182,6 @@ python early hide:
         choices = [ ]
 
         after_menu_node = renpy.game.context().next_node
-        print_file("after_menu_node is", after_menu_node)
-        print_file("after-after node is", after_menu_node.next)
 
         ## STEP ONE
         ## Parse all the nodes in the SubParse block. Nodes containing dialogue
@@ -2188,7 +2194,7 @@ python early hide:
                 # Search through the nodes for `choice` and `end choice` CDSs.
                 # Also add relevant dialogue nodes to a list.
                 if isinstance(node, renpy.ast.Translate):
-                    dialogue_nodes.append(item.block)
+                    dialogue_nodes.append(node)
                 elif isinstance(node, renpy.ast.UserStatement):
                     # Get the parsed dictionary for the node
                     np = node.parsed[1]
@@ -2347,6 +2353,7 @@ python early hide:
             me.chosen = chosen
             me.args = item_args
             me.kwargs = item_kwargs
+            me.info = info
             me.wait = info.wait_time
             me.choice_id = info.choice_id
             me.block = info.construct_action(p['block'].block)
@@ -2360,7 +2367,9 @@ python early hide:
                                 end_label=post_continuous_menu(p),
                                 narration=p['block'].block,
                                 choice_id_dict=choice_id_dict,
-                                max_choices=max_choices)
+                                max_choices=max_choices,
+                                showing_choices=dict(),
+                                node_times=node_times)
         renpy.jump('execute_continuous_menu')
 
         return
@@ -2401,9 +2410,13 @@ python early hide:
         renpy.hide_screen("c_choice_1")
         renpy.hide_screen("c_choice_2")
         renpy.hide_screen("c_choice_3")
+        renpy.hide_screen("c_choice_4")
         renpy.hide_screen("timed_menu_messages")
         no_anim_list = store.chatlog[-20:-1]
         renpy.show_screen('messenger_screen', no_anim_list=no_anim_list, animate_down=True)
+        store.c_menu_dict = {}
+        store.on_screen_choices = 0
+        store.last_shown_choice_index = None
         print_file("executing after c menu")
         return
 
@@ -2446,7 +2459,7 @@ python early hide:
                     loc=loc,
                     block=block)
 
-    def execute_choice_stmt(p):
+    def execute_choice_stmt(p, recalculate_time=False, begin=-1):
 
         ## Only show this choice if the condition is True
         condition = renpy.python.py_eval(p['condition'])
@@ -2456,6 +2469,41 @@ python early hide:
         item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
         first_choice = False
 
+        ## Might need to recalculate how long this choice is on-screen for
+        if recalculate_time:
+            ## Get the parent node times
+            node_times = store.c_menu_dict['node_times']
+            new_choice_end = item.info.end + 1
+            wait = 0
+            for node in node_times[begin:new_choice_end]:
+                wait += node
+
+            # If wait is 0, this choice shouldn't be on-screen
+            if wait <= 0:
+                return
+
+            new_info = item.info
+            new_info.wait_time = wait
+            new_info.begin = begin
+            ## Construct a new MenuEntry for this node with the new wait info
+            me = renpy.exports.MenuEntry((item.caption, item.value, item.chosen))
+
+            me.value = item.value
+            me.caption = item.caption
+            me.chosen = item.chosen
+            me.args = item.args
+            me.kwargs = item.kwargs
+            me.info = new_info
+            me.wait = wait
+            me.choice_id = item.choice_id
+            me.block = item.block
+            me.action = Function(execute_continuous_menu_action, item=me)
+            store.c_menu_dict['choice_id_dict'][me.choice_id] = me
+            ## Remove the original item from the menu items
+            store.c_menu_dict['items'].remove(item)
+            item = me
+            store.c_menu_dict['items'].append(item)
+
         # Show the messenger screen animating up to reveal the choices
         if store.on_screen_choices <= 0:
             first_choice = True
@@ -2463,6 +2511,19 @@ python early hide:
             no_anim_list = store.chatlog[-20:-1]
             renpy.show_screen("timed_menu_messages", no_anim_list=no_anim_list)
 
+        if store.last_shown_choice_index is None:
+            first_choice = True
+            store.last_shown_choice_index = (item.info.begin, True)
+        elif ((store.last_shown_choice_index[0] + 2 == item.info.begin
+                    or store.last_shown_choice_index[0] + 1 == item.info.begin
+                    or store.last_shown_choice_index[0] == item.info.begin)
+                and store.last_shown_choice_index[1]):
+            first_choice = True
+            store.last_shown_choice_index = (item.info.begin, True)
+        else:
+            store.last_shown_choice_index = (item.info.begin, first_choice)
+
+        print_file("Last shown choice index is", store.last_shown_choice_index)
         ## Allocate a choice box to display the choice in
         renpy.show_screen(allocate_choice_box(p['choice_id']), i=item,
                         first_choice=first_choice)
@@ -2490,29 +2551,70 @@ python early hide:
                     loc=loc)
 
     def execute_end_choice(p):
-        choice_id_dict = store.c_menu_dict['choice_id_dict']
-        item = choice_id_dict[p['choice_id']]
-        store.on_screen_choices -= 1
+
         which_screen = store.c_menu_dict['showing_choices'].get(
             p['choice_id'], None)
         if which_screen:
+            store.on_screen_choices -= 1
             if which_screen in store.recently_hidden_choice_screens:
                 store.recently_hidden_choice_screens.remove(which_screen)
             store.recently_hidden_choice_screens.append(which_screen)
 
-        if store.on_screen_choices <= 0:
+        if (store.on_screen_choices <= 0
+                and renpy.get_screen('timed_menu_messages')):
             renpy.hide_screen("timed_menu_messages")
             no_anim_list = store.chatlog[-20:]
             renpy.show_screen('messenger_screen', no_anim_list=no_anim_list)
+
         return
 
     def post_end_choice(p):
         return 'end_for_internal_use_' + p['choice_id'] + '_' + str(p['loc'][1])
 
+    def post_execute_end_choice(p):
+        ## Grab the ending index of this choice
+        choice_id_dict = store.c_menu_dict['choice_id_dict']
+        item = choice_id_dict[p['choice_id']]
+        end = item.info.end
+        ## Add one so it starts *after* the PostUserStatement
+        end += 1
+
+        ## Remove this item from the menu items list
+        store.c_menu_dict['items'].remove(item)
+
+        ## This choice is no longer showing
+        store.c_menu_dict['showing_choices'][p['choice_id']] = None
+
+        ## Remove this choice from the dictionary as it's already been chosen
+        ## or its time has passed
+        choice_id_dict[p['choice_id']] = None
+
+        if store.c_menu_dict.get('item', None):
+            ## If this isn't at the end of the menu, re-show any remaining
+            ## choices. Reset the number that are on-screen.
+            store.on_screen_choices = 0
+            ## Reset the showing choices dictionary
+            store.c_menu_dict['showing_choices'] = dict()
+
+            ## Need to look through all choices for those who begin *before*
+            ## end, and end *after* end.
+            for i in store.c_menu_dict['items']:
+                if i.info.begin < end and i.info.end > end:
+                    ## Show this choice when the menu resumes
+                    execute_choice_stmt(dict(condition='True',
+                        choice_id=i.choice_id), recalculate_time=True,
+                        begin=end)
+
+        store.c_menu_dict['item'] = None
+        return
+
+
     renpy.register_statement('end choice',
                             parse=parse_end_choice,
                             execute=execute_end_choice,
-                            post_label=post_end_choice)
+                            post_label=post_end_choice,
+                            post_execute=post_execute_end_choice,
+                            )
 
 # Thoughts on how continuous menus might work
 # s "Big trouble..."
@@ -2549,5 +2651,4 @@ python early hide:
 # s "U've already lost trust in me."
 # s "so u r not listening."
 # y "?"
-
 

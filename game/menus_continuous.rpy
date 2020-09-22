@@ -54,7 +54,7 @@ init python:
             if self.end_with_menu:
                 block.append(self.final_node)
             else:
-                block.extend(nodes[self.end:])
+                block.extend(nodes[self.end-1:])
 
             for a, b in zip(block, block[1:]):
                 a.chain(b)
@@ -98,7 +98,8 @@ init python:
     def allocate_choice_box(choice_id):
         """Allocate an available choice screen."""
 
-        possible_screens = ['c_choice_2', 'c_choice_1', 'c_choice_3']
+        possible_screens = ['c_choice_2', 'c_choice_1', 'c_choice_3',
+                            'c_choice_4']
 
         ## Make sure the least-recently allocated screens end up first in
         ## the list
@@ -107,11 +108,7 @@ init python:
         allocate_list.extend(store.recently_hidden_choice_screens)
         result = allocate_screen(allocate_list)
 
-        if store.c_menu_dict.get('showing_choices', None):
-            store.c_menu_dict['showing_choices'][choice_id] = result
-        else:
-            store.c_menu_dict['showing_choices'] = {}
-            store.c_menu_dict['showing_choices'][choice_id] = result
+        store.c_menu_dict['showing_choices'][choice_id] = result
 
         return result
 
@@ -173,11 +170,48 @@ init python:
 
         ## This choice moves left or right depending on which other screen
         ## is showing
-        if renpy.get_screen('c_choice_1'):
+        if renpy.get_screen('c_choice_1') or renpy.get_screen('c_choice_4'):
             return adjust_xoffset(trans, choice_offsets[3])
 
         elif renpy.get_screen('c_choice_3'):
             return adjust_xoffset(trans, choice_offsets[1])
+        return 0.1
+
+    def choice_move_substitute(trans, st, at):
+        """The transform function for the choice which can replace any box."""
+
+        if c_menu_dict.get('max_choices', 3) < 3:
+            choice_offsets = store.choice_offsets_2
+        else:
+            choice_offsets = store.choice_offsets_3
+
+        ## Center this choice if it's the only choice on-screen
+        if store.on_screen_choices == 1:
+            return adjust_xoffset(trans, choice_offsets[2])
+
+        ## This choice moves left or right depending on which other screen
+        ## is showing
+        if store.on_screen_choices == 2:
+            if renpy.get_screen('c_choice_1'):
+                return adjust_xoffset(trans, choice_offsets[3])
+
+            if renpy.get_screen('c_choice_3') or renpy.get_screen('c_choice_2'):
+                return adjust_xoffset(trans, choice_offsets[1])
+
+        ## Otherwise, there are three on-screen choices.
+        ## Need to account for all possible combinations of two screens
+        if renpy.get_screen('c_choice_1') and renpy.get_screen('c_choice_2'):
+            ## This screen acts like the right choice
+            return adjust_xoffset(trans, choice_offsets[4])
+
+        if renpy.get_screen('c_choice_1') and renpy.get_screen('c_choice_3'):
+            ## Act like the middle choice
+            return adjust_xoffset(trans, choice_offsets[2])
+
+        if renpy.get_screen('c_choice_2') and renpy.get_screen('c_choice_3'):
+            ## Act like the left choice
+            return adjust_xoffset(trans, choice_offsets[0])
+
         return 0.1
 
     def choice_move_right(trans, st, at):
@@ -227,11 +261,6 @@ label finish_c_menu:
 
     $ chatbackup = None
 
-    ## Check if this choice has an `end choice` node and continue from there
-    ## if applicable
-
-
-    ## Otherwise, this is the end of the menu
     if persistent.use_timed_menus:
         # Hide all the choice screens
         hide screen c_choice_1
@@ -243,7 +272,7 @@ label finish_c_menu:
         show screen messenger_screen(no_anim_list=no_anim_list, animate_down=True)
 
     $ item = c_menu_dict['item']
-    $ c_menu_dict = {}
+    # $ c_menu_dict = {}
     # This executes the statements bundled after the choice
     $ renpy.ast.next_node(item.block[0])
     return
@@ -252,8 +281,6 @@ label finish_c_menu:
 default c_menu_dict = { }
 ## Number of choices currently on-screen
 default on_screen_choices = 0
-## Size of the choices that are on-screen (approx 750 // on_screen_choices)
-default choice_box_size = 740
 ## Speed at which the animation for the choice boxes plays out
 define choice_slide_speed = 4
 ## Offsets for the on-screen choices
@@ -261,18 +288,12 @@ define choice_offsets_2 = (-185, -185, 0, 185, 185)
 define choice_offsets_3 = (-255, -132, 0, 132, 255)
 ## Holds the most recently hidden choice screens to avoid pop-in
 default recently_hidden_choice_screens = []
+default last_shown_choice_index = None
 
 ## The screen which displays a single choice for a continuous menu.
-screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False):
+screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False,
+                    fn=choice_move_left):
     zorder 150
-
-    python:
-        if hide_screen == 'c_choice_1':
-            fn = choice_move_left
-        elif hide_screen == 'c_choice_2':
-            fn = choice_move_center
-        else:
-            fn = choice_move_right
 
     # Could check if the c_menu_dict['items'] only has two items
     # for two-item styling
@@ -338,11 +359,18 @@ screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False):
 
 screen c_choice_2(i, first_choice=False):
     zorder 150
-    use c_choice_1(i, hide_screen='c_choice_2', first_choice=first_choice)
+    use c_choice_1(i, hide_screen='c_choice_2', first_choice=first_choice,
+        fn=choice_move_center)
 
 screen c_choice_3(i, first_choice=False):
     zorder 150
-    use c_choice_1(i, hide_screen='c_choice_3', first_choice=first_choice)
+    use c_choice_1(i, hide_screen='c_choice_3', first_choice=first_choice,
+        fn=choice_move_right)
+
+screen c_choice_4(i, first_choice=False):
+    zorder 150
+    use c_choice_1(i, hide_screen='c_choice_4', first_choice=first_choice,
+        fn=choice_move_substitute)
 
 transform continue_appear_disappear(end_delay, mod, fn):
     on show:

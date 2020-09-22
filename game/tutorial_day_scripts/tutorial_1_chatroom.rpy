@@ -119,29 +119,64 @@ label example_chat():
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
     #call hack
     show hack effect
-    call chat_begin("hack")
-    play music mystic_chat
-    enter chatroom u
+    scene evening
+    enter chatroom z
+    z "Oh, [name], it's nice seeing you here ^^"
+    z "I've been practicing for my new role all day."
+    $ asked = False
+    continuous menu:
+        choice 1 "What's the role for?":
+            $ asked = True
+            z "It's a play adapted from a best-selling novel."
+            award heart z
+            z "I'm playing the part of a blacksmith who's in love with the princess."
+        z "I practiced so much I even dreamed about my lines;;"
+        choice 2 "Maybe you should take a break, Zen.":
+            z "Yeah, you might be right."
+            award heart ja
+            z "I could go work out or something."
+        z "I need to think about something else for a while."
+        end choice 2
+        ja "You'll do wonderfully in this role, Zen ^^"
+        z "Haha, thanks Jaehee."
+    if asked:
+        z "It's nice to hear you're interested ^^"
+    else:
+        z "I appreciate the support."
+    z "I'm really looking forward to the role,"
+    z "Just sometimes I get stuck in my head..."
+
+
+
+
+
+
+
+
+    # call chat_begin("hack")
+    # play music mystic_chat
+    # enter chatroom u
     msg u "Hello, [name]!"
     #msg u "It's good to see you here."
     #msg u "This is the new and improved timed menu system!" curly bounce
     continuous menu:
-        choice 1 "This is a test choice":
+        choice 1 "1. This is a test choice":
             u "More dialogue."
             u "How does this parse?"
             msg u "Just a test"
         msg u "Dialogue between choices"
-        choice 2 "This is another test.":
+        choice 2 "2. This is another test.":
             u "Blah blah"
-        msg u "5 Some stuff blah blah"
-        msg u "6 More"
+        msg u "Some stuff blah blah"
+        msg u "More"
         msg u "And some dialogue."
         msg u "While all three are on-screen."
         end choice 1
-        # choice 3 "Final choice.":
-        #     pass
+        choice 3 "Final choice.":
+            pass
         msg u "short but not actually 6 words"
         msg u "this one is going to be eight words"
+        msg u "This is the end of the menu."
         #end choice 2
 
     u "Stuff after the menu"
