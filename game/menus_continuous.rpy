@@ -75,7 +75,7 @@ init python:
 
 
 
-    def execute_continuous_menu_action(item, jump_to_end=False):
+    def execute_continuous_menu_action(item, say_nothing=False):
         """
         Mark the selected choice as chosen and proceed to the choice
         block to execute its action.
@@ -86,12 +86,15 @@ init python:
         ## Mark this as chosen
         item.value.chosen[(item.value.location, item.value.label)] = True
 
-        if jump_to_end:
-            end_label = store.c_menu_dict['end_label']
-            store.c_menu_dict = {}
-            renpy.jump(end_label)
+        if say_nothing:
+            store.dialogue_picked = ""
+            store.dialogue_paraphrase = store.paraphrase_choices
+            store.dialogue_pv = 0
+            if store.c_menu_dict.get('erase_menu', False):
+                store.c_menu_dict = {}
+            renpy.jump(item.jump_to_label)
         else:
-            renpy.game.context().current = None
+            # renpy.game.context().current = None
             renpy.jump('finish_c_menu')
 
 
@@ -251,6 +254,23 @@ label execute_continuous_menu():
 
     return
 
+## Plays the continuous menu as if it were a regular menu without a timer.
+label play_continuous_menu_no_timer():
+    call answer
+    python:
+        print("in play_continuous_menu_no_timer")
+        items = c_menu_dict['available_choices'][:]
+        items.append(c_menu_dict['autoanswer'])
+        # screen_kwargs = timed_menu_dict['menu_kwargs']
+        # if screen_kwargs.get('paraphrased', None):
+        #     para = True
+        # else:
+        #     para = False
+    call screen choice(items=items)
+    # $ post_execute_end_choice(dict(choice_id=item.choice_id))
+    return
+
+
 label finish_c_menu:
     ## Get rid of the backup; check if paraphrased dialogue should be sent
     $ chatbackup = None
@@ -272,6 +292,11 @@ label finish_c_menu:
         show screen messenger_screen(no_anim_list=no_anim_list, animate_down=True)
 
     $ item = c_menu_dict['item']
+    ## If this isn't at the end of the menu, re-show any remaining
+    ## choices. Reset the number that are on-screen.
+    $ on_screen_choices = 0
+    ## Reset the showing choices dictionary
+    $ c_menu_dict['showing_choices'] = dict()
     # $ c_menu_dict = {}
     # This executes the statements bundled after the choice
     $ renpy.ast.next_node(item.block[0])
