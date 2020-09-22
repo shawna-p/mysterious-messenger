@@ -36,7 +36,7 @@ python early hide:
             enter_entry = ("enter", who)
             store.current_timeline_item.replay_log.append(enter_entry)
 
-        addchat(store.special_msg, enter_string, 1.1)
+        addchat(store.special_msg, enter_string, store.enter_exit_modifier)
         if who.name not in store.in_chat:
             store.in_chat.append(who.name)
 
@@ -73,7 +73,7 @@ python early hide:
             exit_entry = ("exit", who)
             store.current_timeline_item.replay_log.append(exit_entry)
 
-        addchat(store.special_msg, exit_string, 1.1)
+        addchat(store.special_msg, exit_string, store.enter_exit_modifier)
         if who.name in store.in_chat:
             store.in_chat.remove(who.name)
 
@@ -2143,21 +2143,31 @@ python early hide:
             print("Node's dialogue is", node.what, t)
             return t
         if isinstance(node, renpy.ast.UserStatement):
-            if node.parsed[0] != ('msg',):
-                return 0
-            # Otherwise, this is a msg CDS
-            np = node.parsed[1]
-            mult = 1.0
-            if np['pv'] != "None":
-                mult = eval(np['pv'])
-            t = calculate_type_time(np['what'])
-            t *= mult
-            print("Node's msg dialogue is", np['what'], t)
-            return t
+            if node.parsed[0] == ('msg',):
+                # This is a msg CDS
+                np = node.parsed[1]
+                mult = 1.0
+                if np['pv'] != "None":
+                    mult = eval(np['pv'])
+                t = calculate_type_time(np['what'])
+                t *= mult
+                print("Node's msg dialogue is", np['what'], t)
+                return t
+            elif (node.parsed[0] in [('enter', 'chatroom',),
+                    ('exit', 'chatroom',)]):
+                # This is a message like "XYZ has entered the chatroom."
+                return store.enter_exit_modifier
+            else:
+                return 0.0
 
         if isinstance(node, renpy.ast.Translate):
             print("Translate block contains", node.block)
             return convert_node_to_time(node.block)
+
+        if isinstance(node, renpy.ast.Call):
+            if node.label not in ['exit', 'enter']:
+                return 0.0
+            return store.enter_exit_modifier
 
         is_list = True
         try:
@@ -2187,7 +2197,7 @@ python early hide:
         ## Parse all the nodes in the SubParse block. Nodes containing dialogue
         ## are added to a dialogue_nodes list, and nodes that do not contain
         ## dialogue are added as None to retain indexing.
-        ## Choice pairs are assembled into a list of (begin, end) indexes.
+        ## ChoiceInfo objects are created to hold begin and end indices.
         try:
             dialogue_nodes = [ ]
             for i, node in enumerate(p['block'].block):
@@ -2216,6 +2226,11 @@ python early hide:
 
                     elif node.parsed[0] == ('msg',):
                         dialogue_nodes.append(node)
+                    elif node.parsed[0] == ('enter', 'chatroom',):
+                        dialogue_nodes.append(node)
+                    elif node.parsed[0] == ('exit', 'chatroom',):
+                        dialogue_nodes.append(node)
+
                     else:
                         dialogue_nodes.append(None)
                 elif isinstance(node, renpy.ast.If):
@@ -2232,6 +2247,13 @@ python early hide:
                         dialogue_nodes.append(None)
                 elif isinstance(node, renpy.ast.Say):
                     dialogue_nodes.append(node)
+                elif isinstance(node, renpy.ast.Call):
+                    ## Might be a call enter/exit
+                    if node.label in ['exit', 'enter']:
+                        dialogue_nodes.append(node)
+                    else:
+                        dialogue_nodes.append(None)
+
                 else:
                     dialogue_nodes.append(None)
         except:
@@ -2244,9 +2266,9 @@ python early hide:
         for i in no_end_ids:
             choices.append(ChoiceInfo(i, -1, choice_begin_lookup[i]))
 
-        # Time to convert the extracted dialogue nodes into something readable.
-        # Should generally have a list of ast.Say nodes and ast.UserStatement
-        # (msg) nodes.
+        ## STEP TWO
+        ## Convert all dialogue nodes into a time, which is how long it takes
+        ## to post that dialogue.
         node_times = [ ]
         for node in dialogue_nodes:
             if node is None:
@@ -2369,7 +2391,9 @@ python early hide:
                                 choice_id_dict=choice_id_dict,
                                 max_choices=max_choices,
                                 showing_choices=dict(),
-                                node_times=node_times)
+                                node_times=node_times,
+                                available_choices=[],
+                                autoanswer=None)
         renpy.jump('execute_continuous_menu')
 
         return
@@ -2407,17 +2431,40 @@ python early hide:
         return 'end_for_internal_use_' + lbl + '_' + str(p['loc'][1])
 
     def post_execute_c_menu(p):
-        renpy.hide_screen("c_choice_1")
-        renpy.hide_screen("c_choice_2")
-        renpy.hide_screen("c_choice_3")
-        renpy.hide_screen("c_choice_4")
-        renpy.hide_screen("timed_menu_messages")
-        no_anim_list = store.chatlog[-20:-1]
-        renpy.show_screen('messenger_screen', no_anim_list=no_anim_list, animate_down=True)
-        store.c_menu_dict = {}
-        store.on_screen_choices = 0
-        store.last_shown_choice_index = None
         print_file("executing after c menu")
+        if store.persistent.use_timed_menus:
+            renpy.hide_screen("c_choice_1")
+            renpy.hide_screen("c_choice_2")
+            renpy.hide_screen("c_choice_3")
+            renpy.hide_screen("c_choice_4")
+            renpy.hide_screen("timed_menu_messages")
+            no_anim_list = store.chatlog[-20:-1]
+            renpy.show_screen('messenger_screen', no_anim_list=no_anim_list, animate_down=True)
+            store.c_menu_dict = {}
+            store.on_screen_choices = 0
+            store.last_shown_choice_index = None
+        else:
+            ## Show any remaining choices to the user, along with an option
+            ## to remain silent.
+            if len(store.c_menu_dict.get('available_choices', [])) == 0:
+                return
+            # Create a "dummy action" that can be used for autoanswer timed menu
+            label = "(Say nothing)"
+            location = renpy.game.context().current
+            value = renpy.ui.ChoiceReturn(label, 1, location, sensitive=True,
+                                        args=tuple(), kwargs=dict())
+            me = renpy.exports.MenuEntry((label, value))
+            me.value = value
+            me.caption = label
+            me.chosen = value.get_chosen()
+            me.args = tuple()
+            me.kwargs = dict()
+            me.jump_to_label = post_continuous_menu(p)
+            me.action = Function(execute_continuous_menu_action, item=me,
+                                say_nothing=True)
+            store.c_menu_dict['autoanswer'] = me
+            store.c_menu_dict['erase_menu'] = True
+            renpy.jump('play_continuous_menu_no_timer')
         return
 
     renpy.register_statement('continuous menu',
@@ -2467,6 +2514,14 @@ python early hide:
             return
 
         item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
+
+        if not store.persistent.use_timed_menus:
+            ## If timed menus are turned off, don't show a choice screen
+            ## until one or more choices are about to expire. Add this choice
+            ## to the list of choices that are currently available.
+            store.c_menu_dict['available_choices'].append(item)
+            return
+
         first_choice = False
 
         ## Might need to recalculate how long this choice is on-screen for
@@ -2523,7 +2578,6 @@ python early hide:
         else:
             store.last_shown_choice_index = (item.info.begin, first_choice)
 
-        print_file("Last shown choice index is", store.last_shown_choice_index)
         ## Allocate a choice box to display the choice in
         renpy.show_screen(allocate_choice_box(p['choice_id']), i=item,
                         first_choice=first_choice)
@@ -2552,6 +2606,27 @@ python early hide:
 
     def execute_end_choice(p):
 
+        if not store.persistent.use_timed_menus:
+            ## Show this choice to the user, along with an option to remain
+            ## silent.
+            item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
+            # Create a "dummy action" that can be used for autoanswer timed menu
+            label = "(Say nothing)"
+            location = renpy.game.context().current
+            value = renpy.ui.ChoiceReturn(label, 1,
+                location, sensitive=True, args=tuple(), kwargs=dict())
+            me = renpy.exports.MenuEntry((label, value))
+            me.value = value
+            me.caption = label
+            me.chosen = value.get_chosen()
+            me.args = tuple()
+            me.kwargs = dict()
+            me.jump_to_label = post_end_choice(p)
+            me.action = Function(execute_continuous_menu_action, item=me,
+                                say_nothing=True)
+            store.c_menu_dict['autoanswer'] = me
+            renpy.jump('play_continuous_menu_no_timer')
+
         which_screen = store.c_menu_dict['showing_choices'].get(
             p['choice_id'], None)
         if which_screen:
@@ -2572,9 +2647,11 @@ python early hide:
         return 'end_for_internal_use_' + p['choice_id'] + '_' + str(p['loc'][1])
 
     def post_execute_end_choice(p):
+        print("Calling post_execute_end_choice with", p['choice_id'])
         ## Grab the ending index of this choice
         choice_id_dict = store.c_menu_dict['choice_id_dict']
         item = choice_id_dict[p['choice_id']]
+        store.c_menu_dict['available_choices'].remove(item)
         end = item.info.end
         ## Add one so it starts *after* the PostUserStatement
         end += 1
@@ -2589,7 +2666,8 @@ python early hide:
         ## or its time has passed
         choice_id_dict[p['choice_id']] = None
 
-        if store.c_menu_dict.get('item', None):
+        if (store.c_menu_dict.get('item', None)
+                or not store.persistent.use_timed_menus):
             ## If this isn't at the end of the menu, re-show any remaining
             ## choices. Reset the number that are on-screen.
             store.on_screen_choices = 0
@@ -2599,11 +2677,19 @@ python early hide:
             ## Need to look through all choices for those who begin *before*
             ## end, and end *after* end.
             for i in store.c_menu_dict['items']:
+                print_file("Looking at", i.info.choice_id, ":", i.info.begin,
+                    ",", i.info.end)
+                print_file("end is", end)
+                store.c_menu_dict['available_choices'] = []
                 if i.info.begin < end and i.info.end > end:
+                    if not store.persistent.use_timed_menus:
+                        ## Add this choice to the available choices
+                        print_file("Added", i.info.choice_id, "to available choices.")
+                        store.c_menu_dict['available_choices'].append(i)
                     ## Show this choice when the menu resumes
-                    execute_choice_stmt(dict(condition='True',
-                        choice_id=i.choice_id), recalculate_time=True,
-                        begin=end)
+                    else:
+                        execute_choice_stmt(i.info.choice_dict,
+                            recalculate_time=True, begin=end)
 
         store.c_menu_dict['item'] = None
         return
