@@ -22,6 +22,9 @@ init python:
         item.value.chosen[(item.value.location, item.value.label)] = True
 
         if jump_to_end:
+            store.dialogue_picked = ""
+            store.dialogue_paraphrase = store.paraphrase_choices
+            store.dialogue_pv = 0
             end_label = store.timed_menu_dict['end_label']
             store.timed_menu_dict = {}
             renpy.jump(end_label)
