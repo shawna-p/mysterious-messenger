@@ -426,7 +426,8 @@ init -4 python:
 
         # If the program didn't get an explicit pauseVal,
         # use the default one
-        if ((store.timed_menu_dict or store.c_menu_dict)
+        if ((store.timed_menu_dict
+                    or store.c_menu_dict.get('showing_choices', None))
                 and persistent.use_timed_menus):
             if pauseVal is None:
                 pauseVal = persistent.timed_menu_pv
@@ -604,7 +605,11 @@ init -4 python:
                                     chatbackup.bounce,
                                     chatbackup.specBubble))
 
+## The multiplier for chat speed. Default modifier is 0.8; increasing the
+## speed by one level puts it at 0.8 - chat_speed_increment (so, 0.65)
 define chat_speed_increment = 0.15
+## The number of seconds to wait to post an enter/exit chatroom message.
+define enter_exit_modifier = 1.1
 
 init python:
     # Increase/decrease the chat speed
