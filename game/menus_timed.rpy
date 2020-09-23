@@ -204,10 +204,7 @@ label play_timed_menu_narration():
         items = timed_menu_dict['items']
         items.append(timed_menu_dict['autoanswer'])
         screen_kwargs = timed_menu_dict['menu_kwargs']
-        if screen_kwargs.get('paraphrased', None):
-            para = True
-        else:
-            para = False
+        para = screen_kwargs.get('paraphrased', None)
     call screen choice(items=items, paraphrased=para)
     return
 
