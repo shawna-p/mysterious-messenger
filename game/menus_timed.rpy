@@ -96,7 +96,9 @@ transform slide_down(y=-220):
     yoffset y
     ease 0.5 yoffset 0
 
-
+## The length of extra time to wait while the answers are on-screen before
+## the menu expires.
+default end_menu_buffer = 3.0
 ## A label which handles displaying the dialogue behind a menu and what happens
 ## if the player does not make a choice
 label execute_timed_menu():
@@ -104,11 +106,10 @@ label execute_timed_menu():
         $ print_file("ERROR: Something went wrong with timed menus")
         return
 
-    ## First things first: if the player is skipping, the menu is omitted
+    ## First things first: if the player is skipping, they do not receive the
+    ## opportunity to answer at all.
     if renpy.is_skipping():
-        $ end_label = timed_menu_dict['end_label']
-        $ timed_menu_dict = {}
-        jump expression end_label
+        jump execute_timed_menu_narration
 
     ## Separate out the vars
     python:
@@ -117,10 +118,7 @@ label execute_timed_menu():
         narration = timed_menu_dict['narration']
         items = timed_menu_dict['items']
         screen_kwargs = timed_menu_dict['menu_kwargs']
-        if screen_kwargs.get('paraphrased', None):
-            para = True
-        else:
-            para = False
+        para = screen_kwargs.get('paraphrased', None)
 
         # Shuffle the menu options
         if shuffle and shuffle != "last":
@@ -133,7 +131,7 @@ label execute_timed_menu():
 
         # The length of time the player has to read the final message
         # before the timer runs out
-        end_menu_buffer = 3.0 * persistent.timed_menu_pv
+        extra_time = end_menu_buffer * persistent.timed_menu_pv
 
         if _in_replay:
             # If we're in replay, then the player only gets to see answers if
@@ -145,37 +143,45 @@ label execute_timed_menu():
                     break
             if not has_chosen:
                 # Special case where we don't show the menu
-                renpy.jump('play_timed_menu_narration')
+                timed_menu_dict['has_chosen'] = False
+                renpy.jump('execute_timed_menu_narration')
 
     if not persistent.use_timed_menus:
-        jump play_timed_menu_narration
+        jump execute_timed_menu_narration
 
+    ## If the program got here, it is time to animate the messages
+    ## sliding up the screen.
     hide screen messenger_screen
     $ no_anim_list = chatlog[-20:-1]
     show screen timed_menu_messages(no_anim_list)
     show screen timed_choice(items, para)
-    show screen answer_countdown(end_label, wait_time+(end_menu_buffer),
+    show screen answer_countdown(end_label, wait_time+(extra_time),
         custom_action=[ Hide('answer_countdown'), Show('pause_button') ])
 
+    # Execute the narration
+    jump execute_timed_menu_narration
 
-    # Now show the narration behind the choices
-    while narration:
-        $ msg = narration.pop(0)
-        $ who = msg['who']
-        $ who(what=msg['what'], pauseVal=msg['pauseVal'], img=msg['img'],
-            bounce=msg['bounce'], specBubble=msg['specBubble'])
+## This label executes the timed menu narration.
+label execute_timed_menu_narration():
+    $ narration = timed_menu_dict['narration']
+    $ msg = narration.pop(0)
+    $ msg.execute()
+    return
 
+label end_of_timed_menu():
     # If the dialogue is exhausted, the player has missed the time window to
     # reply. There is a small buffer for them to finish reading the last
     # message and then everything is reset.
-    $ messenger_pause(end_menu_buffer)
+    $ messenger_pause(end_menu_buffer * persistent.timed_menu_pv)
+    $ end_label = timed_menu_dict['end_label']
+    if persistent.use_timed_menus and timed_menu_dict.get('has_chosen', True):
+        hide screen timed_choice
+        hide screen answer_countdown
+        hide screen timed_menu_messages
     $ timed_menu_dict = {}
-    hide screen timed_choice
-    hide screen timed_menu_messages
-    pause 0.5
-    $ no_anim_list = chatlog[-20:]
-    show screen messenger_screen(no_anim_list)
-    $ addchat(answer, '', 0.1)
+    # Show the original messenger screen; it should animate back down into
+    # position
+    show screen messenger_screen(no_anim_list=chatlog[-20:], animate_down=True)
     jump expression end_label
 
 ## A label used during a replay when the player has never chosen an answer

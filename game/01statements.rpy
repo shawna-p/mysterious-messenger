@@ -1690,6 +1690,287 @@ python early hide:
                     bounce=bounce,
                     specBubble=spec_bubble)
 
+    def construct_menu(stmtl, has_wait_time=False):
+        """
+        A helper function which separates out the choices and narration
+        and collects relevant arguments/conditions etc.
+        """
+
+        l = stmtl.subblock_lexer()
+
+        has_choice = False
+        after_caption = False
+
+        set = None
+
+        pre_menu_block = [ ]
+
+        # Tuples of (label, condition, block)
+        items = [ ]
+        item_arguments = [ ]
+
+        while l.advance():
+
+            # The menu can have a set to exclude previously chosen items
+            if l.keyword('set'):
+                set = l.require(l.simple_expression)
+                l.expect_eol()
+                l.expect_noblock('timed menu set')
+                continue
+
+            # Try to parse this as a choice
+            state = l.checkpoint()
+
+            condition = 'True'
+
+            try:
+                label = l.string()
+                if not label:
+                    raise
+
+                if l.eol():
+                    if l.subblock:
+                        # No colon indicating a block
+                        l.error("Line is followed by a block, despite not "
+                            + "being a menu choice. Did you forget a colon at "
+                            + "the end of the line?")
+                    l.error("Timed menus require a speaker to say dialogue.")
+
+                item_arguments.append(c_parse_arguments(l, include_wait=False))
+
+                # Check for conditional statements
+                if l.keyword('if'):
+                    condition = l.require(l.python_expression)
+
+                l.require(':')
+                l.expect_eol()
+                l.expect_block('timed choice menuitem')
+
+                block = parse_choice_block(l.subblock_lexer())
+
+                items.append((label, condition, block))
+
+                has_choice = True
+
+                continue
+            except:
+                l.revert(state)
+
+            # This wasn't a menu choice; grab it as a Ren'Py line
+            try:
+                pre_menu_block.append(l.renpy_statement())
+            except:
+                l.error("Could not parse the given timed menu narration.")
+
+        if not has_choice:
+            stmtl.error("Timed menu does not contain any choices.")
+
+        if has_wait_time and pre_menu_block:
+            stmtl.error("Cannot specify a timed menu wait time and have a menu caption.")
+
+        if not has_wait_time and not pre_menu_block:
+            stmtl.error("If no wait time is specified, must provide a timed menu caption.")
+
+        return dict(pre_menu_block=pre_menu_block,
+                    items=items,
+                    item_arguments=item_arguments,
+                    menu_set=set)
+
+    def subparse_to_nodes(sp):
+        """
+        Convert a list of SubParse objects and lists of SubParse objects
+        into one list of nodes.
+        """
+
+        nodes = [ ]
+        if isinstance(sp, renpy.parser.SubParse):
+            nodes.extend(sp.block)
+        is_list = True
+        try:
+            x = sp[0]
+        except:
+            is_list = False
+
+        if isinstance(sp, list) or is_list:
+            for node in sp:
+                nodes.extend(subparse_to_nodes(node))
+
+        return nodes
+
+    def execute_timed_menu(p):
+
+        # Try to evaluate arguments passed to the menu
+        arg_info = renpy.ast.ArgumentInfo(p['args'], p['pos'], p['kwargs'])
+        args, kwargs = arg_info.evaluate()
+        args = args or tuple()
+        kwargs = kwargs or dict()
+
+        choices = [ ]
+        narration = [ ]
+        item_arguments = [ ]
+
+        # Fetch the next node
+        after_menu_node = renpy.game.context().next_node
+
+        if p['wait'] is None:
+            # Construct one giant block out of all the items in pre_menu_block
+            narration = subparse_to_nodes(p['pre_menu_block'])
+
+            print_file("Narration is:")
+            for item in narration:
+                print_file("    ", item)
+            # Link all the narration nodes together
+            renpy.ast.chain_block(narration, after_menu_node)
+
+            # Calculate how long it will take to play the narration
+            wait_time = convert_node_to_time(narration)
+        else:
+            try:
+                wait_time = eval(p['wait'])
+            except:
+                print("WARNING: Could not evaluate the length of time to show",
+                    "the timed menu for.")
+                wait_time = 8
+
+        # Adjust the wait time for the timed menu pv
+        wait_time *= store.persistent.timed_menu_pv
+
+        # Create the choices
+        for i, (label, condition, block) in enumerate(p['items']):
+            if renpy.config.say_menu_text_filter:
+                label = renpy.config.say_menu_text_filter(label)
+
+            choices.append((label, condition, i))
+
+            # Add the arguments, or an empty tuple and dictionary if there
+            # are none
+            pargs = p['item_arguments']
+            if pargs and pargs[i] is not None:
+                arg_info = renpy.ast.ArgumentInfo(pargs[i]['args'],
+                    pargs[i]['pos'], pargs[i]['kwargs'])
+                item_arguments.append(arg_info.evaluate())
+            else:
+                item_arguments.append((tuple(), dict()))
+
+        # Time to parse the arguments for the set and conditions.
+        # Filter out items already in the set
+        if p['menu_set']:
+            set = renpy.python.py_eval(p['menu_set'])
+
+            new_items = [ ]
+            new_item_arguments = [ ]
+
+            for i, ia in zip(choices, item_arguments):
+                if i[0] not in set:
+                    new_items.append(i)
+                    new_item_arguments.append(ia)
+
+            items = new_items
+            item_arguments = new_item_arguments
+        else:
+            items = choices
+            set = None
+
+        # Filter the list of items to only include ones for which the condition
+        # is True.
+
+        location = renpy.game.context().current
+
+        new_items = [ ]
+
+        for (label, condition, value), (item_args,
+                item_kwargs) in zip(items, item_arguments):
+
+            condition = renpy.python.py_eval(condition)
+
+            if (not renpy.config.menu_include_disabled) and (not condition):
+                continue
+
+            if value is not None:
+                new_items.append((label, renpy.ui.ChoiceReturn(label,
+                        value, location, sensitive=condition, args=item_args,
+                        kwargs=item_kwargs)))
+            else:
+                new_items.append((label, None))
+
+        # Check to see if there's at least one choice in set of items:
+        choices = [ value for label, value in new_items if value is not None ]
+
+        # If not, bail out.
+        if not choices:
+            # Should just finish/go to post-execute label
+            return None
+
+        choices = new_items
+
+        # Time to construct some choices and turn them into MenuEntry objects.
+        # Currently choices is a list of (label, ChoiceReturn) tuples
+        item_actions = [ ]
+        for (label, value) in choices:
+            if not label:
+                value = None
+            if isinstance(value, renpy.ui.ChoiceReturn):
+                new_val = value
+                chosen = value.get_chosen()
+                item_args = value.args
+                item_kwargs = value.kwargs
+            elif value is not None:
+                new_val = renpy.ui.ChoiceReturn(label, value, location)
+                chosen = new_val.get_chosen()
+                item_args = ()
+                item_kwargs = { }
+            else:
+                new_val = None
+                chosen = False
+                item_args = ()
+                item_kwargs = { }
+
+            if renpy.config.choice_screen_chosen:
+                me = renpy.exports.MenuEntry((label, new_val, chosen))
+            else:
+                me = renpy.exports.MenuEntry((label, new_val))
+
+            me.value = new_val
+            me.caption = label
+            me.chosen = chosen
+            me.args = item_args
+            me.kwargs = item_kwargs
+            if new_val:
+                me.subparse = p['items'][new_val.value][2]
+                me.action = Function(execute_timed_menu_action, item=me)
+            else:
+                me.subparse = None
+                me.action = None
+
+            item_actions.append(me)
+
+        # Create a "dummy action" that can be used for autoanswer timed menu
+        label = "(Say nothing)"
+        value = renpy.ui.ChoiceReturn(label, item_actions[-1].value.value + 1,
+            location, sensitive=True, args=tuple(), kwargs=dict())
+        me = renpy.exports.MenuEntry((label, value))
+        me.value = value
+        me.caption = label
+        me.chosen = value.get_chosen()
+        me.args = tuple()
+        me.kwargs = dict()
+        me.subparse = False
+        me.action = Function(execute_timed_menu_action, item=me,
+                            jump_to_end=True)
+
+
+        ## Now to pass this somewhere as a comprehensible object:
+        menu_dict = dict(items=item_actions,
+                        menu_args=args,
+                        menu_kwargs=kwargs,
+                        menu_set=set,
+                        wait_time=wait_time,
+                        narration=narration,
+                        end_label=post_timed_menu(p),
+                        autoanswer=me)
+
+        store.timed_menu_dict = menu_dict
+        renpy.jump('execute_timed_menu')
 
     ## A helper function to parse the choices of the menu. Modified from
     ## renpy/parser.py
@@ -1824,7 +2105,9 @@ python early hide:
         l.require(':')
         l.expect_eol()
 
-        choices_dict = parse_menu_options(l, has_wait_time)
+        # Now parse the menu for narration and choices
+        # choices_dict = parse_menu_options(l, has_wait_time)
+        choices_dict = construct_menu(l, has_wait_time)
 
         # Update the choices dictionary with the menu arguments
         choices_dict.update(arguments_dict)
@@ -1835,7 +2118,13 @@ python early hide:
     def lint_timed_menu(p):
         return
 
-    def execute_timed_menu(p):
+    def execute_timed_menu_2(p):
+
+        ## Just print out what's in the pre-menu block (for testing)
+        print_file("LIST OF THINGS IN THE PRE-MENU BLOCK:")
+        for item in p['pre_menu_block']:
+            print_file("    ", item.block)
+        return
 
         # Try to evaluate arguments passed to the menu
         arg_info = renpy.ast.ArgumentInfo(p['args'], p['pos'], p['kwargs'])
@@ -2101,6 +2390,11 @@ python early hide:
             return 'this_didnt_work'
         return lbl
 
+    def post_execute_timed_menu(p):
+        ## This function plays after the timed menu has been executed
+        if not store.timed_menu_dict.get('item', None):
+            renpy.jump('end_of_timed_menu')
+        return
 
     renpy.register_statement('timed menu',
                             parse=parse_timed_menu,
@@ -2111,6 +2405,7 @@ python early hide:
                             #translation_strings=translate_timed_menu,
                             force_begin_rollback=True,
                             post_label=post_timed_menu,
+                            post_execute=post_execute_timed_menu,
                             block=True
                             )
 
