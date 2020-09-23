@@ -86,7 +86,8 @@ init python:
         ## Mark this as chosen
         item.value.chosen[(item.value.location, item.value.label)] = True
 
-        if not say_nothing:
+        if (not say_nothing
+                and store.c_menu_dict.get('narration', None) is not None):
             store.c_menu_dict['items'].remove(item)
             store.c_menu_dict['available_choices'].remove(item)
 
@@ -263,16 +264,12 @@ label play_continuous_menu_no_timer():
         print_file("in play_continuous_menu_no_timer")
         items = c_menu_dict['available_choices'][:]
         items.append(c_menu_dict['autoanswer'])
-        # screen_kwargs = timed_menu_dict['menu_kwargs']
-        # if screen_kwargs.get('paraphrased', None):
-        #     para = True
-        # else:
-        #     para = False
+        screen_kwargs = c_menu_dict['menu_kwargs']
+        para = screen_kwargs.get('paraphrased', None)
         if c_menu_dict.get('erase_menu', False):
             print_file("Erased menu")
             c_menu_dict = {}
-    call screen choice(items=items)
-    # $ post_execute_end_choice(dict(choice_id=item.choice_id))
+    call screen choice(items=items, paraphrased=para)
     return
 
 
@@ -376,7 +373,9 @@ screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False,
                     foreground 'seen_choice_check'
 
             action [SetVariable('dialogue_picked', i.caption),
-                    Function(set_paraphrase, screen_pref=None,
+                    Function(set_paraphrase,
+                        screen_pref=store.c_menu_dict['menu_kwargs'].get(
+                            'paraphrased', None),
                         item_pref=(i.kwargs.get('paraphrased', None))),
                         i.action]
 
