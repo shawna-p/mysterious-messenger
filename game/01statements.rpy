@@ -2439,32 +2439,49 @@ python early hide:
             renpy.hide_screen("c_choice_4")
             renpy.hide_screen("timed_menu_messages")
             no_anim_list = store.chatlog[-20:-1]
-            renpy.show_screen('messenger_screen', no_anim_list=no_anim_list, animate_down=True)
+            renpy.show_screen('messenger_screen', no_anim_list=no_anim_list,
+                    animate_down=True)
             store.c_menu_dict = {}
             store.on_screen_choices = 0
             store.last_shown_choice_index = None
-        else:
-            ## Show any remaining choices to the user, along with an option
-            ## to remain silent.
-            if len(store.c_menu_dict.get('available_choices', [])) == 0:
-                return
-            # Create a "dummy action" that can be used for autoanswer timed menu
-            label = "(Say nothing)"
-            location = renpy.game.context().current
-            value = renpy.ui.ChoiceReturn(label, 1, location, sensitive=True,
-                                        args=tuple(), kwargs=dict())
-            me = renpy.exports.MenuEntry((label, value))
-            me.value = value
-            me.caption = label
-            me.chosen = value.get_chosen()
-            me.args = tuple()
-            me.kwargs = dict()
-            me.jump_to_label = post_continuous_menu(p)
-            me.action = Function(execute_continuous_menu_action, item=me,
-                                say_nothing=True)
-            store.c_menu_dict['autoanswer'] = me
-            store.c_menu_dict['erase_menu'] = True
-            renpy.jump('play_continuous_menu_no_timer')
+            return
+
+        print_file("c_menu_dict is", store.c_menu_dict)
+        if store.c_menu_dict.get('narration', None) is None:
+            return
+        ## Need to look through all choices for those which end at the
+        ## same time.
+        for i in store.c_menu_dict['items']:
+            print_file("Looking at", i.info.choice_id, ":", i.info.begin,
+                ",", i.info.end, "narration length is", len(store.c_menu_dict['narration']))
+            store.c_menu_dict['available_choices'] = []
+            if (i.info.end == len(store.c_menu_dict['narration'])):
+                if not store.persistent.use_timed_menus:
+                    ## Add this choice to the available choices
+                    print_file("Added", i.info.choice_id, "to available choices.")
+                    store.c_menu_dict['available_choices'].append(i)
+
+        ## Show any remaining choices to the user, along with an option
+        ## to remain silent.
+        if len(store.c_menu_dict.get('available_choices', [])) < 1:
+            return
+        # Create a "dummy action" that can be used for autoanswer timed menu
+        label = "(Say nothing)"
+        location = renpy.game.context().current
+        value = renpy.ui.ChoiceReturn(label, 1, location, sensitive=True,
+                                    args=tuple(), kwargs=dict())
+        me = renpy.exports.MenuEntry((label, value))
+        me.value = value
+        me.caption = label
+        me.chosen = value.get_chosen()
+        me.args = tuple()
+        me.kwargs = dict()
+        me.jump_to_label = post_continuous_menu(p)
+        me.action = Function(execute_continuous_menu_action, item=me,
+                            say_nothing=True)
+        store.c_menu_dict['autoanswer'] = me
+        store.c_menu_dict['erase_menu'] = True
+        renpy.jump('play_continuous_menu_no_timer')
         return
 
     renpy.register_statement('continuous menu',
@@ -2606,7 +2623,8 @@ python early hide:
 
     def execute_end_choice(p):
 
-        if not store.persistent.use_timed_menus:
+        if (not store.persistent.use_timed_menus
+                and not store.c_menu_dict.get('item', None)):
             ## Show this choice to the user, along with an option to remain
             ## silent.
             item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
@@ -2625,6 +2643,7 @@ python early hide:
             me.action = Function(execute_continuous_menu_action, item=me,
                                 say_nothing=True)
             store.c_menu_dict['autoanswer'] = me
+            print_file("Calling execute_end_choice with", p['choice_id'])
             renpy.jump('play_continuous_menu_no_timer')
 
         which_screen = store.c_menu_dict['showing_choices'].get(
@@ -2651,13 +2670,15 @@ python early hide:
         ## Grab the ending index of this choice
         choice_id_dict = store.c_menu_dict['choice_id_dict']
         item = choice_id_dict[p['choice_id']]
-        store.c_menu_dict['available_choices'].remove(item)
         end = item.info.end
         ## Add one so it starts *after* the PostUserStatement
         end += 1
 
         ## Remove this item from the menu items list
-        store.c_menu_dict['items'].remove(item)
+        if item in store.c_menu_dict['items']:
+            store.c_menu_dict['items'].remove(item)
+        if item in store.c_menu_dict['available_choices']:
+            store.c_menu_dict['available_choices'].remove(item)
 
         ## This choice is no longer showing
         store.c_menu_dict['showing_choices'][p['choice_id']] = None

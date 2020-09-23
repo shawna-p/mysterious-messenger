@@ -86,12 +86,14 @@ init python:
         ## Mark this as chosen
         item.value.chosen[(item.value.location, item.value.label)] = True
 
+        if not say_nothing:
+            store.c_menu_dict['items'].remove(item)
+            store.c_menu_dict['available_choices'].remove(item)
+
         if say_nothing:
             store.dialogue_picked = ""
             store.dialogue_paraphrase = store.paraphrase_choices
             store.dialogue_pv = 0
-            if store.c_menu_dict.get('erase_menu', False):
-                store.c_menu_dict = {}
             renpy.jump(item.jump_to_label)
         else:
             # renpy.game.context().current = None
@@ -258,7 +260,7 @@ label execute_continuous_menu():
 label play_continuous_menu_no_timer():
     call answer
     python:
-        print("in play_continuous_menu_no_timer")
+        print_file("in play_continuous_menu_no_timer")
         items = c_menu_dict['available_choices'][:]
         items.append(c_menu_dict['autoanswer'])
         # screen_kwargs = timed_menu_dict['menu_kwargs']
@@ -266,6 +268,9 @@ label play_continuous_menu_no_timer():
         #     para = True
         # else:
         #     para = False
+        if c_menu_dict.get('erase_menu', False):
+            print_file("Erased menu")
+            c_menu_dict = {}
     call screen choice(items=items)
     # $ post_execute_end_choice(dict(choice_id=item.choice_id))
     return
