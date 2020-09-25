@@ -109,6 +109,7 @@ label execute_timed_menu():
     ## First things first: if the player is skipping, they do not receive the
     ## opportunity to answer at all.
     if renpy.is_skipping():
+        $ timed_menu_dict['no_choices'] = True
         jump execute_timed_menu_narration
 
     ## Separate out the vars
@@ -142,8 +143,8 @@ label execute_timed_menu():
                     has_chosen = True
                     break
             if not has_chosen:
-                # Special case where we don't show the menu
-                timed_menu_dict['has_chosen'] = False
+                # Special case where the menu isn't shown
+                timed_menu_dict['no_choices'] = True
                 renpy.jump('execute_timed_menu_narration')
 
     if not persistent.use_timed_menus:
@@ -155,7 +156,7 @@ label execute_timed_menu():
     $ no_anim_list = chatlog[-20:-1]
     show screen timed_menu_messages(no_anim_list)
     show screen timed_choice(items, para)
-    show screen answer_countdown(end_label, wait_time+(extra_time),
+    show screen answer_countdown(end_label, wait_time+extra_time,
         custom_action=[ Hide('answer_countdown'), Show('pause_button') ])
 
     # Execute the narration
@@ -172,16 +173,19 @@ label end_of_timed_menu():
     # If the dialogue is exhausted, the player has missed the time window to
     # reply. There is a small buffer for them to finish reading the last
     # message and then everything is reset.
-    $ messenger_pause(end_menu_buffer * persistent.timed_menu_pv)
-    $ end_label = timed_menu_dict['end_label']
-    if persistent.use_timed_menus and timed_menu_dict.get('has_chosen', True):
+    if persistent.use_timed_menus and not timed_menu_dict.get('no_choices', False):
+        $ messenger_pause(end_menu_buffer * persistent.timed_menu_pv)
         hide screen timed_choice
         hide screen answer_countdown
         hide screen timed_menu_messages
+        # Show the original messenger screen; it should animate back down into
+        # position
+        show screen messenger_screen(no_anim_list=chatlog[-20:],
+            animate_down=True)
+    $ end_label = timed_menu_dict.get('end_label', None)
+    if end_label is None:
+        return
     $ timed_menu_dict = {}
-    # Show the original messenger screen; it should animate back down into
-    # position
-    show screen messenger_screen(no_anim_list=chatlog[-20:], animate_down=True)
     jump expression end_label
 
 ## A label used during a replay when the player has never chosen an answer
@@ -269,73 +273,40 @@ screen timed_choice(items, paraphrased=None):
         hbox:
             for num, i in enumerate(items):
                 $ fnum = float(num*0.2)
-                fixed:
-                    fit_first True
-                    ## This choice both appears and disappears
-                    if (i.kwargs.get('appear_time', None)
-                            and i.kwargs.get('disappear_time', None)):
-                        at choice_appear_disappear(
-                            begin_delay=i.kwargs['appear_time'],
-                            end_delay=(i.kwargs['disappear_time']
-                                - i.kwargs['appear_time']),
-                            mod=persistent.timed_menu_pv)
-                    ## This choice only appears
-                    elif i.kwargs.get('appear_time', None):
-                        at choice_appear(i.kwargs['appear_time'],
-                            persistent.timed_menu_pv)
-                    ## This choice only disappears
-                    elif i.kwargs.get('disappear_time', None):
-                        at choice_disappear(i.kwargs['disappear_time'],
-                            persistent.timed_menu_pv)
-                    ## This choice is simply on-screen
-                    else:
-                        at the_anim(fnum)
+                textbutton i.caption:
+                    at the_anim(fnum)
+                    # Check if the caption is long; reduce font size
+                    if (len(i.caption) > 60
+                            or (len(items) > 2 and len(i.caption) > 42)):
+                        text_size 25
+                    elif len(i.caption) > 42:
+                        text_size 28
 
-                    textbutton i.caption:
-                        # Check if the caption is long; reduce font size
-                        if (len(i.caption) > 60
-                                or (len(items) > 2 and len(i.caption) > 42)):
-                            text_size 25
-                        elif len(i.caption) > 42:
-                            text_size 28
-
-                        if (persistent.dialogue_outlines
-                                and persistent.custom_footers):
-                            text_outlines [ (2, "#000",
-                                absolute(0), absolute(0)) ]
-                        elif (persistent.dialogue_outlines
-                                and not persistent.custom_footers):
-                            text_outlines [ (2, "#fff",
-                                absolute(0), absolute(0)) ]
+                    if (persistent.dialogue_outlines
+                            and persistent.custom_footers):
+                        text_outlines [ (2, "#000",
+                            absolute(0), absolute(0)) ]
+                    elif (persistent.dialogue_outlines
+                            and not persistent.custom_footers):
+                        text_outlines [ (2, "#fff",
+                            absolute(0), absolute(0)) ]
 
 
-                        if (persistent.past_choices and not observing
-                                and i.chosen):
-                            if persistent.custom_footers:
-                                foreground 'seen_choice_check_circle'
-                                background 'call_choice_check'
-                                hover_background 'call_choice_check_hover'
-                            else:
-                                foreground 'seen_choice_check'
+                    if (persistent.past_choices and not observing
+                            and i.chosen):
+                        if persistent.custom_footers:
+                            foreground 'seen_choice_check_circle'
+                            background 'call_choice_check'
+                            hover_background 'call_choice_check_hover'
+                        else:
+                            foreground 'seen_choice_check'
 
-                        action [SetVariable('dialogue_picked', i.caption),
-                            Function(set_paraphrase, screen_pref=paraphrased,
-                                item_pref=(i.kwargs.get('paraphrased',
-                                None))),
-                                i.action]
+                    action [SetVariable('dialogue_picked', i.caption),
+                        Function(set_paraphrase, screen_pref=paraphrased,
+                            item_pref=(i.kwargs.get('paraphrased',
+                            None))),
+                            i.action]
 
-                    ## A little hourglass animation to indicate this choice
-                    ## is about to expire
-                    if i.kwargs.get('disappear_time', None):
-                        add 'header_hg' align (0.5, 0.98):
-                            if i.kwargs.get('appear_time', None):
-                                at choice_disappear_hourglass(
-                                    pause_time=(i.kwargs['disappear_time']),
-                                    mod=persistent.timed_menu_pv)
-                            else:
-                                at choice_disappear_hourglass(
-                                    i.kwargs['disappear_time'],
-                                        persistent.timed_menu_pv)
 
     frame:
         at wait_fade()

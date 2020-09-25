@@ -440,7 +440,10 @@ init -4 python:
 
         # If this is the first message after "filler", it gets a pv of 0
         if (len(store.chatlog) > 0
-                and store.chatlog[-1].who.name == 'filler'):
+                and store.chatlog[-1].who.name == 'filler'
+                and not ((store.timed_menu_dict
+                    or store.c_menu_dict.get('showing_choices', None))
+                and persistent.use_timed_menus)):
             pauseVal = 0.1
         elif who.name == 'filler':
             pauseVal = 0

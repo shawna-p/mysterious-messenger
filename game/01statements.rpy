@@ -1818,12 +1818,13 @@ python early hide:
 
             print_file("Narration is:")
             for item in narration:
-                print_file("    ", item)
+                print_file("    ", item, "time:", convert_node_to_time(item))
             # Link all the narration nodes together
             renpy.ast.chain_block(narration, after_menu_node)
 
             # Calculate how long it will take to play the narration
             wait_time = convert_node_to_time(narration)
+            print_file("Got a wait time of", wait_time)
         else:
             try:
                 wait_time = eval(p['wait'])
@@ -1834,6 +1835,7 @@ python early hide:
 
         # Adjust the wait time for the timed menu pv
         wait_time *= store.persistent.timed_menu_pv
+        print_file("Wait time is now", wait_time)
 
         # Create the choices
         for i, (label, condition, block) in enumerate(p['items']):
@@ -2392,7 +2394,7 @@ python early hide:
 
     def post_execute_timed_menu(p):
         ## This function plays after the timed menu has been executed
-        if not store.timed_menu_dict.get('item', None):
+        if store.timed_menu_dict and not store.timed_menu_dict.get('item', None):
             renpy.jump('end_of_timed_menu')
         return
 
@@ -2450,7 +2452,7 @@ python early hide:
                     mult = kwargs['pauseVal']
             t = calculate_type_time(node.what)
             t *= mult
-            print_file("Node's dialogue is", node.what, t)
+            # print_file("Node's dialogue is", node.what, t)
             return t
         if isinstance(node, renpy.ast.UserStatement):
             if node.parsed[0] == ('msg',):
@@ -2462,7 +2464,7 @@ python early hide:
                     mult = eval(np['pv'])
                 t = calculate_type_time(np['what'])
                 t *= mult
-                print_file("Node's msg dialogue is", np['what'], t)
+                # print_file("Node's msg dialogue is", np['what'], t)
                 return t
 
             elif (node.parsed[0] in [('enter', 'chatroom',),
@@ -2475,7 +2477,7 @@ python early hide:
         if isinstance(node, renpy.ast.Translate):
             # A Translate block typically contains a Say statement inside
             # its block. Extract the time from that.
-            print_file("Translate block contains", node.block)
+            # print_file("Translate block contains", node.block)
             return convert_node_to_time(node.block)
 
         if isinstance(node, renpy.ast.Call):
