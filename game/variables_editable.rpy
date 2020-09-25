@@ -481,3 +481,8 @@ init python:
 # If None, the program tries to dynamically figure out what the value
 # should be based on the first menu of choices it comes across.
 default paraphrase_choices = None
+# If True, when a timed menu or continuous menu has no available choices
+# (e.g. none of the conditions on the choices are met), the narration will
+# still be shown to the player. If False, the program will skip to the end
+# of the menu.
+define show_choiceless_menus = True

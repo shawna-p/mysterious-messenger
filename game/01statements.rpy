@@ -1873,12 +1873,21 @@ python early hide:
             items = choices
             set = None
 
+        menu_dict = dict(items=[],
+                        menu_args=args,
+                        menu_kwargs=kwargs,
+                        menu_set=set,
+                        wait_time=wait_time,
+                        narration=narration,
+                        end_label=post_timed_menu(p))
+
         # Filter the list of items to only include ones for which the condition
         # is True.
 
         location = renpy.game.context().current
 
         new_items = [ ]
+
 
         for (label, condition, value), (item_args,
                 item_kwargs) in zip(items, item_arguments):
@@ -1898,8 +1907,24 @@ python early hide:
         # Check to see if there's at least one choice in set of items:
         choices = [ value for label, value in new_items if value is not None ]
 
-        # If not, bail out.
+
         if not choices:
+            # There are no choices which can be shown to the player. Should
+            # the narration be shown?
+            if kwargs.get('show_choiceless', None):
+                # This menu should be shown regardless
+                store.timed_menu_dict = menu_dict
+                renpy.jump('execute_timed_menu')
+            elif kwargs.get('show_choiceless', None) is not None:
+                # This menu should not be shown; skip
+                return
+            elif store.show_choiceless_menus:
+                # Show this menu
+                store.timed_menu_dict = menu_dict
+                renpy.jump('execute_timed_menu')
+            else:
+                # Don't show the menu
+                return
             # Should just finish/go to post-execute label
             return None
 
@@ -1962,14 +1987,8 @@ python early hide:
 
 
         ## Now to pass this somewhere as a comprehensible object:
-        menu_dict = dict(items=item_actions,
-                        menu_args=args,
-                        menu_kwargs=kwargs,
-                        menu_set=set,
-                        wait_time=wait_time,
-                        narration=narration,
-                        end_label=post_timed_menu(p),
-                        autoanswer=me)
+        menu_dict.update(dict(items=item_actions,
+                        autoanswer=me))
 
         store.timed_menu_dict = menu_dict
         renpy.jump('execute_timed_menu')
