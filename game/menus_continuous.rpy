@@ -58,7 +58,6 @@ init python:
 
             for a, b in zip(block, block[1:]):
                 a.chain(b)
-            return block
 
             # Otherwise, the final action is the end of the menu. The choice
             # action is simply to jump to the appropriate block
@@ -68,11 +67,8 @@ init python:
         def __str__(self):
             """Print out a readable string representing this object."""
 
-            return ("<ChoiceInfo> object\n   begin: " + str(self.begin)
-                + "\n   end: " + str(self.end) + "\n   choice_id: "
-                + str(self.choice_id) + "\n   wait_time: " + str(self.wait_time)
-                + "\n   final_node: " + str(self.final_node))
-
+            return ("<ChoiceInfo> ID: " + str(self.choice_id) + " ("
+                + str(self.begin) + ", " + str(self.end) + ")")
 
 
     def execute_continuous_menu_action(item, say_nothing=False):
@@ -80,6 +76,7 @@ init python:
         Mark the selected choice as chosen and proceed to the choice
         block to execute its action.
         """
+
         print_file("Made a choice:", item.caption)
         store.c_menu_dict['item'] = item
 
@@ -92,12 +89,13 @@ init python:
             store.c_menu_dict['available_choices'].remove(item)
 
         if say_nothing:
+            # Since the player is saying nothing, ensure the program
+            # doesn't interpret this choice as non-paraphrased dialogue.
             store.dialogue_picked = ""
             store.dialogue_paraphrase = store.paraphrase_choices
             store.dialogue_pv = 0
             renpy.jump(item.jump_to_label)
         else:
-            # renpy.game.context().current = None
             renpy.jump('finish_c_menu')
 
 
@@ -107,19 +105,25 @@ init python:
         possible_screens = ['c_choice_2', 'c_choice_1', 'c_choice_3',
                             'c_choice_4']
 
-        ## Make sure the least-recently allocated screens end up first in
-        ## the list
+        ## Make sure the least-recently hidden screens end up first in
+        ## the list (reduces choppy animations).
         allocate_list = [ x for x in possible_screens
                         if x not in store.recently_hidden_choice_screens ]
         allocate_list.extend(store.recently_hidden_choice_screens)
         result = allocate_screen(allocate_list)
 
+        # Add this choice to a dictionary so the program can retrieve
+        # which screen a choice is displaying on.
         store.c_menu_dict['showing_choices'][choice_id] = result
 
         return result
 
     def adjust_xoffset(trans, x):
-        """Adjust the xoffset of trans to x."""
+        """
+        Adjust the xoffset of trans to x. A helper function for the various
+        choice box animation functions. Return how long to wait until the
+        transform is checked again.
+        """
 
         if trans.xoffset == x:
             return 0.1
@@ -135,6 +139,8 @@ init python:
             trans.xoffset = x
             return 0.1
 
+        # Otherwise, adjust by the slide speed and check immediately for
+        # changes.
         if trans.xoffset < x:
             trans.xoffset += store.choice_slide_speed
         else:
@@ -170,12 +176,13 @@ init python:
         else:
             choice_offsets = store.choice_offsets_3
 
-        ## Center this choice if it's the only choice on-screen
+        ## Center this choice if it's the only choice on-screen or if there
+        ## are three choices on-screen.
         if store.on_screen_choices in [1, 3]:
             return adjust_xoffset(trans, choice_offsets[2])
 
         ## This choice moves left or right depending on which other screen
-        ## is showing
+        ## is showing.
         if renpy.get_screen('c_choice_1') or renpy.get_screen('c_choice_4'):
             return adjust_xoffset(trans, choice_offsets[3])
 
@@ -251,7 +258,6 @@ label execute_continuous_menu():
         return
 
     $ narration = c_menu_dict['narration']
-    # while narration:
     $ node = narration.pop(0)
     $ node.execute()
 
@@ -261,7 +267,6 @@ label execute_continuous_menu():
 label play_continuous_menu_no_timer():
     call answer
     python:
-        print_file("in play_continuous_menu_no_timer")
         items = c_menu_dict['available_choices'][:]
         items.append(c_menu_dict['autoanswer'])
         screen_kwargs = c_menu_dict['menu_kwargs']
@@ -272,9 +277,10 @@ label play_continuous_menu_no_timer():
     call screen choice(items=items, paraphrased=para)
     return
 
-
+## Determines what to do after a choice has been made. Generally executes
+## the choice block after animating the message screen back into place.
 label finish_c_menu:
-    ## Get rid of the backup; check if paraphrased dialogue should be sent
+    # Get rid of the backup; check if paraphrased dialogue should be sent
     $ chatbackup = None
     $ no_anim_list = chatlog[-20:]
     if (not dialogue_paraphrase and dialogue_picked != ""):
@@ -289,9 +295,10 @@ label finish_c_menu:
         hide screen c_choice_2
         hide screen c_choice_3
         hide screen timed_menu_messages
-        # Show the original messenger screen; it should animate back down into
-        # position
-        show screen messenger_screen(no_anim_list=no_anim_list, animate_down=True)
+        # Show the original messenger screen; it should
+        # animate back down into position
+        show screen messenger_screen(no_anim_list=no_anim_list,
+            animate_down=True)
 
     $ item = c_menu_dict['item']
     ## If this isn't at the end of the menu, re-show any remaining
@@ -299,7 +306,6 @@ label finish_c_menu:
     $ on_screen_choices = 0
     ## Reset the showing choices dictionary
     $ c_menu_dict['showing_choices'] = dict()
-    # $ c_menu_dict = {}
     # This executes the statements bundled after the choice
     $ renpy.ast.next_node(item.block[0])
     return
@@ -315,6 +321,8 @@ define choice_offsets_2 = (-185, -185, 0, 185, 185)
 define choice_offsets_3 = (-255, -132, 0, 132, 255)
 ## Holds the most recently hidden choice screens to avoid pop-in
 default recently_hidden_choice_screens = []
+## If the indices are within a certain distance of each other, they should
+## animate in together.
 default last_shown_choice_index = None
 
 ## The screen which displays a single choice for a continuous menu.
@@ -322,9 +330,9 @@ screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False,
                     fn=choice_move_left):
     zorder 150
 
-    # Could check if the c_menu_dict['items'] only has two items
-    # for two-item styling
     fixed:
+        # If this is the first choice to appear in a menu, it animates in
+        # differently.
         if first_choice:
             at continue_appear_disappear_first(i.wait,
                 persistent.timed_menu_pv, fn)
@@ -341,8 +349,7 @@ screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False,
                 style_prefix 'old_two'
             else:
                 style_prefix 'old_three'
-        xalign 0.5
-        yalign 1.0
+        align (0.5, 1.0)
         yoffset -113-20
         fit_first True
         textbutton i.caption:
@@ -379,13 +386,15 @@ screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False,
                         item_pref=(i.kwargs.get('paraphrased', None))),
                         i.action]
 
+        # Hourglass which indicates when a choice is about to expire
         add 'header_hg':
             align (0.5, 0.98)
             at choice_disappear_hourglass(i.wait, persistent.timed_menu_pv)
 
-        timer (i.wait*persistent.timed_menu_pv):
-            action Hide(hide_screen)
+    timer (i.wait*persistent.timed_menu_pv):
+        action Hide(hide_screen)
 
+## More choice screens that all use the above screen as a base.
 screen c_choice_2(i, first_choice=False):
     zorder 150
     use c_choice_1(i, hide_screen='c_choice_2', first_choice=first_choice,
@@ -401,6 +410,7 @@ screen c_choice_4(i, first_choice=False):
     use c_choice_1(i, hide_screen='c_choice_4', first_choice=first_choice,
         fn=choice_move_substitute)
 
+# Animates the choice in and out when its allotted time has ended.
 transform continue_appear_disappear(end_delay, mod, fn):
     on show:
         parallel:
@@ -427,6 +437,8 @@ transform continue_appear_disappear(end_delay, mod, fn):
         parallel:
             ease 0.625*mod xzoom 0.01
 
+# Animates the choice in and out when its allotted time has ended. Initial
+# animation involves stretching from the bottom of the screen.
 transform continue_appear_disappear_first(end_delay, mod, fn):
     on show:
         parallel:
@@ -453,3 +465,14 @@ transform continue_appear_disappear_first(end_delay, mod, fn):
         parallel:
             ease 0.625*mod xzoom 0.01
 
+# Animates the hourglass flashing and rotating when a choice expires soon.
+transform choice_disappear_hourglass(pause_time=0.0, mod=0.8):
+    alpha 0.0 rotate 0
+    pause max((pause_time*mod) - (2.0*mod) - mod, 0.1)
+    block:
+        rotate 0
+        easein 0.25*mod alpha 0.6 zoom 1.1
+        easeout 0.25*mod alpha 1.0 zoom 1.0
+        pause 0.5
+        ease 1.0 rotate 180
+        repeat

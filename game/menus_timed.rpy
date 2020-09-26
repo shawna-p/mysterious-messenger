@@ -22,9 +22,12 @@ init python:
         item.value.chosen[(item.value.location, item.value.label)] = True
 
         if jump_to_end:
+            # This means (Say nothing) was chosen, so the MC shouldn't
+            # post any messages.
             store.dialogue_picked = ""
             store.dialogue_paraphrase = store.paraphrase_choices
             store.dialogue_pv = 0
+            # Jump to the end of the menu; no choice dialogue to execute.
             end_label = store.timed_menu_dict['end_label']
             store.timed_menu_dict = {}
             renpy.jump(end_label)
@@ -35,7 +38,7 @@ init python:
 
 
 ## A duplicate of the messenger_screen screen that includes an animation
-## to smooth out the transition into timed menu answers showing
+## to smooth out the transition into timed menu answers showing.
 screen timed_menu_messages(no_anim_list=None):
     tag menu
     zorder 1
@@ -84,6 +87,8 @@ screen timed_menu_messages(no_anim_list=None):
                         use chat_animation(i, no_anim=True)
                 null height 10
 
+## Two animations to move the messages up and down the screen when
+## the choices appear/disappear.
 transform slide_up_down(y=-220):
     yoffset 0
     pause 0.1
@@ -99,8 +104,11 @@ transform slide_down(y=-220):
 ## The length of extra time to wait while the answers are on-screen before
 ## the menu expires.
 default end_menu_buffer = 3.0
-## A label which handles displaying the dialogue behind a menu and what happens
-## if the player does not make a choice
+
+## A label which handles animating the messages up the screen to make room
+## for choices, if there are available choices and timed menus are set.
+## Otherwise it ensures the dialogue for the menu plays out if it is not
+## set to be skipped.
 label execute_timed_menu():
     if not timed_menu_dict:
         $ print_file("ERROR: Something went wrong with timed menus")
@@ -150,8 +158,8 @@ label execute_timed_menu():
     if not persistent.use_timed_menus:
         jump execute_timed_menu_narration
 
-    ## If the program got here, it is time to animate the messages
-    ## sliding up the screen.
+    # If the program got here, it is time to animate the messages
+    # sliding up the screen.
     hide screen messenger_screen
     $ no_anim_list = chatlog[-20:-1]
     show screen timed_menu_messages(no_anim_list)
@@ -172,11 +180,17 @@ label execute_timed_menu_narration():
         $ end_label = timed_menu_dict['end_label']
         $ timed_menu_dict = {}
         jump expression end_label
+
+    # The narration nodes are all chained to execute in sequence, so it's
+    # only necessary to execute the first one.
     $ narration = timed_menu_dict['narration']
     $ msg = narration.pop(0)
     $ msg.execute()
     return
 
+## The program jumps here at the end of a timed menu when the player has not
+## yet made a choice. Depending on the settings, it may either hide the menu
+## or show the regular choice screen to the player.
 label end_of_timed_menu():
     # If the dialogue is exhausted, the player has missed the time window to
     # reply. There is a small buffer for them to finish reading the last
@@ -187,12 +201,12 @@ label end_of_timed_menu():
         hide screen timed_choice
         hide screen answer_countdown
         hide screen timed_menu_messages
-        # Show the original messenger screen; it should animate back down into
-        # position
+        # Show the original messenger screen; it should
+        # animate back down into position
         show screen messenger_screen(no_anim_list=chatlog[-20:],
             animate_down=True)
 
-    # Otherwise, if they have timed menus turned off, it is time to show
+    # Otherwise, if the player has timed menus turned off, it is time to show
     # them the choice screen
     if (not persistent.use_timed_menus
             and not timed_menu_dict.get('item', None)):
@@ -204,7 +218,6 @@ label end_of_timed_menu():
             para = screen_kwargs.get('paraphrased', None)
         call screen choice(items=items, paraphrased=para)
         return
-
 
     $ end_label = timed_menu_dict.get('end_label', None)
     if end_label is None:
@@ -245,7 +258,8 @@ label finish_timed_menu():
 default timed_menu_dict = { }
 
 ## Screen that borrows from the choice screen, but customized for
-## timed menus.
+## timed menus. The choices are arranged horizontally instead of vertically,
+## and there is only room for a maximum of three choices at once.
 screen timed_choice(items, paraphrased=None):
     zorder 150
 
@@ -256,6 +270,7 @@ screen timed_choice(items, paraphrased=None):
     default item_len = len(items) > 2
 
     frame:
+        # The choices are squashed vertically when appearing and disappearing
         at shrink_away()
         if persistent.custom_footers and item_len:
             style_prefix 'new_three'
@@ -286,7 +301,6 @@ screen timed_choice(items, paraphrased=None):
                         text_outlines [ (2, "#fff",
                             absolute(0), absolute(0)) ]
 
-
                     if (persistent.past_choices and not observing
                             and i.chosen):
                         if persistent.custom_footers:
@@ -302,7 +316,6 @@ screen timed_choice(items, paraphrased=None):
                             None))),
                             i.action]
 
-
     frame:
         at wait_fade()
         align (0.5, 1.0)
@@ -310,72 +323,9 @@ screen timed_choice(items, paraphrased=None):
         xysize (750, 113)
         text "Choose a reply" color "#fff" text_align 0.5 align (0.5, 0.5)
 
-transform choice_disappear_hourglass(pause_time=0.0, mod=0.8):
-    alpha 0.0 rotate 0
-    pause max((pause_time*mod) - (2.0*mod) - mod, 0.1)
-    block:
-        rotate 0
-        easein 0.25*mod alpha 0.6 zoom 1.1
-        easeout 0.25*mod alpha 1.0 zoom 1.0
-        pause 0.5
-        ease 1.0 rotate 180
-        repeat
-
-
-transform choice_disappear(pause_time=0.0, mod=0.8):
-    xzoom 1.0 alpha 1.0 zoom 1.0
-    pause max((pause_time*mod) - (2.0*mod) - mod, 0.1)
-    # Indicate it's about to expire
-    block:
-        easein 0.25*mod alpha 0.6 zoom 1.1
-        easeout 0.25*mod alpha 1.0 zoom 1.0
-        repeat 2
-    pause (pause_time*mod) - max((pause_time*mod) - (3.0*mod), 0.1) - mod
-    parallel:
-        ease 0.625*mod alpha 0.0
-    parallel:
-        ease 0.625*mod xzoom 0.01
-
-transform choice_appear(pause_time=0.0, mod=0.8):
-    xzoom 0.01 alpha 0.0
-    pause max(pause_time*mod, 0.1)
-    parallel:
-        pause 0.125*mod
-        ease 0.5*mod alpha 1.0
-    parallel:
-        ease 0.625*mod xzoom 1.0
-
-    on hover:
-        ease 0.5 yoffset 5
-        ease 0.5 yoffset -5
-        repeat
-    on idle:
-        linear 0.3 yoffset 0
-
-transform choice_appear_disappear(begin_delay=0.0, end_delay=1.0, mod=0.8):
-    xzoom 0.01 alpha 0.0
-    pause max(begin_delay*mod, 0.1)
-    parallel:
-        pause 0.125*mod
-        ease 0.5*mod alpha 1.0
-    parallel:
-        ease 0.625*mod xzoom 1.0
-
-    xzoom 1.0 alpha 1.0 zoom 1.0
-    pause max((end_delay*mod) - (2.0*mod) - mod, 0.1)
-    # Indicate it's about to expire
-    block:
-        easein 0.25*mod alpha 0.6 zoom 1.1
-        easeout 0.25*mod alpha 1.0 zoom 1.0
-        repeat 2
-    pause (end_delay*mod) - max((end_delay*mod) - (3.0*mod), 0.1) - mod
-    parallel:
-        ease 0.625*mod alpha 0.0
-    parallel:
-        ease 0.625*mod xzoom 0.01
-
-
-
+## This very long section defining styles allows style prefixes to take
+## care of how to display the choices based on how many choices there are
+## and whether the player is using the new or old-style UI.
 style choice_common_frame:
     yalign 1.0
     top_padding 20
