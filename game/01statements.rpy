@@ -214,7 +214,7 @@ python early hide:
 
         return dialogue, img, spec_bubble
 
-    def parse_sub_block(l, messages=[], check_time=False, is_text_msg=False):
+    def parse_sub_block(l, messages=None, check_time=False, is_text_msg=False):
         """
         Parse l for messages or conditional python statements. If a sub-block
         is discovered, this function recursively calls itself to parse the
@@ -224,14 +224,25 @@ python early hide:
         -----------
         l : Lexer
             The lexer that is parsing the block.
-        messages : list of dict, string
+        messages : list of dict, string, list
             Contains dictionaries corresponding to messages as well as strings
-            corresponding to conditional statements. 'end' indicates the end
-            of a conditional statement's block.
+            corresponding to statements like the pause and label statements.
+            May contain a list of (condition, block) tuples corresponding to
+            a conditional statement.
+        check_time : bool
+            True if the program should check for a `time` keyword after the
+            message body, indicating when the message should be sent.
+        is_text_msg : bool
+            Indicates the program should check for `pause` arguments and use
+            those to calculate timestamps for the text messages.
         """
+
+        if messages is None:
+            messages = []
 
         while l.advance():
             with l.catch_error():
+                state = l.checkpoint()
                 try:
                     if is_text_msg and l.keyword('pause'):
                         p_time = l.rest()
@@ -242,20 +253,95 @@ python early hide:
                     else:
                         line = parse_msg_stmt(l, check_time=check_time)
                         messages.append(line)
+                    continue
                 except:
-                    try:
-                        # If that didn't work, assume it's a python conditional
-                        messages.append(l.delimited_python(':'))
-                    except:
-                        print("Couldn't get the delimited python")
-                    try:
-                        ll = l.subblock_lexer()
-                        messages = parse_sub_block(ll, messages, check_time)
-                        messages.append('end')
-                        continue
-                    except:
-                        print("Couldn't parse the subblock")
+                    l.revert(state)
+
+                try:
+                    # If that didn't work, assume it's a python conditional
+                    messages.append(parse_msg_conditional(l,
+                        check_time, is_text_msg))
+                except:
+                    l.error("Couldn't parse message conditional.")
+
         return messages
+
+    def parse_msg_conditional(l, check_time=False, is_text_msg=False):
+        """
+        Parse l as a conditional statement intended for a message.
+        """
+
+        if not l.keyword('if'):
+            l.error("Unrecognized statement inside text message block.")
+        entries = [ ]
+        condition = l.require(l.python_expression)
+        l.require(':')
+        l.expect_eol()
+        l.expect_block('if statement')
+
+        block = parse_sub_block(l.subblock_lexer(), check_time=check_time,
+            is_text_msg=is_text_msg)
+        entries.append((condition, block))
+
+        l.advance()
+
+        while l.keyword('elif'):
+            condition = l.require(l.python_expression)
+            l.require(':')
+            l.expect_eol()
+            l.expect_block('elif clause')
+
+            block = parse_sub_block(l.subblock_lexer(), check_time=check_time,
+                is_text_msg=is_text_msg)
+            entries.append((condition, block))
+            l.advance()
+
+        if l.keyword('else'):
+            l.require(':')
+            l.expect_eol()
+            l.expect_block('elif clause')
+
+            block = parse_sub_block(l.subblock_lexer(), check_time=check_time,
+                is_text_msg=is_text_msg)
+            entries.append(('True', block))
+            l.advance()
+
+        return entries
+
+
+    def resolve_conditionals(items):
+        """
+        Turn a list of (condition, block) tuples into a list with the
+        appropriate dialogue based on which condition evaluates to True.
+        """
+
+        if not isinstance(items, list):
+            return [ ]
+
+        the_block = [ ]
+
+        for condition, block in items:
+            try:
+                condition = renpy.python.py_eval(condition)
+            except:
+                print("WARNING: something went wrong when evaluating the condition",
+                    condition)
+                condition = None
+            if not condition:
+                continue
+            else:
+                the_block = block
+                break
+
+        messages = [ ]
+        for msg in the_block:
+            if isinstance(items, list):
+                messages.extend(resolve_conditionals(msg))
+            else:
+                messages.append(msg)
+        return messages
+
+
 
     def parse_backlog_stmt(l):
         # First, we need the person whose text message backlog this is
@@ -315,14 +401,19 @@ python early hide:
             return
 
         # Now we know whose backlog to add this to.
-        condition = True
-        condition_outcomes = []
+        # Time to go through the messages and determine if there are any
+        # conditionals to be resolved.
+        messages = [ ]
+        for msg in p['messages']:
+            if isinstance(msg, list):
+                # This is a conditional
+                messages.extend(resolve_conditionals(msg))
+            else:
+                messages.append(msg)
         backlog = []
         what = "First message"
-        for d in p['messages']:
+        for d in messages:
             if isinstance(d, dict):
-                if not condition:
-                    continue
                 try:
                     who = eval(d["who"])
                     what = d["what"]
@@ -349,49 +440,11 @@ python early hide:
                 else:
                     when = upTime(day)
                 backlog.append((ChatEntry(who, dialogue, when, img), timestamp))
-                # sender.text_backlog(who, dialogue, when, img)
             elif d[:5] == 'pause':
-                if not condition:
-                    continue
-                else:
-                    backlog.append(d.split('|'))
-            elif d == 'end':
-                condition = True
+                backlog.append(d.split('|'))
             else:
-                # This is a conditional; Evaluate it
-                try:
-                    # This is an 'if' statement
-                    if 'if ' in d:
-                        condition_outcomes = []
-                        condition = d[3:]
-                        condition = eval(condition)
-                        condition_outcomes.append(condition)
-                    # This is an 'elif' statement
-                    elif len(d) > 0:
-                        if len(condition_outcomes) == 0:
-                            condition = False
-                            continue
-                        if True in condition_outcomes:
-                            condition = False
-                            continue
-                        condition = eval(d)
-                        condition_outcomes.append(condition)
-                    # This is an 'else' statement
-                    else:
-                        if len(condition_outcomes) == 0:
-                            condition = False
-                            continue
-                        if True in condition_outcomes:
-                            condition = False
-                        else:
-                            condition = True
-                except:
-                    print("WARNING: Could not evaluate conditional statement "
-                        + "for line with dialogue %s" % what)
-                    renpy.show_screen('script_error',
-                        message="Could not evaluate conditional statement "
-                            + "for line with dialogue %s" % what)
-                    return
+                print("WARNING: Could not recognize text message:", d)
+
         if len(backlog) == 0:
             return
         # Adjust timestamps for typing time
@@ -807,7 +860,7 @@ python early hide:
                     messages=messages)
 
     def execute_compose_text(p):
-        # Get the non-message arguments of this day
+        # Get the non-message arguments
         try:
             sender = eval(p['who'])
             real_time = p['real_time']
@@ -834,6 +887,7 @@ python early hide:
 
         send_now = True
         generate_timestamps = False
+
         # Create the 'when' timestamp. Several cases to consider:
         # CASE 1:
         # This is either being expired from check_and_unlock_story in real-time,
@@ -841,7 +895,7 @@ python early hide:
         # real time stamp.
         print_file("Delivery_time is", delivery_time)
         if store.persistent.real_time:
-            # Determine how many days ago this item was
+            # Determine how many days ago the expiring item or current item was
             if store.expiring_item:
                 check_item = store.expiring_item
                 day_index = get_item_day(store.expiring_item)
@@ -911,15 +965,21 @@ python early hide:
         else:
             when = upTime()
 
-        message_queue = []
+        message_queue = [ ]
+        messages = [ ]
 
-        # Now we know whose text messages to add this to.
-        condition = True
-        condition_outcomes = []
-        for d in p['messages']:
+        # Time to go through the messages and determine if there are any
+        # conditionals to be resolved.
+        for msg in p['messages']:
+            if isinstance(msg, list):
+                # This is a conditional
+                messages.extend(resolve_conditionals(msg))
+            else:
+                messages.append(msg)
+
+        # Now go through and turn this into an understandable dictionary
+        for d in messages:
             if isinstance(d, dict):
-                if not condition:
-                    continue
                 try:
                     who = eval(d["who"])
                     what = d["what"]
@@ -948,58 +1008,23 @@ python early hide:
                     cg_helper(what, who, instant_unlock=False)
 
             elif d[:5] == 'pause':
-                if not condition or not generate_timestamps:
+                if not generate_timestamps:
                     continue
                 else:
                     message_queue.append(d)
+
             elif d[:5] == 'label':
-                if not condition:
-                    continue
                 try:
                     arg, val = d.split('|')
                 except:
-                    print("ERROR: could not split text message argument")
+                    print("ERROR: could not split text message argument.")
                     continue
                 if arg == 'label':
-                    # It's the label to jump to to reply
+                    # It's the label to jump to for the reply
                     sender.text_label = val
-            elif d == 'end':
-                condition = True
+
             else:
-                # This is a conditional; Evaluate it
-                try:
-                    # This is an 'if' statement
-                    if 'if ' in d:
-                        condition_outcomes = []
-                        condition = d[3:]
-                        condition = eval(condition)
-                        condition_outcomes.append(condition)
-                    # This is an 'elif' statement
-                    elif len(d) > 0:
-                        if len(condition_outcomes) == 0:
-                            condition = False
-                            continue
-                        if True in condition_outcomes:
-                            condition = False
-                            continue
-                        condition = eval(d)
-                        condition_outcomes.append(condition)
-                    # This is an 'else' statement
-                    else:
-                        if len(condition_outcomes) == 0:
-                            condition = False
-                            continue
-                        if True in condition_outcomes:
-                            condition = False
-                        else:
-                            condition = True
-                except:
-                    print("WARNING: Could not evaluate conditional statement "
-                        + "for line with dialogue %s" % d['what'])
-                    renpy.show_screen('script_error',
-                        message="Could not evaluate conditional statement "
-                            + "for line with dialogue %s" % d['what'])
-                    return
+                print("WARNING: Could not recognize text message:", d)
 
         # Now go through and adjust the timestamps of each message if needed
         if generate_timestamps:
@@ -1046,6 +1071,7 @@ python early hide:
         print_file("Extended " + sender.file_id + "'s msg_queue")
         store.text_person = None
         return
+
 
     def lint_compose_text(p):
         return
@@ -1613,82 +1639,8 @@ python early hide:
                     pos=extrapos,
                     wait=wait)
 
-    def parse_regular_dialogue(l):
-        """Parse a line of 'regular' dialogue as used by __call__"""
 
-        who = l.simple_expression()
-        if who == 'msg':
-            renpy.error("msg CDS received instead of regular dialogue.")
-        what = l.string()
 
-        if not who or not what:
-            renpy.error("msg requires a speaker and some dialogue")
-        print("got who/what", who, what)
-
-        # Parse the arguments
-        arg_dict = c_parse_arguments(l, False)
-
-        # If there are no arguments, raise an error to process this as
-        # a msg CDS
-        print("The argument dict for regular dialogue:")
-        print(arg_dict['args'], "kwargs", arg_dict['kwargs'],
-            "pos", arg_dict['pos'])
-        if (not arg_dict['args'] and not arg_dict['kwargs']
-                and not arg_dict['pos']):
-            renpy.error("dialogue may not be regular")
-
-        arg_info = renpy.ast.ArgumentInfo(arg_dict['args'],
-                    arg_dict['pos'], arg_dict['kwargs'])
-
-        return dict(who=who,
-                    what=what,
-                    arg_info=arg_info)
-
-    def execute_regular_dialogue(p):
-        """Turn a parsed line of regular dialogue into a proper dictionary."""
-
-        try:
-            who = eval(p['who'])
-            what = p['what']
-        except:
-            renpy.error("Could not parse arguments of msg CDS")
-            return
-
-        args, kwargs = p['arg_info'].evaluate()
-
-        pv = None
-        img = False
-        bounce = False
-        spec_bubble = None
-
-        # If there are any arguments, they get priority
-        for i, arg in enumerate(args):
-            if i == 0:
-                pv = arg
-            elif i == 1:
-                img = arg
-            elif i == 2:
-                bounce = arg
-            elif i == 3:
-                spec_bubble = arg
-
-        # Now the keywords
-        if kwargs.get('pauseVal', None):
-            pv = kwargs['pauseVal']
-        if kwargs.get('img', False):
-            img = kwargs['img']
-        if kwargs.get('bounce', False):
-            bounce = kwargs['bounce']
-        if kwargs.get('specBubble', None):
-            spec_bubble = kwargs['specBubble']
-
-        # Turn this into an easily digestible dictionary
-        return dict(who=who,
-                    what=what,
-                    pauseVal=pv,
-                    img=img,
-                    bounce=bounce,
-                    specBubble=spec_bubble)
 
     def construct_menu(stmtl, has_wait_time=False):
         """
@@ -1796,6 +1748,35 @@ python early hide:
                 nodes.extend(subparse_to_nodes(node))
 
         return nodes
+
+    def parse_timed_menu(l):
+        l.expect_block('timed menu statement')
+        # Declare a given label as a global label
+        label = l.label_name(declare=True)
+
+        arguments_dict = c_parse_arguments(l)
+
+        # IF we get an argument e.g. `timed menu (wait=5)` then this menu
+        # is supposed to wait 5 seconds and will NOT have dialogue shown while
+        # the menu is active
+        if arguments_dict and arguments_dict['wait'] is not None:
+            has_wait_time = True
+        else:
+            has_wait_time = False
+
+        # It needs a colon and a newline
+        l.require(':')
+        l.expect_eol()
+
+        # Now parse the menu for narration and choices
+        # choices_dict = parse_menu_options(l, has_wait_time)
+        choices_dict = construct_menu(l, has_wait_time)
+
+        # Update the choices dictionary with the menu arguments
+        choices_dict.update(arguments_dict)
+        choices_dict['label'] = label
+
+        return choices_dict
 
     def execute_timed_menu(p):
 
@@ -1993,398 +1974,12 @@ python early hide:
         store.timed_menu_dict = menu_dict
         renpy.jump('execute_timed_menu')
 
-    ## A helper function to parse the choices of the menu. Modified from
-    ## renpy/parser.py
-    def parse_menu_options(stmtl, has_wait_time=False):
-        l = stmtl.subblock_lexer()
-
-        has_choice = False
-        after_caption = False
-
-        set = None
-
-        pre_menu_block = []
-
-        # Tuples of (label, condition, block)
-        items = [ ]
-        item_arguments = [ ]
-
-        while l.advance():
-
-            # The menu can have a set to exclude previously chosen items
-            if l.keyword('set'):
-                set = l.require(l.simple_expression)
-                l.expect_eol()
-                l.expect_noblock('timed menu set')
-                continue
-
-            # Try to parse for caption lines
-            if not after_caption:
-                state = l.checkpoint()
-
-                # Try to parse it as the __call__ statement uses
-                try:
-                    if after_caption:
-                        l.error("Cannot have a caption in the middle of a timed menu.")
-                    caption = parse_regular_dialogue(l)
-                    l.expect_eol()
-                    l.expect_noblock('timed menu caption')
-                    pre_menu_block.append(caption)
-                    # Move on to the next line
-                    continue
-                except Exception as e:
-                    print("WARNING: couldn't parse possible caption for timed menu")
-                    print("Error was:", e)
-                    l.revert(state)
-
-                # Next try to parse it as a `msg` CDS
-                try:
-                    if after_caption:
-                        l.error("Cannot have a caption in the middle of a timed menu.")
-                    caption = parse_msg_stmt(l, msg_prefix=True)
-                    l.expect_eol()
-                    l.expect_noblock('timed menu caption')
-                    pre_menu_block.append(caption)
-                    # Move on to the next line
-                    continue
-                except Exception as e:
-                    print("WARNING: couldn't parse possible caption for timed menu")
-                    print("Error was:", e)
-                    l.revert(state)
 
 
-            # Otherwise, this item should be a choice
-            has_choice = True
-            after_caption = True
-            condition = "True"
-
-            label = l.string()
-
-            if l.eol():
-
-                if l.subblock:
-                    l.error("Line is followed by a block, despite not being a "
-                        + "menu choice. Did you forget a colon at the end of "
-                        + "the line?")
-
-                l.error("Timed menus need a speaker to say dialogue.")
-
-            item_arguments.append(c_parse_arguments(l, include_wait=False))
-
-            # Check for conditional statements
-            if l.keyword('if'):
-                condition = l.require(l.python_expression)
-
-            l.require(':')
-            l.expect_eol()
-            l.expect_block('timed choice menuitem')
-
-            block = parse_choice_block(l.subblock_lexer())
-
-            items.append((label, condition, block))
-
-        if not has_choice:
-            stmtl.error("Menu does not contain any choices.")
-
-        if has_wait_time and pre_menu_block:
-            stmtl.error("Cannot specify a wait time and have a menu caption.")
-
-        if not has_wait_time and not pre_menu_block:
-            stmtl.error("If no wait time is specified, must provide a menu caption.")
-
-        # Ideally we should end up with:
-        # pre_menu_block : a block of msg-equivalent statements that are
-        #       supposed to execute while the menu is displaying.
-        # items : A list of (label, condition, block) that are the choices
-        #       for this menu
-        # set : The set to be used for this menu
-        # item_arguments : A list of arguments corresponding to each choice item
-
-        # Return these as a dictionary
-        return dict(pre_menu_block=pre_menu_block,
-                    items=items,
-                    item_arguments=item_arguments,
-                    menu_set=set)
-
-
-    def parse_timed_menu(l):
-        l.expect_block('timed menu statement')
-        # Declare a given label as a global label
-        label = l.label_name(declare=True)
-
-        arguments_dict = c_parse_arguments(l)
-
-        # IF we get an argument e.g. `timed menu (wait=5)` then this menu
-        # is supposed to wait 5 seconds and will NOT have dialogue shown while
-        # the menu is active
-        if arguments_dict and arguments_dict['wait'] is not None:
-            has_wait_time = True
-        else:
-            has_wait_time = False
-
-        # It needs a colon and a newline
-        l.require(':')
-        l.expect_eol()
-
-        # Now parse the menu for narration and choices
-        # choices_dict = parse_menu_options(l, has_wait_time)
-        choices_dict = construct_menu(l, has_wait_time)
-
-        # Update the choices dictionary with the menu arguments
-        choices_dict.update(arguments_dict)
-        choices_dict['label'] = label
-
-        return choices_dict
 
     def lint_timed_menu(p):
         return
 
-    def execute_timed_menu_2(p):
-
-        ## Just print out what's in the pre-menu block (for testing)
-        print_file("LIST OF THINGS IN THE PRE-MENU BLOCK:")
-        for item in p['pre_menu_block']:
-            print_file("    ", item.block)
-        return
-
-        # Try to evaluate arguments passed to the menu
-        arg_info = renpy.ast.ArgumentInfo(p['args'], p['pos'], p['kwargs'])
-        args, kwargs = arg_info.evaluate()
-
-        choices = [ ]
-        narration = [ ]
-        item_arguments = [ ]
-
-        for i, (label, condition, block) in enumerate(p['items']):
-            if renpy.config.say_menu_text_filter:
-                label = renpy.config.say_menu_text_filter(label)
-
-            choices.append((label, condition, i))
-
-            # Add the arguments, or an empty tuple and dictionary if there
-            # are none
-            pargs = p['item_arguments']
-            if pargs and pargs[i] is not None:
-                arg_info = renpy.ast.ArgumentInfo(pargs[i]['args'],
-                    pargs[i]['pos'], pargs[i]['kwargs'])
-                item_arguments.append(arg_info.evaluate())
-            else:
-                item_arguments.append((tuple(), dict()))
-
-
-        ## Dissect pre_menu_block into something displayable
-        for msg in p['pre_menu_block']:
-            if msg.get('arg_info', None):
-                # It was written like regular dialogue
-                print("parsing msg as regular dialogue.", msg)
-                narration.append(execute_regular_dialogue(msg))
-            else:
-                print("parsing msg as CDS.", msg)
-                narration.append(execute_msg_stmt(msg, return_dict=True))
-
-
-        # Figure out how long to show this menu on-screen for. This is either
-        # the `wait` argument or the length of time it will take to post all
-        # the chat messages
-        wait_time = 0
-        if p['wait'] is not None:
-            try:
-                wait_time = eval(p['wait'])
-            except:
-                print("WARNING: Could not evaluate the length of time to show",
-                    "the timed menu for.")
-                wait_time = 8
-        else:
-            # Try to evaluate the messages in the pre-menu block
-            try:
-                for msg in narration:
-                    msg_time = calculate_type_time(msg['what'])
-                    if msg['pauseVal'] is not None:
-                        msg_time *= msg['pauseVal']
-                    wait_time += msg_time
-            except:
-                print("WARNING: Could not evaluate the 'what' part of all the",
-                    "menu captions to calculate a time.")
-                wait_time = 8
-
-        # Now adjust the wait_time for the pv
-        wait_time *= store.persistent.timed_menu_pv
-
-
-        ## Look for keywords relating to how long these choices stay on-screen
-        for a, kw in item_arguments:
-            # Convert other arguments to more readable ones
-            if kw.get('appear_after', None):
-                kw['appear_before'] = kw['appear_after'] + 1
-            if kw.get('disappear_after', None):
-                kw['disappear_before'] = kw['disapper_after'] + 1
-
-            if kw.get('appear_before', None):
-                # There is a message during which this item should appear
-                if kw['appear_before'] <= 1:
-                    print("WARNING: A choice cannot appear before the timed menu.")
-                    renpy.show_screen('script_error',
-                        message=("A choice cannot appear before the timed menu."))
-                else:
-                    # Calculate the time this message should appear at. If the
-                    # user wants it to appear before the 4th message, it should
-                    # appear after the 3rd.
-                    arg_appear = 0
-                    for msg in narration[:(kw.get('appear_before', -1)-1)]:
-                        msg_time = calculate_type_time(msg['what'])
-                        if msg['pauseVal'] is not None:
-                            msg_time *= msg['pauseVal']
-                        arg_appear += msg_time
-                    kw['appear_time'] = arg_appear
-
-            if kw.get('disappear_before', None):
-                # There is a message before which this message should disappear
-                if (kw['disappear_before'] <= kw.get('appear_before', 1)):
-                    print("WARNING: A timed menu choice cannot disappear",
-                        "before it is shown.")
-                    renpy.show_screen('script_error',
-                        message=("A timed menu choice cannot disappear before"
-                            + " it has been shown."))
-                else:
-                    arg_disappear = 0
-                    for msg in narration[:kw.get('disappear_before', -1)]:
-                        msg_time = calculate_type_time(msg['what'])
-                        if msg['pauseVal'] is not None:
-                            msg_time *= msg['pauseVal']
-                        arg_disappear += msg_time
-                    kw['disappear_time'] = arg_disappear
-                    print_file("Got a disappear time of", kw['disappear_time'])
-
-
-        ## OKAY time to parse the arguments for the set and conditions
-        ## It looks like each item in regular choices is a tuple of
-        ## (caption, ChoiceReturn) -> It's a MenuEntry tuple
-        ## After it's picked it gets a third entry which is False (?)
-        # `choice` is passed choices, set, args, kwargs, item_arguments
-        # It calls these items,  set_expr, args, kwargs, item_arguments
-        args = args or tuple()
-        kwargs = kwargs or dict()
-
-        # Filter out items already in the set
-        if p['menu_set']:
-            set = renpy.python.py_eval(p['menu_set'])
-
-            new_items = [ ]
-            new_item_arguments = [ ]
-
-            for i, ia in zip(choices, item_arguments):
-                if i[0] not in set:
-                    new_items.append(i)
-                    new_item_arguments.append(ia)
-
-            items = new_items
-            item_arguments = new_item_arguments
-        else:
-            items = choices
-            set = None
-
-        # Filter the list of items to only include ones for which the
-        # condition is true.
-
-        location=renpy.game.context().current
-
-        new_items = [ ]
-
-        for (label, condition, value), (item_args, item_kwargs) in zip(items, item_arguments):
-            condition = renpy.python.py_eval(condition)
-
-            if (not renpy.config.menu_include_disabled) and (not condition):
-                continue
-
-            if value is not None:
-                new_items.append((label, renpy.ui.ChoiceReturn(label,
-                        value, location, sensitive=condition, args=item_args,
-                        kwargs=item_kwargs)))
-            else:
-                new_items.append((label, None))
-
-        # Check to see if there's at least one choice in set of items:
-        choices = [ value for label, value in new_items if value is not None ]
-
-        # If not, bail out.
-        if not choices:
-            # Should just finish/go to post-execute label
-            return None
-
-        choices = new_items
-
-        # Time to construct some choices
-        # Currently choices is a list of (label, ChoiceReturn) tuples
-        # Time to turn it into MenuEntries
-        item_actions = [ ]
-        for (label, value) in choices:
-            if not label:
-                value = None
-            if isinstance(value, renpy.ui.ChoiceReturn):
-                new_val = value
-                chosen = value.get_chosen()
-                item_args = value.args
-                item_kwargs = value.kwargs
-            elif value is not None:
-                new_val = renpy.ui.ChoiceReturn(label, value, location)
-                chosen = new_val.get_chosen()
-                item_args = ()
-                item_kwargs = { }
-            else:
-                new_val = None
-                chosen = False
-                item_args = ()
-                item_kwargs = { }
-
-            if renpy.config.choice_screen_chosen:
-                me = renpy.exports.MenuEntry((label, new_val, chosen))
-            else:
-                me = renpy.exports.MenuEntry((label, new_val))
-
-            me.value = new_val
-            me.caption = label
-            me.chosen = chosen
-            me.args = item_args
-            me.kwargs = item_kwargs
-            if new_val:
-                me.subparse = p['items'][new_val.value][2]
-                me.action = Function(execute_timed_menu_action, item=me)
-            else:
-                me.subparse = None
-                me.action = None
-
-            item_actions.append(me)
-
-        # Create a "dummy action" that can be used for autoanswer timed menu
-        label = "(Say nothing)"
-        value = renpy.ui.ChoiceReturn(label, item_actions[-1].value.value + 1,
-            location, sensitive=True, args=tuple(), kwargs=dict())
-        me = renpy.exports.MenuEntry((label, value))
-        me.value = value
-        me.caption = label
-        me.chosen = value.get_chosen()
-        me.args = tuple()
-        me.kwargs = dict()
-        me.subparse = False
-        me.action = Function(execute_timed_menu_action, item=me,
-                            jump_to_end=True)
-
-
-        ## Now to pass this somewhere as a comprehensible object:
-        menu_dict = dict(items=item_actions,
-                        menu_args=args,
-                        menu_kwargs=kwargs,
-                        menu_set=set,
-                        wait_time=wait_time,
-                        narration=narration,
-                        end_label=post_timed_menu(p),
-                        autoanswer=me)
-        store.timed_menu_dict = menu_dict
-        renpy.jump('execute_timed_menu')
-
-
-
-        return
 
     def predict_timed_menu(p):
         return [ ]
