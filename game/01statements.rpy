@@ -1911,14 +1911,14 @@ python early hide:
         if not choices:
             # There are no choices which can be shown to the player. Should
             # the narration be shown?
-            if kwargs.get('show_choiceless', None):
+            if kwargs.get('show_empty', None):
                 # This menu should be shown regardless
                 store.timed_menu_dict = menu_dict
                 renpy.jump('execute_timed_menu')
-            elif kwargs.get('show_choiceless', None) is not None:
+            elif kwargs.get('show_empty', None) is not None:
                 # This menu should not be shown; skip
                 return
-            elif store.show_choiceless_menus:
+            elif store.show_empty_menus:
                 # Show this menu
                 store.timed_menu_dict = menu_dict
                 renpy.jump('execute_timed_menu')

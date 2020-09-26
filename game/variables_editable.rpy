@@ -485,4 +485,4 @@ default paraphrase_choices = None
 # (e.g. none of the conditions on the choices are met), the narration will
 # still be shown to the player. If False, the program will skip to the end
 # of the menu.
-define show_choiceless_menus = True
+define show_empty_menus = True

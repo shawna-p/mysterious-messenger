@@ -103,11 +103,11 @@ label play():
         show screen pause_button
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
-    if (_in_replay or not persistent.use_timed_menus) and timed_menu_dict:
-        # Haven't posted all the narration for a timed menu
-        call screen play_button
-        show screen pause_button
-        jump play_timed_menu_narration
+    # if (_in_replay or not persistent.use_timed_menus) and timed_menu_dict:
+    #     # Haven't posted all the narration for a timed menu
+    #     call screen play_button
+    #     show screen pause_button
+    #     jump play_timed_menu_narration
     if not text_person:
         # Playing a chatroom
         call screen play_button

@@ -164,6 +164,14 @@ label execute_timed_menu():
 
 ## This label executes the timed menu narration.
 label execute_timed_menu_narration():
+    # Don't play the narration if set to skip it
+    $ menu_skip_empty = timed_menu_dict['menu_kwargs'].get('skip_empty', None)
+    if (timed_menu_dict.get('no_choices', None)
+            and ((menu_skip_empty is None and not show_empty_menus)
+                or (menu_skip_empty))):
+        $ end_label = timed_menu_dict['end_label']
+        $ timed_menu_dict = {}
+        jump expression end_label
     $ narration = timed_menu_dict['narration']
     $ msg = narration.pop(0)
     $ msg.execute()
@@ -173,7 +181,8 @@ label end_of_timed_menu():
     # If the dialogue is exhausted, the player has missed the time window to
     # reply. There is a small buffer for them to finish reading the last
     # message and then everything is reset.
-    if persistent.use_timed_menus and not timed_menu_dict.get('no_choices', False):
+    if (persistent.use_timed_menus
+            and not timed_menu_dict.get('no_choices', False)):
         $ messenger_pause(end_menu_buffer * persistent.timed_menu_pv)
         hide screen timed_choice
         hide screen answer_countdown
@@ -182,42 +191,27 @@ label end_of_timed_menu():
         # position
         show screen messenger_screen(no_anim_list=chatlog[-20:],
             animate_down=True)
+
+    # Otherwise, if they have timed menus turned off, it is time to show
+    # them the choice screen
+    if (not persistent.use_timed_menus
+            and not timed_menu_dict.get('item', None)):
+        call answer
+        python:
+            items = timed_menu_dict['items']
+            items.append(timed_menu_dict['autoanswer'])
+            screen_kwargs = timed_menu_dict['menu_kwargs']
+            para = screen_kwargs.get('paraphrased', None)
+        call screen choice(items=items, paraphrased=para)
+        return
+
+
     $ end_label = timed_menu_dict.get('end_label', None)
     if end_label is None:
         return
     $ timed_menu_dict = {}
+
     jump expression end_label
-
-## A label used during a replay when the player has never chosen an answer
-## in a timed menu, or if they have autoanswer timed menus turned on
-label play_timed_menu_narration():
-    # No new screens to show; just execute the narration and jump to
-    # the end
-    $ narration = timed_menu_dict['narration']
-
-    while narration:
-        $ msg = narration.pop(0)
-        $ who = msg['who']
-        $ who(what=msg['what'], pauseVal=msg['pauseVal'], img=msg['img'],
-            bounce=msg['bounce'], specBubble=msg['specBubble'])
-
-    if _in_replay or persistent.use_timed_menus:
-        $ end_label = timed_menu_dict['end_label']
-        $ timed_menu_dict = {}
-        jump expression end_label
-
-    # Otherwise, should have autoanswer timed menus on. When the menu is
-    # over, show the answer button and allow the player to make a choice
-    # like usual.
-    call answer
-    python:
-        items = timed_menu_dict['items']
-        items.append(timed_menu_dict['autoanswer'])
-        screen_kwargs = timed_menu_dict['menu_kwargs']
-        para = screen_kwargs.get('paraphrased', None)
-    call screen choice(items=items, paraphrased=para)
-    return
-
 
 ## A label triggered after the player makes a choice in a timed menu.
 label finish_timed_menu():
@@ -235,9 +229,10 @@ label finish_timed_menu():
         hide screen timed_choice
         hide screen answer_countdown
         hide screen timed_menu_messages
-        # Show the original messenger screen; it should animate back down into
-        # position
-        show screen messenger_screen(no_anim_list=no_anim_list, animate_down=True)
+        # Show the original messenger screen; it should
+        # animate back down into position
+        show screen messenger_screen(no_anim_list=no_anim_list,
+            animate_down=True)
 
     $ item = timed_menu_dict['item']
     $ timed_menu_dict = {}
