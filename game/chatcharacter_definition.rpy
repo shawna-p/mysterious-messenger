@@ -420,14 +420,17 @@ init -5 python:
             is_transform = False
             try:
                 split_img = new_img.split('.')
+                if isImg(new_img):
+                    self.__prof_pic = new_img
+                    self.seen_updates = False
+                elif isImg(new_img.split('.')[0] + '.webp'):
+                    self.__prof_pic = new_img.split('.')[0] + '.webp'
             except:
                 is_transform = True
-
-            if isImg(new_img):
-                self.__prof_pic = new_img
+                self.__prof_pic = ProfilePic(new_img)
                 self.seen_updates = False
-            elif not is_transform and isImg(new_img.split('.')[0] + '.webp'):
-                self.__prof_pic = new_img.split('.')[0] + '.webp'
+
+
 
             if self.file_id == 'm': # This is the MC
                 self.__prof_pic = store.persistent.MC_pic
@@ -473,10 +476,15 @@ init -5 python:
             if self == store.m:
                 self.prof_pic = store.persistent.MC_pic
 
+            if the_pic and isinstance(the_pic, ProfilePic):
+                return the_pic.get_size(the_size)
+            elif isinstance(self.__prof_pic, ProfilePic):
+                return self.__prof_pic.get_size(the_size)
+
             if the_pic and the_size <= max_small:
                 return Transform(the_pic, size=(the_size, the_size))
             elif the_pic:
-                # Check for a larger version
+                # Check for a larger version of the bonus pfp.
                 try:
                     big_name = the_pic.split('.')
                 except:
@@ -884,6 +892,18 @@ init -5 python:
         Safely add an image to a persistent set. Namely this means changing
         it to a tuple if the image is not a string (aka it's a Transform).
         """
+
+        if isinstance(img, renpy.display.transform.Transform):
+            new_img = ProfilePic(img)
+            set.add(new_img)
+            print_file("Added a profile pic", new_img, "to the set")
+            return
+
+        else:
+            print_file("Added a regular image", img, "to the set")
+            set.add(img)
+            return
+
 
         if isinstance(img, renpy.display.transform.Transform):
             print_file("Got a transform", img)

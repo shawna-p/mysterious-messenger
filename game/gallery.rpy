@@ -63,7 +63,7 @@ python early:
             if '.' in self.img:
                 return self.img
             try:
-                return renpy.display.image.get_registered_image(self.img).filename
+                return renpy.get_registered_image(self.img).filename
             except:
                 print("WARNING: Could not retrieve filename associated with",
                     self.img)
@@ -123,13 +123,14 @@ python early:
                 # Assume it was a cropped image
                 img = self.filename.split('.')[0] + '.webp'
                 if renpy.loadable(img):
-                    self.__thumbnail = Transform(Crop((0, 200, 750, 750),
-                                                    img), size=(155,155))
+                    self.__thumbnail = Transform(img, crop_relative=True,
+                                        crop=(0.0, 0.15, 1.0, 0.5625),
+                                        size=(155,155))
 
             if (isinstance(self.__thumbnail, renpy.display.transform.Transform)
                     and exclude_transform):
-                # Return the filename instead
-                return (self.filename, "gallery")
+                # Return it formatted for a profile picture.
+                return ProfilePic(self.__thumbnail)
             return self.__thumbnail
 
         def check_if_seen(self):
@@ -168,6 +169,81 @@ python early:
                 return self.img != other.img
             else:
                 return False
+
+python early:
+
+    class ProfilePic(store.object):
+        """
+        A class to facilitate the handling of profile pictures, particularly
+        if they are stored in Transforms or cropped.
+        """
+
+        def __init__(self, img):
+            self.original_img = img
+            self.trans = None
+            self.str_img = None
+            self.color = None
+
+            # Determine how to store this based on what it is
+            if (isinstance(img, renpy.display.transform.Transform)):
+                # Get the child
+                self.trans = img.child
+                while (isinstance(self.trans, renpy.display.core.Displayable)):
+                    try:
+                        self.trans = self.trans.child
+                    except AttributeError:
+                        break
+
+                if isinstance(self.trans, renpy.display.im.Image):
+                    self.str_img = self.trans.filename
+                elif isinstance(self.trans, renpy.display.imagelike.Solid):
+                    self.color = self.trans.color
+                # May need to add more statements here
+            print_file("RESULT of ProfilePic:\n   original:", self.original_img,
+                "\n    trans:", self.trans, "\n    str_img:", self.str_img,
+                "\n    color:", self.color)
+
+        def get_size(self, the_size):
+            """Return the profile picture, sized in a square to the_size."""
+
+            if self.str_img and the_size > (110*1.5) and not self.trans:
+                # Check if there's a large version of this image
+                img = str_img.split('.')[0] + '-b' + str_img.split('.')[1]
+                if isImg(img):
+                    return Transform(img, size=(the_size, the_size))
+            if self.str_img and not self.trans:
+                return Transform(self.str_img, size=(the_size, the_size))
+
+            # Otherwise, this is a transform of some kind
+            if self.str_img:
+                # Check if it was cropped; assume it's the ratio of the screen
+                if self.original_img.kwargs.get('crop', False):
+                    return Transform(self.str_img, crop_relative=True,
+                        crop=(0.0, 0.15, 1.0, 0.5625), size=(the_size, the_size))
+
+                # Otherwise assume the image is already square
+                return Transform(self.str_img, size=(the_size, the_size))
+
+            # Worst-case scenario, all that's left is a Transform. Apply the
+            # size property and return it.
+
+            # copy_img = copy(self.original_img)
+            # kwargs = copy_img.kwargs
+            # kwargs['size'] = (the_size, the_size)
+            # copy_img.kwargs = kwargs
+            copy_img = self.original_img.copy
+
+            return Transform(copy_img, size=(the_size, the_size))
+
+        def __eq__(self, other):
+            if not isinstance(other, ProfilePic):
+                return (self.str_img == other)
+            return (self.str_img == other.str_img)
+
+        def __ne__(self, other):
+            if not isinstance(other, ProfilePic):
+                return (self.str_img != other)
+            return (self.str_img != other.str_img)
 
 init python:
 

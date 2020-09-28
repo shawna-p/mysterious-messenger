@@ -57,6 +57,9 @@ init python:
     def MC_pic_display(st, at):
         """Ensure the MC's profile picture is always up-to-date."""
 
+        if isinstance(store.persistent.MC_pic, ProfilePic):
+            return store.persistent.MC_pic.get_size(363)
+
         # Check for a larger version
         if '.' in store.persistent.MC_pic:
             big_name = store.persistent.MC_pic.split('.')
@@ -314,20 +317,21 @@ init python:
     def update_pfp(who, img):
         """A function to set who's profile picture to img."""
 
-        print_file("Updating pfp with", who.name, "img", img, type(img))
-        if isinstance(img, tuple) and img[1] == 'gallery':
-            # Gallery thumbnail
-            print_file("it's from the gallery")
-            new_img = Transform(Crop((0, 200, 750, 750), img[0]),
-                                                        size=(314,314))
-        elif isinstance(img, tuple) and isinstance(img[1], dict):
-            new_img = Transform(img[0], img[1])
-            print_file("It's a fancy transform")
-        else:
-            new_img = img
-            print_file("We're just passing it straight along")
+        # print_file("Updating pfp with", who.name, "img", img, type(img))
+        # if isinstance(img, tuple) and img[1] == 'gallery':
+        #     # Gallery thumbnail
+        #     print_file("it's from the gallery")
+        #     new_img = Transform(Crop((0, 200, 750, 750), img[0]),
+        #                                                 size=(314,314))
+        # elif isinstance(img, tuple) and isinstance(img[1], dict):
+        #     new_img = Transform(img[0], img[1])
+        #     print_file("It's a fancy transform")
+        # else:
+        #     new_img = img
+        #     print_file("We're just passing it straight along")
 
-        who.prof_pic = new_img
+        # who.prof_pic = new_img
+        who.prof_pic = img
         return
 
     def get_sized_pfp(img):
@@ -335,12 +339,15 @@ init python:
         Return the sized image to be displayed for unlocked profile pictures.
         """
 
-        if isinstance(img, tuple) and img[1] == 'gallery':
-            # Gallery thumbnail
-            return Transform(Crop((0, 200, 750, 750), img[0]),
-                                                        size=(140,140))
-        elif isinstance(img, tuple) and isinstance(img[1], dict):
-            return Transform(img[0], img[1])
+        if isinstance(img, ProfilePic):
+            return img.get_size(140)
+
+        # if isinstance(img, tuple) and img[1] == 'gallery':
+        #     # Gallery thumbnail
+        #     return Transform(Crop((0, 200, 750, 750), img[0]),
+        #                                                 size=(140,140))
+        # elif isinstance(img, tuple) and isinstance(img[1], dict):
+        #     return Transform(img[0], img[1])
 
         return Transform(img, size=(140, 140))
 
@@ -350,7 +357,8 @@ init python:
         """
         if store.persistent.testing_mode:
             return True
-        if 'Drop Your Profile Picture Here/' in img:
+        if (not isinstance(img, ProfilePic)
+                and 'Drop Your Profile Picture Here/' in img):
             return True
         return (img in store.persistent.mc_unlocked_pfps)
 
