@@ -78,8 +78,10 @@ python early:
                 store.new_cg += 1
                 # Add this to the list of unlocked profile pictures
                 if self.__thumbnail not in store.persistent.unlocked_prof_pics:
-                    store.persistent.unlocked_prof_pics.add(
-                        self.__thumbnail)
+                    add_img_to_set(store.persistent.unlocked_prof_pics,
+                        self.get_thumb(True))
+                    print("SET DEBUG 5: added", self.get_thumb(True))
+
             renpy.retain_after_load()
 
         @property
@@ -109,7 +111,7 @@ python early:
 
             self.__thumbnail = new_thumb
 
-        def get_thumb(self):
+        def get_thumb(self, exclude_transform=False):
             """Retrieve the CG's thumbnail, regardless of its unlock state."""
 
             try:
@@ -124,6 +126,10 @@ python early:
                     self.__thumbnail = Transform(Crop((0, 200, 750, 750),
                                                     img), size=(155,155))
 
+            if (isinstance(self.__thumbnail, renpy.display.transform.Transform)
+                    and exclude_transform):
+                # Return the filename instead
+                return (self.filename, "gallery")
             return self.__thumbnail
 
         def check_if_seen(self):

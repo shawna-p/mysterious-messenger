@@ -411,21 +411,29 @@ init -5 python:
             big_prof_pic to a larger version of the given picture,
             if available.
             """
+            print_file("Got profile picture", new_img)
 
             if new_img == False:
                 self.__prof_pic = False
                 return
-            elif isImg(new_img):
+            # Check if it's a Transform ergo we can't perform string logic
+            is_transform = False
+            try:
+                split_img = new_img.split('.')
+            except:
+                is_transform = True
+
+            if isImg(new_img):
                 self.__prof_pic = new_img
                 self.seen_updates = False
-            elif isImg(new_img.split('.')[0] + '.webp'):
+            elif not is_transform and isImg(new_img.split('.')[0] + '.webp'):
                 self.__prof_pic = new_img.split('.')[0] + '.webp'
 
             if self.file_id == 'm': # This is the MC
                 self.__prof_pic = store.persistent.MC_pic
 
             self.__big_prof_pic = self.__prof_pic
-            if self.__prof_pic:
+            if self.__prof_pic and not is_transform:
                 big_name = self.__prof_pic.split('.')
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
@@ -442,8 +450,10 @@ init -5 python:
                     or not isinstance(store.persistent.unlocked_prof_pics, set)):
                 store.persistent.unlocked_prof_pics = set()
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
-                store.persistent.unlocked_prof_pics.add(
-                    self.__prof_pic)
+                add_img_to_set(store.persistent.unlocked_prof_pics,
+                        self.__prof_pic)
+            print("SET DEBUG 4: added", self.__prof_pic)
+
 
 
         def get_pfp(self, the_size):
@@ -467,7 +477,10 @@ init -5 python:
                 return Transform(the_pic, size=(the_size, the_size))
             elif the_pic:
                 # Check for a larger version
-                big_name = the_pic.split('.')
+                try:
+                    big_name = the_pic.split('.')
+                except:
+                    return Transform(self.__prof_pic, size=(the_size, the_size))
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
                     return Transform(large_pfp, size=(the_size, the_size))
@@ -864,6 +877,51 @@ init -5 python:
                 store.seen_pfp_callbacks.add(l)
                 renpy.call_in_new_context(l)
                 return
+        return
+
+    def add_img_to_set(set, img):
+        """
+        Safely add an image to a persistent set. Namely this means changing
+        it to a tuple if the image is not a string (aka it's a Transform).
+        """
+
+        if isinstance(img, renpy.display.transform.Transform):
+            print_file("Got a transform", img)
+            # Turn this into a string
+            kwargs = img.kwargs
+            print_file("kwargs:", kwargs)
+            try:
+                new_img = renpy.display.image.get_registered_image(self.img).filename
+            except:
+                print("WARNING: Could not retrieve filename associated with",
+                    self.img)
+                return
+            # Otherwise, all was good. Turn this into a tuple.
+            set.add((new_img, kwargs))
+            print_file("Added", new_img, "with", kwargs)
+            return
+
+        if isinstance(img, tuple):
+            if img[1] == 'gallery':
+                # This is okay
+                set.add(img)
+                print_file("Added", img, "to the set")
+                return
+            else:
+                print_file("Didn't recognize", img, "to add to the set")
+                return
+
+        # Otherwise, for now, we're assuming it's a string
+        try:
+            if not isImg(img):
+                print("ERROR: Could not recognize", img, "as an image to add",
+                    "to the persistent set", set)
+                return
+        except:
+            return
+
+        print_file("Successfully added", img, "to the set")
+        set.add(img)
         return
 
 # The time the main character's profile picture was last changed at

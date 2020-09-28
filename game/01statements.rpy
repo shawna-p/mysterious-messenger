@@ -272,7 +272,7 @@ python early hide:
         """
 
         if not l.keyword('if'):
-            l.error("Unrecognized statement inside text message block.")
+            renpy.error("Unrecognized statement inside text message block.")
         entries = [ ]
         condition = l.require(l.python_expression)
         l.require(':')
@@ -619,6 +619,9 @@ python early hide:
                 bounce = False
                 continue
             if l.keyword('bounce'):
+                bounce = True
+                continue
+            if l.keyword('glow'):
                 bounce = True
                 continue
             if l.keyword('big'):

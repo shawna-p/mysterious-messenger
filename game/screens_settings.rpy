@@ -86,7 +86,11 @@ init -6 python:
 
         # if not (isinstance(pic, str) or isinstance(pic, unicode)):
         #     return False
-        pic = pic.lower()
+        try:
+            pic = pic.lower()
+        except:
+            # Presumably this is a Transform; go out on a limb and say True
+            return True
         extension_list = ['.png', '.jpg', '.jpeg', '.gif', '.webp']
 
         for ext in extension_list:
@@ -286,11 +290,12 @@ screen pick_mc_pfp():
             for img in pfp_list:
                 button:
                     padding (0, 0)
-                    background Transform(img, size=(140, 140))
+                    background get_sized_pfp(img)
                     if can_use_mc_pic(img):
                         hover_foreground "#fff3"
                         action [SetField(persistent, 'MC_pic', img),
-                            SetField(m, 'prof_pic', persistent.MC_pic)]
+                            Function(update_pfp, who=m, img=img)]
+                            #SetField(m, 'prof_pic', persistent.MC_pic)]
                     else:
                         add "#0005" size (140, 140)
                         add 'plot_lock' align (0.5, 0.5)
@@ -305,6 +310,40 @@ screen pick_mc_pfp():
                                     + " to purchase this picture.")]))
 
 init python:
+
+    def update_pfp(who, img):
+        """A function to set who's profile picture to img."""
+
+        print_file("Updating pfp with", who.name, "img", img, type(img))
+        if isinstance(img, tuple) and img[1] == 'gallery':
+            # Gallery thumbnail
+            print_file("it's from the gallery")
+            new_img = Transform(Crop((0, 200, 750, 750), img[0]),
+                                                        size=(314,314))
+        elif isinstance(img, tuple) and isinstance(img[1], dict):
+            new_img = Transform(img[0], img[1])
+            print_file("It's a fancy transform")
+        else:
+            new_img = img
+            print_file("We're just passing it straight along")
+
+        who.prof_pic = new_img
+        return
+
+    def get_sized_pfp(img):
+        """
+        Return the sized image to be displayed for unlocked profile pictures.
+        """
+
+        if isinstance(img, tuple) and img[1] == 'gallery':
+            # Gallery thumbnail
+            return Transform(Crop((0, 200, 750, 750), img[0]),
+                                                        size=(140,140))
+        elif isinstance(img, tuple) and isinstance(img[1], dict):
+            return Transform(img[0], img[1])
+
+        return Transform(img, size=(140, 140))
+
     def can_use_mc_pic(img):
         """
         Return True if this image can be used as a profile picture for the MC.

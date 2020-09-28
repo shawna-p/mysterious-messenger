@@ -136,7 +136,7 @@ define z_unlockable_pfps = combine_lists(
 
 # List of images the player has unlocked and can use as a profile picture.
 # Automatically includes everything in the Drop Your Profile Picture Here folder
-default persistent.mc_unlocked_pfps = [ ]
+default persistent.mc_unlocked_pfps = set()
 
 # Number of heart points it costs to unlock a profile picture.
 define pfp_cost = 5
