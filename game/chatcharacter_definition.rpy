@@ -411,7 +411,6 @@ init -5 python:
             big_prof_pic to a larger version of the given picture,
             if available.
             """
-            print_file("Got profile picture", new_img)
 
             if new_img == False:
                 self.__prof_pic = False
@@ -440,7 +439,8 @@ init -5 python:
 
 
             if self.file_id == 'm': # This is the MC
-                self.__prof_pic = store.persistent.MC_pic
+                #self.__prof_pic = store.persistent.MC_pic
+                store.persistent.MC_pic = self.__prof_pic
 
             self.__big_prof_pic = self.__prof_pic
             if self.__prof_pic and not is_transform:
@@ -462,7 +462,6 @@ init -5 python:
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
                 add_img_to_set(store.persistent.unlocked_prof_pics,
                         self.__prof_pic)
-            print("SET DEBUG 4: added", self.__prof_pic)
 
 
 
@@ -913,6 +912,7 @@ init -5 python:
                 crop_rel = True
             else:
                 crop_rel = False
+
             while (isinstance(trans, renpy.display.core.Displayable)):
                 try:
                     trans = trans.child
@@ -938,49 +938,9 @@ init -5 python:
             return
 
         else:
-            print_file("Added a regular image", img, "to the set")
             set.add(img)
             return
 
-
-        if isinstance(img, renpy.display.transform.Transform):
-            print_file("Got a transform", img)
-            # Turn this into a string
-            kwargs = img.kwargs
-            print_file("kwargs:", kwargs)
-            try:
-                new_img = renpy.display.image.get_registered_image(self.img).filename
-            except:
-                print("WARNING: Could not retrieve filename associated with",
-                    self.img)
-                return
-            # Otherwise, all was good. Turn this into a tuple.
-            set.add((new_img, kwargs))
-            print_file("Added", new_img, "with", kwargs)
-            return
-
-        if isinstance(img, tuple):
-            if img[1] == 'gallery':
-                # This is okay
-                set.add(img)
-                print_file("Added", img, "to the set")
-                return
-            else:
-                print_file("Didn't recognize", img, "to add to the set")
-                return
-
-        # Otherwise, for now, we're assuming it's a string
-        try:
-            if not isImg(img):
-                print("ERROR: Could not recognize", img, "as an image to add",
-                    "to the persistent set", set)
-                return
-        except:
-            return
-
-        print_file("Successfully added", img, "to the set")
-        set.add(img)
-        return
 
 # The time the main character's profile picture was last changed at
 default mc_pfp_time = None
