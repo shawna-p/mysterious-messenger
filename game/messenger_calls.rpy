@@ -350,6 +350,7 @@ label skip_intro_setup():
     hide screen loading_screen
     $ starter_story = False
     $ print_file("\nAbout to call chat_home")
+    $ renpy.save(mm_auto)
     call screen chat_home
     $ print_file("\nWe did indeed return here")
     return
