@@ -105,8 +105,9 @@ python early:
                 # Assume it was a cropped image
                 img = self.filename.split('.')[0] + '.webp'
                 if renpy.loadable(img):
-                    self.__thumbnail = Transform(Crop((0, 200, 750, 750),
-                                                    img), size=(155,155))
+                    self.__thumbnail = Transform(img, crop_relative=True,
+                                            crop=(0.0, 0.15, 1.0, 0.5625),
+                                            size=(155,155))
                     return
 
             self.__thumbnail = new_thumb
@@ -127,10 +128,10 @@ python early:
                                         crop=(0.0, 0.15, 1.0, 0.5625),
                                         size=(155,155))
 
-            if (isinstance(self.__thumbnail, renpy.display.transform.Transform)
-                    and exclude_transform):
-                # Return it formatted for a profile picture.
-                return ProfilePic(self.__thumbnail)
+            # if (isinstance(self.__thumbnail, renpy.display.transform.Transform)
+            #         and exclude_transform):
+            #     # Return it formatted for a profile picture.
+            #     return ProfilePic(self.__thumbnail)
             return self.__thumbnail
 
         def check_if_seen(self):

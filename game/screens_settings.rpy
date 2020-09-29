@@ -57,8 +57,8 @@ init python:
     def MC_pic_display(st, at):
         """Ensure the MC's profile picture is always up-to-date."""
 
-        if isinstance(store.persistent.MC_pic, ProfilePic):
-            return store.persistent.MC_pic.get_size(363)
+        if isinstance(store.persistent.MC_pic, tuple):
+            return tuple_to_pic(store.persistent.MC_pic, 363), None
 
         # Check for a larger version
         if '.' in store.persistent.MC_pic:
@@ -334,13 +334,26 @@ init python:
         who.prof_pic = img
         return
 
+    def tuple_to_pic(tup, the_size):
+        """Returns tup sized to the_size."""
+        if len(tup) == 3:
+            # It needs to be cropped
+            return Transform(tup[0], crop=tup[1],
+                crop_relative=tup[2], size=(the_size, the_size))
+        else:
+            # It's a colour
+            return Transform(tup, size=(the_size, the_size))
+
     def get_sized_pfp(img):
         """
         Return the sized image to be displayed for unlocked profile pictures.
         """
 
-        if isinstance(img, ProfilePic):
-            return img.get_size(140)
+        if isinstance(img, tuple):
+            return tuple_to_pic(img, 140)
+
+        # if isinstance(img, ProfilePic):
+        #     return img.get_size(140)
 
         # if isinstance(img, tuple) and img[1] == 'gallery':
         #     # Gallery thumbnail

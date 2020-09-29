@@ -419,6 +419,8 @@ init -5 python:
             # Check if it's a Transform ergo we can't perform string logic
             is_transform = False
             try:
+                if new_img[0] == '#':
+                    raise
                 split_img = new_img.split('.')
                 if isImg(new_img):
                     self.__prof_pic = new_img
@@ -427,7 +429,12 @@ init -5 python:
                     self.__prof_pic = new_img.split('.')[0] + '.webp'
             except:
                 is_transform = True
-                self.__prof_pic = ProfilePic(new_img)
+                try:
+                    if new_img[0] == "#":
+                        new_img = Color(new_img)
+                except:
+                    pass
+                self.__prof_pic = new_img
                 self.seen_updates = False
 
 
@@ -476,10 +483,10 @@ init -5 python:
             if self == store.m:
                 self.prof_pic = store.persistent.MC_pic
 
-            if the_pic and isinstance(the_pic, ProfilePic):
-                return the_pic.get_size(the_size)
-            elif isinstance(self.__prof_pic, ProfilePic):
-                return self.__prof_pic.get_size(the_size)
+            if the_pic and isinstance(the_pic, tuple):
+                return tuple_to_pic(the_pic, the_size)
+            elif isinstance(self.__prof_pic, tuple):
+                return tuple_to_pic(self.__prof_pic, the_size)
 
             if the_pic and the_size <= max_small:
                 return Transform(the_pic, size=(the_size, the_size))
@@ -894,9 +901,40 @@ init -5 python:
         """
 
         if isinstance(img, renpy.display.transform.Transform):
-            new_img = ProfilePic(img)
-            set.add(new_img)
-            print_file("Added a profile pic", new_img, "to the set")
+            str_img = None
+            color = None
+            crop = None
+            # Get the child
+            trans = img.child
+            # Get the crop, if present
+            if img.kwargs.get('crop', None) is not None:
+                crop = img.kwargs['crop']
+            if img.kwargs.get('crop_relative', False):
+                crop_rel = True
+            else:
+                crop_rel = False
+            while (isinstance(trans, renpy.display.core.Displayable)):
+                try:
+                    trans = trans.child
+                except AttributeError:
+                    break
+
+            if isinstance(trans, renpy.display.im.Image):
+                str_img = trans.filename
+            elif isinstance(trans, renpy.display.imagelike.Solid):
+                color = trans.color
+            # May need to add more statements here
+            #new_img = ProfilePic(img)
+            if str_img is not None and crop is not None:
+                set.add((str_img, crop, crop_rel))
+            elif str_img is not None:
+                set.add(str_img)
+            elif color is not None:
+                set.add(color)
+            else:
+                print("WARNING: Could not extract immutable string or tuple",
+                    "from profile picture", img)
+
             return
 
         else:
