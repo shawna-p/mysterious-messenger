@@ -95,6 +95,10 @@ screen day_display(day, day_num):
 
         partic_percent = day.participated_percentage()
 
+    if not main_menu:
+        on 'show' action [FileSave(mm_auto, confirm=False)]
+        on 'replace' action [FileSave(mm_auto, confirm=False)]
+
     vbox:
         spacing 10
         vbox:
@@ -425,7 +429,8 @@ screen timeline_item_display(day, day_num, item, index):
                                     + " participate in the chat conversation"
                                     + " that has passed?"),
                                 [Function(item.buy_back),
-                                Function(renpy.restart_interaction)])
+                                Function(renpy.restart_interaction),
+                                FileSave(mm_auto, confirm=False)])
 
     # A lone StoryMode item
     if isinstance(item, StoryMode) and not item.party:
@@ -592,7 +597,8 @@ screen timeline_story_calls(phonecall, item, was_played):
                                 + " call " + phonecall.caller.name + " back to "
                                 + " participate in this phone call?"),
                             [Function(phonecall.buy_ahead),
-                            Function(renpy.restart_interaction)])
+                            Function(renpy.restart_interaction),
+                            FileSave(mm_auto, confirm=False)])
 
 style chat_timeline_vbox:
     spacing 18
@@ -652,7 +658,8 @@ screen timeline_continue_button(story_time):
                 [Function(make_24h_available),
                     Function(check_and_unlock_story),
                     Function(renpy.retain_after_load),
-                    Function(renpy.restart_interaction)]),
+                    Function(renpy.restart_interaction),
+                    FileSave(mm_auto, confirm=False)]),
             CConfirm("You have not played all the available story yet."))
         if hacked_effect and persistent.hacking_effects:
             add Transform('day_reg_hacked_long',
