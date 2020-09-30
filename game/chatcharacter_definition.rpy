@@ -419,6 +419,7 @@ init -5 python:
             is_transform = False
             try:
                 if new_img[0] == '#':
+                    new_img = Color(new_img)
                     raise
                 split_img = new_img.split('.')
                 if isImg(new_img):
@@ -428,14 +429,8 @@ init -5 python:
                     self.__prof_pic = new_img.split('.')[0] + '.webp'
             except:
                 is_transform = True
-                try:
-                    if new_img[0] == "#":
-                        new_img = Color(new_img)
-                except:
-                    pass
                 self.__prof_pic = new_img
                 self.seen_updates = False
-
 
 
             if self.file_id == 'm': # This is the MC
