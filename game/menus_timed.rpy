@@ -66,9 +66,9 @@ init python:
             if self.value == self.old_value:
                 return
 
-            if (st % 1.0 >= 0.0 and st % 1.0 <= 0.01):
-                print_file("pausing_timed_menu is", store.pausing_timed_menu,
-                    "and t_menu_is_pausing is", store.t_menu_is_pausing)
+            # if (st % 1.0 >= 0.0 and st % 1.0 <= 0.01):
+            #     print_file("pausing_timed_menu is", store.pausing_timed_menu,
+            #         "and t_menu_is_pausing is", store.t_menu_is_pausing)
 
             restart_time = 0.0
             # Halt timer
@@ -171,7 +171,8 @@ transform slide_down(y=-220):
 ## The length of extra time to wait while the answers are on-screen before
 ## the menu expires.
 default end_menu_buffer = 3.0
-## Indicates the timed menu countdown should be paused
+## Variables to handle the pausing and un-pausing of timed menus via clicking
+## the back button.
 default pausing_timed_menu = False
 default t_menu_pause_time = 0.0
 default t_menu_is_pausing = False
@@ -186,6 +187,13 @@ label execute_timed_menu():
     if not timed_menu_dict:
         $ print_file("ERROR: Something went wrong with timed menus")
         return
+
+    python:
+        pausing_timed_menu = False
+        t_menu_pause_time = 0.0
+        t_menu_is_pausing = False
+        t_menu_resume_time = 0.0
+        t_menu_offset = 0.0
 
     ## First things first: if the player is skipping, they do not receive the
     ## opportunity to answer at all.
@@ -238,7 +246,8 @@ label execute_timed_menu():
     show screen timed_menu_messages(no_anim_list)
     show screen timed_choice(items, para)
     show screen answer_countdown(end_label, wait_time+extra_time,
-        custom_action=[ Hide('answer_countdown'), Show('pause_button') ])
+        use_timer=False)
+        #custom_action=[ Hide('answer_countdown'), Show('pause_button') ])
 
     # Execute the narration
     jump execute_timed_menu_narration
@@ -273,6 +282,7 @@ label end_of_timed_menu():
         $ messenger_pause(end_menu_buffer * persistent.timed_menu_pv)
         hide screen timed_choice
         hide screen answer_countdown
+        show screen pause_button
         hide screen timed_menu_messages
         # Show the original messenger screen; it should
         # animate back down into position
@@ -314,6 +324,7 @@ label finish_timed_menu():
         # Hide all the choice screens
         hide screen timed_choice
         hide screen answer_countdown
+        show screen pause_button
         hide screen timed_menu_messages
         # Show the original messenger screen; it should
         # animate back down into position
