@@ -869,6 +869,9 @@ image menu_popup_btn_hover = Transform('menu_popup_btn', alpha=0.5)
 
 screen confirm(message, yes_action, no_action=False, show_link=False):
 
+    on 'show' action SetVariable('pausing_timed_menu', True)
+    on 'hide' action SetVariable('pausing_timed_menu', False)
+
     ## Ensure other screens do not get input while this screen is displayed.
     modal True
 

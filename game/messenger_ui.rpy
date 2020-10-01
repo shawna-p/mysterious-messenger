@@ -366,7 +366,7 @@ screen answer_countdown(themenu, count_time=5, custom_action=None):
                 Jump(themenu) ]
                 )
 
-    bar value AnimatedValue(0, count_time, count_time, count_time):
+    bar value TimedMenuValue(0, count_time, count_time, count_time):
         at alpha_dissolve
         style 'answer_bar'
 

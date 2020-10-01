@@ -36,6 +36,73 @@ init python:
 
         return
 
+    class TimedMenuValue(AnimatedValue):
+        """
+        A class which inherits from the AnimatedValue bar, but stops
+        animating when certain conditions are met. Used for timed menus.
+        """
+
+        def __init__(self, value=0.0, range=1.0, delay=1.0, old_value=None):
+            if old_value == None:
+                old_value = value
+
+            self.value = value
+            self.range = range
+            self.delay = delay
+            self.old_value = old_value
+            self.start_time = None
+            self.restart_time = 0.0
+            self.pause_time = 0.0
+            self.pausing = True
+
+            self.adjustment = None
+
+        def periodic(self, st):
+
+            if self.start_time is None:
+                self.start_time = st
+                print_file("Start time is", self.start_time)
+
+            if self.value == self.old_value:
+                return
+
+            if (st % 1.0 >= 0.0 and st % 1.0 <= 0.01):
+                print_file("pausing_timed_menu is", store.pausing_timed_menu,
+                    "and t_menu_is_pausing is", store.t_menu_is_pausing)
+
+            restart_time = 0.0
+            # Halt timer
+            if store.pausing_timed_menu and not store.t_menu_is_pausing:
+                store.t_menu_is_pausing = True
+                store.t_menu_pause_time = st
+                print_file("Pausing at time", st)
+
+            # Resume timer
+            if not store.pausing_timed_menu and store.t_menu_is_pausing:
+                store.t_menu_is_pausing = False
+                restart_time = st - store.t_menu_pause_time
+                store.t_menu_resume_time = st
+                store.t_menu_offset += restart_time
+
+
+            # Holding on the pause/confirm screen
+            if store.pausing_timed_menu:
+                restart_time = st - store.t_menu_pause_time + store.t_menu_offset
+
+            if restart_time == 0.0:
+                restart_time = store.t_menu_offset
+
+            fraction = (st - self.start_time - restart_time) / self.delay
+            fraction = min(1.0, fraction)
+
+            value = self.old_value + fraction * (self.value - self.old_value)
+
+            self.adjustment.change(value)
+
+            if fraction != 1.0:
+                return 0
+
+
 
 ## A duplicate of the messenger_screen screen that includes an animation
 ## to smooth out the transition into timed menu answers showing.
@@ -104,6 +171,12 @@ transform slide_down(y=-220):
 ## The length of extra time to wait while the answers are on-screen before
 ## the menu expires.
 default end_menu_buffer = 3.0
+## Indicates the timed menu countdown should be paused
+default pausing_timed_menu = False
+default t_menu_pause_time = 0.0
+default t_menu_is_pausing = False
+default t_menu_resume_time = 0.0
+default t_menu_offset = 0.0
 
 ## A label which handles animating the messages up the screen to make room
 ## for choices, if there are available choices and timed menus are set.
