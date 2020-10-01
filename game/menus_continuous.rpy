@@ -294,6 +294,7 @@ label finish_c_menu:
         hide screen c_choice_1
         hide screen c_choice_2
         hide screen c_choice_3
+        hide screen c_choice_4
         hide screen timed_menu_messages
         # Show the original messenger screen; it should
         # animate back down into position
