@@ -400,12 +400,19 @@ screen timed_choice(items, paraphrased=None):
                             None))),
                             i.action]
 
-    frame:
+    viewport:
+        # Use this viewport to "consume" the mouse input so the player
+        # can't click to mess up the timed answer timing.
         at wait_fade()
+        draggable True
         align (0.5, 1.0)
-        background "#282828"
         xysize (750, 113)
-        text "Choose a reply" color "#fff" text_align 0.5 align (0.5, 0.5)
+        frame:
+            align (0.5, 1.0)
+            background "#282828"
+            xysize (750, 113)
+            text "Choose a reply":
+                color "#fff" text_align 0.5 align (0.5, 0.5)
 
 ## This very long section defining styles allows style prefixes to take
 ## care of how to display the choices based on how many choices there are
