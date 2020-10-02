@@ -906,6 +906,33 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
     if no_action:
         key "game_menu" action no_action
 
+# Screen used specifically for the confirm prompt during a continuous menu
+screen no_modal_confirm(message, yes_action, no_action=False):
+    zorder 200
+    style_prefix 'confirm'
+    add 'gui/overlay/confirm.png'
+    frame:
+        vbox:
+            label _(message) style 'confirm_prompt' xalign 0.5
+            hbox:
+                textbutton _("Confirm") action yes_action
+                if no_action:
+                    textbutton _("Cancel") action no_action
+    ## Right-click and escape answer "no".
+    if no_action:
+        key "game_menu" action no_action
+
+    # This constantly checks if there are any more choices on-screen; if not,
+    # can replace this screen with the regular confirm screen.
+    timer 0.1:
+        action If(on_screen_choices == 0,
+                [Hide('no_modal_confirm'), CConfirm(("Do you really want to "
+                        + "exit this chatroom? Please note that you cannot "
+                        + "participate once you leave. If you want to enter "
+                        + "this chatroom again, you will need to buy it back."),
+                                    [Jump('exit_item_early')])], NullAction())
+        repeat True
+
 ## Screen which displays script error messages to the user
 screen script_error(message, link=False, link_text=False):
     modal True
