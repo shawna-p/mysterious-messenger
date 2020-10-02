@@ -379,8 +379,8 @@ screen c_choice_1(i, hide_screen='c_choice_1', first_choice=False,
                     hover_background 'call_choice_check_hover'
                 else:
                     foreground 'seen_choice_check'
-
-            action [SetVariable('dialogue_picked', i.caption),
+            if not renpy.get_screen('no_modal_confirm'):
+                action [SetVariable('dialogue_picked', i.caption),
                     Function(set_paraphrase,
                         screen_pref=store.c_menu_dict['menu_kwargs'].get(
                             'paraphrased', None),
