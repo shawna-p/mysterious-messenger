@@ -80,16 +80,32 @@ screen pause_button():
     zorder 4
     tag chat_footer
 
-    imagebutton:
-        ypos 1220
-        focus_mask True
-        idle 'phone_pause'
-        if not choosing:
-            action [Call("play"), Return()]
-            keysym "K_SPACE"
+    if (on_screen_choices > 0 and persistent.use_timed_menus):
+        viewport:
+            # Use this viewport to "consume" the mouse input so the player
+            # can't click to mess up the timed answer timing.
+            draggable True
+            align (0.5, 1.0)
+            xysize (750, 113)
+            frame:
+                align (0.5, 1.0)
+                background "#282828"
+                xysize (750, 113)
+                text "Choose a reply":
+                    color "#fff" text_align 0.5 align (0.5, 0.5)
+    else:
+        imagebutton:
+            ypos 1220
+            focus_mask True
+            idle 'phone_pause'
+            if (not choosing and
+                    not (timed_menu_dict and persistent.use_timed_menus)):
+                action [Call("play"), Return()]
+                keysym "K_SPACE"
 
-    if not choosing:
-        use fast_slow_buttons()
+        if not choosing:
+            use fast_slow_buttons()
+
 
 
 # This is automatically called when you pause the chat;
@@ -267,7 +283,7 @@ screen phone_overlay():
             selected renpy.is_skipping()
             selected_idle 'max_speed_active'
             selected_hover "maxSpeed"
-            if not choosing:
+            if not choosing and not renpy.get_screen('no_modal_confirm'):
                 action Skip()
     if starter_story or persistent.testing_mode:
         fixed:
@@ -279,14 +295,16 @@ screen phone_overlay():
                 if starter_story:
                     idle 'skip_intro_idle'
                     hover 'skip_intro_hover'
-                    action [SetField(persistent, 'first_boot', False),
+                    if not renpy.get_screen('no_modal_confirm'):
+                        action [SetField(persistent, 'first_boot', False),
                             SetField(persistent, 'on_route', True),
                             SetVariable('vn_choice', True),
                             Jump('chat_end')]
                 else:
                     idle 'skip_to_end_idle'
                     hover 'skip_to_end_hover'
-                    action [Jump('just_return')]
+                    if not renpy.get_screen('no_modal_confirm'):
+                        action [Jump('just_return')]
 
     frame:
         yalign 0.04
@@ -328,8 +346,22 @@ screen phone_overlay():
                 idle 'back_arrow_btn'
                 hover Transform('back_arrow_btn', zoom=1.2)
                 keysym "K_BACKSPACE"
-                if (observing or current_timeline_item.currently_expired or _in_replay):
+                # The program should not allow the back button to be pressed
+                # again while the non-modal confirm screen is showing.
+                if renpy.get_screen('no_modal_confirm'):
+                    action None
+                elif (observing or current_timeline_item.currently_expired or _in_replay):
                     action Jump('exit_item_early')
+                elif on_screen_choices > 0:
+                    # Continuous menus must continue on or their animation
+                    # timing will de-sync.
+                    action Show('no_modal_confirm', message=("Do you really "
+                        + "want to exit this chatroom? Please note that you "
+                        + "cannot participate once you leave. If you want to "
+                        + "enter this chatroom again, you will need to buy it "
+                        + "back."), yes_action=[Hide('no_modal_confirm'),
+                                Jump('exit_item_early')],
+                            no_action=[Hide('no_modal_confirm')])
                 else:
                     action CConfirm(("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
