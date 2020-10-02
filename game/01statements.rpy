@@ -2157,7 +2157,6 @@ python early hide:
                     if node.parsed[0] == ('choice',):
                         ## Got a choice
                         choice_id_lookup[np['choice_id']] = i
-                        dialogue_nodes.append(None)
                         choice_begin_lookup[i] = np['choice_id']
 
                     elif node.parsed[0] == ('end', 'choice',):
@@ -2169,10 +2168,9 @@ python early hide:
                         # Add i+1 as the end index because the statement after
                         # this one will be the PostUserStatement node
                         choices.append(ChoiceInfo(b_num, i+1, np['choice_id']))
-                        dialogue_nodes.append(None)
 
-        except:
-            print_file("WARNING: Couldn't parse the choices.")
+        except Exception as e:
+            print_file("WARNING: Couldn't parse the choices.", e)
 
         # If a choice doesn't have a pair, assume it ends at the end
         # of the menu as a whole.
@@ -2359,6 +2357,7 @@ python early hide:
         if len(store.c_menu_dict.get('available_choices', [])) < 1:
             ## The player has already chosen any answers that would end
             ## at the end of the menu; nothing to show, so return.
+            store.c_menu_dict = {}
             return
 
         # Create a "dummy action" that can be used for autoanswer timed menu
@@ -2583,6 +2582,7 @@ python early hide:
                 and renpy.get_screen('timed_menu_messages')):
             renpy.hide_screen("timed_menu_messages")
             no_anim_list = store.chatlog[-20:]
+            store.c_menu_dict['showing_choices'] = dict()
             renpy.show_screen('messenger_screen', no_anim_list=no_anim_list)
 
         return
