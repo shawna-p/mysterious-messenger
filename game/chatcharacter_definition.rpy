@@ -1,4 +1,4 @@
-init -5 python:
+python early:
 
     class ChatCharacter(renpy.store.object):
         """
@@ -725,6 +725,8 @@ init -5 python:
             if not isinstance(other, ChatCharacter):
                 return True
             return self.file_id != other.file_id
+
+init -5 python:
 
     def register_pfp(files=None, condition='seen', folder="", ext="",
             filter_out=None, filter_keep=None):
