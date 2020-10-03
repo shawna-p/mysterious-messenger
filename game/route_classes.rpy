@@ -1588,13 +1588,14 @@ init python:
         """
 
         renpy.scene()
-        renpy.exports.show(name='bg', what=Solid(BLACK))
+        # Hide all screens
+        renpy.scene(layer='screens')
+        renpy.exports.show(name='load', what=Solid(BLACK))
 
         if not vn_jump:
             renpy.music.stop()
             store.current_choices = []
 
-        config.skipping = False
         config.skipping = False
         store.choosing = False
 
@@ -1604,25 +1605,14 @@ init python:
         store.current_call = False
         store._history = True
 
-        # Hide chatroom screens
-        renpy.hide_screen('phone_overlay')
-        renpy.hide_screen('in_call')
-        renpy.hide_screen('save_and_exit')
-        renpy.hide_screen('play_button')
-        renpy.hide_screen('answer_button')
-        renpy.hide_screen('pause_button')
-        renpy.hide_screen('timed_menu_messages')
-        renpy.hide_screen('timed_choice')
-        renpy.hide_screen('answer_countdown')
-        renpy.hide_screen('c_choice_1')
-        renpy.hide_screen('c_choice_2')
-        renpy.hide_screen('c_choice_3')
-        renpy.hide_screen('c_choice_4')
-        renpy.hide_screen('messenger_screen')
-        renpy.hide_screen('animated_bg')
-        renpy.hide_screen('animated_bg', layer='animated_bg')
-        renpy.hide_screen('vn_overlay')
-        hide_all_popups()
+        # Reset timed menus
+        store.timed_menu_dict = { }
+        store.c_menu_dict = { }
+        store.on_screen_choices = 0
+        store.recently_hidden_choice_screens = []
+        store.last_shown_choice_index = None
+
+        # renpy.hide('load')
 
 
     def custom_show(name, at_list=None, layer='master', what=None,
