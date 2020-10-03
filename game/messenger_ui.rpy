@@ -296,7 +296,9 @@ screen phone_overlay():
                     idle 'skip_intro_idle'
                     hover 'skip_intro_hover'
                     if not renpy.get_screen('no_modal_confirm'):
-                        action [SetField(persistent, 'first_boot', False),
+                        action [If(renpy.call_stack_depth() > 0,
+                            Function(renpy.pop_call), NullAction()),
+                            SetField(persistent, 'first_boot', False),
                             SetField(persistent, 'on_route', True),
                             SetVariable('vn_choice', True),
                             Jump('chat_end')]
@@ -304,7 +306,9 @@ screen phone_overlay():
                     idle 'skip_to_end_idle'
                     hover 'skip_to_end_hover'
                     if not renpy.get_screen('no_modal_confirm'):
-                        action [Jump('just_return')]
+                        action If(renpy.call_stack_depth() > 0,
+                            [Function(renpy.pop_call), Jump('just_return')],
+                            [Jump('just_return')])
 
     frame:
         yalign 0.04
