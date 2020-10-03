@@ -306,7 +306,7 @@ screen phone_overlay():
                     idle 'skip_to_end_idle'
                     hover 'skip_to_end_hover'
                     if not renpy.get_screen('no_modal_confirm'):
-                        action If(renpy.call_stack_depth() > 0,
+                        action If(renpy.call_stack_depth() > 1,
                             [Function(renpy.pop_call), Jump('just_return')],
                             [Jump('just_return')])
 
