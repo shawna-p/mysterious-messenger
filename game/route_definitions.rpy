@@ -555,8 +555,7 @@ init -6 python:
                 # If the program has gotten this far, this item is not yet
                 # available. Should it be made available?
                 if (prev_item and past_trigger_time(item.trigger_time,
-                        current_time, day_index+1 < days_to_expire,
-                        prev_item, item)):
+                        current_time, day_index, prev_item, item)):
                     item.unlock_all()
                     today_day_num = day_index
                 elif prev_item:
