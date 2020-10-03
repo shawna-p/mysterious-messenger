@@ -586,6 +586,9 @@ init python:
         renpy.hide_screen('chat_footer')
         renpy.hide_screen('phone_overlay')
 
+        if store.persistent.testing_mode:
+            # Don't show this message to a user who's testing for efficiency.
+            return
         # This determines the content of the "you have x missed calls"
         # etc message upon loading
         popup_msg = ""

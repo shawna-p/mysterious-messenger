@@ -425,12 +425,18 @@ screen timeline_item_display(day, day_num, item, index):
                     idle 'expired_chat'
                     hover_background 'btn_hover:expired_chat'
                     if item.available or persistent.testing_mode:
-                        action CConfirm(("Would you like to"
+                        action If(persistent.testing_mode,
+                            # Just unlock it without a confirmation message
+                            [Function(item.buy_back),
+                            Function(renpy.restart_interaction),
+                            FileSave(mm_auto, confirm=False)],
+
+                            CConfirm(("Would you like to"
                                     + " participate in the chat conversation"
                                     + " that has passed?"),
                                 [Function(item.buy_back),
                                 Function(renpy.restart_interaction),
-                                FileSave(mm_auto, confirm=False)])
+                                FileSave(mm_auto, confirm=False)]))
 
     # A lone StoryMode item
     if isinstance(item, StoryMode) and not item.party:
@@ -485,17 +491,7 @@ screen timeline_item_display(day, day_num, item, index):
                 background story_mode.timeline_img(can_play_story_mode)
                 if story_mode.available and can_play_story_mode:
                     hover_foreground story_mode.timeline_img(can_play_story_mode)
-                    # If there's no branch, proceed to this party label as usual
-                    if not (renpy.has_label(story_mode.item_label + '_branch')):
-                        action CConfirm(("If you start the party"
-                            + " before answering a guest's emails, that guest"
-                            + " will not attend the party. Continue?"),
-                            [SetVariable('current_timeline_item',
-                                    story_mode),
-                                Jump('play_timeline_item')])
-                    # Otherwise, we need to branch first
-                    else:
-                        action CConfirm(("If you start the party"
+                    action CConfirm(("If you start the party"
                             + " before answering a guest's emails, that guest"
                             + " will not attend the party. Continue?"),
                             [SetVariable('current_timeline_item',
@@ -529,16 +525,26 @@ screen timeline_item_display(day, day_num, item, index):
                 # The message varies slightly depending on whether
                 # the player is playing in real-time or not
                 if persistent.real_time:
-                    action CConfirm(("The game branches here."
+                    action If(persistent.testing_mode,
+                        # Just unlock the branch
+                        [SetVariable('current_timeline_item', item),
+                        Jump('execute_plot_branch')],
+
+                        CConfirm(("The game branches here."
                                 + " Missed story may appear depending on"
                                 + " the time right now. Continue?"),
                             [SetVariable('current_timeline_item', item),
-                                Jump('execute_plot_branch')])
+                                Jump('execute_plot_branch')]))
                 else:
-                    action CConfirm(("The game branches here."
+                    action If(persistent.testing_mode,
+                        # Just unlock the branch
+                        [SetVariable('current_timeline_item', item),
+                        Jump('execute_plot_branch')],
+
+                        CConfirm(("The game branches here."
                             + " Continue?"),
                         [SetVariable('current_timeline_item', item),
-                            Jump('execute_plot_branch')])
+                            Jump('execute_plot_branch')]))
             else:
                 action CConfirm(("Please proceed after"
                             + " completing the unseen old conversations."))
@@ -593,12 +599,17 @@ screen timeline_story_calls(phonecall, item, was_played):
                 idle 'expired_chat'
                 hover_background 'btn_hover:expired_chat'
                 if phonecall.available or persistent.testing_mode:
-                    action CConfirm(("Would you like to"
+                    action If(persistent.testing_mode,
+                        [Function(phonecall.buy_ahead),
+                            Function(renpy.restart_interaction),
+                            FileSave(mm_auto, confirm=False)],
+
+                        CConfirm(("Would you like to"
                                 + " call " + phonecall.caller.name + " back to "
                                 + " participate in this phone call?"),
                             [Function(phonecall.buy_ahead),
                             Function(renpy.restart_interaction),
-                            FileSave(mm_auto, confirm=False)])
+                            FileSave(mm_auto, confirm=False)]))
 
 style chat_timeline_vbox:
     spacing 18
