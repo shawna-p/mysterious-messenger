@@ -143,33 +143,33 @@ label example_chat():
 
 
 
-    # scene evening
-    # enter chatroom z
-    # z "Oh, [name], it's nice seeing you here ^^"
-    # z "I've been practicing for my new role all day."
-    # $ asked = False
-    # continuous menu:
-    #     choice 1 "What's the role for?":
-    #         $ asked = True
-    #         z "It's a play adapted from a best-selling novel."
-    #         award heart z
-    #         z "I'm playing the part of a blacksmith who's in love with the princess."
-    #     z "I practiced so much I even dreamed about my lines;;"
-    #     choice 2 "Maybe you should take a break, Zen.":
-    #         z "Yeah, you might be right."
-    #         award heart ja
-    #         z "I could go work out or something."
-    #     enter chatroom ja
-    #     z "I need to think about something else for a while."
-    #     end choice 2
-    #     ja "You'll do wonderfully in this role, Zen ^^"
-    #     z "Haha, thanks Jaehee."
-    # if asked:
-    #     z "It's nice to hear you're interested ^^"
-    # else:
-    #     z "I appreciate the support."
-    # z "I'm really looking forward to the role,"
-    # z "Just sometimes I get stuck in my head..."
+    scene evening
+    enter chatroom z
+    #z "Oh, [name], it's nice seeing you here ^^"
+    z "I've been practicing for my new role all day."
+    $ asked = False
+    continuous menu:
+        choice 1 "What's the role for?":
+            $ asked = True
+            z "It's a play adapted from a best-selling novel."
+            award heart z
+            z "I'm playing the part of a blacksmith who's in love with the princess."
+        z "I practiced so much I even dreamed about my lines;;"
+        choice 2 "Maybe you should take a break, Zen.":
+            z "Yeah, you might be right."
+            award heart ja
+            z "I could go work out or something."
+        enter chatroom ja
+        z "I need to think about something else for a while."
+        end choice 2
+        ja "You'll do wonderfully in this role, Zen ^^"
+        z "Haha, thanks Jaehee."
+    if asked:
+        z "It's nice to hear you're interested ^^"
+    else:
+        z "I appreciate the support."
+    z "I'm really looking forward to the role,"
+    z "Just sometimes I get stuck in my head..."
 
 
 
