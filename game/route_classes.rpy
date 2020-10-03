@@ -1587,8 +1587,9 @@ init python:
         chatroom screens and resetting collected heart point totals.
         """
 
+        # Hide all screens and images
         renpy.scene()
-        # Hide all screens
+        renpy.scene(layer='animated_bg')
         renpy.scene(layer='screens')
         renpy.exports.show(name='load', what=Solid(BLACK))
 
@@ -1604,6 +1605,10 @@ init python:
         store.in_phone_call = False
         store.current_call = False
         store._history = True
+
+        store.dialogue_picked = ""
+        store.dialogue_paraphrase = store.paraphrase_choices
+        store.dialogue_pv = 0
 
         # Reset timed menus
         store.timed_menu_dict = { }
