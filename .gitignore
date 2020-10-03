@@ -20,3 +20,5 @@ traceback.txt
 _config.yml
 game/create_a_chatroom.rpy
 game/z_route_test.rpy
+persistent-char-problem.txt
+game/notifications_mobile.rpy
