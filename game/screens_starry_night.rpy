@@ -36,9 +36,7 @@ image medium star:
 
 # This makes it easier to call the starry night background
 screen starry_night():
-    frame:
-        xysize (750,1334)
-        background '#000'
+    add "#000"
     add "bg starry_night"
     for i in range(20):
         add "small star"
