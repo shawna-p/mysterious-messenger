@@ -52,8 +52,10 @@ init -6 python:
             """Return the reply label for this conversation."""
             if len(self.msg_queue) > 0:
                 return False
-            else:
+            try:
                 return self.__reply_label
+            except:
+                return self.__dict__['reply_label']
 
         @reply_label.setter
         def reply_label(self, new_label):

@@ -90,40 +90,76 @@ init -6 python:
 
         @property
         def short_weekday(self):
-            return self.datetime.strftime('%a')
+            try:
+                return self.datetime.strftime('%a')
+            except:
+                return self.__dict__['short_weekday']
         @property
         def weekday(self):
-            return self.datetime.strftime('%A')
+            try:
+                return self.datetime.strftime('%A')
+            except:
+                return self.__dict__['weekday']
         @property
         def short_month(self):
-            return self.datetime.strftime('%b')
+            try:
+                return self.datetime.strftime('%b')
+            except:
+                return self.__dict__['short_month']
         @property
         def month(self):
-            return self.datetime.strftime('%B')
+            try:
+                return self.datetime.strftime('%B')
+            except:
+                return self.__dict__['month']
         @property
         def month_num(self):
-            return self.datetime.strftime('%m')
+            try:
+                return self.datetime.strftime('%m')
+            except:
+                return self.__dict__['month_num']
         @property
         def year(self):
-            return self.datetime.strftime('%Y')
+            try:
+                return self.datetime.strftime('%Y')
+            except:
+                return self.__dict__['year']
         @property
         def day(self):
-            return self.datetime.strftime('%d')
+            try:
+                return self.datetime.strftime('%d')
+            except:
+                return self.__dict__['day']
         @property
         def twelve_hour(self):
-            return self.datetime.strftime('%I')
+            try:
+                return self.datetime.strftime('%I')
+            except:
+                return self.__dict__['twelve_hour']
         @property
         def military_hour(self):
-            return self.datetime.strftime('%H')
+            try:
+                return self.datetime.strftime('%H')
+            except:
+                return self.__dict__['military_hour']
         @property
         def minute(self):
-            return self.datetime.strftime('%M')
+            try:
+                return self.datetime.strftime('%M')
+            except:
+                return self.__dict__['minute']
         @property
         def second(self):
-            return self.datetime.strftime('%S')
+            try:
+                return self.datetime.strftime('%S')
+            except:
+                return self.__dict__['second']
         @property
         def am_pm(self):
-            return self.datetime.strftime('%p')
+            try:
+                return self.datetime.strftime('%p')
+            except:
+                return self.__dict__['am_pm']
 
 
         def get_phone_time(self):
