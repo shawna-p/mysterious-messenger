@@ -60,6 +60,13 @@ init python:
             store._version = (2, 2, 0)
 
         if store._version < (3, 0, 0):
+
+            for chara in store.all_characters:
+                # Ensure new fields are added
+                rebuild_character(chara, give_spendable=True)
+                # Unlock profile pictures
+                unlock_profile_pics(chara)
+
             # Update ChatHistory and VNMode objects
             if store.chat_archive:
                 for day in store.chat_archive:
@@ -102,11 +109,6 @@ init python:
             # Check if chat_archive is the tutorial day one though, since
             # it'll likely be changed to have paraphrased choices
 
-            for chara in store.all_characters:
-                # Unlock profile pictures
-                unlock_profile_pics(chara)
-                # Ensure new fields are added
-                rebuild_character(chara, give_spendable=True)
 
             store._version = (3, 0, 0)
 
@@ -422,6 +424,12 @@ init python:
         replace chara with it.
         """
 
+        print_file("All of chara's fields:", chara.__dict__)
+        for key, val in chara.__dict__.items():
+            if "_m1_character_definitions__" in key:
+                chara.__dict__["_m1_chatcharacter_definition__"
+                    + key[27:]] = val
+
         new_c = ChatCharacter(chara.name, chara.file_id, chara.prof_pic,
             chara.participant_pic, chara.heart_color, chara.cover_pic,
             chara.status, chara.bubble_color, chara.glow_color,
@@ -485,7 +493,8 @@ init python:
         # is making a choice/on a choice menu
         store.choosing = False
 
-        if isinstance(all_albums[0], list):
+        print_file("all_albums is", all_albums)
+        if isinstance(all_albums[0], tuple) or isinstance(all_albums[0], list):
             for p_album, reg_album in all_albums:
                 merge_albums(p_album, reg_album)
         else: # Should be a string
@@ -551,40 +560,23 @@ init python:
             d -= 1
             if day.has_playable:
                 store.today_day_num = d
-                print_file("today_day_num is", store.today_day_num)
                 break
 
         if d == len(store.story_archive):
             store.today_day_num = 0
-            print_file("2. today_day_num is", store.today_day_num)
 
-
+        renpy.scene(layer='screens')
         no_email_notif = True
         for email in store.email_list:
             if not email.notified:
                 no_email_notif = False
-        if no_email_notif:
-            renpy.hide_screen('email_popup')
         no_text_notif = True
         for c in store.all_characters:
             if not c.text_msg.notified:
                 no_text_notif = False
                 break
-        if no_text_notif:
-            renpy.hide_screen('text_msg_popup')
-            renpy.hide_screen('text_pop_2')
-            renpy.hide_screen('text_pop_3')
 
         define_variables()
-        hide_heart_icons()
-        renpy.hide_screen("viewCG_fullsize")
-        renpy.hide_screen("viewCG_fullsize_album")
-        hide_stackable_notifications()
-        renpy.hide_screen('settings_screen')
-        renpy.hide_screen('save_load')
-        renpy.hide_screen('menu')
-        renpy.hide_screen('chat_footer')
-        renpy.hide_screen('phone_overlay')
 
         if store.persistent.testing_mode:
             # Don't show this message to a user who's testing for efficiency.
@@ -632,5 +624,11 @@ init python:
         return
 
 label after_load():
+    $ print_file("Call stack depth is", renpy.call_stack_depth(), "containing",
+        renpy.get_return_stack())
+    $ renpy.set_return_stack([])
+    $ print_file("After reset, call stack depth is", renpy.call_stack_depth(),
+        "containing", renpy.get_return_stack())
+    call screen chat_home
     return
 
