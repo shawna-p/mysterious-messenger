@@ -86,7 +86,8 @@ init python:
         if (not say_nothing
                 and store.c_menu_dict.get('narration', None) is not None):
             store.c_menu_dict['items'].remove(item)
-            store.c_menu_dict['available_choices'].remove(item)
+            if item in store.c_menu_dict['available_choices']:
+                store.c_menu_dict['available_choices'].remove(item)
 
         if say_nothing:
             # Since the player is saying nothing, ensure the program
