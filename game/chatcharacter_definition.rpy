@@ -269,7 +269,10 @@ python early:
             except:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
 
-            return self.__heart_points
+            try:
+                return self.__heart_points
+            except:
+                return self.__dict__['heart_points']
 
         @heart_points.setter
         def heart_points(self, points):
@@ -294,7 +297,10 @@ python early:
             except:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
 
-            return self.__good_heart
+            try:
+                return self.__good_heart
+            except:
+                return self.__dict__['good_heart']
 
         @good_heart.setter
         def good_heart(self, points):
@@ -318,7 +324,10 @@ python early:
                     return store.r.bad_heart
             except:
                 print("ERROR: Couldn't sync Saeran and Ray's heart points")
-            return self.__bad_heart
+            try:
+                return self.__bad_heart
+            except:
+                return self.__dict__['bad_heart']
 
         @bad_heart.setter
         def bad_heart(self, points):
@@ -402,7 +411,10 @@ python early:
         def prof_pic(self):
             """Return this character's profile picture."""
 
-            return self.__prof_pic
+            try:
+                return self.__prof_pic
+            except:
+                return self.__dict__['prof_pic']
 
         @prof_pic.setter
         def prof_pic(self, new_img):
@@ -562,7 +574,15 @@ python early:
         def name(self):
             """Return this character's name."""
 
-            return self.__name
+            try:
+                return self.__name
+            except:
+                pass
+            try:
+                return self.__dict__['name']
+            except:
+                print_file("ERROR: Could not retrieve name.")
+                return "DEFAULT"
 
         @name.setter
         def name(self, new_name):
@@ -921,7 +941,14 @@ init -5 python:
             elif isinstance(trans, renpy.display.imagelike.Solid):
                 color = trans.color
             # May need to add more statements here
-            #new_img = ProfilePic(img)
+
+            # Check if str_img is already in the set with a different extension
+            if str_img is not None:
+                if str_img.split('.')[0] + '.png' in set:
+                    return
+                elif str_img.split('.')[0] + '.jpg' in set:
+                    return
+
             if str_img is not None and crop is not None:
                 set.add((str_img, crop, crop_rel))
             elif str_img is not None:
