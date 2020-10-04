@@ -290,9 +290,7 @@ init -6 python:
             if not ever:
                 return self.played
 
-            if self.played_regular or self.played_expired:
-                return True
-            return False
+            return (self.played_regular or self.played_expired)
 
         @property
         def final_item(self):

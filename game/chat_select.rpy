@@ -74,12 +74,19 @@ screen day_display(day, day_num):
         else:
             playable = day.has_playable
             # If nothing has been played, the first day is 'today'
-            if day_num == 0 and not day.archive_list[0].was_played():
+            if day_num == 0 and not day.archive_list[0].was_played(ever=False):
                 is_today = True
             # Otherwise, this day is today if not everything was played yet
             # or if there's a plot branch
             elif day.is_today:
-                is_today = True
+                # Make sure the last item on the previous day was also played.
+                if (day_num > 0 and story_archive[day_num-1
+                        ].archive_list[-1].was_played(ever=False)):
+                    is_today = True
+                elif day_num == 0:
+                    is_today = True
+                else:
+                    is_today = False
 
         # Background is determined by whether this day is today
         # and whether or not it is playable
