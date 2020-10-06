@@ -335,10 +335,11 @@ init python:
             self.timeout_count -= 5
 
 
-    class Guest(renpy.store.object):
+    class Guestv2(renpy.store.object):
         """
         This class stores necessary information about the guest, including
         all of their email replies as well as their image thumbnail and name.
+        It is used for program versions earlier than v3.0.
 
         Attributes:
         -----------
@@ -538,24 +539,160 @@ init python:
                 store.all_guests.append(self)
 
         def __eq__(self, other):
-            """Check for equality between Guest objects."""
+            """Check for equality between Guestv2 objects."""
 
             if (getattr(other, 'name', False)
                     and getattr(other, 'thumbnail', False)):
                 return (self.name == other.name
-                        and self.thumbnail == other.thumbnail)
+                        and self.thumbnail.split('.')[0]
+                            == other.thumbnail.split('.')[0])
             else:
                 return False
 
         def __ne__(self, other):
-            """Check for inequality between Guest objects."""
+            """Check for inequality between Guestv2 objects."""
+
+            return not self.__eq__(other)
+
+    class Guestv3(renpy.store.object):
+        """
+        This class stores necessary information about the guest, and will
+        automatically generate the menus for the player to reply to their
+        emails.
+
+        Attributes:
+        -----------
+        name : string
+            Name of the guest as it shows up in email replies.
+        dialogue_name : string
+            The name of the guest as it should appear in their dialogue box
+            when they arrive at the party e.g. "Long Cat".
+        thumbnail : string
+            File path to the thumbnail used for this guest's emails. Ideally
+            155x155 pixels.
+        large_img : string
+            File path to the full-body image of this guest. Shown when
+            they attend the party.
+        short_desc : string
+            Short description of the guest, shown in the guestbook.
+        personal_info : string
+            A longer description of the guest, viewable in the guestbook only
+            after they have attended the party.
+        start_msg : string
+            Initial message sent to the player upon agreeing to invite
+            this guest.
+        choices : EmailReply[]
+            A list of EmailReply objects containing the choices offered to
+            reply to each email.
+        num_correct : int
+            The number of emails the player must exchange with the guest to
+            fully complete the email chain.
+        dialogue_what : string
+            The guest's comment upon arriving at the party.
+        comment_who : ChatCharacter
+            The ChatCharacter object of the character who will talk about
+            this guest in the guestbook.
+        comment_what : string
+            What the comment_who character will say about the guest.
+        comment_img : string
+            A string corresponding to a defined image or layeredimage attributes
+            that will be used to display the sprite of the character speaking
+            about this guest e.g. "zen front party happy".
+        attending : bool
+            True if the guest is attending the party.
+        reply_icons : string[]
+            A list of the types of icons that should be used to display
+            whether a particular email in the chain was passed or failed.
+        """
+
+        def __init__(self, name, dialogue_name, thumbnail, large_img,
+                short_desc, personal_info, start_msg, choices,
+                num_correct=3, dialogue_what=None, comment_who=None,
+                comment_what=None, comment_img=None):
+
+            self.name = name
+            self.dialogue_name = dialogue_name
+            self.thumbnail = thumbnail
+            self.large_img = large_img
+            self.short_desc = short_desc
+            self.personal_info = personal_info
+            self.start_msg = start_msg
+            self.choices = choices
+            self.num_correct = num_correct
+            self.dialogue_what = dialogue_what or ("This guest was not "
+                + "given anything to say.")
+            self.comment_who = comment_who or store.narrator
+            self.comment_what = comment_what or ("No comment was entered "
+                + "for this guest")
+            self.comment_img = comment_img or "#000"
+
+            self.attending = False
+            self.reply_icons = []
+
+            if self.name not in store.persistent.guestbook:
+                store.persistent.guestbook[self.name] = None
+            if self not in store.all_guests:
+                store.all_guests.append(self)
+
+        def __eq__(self, other):
+            """Check for equality between Guestv3 objects."""
 
             if (getattr(other, 'name', False)
                     and getattr(other, 'thumbnail', False)):
-                return (self.name != other.name
-                        or self.thumbnail != other.thumbnail)
+                return (self.name == other.name
+                        and self.thumbnail.split('.')[0]
+                            == other.thumbnail.split('.')[0])
             else:
                 return False
+
+        def __ne__(self, other):
+            """Check for inequality between Guestv3 objects."""
+
+            return not self.__eq__(other)
+
+
+
+    class EmailReply(renpy.store.object):
+        """
+        A class intended to facilitate writing email replies.
+
+        Attributes:
+        -----------
+        choice_text : string
+            The text of the choice to reply to the email.
+        player_msg : string
+            The message the player writes after the choice is made.
+        guest_reply : string
+            The guest's reply to the player's message.
+        continue_chain : EmailReply[]
+            If this email chain will continue after the player selects this
+            reply, this is a list of EmailReply objects that will be available
+            the next time the player is given the opportunity to reply.
+        email_success : bool or None
+            If explicitly set to a boolean value, this indicates if it ends
+            the email chain in a good (True) or bad (False) way.
+        """
+
+        def __init__(self, choice_text, player_msg, guest_reply,
+                continue_chain=None, email_success=None):
+
+            self.choice_text = choice_text
+            self.player_msg = player_msg
+            self.guest_reply = guest_reply
+            self.continue_chain = continue_chain or []
+            self.email_success = email_success
+
+
+
+
+    def Guest(*args):
+        # Returns an appropriate Guest object depending on which version the
+        # user is on.
+        if store.use_2_2_guest:
+            # Use the old Guest style
+            return Guestv2(*args)
+        # Otherwise, use the new Guest style
+        return Guestv3(*args)
 
     def unread_emails():
         """Return the number of unread emails in the player's inbox."""
