@@ -944,10 +944,18 @@ init -5 python:
 
             # Check if str_img is already in the set with a different extension
             if str_img is not None:
-                if str_img.split('.')[0] + '.png' in set:
+                no_ext = str_img.split('.')[0]
+                if no_ext + '.png' in set:
                     return
-                elif str_img.split('.')[0] + '.jpg' in set:
+                elif no_ext + '.jpg' in set:
                     return
+                elif crop is not None and (no_ext + '.png',
+                        crop, crop_rel) in set:
+                    return
+                elif crop is not None and (no_ext + '.jpg',
+                        crop, crop_rel) in set:
+                    return
+
 
             if str_img is not None and crop is not None:
                 set.add((str_img, crop, crop_rel))
