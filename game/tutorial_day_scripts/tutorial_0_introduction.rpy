@@ -17,9 +17,18 @@
     # next to how many heart points the player has earned
     $ heart_point_chars = [ju, z, s, y, ja, v, r, ri]
 
-    # If you don't want an introduction, you can uncomment this line
-    # When the player starts the game, they will be immediately taken
-    # to the hub screen
+    # You can set this at the beginning of a route. If True, the program will
+    # assume choices are "paraphrased", and will expect you to write out any
+    # character dialogue after the choice. If False, the program will
+    # automatically cause the main character to say the exact dialogue
+    # contained in the choice. This can be changed on a per-menu or per-choice
+    # basis. If you wrote your script prior to v3.0, you probably want to set
+    # this to True.
+    $ paraphrase_choices = False
+
+    ## If you don't want an introduction, you can uncomment this line
+    ## When the player starts the game, they will be immediately taken
+    ## to the hub screen.
     # jump skip_intro_setup
 
     # If you want to begin with a phone call, this is
@@ -41,12 +50,13 @@
     menu:
         extend ''
         "Testing? What would I need to do?":
-            m "Testing? What would I need to do?"
+            # Because paraphrase_choices is False, the program will
+            # automatically cause the MC to say this dialogue, so it is
+            # unnecessary to write it.
+            pass
         "Sounds like a lot of work.":
-            m "Sounds like a lot of work."
             u "Oh, it's not bad, I promise!"
         "I've actually already seen this; can you take me to the home screen?" if persistent.HP:
-            m "I've actually already seen this; can you take me to the home screen?"
             u "Oh, sure! See you later~"
             # This is pretty specific to this particular chat; you
             # should not have to do this. It simply makes it easier
@@ -54,10 +64,6 @@
             # to get to the chat hub
             $ paraphrase_choices = False
             jump skip_intro_setup
-            # $ persistent.first_boot = False
-            # $ persistent.on_route = True
-            # $ vn_choice = True
-            # jump press_save_and_exit
 
     u """
 
@@ -74,7 +80,7 @@
     menu:
         extend ''
         "I suppose I'll give it a shot.":
-            m "I suppose I'll give it a shot."
+            pass
 
     u """
 
@@ -92,19 +98,16 @@
             $ persistent.screenshake = False
             $ persistent.banners = False
             $ persistent.hacking_effects = False
-            m "I don't want to see any flashing animations or screenshake."
             u "Understandable! I've turned all those animations off for you."
 
         "I'm okay with some effects but not with others.":
             $ persistent.hacking_effects = False
-            m "I'm okay with some effects but not with others."
             u "Okay! I've just turned the hacking effect off for now since it shows up in the next chatroom."
 
         "You can keep all the animations on.":
             $ persistent.screenshake = True
             $ persistent.banners = True
             $ persistent.hacking_effects = True
-            m "You can keep all the animations on."
             u "Got it!"
 
     u """

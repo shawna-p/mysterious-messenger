@@ -1,7 +1,6 @@
 
 label example_email():
 
-    #call chat_begin('evening')
     scene evening
     play music narcissistic_jazz
 
@@ -9,23 +8,21 @@ label example_email():
     z 'Can we invite zentherainbowunicorn?'
 
     call answer
-    # This tells the program not to shuffle the last choice
+    # This tells the program not to shuffle the last choice. You generally
+    # will not use this.
     $ shuffle = "last"
     menu:
         "That sounds great!":
-            m 'That sounds great!' (pauseVal=0)
             invite rainbow # Use this to invite your guest
             z "Great! I'll tell her to send you a message."
 
         "I'll pass":
-            m "I'll pass." (pauseVal=0)
             z "Oh, okay. No problem!"
 
         # This is for testing; it both makes any emails you haven't
         # replied to timeout faster, and if you're waiting for the
         # guest to email you, it makes them reply more quickly.
         "I'd like to deliver my email replies more quickly." if email_list:
-            m "I'd like to deliver my email replies more quickly." (pauseVal=0)
             z "Sure, I can take care of that."
             python:
                 for email in email_list:
@@ -43,19 +40,19 @@ label example_email():
 
     exit chatroom z
 
-    jump chat_end
+    return
 
 ## This is the 'expired' version of the chatroom
 label example_email_expired():
-    call chat_begin('evening')
+    scene evening
     play music narcissistic_jazz
     z "Hey, [name], I had an idea for a guest we should invite."
-    z "Oh... [they_re] not here."   (bounce=True, specBubble="sigh_m")
+    z "Oh... [they_re] not here."  (bounce=True, specBubble="sigh_m")
     z "Hmm."
     z "Well, you can always buy back this chatroom and let me know if you want to invite them or not!"
-    z "I'll see you around~"   (bounce=True, specBubble="flower_m")
+    z "I'll see you around~" (bounce=True, specBubble="flower_m")
     exit chatroom z
-    jump chat_end
+    return
 
 ## This is how you will set up guests for the party. A template can be found
 ## in email_template.rpy. The first variable is the name of the guest, aka what
@@ -259,7 +256,7 @@ label rainbow_reply1():
             # and will fail the email chain
             $ current_email.set_reply(False)
 
-    jump email_end
+    return
 
 
 label rainbow_reply2():
@@ -270,7 +267,7 @@ label rainbow_reply2():
             $ current_email.set_reply(True)
         'Heavy Metal.':
             $ current_email.set_reply(False)
-    jump email_end
+    return
 
 label rainbow_reply3():
     menu:
@@ -283,6 +280,6 @@ label rainbow_reply3():
             $ current_email.set_reply(True, 1)
         'Seafood.':
             $ current_email.set_reply(False)
-    jump email_end
+    return
 
 
