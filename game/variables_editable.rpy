@@ -486,3 +486,7 @@ default paraphrase_choices = None
 # still be shown to the player. If False, the program will skip to the end
 # of the menu.
 define show_empty_menus = True
+# This tells the program whether or not it should use the "old" method of
+# defining guests, where the user must manually declare reply labels. It is
+# automatically set to True for old save files before v3.0 and False otherwise.
+default use_2_2_guest = False
