@@ -92,6 +92,9 @@ init python:
                     store.persistent.completed_chatrooms.keys())
                 store.persistent.completed_chatrooms = None
 
+            store.use_2_2_guest = True
+            #TODO: CONVERT EXISTING GUESTS
+
             if store.persistent.pronoun == 'non binary':
                 store.persistent.pronoun = 'they/them'
             elif store.persistent.pronoun == 'female':
@@ -136,7 +139,6 @@ init python:
                             not in store.persistent.unlocked_prof_pics):
                     add_img_to_set(store.persistent.unlocked_prof_pics,
                         pic.get_thumb(True))
-                    print("SET DEBUG 1: added", pic.get_thumb(True))
         except:
             print("ERROR: Could not add " + who.file_id + "'s album",
                 "pictures to unlock list.")
@@ -145,12 +147,10 @@ init python:
         if who.prof_pic not in store.persistent.unlocked_prof_pics:
             add_img_to_set(store.persistent.unlocked_prof_pics,
                         who.prof_pic)
-            print("SET DEBUG 2: added", who.prof_pic)
         # Add default profile picture
         if who.default_prof_pic not in store.persistent.unlocked_prof_pics:
             add_img_to_set(store.persistent.unlocked_prof_pics,
                         who.default_prof_pic)
-            print("SET DEBUG 3: added", who.default_prof_pic)
 
 
 
@@ -424,7 +424,7 @@ init python:
         replace chara with it.
         """
 
-        print_file("All of chara's fields:", chara.__dict__)
+        # print_file("All of chara's fields:", chara.__dict__)
         for key, val in chara.__dict__.items():
             if "_m1_character_definitions__" in key:
                 chara.__dict__["_m1_chatcharacter_definition__"
