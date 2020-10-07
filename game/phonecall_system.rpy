@@ -1,4 +1,4 @@
-init -6 python:
+python early:
 
     class PhoneCall(renpy.store.object):
         """
@@ -142,6 +142,8 @@ init -6 python:
 
             return (self.phone_label != other.phone_label
                     or self.caller != other.caller)
+
+init -6 python:
 
     def call_hang_up_incoming(phonecall):
         """

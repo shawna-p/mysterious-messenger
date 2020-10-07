@@ -1,4 +1,4 @@
-init -6 python:
+python early:
 
     from random import randint
     import renpy.store as store
@@ -144,6 +144,14 @@ init -6 python:
             self.heart = True
             self.heart_person = person
             self.bad_heart = bad
+
+        def __eq__(self, other):
+            return self.sender == other.sender
+
+        def __ne__(self, other):
+            return not self.__eq__(other)
+
+init -6 python:
 
     def add_heart(who, person=None, bad=False):
         """Let the program know this response will trigger a heart point."""
