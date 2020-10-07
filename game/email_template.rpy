@@ -204,11 +204,11 @@ default example_guest_new = Guest(
 
 You can write whatever you want in here. It is the first message that is sent
 to you after you invite the guest. Note that any new lines you write here will
-be new lines in the actual email; you can look to the previous guest for ideas
+be new lines in the actual email; you can look to tutorial_2_emails for ideas
 on formatting. This example simply has breaks in the middle of lines to make
 it easier to read when editing code.
 
-From, your example guest""", # don't forget the comma after the quotes
+From, Example Guest""", # don't forget the comma after the quotes
 
 ## This differs from the previous way to define guests. Here, you will define
 ## the sequence of choices the player has to answer the guest.
@@ -216,19 +216,20 @@ From, your example guest""", # don't forget the comma after the quotes
     ## An EmailReply object holds the information needed for an email message.
     ## The first argument is the text that will appear on the choice box when
     ## the player opts to answer the email.
-    "Good answer 1",
+    "There will be food at the party",
 
     ## The next argument is the message that the player will send to the guest
     """Dear Example Guest,
 
-    This is a good reply to your email.
+    Yes, we are planning to have an entire banquet at the party, with plenty
+    of food.
 
     Sincerely, [name]""", # Don't forget the comma
 
     ## And this is the reply the guest will send the player.
     """Dear [name],
 
-    You make an excellent point. Do you like soup?
+    That sounds wonderful. Do you like soup?
 
     From, Example Guest""", # Don't forget the comma
 
@@ -293,107 +294,74 @@ From, your example guest""", # don't forget the comma after the quotes
             # object to the list. However, this menu has two choices, so it
             # ends with a square bracket here to finish the list.
         ]
-    )
-    ]
-)]
+    ),
+    ## This is a choice that will show up alongside the "I love soup" choice.
+    ## Note the indentation and list elements.
+    EmailReply(
+        "I like cereal better",
 
-## FIRST MESSAGE - *Question the guest asked here*
+        """Dear Example Guest,
 
-## It's a good idea to write down what the answer is to get to this response
-## in the comments so you don't forget
-## Answer -> CORRECT ANSWER HERE
-## First Message (correct)
+        Soup is nice, but you know what's better? A nice bowl of cereal. I hope
+        you'll agree.
 
-"""This is what your character will send the guest after selecting the correct
-response to the email. You can use their name in the email by typing [name]""",
+        Sincerely, [name].""",
 
-## Reply to correct message
+        """Dear [name],
 
-"""This is what the guest will send you after you replied
-to their first email correctly""",
+        Cereal??? At a party??? I must say I question your food choices.
+        I may not attend this party after all.
 
-## Answer -> INCORRECT ANSWER HERE
-## First Message (incorrect)
+        From, Example Guest""",
 
-"""This is what your character writes to the guest when they
-choose the wrong response""",
+        ## This email also ends the chain, so it is set to False here
+        email_success=False
+    )]
+),
+## And this choice shows up alongside the "There will be food at the party"
+## choice.
+EmailReply(
+    "We will have a DJ at the party",
 
-## Reply to incorrect message
+    """Dear Example Guest,
 
-"""And this is the response the guest will write you after you choose
-the incorrect response. Usually they say something that indicates they
-don't want to go to the party""",
+    Thank you for your interest! We are planning to hire a DJ for the party.
 
-## SECOND MESSAGE - *Question the guest asked here*
+    Hope to see you there,
+    [name]""",
 
-## Answer -> CORRECT ANSWER HERE
-## Second Message (correct)
+    """Dear [name],
 
-"""This is your message to the guest with the correct response""",
+    Ah, I was really hoping there might be some food at the party... I am
+    quite the food lover. I don't know if I'll be attending this party after
+    all.
 
-## Reply to correct message
+    From, Example Guest""",
 
-"""This is the guest's reply to your message after you choose the
-correct response""",
+    email_success=False
+)], # There's a comma here to continue adding information to the guest; the
+# remaining fields are optional but recommended. They appear when the guest
+# attends the party and when the player clicks on the guest's entry in the
+# guestbook.
 
-## Answer -> INCORRECT ANSWER HERE
-## Second Message (incorrect)
-
-"""This is your message to the guest with the incorrect response""",
-
-## Reply to incorrect message
-
-"""This is the guest's reply to your message after you choose the
-wrong response""",
-
-## THIRD MESSAGE - *Question the guest asked here*
-
-## Answer -> CORRECT ANSWER HERE
-## Third Message (correct)
-
-"""This is your message to the guest with the correct response""",
-
-## Reply to correct message
-
-"""This is the guest's reply to your message after you chose the
-correct response. It usually says something about seeing you at
-the party, as this is the final message""",
-
-## Answer -> INCORRECT ANSWER HERE
-## Third Message (incorrect)
-
-"""This is your message to the guest with the incorrect response""",
-
-## Reply to incorrect message
-
-"""This is the guest's reply to your message after you choose
-the wrong response."""
-
-## These next fields are optional but used for the guestbook
-## Large (usually chibi) image for the party, no wider than 315px
-"Email/Guest Images/rainbow_unicorn.webp",
-
-## Short description about the guest
-"Example Guest, an example guest for this program.",
-
-## Personal Info section on the guest
-"Example Guest was made for users to better understand how to create a guest.",
+## The dialogue the guest says when they attend the party
+"Thank you for inviting me! I wonder if they're serving any potato soup...",
 
 ## The ChatCharacter variable of the person who should talk about this
-## guest in the long description
+## guest in the long description in the guestbook.
 s,
 
-## What the previous character says about this guest
+## What the previous character says about this guest.
 "Here, the character from the last variable (Seven) will say this.",
 
 ## The expression/displayable name of the character to show
-'seven front party happy',
+"seven front party happy",
 
-## The name of the guest as it should appear in their
-## dialogue box
-"Example Guest",
+## This indicates how many emails the player needs to successfully exchange
+## with this guest to guarantee their presence at the party.
+## By default this is 3 but you may change it here like so.
+num_emails=3
 
-## The dialogue the guest says when they attend the party
-"The guest will probably mention something about the party."
 ) # Don't forget a closing bracket at the end
-)
+
+
