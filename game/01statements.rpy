@@ -1277,7 +1277,7 @@ python early hide:
         else:
             renpy.error("invite requires a guest to invite.")
 
-        if not isinstance(guest, Guest):
+        if not (isinstance(guest, Guestv2) or isinstance(guest, Guestv3)):
             print("WARNING: Invited guest is not recognized as a Guest object.")
             renpy.show_screen('script_error',
                 message="Invited guest %s is not recognized as a Guest object." % p["guest"],
@@ -1324,7 +1324,8 @@ python early hide:
         if eval_guest is None:
             renpy.error("Invited guest cannot be None.")
 
-        if not isinstance(eval_guest, Guest):
+        if not (isinstance(eval_guest, Guestv2)
+                or isinstance(eval_guest, Guestv3)):
             renpy.error("Invited guest %s is not recognized as a Guest object." % p["guest"])
 
         return
