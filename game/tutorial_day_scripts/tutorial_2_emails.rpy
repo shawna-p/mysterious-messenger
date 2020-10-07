@@ -58,7 +58,7 @@ label example_email_expired():
 ## in email_template.rpy. The first variable is the name of the guest, aka what
 ## shows up in the email hub as @guestname The second variable is the path
 ## to the image you'd like to use as the guest icon. It should be 155x155 px
-default rainbow = Guest("rainbow",
+default rainbow_old = Guest("rainbow",
     "Email/Thumbnails/rainbow_unicorn_guest_icon.webp",
 
 ## Initial Message

@@ -625,7 +625,6 @@ init python:
         current_time = upTime()
         current_hour = current_time.military_hour
         current_min = current_time.minute
-        print_file("currrent_hour", current_hour, "current_min", current_min)
 
         load_next_day = False
 

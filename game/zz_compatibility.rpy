@@ -450,7 +450,7 @@ init python:
         def can_reply(self):
             """Return True if this email can be replied to."""
 
-            return self.reply_label
+            return self.reply_label and not self.reply and not self.timeout
 
         @property
         def status(self):
