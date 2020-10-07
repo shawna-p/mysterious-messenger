@@ -534,6 +534,8 @@ init python:
     ########################################################
     def advance_day():
         global persistent
+        persistent.first_boot = False
+        persistent.on_route = True
         if persistent.real_time:
             if persistent.load_instr == '+1 day':
                 store.days_to_expire += 1
