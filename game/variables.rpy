@@ -885,8 +885,8 @@ image text_play_button = 'Text Messages/msgsl_text_play.webp'
 
 image text_popup_bkgr = "Text Messages/msgsl_popup_edge.webp"
 image text_popup_msg = Frame("Text Messages/msgsl_popup_text_bg.webp", 0,0)
-image text_answer_idle = "Text Messages/chat-bg02_2.webp"
-image text_answer_hover = "Text Messages/chat-bg02_3.webp"
+image text_answer_idle = Frame("Text Messages/chat-bg02_2.webp", 100, 100)
+image text_answer_hover = Frame("Text Messages/chat-bg02_3.webp", 100, 100)
 image new_text_count = "Text Messages/new_msg_count.webp"
 
 image mc_text_msg_bubble = Frame("Text Messages/msgsl_text_player.webp", 60,60,60,10)
