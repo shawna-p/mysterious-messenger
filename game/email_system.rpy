@@ -48,7 +48,7 @@ init python:
             self.deliver_reply = None
             self.reply = None
             self.__read = False
-            self.current_replies = [ ]
+            self.current_replies = guest.choices
             self.notified = False
             self.sent_time = upTime()
             self.success_list = [ ]
@@ -83,7 +83,10 @@ init python:
         def can_reply(self):
             """Return True if this email can be replied to."""
 
-            return self.current_replies
+            print_file("can_reply is", self.current_replies, "reply",
+                self.reply, "timeout", self.timeout)
+            return (self.current_replies and self.reply is None
+                    and self.timeout > 0)
 
         def deliver(self):
             """
@@ -131,6 +134,11 @@ init python:
                 # Notify the player of the delivered message
                 self.show_popup()
 
+        def send_reply(self):
+            """Maintain compatibility with the old Email class."""
+
+            return self.show_choices()
+
         def show_choices(self):
             """Show the choices the player has to reply to the email."""
 
@@ -141,16 +149,19 @@ init python:
             # Shuffle the choices
             renpy.random.shuffle(choices)
             # Show a screen with the choices
-            renpy.show_screen('email_choice', items=choices, email=self)
+            return Show('email_choice', items=choices, email=self)
+            # renpy.show_screen('email_choice', items=choices, email=self)
 
         def finish_choice(self, reply_index):
             """Deliver the appropriate reply based on the user's choice."""
 
+            print_file("Finishing choice")
             # Get the reply
             player_choice = self.current_replies[reply_index]
             # Add the player's reply to the email
-            self.msg += "\n\n------------------------------------------------\n\n"
-            self.msg += player_choice.player_msg
+            player_choice.player_msg += ("\n\n-------------------------"
+                + "-----------------------\n\n")
+            self.msg = player_choice.player_msg + self.msg
             # Queue the guest's reply
             self.reply = player_choice.guest_reply
             # Set the current set of choices
@@ -176,7 +187,7 @@ init python:
             if store.persistent.testing_mode:
                 self.deliver_reply = 1
             else:
-                max_num = num_future_timeline_items(guest.thumbnail
+                max_num = num_future_timeline_items(self.guest.thumbnail
                     == "Email/Thumbnails/rainbow_unicorn_guest_icon.webp") - 1
                 min_num = 1
                 msg_remain = max(self.num_emails - self.msg_num, 1)
@@ -260,7 +271,7 @@ init python:
                 return 'email_failed'
 
             correct_emails = len([ x for x in self.success_list if x ])
-            incorrect_emails = len(success_list) - correct_emails
+            incorrect_emails = len(self.success_list) - correct_emails
 
             if incorrect_emails == 0:
                 return 'email_completed_3'
@@ -277,7 +288,7 @@ init python:
 
             result = [ ]
             for i in range(self.num_emails):
-                result.append(get_icon(i))
+                result.append(self.get_icon(i))
             return result
 
         @property
@@ -358,7 +369,7 @@ init python:
             self.large_img = large_img
             self.short_desc = short_desc
             self.personal_info = personal_info
-            self.start_msg = start_msg
+            self.start_msg = filter_whitespace(start_msg)
             self.choices = choices
             self.num_emails = num_emails
             self.dialogue_what = dialogue_what or ("This guest was not "
@@ -419,12 +430,26 @@ init python:
                 continue_chain=None, email_success=None):
 
             self.choice_text = choice_text
-            self.player_msg = player_msg
-            self.guest_reply = guest_reply
+            self.player_msg = filter_whitespace(player_msg)
+            self.guest_reply = filter_whitespace(guest_reply)
             self.continue_chain = continue_chain or []
             self.email_success = email_success
 
+    import re # Import regex
+    def filter_whitespace(s):
+        """Filter excess whitespace from a string. Used for emails."""
 
+        s = s.strip()
+        # Filter out excess leading whitespace
+        pattern = "^ +"
+        s = re.sub(pattern, '', s, flags=re.MULTILINE)
+        # Ensure there are no spaces at the end of any lines
+        pattern = ".* +$"
+        s = re.sub(pattern, '', s, flags=re.MULTILINE)
+        # Remove singular newlines and replace with a space
+        pattern = "(?<!\n)(\n)(?!\n)"
+        s = re.sub(pattern, ' ', s, flags=re.MULTILINE)
+        return s
 
     def Guest(*args, **kwargs):
         # Returns an appropriate Guest object depending on which version the
@@ -741,8 +766,8 @@ screen open_email(e):
                                 size 27
 
                 textbutton _('Reply'):
-                    if e.reply_label and not e.reply and not e.timeout:
-                        action e.send_reply
+                    if e.can_reply:
+                        action e.send_reply()
                     else:
                         foreground 'menu_select_btn_inactive'
 
@@ -812,19 +837,23 @@ screen email_choice(items, email):
     else:
         default the_anim = null_anim
 
-    add "choice_darken"
+    add "#000c"
     vbox:
         style_prefix 'email_choice'
         for num, i in enumerate(items):
             $ fnum = float(num*0.2)
             textbutton i[0] at the_anim(fnum):
-                action [Function(email.finish_choice(i[1])),
+                action [Function(email.finish_choice, i[1]),
                     Hide('email_choice')]
 
         textbutton _("Reply later"):
-            style_prefix 'tone_selection'
-            xalign 0.98
-            text_style 'ringtone_change'
+            at the_anim(len(items)*0.2)
+            xysize (280, 120)
+            background Frame(Transform("Text Messages/chat-bg02_2.webp",
+                size=(740, 120)), 50, 40)
+            hover_background Frame(Transform("Text Messages/chat-bg02_3.webp",
+                size=(740, 120)), 50, 40)
+            xalign 0.995
             action Hide('email_choice')
 
 
