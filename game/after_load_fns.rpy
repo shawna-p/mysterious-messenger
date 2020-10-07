@@ -579,7 +579,7 @@ init python:
         define_variables()
 
         if store.persistent.testing_mode:
-            # Don't show this message to a user who's testing for efficiency.
+            # Don't show this message to a user who's testing.
             return
         # This determines the content of the "you have x missed calls"
         # etc message upon loading

@@ -669,13 +669,13 @@ screen email_button(e):
                     spacing 8
                     for icon in e.email_status_list:
                         if len(e.email_status_list) > 5:
-                            icon_zoom = 0.6
+                            $ icon_zoom = 0.6
                         elif len(e.email_status_list) > 4:
-                            icon_zoom = 0.7
+                            $ icon_zoom = 0.7
                         elif len(e.email_status_list) > 3:
-                            icon_zoom = 0.8
+                            $ icon_zoom = 0.8
                         else:
-                            icon_zoom = 1.0
+                            $ icon_zoom = 1.0
                         add Transform(icon, zoom=icon_zoom) align (0.5, 0.5)
             frame:
                 xysize(240,90)
