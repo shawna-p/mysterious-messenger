@@ -1,5 +1,292 @@
 init python:
 
+    class Emailv3(renpy.store.object):
+        """
+        Class that holds the information needed for handling emails. Updated
+        for v3.0
+
+        Attributes:
+        -----------
+        guest : Guestv3
+            Guestv3 object who is the sender of this email.
+        msg : string
+            The content of the email. Updated as the guest and player send
+            messages.
+        msg_num : int
+            The current message number. Each exchange is considered "one"
+            message.
+        timeout : int
+            If the player doesn't respond before this timeout reaches zero,
+            the email is considered "timed out" and cannot be interacted with.
+        deliver_reply : int or None
+            How many story items the player must wait before the guest replies
+            to their email, or None if it's the player's turn to reply.
+        reply : string
+            Contains the message to be delivered when the guest replies to the
+            player's message.
+        read : bool
+            True if this email has been read.
+        notified : bool
+            True if the player has received a popup informing them of this
+            email.
+        sent_time : MyTime
+            MyTime object containing the time the last email was sent at.
+        current_replies : EmailReply[]
+            A list of the current replies available to the player.
+        success_list : bool
+            A list of the results from each individual email exchange, either
+            True for "success" or False for "fail".
+        """
+
+        def __init__(self, guest):
+            """Create an Email object with the guest."""
+
+            self.guest = guest
+            self.msg = guest.start_msg
+            self.msg_num = 0
+            self.timeout_count = 25
+            self.deliver_reply = None
+            self.current_replies = []
+            self.reply = None
+            self.timeout = False
+            self.__read = False
+            self.notified = False
+            self.sent_time = upTime()
+            self.success_list = [ ]
+
+
+        def __eq__(self, other):
+            """
+            Check for equality between two Email objects.
+            Allows this class to be persistent.
+            """
+
+            if getattr(other, 'guest', False):
+                return self.guest == other.guest
+            else:
+                return False
+
+        def __ne__(self, other):
+            """Check for inequality between two Email objects."""
+
+            return not self.__eq__(other)
+
+        @property
+        def read(self):
+            return self.__read
+
+        @read.setter
+        def read(self, new_status):
+            self.__read = new_status
+
+        def deliver(self):
+            """
+            Deliver the next email in the chain to the player and notify them
+            of its delivery with a popup. Decrease the timeout counter if
+            this email is waiting to be replied to.
+            """
+
+            global email_list
+
+            if self.timeout <= 0:
+                # This message has timed out; do nothing
+                return
+
+            if self.deliver_reply is not None:
+                # Decrease the counter towards delivering this email reply
+                self.deliver_reply -= 1
+                renpy.retain_after_load()
+
+            # If it's the player's turn to reply, decrease the timeout counter,
+            # unless there are no further emails in the chain.
+            elif (self.deliver_reply is None and self.timeout > 0
+                    and self.msg_num < self.guest.num_emails):
+                self.timeout -= 1
+
+            # Notify the player of the delivered message
+            if not self.notified and self.msg_num == 0 and not self.read:
+                self.show_popup()
+
+
+            # If deliver_reply <= 0 and there is a reply to be delivered,
+            # deliver it.
+            if (self.deliver_reply is not None
+                    and self.deliver_reply <= 0
+                    and self.reply):
+                self.read = False
+                self.reply += "\n\n------------------------------------------------\n\n"
+                self.msg = self.reply + self.msg
+                self.reply = None
+                self.deliver_reply = None
+                self.sent_time = upTime()
+                # Move this email to the front of the list
+                email_list.remove(self)
+                email_list.insert(0, self)
+                # Notify the player of the delivered message
+                self.show_popup()
+
+        def show_choices(self):
+            """Show the choices the player has to reply to the email."""
+
+            choices = [ ]
+            # First, determine what the choices are
+            for index, reply in enumerate(self.current_replies):
+                choices.append((reply.choice_text, index))
+            # Shuffle the choices
+            renpy.random.shuffle(choices)
+            # Show a screen with the choices
+            renpy.show_screen('email_choice', items=choices, email=self)
+
+        def finish_choice(self, reply_index):
+            """Deliver the appropriate reply based on the user's choice."""
+
+            # Get the reply
+            player_choice = self.current_replies[reply_index]
+            # Add the player's reply to the email
+            self.msg += "\n\n------------------------------------------------\n\n"
+            self.msg += player_choice.player_msg
+            # Queue the guest's reply
+            self.reply = player_choice.guest_reply
+            # Set the current set of choices
+            self.current_replies = player_choice.continue_chain
+
+            # Check if the email's success is explicitly recorded
+            if (player_choice.email_success is not None):
+                if player_choice.email_success:
+                    self.success_list.append(True)
+                else:
+                    self.success_list.append(False)
+            # Otherwise, assume success if the list continues
+            # and failure otherwise
+            elif self.current_replies:
+                self.success_list.append(True)
+            else:
+                self.success_list.append(False)
+
+            # Increase the message number
+            self.msg_num += 1
+
+            # Calculate when to deliver the reply
+            if store.persistent.testing_mode:
+                self.deliver_reply = 1
+            else:
+                max_num = num_future_timeline_items(guest.thumbnail
+                    == "Email/Thumbnails/rainbow_unicorn_guest_icon.webp") - 1
+                min_num = 1
+                msg_remain = max(self.guest.num_emails - self.msg_num, 1)
+                # Generate a random number of items to wait for completion
+                # before this email is delivered, based on how many timeline
+                # items remain to be completed.
+                max_num = min(max_num / msg_remain, 13)
+                min_num = max(max_num-7, 1)
+                if max_num <= min_num:
+                    self.deliver_reply = min_num
+                else:
+                    self.deliver_reply = renpy.random.randint(min_num, max_num)
+
+            # Update the sent timestamp
+            self.sent_time = upTime()
+            # Reset the timeout counter
+            self.timeout = 25
+            renpy.retain_after_load()
+
+        def set_attendance(self):
+            """Set whether this guest is attending the party or not."""
+
+            if self.guest.attending is not None:
+                return
+            if not self.completed:
+                return
+            if self.timeout <= 0:
+                self.guest.attending = False
+                return
+
+            # The email chain has been completed. Calculate probability for
+            # the guest to attend
+            self.guest.attending = renpy.random.choice(self.success_list)
+
+
+        @property
+        def completed(self):
+            """Return True if this email chain is completed."""
+
+            if not self.read:
+                return False
+            if self.timeout <= 0:
+                return True
+            if self.msg_num == self.guest.num_emails and self.reply is None:
+                return True
+            if not self.current_replies and self.reply is None:
+                return True
+            return False
+
+        @property
+        def failed(self):
+            """Return True if this email chain has been failed."""
+
+            if self.current_replies or not self.read or self.reply:
+                return False
+            if self.timeout <= 0:
+                return False
+            if self.msg_num == 1 and not self.success_list[0]:
+                return True
+            return False
+
+        def get_icon(self, num):
+            """Get the icon for the num-th message."""
+
+            if num >= len(self.success_list):
+                return 'email_inactive'
+            if self.success_list[num]:
+                return 'email_good'
+            else:
+                return 'email_bad'
+
+        @property
+        def status(self):
+            """Return the status of this email chain."""
+
+            if not self.completed:
+                return None
+            if self.timeout <= 0:
+                return 'email_timeout'
+            if self.failed:
+                return 'email_failed'
+
+            correct_emails = len([ x for x in self.success_list if x ])
+            incorrect_emails = len(success_list) - correct_emails
+
+            if incorrect_emails == 0:
+                return 'email_completed_3'
+            percent_correct = (correct_emails * 100) // len(self.guest.num_emails)
+            if percent_correct >= 50:
+                return 'email_completed_2'
+            else:
+                return 'email_completed_1'
+
+
+        @property
+        def email_status_list(self):
+            """Return a list of icons to use for each email reply."""
+
+            result = [ ]
+            for success in self.success_list:
+                if success:
+                    result.append('')
+
+
+
+        def show_popup(self):
+            """Show a popup for a new email delivery to the player."""
+
+            self.notified = True
+            renpy.music.play(persistent.email_tone, 'sound')
+            renpy.show_screen('email_popup', e=self)
+            renpy.retain_after_load()
+            renpy.restart_interaction()
+
+
+
     class Email(renpy.store.object):
         """
         Class that holds information needed for an email's delivery, timeout,
@@ -106,6 +393,35 @@ init python:
             self.set_attendance()
             return
 
+        @property
+        def status(self):
+            """Return the status of this email chain."""
+
+            if self.completed():
+                # 3/3 messages correct
+                return 'email_completed_3'
+            elif self.is_failed():
+                # 2/3 messages correct
+                if self.second_msg() == 'email_good':
+                    return 'email_completed_2'
+                # 1/3 messages correct
+                elif self.first_msg() == 'email_good':
+                    return 'email_completed_1'
+                # 0/3 messages correct
+                else:
+                    return 'email_failed'
+            elif self.timeout:
+                return 'email_timeout'
+            return None
+
+        @property
+        def email_status_list(self):
+            """Return a list of icons to use for each email reply."""
+
+            return [self.first_msg(), self.second_msg(), self.third_msg()]
+
+
+
         def deliver(self):
             """
             Deliver the next email in the chain to the player and
@@ -119,8 +435,8 @@ init python:
                 self.deliver_reply -= 1
                 renpy.retain_after_load()
 
-            # If it's your turn to reply, decrease the timeout counter,
-            # Unless this is the final message and there's no need to reply
+            # If it's the player's turn to reply, decrease the timeout counter,
+            # unless this is the final message and there's no need to reply.
             # If this is the first message, show a popup
             elif (self.deliver_reply == "wait"
                     and self.msg_num <= 2
@@ -220,7 +536,7 @@ init python:
                     self.deliver_reply = renpy.random.randint(5, 10)
 
             self.sent_time = upTime()
-            self.timeout_count = 2
+            self.timeout_count = 25
             self.set_attendance()
             renpy.retain_after_load()
 
@@ -584,7 +900,7 @@ init python:
         choices : EmailReply[]
             A list of EmailReply objects containing the choices offered to
             reply to each email.
-        num_correct : int
+        num_emails : int
             The number of emails the player must exchange with the guest to
             fully complete the email chain.
         dialogue_what : string
@@ -607,8 +923,8 @@ init python:
 
         def __init__(self, name, dialogue_name, thumbnail, large_img,
                 short_desc, personal_info, start_msg, choices,
-                num_correct=3, dialogue_what=None, comment_who=None,
-                comment_what=None, comment_img=None):
+                dialogue_what=None, comment_who=None, comment_what=None,
+                comment_img=None, num_emails=3):
 
             self.name = name
             self.dialogue_name = dialogue_name
@@ -618,7 +934,7 @@ init python:
             self.personal_info = personal_info
             self.start_msg = start_msg
             self.choices = choices
-            self.num_correct = num_correct
+            self.num_emails = num_emails
             self.dialogue_what = dialogue_what or ("This guest was not "
                 + "given anything to say.")
             self.comment_who = comment_who or store.narrator
@@ -626,7 +942,7 @@ init python:
                 + "for this guest")
             self.comment_img = comment_img or "#000"
 
-            self.attending = False
+            self.attending = None
             self.reply_icons = []
 
             if self.name not in store.persistent.guestbook:
@@ -684,15 +1000,14 @@ init python:
 
 
 
-
-    def Guest(*args):
+    def Guest(*args, **kwargs):
         # Returns an appropriate Guest object depending on which version the
         # user is on.
-        if store.use_2_2_guest:
+        if store.use_2_2_guest or (len(args) + len(kwargs)) > 14:
             # Use the old Guest style
-            return Guestv2(*args)
+            return Guestv2(*args, **kwargs)
         # Otherwise, use the new Guest style
-        return Guestv3(*args)
+        return Guestv3(*args, **kwargs)
 
     def unread_emails():
         """Return the number of unread emails in the player's inbox."""
@@ -1067,6 +1382,30 @@ style open_email_viewport:
     align (0.5, 0.5)
     xysize (585, 545)
 
+
+screen email_choice(items, email):
+    zorder 150
+    modal True
+
+    if persistent.custom_footers and not renpy.is_skipping():
+        default the_anim = choice_anim
+    else:
+        default the_anim = null_anim
+
+    add "choice_darken"
+    vbox:
+        style_prefix 'email_choice'
+        for num, i in enumerate(items):
+            $ fnum = float(num*0.2)
+            textbutton i[0] at the_anim(fnum):
+                action [Function(email.finish_choice(i[1])),
+                    Hide('email_choice')]
+
+        textbutton _("Reply later"):
+            style_prefix 'tone_selection'
+            xalign 0.98
+            text_style 'ringtone_change'
+            action Hide('email_choice')
 
 
 ## This is the label you call at the end of
