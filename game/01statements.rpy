@@ -1291,14 +1291,14 @@ python early hide:
 
 
         # So you can't re-invite a guest while replaying a chatroom
-        if not store.observing or store.persistent.testing_mode:
+        if (not store.observing) or store.persistent.testing_mode:
             try:
                 # Add them to the front of the email inbox
                 if isinstance(guest, Guestv2):
-                    store.email_list.insert(0, Email(guest,
-                        guest.start_msg, guest.label1))
+                    e = Email(guest, guest.start_msg, guest.label1)
                 else:
-                    store.email_list.insert(0, Emailv3(guest))
+                    e = Emailv3(guest)
+                store.email_list.insert(0, e)
                 # The player has encountered the guest so the guestbook can be
                 # updated
                 if not store.persistent.guestbook[guest.name]:

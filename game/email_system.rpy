@@ -48,7 +48,7 @@ init python:
             self.deliver_reply = None
             self.reply = None
             self.__read = False
-            self.current_replies = guest.choices
+            self.current_replies = copy(guest.choices)
             self.notified = False
             self.sent_time = upTime()
             self.success_list = [ ]
@@ -305,6 +305,13 @@ init python:
             renpy.show_screen('email_popup', e=self)
             renpy.retain_after_load()
             renpy.restart_interaction()
+
+        def send_sooner(self):
+            """Increase the timeout and deliver_reply counters. For testing."""
+
+            if self.deliver_reply is not None:
+                self.deliver_reply -= 5
+            self.timeout_count -= 5
 
 
     class Guestv3(renpy.store.object):
