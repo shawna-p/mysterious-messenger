@@ -39,7 +39,7 @@ init python:
         """
 
         def __init__(self, guest):
-            """Create an Email object with the guest."""
+            """Create an Emailv3 object for the given guest."""
 
             self.guest = guest
             self.msg = guest.start_msg
@@ -48,10 +48,10 @@ init python:
             self.deliver_reply = None
             self.reply = None
             self.__read = False
-            self.current_replies = copy(guest.choices)
+            self.current_replies = guest.choices
             self.notified = False
             self.sent_time = upTime()
-            self.success_list = [ ]
+            self.success_list = list()
 
 
         def __eq__(self, other):
@@ -61,7 +61,8 @@ init python:
             """
 
             if getattr(other, 'guest', False):
-                return self.guest == other.guest
+                return (self.guest == other.guest
+                    and self.sent_time == other.sent_time)
             else:
                 return False
 
@@ -76,15 +77,18 @@ init python:
 
         @read.setter
         def read(self, new_status):
-            self.set_attendance()
+            old_status = self.__read
             self.__read = new_status
+            self.set_attendance()
+            if not old_status and new_status and self.completed:
+                store.email_list.remove(self)
+                store.email_list.append(self)
+
 
         @property
         def can_reply(self):
             """Return True if this email can be replied to."""
 
-            print_file("can_reply is", self.current_replies, "reply",
-                self.reply, "timeout", self.timeout)
             return (self.current_replies and self.reply is None
                     and self.timeout > 0)
 
@@ -116,7 +120,6 @@ init python:
             if not self.notified and self.msg_num == 0 and not self.read:
                 self.show_popup()
 
-
             # If deliver_reply <= 0 and there is a reply to be delivered,
             # deliver it.
             if (self.deliver_reply is not None
@@ -133,6 +136,7 @@ init python:
                 email_list.insert(0, self)
                 # Notify the player of the delivered message
                 self.show_popup()
+            renpy.retain_after_load()
 
         def send_reply(self):
             """Maintain compatibility with the old Email class."""
@@ -155,7 +159,6 @@ init python:
         def finish_choice(self, reply_index):
             """Deliver the appropriate reply based on the user's choice."""
 
-            print_file("Finishing choice")
             # Get the reply
             player_choice = self.current_replies[reply_index]
             # Add the player's reply to the email
@@ -205,6 +208,9 @@ init python:
             self.sent_time = upTime()
             # Reset the timeout counter
             self.timeout = 25
+            # Replied-to messages are moved to the back of the email list
+            store.email_list.remove(self)
+            store.email_list.append(self)
             renpy.retain_after_load()
 
         def set_attendance(self):
@@ -218,6 +224,10 @@ init python:
                 self.guest.attending = False
                 return
 
+            # Add "False" to the success_list for each email that wasn't
+            # able to be answered
+            for i in range(self.num_emails - len(self.success_list)):
+                self.success_list.append(False)
             # The email chain has been completed. Calculate probability for
             # the guest to attend
             self.guest.attending = renpy.random.choice(self.success_list)
@@ -247,6 +257,8 @@ init python:
                 return False
             if self.msg_num == 1 and not self.success_list[0]:
                 return True
+            if True not in self.success_list:
+                return True
             return False
 
         def get_icon(self, num):
@@ -275,7 +287,7 @@ init python:
 
             if incorrect_emails == 0:
                 return 'email_completed_3'
-            percent_correct = (correct_emails * 100) // len(self.num_emails)
+            percent_correct = (correct_emails * 100) // self.num_emails
             if percent_correct >= 50:
                 return 'email_completed_2'
             else:
@@ -311,7 +323,7 @@ init python:
 
             if self.deliver_reply is not None:
                 self.deliver_reply -= 5
-            self.timeout_count -= 5
+            self.timeout -= 5
 
 
     class Guestv3(renpy.store.object):
