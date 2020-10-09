@@ -1335,7 +1335,7 @@ init python:
         deliver_next()
 
         # Reset variables
-        reset_story_vars(item)
+        reset_story_vars()
         return
 
 
@@ -1354,7 +1354,7 @@ label exit_item_early():
         $ observing = False
     # Pop the return to play_timeline_item
     $ renpy.pop_call()
-    $ reset_story_vars(current_timeline_item)
+    $ reset_story_vars()
     call screen timeline(current_day, current_day_num)
     return
 
