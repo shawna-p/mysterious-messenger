@@ -415,14 +415,11 @@ python early hide:
         for d in messages:
             if isinstance(d, dict):
                 try:
-                    who = eval(d["who"])
-                    what = d["what"]
-                    ffont = d["ffont"]
-                    bold = d["bold"]
-                    xbold = d["xbold"]
-                    big = d["big"]
-                    img = d["img"]
+                    d2 = execute_msg_stmt(d, return_dict=True)
                     timestamp = d['timestamp']
+                    who = d2['who']
+                    dialogue = d2['dialogue']
+                    img = d2['img']
                 except:
                     print("WARNING: The arguments for dialogue %s could not "
                         + "be evaluated." % d['what'])
@@ -431,9 +428,6 @@ python early hide:
                                 + "be evaluated." % d['what']))
                     return
 
-                # Get the correct dialogue and img
-                dialogue, img, spec_bubble = parse_message_args(
-                    what, ffont, bold, xbold, big, img, False)
                 # Create the 'when' timestamp
                 if timestamp:
                     when = upTime(day, timestamp)
@@ -566,6 +560,7 @@ python early hide:
         bounce = False
         spec_bubble = None
         timestamp = False
+        arg_dict = dict()
 
         bubble_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l', 'round_m',
                 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
@@ -628,6 +623,8 @@ python early hide:
                 big = True
                 continue
 
+            state = l.checkpoint()
+
             item = l.simple_expression()
             if item in bubble_list:
                 spec_bubble = item
@@ -637,6 +634,10 @@ python early hide:
             if item in font_list:
                 ffont = item
                 continue
+
+            l.revert(state)
+
+            arg_dict = c_parse_arguments(l)
 
             renpy.error("couldn't recognize msg argument")
 
@@ -650,10 +651,11 @@ python early hide:
                     img=img,
                     bounce=bounce,
                     spec_bubble=spec_bubble,
-                    timestamp=timestamp)
+                    timestamp=timestamp,
+                    arg_dict=arg_dict)
 
 
-    def execute_msg_stmt(p, return_dict=False):
+    def execute_msg_stmt(p, return_dict=False, is_text_msg=False):
         try:
             who = eval(p["who"])
             what = p["what"]
@@ -665,6 +667,7 @@ python early hide:
             img = p["img"]
             bounce = p["bounce"]
             spec_bubble = p["spec_bubble"]
+            arg_dict = p['arg_dict']
         except:
             print_file("msg CDS failed. Results:", p['who'], p['what'], p['pv'])
             renpy.error("Could not parse arguments of msg CDS")
@@ -681,9 +684,34 @@ python early hide:
                     link_text="Adding a New Character to Chatrooms")
             return
 
+        # Retrieve the arguments, if applicable
+        if arg_dict:
+            arg_info = renpy.ast.ArgumentInfo(arg_dict['args'], arg_dict['pos'],
+                arg_dict['kwargs'])
+            args, kwargs = arg_info.evaluate()
+            args = args or tuple()
+            kwargs = kwargs or dict()
+            print_file("\nBefore parsing arguments, values were:")
+            print_file("    img:", img, "\n    bounce:", bounce)
+            print_file("    specBubble:", spec_bubble, "\n    pv:", pv)
+
+            # Check for img
+            img = kwargs.get('img', img)
+            # Check for bounce
+            bounce = kwargs.get('bounce', bounce)
+            # Check for specBubble
+            spec_bubble = kwargs.get('specBubble', spec_bubble)
+            # Check for pv
+            pv = kwargs.get('pauseVal', pv)
+
         # Correct 'what' into dialogue with the right text tags
         dialogue, img, spec_bubble = parse_message_args(what, ffont, bold,
-                                                xbold, big, img, spec_bubble)
+            xbold, big, img, spec_bubble, is_text_msg=is_text_msg)
+
+        print_file("\nAfter parsing arguments, values are:")
+        print_file("    img:", img, "\n    bounce:", bounce)
+        print_file("    specBubble:", spec_bubble, "\n    pv:", pv)
+        print_file("    dialogue:", dialogue)
 
         # What to do with this dialogue depends on if it's for a chatroom
         # or a text message, or for another CDS
@@ -984,13 +1012,16 @@ python early hide:
         for d in messages:
             if isinstance(d, dict):
                 try:
-                    who = eval(d["who"])
-                    what = d["what"]
-                    ffont = d["ffont"]
-                    bold = d["bold"]
-                    xbold = d["xbold"]
-                    big = d["big"]
-                    img = d["img"]
+                    d2 = execute_msg_stmt(d, return_dict=True, is_text_msg=True)
+                    print_file("Got a dictionary,", d2)
+                    what = d['what']
+                    print_file("What is", what)
+                    who = d2['who']
+                    print_file("who is", who.name)
+                    dialogue = d2['what']
+                    print_file("dialogue is", dialogue)
+                    img = d2['img']
+                    print_file("img is", img)
                 except:
                     print("WARNING: The arguments for dialogue %s could not "
                         + "be evaluated." % d['what'])
@@ -999,9 +1030,6 @@ python early hide:
                                 + "be evaluated." % d['what']))
                     return
 
-                # Get the correct dialogue and img
-                dialogue, img, spec_bubble = parse_message_args(
-                    what, ffont, bold, xbold, big, img, False, is_text_msg=True)
 
                 # Add messages to send to a list first
                 message_queue.append(ChatEntry(who, dialogue, deepcopy(when), img))
@@ -1645,9 +1673,6 @@ python early hide:
                     kwargs=extrakw,
                     pos=extrapos,
                     wait=wait)
-
-
-
 
     def construct_menu(stmtl, has_wait_time=False):
         """
