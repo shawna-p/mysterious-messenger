@@ -55,231 +55,254 @@ label example_email_expired():
     return
 
 ## This is how you will set up guests for the party. A template can be found
-## in email_template.rpy. The first variable is the name of the guest, aka what
-## shows up in the email hub as @guestname The second variable is the path
-## to the image you'd like to use as the guest icon. It should be 155x155 px
-default rainbow_old = Guest("rainbow",
-    "Email/Thumbnails/rainbow_unicorn_guest_icon.webp",
+## in email_template.rpy along with more detailed explanations of the fields.
+default rainbow = Guest(
+## Because the variable is 'rainbow', when you want to
+## invite this person, you will write: invite rainbow
 
-## Initial Message
+## The first string, "example", is what will show up in the
+## email chain as the guest's 'email' e.g. "longcat" shows up
+## as "@longcat" in the email chain.
+"rainbow",
+
+## The next string is the name of the guest as it should show up in the
+## guestbook when they arrive at the party e.g. "Long Cat"
+"Rainbow",
+
+## This string is the image to use for the guest's
+## thumbnail. It should be 155x155px
+"Email/Thumbnails/rainbow_unicorn_guest_icon.webp",
+
+## This string is the file path to the full-body image of this guest. It will
+## be shown when they attend the party. It is a larger (usually chibi) image
+## for the party, no wider than 315px.
+"Email/Guest Images/rainbow_unicorn.webp",
+
+## This next string is a short description of the guest, shown in the
+## guestbook when they have been invited.
+"Rainbow Unicorn, the creator of this program.",
+
+## Personal Info section on the guest, shown in the guestbook after the
+## guest has attended the party.
+"Rainbow started working on this project back in 2018 and she's excited to share it with the world!",
+
+## This is the beginning email that will be sent to the player after the guest
+## is invited. It is usually easier to write this with triple quotes so you
+## can incorporate line breaks. This text is parsed to remove leading whitespace
+## and replace single newlines with a space, so you can indent the string
+## for readability and keep it within the character limit.
 """Hi [name]!
 
-Really excited to hear about this party you're holding! Can't wait to see how things will turn out for you.
-Zen told me to make sure your inbox is working, and well, if you're reading this, I guess it is! So that's good.
-I did have one quick question though -- will the party be held inside or outside? Please let me know as soon as possible!
+Really excited to hear about this party you're holding! Can't wait to see
+how things will turn out for you. Zen told me to make sure your inbox is
+working, and well, if you're reading this, I guess it is! So that's good.
+
+I did have one quick question though -- will the party be held inside or
+outside? Please let me know as soon as possible!
 
 Thanks,
 
-Rainbow Unicorn""",
+Rainbow Unicorn""", # don't forget the comma after the quotes
 
-## FIRST MESSAGE - what kind of party?
+## This differs from the previous way to define guests. Here, you will define
+## the sequence of choices the player has to answer the guest.
+[ EmailReply(
+    ## An EmailReply object holds the information needed for an email message.
+    ## The first argument is the text that will appear on the choice box when
+    ## the player opts to answer the email.
+    "Indoor Party",
 
-## Answer -> Indoor Party
-## First Message (correct)
+    ## The next argument is the message that the player will send to the guest
+    """Dear Rainbow,
 
-"""Dear Rainbow,
+    I'm pleased to inform you that the party will be indoors. No need for
+    umbrellas or sunscreen!
 
-I'm pleased to inform you that the party will be indoors. No need for umbrellas or sunscreen!
-Hope to see you there,
+    Hope to see you there,
 
-Sincerely,
+    [name], the party coordinator""", # Don't forget the comma
 
-[name], the party coordinator""",
+    ## And this is the reply the guest will send the player.
+    """Hi again,
 
-## Reply to correct message
+    Oh, how wonderful! I was worried about what the weather would be like
+    on the day of the party. I thought of another question: what kind of
+    music will there be at the party?
 
-"""Hi again,
+    Hope to hear from you soon,
 
-Oh, how wonderful! I was worried about what the weather would be like on the day of the party.
-I thought of another question: what kind of music will there be at the party?
+    Rainbow Unicorn""", # Don't forget the comma
 
-Hope to hear from you soon,
+    ## Now, since this choice continues the chain, you will add another
+    ## EmailReply object.
+    [EmailReply(
+        "Smooth Jazz",
 
-Rainbow Unicorn""",
+        """Dear Rainbow,
 
-## Answer -> Outdoor Party
-## First Message (incorrect)
+        We've got a wonderful playlist full of smooth jazz songs to
+        play at the party. We're also looking into the possibility of
+        a live band!
 
-"""Dear Rainbow,
+        Hope that answers your question.
 
-We're planning for an outdoor party! There are gardens at the venue that will be perfect for an elegant party.
-Hope to see you there!
+        Sincerely,
 
-Sincerely,
+        [name]""",
 
-[name], the party coordinator""",
+        """Dear [name],
 
-## Reply to incorrect message
+        Oh, that's just fantastic news. Jazz is such a lovely music genre,
+        isn't it? Just between the two of us, I'm also quite partial to video
+        game soundtrack music. But I don't expect you to play that at the party!
 
-"""Hi again,
+        You've been so kind with your answers, and if you don't mind, I had
+        one last question -- what sort of food will there be at the party?
+        Please let me know when you can!
 
-Oh dear, I'm afraid I have terrible allergies and that may not work out well for me. I appreciate the time you've taken to email me but I may have to decline.
+        From, Rainbow""",
 
-Thank you for the invitation, and best of luck to you and the party.
+        ## Once again, this is the good reply, so the chain continues
+        [EmailReply(
+            "Spicy food",
 
-Rainbow Unicorn""",
+            """To the lovely Rainbow,
 
-## SECOND MESSAGE - what kind of music?
+            There will be a delicious selection of spicy food at the party!
+            In particular there will be experienced chefs from places such as
+            India and Mexico who will be catering. I hope your taste buds
+            are ready!
 
-## Answer -> Smooth Jazz
-## Second Message (correct)
+            Sincerely,
 
-"""Dear Rainbow,
+            [name]""",
 
-We've got a wonderful playlist full of smooth jazz songs to play at the party. We're also looking into the possibility of a live band!
-Hope that answers your question.
+            """To [name],
 
-Sincerely,
+            Wow! I adore spicy foods; it's almost as though you read my mind!
+            I will most certainly have to come and sample the dishes you've
+            described.
 
-[name]""",
+            Thank you very much for taking the time to answer my questions.
+            I'll see you at the party!
 
-## Reply to correct message
+            Best,
 
-"""Dear [name],
+            Rainbow""",
+            ## This is the end of this particular chain, so no more EmailReply.
+            ## However, you need to indicate whether getting to this reply
+            ## resulted in a successful email chain or a failed one.
+            email_success=True
+        ), # Don't forget a comma here if you want to add more choices
+        ## This is another choice for the menu
+        EmailReply(
+            "Seafood",
 
-Oh, that's just fantastic news. Jazz is such a lovely music genre, isn't it? Just between the two of us, I'm also quite partial to video game soundtrack music. But I don't expect you to play that at the party!
-You've been so kind with your answers, and if you don't mind, I had one last question -- what sort of food will there be at the party? Please let me know when you can!
+            """To the lovely Rainbow,
 
-From, Rainbow""",
+            We're planning to serve a variety of seafood at the party! There
+            will be plenty of dishes to try, like fried octopus, shrimp
+            tempura, and caviar. Hope you come with an appetite!
 
-## Answer -> Heavy Metal
-## Second Message (incorrect)
+            From,
 
-"""Hi Rainbow,
+            [name]""",
 
-I've found some wonderful heavy metal music to play at the party! Screaming vocals really set the mood, don't you think? I hope you'll enjoy the music!
+            """To [name],
 
-Sincerely,
+            That certainly sounds... interesting! I can't really consider
+            myself a fan of seafood, however, so you'll have to excuse me
+            for my lack of enthusiasm.
 
-[name], the party coordinator""",
+            That said, I do appreciate you taking the time to answer me. I'm
+            a bit undecided on whether or not to attend, but wish you the
+            best of luck with the preparations!
 
-## Reply to incorrect message
+            Sincerely,
 
-"""Hi again,
+            Rainbow Unicorn""",
+            ## This is the end of the email chain, but this was the incorrect
+            ## reply, so indicate that.
+            email_success=False
+        )   # If you like, you can add a comma here and add another EmailReply
+            # object to the list. However, this menu has two choices, so it
+            # ends with a square bracket here to finish the list.
+        ]
+    ),
+    ## This is a choice that will show up alongside the "Smooth Jazz" choice.
+    ## Note the indentation and list elements.
+    EmailReply(
+        "Heavy Metal",
 
-Oh dear, heavy metal? I can't say I enjoy that sort of music. I appreciate the invitation, but now that I know you'll be playing heavy metal music... I'll have to think more on it.
+        """Hi Rainbow,
 
-Thank you for your help.
+        I've found some wonderful heavy metal music to play at the party!
+        Screaming vocals really set the mood, don't you think? I hope you'll
+        enjoy the music!
 
-Rainbow""",
+        Sincerely,
 
-## THIRD MESSAGE - what kind of food?
+        [name], the party coordinator""",
 
-## Answer -> Spicy Food
-## Third Message (correct)
+        """Hi again,
 
-"""To the lovely Rainbow,
+        Oh dear, heavy metal? I can't say I enjoy that sort of music. I
+        appreciate the invitation, but now that I know you'll be playing
+        heavy metal music... I'll have to think more on it.
 
-There will be a delicious selection of spicy food at the party! In particular there will be experienced chefs from places such as India and Mexico who will be catering. I hope your taste buds are ready!
+        Thank you for your help.
 
-Sincerely,
+        Rainbow""",
 
-[name]""",
+        ## This email also ends the chain, so it is set to False here
+        email_success=False
+    )]
+),
+## And this choice shows up alongside the "Indoor Party" choice.
+EmailReply(
+    "Outdoor party",
 
-## Reply to correct message
+    """Dear Rainbow,
 
-"""To [name],
+    We're planning for an outdoor party! There are gardens at the venue that
+    will be perfect for an elegant party. Hope to see you there!
 
-Wow! I adore spicy foods; it's almost as though you read my mind! I will most certainly have to come and sample the dishes you've described.
-Thank you very much for taking the time to answer my questions. I'll see you at the party!
+    Sincerely,
 
-Best,
+    [name], the party coordinator""",
 
-Rainbow""",
+    """Hi again,
 
-## Answer -> Seafood
-## Third Message (incorrect)
+    Oh dear, I'm afraid I have terrible allergies and that may not work out
+    well for me. I appreciate the time you've taken to email me but I may have
+    to decline.
 
-"""To the lovely Rainbow,
+    Thank you for the invitation, and best of luck to you and the party.
 
-We're planning to serve a variety of seafood at the party! There will be plenty of dishes to try, like fried octopus, shrimp tempura, and caviar. Hope you come with an appetite!
+    Rainbow Unicorn""",
 
-From,
+    email_success=False
+)], # There's a comma here to continue adding information to the guest; the
+# remaining fields are optional but recommended. They appear when the guest
+# attends the party and when the player clicks on the guest's entry in the
+# guestbook.
 
-[name]""",
-
-## Reply to incorrect message
-
-
-"""To [name],
-
-That certainly sounds... interesting! I can't really consider myself a fan of seafood, however, so you'll have to excuse me for my lack of enthusiasm.
-That said, I do appreciate you taking the time to answer me. I'm a bit undecided on whether or not to attend, but wish you the best of luck with the preparations!
-
-Sincerely,
-
-Rainbow Unicorn""",
-
-## These next fields are optional but used for the guestbook
-## Large (usually chibi) image for the party, no wider than
-## 315px or so
-"Email/Guest Images/rainbow_unicorn.webp",
-
-## Short description about the guest
-"Rainbow Unicorn, the creator of this program.",
-
-## Personal Info section on the guest
-"Rainbow started working on this project back in 2018 and she's excited to share it with the world!",
+## The dialogue Rainbow says when arriving at the party.
+"Oh, it's so exciting to be at the party! I can't wait to see everyone.",
 
 ## The ChatCharacter variable of the person who should talk about this
-## guest in the long description
+## guest in the long description in the guestbook.
 z,
 
-## What the previous character says about this guest
+## What the previous character says about this guest.
 "Is Rainbow's name a reference to me? Haha, well, I am quite a rainbow unicorn if I do say so myself~",
 
 ## The expression/displayable name of the character to show
-'zen front party happy',
+"zen front party happy",
 
-## The name of the guest as it should appear in their
-## dialogue box
-"Rainbow",
+## This indicates how many emails the player needs to successfully exchange
+## with this guest to guarantee their presence at the party.
+## By default this is 3 but you may change it here like so.
+num_emails=3
 
-## The dialogue the guest says when they attend the party
-"Oh, it's so exciting to be at the party! I can't wait to see everyone."
-)
-
-# This needs to be the name of the guest + _reply + the reply number
-# For example, if my guest is named Bob (with the capital B) and this
-# is the first reply, it would be called Bob_reply1
-# Be sure to pay attention to any capitals you have in the guest's name
-# or the program won't be able to find the right label
-label rainbow_reply1():
-
-    menu:
-        'Indoor party.':
-            # Passing 'True' indicates that this is the correct reply
-            $ current_email.set_reply(True)
-
-        'Outdoor party.':
-            # Similarly, passing 'False' indicates this was the wrong reply
-            # and will fail the email chain
-            $ current_email.set_reply(False)
-
-    return
-
-
-label rainbow_reply2():
-    menu:
-        # You can put the True and False answers in any order; the program
-        # will shuffle the answers for you before showing them to the player
-        'Smooth Jazz.':
-            $ current_email.set_reply(True)
-        'Heavy Metal.':
-            $ current_email.set_reply(False)
-    return
-
-label rainbow_reply3():
-    menu:
-        'Spicy Food.':
-            # You can also pass set_reply a number after True/False
-            # If you do, that will be the number of chatrooms after
-            # which the reply to your email will be sent to you.
-            # Otherwise, the program calculates an appropriate number
-            # based on how many chatrooms are yet to be played
-            $ current_email.set_reply(True, 1)
-        'Seafood.':
-            $ current_email.set_reply(False)
-    return
-
-
+) # Don't forget a closing bracket at the end

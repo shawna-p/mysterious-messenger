@@ -365,14 +365,14 @@ num_emails=3
 ) # Don't forget a closing bracket at the end
 
 
-default rainbow = Guest(
+default rainbow2 = Guest(
 ## Because the variable is 'example_guest_new', when you want to
 ## invite this person, you will write: invite example_guest_new
 
 ## The first string, "example", is what will show up in the
 ## email chain as the guest's 'email' e.g. "longcat" shows up
 ## as "@longcat" in the email chain.
-"rainbow",
+"rainbow2",
 
 ## The next string is the name of the guest as it should show up in the
 ## guestbook when they arrive at the party e.g. "Long Cat"
@@ -557,12 +557,78 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
 
         Oh dear, heavy metal? I can't say I enjoy that sort of music. I
         appreciate the invitation, but now that I know you'll be playing
-        heavy metal music... I'll have to think more on it.
+        heavy metal music... I'll have to think more on it. Could you tell me
+        what sort of food will be served at the party?
 
         Thank you for your help.
 
         Rainbow""",
 
+        [EmailReply(
+            "Spicy food",
+
+            """To the lovely Rainbow,
+
+            There will be a delicious selection of spicy food at the party!
+            In particular there will be experienced chefs from places such as
+            India and Mexico who will be catering. I hope your taste buds
+            are ready!
+
+            Sincerely,
+
+            [name]""",
+
+            """To [name],
+
+            Wow! I adore spicy foods; it's almost as though you read my mind!
+            I will most certainly have to come and sample the dishes you've
+            described.
+
+            Thank you very much for taking the time to answer my questions.
+            I'll see you at the party!
+
+            Best,
+
+            Rainbow""",
+            ## This is the end of this particular chain, so no more EmailReply.
+            ## However, you need to indicate whether getting to this reply
+            ## resulted in a successful email chain or a failed one.
+            email_success=True
+        ), # Don't forget a comma here if you want to add more choices
+        ## This is another choice for the menu
+        EmailReply(
+            "Seafood",
+
+            """To the lovely Rainbow,
+
+            We're planning to serve a variety of seafood at the party! There
+            will be plenty of dishes to try, like fried octopus, shrimp
+            tempura, and caviar. Hope you come with an appetite!
+
+            From,
+
+            [name]""",
+
+            """To [name],
+
+            That certainly sounds... interesting! I can't really consider
+            myself a fan of seafood, however, so you'll have to excuse me
+            for my lack of enthusiasm.
+
+            That said, I do appreciate you taking the time to answer me. I'm
+            a bit undecided on whether or not to attend, but wish you the
+            best of luck with the preparations!
+
+            Sincerely,
+
+            Rainbow Unicorn""",
+            ## This is the end of the email chain, but this was the incorrect
+            ## reply, so indicate that
+            email_success=False
+        )   # If you like, you can add a comma here and add another EmailReply
+            # object to the list. However, this menu has two choices, so it
+            # ends with a square bracket here to finish the list.
+        ],
         ## This email also ends the chain, so it is set to False here
         email_success=False
     )]
@@ -583,7 +649,9 @@ EmailReply(
 
     """Hi again,
 
-    Oh dear, I'm afraid I have terrible allergies and that may not work out well for me. I appreciate the time you've taken to email me but I may have to decline.
+    Oh dear, I'm afraid I have terrible allergies and that may not work out
+    well for me. I appreciate the time you've taken to email me but I may
+    have to decline.
 
     Thank you for the invitation, and best of luck to you and the party.
 
@@ -614,4 +682,3 @@ z,
 num_emails=3
 
 ) # Don't forget a closing bracket at the end
-
