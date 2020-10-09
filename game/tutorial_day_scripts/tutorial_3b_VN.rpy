@@ -2,16 +2,16 @@
 label example_text_vn_r():
 
     # Make sure you call this at the start of a VN section
-    call vn_begin 
-    
+    call vn_begin
+
     # You use the "scene" command to set up the background of the VN section
     # It clears away any character sprites you have left showing and sets
     # the background to your desired image
     scene bg mint_eye_room
-    
+
     # This will play music during the VN.
     play music mint_eye
-    
+
     show saeran smile
     r "Hello! Welcome to Story Mode, also known as Visual Novel mode."
     show saeran -smile   # the -smile puts him in his 'neutral' expression
@@ -21,89 +21,84 @@ label example_text_vn_r():
     # showing his image like so
     r happy "There are a couple of things to show you about VN mode. What would you like to learn about first?"
     jump vn_tutorial
-  
+
 ##************************************
 ## Tutorial Menu
-##************************************    
+##************************************
 label vn_tutorial():
-    # This tells it not to shuffle these menu choices for the 
-    # tutorial. You will usually not need to do this
-    $ shuffle = False   
+    # This tells it not to shuffle these menu choices for the
+    # tutorial. You will usually not need to do this.
+    $ shuffle = False
     menu:
         # This makes the previous line before the menu stay
-        # on-screen while the player is making their choice
+        # on-screen while the player is making their choice.
         extend ''
-        
+
         "How do I get different expressions and outfits?":
-            m "How do I get different expressions and outfits?"
             show saeran smile
             r "Good question!"
             jump vn_layeredimage
-        
+
         "How can I position characters on the screen?":
-            m "How can I position characters on the screen?"
             show saeran smile
             r "Moving characters around is quite easy!"
             jump vn_position
-            
-        "How do I write a VN mode section?":
-            m "How do I write a VN mode section?"
+
+        "How do I write a Story Mode (VN) section?":
             show saeran distant
             r "Oh, of course! It's pretty easy, I promise."
             jump vn_writing
-            
+
         "I want to look at all the available characters.":
-            m "I want to look at all the available characters."
             show saeran smile
             r "Sure! Who do you want to see?"
             jump vn_showcase
-            
+
         "That's enough explanation, thanks.":
-            m "That's enough explanation, thanks."
             show saeran smile
             r "Alright! Hope this helped you."
-            jump vn_end # Use this to end the VN Mode section
-            
-    
-    
+            return # Use this to end the VN Mode section
+
+
+
 ##************************************
 ## Writing a VN mode section
-##************************************  
+##************************************
 label vn_writing():
     show saeran neutral
     r """
     Writing a VN section is pretty straightforward.
-    
+
     First, you need to define a label, and then you can start adding dialogue and characters!
-    
+
     This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,
-    
+
     I'd recommend checking out the LemmaSoft forums and looking through the VN section in the wiki.
-    
+
     If you don't plan to change the speaking character's expression for a while,
-    
+
     you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this VN section.
     """
     show saeran smile
     r """
     Other than that, there are three buttons on the screen in VN mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}.
-    
+
     {b}Auto{/b}, when selected, will automatically advance the text for you.
-    
+
     You can adjust the auto-forward speed in Settings.
-    
+
     Keep in mind that this will also affect how fast phone call text will auto-advance if there is no voiceover.
-    
+
     {b}Skip{/b} will start fast-forwarding you through the text,
-    
+
     and {b}Log{/b} will show you a log of the dialogue history.
     """
     r thinking "Is there anything else you'd like to learn more about?"
     jump vn_tutorial
-    
+
 ##************************************
 ## Changing Expressions & Outfits
-##************************************  
+##************************************
 label vn_layeredimage():
 
     show saeran happy
@@ -118,7 +113,6 @@ label vn_layeredimage():
     hide saeran with easeoutleft
     show v side at default with ease
     r "We'll show you what I mean with V."
-    
     show v happy
     pause 0.5
     show v short_hair
@@ -129,7 +123,7 @@ label vn_layeredimage():
     pause 0.5
     show v glasses short_hair
     pause 0.5
-    show v front neutral    
+    show v front neutral
     v "As you can see, there are several expressions both with and without my sunglasses."
     show v mint_eye
     v "I also have a 'hood' accessory for the {b}mint_eye{/b} outfit."
@@ -137,17 +131,17 @@ label vn_layeredimage():
     v "The attribute {b}hood_up{/b}, when used with the {b}mint_eye{/b} attribute, will put the hood up."
     show v front arm talking
     v "You'll get an error if you try to use the hood attribute when I'm not wearing my Mint Eye cloak, however."
-    
+
     hide v with easeoutright
     show saeran happy with easeinleft
-    
+
     r "You should take a look at the 'cheat sheet' in {b}character_definitions.rpy{/b} that tells you all the expressions and accessories available to each character."
     r "Anything else you'd like to know about?"
     jump vn_tutorial
-    
+
 ##************************************
 ## Positioning Characters
-##************************************  
+##************************************
 label vn_position():
     r "You might have noticed before, but you can position the characters in the middle,"
     r "or to the left and right sides of the screen."
@@ -178,121 +172,121 @@ label vn_position():
     r "You can always define your own transforms to position the characters exactly how you want, too."
     r neutral "Anything else you'd like to learn about?"
     jump vn_tutorial
-    
-    
+
+
 ##************************************
 ## Changing Outfits/Expressions:
 ## Examples
-##************************************  
+##************************************
 label vn_showcase():
     $ shuffle = False
     menu:
         "Who would you like to see?{fast}"
-        
+
         "Major Characters":
             $ shuffle = False
             jump vn_showcase_major1
-        
+
         "Minor Characters":
             $ shuffle = False
             jump vn_showcase_minor1
-            
+
         "I'm done viewing characters":
             $ shuffle = False
             jump vn_tutorial
-    
+
 menu vn_showcase_major1:
 
     "Who would you like to see?{fast}"
-    
+
     "Jaehee":
         $ shuffle = False
         jump jaehee_showcase
-    
+
     "Jumin":
         $ shuffle = False
         jump jumin_showcase
-    
+
     "Rika":
         $ shuffle = False
         jump rika_showcase
-    
+
     "Seven":
         $ shuffle = False
         jump seven_showcase
-    
+
     "More ->":
         $ shuffle = False
         jump vn_showcase_major2
-    
+
 menu vn_showcase_major2:
-    
+
     "Who would you like to see?{fast}"
-    
+
     "<- Back":
         $ shuffle = False
         jump vn_showcase_major1
-    
+
     "Saeran":
         $ shuffle = False
         jump saeran_showcase
-    
+
     "V":
         $ shuffle = False
         jump v_showcase
-    
+
     "Yoosung":
         $ shuffle = False
         jump yoosung_showcase
-    
+
     "Zen":
         $ shuffle = False
         jump zen_showcase
-    
+
 menu vn_showcase_minor1:
 
     "Who would you like to see?{fast}"
-    
+
     "Bodyguards":
         $ shuffle = False
         jump bodyguards_showcase
-    
+
     "Chairman Han":
         $ shuffle = False
         jump chairman_showcase
-    
+
     "Echo Girl":
         $ shuffle = False
         jump echo_showcase
-    
+
     "Glam Choi":
         $ shuffle = False
         jump glam_showcase
-    
+
     "More ->":
         $ shuffle = False
         jump vn_showcase_minor2
-    
+
 menu vn_showcase_minor2:
 
     "Who would you like to see?{fast}"
-    
+
     "<- Back":
         $ shuffle = False
         jump vn_showcase_minor1
-    
+
     "Prime Minister":
         $ shuffle = False
         jump minister_showcase
-    
+
     "Sarah Choi":
         $ shuffle = False
         jump sarah_showcase
-    
+
     "Vanderwood":
         $ shuffle = False
         jump vanderwood_showcase
-        
+
 #************************
 # Major Characters
 #************************
@@ -345,7 +339,7 @@ label jaehee_showcase():
     ja "That is all from me."
     hide jaehee
     jump vn_showcase
-    
+
 label jumin_showcase():
     hide saeran
     show jumin front
@@ -371,7 +365,7 @@ label jumin_showcase():
     pause 0.8
     show jumin neutral
     ju "And here are my available outfits."
-    show jumin 
+    show jumin
     pause 0.8
     show jumin arm
     pause 0.8
@@ -405,7 +399,7 @@ label jumin_showcase():
     ju "That is all."
     hide jumin
     jump vn_showcase
-    
+
 label rika_showcase():
     hide saeran
     show rika happy
@@ -446,7 +440,7 @@ label rika_showcase():
     ri "That's all from me!"
     hide rika
     jump vn_showcase
-    
+
 label seven_showcase():
     hide saeran
     show seven front
@@ -517,7 +511,7 @@ label seven_showcase():
     s "That's it! Enjoy the rest of the program~"
     hide seven
     jump vn_showcase
-    
+
 label saeran_showcase():
     show saeran neutral
     r "Oh, me?"
@@ -583,7 +577,7 @@ label saeran_showcase():
     show saeran ray smile
     r "Hope that's what you were looking for!"
     jump vn_showcase
-    
+
 label v_showcase():
     hide saeran
     show v front
@@ -707,7 +701,7 @@ label v_showcase():
     v "And that's all. Please enjoy the program."
     hide v
     jump vn_showcase
-    
+
 label yoosung_showcase():
     hide saeran
     show yoosung happy
@@ -773,7 +767,7 @@ label yoosung_showcase():
     y "That's all! Have fun with the program~!"
     hide yoosung
     jump vn_showcase
-    
+
 label zen_showcase():
     hide saeran
     show zen front happy
@@ -834,13 +828,13 @@ label zen_showcase():
     show zen normal
     pause 0.8
     z "And that's it! Enjoy the program, hon~"
-    hide zen 
+    hide zen
     jump vn_showcase
-    
+
 #************************
 # Minor Characters
 #************************
-    
+
 label bodyguards_showcase():
     hide saeran
     show bodyguard_front at vn_left
@@ -860,11 +854,11 @@ label bodyguards_showcase():
     hide bodyguard_side
     hide bodyguard_front
     jump vn_showcase
-    
-    
+
+
 label chairman_showcase():
     hide saeran
-    show chairman_han 
+    show chairman_han
     chief_vn "I already have a character defined so I can speak."
     chief_vn "These are my expressions:"
     show chairman_han happy
@@ -881,7 +875,7 @@ label chairman_showcase():
 
 label echo_showcase():
     hide saeran
-    show echo_girl 
+    show echo_girl
     "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Echo Girl has the following expressions:"
@@ -898,11 +892,11 @@ label echo_showcase():
     "That's all."
     hide echo_girl
     jump vn_showcase
-    
-    
-label glam_showcase():  
+
+
+label glam_showcase():
     hide saeran
-    show glam_choi 
+    show glam_choi
     "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Glam Choi has the following expressions:"
@@ -921,8 +915,8 @@ label glam_showcase():
     "And that's all."
     hide glam_choi
     jump vn_showcase
-    
-label minister_showcase():    
+
+label minister_showcase():
     hide saeran
     show prime_minister
     "If you'd like the minor characters to speak, you need to define your own character for them."
@@ -930,11 +924,11 @@ label minister_showcase():
     "The Prime Minister only has one expression, the one currently showing."
     "That's all."
     hide prime_minister
-    jump vn_showcase    
-    
-label sarah_showcase():    
+    jump vn_showcase
+
+label sarah_showcase():
     hide saeran
-    show sarah 
+    show sarah
     sarah_vn "I already have a character defined so I can talk, haha~"
     sarah_vn "These are my expressions!"
     show sarah happy
@@ -952,10 +946,10 @@ label sarah_showcase():
     "That's all."
     hide sarah
     jump vn_showcase
-    
+
 label vanderwood_showcase():
     hide saeran
-    show vanderwood 
+    show vanderwood
     "If you'd like the minor characters to speak, you need to define your own character for them."
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Vanderwood has the following expressions:"
@@ -974,4 +968,3 @@ label vanderwood_showcase():
     "And that's all."
     hide vanderwood
     jump vn_showcase
-    

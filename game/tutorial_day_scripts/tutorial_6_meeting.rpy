@@ -5,13 +5,10 @@
 ## a typical VN
 label popcorn_chat():
 
-    call chat_begin("morning")
-
+    scene morning
     # This sets new profile pictures for Jaehee and Jumin. You can change
     # cover photos this way (e.g. ja.cover_pic = "yourimg.webp") as well as
-    # their status (e.g. ju.status = "Jumin's status")
-    # This should go after `call chat_begin(...)` so that the profile
-    # pictures also update in the History screen
+    # their status (e.g. ju.status = "Jumin's status").
     $ ja.prof_pic = 'Profile Pics/Jaehee/jae-2.webp'
     $ ju.prof_pic = 'Profile Pics/Jumin/ju-18.webp'
 
@@ -35,13 +32,12 @@ label popcorn_chat():
     call answer
     menu:
         "Shouldn't you think of a plan to protect Elizabeth the 3rd just in case?":
-            m "Shouldn't you think of a plan to protect Elizabeth the 3rd just in case?"   (pauseVal=0)
-
-    ju "Fantastic idea."   (bounce=True)
+            pass
+    ju "Fantastic idea." (bounce=True)
     # This adds a 'bad' heart point for Jumin -- it still awards
     # the player a heart point, but you can use this to count 'bad'
     # responses while still giving heart points so you can make a
-    # plot branch later and count the 'bad' responses
+    # plot branch later and count the 'bad' responses.
     award heart ju bad
     ja "{image=jaehee_well}" (img=True)
     ja "This is not the time for that..."
@@ -54,15 +50,14 @@ label popcorn_chat():
     call answer
     menu:
         "Why don't you gift a luxurious cage for Elizabeth the 3rd?":
-            m "Why don't you gift a luxurious cage for Elizabeth the 3rd?"   (pauseVal=0)
-
+            pass
     ja "Excuse me? ;;"
     ja "{image=jaehee_question}" (img=True)
     ju "Oh..."
-    ju "{size=+10}Good idea!{/size}"   (bounce=True)
+    ju "{size=+10}Good idea!{/size}" (bounce=True)
     award heart ju bad
     ja "What...;;??"
-    ju "I feel like [name] understands me very well."   (bounce=True, specBubble="cloud_l")
+    ju "I feel like [name] understands me very well." (bounce=True, specBubble="cloud_l")
     ju "{image=jumin_smile}" (img=True)
     ju "Assistant Kang."
     ju "{=sser1xb}I'd like to invite [name] to the morning meeting today.{/=sser1xb}"
@@ -72,13 +67,12 @@ label popcorn_chat():
     ju "It's not because of the dream. I've always been bothered by how free she was to roam around the house..."
     ja "{=blocky}The number of security cameras and guards in your penthouse is probably higher than the employees here.{/=blocky}"
     ju "That's not what's important."
-    ju "I don't think you understand very well, so I'll need to hear [name]'s opinion."   (bounce=True)
+    ju "I don't think you understand very well, so I'll need to hear [name]'s opinion." (bounce=True)
 
     call answer
     menu:
         "Hahaha~ of course. You should listen to my excellent ideas.":
-            m "Hahaha~ of course. You should listen to my excellent ideas."   (pauseVal=0)
-
+            pass
     ju "{=sser2}You're very quick to understand.{/=sser2}"
     award heart ju bad
     ju "{=sser2}Come to the C&R building right away.{/=sser2}"
@@ -93,7 +87,7 @@ label popcorn_chat():
     ja "Please go to the information desk and say your name and that you're an RFA member. I will tell them to show you to the conference room."
     ju "Good."
     ju "Then I'll have to go and get ready."
-    ju "[name]... I'll look forward to your wonderful ideas."   (bounce=True)
+    ju "[name]... I'll look forward to your wonderful ideas." (bounce=True)
     exit chatroom ju
     ja "{image=jaehee_huff}" (img=True)
     ja "{=curly}There's not even an hour left until the meeting and he wants to cancel his appointment...{/=curly}"
@@ -104,18 +98,19 @@ label popcorn_chat():
     call answer
     menu:
         "Not at all~ See ya later.":
-            m "Not at all~ See ya later."   (pauseVal=0)
+            pass
     ja "Yes..."
     ja "Please let me know as soon as you're there."
     exit chatroom ja
 
-    jump chat_end
+    return
 
-## This is the expired version of the chatroom
-## It's very similar to the regular version, but with
-## a few dialogue changes since MC is not present
+## This is the expired version of the chatroom. It's very similar to the
+## regular version, but with a few dialogue changes since MC is not present.
 label popcorn_chat_expired():
-    call chat_begin("morning")
+    scene morning
+    # Note that you should ensure the profile pictures are modified in the
+    # expired version of the chatroom as well.
     $ ja.prof_pic = 'Profile Pics/Jaehee/jae-2.webp'
     $ ju.prof_pic = 'Profile Pics/Jumin/ju-18.webp'
     play music urban_night_cityscape
@@ -123,7 +118,7 @@ label popcorn_chat_expired():
     # It's a little easier to write, though you need to use the right keywords.
     msg ju "Zen's written some strange things."
     msg ja "{image=jaehee_happy}" # Note this is automatically recognized as
-                                   # an image
+                                  # an image
     msg ja "There is a meeting with the Women Artists group today."
     msg ja "I'm telling you this before you come to the office..."
     msg ja "The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting."
@@ -143,6 +138,7 @@ label popcorn_chat_expired():
     msg ja "I don't think there's a need for that. We are free to imagine whatever we want, after all;;" curly
     msg ju "Hmm"
     msg ju "I wish [name] was here."
+    # Note the use of variables here to refer to the player's gender.
     msg ju "I feel like [they] understand[s_verb] me very well."
     msg ju "{image=jumin_smile}"
     msg ju "Assistant Kang."
@@ -154,6 +150,8 @@ label popcorn_chat_expired():
     msg ja "The number of security cameras and guards in your penthouse is probably higher than the employees here." blocky
     msg ju "That's not what's important."
     msg ju "I don't think you understand very well, so I'll need to hear [name]'s opinion." bounce
+    # Again, more pronoun variables. [they_re], for example, will show as
+    # "she's", "he's", or "they're", depending on the player's pronouns.
     msg ja "But [they_re] not even here...;;"
     msg ju "I'm sure [they]'ll read the messenger soon. Call [them] if you must." sser2
     msg ju "Tell [them] to come to the C&R building right away." sser2
@@ -176,7 +174,7 @@ label popcorn_chat_expired():
     msg ja "So the three of us will have a meeting..."
     msg ja "I must go as well."
     exit chatroom ja
-    jump chat_end
+    return
 
 
 ##****************************************************
@@ -204,19 +202,17 @@ label after_popcorn_chat():
 ##*****************************
 label popcorn_chat_vn_ju():
 
-    # Call this when you start a VN section. It sets some
-    # variables for you and shows the right screens
-    call vn_begin
-
     # Use the 'scene' statement to set a background. Here it's also given the
-    # 'with fade' modifier so it fades in from black
+    # 'with fade' modifier so it fades in from black.
     scene bg rika_apartment with fade
     pause   # this is so the user has to click before the menu choice shows up
 
-    menu:
+    menu (paraphrased=True):
         "(Heads to the C&R building)":
             # this choice doesn't make anything special happen, so you
-            # can write 'pass' to continue on with the VN
+            # can write 'pass' to continue on with the VN. The menu is also
+            # given (paraphrased=True) so that the MC doesn't literally say
+            # this menu option as dialogue.
             pass
 
     scene bg black
@@ -246,11 +242,12 @@ label popcorn_chat_vn_ju():
 
     # This is an example where Jaehee looks a little too far off-screen
     # if you use vn_left, so instead she's positioned at vn_midleft.
-    # You might need some trial and error for this
+    # You might need some trial and error for this.
     show jaehee glasses at vn_midleft
 
     # Note the capitalization of the variable [They]
-    # so you get a capitalized pronoun
+    # so you get a capitalized pronoun; you can also use [they!cl] to achieve
+    # the same effect.
     ja "[They] arrived much earlier than expected..."
     # Since Jumin is already on the screen, you don't have to specify
     # 'at' for this expression. The program will remember that he had the
@@ -267,7 +264,7 @@ label popcorn_chat_vn_ju():
     # was hidden
     show jumin angry at vn_center
     ju "There are three large issues concerning Elizabeth the 3rd's safety."
-    # This is a fun trick -- since Jumin's character ju was declared
+    # This is a fun feature -- since Jumin's character ju was declared
     # with the image tag 'jumin' if you simply add attributes to his
     # say statement, it acts as though you did 'show jumin' + the attribute
     # given. So, this is the same as if you wrote "show jumin upset" before
@@ -275,10 +272,10 @@ label popcorn_chat_vn_ju():
     ju upset "First, under the sofa. The maid cleans that spot every day, but if some unforeseen danger occurs beneath the sofa, I won't be able to know right away."
 
     # By adding a '-' in front of arm, you can 'subtract' that attribute from
-    # his image. Another way to write this might have been 'show jumin
-    # normal angry', if you want his 'normal' outfit instead of
-    # his 'arm' one. However, since his 'normal' outfit is also the
-    # default, it suffices to write '-arm'
+    # his image. Another way to write this might have been 'show jumin normal
+    # angry', if you want his 'normal' outfit instead of his 'arm' one.
+    # However, since his 'normal' outfit is also the default, it suffices
+    # to write '-arm'.
     ju -arm angry "Second, the gate. The gate needs to be redesigned so that a human can pass through but not a cat. Elizabeth might run out when the door is open. I'm thinking of installing a double door system."
     ju "And lastly, the kitchen. She's climbing up to the bar more and more often. Look at the graph here. Last week, she climbed up there 6.25 times every day on average. I think I need [name]'s opinions on this."
     hide jumin
@@ -305,7 +302,7 @@ label popcorn_chat_vn_ju():
     hide jumin
     # Note the use of strings here to denote the speaker instead of a
     # Character. This is best used in temporary situations, like in the
-    # brief moment before the player knows who the speaker is
+    # brief moment before the player knows who the speaker is.
     "???" "Oh my~ It's so serious in here."
     show chairman_han at vn_right
     chief_vn "I hope we are not interfering too much."
@@ -326,10 +323,10 @@ label popcorn_chat_vn_ju():
     play music mysterious_clues_v2
 
     menu:
-        extend ''   # You should put this after every menu option; it
+        extend ''   # You should put this after every menu statement; it
                     # will keep the previous line of text on the screen
         "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?":
-            m "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?"
+            pass
         # Although this menu has only one option, you can continue to
         # add menu options and dialogue as you would in a chatroom menu
 
@@ -351,8 +348,7 @@ label popcorn_chat_vn_ju():
     menu:
         extend ''
         "I thought you were wearing clothes from the dollar store... but oh, I see the label. Sorry!":
-            m "I thought you were wearing clothes from the dollar store... but oh, I see the label. Sorry!"
-
+            pass
     sarah_vn stressed "!?!?"
     hide sarah
     show jumin side neutral at vn_farleft
@@ -366,10 +362,9 @@ label popcorn_chat_vn_ju():
     chief_vn "Hahaha, of course..."
     hide sarah
 
-    # Here there are some different transitions to move the
-    # characters around on the screen
-    # You can take a look at Ren'Py's transition and
-    # transformation pages for more
+    # Here there are some different transitions to move the characters around
+    # on the screen. You can take a look at Ren'Py's transition and
+    # transformation pages for more.
     show jaehee neutral glasses at center with easeinleft
     hide chairman_han with easeoutright
     ja "This way, Mr. Chairman."
@@ -381,11 +376,11 @@ label popcorn_chat_vn_ju():
     show sarah smirk at vn_center
 
     # Since the player can pick their pronouns, you need to be careful
-    # about verb conjugations
-    # If you just wrote "who are [they]" then a player who's picked
+    # about verb conjugations.
+    # If you just wrote "who are [they]", then a player who's picked
     # she/her pronouns will get a sentence like "but who are she".
     # Similarly you don't want "but who is they", so you can use
-    # the variable [is_are]
+    # the variable [is_are].
     sarah_vn "Haha... but Jumin, who [is_are] [they]? An intern??"
     hide sarah
     show jaehee surprised glasses at vn_midright
@@ -400,14 +395,13 @@ label popcorn_chat_vn_ju():
     # You might notice at this point that vn_center is being used to
     # indicate that Sarah is talking primarily to the player,
     # while Jaehee and Jumin have a conversation in the background.
-    # This is common in most VN mode conversations in the game
+    # This is common in most VN mode conversations in the game.
     sarah_vn "Friend~? Are you sure [they_re] just a friend? I feel like [they_re] super jealous..."
 
     menu:
         extend ''
         "Sarah, don't take it the wrong way. Seeing you wear last season's Shanel just reminded me of when I was little, so I guess I wasn't polite enough.":
-            m "Sarah, don't take it the wrong way. Seeing you wear last season's Shanel just reminded me of when I was little, so I guess I wasn't polite enough."
-
+            pass
     show sarah stressed
     sarah_vn "Ha... haha... last season Shanel? This is from the last FW collection. You must have a lot going for you to call that last season."
     show sarah smirk
@@ -421,7 +415,11 @@ label popcorn_chat_vn_ju():
 
     menu:
         extend ''
-        "But... where did you get your eyes done? I feel like you got a boob job too.":
+        "But... where did you get your eyes done? I feel like you got a boob job too." (paraphrased=True):
+            # Because the hide/show statements should be shown before the MC
+            # says their dialogue, this menu choice gets the argument
+            # (paraphrased=True) and the MC's dialogue is written explicitly
+            # below.
             hide jaehee
             hide jumin
             show sarah smirk at vn_center
@@ -433,7 +431,7 @@ label popcorn_chat_vn_ju():
     menu:
         extend ''
         "I don't think so... But whatever, sure.":
-            m "I don't think so... But whatever, sure."
+            pass
 
     show sarah smirk
     sarah_vn "Ha... hahahaha..."
@@ -452,7 +450,7 @@ label popcorn_chat_vn_ju():
     menu:
         extend ''
         "Jumin styled my hair himself this morning. I don't need anyone else to approve, so I don't know what to tell you, haha...":
-            m "Jumin styled my hair himself this morning. I don't need anyone else to approve, so I don't know what to tell you, haha..."
+            pass
 
     sarah_vn "What?!?!?!?!? Are you serious?!"
     hide sarah
@@ -469,7 +467,7 @@ label popcorn_chat_vn_ju():
     menu:
         extend ''
         "I think the problem here is that his whole family will be ruined once he marries you.":
-            m "I think the problem here is that his whole family will be ruined once he marries you."
+            pass
 
     sarah_vn stressed "Wow, is there anything you can't say?!"
     hide sarah
@@ -483,7 +481,7 @@ label popcorn_chat_vn_ju():
     pause
 
     # Use this to end the VN section
-    jump vn_end
+    return
 
 
 

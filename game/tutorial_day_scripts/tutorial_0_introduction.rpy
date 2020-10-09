@@ -62,7 +62,6 @@
             # should not have to do this. It simply makes it easier
             # for players who have already played through the game
             # to get to the chat hub
-            $ paraphrase_choices = False
             jump skip_intro_setup
 
     u """
@@ -148,7 +147,7 @@
     call answer
     menu:
         "What should I look at first?":
-            m "What should I look at first?"   (pauseVal=0)
+            m "What should I look at first?" (pauseVal=0)
             u "Well, the first thing I recommend is to just play through the Tutorial Day."
             u "It showcases some of the features so you know what sorts of things you can do with the program."
 

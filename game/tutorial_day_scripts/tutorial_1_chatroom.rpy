@@ -50,7 +50,7 @@ label example_chat_story_call_r_expired():
 
     return
 
-label after_example_chat:
+label after_example_chat_test:
     compose text y deliver_at 10:13:
         y "{image=yoosung_yahoo}"
         y "A test"
@@ -119,7 +119,8 @@ label example_chat():
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
     #call hack
     show hack effect
-    scene redhack
+    scene hack
+    # scene redhack
 
     # timed menu:
     #     u "This is a test"
@@ -143,33 +144,33 @@ label example_chat():
 
 
 
-    scene evening
-    enter chatroom z
-    #z "Oh, [name], it's nice seeing you here ^^"
-    z "I've been practicing for my new role all day."
-    $ asked = False
-    continuous menu:
-        choice 1 "What's the role for?":
-            $ asked = True
-            z "It's a play adapted from a best-selling novel."
-            award heart z
-            z "I'm playing the part of a blacksmith who's in love with the princess."
-        z "I practiced so much I even dreamed about my lines;;"
-        choice 2 "Maybe you should take a break, Zen.":
-            z "Yeah, you might be right."
-            award heart ja
-            z "I could go work out or something."
-        enter chatroom ja
-        z "I need to think about something else for a while."
-        end choice 2
-        ja "You'll do wonderfully in this role, Zen ^^"
-        z "Haha, thanks Jaehee."
-    if asked:
-        z "It's nice to hear you're interested ^^"
-    else:
-        z "I appreciate the support."
-    z "I'm really looking forward to the role,"
-    z "Just sometimes I get stuck in my head..."
+    # scene evening
+    # enter chatroom z
+    # #z "Oh, [name], it's nice seeing you here ^^"
+    # z "I've been practicing for my new role all day."
+    # $ asked = False
+    # continuous menu:
+    #     choice 1 "What's the role for?":
+    #         $ asked = True
+    #         z "It's a play adapted from a best-selling novel."
+    #         award heart z
+    #         z "I'm playing the part of a blacksmith who's in love with the princess."
+    #     z "I practiced so much I even dreamed about my lines;;"
+    #     choice 2 "Maybe you should take a break, Zen.":
+    #         z "Yeah, you might be right."
+    #         award heart ja
+    #         z "I could go work out or something."
+    #     enter chatroom ja
+    #     z "I need to think about something else for a while."
+    #     end choice 2
+    #     ja "You'll do wonderfully in this role, Zen ^^"
+    #     z "Haha, thanks Jaehee."
+    # if asked:
+    #     z "It's nice to hear you're interested ^^"
+    # else:
+    #     z "I appreciate the support."
+    # z "I'm really looking forward to the role,"
+    # z "Just sometimes I get stuck in my head..."
 
 
 
@@ -179,9 +180,9 @@ label example_chat():
 
 
     # call chat_begin("hack")
-    # play music mystic_chat
-    # enter chatroom u
-    msg u "Hello, [name]!"
+    play music mystic_chat
+    enter chatroom u
+    # msg u "Hello, [name]!"
     # #msg u "It's good to see you here."
     # #msg u "This is the new and improved timed menu system!" curly bounce
     # continuous menu:
@@ -216,25 +217,25 @@ label example_chat():
 
 
 
-    $ paraphrase_choices = True
-    timed menu (paraphrased=True):
-        u "I'm working on a UI for the choices you see at the bottom of the screen."
-        u "It's typed almost identically to regular menus this time,"
-        u "but with some convenience features I think you'll like."
-        u "You should try clicking the options before the timer runs out."
-        "This is really neat!":
-            msg m "This is really neat!" pv 0
-            msg u "I'm glad you think so!" curly
-            award heart u
-            msg u "I should come up with more dialogue just in case."
-        "Does it remember choices?":
-            msg m "Does it remember choices?" pv 0
-            msg u "Yes it does!" bounce big curly
-            award heart u
-            msg u "And you can use regular Ren'Py code in the choices"
-            msg u "to do things like award heart points and the like." curly
+    # $ paraphrase_choices = True
+    # timed menu (paraphrased=True):
+    #     u "I'm working on a UI for the choices you see at the bottom of the screen."
+    #     u "It's typed almost identically to regular menus this time,"
+    #     u "but with some convenience features I think you'll like."
+    #     u "You should try clicking the options before the timer runs out."
+    #     "This is really neat!":
+    #         msg m "This is really neat!" pv 0
+    #         msg u "I'm glad you think so!" curly
+    #         award heart u
+    #         msg u "I should come up with more dialogue just in case."
+    #     "Does it remember choices?":
+    #         msg m "Does it remember choices?" pv 0
+    #         msg u "Yes it does!" bounce big curly
+    #         award heart u
+    #         msg u "And you can use regular Ren'Py code in the choices"
+    #         msg u "to do things like award heart points and the like." curly
 
-    msg u "This is after the timed menu."
+    # msg u "This is after the timed menu."
     u "{=curly}Hello, [name] ^^{/=curly}"
     u "I thought you might come by."
     u "{=curly}You want to learn more about how to make a chatroom, right?{/=curly}" (bounce=True)
@@ -243,11 +244,9 @@ label example_chat():
     call answer
     menu:
         "Let's get started!":
-            #m "Let's get started!" (pauseVal=0)
             u "{=sser2}Great! That's the kind of attitude I'm looking for ^^{/=sser2}"
 
         "What if I don't know any coding?":
-            #m "What if I don't know any coding?" (pauseVal=0)
             u "{=sser2}Don't worry! I've tried to make this as easy to use as possible.{/=sser2}"
             u "{=sser2}There's an extensive {a=https://github.com/shawna-p/mysterious-messenger/wiki}Wiki{/a} included with the program to look at,{/=sser2}"
             u "{=sser2}and I'll also be monitoring the{a=https://discord.gg/BPbPcpk} Mysterious Messenger Discord server{/a} if you have questions.{/=sser2}"
@@ -331,8 +330,8 @@ label emojis():
     s "M" (pauseVal=0.1)
     s "G" (pauseVal=0.1)
     s "{=sser2}{size=+10}I get to explain emojis!!!{/size}{/=sser2}"
-    s "{image=seven_wow}"   (img=True)
-    s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}"   (bounce=True, specBubble="spike_m")
+    s "{image=seven_wow}" (img=True)
+    s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}" (bounce=True, specBubble="spike_m")
     s "The program has a whole bunch of emojis defined in {b}emoji_definitions.rpy{/b} already,"
     s "and it will even play the right sound effect for you when the emoji is shown."
     s "{=ser1b}You also need to make sure the program knows the the message contains an image (using {b}(img=True){/b} after the dialogue){/=ser1b}"
@@ -345,15 +344,15 @@ label emojis():
     s "{=ser1}If you want to add more emojis,{/=ser1}"
     s "{=ser1}there's a whole section on just that in the wiki.{/=ser1}"
     s "{=curly}Now I'll let you check out the emojis currently coded into the game.{/=curly}"
-    s "{=sser2}Just select a character to see the available emojis or \"Done\" if you're finished{/=sser2}"   (bounce=True)
+    s "{=sser2}Just select a character to see the available emojis or \"Done\" if you're finished{/=sser2}" (bounce=True)
 
 
     call answer
     $ shuffle = False
-    menu emoji:
+    menu emoji (paraphrased=True):
         "Casual Story Characters":
             $ shuffle = False
-            menu:
+            menu (paraphrased=True):
                 "Jaehee":
                     $ shuffle = False
                     jump jaehee_emoji
@@ -369,7 +368,7 @@ label emojis():
 
         "Deep Story Characters":
             $ shuffle = False
-            menu:
+            menu (paraphrased=True):
                 "Jumin":
                     $ shuffle = False
                     jump jumin_emoji
@@ -382,7 +381,7 @@ label emojis():
 
         "Another Story Characters":
             $ shuffle = False
-            menu:
+            menu (paraphrased=True):
                 "Ray":
                     $ shuffle = False
                     jump ray_emoji
@@ -398,7 +397,7 @@ label emojis():
 
         "Bonus/Other Characters":
             $ shuffle = False
-            menu:
+            menu (paraphrased=True):
                 "Rika":
                     $ shuffle = False
                     jump rika_emoji
@@ -420,12 +419,11 @@ label emojis():
             call answer
             menu:
                 "I can?":
-                    m "I can?" (pauseVal=0)
                     s "Yeah! Give it a try!"
                     # You can either write the "cg s_1" or just "s_1" so long
                     # as you check off (img=True)
                     m "cg s_1" (img=True)
-                "(Try posting)":
+                "(Try posting)" (paraphrased=True):
                     m "s_1" (img=True, pauseVal=0)
             m "{image=seven_wow}" (img=True)
             s "Yeah, just like that!"
@@ -455,7 +453,7 @@ label banners():
     y "{=curly}Hello!{/=curly}"
     y "{=sser2}I'm supposed to explain banners to you.{/=sser2}"
     y "{=sser2}It's pretty quick, I promise!{/=sser2}"
-    y "{image=yoosung_happy}"   (img=True)
+    y "{image=yoosung_happy}" (img=True)
     y "You call them with \"call banner('__')\","
     y "where '__' is the name of the banner you want."
     if not persistent.banners:
@@ -468,11 +466,9 @@ label banners():
     call answer
     menu:
         "Yes, I want to see banner animations.":
-            m "Yes, I want to see banner animations." (pauseVal=0)
             $ persistent.banners = True
             y "Okay!"
         "No, turn banner animations off.":
-            m "No, turn banner animations off." (pauseVal=0)
             $ persistent.banners = False
             y "Alright, got it!"
 
@@ -492,11 +488,11 @@ label banners():
         call banner('well')
         y "{=ser1}...{/=ser1}"
         y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
-        y "{image=yoosung_thankyou}"   (img=True)
+        y "{image=yoosung_thankyou}" (img=True)
 
     y "I have one more thing I was going to show you:"
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}"
-    y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}"   (bounce=True, specBubble="square_m")
+    y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}" (bounce=True, specBubble="square_m")
     y "{=sser2}So we'll use [they]/[them] whenever we talk about you.{/=sser2}"  (bounce=True)
     y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script"
     y "If you want to add any new variables, there's a section in the wiki about doing just that."
@@ -531,13 +527,11 @@ label heart_icons():
     call answer
     menu:
         "I want the regular animated icons.":
-            m "I want the regular animated icons." (pauseVal=0)
             $ persistent.animated_icons = True
             z "{=curly}Got it!{/=curly}" (bounce=True)
             z "You'll see the regular heart animation then."
 
         "I want the text notifications.":
-            m "I want the text notifications." (pauseVal=0)
             $ persistent.animated_icons = False
             z "{=curly}Got it!{/=curly}" (bounce=True)
             z "You'll see the text popup whenever someone likes your response."
@@ -616,10 +610,8 @@ label screen_shake():
     $ shuffle = False
     menu:
         "Yes, I want to see the screen shake animation.":
-            m "Yes, I want to see the screen shake animation." (pauseVal=0)
             $ persistent.screenshake = True
         "No, turn screen shake animation off.":
-            m "No, turn screen shake animation off." (pauseVal=0)
             $ persistent.screenshake = False
 
     ja "{=ser1}Understood.{/=ser1}" (bounce=True)
@@ -681,11 +673,9 @@ label ending():
     call answer
     menu:
         "Definitely!":
-            m "Definitely!" (pauseVal=0)
             u "{=sser2}I'm glad! ^^{/=sser2}"
 
         "I don't know if I'm ready yet...":
-            m "I don't know if I'm ready yet..." (pauseVal=0)
             u "{=ser1}I recommend checking out the Beginner's Guide in the wiki, which will walk you through creating a chatroom.{/=ser1}"
             u "{=ser1}You can also go through these example chatrooms a few times and compare it with the code.{/=ser1}"
 
@@ -709,11 +699,9 @@ label test_call():
     menu:
         extend ''
         "Ray, it's me.":
-            m "Ray, it's me."
             r "Oh! It's nice to hear from you, [name]."
 
         "Hello? Can you hear me?":
-            m "Hello? Can you hear me?"
             r "Yes! [name], right? It's nice to hear from you."
 
     r """
@@ -749,7 +737,7 @@ label example_chat_expired():
     u "It looks like you let this chatroom expire, huh?"
     u "When you're running the game in real-time, sometimes chatrooms will expire."
     u "You can always buy them back, though, by clicking the icon next to the expired chatroom."
-    u "It doesn't even cost anything!"   (bounce=True)
+    u "It doesn't even cost anything!" (bounce=True)
     u "{=ser1}You can also use the \"Continue...\" button at the bottom of the timeline screen,{/=ser1}"
     u "{=ser1}which lets you buy the next 24 hours of chatrooms in advance.{/=ser1}"
     u "That way you can be sure you're not missing any chatrooms!"
@@ -771,7 +759,7 @@ menu bubbles:
     "Large bubbles":
         $ shuffle = False
         jump large_bubbles
-    "Done":
+    "Done" (paraphrased=True):
         ju "{=ser1}That's all from us.{/=ser1}"
         ju "{=ser1}Note that currently you can only use the bubbles associated with the speaking character{/=ser1}"
         ju "{=ser1}For example, Assistant Kang cannot use my Elizabeth the 3rd bubble.{/=ser1}" (bounce=True, specBubble="cloud_l")
