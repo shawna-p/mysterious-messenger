@@ -385,7 +385,7 @@ style v_sigh_l is sigh_l
 style y_sigh_l is sigh_l
 style z_sigh_l is sigh_l
 
-default bubble_list = [ ['Bubble/', '-Bubble.webp'], ['Bubble/', '-Glow.webp'],
+define bubble_list = [ ['Bubble/', '-Bubble.webp'], ['Bubble/', '-Glow.webp'],
                         ['Bubble/Special/', '_cloud_l.webp'],
                         ['Bubble/Special/', '_cloud_m.webp'],
                         ['Bubble/Special/', '_cloud_s.webp'],
