@@ -262,6 +262,18 @@ init -6 python:
         def stopwatch_time(self):
             return self.military_hour + ":" + self.minute + ":" + self.second
 
+        def __eq__(self, other):
+            """Check for equality between two MyTime objects."""
+            try:
+                return self.datetime == other.datetime
+            except:
+                return (self.military_hour == other.military_hour
+                    and self.minute == other.minute
+                    and self.second == other.second)
+
+        def __ne__(self, other):
+            return not self.__eq__(other)
+
     def upTime(day=None, thetime=None):
         """
         Return a MyTime object with the current time, or a time based
@@ -490,8 +502,6 @@ init -6 python:
 
         # If observing, check which items have already been seen
         new_items = []
-        print_file("Observing?", store.observing, "in replay?", store._in_replay,
-            "current choices?", store.current_choices)
         if store.observing and not store._in_replay and store.current_choices:
             # Restrict choices to what's been selected this playthrough
             the_choice = store.current_choices.pop(0)
@@ -500,10 +510,6 @@ init -6 python:
             new_items = [ i for i in items if i[1].get_chosen() ]
         if new_items:
             items = new_items
-        # For testing
-        print_file("List of items is:")
-        for i in items:
-            print_file("   ", i[0])
         return renpy_menu(items)
 
     # Don't let the player rollback the game
