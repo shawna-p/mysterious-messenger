@@ -1157,6 +1157,12 @@ python early hide:
 
         bad = p["bad"]
 
+        # This ensures pending dialogue is posted before awarding a heart.
+        # Fixes some issues with text message heart points.
+        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
+            say_choice_caption(store.dialogue_picked,
+                store.dialogue_paraphrase, store.dialogue_pv)
+
         # This is during a chatroom or a real-time text conversation
         if store.text_person is None or store.text_person.real_time_text:
             try:
