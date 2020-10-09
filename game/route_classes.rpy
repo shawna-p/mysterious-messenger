@@ -1306,15 +1306,19 @@ init python:
                 and not item.buyback):
             store.most_recent_item = the_parent
 
+        # Check to see if honey buddha chips should be available
+        if not store.chips_available:
+            store.chips_available = hbc_bag.draw()
+
+        # Ensure any seen CGs are unlocked
+        check_for_CGs(all_albums)
+
+        # Reset variables and hide screens
+        reset_story_vars()
+
         # Deliver post-item content if this is not the last item before
         # a plot branch
-        if item.get_item_before_branch():
-            print_file("\n   And the item before the branch is:", item.get_item_before_branch().item_label)
         if deliver_messages and (not item == item.get_item_before_branch()):
-            # Switch off variables so the program can deliver text messages
-            store.vn_choice = False
-            store.in_phone_call = False
-            store.current_call = False
             item.call_after_label(True)
             item.deliver_calls()
 
@@ -1322,20 +1326,14 @@ init python:
         deliver_emails()
         check_and_unlock_story()
 
-        # Ensure any seen CGs are unlocked
-        check_for_CGs(all_albums)
-
         # Save variables
         renpy.retain_after_load()
 
-        # Check to see if honey buddha chips should be available
-        if not store.chips_available:
-            store.chips_available = hbc_bag.draw()
-
         deliver_next()
 
-        # Reset variables
-        reset_story_vars()
+        store.dialogue_picked = ""
+        store.dialogue_paraphrase = store.paraphrase_choices
+        store.dialogue_pv = 0
         return
 
 
@@ -1346,6 +1344,7 @@ label exit_item_early():
     # This item is only set as the most recent item if the player wasn't
     # replaying it
     $ end_timeline_item_checks()
+    $ reset_story_vars()
     if not observing and (not current_timeline_item.expired
             or current_timeline_item.buyback):
         # Item expires
@@ -1354,7 +1353,6 @@ label exit_item_early():
         $ observing = False
     # Pop the return to play_timeline_item
     $ renpy.pop_call()
-    $ reset_story_vars()
     call screen timeline(current_day, current_day_num)
     return
 
