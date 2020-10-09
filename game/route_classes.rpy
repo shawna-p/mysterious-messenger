@@ -1088,6 +1088,10 @@ label play_timeline_item():
     $ print_file("Finished the label and returned to play_timeline_item")
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
+
+    if ending is not None:
+        jump end_route
+
     $ end_timeline_item_checks()
 
     if isinstance(current_timeline_item, ChatRoom):
@@ -1522,7 +1526,7 @@ label end_route():
     else:
         scene
         show expression ending
-    $ ending = False
+    $ ending = None
     $ finish_timeline_item(current_timeline_item, deliver_messages=False)
     pause
     jump restart_game

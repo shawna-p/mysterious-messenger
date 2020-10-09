@@ -648,7 +648,7 @@ default chatroom_hg = None # Old version; unused
 default collected_hg = 0
 
 # Keeps track of the ending the game should show the player
-default ending = False
+default ending = None
 
 # These are primarily used when setting the nickname colour
 # via $ nickColour = black or $ nickColour = white
