@@ -5,24 +5,24 @@ init -7:
     default all_routes = []
 
 # This archive will store every chatroom in the game. If done correctly,
-# the program will automatically set variables and make chatrooms available
+# the program will automatically set variables and make the story available
 # for you.
 default chat_archive = None
 default story_archive = []
 
 default tutorial_good_end = ["Good End",
     RouteDay('Tutorial',
-        [ChatHistory('Example Chatroom', 'example_chat', '00:01'),
-        ChatHistory('Inviting Guests','example_email', '09:11', [z]),
-        ChatHistory('Text Message Example', 'example_text', '09:53', [r]),
-        ChatHistory('Timed Menus', 'timed_menus', '11:28', [s]),
-        ChatHistory('Other Storytelling Features', 'other_storytelling', '13:44', [y]),
-        ChatHistory('Pass Out After Drinking Caffeine Syndrome', 'tutorial_chat', '15:05', [s]),
-        ChatHistory('Invite to the meeting', 'popcorn_chat', '18:25', [ja, ju], save_img='ju'),
+        [ChatRoom('Example Chatroom', 'example_chat', '00:01'),
+        ChatRoom('Inviting Guests','example_email', '09:11', [z]),
+        ChatRoom('Text Message Example', 'example_text', '09:53', [r]),
+        ChatRoom('Timed Menus', 'timed_menus', '11:28', [s]),
+        ChatRoom('Other Storytelling Features', 'other_storytelling', '13:44', [y]),
+        ChatRoom('Pass Out After Drinking Caffeine Syndrome', 'tutorial_chat', '15:05', [s]),
+        ChatRoom('Invite to the meeting', 'popcorn_chat', '18:25', [ja, ju], save_img='ju'),
         StoryMode("Story Mode without Chatrooms", "example_solo_vn", "19:55", v),
-        ChatHistory('Hacking', 'hack_example', '20:41'),
-        ChatHistory('Plot Branches', 'plot_branch_tutorial', '21:44', [], plot_branch=PlotBranch(True)),
-        ChatHistory("Onwards!", 'tutorial_end_example', '22:26', [u]),
+        ChatRoom('Hacking', 'hack_example', '20:41'),
+        ChatRoom('Plot Branches', 'plot_branch_tutorial', '21:44', [], plot_branch=PlotBranch(True)),
+        ChatRoom("Onwards!", 'tutorial_end_example', '22:26', [u]),
         TheParty('tutorial_good_end_party', '23:54')
         ]),
     RouteDay('1st'),
@@ -39,10 +39,10 @@ default tutorial_good_end = ["Good End",
 
 default tutorial_bad_end = ["Bad Story End",
     RouteDay('Tutorial',
-        [ChatHistory('An Unfinished Task', 'tutorial_bad_end', '23:26', [v])] )]
+        [ChatRoom('An Unfinished Task', 'tutorial_bad_end', '23:26', [v])] )]
 default tutorial_bre = ["Bad Relationship End",
     RouteDay('Tutorial',
-            branch_vn= VNMode('plot_branch_bre'))]
+            branch_vn=BranchStoryMode('plot_branch_bre'))]
 default tutorial_normal_end = ["Normal End",
     RouteDay('Tutorial',
         [TheParty('plot_branch_normal_end', '23:54')])]
