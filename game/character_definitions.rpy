@@ -1,4 +1,4 @@
-init offset = -1
+init offset = -2
 
 # ****************************
 # Phone Call Characters

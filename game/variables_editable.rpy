@@ -46,6 +46,8 @@ init python:
         # Save all variables
         renpy.retain_after_load()
 
+init offset = -1
+
 ########################################
 ## PRONOUN VARIABLES
 ########################################

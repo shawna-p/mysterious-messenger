@@ -238,6 +238,8 @@ init python:
 
     build.documentation('*.html')
     build.documentation('*.txt')
+    build.documentation('*.md')
+    build.documentation('*.rst')
 
 ## Set this to a string containing your Apple Developer ID Application to enable
 ## codesigning on the Mac. Be sure to change it to your own Apple-issued ID.
