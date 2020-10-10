@@ -80,7 +80,6 @@ python early:
                 if self.__thumbnail not in store.persistent.unlocked_prof_pics:
                     add_img_to_set(store.persistent.unlocked_prof_pics,
                         self.get_thumb(True))
-                    print("SET DEBUG 5: added", self.get_thumb(True))
 
             renpy.retain_after_load()
 
@@ -128,10 +127,6 @@ python early:
                                         crop=(0.0, 0.15, 1.0, 0.5625),
                                         size=(155,155))
 
-            # if (isinstance(self.__thumbnail, renpy.display.transform.Transform)
-            #         and exclude_transform):
-            #     # Return it formatted for a profile picture.
-            #     return ProfilePic(self.__thumbnail)
             return self.__thumbnail
 
         def check_if_seen(self):
@@ -210,7 +205,7 @@ init python:
     def check_for_CGs(all_albums):
         """Make sure all seen images are unlocked in the player's album."""
 
-        if isinstance(all_albums[0], list):
+        if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
             for p, a in all_albums:
                 # Only need to go through persistent albums
                 for cg in p:
@@ -232,7 +227,7 @@ init python:
         for photo in photo_list:
             if photo not in album:
                 album.append(photo)
-        if isinstance(all_albums[0], list):
+        if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
             for p_album, reg_album in all_albums:
                 merge_albums(p_album, reg_album)
         else: # Should be a string
@@ -282,7 +277,6 @@ init python:
         """Hide the albums in album_list unless they have an unlocked photo."""
 
         global all_albums
-        has_unlocked = False
 
         if not isinstance(album_list, list):
             album_list = [ album_list ]
@@ -291,14 +285,12 @@ init python:
             for photo in getattr(store.persistent, album + "_album"):
                 if photo.unlocked:
                     # This album can remain visible
-                    has_unlocked = True
                     break
-            if not has_unlocked:
-                # None of the photos in this album are unlocked;
-                # it shouldn't be visible in all_albums
-                if album in all_albums:
-                    all_albums.remove(album)
-            has_unlocked = False
+
+            # None of the photos in this album are unlocked;
+            # it shouldn't be visible in all_albums
+            if album in all_albums:
+                all_albums.remove(album)
 
 
     def drag_box(drags, drop):
@@ -378,8 +370,7 @@ init python:
 
 
 default fullsizeCG = "cg common_1"
-# This lets the player know if there are new CGs in
-# the album
+# This lets the player know if there are new CGs in the album.
 default new_cg = 0
 
 image cg_frame = 'CGs/photo_frame.webp'
@@ -388,7 +379,7 @@ image cg_frame_dark = 'CGs/photo_frame_dark.webp'
 image translucent_img = 'translucent.webp'
 
 ## This screen shows all of the various characters/folders
-## available in the photo gallery
+## available in the photo gallery.
 screen photo_album():
 
     # Ensure this replaces other menu screens
@@ -411,7 +402,7 @@ screen photo_album():
 
     use menu_header('Photo Album', return_action):
 
-        if isinstance(all_albums[0], list):
+        if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
             # Retained for backwards compatibility. Displays the albums.
             frame:
                 xysize (750, 1170)
@@ -421,7 +412,7 @@ screen photo_album():
                 spacing 40
                 # Each hbox can have a maximum of 3 characters in it, but you can
                 # have less than three as well. You can also add another row by
-                # adding another hbox
+                # adding another hbox.
                 hbox:
                     use char_album('cg_label_ju', 'Jumin Han',
                                     persistent.ju_album, 'ju_album_cover')
@@ -452,14 +443,14 @@ screen photo_album():
                 xysize(750, 1170)
 
                 has vbox
-                # Centers the grid in the viewport, if necessary
+                # Centers the grid vertically in the viewport, if necessary.
                 if null_height > 0:
                     null height null_height
 
                 grid 5 grid_row:
                     align (0.5, 0.5)
                     # Negative xspacing allows the program to center
-                    # two items below a row of 3, if necessary
+                    # two items below a row of 3, if necessary.
                     xspacing -134
                     yspacing 40
                     for i in range(0, full_grids, 3):
@@ -485,7 +476,7 @@ screen photo_album():
 
 
 ## This displays a button with an image and a caption
-## that will take you to the desired character's album
+## that will take you to the desired character's album.
 screen char_album(caption, name=None, album=None, cover=None):
 
     python:
@@ -624,7 +615,7 @@ default prev_cg_left = False
 ## click it. It has a working "Close" button that appears/disappears
 ## when you click the CG. This particular variant lets the player
 ## "swipe" to view the various images without backing out to the
-## album screen to switch between them
+## album screen to switch between them.
 screen viewCG_fullsize_album(album, caption, name):
     zorder 5
     tag menu
@@ -658,11 +649,10 @@ screen viewCG_fullsize_album(album, caption, name):
             xalign 0.5
             yalign 0.5
 
-    # This slightly repetitive code makes the program
-    # animate in the "swipes" as the player goes through
-    # the album
+    # This slightly repetitive code makes the program animate in the
+    # "swipes" as the player goes through the album.
     # Ren'Py will only animate if the animation is different,
-    # which is why there are two "left"s and "right"s
+    # which is why there are two "left"s and "right"s.
     if swipe_anim == "left":
         if prev_cg_left:
             add prev_cg_left at cg_swipe_left_hide
@@ -690,7 +680,7 @@ screen viewCG_fullsize_album(album, caption, name):
     else:
         add fullsizeCG
 
-    # Show the close button if it's visible
+    # Show the close button if it's visible.
     if close_visible:
         imagebutton:
             xalign 0.5

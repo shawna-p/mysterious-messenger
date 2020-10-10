@@ -35,7 +35,8 @@ init python:
                 elif who:
                     who.text_msg.cg_unlock_list.append([cg_list, photo])
 
-        # Ensure the album for this photo is visible in the album
+        # Ensure the album for this photo is visible in the album screen.
+        # Useful if you've hidden an album until an image in it is unlocked.
         if filepath.split('_')[0].split(' ')[1] not in store.all_albums:
             store.all_albums.append(filepath.split('_')[0].split(' ')[1])
 
@@ -58,11 +59,8 @@ default close_visible = True
 default textmsg_CG = False
 
 label viewCG(textmsg=False):
-    if textmsg:
-        $ renpy.pop_call()
     $ close_visible = True
     $ textmsg_CG = textmsg
-    # $ print_file("viewCG, pre_choosing", pre_choosing, "textmsg_CG", textmsg_CG, "CG_who", CG_who, "CG_who.real_time_text", CG_who.real_time_text, "text_person", text_person)
     call screen viewCG_fullsize()
     return
 
