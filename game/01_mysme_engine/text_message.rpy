@@ -33,7 +33,7 @@ screen text_message_hub():
                     if i.text_msg.msg_list and i.text_msg.read:
                         use text_hub_display(i)
 
-## Displays an individual message preview
+## Displays an individual message preview.
 screen text_hub_display(i):
 
     python:
@@ -54,7 +54,7 @@ screen text_hub_display(i):
         style_prefix 'text_msg'
         selected last_text and text_read
         # If there's a label, jump to it, otherwise
-        # just show the messages
+        # just show the messages.
         action If((text_label and i.real_time_text),
 
                     [Function(text_message_begin, text_person=i),
@@ -363,7 +363,7 @@ screen text_message_screen(sender, animate=True):
 
     # If this text message is supposed to trigger a heart icon,
     # display the correctly-coloured heart, award
-    # a heart point, and increase the appropriate totals
+    # a heart point, and increase the appropriate totals.
     if (not sender.real_time_text
             and sender.text_msg.heart
             and not sender.text_msg.msg_list[-1].who.right_msgr):
@@ -382,7 +382,7 @@ screen text_message_screen(sender, animate=True):
         yadj.value = yadjValue
         textlog = sender.text_msg.msg_list
 
-    viewport: # viewport id "VP":
+    viewport:
         yinitial 1.0
         yadjustment yadj
         draggable True
@@ -400,6 +400,9 @@ screen text_message_screen(sender, animate=True):
                     and i.thetime.time_diff_minimum(prev_msg.thetime, day=1)):
                 use text_date_separator(i.thetime)
             if (len(textlog) > 0 and textlog[0] == i):
+                use text_date_separator(i.thetime)
+            if (len(textlog) > bubbles_to_keep
+                    and textlog[-bubbles_to_keep] == i):
                 use text_date_separator(i.thetime)
             fixed:
                 yfit True
