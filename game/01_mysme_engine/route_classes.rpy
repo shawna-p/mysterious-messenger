@@ -1037,8 +1037,9 @@ init -6 python:
         temp.parent = parent
         return temp
 
-    def BranchStoryMode(vn_label):
-        return StoryMode(title="", vn_label=vn_label, trigger_time=False)
+    def BranchStoryMode(vn_label, who=None, party=False):
+        return StoryMode(title="", vn_label=vn_label, trigger_time=False,
+            who=who, party=party)
 
 ## The label that is called to begin and end a timeline item
 label play_timeline_item():
