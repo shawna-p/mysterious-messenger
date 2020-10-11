@@ -257,8 +257,11 @@ label chatroom_replay():
                     renpy.music.play(second, loop=True)
                 elif first == "shake":
                     current_background = second
-                    if persistent.screenshake:
-                        renpy.show("center_crop_bg:bg "+second, at_list=[shake])
+                    if persistent.screenshake and not persistent.animated_backgrounds:
+                        renpy.show("center_crop_bg:bg " + second,
+                            at_list=[shake])
+                    elif persistent.screenshake:
+                        renpy.show_layer_at([shake], 'animated_bg')
                 elif first == "enter":
                     mystring = second.name + " has entered the chatroom."
                     addchat(special_msg, mystring, persistent.pv)
