@@ -962,6 +962,34 @@ screen script_error(message, link=False, link_text=False):
             hbox:
                 textbutton _("Confirm") action Hide('script_error')
 
+image error_present = "Menu Screens/Main Menu/menu_gift.webp"
+screen messenger_error():
+    modal True
+    zorder 190
+    add "gui/overlay/confirm.png"
+    vbox:
+        order_reverse True
+        spacing -70
+        align (0.55, 0.5)
+        add 'error_present' align (0.0, 0.0) xoffset -70
+        frame:
+            style_prefix "confirm"
+            xsize 600
+            vbox:
+                label _("Messenger Error! An hourglass is force added..."):
+                    style "confirm_prompt"
+                    text_size 35
+                    xalign 0.5
+                frame:
+                    style_prefix "sig_points"
+                    xalign 0.5
+                    background 'hg_sign'
+                    text "1"
+                hbox:
+                    textbutton _("Confirm"):
+                        action [SetField(persistent, 'HG', persistent.HG+1),
+                                Hide('messenger_error'), Return()]
+
 style confirm_frame is gui_frame
 style confirm_prompt is gui_prompt
 style confirm_prompt_text is gui_prompt_text
