@@ -142,11 +142,11 @@ label plot_branch_tutorial_branch():
         # on with the rest of the route, you can use
         $ continue_route()
         # which tells the program to get rid of the plot branch
-        # icon and continue the game as normal
+        # icon and continue the game as normal.
     elif participated_percentage(1) < 20:
         # If the player has participated in less than 20% of the
         # chatrooms across Tutorial Day ("Day 1"), then they're put
-        # on the Bad Relationship End
+        # on the Bad Relationship End.
         $ merge_routes(tutorial_bre)
     else:
         # Bad End
@@ -191,7 +191,7 @@ label tutorial_bad_end():
     # If you've set `ending`, then after `return` the route will end.
     return
 
-## This is the label you see if the previous chatroom has expired
+## This is the label you see if the previous chatroom has expired.
 label tutorial_bad_end_expired():
     scene noon
     play music i_miss_happy_rika
@@ -207,14 +207,14 @@ label tutorial_bad_end_expired():
     return
 
 ## You get this VN after the Plot Branch Tutorial
-## chatroom if you continue on to the Good End
+## chatroom if you continue on to the Good End.
 label plot_branch_tutorial_vn():
 
     scene bg rika_apartment with fade
     pause
 
     play music mysterious_clues_v2
-    show saeran unknown
+    show saeran unknown # Show Saeran in his "Unknown" outfit.
     u "Hi, [name]."
     u smile "Looks like you've made it to the Good End! So I've come to take you to paradise."
 
@@ -250,7 +250,7 @@ label plot_branch_tutorial_vn():
 
 
 ## This is the chatroom you see if you get the Good End
-## of the Tutorial Day
+## of the Tutorial Day.
 label tutorial_end_example():
     scene hack
     show hack effect
@@ -261,14 +261,11 @@ label tutorial_end_example():
     u "{=ser1}which will check if you've fulfilled certain conditions before deciding which version of the party you'll get.{/=ser1}"
     u "{=ser1}In this case, it will check whether or not you've successfully invited at least one guest to the party.{/=ser1}"
 
-    call answer
-    menu:
+    timed menu (wait=5):
         "I'm not sure how to invite guests.":
             u "{=ser1}The \"Inviting Guests\" chatroom lets you invite Rainbow. {/=ser1}"
             u "{=ser1}You can also use that chatroom to speed up how fast you receive replies so you can finish the email chain,{/=ser1}"
             u "{=ser1}but that only works if you have {b}Testing Mode{/b} turned on in the Developer settings, accessed from the main hub screen.{/=ser1}"
-        "(Continue listening)" (paraphrased=True):
-            pass
 
     # This is one way you can alter responses based on certain conditions.
     # In this case, the program checks if the player has invited enough guests,
@@ -329,11 +326,100 @@ label tutorial_good_end_party_branch():
 label plot_branch_normal_end():
     scene bg rika_apartment with fade
     pause
-    show saeran unknown
-    u "Whooops this is the normal end."
-    u "Blah blah."
-    u "The end."
+    show saeran unknown at vn_center
+    u "This is the normal end, which you got because no one is attending the party."
+    u distant "If you did invite someone, you would have seen them arrive at the party."
+    u happy "But that's okay!"
+    u "It's good to see all the different endings, too."
+    u smile "Did you have any questions about how to get the other endings?"
+    call ending_descrip('Normal')
     $ ending = 'normal'
+    return
+
+label ending_descrip(ending_type):
+    menu:
+        extend ''
+        "How do I get the Bad Relationship End?" if ending_type != "Bad Relationship":
+            u neutral "You get the Bad Relationship End when you haven't participated in enough story items."
+            u "Things like chatrooms and story calls expire if you're playing in real-time,"
+            u "Or you can force a chatroom to expire by clicking the back button before it ends if it's your first time playing."
+            show saeran unknown:
+                zoom 1.5
+            u "If you want to be sneaky..."
+            hide saeran
+            show saeran unknown at vn_center
+            u happy "You could also start a new game and check 'Unlock all story' in the Developer settings."
+            u smile "That unlocks all story items and plot branches without having to play them sequentially."
+            u "So you could just use that and click the plot branch icon right away."
+            u "Do you want to know about any other endings?"
+            jump ending_descrip
+        "How do I get the Good End?" if ending_type != "Good":
+            if ending_type == "Normal":
+                u smile "The same way you got here, but with one guest invited!"
+            else:
+                u smile "First, you need a guest to attend the party."
+            u "So, make sure you participate in the \"Inviting Guests\" chatroom and invite Rainbow."
+            u -smile "You can turn {b}Testing Mode{/b} on from the Developer settings too so you can replay it and invite her again."
+            u "She's guaranteed to attend the party if you answer all three of her emails correctly,"
+            u happy "But she might still attend even if you get one or two emails wrong."
+            u -happy "You also have to participate in at least 20% of the chatrooms on Tutorial Day,"
+            u "or else you'll get the Bad Relationship End."
+            u "Finally, you need to have \"Modified UI\" turned on from the Settings when you click the plot branch icon."
+            u "You can find it under the {b}Preferences{/b} tab."
+            u happy "If you've done all that, and you see Rainbow attend the party, then you'll get the Good End!"
+            u neutral "Are there any other endings you want to know about?"
+            jump ending_descrip
+        "How do I get the Bad End?" if ending_type != "Bad":
+            u neutral "You can get the Bad End after the first plot branch, before the party."
+            u "First, you need to participate in at least 20% of the chatrooms on Tutorial Day before the plot branch."
+            u "Then, make sure you have \"Modified UI\" turned {b}off{/b} from the {b}Preferences{/b} tab in the {b}Settings{/b}."
+            u happy "If you do that, when you go through the plot branch, you should get the Bad End."
+            u neutral "It won't matter how many guests you've invited."
+            u "Are there any other endings you want to know about?"
+            jump ending_descrip
+        "How do I get the Normal End?" if ending_type != "Normal":
+            u neutral "You'll get the Normal End if you get through the plot branch and no one attends the party."
+            u "So, make sure you've participated in at least 20% of the story on Tutorial Day,"
+            u "and turn on \"Modified UI\" from the {b}Preferences{/b} tab in the Settings."
+            u "Then you should be able to get through the first plot branch,"
+            u "and if no one attends your party (or you never invited anyone), you'll get the Normal End."
+            u smile "Do you want to know about how to get any of the other endings?"
+        "That's all.":
+            pass
+
+    u smile "Thanks for playing through Tutorial Day!"
+
+    # Determine which endings the player is missing
+    $ missing_endings = [ ]
+    if completed_branches(tutorial_route) < 4:
+        if 'plot_branch_normal_end' not in persistent.completed_story:
+            $ missing_endings.append('Normal')
+        if 'tutorial_good_end_party' not in persistent.completed_story:
+            $ missing_endings.append('Good')
+        if 'tutorial_bad_end' not in persistent.completed_story:
+            $ missing_endings.append('Bad')
+        if 'plot_branch_bre' not in persistent.completed_story:
+            $ missing_endings.append('Bad Relationship')
+
+        if len(missing_endings) == 1:
+            u neutral "It looks like you're only missing the [missing_endings[0]] End."
+            if missing_endings[0] == ending_type:
+                u smile "Which you'll get after this Story Mode ends!"
+                u happy "Thanks for getting all the endings~"
+            else:
+                u "I hope you'll try collecting all the endings!"
+        elif len(missing_endings) == 4:
+            u neutral "It seems like this is the first ending you got!"
+            u smile "I hope you'll go through Tutorial Day again to see the rest~"
+        else:
+            if ending_type in missing_endings:
+                $ missing_endings.remove(ending_type)
+            u "So far it looks like you're missing..."
+            while missing_endings:
+                $ e = missing_endings.pop()
+                u "The [e] End"
+            u happy "I hope you'll go through Tutorial Day again to see the rest of the endings!"
+
     return
 
 ## And this is a very brief VN for the party
@@ -346,15 +432,16 @@ label tutorial_good_end_party():
     u neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
     u "Then you can reset the game so they can play through it again."
     u smile "As always, there's more information on that in the wiki."
-    u neutral "However, before you go, there's one more thing I can show you:"
+    u neutral "As a bonus for getting to the Good End, there's one more thing I can show you:"
     u "How to show a CG in a Story Mode section."
-    u smile "I'll show it to you just before I go, and then you'll be able to see it in your album."
+    u smile "You'll be able to see it in the Album after this Story Mode section is over."
     scene cg common_3
     pause
+    # Re-show the apartment here since it was hidden to show the CG
     scene bg rika_apartment
-    show saeran unknown happy
-    u "Thanks for playing through Tutorial Day!"
-    # If you need to later, you can then write `hide cg`
+    show saeran unknown
+    u "Do you want to know how to get the other endings before I go?"
+    call ending_descrip('Good')
     $ ending = 'good'
     return
 
@@ -373,8 +460,9 @@ label plot_branch_bre():
     r distant "Well, that's okay I guess. Maybe you just got busy."
     r neutral "Try playing through the game again sometime, won't you?"
     r "And you can play through all the chatrooms."
-    r thinking "Well, I should go now."
-    r "It's too bad we didn't get to spend much time together."
+    r "Maybe you just didn't understand how to get the rest of the endings."
+    r "Was there an ending you wanted to know how to get?"
+    call ending_descrip('Bad Relationship')
     $ ending = 'bad'
     return
 
