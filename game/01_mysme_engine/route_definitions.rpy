@@ -118,7 +118,7 @@ init -6 python:
         """
 
         def __init__(self, day, archive_list=None, day_icon='day_common2',
-                        branch_vn=None):
+                        branch_vn=None, save_img=None, auto_label=None):
             """
             Creates a RouteDay object to hold information on a day's worth
             of story items.
@@ -139,6 +139,12 @@ init -6 python:
                 If this day has a StoryMode that should be shown as soon as
                 soon as it's merged onto the main route after a plot branch,
                 it is stored here.
+            save_img : string
+                The icon for games saved during this day. Applies to every
+                item inside this day's archive_list, unless that item already
+                has a save img set.
+            auto_label : string
+                The pattern to name all items in the archive_list by.
             """
 
             self.day = day
@@ -168,6 +174,56 @@ init -6 python:
                 self.day_icon = day_icon
 
             self.convert_archive(False)
+            if save_img is not None:
+                self.add_save_img(save_img)
+
+            if auto_label is not None:
+                self.set_label(auto_label)
+
+        def set_label(self, lbl):
+            """
+            Automatically generate labels for the items inside archive_list
+            based on the pattern provided in lbl.
+            """
+
+            i = 0
+            j = 1
+            while (i < len(self.archive_list)):
+                if self.archive_list[i].item_label is None:
+                    self.archive_list[i].set_label(lbl + str(j))
+                    j += 1
+                i += 1
+
+        def add_save_img(self, save_img):
+            """
+            Apply the provided save_img to all items inside the archive_list,
+            unless the save image is already a non-default image.
+            """
+
+            save_img = save_img.lower()
+            if save_img in ['jaehee', 'ja']:
+                save_img = 'jaehee'
+            elif save_img in ['jumin', 'ju']:
+                save_img = 'jumin'
+            elif save_img in ['ray', 'r']:
+                save_img = 'ray'
+            elif save_img in ['seven', '707', 's']:
+                save_img = 'seven'
+            elif save_img == 'v':
+                save_img = 'v'
+            elif save_img in ['yoosung', 'y']:
+                save_img = 'yoosung'
+            elif save_img in ['zen', 'z']:
+                save_img = 'zen'
+            elif save_img[:5] == "save_":
+                save_img = save_img[5:]
+
+
+            for item in self.archive_list:
+                if item.save_img != 'auto':
+                    continue
+                item.save_img = save_img
+
 
         def convert_archive(self, copy_everything=True):
             """
@@ -462,9 +518,9 @@ init -6 python:
 
         # If the player is in Testing Mode, make all items available
         triggered_next = False
-        if persistent.testing_mode:
-            for archive in story_archive:
-                for item in archive.archive_list:
+        if store.persistent.unlock_all_story:
+            for day in story_archive:
+                for item in day.archive_list:
                     item.unlock_all()
                     if item.plot_branch:
                         triggered_next = True
@@ -476,8 +532,8 @@ init -6 python:
         triggered_next = False
         # Next, check if the player is in sequential mode
         if not store.persistent.real_time:
-            for archive in story_archive:
-                for item in archive.archive_list:
+            for d, day in enumerate(story_archive):
+                for item in day.archive_list:
                     # If the player hasn't played everything associated with
                     # this item, don't make anything new available and stop
                     if item.all_available and not item.all_played:
@@ -499,6 +555,7 @@ init -6 python:
                         triggered_next = True
                         break
                 if triggered_next:
+                    today_day_num = d
                     break
             # Done making items available
             return
