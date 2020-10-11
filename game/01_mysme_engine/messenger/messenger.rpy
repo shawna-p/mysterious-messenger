@@ -130,7 +130,7 @@ screen chat_animation(i, anti=False, no_anim=False):
                         if not choosing:
                             action [SetVariable("fullsizeCG",
                                         cg_helper(i.what)),
-                                        Jump("viewCG"),
+                                        Call("viewCG"),
                                         Return()]
                         alt i.alt_text(anti)
 
