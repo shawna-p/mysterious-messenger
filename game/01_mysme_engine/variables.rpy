@@ -512,9 +512,10 @@ init -6 python:
             items = new_items
         return renpy_menu(items)
 
-    # Don't let the player rollback the game
-    # by scrolling
+    # Don't let the player rollback the game by scrolling.
     config.keymap['rollback'].remove('mousedown_4')
+    # Allow right clicks for alternate button actions.
+    config.keymap['game_menu'].remove('mouseup_3')
 
 ## A label the program can jump to in the event it cannot find a
 ## regular label to jump to
@@ -576,7 +577,10 @@ default preferences.skip_after_choices = True
 define mm_auto = "mm_auto_save"
 # "Unlocks" some developer options for testing
 default persistent.testing_mode = False
-
+# Used with testing mode; allows you to skip over a story item.
+default skip_story_item = False
+# Used for testing; ensures all story items are available immediately.
+default persistent.unlock_all_story = False
 
 
 #************************************

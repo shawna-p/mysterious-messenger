@@ -1391,7 +1391,7 @@ screen developer_settings():
             null height 30
 
             frame:
-                xysize(650,320)
+                xysize(650,360)
                 background "menu_settings_panel"
                 text "Variables for testing":
                     style "settings_style" xpos 45 ypos -3
@@ -1401,10 +1401,12 @@ screen developer_settings():
                     style_prefix "check"
                     null height 30
                     textbutton _("Testing Mode"):
+                        action ToggleField(persistent, "testing_mode")
+                    textbutton _("Unlock all story"):
                         action If(not main_menu,
-                            [ToggleField(persistent, "testing_mode"),
+                            [ToggleField(persistent, "unlock_all_story"),
                             Function(check_and_unlock_story)],
-                            ToggleField(persistent, "testing_mode"))
+                            ToggleField(persistent, "unlock_all_story"))
                     textbutton _("Real-Time Mode"):
                         action ToggleField(persistent, "real_time")
                     textbutton _("Hacked Effect"):

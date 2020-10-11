@@ -345,7 +345,7 @@ screen timeline_item_display(day, day_num, item, index):
             can_play_calls = True
             story_calls = None
 
-        if persistent.testing_mode:
+        if persistent.unlock_all_story:
             was_played = True
             can_play_calls = True
             can_play_story_mode = True
@@ -373,6 +373,10 @@ screen timeline_item_display(day, day_num, item, index):
                 hover_foreground 'chat_timeline_hover'
                 if item.available and was_played:
                     action [SetVariable('current_timeline_item', item),
+                            Jump('play_timeline_item')]
+                    if persistent.testing_mode:
+                        alternate [SetVariable('current_timeline_item', item),
+                            SetVariable('skip_story_item', True),
                             Jump('play_timeline_item')]
 
                 if (hacked_effect and item.currently_expired
@@ -430,7 +434,7 @@ screen timeline_item_display(day, day_num, item, index):
                     xalign 0.5
                     idle 'expired_chat'
                     hover_background 'btn_hover:expired_chat'
-                    if item.available or persistent.testing_mode:
+                    if item.available or persistent.unlock_all_story:
                         action If(persistent.testing_mode,
                             # Just unlock it without a confirmation message
                             [Function(item.buy_back),
@@ -457,6 +461,10 @@ screen timeline_item_display(day, day_num, item, index):
                 # This Preference means the player always has to
                 # manually enable auto-forward in a new story mode
                 action [SetVariable('current_timeline_item', item),
+                        Jump('play_timeline_item')]
+                if persistent.testing_mode:
+                    alternate [SetVariable('current_timeline_item', item),
+                        SetVariable('skip_story_item', True),
                         Jump('play_timeline_item')]
             add item.vn_img align (1.0, 1.0) xoffset 3 yoffset 1
             hbox:
@@ -486,6 +494,11 @@ screen timeline_item_display(day, day_num, item, index):
                     action [SetVariable('current_timeline_item',
                                 item.story_mode),
                             Jump('play_timeline_item')]
+                    if persistent.testing_mode:
+                        alternate [SetVariable('current_timeline_item',
+                                item.story_mode),
+                            SetVariable('skip_story_item', True),
+                            Jump('play_timeline_item')]
                 add item.story_mode.vn_img xoffset -5
 
 
@@ -503,11 +516,15 @@ screen timeline_item_display(day, day_num, item, index):
                             [SetVariable('current_timeline_item',
                                     story_mode),
                                 Jump('play_timeline_item')])
+                    if persistent.testing_mode:
+                        alternate [SetVariable('current_timeline_item', story_mode),
+                            SetVariable('skip_story_item', True),
+                            Jump('play_timeline_item')]
 
     # If there are mandatory story calls, display them
     if story_calls:
         for i, phonecall in enumerate(story_calls):
-            if i > 0 and not persistent.testing_mode:
+            if i > 0 and not persistent.unlock_all_story:
                 $ can_play_calls = (can_play_calls and story_calls[i-1].played)
             use timeline_story_calls(phonecall, item, can_play_calls)
 
@@ -527,7 +544,7 @@ screen timeline_item_display(day, day_num, item, index):
                 text 'Tap to unlock' color '#fff' xalign 0.5 yalign 0.5
             # Check if the player has seen all items before
             # they try to branch
-            if can_branch() or persistent.testing_mode:
+            if can_branch() or persistent.unlock_all_story:
                 # The message varies slightly depending on whether
                 # the player is playing in real-time or not
                 if persistent.real_time:
@@ -575,6 +592,10 @@ screen timeline_story_calls(phonecall, item, was_played):
             if phonecall.available and was_played:
                 action [SetVariable('current_timeline_item', phonecall),
                             Jump('play_timeline_item')]
+                if persistent.testing_mode:
+                    alternate [SetVariable('current_timeline_item', phonecall),
+                        SetVariable('skip_story_item', True),
+                        Jump('play_timeline_item')]
             hbox:
                 yoffset 12 xoffset 78
                 spacing 25
@@ -604,7 +625,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                 xalign 0.5
                 idle 'expired_chat'
                 hover_background 'btn_hover:expired_chat'
-                if phonecall.available or persistent.testing_mode:
+                if phonecall.available or persistent.unlock_all_story:
                     action If(persistent.testing_mode,
                         [Function(phonecall.buy_ahead),
                             Function(renpy.restart_interaction),
@@ -733,7 +754,6 @@ label plot_branch_end():
 default guest_countup = 0
 ## This label displays all the guests attending the party
 label guest_party_showcase():
-    call vn_begin
     hide screen vn_overlay
     show screen guest_count
     python:

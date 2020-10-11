@@ -285,7 +285,7 @@ screen phone_overlay():
             selected_hover "maxSpeed"
             if not choosing and not renpy.get_screen('no_modal_confirm'):
                 action Skip()
-    if starter_story or persistent.testing_mode:
+    if starter_story or persistent.testing_mode or persistent.unlock_all_story:
         fixed:
             xysize (150, 80)
             align (0.99, 0.055)
