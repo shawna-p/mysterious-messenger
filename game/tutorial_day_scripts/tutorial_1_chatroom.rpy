@@ -313,10 +313,10 @@ label example_chat():
 
 label emojis():
 
-    show hack effect
     # Note that because this is still part of the same chatroom, the
     # chat history remains on-screen after the background change.
     scene morning
+    show hack effect
 
     play music geniusly_hacked_bebop
     enter chatroom s
@@ -439,8 +439,8 @@ label emojis():
 
 label banners():
 
-    show hack effect
     scene noon
+    show hack effect
     play music same_old_fresh_air
 
     enter chatroom y
@@ -504,8 +504,8 @@ label banners():
 
 label heart_icons():
 
-    show hack effect
     scene evening
+    show hack effect
     play music narcissistic_jazz
 
     enter chatroom z
@@ -593,8 +593,8 @@ label heart_icons():
 
 label screen_shake():
 
-    show hack effect
     scene night
+    show hack effect
     play music lonesome_practicalism
 
     enter chatroom ja
@@ -611,12 +611,6 @@ label screen_shake():
             $ persistent.screenshake = False
 
     ja "{=ser1}Understood.{/=ser1}" (bounce=True)
-    if persistent.animated_backgrounds:
-        $ persistent.screenshake = False
-        ja "It looks like you have animated backgrounds turned on."
-        ja "Currently screen shake isn't compatible with animated backgrounds,"
-        ja "so you won't be able to see screen shake effects."
-        ja "You can toggle animated backgrounds and screen shake from the Settings."
     enter chatroom ju
     ja "{=curly}Ah, right on time.{/=curly}" (bounce=True, specBubble="cloud_s")
     ja "{=ser1}Shall we get started then?{/=ser1}"
@@ -657,8 +651,8 @@ label screen_shake():
 
 
 label ending():
-    show hack effect
     scene hack
+    show hack effect
     play music mystic_chat
 
     enter chatroom u
@@ -722,8 +716,8 @@ label example_chat_expired():
     # This sets up a very specific phone call which will never expire
     # In general you should never add phone calls this way
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
-    show hack effect
     scene hack
+    show hack effect
     play music mystic_chat
     enter chatroom u
     u "Oh, [name]'s not here."
