@@ -126,7 +126,6 @@ init -6 python:
                 # e.g. auto / another / april / casual / deep / xmas
                 self.save_img = save_img
 
-            self.expired_label = item_label + "_expired"
             self.played = False
             self.available = False
             self.expired = False
@@ -135,8 +134,26 @@ init -6 python:
             self.parent = None
             self.choices = []
             self.delivered_post_items = False
-            self.after_label = "after_" + item_label
-            self.phonecall_label = item_label
+
+            self.expired_label = None
+            self.after_label = None
+            self.phonecall_label = None
+            self.outgoing_calls_list = [ ]
+            self.incoming_calls_list = [ ]
+            self.story_calls_list = [ ]
+
+            if self.item_label is not None:
+                self.set_label(self.item_label)
+
+
+        def set_label(self, lbl):
+            """Set a new item label for this TimelineItem."""
+
+            self.item_label = lbl
+
+            self.expired_label = lbl + "_expired"
+            self.after_label = "after_" + self.item_label
+            self.phonecall_label = self.item_label
 
             self.outgoing_calls_list = [ (self.item_label + '_outgoing_'
                 + x.file_id) for x in store.all_characters
@@ -560,6 +577,7 @@ init -6 python:
                 to a save file when this is the active timeline item.
             """
 
+            self.story_mode = None
             super(ChatRoom, self).__init__(title, chatroom_label, trigger_time,
                 plot_branch, save_img)
 
@@ -569,10 +587,9 @@ init -6 python:
             else:
                 self.original_participants = list(participants)
 
-            self.story_mode = None
             if story_mode:
                 self.story_mode = story_mode
-            else:
+            elif self.item_label is not None:
                 # Check for labels to auto-define StoryMode objects
                 # First check for the default VN with no associated character
                 if renpy.has_label(self.item_label + '_vn'):
@@ -598,8 +615,46 @@ init -6 python:
                 self.plot_branch.stored_vn = self.story_mode
                 self.story_mode = None
 
+            if self.item_label is not None:
+                self.set_label(self.item_label)
+
             self.participated = False
             self.replay_log = []
+
+        def set_label(self, lbl):
+            """Set a new item label for this TimelineItem."""
+
+            super(ChatRoom, self).set_label(lbl)
+
+            if self.story_mode is None:
+                if renpy.has_label(self.item_label + '_vn'):
+                    self.story_mode = create_dependent_VN(self,
+                        self.item_label + '_vn')
+                # Check for a party label
+                elif renpy.has_label(self.item_label + '_party'):
+                    self.story_mode = create_dependent_VN(self,
+                        self.item_label + '_party',
+                        party=True)
+                # Check for VNs associated with a character
+                else:
+                    for c in store.all_characters:
+                        # VNs are called things like my_label_vn_r
+                        vnlabel = self.item_label + '_vn_' + c.file_id
+                        if renpy.has_label(vnlabel):
+                            self.story_mode = create_dependent_VN(self,
+                                                                vnlabel, c)
+                            # Should only be one StoryMode object per chat
+                            break
+
+            if self.plot_branch and self.plot_branch.vn_after_branch:
+                self.plot_branch.stored_vn = self.story_mode
+                self.story_mode = None
+
+        @property
+        def party(self):
+            if not self.story_mode:
+                return False
+            return self.story_mode.party
 
         def unlock_all(self):
             """Ensure all items associated with this chatroom are available."""
@@ -659,7 +714,7 @@ init -6 python:
             was_played is True if any prior items were played first.
             """
 
-            if store.persistent.testing_mode:
+            if store.persistent.unlock_all_story:
                 return 'chat_active'
 
             if self.played:
@@ -883,7 +938,7 @@ init -6 python:
             was_played is True if any prior items were played first.
             """
 
-            if store.persistent.testing_mode:
+            if store.persistent.unlock_all_story:
                 if self.party:
                     return 'vn_party'
                 else:
@@ -985,13 +1040,17 @@ init -6 python:
 
             self.caller = caller
 
+        @property
+        def party(self):
+            return False
+
         def timeline_img(self, was_played=True):
             """
             Return the hover image that should be used for this item.
             was_played is True if any prior items were played first.
             """
 
-            if store.persistent.testing_mode:
+            if store.persistent.unlock_all_story:
                 return 'story_call_active'
 
             if self.played:
@@ -1049,12 +1108,15 @@ label play_timeline_item():
     # Call the item label so that it returns here when it's done
     if isinstance(current_timeline_item, ChatRoom):
         $ print_file("This item is a ChatRoom")
-        if (current_timeline_item.expired
+        if skip_story_item:
+            pass
+        elif (current_timeline_item.expired
                 and not current_timeline_item.played
                 and not current_timeline_item.buyback):
             $ renpy.call(current_timeline_item.expired_label)
         elif (current_timeline_item.played
                 and not store.persistent.testing_mode
+                and not store.persistent.unlock_all_story
                 and len(current_timeline_item.replay_log) > 0):
             $ renpy.call('rewatch_chatroom')
         else:
@@ -1065,17 +1127,27 @@ label play_timeline_item():
         if (not _in_replay and current_timeline_item.party
                 and not renpy.has_label(
                     current_timeline_item.item_label + '_branch')):
+            $ print_file("Did not find a branch for", current_timeline_item.item_label)
+            $ skip_story_item = False
             $ renpy.hide_screen('confirm')
             $ renpy.call('guest_party_showcase')
         elif current_timeline_item.party and not _in_replay:
+            $ print_file("Found a branch to execute")
+            $ skip_story_item = False
             $ renpy.hide_screen('confirm')
             $ renpy.call(current_timeline_item.item_label + '_branch')
+            $ print_file("showing the guest showcase")
+            $ renpy.call('guest_party_showcase')
+        elif skip_story_item:
+            pass
         else:
             $ renpy.call(current_timeline_item.item_label)
 
     elif isinstance(current_timeline_item, StoryCall):
         $ print_file("This item is a StoryCall. in_phone_call is", in_phone_call)
-        if (current_timeline_item.expired
+        if skip_story_item:
+            pass
+        elif (current_timeline_item.expired
                 and not current_timeline_item.buyback):
             $ renpy.show_screen('in_call', who=current_timeline_item.caller,
                 story_call=True)
@@ -1097,18 +1169,21 @@ label play_timeline_item():
 
     $ end_timeline_item_checks()
 
-    if isinstance(current_timeline_item, ChatRoom):
-        call screen save_and_exit()
-        if not observing:
-            call screen signature_screen(True)
-    elif isinstance(current_timeline_item, StoryMode):
-        call screen signature_screen(False)
+    if not skip_story_item:
+        if isinstance(current_timeline_item, ChatRoom):
+            call screen save_and_exit()
+            if not observing:
+                call screen signature_screen(True)
+        elif isinstance(current_timeline_item, StoryMode):
+            call screen signature_screen(False)
 
-    if observing and not _in_replay:
-        $ observing = False
-        $ reset_story_vars()
-        call screen timeline(current_day, current_day_num)
-        return
+        if observing and not _in_replay:
+            $ observing = False
+            $ reset_story_vars()
+            call screen timeline(current_day, current_day_num)
+            return
+    else:
+        $ skip_story_item = False
 
     $ finish_timeline_item(current_timeline_item)
 
@@ -1489,7 +1564,6 @@ label execute_plot_branch():
     if (isinstance(item, StoryMode) and item.party):
         # Need to send them to the party
         jump guest_party_showcase
-        return
 
     # CASE 2
     # Can deliver the after_ contents of the item immediately before
@@ -1518,6 +1592,7 @@ label end_route():
         call screen signature_screen(isinstance(current_timeline_item, ChatRoom))
 
     $ reset_story_vars()
+    $ finish_timeline_item(current_timeline_item, deliver_messages=False)
     if ending == 'good':
         scene bg good_end
     elif ending == 'normal':
@@ -1527,9 +1602,8 @@ label end_route():
     else:
         scene
         show expression ending
+    pause 10.0
     $ ending = None
-    $ finish_timeline_item(current_timeline_item, deliver_messages=False)
-    pause
     jump restart_game
 
 label end_prologue():
