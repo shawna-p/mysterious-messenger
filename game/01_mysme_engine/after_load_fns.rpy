@@ -626,18 +626,12 @@ init python:
         return
 
 label after_load():
-    $ print_file("Call stack depth is", renpy.call_stack_depth(), "containing",
-        renpy.get_return_stack())
+
     $ renpy.set_return_stack([])
-    $ print_file("After reset, call stack depth is", renpy.call_stack_depth(),
-        "containing", renpy.get_return_stack())
-    # python:
-    #     try:
-    #         renpy.call_screen('chat_home')
-    #     except Exception as e:
-    #         print_file("Exception calling chat_home:", e)
-    #         renpy.show_screen('messenger_error')
-    #         #renpy.call_screen('messenger_error')
-    # $ print_file("Returning")
+    # Forcibly make sure the game isn't in an interaction so it can
+    # jump to chat_home again.
+    if renpy.game.context().interacting:
+        $ renpy.game.context().interacting = False
+        # show screen messenger_error
     call screen chat_home
     return

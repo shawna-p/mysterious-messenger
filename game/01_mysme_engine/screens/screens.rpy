@@ -988,7 +988,7 @@ screen messenger_error():
                 hbox:
                     textbutton _("Confirm"):
                         action [SetField(persistent, 'HG', persistent.HG+1),
-                                Hide('messenger_error'), Return()]
+                                Hide('messenger_error')]
 
 style confirm_frame is gui_frame
 style confirm_prompt is gui_prompt
