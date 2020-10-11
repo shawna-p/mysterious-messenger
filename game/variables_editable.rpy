@@ -168,8 +168,6 @@ init -1 python:
         if time_diff.seconds < 10:
             return
         # Otherwise, figure out what to do based on the other properties
-        print_file("today day num", store.today_day_num, "MC_pic",
-            store.persistent.MC_pic)
         if (store.today_day_num == 0
                 and who == store.r
                 and store.persistent.MC_pic == 'CGs/r_album/cg-1-thumb.webp'):

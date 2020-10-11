@@ -152,7 +152,7 @@ init python:
 
         global persistent
 
-        if persistent.testing_mode:
+        if persistent.unlock_all_story:
             return True
 
         # If it's a TimelineItem, it's only visible if the expired or regular

@@ -631,6 +631,13 @@ label after_load():
     $ renpy.set_return_stack([])
     $ print_file("After reset, call stack depth is", renpy.call_stack_depth(),
         "containing", renpy.get_return_stack())
+    # python:
+    #     try:
+    #         renpy.call_screen('chat_home')
+    #     except Exception as e:
+    #         print_file("Exception calling chat_home:", e)
+    #         renpy.show_screen('messenger_error')
+    #         #renpy.call_screen('messenger_error')
+    # $ print_file("Returning")
     call screen chat_home
     return
-
