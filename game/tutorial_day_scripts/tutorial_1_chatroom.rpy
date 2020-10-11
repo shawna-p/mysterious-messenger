@@ -10,11 +10,9 @@ label example_chat_story_call_r():
     menu:
         extend''
         "Oh? What does that mean?":
-            #m "Oh? What does that mean?"
             r "It's just like a chatroom or Story Mode."
             r "You play through them all sequentially to get the story."
         "What if I miss the call?":
-            #m "What if I miss the call?"
             r "You just need to play the story call before the next story item (like a chatroom) appears."
     r """
 
@@ -74,18 +72,11 @@ label after_example_chat_test:
 label example_chat_text_s:
     # This is where the program will jump when it is time to reply to
     # Seven's text message
-    python:
-        try:
-            print_file("text_msg_reply is", text_msg_reply)
-            print_file("For text messages, text_person is", text_person.file_id)
-        except:
-            print_file("ERROR: Couldn't get text person")
     menu:
         "Wow! A test!":
-            m "Wow! A test!"
             award heart s
             s "Right? Who knows if it'll work."
-        "Help!":
+        "Help!" (paraphrased=True):
             m "Tasukete!"
             award heart y
             s "Lmaoooo"
@@ -252,7 +243,8 @@ label example_chat():
             u "{=sser2}and I'll also be monitoring the{a=https://discord.gg/BPbPcpk} Mysterious Messenger Discord server{/a} if you have questions.{/=sser2}"
             u "This project was coded in Ren'Py, so you can always check out their forums, too."
         "Just take me to the end" if 'example_chat' in persistent.completed_story:
-            jump chat_end
+            # This is for testing, as it ends the chatroom immediately.
+            return
 
     u "Anyway, you can see what we just did there was a menu!"
     u "It allows you to alter a conversation based on responses."
@@ -316,13 +308,15 @@ label example_chat():
             pause 0.5
             jump screen_shake
 
-        "I'm done for now" if not first_choice:
+        "I'm done for now" (paraphrased=False) if not first_choice:
             jump ending
 
 label emojis():
 
-    call hack
-    call chat_begin("morning",False,False)
+    show hack effect
+    # Note that because this is still part of the same chatroom, the
+    # chat history remains on-screen after the background change.
+    scene morning
 
     play music geniusly_hacked_bebop
     enter chatroom s
@@ -421,7 +415,7 @@ label emojis():
                 "I can?":
                     s "Yeah! Give it a try!"
                     # You can either write the "cg s_1" or just "s_1" so long
-                    # as you check off (img=True)
+                    # as you use (img=True) or `msg m "cg s_1" img`
                     m "cg s_1" (img=True)
                 "(Try posting)" (paraphrased=True):
                     m "s_1" (img=True, pauseVal=0)
@@ -445,8 +439,8 @@ label emojis():
 
 label banners():
 
-    call hack
-    call chat_begin("noon",False,False)
+    show hack effect
+    scene noon
     play music same_old_fresh_air
 
     enter chatroom y
@@ -475,17 +469,19 @@ label banners():
     if persistent.banners:
         y "{=sser2}There are four different types of banners:{/=sser2}"
         y "The lightning banner!" (bounce=True)
-        call banner('lightning')
+        show banner lightning
         y "{=sser2}For when you're feeling angry ^^;;{/=sser2}"
         y "The heart banner!" (bounce=True)
-        call banner('heart')
+        # You can use the tags in any order, so both "heart banner" and
+        # "banner heart" are correct
+        show heart banner
         y "For happy stuff!"
         y "The annoy banner" (bounce=True)
-        call banner('annoy')
+        show banner annoy
         y "{=sser2}For when you're irritated{/=sser2}"
         y "{=sser2}And last but not least,{/=sser2}"
         y "{=ser1}the 'well' banner!{/=ser1}" (bounce=True)
-        call banner('well')
+        show banner well
         y "{=ser1}...{/=ser1}"
         y "{=sser2}It's for times when you're a little lost for words.{/=sser2}"
         y "{image=yoosung_thankyou}" (img=True)
@@ -494,7 +490,7 @@ label banners():
     y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}"
     y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}" (bounce=True, specBubble="square_m")
     y "{=sser2}So we'll use [they]/[them] whenever we talk about you.{/=sser2}"  (bounce=True)
-    y "You can check out {b}Short forms/Startup Variables{/b} under {b}variables.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script"
+    y "You can check out {b}Pronoun Variables{/b} in {b}variables_editable.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script"
     y "If you want to add any new variables, there's a section in the wiki about doing just that."
     y "And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu)."
     y "That's all from me!"
@@ -508,8 +504,8 @@ label banners():
 
 label heart_icons():
 
-    call hack
-    call chat_begin("evening",False,False)
+    show hack effect
+    scene evening
     play music narcissistic_jazz
 
     enter chatroom z
@@ -597,8 +593,8 @@ label heart_icons():
 
 label screen_shake():
 
-    call hack
-    call chat_begin("night",False,False)
+    show hack effect
+    scene night
     play music lonesome_practicalism
 
     enter chatroom ja
@@ -631,7 +627,7 @@ label screen_shake():
     ja "{image=jaehee_well}" (img=True)
     ja "Mr. Han."
     ja "{size=+10}MR. HAN!!{/size}" (bounce=True, specBubble="spike_m")
-    call shake
+    show shake
     ju "{=curly}Is something the matter?{/=curly}" (bounce=True, specBubble="cloud_m")
     ja "Oh." (bounce=True, specBubble="sigh_s")
     ja "{=ser1}You weren't responding so I thought perhaps you were asleep.{/=ser1}"
@@ -650,10 +646,9 @@ label screen_shake():
     ja "{color=#f00}For example, this bubble might be too small.{/color}" (bounce=True, specBubble="cloud_s")
     if persistent.screenshake:
         ja "{=ser1}As for screen shake,{/=ser1}"
-        ja "{=ser1}you simply need to use the call{/=ser1}"
-        ja "{=ser1xb}\"call shake\" {/=ser1xb}"
+        ja "{=ser1}you simply need to write 'show shake'{/=ser1}"
         ja "{=sser2}And it does this{/=sser2}" (bounce=True)
-        call shake
+        show shake
     ja "{=ser1}Lastly, you can check out all of the special bubbles present in the game.{/=ser1}"
     ja "{=ser1xb}Just select \"Done\" when you're finished.{/=ser1xb}"
     call answer
@@ -662,8 +657,8 @@ label screen_shake():
 
 
 label ending():
-    call hack
-    call chat_begin("hack",False,False)
+    show hack effect
+    scene hack
     play music mystic_chat
 
     enter chatroom u
@@ -686,13 +681,11 @@ label ending():
     u "I hope you find this program helpful."
     u "Good luck!"
     exit chatroom u
-    # Use this at the end of a chatroom
-    jump chat_end
+    # Use this at the end of a label
+    return
 
 ## This is a test call that's always available for Ray on Tutorial Day
 label test_call():
-
-    call phone_begin
 
     r "Hello?"
 
@@ -722,15 +715,15 @@ label test_call():
 
     """
 
-    jump phone_end
+    return
 
 ## This is the chatroom you play through if this chatroom has expired
 label example_chat_expired():
     # This sets up a very specific phone call which will never expire
     # In general you should never add phone calls this way
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
-    call hack
-    call chat_begin("hack")
+    show hack effect
+    scene hack
     play music mystic_chat
     enter chatroom u
     u "Oh, [name]'s not here."
