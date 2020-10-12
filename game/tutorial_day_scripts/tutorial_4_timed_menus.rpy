@@ -8,7 +8,7 @@ label timed_menus():
     s "{size=+10}Hiya!{/size}" (bounce=True, specBubble="round2_s")
     s "{=curly}I'm here to tell you all about timed menus~{/=curly}"
     s "They work mostly like regular menus,"
-    s "{=ser2}except the characters will keep talking even after the answer button shows up at the bottom of the screen.{/=ser2}"
+    s "{=ser2}except the characters will keep talking even after choices appear at the bottom of the screen.{/=ser2}"
     s "Like now!" (bounce=True)
 
     timed menu:
@@ -19,13 +19,11 @@ label timed_menus():
         s "You write these menus a bit differently than regular menus"
         s "You'll see an example of it in this code."
         "Slow down! Timed menus??":
-            m "Slow down! Timed menus??"
             s "Whoops lolol I got a bit excited"
             s "{=sser2}Yup! Maybe try playing through this chatroom a few times to see what happens?{/=sser2}"
             s "Don't forget to turn Testing Mode on from the developer settings so you can make different choices."
 
         "So I can choose between listening or interrupting?" :
-            m "So I can choose between listening or interrupting?"
             s "Yeah! If you just let the chat play out,"
             s "you'll see different dialogue than if you'd decided to answer."
 
