@@ -788,7 +788,8 @@ init -6 python:
             if not successful:
                 return False
             # Otherwise, add the participants to a dictionary
-            store.persistent.chatroom_participants[self.title] = list(self.participants)
+            store.persistent.chatroom_participants[self.title] = [
+                x.file_id for x in self.participants ]
             return True
 
         def add_participant(self, chara):
