@@ -1,26 +1,20 @@
 label other_storytelling():
 
-    call chat_begin('evening')
+    scene evening
     play music same_old_fresh_air
     y "Hi, [name]!" (bounce=True)
     y "I'm here to show off another feature you can use to tell stories with this program ^^"
     y "Remember how this route started with a phone call and then became a chatroom?"
-    
-    # This tells the program to show the answer button at the bottom of
-    # the screen, but the chat continues in the meantime
-    call continue_answer("other_storytelling_menu1", 5)
-    # Since this is set to the same amount of time for the timed answer
-    # above, the chat will "pause" for a few seconds to let the player
-    # respond. If they don't, the chat moves on
-    call timed_pause(5)
-    
-    if timed_choose:
-        menu other_storytelling_menu1:
-            "Yes.":
-                m "Yes." (pauseVal=0)
-            "No.":
-                m "No." (pauseVal=0)
-    
+
+    # This is a special variant on timed menus where the game will pause for
+    # the specified number of seconds before moving on. If you provide a `wait`
+    # argument, you can't have any dialogue in the timed menu, just choices.
+    timed menu (wait=5):
+        "Yes":
+            pass
+        "No":
+            pass
+
     y "{=curly}Well, you can also have VN sections in the middle of chatrooms!{/=curly}" (bounce=True, specBubble="square_l")
     y "I'll show you what I mean in a second."
     y "{=ser1}When the chatroom is about to switch to a VN section,{/=ser1}"
@@ -42,8 +36,11 @@ label other_storytelling():
     # These second arguments tell the program to clear the chat when
     # the player returns after the VN. It sets the background of the
     # chatroom to the 'night' background when it returns.
-    call vn_during_chat('other_storytelling_vn_2', clearchat_on_return=True,
-                        new_bg='night')
+    call vn_during_chat('other_storytelling_vn_2')
+    #, clearchat_on_return=True,
+                        #new_bg='night')
+    clear chat participants
+    scene night
 
     play music same_old_fresh_air
     enter chatroom y
@@ -53,10 +50,9 @@ label other_storytelling():
     y "Good luck!" (bounce=True, specBubble="cloud_s")
     y "{image=yoosung_yahoo}" (img=True)
     exit chatroom y
-    jump chat_end
+    return
 
 label other_storytelling_vn_1():
-    # Note that there is no need to begin with `call vn_begin`
     # The music also carries over from the chatroom
     scene bg yoosung_room_day with fade
     show yoosung sparkle
@@ -64,7 +60,7 @@ label other_storytelling_vn_1():
     y neutral "You can put whatever sort of scene you like in this part."
     y "And when the scene is done, it'll return to the chatroom."
     y happy "Like this!"
-    # End with `return` instead of `jump vn_end`
+    # End with `return` like usual
     return
 
 label other_storytelling_vn_2():
@@ -77,7 +73,7 @@ label other_storytelling_vn_2():
     return
 
 label other_storytelling_expired():
-    call chat_begin('evening')
+    scene evening
     play music same_old_fresh_air
 
     y "Aww, I wanted to talk to [name]..."
@@ -96,6 +92,5 @@ label other_storytelling_expired():
     y "There are more neat things you can do with it too."
     y "I hope you'll check them out!"
     exit chatroom y
-    jump chat_end
+    return
 
-    
