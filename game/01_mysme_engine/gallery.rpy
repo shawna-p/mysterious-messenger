@@ -242,7 +242,7 @@ init python:
                 return True
         return False
 
-    def get_char_from_file_id(file_id):
+    def get_name_from_file_id(file_id):
         """
         Return the character name associated with the given file_id, or a
         capitalized version of the file_id otherwise.
@@ -250,15 +250,11 @@ init python:
         Used to retrieve Album titles/labels.
         """
 
-        try:
-            char = getattr(store, file_id)
-            return char.name
-        except AttributeError:
-            for char in store.all_characters:
-                if char.file_id == file_id:
-                    return char.name
-
-        return string.capwords(file_id)
+        result = get_char_from_file_id(file_id)
+        if result is None:
+            return string.capwords(file_id)
+        else:
+            return result.name
 
     def convert_to_file_name(file_id):
         """Convert file_id into a computer-readable format for file names."""
@@ -484,7 +480,7 @@ screen char_album(caption, name=None, album=None, cover=None):
             # Caption is actually the file_id
             file_id = caption
             caption = 'cg_label_' + convert_to_file_name(file_id)
-            name = get_char_from_file_id(file_id)
+            name = get_name_from_file_id(file_id)
             album = getattr(store.persistent,
                     convert_to_file_name(file_id) + "_album")
             cover = convert_to_file_name(file_id) + "_album_cover"
