@@ -418,20 +418,35 @@ init -6 python:
         """Return the width of text with a certain style applied."""
         return int(Text(the_text, style=the_style).size()[0])
 
-    def print_file(*args):
+    def get_char_from_file_id(file_id):
+        """
+        Return the ChatCharacter associated with the given file_id, or None
+        if no ChatCharacter could be found.
+        """
+
+        try:
+            char = getattr(store, file_id)
+            return char
+        except AttributeError:
+            for char in store.all_characters:
+                if char.file_id == file_id:
+                    return char
+        return None
+
+    def print_file(*args, **kwargs):
         """Print debug statements to a file for debugging."""
 
-        DEBUG = False
+        DEBUG = True
         if DEBUG is None:
             return
 
         if not DEBUG:
-            print(*args)
+            print(*args, **kwargs)
             return
         # Otherwise, print this to a file for debugging
         try:
-            f = open("debug.txt", "a")
-            print(*args, file=f)
+            f = open("persistent_errors.txt", "a")
+            print(*args, file=f, **kwargs)
             f.close()
         except:
             print("Print to file did not work:", args)
