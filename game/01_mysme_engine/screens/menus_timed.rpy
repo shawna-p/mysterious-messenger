@@ -266,9 +266,15 @@ label execute_timed_menu_narration():
     # The narration nodes are all chained to execute in sequence, so it's
     # only necessary to execute the first one.
     $ narration = timed_menu_dict['narration']
-    $ msg = narration.pop(0)
-    $ msg.execute()
-    return
+    # Check if there's narration or this menu should just wait
+    if narration:
+        $ msg = narration.pop(0)
+        $ msg.execute()
+    if persistent.use_timed_menus:
+        $ messenger_pause(timed_menu_dict.get('wait_time', 8)
+            * store.persistent.timed_menu_pv)
+    jump end_of_timed_menu
+
 
 ## The program jumps here at the end of a timed menu when the player has not
 ## yet made a choice. Depending on the settings, it may either hide the menu

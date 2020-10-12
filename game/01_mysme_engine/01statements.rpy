@@ -1851,6 +1851,8 @@ python early hide:
                 print("WARNING: Could not evaluate the length of time to show",
                     "the timed menu for.")
                 wait_time = 8
+            # Don't need a buffer for explicitly given wait times
+            wait_time -= store.end_menu_buffer
 
         # Adjust the wait time for the timed menu pv
         wait_time *= store.persistent.timed_menu_pv
