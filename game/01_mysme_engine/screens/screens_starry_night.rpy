@@ -70,6 +70,14 @@ label before_main_menu():
     $ define_variables()
     return
 
+# label quit:
+#     python:
+#         for key, value in persistent.__dict__.items():
+#             if key[0] != "_" or key in ['_changed',
+#                     '_update_last_checked']:
+#                 print_file(key, ":    ", value, sep="", end="\n\n")
+#     return
+
 screen loading_screen():
 
     zorder 90
