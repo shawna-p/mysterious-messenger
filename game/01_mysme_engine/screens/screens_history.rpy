@@ -180,21 +180,17 @@ init python:
         """Find the caller of this phone call from its label."""
 
         file_id = c.split('_')[-1]
-        try:
-            char = getattr(store, file_id)
-            return PhoneCall(char, c)
-        except AttributeError:
-            for p in store.all_characters:
-                if file_id == p.file_id:
-                    return PhoneCall(p, c)
-        return PhoneCall(None, c)
+        return PhoneCall(get_char_from_file_id(file_id), c)
 
     def get_participants(item):
         """Get the participants for this item."""
 
         # First, check if this item has a dictionary entry
-        if store.persistent.chatroom_participants.get(item.title):
-            return store.persistent.chatroom_participants[item.title]
+        if store.persistent.chatroom_participants.get(item.title, False):
+            # Convert the file_ids back into ChatCharacter objects
+            return [ get_char_from_file_id(x) for x in
+                store.persistent.chatroom_participants[item.title]
+                if get_char_from_file_id(x) is not None ]
 
         # Otherwise, just return the original participant list
         return item.original_participants
@@ -216,7 +212,7 @@ screen timeline_item_history(item):
     python:
         # Determine if the participants list needs to scroll or not
         part_anim = null_anim
-        if isinstance(item, ChatRoom) and item.participants:
+        if isinstance(item, ChatRoom) and get_participants(item):
             if len(get_participants(item)) > 4:
                 part_anim = participant_scroll
 
