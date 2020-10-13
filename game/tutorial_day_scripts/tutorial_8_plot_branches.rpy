@@ -91,6 +91,11 @@ label plot_branch_tutorial_expired():
     exit chatroom u
     return
 
+label after_plot_branch_tutorial():
+    # This turns off the hacked effect on the timeline and in the
+    # chat home screen.
+    $ hacked_effect = False
+    return
 
 ## This is how the program knows what to do when it gets to a plot branch.
 ## It's the label of the item after which the plot branch occurs, + _branch

@@ -113,3 +113,8 @@ label hack_example_expired():
     return
 
 
+label after_hack_example():
+    # This turns on the hacked effect on the timeline and in the
+    # chat home screen.
+    $ hacked_effect = True
+    return
