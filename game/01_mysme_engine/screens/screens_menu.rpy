@@ -451,9 +451,6 @@ screen load():
 screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         begin_page=0):
 
-    #default page_name_value = FilePageNameInputValue(pattern=_("Page {}"),
-    #                    auto=_("Automatic saves"), quick=_("Quick saves"))
-
     python:
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name
@@ -466,8 +463,6 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                                             'example_chat', '00:01')
 
         # Determine the beginning/end values
-        begin_range = 0
-        end_range = 7
         if current_page == 0:
             begin_range = 0
             end_range = slots_per_column - 1
@@ -487,10 +482,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         vpgrid id 'save_load_vp':
             style_prefix "save_load"
             cols gui.file_slot_cols
-            rows slots_per_column #gui.file_slot_rows
-            #draggable True
-            #mousewheel True
-            #scrollbars "vertical"
+            rows slots_per_column
 
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto) and current_page == 0:
@@ -620,10 +612,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                 imagebutton:
                     idle Transform("email_next", xzoom=-1, zoom=1.5)
                     align (0.5, 0.5)
-                    action [SetScreenVariable('begin_page', begin_page-5),
-                        #SetScreenVariable('current_page', current_page-1),
-                        #Function(renpy.restart_interaction),
-                        Function(print, "current page is", current_page)]
+                    action [SetScreenVariable('begin_page', begin_page-5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
             for index in range(begin_page, end_page):
@@ -635,19 +624,13 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     selected_background Transform('blue_hex', zoom=zoomval)
                     text_size 38
                     text_align (0.5, 0.5)
-                    action [SetScreenVariable('current_page', index),
-                        #Function(renpy.restart_interaction),
-                        Function(print, "current page is", current_page)]
-                    #action Function(print, "Current page is", current_page)
-
+                    action [SetScreenVariable('current_page', index)]
+            # Currently there are 10 pages.
             if begin_page < 5:
                 imagebutton:
                     idle Transform("email_next", zoom=1.5)
                     align (0.5, 0.5)
-                    action [SetScreenVariable('begin_page', begin_page+5),
-                        #SetScreenVariable('current_page', current_page+1),
-                        #Function(renpy.restart_interaction),
-                        Function(print, "current page is", current_page)]
+                    action [SetScreenVariable('begin_page', begin_page+5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
 init python:

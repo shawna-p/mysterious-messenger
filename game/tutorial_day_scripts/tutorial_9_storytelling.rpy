@@ -33,16 +33,17 @@ label other_storytelling():
     y "I'll demonstrate."
     exit chatroom y
 
-    # These second arguments tell the program to clear the chat when
-    # the player returns after the VN. It sets the background of the
-    # chatroom to the 'night' background when it returns.
+    # This is the same as the above call, but on return, you can reset the
+    # participants and the chatlog with `clear chat participants`, and then set
+    # the background again. If you just want to clear the chatlog, not the
+    # participants, just use `clear chat`. `clear chat participants` does both.
     call vn_during_chat('other_storytelling_vn_2')
-    #, clearchat_on_return=True,
-                        #new_bg='night')
     clear chat participants
     scene night
 
     play music same_old_fresh_air
+    # Because the participants were cleared, Yoosung is not in the chatroom
+    # any more, so he enters again.
     enter chatroom y
     y "{=curly}Hello again!{/=curly}" (bounce=True)
     y "See how the background has changed and the message history is gone?"
