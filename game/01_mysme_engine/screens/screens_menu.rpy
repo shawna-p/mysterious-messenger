@@ -425,22 +425,34 @@ screen save():
     tag save_load
     modal True
 
+    default current_page = 0
+    default num_pages = 10
+    default slots_per_column = 7
+    default begin_page = 0
+
     use menu_header("Save", Hide('save', Dissolve(0.5))):
-        use file_slots(_("Save"))
+        use file_slots(_("Save"), current_page, num_pages, slots_per_column,
+            begin_page)
 
 screen load():
 
     tag save_load
     modal True
 
+    default current_page = 0
+    default num_pages = 5
+    default slots_per_column = 7
+    default begin_page = 0
+
     use menu_header("Load", Hide('load', Dissolve(0.5))):
-        use file_slots(_("Load"))
+        use file_slots(_("Load"), current_page, num_pages, slots_per_column,
+            begin_page)
 
-screen file_slots(title):
+screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
+        begin_page=0):
 
-    default page_name_value = FilePageNameInputValue(pattern=_("Page {}"),
-                        auto=_("Automatic saves"), quick=_("Quick saves"))
-
+    #default page_name_value = FilePageNameInputValue(pattern=_("Page {}"),
+    #                    auto=_("Automatic saves"), quick=_("Quick saves"))
 
     python:
         # Retrieve the name and day of the most recently completed
@@ -453,6 +465,18 @@ screen file_slots(title):
             most_recent_item = ChatRoom('Example Chatroom',
                                             'example_chat', '00:01')
 
+        # Determine the beginning/end values
+        begin_range = 0
+        end_range = 7
+        if current_page == 0:
+            begin_range = 0
+            end_range = slots_per_column - 1
+        else:
+            begin_range = (current_page*slots_per_column)-1
+            end_range = (current_page*slots_per_column)+slots_per_column-1
+
+        end_page = begin_page + num_pages
+
 
     fixed:
         # This ensures the input will get the enter event before any of the
@@ -463,13 +487,13 @@ screen file_slots(title):
         vpgrid id 'save_load_vp':
             style_prefix "save_load"
             cols gui.file_slot_cols
-            rows gui.file_slot_rows
-            draggable True
-            mousewheel True
-            scrollbars "vertical"
+            rows slots_per_column #gui.file_slot_rows
+            #draggable True
+            #mousewheel True
+            #scrollbars "vertical"
 
             # This adds the 'backup' save slot to the top when loading
-            if title == "Load" and FileLoadable(mm_auto):
+            if title == "Load" and FileLoadable(mm_auto) and current_page == 0:
                 if '|' in FileSaveName(mm_auto):
                     $ info = FileSaveName(mm_auto).split('|')
                     $ rt = info[0]
@@ -520,7 +544,8 @@ screen file_slots(title):
                                 # Can't delete this file
 
             ## This displays all the regular save slots
-            for i in range(gui.file_slot_cols * gui.file_slot_rows):
+            #for i in range(gui.file_slot_cols * gui.file_slot_rows):
+            for i in range(begin_range, end_range):
 
                 python:
                     slot = i + 1
@@ -588,6 +613,42 @@ screen file_slots(title):
 
                     key "save_delete" action FileDelete(slot)
 
+        hbox:
+            style_prefix 'email_hub'
+            spacing 18
+            if begin_page >= 5:
+                imagebutton:
+                    idle Transform("email_next", xzoom=-1, zoom=1.5)
+                    align (0.5, 0.5)
+                    action [SetScreenVariable('begin_page', begin_page-5),
+                        #SetScreenVariable('current_page', current_page-1),
+                        #Function(renpy.restart_interaction),
+                        Function(print, "current page is", current_page)]
+                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+
+            for index in range(begin_page, end_page):
+                $ zoomval = 0.7
+                textbutton _(str(index+1)):
+                    xysize (int(130*zoomval), int(149*zoomval))
+                    background Transform('white_hex', zoom=zoomval)
+                    hover_background Transform('white_hex_hover', zoom=zoomval)
+                    selected_background Transform('blue_hex', zoom=zoomval)
+                    text_size 38
+                    text_align (0.5, 0.5)
+                    action [SetScreenVariable('current_page', index),
+                        #Function(renpy.restart_interaction),
+                        Function(print, "current page is", current_page)]
+                    #action Function(print, "Current page is", current_page)
+
+            if begin_page < 5:
+                imagebutton:
+                    idle Transform("email_next", zoom=1.5)
+                    align (0.5, 0.5)
+                    action [SetScreenVariable('begin_page', begin_page+5),
+                        #SetScreenVariable('current_page', current_page+1),
+                        #Function(renpy.restart_interaction),
+                        Function(print, "current page is", current_page)]
+                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
 init python:
 
