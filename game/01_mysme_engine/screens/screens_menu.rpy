@@ -426,7 +426,7 @@ screen save():
     modal True
 
     default current_page = 0
-    default num_pages = 10
+    default num_pages = 5
     default slots_per_column = 7
     default begin_page = 0
 
@@ -534,6 +534,8 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             fixed:
                                 null
                                 # Can't delete this file
+            elif current_page == 0:
+                yoffset 71
 
             ## This displays all the regular save slots
             #for i in range(gui.file_slot_cols * gui.file_slot_rows):
