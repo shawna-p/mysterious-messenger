@@ -1405,14 +1405,14 @@ init python:
         deliver_emails()
         check_and_unlock_story()
 
+        store.dialogue_picked = ""
+        store.dialogue_paraphrase = store.paraphrase_choices
+        store.dialogue_pv = 0
+
         # Save variables
         renpy.retain_after_load()
 
         deliver_next()
-
-        store.dialogue_picked = ""
-        store.dialogue_paraphrase = store.paraphrase_choices
-        store.dialogue_pv = 0
         return
 
 
