@@ -396,15 +396,20 @@ label tutorial_chat_incoming_z:
 
     # You don't need call answer here because you go directly
     # into a choice menu during phone calls.
-    menu:
+    # Paraphrasing is turned on for this menu in order for it to play nice
+    # with auto-voicing, but if you aren't using auto-voicing you can take
+    # advantage of non-paraphrased menu choices as usual.
+    menu (paraphrased=True):
         # If you want the previous dialogue to show up behind the choice
         # menu, you must add extend '' just after the menu
         extend ''
         "Yeah, I didn't even dream.":
+            m "Yeah, I didn't even dream." (pauseVal=0)
             z "That's good."
             z "I'm a bit sad to hear you didn't dream."
             z "I was waiting for you... looking like prince charming."
         "I didn't sleep very well.":
+            m "I didn't sleep very well." (pauseVal=0)
             z "You didn't? You must be tired then."
             z "Call me next time you can't sleep."
             z "I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams."
@@ -427,13 +432,17 @@ label tutorial_chat_outgoing_y():
     y "I will not die."
     y "To live, I must drink chocolate milk..."
 
-    menu:
+    # Paraphrasing is turned on for this menu in order for it to play nice
+    # with auto-voicing.
+    menu (paraphrased=True):
         extend ''
         "The ones who wish to live will die and those who wish to die will live!":
+            m "The ones who wish to live will die and those who wish to die will live!" (pauseVal=0)
             y "Uh-uh I know there's a super intelligent saying on that!"
             y "What was it...!!!!! I think Shakespears said it."
             y "Whatever... noo... that's not what's important..."
         "Yoo-Yoosung?":
+            m "Yoo-Yoosung?" (pauseVal=0)
             y "nooooooooooooooooooooooooo"
             y "haaaaaaaaaaaaaaaaaaaaarggh"
 

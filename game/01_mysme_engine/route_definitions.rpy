@@ -803,7 +803,7 @@ init -6 python:
             current_call = incoming_call
             incoming_call = False
             renpy.music.play(persistent.phone_tone, 'music', loop=True)
-            renpy.show_screen('incoming_call', phonecall=current_call)
+            renpy.call_screen('incoming_call', phonecall=current_call)
 
 
     def merge_routes(new_route):
