@@ -236,7 +236,7 @@ label execute_timed_menu():
                 timed_menu_dict['no_choices'] = True
                 renpy.jump('execute_timed_menu_narration')
 
-    if not persistent.use_timed_menus:
+    if not persistent.use_timed_menus or _in_replay:
         jump execute_timed_menu_narration
 
     # If the program got here, it is time to animate the messages
@@ -270,7 +270,7 @@ label execute_timed_menu_narration():
     if narration:
         $ msg = narration.pop(0)
         $ msg.execute()
-    if persistent.use_timed_menus:
+    if persistent.use_timed_menus and not _in_replay:
         $ messenger_pause(timed_menu_dict.get('wait_time', 8)
             * store.persistent.timed_menu_pv)
     jump end_of_timed_menu
@@ -284,7 +284,8 @@ label end_of_timed_menu():
     # reply. There is a small buffer for them to finish reading the last
     # message and then everything is reset.
     if (persistent.use_timed_menus
-            and not timed_menu_dict.get('no_choices', False)):
+            and not timed_menu_dict.get('no_choices', False)
+            and not _in_replay):
         $ messenger_pause(end_menu_buffer * persistent.timed_menu_pv)
         hide screen timed_choice
         hide screen answer_countdown
@@ -297,16 +298,22 @@ label end_of_timed_menu():
 
     # Otherwise, if the player has timed menus turned off, it is time to show
     # them the choice screen
-    if (not persistent.use_timed_menus
+    if ((not persistent.use_timed_menus or _in_replay)
             and not timed_menu_dict.get('item', None)):
-        call answer
         python:
             items = timed_menu_dict['items']
-            items.append(timed_menu_dict['autoanswer'])
-            screen_kwargs = timed_menu_dict['menu_kwargs']
-            para = screen_kwargs.get('paraphrased', None)
-        call screen choice(items=items, paraphrased=para)
-        return
+            has_chosen = False
+            for i in items:
+                if i.chosen:
+                    has_chosen = True
+                    break
+        if has_chosen or not _in_replay:
+            $ items.append(timed_menu_dict['autoanswer'])
+            $ screen_kwargs = timed_menu_dict['menu_kwargs']
+            $ para = screen_kwargs.get('paraphrased', None)
+            call answer
+            call screen choice(items=items, paraphrased=para)
+            return
 
     $ end_label = timed_menu_dict.get('end_label', None)
     if end_label is None:
@@ -326,7 +333,7 @@ label finish_timed_menu():
 
     $ chatbackup = None
 
-    if persistent.use_timed_menus:
+    if persistent.use_timed_menus and not _in_replay:
         # Hide all the choice screens
         hide screen timed_choice
         hide screen answer_countdown

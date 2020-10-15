@@ -80,7 +80,8 @@ screen pause_button():
     zorder 4
     tag chat_footer
 
-    if (on_screen_choices > 0 and persistent.use_timed_menus):
+    if (on_screen_choices > 0 and persistent.use_timed_menus
+            and not _in_replay):
         viewport:
             # Use this viewport to "consume" the mouse input so the player
             # can't click to mess up the timed answer timing.
@@ -99,7 +100,8 @@ screen pause_button():
             focus_mask True
             idle 'phone_pause'
             if (not choosing and
-                    not (timed_menu_dict and persistent.use_timed_menus)):
+                    not ((timed_menu_dict and persistent.use_timed_menus)
+                        or not _in_replay)):
                 action [Call("play"), Return()]
                 keysym "K_SPACE"
 
@@ -119,11 +121,6 @@ label play():
         show screen pause_button
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
-    # if (_in_replay or not persistent.use_timed_menus) and timed_menu_dict:
-    #     # Haven't posted all the narration for a timed menu
-    #     call screen play_button
-    #     show screen pause_button
-    #     jump play_timed_menu_narration
     if not text_person:
         # Playing a chatroom
         call screen play_button

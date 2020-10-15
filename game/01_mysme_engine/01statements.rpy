@@ -1835,15 +1835,11 @@ python early hide:
             # Construct one giant block out of all the items in pre_menu_block
             narration = subparse_to_nodes(p['pre_menu_block'])
 
-            print_file("Narration is:")
-            for item in narration:
-                print_file("    ", item, "time:", convert_node_to_time(item))
             # Link all the narration nodes together
             renpy.ast.chain_block(narration, after_menu_node)
 
             # Calculate how long it will take to play the narration
             wait_time = convert_node_to_time(narration)
-            print_file("Got a wait time of", wait_time)
         else:
             try:
                 wait_time = eval(p['wait'])
@@ -1856,7 +1852,6 @@ python early hide:
 
         # Adjust the wait time for the timed menu pv
         wait_time *= store.persistent.timed_menu_pv
-        print_file("Wait time is now", wait_time)
 
         # Create the choices
         for i, (label, condition, block) in enumerate(p['items']):
@@ -2359,7 +2354,7 @@ python early hide:
         """This executes after the continuous menu is complete."""
 
         print_file("executing after c menu")
-        if store.persistent.use_timed_menus:
+        if store.persistent.use_timed_menus and not store._in_replay:
             renpy.hide_screen("c_choice_1")
             renpy.hide_screen("c_choice_2")
             renpy.hide_screen("c_choice_3")
@@ -2385,7 +2380,7 @@ python early hide:
         for i in store.c_menu_dict['items']:
             store.c_menu_dict['available_choices'] = []
             if i.info.end_with_menu:
-                if not store.persistent.use_timed_menus:
+                if not store.persistent.use_timed_menus or store._in_replay:
                     ## Add this choice to the available choices
                     store.c_menu_dict['available_choices'].append(i)
 
@@ -2471,7 +2466,7 @@ python early hide:
         # Retrieve the MenuEntry item associated with this choice.
         item = store.c_menu_dict['choice_id_dict'][p['choice_id']]
 
-        if not store.persistent.use_timed_menus:
+        if not store.persistent.use_timed_menus or store._in_replay:
             ## If timed menus are turned off, don't show a choice screen
             ## until one or more choices are about to expire. Add this choice
             ## to the list of choices that are currently available.
@@ -2578,7 +2573,7 @@ python early hide:
 
     def execute_end_choice(p):
 
-        if (not store.persistent.use_timed_menus
+        if store._in_replay or (not store.persistent.use_timed_menus
                 and not store.c_menu_dict.get('item', None)):
             ## Show this choice to the user, along with an option to remain
             ## silent.
@@ -2650,7 +2645,8 @@ python early hide:
         choice_id_dict[p['choice_id']] = None
 
         if (store.c_menu_dict.get('item', None)
-                or not store.persistent.use_timed_menus):
+                or not store.persistent.use_timed_menus
+                or store._in_replay):
             ## If this isn't at the end of the menu, re-show any remaining
             ## choices. Reset the number that are on-screen.
             store.on_screen_choices = 0
@@ -2665,7 +2661,7 @@ python early hide:
                 print_file("end is", end)
                 store.c_menu_dict['available_choices'] = []
                 if i.info.begin < end and i.info.end > end:
-                    if not store.persistent.use_timed_menus:
+                    if not store.persistent.use_timed_menus or store._in_replay:
                         ## Add this choice to the available choices
                         print_file("Added", i.info.choice_id, "to available choices.")
                         store.c_menu_dict['available_choices'].append(i)

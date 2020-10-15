@@ -428,7 +428,8 @@ init -4 python:
         # use the default one
         if ((store.timed_menu_dict
                     or store.c_menu_dict.get('showing_choices', None))
-                and persistent.use_timed_menus):
+                and persistent.use_timed_menus
+                and not store._in_replay):
             if pauseVal is None:
                 pauseVal = persistent.timed_menu_pv
             else:
@@ -443,7 +444,8 @@ init -4 python:
                 and store.chatlog[-1].who.name == 'filler'
                 and not ((store.timed_menu_dict
                     or store.c_menu_dict.get('showing_choices', None))
-                and persistent.use_timed_menus)):
+                and persistent.use_timed_menus
+                and not store._in_replay)):
             pauseVal = 0.1
         elif who.name == 'filler':
             pauseVal = 0

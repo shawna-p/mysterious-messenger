@@ -266,16 +266,27 @@ label execute_continuous_menu():
 
 ## Plays the continuous menu as if it were a regular menu without a timer.
 label play_continuous_menu_no_timer():
-    call answer
     python:
         items = c_menu_dict['available_choices'][:]
-        items.append(c_menu_dict['autoanswer'])
-        screen_kwargs = c_menu_dict['menu_kwargs']
-        para = screen_kwargs.get('paraphrased', None)
+        has_chosen = False
+        for i in items:
+            if i.chosen:
+                has_chosen = True
+                break
+    # Only show this menu in a replay if at least once choice
+    # was made in it previously (and not the choice to stay silent).
+    if has_chosen or not _in_replay:
+        $ items.append(c_menu_dict['autoanswer'])
+        $ screen_kwargs = c_menu_dict['menu_kwargs']
+        $ para = screen_kwargs.get('paraphrased', None)
         if c_menu_dict.get('erase_menu', False):
-            print_file("Erased menu")
-            c_menu_dict = {}
-    call screen choice(items=items, paraphrased=para)
+            $ c_menu_dict = {}
+        call answer
+        call screen choice(items=items, paraphrased=para)
+    else:
+        if c_menu_dict.get('erase_menu', False):
+            $ c_menu_dict = {}
+
     return
 
 ## Determines what to do after a choice has been made. Generally executes
@@ -290,7 +301,7 @@ label finish_c_menu:
 
     $ chatbackup = None
 
-    if persistent.use_timed_menus:
+    if persistent.use_timed_menus and not _in_replay:
         # Hide all the choice screens
         hide screen c_choice_1
         hide screen c_choice_2
