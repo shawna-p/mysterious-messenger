@@ -141,8 +141,6 @@ label plot_branch_tutorial_branch():
 
     # This particular branch will check whether or not the player
     # has the Modified UI turned on.
-    $ pp = participated_percentage(1)
-    $ print_file("\npp is", pp)
     if persistent.custom_footers and participated_percentage(1) >= 20:
         # Continue on to the good end and the party
         # Since this means the program should simply continue
@@ -200,7 +198,7 @@ label tutorial_bad_end():
 
 ## This is the label you see if the previous chatroom has expired.
 label tutorial_bad_end_expired():
-    scene noon
+    scene night
     play music i_miss_happy_rika
     v "Hello, everyone."
     v "{=ser2}I came to make an announcement.{/=ser2}"
@@ -344,21 +342,19 @@ label plot_branch_normal_end():
     return
 
 label ending_descrip(ending_type, who):
+    $ shuffle = False
     menu ending_top:
         extend ''
         "How do I get the Bad Relationship End?" if ending_type != "Bad Relationship":
             who neutral "You get the Bad Relationship End when you haven't participated in enough story items."
             who "Things like chatrooms and story calls expire if you're playing in real-time,"
             who "Or you can force a chatroom to expire by clicking the back button before it ends if it's your first time playing."
-            show saeran unknown:
-                zoom 1.5
-            who "If you want to be sneaky..."
-            hide saeran
-            show saeran unknown at vn_center
+            who thinking "If you want to be sneaky..."
             who happy "You could also start a new game and check 'Unlock all story' in the Developer settings."
             who smile "That unlocks all story items and plot branches without having to play them sequentially."
             who "So you could just use that and click the plot branch icon right away."
             who "Do you want to know about any other endings?"
+            $ shuffle = False
             jump ending_top
         "How do I get the Good End?" if ending_type != "Good":
             if ending_type == "Normal":
@@ -375,22 +371,25 @@ label ending_descrip(ending_type, who):
             who "You can find it under the {b}Preferences{/b} tab."
             who happy "If you've done all that, and you see Rainbow attend the party, then you'll get the Good End!"
             who neutral "Are there any other endings you want to know about?"
+            $ shuffle = False
             jump ending_top
         "How do I get the Bad End?" if ending_type != "Bad":
             who neutral "You can get the Bad End after the first plot branch, before the party."
-            who "First, you need to participate in at least 20% of the chatrooms on Tutorial Day before the plot branch."
+            who "First, you need to participate in at least 20\% of the chatrooms on Tutorial Day before the plot branch."
             who "Then, make sure you have \"Modified UI\" turned {b}off{/b} from the {b}Preferences{/b} tab in the {b}Settings{/b}."
             who happy "If you do that, when you go through the plot branch, you should get the Bad End."
             who neutral "It won't matter how many guests you've invited."
             who "Are there any other endings you want to know about?"
+            $ shuffle = False
             jump ending_top
         "How do I get the Normal End?" if ending_type != "Normal":
             who neutral "You'll get the Normal End if you get through the plot branch and no one attends the party."
-            who "So, make sure you've participated in at least 20% of the story on Tutorial Day,"
+            who "So, make sure you've participated in at least 20\% of the story on Tutorial Day,"
             who "and turn on \"Modified UI\" from the {b}Preferences{/b} tab in the Settings."
             who "Then you should be able to get through the first plot branch,"
             who "and if no one attends your party (or you never invited anyone), you'll get the Normal End."
             who smile "Do you want to know about how to get any of the other endings?"
+            $ shuffle = False
             jump ending_top
         "That's all.":
             pass
@@ -435,8 +434,9 @@ label tutorial_good_end_party():
     scene bg rika_apartment with fade
     pause
     show saeran unknown
-    u "This is where you'd likely put a VN section for a party."
-    u distant "It works the same way as any other VN section; the only thing that's different is the icon."
+    u happy "Welcome to the party!"
+    u thinking "Or, what would be the party for a normal route."
+    u distant "The party works the same way as any other Story Mode section; the only thing that's different is the icon."
     u neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
     u "Then you can reset the game so they can play through it again."
     u smile "As always, there's more information on that in the wiki."
@@ -449,7 +449,7 @@ label tutorial_good_end_party():
     scene bg rika_apartment
     show saeran unknown
     u "Do you want to know how to get the other endings before I go?"
-    call ending_descrip('Good')
+    call ending_descrip('Good', u)
     $ ending = 'good'
     return
 
@@ -470,7 +470,7 @@ label plot_branch_bre():
     r "And you can play through all the chatrooms."
     r "Maybe you just didn't understand how to get the rest of the endings."
     r "Was there an ending you wanted to know how to get?"
-    call ending_descrip('Bad Relationship')
+    call ending_descrip('Bad Relationship', r)
     $ ending = 'bad'
     return
 
