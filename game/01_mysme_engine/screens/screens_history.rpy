@@ -304,6 +304,7 @@ screen timeline_item_history(item):
                             size 27
                             xalign 0.5
                             text_align 0.5
+                            yoffset 0
                     viewport:
                         xysize(400,27)
                         if get_text_width(item.title,
@@ -341,7 +342,7 @@ screen timeline_item_history(item):
             add story_mode.vn_img align (1.0, 1.0) xoffset 3 yoffset 5
             hbox:
                 frame:
-                    text story_mode.trigger_time
+                    text story_mode.trigger_time yoffset 0
                 viewport:
                     frame:
                         xsize 350
@@ -406,8 +407,8 @@ screen history_timeline_story_calls(phonecall, item):
             # First add the profile picture of the caller
             fixed:
                 fit_first True
-                add phonecall.caller.participant_pic:
-                    xalign 0.0
+                offset (4, 4)
+                add phonecall.caller.participant_pic
                 add Transform('call_mainicon', size=(28,28)) align (0.01, 0.99)
             vbox:
                 spacing 21
@@ -415,13 +416,15 @@ screen history_timeline_story_calls(phonecall, item):
                     spacing 30
                     # The time of the call
                     $ the_time = phonecall.trigger_time or item.trigger_time
-                    text the_time style 'chat_timeline_text'
+                    text the_time style 'chat_timeline_text' yoffset 0
                     # The title of the chatroom
-                    text phonecall.caller.name style 'chat_timeline_text'
+                    text phonecall.caller.name:
+                        style 'chat_timeline_text'
+                        yoffset 0
                 # Thing that says the caller's name
                 fixed:
                     $ the_title = phonecall.title or "Story Call"
-                    text the_title style 'chat_timeline_text'
+                    text the_title style 'chat_timeline_text' yoffset 0
 
         # The replay icons
         hbox:
