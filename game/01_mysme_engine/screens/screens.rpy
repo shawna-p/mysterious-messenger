@@ -308,7 +308,22 @@ init python:
         # Otherwise, send this dialogue to the appropriate channel
         print_file("Executing dialogue", dialogue, "as non-paraphrase")
 
+        # Temporarily ditch image attributes
+        temp_side_attr = renpy.store._side_image_attributes
+        temp_temp_attr = renpy.game.context().temporary_attributes
+        temp_attr = renpy.game.context().say_attributes
+
+        renpy.store._side_image_attributes = None
+        renpy.game.context().say_attributes = None
+        renpy.game.context().temporary_attributes = None
+
         store.main_character(dialogue, pauseVal=p, from_paraphrase=True)
+
+        # Restore the image attributes
+        renpy.store._side_image_attributes = temp_side_attr
+        renpy.game.context().say_attributes = temp_attr
+        renpy.game.context().temporary_attributes = temp_temp_attr
+
         store.dialogue_picked = ""
         store.dialogue_paraphrase = store.paraphrase_choices
         store.dialogue_pv = 0

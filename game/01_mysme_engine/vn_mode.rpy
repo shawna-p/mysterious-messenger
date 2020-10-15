@@ -2,6 +2,85 @@
 # Visual Novel Mode
 #************************************
 
+init -10 python:
+
+    class MyADVCharacter(renpy.character.ADVCharacter):
+        """
+        A class which inherits from the default Ren'Py implementation
+        of an ADV character in order to get first pass at its functions.
+        """
+
+        def __call__(self, what, interact=True, _call_done=True,
+                multiple=None, from_paraphrase=None, **kwargs):
+            """
+            Overrides the default implementation of an ADV character's
+            __call__ function in order to work with paraphrasing.
+            """
+
+            if (self != store.main_character.vn_char
+                    and not store.dialogue_paraphrase
+                    and store.dialogue_picked != ""
+                    and not from_paraphrase):
+
+                say_choice_caption(store.dialogue_picked,
+                    store.dialogue_paraphrase, store.dialogue_pv)
+
+            return super(MyADVCharacter, self).__call__(what, interact,
+                _call_done, multiple, **kwargs)
+
+    # Essentially copied from renpy.store.adv; a default ADV character
+    # to work with the new MyADVCharacter class.
+    my_adv = MyADVCharacter(None,
+                   who_prefix='',
+                   who_suffix='',
+                   what_prefix='',
+                   what_suffix='',
+
+                   show_function=renpy.show_display_say,
+                   predict_function=renpy.predict_show_display_say,
+
+                   condition=None,
+                   dynamic=False,
+                   image=None,
+
+                   interact=True,
+                   slow=True,
+                   slow_abortable=True,
+                   afm=True,
+                   ctc=None,
+                   ctc_pause=None,
+                   ctc_timedpause=None,
+                   ctc_position="nestled",
+                   all_at_once=False,
+                   with_none=None,
+                   callback=None,
+                   type='say',
+                   advance=True,
+
+                   who_style='say_label',
+                   what_style='say_dialogue',
+                   window_style='say_window',
+                   screen='say',
+                   mode='say',
+                   voice_tag=None,
+
+                   kind=False)
+
+    def Character(name=renpy.character.NotSet, kind=None, **properties):
+        """
+        This overwrites the default Character definition in order to
+        intercept its arguments to function with the paraphrase system.
+        """
+
+        if kind is None:
+            kind = my_adv
+
+        if kind == renpy.store.adv:
+            kind = my_adv
+
+        return type(kind)(name, kind=kind, **properties)
+
+
 #####################################
 ## VN Setup
 #####################################
