@@ -267,11 +267,10 @@ init -6 python:
                     add_played, add_total = item.participated_percentage(True)
                     played += add_played
                     total += add_total
-                    print_file("Running total: played", played, "vs total", total)
 
             if total == 0 and not get_totals:
                 return 0
-            else:
+            elif total == 0:
                 return 0, 0
 
             if not get_totals:
@@ -947,7 +946,6 @@ init -6 python:
                 get_totals=True)
             total_played += running_played
             total_items += running_total
-            print_file("got the original played", total_played, "and items", total_items)
 
         if total_items == 0:
             return 0

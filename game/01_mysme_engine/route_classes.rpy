@@ -487,12 +487,10 @@ init -6 python:
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
                     if phonecall.played and not phonecall.expired:
-                        print_file("phonecall", phonecall.item_label, "was played")
                         num_played += 1.0
 
             if self.played and not self.expired:
                 num_played += 1.0
-            print_file("Returning played", self.item_label, ":", num_played, "vs total:", total)
             return num_played, total
 
         @property
@@ -993,10 +991,8 @@ init -6 python:
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
                     if phonecall.played and not phonecall.currently_expired:
-                        print_file("phonecall", phonecall.item_label, "was played")
                         num_played += 1.0
 
-            print_file("Returning played", self.item_label, ":", num_played, "vs total:", total)
             return num_played, total
 
 
