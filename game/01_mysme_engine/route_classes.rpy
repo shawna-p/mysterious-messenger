@@ -337,7 +337,7 @@ init -6 python:
                 return None
 
             # Otherwise, this item doesn't have a parent
-            if not item.plot_branch:
+            if not self.plot_branch:
                 return None
             if len(self.story_calls_list) > 0:
                 return self.story_calls[-1]
@@ -487,11 +487,13 @@ init -6 python:
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
                     if phonecall.played and not phonecall.expired:
+                        print_file("phonecall", phonecall.item_label, "was played")
                         num_played += 1.0
 
             if self.played and not self.expired:
                 num_played += 1.0
-            return (num_played, total)
+            print_file("Returning played", self.item_label, ":", num_played, "vs total:", total)
+            return num_played, total
 
         @property
         def currently_expired(self):
@@ -991,9 +993,11 @@ init -6 python:
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
                     if phonecall.played and not phonecall.currently_expired:
+                        print_file("phonecall", phonecall.item_label, "was played")
                         num_played += 1.0
 
-            return (num_played, total)
+            print_file("Returning played", self.item_label, ":", num_played, "vs total:", total)
+            return num_played, total
 
 
 

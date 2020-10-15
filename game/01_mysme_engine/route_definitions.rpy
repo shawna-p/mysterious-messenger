@@ -254,7 +254,8 @@ init -6 python:
                     self.branch_vn.who, self.branch_vn.party)
                 self.branch_vn = new_vn
 
-        def participated_percentage(self, only_if_available=False):
+        def participated_percentage(self, only_if_available=False,
+                get_totals=False):
             """Return the percent of items that have been participated in."""
 
             played = 0
@@ -266,11 +267,17 @@ init -6 python:
                     add_played, add_total = item.participated_percentage(True)
                     played += add_played
                     total += add_total
+                    print_file("Running total: played", played, "vs total", total)
 
-            if total == 0:
+            if total == 0 and not get_totals:
                 return 0
+            else:
+                return 0, 0
 
-            return int((played * 100) // total)
+            if not get_totals:
+                return int((played * 100) // total)
+            else:
+                return played, total
 
         @property
         def has_playable(self):
@@ -930,13 +937,21 @@ init -6 python:
         if last_day is None:
             last_day = len(store.story_archive)
 
-        total_days = last_day - first_day
-        total_percent = 0
+        total_items = 0
+        total_played = 0
+        running_played = 0
+        running_total = 0
 
         for day in store.story_archive[first_day:last_day]:
-            total_percent += day.participated_percentage(True)
+            running_played, running_total = day.participated_percentage(True,
+                get_totals=True)
+            total_played += running_played
+            total_items += running_total
+            print_file("got the original played", total_played, "and items", total_items)
 
-        return (total_percent // total_days)
+        if total_items == 0:
+            return 0
+        return (total_played * 100) // total_items
 
 
     def can_branch():
