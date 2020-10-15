@@ -253,9 +253,8 @@ label example_chat():
     u "{=ser1b}What would you like to see first?{/=ser1b}"
 
     call answer
-    # This unusual bit of code tells the program to shuffle
-    # all the choices except the last one
-    # In general you won't mess with this
+    # This unusual bit of code tells the program to shuffle all the choices
+    # except the last one. In general you won't mess with this.
     if not first_choice:
         $ shuffle = "last"
     menu learn (paraphrased=True):
@@ -328,10 +327,6 @@ label emojis():
     s "{=sser2}{size=+10}Yay!!!{/size}{/=sser2}" (bounce=True, specBubble="spike_m")
     s "The program has a whole bunch of emojis defined in {b}emoji_definitions.rpy{/b} already,"
     s "and it will even play the right sound effect for you when the emoji is shown."
-    s "{=ser1b}You also need to make sure the program knows the the message contains an image (using {b}(img=True){/b} after the dialogue){/=ser1b}"
-    s "{=blocky}otherwise it'll look like this lolol{/=blocky}"
-    s "{image=seven_wow}"
-    s "{=sser2}Which is probably not what you want!{/=sser2}"
     s "{=sser2}You'll have to be careful to get the spelling right,{/=sser2}"
     s "since otherwise you'll get an \"image not found\" message."
     s "{=blocky}And it won't play any sound files, either!{/=blocky}" (bounce=True)
@@ -405,36 +400,38 @@ label emojis():
 
 
         "Done":
-            s "{=sser2}The last thing I'm here to explain is how to post CGs.{/=sser2}" (pauseVal=0)
-            s "{=curly}That means images like this!{/=curly}" (bounce=True)
-            s "s_1" (img=True)
-            s "{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}"
-            s "You can post CGs too!"
-            call answer
-            menu:
-                "I can?":
-                    s "Yeah! Give it a try!"
-                    # You can either write the "cg s_1" or just "s_1" so long
-                    # as you use (img=True) or `msg m "cg s_1" img`
-                    m "cg s_1" (img=True)
-                "(Try posting)" (paraphrased=True):
-                    m "s_1" (img=True, pauseVal=0)
-            m "{image=seven_wow}" (img=True)
-            s "Yeah, just like that!"
-            s "{=sser2}You post these a little differently from emojis. {/=sser2}"
-            s "There's more information in the {b}wiki{/b}."
-            s "{=ser1}The program will take care of unlocking the image in the gallery and letting players view it full-size!{/=ser1}"
-            s "{=ser1}Just make sure you indicate that the message contains an image,{/=ser1}"
-            s "{=blocky}Otherwise it'll just show up in text, like this:{/=blocky}"
-            s "s_1"
-            s "But if you check off the \"Image\" modifier, you get this:" (bounce=True, specBubble="round2_m")
-            s "s_1" (img=True)
-            s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
-            s "Let me know if you have any questions later~"
-            exit chatroom s
-            call answer
-            $ shuffle = "last"
-            jump learn
+            pass
+    s "{=sser2}The last thing I'm here to explain is how to post CGs.{/=sser2}" (pauseVal=0)
+    s "{=curly}That means images like this!{/=curly}" (bounce=True)
+    # Note that (img=True) tells the program this message contains a CG.
+    s "s_1" (img=True)
+    s "{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}"
+    s "You can post CGs too!"
+    call answer
+    menu:
+        "I can?":
+            s "Yeah! Give it a try!"
+            # You can either write the "cg s_1" or just "s_1" so long
+            # as you use (img=True) or `msg m "cg s_1" img`
+            m "cg s_1" (img=True)
+        "(Try posting)" (paraphrased=True):
+            m "s_1" (img=True, pauseVal=0)
+    m "{image=seven_wow}" (img=True)
+    s "Yeah, just like that!"
+    s "{=sser2}You post these a little differently from emojis. {/=sser2}"
+    s "There's more information in the {b}wiki{/b}."
+    s "{=ser1}The program will take care of unlocking the image in the gallery and letting players view it full-size!{/=ser1}"
+    s "{=ser1}Just make sure you indicate that the message contains an image,{/=ser1}"
+    s "{=blocky}Otherwise it'll just show up in text, like this:{/=blocky}"
+    s "s_1"
+    s "But the program knows it's an image, you get this:" (bounce=True, specBubble="round2_m")
+    s "s_1" (img=True)
+    s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
+    s "Let me know if you have any questions later~"
+    exit chatroom s
+    call answer
+    $ shuffle = "last"
+    jump learn
 
 
 label banners():
@@ -448,7 +445,7 @@ label banners():
     y "{=sser2}I'm supposed to explain banners to you.{/=sser2}"
     y "{=sser2}It's pretty quick, I promise!{/=sser2}"
     y "{image=yoosung_happy}" (img=True)
-    y "You call them with \"call banner('__')\","
+    y "You can show them with \"show banner __\" or \"show __ banner\","
     y "where '__' is the name of the banner you want."
     if not persistent.banners:
         y "It looks like you've got banner animations turned off though!"
@@ -537,6 +534,8 @@ label heart_icons():
 
     z "{=sser2}Anyway, so getting a heart point will look like this:{/=sser2}"
     award heart z
+    msg z "and you award them in script by writing \"award heart z\"" sser2
+    msg z "where \"z\" is the character the heart point is for." sser2
     if not persistent.animated_icons:
         z "And you can lose heart points, too."
         z "You just write {b}break heart z{/b} and give it the ChatCharacter variable you're losing a point with instead of z"
@@ -545,7 +544,7 @@ label heart_icons():
         z "{=sser1b}They all use the same white heart, this one{/=sser1b}"
         award heart u
         z "and just recolour it depending on what argument you pass via \"award heart z\""
-        z "You can easily add your own colours, too, whenever you define a ChatCharacter like in character_definitions.rpy"
+        z "You can easily add your own colours, too, whenever you define a ChatCharacter like in {b}character_definitions.rpy{/b}"
         z "{=blocky}Here are the currently available colours:{/=blocky}"
         z "Seven"
         award heart s
@@ -570,7 +569,7 @@ label heart_icons():
         award heart ri
         z "{=sser2}which in this game is for Rika.{/=sser2}"
         z "The last thing I'm here to explain is the 'heartbreak' icon"
-        z "It works the same as the regular heart icons -- just call \"heart_break\" with that character"
+        z "It works the same as the regular heart icons -- just write \"break heart z\" with the character you want"
         z "{=ser1}It will automatically colour itself{/=ser1}"
         z "{=sser2}They look like this!{/=sser2}"
 
@@ -578,7 +577,7 @@ label heart_icons():
     z "{=sser2}But you don't really want to hurt any of our feelings, right?{/=sser2}" (bounce=True)
     z "{image=zen_happy}" (img=True)
     award heart z
-    z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save&Exit.{/=ser1}"
+    z "{=ser1}The program automatically tallies the heart points you've earned during a chatroom and displays the total after you hit Save & Exit.{/=ser1}"
     z "It keeps track of both the total points earned during a chatroom,"
     z "as well as how many points you have with each individual character"
     z "There's also a second argument you can pass it to have heart points count towards a bad end."
@@ -734,7 +733,7 @@ label example_chat_expired():
     u "Give it a shot ^^"
     u "I'll see you soon!"
     exit chatroom u
-    jump chat_end
+    return
 
 menu bubbles:
     "Small bubbles":
