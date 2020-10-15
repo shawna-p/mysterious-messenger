@@ -354,7 +354,9 @@ screen phone_overlay():
                 # again while the non-modal confirm screen is showing.
                 if renpy.get_screen('no_modal_confirm'):
                     action None
-                elif (observing or current_timeline_item.currently_expired or _in_replay):
+                if _in_replay:
+                    action EndReplay(False)
+                elif (observing or current_timeline_item.currently_expired):
                     action Jump('exit_item_early')
                 elif on_screen_choices > 0:
                     # Continuous menus must continue on or their animation
