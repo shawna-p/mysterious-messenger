@@ -141,6 +141,8 @@ label plot_branch_tutorial_branch():
 
     # This particular branch will check whether or not the player
     # has the Modified UI turned on.
+    $ pp = participated_percentage(1)
+    $ print_file("\npp is", pp)
     if persistent.custom_footers and participated_percentage(1) >= 20:
         # Continue on to the good end and the party
         # Since this means the program should simply continue
@@ -337,62 +339,63 @@ label plot_branch_normal_end():
     u happy "But that's okay!"
     u "It's good to see all the different endings, too."
     u smile "Did you have any questions about how to get the other endings?"
-    call ending_descrip('Normal')
+    call ending_descrip('Normal', u)
     $ ending = 'normal'
     return
 
-label ending_descrip(ending_type):
-    menu:
+label ending_descrip(ending_type, who):
+    menu ending_top:
         extend ''
         "How do I get the Bad Relationship End?" if ending_type != "Bad Relationship":
-            u neutral "You get the Bad Relationship End when you haven't participated in enough story items."
-            u "Things like chatrooms and story calls expire if you're playing in real-time,"
-            u "Or you can force a chatroom to expire by clicking the back button before it ends if it's your first time playing."
+            who neutral "You get the Bad Relationship End when you haven't participated in enough story items."
+            who "Things like chatrooms and story calls expire if you're playing in real-time,"
+            who "Or you can force a chatroom to expire by clicking the back button before it ends if it's your first time playing."
             show saeran unknown:
                 zoom 1.5
-            u "If you want to be sneaky..."
+            who "If you want to be sneaky..."
             hide saeran
             show saeran unknown at vn_center
-            u happy "You could also start a new game and check 'Unlock all story' in the Developer settings."
-            u smile "That unlocks all story items and plot branches without having to play them sequentially."
-            u "So you could just use that and click the plot branch icon right away."
-            u "Do you want to know about any other endings?"
-            jump ending_descrip
+            who happy "You could also start a new game and check 'Unlock all story' in the Developer settings."
+            who smile "That unlocks all story items and plot branches without having to play them sequentially."
+            who "So you could just use that and click the plot branch icon right away."
+            who "Do you want to know about any other endings?"
+            jump ending_top
         "How do I get the Good End?" if ending_type != "Good":
             if ending_type == "Normal":
-                u smile "The same way you got here, but with one guest invited!"
+                who smile "The same way you got here, but with one guest invited!"
             else:
-                u smile "First, you need a guest to attend the party."
-            u "So, make sure you participate in the \"Inviting Guests\" chatroom and invite Rainbow."
-            u -smile "You can turn {b}Testing Mode{/b} on from the Developer settings too so you can replay it and invite her again."
-            u "She's guaranteed to attend the party if you answer all three of her emails correctly,"
-            u happy "But she might still attend even if you get one or two emails wrong."
-            u -happy "You also have to participate in at least 20% of the chatrooms on Tutorial Day,"
-            u "or else you'll get the Bad Relationship End."
-            u "Finally, you need to have \"Modified UI\" turned on from the Settings when you click the plot branch icon."
-            u "You can find it under the {b}Preferences{/b} tab."
-            u happy "If you've done all that, and you see Rainbow attend the party, then you'll get the Good End!"
-            u neutral "Are there any other endings you want to know about?"
-            jump ending_descrip
+                who smile "First, you need a guest to attend the party."
+            who "So, make sure you participate in the \"Inviting Guests\" chatroom and invite Rainbow."
+            who -smile "You can turn {b}Testing Mode{/b} on from the Developer settings too so you can replay it and invite her again."
+            who "She's guaranteed to attend the party if you answer all three of her emails correctly,"
+            who happy "But she might still attend even if you get one or two emails wrong."
+            who -happy "You also have to participate in at least 20\% of the chatrooms on Tutorial Day,"
+            who "or else you'll get the Bad Relationship End."
+            who "Finally, you need to have \"Modified UI\" turned on from the Settings when you click the plot branch icon."
+            who "You can find it under the {b}Preferences{/b} tab."
+            who happy "If you've done all that, and you see Rainbow attend the party, then you'll get the Good End!"
+            who neutral "Are there any other endings you want to know about?"
+            jump ending_top
         "How do I get the Bad End?" if ending_type != "Bad":
-            u neutral "You can get the Bad End after the first plot branch, before the party."
-            u "First, you need to participate in at least 20% of the chatrooms on Tutorial Day before the plot branch."
-            u "Then, make sure you have \"Modified UI\" turned {b}off{/b} from the {b}Preferences{/b} tab in the {b}Settings{/b}."
-            u happy "If you do that, when you go through the plot branch, you should get the Bad End."
-            u neutral "It won't matter how many guests you've invited."
-            u "Are there any other endings you want to know about?"
-            jump ending_descrip
+            who neutral "You can get the Bad End after the first plot branch, before the party."
+            who "First, you need to participate in at least 20% of the chatrooms on Tutorial Day before the plot branch."
+            who "Then, make sure you have \"Modified UI\" turned {b}off{/b} from the {b}Preferences{/b} tab in the {b}Settings{/b}."
+            who happy "If you do that, when you go through the plot branch, you should get the Bad End."
+            who neutral "It won't matter how many guests you've invited."
+            who "Are there any other endings you want to know about?"
+            jump ending_top
         "How do I get the Normal End?" if ending_type != "Normal":
-            u neutral "You'll get the Normal End if you get through the plot branch and no one attends the party."
-            u "So, make sure you've participated in at least 20% of the story on Tutorial Day,"
-            u "and turn on \"Modified UI\" from the {b}Preferences{/b} tab in the Settings."
-            u "Then you should be able to get through the first plot branch,"
-            u "and if no one attends your party (or you never invited anyone), you'll get the Normal End."
-            u smile "Do you want to know about how to get any of the other endings?"
+            who neutral "You'll get the Normal End if you get through the plot branch and no one attends the party."
+            who "So, make sure you've participated in at least 20% of the story on Tutorial Day,"
+            who "and turn on \"Modified UI\" from the {b}Preferences{/b} tab in the Settings."
+            who "Then you should be able to get through the first plot branch,"
+            who "and if no one attends your party (or you never invited anyone), you'll get the Normal End."
+            who smile "Do you want to know about how to get any of the other endings?"
+            jump ending_top
         "That's all.":
             pass
 
-    u smile "Thanks for playing through Tutorial Day!"
+    who smile "Thanks for playing through Tutorial Day!"
 
     # Determine which endings the player is missing
     $ missing_endings = [ ]
@@ -407,23 +410,23 @@ label ending_descrip(ending_type):
             $ missing_endings.append('Bad Relationship')
 
         if len(missing_endings) == 1:
-            u neutral "It looks like you're only missing the [missing_endings[0]] End."
+            who neutral "It looks like you're only missing the [missing_endings[0]] End."
             if missing_endings[0] == ending_type:
-                u smile "Which you'll get after this Story Mode ends!"
-                u happy "Thanks for getting all the endings~"
+                who smile "Which you'll get after this Story Mode ends!"
+                who happy "Thanks for getting all the endings~"
             else:
-                u "I hope you'll try collecting all the endings!"
+                who "I hope you'll try collecting all the endings!"
         elif len(missing_endings) == 4:
-            u neutral "It seems like this is the first ending you got!"
-            u smile "I hope you'll go through Tutorial Day again to see the rest~"
+            who neutral "It seems like this is the first ending you got!"
+            who smile "I hope you'll go through Tutorial Day again to see the rest~"
         else:
             if ending_type in missing_endings:
                 $ missing_endings.remove(ending_type)
-            u "So far it looks like you're missing..."
+            who "So far it looks like you're missing..."
             while missing_endings:
                 $ e = missing_endings.pop()
-                u "The [e] End"
-            u happy "I hope you'll go through Tutorial Day again to see the rest of the endings!"
+                who "The [e] End"
+            who happy "I hope you'll go through Tutorial Day again to see the rest of the endings!"
 
     return
 
