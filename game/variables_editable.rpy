@@ -170,7 +170,7 @@ init -1 python:
         # Otherwise, figure out what to do based on the other properties
         if (store.today_day_num == 0
                 and who == store.r
-                and store.persistent.MC_pic == 'CGs/r_album/cg-1-thumb.webp'):
+                and "CGs/r_album/cg-1" in store.persistent.MC_pic):
             # This is Ray's flower image
             return 'ray_pfp_callback_1'
         # You can also return a list of labels, in which case the first unplayed
