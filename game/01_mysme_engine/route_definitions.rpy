@@ -955,6 +955,8 @@ init -6 python:
     def can_branch():
         """Return True if the player can proceed through the plot branch."""
 
+        if store.persistent.unlock_all_story:
+            return True
         for archive in store.story_archive:
             if archive.archive_list:
                 for item in archive.archive_list:

@@ -544,7 +544,7 @@ screen timeline_item_display(day, day_num, item, index):
                 text 'Tap to unlock' color '#fff' xalign 0.5 yalign 0.5
             # Check if the player has seen all items before
             # they try to branch
-            if can_branch() or persistent.unlock_all_story:
+            if can_branch():
                 # The message varies slightly depending on whether
                 # the player is playing in real-time or not
                 if persistent.real_time:
