@@ -457,10 +457,13 @@ label banners():
     call answer
     menu:
         "Yes, I want to see banner animations.":
-            $ persistent.banners = True
+            # Don't change settings on a replay
+            if not observing:
+                $ persistent.banners = True
             y "Okay!"
         "No, turn banner animations off.":
-            $ persistent.banners = False
+            if not observing:
+                $ persistent.banners = False
             y "Alright, got it!"
 
     if persistent.banners:
@@ -520,12 +523,15 @@ label heart_icons():
     call answer
     menu:
         "I want the regular animated icons.":
-            $ persistent.animated_icons = True
+            # Don't change settings for a replay
+            if not observing:
+                $ persistent.animated_icons = True
             z "{=curly}Got it!{/=curly}" (bounce=True)
             z "You'll see the regular heart animation then."
 
         "I want the text notifications.":
-            $ persistent.animated_icons = False
+            if not observing:
+                $ persistent.animated_icons = False
             z "{=curly}Got it!{/=curly}" (bounce=True)
             z "You'll see the text popup whenever someone likes your response."
 
@@ -605,9 +611,11 @@ label screen_shake():
     $ shuffle = False
     menu:
         "Yes, I want to see the screen shake animation.":
-            $ persistent.screenshake = True
+            if not observing:
+                $ persistent.screenshake = True
         "No, turn screen shake animation off.":
-            $ persistent.screenshake = False
+            if not observing:
+                $ persistent.screenshake = False
 
     ja "{=ser1}Understood.{/=ser1}" (bounce=True)
     enter chatroom ju

@@ -94,19 +94,25 @@
     menu:
         extend ''
         "I don't want to see any flashing animations or screenshake.":
-            $ persistent.screenshake = False
-            $ persistent.banners = False
-            $ persistent.hacking_effects = False
+            # These `if not observing` statements are to make sure a player
+            # playing this from the History screen won't inadvertently have
+            # their settings changed on them.
+            if not observing:
+                $ persistent.screenshake = False
+                $ persistent.banners = False
+                $ persistent.hacking_effects = False
             u "Understandable! I've turned all those animations off for you."
 
         "I'm okay with some effects but not with others.":
-            $ persistent.hacking_effects = False
+            if not observing:
+                $ persistent.hacking_effects = False
             u "Okay! I've just turned the hacking effect off for now since it shows up in the next chatroom."
 
         "You can keep all the animations on.":
-            $ persistent.screenshake = True
-            $ persistent.banners = True
-            $ persistent.hacking_effects = True
+            if not observing:
+                $ persistent.screenshake = True
+                $ persistent.banners = True
+                $ persistent.hacking_effects = True
             u "Got it!"
 
     u """

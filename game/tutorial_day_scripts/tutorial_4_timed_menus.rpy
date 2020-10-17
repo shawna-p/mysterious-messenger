@@ -40,11 +40,11 @@ label timed_menus():
         "Keep timed menus on.":
             # Don't want to adjust the preferences for a player who is
             # just replaying a chatroom from the History screen.
-            if not _in_replay:
+            if not observing:
                 $ persistent.use_timed_menus = True
             s "Sure thing!"
         "Turn timed menus off.":
-            if not _in_replay:
+            if not observing:
                 $ persistent.use_timed_menus = False
             s "Got it."
             s "You can always turn them on later and adjust the speed to your liking!"
