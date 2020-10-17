@@ -923,16 +923,6 @@ init -6 python:
 
             return "[[new story mode] " + self.title
 
-        @property
-        def can_expire(self):
-            """Return True if there are items that can be expired."""
-
-            if len(self.story_calls_list) > 0:
-                for phonecall in self.story_calls_list:
-                    if phonecall.can_expire:
-                        return True
-            return False
-
         def timeline_img(self, was_played=True):
             """
             Return the hover image that should be used for this item.
