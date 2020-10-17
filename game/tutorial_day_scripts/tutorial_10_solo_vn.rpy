@@ -129,7 +129,7 @@ label bonus_pfp_showcase():
             s happy "I think [they]'ll have fun with it~"
             s "I should go. Toodles!"
             hide seven with easeoutright
-            show zen at vn_midright with ease
+            show zen happy at vn_midright with ease
             z "Whew, what an explanation. Is there anything else you wanted to know about?"
 
         "Bonus profile pictures for the characters":
@@ -139,7 +139,7 @@ label bonus_pfp_showcase():
             z "But you can also use a \"bonus\" profile picture to change their profile picture at any time in-game."
             z "Gameplay-wise, this is considered a fun feature for the player rather than the character's actual profile picture at that moment in time."
             z thinking "To change a character's profile picture, go to their profile on the home screen and click on their profile picture."
-            z neutral "If you're playing regularly, you'll see a grid of the images you've seen in-game, and likely some boxes with \"?\" in them for images you haven't yet seen."
+            z neutral "If you're playing without Testing Mode turned on, you'll see a grid of the images you've seen in-game, and likely some boxes with \"?\" in them for images you haven't yet seen."
             z "You can use heart points you've collected with that character to unlock their bonus profile pictures."
             z "There is also an option to \"Revert to default\", which will revert to whatever the character's profile picture was set to in the code."
             z "If you have Testing Mode turned on from the Developer settings, all the profile pictures will be available, including ones you haven't seen in-game."
@@ -150,17 +150,3 @@ label bonus_pfp_showcase():
             jump extra_features_showcase
 
     jump bonus_pfp_showcase
-
-label example_solo_vn_incoming_v():
-    v """
-
-    This is a test call.
-
-    Is it working?
-
-    I hope so.
-
-    Anyway I'll hang up.
-
-    """
-    return
