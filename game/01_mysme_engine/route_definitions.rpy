@@ -585,15 +585,14 @@ init -6 python:
         stop_checking = False
         for day_index, routeday in enumerate(story_archive[:days_to_expire]):
             for item_index, item in enumerate(routeday.archive_list):
-                # If this item has a plot branch, don't check anything
-                # past it
-                if item.plot_branch:
-                    if not item.all_available:
-                        item.unlock_all()
-                    stop_checking = True
-                    break
-
                 if item.available:
+                    # If this item has a plot branch, don't check anything
+                    # past it
+                    if item.plot_branch:
+                        if not item.all_available:
+                            item.unlock_all()
+                        stop_checking = True
+                        break
                     # The main item is already available; check if anything
                     # later on should be available or should expire.
                     continue
@@ -670,7 +669,7 @@ init -6 python:
         # was_yesterday is True if this item occurred one or more days prior
         # to the current time
         was_yesterday = day_index+1 < store.days_to_expire
-        day_difference = store.days_to_expire - day_index + 1
+        day_difference = store.days_to_expire - day_index - 1
 
         if was_yesterday:
             # A day or more has passed since this item was supposed to be
@@ -735,8 +734,8 @@ init -6 python:
         if prev_item.can_expire:
             prev_item.expire_all()
         else:
-            # There was no need to expire anything, so return
             return
+
 
         # Otherwise, an item was expired. Deliver its associated
         # phone calls and text messages.
