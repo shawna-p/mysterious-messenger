@@ -365,6 +365,13 @@ init 5:
             pause .4
             repeat
 
+    # For displaying tutorial images
+    transform tutorial_anim(extra_y=0, slide_down=50):
+        alpha 0.0 yoffset slide_down+extra_y align (0.5, 0.4)
+        ease 0.5 alpha 1.0 yoffset 0+extra_y
+        alpha 1.0
+        on hide:
+            ease 0.5 alpha 0.0 yoffset slide_down+extra_y
 
 
 

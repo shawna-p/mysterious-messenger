@@ -39,11 +39,26 @@ label extra_features_showcase():
             m "Can you explain testing mode and other developer features?"
             z happy "I can! Developer features are intended to make testing a route easier for the user."
             z neutral "You can access the developer settings via the {b}Developer{/b} button on the home screen or from the main menu."
+            show tut_dev_options at tutorial_anim(100)
+            pause 0.5
+            show tut_arrow:
+                xpos 330
+                ypos 540
             z "{b}Testing Mode{/b}, when checked, will add several features to the program."
             z "First, every time you enter a story item it is considered to be the \"first\" time."
             z "So that means you can make different choices each time, or even use the back button in chatrooms and the end call button in phone calls to force that story item to expire."
+            hide tut_dev_options
+            hide tut_arrow
+            show tut_skip_to_end at tutorial_anim(100) behind tut_arrow
+            pause 0.5
+            show tut_arrow_vert:
+                rotate 90
+                xpos 455
+                ypos 655
             z "Second, inside every chatroom will be a \"Skip to End\" button. If you click this, it will instantly show the Save & Exit sign at the bottom of the screen."
             z "You can use this to end a chatroom instantly if you're only testing certain parts."
+            hide tut_skip_to_end
+            hide tut_arrow_vert
             z "Or, if you're just testing text messages, phone calls, or plot branches, you can also right-click any item on the timeline and it will be instantly marked as played."
             z thinking "Note that this will {b}not{/b} execute any of the code inside the story item itself, so you won't get any heart points, for example."
             z neutral "It {b}will{/b}, however, mark the item as played/participated and execute its {b}_after{/b} label."
@@ -51,24 +66,64 @@ label extra_features_showcase():
             z neutral "It also prevents a lot of confirm-style windows from appearing; for example, you won't be asked to confirm if you want to buy back an expired chatroom."
             z "And you won't receive notifications like {b}You have 1 missed call{/b} on the home screen."
             z happy "This speeds up some of the most commonly done actions."
+            show tut_dev_options at tutorial_anim(100)
+            pause 0.5
+            show tut_arrow:
+                xpos 360
+                ypos 575
             z neutral "If you want to jump right to a particular chatroom or Story Mode, for example, you can also toggle \"Unlock all story\"."
             z "This automatically makes all items on the timeline available to play and allows you to proceed through a plot branch even if you haven't played all the story items before it."
             z "Note that if you turn \"Unlock all story\" off on a save file where it was already activated, chatrooms and other story items will remain visible on the timeline screen,"
             z thinking "But you'll have to play through the items in order again and can't jump to later items before playing earlier ones."
+            show tut_arrow:
+                xpos 365
+                ypos 612
             z neutral "There's also a toggle for \"Real-Time Mode\", which causes the game to run on real-time."
             z "So, story items will unlock based on the real-world time they are scheduled to be available at."
+            hide tut_dev_options
+            hide tut_arrow
+            show tut_real_time at tutorial_anim(100)
+            pause 0.5
+            show tut_arrow_vert:
+                rotate 90
+                xpos 330
+                ypos 800
             z "You can also purchase the next 24 hours' worth of content ahead of time at the bottom of the timeline screen on the most recent day."
             z happy "The program will remember to unlock items after a plot branch, too, if there's a plot branch in the middle of your 24 hours."
+            hide tut_real_time
+            hide tut_arrow_vert
+            show tut_dev_options at tutorial_anim(100)
+            pause 0.5
+            show tut_arrow:
+                xpos 342
+                ypos 647
             z neutral "Next there's a toggle for \"Hacked Effect\", which will only work if you're not on the main menu."
+            hide tut_dev_options
+            hide tut_arrow
+            show tut_hacking at tutorial_anim(100)
             z "It will change the music on the home screen and give the timeline items a \"glitchy\" overlay."
             z "Some effects will be disabled for players who have \"Hacking Effects\" turned off in Preferences."
+            hide tut_hacking
+            show tut_dev_options at tutorial_anim(100)
+            pause 0.5
+            show tut_arrow:
+                xpos 575
+                ypos 683
             z "Then there's \"Receive Hourglasses in Chatrooms\", which, if checked, will randomly award the player an hourglass for some lines of dialogue in chatrooms."
             z "If you're using Mysterious Messenger for a fanfic or for narrative purposes, you may want this option off."
+            show tut_arrow:
+                xpos 545
+                ypos 720
             z happy "And finally, there's \"Use custom route select screen\"."
             z "There are more instructions on how to make your own route select screen in the wiki."
             z neutral "This will allow you to easily switch between your own routes and the built-in Tutorial Day."
+            show tut_arrow:
+                xpos 315
+                ypos 800
             z thinking "There's also a button, \"Fix Persistent\"."
             z neutral "If you're having trouble with persistent values, but don't want to lose information like how many heart points you have and what gallery images you've unlocked, you can try using this button."
+            hide tut_arrow
+            hide tut_dev_options
             z "If you run into a major program issue though, don't hesitate to open an issue on the Mysterious Messenger GitHub or send a message in the Discord server."
             z happy "And that's all! Is there anything else you want to know about?"
 
@@ -84,10 +139,18 @@ label bonus_pfp_showcase():
             m "Tell me about bonus profile pictures for me."
             z happy "When you click on your profile picture from the home screen,"
             z "You'll be taken to the Profile screen, where you can see some statistics like how many endings you've collected, and who you have heart points with."
+            show tut_player_pfp2 at tutorial_anim(100)
             z neutral "You can also change your name, pronouns, and profile picture here."
+            show tut_arrow:
+                xpos 350
+                ypos 580
             z "Just click your profile picture to bring up a screen with all the profile pictures you've unlocked for the game."
+            hide tut_arrow
+            hide tut_player_pfp2
+            show tut_player_pfp at tutorial_anim(100)
             z "There are five default images, and as you play, you will also see the profile pictures and gallery images of other characters be added."
             z "If you're playing without Testing Mode turned on, unlocking a new profile picture to use will cost 1 hourglass."
+            hide tut_player_pfp
             if not observing:
                 if not persistent.animated_icons:
                     $ renpy.show_screen(allocate_notification_screen(True),
@@ -138,11 +201,27 @@ label bonus_pfp_showcase():
             z neutral "You can change the other characters' profile pictures in code to suit a particular chatroom or story beat,"
             z "But you can also use a \"bonus\" profile picture to change their profile picture at any time in-game."
             z "Gameplay-wise, this is considered a fun feature for the player rather than the character's actual profile picture at that moment in time."
+            show tut_other_pfp1 at tutorial_anim(140, 0)
             z thinking "To change a character's profile picture, go to their profile on the home screen and click on their profile picture."
             z neutral "If you're playing without Testing Mode turned on, you'll see a grid of the images you've seen in-game, and likely some boxes with \"?\" in them for images you haven't yet seen."
+            show tut_arrow:
+                xpos 440
+                ypos 925
             z "You can use heart points you've collected with that character to unlock their bonus profile pictures."
+            hide tut_other_pfp1
+            hide tut_arrow
+            show tut_other_pfp2 at tutorial_anim(140, 0)
+            extend ''
+            hide tut_other_pfp2
+            show tut_other_pfp3 at tutorial_anim(140, 0)
+            show tut_arrow:
+                rotate 180
+                xpos 50
+                ypos 460
             z "There is also an option to \"Revert to default\", which will revert to whatever the character's profile picture was set to in the code."
             z "If you have Testing Mode turned on from the Developer settings, all the profile pictures will be available, including ones you haven't seen in-game."
+            hide tut_arrow
+            hide tut_other_pfp3
             z happy "I hope you find it a useful feature!"
             z neutral "Is there anything else you wanted to know about?"
         "I want to know about something else." (paraphrased=False):

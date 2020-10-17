@@ -1195,3 +1195,27 @@ image white_transparent = Frame("Email/white_transparent.webp", 0, 0)
 image email_open_transparent = Frame("Email/email_open_transparent.webp", 0, 0)
 image left_corner_menu_dark = Frame("Email/left_corner_menu_dark.webp", 45, 45)
 
+## *******************************
+## Tutorial Images
+## *******************************
+image tut_arrow:
+    'Menu Screens/Tutorial/tut_arrow.webp'
+    block:
+        easein 0.5 xoffset 20
+        easeout 0.5 xoffset 0
+        repeat
+image tut_arrow_vert:
+    'Menu Screens/Tutorial/tut_arrow.webp'
+    block:
+        easein 0.5 yoffset 20
+        easeout 0.5 yoffset 0
+        repeat
+image tut_dev_options = "Menu Screens/Tutorial/tut_dev_options.webp"
+image tut_hacking = "Menu Screens/Tutorial/tut_hacking.webp"
+image tut_other_pfp1 = "Menu Screens/Tutorial/tut_other_pfp1.webp"
+image tut_other_pfp2 = "Menu Screens/Tutorial/tut_other_pfp2.webp"
+image tut_other_pfp3 = "Menu Screens/Tutorial/tut_other_pfp3.webp"
+image tut_player_pfp = "Menu Screens/Tutorial/tut_player_pfp.webp"
+image tut_player_pfp2 = "Menu Screens/Tutorial/tut_player_pfp2.webp"
+image tut_real_time = "Menu Screens/Tutorial/tut_real_time.webp"
+image tut_skip_to_end = "Menu Screens/Tutorial/tut_skip_to_end.webp"
