@@ -48,57 +48,6 @@ label example_chat_story_call_r_expired():
 
     return
 
-label after_example_chat_test:
-    compose text y deliver_at 10:13:
-        y "{image=yoosung_yahoo}"
-        y "A test"
-        pause 3*60
-        y "Nifty it does indeed appear to work alright."
-        if persistent.animated_backgrounds:
-            y "You have animated backgrounds on."
-        else:
-            y "You don't have animated backgrounds on. Shame."
-    compose text s deliver_at next_item:
-        s "This is also a test?"
-        s "Do you get them all at the same time?"
-        label example_chat_text_s
-    compose text ja real_time:
-        ja "Hello, [name]."
-        ja "I hope you're doing well." curly
-        ja "I wanted to test real-time texting."
-        label example_chat_text_ja
-    return
-
-label example_chat_text_s:
-    # This is where the program will jump when it is time to reply to
-    # Seven's text message
-    menu:
-        "Wow! A test!":
-            award heart s
-            s "Right? Who knows if it'll work."
-        "Help!" (paraphrased=True):
-            m "Tasukete!"
-            award heart y
-            s "Lmaoooo"
-    $ print_file("About to return after the text label")
-    return
-
-label example_chat_text_ja:
-    ja "Did this work?"
-    ja "It's been quite a journey working on all these features."
-    call answer
-    menu:
-        "I know what you mean.":
-            m "I know what you mean." (pauseVal=0)
-            ja "Time has a way of getting away from us, huh?"
-        "It's okay to take breaks!":
-            m "It's okay to take breaks!" (pauseVal=0)
-            ja "{image=jaehee_happy}" (img=True)
-            ja "Thank you, [name]."
-    ja "Well, I should be going."
-    ja "Best of luck with the program."
-    return
-
 
 label example_chat():
 

@@ -4,9 +4,8 @@
 init -7:
     default all_routes = []
 
-# This archive will store every chatroom in the game. If done correctly,
-# the program will automatically set variables and make the story available
-# for you.
+# This archive will store every chatroom in the game. If done correctly, the
+# program will automatically set variables and make the story available for you.
 default chat_archive = None
 default story_archive = []
 
