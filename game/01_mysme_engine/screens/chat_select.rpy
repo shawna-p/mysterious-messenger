@@ -627,14 +627,14 @@ screen timeline_story_calls(phonecall, item, was_played):
                 hover_background 'btn_hover:expired_chat'
                 if phonecall.available or persistent.unlock_all_story:
                     action If(persistent.testing_mode,
-                        [Function(phonecall.buy_ahead),
+                        [Function(phonecall.buy_back),
                             Function(renpy.restart_interaction),
                             FileSave(mm_auto, confirm=False)],
 
                         CConfirm(("Would you like to"
                                 + " call " + phonecall.caller.name + " back to "
                                 + " participate in this phone call?"),
-                            [Function(phonecall.buy_ahead),
+                            [Function(phonecall.buy_back),
                             Function(renpy.restart_interaction),
                             FileSave(mm_auto, confirm=False)]))
 
