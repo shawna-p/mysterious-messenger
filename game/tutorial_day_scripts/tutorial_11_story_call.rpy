@@ -123,7 +123,6 @@ label after_example_solo_story_call():
             # reply to Jaehee, just read the message.
 
     else:
-        $ print_file("Sending the other text message")
         # This text only shows up for a player who picked up Jaehee's call.
         # `deliver_at next_item` tells the program to deliver this text message
         # some time randomly after the next chatroom, but before the one after
@@ -150,7 +149,6 @@ label after_example_solo_story_call():
     return
 
 label ja_text_own_dog():
-    $ print_file("at ja own dog")
     menu:
         "I have a big dog for protection.":
             ja "Oh, that's understandable."
