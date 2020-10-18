@@ -131,12 +131,12 @@ label after_example_solo_story_call():
         compose text ja deliver_at next_item:
             ja "I'm sorry I had to hang up so suddenly."
             ja "It was good to talk to you."
-            # We can add conditional statements in here to modify what
+            # You can add conditional statements in here to modify what
             # Jaehee's next message is. Here, the program checks if the player
             # said they own or love cats.
             if cat_feelings in ['love', 'owns']:
                 ja "I know you mentioned you like cats, so I apologize if I seemed disinterested."
-                ja "I think cats make lovely pets, though I do not want one myself."
+                ja "I think cats make lovely pets for many people, though I do not want one myself."
             elif cat_feelings == "allergic":
                 ja "It was interesting to learn that you're allergic to cats as well."
                 ja "I hadn't realized it was such a common allergen."
@@ -161,6 +161,9 @@ label ja_text_own_dog():
         "My dog's a total cuddle bug.":
             msg ja "{image=jaehee_happy}"
             ja "That sounds sweet."
+        "I like dogs, but don't want to own one right now.":
+            ja "It sounds like you've put some thought into it."
+            ja "That's a sensible way of approaching things."
     ja "Well, I should return to work."
     ja "Thank you for talking with me."
     return
