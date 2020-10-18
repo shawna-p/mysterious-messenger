@@ -11,14 +11,17 @@ label example_text():
     menu:
         "Does that mean anything specific?":
             r "It does!"
-            r "Since there's a story mode VN (Visual Novel) section,"
-            r "{=sser2b}any incoming phone calls or text message won't be delivered until after the VN.{/=sser2b}"
         "Yes, and I can't play it until after this chatroom, right?":
             r "{=curly}Right! ^^{/=curly}" (bounce=True, specBubble="flower_s")
-            r "Any incoming phone calls or text message won't be delivered until after the story mode VN (Visual Novel) section, too."
 
-    r "So even though there are text messages to be delivered after this chatroom,"
-    r "{=ser1}{size=+10}you won't see them right away.{/size}{/=ser1}"
+    msg r "Usually, the program would delay sending text messages and phone calls" sser1
+    msg r "until after both this chatroom and the Story Mode were played." sser1
+    msg r "But since v3.0, things are more flexible!" flower_m
+    msg r "If you declare a route using the new format,"
+    msg r "you can have text messages and phone calls and the like after any story item,"
+    msg r "even a chatroom that has a Story Mode attached" glow
+    msg r "So, you'll receive some text messages after this chatroom,"
+    msg r "and the rest after the Story Mode."
     r "{=ser1}You can set up text messages using an {b}after_{/b} chatroom label.{/=ser1}"
     r "See the wiki for more ^^"
     r "{image=ray_happy}" (img=True)
@@ -83,21 +86,8 @@ label after_example_text():
         # jump to like with V earlier.
         label menu_a2
 
-    # ************************************************
-    # Zen's text message
-    # This is another example of real-time texting, but instead of being
-    # delivered immediately after the chatroom, it will be randomly delivered
-    # sometime before the next story item if the player is playing in real-time.
-    # If not, it gets delivered after the chatroom with the previous texts.
-    # There are other arguments you can pass this as well; check the wiki for
-    # more information!
-    compose text z real_time deliver_at random:
-        z "You know, you never send us any photos..."
-        label menu_a3
-
     # End the whole label with return
     return
-
 
 ## This is the label included at the end of V's non-real time message.
 label menu_a1():
@@ -149,28 +139,4 @@ label menu_a2():
             r "Thank you ^^"
 
     # Everything ends with `return`
-    return
-
-label menu_a3():
-    # Even though this conversation begins with a menu, if it's
-    # in real time you need to include 'call answer' before the menu.
-    call answer
-    # This menu is paraphrased, but the rest of the route is not, so the
-    # argument (paraphrased=True) is passed to the menu.
-    menu (paraphrased=True):
-        # The player can post both CGs and emojis
-        "(Post a photo)":
-            m "common_2" (pauseVal=0, img=True)
-            m "You mean like this?"
-        "(Post an emoji)":
-            m "{image=zen_oyeah}" (pauseVal=0, img=True)
-            m "How's this?"
-        "(Post both)":
-            m "common_2" (pauseVal=0, img=True)
-            m "{image=zen_oyeah}" (img=True)
-            m "What do you think?"
-
-    z "Wow! I've never seen that before."
-    z "You're pretty cool"
-    z "{image=zen_wink}" (img=True)
     return

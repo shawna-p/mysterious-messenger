@@ -22,6 +22,27 @@ label example_text_vn_r():
     r happy "There are a couple of things to show you about VN mode. What would you like to learn about first?"
     jump vn_tutorial
 
+
+## This is put here for ease of finding it instead of burying it below all
+## the example menus at the end of this Story Mode. As of v3.0, every individual
+## story item can have its own after_ label. This one triggers at the end of
+## this Story Mode (which is at the label example_text_vn_r, as seen above).
+label after_example_text_vn_r():
+    # ************************************************
+    # Zen's text message
+    # This is another example of real-time texting, but instead of being
+    # delivered immediately after the Story Mode, it will be randomly delivered
+    # sometime before the next story item if the player is playing in real-time.
+    # If not, it gets delivered after this Story Mode as usual.
+    # There are other arguments you can pass this as well; check the wiki for
+    # more information!
+    compose text z real_time deliver_at random:
+        z "You know, you never send us any photos..."
+        label menu_a3
+
+    # End the whole label with return
+    return
+
 ##************************************
 ## Tutorial Menu
 ##************************************
@@ -172,6 +193,31 @@ label vn_position():
     r "You can always define your own transforms to position the characters exactly how you want, too."
     r neutral "Anything else you'd like to learn about?"
     jump vn_tutorial
+
+
+label menu_a3():
+    # Even though this conversation begins with a menu, if it's
+    # in real time you need to include 'call answer' before the menu.
+    call answer
+    # This menu is paraphrased, but the rest of the route is not, so the
+    # argument (paraphrased=True) is passed to the menu.
+    menu (paraphrased=True):
+        # The player can post both CGs and emojis
+        "(Post a photo)":
+            m "common_2" (pauseVal=0, img=True)
+            m "You mean like this?"
+        "(Post an emoji)":
+            m "{image=zen_oyeah}" (pauseVal=0, img=True)
+            m "How's this?"
+        "(Post both)":
+            m "common_2" (pauseVal=0, img=True)
+            m "{image=zen_oyeah}" (img=True)
+            m "What do you think?"
+
+    z "Wow! I've never seen that before."
+    z "You're pretty cool"
+    z "{image=zen_wink}" (img=True)
+    return
 
 
 ##************************************
