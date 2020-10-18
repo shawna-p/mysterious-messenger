@@ -259,7 +259,8 @@ init -6 python:
             plot branch.
             """
 
-            if self.played and not self.delivered_post_items:
+            if self.played and (not self.delivered_post_items
+                    or store.persistent.testing_mode):
                 self.call_after_label(True)
                 self.deliver_calls()
 
@@ -399,7 +400,7 @@ init -6 python:
                 self.item_label, "\n   This item's after_label:",
                 self.after_label)
 
-            if self.delivered_post_items:
+            if self.delivered_post_items and not store.persistent.testing_mode:
                 return
 
             self.delivered_post_items = True
@@ -770,11 +771,13 @@ init -6 python:
             plot branch.
             """
 
-            if self.played and not self.delivered_post_items:
+            if self.played and (not self.delivered_post_items
+                    or store.persistent.testing_mode):
                 self.call_after_label(True)
                 self.deliver_calls()
 
-            if self.story_mode and not self.story_mode.delivered_post_items:
+            if self.story_mode and (not self.story_mode.delivered_post_items
+                    or store.persistent.testing_mode):
                 self.story_mode.deliver_next_after_content()
 
             super(ChatRoom, self).deliver_next_after_content()
