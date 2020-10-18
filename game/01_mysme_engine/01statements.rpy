@@ -944,20 +944,19 @@ python early hide:
                 when = upTime(day=day_diff, thetime=delivery_time)
                 print_file("1. we've got a timestamp that looks like", when.get_text_msg_time())
             elif not delivery_time:
-                when = upTime(day=day_diff,
-                    thetime=check_item.get_trigger_time())
+                when = upTime(day=day_diff, thetime=check_item.trigger_time)
                 print_file("2. we've got a timestamp that looks like", when.get_text_msg_time())
             else:
                 # Need to generate a random delivery time
-                begin = check_item.get_trigger_time()
+                begin = check_item.trigger_time
                 end, day_diff2 = closest_item_time(check_item)
                 # If we got `next_item`, then it goes *after* this chat
                 if delivery_time == 'next_item':
                     begin = end
                     end, day_diff3 = closest_item_time(begin)
-                    begin = begin.get_trigger_time()
+                    begin = begin.trigger_time
                     day_diff2 += day_diff3
-                end = end.get_trigger_time()
+                end = end.trigger_time
                 print_file("begin is", begin, "and day_diff is", day_diff)
                 # day_diff2 is the difference between the checked item
                 # and its closest item

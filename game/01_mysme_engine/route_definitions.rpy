@@ -988,6 +988,8 @@ init -6 python:
 
         if compare_from is None:
             compare_from = store.current_timeline_item
+        while compare_from.parent:
+            compare_from = compare_from.parent
 
         return_next_item = False
         item_index = 0
@@ -1004,11 +1006,13 @@ init -6 python:
         """Return the index number of the day this item is on."""
 
         global story_archive
+        while item.parent:
+            item = item.parent
         for day_i, day in enumerate(story_archive):
             for item2 in day.archive_list:
                 if item == item2:
                     return day_i
-        print_file("Couldn't find item in story_archive")
+        print("ERROR: Couldn't find item in story_archive")
         return store.today_day_num
 
     def get_random_time(begin, end, day_diff=0):
