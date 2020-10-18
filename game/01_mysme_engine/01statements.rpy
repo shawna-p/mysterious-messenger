@@ -335,7 +335,7 @@ python early hide:
 
         messages = [ ]
         for msg in the_block:
-            if isinstance(items, list):
+            if isinstance(msg, list):
                 messages.extend(resolve_conditionals(msg))
             else:
                 messages.append(msg)
@@ -1013,15 +1013,10 @@ python early hide:
             if isinstance(d, dict):
                 try:
                     d2 = execute_msg_stmt(d, return_dict=True, is_text_msg=True)
-                    print_file("Got a dictionary,", d2)
                     what = d['what']
-                    print_file("What is", what)
                     who = d2['who']
-                    print_file("who is", who.name)
                     dialogue = d2['what']
-                    print_file("dialogue is", dialogue)
                     img = d2['img']
-                    print_file("img is", img)
                 except:
                     print("WARNING: The arguments for dialogue %s could not "
                         + "be evaluated." % d['what'])
