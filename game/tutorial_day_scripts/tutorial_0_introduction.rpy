@@ -138,8 +138,8 @@
     # a chatroom. If you don't want the phonecall beforehand,
     # just delete that section
     # Feel free to modify the chatroom beyond this point
-    call hack
     call chat_begin('hack')
+    show hack effect
 
     play music mystic_chat
 
