@@ -184,7 +184,9 @@ python early hide:
         elif (bold or xbold):
             extra_item = 'b'
 
-        if is_text_msg and ffont in store.font_dict:
+        if ((is_text_msg and ffont in store.font_dict)
+                or ffont not in ['sser1', 'sser2', 'ser1', 'ser2', 'curly',
+                'blocky']):
             # Can construct this for text messages
             if ffont == 'curly' and big:
                 dialogue = "{size=+20}" + dialogue + "{/size}"
@@ -588,6 +590,8 @@ python early hide:
                 spec_bubble = l.simple_expression()
                 if spec_bubble is None:
                     renpy.error('expected special bubble for msg argument')
+                bounce = True
+                continue
             if l.keyword('pv'):
                 pv = l.simple_expression()
                 if pv is None:
