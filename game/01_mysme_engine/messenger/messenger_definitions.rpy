@@ -258,7 +258,11 @@ init -4 python:
             elif full_style == 'z_flower_l':
                 return (115, 10)
 
-            return getattr(store.gui, bubble_style)
+            try:
+                return getattr(store.gui, bubble_style)
+            except:
+                pass
+            return (0, 0)
 
 
         @property
