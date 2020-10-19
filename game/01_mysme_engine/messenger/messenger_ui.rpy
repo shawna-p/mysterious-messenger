@@ -100,8 +100,8 @@ screen pause_button():
             focus_mask True
             idle 'phone_pause'
             if (not choosing and
-                    not ((timed_menu_dict and persistent.use_timed_menus)
-                        or not _in_replay)):
+                    not (timed_menu_dict and persistent.use_timed_menus
+                        and not _in_replay)):
                 action [Call("play"), Return()]
                 keysym "K_SPACE"
 
