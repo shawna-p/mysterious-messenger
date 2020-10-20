@@ -316,7 +316,7 @@ screen timeline_item_history(item):
                             text item.title
                 # Shows a list of all the people who start in this chatroom
                 viewport:
-                    xysize(530, 85)
+                    xysize(355, 85)
                     yoffset 13
                     xoffset 77
                     yalign 0.5
