@@ -99,7 +99,7 @@ screen pause_button():
             ypos 1220
             focus_mask True
             idle 'phone_pause'
-            if (not choosing and
+            if (not choosing and not block_interrupts and
                     not (timed_menu_dict and persistent.use_timed_menus
                         and not _in_replay)):
                 action [Call("play"), Return()]

@@ -1676,6 +1676,7 @@ init python:
         store.in_phone_call = False
         store.current_call = False
         store._history = True
+        store.block_interrupts = False
 
         store.dialogue_picked = ""
         store.dialogue_paraphrase = store.paraphrase_choices
