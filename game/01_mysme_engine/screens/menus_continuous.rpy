@@ -99,6 +99,15 @@ init python:
         else:
             renpy.jump('finish_c_menu')
 
+    def hide_all_c_choices():
+        """A convenience function to hide all the continuous menu choices."""
+
+        renpy.hide_screen("c_choice_1")
+        renpy.hide_screen("c_choice_2")
+        renpy.hide_screen("c_choice_3")
+        renpy.hide_screen("c_choice_4")
+        return
+
 
     def allocate_choice_box(choice_id):
         """Allocate an available choice screen."""
