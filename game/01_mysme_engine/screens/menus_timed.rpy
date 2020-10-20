@@ -268,8 +268,8 @@ label execute_timed_menu_narration():
     $ narration = timed_menu_dict['narration']
     # Check if there's narration or this menu should just wait
     if narration:
-        $ msg = narration.pop(0)
-        $ msg.execute()
+        $ narration[0].execute()
+        return
     if persistent.use_timed_menus and not _in_replay:
         $ messenger_pause(timed_menu_dict.get('wait_time', 8)
             * store.persistent.timed_menu_pv)
