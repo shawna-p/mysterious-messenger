@@ -85,7 +85,7 @@ label timed_menus():
         z "I was just thinking I'd log in to send a selfie lolol"
         end choice 1
         ja "Luciel, this wouldn't have anything to do with you, would it?"
-        choice 4 "He made you all log in lol":
+        choice 4 "Seven made you all log in lol":
             $ told_on_seven = True
             msg s "{image=seven_what}"
             msg s "Betrayal!!! By mine own kin!!!"
@@ -123,7 +123,7 @@ label timed_menus():
             "I'm sorry, Seven T_T":
                 msg s "Aw lolol"
                 award heart s
-                msg s "I don't want you to actually feel bad lolol"
+                msg s "I don't want u to actually feel bad lolol"
     msg y "Oh! My computer's on again."
     msg y "I'll talk to you later, [name]!"
     exit chatroom y

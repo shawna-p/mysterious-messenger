@@ -2418,7 +2418,9 @@ python early hide:
 
         print_file("c_menu_dict is", store.c_menu_dict)
         if store.c_menu_dict.get('narration', None) is None:
+            after_node = store.c_menu_dict.get('after_node', None)
             store.c_menu_dict = {}
+            store.c_menu_dict['after_node'] = after_node
             store.on_screen_choices = 0
             store.last_shown_choice_index = None
             store.block_interrupts = False
@@ -2438,7 +2440,9 @@ python early hide:
         if len(store.c_menu_dict.get('available_choices', [])) < 1:
             ## The player has already chosen any answers that would end
             ## at the end of the menu; nothing to show, so return.
+            after_node = store.c_menu_dict.get('after_node', None)
             store.c_menu_dict = {}
+            store.c_menu_dict['after_node'] = after_node
             store.block_interrupts = False
             return
 

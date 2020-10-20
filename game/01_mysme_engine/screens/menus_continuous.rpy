@@ -51,9 +51,9 @@ init python:
 
             block = self.choice_dict['block'].block
 
-            if self.end_with_menu:
-                block.append(self.final_node)
-            else:
+            if not self.end_with_menu:
+            #     block.append(self.final_node)
+            # else:
                 block.extend(nodes[self.end-1:])
 
             for a, b in zip(block, block[1:]):
@@ -284,14 +284,18 @@ label play_continuous_menu_no_timer():
         $ screen_kwargs = c_menu_dict['menu_kwargs']
         $ para = screen_kwargs.get('paraphrased', None)
         if c_menu_dict.get('erase_menu', False):
+            $ after_node = c_menu_dict['after_node']
             $ c_menu_dict = {}
+            $ c_menu_dict['after_node'] = after_node
         $ block_interrupts = False
         call answer
         call screen choice(items=items, paraphrased=para)
     else:
         $ autoanswer = c_menu_dict['autoanswer']
         if c_menu_dict.get('erase_menu', False):
+            $ after_node = c_menu_dict['after_node']
             $ c_menu_dict = {}
+            $ c_menu_dict['after_node'] = after_node
         $ dialogue_picked = ""
         $ dialogue_paraphrase = paraphrase_choices
         $ dialogue_pv = 0
