@@ -445,7 +445,7 @@ init -6 python:
             return
         # Otherwise, print this to a file for debugging
         try:
-            f = open("persistent_errors.txt", "a")
+            f = open("cmenu_errors.txt", "a")
             print(*args, file=f, **kwargs)
             f.close()
         except:
