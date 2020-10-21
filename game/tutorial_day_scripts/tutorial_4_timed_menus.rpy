@@ -5,6 +5,7 @@ label timed_menus():
 
     scene earlyMorn
     play music geniusly_hacked_bebop
+    jump skipfortest
     s "{size=+10}Hiya!{/size}" (bounce=True, specBubble="round2_s")
     s "{=curly}I'm here to tell you all about timed menus~{/=curly}"
     s "They work mostly like regular menus,"
@@ -54,7 +55,9 @@ label timed_menus():
     msg s "instead of all the answers showing up and disappearing at the same time."
     msg s "{image=seven_wow}"
     msg s "They're most fun to use when there's a really chaotic group chat."
-    msg s "I summon everyone!! Alakazam!!" spike_l
+
+label skipfortest:
+    msg s "I summon everyone!! Alakazam!!" spike_l blocky
     enter chatroom y
     enter chatroom z
     enter chatroom ja
@@ -64,6 +67,8 @@ label timed_menus():
     # section of the chatroom, so we can be sure that the player will get to
     # this line before the line which checks if this variable is defined.
     $ told_on_seven = False
+    $ print_useful_info('right before the menu')
+
     continuous menu:
         choice 1 "lolol omg everyone is here":
             msg s "Magic!!!" round2_m big

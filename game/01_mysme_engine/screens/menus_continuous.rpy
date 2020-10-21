@@ -78,8 +78,10 @@ init python:
         """
 
         print_file("Made a choice:", item.caption)
+
         store.c_menu_dict['item'] = item
 
+        print_useful_info('execute_continuous_menu_action')
         ## Mark this as chosen
         item.value.chosen[(item.value.location, item.value.label)] = True
 
@@ -95,9 +97,32 @@ init python:
             store.dialogue_picked = ""
             store.dialogue_paraphrase = store.paraphrase_choices
             store.dialogue_pv = 0
-            renpy.jump(item.jump_to_label)
+            if item.jump_to_label:
+                renpy.jump(item.jump_to_label)
+            else:
+                return
         else:
             renpy.jump('finish_c_menu')
+
+    def print_useful_info(identifier=""):
+        print_file("USEFUL INFO:", identifier)
+        print_file("   c_menu_dict:")
+        for key, val in store.c_menu_dict.items():
+            if key in ['showing_choices', 'choice_id_dict', 'item', 'items']:
+                print_file("        ", key, ":", val)
+        print_file("   on_screen_choices:", store.on_screen_choices)
+        print_file("   choice_index:", store.last_shown_choice_index)
+        print_file("   hidden_choice_screens:", store.recently_hidden_choice_screens)
+        print_file("   Nodes to be executed after this one:")
+        node = renpy.game.context().next_node
+        for i in range(35):
+            print_file("   next node:", node)
+            if node is None:
+                break
+            node = node.next
+        if store.c_menu_dict.get('narration', None):
+            print_file("   and the final item will be", store.c_menu_dict.get('narration')[-1].next)
+
 
     def hide_all_c_choices():
         """A convenience function to hide all the continuous menu choices."""
@@ -108,6 +133,17 @@ init python:
         renpy.hide_screen("c_choice_4")
         return
 
+    def reset_c_menu_vars():
+        """A convenience function to reset continuous menu variables."""
+
+        # Reset the menu dictionary
+        store.c_menu_dict = {}
+        # Reset continuous menu values
+        store.on_screen_choices = 0
+        store.last_shown_choice_index = None
+        store.recently_hidden_choice_screens = [ ]
+        store.block_interrupts = False
+        return
 
     def allocate_choice_box(choice_id):
         """Allocate an available choice screen."""
@@ -268,16 +304,21 @@ label execute_continuous_menu():
     if not c_menu_dict:
         $ print_file("ERROR: Something went wrong with continuous menus")
         return
-    $ print_file("Executing execute_continuous_menu")
-    $ print_file("The after_node is", store.c_menu_dict['after_node'])
+
+    $ print_useful_info('execute_continuous_menu label')
     $ narration = c_menu_dict['narration']
+    python:
+        print_file("   Looking at narration:")
+        for n in narration:
+            print_file("      ", n)
+        print_file("   and the final item will be", narration[-1].next)
     $ narration[0].execute()
-    $ print_file("Returning after execute_continuous_menu")
-    $ print_file("The after_node is", store.c_menu_dict['after_node'])
     return
 
 ## Plays the continuous menu as if it were a regular menu without a timer.
 label play_continuous_menu_no_timer():
+    $ print_useful_info('play_continuous_menu_no_timer label')
+
     python:
         block_interrupts = True
         items = c_menu_dict['available_choices'][:]
@@ -293,32 +334,26 @@ label play_continuous_menu_no_timer():
         $ screen_kwargs = c_menu_dict['menu_kwargs']
         $ para = screen_kwargs.get('paraphrased', None)
         if c_menu_dict.get('erase_menu', False):
-            $ after_node = c_menu_dict['after_node']
             $ c_menu_dict = {}
-            $ c_menu_dict['after_node'] = after_node
         $ block_interrupts = False
         call answer
         call screen choice(items=items, paraphrased=para)
     else:
         $ autoanswer = c_menu_dict['autoanswer']
         if c_menu_dict.get('erase_menu', False):
-            $ after_node = c_menu_dict['after_node']
             $ c_menu_dict = {}
-            $ c_menu_dict['after_node'] = after_node
         $ dialogue_picked = ""
         $ dialogue_paraphrase = paraphrase_choices
         $ dialogue_pv = 0
         $ block_interrupts = True
-        $ print_file("Jumping to cmenu autoanswer")
-        $ print_file("The after_node is", store.c_menu_dict['after_node'])
         $ renpy.jump(autoanswer.jump_to_label)
     return
 
 ## Determines what to do after a choice has been made. Generally executes
 ## the choice block after animating the message screen back into place.
 label finish_c_menu:
-    $ print_file("Executing finish_c_menu")
-    $ print_file("The after_node is", store.c_menu_dict['after_node'])
+    $ print_useful_info('finish_c_menu label')
+
     # Get rid of the backup; check if paraphrased dialogue should be sent
     $ chatbackup = None
     $ no_anim_list = chatlog[-20:]
@@ -331,17 +366,12 @@ label finish_c_menu:
     $ block_interrupts = True
     if persistent.use_timed_menus and not _in_replay:
         # Hide all the choice screens
-        hide screen c_choice_1
-        hide screen c_choice_2
-        hide screen c_choice_3
-        hide screen c_choice_4
+        $ hide_all_c_choices()
         hide screen timed_menu_messages
         # Show the original messenger screen; it should
         # animate back down into position
         show screen messenger_screen(no_anim_list=no_anim_list,
             animate_down=True)
-        $ print_file("Animating the messenger screen back into place at finish_c_menu")
-        $ print_file("The after_node is", store.c_menu_dict['after_node'])
 
     $ item = c_menu_dict['item']
     ## If this isn't at the end of the menu, re-show any remaining
@@ -351,9 +381,8 @@ label finish_c_menu:
     $ c_menu_dict['showing_choices'] = dict()
     $ block_interrupts = False
     # This executes the statements bundled after the choice
-    $ print_file("execute the chosen item block for", item.caption)
-    $ print_file("The after_node is", store.c_menu_dict['after_node'])
-    $ renpy.ast.next_node(item.block[0])
+    #$ renpy.ast.next_node(item.block[0])
+    $ item.block[0].execute()
     return
 
 ## Dictionary which holds information needed to display continuous menus
