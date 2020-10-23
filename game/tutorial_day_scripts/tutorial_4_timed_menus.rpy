@@ -67,7 +67,6 @@ label skipfortest:
     # section of the chatroom, so we can be sure that the player will get to
     # this line before the line which checks if this variable is defined.
     $ told_on_seven = False
-    $ print_useful_info('right before the menu')
 
     continuous menu:
         choice 1 "lolol omg everyone is here":

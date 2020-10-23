@@ -54,29 +54,13 @@ init python:
 
             block = self.choice_dict['block'].block
 
-            print_file("Choices: final node is", self.final_node,
-                "and after_c_menu_end is", self.after_c_menu_end,
-                "and end_with_menu is", self.end_with_menu)
-
             if not self.end_with_menu:
-                print_file("Everything we should be linking to this node:")
-                for n in nodes[self.end-1:]:
-                    print_file("      ", n)
                 block.extend(nodes[self.end-1:])
-                print_file("What we ended up with")
-                for n in block:
-                    print_file("      ", n)
             block.append(self.final_node)
             block.append(self.after_c_menu_end)
 
             for a, b in zip(block, block[1:]):
                 a.chain(b)
-
-            print_file(self, "contains a block with")
-            node = block[0]
-            while node is not None:
-                print_file("    ", node)
-                node = node.next
 
             # Otherwise, the final action is the end of the menu. The choice
             # action is simply to jump to the appropriate block
@@ -96,11 +80,8 @@ init python:
         block to execute its action.
         """
 
-        print_file("Made a choice:", item.caption)
-
         store.c_menu_dict['item'] = item
 
-        print_useful_info('execute_continuous_menu_action')
         ## Mark this as chosen
         item.value.chosen[(item.value.location, item.value.label)] = True
 
@@ -122,25 +103,6 @@ init python:
                 return
         else:
             renpy.jump('finish_c_menu')
-
-    def print_useful_info(identifier=""):
-        print_file("USEFUL INFO:", identifier)
-        print_file("   c_menu_dict:")
-        for key, val in store.c_menu_dict.items():
-            if key in ['showing_choices', 'choice_id_dict', 'item', 'items']:
-                print_file("        ", key, ":", val)
-        print_file("   on_screen_choices:", store.on_screen_choices)
-        print_file("   choice_index:", store.last_shown_choice_index)
-        print_file("   hidden_choice_screens:", store.recently_hidden_choice_screens)
-        print_file("   Nodes to be executed after this one:")
-        node = renpy.game.context().next_node
-        for i in range(35):
-            print_file("   next node:", node)
-            if node is None:
-                break
-            node = node.next
-        if store.c_menu_dict.get('narration', None):
-            print_file("   and the final item will be", store.c_menu_dict.get('narration')[-1].next)
 
 
     def hide_all_c_choices():
@@ -324,20 +286,12 @@ label execute_continuous_menu():
         $ print_file("ERROR: Something went wrong with continuous menus")
         return
 
-    $ print_useful_info('execute_continuous_menu label')
     $ narration = c_menu_dict['narration']
-    python:
-        print_file("   Looking at narration:")
-        for n in narration:
-            print_file("      ", n)
-        print_file("   and the final item will be", narration[-1].next)
     $ narration[0].execute()
     return
 
 ## Plays the continuous menu as if it were a regular menu without a timer.
 label play_continuous_menu_no_timer():
-    $ print_useful_info('play_continuous_menu_no_timer label')
-
     python:
         block_interrupts = True
         items = c_menu_dict['available_choices'][:]
@@ -371,8 +325,6 @@ label play_continuous_menu_no_timer():
 ## Determines what to do after a choice has been made. Generally executes
 ## the choice block after animating the message screen back into place.
 label finish_c_menu:
-    $ print_useful_info('finish_c_menu label')
-
     # Get rid of the backup; check if paraphrased dialogue should be sent
     $ chatbackup = None
     $ no_anim_list = chatlog[-20:]
