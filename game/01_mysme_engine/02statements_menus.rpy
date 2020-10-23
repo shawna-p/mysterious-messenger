@@ -573,10 +573,14 @@ python early hide:
 
         # Establish the node after the menu
         after_menu_node = renpy.game.context().next_node
+        next_dialogue = after_menu_node.next
         # Make sure it's the node after the narration
         print_file("    after_menu_node is", after_menu_node)
         p['block'].block[-1].next = after_menu_node
         print_file("    and now the block is", p['block'].block[-1].next)
+
+        # Ensure the nodes in this block are linked
+        chain_block(p['block'].block, after_menu_node)
 
         # Create a lookup dictionary for getting an id from an index
         choice_id_from_index = {}
@@ -644,7 +648,7 @@ python early hide:
             if c.end == -1:
                 c.end = len(node_times)-1
                 c.end_with_menu = True
-                final = None
+                final = after_menu_node
             for t in node_times[c.begin:c.end+1]:
                 dialogue_time += t
 
@@ -652,6 +656,7 @@ python early hide:
             c.final_node = final
             ## Add the choice's parsed dictionary
             c.choice_dict = p['block'].block[c.begin].parsed[1]
+            c.after_c_menu_end = next_dialogue
 
         print_file("The choices look like:")
         for c in choices:
@@ -764,7 +769,6 @@ python early hide:
             me.info = info
             me.wait = info.wait_time
             me.choice_id = info.choice_id
-            me.block = info.construct_action(p['block'].block)
             me.action = Function(execute_continuous_menu_action, item=me)
             choice_id_dict[me.choice_id] = me
             item_actions.append(me)
@@ -974,7 +978,6 @@ python early hide:
             me.info = new_info
             me.wait = wait
             me.choice_id = item.choice_id
-            me.block = item.block
             me.action = Function(execute_continuous_menu_action, item=me)
             ## Replace the choice in the id dictionary with this new version.
             store.c_menu_dict['choice_id_dict'][me.choice_id] = me

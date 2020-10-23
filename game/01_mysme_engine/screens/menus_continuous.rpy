@@ -22,6 +22,8 @@ init python:
         choice_dict : dict
             A dictionary from the parsed choice CDS. Contains information on
             the label and block for this choice, among other things.
+        after_c_menu_end : Node
+            The Node that should execute after this menu is over.
         """
 
         def __init__(self, begin, end, choice_id=None):
@@ -45,19 +47,36 @@ init python:
             self.final_node = None
             self.end_with_menu = False
             self.choice_dict = {}
+            self.after_c_menu_end = None
 
         def construct_action(self, nodes):
             """Construct the block this choice should execute."""
 
             block = self.choice_dict['block'].block
 
+            print_file("Choices: final node is", self.final_node,
+                "and after_c_menu_end is", self.after_c_menu_end,
+                "and end_with_menu is", self.end_with_menu)
+
             if not self.end_with_menu:
-            #     block.append(self.final_node)
-            # else:
+                print_file("Everything we should be linking to this node:")
+                for n in nodes[self.end-1:]:
+                    print_file("      ", n)
                 block.extend(nodes[self.end-1:])
+                print_file("What we ended up with")
+                for n in block:
+                    print_file("      ", n)
+            block.append(self.final_node)
+            block.append(self.after_c_menu_end)
 
             for a, b in zip(block, block[1:]):
                 a.chain(b)
+
+            print_file(self, "contains a block with")
+            node = block[0]
+            while node is not None:
+                print_file("    ", node)
+                node = node.next
 
             # Otherwise, the final action is the end of the menu. The choice
             # action is simply to jump to the appropriate block
@@ -382,7 +401,8 @@ label finish_c_menu:
     $ block_interrupts = False
     # This executes the statements bundled after the choice
     #$ renpy.ast.next_node(item.block[0])
-    $ item.block[0].execute()
+    $ item.info.construct_action(c_menu_dict['narration'])[0].execute()
+    #$ item.block[0].execute()
     return
 
 ## Dictionary which holds information needed to display continuous menus
