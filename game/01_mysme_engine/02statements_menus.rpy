@@ -573,7 +573,7 @@ python early hide:
         p['block'].block[-1].next = after_menu_node
 
         # Ensure the nodes in this block are linked
-        chain_block(p['block'].block, after_menu_node)
+        renpy.ast.chain_block(p['block'].block, after_menu_node)
 
         # Create a lookup dictionary for getting an id from an index
         choice_id_from_index = {}
@@ -784,6 +784,8 @@ python early hide:
         return 'end_for_internal_use_' + lbl + '_' + str(p['loc'][1])
 
     def post_execute_c_menu(p):
+
+        print_file("Executing post_execute_c_menu")
         # This executes when the menu is over.
         # If there are choices on-screen, hide everything
         if store.on_screen_choices > 0:
@@ -795,20 +797,33 @@ python early hide:
                     animate_down=True)
             reset_c_menu_vars()
             # Continue executing code after the menu
+            print_file("Hiding all the on-screen choices and returning")
             return
 
         # If the dictionary is empty, reset variables
         if not store.c_menu_dict:
             reset_c_menu_vars()
+            print_file("c_menu_dict was empty")
             return
 
+        if store.persistent.use_timed_menus and not store._in_replay:
+            # The menu is over
+            store.c_menu_dict = { }
+            reset_c_menu_vars()
+            return
+
+        print_file("c_menu_dict contains:")
+        for key, val in store.c_menu_dict.items():
+            if key == 'narration':
+                continue
+            print_file("   ", key, ":", val)
         # Otherwise, this was likely at the end of a non-timed menu
         # either in replay or because timed menus are turned off.
         # Need to show choices that end at the same time as the menu.
+        store.c_menu_dict['available_choices'] = [ ]
         for i in store.c_menu_dict.get('items', []):
-            store.c_menu_dict['available_choices'] = [ ]
             if i.info.end_with_menu:
-                if not store.persistent.use_timed_menus or store._in_replay:
+                if (not store.persistent.use_timed_menus) or store._in_replay:
                     # Add this choice to available choices
                     store.c_menu_dict['available_choices'].append(i)
 
@@ -818,6 +833,7 @@ python early hide:
             # at the same time as the menu; nothing to show, so return.
             reset_c_menu_vars()
             # Continue executing code after the menu
+            print_file("There were no available choices so the menu is over")
             return
 
         # Show any remaining choices to the user, along with an option
@@ -841,6 +857,7 @@ python early hide:
         # is shown so the game can continue with the rest of the chatroom.
         store.c_menu_dict['erase_menu'] = True
         store.block_interrupts = False
+        print_file("Added a say nothing to the final menu option")
         renpy.jump('play_continuous_menu_no_timer')
         return
 

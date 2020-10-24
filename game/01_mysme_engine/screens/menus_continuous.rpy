@@ -100,7 +100,7 @@ init python:
             if item.jump_to_label:
                 renpy.jump(item.jump_to_label)
             else:
-                return
+                renpy.jump('just_return')
         else:
             renpy.jump('finish_c_menu')
 
