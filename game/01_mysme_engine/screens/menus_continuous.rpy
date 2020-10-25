@@ -100,7 +100,8 @@ init python:
             if item.jump_to_label:
                 renpy.jump(item.jump_to_label)
             else:
-                renpy.jump('just_return')
+                renpy.jump('end_c_menu_no_timer')
+                return
         else:
             renpy.jump('finish_c_menu')
 
@@ -289,6 +290,13 @@ label execute_continuous_menu():
     $ narration = c_menu_dict['narration']
     $ narration[0].execute()
     return
+
+label end_c_menu_no_timer():
+    $ item = store.c_menu_dict['item']
+    $ reset_c_menu_vars()
+    $ item.next_node.execute()
+    return
+
 
 ## Plays the continuous menu as if it were a regular menu without a timer.
 label play_continuous_menu_no_timer():

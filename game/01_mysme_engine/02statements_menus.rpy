@@ -849,6 +849,7 @@ python early hide:
         me.chosen = value.get_chosen()
         me.args = tuple()
         me.kwargs = dict()
+        me.next_node = store.c_menu_dict['narration'][-1].next.next
         me.jump_to_label = None #post_continuous_menu(p)
         me.action = Function(execute_continuous_menu_action, item=me,
                             say_nothing=True)
