@@ -1054,7 +1054,10 @@ python early hide:
             me.chosen = value.get_chosen()
             me.args = tuple()
             me.kwargs = dict()
-            me.jump_to_label = end_choice_label(p)
+            me.jump_to_label = None #end_choice_label(p)
+            print_file("The node after end choice", p['choice_id'], "is",
+                renpy.game.context().next_node.next)
+            me.next_node = renpy.game.context().next_node
             me.action = Function(execute_continuous_menu_action, item=me,
                                 say_nothing=True)
             store.c_menu_dict['autoanswer'] = me

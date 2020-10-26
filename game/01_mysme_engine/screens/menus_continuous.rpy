@@ -361,7 +361,8 @@ label finish_c_menu:
     $ block_interrupts = False
     # This executes the statements bundled after the choice
     #$ renpy.ast.next_node(item.block[0])
-    $ item.info.construct_action(c_menu_dict['narration'])[0].execute()
+    $ item.info.construct_action(c_menu_dict['narration'])#[0].execute()
+    $ item.next_node.execute()
     #$ item.block[0].execute()
     return
 
