@@ -197,7 +197,7 @@ label execute_timed_menu():
 
     ## First things first: if the player is skipping, they do not receive the
     ## opportunity to answer at all.
-    if renpy.is_skipping():
+    if renpy.is_skipping() or len(timed_menu_dict['items']) == 0:
         $ timed_menu_dict['no_choices'] = True
         jump execute_timed_menu_narration
 
