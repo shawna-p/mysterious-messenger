@@ -179,6 +179,8 @@ init -6 python:
 
         undelivered = [ x for x in store.all_characters
                         if x.text_msg.msg_queue ]
+        if store.incoming_call:
+            return len(undelivered) + 1
         return len(undelivered)
 
     def addtext(who, what, img=False):
