@@ -194,7 +194,9 @@ label vn_position():
     r neutral "Anything else you'd like to learn about?"
     jump vn_tutorial
 
-
+# This is a variable used later in a profile picture callback. You can see
+# it used in tutorial_0_introduction.rpy
+default sent_zen_unknown_pic = False
 label menu_a3():
     # Even though this conversation begins with a menu, if it's
     # in real time you need to include 'call answer' before the menu.
@@ -204,12 +206,14 @@ label menu_a3():
     menu (paraphrased=True):
         # The player can post both CGs and emojis
         "(Post a photo)":
+            $ sent_zen_unknown_pic = True
             m "common_2" (pauseVal=0, img=True)
             m "You mean like this?"
         "(Post an emoji)":
             m "{image=zen_oyeah}" (pauseVal=0, img=True)
             m "How's this?"
         "(Post both)":
+            $ sent_zen_unknown_pic = True
             m "common_2" (pauseVal=0, img=True)
             m "{image=zen_oyeah}" (img=True)
             m "What do you think?"
