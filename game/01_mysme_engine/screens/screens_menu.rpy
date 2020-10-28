@@ -820,7 +820,8 @@ screen menu_header(title, return_action=NullAction,
             and not main_menu
             and not starter_story
             and num_undelivered()):
-        timer 0.5 action If(not randint(0,3), deliver_next, []) repeat True
+        #timer 0.5 action If(not randint(0,3), Function(deliver_next), []) repeat True
+        timer 1.5 action Function(deliver_next, randomize=True) repeat True
 
     hbox:
         style_prefix "hg_hp"
