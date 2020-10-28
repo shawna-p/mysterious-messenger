@@ -26,6 +26,11 @@
     # this to True.
     $ paraphrase_choices = False
 
+    # For this route, some specific profile picture callbacks are defined
+    # in a function called "tutorial_pfp_dialogue". That function is defined
+    # at the end of this file.
+    $ mc_pfp_callback = tutorial_pfp_dialogue
+
     ## If you don't want an introduction, you can uncomment this line
     ## When the player starts the game, they will be immediately taken
     ## to the hub screen.
@@ -161,3 +166,140 @@
     exit chatroom u
 
     jump chat_end
+
+
+
+
+
+init -1 python:
+    def tutorial_pfp_dialogue(time_diff, prev_pic, current_pic, who):
+        """
+        An example callback function for when the player changes their
+        profile picture.
+        """
+
+        # time_diff is a timedelta object wrapped in a MyTimeDelta class to
+        # make accessing fields easier. Its most useful fields are `days`,
+        # `minutes`, `hours`, and `seconds`. Each field is rounded DOWN to the
+        # nearest value e.g. if 2 minutes have passed, seconds = 120,
+        # minutes = 2, and hours and days = 0.
+        if time_diff.seconds < 10:
+            # This is for testing; most times you will want a larger number
+            # such as `if time_diff.hours < 2` so that the player is discouraged
+            # from constantly changing their profile picture to check for
+            # a callback. In this case, the program will return if it's been
+            # less than 10 seconds since the profile picture was changed.
+            print_file("It's been less than 10 seconds")
+            return
+
+
+        # Otherwise, figure out what to do based on the other properties.
+        # There are lots of things to check, and many more program variables
+        # you can take advantage of which aren't shown here.
+        if (store.today_day_num == 0
+                and who == None
+                and "CGs/common_album/cg-1" in current_pic):
+            # This statement checks: Is today Tutorial Day? (since Tutorial
+            # Day is the first day on the route, its index is 0)
+            # Who is associated with this image? (None for common album)
+            # Is this image "cg-1" from the common album?
+
+            # If so, this is the silly pass-out-after-drinking-caffeine
+            # screenshot. Seven will send the player a text message, so the
+            # game should jump to the label returned here.
+            print_file("Seven's pfp callback successful")
+            return "seven_pfp_callback_coffee"
+
+        if (who == None and "CGs/common_album/cg-2" in current_pic):
+            # This checks for the picture the player can send Zen during
+            # a text message conversation
+
+            # You can return a list of labels, and the program will use the
+            # first one that hasn't been seen before.
+            print_file("Zen's pfp callback successful")
+            return ['zen_pfp_callback_unknown1', 'zen_pfp_callback_unknown2']
+
+        print_file("Callback didn't fulfill any conditions. Vars:",
+            time_diff.seconds, "seconds passed, prev_pic", prev_pic, "who",
+            who, "current pic", current_pic)
+        return
+
+label seven_pfp_callback_coffee():
+    compose text s real_time:
+        s "lolololol [name]"
+        s "u saved the screenshot for ur profile pic??"
+        label seven_pfp_callback_coffee_menu
+    return
+
+label seven_pfp_callback_coffee_menu:
+    call answer
+    menu:
+        "Ya lol I thought it was funny >.<":
+            award heart s
+            s "Omg"
+            msg s "{image=seven_wow}"
+            s "ur hilarious lolol"
+        "Where did you get this screenshot? I can't find it on Cherrypedia":
+            s "[name] omg"
+            s "Don't tell me"
+            s "ur like Yoosung lolol"
+            call answer
+            menu:
+                "Huh? I don't understand":
+                    s "lololol"
+                    s "Don't worry about it."
+                "lolol I'm pulling your leg":
+                    s "!!!"
+                    s "Wow ur something else lol"
+    s "Talk to u later!"
+    return
+
+label zen_pfp_callback_unknown1():
+    # The first time you change your profile picture to this, Zen will
+    # call you. This creates an incoming call that will be delivered when
+    # the player is on the main menu.
+    $ create_incoming_call("zen_pfp_callback_unknown1_incoming", who=z)
+    $ print_file("Added incoming call", incoming_call)
+    return
+
+label zen_pfp_callback_unknown1_incoming():
+    z "Hi [name]!"
+    menu:
+        extend ''
+        "Zen? What are you calling me for?":
+            z "Aw babe, don't be like that~ I was just thinking about you."
+        "Zen! I missed you~":
+            z "Don't say things like that haha, you never know what a man might be thinking."
+    z "I had a question for you, actually. I saw that you changed your profile picture recently."
+    if sent_zen_unknown_pic:
+        z "It's the picture you messaged me earlier, right?"
+    else:
+        z "I'm not supposed to remember this, but on a different playthrough you sent me that picture in a text message."
+    z "I was just wondering who it is. It's not a picture of you, is it?"
+    if persistent.pronoun == "she/her":
+        z "I mean I was kind of under the impression that you're a girl but... we've never met in person so I wanted to ask."
+    menu:
+        extend ''
+        "Someone sent me that picture a while ago.":
+            z "So it's not a picture of you? Oh, okay."
+            z "You should send me some selfies sometime though~ I'm sure you're very cute!"
+        "That's a picture of me.":
+            z "Oh, really? Oh. Okay. Well thank you for telling me!"
+            menu:
+                extend ''
+                "Lol I'm just kidding.":
+                    $ last_c = name[-1]
+                    z "[name][last_c][last_c] I can't believe you'd tease me like this haha."
+
+    z "Anyway, I have some stuff I should do today yet. Thanks for talking with me!"
+    return
+
+label zen_pfp_callback_unknown2():
+    # The second time you change your profile picture to the Unknown picture,
+    # Zen's space thoughts will change. Using `add_choices` instead of
+    # `new_choices` will allow you to add to the existing choices instead
+    # of replacing them.
+    $ space_thoughts.add_choices(
+        SpaceThought(z, "[name] changed [their] profile picture to that random guy again... why [do_does] [they] like that picture so much?")
+    )
+    return
