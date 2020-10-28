@@ -234,6 +234,31 @@ init -6 python:
 
         renpy.retain_after_load()
 
+    def create_incoming_call(lbl, who=None):
+        """Create an incoming call."""
+
+        if isinstance(lbl, PhoneCall):
+            store.incoming_call = lbl
+            return
+
+        # Do some error checking
+        if not isinstance(who, ChatCharacter):
+            print("WARNING: The ChatCharacter for the phonecall at \"" + lbl
+                + "\" could not be evaluated.")
+            renpy.show_screen('script_error',
+                    message=("The ChatCharacter for the phonecall " + lbl
+                        + " could not be evaluated."))
+            return
+        if not renpy.has_label(lbl):
+            print("WARNING: Could not find label \"" + lbl
+                + "\" for incoming phone call.")
+            renpy.show_screen('script_error',
+                    message=("Could not find label " + lbl
+                        + " for incoming phone call."))
+            return
+        store.incoming_call = PhoneCall(who, lbl)
+        renpy.retain_after_load()
+
 # Number of calls the player missed
 default unseen_calls = 0
 # True if the player is in a phone call (for choice menus etc)
@@ -797,8 +822,10 @@ screen phone_say(who, what):
 
 ## Allows the program to jump to the incoming call; now only used for the
 ## intro
-label new_incoming_call(phonecall):
+label new_incoming_call(phonecall=None):
     play music persistent.phone_tone loop nocaption
+    if phonecall is None:
+        $ phonecall = current_call
     if isinstance(phonecall, PhoneCall):
         call screen incoming_call(phonecall=phonecall)
     else:
