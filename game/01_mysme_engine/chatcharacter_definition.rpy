@@ -838,6 +838,16 @@ init -5 python:
                     result.append((item, condition))
         return result
 
+    def get_img_from_tuple(img):
+        """Return the image filename if it's stored in a tuple."""
+
+        # (str_img, crop, crop_rel
+        if isinstance(img, tuple):
+            return img[0]
+        else:
+            return img
+
+
     def change_mc_pfp_callback():
         """
         Function that is called whenever the main character changes their
@@ -851,14 +861,21 @@ init -5 python:
         if store.mc_pfp_time is None:
             time_diff = None
         elif store.mc_previous_pfp is None:
-            store.mc_previous_pfp = store.persistent.MC_pic
+            # First time the picture has been changed this playthrough
+            store.mc_previous_pfp = get_img_from_tuple(store.persistent.MC_pic)
             time_diff = None
-        elif store.mc_previous_pfp == store.persistent.MC_pic:
+        elif store.mc_previous_pfp == get_img_from_tuple(store.persistent.MC_pic):
             # Picture wasn't changed
             time_diff = None
+            print_file("The profile picture wasn't changed")
+            return
         else:
             time_diff = upTime().datetime - store.mc_pfp_time.datetime
+
         store.mc_pfp_time = upTime()
+        if time_diff is None:
+            # Time diff will be set to 0
+            time_diff = store.mc_pfp_time.datetime - store.mc_pfp_time.datetime
 
         # Find whose profile picture this is
         who = None
@@ -866,28 +883,27 @@ init -5 python:
             try:
                 pfp_list = [img for img, cond in getattr(store, chara.file_id + '_unlockable_pfps')]
                 print_file("Looking at", chara.file_id,"unlockable pfps")
-                if (store.persistent.MC_pic in pfp_list):
+                if ((store.persistent.MC_pic in pfp_list)
+                        or (get_img_from_tuple(store.persistent.MC_pic)
+                                in pfp_list)):
                     who = chara
                     break
-                elif ('images/' in store.persistent.MC_pic
-                        and store.persistent.MC_pic[7:] in pfp_list):
+                elif ('images/' in get_img_from_tuple(store.persistent.MC_pic)
+                        and get_img_from_tuple(store.persistent.MC_pic)[7:] in pfp_list):
                     who = chara
                     break
             except:
                 print_file("Couldn't look at", chara.file_id)
                 continue
         old_pfp = store.mc_previous_pfp
-        store.mc_previous_pfp = store.persistent.MC_pic
-
-        # No time passed since the picture was last changed
-        if time_diff is None:
-            return
+        store.mc_previous_pfp = get_img_from_tuple(store.persistent.MC_pic)
 
         # Wrap the time diff in a MyTimeDelta object
         time_diff = MyTimeDelta(time_diff)
 
         try:
-            lbl = store.mc_pfp_callback(time_diff, old_pfp, who)
+            lbl = store.mc_pfp_callback(time_diff, old_pfp,
+                get_img_from_tuple(store.persistent.MC_pic), who)
         except:
             print("WARNING: Could not use mc_pfp_callback. Do you have at",
                 "least three function parameters?")
@@ -896,6 +912,7 @@ init -5 python:
                     + " three function parameters?")
             return
         if not lbl:
+            print_file("Didn't get a pfp callback label")
             return
         # Otherwise, got a label to jump to. Only jump to it if it hasn't
         # been seen in this playthrough (or if testing mode is on).
