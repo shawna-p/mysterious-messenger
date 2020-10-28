@@ -67,6 +67,18 @@ init python:
             self.bag = list(self.choices)
             renpy.random.shuffle(self.bag)
 
+        def add_choices(self, choices):
+            """Append new choices to the existing choices."""
+
+            if isinstance(choices, list):
+                self.choices.extend(choices)
+                self.bag.extend(choices)
+            else:
+                self.choices.append(choices)
+                self.bag.append(choices)
+            # Shuffle the choices again
+            renpy.random.shuffle(self.bag)
+
     class SpaceThought(renpy.store.object):
         """
         Class which keeps track of 'Space Thoughts' in order to show the
