@@ -634,7 +634,7 @@ init -6 python:
             store.current_call = store.incoming_call
             store.incoming_call = False
             renpy.music.play(persistent.phone_tone, 'music', loop=True)
-            renpy.jump('new_incoming_call', phonecall=store.current_call)
+            renpy.jump('new_incoming_call')
         return
 
 
@@ -786,11 +786,17 @@ init -6 python:
         return total
 
 
-    def deliver_next():
+    def deliver_next(randomize=False):
         """
         Deliver the next available text message and trigger an incoming
         phone call, if applicable.
         """
+
+        print_file("Delivering next")
+        if randomize:
+            x = random.randint(0, 3)
+            if x > 0:
+                return
 
         global incoming_call, available_calls, current_call
         global persistent, all_characters
@@ -808,7 +814,8 @@ init -6 python:
             current_call = incoming_call
             incoming_call = False
             renpy.music.play(persistent.phone_tone, 'music', loop=True)
-            renpy.call_screen('incoming_call', phonecall=current_call)
+            renpy.jump('new_incoming_call')
+        return
 
 
     def merge_routes(new_route):
