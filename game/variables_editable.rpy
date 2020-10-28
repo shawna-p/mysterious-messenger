@@ -5,7 +5,7 @@ init python:
 
         global they, them, their, theirs, themself, they_re
         global They, Them, Their, Theirs, Themself, They_re
-        global is_are, has_have, s_verb
+        global is_are, has_have, s_verb, do_does
         if persistent.pronoun == "she/her":
             they = "she"
             them = "her"
@@ -15,6 +15,7 @@ init python:
             they_re = "she's"
             is_are = "is"
             has_have = "has"
+            do_does = "does"
             s_verb = "s"
         elif persistent.pronoun == "he/him":
             they = "he"
@@ -25,6 +26,7 @@ init python:
             they_re = "he's"
             is_are = "is"
             has_have = "has"
+            do_does = "does"
             s_verb = "s"
         elif persistent.pronoun == "they/them":
             they = "they"
@@ -35,6 +37,7 @@ init python:
             they_re = "they're"
             is_are = "are"
             has_have = "have"
+            do_does = "do"
             s_verb = ""
         # Set the capitalized versions
         They_re = string.capwords(they_re)
@@ -66,6 +69,7 @@ default Theirs = "Theirs"
 default Themself = "Themself"
 default is_are = "are"
 default has_have = "have"
+default do_does = "do"
 default s_verb = ""
 
 ########################################
@@ -144,17 +148,17 @@ default persistent.mc_unlocked_pfps = set()
 define pfp_cost = 5
 
 # A function that will be called when the player changes their
-# profile picture. The function should take three arguments: 1) the
+# profile picture. The function should take four arguments: 1) the
 # time that has passed since the picture was last changed, 2) the profile
-# picture before this one (the current one can be accessed through
-# store.persistent.MC_pic), and 3) the ChatCharacter associated with the
-# profile picture (or None if it's a default picture). If it returns a string,
-# the program will call that string as a label (e.g. for text messages).
+# picture before this one 3) the current profile pic, and 4) the ChatCharacter
+# associated with the profile picture (or None if it's a default picture).
+# If it returns a string, the program will call that string as a label
+# (e.g. for text messages).
 default mc_pfp_callback = bonus_pfp_dialogue
 
 
 init -1 python:
-    def bonus_pfp_dialogue(time_diff, prev_pic, who):
+    def bonus_pfp_dialogue(time_diff, prev_pic, current_pic, who):
         """
         An example callback function for when the player changes their
         profile picture.
