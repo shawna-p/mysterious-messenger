@@ -758,8 +758,8 @@ label guest_party_showcase():
     show screen guest_count
     python:
         # Make a list of all the guests attending the party
-        attending_guests = [ x.guest for x in email_list if x.guest.attending ]
-        num_guests = len(attending_guests)
+        attending_guests_list = [ x.guest for x in email_list if x.guest.attending ]
+        num_guests = len(attending_guests_list)
         guest_countup = 0
         j = 0
         viewing_guest = True
@@ -772,12 +772,12 @@ label guest_party_showcase():
         # aliases used so the program doesn't replace one guest with the
         # other before hiding them
         if j % 2 == 0:
-            show expression attending_guests[j].large_img as theguest at guest_enter
+            show expression attending_guests_list[j].large_img as theguest at guest_enter
         else:
-            show expression attending_guests[j].large_img as theguest2 at guest_enter
+            show expression attending_guests_list[j].large_img as theguest2 at guest_enter
 
-        $ guest_name = attending_guests[j].dialogue_name
-        $ guest_dialogue = attending_guests[j].dialogue_what
+        $ guest_name = attending_guests_list[j].dialogue_name
+        $ guest_dialogue = attending_guests_list[j].dialogue_what
 
         # The guest says their designated dialogue here
         "[guest_name]" "[guest_dialogue]"
@@ -795,7 +795,7 @@ label guest_party_showcase():
 
     # These guests can now be seen in the guestbook
     python:
-        for g in attending_guests:
+        for g in attending_guests_list:
             persistent.guestbook[g.name] = "attended"
 
     hide screen guest_count
