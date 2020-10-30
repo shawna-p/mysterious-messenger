@@ -36,6 +36,12 @@ init python:
     def set_chatroom_background(new_bg):
         """Set the correct background and nickname colour."""
 
+        if new_bg is None:
+            renpy.scene()
+            renpy.show('bg black')
+            store.current_background = 'morning'
+            return
+
         if new_bg[:3] == 'bg ':
             new_bg = new_bg[3:]
 
