@@ -1,13 +1,12 @@
 ﻿label start():
 
     # This call sets up which route the game is going to use -- in this
-    # case, tutorial_good_end, defined in route_setup.rpy. You will pass
+    # case, tutorial_route, defined in route_setup.rpy. You will give
     # it the name of whatever you'd like your own route to be.
-    # You cannot have a VN mode after this chatroom unless you include it
-    # in this label as a call, but you can have text messages or phone
-    # calls after it by using labels such as `starter_chat_incoming_ja` or
-    # `after_starter_chat`. You can also include a VN section before this
-    # chatroom.
+    # You can have text messages or phone calls after this introduction by
+    # using labels such as `starter_chat_incoming_ja` or `after_starter_chat`.
+    # You can also include a Story Mode section sometime during the
+    # introduction by using `call vn_begin`, though that isn't shown here.
     $ new_route_setup(route=tutorial_route)
 
     # This tells the program which characters' profiles you want to see
@@ -31,7 +30,7 @@
     # at the end of this file.
     $ mc_pfp_callback = tutorial_pfp_dialogue
 
-    ## If you don't want an introduction, you can uncomment this line
+    ## If you don't want an introduction, you can uncomment this line.
     ## When the player starts the game, they will be immediately taken
     ## to the hub screen.
     # jump skip_intro_setup
@@ -40,8 +39,10 @@
     # how you do it. Just replace 'u' with whatever
     # character you want to call the player
     call new_incoming_call(u)
-    # Begin and end the phone call like you would anywhere else
-    call phone_begin
+
+    # This is used to remember a choice the player made. It is only used
+    # in this particular label, so it is not defaulted outside the label.
+    $ regular_intro = False
 
     u """
 
@@ -49,52 +50,68 @@
 
     I thought maybe you wouldn't since my number wouldn't be listed in your phone.
 
-    I'm calling because I was hoping you could help me test a new app I made. What do you think?
-
-    """
-    menu:
-        extend ''
-        "Testing? What would I need to do?":
-            # Because paraphrase_choices is False, the program will
-            # automatically cause the MC to say this dialogue, so it is
-            # unnecessary to write it.
-            pass
-        "Sounds like a lot of work.":
-            u "Oh, it's not bad, I promise!"
-        "I've actually already seen this; can you take me to the home screen?" if persistent.HP:
-            u "Oh, sure! See you later~"
-            # This is pretty specific to this particular chat; you
-            # should not have to do this. It simply makes it easier
-            # for players who have already played through the game
-            # to get to the chat hub
-            jump skip_intro_setup
-
-    u """
-
-    All you have to do is use the app, and then you let me know if you run into problems or bugs.
-
-    It'll help me make a much better program, in the end.
-
-    You only need to use it as much as you have time for. And in return you get to test out my program earlier than anyone else!
-
-    So what do you say?
-
     """
 
-    menu:
-        extend ''
-        "I suppose I'll give it a shot.":
-            pass
+    if persistent.HP:
+        u "It looks like you've played through some of this program before! I'm happy you've come back~"
+        u "There are lots of new things to check out in the most recent version, so I hope you'll give Tutorial Day another playthrough."
+        u "Since you're so seasoned, I'll let you start right away."
+        u "But before that, I wanted to ask -- do you want to change any of your animation settings? I can turn off the hacking effects and screenshake if you want."
+        menu:
+            extend ''
+            "Tell me about the animation settings.":
+                u "Got it. Sometimes the program has animations like the scrolling hacked code effect, or banners in the chatrooms. There is also a screen shake animation. Do you want any of these animations turned off?"
+            "I'm good to go; take me to the rest of the game!":
+                u "Sounds good! I'll see you later~"
+                # This is pretty specific to this particular chat; you
+                # should not have to do this. It simply makes it easier
+                # for players who have already played through the game
+                # to get to the chat hub
+                jump skip_intro_setup
+            "I'd like to see the regular intro.":
+                $ regular_intro = True
+                u "Okay!"
+                u "I'm calling because I was hoping you could help me test a new app I made. What do you think?"
+                jump regular_intro
+    else:
+        "I'm calling because I was hoping you could help me test a new app I made. What do you think?"
 
-    u """
+        menu regular_intro:
+            extend ''
+            "Testing? What would I need to do?":
+                # Because paraphrase_choices is False, the program will
+                # automatically cause the MC to say this dialogue, so it is
+                # unnecessary to write it.
+                pass
+            "Sounds like a lot of work.":
+                u "Oh, it's not bad, I promise!"
 
-    You will? Wonderful!
+        u """
 
-    I also wanted to ask -- how do you feel about short flashing animations?
+        All you have to do is use the app, and then you let me know if you run into problems or bugs.
 
-    Sometimes the program has animations like the scrolling hacked code effect, or banners in the chatrooms. There is also a screen shake animation.
+        It'll help me make a much better program, in the end.
 
-    """
+        You only need to use it as much as you have time for. And in return you get to test out my program earlier than anyone else!
+
+        So what do you say?
+
+        """
+
+        menu:
+            extend ''
+            "I suppose I'll give it a shot.":
+                pass
+
+        u """
+
+        You will? Wonderful!
+
+        I also wanted to ask -- how do you feel about short flashing animations?
+
+        Sometimes the program has animations like the scrolling hacked code effect, or banners in the chatrooms. There is also a screen shake animation.
+
+        """
 
     menu:
         extend ''
@@ -126,25 +143,30 @@
 
     There are other accessibility options there as well, such as audio captions for background music and sound effects.
 
+    """
+
+    if persistent.HP and not regular_intro:
+        u "Alright, enjoy the program!"
+        jump skip_intro_setup
+
+    u """
+
     Alright, so when this call ends I'll send you a chatroom message with a bit more information on getting started from here.
 
     Good luck!
 
     """
 
-    # Note that this is 'call' instead of 'jump'; this
-    # allows you to continue on with a chatroom instead of
-    # ending the introduction here
-    call phone_end
-    # This ensures the transition from phone to chatroom is smoother
-    scene bg black
-
     # Instead of ending the label here, you can continue with
     # a chatroom. If you don't want the phonecall beforehand,
-    # just delete that section
-    # Feel free to modify the chatroom beyond this point
+    # just delete that section.
+    # Feel free to modify the chatroom beyond this point. You need to use
+    # `call chat_begin` here to ensure the chatroom is set up properly, since
+    # the program doesn't know if you want to begin the route with a chatroom,
+    # phone call, or Story Mode (VN), so you need to specify in the prologue.
     call chat_begin('hack')
     show hack effect
+    scene hack
 
     play music mystic_chat
 
@@ -165,9 +187,7 @@
     u "I won't keep you much longer. Enjoy the program!"
     exit chatroom u
 
-    jump chat_end
-
-
+    jump end_prologue
 
 
 
@@ -207,16 +227,14 @@ init -1 python:
             # If so, this is the silly pass-out-after-drinking-caffeine
             # screenshot. Seven will send the player a text message, so the
             # game should jump to the label returned here.
-            print_file("Seven's pfp callback successful")
             return "seven_pfp_callback_coffee"
 
         if (who == None and "CGs/common_album/cg-2" in current_pic):
             # This checks for the picture the player can send Zen during
-            # a text message conversation
+            # a text message conversation.
 
             # You can return a list of labels, and the program will use the
             # first one that hasn't been seen before.
-            print_file("Zen's pfp callback successful")
             return ['zen_pfp_callback_unknown1', 'zen_pfp_callback_unknown2']
 
         print_file("Callback didn't fulfill any conditions. Vars:",
@@ -259,7 +277,6 @@ label zen_pfp_callback_unknown1():
     # call you. This creates an incoming call that will be delivered when
     # the player is on the main menu.
     $ create_incoming_call("zen_pfp_callback_unknown1_incoming", who=z)
-    $ print_file("Added incoming call", incoming_call)
     return
 
 label zen_pfp_callback_unknown1_incoming():
