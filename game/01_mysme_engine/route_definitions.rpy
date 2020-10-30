@@ -406,6 +406,8 @@ init -6 python:
             # Names of the labels of each ending chatroom or VN
             self.ending_labels = []
             for day in reversed(default_branch):
+                if not isinstance(day, TimelineItem):
+                    continue
                 if day.archive_list:
                     try:
                         self.ending_labels.append(
@@ -416,6 +418,8 @@ init -6 python:
 
             for branch in branch_list:
                 for day in reversed(branch):
+                    if not isinstance(day, TimelineItem):
+                        continue
                     if day.archive_list:
                         try:
                             self.ending_labels.append(
