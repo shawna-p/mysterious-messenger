@@ -109,8 +109,15 @@ init python:
 
             # Update music variables to their .ogg counterparts
             update_music()
-            # Check if chat_archive is the tutorial day one though, since
-            # it'll likely be changed to have paraphrased choices
+            # Try to check if this save is on Tutorial Day, in which case
+            # paraphrase choices should be off.
+            try:
+                if store.story_archive[0].day == "Tutorial":
+                    store.paraphrase_choices = False
+                else:
+                    store.paraphrase_choices = True
+            except:
+                store.paraphrase_choices = True
 
 
             store._version = (3, 0, 0)
