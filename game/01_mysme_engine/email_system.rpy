@@ -786,7 +786,7 @@ screen open_email(e):
 
                 textbutton _('Reply'):
                     if e.can_reply:
-                        action e.send_reply()
+                        action Function(e.send_reply)
                     else:
                         foreground 'menu_select_btn_inactive'
 
