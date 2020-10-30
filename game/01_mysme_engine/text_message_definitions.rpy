@@ -394,6 +394,14 @@ init -6 python:
         else:
             return last_msg.what[:num_char]
 
+    def text_message_begin(text_person):
+        store.text_person = text_person
+        store.CG_who = store.text_person
+        if text_person.text_msg.reply_label:
+            store.text_msg_reply = True
+        store.text_person.text_msg.read = True
+        renpy.retain_after_load()
+        return
 
 default text_msg_reply = False
 # Store the ChatCharacter object of the other person in a text conversation
@@ -442,4 +450,40 @@ label compose_text_end(text_label=False):
 
 ## Set end variables when a text message menu is completed
 label text_end():
+    return
+
+## The label that is called to play text messages
+label play_text_message():
+    if text_person.real_time_text:
+        show screen text_message_screen(text_person)
+        show screen text_pause_button
+    if text_person.text_label:
+        $ renpy.call(text_person.text_label)
+    python:
+        if (not dialogue_paraphrase and dialogue_picked != ""):
+            say_choice_caption(dialogue_picked,
+                dialogue_paraphrase, dialogue_pv)
+        if text_person is not None and text_person.real_time_text:
+            text_pauseFailsafe(text_person.text_msg.msg_list)
+        text_msg_reply = False
+        if text_person is not None:
+            text_person.finished_text()
+        # Determine collected heart points (HP)
+        persistent.HP += get_collected_hp()
+        collected_hp = {'good': [], 'bad': [], 'break': []}
+        # Give the player their hourglasses
+        persistent.HG += collected_hg
+        collected_hg = 0
+        textbackup = ChatEntry(filler,"","")
+        who = text_person
+        text_person = None
+        renpy.retain_after_load()
+    hide screen text_answer
+    hide screen inactive_text_answer
+    hide screen text_play_button
+    hide screen text_pause_button
+    if who is None:
+        call screen timeline(current_day, current_day_num)
+        return
+    call screen text_message_screen(who, animate=False)
     return

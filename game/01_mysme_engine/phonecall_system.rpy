@@ -851,6 +851,47 @@ label phone_end():
     return
 
 
+## The label that is called to play a (non-story) phone call
+label play_phone_call():
+    if starter_story:
+        $ set_name_pfp()
+    stop music
+    # This stops it from recording the dialogue
+    # from the phone call in the history log
+    $ _history = False
+    $ in_phone_call = True
+    hide screen incoming_call
+    hide screen outgoing_call
+
+    # Hide all the popup screens
+    $ hide_all_popups()
+
+    if _in_replay:
+        $ observing = True
+        $ set_name_pfp()
+        $ set_pronouns()
+    show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
+    if not starter_story:
+        # Play the phone call
+        if observing:
+            $ store.current_choices = list(current_call.choices)
+        $ renpy.call(current_call.phone_label)
+        if (not dialogue_paraphrase and dialogue_picked != ""):
+            $ say_choice_caption(dialogue_picked,
+                dialogue_paraphrase, dialogue_pv)
+        $ renpy.end_replay()
+        if not observing:
+            $ current_call.finished()
+            $ persistent.completed_story.add(current_call.phone_label)
+        $ in_phone_call = False
+        $ current_call = False
+        $ observing = False
+        $ _history = True
+        $ renpy.retain_after_load()
+        call screen phone_calls
+    return
+
+
 ##*************************************************
 ## VOICEMAILS
 ##*************************************************

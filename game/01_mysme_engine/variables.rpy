@@ -532,6 +532,160 @@ init -6 python:
     # Allow right clicks for alternate button actions.
     config.keymap['game_menu'].remove('mouseup_3')
 
+
+    def custom_show(name, at_list=None, layer='master', what=None,
+            zorder=0, tag=None, behind=None, **kwargs):
+        """
+        A custom statement which replaces the default `show` statement in order
+        to work with chatrooms.
+
+        Parameters:
+        -----------
+        name : string
+            The name of the image to show.
+        at_list : transforms[]
+            A list of transforms that are applied to the image. The equivalent
+            of the `at` property.
+        layer : string
+            Gives the name of the layer on which the image will be shown. The
+            equivalent of the `onlayer` property. If None, uses the default
+            layer associated with the tag.
+        what : Displayable or None
+            A displayable that will be shown in lieu of looking on the image.
+            (The equivalent of the `show expression` statement). When a `what`
+            parameter is given, `name` can be used to associate a tag with
+            the image.
+        zorder : int
+            The equivalent of the `zorder` property. If None, the zorder is
+            preserved if it exists, and is otherwise set to 0.
+        tag : string
+            Specifies the image tag of the shown image. The equivalent of the
+            `as` property.
+        behind : string[]
+            A list of image tags that this image is shown behind. The equivalent
+            of the `behind` property.
+
+        Result:
+        -------
+            Displays the image on the screen according to the given parameters.
+        """
+
+        # This helps paraphrasing to work with VN mode
+        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
+            say_choice_caption(store.dialogue_picked,
+                store.dialogue_paraphrase, store.dialogue_pv)
+
+        # The scrolling hack effect should be shown
+        if ('hack' in name and 'effect' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('hack')
+            return
+        elif ('redhack' in name and 'effect' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('redhack')
+            return
+        ## Banners
+        elif ('lightning' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='lightning')
+            return
+        elif ('well' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='well')
+            return
+        elif ('annoy' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='annoy')
+            return
+        elif ('heart' in name and 'banner' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('banner', banner='heart')
+            return
+        ## The shake effect
+        elif ( name == ('shake',)
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('shake')
+            return
+
+
+        ## Chatroom backgrounds
+        elif (not name == ('bg', 'black')
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            # The messenger screen is showing, therefore this statement is
+            # likely being used in conjunction with `scene` to display a
+            # chatroom background
+            print('Using custom show statement with', name)
+            if isinstance(name, tuple) and name[0] == 'bg':
+                set_chatroom_background(name[1])
+            elif isinstance(name, tuple):
+                set_chatroom_background(name[0])
+            else:
+                set_chatroom_background(name)
+            return
+
+        at_list = at_list or []
+        behind = behind or []
+
+        renpy.exports.show(name, at_list, layer, what, zorder, tag, behind, **kwargs)
+
+    def custom_hide(name, layer=None):
+        """
+        A custom statement which replaces the default `hide` statement for
+        compatibility with other program features such as menu paraphrasing.
+
+        Parameters:
+        -----------
+        name : string
+            The name of the image to hide. Only the image tag is used, and any
+            image with the tag is hidden (the precise name does not matter).
+        layer : string
+            The layer on which this function operates. If None, uses the
+            default layer associated with the tag.
+
+        Result:
+        -------
+            Executes a say statement for the main character if applicable and
+            hides the given image.
+        """
+
+        # This helps paraphrasing to work with VN mode
+        if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
+            say_choice_caption(store.dialogue_picked,
+                store.dialogue_paraphrase, store.dialogue_pv)
+
+        renpy.hide(name, layer)
+
+    # Some colour names, mostly for testing
+    WHITE = "#FFF"
+    BLACK = "#000"
+    SILVER = "#c0c0c0"
+    GRAY = "#808080"
+    RED = "#F00"
+    MAROON = "#800000"
+    YELLOW = "#FF0"
+    OLIVE = "#808000"
+    LIME = "#0F0"
+    GREEN = "#008000"
+    AQUA = "#0FF"
+    TEAL = "#008080"
+    BLUE = "#00F"
+    NAVY = "#000080"
+    FUCHSIA = "#F0F"
+    PURPLE= "#800080"
+
+# These definitions allow the program to get the first pass at show/hide/scene
+# statements, to be compatible with chatrooms and paraphrasing.
+define config.show = custom_show
+define config.hide = custom_hide
+
 ## A label the program can jump to in the event it cannot find a
 ## regular label to jump to
 label just_return():
