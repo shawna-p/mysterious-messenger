@@ -63,7 +63,7 @@ default example_casual_route_good_end = ["Good End",
         ChatRoom("I quit LOLOL", 'casual_d4_example_6', '12:50', [ja, y]),
         ChatRoom("No girlfriend", 'casual_d4_example_7', '15:00', [z, y, ja]),
         ChatRoom("Found him", 'casual_d4_example_8', '17:04', [s, ja]),
-        ChatRoom("Are you really…", 'casual_d4_example_9', '19:18', [y, ja, z]),
+        ChatRoom("Are you really...", 'casual_d4_example_9', '19:18', [y, ja, z]),
         ChatRoom("New RFA party", 'casual_d4_example_10', '21:08', [v, ja]),
         ChatRoom("The game that starts again", 'casual_d4_example_11', '22:00', [z, y, s, ju]),
         ChatRoom("Weird Dream", 'casual_d4_example_12', '23:15', [ja, y, z], plot_branch=PlotBranch(False))
