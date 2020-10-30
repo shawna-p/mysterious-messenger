@@ -796,7 +796,6 @@ init -6 python:
         phone call, if applicable.
         """
 
-        print_file("Delivering next")
         if randomize:
             x = random.randint(0, 3)
             if x > 0:
@@ -857,6 +856,10 @@ init -6 python:
                 elif plot_branch_party and item.party:
                     found_branch = item
                     break
+                elif (plot_branch_party and isinstance(item, ChatRoom)
+                        and item.story_mode.party):
+                    found_branch = item
+                    break
             if found_branch:
                 break
             a += 1
@@ -887,6 +890,15 @@ init -6 python:
                         print_file("Found the replacement party")
                         item = new_route[1].archive_list[0]
                         current_timeline_item = item
+                        print_file("current_timeline_item is now", current_timeline_item.item_label)
+                        return
+                    elif (isinstance(item, ChatRoom)
+                            and item.story_mode.party
+                            and not item.story_mode.played):
+                        # This is the party to replace
+                        print_file("Found the replacement party")
+                        item.story_mode = new_route[1].archive_list[0]
+                        current_timeline_item = item.story_mode
                         print_file("current_timeline_item is now", current_timeline_item.item_label)
                         return
 
