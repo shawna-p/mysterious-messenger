@@ -821,7 +821,7 @@ screen phone_say(who, what):
 
 
 ## Allows the program to jump to the incoming call; now only used for the
-## intro
+## intro.
 label new_incoming_call(phonecall=None):
     play music persistent.phone_tone loop nocaption
     if phonecall is None:
@@ -830,6 +830,8 @@ label new_incoming_call(phonecall=None):
         call screen incoming_call(phonecall=phonecall)
     else:
         call screen incoming_call(phonecall=PhoneCall(phonecall, 'n/a'))
+    if starter_story:
+        call phone_begin(resetHP=False)
     return
 
 ## This label sets up the appropriate variables/actions when you begin
@@ -838,7 +840,6 @@ label phone_begin(resetHP=True):
     if isinstance(current_call, StoryCall):
         return
     $ begin_timeline_item(generic_storycall, resetHP=resetHP)
-    $ print_file("Current call", current_call)
     show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
     return
 
