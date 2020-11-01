@@ -240,6 +240,16 @@ init python:
         temp_animated_backgrounds = store.persistent.__dict__['animated_backgrounds']
         # temp_on_route = store.persistent.__dict__['on_route']
         temp_hidden_route = store.persistent.__dict__['hidden_route']
+        # v3.0 new vars
+        temp_mc_unlocked_pfps = store.persistent.__dict__['mc_unlocked_pfps']
+        temp_unlocked_prof_pics = store.persistent.__dict__['unlocked_prof_pics']
+        temp_bought_prof_pics = store.persistent.__dict__['bought_prof_pics']
+        temp_spendable_hearts = store.persistent.__dict__['spendable_hearts']
+        temp_pv = store.persistent.__dict__['pv']
+        temp_completed_story = store.persistent.__dict__['completed_story']
+        temp_completed_chatrooms = store.persistent.__dict__['completed_chatrooms']
+        temp_timed_menu_pv = store.persistent.__dict__['timed_menu_pv']
+        temp_animated_icons = store.persistent.__dict__['animated_icons']
 
         # Reset persistent
         store.persistent._clear()
@@ -281,6 +291,17 @@ init python:
         store.persistent.y_album = []
         store.persistent.z_album = []
         store.persistent.common_album = []
+
+        # v3.0 new vars
+        store.persistent.mc_unlocked_pfps = temp_mc_unlocked_pfps
+        store.persistent.unlocked_prof_pics = temp_unlocked_prof_pics
+        store.persistent.bought_prof_pics = temp_bought_prof_pics
+        store.persistent.spendable_hearts = temp_spendable_hearts
+        store.persistent.pv = temp_pv
+        store.persistent.completed_story = temp_completed_story
+        store.persistent.completed_chatrooms = temp_completed_chatrooms
+        store.persistent.timed_menu_pv = temp_timed_menu_pv
+        store.persistent.animated_icons = temp_animated_icons
 
         store.persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
         store.persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
