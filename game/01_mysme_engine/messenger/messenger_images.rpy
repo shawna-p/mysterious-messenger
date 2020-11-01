@@ -4,33 +4,33 @@
 
 image answerbutton:
     block:
-        "answer_dark" with Dissolve(0.5, alpha=True)
+        "answer_dark" with Dissolve(0.5)
         1.0
-        "answer_reg" with Dissolve(0.5, alpha=True)
+        "answer_reg" with Dissolve(0.5)
         1.0
         repeat
 
 image custom_answerbutton:
     block:
-        "custom_answer_reg" with Dissolve(1.0, alpha=True)
+        "custom_answer_reg" with Dissolve(1.0)
         1.3
-        "custom_answer_dark" with Dissolve(1.0, alpha=True)
+        "custom_answer_dark" with Dissolve(1.0)
         1.0
         repeat
 
 image darklight_continue_button:
     block:
-        "Phone UI/Continue-light.webp" with Dissolve(1.0, alpha=True)
+        "Phone UI/Continue-light.webp" with Dissolve(1.0)
         1.3
-        "Phone UI/Continue-dark.webp" with Dissolve(1.0, alpha=True)
+        "Phone UI/Continue-dark.webp" with Dissolve(1.0)
         1.0
         repeat
 
 image custom_darklight_continue_button:
     block:
-        "Phone UI/custom-continue-light.webp" with Dissolve(1.0, alpha=True)
+        "Phone UI/custom-continue-light.webp" with Dissolve(1.0)
         1.3
-        "Phone UI/custom-continue-dark.webp" with Dissolve(1.0, alpha=True)
+        "Phone UI/custom-continue-dark.webp" with Dissolve(1.0)
         1.0
         repeat
 
@@ -45,16 +45,16 @@ image phone_continue_button = ConditionSwitch(
 image transparent_answer = "Phone UI/answer_transparent.webp"
 
 image pausebutton:
-    "pause_sign" with Dissolve(0.5, alpha=True)
+    "pause_sign" with Dissolve(0.5)
     1.0
-    "transparent_img" with Dissolve(0.5, alpha=True)
+    "transparent_img" with Dissolve(0.5)
     1.0
     repeat
 
 image custom_pausebutton:
-    "custom_pause_sign" with Dissolve(0.5, alpha=True)
+    "custom_pause_sign" with Dissolve(0.5)
     1.0
-    "transparent_img" with Dissolve(0.5, alpha=True)
+    "transparent_img" with Dissolve(0.5)
     1.0
     repeat
 
