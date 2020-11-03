@@ -141,7 +141,7 @@ init python:
         def send_reply(self):
             """Maintain compatibility with the old Email class."""
 
-            return self.show_choices()
+            self.show_choices()
 
         def show_choices(self):
             """Show the choices the player has to reply to the email."""
@@ -153,7 +153,7 @@ init python:
             # Shuffle the choices
             renpy.random.shuffle(choices)
             # Show a screen with the choices
-            return Show('email_choice', items=choices, email=self)
+            return choices
             # renpy.show_screen('email_choice', items=choices, email=self)
 
         def finish_choice(self, reply_index):
@@ -785,8 +785,11 @@ screen open_email(e):
                                 size 27
 
                 textbutton _('Reply'):
-                    if e.can_reply:
+                    if e.can_reply and isinstance(e, Email):
                         action Function(e.send_reply)
+                    elif e.can_reply:
+                        action [Show('email_choice', items=e.show_choices(),
+                            email=e)]
                     else:
                         foreground 'menu_select_btn_inactive'
 
