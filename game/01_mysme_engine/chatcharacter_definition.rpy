@@ -865,17 +865,13 @@ init -5 python:
             store.mc_previous_pfp = get_img_from_tuple(store.persistent.MC_pic)
             time_diff = None
         elif store.mc_previous_pfp == get_img_from_tuple(store.persistent.MC_pic):
-            # Picture wasn't changed
-            time_diff = None
-            print_file("The profile picture wasn't changed")
+            # Picture wasn't changed; time_diff is zero.
+            time_diff = store.mc_pfp_time.datetime - store.mc_pfp_time.datetime
             return
         else:
             time_diff = upTime().datetime - store.mc_pfp_time.datetime
 
         store.mc_pfp_time = upTime()
-        if time_diff is None:
-            # Time diff will be set to 0
-            time_diff = store.mc_pfp_time.datetime - store.mc_pfp_time.datetime
 
         # Find whose profile picture this is
         who = None

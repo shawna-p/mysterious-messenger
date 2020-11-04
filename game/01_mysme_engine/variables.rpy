@@ -326,7 +326,7 @@ init -6 python:
             The timedelta object this class is wrapping.
         """
 
-        def __init__(self, td):
+        def __init__(self, td=None):
             """
             Create a MyTimeDelta object for easier access of fields.
 
@@ -337,6 +337,14 @@ init -6 python:
             """
 
             self.td = td
+
+            if td is None:
+                # This item should be infinity
+                self.seconds = float('inf')
+                self.minutes = float('inf')
+                self.hours = float('inf')
+                self.days = float('inf')
+                return
 
             # Determine total number of seconds
             self.seconds = int(td.total_seconds())
