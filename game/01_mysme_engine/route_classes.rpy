@@ -1578,6 +1578,7 @@ init python:
         store.current_call = False
         store._history = True
         store.block_interrupts = False
+        store.answer_shown = False
 
         store.dialogue_picked = ""
         store.dialogue_paraphrase = store.paraphrase_choices

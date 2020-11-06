@@ -378,6 +378,29 @@ init python:
         #    store.answer_shown = False
         store.answer_shown = True
         store.pre_choosing = True
+        # Some code that might be used if I figure out how to get
+        # rid of the `extend ''` stuff.
+        # Check if it's a phone call or Story Mode
+        # if (not (store.text_msg_reply
+        #             or store.email_reply)
+        #         and (store.in_phone_call
+        #             or store.vn_choice)):
+        #     print_file("Executed")
+        #     renpy.ast.statement_name("menu-with-caption")
+        #     # Get the dialogue
+        #     # what = store._last_say_what
+        #     # who = store._last_say_who
+        #     #_window_show = True
+        #     #extend('', interact=False)
+        #     #_window_auto = True
+        #     who = store._last_say_who
+        #     who = renpy.eval_who(who)
+        #     if who is None:
+        #         who = narrator
+        #     elif isinstance(who, basestring):
+        #         who = Character(who, kind=name_only)
+        #     who(store._last_say_what + "{fast}", interact=False)
+        #     store._history_list.pop()
 
         return args, kwargs
 
