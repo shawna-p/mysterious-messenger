@@ -5,6 +5,7 @@
 # Call this label before you show a menu
 # to show the answer button
 label answer(from_cg=False):
+    return
     if from_cg:
         $ renpy.pop_call()
     # Check if it's from the messenger or a text message

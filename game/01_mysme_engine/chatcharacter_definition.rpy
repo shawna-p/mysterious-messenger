@@ -667,6 +667,7 @@ python early:
             to the chat log and also to the replay log.
             """
 
+            store.answer_shown = False
             # Check if we just got out of a menu and there's dialogue
             # for the main character
             if (self != store.main_character and not store.dialogue_paraphrase
