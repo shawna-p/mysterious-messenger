@@ -123,15 +123,13 @@ screen chat_animation(i, anti=False, no_anim=False):
                 if "{image" in i.what:
                     text i.what alt i.alt_text(anti)
                 else: # it's a CG
-                    $ fullsizeCG = cg_helper(i.what)
                     imagebutton:
                         focus_mask True
-                        idle smallCG(fullsizeCG)
+                        idle smallCG(cg_helper(i.what))
                         if not choosing:
-                            action [SetVariable("fullsizeCG",
-                                        cg_helper(i.what)),
-                                        Call("viewCG"),
-                                        Return()]
+                            action [ShowMenu('viewCG_fullsize',
+                                        fullsizeCG=cg_helper(i.what),
+                                        menustyle=True)]
                         alt i.alt_text(anti)
 
 

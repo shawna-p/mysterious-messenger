@@ -456,15 +456,13 @@ screen text_animation(i, animate=False, anti=False):
                 # Check if it's an image
                 if i.img and not "{image" in i.what:
                     style i.text_img_style
-                    $ fullsizeCG = cg_helper(i.what)
                     imagebutton:
                         focus_mask True
-                        idle smallCG(fullsizeCG)
+                        idle smallCG(cg_helper(i.what))
                         if not choosing:
-                            action [SetVariable("fullsizeCG",
-                                        cg_helper(i.what)),
-                                    Call("viewCG", textmsg=True),
-                                    Return()]
+                            action [ShowMenu('viewCG_fullsize',
+                                        fullsizeCG=cg_helper(i.what),
+                                        menustyle=True)]
 
                 else:
                     style i.text_bubble_style
