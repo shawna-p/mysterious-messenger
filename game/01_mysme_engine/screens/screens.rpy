@@ -374,8 +374,10 @@ init python:
                 or store.answer_shown):
             screen_dict = {'screen' : 'answer_choice'}
             kwargs.update(screen_dict)
-        elif store.answer_shown:
-            store.answer_shown = False
+        #elif store.answer_shown:
+        #    store.answer_shown = False
+        store.answer_shown = True
+        store.pre_choosing = True
 
         return args, kwargs
 
