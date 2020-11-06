@@ -54,7 +54,8 @@ init offset = -1
 ########################################
 ## PRONOUN VARIABLES
 ########################################
-# Extra variables since the player can choose their pronouns
+# Extra variables since the player can choose their pronouns.
+# Feel free to add more so script writing is easier.
 default they = "they"
 default them = "them"
 default their = "their"
@@ -104,7 +105,8 @@ default no_greet_chars = [r, m]
 ########################################
 
 # These variables use `register_pfp` to make a big list of the profile pictures
-# the user can unlock for each character.
+# the user can unlock for each character. There are various filter functions
+# to add many pictures at once.
 define ja_unlockable_pfps = combine_lists(
     register_pfp(folder="Profile Pics/Jaehee/", filter_out='-b.'),
     register_pfp(folder="CGs/ja_album/", filter_keep='-thumb.')
@@ -141,10 +143,11 @@ define z_unlockable_pfps = combine_lists(
 )
 
 # List of images the player has unlocked and can use as a profile picture.
-# Automatically includes everything in the Drop Your Profile Picture Here folder
+# Automatically includes everything in the Drop Your Profile Picture Here
+# folder, and you can add more items to be unlocked by default if desired.
 default persistent.mc_unlocked_pfps = set()
 
-# Number of heart points it costs to unlock a profile picture.
+# Number of heart points it costs to unlock a profile picture for an NPC.
 define pfp_cost = 5
 
 # A function that will be called when the player changes their
@@ -172,14 +175,14 @@ init -1 python:
         if time_diff.seconds < 10:
             return
         # Otherwise, figure out what to do based on the other properties
-        if (store.today_day_num == 0
-                and who == store.r
-                and "CGs/r_album/cg-1" in store.persistent.MC_pic):
+        if (who == store.r and "CGs/r_album/cg-1" in current_pic):
             # This is Ray's flower image
             return 'ray_pfp_callback_1'
         # You can also return a list of labels, in which case the first unplayed
         # label in the list will be called. This is so you can have different
         # events occur the first time a condition is met vs the second time etc
+        # You can see another example of a callback function in
+        # tutorial_0_introduction.rpy
 
 label ray_pfp_callback_1:
     compose text r real_time:
@@ -201,7 +204,6 @@ label ray_pfp_callback_1_menu_1:
             r "Ah. I see."
             r "Well, I hope you're enjoying yourself."
     return
-
 
 
 ########################################
@@ -353,16 +355,20 @@ image party_grade = ConditionSwitch(
 # If you'd like to use custom fonts with the msg CDS, you must add them
 # to these lists.
 define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
+# Fonts which can be bold/extra bold
 define bold_xbold_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2']
 # And if you want them to be used in text messages, you must add them to
-# this dictionary along with a path to its .ttf file
+# this dictionary along with a path to its .ttf file.
 define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
             'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb,
             'ser2' : gui.serif_2, 'ser2b' : gui.serif_2b,
             'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
             'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
             'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
-            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font}
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font
+            # A valid entry could also look like:
+            # 'cursive' : 'fonts/somecursivefont.ttf'
+        }
 
 # Similarly, if you have any custom bubbles defined, add them here.
 define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
@@ -434,7 +440,7 @@ init python:
         tuple(int, int) or False
             If this function returns False, the program will use the default
             styling for this message. Otherwise, this should return a tuple
-            of two ints for the x and y pos of this bubble.
+            of (x, y) integers for the x and y pos of this bubble.
         """
 
         ## An example might look like the following:

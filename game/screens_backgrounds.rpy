@@ -1,8 +1,13 @@
+## This is the file where the various animated backgrounds are defined.
+## They are defined as screens instead of images for additional flexibility
+## and animations.
 screen animated_morning():
     zorder 0
     tag animated_bg
-    add 'Phone UI/morning_clouds_bg.webp' at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
+    add 'Phone UI/morning_clouds_bg.webp':
+        at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
 
+    # Add a bunch of stars
     for x in [0, 375]:
         for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big',
                           'med', 'tiny', 'big', 'med', 'tiny', 'big']:
@@ -13,6 +18,7 @@ screen animated_morning():
             add 'Phone UI/' + star_type + '_star.webp':
                 at star_twinkle_out(100, x, x+375, 200+350*2, 1150)
 
+    # Clouds
     add 'Phone UI/morning_clouds_back.webp' at slow_pan(300, 0, 2250, 250, 0, -400)
     add 'Phone UI/morning_clouds_back.webp' at slow_pan(300, -2250, 2250, 250, 0, -400)
     add 'Phone UI/morning_clouds_mid.webp' at slow_pan(220, 0, 2250, 230, 0, -400)
@@ -20,6 +26,7 @@ screen animated_morning():
     add 'Phone UI/morning_clouds_front.webp' at slow_pan(150, 0, 2250, 210, 0, -400)
     add 'Phone UI/morning_clouds_front.webp' at slow_pan(150, -2250, 2250, 210, 0, -400)
 
+    # A gradient overlay to ease the transition from night into morning
     add 'Phone UI/morning_darken.webp':
         at topbottom_pan(180, 160, 30, 0, -1334, 0.8, 0, 0.0, 0.0)
 
@@ -27,6 +34,7 @@ screen animated_noon():
     zorder 0
     tag animated_bg
     add 'Phone UI/noon_background.webp'
+    # Clouds
     add 'Phone UI/noon_back_clouds.webp' at slow_pan(300, 0, 2250)
     add 'Phone UI/noon_back_clouds.webp' at slow_pan(300, -2250, 2250)
     add 'Phone UI/noon_mid_clouds.webp' at slow_pan(200, 0, 2250)
@@ -39,6 +47,7 @@ screen animated_evening():
     tag animated_bg
     add 'Phone UI/evening_clouds_bright.webp' xalign 0.487
 
+    # There are three different sun colours for the evening as the sun sets
     add 'Phone UI/evening_clouds_yellow_sun.webp':
         xalign 0.5
         at topbottom_pan(180, 0, 60, -1138, 1138*1.5, 1.0, 100)
@@ -49,6 +58,7 @@ screen animated_evening():
         xalign 0.5
         at topbottom_pan(180, 120, 60, -1138, 1138*1.5, 0.0, 100, 1.0)
 
+    # Clouds
     add 'Phone UI/evening_clouds_slow.webp' at slow_pan(300, 0, 2208)
     add 'Phone UI/evening_clouds_slow.webp' at slow_pan(300, -2208, 2208)
     add 'Phone UI/evening_clouds_mid.webp' at slow_pan(200, 0, 2208)
@@ -56,6 +66,7 @@ screen animated_evening():
     add 'Phone UI/evening_clouds_fast.webp' at slow_pan(110, 0, 2208)
     add 'Phone UI/evening_clouds_fast.webp' at slow_pan(110, -2208, 2208)
 
+    # These gradients help blend the sun colours with the sky and clouds
     add 'Phone UI/evening_clouds_orange.webp':
         at fadein_out(60, 60, 60, 170-90-75, 0.0)
     add 'Phone UI/evening_clouds_red.webp':
@@ -66,14 +77,16 @@ screen animated_night():
     tag animated_bg
     add 'Phone UI/night_background.webp'
 
+    # Gradient overlay
     add 'Phone UI/night_overlay.webp':
         at topbottom_pan(100, 100, 50, -1334, 1334, 1.0, 0, 0.0, 0.0)
 
     fixed:
-        # at star_rotate(250)
+        # at star_rotate(250) # originally the whole sky rotated
         #xysize (1524, 1524)
-        xysize (750, 1134)
+        xysize (750, 1134) # Don't bother adding stars behind the UI
         align (0.5, 0.6)
+        # Stars
         for x in [0, 250, 500]:#[0, 381, 762, 1143]:
             for y in [0, 333, 666, 999]:#[0, 381, 762, 1143]:
                 add 'Phone UI/night_med_star.webp':
@@ -163,6 +176,7 @@ screen animated_night():
                         at star_fade_in(101, 200,
                             x, x+250,
                             y, y+333)
+        # Shooting stars
         add 'Phone UI/night_shooting_star_1.webp' at shooting_star
         add 'Phone UI/night_shooting_star_2.webp' at shooting_star
 
@@ -173,6 +187,7 @@ screen animated_earlyMorn():
                                                             -946, 1.0, 0, 1.0)
 
     fixed:
+        # Stars
         xysize (750, 1134)
         align (0.5, 0.6)
         for x in [0, 250, 500]:
@@ -252,6 +267,7 @@ screen animated_earlyMorn():
                         y, y+333)
 
     frame:
+        # Constellations
         xysize (750, 1050)
         xalign 0.5
         yoffset 170
@@ -548,6 +564,9 @@ init python:
             block_end = test_pair[0] + test_pair[1] + 1
 
             while '{' in txt[block_start:block_end]:
+                # Can't have the { tag in the block of text; Ren'Py uses
+                # it for interpolation and other things so it causes too
+                # many issues. Try to find a chunk without it.
                 loop_counter += 1
                 test_pair = (random.randint(the_min+1, the_max),
                             random.randint(1, min( ((len(txt)-10)//x), 6)))
@@ -619,6 +638,8 @@ screen animated_hack_background(red=False):
             #slow_cps 20
         #add 'hack_text_img'
 
+    # Only show these effects if the player has opted in to hacking effects,
+    # as they cause the screen to flash occasionally.
     if persistent.hacking_effects:
         timer random.randint(2, 6):
             action SetScreenVariable('hacking_text_to_scramble',

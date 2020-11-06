@@ -1203,3 +1203,14 @@ default was_expired = False
 default current_choices = []
 # A dictionary that keeps track of the end participants for each chatroom.
 default persistent.chatroom_participants = {}
+
+# This variable keeps track of all the routes you've defined in order
+# to display it in the History screen from the main menu.
+# You should generally not need to modify it.
+init -7:
+    default all_routes = []
+
+# This archive will store every chatroom in the game. If done correctly, the
+# program will automatically set variables and make the story available for you.
+default chat_archive = None
+default story_archive = []

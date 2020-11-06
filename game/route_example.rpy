@@ -22,6 +22,7 @@ default example_casual_route_good_end = ["Good End",
         ChatRoom("Jaehee's favor", 'casual_d1_example_17', '23:15', [ja])
         # Rather than defining the save_img for each individual item, you can
         # also set it here on the RouteDay object to apply it to all items.
+        # If save_img is set for an individual item, this will not overwrite it.
         ], save_img='casual'),
     RouteDay('2nd', [
         ChatRoom("Jaehee's announcement", 'casual_d2_example_1', '00:38', [ja]),
@@ -52,7 +53,10 @@ default example_casual_route_good_end = ["Good End",
         # numbered labels for the items on a RouteDay. You must provide the
         # prefix, and then a number starting at 1 will be assigned to each item
         # with `None` as its label. So, the chatroom "Handsome Zen" can be found
-        # at the label "casual_d3_example_5".
+        # at the label "casual_d3_example_5". If a label is already given,
+        # auto_label will not overwrite it and the numbering will continue
+        # without skipping. This can be helpful if you want to insert a new
+        # chatroom or story item into the day without renaming all the labels.
         ], save_img='casual', auto_label='casual_d3_example_'),
     RouteDay('4th', [
         ChatRoom("Jaehee worries about Jumin", 'casual_d4_example_1', '00:18', [ja]),
@@ -78,7 +82,13 @@ default example_casual_route_good_end = ["Good End",
     RouteDay('10th'),
     RouteDay('Final')]
 
-default example_casual_route_bad_end = ["Casual Common Bad Ending",
+# Casual Route Bad End is defined here as a branch rather than a part of the
+# main Casual Route so that it can have a title in the History screen denoting
+# that it is the Casual Route Bad End.
+default example_casual_route_bad_end = [
+    # This is the title as it will appear in the History
+    "Casual Common Bad Ending",
+    # This branch only has items on the 5th day
     RouteDay('5th', [
         ChatRoom("We're machines", 'casual_d5_example_1', '01:28', [y]),
         ChatRoom("What?", 'casual_d5_example_2', '03:22', [ja]),
@@ -90,14 +100,19 @@ default example_casual_route = Route(
     default_branch=example_casual_route_good_end,
     branch_list=[example_casual_route_bad_end],
     route_history_title='Casual',
+    # There is no "Casual Route Good End" in the History, since it just
+    # changes into a new route. Thus, tell the program has_end_title is False.
     has_end_title=False
 )
 
 label example_casual_start:
     python:
         new_route_setup(route=example_casual_route)
+        # r, v, and ri are not present on casual route.
         character_list = [ju, z, s, y, ja, m]
         heart_point_chars = [ju, z, s, y, ja]
+    # Typically you would put an introductory chatroom of some kind here.
+    # For convenience, this simply jumps to the home screen.
     jump skip_intro_setup
 
 label casual_d4_example_12_branch:
@@ -105,20 +120,20 @@ label casual_d4_example_12_branch:
     # if (z.heart_points >= ja.heart_points
     #         and z.heart_points >= y.heart_points
     #         and z.heart_points > 20):
-    #     Zen Route
+    #     $ merge_routes(zen_route_good_end)
     # elif (ja.heart_points >= z.heart_points
     #         and ja.heart_points > y.heart_points
     #         and ja.heart_points > 20):
-    #     Jaehee Route
+    #     $ merge_routes(jaehee_route_good_end)
     # elif (y.heart_points > z.heart_points
     #         and y.heart_points > ja.heart_points
     #         and y.heart_points > 20):
-    #     Yoosung Route
+    #     $ merge_routes(yoosung_route_good_end)
     # else:
-    #     Casual Bad End
+    #     $ merge_routes(casual_route_bad_end)
 
     # This uses a rather arbitrary but easily calculated way to determine
-    # whether the player should continue on to Jaehee's route
+    # whether the player should continue on to Jaehee's route.
     if persistent.custom_footers:
         $ merge_routes(example_jaehee_route_good_end)
     else:
@@ -145,6 +160,8 @@ default example_jaehee_route_good_end = ["Jaehee Good Ending",
         ChatRoom("Jaehee and love", 'jaehee_d5_example_10', '21:04', [y, z]),
         ChatRoom("Jumin back from the business trip", 'jaehee_d5_example_11', '23:04', [ju])
         ], day_icon='ja', save_img='ja'),
+        # All of the days on Jaehee's route get day_icon 'ja' and are saved
+        # with save_img 'ja'
     RouteDay('6th', [
         ChatRoom("Yoosung and the tuition", 'jaehee_d6_example_1', '01:11', [y]),
         ChatRoom("Zen's injury", 'jaehee_d6_example_2', '02:48', [z]),
@@ -212,6 +229,8 @@ default example_jaehee_route_good_end = ["Jaehee Good Ending",
         ], day_icon='ja', save_img='ja', auto_label='jaehee_d10_example_'),
     RouteDay('Final', [
         ChatRoom("See you at the party", 'jaehee_d11_example_1', '08:00', [y, z, s, ja]),
+        # This is how the party is defined when it is separate from a
+        # chatroom. Here it has a trigger time of 12:00.
         TheParty('example_jaehee_good_party', '12:00')
         ], day_icon='ja', save_img='ja')
 ]
@@ -220,7 +239,10 @@ default example_jaehee_route_bad_end_1 = ["Jaehee Bad Story Ending 1",
     RouteDay('6th', [
         ChatRoom("Very private visit", 'jaehee_d6_example_12', '21:12', [s, ja]),
         ChatRoom("Never ending work", 'jaehee_d6_example_13', '23:09', [ju, ja, y])
-    ], day_icon='ja', branch_vn=BranchStoryMode('example_jaehee_be1_vn', who=s),
+    ], day_icon='ja',
+    # After this route branches, if it branches onto this path, the last
+    # chatroom before the branch will have this Story Mode attached to it.
+    branch_vn=BranchStoryMode('example_jaehee_be1_vn', who=s),
     save_img='ja')
 ]
 
@@ -239,8 +261,8 @@ default example_jaehee_route_bad_end_3 = ["Jaehee Bad Story Ending 3",
 ]
 
 default example_jaehee_route_bre_1 = ["Jaehee Bad Relationship Ending 1",
-    RouteDay('6th', branch_vn=VNMode('example_jaehee_bre2_vn'), day_icon='ja',
-    save_img='ja')
+    RouteDay('6th', branch_vn=BranchStoryMode('example_jaehee_bre2_vn'),
+    day_icon='ja', save_img='ja')
 ]
 
 default example_jaehee_route_bre_2 = ["Jaehee Bad Relationship Ending 2",
@@ -249,6 +271,9 @@ default example_jaehee_route_bre_2 = ["Jaehee Bad Relationship Ending 2",
     ], day_icon='ja', save_img='ja')
 ]
 
+# If the party should act as a plot branch (as in, clicking the party can
+# lead to more than one ending), then you need to define a route for it like
+# any other plot branch. In this case, the only item is a lone party at 12:00.
 default example_jaehee_route_normal_end = ["Jaehee Normal Ending",
     RouteDay('Final',
         [TheParty('example_jaehee_normal_party', '12:00')], day_icon='ja',
@@ -265,6 +290,9 @@ default example_jaehee_route = Route(
         example_jaehee_route_bre_2
     ],
     route_history_title="Jaehee",
+    # You can define a background for this route. It should be
+    # 650x120 px and will have its corners automatically cropped to
+    # fit the frame.
     history_background="Menu Screens/Main Menu/jaehee-route-bg.webp"
 )
 
@@ -332,7 +360,11 @@ label example_jaehee_good_party:
 ####################################################################
 ## CASUAL ROUTE STUB STORY ITEMS
 ####################################################################
-
+# These are simply stub implementations of the chatrooms and Story Mode
+# items on Casual Route and Jaehee's route. Some are there so that the
+# correct Story Mode shows up in the History, but most are simply for
+# testing. For the various endings, the line `$ ending =` is included to
+# tell the game the route is over.
 label casual_d1_example_1:
     scene morning
     play music lonesome_practicalism
