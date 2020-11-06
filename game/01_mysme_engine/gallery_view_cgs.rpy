@@ -67,7 +67,7 @@ label viewCG(textmsg=False):
 ## This is the screen where you can view a full-sized CG when you
 ## click it. It has a "Close" button that appears/disappears
 ## when you click the CG.
-screen viewCG_fullsize():
+screen viewCG_fullsize(fullsizeCG):
     zorder 5
     imagebutton:
         xalign 0.5
@@ -82,32 +82,7 @@ screen viewCG_fullsize():
             yalign 0.0
             focus_mask True
             idle "close_button"
-            # From the chatroom, before an answer button
-            if pre_choosing and not textmsg_CG:
-                action [Call("answer", from_cg=True)]
-            # From a text message, not real time texting
-            elif textmsg_CG and not CG_who.real_time_text:
-                action [Hide("viewCG_fullsize"),
-                        Show("text_message_screen", sender=CG_who)]
-            # From a real time text message, before an answer button
-            elif textmsg_CG and pre_choosing:
-                action [Hide("viewCG_fullsize"),
-                        Show("text_message_screen", sender=CG_who),
-                        Call("answer", from_cg=True)]
-
-            # From a real time text message, not before an answer button
-            elif textmsg_CG and text_person:
-                action [Hide("viewCG_fullsize"),
-                        Show("text_message_screen",
-                            sender=CG_who), Call('play')]
-            # Convo is over, just viewing CGs in a text message
-            elif textmsg_CG:
-                action [Hide("viewCG_fullsize"),
-                        Show("text_message_screen", sender=CG_who,
-                            animate=False)]
-            # From the chatroom, not before an answer button
-            else:
-                action [Call("play")]
+            action Return()
 
         text "Close" style "CG_close":
             if persistent.dialogue_outlines:
