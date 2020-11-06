@@ -26,10 +26,10 @@ label answer(from_cg=False):
         $ pre_choosing = True
         call screen text_answer
         show screen text_pause_button
-
+    $ answer_shown = True
     return
 
-screen answer_button():
+screen answer_button(act=None):
     zorder 4
     tag chat_footer
     add 'pause_square' yalign 0.59
@@ -45,7 +45,10 @@ screen answer_button():
         focus_mask None
         idle 'transparent_answer'
         activate_sound "audio/sfx/UI/answer_screen.mp3"
-        action [Show('pause_button'), Return()]
+        if not act:
+            action [Show('pause_button'), Return()]
+        else:
+            action act
         keysym "K_SPACE"
 
     if not choosing:
@@ -101,7 +104,8 @@ screen pause_button():
             idle 'phone_pause'
             if (not choosing and not block_interrupts and
                     not (timed_menu_dict and persistent.use_timed_menus
-                        and not _in_replay)):
+                        and not _in_replay)
+                    and not renpy.get_screen('answer_choice')):
                 action [Call("play"), Return()]
                 keysym "K_SPACE"
 
@@ -115,7 +119,8 @@ screen pause_button():
 label play():
     if (observing and not _in_replay
             and not vn_choice and not text_msg_reply
-            and not in_phone_call and not email_reply):
+            and not in_phone_call and not email_reply
+            and not renpy.get_screen('answer_choice')):
         # Rewatching a chatroom
         call screen play_button
         show screen pause_button

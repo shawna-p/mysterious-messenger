@@ -365,9 +365,32 @@ init python:
 
         return
 
+    def menu_args_callback(*args, **kwargs):
+        print_file("Menu arguments:", *args)
+        print_file("Menu kwargs:", kwargs)
+        # Check if we're in a chatroom
+        if not (store.text_msg_reply or store.in_phone_call
+                or store.vn_choice or store.email_reply
+                or store.answer_shown):
+            screen_dict = {'screen' : 'answer_choice'}
+            kwargs.update(screen_dict)
+        elif store.answer_shown:
+            store.answer_shown = False
+
+        return args, kwargs
+
+default answer_shown = False
+define config.menu_arguments_callback = menu_args_callback
+
 default dialogue_picked = ""
 default dialogue_paraphrase = True
 default dialogue_pv = 0
+
+screen answer_choice(items, paraphrased=None):
+    zorder 5
+    #tag chat_footer
+    use answer_button([Hide('answer_choice'), Show('pause_button'),
+        ShowTransient('choice', items=items, paraphrased=paraphrased)])
 
 screen choice(items, paraphrased=None):
     zorder 150

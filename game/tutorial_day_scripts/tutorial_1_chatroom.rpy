@@ -57,131 +57,16 @@ label example_chat():
     # This sets up a very specific phone call which will never expire.
     # You should generally never add phone calls this way.
     $ available_calls.append(PhoneCall(r, 'test_call', 'outgoing', 'test'))
-    #call hack
     show hack effect
     scene hack
-    # scene redhack
-
-    # timed menu:
-    #     u "This is a test"
-    #     msg u "Another test"
-    #     if available_calls:
-    #         u "And a final test that's much longer for testing" (bounce=True)
-    #     else:
-    #         msg u "But it might not work?"
-    #     "And a choice.":
-    #         pass
-    #     "A second choice." if available_calls:
-    #         pass
-
-
-
-
-
-
-
-
-
-
-
-    # scene evening
-    # enter chatroom z
-    # #z "Oh, [name], it's nice seeing you here ^^"
-    # z "I've been practicing for my new role all day."
-    # $ asked = False
-    # continuous menu:
-    #     choice 1 "What's the role for?":
-    #         $ asked = True
-    #         z "It's a play adapted from a best-selling novel."
-    #         award heart z
-    #         z "I'm playing the part of a blacksmith who's in love with the princess."
-    #     z "I practiced so much I even dreamed about my lines;;"
-    #     choice 2 "Maybe you should take a break, Zen.":
-    #         z "Yeah, you might be right."
-    #         award heart ja
-    #         z "I could go work out or something."
-    #     enter chatroom ja
-    #     z "I need to think about something else for a while."
-    #     end choice 2
-    #     ja "You'll do wonderfully in this role, Zen ^^"
-    #     z "Haha, thanks Jaehee."
-    # if asked:
-    #     z "It's nice to hear you're interested ^^"
-    # else:
-    #     z "I appreciate the support."
-    # z "I'm really looking forward to the role,"
-    # z "Just sometimes I get stuck in my head..."
-
-
-
-
-
-
-
-
-    # call chat_begin("hack")
     play music mystic_chat
     enter chatroom u
-    # msg u "Hello, [name]!"
-    # #msg u "It's good to see you here."
-    # #msg u "This is the new and improved timed menu system!" curly bounce
-    # continuous menu:
-    #     choice 1 "1. This is a test choice":
-    #         u "More dialogue."
-    #         u "How does this parse?"
-    #         msg u "Just a test"
-    #     msg u "Dialogue between choices"
-    #     choice 2 "2. This is another test.":
-    #         u "Blah blah"
-    #     msg u "Some stuff blah blah"
-    #     msg u "More"
-    #     msg u "And some dialogue."
-    #     msg u "While all three are on-screen."
-    #     end choice 1
-    #     choice 3 "Final choice.":
-    #         pass
-    #     msg u "short but not actually 6 words"
-    #     msg u "this one is going to be eight words"
-    #     msg u "This is the end of the menu."
-    #     #end choice 2
-
-    # u "Stuff after the menu"
-    # u "Normal stuff"
-    # u "Stuff that's not the timed menu"
-    # u "Just for testing and that"
-
-
-
-
-
-
-
-
-    # $ paraphrase_choices = True
-    # timed menu (paraphrased=True):
-    #     u "I'm working on a UI for the choices you see at the bottom of the screen."
-    #     u "It's typed almost identically to regular menus this time,"
-    #     u "but with some convenience features I think you'll like."
-    #     u "You should try clicking the options before the timer runs out."
-    #     "This is really neat!":
-    #         msg m "This is really neat!" pv 0
-    #         msg u "I'm glad you think so!" curly
-    #         award heart u
-    #         msg u "I should come up with more dialogue just in case."
-    #     "Does it remember choices?":
-    #         msg m "Does it remember choices?" pv 0
-    #         msg u "Yes it does!" bounce big curly
-    #         award heart u
-    #         msg u "And you can use regular Ren'Py code in the choices"
-    #         msg u "to do things like award heart points and the like." curly
-
-    # msg u "This is after the timed menu."
     u "{=curly}Hello, [name] ^^{/=curly}"
     u "I thought you might come by."
     u "{=curly}You want to learn more about how to make a chatroom, right?{/=curly}" (bounce=True)
     u "I've come to show off a few of its features."
 
-    call answer
+    #call answer
     menu:
         "Let's get started!":
             u "{=sser2}Great! That's the kind of attitude I'm looking for ^^{/=sser2}"
@@ -191,9 +76,6 @@ label example_chat():
             u "{=sser2}There's an extensive {a=https://github.com/shawna-p/mysterious-messenger/wiki}Wiki{/a} included with the program to look at,{/=sser2}"
             u "{=sser2}and I'll also be monitoring the{a=https://discord.gg/BPbPcpk} Mysterious Messenger Discord server{/a} if you have questions.{/=sser2}"
             u "This project was coded in Ren'Py, so you can always check out their forums, too."
-        "Just take me to the end" if 'example_chat' in persistent.completed_story:
-            # This is for testing, as it ends the chatroom immediately.
-            return
 
     u "Anyway, you can see what we just did there was a menu!"
     u "It allows you to alter a conversation based on responses."
@@ -201,7 +83,7 @@ label example_chat():
     u "{=ser1}There are lots of things to learn about!{/=ser1}"
     u "{=ser1b}What would you like to see first?{/=ser1b}"
 
-    call answer
+    #call answer
     # This unusual bit of code tells the program to shuffle all the choices
     # except the last one. In general you won't mess with this.
     if not first_choice:
@@ -572,7 +454,7 @@ label screen_shake():
     ja "{=ser1}Shall we get started then?{/=ser1}"
     pause 1
     ja "{=ser1}...{/=ser1}"
-    call banner('well')
+    show well banner
     ja "{=ser1}Mr. Han?{/=ser1}"
     ja "{image=jaehee_well}" (img=True)
     ja "Mr. Han."
