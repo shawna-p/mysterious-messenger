@@ -180,7 +180,6 @@
     call answer
     menu:
         "What should I look at first?":
-            m "What should I look at first?" (pauseVal=0)
             u "Well, the first thing I recommend is to just play through the Tutorial Day."
             u "It showcases some of the features so you know what sorts of things you can do with the program."
 
@@ -209,7 +208,6 @@ init -1 python:
             # from constantly changing their profile picture to check for
             # a callback. In this case, the program will return if it's been
             # less than 10 seconds since the profile picture was changed.
-            print_file("It's been less than 10 seconds")
             return
 
 
@@ -234,12 +232,9 @@ init -1 python:
             # a text message conversation.
 
             # You can return a list of labels, and the program will use the
-            # first one that hasn't been seen before.
+            # first one that hasn't been seen before in this playthrough.
             return ['zen_pfp_callback_unknown1', 'zen_pfp_callback_unknown2']
 
-        print_file("Callback didn't fulfill any conditions. Vars:",
-            time_diff.seconds, "seconds passed, prev_pic", prev_pic, "who",
-            who, "current pic", current_pic)
         return
 
 label seven_pfp_callback_coffee():
