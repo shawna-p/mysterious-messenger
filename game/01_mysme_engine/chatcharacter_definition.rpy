@@ -1001,3 +1001,9 @@ default persistent.spendable_hearts = {}
 # This holds a list of the labels the program has already jumped to during
 # profile picture callbacks
 default seen_pfp_callbacks = set()
+
+# These are special 'characters' for additional features
+default special_msg = ChatCharacter("msg")
+default filler = ChatCharacter("filler")
+default answer = ChatCharacter('answer', 'delete')
+default chat_pause = ChatCharacter('pause', 'delete')

@@ -257,12 +257,6 @@ default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.webp',
                 homepage_pic="Profile Pics/main_profile_zen.webp",
                 phone_char=z_phone, vn_char=z_vn)
 
-# These are special 'characters' for additional features
-default special_msg = ChatCharacter("msg")
-default filler = ChatCharacter("filler")
-default answer = ChatCharacter('answer', 'delete')
-default chat_pause = ChatCharacter('pause', 'delete')
-
 # This list is used *specifically* to display characters you can see on the
 # main menu -- they have profiles and show up in your phone contacts
 default character_list = [ju, z, s, y, ja, v, m, r, ri]
