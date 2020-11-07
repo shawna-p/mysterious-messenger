@@ -461,8 +461,7 @@ screen text_animation(i, animate=False, anti=False):
                         idle smallCG(cg_helper(i.what))
                         if not choosing:
                             action [ShowMenu('viewCG_fullsize',
-                                        fullsizeCG=cg_helper(i.what),
-                                        menustyle=True)]
+                                        fullsizeCG=cg_helper(i.what))]
 
                 else:
                     style i.text_bubble_style

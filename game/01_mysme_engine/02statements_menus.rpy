@@ -186,9 +186,9 @@ python early hide:
 
         arguments_dict = c_parse_arguments(l)
 
-        # IF we get an argument e.g. `timed menu (wait=5)` then this menu
-        # is supposed to wait 5 seconds and will NOT have dialogue shown while
-        # the menu is active
+        # If the program gets an argument e.g. `timed menu (wait=5)` then this
+        # menu is supposed to wait 5 seconds and will NOT have dialogue shown
+        # while the menu is active.
         if arguments_dict and arguments_dict['wait'] is not None:
             has_wait_time = True
         else:
@@ -416,7 +416,7 @@ python early hide:
 
     def post_timed_menu(p):
         # Name of the label which points to the end of the menu
-        # If we were given a name for this menu, use that
+        # If a label for this menu was given, use that.
         if p['label']:
             return p['label'] + "_end_for_internal_use"
         # Otherwise, make up a label name based on the dialogue of the

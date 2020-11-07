@@ -351,8 +351,8 @@ init python:
             # All else fails, use the default preference
             store.dialogue_paraphrase = store.paraphrase_choices
 
-        # Now do some calculations to see if we can manually determine what
-        # store.paraphrase_choices should be
+        # Now do some calculations to see if it's possible to manually
+        # determine what store.paraphrase_choices should be.
         if store.paraphrase_choices is None:
             # If the menu set a preference, global is probably the opposite
             # of the menu
@@ -373,6 +373,12 @@ init python:
                 or store.vn_choice or store.email_reply
                 or store.answer_shown):
             screen_dict = {'screen' : 'answer_choice'}
+            kwargs.update(screen_dict)
+        if (store.text_person and store.text_person.real_time_text
+                and not (store.in_phone_call
+                or store.vn_choice or store.email_reply
+                or store.answer_shown)):
+            screen_dict = {'screen' : 'answer_choice_text'}
             kwargs.update(screen_dict)
         #elif store.answer_shown:
         #    store.answer_shown = False
@@ -415,6 +421,12 @@ screen answer_choice(items, paraphrased=None):
     zorder 5
     #tag chat_footer
     use answer_button([Hide('answer_choice'), Show('pause_button'),
+        ShowTransient('choice', items=items, paraphrased=paraphrased)])
+
+screen answer_choice_text(items, paraphrased=None):
+    zorder 5
+    #tag chat_footer
+    use text_answer([Hide('answer_choice_text'), Show('text_pause_button'),
         ShowTransient('choice', items=items, paraphrased=paraphrased)])
 
 screen choice(items, paraphrased=None):

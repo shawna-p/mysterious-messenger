@@ -13,19 +13,20 @@ transform text_footer_disappear:
 ########################################################
 ## Includes the 'answer' button at the bottom
 ########################################################
-screen text_answer():
+screen text_answer(act=False):
     tag chat_footer
 
-    button at text_footer_disappear:
-        xsize 468
-        ysize 95
+    button:
+        xysize (468, 95)
         xalign 0.5
         yalign 0.98
-        background 'text_answer_active'
-        hover_background 'text_answer_animation'
-        if not renpy.get_screen("choice"):
+        background Fixed(Solid("#000"), 'text_answer_active', xysize=(468,95))
+        hover_background Fixed(Solid("#000"), 'text_answer_animation', xysize=(468,95))
+        activate_sound "audio/sfx/UI/answer_screen.mp3"
+        if not renpy.get_screen("choice") and not act:
             action [Show('text_pause_button'), Return()]
-            activate_sound "audio/sfx/UI/answer_screen.mp3"
+        elif act:
+            action act
         add 'text_answer_text' xalign 0.5 yalign 0.5
 
 screen inactive_text_answer():

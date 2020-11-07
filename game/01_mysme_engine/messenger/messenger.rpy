@@ -128,8 +128,7 @@ screen chat_animation(i, anti=False, no_anim=False):
                         idle smallCG(cg_helper(i.what))
                         if not choosing:
                             action [ShowMenu('viewCG_fullsize',
-                                        fullsizeCG=cg_helper(i.what),
-                                        menustyle=True)]
+                                        fullsizeCG=cg_helper(i.what))]
                         alt i.alt_text(anti)
 
 

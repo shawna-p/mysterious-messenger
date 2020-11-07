@@ -427,7 +427,7 @@ python early:
             if new_img == False:
                 self.__prof_pic = False
                 return
-            # Check if it's a Transform ergo we can't perform string logic
+            # Check if it's a Transform; if so, can't perform string logic.
             is_transform = False
             try:
                 if new_img[0] == '#':
@@ -668,8 +668,8 @@ python early:
             """
 
             store.answer_shown = False
-            # Check if we just got out of a menu and there's dialogue
-            # for the main character
+            # Check if the player just got out of a menu and there's dialogue
+            # for the main character.
             if (self != store.main_character and not store.dialogue_paraphrase
                     and store.dialogue_picked != ""):
                 say_choice_caption(store.dialogue_picked,

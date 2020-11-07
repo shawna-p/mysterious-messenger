@@ -346,7 +346,7 @@ python early hide:
 
 
     def parse_backlog_stmt(l):
-        # First, we need the person whose text message backlog this is
+        # First, find need the person whose text message backlog this is
         who = l.simple_expression()
         # For whatever reason negative numbers get stored with "who", so
         # separate it
@@ -402,7 +402,6 @@ python early hide:
                     link_text="Adding a New Character to Chatrooms")
             return
 
-        # Now we know whose backlog to add this to.
         # Time to go through the messages and determine if there are any
         # conditionals to be resolved.
         messages = [ ]
@@ -541,8 +540,8 @@ python early hide:
 
         who = l.simple_expression()
         # This is also used to parse backlogs; if it begins with if/elif/else
-        # then we were trying to evaluate a python string so it should raise
-        # an error and stop parsing
+        # then the program was trying to evaluate a python string so it
+        # should raise an error and stop parsing.
         if who in ['elif', 'if', 'else']:
             raise AttributeError
         elif msg_prefix and who == 'msg':
@@ -727,8 +726,8 @@ python early hide:
                         bounce=bounce,
                         specBubble=spec_bubble)
 
-        # Check if we just got out of a menu and there's dialogue
-        # for the main character
+        # Check if the player just got out of a menu and there's dialogue
+        # for the main character.
         if (who != store.main_character and not store.dialogue_paraphrase
                 and store.dialogue_picked != ""):
             say_choice_caption(store.dialogue_picked,
@@ -976,7 +975,8 @@ python early hide:
                 # Need to generate a random delivery time
                 begin = check_item.trigger_time
                 end, day_diff2 = closest_item_time(check_item)
-                # If we got `next_item`, then it goes *after* this chat
+                # If delivery time is `next_item`, then it goes *after*
+                # this item.
                 if delivery_time == 'next_item':
                     begin = end
                     end, day_diff3 = closest_item_time(begin)
@@ -1430,7 +1430,7 @@ python early hide:
     # implementations so they are compatible with audio captions.
     def warp_audio(p):
         """
-        Determines if we should play this statement while warping.
+        Determines if the program should play this statement while warping.
         """
 
         if p.get("channel", None) is not None:
@@ -1574,7 +1574,7 @@ python early hide:
 
     def warp_sound(p):
         """
-        Determines if we should play this statement while warping.
+        Determines if the program should play this statement while warping.
         """
 
         if p.get("channel", None) is not None:

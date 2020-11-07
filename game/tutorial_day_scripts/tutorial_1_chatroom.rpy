@@ -167,7 +167,7 @@ label emojis():
     s "{=sser2}Just select a character to see the available emojis or \"Done\" if you're finished{/=sser2}" (bounce=True)
 
 
-    call answer
+    #call answer
     $ shuffle = False
     menu emoji (paraphrased=True):
         "Casual Story Characters":
@@ -238,7 +238,7 @@ label emojis():
     s "s_1" (img=True)
     s "{=sser1b}They're fully clickable like they are in-game; check it out!{/=sser1b}"
     s "You can post CGs too!"
-    call answer
+    #call answer
     menu:
         "I can?":
             s "Yeah! Give it a try!"
@@ -260,7 +260,7 @@ label emojis():
     s "{=curly}Hope this helped!{/=curly}" (bounce=True, specBubble="round_m")
     s "Let me know if you have any questions later~"
     exit chatroom s
-    call answer
+    #call answer
     $ shuffle = "last"
     jump learn
 
@@ -285,7 +285,7 @@ label banners():
         y "Since the animations can be kind of distracting, there's a toggle to turn them off."
 
     y "Do you want to see banner animations?"
-    call answer
+    #call answer
     menu:
         "Yes, I want to see banner animations.":
             # Don't change settings on a replay
@@ -329,7 +329,7 @@ label banners():
     y "{image=yoosung_wow}" (img=True)
     exit chatroom y
 
-    call answer
+    #call answer
     $ shuffle = "last"
     jump learn
 
@@ -351,7 +351,7 @@ label heart_icons():
     show screen stackable_notifications(z.name + " +1")
     z "The animation when you receive an hourglass in a chatroom will also be turned into a text popup."
     z "Would you like to use animated icons or the text notifications?"
-    call answer
+    #call answer
     menu:
         "I want the regular animated icons.":
             # Don't change settings for a replay
@@ -423,7 +423,7 @@ label heart_icons():
     z "{=curly}Good luck with the rest of the program!{/=curly}" (bounce=True)
     exit chatroom z
 
-    call answer
+    #call answer
     $ shuffle = "last"
     jump learn
 
@@ -438,7 +438,7 @@ label screen_shake():
     ja "{=ser1}Mr. Han will be with us shortly. {/=ser1}"
     ja "{=ser1}Before we begin though, I should ask:{/=ser1}"
     ja "{=ser1}Do you want to see screen shake animations?{/=ser1}"
-    call answer
+    #call answer
     $ shuffle = False
     menu:
         "Yes, I want to see the screen shake animation.":
@@ -483,7 +483,7 @@ label screen_shake():
         show shake
     ja "{=ser1}Lastly, you can check out all of the special bubbles present in the game.{/=ser1}"
     ja "{=ser1xb}Just select \"Done\" when you're finished.{/=ser1xb}"
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -497,7 +497,7 @@ label ending():
     u "{=curly}You're back!{/=curly}" (bounce=True)
     u "{=sser2}So what did you think?{/=sser2}"
     u "{=sser2}Are you ready to start making your own chatrooms?{/=sser2}"
-    call answer
+    #call answer
     menu:
         "Definitely!":
             u "{=sser2}I'm glad! ^^{/=sser2}"
@@ -592,7 +592,7 @@ menu bubbles:
         exit chatroom ju
         ja "{=ser1}I'll be leaving too. Best of luck with the program.{/=ser1}"
         exit chatroom ja
-        call answer
+        #call answer
         $ shuffle = "last"
         jump learn
 
@@ -643,7 +643,7 @@ label jaehee_emoji():
     ja "{image=jaehee_sad}" (img=True)
     ja "{image=jaehee_well}" (img=True)
     ja "{image=jaehee_wow}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -653,7 +653,7 @@ label jumin_emoji():
     ju "{image=jumin_sad}" (img=True)
     ju "{image=jumin_smile}" (img=True)
     ju "{image=jumin_well}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -666,7 +666,7 @@ label ray_emoji():
     r "{image=ray_smile}" (img=True)
     r "{image=ray_well}" (img=True)
     r "{image=ray_wink}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -679,7 +679,7 @@ label saeran2_emoji():
     r "{image=saeran2_smile}" (img=True)
     r "{image=saeran2_well}" (img=True)
     r "{image=saeran2_wink}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -688,7 +688,7 @@ label saeran_emoji():
     sa "{image=saeran_happy}" (img=True)
     sa "{image=saeran_well}" (img=True)
     sa "{image=saeran_questioning}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -703,7 +703,7 @@ label seven_emoji():
     s "{image=seven_wow}" (img=True)
     s "{image=seven_yahoo}" (img=True)
     s "{image=seven_yoohoo}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -712,7 +712,7 @@ label rika_emoji():
     ri "{image=rika_happy}" (img=True)
     ri "{image=rika_cry}" (img=True)
     ri "{image=rika_pout}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -721,7 +721,7 @@ label v_emoji():
     v "{image=v_smile}" (img=True)
     v "{image=v_well}" (img=True)
     v "{image=v_wink}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -736,7 +736,7 @@ label yoosung_emoji():
     y "{image=yoosung_what}" (img=True)
     y "{image=yoosung_wow}" (img=True)
     y "{image=yoosung_yahoo}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -750,7 +750,7 @@ label zen_emoji():
     z "{image=zen_shock}" (img=True)
     z "{image=zen_well}" (img=True)
     z "{image=zen_wink}" (img=True)
-    call answer
+    #call answer
     $ shuffle = False
     jump emoji
 
@@ -766,7 +766,7 @@ label cloud_s():
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -779,7 +779,7 @@ label sigh_s():
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -793,7 +793,7 @@ label round_s():
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="round_s")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -807,7 +807,7 @@ label square_s():
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -817,7 +817,7 @@ label spike_s():
     ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
     s "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="spike_s")
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -834,7 +834,7 @@ label cloud_m():
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -847,7 +847,7 @@ label sigh_m():
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -861,7 +861,7 @@ label round_m():
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="round_m")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -875,7 +875,7 @@ label square_m():
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -885,7 +885,7 @@ label spike_m():
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -902,7 +902,7 @@ label cloud_l():
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -915,7 +915,7 @@ label sigh_l():
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -929,7 +929,7 @@ label round_l():
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="round_l")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -943,7 +943,7 @@ label square_l():
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
 
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 
@@ -953,7 +953,7 @@ label spike_l():
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
-    call answer
+    #call answer
     $ shuffle = False
     jump bubbles
 

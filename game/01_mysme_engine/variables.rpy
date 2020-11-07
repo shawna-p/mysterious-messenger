@@ -483,7 +483,7 @@ init -6 python:
                 return Image(new_img)
             return None
 
-        # Otherwise, assume we couldn't find it
+        # Otherwise, assume the image couldn't be found.
         return None
 
 
