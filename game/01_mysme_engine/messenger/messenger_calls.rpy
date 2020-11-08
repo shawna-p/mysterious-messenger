@@ -1,29 +1,18 @@
 ########################################################
 ## This file contains several functions related to
-## the messenger system. It's organized as follows:
-##   label chat_begin
-##   def set_chatroom_background
-##   label chat_end
-##   label chat_end_route
-##   label vn_during_chat
-##   label chat_back
-##   screen save_and_exit
-##      label press_save_and_exit
-##   screen signature_screen
+## the messenger system. The main contents are:
+## def set_chatroom_background
+## label vn_during_chat
+## screen signature_screen
+## label skip_intro_setup
 ########################################################
 
 #####################################
 # Chat Setup
 #####################################
 
-# This simplifies things when you're setting up a chatroom,
-# so call it when you're about to begin.
-# Pass it the name of the background you want (enclosed in
-# single ' or double " quotes).
-# Note that it automatically clears the chatlog, so if you want
-# to change the background but not clear the messages on-screen,
-# you also have to pass it 'False' as its second argument.
-
+# This label has largely been rendered obsolete, however, it
+# is still used to set up a chatroom for introductions.
 label chat_begin(background=None, clearchat=True, resetHP=True):
     $ set_chatroom_background(background)
     $ begin_timeline_item(generic_chatroom, clearchat, resetHP)
@@ -355,10 +344,8 @@ label skip_intro_setup():
     pause 0.2
     hide screen loading_screen
     $ starter_story = False
-    $ print_file("\nAbout to call chat_home")
     $ renpy.save(mm_auto)
     call screen chat_home
-    $ print_file("\nWe did indeed return here")
     return
 
 
