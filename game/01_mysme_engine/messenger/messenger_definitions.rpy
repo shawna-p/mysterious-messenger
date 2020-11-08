@@ -3,6 +3,8 @@ init -4 python:
     class ChatEntry(renpy.store.object):
         """
         Class that stores the information needed for each chatroom message.
+        It contains many helper methods and properties to facilitate fetching
+        the appropriate styles for each message.
 
         Attributes:
         -----------
@@ -339,7 +341,7 @@ init -4 python:
     class ReplayEntry(renpy.store.object):
         """
         Class that stores the information needed for chatroom messages that
-        are replayed in the history.
+        are replayed from the Timeline screen.
 
         Attributes:
         -----------
@@ -354,7 +356,7 @@ init -4 python:
         bounce : bool
             True if this message should 'bounce' when it animates in. Used
             for glowing and special speech bubble variants.
-        specBubble : string or Nonee
+        specBubble : string or None
             String containing part of the image path to the relevant
             speech bubble.
         """
@@ -378,7 +380,7 @@ init -4 python:
             bounce : bool
                 True if this message should 'bounce' when it animates in.
                 Used for glowing and special speech bubble variants.
-            specBubble : string or Nonee
+            specBubble : string or None
                 String containing part of the image path to the relevant
                 speech bubble.
             """
@@ -489,11 +491,15 @@ init -4 python:
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')
-                if len(last) > 0 and last[0] == ' ':
-                    last.pop(0)
+                last.strip()
                 what = "{image=" + last
             if what in emoji_lookup:
-                renpy.play(emoji_lookup[what], channel="voice_sfx")
+                try:
+                    renpy.play(emoji_lookup[what], channel="voice_sfx")
+                except:
+                    print("WARNING: Could not find sound file in the emoji dictionary associated with %s." % what)
+                    renpy.show_screen('script_error',
+                        message=("Could not find sound file in the emoji dictionary associated with " + what))
             elif "{image" not in what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
@@ -598,11 +604,15 @@ init -4 python:
         if chatbackup.img:
             if "{image =" in chatbackup.what:
                 first, last = chatbackup.what.split('=')
-                if len(last) > 0 and last[0] == ' ':
-                    last.pop(0)
+                last.strip()
                 chatbackup.what = "{image=" + last
             if chatbackup.what in emoji_lookup:
-                renpy.play(emoji_lookup[chatbackup.what], channel="voice_sfx")
+                try:
+                    renpy.play(emoji_lookup[what], channel="voice_sfx")
+                except:
+                    print("WARNING: Could not find sound file in the emoji dictionary associated with %s." % chatbackup.what)
+                    renpy.show_screen('script_error',
+                        message=("Could not find sound file in the emoji dictionary associated with " + chatbackup.what))
             elif "{image" not in chatbackup.what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
@@ -650,11 +660,9 @@ init python:
                             im.matrix.colorize('#000', bubble_color))
 
 
-## Note: There is also a custom version of the chat footers
-## (pause/play/save & exit/answer) that you can use by setting
-## this variable to True. Otherwise, it will use the original assets
-## If you change the variable here, you need to start the game over
-## Otherwise it can also be changed from the Settings menu
+## There is a custom version of the chat footers (pause/play/save&exit/answer)
+## that you can use by setting this variable to True. Otherwise, it will use
+## the original assets. It can also be changed from the Settings menu.
 default persistent.custom_footers = False
 # Values in order to keep the viewport scrolling
 # to the bottom - set a ui.adjustment() object
@@ -664,12 +672,10 @@ default yadj = ui.adjustment()
 # Default nickname colour for the characters' names
 default nickColour = "#000000"
 # Default variable to adjust chat speed by
-default pv = 0.8
 default persistent.pv = 0.8
 # These two values are used for the pauseFailSafe function
 default chatbackup = ChatEntry(filler,"","")
-default oldPV = pv
-
+default oldPV = 0.8
 # Number of bubbles to keep on the screen at once
 # (larger numbers may slow down the program; too
 # small and there may not be enough to fill the screen)
