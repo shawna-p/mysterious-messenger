@@ -153,7 +153,7 @@ label bonus_pfp_showcase():
             hide tut_player_pfp
             if not observing:
                 if not persistent.animated_icons:
-                    $ renpy.show_screen(allocate_notification_screen(True),
+                    $ renpy.show_screen(allocate_notification_screen(),
                         message="Hourglass +1")
                 else:
                     $ renpy.show_screen(allocate_hg_screen())

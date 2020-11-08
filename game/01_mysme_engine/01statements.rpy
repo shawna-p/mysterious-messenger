@@ -1200,7 +1200,7 @@ python early hide:
                         renpy.show_screen(allocate_heart_screen(), character=who)
                     else:
                         msg = who.name + " +1"
-                        renpy.show_screen(allocate_notification_screen(True), msg)
+                        renpy.show_screen(allocate_notification_screen(), msg)
             except:
                 print("WARNING: Heart could not be awarded for %s." % p["who"])
                 renpy.show_screen('script_error',
@@ -1280,7 +1280,7 @@ python early hide:
                 renpy.show_screen('heart_break_screen', character=who)
             else:
                 msg = who.name + " -1"
-                renpy.show_screen(allocate_notification_screen(True), msg)
+                renpy.show_screen(allocate_notification_screen(), msg)
         return
 
     def predict_break_heart(p):

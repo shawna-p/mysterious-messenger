@@ -1012,7 +1012,7 @@ label guest_info():
         if persistent.guestbook[guest_replay_info.name] == 'attended':
             persistent.guestbook[guest_replay_info.name] = 'viewed'
             if not persistent.animated_icons:
-                renpy.show_screen(allocate_notification_screen(False),
+                renpy.show_screen(allocate_notification_screen(),
                     message="Hourglass +1")
             else:
                 renpy.show_screen(allocate_hg_screen())

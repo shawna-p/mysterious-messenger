@@ -3,37 +3,58 @@
 #************************************
 
 init python:
+
+
+
     def allocate_heart_screen():
         """Allocate a screen to display a heart icon."""
 
-        return allocate_screen(["heart_icon_screen", "hicon2", "hicon3"], True)
+        return allocate_screen(["heart_icon_screen", "hicon2", "hicon3"],
+            store.recently_shown_heart)
 
     def allocate_hg_screen():
         """Allocate a screen to award an hourglass."""
 
         return allocate_screen(['hourglass_animation', 'hg_icon2', 'hg_icon3'])
 
-    def allocate_notification_screen(can_pause=False):
+    def allocate_notification_screen():
         """Allocate a screen to display a popup notification."""
 
         return allocate_screen(["stackable_notifications",
                             "stackable_notifications_2",
                             "stackable_notifications_3",
                             "stackable_notifications_4",
-                            "stackable_notifications_5"], can_pause)
+                            "stackable_notifications_5"])
 
-    def allocate_screen(possible_screens, can_pause=False):
-        """Generic allocate screen function."""
+    def allocate_screen(possible_screens, recently_shown=None):
+        """
+        Generic allocate screen function. Optionally takes a list of recently
+        shown screens in order to display the least recently displayed one.
+        """
+
+        ## Make sure the least-recently shown screens end up first in
+        ## the list (reduces choppy animations).
+        if recently_shown is not None:
+            possible_screens = [ x for x in possible_screens
+                        if x not in recently_shown ]
+            possible_screens.extend(recently_shown)
 
         available_screens = [ x for x in possible_screens
-                                if not renpy.get_screen(x) ]
-        if can_pause and len(available_screens) < len(possible_screens):
-            renpy.pause(0.1)
-        if available_screens:
-            return available_screens[0]
-        else:
+                            if not renpy.get_screen(x) ]
+
+        which_screen = None
+        if not available_screens:
             renpy.hide_screen(possible_screens[0])
-            return possible_screens[0]
+            which_screen = possible_screens[0]
+        else:
+            which_screen = available_screens[0]
+
+        if recently_shown is not None and which_screen in recently_shown:
+            recently_shown.remove(which_screen)
+            recently_shown.append(which_screen)
+        elif recently_shown is not None:
+            recently_shown.append(which_screen)
+        return which_screen
 
     def hide_stackable_notifications():
         """Hide all notification screens."""
@@ -99,6 +120,9 @@ screen hicon2(character):
 screen hicon3(character):
     zorder 20
     use heart_icon_screen(character, 'hicon3')
+
+# List of the most recently shown heart screens
+default recently_shown_heart = [ ]
 
 ## This screen is used to display text notifications
 ## as an alternative to animated icons

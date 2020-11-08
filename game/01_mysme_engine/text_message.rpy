@@ -345,7 +345,7 @@ init python:
                 character=who.text_msg.heart_person)
         else:
             msg = who.text_msg.heart_person.name + " +1"
-            renpy.show_screen(allocate_notification_screen(False), msg)
+            renpy.show_screen(allocate_notification_screen(), msg)
         who.text_msg.heart_person = None
         who.text_msg.bad_heart = False
         who.text_msg.heart = False

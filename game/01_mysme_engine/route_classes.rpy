@@ -1584,6 +1584,8 @@ init python:
         store.dialogue_paraphrase = store.paraphrase_choices
         store.dialogue_pv = 0
 
+        store.recently_shown_heart = [ ]
+
         # Reset timed menus
         store.timed_menu_dict = { }
         store.c_menu_dict = { }

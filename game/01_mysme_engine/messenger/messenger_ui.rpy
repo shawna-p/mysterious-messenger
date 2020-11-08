@@ -2,32 +2,9 @@
 # Answer Button
 #####################################
 
-# Call this label before you show a menu
-# to show the answer button
+# Now unnecessary; used to show the 'answer' bar at the bottom
+# of the screen before a chatroom menu.
 label answer(from_cg=False):
-    return
-    if from_cg:
-        $ renpy.pop_call()
-    # Check if it's from the messenger or a text message
-    if not text_person:
-        if from_cg:
-            hide screen viewCG
-        else:
-            $ pauseFailsafe()
-        $ pre_choosing = True
-        $ addchat(answer, '', 0.1)
-        call screen answer_button
-        show screen pause_button
-    # Otherwise it's a real-time text conversation
-    else:
-        if from_cg:
-            hide screen viewCG
-        else:
-            $ text_pauseFailsafe(text_person.text_msg.msg_list)
-        $ pre_choosing = True
-        call screen text_answer
-        show screen text_pause_button
-    $ answer_shown = True
     return
 
 screen answer_button(act=None):
