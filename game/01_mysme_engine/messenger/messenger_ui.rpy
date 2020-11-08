@@ -2,11 +2,6 @@
 # Answer Button
 #####################################
 
-# Now unnecessary; used to show the 'answer' bar at the bottom
-# of the screen before a chatroom menu.
-label answer(from_cg=False):
-    return
-
 screen answer_button(act=None):
     zorder 4
     tag chat_footer
@@ -182,7 +177,7 @@ init python:
             if index+1 < len(store.in_chat):
                 list_of_char += ', '
 
-        return Text(list_of_char, style='in_chat_list_style'), 0.1
+        return Text(list_of_char, style='in_chat_list_style'), None
 
     def battery_charge_icon(st, at):
         """Display the charging or fully charged battery icons."""
@@ -198,7 +193,7 @@ init python:
         elif battery.state == 4 and battery.percent > 97:
             return Transform('battery_charging', alpha=0.75), 0.1
         else:
-            return Transform('transparent', size=(18,26)), 0.5
+            return Transform('transparent', size=(18,26)), None
 
     def battery_level_bar(st, at):
         """Return the battery level image to use based on remaining power."""

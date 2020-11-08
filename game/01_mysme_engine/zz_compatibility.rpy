@@ -41,6 +41,14 @@ default persistent.heart_notifications = False
 # Allows the player to toggle timed menus on or off.
 # Replaced with persistent.use_timed_menus
 default persistent.autoanswer_timed_menus = None
+# Replaced with persistent.pv
+default pv = 0.8
+
+
+# Now unnecessary; used to show the 'answer' bar at the bottom
+# of the screen before a chatroom menu.
+label answer(from_cg=False):
+    return
 
 ## Deprecated; replaced with `invite guest_var`. You can call this label with
 ## `call invite(guest_var)` and it will trigger the guest to email the player.
