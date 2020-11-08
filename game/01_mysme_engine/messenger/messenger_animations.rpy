@@ -99,7 +99,7 @@ init python:
             return im.MatrixColor(picture,
                     im.matrix.colorize("#000000", character.heart_color))
         else:
-            return "Heart Point/heartbreak_0.webp"
+            return picture
 
 # Display the heart icon on-screen
 screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
