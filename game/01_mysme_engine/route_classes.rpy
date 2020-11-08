@@ -1227,9 +1227,11 @@ init python:
                 if not store.persistent.testing_mode:
                     store.observing = True
                 else:
+                    item.replay_log = [ ]
                     store.observing = False
             else:
                 store.observing = False
+                item.replay_log = [ ]
 
         # If watching this item from the History, observing is always True.
         # Pronouns, name, and profile picture must be re-set and all characters'
