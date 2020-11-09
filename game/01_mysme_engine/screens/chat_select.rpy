@@ -31,6 +31,7 @@ screen day_select(days=story_archive):
                 # (usually story_archive)
                 for day_num, day in enumerate(days):
                     if len(days) < 2:
+                        # Center a single day in the middle of the screen
                         null width (750//2)-(263//2)-3
                     use day_display(day, day_num)
                     if (main_menu and day_num < len(days) -1):
@@ -744,12 +745,6 @@ style timeline_continue_text:
     xalign 0.0 yalign 0.5
     text_align 0.0
     layout 'nobreak'
-
-## This is used to continue the game after a plot branch
-## Has now been replaced with the execute_plot_branch label
-label plot_branch_end():
-    return
-
 
 default guest_countup = 0
 ## This label displays all the guests attending the party

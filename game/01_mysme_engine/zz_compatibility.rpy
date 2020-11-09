@@ -50,6 +50,11 @@ default pv = 0.8
 label answer(from_cg=False):
     return
 
+## This is used to continue the game after a plot branch
+## Has now been replaced with the execute_plot_branch label
+label plot_branch_end():
+    return
+
 ## Deprecated; replaced with `invite guest_var`. You can call this label with
 ## `call invite(guest_var)` and it will trigger the guest to email the player.
 label invite(guest):
