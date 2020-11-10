@@ -3,15 +3,21 @@
 # used throughout the game. It's organized as follows:
 #   python definitions:
 #       class NameInput(InputValue)
+#       def has_alpha(mystring)
+#       def has_valid_chars(mystring)
 #       def chat_greet()
-#   variable definitions
+#       def set_name_pfp()
 #   screen main_menu()
 #       screen route_select_screen()
 #   screen save/load
 #       screen file_slots(title)
 #   screen menu_header(title, return_action, envelope)
 #   screen chat_home(reshow)
+#       screen links()
+#       screen developer_settings()
 #       screen chara_profile(who)
+#       screen pick_chara_pfp(who)
+#   def is_unlocked_pfp(img, condition, pfp_list=None)
 # ######################################################
 
 
