@@ -16,44 +16,6 @@
 
 init python:
 
-    def MC_pic_change():
-        """
-        Changes the MC's profile picture when pressed. Cycles through
-        images present in a particular folder, allowing users to upload
-        their own images.
-        """
-
-        global m, persistent
-
-        # If not using a custom pic, check if one's available
-        # Populate the list with the file names
-        file_list = renpy.list_files()
-        # This now has a list of the available images
-        user_pic_list = [ pic for pic in file_list
-                if 'Drop Your Profile Picture Here/' in pic and isImg(pic)]
-        # Check if there are indeed available files
-        if user_pic_list:
-            if persistent.MC_pic in user_pic_list:
-                # Go through the pics and set the pic to the
-                # next available image
-                # Assume the image provided is square (this is
-                # the responsibility of the user)
-                for i, pic in enumerate(user_pic_list):
-                    if persistent.MC_pic == pic:
-                        if i < len(user_pic_list) - 1:
-                            persistent.MC_pic = user_pic_list[i+1]
-                            break
-                        elif i == len(user_pic_list) - 1:
-                            persistent.MC_pic = user_pic_list[0]
-                            break
-            else:
-                persistent.MC_pic = user_pic_list[-1]
-        else:
-            persistent.MC_pic = 'Profile Pics/MC/MC-1.webp'
-
-        # m.prof_pic = persistent.MC_pic
-        renpy.retain_after_load()
-
     def MC_pic_display(st, at):
         """Ensure the MC's profile picture is always up-to-date."""
 
