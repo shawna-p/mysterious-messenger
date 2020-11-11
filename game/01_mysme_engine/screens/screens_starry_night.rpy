@@ -1,7 +1,7 @@
 init -1 python:
 
     def star_func(trans,st,at):
-        """Display the star at a random position."""
+        """Display a star at a random position."""
 
         trans.ypos = renpy.random.random()
         trans.xpos = renpy.random.random()
@@ -33,8 +33,7 @@ image medium star:
         repeat
 
 
-
-# This makes it easier to call the starry night background
+# This makes it easier to use the starry night background
 screen starry_night():
     add "#000"
     add "bg starry_night"
@@ -43,7 +42,6 @@ screen starry_night():
     for j in range(11):
         add "medium star"
     add Transform("#000", alpha=persistent.starry_contrast)
-
 
 image load_circle:
     'loading_circle_stationary'
@@ -126,15 +124,3 @@ style loading_tip:
     font gui.sans_serif_1
     size 34
 
-default loading_tips = [
-    "Please make sure the game is not quit or interrupted during save or load.",
-    "Tap the Links button in the hub screen to go to the Mysterious Messenger Discord.",
-    "Want to contribute to the program? Submit a pull request to the Mysterious Messenger GitHub!",
-    "There are many accessibility options in the Settings menu.",
-    "Found a bug? Report it on the Mysterious Messenger GitHub.",
-    "Like the program? Consider donating to my Ko-Fi in Links.",
-    "Is there a feature you want to see? Let me know in the Mysterious Messenger Discord.",
-    "Did you know? You can turn on Audio Captions from the Settings menu.",
-    "You can toggle animated backgrounds on or off from the Settings menu.",
-    "Testing Mode in the Developer menu makes it easy to test routes."
-]
