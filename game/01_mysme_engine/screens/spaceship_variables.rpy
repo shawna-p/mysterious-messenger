@@ -1,39 +1,3 @@
-# Chip thoughts are organized in a tuple with three items:
-# The description, approximate number of hearts, and number of hourglasses
-define chip_prize_list = RandomBag( [
-    ('A clump of cat hair.', 30, 0),
-    ("Jumin's old toothbrush.", 20, 0),
-    ("Some Honey Buddha Chip crumbs.", 24, 0),
-    ("Jaehee's spare pair of glasses.", 65, 0),
-    ("Yoosung's left sock.", 33, 0),
-    ("Your middle school photo album!", 19, 0),
-    ("Toothpaste that tastes like Honey Buddha Chips", 69, 0),
-    ("A completion certificate for mid-level dating.", 100, 0),
-    ("It's a present for you.", 67, 0),
-    ("A very normal industrial product.", 86, 0),
-    ("This Honey Boss Chip began in 1987 England...", 34, 0),
-    ("Disco lights! Let's dance!", 69, 0),
-    ("Yoosung's blessed hair strands. Blow on it and make a wish!", 443, 4),
-    ("A chip bag full of chip dust", 10, 0),
-    ("There's mold on these...", 19, 0)
-    # Feel free to add more things
-    ] )
-
-
-# This is what a list of thoughts for the spaceship will
-# look like
-default space_thoughts = RandomBag( [
-    SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
-    SpaceThought(ju, "I wonder how Elizabeth the 3rd is doing at home."),
-    SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
-    SpaceThought(y, "Yes! Chocolate milk is on sale!"),
-    SpaceThought(z, "Maybe I should learn how to braid my hair..."),
-    SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
-    SpaceThought(ri, "Hmm... the soup tastes different today."),
-    SpaceThought(sa, "So... sleepy..."),
-    SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk.")
-    ] )
-
 ## ********************************
 ## Spaceship on the chat hub
 ## ********************************

@@ -481,6 +481,45 @@ init python:
 # style my_special_style:
 #     padding (20, 40, 20, 30)
 
+
+########################################
+## SPACESHIP/CHIP BAG VARIABLES
+########################################
+# Chip thoughts are organized in a tuple with three items:
+# The description, approximate number of hearts, and number of hourglasses
+define chip_prize_list = RandomBag( [
+    ('A clump of cat hair.', 30, 0),
+    ("Jumin's old toothbrush.", 20, 0),
+    ("Some Honey Buddha Chip crumbs.", 24, 0),
+    ("Jaehee's spare pair of glasses.", 65, 0),
+    ("Yoosung's left sock.", 33, 0),
+    ("Your middle school photo album!", 19, 0),
+    ("Toothpaste that tastes like Honey Buddha Chips", 69, 0),
+    ("A completion certificate for mid-level dating.", 100, 0),
+    ("It's a present for you.", 67, 0),
+    ("A very normal industrial product.", 86, 0),
+    ("This Honey Boss Chip began in 1987 England...", 34, 0),
+    ("Disco lights! Let's dance!", 69, 0),
+    ("Yoosung's blessed hair strands. Blow on it and make a wish!", 443, 4),
+    ("A chip bag full of chip dust", 10, 0),
+    ("There's mold on these...", 19, 0)
+    # Feel free to add more things
+    ] )
+
+
+# This is what a list of thoughts for the spaceship will look like
+default space_thoughts = RandomBag( [
+    SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
+    SpaceThought(ju, "I wonder how Elizabeth the 3rd is doing at home."),
+    SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
+    SpaceThought(y, "Yes! Chocolate milk is on sale!"),
+    SpaceThought(z, "Maybe I should learn how to braid my hair..."),
+    SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
+    SpaceThought(ri, "Hmm... the soup tastes different today."),
+    SpaceThought(sa, "So... sleepy..."),
+    SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk.")
+    ] )
+
 ########################################
 ## MISCELLANEOUS VARIABLES
 ########################################
@@ -502,3 +541,19 @@ define show_empty_menus = True
 init offset = -1
 default use_2_2_guest = False
 init offset = 0
+
+# Add tips here to appear on the loading screen
+default loading_tips = [
+    "Please make sure the game is not quit or interrupted during save or load.",
+    "Tap the Links button in the hub screen to go to the Mysterious Messenger Discord.",
+    "Want to contribute to the program? Submit a pull request to the Mysterious Messenger GitHub!",
+    "There are many accessibility options in the Settings menu.",
+    "Found a bug? Report it on the Mysterious Messenger GitHub.",
+    "Like the program? Consider donating to my Ko-Fi in Links.",
+    "Is there a feature you want to see? Let me know in the Mysterious Messenger Discord.",
+    "Did you know? You can turn on Audio Captions from the Settings menu.",
+    "You can toggle animated backgrounds on or off from the Settings menu.",
+    "Testing Mode in the Developer menu makes it easy to test routes.",
+    "Sometimes characters might send you a message when you change your profile picture."
+]
+
