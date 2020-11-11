@@ -366,8 +366,7 @@ init python:
         return
 
     def menu_args_callback(*args, **kwargs):
-        print_file("Menu arguments:", *args)
-        print_file("Menu kwargs:", kwargs)
+
         # Check if we're in a chatroom
         if not (store.text_msg_reply or store.in_phone_call
                 or store.vn_choice or store.email_reply
@@ -417,15 +416,17 @@ default dialogue_picked = ""
 default dialogue_paraphrase = True
 default dialogue_pv = 0
 
+## These two screens will automatically show the answer button before
+## showing the choice screen
 screen answer_choice(items, paraphrased=None):
     zorder 5
-    #tag chat_footer
+
     use answer_button([Hide('answer_choice'), Show('pause_button'),
         ShowTransient('choice', items=items, paraphrased=paraphrased)])
 
 screen answer_choice_text(items, paraphrased=None):
     zorder 5
-    #tag chat_footer
+
     use text_answer([Hide('answer_choice_text'), Show('text_pause_button'),
         ShowTransient('choice', items=items, paraphrased=paraphrased)])
 
