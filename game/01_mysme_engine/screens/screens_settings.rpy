@@ -1,17 +1,28 @@
 ########################################################
 ## This file contains the three tabs found on the
 ## Settings screen. It's organized as follows:
-##   screen settings_tabs
-##   screen profile_pic
-##     screen pic_and_pronouns
-##     screen points_and_saveload
-##         screen heart_point_grid
-##     screen input_popup
-##   screen other_settings
-##     label restart_game
-##   screen preferences
-##     screen voice_buttons
-##     screen ringtone_dropdown
+##  def MC_pic_display(st, at)
+##  def MC_name_display(st, at)
+##  def isImg(pic)
+##  screen settings_tabs(active_tab)
+##  screen profile_pic
+##      screen pic_and_pronouns
+##      screen pick_mc_pfp
+##  def update_pfp(who, img)
+##  def tuple_to_pic(tup, the_size)
+##  def get_sized_pfp(img)
+##  def can_use_mc_pic(img)
+##  def completed_branches(r)
+##      screen points_and_saveload
+##          screen heart_point_grid
+##      screen input_popup
+##  screen other_settings
+##  screen preferences
+##      screen toggle_buttons(field, title)
+##  label restart_game
+##  screen sound_settings
+##      screen voice_buttons
+##      screen ringtone_dropdown
 ########################################################
 
 init python:
