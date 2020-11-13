@@ -286,6 +286,7 @@ python early hide:
 
         l.advance()
 
+        # Optionally, there may be an 'elif' or 'else' clause.
         while l.keyword('elif'):
             condition = l.require(l.python_expression)
             l.require(':')
@@ -335,6 +336,7 @@ python early hide:
                 break
 
         messages = [ ]
+        # There may be nested conditionals; evaluate those as well.
         for msg in the_block:
             if isinstance(msg, list):
                 messages.extend(resolve_conditionals(msg))
@@ -345,7 +347,7 @@ python early hide:
 
 
     def parse_backlog_stmt(l):
-        # First, find need the person whose text message backlog this is
+        # First, find the person whose text message backlog this is
         who = l.simple_expression()
         # For whatever reason negative numbers get stored with "who", so
         # separate it
@@ -468,8 +470,8 @@ python early hide:
                 typeTime = calculate_type_time(msg.what)
                 total_sec += typeTime
                 sender.text_msg.msg_list.append(msg)
-                print_file("Added message", msg.what, "time", msg.thetime.stopwatch_time,
-                    "to", sender.name + "'s text backlog")
+                # print_file("Added message", msg.what, "time", msg.thetime.stopwatch_time,
+                #     "to", sender.name + "'s text backlog")
 
             elif msg == 'pause':
                 try:
@@ -562,6 +564,10 @@ python early hide:
         timestamp = False
         arg_dict = dict()
 
+        # These are the initial bubbles and fonts which are recognized
+        # while *parsing* the msg statement. Other fonts can be supplied,
+        # but must be specified with `font yourfont` or `bubble yourbubble`
+        # in order to be recognized in the execution function.
         bubble_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l', 'round_m',
                 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
                 'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l',
@@ -671,8 +677,9 @@ python early hide:
             spec_bubble = p["spec_bubble"]
             arg_dict = p['arg_dict']
         except:
-            print_file("msg CDS failed. Results:", p['who'], p['what'], p['pv'])
-            renpy.error("Could not parse arguments of msg CDS")
+            print("ERROR: msg CDS failed. Results:", p['who'], p['what'], p['pv'])
+            renpy.show_screen('script_error',
+                message=("Could not parse msg CDS.")),
             return
 
         # Double-check 'who' is a ChatCharacter
@@ -693,9 +700,6 @@ python early hide:
             args, kwargs = arg_info.evaluate()
             args = args or tuple()
             kwargs = kwargs or dict()
-            print_file("\nBefore parsing arguments, values were:")
-            print_file("    img:", img, "\n    bounce:", bounce)
-            print_file("    specBubble:", spec_bubble, "\n    pv:", pv)
 
             # Check for img
             img = kwargs.get('img', img)
@@ -709,11 +713,6 @@ python early hide:
         # Correct 'what' into dialogue with the right text tags
         dialogue, img, spec_bubble = parse_message_args(what, ffont, bold,
             xbold, big, img, spec_bubble, is_text_msg=is_text_msg)
-
-        # print_file("\nAfter parsing arguments, values are:")
-        # print_file("    img:", img, "\n    bounce:", bounce)
-        # print_file("    specBubble:", spec_bubble, "\n    pv:", pv)
-        # print_file("    dialogue:", dialogue)
 
         # What to do with this dialogue depends on if it's for a chatroom
         # or a text message, or for another CDS
@@ -735,9 +734,7 @@ python early hide:
         if (who == store.main_character
                 and not kwargs.get('from_paraphrase', None)):
             # This didn't come from `say_choice_caption`, but the MC is
-            # speaking. Is this the same dialogue that was going to be
-            # posted?
-            # print("what =", what, "dialogue_picked =", store.dialogue_picked)
+            # speaking. Is this the same dialogue that was going to be posted?
             if what == store.dialogue_picked:
                 # Clear the stored no-paraphrase items
                 store.dialogue_picked = ""
