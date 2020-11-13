@@ -3,8 +3,8 @@ python early hide:
     ########################################
     ## ENTER AND EXIT CHATROOM CDS
     ########################################
-
     def parse_enter_exit(l):
+        # Just need the ChatCharacter var of whoever is enter/exiting
         who = l.simple_expression()
         if not who:
             renpy.error("chatroom enter/exit requires a character.")
@@ -17,13 +17,15 @@ python early hide:
             renpy.error("enter chatroom requires a ChatCharacter")
 
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable %s provided to enter chatroom is not recognized as a ChatCharacter." % d_who)
+            print("WARNING: variable", d_who, "provided to enter chatroom is not",
+                 "recognized as a ChatCharacter.")
             renpy.show_screen('script_error',
                 message="Variable %s provided to enter chatroom is not recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
                 link_text="How to make a character enter/exit the chatroom")
             return
 
+        # Might need to send choice dialogue
         if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
             say_choice_caption(store.dialogue_picked,
                 store.dialogue_paraphrase, store.dialogue_pv)
@@ -54,7 +56,8 @@ python early hide:
             renpy.error("exit chatroom requires a ChatCharacter")
 
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable %s provided to exit chatroom is not recognized as a ChatCharacter." % d_who)
+            print("WARNING: variable", d_who, "provided to exit chatroom is",
+                "not recognized as a ChatCharacter.")
             renpy.show_screen('script_error',
                 message="Variable %s provided to exit chatroom is not recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
@@ -95,22 +98,18 @@ python early hide:
             renpy.error("%s is not recognized as a ChatCharacter object for entering or exiting chatrooms." % p["who"])
         return
 
-    def predict_enter_exit(p):
-        return [ ]
     def warp_enter_exit(p):
         return True
 
     renpy.register_statement('enter chatroom',
         parse=parse_enter_exit,
         execute=execute_enter_chat,
-        predict=predict_enter_exit,
         lint=lint_enter_exit,
         warp=warp_enter_exit)
 
     renpy.register_statement('exit chatroom',
         parse=parse_enter_exit,
         execute=execute_exit_chat,
-        predict=predict_enter_exit,
         lint=lint_enter_exit,
         warp=warp_enter_exit)
 
