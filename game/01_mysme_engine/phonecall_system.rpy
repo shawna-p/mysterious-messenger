@@ -66,10 +66,8 @@ python early:
         @property
         def choices(self):
             try:
-                print_file("Returning choices", self.__choices)
                 return self.__choices
             except AttributeError:
-                print_file("Couldn't return choices")
                 return []
 
         @choices.setter
@@ -85,9 +83,7 @@ python early:
             if not store.observing:
                 try:
                     self.choices.append(choice)
-                    print_file("2. Adding", choice, "to phonecall choices")
                 except AttributeError:
-                    print_file("Couldn't add", choice, "to phonecall choices")
                     return
 
         def decrease_time(self):
@@ -405,28 +401,27 @@ screen phone_contacts():
                 add 'contact_icon'
                 text "Contacts"
 
-        viewport:
+        $ contact_list = [ c for c in character_list if c != m]
+        vpgrid:
             style_prefix 'call_display'
+            xysize (705, 1070)
+            xalign 0.5
+            if len(contact_list) <= 9:
+                yoffset 60
+                xoffset 15
             draggable True
             mousewheel True
             scrollbars "vertical"
-            if (len(character_list) > 9
-                    or m in character_list and len(character_list) < 10):
-                xoffset 20
-            has vbox
-            xysize (705, 1070)
-            xalign 0.5
-            spacing 0
+            cols 3
+            for person in contact_list:
+                use phone_contact_btn(person)
+            for i in range(-len(contact_list) % 3):
+                add 'empty_contact'
 
-            # Only characters in character_list show up as contacts
-            # though any character in the all_characters list can
-            # phone the player
-            if (len(character_list) > 9
-                    or m in character_list and len(character_list) > 10):
-                use phone_contacts_grid(3, -(-len(character_list) // 3))
-            else:
-                null height 10
-                use phone_contacts_grid(3, 3)
+style call_display_vpgrid:
+    align (0.5, 0.3)
+    xspacing 60
+    yspacing 100
 
 style phone_contacts_frame:
     xalign 0.5
@@ -452,37 +447,24 @@ style phone_contacts_button:
     hover_background "menu_tab_inactive_hover"
     activate_sound 'audio/sfx/UI/phone_tab_switch.mp3'
 
-## This makes the phone contacts screen "flexible" so you can
-## have as many or as few characters as you like
-screen phone_contacts_grid(x_num, y_num):
-
-    $ has_mc = 0
-
-    grid x_num y_num:
+## A small screen which contains a single contact button
+screen phone_contact_btn(person):
+    vbox:
         style_prefix 'contacts_grid'
-
-        for person in character_list:
-            if person == m:
-                $ has_mc = 1
+        imagebutton:
+            background person.file_id + '_contact'
+            idle person.file_id + '_contact'
+            hover_foreground person.file_id + '_contact'
+            if call_available(person):
+                action [Preference("auto-forward", "enable"),
+                        Show('outgoing_call',
+                            phonecall=call_available(person))]
             else:
-                vbox:
-                    imagebutton:
-                        background person.file_id + '_contact'
-                        idle person.file_id + '_contact'
-                        hover_foreground person.file_id + '_contact'
-                        if call_available(person):
-                            action [Preference("auto-forward", "enable"),
-                                    Show('outgoing_call',
-                                        phonecall=call_available(person))]
-                        else:
-                            action [Preference("auto-forward", "enable"),
-                                    Show('outgoing_call',
-                                        phonecall=person.voicemail,
-                                        voicemail=True)]
-                    text person.name style 'contact_text'
-
-        for i in range((x_num*y_num + has_mc) - len(character_list)):
-            add 'empty_contact'
+                action [Preference("auto-forward", "enable"),
+                        Show('outgoing_call',
+                            phonecall=person.voicemail,
+                            voicemail=True)]
+        text person.name style 'contact_text'
 
 style contacts_grid_grid:
     align (0.5, 0.3)
