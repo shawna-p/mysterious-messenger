@@ -470,15 +470,6 @@ init python:
         s = re.sub(pattern, ' ', s, flags=re.MULTILINE)
         return s
 
-    def Guest(*args, **kwargs):
-        # Returns an appropriate Guest object depending on which version the
-        # user is on.
-        if store.use_2_2_guest or (len(args) + len(kwargs)) > 14:
-            # Use the old Guest style
-            return Guestv2(*args, **kwargs)
-        # Otherwise, use the new Guest style
-        return Guestv3(*args, **kwargs)
-
     def unread_emails():
         """Return the number of unread emails in the player's inbox."""
 

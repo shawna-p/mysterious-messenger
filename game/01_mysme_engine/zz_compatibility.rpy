@@ -168,7 +168,7 @@ label play_sfx(sfx):
 init python:
 
     ## Old classes for Guest and Email declarations
-    class Guestv2(renpy.store.object):
+    class Guest(renpy.store.object):
         """
         This class stores necessary information about the guest, including
         all of their email replies as well as their image thumbnail and name.
@@ -240,7 +240,25 @@ init python:
             The guest's comment upon arriving at the party.
         """
 
-        def __init__(self, name, thumbnail, start_msg,
+        def __init__(self, *args, **kwargs):
+
+            # Check if this is using the old or new style of guest
+            if store.use_2_2_guest or (len(args) + len(kwargs) > 14):
+                # Old guest style
+                self.create_old_guest(*args, **kwargs)
+                self.__v3_guest = None
+            else:
+                # New guest style
+                self.__v3_guest = Guestv3(*args, **kwargs)
+
+        @property
+        def v3_guest(self):
+            try:
+                return self.__v3_guest
+            except AttributeError:
+                return None
+
+        def create_old_guest(self, name, thumbnail, start_msg,
                         msg1_good, reply1_good, msg1_bad, reply1_bad,
                         msg2_good, reply2_good, msg2_bad, reply2_bad,
                         msg3_good, reply3_good, msg3_bad, reply3_bad,
@@ -374,6 +392,9 @@ init python:
         def __eq__(self, other):
             """Check for equality between Guestv2 objects."""
 
+            if self.v3_guest:
+                return self.v3_guest.__eq__(other)
+
             if (getattr(other, 'name', False)
                     and getattr(other, 'thumbnail', False)):
                 return (self.name == other.name
@@ -385,8 +406,11 @@ init python:
         def __ne__(self, other):
             """Check for inequality between Guestv2 objects."""
 
+            if self.v3_guest:
+                return self.v3_guest.__ne__(other)
             return not self.__eq__(other)
 
+init python:
     class Email(renpy.store.object):
         """
         Class that holds information needed for an email's delivery, timeout,

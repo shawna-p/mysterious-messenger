@@ -1327,7 +1327,7 @@ python early hide:
         else:
             renpy.error("invite requires a guest to invite.")
 
-        if not (isinstance(guest, Guestv2) or isinstance(guest, Guestv3)):
+        if not (isinstance(guest, Guest) or isinstance(guest, Guestv3)):
             print("WARNING: Invited guest is not recognized as a Guest object.")
             renpy.show_screen('script_error',
                 message="Invited guest %s is not recognized as a Guest object." % p["guest"],
@@ -1344,10 +1344,12 @@ python early hide:
         if (not store.observing) or store.persistent.testing_mode:
             try:
                 # Add them to the front of the email inbox
-                if isinstance(guest, Guestv2):
+                if isinstance(guest, Guest) and guest.v3_guest is None:
                     e = Email(guest, guest.start_msg, guest.label1)
-                else:
+                elif isinstance(guest, Guestv3):
                     e = Emailv3(guest)
+                else:
+                    e = Emailv3(guest.v3_guest)
                 store.email_list.insert(0, e)
                 # The player has encountered the guest so the guestbook can be
                 # updated
@@ -1377,7 +1379,7 @@ python early hide:
         if eval_guest is None:
             renpy.error("Invited guest cannot be None.")
 
-        if not (isinstance(eval_guest, Guestv2)
+        if not (isinstance(eval_guest, Guest)
                 or isinstance(eval_guest, Guestv3)):
             renpy.error("Invited guest %s is not recognized as a Guest object." % p["guest"])
 
