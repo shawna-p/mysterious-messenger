@@ -790,7 +790,7 @@ init -5 python:
                 # Just a single item
                 item = folder + files + ext
                 if isImg(item):
-                    return [ (folder + files + ext, condition)]
+                    return [ (item, condition)]
                 else:
                     print("WARNING: " + item + " is not recognized as an "
                         + "image file.")
@@ -855,7 +855,6 @@ init -5 python:
         profile picture.
         """
 
-        print_file("Calling the pfp callback")
         if not store.mc_pfp_callback:
             return
 
