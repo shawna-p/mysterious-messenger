@@ -504,7 +504,18 @@ init python:
         @property
         def read(self):
             """Return whether this email has been read."""
-            return self.__read
+            try:
+                return self.__read
+            except:
+                pass
+            try:
+                return self.__dict__['read']
+            except:
+                pass
+            try:
+                return self.__dict__['_m1_email_system__read']
+            except:
+                return True
 
         @read.setter
         def read(self, new_status):
