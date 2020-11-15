@@ -197,8 +197,16 @@ init python:
 
         if alb[-6:] != "_album":
             alb += "_album"
-        reg_album = getattr(store, convert_to_file_name(alb))
-        per_album = getattr(store.persistent, convert_to_file_name(alb))
+        try:
+            reg_album = getattr(store, convert_to_file_name(alb))
+            per_album = getattr(store.persistent, convert_to_file_name(alb))
+        except:
+            print("WARNING: Couldn't find variable", convert_to_file_name(alb),
+                "to update albums")
+            renpy.show_screen('script_error',
+                message=("Couldn't find variable " + convert_to_file_name(alb)
+                    + " to update albums"))
+            return
 
         merge_albums(per_album, reg_album)
 
@@ -215,7 +223,15 @@ init python:
                 a = alb
                 if alb[-6:] != "_album":
                     a += "_album"
-                per_album = getattr(store.persistent, convert_to_file_name(a))
+                try:
+                    per_album = getattr(store.persistent, convert_to_file_name(a))
+                except:
+                    print("WARNING: Couldn't find variable", convert_to_file_name(a),
+                        "to update albums")
+                    renpy.show_screen('script_error',
+                        message=("Couldn't find variable " + convert_to_file_name(a)
+                            + " to update albums"))
+                    return
                 for cg in per_album:
                     cg.check_if_seen()
         return
@@ -278,7 +294,19 @@ init python:
             album_list = [ album_list ]
 
         for album in album_list:
-            for photo in getattr(store.persistent, album + "_album"):
+            if album[-6:] != "_album":
+                album += "_album"
+            try:
+                per_album = getattr(store.persistent, convert_to_file_name(album))
+            except:
+                print("WARNING: Couldn't find variable", convert_to_file_name(album),
+                    "to update albums")
+                renpy.show_screen('script_error',
+                    message=("Couldn't find variable " + convert_to_file_name(album)
+                        + " to update albums"))
+                return
+
+            for photo in per_album:
                 if photo.unlocked:
                     # This album can remain visible
                     break
