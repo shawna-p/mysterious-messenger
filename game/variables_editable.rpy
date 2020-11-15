@@ -487,7 +487,7 @@ init python:
 ########################################
 # Chip thoughts are organized in a tuple with three items:
 # The description, approximate number of hearts, and number of hourglasses
-define chip_prize_list = RandomBag( [
+default chip_prize_list = RandomBag( [
     ('A clump of cat hair.', 30, 0),
     ("Jumin's old toothbrush.", 20, 0),
     ("Some Honey Buddha Chip crumbs.", 24, 0),
