@@ -85,18 +85,19 @@ init -10 python:
 ## VN Setup
 #####################################
 
+## Call to begin a VN section. Largely unnecessary except during the intro.
 label vn_begin(nvl=False):
     $ begin_timeline_item(generic_storymode, is_vn=nvl)
     return
 
-## Call to end a VN section
+## Call to end a VN section. Largely unnecessary except during the intro.
 label vn_end():
     if starter_story and not renpy.get_return_stack():
         jump end_prologue
     return
 
-label vn_end_route():
-    jump end_route
+# Lets the program know it's in VN mode
+default vn_choice = False
 
 #####################################
 ## This screen shows the clock
@@ -176,8 +177,7 @@ screen history():
                                     allow=gui.history_allow_tags)
                     text what:
                         if persistent.dialogue_outlines:
-                            outlines [ (absolute(2), "#000",
-                                        absolute(0), absolute(0)) ]
+                            outlines [ (absolute(2), "#000", 0, 0) ]
 
             if not _history_list:
                 label _("The dialogue history is empty.")
