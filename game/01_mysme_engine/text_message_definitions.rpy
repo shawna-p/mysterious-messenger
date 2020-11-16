@@ -3,8 +3,6 @@ python early:
     from random import randint
     import renpy.store as store
 
-    ## This class keeps track of a text message conversation
-    ## for each character.
     class TextMessage(renpy.store.object):
         """
         A class to keep track of text message conversations for each character.
@@ -248,6 +246,7 @@ init -6 python:
             textlog = store.text_person.text_msg.msg_list
         else:
             print_file("ERROR: There's no one to text")
+            renpy.show_screen('messenger_error')
             return
 
         if pauseVal == None:
@@ -270,7 +269,7 @@ init -6 python:
             renpy.pause(typeTime)
 
         if img:
-            #Adjust the {image=seven_wow} etc statement to
+            # Adjust the {image=seven_wow} etc statement to
             # suit the emoji dictionary
             if "{image =" in what:
                 first, last = what.split('=')
@@ -361,6 +360,7 @@ init -6 python:
         global name
         name_cut = num_char + 6 - len(name)
         if not last_msg:
+            renpy.show_screen('messenger_error')
             return "Couldn't find a message"
         last_msg.what = renpy.filter_text_tags(last_msg.what, allow=['image'])
 
@@ -395,6 +395,8 @@ init -6 python:
             return last_msg.what[:num_char]
 
     def text_message_begin(text_person):
+        """Set up variables needed to play a text message conversation."""
+
         store.text_person = text_person
         store.CG_who = store.text_person
         if text_person.text_msg.reply_label:
@@ -429,28 +431,6 @@ label leave_inst_text():
     call screen text_message_hub
     return
 
-label text_begin(who):
-    return
-
-label compose_text(who, real_time=False):
-    $ who.set_real_time_text(real_time)
-    $ who.text_msg.read = False
-    $ textbackup = 'Reset'
-    $ text_person = who
-    $ renpy.retain_after_load()
-    return
-
-label compose_text_end(text_label=False):
-    $ text_person.text_label = text_label
-    $ text_person = None
-    $ textbackup = 'Reset'
-    $ renpy.retain_after_load()
-    return
-
-
-## Set end variables when a text message menu is completed
-label text_end():
-    return
 
 ## The label that is called to play text messages
 label play_text_message():
