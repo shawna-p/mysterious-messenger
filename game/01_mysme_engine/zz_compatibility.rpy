@@ -83,29 +83,68 @@ default persistent.heart_notifications = False
 default persistent.autoanswer_timed_menus = None
 # Replaced with persistent.pv
 default pv = 0.8
+# Replaced by story_archive
+default chat_archive = None
+# Replaced by current_timeline_item
+default current_chatroom = None
+# Replaced by most_recent_item
+default most_recent_chat = None
+# Replaced by collected_hp
+default chatroom_hp = None
+# Replaced by collected_hg
+default chatroom_hg = None
 
 
-# Now unnecessary; used to show the 'answer' bar at the bottom
+## Deprecated. Used to begin writing a text message conversation.
+label text_begin(who):
+    return
+
+## Deprecated. Used to tell the program the next lines of dialogue
+## are intended for a text message conversation.
+label compose_text(who, real_time=False):
+    $ who.set_real_time_text(real_time)
+    $ who.text_msg.read = False
+    $ textbackup = 'Reset'
+    $ text_person = who
+    $ renpy.retain_after_load()
+    return
+
+## Deprecated. Used to finish writing the beginning
+## of a text message conversation.
+label compose_text_end(text_label=False):
+    $ text_person.text_label = text_label
+    $ text_person = None
+    $ textbackup = 'Reset'
+    $ renpy.retain_after_load()
+    return
+
+## Deprecated. Used to end text message conversations.
+label text_end():
+    return
+
+## Deprecated. Now replaced by end_route.
+label vn_end_route():
+    jump end_route
+
+# Deprecated. Used to show the 'answer' bar at the bottom
 # of the screen before a chatroom menu.
 label answer(from_cg=False):
     return
 
-## This is used to continue the game after a plot branch
-## Has now been replaced with the execute_plot_branch label
+## Deprecated. Used to continue the game after a plot branch.
+## Has now been replaced with the execute_plot_branch label.
 label plot_branch_end():
     return
 
 ## Deprecated; replaced with `invite guest_var`. You can call this label with
 ## `call invite(guest_var)` and it will trigger the guest to email the player.
 label invite(guest):
-    $ print("WARNING: Deprecated label invite(guest) used.")
     invite guest
     return
 
 # Deprecated; replaced with `award heart u` where `u` is the character to award
 # the heart for. Call this to display the heart icon for a given character
 label heart_icon(character, bad=False):
-    $ print("WARNING: Deprecated label heart_icon(character) used.")
     if bad:
         award heart character bad
     else:
@@ -115,16 +154,13 @@ label heart_icon(character, bad=False):
 # Deprecated; replaced with `break heart u` where `u` is the character to
 # remove a heart for. Like the heart icon, call this to display the heart break.
 label heart_break(character):
-    $ print("WARNING: Deprecated label heart_break(character) used.")
     break heart character
     return
-
 
 ## Deprecated; replaced with `exit_item_early`. Determines what happens
 ## when the 'back' button is pressed during a chatroom.
 label chat_back():
     jump exit_item_early
-
 
 #************************************
 # Chatroom Enter/Exit
@@ -136,14 +172,12 @@ label chat_back():
 # Deprecated; replaced with `enter chatroom u` where `u` is the
 # character entering the chatroom
 label enter(chara):
-    $ print("WARNING: Deprecated label enter(chara) used.")
     enter chatroom chara
     return
 
 # Deprecated; replaced with `exit chatroom u` where `u` is the character
 # exiting the chatroom
 label exit(chara):
-    $ print("WARNING: Deprecated label exit(chara) used.")
     exit chatroom chara
     return
 
@@ -243,10 +277,15 @@ init python:
         def __init__(self, *args, **kwargs):
 
             # Check if this is using the old or new style of guest
-            if store.use_2_2_guest or (len(args) + len(kwargs) > 14):
+            if (store.use_2_2_guest or (len(args) + len(kwargs) > 14)
+                    or (len(args) > 8 and not isinstance(args[7], EmailReply))):
                 # Old guest style
-                self.create_old_guest(*args, **kwargs)
-                self.__v3_guest = None
+                try:
+                    self.create_old_guest(*args, **kwargs)
+                    self.__v3_guest = None
+                except:
+                    # New guest style?
+                    self.__v3_guest = Guestv3(*args, **kwargs)
             else:
                 # New guest style
                 self.__v3_guest = Guestv3(*args, **kwargs)
@@ -993,51 +1032,6 @@ init -6 python:
                     or self.chatroom_label != other.chatroom_label
                     or self.trigger_time != other.trigger_time)
 
-        def __deepcopy__(self, memo):
-            """
-            Return a deepcopy of a ChatHistory object. Maintained for
-            compatibility with __getattr__ implementation.
-            """
-
-            result = ChatHistory(self.title, self.chatroom_label,
-                self.trigger_time, list(self.participants),
-                deepcopy(self.vn_obj, memo), deepcopy(self.plot_branch, memo),
-                self.save_img)
-            result.played = self.played
-            result.participated = self.participated
-            result.available = self.available
-            result.expired = self.expired
-            result.buyback = self.buyback
-            result.buyahead = self.buyahead
-            result.outgoing_calls_list = self.outgoing_calls_list
-            result.incoming_calls_list = self.incoming_calls_list
-            result.story_calls_list = copy(self.story_calls_list)
-            result.replay_log = []
-            return result
-
-
-        def __getattr__(self, name):
-            """
-            Ensure compatibility when accessing attributes that don't exist.
-            """
-
-            if name == 'story_calls_list':
-                return []
-                # chatroom_label = self.__dict__['chatroom_label']
-                # return [ PhoneCall(x, chatroom_label + '_story_call_'
-                #             + x.file_id, avail_timeout='test', story_call=True)
-                #         for x in store.all_characters
-                #         if renpy.has_label(chatroom_label + '_story_call_'
-                #             + x.file_id)]
-
-            try:
-                # print_file("ChatHistory getattr with", name)
-                # if name == 'chatroom_label':
-                #     raise AttributeError(name)
-                # print_file("with", self.__dict__['chatroom_label'])
-                return super(ChatHistory, self).__getattribute__(name)
-            except (KeyError, AttributeError) as e:
-                raise AttributeError(name)
 
         def add_participant(self, chara):
             """Add a participant to the chatroom."""
@@ -1254,57 +1248,6 @@ init -6 python:
             """
             return []
 
-        def __deepcopy__(self, memo):
-            """
-            Return a deepcopy of a VNMode object. Maintained for compatibility
-            with __getattr__ implementation.
-            """
-
-            result = VNMode(self.vn_label, self.who, self.party,
-                self.trigger_time, self.title, deepcopy(self.plot_branch, memo),
-                self.save_img)
-            result.played = self.played
-            result.available = self.available
-            result.outgoing_calls_list = self.outgoing_calls_list
-            result.incoming_calls_list = self.incoming_calls_list
-            result.story_calls_list = copy(self.story_calls_list)
-            return result
-
-
-        def __getattr__(self, name):
-            """
-            Ensure compatibility when accessing attributes that don't exist.
-            """
-
-            if name == 'title':
-                return ""
-            elif name == 'plot_branch':
-                return False
-            elif name == 'save_img':
-                return 'auto'
-            elif name == 'outgoing_calls_list':
-                vn_label = self.__dict__['vn_label']
-                return [ (vn_label + '_outgoing_'
-                        + x.file_id) for x in store.all_characters
-                        if renpy.has_label(vn_label + '_outgoing_'
-                            + x.file_id)]
-            elif name == 'incoming_calls_list':
-                vn_label = self.__dict__['vn_label']
-                return [ (vn_label + '_incoming_'
-                        + x.file_id) for x in store.all_characters
-                        if renpy.has_label(vn_label + '_incoming_'
-                            + x.file_id)]
-            elif name == 'story_calls_list':
-                return []
-
-            try:
-                # print_file("VNMode getattr with", name)
-                # if name == 'vn_label':
-                #     raise AttributeError(name)
-                # print_file("with", self.__dict__['vn_label'])
-                return super(VNMode, self).__getattribute__(name)
-            except (KeyError, AttributeError) as e:
-                raise AttributeError(name)
 
         def __eq__(self, other):
             """Check for equality between two VNMode objects."""
