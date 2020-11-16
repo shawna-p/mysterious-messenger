@@ -11,7 +11,7 @@
 #       def past_trigger_time(trig_time, cur_time, was_yesterday,
 #             prev_item, cur_item)
 #       def expire_item(prev_item, cur_item, deliver_incoming)
-#       def num_future_timeline_items(break_for_branch, recursive)
+#       def num_future_timeline_items(break_for_branch, check_all)
 #       def deliver_next()
 #       def merge_routes(new_route)
 #       def continue_route()
@@ -22,6 +22,10 @@
 #       def is_time_later(current_hour, current_min, given_hour, given_min)
 #   variable definitions:
 #       was_expired
+#       current_choices
+#       persistent.chatroom_participants
+#       all_routes
+#       story_archive
 # ######################################################
 
 init -6 python:
@@ -786,7 +790,6 @@ init -6 python:
                         total += 1
                     if item.plot_branch and break_for_branch:
                         return total
-        print_file("DEBUG: There are", total, "items remaining")
         return total
 
 
@@ -876,7 +879,7 @@ init -6 python:
                 archive.archive_list = []
 
         # Remove the plot branch indicator
-        most_recent_item.plot_branch = False
+        most_recent_item.plot_branch = None
 
         # If this is the party, might need to update the current_timeline_item
         # to be the merged party
@@ -887,19 +890,15 @@ init -6 python:
                     if (isinstance(item, StoryMode)
                             and item.party and not item.played):
                         # This is the party to replace
-                        print_file("Found the replacement party")
                         item = new_route[1].archive_list[0]
                         current_timeline_item = item
-                        print_file("current_timeline_item is now", current_timeline_item.item_label)
                         return
                     elif (isinstance(item, ChatRoom)
                             and item.story_mode.party
                             and not item.story_mode.played):
                         # This is the party to replace
-                        print_file("Found the replacement party")
                         item.story_mode = new_route[1].archive_list[0]
                         current_timeline_item = item.story_mode
-                        print_file("current_timeline_item is now", current_timeline_item.item_label)
                         return
 
 
@@ -923,7 +922,7 @@ init -6 python:
             most_recent_item.story_mode = most_recent_item.plot_branch.story_mode
 
         # Remove the plot branch indicator
-        most_recent_item.plot_branch = False
+        most_recent_item.plot_branch = None
 
     def participated_percentage(first_day=1, last_day=None):
         """
@@ -1088,7 +1087,7 @@ init -6 python:
             new_day_diff += 1
             random_hour -= 24
 
-        # Now return the time, formatted as 00:00 in a string
+        # Now return the time, formatted as "00:00" in a string
         return ("{:02d}".format(random_hour) + ":"
             + "{:02d}".format(random_min), new_day_diff)
 
@@ -1139,7 +1138,6 @@ init -6 python:
         # This functions much like the check_and_unlock_story() function, only
         # here instead of expiring chatrooms, make them available
         for item in story_archive[expiry_day-2].archive_list:
-            print_file("Buy ahead:", item.title, "->", item.trigger_time)
             # If this item is already available, don't bother with it
             if item.available and (item.buyahead or item.played):
                 continue
@@ -1212,5 +1210,4 @@ init -7:
 
 # This archive will store every chatroom in the game. If done correctly, the
 # program will automatically set variables and make the story available for you.
-default chat_archive = None
 default story_archive = []
