@@ -395,11 +395,6 @@ init -6 python:
         def call_after_label(self, new_context=True):
             """Call this item's after_ label, if it exists."""
 
-            print_file("Calling after_ label.", "\n   delivered_post_items:",
-                self.delivered_post_items, "\n   this item's label:",
-                self.item_label, "\n   This item's after_label:",
-                self.after_label)
-
             if self.delivered_post_items and not store.persistent.testing_mode:
                 return
 
@@ -1097,11 +1092,8 @@ init -6 python:
 ## The label that is called to begin and end a timeline item
 label play_timeline_item():
     $ begin_timeline_item(current_timeline_item)
-    $ print_file("Got to play_timeline_item with", current_timeline_item.item_label,
-        "Which has been played:", current_timeline_item.played)
     # Call the item label so that it returns here when it's done
     if isinstance(current_timeline_item, ChatRoom):
-        $ print_file("This item is a ChatRoom")
         if skip_story_item:
             pass
         elif (current_timeline_item.expired
@@ -1117,20 +1109,16 @@ label play_timeline_item():
             $ renpy.call(current_timeline_item.item_label)
 
     elif isinstance(current_timeline_item, StoryMode):
-        $ print_file("This item is a StoryMode")
         if (not _in_replay and current_timeline_item.party
                 and not renpy.has_label(
                     current_timeline_item.item_label + '_branch')):
-            $ print_file("Did not find a branch for", current_timeline_item.item_label)
             $ skip_story_item = False
             $ renpy.hide_screen('confirm')
             $ renpy.call('guest_party_showcase')
         elif current_timeline_item.party and not _in_replay:
-            $ print_file("Found a branch to execute")
             $ skip_story_item = False
             $ renpy.hide_screen('confirm')
             $ renpy.call(current_timeline_item.item_label + '_branch')
-            $ print_file("showing the guest showcase")
             $ renpy.call('guest_party_showcase')
         elif skip_story_item:
             pass
@@ -1138,7 +1126,6 @@ label play_timeline_item():
             $ renpy.call(current_timeline_item.item_label)
 
     elif isinstance(current_timeline_item, StoryCall):
-        $ print_file("This item is a StoryCall. in_phone_call is", in_phone_call)
         if skip_story_item:
             pass
         elif (current_timeline_item.expired
@@ -1154,7 +1141,6 @@ label play_timeline_item():
                 who=current_timeline_item.caller, story_call=True)
             $ renpy.call(current_timeline_item.item_label)
 
-    $ print_file("Finished the label and returned to play_timeline_item")
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
 
@@ -1189,9 +1175,13 @@ label play_timeline_item():
     return
 
 init python:
-    ## Set up the correct variables and screens to view this TimelineItem.
+
     def begin_timeline_item(item, clearchat=True, resetHP=True, stop_music=True,
             is_vn=False):
+        """
+        Set up the correct variables and screens to view this TimelineItem.
+        """
+
         # renpy.scene()
         # renpy.exports.show(name='bg', what=Solid(FUCHSIA))
 
@@ -1199,9 +1189,6 @@ init python:
             set_name_pfp()
         if stop_music:
             renpy.music.stop(channel='music')
-
-        # Set this item as the current timeline item
-        # current_timeline_item = item
 
         # Reset heart points
         if resetHP:
@@ -1250,9 +1237,6 @@ init python:
                 and item not in store.generic_timeline_items):
             store.current_choices = list(item.choices)
 
-        print_file("Beginning timeline item with", item.item_label, "which is a",
-            "chatroom?", isinstance(item, ChatRoom), "StoryMode?",
-            isinstance(item, StoryMode), "StoryCall?", isinstance(item, StoryCall))
         # Chatroom setup
         if isinstance(item, ChatRoom):
             # Make sure messenger screens are showing
@@ -1323,9 +1307,14 @@ init python:
         renpy.retain_after_load()
         return
 
-    ## Perform additional logic to finish off a TimelineItem, like resetting
-    ## story variables to return to the menu screens.
+
+
     def end_timeline_item_checks():
+        """
+        Perform additional logic to finish off a TimelineItem, like resetting
+        story variables to return to the menu screens.
+        """
+
         if store._in_replay:
             return
 
@@ -1349,8 +1338,8 @@ init python:
         return
 
 
-    ## Finish resetting variables and screens for this TimelineItem.
     def finish_timeline_item(item, deliver_messages=True):
+        """Finish resetting variables and screens for this TimelineItem."""
 
         # renpy.scene()
         # renpy.exports.show(name='bg', what=Solid(AQUA))
@@ -1414,9 +1403,9 @@ init python:
 ## The label that is called when the program exits out of a timeline item
 ## early, expiring it
 label exit_item_early():
-    # This ends replays and resets variables
+    # This ends replays and resets variables.
     # This item is only set as the most recent item if the player wasn't
-    # replaying it
+    # replaying it.
     $ end_timeline_item_checks()
     $ reset_story_vars()
     if not observing and (not current_timeline_item.expired
@@ -1452,7 +1441,6 @@ init python:
             deliver_all_texts()
 
         renpy.retain_after_load()
-
 
         return
 
