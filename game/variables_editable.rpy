@@ -74,6 +74,18 @@ default do_does = "do"
 default s_verb = ""
 
 ########################################
+## SETUP DEFAULTS
+########################################
+
+default persistent.pronoun = "they/them"
+
+default persistent.MC_pic = 'Profile Pics/MC/MC-1.webp'
+default persistent.name = "Rainbow"
+
+default persistent.HP = 0
+default persistent.HG = 100
+
+########################################
 ## HISTORY VARIABLES
 ########################################
 # Define extra history items here, such as route prologues. The first string
