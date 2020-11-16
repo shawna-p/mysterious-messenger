@@ -261,6 +261,16 @@ default unseen_calls = 0
 default in_phone_call = False
 # Number of seconds to wait for the player to pick up incoming calls
 define call_countdown = 10
+# List of calls the player can make (outgoing)
+default available_calls = []
+# History of phone calls
+default call_history = []
+# If there's an incoming call after a chatroom,
+# it will be defined here
+default incoming_call = False # e.g. PhoneCall(ju, 'some_label')
+# Keeps track of the current call the player is in
+default current_call = False
+
 
 ########################################################
 ## The phone menu screen, which displays a list of all
@@ -799,8 +809,6 @@ screen phone_say(who, what):
             if persistent.dialogue_outlines:
                 outlines [ (absolute(2), "#000",
                             absolute(0), absolute(0)) ]
-
-
 
 ## Allows the program to jump to the incoming call; now only used for the
 ## intro.
