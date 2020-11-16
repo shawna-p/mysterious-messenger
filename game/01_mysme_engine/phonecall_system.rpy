@@ -880,8 +880,6 @@ label play_phone_call():
 ## For ease of keeping track of the different voicemails,
 ## they are defined here
 label voicemail_1():
-    call phone_begin
     voice "voice files/voicemail_1.mp3"
     vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
-    call phone_end
     return
