@@ -178,6 +178,7 @@ init -6 python:
         def get_text_msg_time(self):
             """Return the time formatted for text messages."""
 
+            # Returns a time like 15/08/2020 11:58 PM
             return (self.day + '/' + self.month_num
                         + '/' + self.year + ' '
                         + self.twelve_hour + ':'
@@ -187,6 +188,7 @@ init -6 python:
         def text_separator_time(self):
             """Return the time formatted for the text message date separator."""
 
+            # Returns a time like 2020.08.15 Saturday
             return (self.year + '.' + self.month_num + '.' + self.day
                 + ' ' + self.weekday)
 
@@ -232,7 +234,10 @@ init -6 python:
 
         def adjust_time(self, td):
             """Adjust the datetime according to timedelta td."""
-            self.datetime += td
+            try:
+                self.datetime += td
+            except:
+                renpy.show_screen('messenger_error')
 
         def time_diff_minimum(self, other_time, day=None, hour=None,
                 minute=None):
@@ -260,6 +265,8 @@ init -6 python:
 
         @property
         def stopwatch_time(self):
+            """Return a timestamp including seconds."""
+            # Returns a time like 21:04:52
             return self.military_hour + ":" + self.minute + ":" + self.second
 
         def __eq__(self, other):
@@ -366,6 +373,9 @@ init -6 python:
             except AttributeError:
                 print("WARNING: Given Route object does not have a ",
                     "default_branch field.")
+                renpy.show_screen('script_error',
+                    message=("Route object for new route does not "
+                        + "have a default_branch field."))
 
         if (len(route) > 0
                 and (isinstance(route[0], RouteDay)
@@ -442,7 +452,7 @@ init -6 python:
         return None
 
     def print_file(*args, **kwargs):
-        """Print debug statements to a file for debugging."""
+        """Print statements to a file or to the console for debugging."""
 
         DEBUG = False
         if DEBUG is None:
@@ -460,7 +470,9 @@ init -6 python:
             print("Print to file did not work:", args)
 
     def combine_lists(*args):
-        """Combine args into one giant list and return it."""
+        """
+        Combine args into one giant list and return it. Removes duplicates.
+        """
 
         result = []
         for arg in args:
@@ -477,12 +489,14 @@ init -6 python:
         """Give a generic image to use when an image cannot be found."""
 
         # First try to see if the image has an equivalent .webp version
-        if '.webp' not in img:
-            new_img = img.split('.')[0] + '.webp'
-            if renpy.loadable(new_img):
-                return Image(new_img)
-            return None
-
+        try:
+            if '.webp' not in img:
+                new_img = img.split('.')[0] + '.webp'
+                if renpy.loadable(new_img):
+                    return Image(new_img)
+                return None
+        except:
+            pass
         # Otherwise, assume the image couldn't be found.
         return None
 
@@ -493,6 +507,8 @@ init -6 python:
         """
 
         if lbl in ['main_menu', '_library_main_menu']:
+            return None
+        if lbl[0] == "_":
             return None
         print("WARNING: Could not find the label", lbl)
         renpy.show_screen('script_error',
@@ -624,13 +640,12 @@ init -6 python:
 
 
         ## Chatroom backgrounds
-        elif (not name == ('bg', 'black')
+        elif (not ('bg' in name and 'black' in name)
                 and renpy.get_screen('messenger_screen')
                 and not at_list):
             # The messenger screen is showing, therefore this statement is
             # likely being used in conjunction with `scene` to display a
             # chatroom background
-            print('Using custom show statement with', name)
             if isinstance(name, tuple) and name[0] == 'bg':
                 set_chatroom_background(name[1])
             elif isinstance(name, tuple):
@@ -687,7 +702,7 @@ init -6 python:
     BLUE = "#00F"
     NAVY = "#000080"
     FUCHSIA = "#F0F"
-    PURPLE= "#800080"
+    PURPLE = "#800080"
 
 # These definitions allow the program to get the first pass at show/hide/scene
 # statements, to be compatible with chatrooms and paraphrasing.
@@ -698,6 +713,7 @@ define config.hide = custom_hide
 ## regular label to jump to
 label just_return():
     return
+
 # This tells the program to randomly shuffle the order
 # of responses
 default shuffle = True
@@ -729,17 +745,6 @@ default days_to_expire = 1
 default current_game_day = date.today()
 # Lets the program know how to advance days when loading
 default persistent.load_instr = False
-# List of calls the player can make (outgoing)
-default available_calls = []
-# History of phone calls
-default call_history = []
-# If there's an incoming call after a chatroom,
-# it will be defined here
-default incoming_call = False #e.g. PhoneCall(ju)
-# Lets the program know it's in VN mode
-default vn_choice = False
-# Keeps track of the current call the player is in
-default current_call = False
 # True if the player is beginning a new game
 default starter_story = False
 # When expiring items, this is equal to the item being expired
@@ -790,10 +795,9 @@ image transparent_img = '#0000'
 default chatlog = []
 # A list of the characters currently in the chatroom
 default in_chat = []
-default current_chatroom = None # old version; unused
+# Holds the current timeline item the player is going through.
 default current_timeline_item = ChatRoom('title', 'chatroom_label', '00:00')
-# Chat that should be used when saving the game
-default most_recent_chat = None # old version; unused
+# Item that should be used when saving the game or used for plot branches.
 default most_recent_item = None
 default name = 'Rainbow'
 default hacked_effect = False
@@ -822,10 +826,8 @@ default pre_choosing = False
 
 # This keeps track of the sorts of heart points earned over a timeline item
 # so it can reset them if the player backs out of it.
-default chatroom_hp = None # Old version; unused
 default collected_hp = {'good': [], 'bad': [], 'break': []}
 # Total number of hg (hourglasses) earned per timeline item
-default chatroom_hg = None # Old version; unused
 default collected_hg = 0
 
 # Keeps track of the ending the game should show the player
@@ -839,19 +841,6 @@ define black = "#000000"
 image new_sign = "Bubble/main01_new.webp"
 
 define _preferences.show_empty_window = False
-
-
-#************************************
-# Persistent Variables
-#************************************
-
-default persistent.pronoun = "they/them"
-
-default persistent.MC_pic = 'Profile Pics/MC/MC-1.webp'
-default persistent.name = "Rainbow"
-
-default persistent.HP = 0
-default persistent.HG = 100
 
 
 ##******************************
