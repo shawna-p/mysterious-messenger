@@ -459,44 +459,39 @@ screen photo_album():
                     use char_album('cg_label_common', 'Common',
                                     persistent.common_album, 'common_album_cover')
         else:
-            viewport:
+            vpgrid:
+                cols 5
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
                 align (0.5, 0.5)
                 xysize(750, 1170)
-
-                has vbox
-                # Centers the grid vertically in the viewport, if necessary.
                 if null_height > 0:
-                    null height null_height
+                    yoffset null_height
+                # Negative xspacing allows the program to center
+                # two items below a row of 3, if necessary.
+                xspacing -134
+                yspacing 40
+                for i in range(0, full_grids, 3):
+                    use char_album(all_albums[i])
+                    null
+                    use char_album(all_albums[i+1])
+                    null
+                    use char_album(all_albums[i+2])
 
-                grid 5 grid_row:
-                    align (0.5, 0.5)
-                    # Negative xspacing allows the program to center
-                    # two items below a row of 3, if necessary.
-                    xspacing -134
-                    yspacing 40
-                    for i in range(0, full_grids, 3):
-                        use char_album(all_albums[i])
-                        null
-                        use char_album(all_albums[i+1])
-                        null
-                        use char_album(all_albums[i+2])
-
-                    # Fill in uneven grid spots
-                    if len(all_albums) % 3 == 2:
-                        null
-                        use char_album(all_albums[-2])
-                        null
-                        use char_album(all_albums[-1])
-                        null
-                    elif len(all_albums) % 3 == 1:
-                        null
-                        null
-                        use char_album(all_albums[-1])
-                        null
-                        null
+                # Fill in uneven grid spots
+                if len(all_albums) % 3 == 2:
+                    null
+                    use char_album(all_albums[-2])
+                    null
+                    use char_album(all_albums[-1])
+                    null
+                elif len(all_albums) % 3 == 1:
+                    null
+                    null
+                    use char_album(all_albums[-1])
+                    null
+                    null
 
 
 ## This displays a button with an image and a caption
