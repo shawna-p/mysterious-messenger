@@ -2,7 +2,7 @@
 
     # This call sets up which route the game is going to use -- in this
     # case, tutorial_route, defined in route_setup.rpy. You will give
-    # it the name of whatever you'd like your own route to be.
+    # it the variable of the route you've defined.
     # You can have text messages or phone calls after this introduction by
     # using labels such as `starter_chat_incoming_ja` or `after_starter_chat`.
     # You can also include a Story Mode section sometime during the
