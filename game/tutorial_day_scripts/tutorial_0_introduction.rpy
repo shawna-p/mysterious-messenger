@@ -209,8 +209,8 @@ init -1 python:
             # This is for testing; most times you will want a larger number
             # such as `if time_diff.hours < 2` so that the player is discouraged
             # from constantly changing their profile picture to check for
-            # a callback. In this case, the program will return if it's been
-            # less than 10 seconds since the profile picture was changed.
+            # a callback. In this case, the program will stop checking if it's
+            # been less than 10 seconds since the profile picture was changed.
             return
 
 
@@ -248,7 +248,6 @@ label seven_pfp_callback_coffee():
     return
 
 label seven_pfp_callback_coffee_menu:
-    call answer
     menu:
         "Ya lol I thought it was funny >.<":
             award heart s
@@ -259,7 +258,6 @@ label seven_pfp_callback_coffee_menu:
             s "[name] omg"
             s "Don't tell me"
             s "ur like Yoosung lolol"
-            call answer
             menu:
                 "Huh? I don't understand":
                     s "lololol"
@@ -305,6 +303,37 @@ label zen_pfp_callback_unknown1_incoming():
                 "Lol I'm just kidding.":
                     $ last_c = name[-1]
                     z "[name][last_c][last_c] I can't believe you'd tease me like this haha."
+        "I'm not a girl." if persistent.pronoun == "she/her":
+            z "Oh! I'm sorry, then. Um, so, you still use she/her pronouns, right?"
+            menu:
+                extend ''
+                "Yes, she/her is good.":
+                    z "Got it. Sorry for the misunderstanding!"
+                "Actually, I prefer he/him.":
+                    z "Alright! Then should I change the pronouns I use for you?"
+                    menu:
+                        extend ''
+                        "Yes, I want you to use he/him pronouns, please.":
+                            if not observing:
+                                $ persistent.pronoun = "he/him"
+                            z "Okay, I'll use he/him for you then~"
+                        "No, she/her is alright to use.":
+                            z "Okay! Just let me know if you DO want me to change which pronouns I use for you."
+                            z "There's an option in the settings to pick your pronouns as well!"
+                "Actually, I prefer they/them.":
+                    z "Alright! Then should I change the pronouns I use for you?"
+                    menu:
+                        extend ''
+                        "Yes, I want you to use they/them pronouns, please.":
+                            if not observing:
+                                $ persistent.pronoun = "they/them"
+                            z "Okay, I'll use they/them for you then~"
+                        "No, she/her is alright to use.":
+                            z "Okay! Just let me know if you DO want me to change which pronouns I use for you."
+                            z "There's an option in the settings to pick your pronouns as well!"
+                "I use she/her pronouns, but I identify as nonbinary.":
+                    z "Hmm... I think I get it. You'll let me know if I mess up when I'm talking about you, right? I want you to feel respected. And I'm sorry if I make mistakes!"
+            z "Thanks for clearing that up."
 
     z "Anyway, I have some stuff I should do today yet. Thanks for talking with me!"
     return
