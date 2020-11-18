@@ -311,8 +311,7 @@ label end_of_timed_menu():
             $ items.append(timed_menu_dict['autoanswer'])
             $ screen_kwargs = timed_menu_dict['menu_kwargs']
             $ para = screen_kwargs.get('paraphrased', None)
-            call answer
-            call screen choice(items=items, paraphrased=para)
+            call screen answer_choice(items=items, paraphrased=para)
             return
 
     $ end_label = timed_menu_dict.get('end_label', None)

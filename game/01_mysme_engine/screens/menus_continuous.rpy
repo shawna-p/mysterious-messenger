@@ -317,8 +317,7 @@ label play_continuous_menu_no_timer():
         if c_menu_dict.get('erase_menu', False):
             $ c_menu_dict = {}
         $ block_interrupts = False
-        call answer
-        call screen choice(items=items, paraphrased=para)
+        call screen answer_choice(items=items, paraphrased=para)
     else:
         $ autoanswer = c_menu_dict['autoanswer']
         if c_menu_dict.get('erase_menu', False):
