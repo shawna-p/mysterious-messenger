@@ -1211,3 +1211,12 @@ init -7:
 # This archive will store every chatroom in the game. If done correctly, the
 # program will automatically set variables and make the story available for you.
 default story_archive = []
+
+## The label where each route begins before branching off. Used so
+## the final action in an introduction can be `return`.
+label begin_intro_mstmg():
+    $ mlabel = starter_story
+    $ starter_story = False
+    call expression mlabel
+    jump end_prologue
+

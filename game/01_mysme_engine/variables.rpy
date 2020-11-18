@@ -18,6 +18,27 @@ init -6 python:
             super(CConfirm, self).__init__('confirm', None, *args, message=msg,
                 yes_action=yes, no_action=no, **kwargs)
 
+    class Start(Action, DictEquality):
+        """
+        Causes Ren'Py to jump out of the menu context to the named
+        label. The main use of this is to start a new game from the
+        main menu. Common uses are:
+
+        * Start() - Start at the start label.
+        * Start("foo") - Start at the "foo" label.
+
+        This is copied from common/00_action_menu.rpy
+        """
+
+        def __init__(self, label="start"):
+            self.label = label
+
+        def __call__(self):
+            # Save the intended start label and jump to the
+            # pre-defined introduction label
+            store.starter_story = self.label
+            renpy.jump_out_of_context("begin_intro_mstmg")
+
 
     class MyTime(object):
         """
@@ -387,7 +408,7 @@ init -6 python:
         if participants is None:
             participants = []
         define_variables()
-        current_timeline_item = ChatRoom('Starter Chat', chatroom_label,
+        current_timeline_item = ChatRoom('Introduction', chatroom_label,
                                         '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
         # VNs for a starter chat/opening
@@ -550,6 +571,7 @@ init -6 python:
         if new_items:
             items = new_items
         return renpy_menu(items)
+
 
     # Don't let the player rollback the game by scrolling.
     config.keymap['rollback'].remove('mousedown_4')
