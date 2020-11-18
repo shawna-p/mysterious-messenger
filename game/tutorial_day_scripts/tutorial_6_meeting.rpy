@@ -29,7 +29,6 @@ label popcorn_chat():
     ju "I didn't see you here."
     ja "Hello, [name]."
 
-    call answer
     menu:
         "Shouldn't you think of a plan to protect Elizabeth the 3rd just in case?":
             pass
@@ -47,7 +46,6 @@ label popcorn_chat():
     ju "If he has a problem, I'll consider referring him to a therapist."
     ja "{=curly}I don't think there's a need for that. We are free to imagine whatever we want, after all;;{/=curly}"
 
-    call answer
     menu:
         "Why don't you gift a luxurious cage for Elizabeth the 3rd?":
             pass
@@ -69,7 +67,6 @@ label popcorn_chat():
     ju "That's not what's important."
     ju "I don't think you understand very well, so I'll need to hear [name]'s opinion." (bounce=True)
 
-    call answer
     menu:
         "Hahaha~ of course. You should listen to my excellent ideas.":
             pass
@@ -95,7 +92,6 @@ label popcorn_chat():
     ja "So the three of us will have a meeting..."
     ja "Weren't you flustered by Mr. Han's sudden suggestion?"
 
-    call answer
     menu:
         "Not at all~ See ya later.":
             pass

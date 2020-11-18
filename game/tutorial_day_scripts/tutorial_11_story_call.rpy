@@ -6,9 +6,8 @@ label example_solo_story_call():
     # Story Calls are just like any other phone call. You can type dialogue
     # out as usual.
     ja "Hello, [name]. I hope I haven't found you at a bad time."
-    # Menus don't need a `call answer` before them, and they should have the
-    # special caption `extend ''` to ensure the last line of dialogue remains
-    # on-screen while the player makes a choice.
+    # Menus in phone calls need the special caption `extend ''` to ensure the
+    # last line of dialogue remains on-screen while the player makes a choice.
     menu:
         extend ''
         "No, not at all!":

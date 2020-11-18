@@ -7,7 +7,6 @@ label example_text():
     r "This chatroom is here to demonstrate how text messages are sent."
     r "You might have noticed that there's a Story Mode section after this chatroom, right?" (bounce=True)
 
-    call answer
     menu:
         "Does that mean anything specific?":
             r "It does!"
@@ -124,7 +123,6 @@ label menu_a2():
 
     # You may notice these are written just like chatrooms, including
     # `call answer` to show the answer button.
-    call answer
     menu:
         "I'm not sure how I'll remember all this...":
             # Here, if paraphrase_choices is on, you *would* include `pv 0`

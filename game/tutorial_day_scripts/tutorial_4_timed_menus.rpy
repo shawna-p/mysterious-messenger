@@ -35,7 +35,6 @@ label timed_menus():
     s "There's also an option in {b}Settings{/b} to turn off timed menus altogether," (bounce=True)
     s "in case you find the timing stressful!" (bounce=True)
     s "Do you want timed menus on, or should I turn them off for you?"
-    call answer
     menu:
         "Keep timed menus on.":
             # Don't want to adjust the preferences for a player who is

@@ -204,7 +204,7 @@ label ray_pfp_callback_1:
     return
 
 label ray_pfp_callback_1_menu_1:
-    call answer
+
     menu:
         "Yeah! I really like it.":
             m "Yeah! I really like it." (pauseVal=0)

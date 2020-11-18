@@ -12,7 +12,6 @@ label tutorial_chat():
     play music geniusly_hacked_bebop
 
     # Use 'call answer' before any menu to bring up the answer button
-    call answer
     menu:
         "Do you still feel tired?":
             # Both 'branches' have several lines of dialogue before they
@@ -36,7 +35,6 @@ label tutorial_chat():
     s "{image=seven_huff}" (img=True)
     s "{=sser1xb}How do I get rid of this stress...?!{/=sser1xb}" (bounce=True, specBubble="spike_m")
 
-    call answer
     menu:
         "Just take it out on Yoosung.":
             s "{=sser2}[name]...{/=sser2}"
@@ -54,7 +52,6 @@ label tutorial_chat():
     # This adds them to the 'participant' list you see on the chatroom select.
     enter chatroom y
 
-    call answer
     menu:
         "Yoosung~ I missed you.":
             y "{=sser2}Thanks for being so welcoming.{/=sser2}"
@@ -86,7 +83,6 @@ label tutorial_chat():
     y "What trouble?"
     s "{=ser1}It's...{/=ser1}"
 
-    call answer
     menu:
         "Yoosung... what do we do now?":
             y "{=sser2}Why?{/=sser2}"
@@ -100,7 +96,6 @@ label tutorial_chat():
     y "{=sser2}{size=+12}Okay... Ur not saying that I can't dringak coffxee, r u?{/size}{/=sser2}"
     y "{=sser2}*drink coffee?{/=sser2}"
 
-    call answer
     menu:
         "Ya. U'll be in trouble if u drink coffee.":
             s "{=sser2}Ya...{/=sser2}"
@@ -117,7 +112,6 @@ label tutorial_chat():
             # This is a nested menu; note the indentation levels.
             # You only see this menu if you choose 'Seven's just
             # messing around lol' in the previous menu
-            call answer
             menu:
                 "-_-":
                     s "Cat food is serious meow"
@@ -144,7 +138,6 @@ label tutorial_chat():
     # the previous line of dialogue.
     show shake
 
-    call answer
     menu:
         "You should prepare yourself.":
             s "Ya. Go prepare to faint."
@@ -164,7 +157,6 @@ label tutorial_chat():
     y "I don't understand what you mean."
     y "{=sser2}{size=+12}A disease like that actually exists?!{/size}{/=sser2}"
 
-    call answer
     menu:
         "Ya. It exists":
             y "{=sser1b}!!{/=sser1b}"
@@ -191,7 +183,6 @@ label tutorial_chat():
     y "{=sser1b}{size=+12}!!!{/size}{/=sser1b}"
     s "{=ser1}...It's a rare disease.{/=ser1}"
 
-    call answer
     menu:
         "Last year there were about 1024 deaths in the country...":
             s "{=sser2}Oh! That number's nice. It's the 10th multiple of 2.{/=sser2}"
@@ -211,13 +202,11 @@ label tutorial_chat():
     y "{=sser2}T_T...{/=sser2}"
     y "I guess it could have been worse. I don't have class in the morning."
 
-    call answer
     menu:
         "^^;;":
             y "{=curly}Don't cry, [name].{/=curly}"
             y "{=curly}Even if I do faint... I'll be able to wake up.{/=curly}"
 
-            call answer
             menu:
                 "I wasn't crying.":
                     y "{=curly}I read the emoji wrong T_T{/=curly}"
@@ -241,7 +230,6 @@ label tutorial_chat():
     y "Thanks for telling me Seven."
     s "{=sser2}lol It's nothing.{/=sser2}"
 
-    call answer
     menu:
         "Call Seven if something happens.":
             s "{=sser2}Ya. I'll always be here for u ^^{/=sser2}"
@@ -259,7 +247,6 @@ label tutorial_chat():
     y "Thank you. [name], you too..."
     s "{image=seven_yoohoo}" (img=True)
 
-    call answer
     menu:
         "^^;;;":
             y "Why do u keep sweating...?"
@@ -288,7 +275,6 @@ label tutorial_chat():
     y "Have a good night!!"
     s "{size=+12}lol{/size}"
 
-    call answer
     menu:
         "Seven, look out for my health too":
             s "{=sser2}U can trust me...^^{/=sser2}"
@@ -308,7 +294,6 @@ label tutorial_chat():
     y "{=curly}I'm not trying to be weird.{/=curly}"
     y "{=curly}I just want to wake up and help open the party...{/=curly}"
 
-    call answer
     menu coffee_last:
         # Note that this menu has three options; you can add as many as
         # you like, but the screen only has room for 5 different options

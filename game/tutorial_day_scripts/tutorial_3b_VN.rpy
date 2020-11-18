@@ -200,7 +200,6 @@ default sent_zen_unknown_pic = False
 label menu_a3():
     # Even though this conversation begins with a menu, if it's
     # in real time you need to include 'call answer' before the menu.
-    call answer
     # This menu is paraphrased, but the rest of the route is not, so the
     # argument (paraphrased=True) is passed to the menu.
     menu (paraphrased=True):

@@ -10,7 +10,6 @@ label plot_branch_tutorial():
     u "{=ser2}You're getting close to the end of the Tutorial day, huh?{/=ser2}"
     u "What do you think of the program so far?"
 
-    call answer
     menu:
         "It seems quite complicated.":
             u "A lot of work has been put into it!" (bounce=True)
@@ -50,7 +49,6 @@ label plot_branch_tutorial():
         u "{=blocky}you'll get the Bad Story End.{/=blocky}"
         u "{=ser1}Just head to {b}Preferences{/b} to toggle the UI changes.{/=ser1}"
 
-        call answer
         menu:
             "Can you change the UI for me now?":
                 u "{=curly}Oh! That's a good idea{/=curly}"
@@ -173,7 +171,6 @@ label tutorial_bad_end():
     v "It doesn't look like we'll be able to have the party after all,"
     v "since we don't have enough guests." (bounce=True, specBubble="sigh_m")
 
-    call answer
     menu:
         "That's terrible!":
             v "Of course, I wish things could have been different too, but we were operating on a rather short timeframe. "

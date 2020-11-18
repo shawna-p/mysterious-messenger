@@ -6,7 +6,6 @@ label hack_example():
     enter chatroom u
     u "Before we start -- are you okay with seeing flashing 'hacked' animations?"
     u "If not, we can turn them off."
-    call answer
     menu:
         "No; I don't want any flashing animations.":
             # Don't change settings on a replay
@@ -32,7 +31,6 @@ label hack_example():
     sa "Freak out your users?" (bounce=True, specBubble="glow2")
     sa "{size=+10}Get inside their minds?{/size}" (bounce=True, specBubble="glow2")
 
-    call answer
     menu:
         "Er... yes?":
             sa "{=curly}Haha!{/=curly}"
@@ -57,7 +55,6 @@ label hack_example():
                                 p=0.01)
             call white_square_screen(t=0.16, p=0.17)
             sa "{image=saeran_happy}" (img=True)
-            call answer
             menu:
                 "I didn't type that!":
                     pass

@@ -7,7 +7,6 @@ label example_email():
     z 'Hey, [name], I had an idea for a guest we should invite.'
     z 'Can we invite zentherainbowunicorn?'
 
-    call answer
     # This tells the program not to shuffle the last choice. You generally
     # will not use this.
     $ shuffle = "last"
