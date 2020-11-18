@@ -35,9 +35,8 @@
     ## to the hub screen.
     # jump skip_intro_setup
 
-    # If you want to begin with a phone call, this is
-    # how you do it. Just replace 'u' with whatever
-    # character you want to call the player
+    # If you want to begin with a phone call, use this call. Just replace 'u'
+    # with whatever character you want to call the player.
     call new_incoming_call(u)
 
     # This is used to remember a choice the player made. It is only used
@@ -52,6 +51,9 @@
 
     """
 
+    # Generally you wouldn't have a conditional statement like this in your
+    # introduction. For the tutorial, it allows the player to skip some of the
+    # dialogue.
     if persistent.HP:
         u "It looks like you've played through some of this program before! I'm happy you've come back~"
         u "There are lots of new things to check out in the most recent version, so I hope you'll give Tutorial Day another playthrough."
@@ -177,7 +179,6 @@
     u "but with a couple of changes you can see in {b}tutorial_0_introduction.rpy{/b}"
     u "I recommend you get familiar with how regular chatrooms and phonecalls work before you look at this chat, though!"
 
-    call answer
     menu:
         "What should I look at first?":
             u "Well, the first thing I recommend is to just play through the Tutorial Day."
@@ -186,7 +187,9 @@
     u "I won't keep you much longer. Enjoy the program!"
     exit chatroom u
 
-    jump end_prologue
+    # Like everything else, however, the introduction can also
+    # end with `return`
+    return
 
 
 
