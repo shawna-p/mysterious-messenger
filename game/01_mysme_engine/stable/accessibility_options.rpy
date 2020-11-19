@@ -31,7 +31,7 @@ default persistent.past_choices = False
 default persistent.vn_window_dark = 0.0
 default persistent.vn_window_alpha = 1.0
 default persistent.window_darken_pct = 50
-image vn_window_darken = "VN Mode/Chat Bubbles/vnmode_darken.webp"
+image vn_window_darken = "VN Mode/Chat Bubbles/vnmode_darken.png"
 
 init python:
 
