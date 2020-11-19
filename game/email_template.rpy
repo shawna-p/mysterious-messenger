@@ -194,9 +194,9 @@ s,
 ## The expression/displayable name of the character to show
 "seven front party happy",
 
-## This indicates how many emails the player needs to successfully exchange
-## with this guest to guarantee their presence at the party.
-## By default this is 3 but you may change it here like so.
+## This indicates the maximum number of emails the player can exchange with
+## this guest. Getting every email correct will guarantee their presence at
+## the party. By default this is 3 but you may change it here like so.
 num_emails=3
 
 ) # Don't forget a closing bracket at the end

@@ -33,8 +33,8 @@ label example_email():
     z "If you ever want to learn about inviting guests in the game,"
     z "there's a whole section on emails in the wiki."
     z "You can also look at {b}tutorial_2_emails.rpy{/b}"
-    z "It shows how this invitation works,"
-    z "and has a template to invite other people."
+    z "to see how this invitation works,"
+    z "and {b}email_template.rpy{/b} has a template to make your own guests."
     z "Anyway, enjoy~!"
 
     exit chatroom z
@@ -229,7 +229,7 @@ Rainbow Unicorn""", # don't forget the comma after the quotes
         ]
     ),
     ## This is a choice that will show up alongside the "Smooth Jazz" choice.
-    ## Note the indentation and list elements.
+    ## Note the indentation of the list elements.
     EmailReply(
         "Heavy Metal",
 
@@ -299,9 +299,9 @@ z,
 ## The expression/displayable name of the character to show
 "zen front party happy",
 
-## This indicates how many emails the player needs to successfully exchange
-## with this guest to guarantee their presence at the party.
-## By default this is 3 but you may change it here like so.
+## This indicates the maximum number of emails the player can exchange with
+## this guest. Getting every email correct will guarantee their presence at
+## the party. By default this is 3 but you may change it here like so.
 num_emails=3
 
 ) # Don't forget a closing bracket at the end

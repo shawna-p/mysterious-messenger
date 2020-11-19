@@ -22,14 +22,13 @@ label example_text():
     msg r "So, you'll receive some text messages after this chatroom,"
     msg r "and the rest after the Story Mode."
     r "{=ser1}You can set up text messages using an {b}after_{/b} chatroom label.{/=ser1}"
-    r "See the wiki for more ^^"
+    r "Usually I'd recommend you see the wiki for more,"
+    r "but it's under construction for v3.0 so you can look at the code instead!"
+    r "The dev worked hard commenting the code to demonstrate how the new features work."
     r "{image=ray_happy}" (img=True)
     r "Anyway, I won't keep you."
     r "See you soon!"
-
     exit chatroom r
-
-    # Use this to end the chat and return to the main menu
     return
 
 ## This is the label you jump to if the chatroom is expired
@@ -68,7 +67,7 @@ label after_example_text():
         v "{image=v_smile}" # This is automatically recognized as an image
         v "They won't play audio like they do in the chatrooms,"
         v "But they can still be fun to use in a conversation, don't you think?"
-        # And you're done with V's message! If you want the player to be able
+        # And V's message is done! If you want the player to be able
         # to reply, you need to add a line telling the program which label to
         # find the reply at.
         label menu_a1
@@ -91,7 +90,7 @@ label after_example_text():
 ## This is the label included at the end of V's non-real time message.
 label menu_a1():
     # If a text isn't in real-time, you should start with a menu right after
-    # the label. You don't include `call answer` before this menu.
+    # the label.
     menu:
         "Thanks for showing me this.":
             # If you have paraphrase_choices turned on, you won't need
@@ -110,13 +109,14 @@ label menu_a1():
             m "I'm not sure if they'll be useful..."
             v "It's up to you whether to use them or not."
             v "I hope you enjoy the rest of the program."
-
-    # End with `return` like usual
+    ## You can also allow the player to respond more than once by setting
+    ## a new label to jump to e.g.
+    # $ v.text_label = "menu_a1b"
     return
 
 ## These are the labels for real-time text messaging.
 label menu_a2():
-    # Because this is real-time, you can continue to the conversation
+    # Because this is real-time, you can continue the conversation
     # before showing the player a menu.
     r "It will look like this:"
     r "r_1" (img=True) # You can show a CG in text messages as well.
@@ -136,5 +136,4 @@ label menu_a2():
             award heart r
             r "Thank you ^^"
 
-    # Everything ends with `return`
     return
