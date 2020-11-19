@@ -1,9 +1,6 @@
 
 label example_text_vn_r():
 
-    # Make sure you call this at the start of a VN section
-    call vn_begin
-
     # You use the "scene" command to set up the background of the VN section
     # It clears away any character sprites you have left showing and sets
     # the background to your desired image
@@ -40,7 +37,6 @@ label after_example_text_vn_r():
         z "You know, you never send us any photos..."
         label menu_a3
 
-    # End the whole label with return
     return
 
 ##************************************
@@ -55,6 +51,11 @@ label vn_tutorial():
         # on-screen while the player is making their choice.
         extend ''
 
+        "Can I get an overview on the Story Mode (VN) features?":
+            show saeran distant
+            r "Oh, of course! Some features are new, after all."
+            jump vn_writing
+
         "How do I get different expressions and outfits?":
             show saeran smile
             r "Good question!"
@@ -64,11 +65,6 @@ label vn_tutorial():
             show saeran smile
             r "Moving characters around is quite easy!"
             jump vn_position
-
-        "How do I write a Story Mode (VN) section?":
-            show saeran distant
-            r "Oh, of course! It's pretty easy, I promise."
-            jump vn_writing
 
         "I want to look at all the available characters.":
             show saeran smile
@@ -101,19 +97,89 @@ label vn_writing():
     you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this VN section.
     """
     show saeran smile
-    r """
-    Other than that, there are three buttons on the screen in VN mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}.
-
-    {b}Auto{/b}, when selected, will automatically advance the text for you.
-
-    You can adjust the auto-forward speed in Settings.
-
-    Keep in mind that this will also affect how fast phone call text will auto-advance if there is no voiceover.
-
-    {b}Skip{/b} will start fast-forwarding you through the text,
-
-    and {b}Log{/b} will show you a log of the dialogue history.
-    """
+    r "Other than that, there are three buttons on the screen in VN mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}."
+    show tut_arrow_vert:
+        rotate -90
+        xpos 340
+        ypos 830
+    r "{b}Auto{/b}, when selected, will automatically advance the text for you."
+    r "You can adjust the auto-forward speed in Settings."
+    r neutral "Keep in mind that this will also affect how fast phone call text will auto-advance if there is no voiceover."
+    show tut_arrow_vert:
+        rotate -90
+        xpos 475
+        ypos 830
+    r "{b}Skip{/b} will start fast-forwarding you through the text,"
+    show tut_arrow_vert:
+        rotate -90
+        xpos 578
+        ypos 830
+    r distant "and {b}Log{/b} will show you a log of the dialogue history."
+    hide tut_arrow_vert
+    r neutral "There are also some options in the {b}Preferences{/b} tab on the {b}Settings{/b} screen that affect Story Mode."
+    show tut_prefs at tutorial_anim(100)
+    pause 0.5
+    show tut_arrow:
+        rotate 180
+        xpos 40
+        ypos 470
+    r "{b}Text Speed{/b} adjusts how fast the dialogue shows up. If it's all the way to the right, like in this screenshot, dialogue appears instantly."
+    if preferences.text_cps == 0:
+        r "{cps=50}Moving the slider to the left causes dialogue to show up like this.{/cps}"
+    show tut_arrow:
+        rotate 180
+        xpos 40
+        ypos 520
+    r "{b}Auto-Forward Time{/b}, as mentioned, adjusts how long the game will wait before moving on to the next dialogue when {b}Auto{/b} is turned on."
+    show tut_arrow:
+        rotate 180
+        xpos 40
+        ypos 565
+    r "{b}Timed Menu Speed{/b} is something you'll see later; it's a separate chat speed modifier for timed menus."
+    show tut_arrow:
+        rotate 180
+        xpos 40
+        ypos 615
+    r "{b}VN Window Opacity{/b} will adjust how opaque the dialogue window is."
+    hide tut_arrow
+    hide tut_prefs
+    $ old_opacity = persistent.window_darken_pct
+    $ persistent.window_darken_pct = 100
+    $ adjust_vn_alpha()
+    r "Maximum opacity looks like this."
+    $ persistent.window_darken_pct = 0
+    $ adjust_vn_alpha()
+    r smile "And minimum opacity looks like this. It automatically adds outlines to the text so it's still readable."
+    $ persistent.window_darken_pct = old_opacity
+    $ adjust_vn_alpha()
+    show tut_prefs at tutorial_anim(100)
+    pause 0.5
+    show tut_arrow:
+        rotate 180
+        xpos 30
+        ypos 785
+    r neutral "Finally, there are also the Dialogue settings. If {b}Skip Unseen Text{/b} is on, the game will skip all dialogue."
+    r "If it's off, however, the game will only skip dialogue you haven't seen yet on any playthrough."
+    show tut_arrow:
+        rotate 0
+        xpos 500
+        ypos 785
+    r "{b}Skip After Choices{/b} means that the game will continue skipping after a choice."
+    r "If it's off, the game will automatically stop skipping once you reach a choice."
+    r smile "This can be good if you don't want to skip through too much of the game."
+    show tut_arrow:
+        rotate 180
+        xpos 25
+        ypos 812
+    r neutral "{b}Skip Transitions{/b} will turn off transitions like backgrounds and characters fading in and out,"
+    show tut_arrow:
+        rotate 0
+        xpos 520
+        ypos 814
+    r "And {b}Indicate Past Choices{/b} will include a little check mark on the choice screen next to choices you've already picked on any playthrough."
+    hide tut_arrow
+    hide tut_prefs
+    r smile "And that's all for this overview!"
     r thinking "Is there anything else you'd like to learn more about?"
     jump vn_tutorial
 
