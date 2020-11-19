@@ -516,6 +516,26 @@ init -6 python:
                 if renpy.loadable(new_img):
                     return Image(new_img)
                 return None
+            if "VN Mode/Chat Bubbles/vnmode_" in img:
+                prefix = "VN Mode/Chat Bubbles/vnmode_"
+                if "0." in img:
+                    return prefix + "ju.webp"
+                elif "1." in img:
+                    return prefix + "z.webp"
+                elif "2." in img:
+                    return prefix + "s.webp"
+                elif "3." in img:
+                    return prefix + "y.webp"
+                elif "4." in img:
+                    return prefix + "ja.webp"
+                elif "5." in img:
+                    return prefix + "v.webp"
+                elif "7." in img:
+                    return prefix + "ri.webp"
+                elif "8." in img:
+                    return prefix + "sa.webp"
+                else:
+                    return prefix + "other.webp"
         except:
             pass
         # Otherwise, assume the image couldn't be found.
@@ -1392,3 +1412,4 @@ image tut_player_pfp = "Menu Screens/Tutorial/tut_player_pfp.webp"
 image tut_player_pfp2 = "Menu Screens/Tutorial/tut_player_pfp2.webp"
 image tut_real_time = "Menu Screens/Tutorial/tut_real_time.webp"
 image tut_skip_to_end = "Menu Screens/Tutorial/tut_skip_to_end.webp"
+image tut_prefs = "Menu Screens/Tutorial/tut_prefs.webp"
