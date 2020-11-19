@@ -25,7 +25,8 @@ init -10 python:
                 say_choice_caption(store.dialogue_picked,
                     store.dialogue_paraphrase, store.dialogue_pv)
 
-            if self.window_args.get('background', None):
+            if (self.screen != 'phone_say'
+                    and self.window_args.get('background', None)):
                 wbg = self.window_args['background']
                 if isinstance(wbg, renpy.display.transform.Transform):
                     wbg = wbg.child
