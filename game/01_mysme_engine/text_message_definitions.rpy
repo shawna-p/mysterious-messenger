@@ -438,7 +438,9 @@ label play_text_message():
         show screen text_message_screen(text_person)
         show screen text_pause_button
     if text_person.text_label:
-        $ renpy.call(text_person.text_label)
+        $ lbl = text_person.text_label
+        $ text_person.text_label = False
+        $ renpy.call(lbl)
     python:
         if (not dialogue_paraphrase and dialogue_picked != ""):
             say_choice_caption(dialogue_picked,
@@ -446,8 +448,6 @@ label play_text_message():
         if text_person is not None and text_person.real_time_text:
             text_pauseFailsafe(text_person.text_msg.msg_list)
         text_msg_reply = False
-        if text_person is not None:
-            text_person.finished_text()
         # Determine collected heart points (HP)
         persistent.HP += get_collected_hp()
         collected_hp = {'good': [], 'bad': [], 'break': []}
