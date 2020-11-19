@@ -25,6 +25,13 @@ init -10 python:
                 say_choice_caption(store.dialogue_picked,
                     store.dialogue_paraphrase, store.dialogue_pv)
 
+            if self.window_args.get('background', None):
+                wbg = self.window_args['background']
+                if isinstance(wbg, renpy.display.transform.Transform):
+                    wbg = wbg.child
+                self.window_args['background'] = Transform(wbg,
+                    alpha=store.persistent.vn_window_alpha)
+
             return super(MyADVCharacter, self).__call__(what, interact,
                 _call_done, multiple, **kwargs)
 
