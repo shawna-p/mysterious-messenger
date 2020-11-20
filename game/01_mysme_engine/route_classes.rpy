@@ -1266,8 +1266,8 @@ init python:
                 # If the player is participating, add them to the
                 # participants list
                 if ((not item.expired or item.buyback or item.buyahead)
-                        and not expired_replay):
-                    store.in_chat.append(m.name)
+                        and not store.expired_replay):
+                    store.in_chat.append(store.main_character.name)
 
 
         # Story Mode/VN setup
