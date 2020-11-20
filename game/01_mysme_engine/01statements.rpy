@@ -1410,11 +1410,15 @@ python early hide:
         addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
         if reset_participants:
             store.in_chat = []
-            if not store.observing:
-                current_timeline_item.reset_participants()
-            for person in current_timeline_item.original_participants:
-                if person.name not in store.in_chat:
-                    store.in_chat.append(person.name)
+            store.current_timeline_item.participants = [ ]
+            # If the player is participating, add them to the
+            # participants list
+            if ((not store.current_timeline_item.expired
+                        or store.current_timeline_item.buyback
+                        or store.current_timeline_item.buyahead)
+                    and not store.expired_replay):
+                store.in_chat.append(store.main_character.name)
+
         return
 
     renpy.register_statement('clear chat',
