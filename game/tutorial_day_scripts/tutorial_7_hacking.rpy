@@ -11,13 +11,9 @@ label hack_example():
             # Don't change settings on a replay
             if not observing:
                 $ persistent.hacking_effects = False
-            else:
-                pass
         "Yes, you can keep the flashing animations on.":
             if not observing:
                 $ persistent.hacking_effects = True
-            else:
-                pass
     u "Got it. See you around."
     exit chatroom u
     enter chatroom sa

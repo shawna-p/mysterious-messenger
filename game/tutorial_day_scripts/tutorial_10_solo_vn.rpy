@@ -45,7 +45,7 @@ label extra_features_showcase():
                 xpos 330
                 ypos 540
             z "{b}Testing Mode{/b}, when checked, will add several features to the program."
-            z "First, every time you enter a story item it is considered to be the \"first\" time."
+            z "First, every time you enter a timeline item it is considered to be the \"first\" time."
             z "So that means you can make different choices each time, or even use the back button in chatrooms and the end call button in phone calls to force that story item to expire."
             hide tut_dev_options
             hide tut_arrow

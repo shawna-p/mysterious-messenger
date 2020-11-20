@@ -139,11 +139,14 @@ label after_example_solo_story_call():
             elif cat_feelings == "allergic":
                 ja "It was interesting to learn that you're allergic to cats as well."
                 ja "I hadn't realized it was such a common allergen."
-            else: # In this case, they must have said they prefer dogs.
+            elif cat_feelings == "prefer dogs":
                 ja "You mentioned you prefer dogs to cats."
                 ja "Do you own a dog?"
                 # This is the only case in which the player can reply.
                 label ja_text_own_dog
+            # You could add an 'else' here; the only reason the program would
+            # *not* execute one of the above conditional statements however
+            # is if the player is using Testing Mode and skipped the call.
     # Don't forget to end with `return`
     return
 

@@ -1,17 +1,13 @@
 label tutorial_chat():
 
-    # First, you need a background for the chatroom. Since chatrooms are
-    # different from regular Ren'Py, only certain backgrounds will work with
-    # chatrooms, but you can add more if you like. Check out the wiki for more!
+    # First, you need a background for the chatroom. Several have been
+    # pre-defined, but you can add more. See the wiki for information.
     scene earlyMorn
 
-    # Look for music in variables_music_sound.rpy
-    # A Creator-Defined statement defined in 01statements.rpy overrides
-    # Ren'Py's default method of playing music so it's compatible with
-    # audio captions.
+    # Look for music in variables_music_sound.rpy. Ren'Py's default
+    # implementation has been overridden to support audio captions.
     play music geniusly_hacked_bebop
 
-    # Use 'call answer' before any menu to bring up the answer button
     menu:
         "Do you still feel tired?":
             # Both 'branches' have several lines of dialogue before they
@@ -75,9 +71,9 @@ label tutorial_chat():
     s "{=ser1}{size=+12}Did you already drink the coffee!?!?!?!?{/size}{/=ser1}"
     y "Yeah... Why?"
 
-    # Another `play music` will automatically "override"
-    # the previous play statement and only one set of
-    # background music will play on the music channel at once
+    # Another `play music` will automatically "override" the previous play
+    # statement and only one set of background music will play on the music
+    # channel at once
     play music dark_secret
     s "{=ser1b}Big trouble...{/=ser1b}"
     y "What trouble?"
@@ -212,8 +208,9 @@ label tutorial_chat():
                     y "{=curly}I read the emoji wrong T_T{/=curly}"
 
                     # This is the 'heartbreak' animation; call it the same
-                    # way you would a heart icon except use heart_break(y)
-                    # instead of heart_icon(y)
+                    # way you would a heart icon except use `break heart y`
+                    # instead of `award heart y`. For the heart break animation,
+                    # `heart break y` will also work.
                     break heart y
                     y "{=curly}I thought u were crying by sweating{/=curly}"
                 "T_T. You have to return.":
@@ -332,7 +329,7 @@ label tutorial_chat():
 
 
 ## Put anything you want to have happen after the chatroom ends here,
-## like text messages, spaceship thoughts, or changes to voicemail messages
+## like text messages, spaceship thoughts, or changes to voicemail messages.
 ## You have to name this label after_ + the name of the label for the
 ## chatroom (in this case, the chatroom label was tutorial_chat, so this
 ## label is after_tutorial_chat).
@@ -360,7 +357,7 @@ label after_tutorial_chat():
         for char in all_characters:
             char.voicemail = 'voicemail_1'
 
-    # Use this to end the after_ label
+    # All labels end with `return`
     return
 
 ## This is the label you jump to for the phone call with Zen
@@ -379,8 +376,6 @@ label tutorial_chat_incoming_z:
     z "When I don't sleep that well, just moving my neck in the morning can hurt."
     z "Did you sleep well?"
 
-    # You don't need call answer here because you go directly
-    # into a choice menu during phone calls.
     # Paraphrasing is turned on for this menu in order for it to play nice
     # with auto-voicing, but if you aren't using auto-voicing you can take
     # advantage of non-paraphrased menu choices as usual.
@@ -389,12 +384,12 @@ label tutorial_chat_incoming_z:
         # menu, you must add extend '' just after the menu
         extend ''
         "Yeah, I didn't even dream.":
-            m "Yeah, I didn't even dream." (pauseVal=0)
+            m "Yeah, I didn't even dream."
             z "That's good."
             z "I'm a bit sad to hear you didn't dream."
             z "I was waiting for you... looking like prince charming."
         "I didn't sleep very well.":
-            m "I didn't sleep very well." (pauseVal=0)
+            m "I didn't sleep very well."
             z "You didn't? You must be tired then."
             z "Call me next time you can't sleep."
             z "I'll sing you a lullaby. If you fall asleep while listening to my voice, we'll be able to meet in our dreams."
@@ -406,7 +401,6 @@ label tutorial_chat_incoming_z:
     z "Then I'll call you later."
     z "Bye bye."
 
-    # Use this when the call is finished
     return
 
 ## This is the label you jump to for the phone call with Yoosung
@@ -466,7 +460,7 @@ label tutorial_chat_outgoing_y():
 
 
 ## This should be the label you told the program to go to if they
-## reply to a text message (in this case, Seven's text).
+## reply to a text message (in this case, Seven's text messagge).
 label coffee1():
     menu:
         "I like talking to you too meow!":

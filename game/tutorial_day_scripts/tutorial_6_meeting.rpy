@@ -2,7 +2,7 @@
 ## information on how to make the chatrooms, check out tutorial_5_coffee.rpy
 ## and tutorial_1_chatroom.rpy
 ## Otherwise, scroll down to the popcorn_vn label for an example of
-## a typical VN
+## a typical Story Mode (VN)
 label popcorn_chat():
 
     scene morning
@@ -114,11 +114,11 @@ label popcorn_chat_expired():
     # It's a little easier to write, though you need to use the right keywords.
     msg ju "Zen's written some strange things."
     msg ja "{image=jaehee_happy}" # Note this is automatically recognized as
-                                  # an image
+                                  # an image because of the {image=
     msg ja "There is a meeting with the Women Artists group today."
     msg ja "I'm telling you this before you come to the office..."
     msg ja "The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting."
-    msg ju "He's not in his right mind to dream about Elizabeth the 3rd going missing." sser1 xbold
+    msg ju "He's not in his right mind to dream about Elizabeth the 3rd going missing." sser1 xbold # This uses the sans-serif 1 font, eXtra bold
     msg ja "Isn't it up to him to dream about whatever he wants?"
     msg ja "{image=jaehee_well}"
     msg ju "Don't tell me you believe in his \"psychic\" dream."
@@ -129,9 +129,9 @@ label popcorn_chat_expired():
     msg ja "This is not the time for that..."
     msg ju "Perhaps Zen had that dream last night"
     msg ju "because he harbors feelings towards her."
-    msg ja "I doubt that is the case, as he left the chatroom saying his nose got itchy." blocky
+    msg ja "I doubt that is the case, as he left the chatroom saying his nose got itchy." blocky # the blocky font
     msg ju "If he has a problem, I'll consider referring him to a therapist."
-    msg ja "I don't think there's a need for that. We are free to imagine whatever we want, after all;;" curly
+    msg ja "I don't think there's a need for that. We are free to imagine whatever we want, after all;;" curly # the curly font
     msg ju "Hmm"
     msg ju "I wish [name] was here."
     # Note the use of variables here to refer to the player's gender.
@@ -145,7 +145,7 @@ label popcorn_chat_expired():
     msg ju "It's not because of the dream. I've always been bothered by how free she was to roam around the house..."
     msg ja "The number of security cameras and guards in your penthouse is probably higher than the employees here." blocky
     msg ju "That's not what's important."
-    msg ju "I don't think you understand very well, so I'll need to hear [name]'s opinion." bounce
+    msg ju "I don't think you understand very well, so I'll need to hear [name]'s opinion." bounce # 'glow' is also appropriate; the glowing bubble
     # Again, more pronoun variables. [they_re], for example, will show as
     # "she's", "he's", or "they're", depending on the player's pronouns.
     msg ja "But [they_re] not even here...;;"
@@ -177,7 +177,6 @@ label popcorn_chat_expired():
 ## You can use the after_ label to do many things. In
 ## this case, it is used to change the spaceship
 ## thoughts
-
 label after_popcorn_chat():
 
     $ space_thoughts.new_choices( [
@@ -319,8 +318,9 @@ label popcorn_chat_vn_ju():
     play music mysterious_clues_v2
 
     menu:
-        extend ''   # You should put this after every menu statement; it
-                    # will keep the previous line of text on the screen
+        extend ''   # You should put this after every menu statement for phone
+                    # calls or Story Mode VNs; it will keep the previous line
+                    # of text on the screen
         "Haha~ Thanks for pointing that out. But Sarah, your hair looks super greasy. You want to go to the bathroom with me?":
             pass
         # Although this menu has only one option, you can continue to

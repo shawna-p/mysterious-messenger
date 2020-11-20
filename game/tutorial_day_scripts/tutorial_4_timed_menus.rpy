@@ -19,6 +19,7 @@ label timed_menus():
         s "You write these menus a bit differently than regular menus"
         s "You'll see an example of it in this code."
         "Slow down! Timed menus??":
+            # Paraphrasing also works in timed menus
             s "Whoops lolol I got a bit excited"
             s "{=sser2}Yup! Maybe try playing through this chatroom a few times to see what happens?{/=sser2}"
             s "Don't forget to turn Testing Mode on from the developer settings so you can make different choices."

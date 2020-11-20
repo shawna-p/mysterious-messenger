@@ -54,7 +54,8 @@ label plot_branch_tutorial():
                 u "{=curly}Oh! That's a good idea{/=curly}"
                 u "I'll do that right now."
                 u "{=curly}Tadaa!{/=curly}" (bounce=True)
-                $ persistent.custom_footers = True
+                if not observing:
+                    $ persistent.custom_footers = True
                 u "{=curly}What do you think?{/=curly}"
                 u "You can switch it back whenever you like."
                 u "{=sser2}Now you'll continue on to the Good End if you go through the plot branch~{/=sser2}"
@@ -140,7 +141,7 @@ label plot_branch_tutorial_branch():
     # This particular branch will check whether or not the player
     # has the Modified UI turned on.
     if persistent.custom_footers and participated_percentage(1) >= 20:
-        # Continue on to the good end and the party
+        # Continue on to the good end and the party.
         # Since this means the program should simply continue
         # on with the rest of the route, you can use
         $ continue_route()
@@ -159,8 +160,7 @@ label plot_branch_tutorial_branch():
     return
 
 
-## This is the chatroom you get if you get the Bad End
-## of the Tutorial Day
+## This is the chatroom you get if you get the Bad End on Tutorial Day
 label tutorial_bad_end():
 
     scene night
@@ -251,8 +251,7 @@ label plot_branch_tutorial_vn():
 
 
 
-## This is the chatroom you see if you get the Good End
-## of the Tutorial Day.
+## This is the chatroom you see if you get the Good End on Tutorial Day.
 label tutorial_end_example():
     scene hack
     show hack effect
@@ -338,6 +337,8 @@ label plot_branch_normal_end():
     $ ending = 'normal'
     return
 
+## This is a convenience label to have 'who' explain the different endings
+## to the player before the route ends.
 label ending_descrip(ending_type, who):
     $ shuffle = False
     menu ending_top:
@@ -453,7 +454,7 @@ label tutorial_good_end_party():
 
 ## This is an interesting case in which the ending only has one
 ## VN mode section after the plot branch chatroom and then it ends
-## You can write this much the same way as any regular VN mode section
+## You can write this much the same way as any regular Story Mode section
 label plot_branch_bre():
     play music mint_eye_piano
     scene mint_eye_room with fade
