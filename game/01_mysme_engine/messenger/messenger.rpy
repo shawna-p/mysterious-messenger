@@ -45,7 +45,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                     # This trick means that the program displays
                     # an invisible bubble behind the visible one
                     # so the animation doesn't "slide" in
-                    elif i == finalchat:
+                    else:# i == finalchat:
                         use chat_animation(i, True)
                     if (i.who.name not in ['msg', 'filler', 'answer']
                             and (no_anim_list is None
