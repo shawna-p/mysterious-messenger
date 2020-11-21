@@ -934,7 +934,8 @@ screen menu_header(title, return_action=NullAction,
                     # If the player is texting in real time, leaving
                     # text messages works differently
                     elif (text_person and text_person.real_time_text
-                            and renpy.get_screen('text_message_screen')):
+                            and renpy.get_screen('text_message_screen')
+                            and len(renpy.get_return_stack()) > 0):
                         action CConfirm(("Do you really want to leave this"
                                     + " text message? You won't be able to"
                                     + " continue this conversation."),
