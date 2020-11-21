@@ -447,6 +447,7 @@ screen choice(items, paraphrased=None):
     if text_msg_reply:
         if not text_person or not text_person.real_time_text:
             use text_message_screen(text_person)
+            add "choice_darken"
         vbox:
             style_prefix 'text_msg_choice'
             for num, i in enumerate(items):
