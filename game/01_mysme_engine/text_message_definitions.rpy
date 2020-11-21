@@ -245,7 +245,7 @@ init -6 python:
         elif store.text_person:
             textlog = store.text_person.text_msg.msg_list
         else:
-            print_file("ERROR: There's no one to text")
+            print("ERROR: There's no one to text")
             renpy.show_screen('messenger_error')
             return
 
@@ -360,7 +360,8 @@ init -6 python:
         global name
         name_cut = num_char + 6 - len(name)
         if not last_msg:
-            renpy.show_screen('messenger_error')
+            # print("ERROR: Couldn't find a text message to preview")
+            # renpy.show_screen('messenger_error')
             return "Couldn't find a message"
         last_msg.what = renpy.filter_text_tags(last_msg.what, allow=['image'])
 
@@ -425,6 +426,7 @@ label leave_inst_text():
     hide screen inactive_text_answer
     if text_person is not None:
         $ text_person.finished_text()
+        $ text_person.real_time_text = False
     $ text_person = None
     $ renpy.retain_after_load()
     $ renpy.pop_call()

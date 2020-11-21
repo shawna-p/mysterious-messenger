@@ -550,7 +550,7 @@ python early hide:
         what = l.string()
 
         if not who or not what:
-            print("Who/What not registering. Who:", who, "what", what)
+            # print("Who/What not registering. Who:", who, "what", what)
             renpy.error("msg requires a speaker and some dialogue")
 
         ffont = 'sser1'
@@ -1346,15 +1346,19 @@ python early hide:
                 # Add them to the front of the email inbox
                 if isinstance(guest, Guest) and guest.v3_guest is None:
                     e = Email(guest, guest.start_msg, guest.label1)
+                    g = guest
                 elif isinstance(guest, Guestv3):
                     e = Emailv3(guest)
+                    g = guest
                 else:
                     e = Emailv3(guest.v3_guest)
+                    g = guest.v3_guest
                 store.email_list.insert(0, e)
+
                 # The player has encountered the guest so the guestbook can be
                 # updated
-                if not store.persistent.guestbook[guest.name]:
-                    store.persistent.guestbook[guest.name] = "seen"
+                if not store.persistent.guestbook[g.name]:
+                    store.persistent.guestbook[g.name] = "seen"
             except:
                 print("WARNING: Guest %s could not be invited." % p["guest"])
                 renpy.show_screen('script_error',

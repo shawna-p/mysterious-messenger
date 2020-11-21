@@ -141,6 +141,8 @@ init python:
             else:
                 album = []
             for pic in album:
+                print_file("Looking at pic", pic, "which is unlocked?",
+                    pic.unlocked, "get_thumb", pic.get_thumb(True))
                 if (pic.unlocked
                         and pic.get_thumb(True)
                             not in store.persistent.unlocked_prof_pics):
@@ -531,9 +533,9 @@ init python:
 
         set_name_pfp()
 
-        if not store.persistent.unlocked_prof_pics:
-            for chara in store.all_characters:
-                unlock_profile_pics(chara)
+        #if not store.persistent.unlocked_prof_pics:
+        for chara in store.all_characters:
+            unlock_profile_pics(chara)
 
         for chara in store.all_characters:
             if chara == store.main_character:

@@ -372,7 +372,6 @@ screen text_message_screen(sender, animate=True):
         on 'replace':
             action [Function(award_text_hp, who=sender)]
 
-
     default prev_msg = None
 
     use menu_header(sender.name, [SetVariable('CG_who', None),

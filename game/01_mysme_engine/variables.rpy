@@ -258,6 +258,7 @@ init -6 python:
             try:
                 self.datetime += td
             except:
+                print("ERROR: Couldn't adjust datetime.")
                 renpy.show_screen('messenger_error')
 
         def time_diff_minimum(self, other_time, day=None, hour=None,
