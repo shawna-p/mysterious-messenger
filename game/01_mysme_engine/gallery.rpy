@@ -18,6 +18,9 @@ python early:
             True if this image can be viewed by the player.
         seen_in_album : bool
             True if this image has been viewed full-screen in the album.
+        thumbnail_tuple : tuple (string, tuple, bool)
+            A tuple which can be saved in a persistent set for unlockable
+            profile pictures denoting how an image is to be cropped.
         """
 
         def __init__(self, img, thumbnail=False,
@@ -52,10 +55,12 @@ python early:
                 if not thumbnail:
                     # If no thumbnail is provided, the program
                     # will automatically crop and scale the CG
-                    self.__thumbnail = Transform(Crop((0, 200, 750, 750), img),
-                                                        size=(155,155))
+                    self.__thumbnail = Transform(img, crop_relative=True,
+                                            crop=(0.0, 0.15, 1.0, 0.5625),
+                                            size=(155,155))
             self.unlocked = False
             self.__seen_in_album = False
+            self.thumbnail_tuple = (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
 
         @property
         def filename(self):
@@ -77,11 +82,27 @@ python early:
                 # Set a var so Album shows "NEW"
                 store.new_cg += 1
                 # Add this to the list of unlocked profile pictures
-                if self.__thumbnail not in store.persistent.unlocked_prof_pics:
+                if (self.__thumbnail not in store.persistent.unlocked_prof_pics
+                        and self.thumbnail_tuple
+                            not in store.persistent.unlocked_prof_pics):
                     add_img_to_set(store.persistent.unlocked_prof_pics,
-                        self.get_thumb(True))
+                        self.get_thumb())
 
             renpy.retain_after_load()
+
+        @property
+        def thumbnail_tuple(self):
+            try:
+                return self.__thumbnail_tuple
+            except:
+                return None
+
+        @thumbnail_tuple.setter
+        def thumbnail_tuple(self, new_thumb):
+            try:
+                self.__thumbnail_tuple = new_thumb
+            except:
+                pass
 
         @property
         def thumbnail(self):
@@ -107,6 +128,7 @@ python early:
                     self.__thumbnail = Transform(img, crop_relative=True,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
                                             size=(155,155))
+                    self.thumbnail_tuple = (img, (0.0, 0.15, 1.0, 0.5625), True)
                     return
 
             self.__thumbnail = new_thumb
