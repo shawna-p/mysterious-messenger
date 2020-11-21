@@ -860,7 +860,7 @@ init -6 python:
                     found_branch = item
                     break
                 elif (plot_branch_party and isinstance(item, ChatRoom)
-                        and item.story_mode.party):
+                        and item.story_mode and item.story_mode.party):
                     found_branch = item
                     break
             if found_branch:
@@ -894,6 +894,7 @@ init -6 python:
                         current_timeline_item = item
                         return
                     elif (isinstance(item, ChatRoom)
+                            and item.story_mode
                             and item.story_mode.party
                             and not item.story_mode.played):
                         # This is the party to replace
