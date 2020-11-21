@@ -543,7 +543,7 @@ label test_call():
 
     That means you'll never hear my voicemail message, but you can try calling the other characters to hear their voicemail.
 
-    Usually, phone calls will timeout two chatrooms after it's first 'activated'.
+    Usually, phone calls will timeout two chatrooms after they're first 'activated'.
 
     That means you won't be able to phone that character anymore to get that conversation. So be sure to call the characters often!
 
