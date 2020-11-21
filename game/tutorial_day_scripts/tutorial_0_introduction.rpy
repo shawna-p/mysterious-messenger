@@ -250,8 +250,8 @@ label seven_pfp_callback_coffee():
 label seven_pfp_callback_coffee_menu:
     menu:
         "Ya lol I thought it was funny >.<":
-            award heart s
             s "Omg"
+            award heart s
             msg s "{image=seven_wow}"
             s "ur hilarious lolol"
         "Where did you get this screenshot? I can't find it on Cherrypedia":
@@ -265,6 +265,7 @@ label seven_pfp_callback_coffee_menu:
                 "lolol I'm pulling your leg":
                     s "!!!"
                     s "Wow ur something else lol"
+                    award heart s
     s "Talk to u later!"
     return
 
