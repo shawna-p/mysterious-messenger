@@ -424,6 +424,13 @@ python early:
             if available.
             """
 
+            if (getattr(store, 'observing', False)
+                    and store.current_timeline_item.played
+                    and not store._in_replay):
+                # Don't change profile pictures on a re-watch, unless
+                # it's from the History replays.
+                return
+
             if new_img == False:
                 self.__prof_pic = False
                 return
@@ -441,8 +448,8 @@ python early:
                     self.__prof_pic = new_img.split('.')[0] + '.webp'
             except:
                 is_transform = True
+                self.seen_updates = self.__prof_pic == new_img
                 self.__prof_pic = new_img
-                self.seen_updates = False
 
 
             if self.file_id == 'm': # This is the MC
