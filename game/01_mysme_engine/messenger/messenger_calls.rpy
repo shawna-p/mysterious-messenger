@@ -49,6 +49,8 @@ init python:
                 message="Could not find the background \"bg " + new_bg + "\"")
 
         if store.persistent.animated_backgrounds:
+            renpy.scene()
+            renpy.show('bg black')
             if new_bg in store.all_animated_backgrounds:
                 try:
                     renpy.show_screen('animated_' + new_bg, _layer='animated_bg')
