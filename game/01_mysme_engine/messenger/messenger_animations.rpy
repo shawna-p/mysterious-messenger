@@ -356,6 +356,7 @@ label banner(banner):
         $ banner_entry = ("banner", banner)
         $ current_timeline_item.replay_log.append(banner_entry)
     if persistent.banners:
+        hide screen banner_screen
         show screen banner_screen(banner)
     return
 
