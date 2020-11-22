@@ -1561,6 +1561,9 @@ init python:
             renpy.music.stop()
             store.current_choices = []
 
+        renpy.music.stop('voice', fadeout=0.1)
+        renpy.music.stop('voice_sfx', fadeout=0.1)
+
         config.skipping = False
         store.choosing = False
 
