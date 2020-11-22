@@ -1403,6 +1403,7 @@ init python:
 ## The label that is called when the program exits out of a timeline item
 ## early, expiring it
 label exit_item_early():
+    $ renpy.end_replay()
     # This ends replays and resets variables.
     # This item is only set as the most recent item if the player wasn't
     # replaying it.
@@ -1415,7 +1416,8 @@ label exit_item_early():
     else:
         $ observing = False
     # Pop the return to play_timeline_item
-    $ renpy.pop_call()
+    if len(renpy.get_return_stack()) > 0:
+        $ renpy.pop_call()
     call screen timeline(current_day, current_day_num)
     return
 
