@@ -391,7 +391,7 @@ label popcorn_chat_vn_ju():
     # You might notice at this point that vn_center is being used to
     # indicate that Sarah is talking primarily to the player,
     # while Jaehee and Jumin have a conversation in the background.
-    # This is common in most VN mode conversations in the game.
+    # This is common in most Story Mode conversations in the game.
     sarah_vn "Friend~? Are you sure [they_re] just a friend? I feel like [they_re] super jealous..."
 
     menu:

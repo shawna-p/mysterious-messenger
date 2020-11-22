@@ -83,7 +83,7 @@ label other_storytelling_expired():
     y "So, if you do come back and check out this chatroom,"
     y "There are some neat features!"
     y "An additional timed menu feature,"
-    y "plus I can show you how we can switch to VN mode in the middle of a chat."
+    y "plus I can show you how we can switch to Story Mode in the middle of a chat."
     y "Like this!" (bounce=True)
 
     # Note that in some cases, you can reuse the VN label for

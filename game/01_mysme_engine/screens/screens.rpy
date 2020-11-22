@@ -104,7 +104,7 @@ transform NullTransform:
 
 screen say(who, what):
 
-    # In VN mode
+    # In Story Mode
     if not in_phone_call and not text_person and vn_choice:
         style_prefix "vn_mode"
         if _in_replay and not viewing_guest:
@@ -137,7 +137,7 @@ screen say(who, what):
                     outlines [ (absolute(2), "#000",
                                 absolute(0), absolute(0)) ]
         if not viewing_guest:
-            # This is the overlay for VN mode
+            # This is the overlay for Story Mode
             # that shows the Auto/Skip/Log buttons
             hbox:
                 if persistent.vn_window_alpha < 0.1:
@@ -476,7 +476,7 @@ screen choice(items, paraphrased=None):
                                 i.action
                             ])
 
-    # For VN mode and phone calls
+    # For Story Mode and phone calls
     elif in_phone_call or vn_choice:
         vbox:
             style_prefix 'phone_vn_choice'

@@ -661,7 +661,7 @@ python early:
             -------
             If the player is in a phone call, this ChatCharacter's phone call
             Character will be used to say the given dialogue. If the player
-            is in VN mode, use this ChatCharacter's VN Character to say the
+            is in Story Mode, use this ChatCharacter's VN Character to say the
             given dialogue. If the player is texting, add the given dialogue
             to the text message conversation. Otherwise, add these messages
             to the chat log and also to the replay log.
@@ -692,13 +692,13 @@ python early:
 
 
             # Allows you to still use this object even in phone
-            # calls and VN mode
+            # calls and Story Mode
             if store.in_phone_call:
                 # If in phone call, use the phone_call character
                 self.phone_char(what, **kwargs)
                 return
             elif store.vn_choice:
-                # If in VN mode, use VN character
+                # If in Story Mode, use VN character
                 self.vn_char(what, **kwargs)
                 return
 

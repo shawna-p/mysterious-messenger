@@ -16,7 +16,7 @@ label example_text_vn_r():
     # If Ray is already showing on the screen, his Character definition
     # has the image tag 'saeran' built into it so you can simplify
     # showing his image like so
-    r happy "There are a couple of things to show you about VN mode. What would you like to learn about first?"
+    r happy "There are a couple of things to show you about Story Mode. What would you like to learn about first?"
     jump vn_tutorial
 
 
@@ -79,7 +79,7 @@ label vn_tutorial():
 
 
 ##************************************
-## Writing a VN mode section
+## Writing a Story Mode section
 ##************************************
 label vn_writing():
     show saeran neutral
@@ -97,7 +97,7 @@ label vn_writing():
     you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this VN section.
     """
     show saeran smile
-    r "Other than that, there are three buttons on the screen in VN mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}."
+    r "Other than that, there are three buttons on the screen in Story Mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}."
     show tut_arrow_vert:
         rotate -90
         xpos 340
@@ -819,7 +819,7 @@ label yoosung_showcase():
     hide saeran
     show yoosung happy
     y "Hi! It's nice to see you~"
-    y "I can show you the expressions I have in VN mode."
+    y "I can show you the expressions I have in Story Mode."
     show yoosung happy
     pause 0.8
     show yoosung neutral

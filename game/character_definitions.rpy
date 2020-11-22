@@ -121,7 +121,7 @@ default z_vn = Character("Zen", kind=vn_character,
     who_color="#d8e9f9", voice_tag="z_voice",
     image="zen")
 
-## Note: The MC's name will show up in VN mode in this program.
+## Note: The MC's name will show up in Story Mode in this program.
 ## If you'd like it to be blank, just replace "[persistent.name]" with None
 default m_vn = Character("[persistent.name]", kind=vn_character,
                         who_color="#ffffed")

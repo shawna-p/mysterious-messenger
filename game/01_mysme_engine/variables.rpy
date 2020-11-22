@@ -637,7 +637,7 @@ init -6 python:
             Displays the image on the screen according to the given parameters.
         """
 
-        # This helps paraphrasing to work with VN mode
+        # This helps paraphrasing to work with Story Mode
         if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
             say_choice_caption(store.dialogue_picked,
                 store.dialogue_paraphrase, store.dialogue_pv)
@@ -722,7 +722,7 @@ init -6 python:
             hides the given image.
         """
 
-        # This helps paraphrasing to work with VN mode
+        # This helps paraphrasing to work with Story Mode
         if (not store.dialogue_paraphrase and store.dialogue_picked != ""):
             say_choice_caption(store.dialogue_picked,
                 store.dialogue_paraphrase, store.dialogue_pv)
@@ -793,7 +793,7 @@ default starter_story = False
 # When expiring items, this is equal to the item being expired
 default expiring_item = None
 
-# VN mode preferences
+# Story Mode preferences
 default preferences.afm_time = 15
 default preferences.skip_unseen = True
 default preferences.skip_after_choices = True

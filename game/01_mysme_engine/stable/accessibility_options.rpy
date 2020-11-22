@@ -36,7 +36,7 @@ image vn_window_darken = "VN Mode/Chat Bubbles/vnmode_darken.png"
 init python:
 
     def adjust_vn_alpha():
-        """Adjust the alpha channels of window backgrounds used in VN mode."""
+        """Adjust the alpha channels of window backgrounds used in Story Mode."""
 
         global persistent
         # When window_darken_pct <= 50, only lighten the main window

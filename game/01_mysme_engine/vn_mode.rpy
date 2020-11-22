@@ -104,7 +104,7 @@ label vn_end():
         jump end_prologue
     return
 
-# Lets the program know it's in VN mode
+# Lets the program know it's in Story Mode
 default vn_choice = False
 
 #####################################

@@ -453,7 +453,7 @@ label tutorial_good_end_party():
 
 
 ## This is an interesting case in which the ending only has one
-## VN mode section after the plot branch chatroom and then it ends
+## Story Mode section after the plot branch chatroom and then it ends
 ## You can write this much the same way as any regular Story Mode section
 label plot_branch_bre():
     play music mint_eye_piano
