@@ -305,8 +305,6 @@ init python:
             store.dialogue_paraphrase = store.paraphrase_choices
             store.dialogue_pv = 0
             return
-        # Otherwise, send this dialogue to the appropriate channel
-        print_file("Executing dialogue", dialogue, "as non-paraphrase")
 
         # Temporarily ditch image attributes
         temp_side_attr = renpy.store._side_image_attributes
