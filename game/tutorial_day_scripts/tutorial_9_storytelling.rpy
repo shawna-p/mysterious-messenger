@@ -1,4 +1,5 @@
 label other_storytelling():
+    $ y.prof_pic = "Profile Pics/Yoosung/yoo-13.webp"
 
     scene evening
     play music same_old_fresh_air
@@ -74,6 +75,7 @@ label other_storytelling_vn_2():
     return
 
 label other_storytelling_expired():
+    $ y.prof_pic = "Profile Pics/Yoosung/yoo-13.webp"
     scene evening
     play music same_old_fresh_air
 

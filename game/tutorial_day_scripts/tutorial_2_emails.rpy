@@ -1,6 +1,6 @@
 
 label example_email():
-
+    $ z.prof_pic = 'Profile Pics/Zen/zen-6.webp'
     scene evening
     play music narcissistic_jazz
 
@@ -43,6 +43,7 @@ label example_email():
 
 ## This is the 'expired' version of the chatroom
 label example_email_expired():
+    $ z.prof_pic = 'Profile Pics/Zen/zen-6.webp'
     scene evening
     play music narcissistic_jazz
     z "Hey, [name], I had an idea for a guest we should invite."

@@ -1,4 +1,7 @@
 label tutorial_chat():
+    # You can change the characters' profile pictures as the beginning like so
+    $ s.prof_pic = 'Profile Pics/Seven/sev-16.webp'
+    $ y.prof_pic = 'Profile Pics/Yoosung/yoo-11.webp'
 
     # First, you need a background for the chatroom. Several have been
     # pre-defined, but you can add more. See the wiki for information.
@@ -501,7 +504,10 @@ label coffee2():
 ## It's much the same as the original chatroom, but with several lines
 ## changed since the MC is no longer present.
 label tutorial_chat_expired():
-
+    # If you modified the characters' profile pictures, you should replicate
+    # this change for the expired chat as well.
+    $ s.prof_pic = 'Profile Pics/Seven/sev-16.webp'
+    $ y.prof_pic = 'Profile Pics/Yoosung/yoo-11.webp'
     scene earlyMorn
     play music geniusly_hacked_bebop
     s "Phew... I almost died."

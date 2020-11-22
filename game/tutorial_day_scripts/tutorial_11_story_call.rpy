@@ -3,6 +3,7 @@
 default cat_feelings = None
 
 label example_solo_story_call():
+    $ ja.prof_pic = "Profile Pics/Jaehee/jae-13.webp"
     # Story Calls are just like any other phone call. You can type dialogue
     # out as usual.
     ja "Hello, [name]. I hope I haven't found you at a bad time."
@@ -80,6 +81,7 @@ label example_solo_story_call():
 ## Jaehee. Like expired chatrooms, this is usually treated as a "missed call"
 ## and the caller will leave the player a voicemail instead.
 label example_solo_story_call_expired():
+    $ ja.prof_pic = "Profile Pics/Jaehee/jae-13.webp"
 
     ja """Oh, I see you're not available. I had some free time at work and thought I would give you a call.
 

@@ -162,7 +162,7 @@ label plot_branch_tutorial_branch():
 
 ## This is the chatroom you get if you get the Bad End on Tutorial Day
 label tutorial_bad_end():
-
+    $ v.prof_pic = "Profile Pics/V/V-6.webp"
     scene night
     play music i_miss_happy_rika
 
@@ -195,6 +195,7 @@ label tutorial_bad_end():
 
 ## This is the label you see if the previous chatroom has expired.
 label tutorial_bad_end_expired():
+    $ v.prof_pic = "Profile Pics/V/V-6.webp"
     scene night
     play music i_miss_happy_rika
     v "Hello, everyone."
@@ -416,7 +417,7 @@ label ending_descrip(ending_type, who):
         elif len(missing_endings) == 4:
             who neutral "It seems like this is the first ending you got!"
             who smile "I hope you'll go through Tutorial Day again to see the rest~"
-        else:
+        elif missing_endings:
             if ending_type in missing_endings:
                 $ missing_endings.remove(ending_type)
             who "So far it looks like you're missing..."
@@ -424,6 +425,9 @@ label ending_descrip(ending_type, who):
                 $ e = missing_endings.pop()
                 who "The [e] End"
             who happy "I hope you'll go through Tutorial Day again to see the rest of the endings!"
+        else:
+            who "It looks like you've gotten all the endings already!"
+            who "I'm glad to see you've played the game again then~"
 
     return
 

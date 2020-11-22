@@ -1,6 +1,7 @@
 ## This feature allows characters to continue talking
 ## while the player has an opportunity to interrupt/answer
 label timed_menus():
+    $ s.prof_pic = 'Profile Pics/Seven/sev-9.webp'
 
     scene earlyMorn
     play music geniusly_hacked_bebop

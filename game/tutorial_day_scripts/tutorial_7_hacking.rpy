@@ -1,7 +1,7 @@
 ## A quick example chatroom to show off a few ways
 ## you can created a 'hacked' effect within chatrooms
 label hack_example():
-
+    $ sa.prof_pic = "Profile Pics/Saeran/sae-3.webp"
     scene night
     enter chatroom u
     u "Before we start -- are you okay with seeing flashing 'hacked' animations?"
@@ -83,7 +83,7 @@ label hack_example():
 
 ## The expired version for the example hack chatroom
 label hack_example_expired():
-
+    $ sa.prof_pic = "Profile Pics/Saeran/sae-3.webp"
     scene night
     show redhack effect
     scene redhack
