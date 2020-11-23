@@ -719,7 +719,6 @@ init python:
         # E.g. if the game was saved at 20:30, if now is 20:29
         # or earlier, it should load the next day
         if (is_time_later(current_hour, current_min, file_hour, file_min)):
-            print_file("Advance to next day")
             load_next_day = True
             if the_day == next_day:
                 next_day = "NEXT"
@@ -740,7 +739,9 @@ init python:
         if store.persistent.real_time:
             if load_next_day:
                 load_var = '+1 day'
+                print_file("LOAD INSTR: Advance day +1")
             else:
+                print_file("LOAD INSTR: Same day")
                 load_var = 'Same day'
             renpy.show_screen('confirm', message=load_msg,
                 yes_action=[SetField(persistent, 'just_loaded', True),
@@ -1059,6 +1060,7 @@ screen chat_home(reshow=False):
                 [SetField(persistent, 'just_loaded', False),
                 SetVariable('text_person', None),
                 Hide('chip_end'), renpy.retain_after_load,
+                SetVariable('save_name', get_save_title()),
                 FileSave(mm_auto, confirm=False)])
 
     on 'replace':
@@ -1069,6 +1071,7 @@ screen chat_home(reshow=False):
                 [SetField(persistent, 'just_loaded', False),
                 SetVariable('text_person', None),
                 Hide('chip_end'), renpy.retain_after_load,
+                SetVariable('save_name', get_save_title()),
                 FileSave(mm_auto, confirm=False)])
 
     use menu_header("Original Story"):

@@ -1147,6 +1147,7 @@ init -6 python:
             if not item.buy_ahead():
                 # Unable to make everything available in the future, so return
                 # without resetting unlock_24_time or advancing the day
+                renpy.retain_after_load()
                 return
 
         # Now check the next day
@@ -1163,16 +1164,28 @@ init -6 python:
                     # Unable to make everything available in the future,
                     # so return without resetting unlock_24_time
                     today_day_num = expiry_day-1
+                    renpy.retain_after_load()
                     return
             else:
                 # Done unlocking things
                 unlock_24_time = False
                 today_day_num = expiry_day-1
+                renpy.retain_after_load()
                 return
+
+        if (story_archive[expiry_day-1].archive_list[-1]
+                and story_archive[expiry_day-1].archive_list[-1].buyahead):
+            # Reached the end of this day; this is the last day to unlock
+            # items on so done unlocking
+            unlock_24_time = False
+            today_day_num = expiry_day-1
+            renpy.retain_after_load()
+            return
 
         # Otherwise, may have been able to reach the end of the route
         if expiry_day == len(story_archive):
             today_day_num = expiry_day - 1
+            renpy.retain_after_load()
             return
 
 

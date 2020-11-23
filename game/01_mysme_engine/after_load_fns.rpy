@@ -141,8 +141,6 @@ init python:
             else:
                 album = []
             for pic in album:
-                print_file("Looking at pic", pic, "which is unlocked?",
-                    pic.unlocked, "get_thumb", pic.get_thumb(True))
                 if (pic.unlocked
                         and pic.get_thumb()
                             not in store.persistent.unlocked_prof_pics
@@ -525,7 +523,6 @@ init python:
         # is making a choice/on a choice menu
         store.choosing = False
 
-        print_file("all_albums is", all_albums)
         if isinstance(all_albums[0], tuple) or isinstance(all_albums[0], list):
             for p_album, reg_album in all_albums:
                 merge_albums(p_album, reg_album)
@@ -571,22 +568,17 @@ init python:
         if persistent.real_time:
             if persistent.load_instr == '+1 day':
                 store.days_to_expire += 1
-                store.current_game_day = date.today()
             elif persistent.load_instr == 'Same day':
-                store.current_game_day = date.today()
+                pass
             elif persistent.load_instr == 'Auto':
                 store.date_diff = date.today() - current_game_day
                 store.days_to_expire += date_diff.days
-                store.current_game_day = date.today()
 
             if store.days_to_expire > len(store.story_archive):
                 store.days_to_expire = len(store.story_archive)
             persistent.load_instr = False
-        else:
-            # The program keeps track of the current day even if
-            # not in real-time mode in case the player switches
-            # to real-time mode
-            store.current_game_day = date.today()
+
+        store.current_game_day = date.today()
 
         # Make sure that today_day_num is correct
         d = len(store.story_archive)

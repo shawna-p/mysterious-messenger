@@ -244,13 +244,18 @@ init -6 python:
         def can_expire(self):
             """Return True if there are items that can be expired."""
 
+            print_file("Can", self.item_label, "expire?")
+
             if not self.played and not self.buyahead and not self.buyback:
+                print_file("Yes it can expire", self.played, self.buyahead, self.buyback)
                 return True
 
             if len(self.story_calls_list) > 0:
                 for phonecall in self.story_calls_list:
                     if phonecall.can_expire:
+                        print_file("Yes it can expire", self.played, self.buyahead, self.buyback)
                         return True
+            print_file("No it can't expire", self.played, self.buyahead, self.buyback)
             return False
 
         def deliver_next_after_content(self):
@@ -378,6 +383,7 @@ init -6 python:
                 for phonecall in self.story_calls_list:
                     phonecall.buy_ahead()
 
+            renpy.retain_after_load()
             if self.plot_branch:
                 return False
             return True
