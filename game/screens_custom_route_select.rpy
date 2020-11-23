@@ -4,9 +4,14 @@
 
 screen custom_route_select_screen():
     vbox:
-        style 'route_select_vbox'
+        style_prefix 'route_select' # Remove this if you want your own styles
         button:
-            style 'route_select_button'
+            ysize 210 # Set the height of the button
+            # The image that goes on the left of the button
+            add 'Menu Screens/Main Menu/route_select_tutorial.webp':
+                align (0.08, 0.5)
             action Start()
-            text "Start Game" style 'menu_text_small' align (0.5, 0.5)
-       
+            # The box with text on the right side of the button
+            frame:
+                text "Tutorial Day"
+

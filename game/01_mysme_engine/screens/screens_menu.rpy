@@ -402,37 +402,56 @@ screen route_select_screen():
                 use custom_route_select_screen
             else:
                 vbox:
-                    style 'route_select_vbox'
+                    style_prefix 'route_select'
                     button:
-                        style 'route_select_button'
+                        ysize 210
+                        add 'Menu Screens/Main Menu/route_select_tutorial.webp':
+                            align (0.08, 0.5)
                         action Start()
-                        text "Start Game" style 'menu_text_small' align (0.5, 0.5)
+                        frame:
+                            text "Tutorial Day"
                     # Casual/Jaehee's route is only available to a player who
                     # has completed Tutorial Day
                     button:
-                        style 'route_select_button'
+                        add 'Menu Screens/Main Menu/route_select_casual.webp':
+                            align (0.08, 0.5)
+                        frame:
+                            if completed_branches(tutorial_route) == 0:
+                                hbox:
+                                    align (0.4, 0.5)
+                                    add 'plot_lock' align (0.5, 0.5)
+                                    text "Casual Story"
+                            else:
+                                text "Casual Story"
                         if completed_branches(tutorial_route) > 0:
-                            text "Casual Route Example" style 'menu_text_small' align (0.5, 0.5)
                             action Start('example_casual_start')
                         else:
-                            hbox:
-                                align (0.5, 0.5)
-                                spacing 40
-                                add 'plot_lock' align (0.5, 0.5)
-                                text "Casual Route Example" style 'menu_text_small' align (0.5, 0.5)
                             action CConfirm("This route is locked until you've played through Tutorial Day at least once.")
                             hover_foreground None
 
+style route_select_frame:
+    background 'Menu Screens/Main Menu/route_select.webp'
+    xysize (235, 157)
+    align (0.9, 0.5)
+    padding (20, 15, 30, 15)
 
+style route_select_text:
+    align (0.5, 0.5)
+    color "#fff"
+    layout "subtitle"
+    text_align 0.5
+    size 36
 
 style route_select_vbox:
-    xysize (700, 750)
+    xsize 700
     align (0.5, 0.5)
     spacing 30
 
 style route_select_button:
     is right_menu_button
-    xysize (700, 320)
+    ymaximum 320
+    xsize 700
+    padding (15, 20)
     align (0.5, 0.5)
 
 ## Load and Save screens #######################################################
