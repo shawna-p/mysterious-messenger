@@ -407,6 +407,22 @@ screen route_select_screen():
                         style 'route_select_button'
                         action Start()
                         text "Start Game" style 'menu_text_small' align (0.5, 0.5)
+                    # Casual/Jaehee's route is only available to a player who
+                    # has completed Tutorial Day
+                    button:
+                        style 'route_select_button'
+                        if completed_branches(tutorial_route) > 0:
+                            text "Casual Route Example" style 'menu_text_small' align (0.5, 0.5)
+                            action Start('example_casual_start')
+                        else:
+                            hbox:
+                                align (0.5, 0.5)
+                                spacing 40
+                                add 'plot_lock' align (0.5, 0.5)
+                                text "Casual Route Example" style 'menu_text_small' align (0.5, 0.5)
+                            action CConfirm("This route is locked until you've played through Tutorial Day at least once.")
+                            hover_foreground None
+
 
 
 style route_select_vbox:
