@@ -76,7 +76,7 @@
                 u "I'm calling because I was hoping you could help me test a new app I made. What do you think?"
                 jump regular_intro
     else:
-        "I'm calling because I was hoping you could help me test a new app I made. What do you think?"
+        u "I'm calling because I was hoping you could help me test a new app I made. What do you think?"
 
         menu regular_intro:
             extend ''

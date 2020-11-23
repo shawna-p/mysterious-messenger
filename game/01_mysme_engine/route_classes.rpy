@@ -522,7 +522,7 @@ init -6 python:
                 return True
             return (self.title != other.title
                     or self.item_label != other.item_label
-                    or self.triggger_time != other.trigger_time)
+                    or self.trigger_time != other.trigger_time)
 
 
     class ChatRoom(TimelineItem):
@@ -1352,6 +1352,7 @@ init python:
 
         # This item simply ends if the user is in Replay
         if _in_replay:
+            renpy.music.stop()
             renpy.end_replay()
 
         # Determine collected heart points (HP)
@@ -1409,12 +1410,12 @@ init python:
 ## The label that is called when the program exits out of a timeline item
 ## early, expiring it
 label exit_item_early():
-    $ renpy.end_replay()
     # This ends replays and resets variables.
     # This item is only set as the most recent item if the player wasn't
     # replaying it.
     $ end_timeline_item_checks()
     $ reset_story_vars()
+    $ renpy.end_replay()
     if not observing and (not current_timeline_item.expired
             or current_timeline_item.buyback):
         # Item expires
