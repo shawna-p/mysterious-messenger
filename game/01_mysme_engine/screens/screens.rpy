@@ -501,6 +501,7 @@ screen choice(items, paraphrased=None):
     elif email_reply:
         use email_hub
         use open_email(current_email)
+        add "choice_darken"
         vbox:
             style_prefix 'email_choice'
             for num, i in enumerate(items):
