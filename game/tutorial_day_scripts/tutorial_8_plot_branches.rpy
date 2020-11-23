@@ -326,6 +326,7 @@ label tutorial_good_end_party_branch():
     return
 
 label plot_branch_normal_end():
+    play music mystic_chat
     scene bg rika_apartment with fade
     pause
     show saeran unknown at vn_center
@@ -433,6 +434,7 @@ label ending_descrip(ending_type, who):
 
 ## And this is a very brief VN for the party
 label tutorial_good_end_party():
+    play music mystic_chat
     scene bg rika_apartment with fade
     pause
     show saeran unknown
