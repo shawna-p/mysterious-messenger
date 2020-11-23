@@ -308,6 +308,7 @@ style sig_screen_button_text:
 ## the player to the chat home screen
 label skip_intro_setup():
     if _in_replay:
+        stop music
         $ renpy.end_replay()
     $ persistent.first_boot = False
     $ persistent.on_route = True

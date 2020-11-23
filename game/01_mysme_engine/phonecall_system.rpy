@@ -508,11 +508,11 @@ style call_text:
 ## This label ensures the rest of the phone conversation will
 ## not play out if the player hangs up
 label hang_up():
-    $ renpy.end_replay()
     if not observing:
         $ call_hang_up(phonecall=current_call)
     $ end_timeline_item_checks()
     $ reset_story_vars()
+    $ renpy.end_replay()
     $ in_phone_call = False
     $ current_call = False
     $ _history = True
@@ -869,11 +869,11 @@ label play_phone_call():
         if (not dialogue_paraphrase and dialogue_picked != ""):
             $ say_choice_caption(dialogue_picked,
                 dialogue_paraphrase, dialogue_pv)
-        $ renpy.end_replay()
         if not observing:
             $ current_call.finished()
             $ persistent.completed_story.add(current_call.phone_label)
         $ reset_story_vars()
+        $ renpy.end_replay()
         $ in_phone_call = False
         $ current_call = False
         $ observing = False
