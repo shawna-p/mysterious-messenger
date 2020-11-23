@@ -575,7 +575,7 @@ init -6 python:
             # Done making items available
             return
 
-        # If the program isn't in sequential mode, they're in real-time mode.
+        # If the program isn't in sequential mode, it's in real-time mode.
         # Check if any days have passed since this function was last called.
         date_diff = date.today() - current_game_day
         if date_diff.days > 0:
@@ -632,6 +632,11 @@ init -6 python:
                 elif prev_item:
                     # This means this item isn't ready; everything has
                     # been checked.
+                    stop_checking = True
+                    break
+
+                # If the program just unlocked a plot branch, stop checking
+                if item.plot_branch:
                     stop_checking = True
                     break
 

@@ -251,10 +251,10 @@ screen timeline(day, day_num):
                     hbox:
                         # Show the 'Continue'/Buyahead button
                         use timeline_continue_button(story_time)
-                elif unlock_24_time:
-                    vbox:
-                        $ ut2 = unlock_24_time[1].get_twelve_hour()
-                        text "unlock_24_time: [ut2]" size 16 color "#fff"
+                # elif unlock_24_time:
+                #     vbox:
+                #         $ ut2 = unlock_24_time[1].get_twelve_hour()
+                #         text "unlock_24_time: [ut2]" size 16 color "#fff"
                 null height 40
 
     # Show the 'hacked' timeline effects, if the player has them turned
