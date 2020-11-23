@@ -756,6 +756,25 @@ init python:
         store.persistent.just_loaded = True
         renpy.run(FileLoad(slot))
 
+    class AutoSave(FileSave):
+        """
+        Custom action which will automatically save the game to the Auto
+        save file slot and update the save name accordingly.
+        """
+
+        def __init__(self, name="mm_auto_save", confirm=False, newest=True,
+                page=None, cycle=False, slot=False):
+
+            super(AutoSave, self).__init__(name, confirm, newest,
+                page, cycle, slot)
+
+        def __call__(self):
+            store.save_name = get_save_title()
+            super(AutoSave, self).__call__()
+            renpy.retain_after_load()
+
+
+
 
 style save_load_vpgrid:
     is slot_vpgrid
@@ -1060,8 +1079,7 @@ screen chat_home(reshow=False):
                 [SetField(persistent, 'just_loaded', False),
                 SetVariable('text_person', None),
                 Hide('chip_end'), renpy.retain_after_load,
-                SetVariable('save_name', get_save_title()),
-                FileSave(mm_auto, confirm=False)])
+                AutoSave()])
 
     on 'replace':
         action If(renpy.get_screen('chip_tap')
@@ -1071,8 +1089,7 @@ screen chat_home(reshow=False):
                 [SetField(persistent, 'just_loaded', False),
                 SetVariable('text_person', None),
                 Hide('chip_end'), renpy.retain_after_load,
-                SetVariable('save_name', get_save_title()),
-                FileSave(mm_auto, confirm=False)])
+                AutoSave()])
 
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will

@@ -9,10 +9,8 @@ screen day_select(days=story_archive):
     # If the player isn't on the main menu (aka viewing this screen
     # from the history), the game should save
     if not main_menu:
-        on 'show' action [SetVariable('save_name', get_save_title()),
-            FileSave(mm_auto, confirm=False)]
-        on 'replace' action [SetVariable('save_name', get_save_title()),
-            FileSave(mm_auto, confirm=False)]
+        on 'show' action [AutoSave()]
+        on 'replace' action [AutoSave()]
         $ return_action = Show('chat_home', Dissolve(0.5))
     else:
         $ return_action = Show('select_history_route', Dissolve(0.5))
@@ -114,10 +112,8 @@ screen day_display(day, day_num):
         partic_percent = day.participated_percentage()
 
     if not main_menu:
-        on 'show' action [SetVariable('save_name', get_save_title()),
-            FileSave(mm_auto, confirm=False)]
-        on 'replace' action [SetVariable('save_name', get_save_title()),
-            FileSave(mm_auto, confirm=False)]
+        on 'show' action [AutoSave()]
+        on 'replace' action [AutoSave()]
 
     vbox:
         spacing 10
@@ -217,10 +213,8 @@ screen timeline(day, day_num):
     modal True
 
     if not main_menu:
-        on 'show' action [SetVariable('save_name', get_save_title()),
-            FileSave(mm_auto, confirm=False)]
-        on 'replace' action [SetVariable('save_name', get_save_title()),
-            FileSave(mm_auto, confirm=False)]
+        on 'show' action [AutoSave()]
+        on 'replace' action [AutoSave()]
 
         $ story_time = next_story_time()
         $ return_action = Show('day_select', Dissolve(0.5))
@@ -458,19 +452,17 @@ screen timeline_item_display(day, day_num, item, index):
                         action If(persistent.testing_mode,
                             # Just unlock it without a confirmation message
                             [Function(item.buy_back),
-                            SetVariable('save_name', get_save_title()),
                             Function(renpy.retain_after_load),
                             Function(renpy.restart_interaction),
-                            FileSave(mm_auto, confirm=False)]],
+                            AutoSave()],
 
                             CConfirm(("Would you like to"
                                     + " participate in the chat conversation"
                                     + " that has passed?"),
                                 [Function(item.buy_back),
-                                SetVariable('save_name', get_save_title()),
                                 Function(renpy.retain_after_load),
                                 Function(renpy.restart_interaction),
-                                FileSave(mm_auto, confirm=False)]]))
+                                AutoSave()]))
 
     # A lone StoryMode item
     if isinstance(item, StoryMode) and not item.party:
@@ -652,19 +644,17 @@ screen timeline_story_calls(phonecall, item, was_played):
                 if phonecall.available or persistent.unlock_all_story:
                     action If(persistent.testing_mode,
                         [Function(phonecall.buy_back),
-                            SetVariable('save_name', get_save_title()),
                             Function(retain_after_load),
                             Function(renpy.restart_interaction),
-                            FileSave(mm_auto, confirm=False)]],
+                            AutoSave()],
 
                         CConfirm(("Would you like to"
                                 + " call " + phonecall.caller.name + " back to "
                                 + " participate in this phone call?"),
                             [Function(phonecall.buy_back),
-                            SetVariable('save_name', get_save_title()),
                             Function(retain_after_load),
                             Function(renpy.restart_interaction),
-                            FileSave(mm_auto, confirm=False)]]))
+                            AutoSave()]))
 
 style chat_timeline_vbox:
     spacing 18
@@ -723,10 +713,9 @@ screen timeline_continue_button(story_time):
                                 + " conversations for the next 24 hours."),
                 [Function(make_24h_available),
                     Function(check_and_unlock_story),
-                    SetVariable('save_name', get_save_title()),
                     Function(renpy.retain_after_load),
                     Function(renpy.restart_interaction),
-                    FileSave(mm_auto, confirm=False)]]),
+                    AutoSave()]),
             CConfirm("You have not played all the available story yet."))
         if hacked_effect and persistent.hacking_effects:
             add Transform('day_reg_hacked_long',

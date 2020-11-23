@@ -566,6 +566,8 @@ init python:
         persistent.first_boot = False
         persistent.on_route = True
         if persistent.real_time:
+            print_file("Load instruction is", persistent.load_instr,
+                "and current_game_day is", store.current_game_day.strftime('%Y-%m-%d'))
             if persistent.load_instr == '+1 day':
                 store.days_to_expire += 1
             elif persistent.load_instr == 'Same day':
@@ -603,6 +605,8 @@ init python:
                 break
 
         define_variables()
+        renpy.retain_after_load()
+        print_file("Today is now", store.current_game_day.strftime('%Y-%m-%d'))
 
         if store.persistent.testing_mode:
             # Don't show this message to a user who's testing.

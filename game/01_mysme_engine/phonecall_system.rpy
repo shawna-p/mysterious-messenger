@@ -280,14 +280,11 @@ screen phone_calls():
 
     tag menu
 
-    on 'show' action [SetVariable('save_name', get_save_title()),
-        FileSave(mm_auto, confirm=False)]
-    on 'replace' action [SetVariable('save_name', get_save_title()),
-        FileSave(mm_auto, confirm=False)]
+    on 'show' action [AutoSave()]
+    on 'replace' action [AutoSave()]
 
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)),
-                                     SetVariable('save_name', get_save_title()),
-                                     FileSave(mm_auto, confirm=False)]]):
+                                     AutoSave()]):
 
         frame:
             style_prefix "phone_contacts"

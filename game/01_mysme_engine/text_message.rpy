@@ -5,10 +5,8 @@
 screen text_message_hub():
 
     tag menu
-    on 'replace' action [SetVariable('save_name', get_save_title()),
-        FileSave(mm_auto, confirm=False)]
-    on 'show' action [SetVariable('save_name', get_save_title()),
-        FileSave(mm_auto, confirm=False)]
+    on 'replace' action [AutoSave()]
+    on 'show' action [AutoSave()]
 
     use menu_header('Text Message', Show('chat_home', Dissolve(0.5))):
 
