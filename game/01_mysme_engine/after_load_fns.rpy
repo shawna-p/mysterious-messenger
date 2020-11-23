@@ -168,7 +168,7 @@ init python:
     def find_route_endings(route, chatlist, titles):
         """
         Find the last chatroom after a given string and add the appropriate
-        label to the route's ending_chatrooms list.
+        label to the route's ending_labels list.
         """
 
         # First, count the number of strings (endings) in this list
@@ -193,18 +193,18 @@ init python:
             if (isinstance(chatlist[i-1], store.ChatHistory)
                     or isinstance(chatlist[i-1], ChatHistory)):
                 if chatlist[i-1].vn_obj:
-                    route.ending_chatrooms.append(
+                    route.ending_labels.append(
                         chatlist[i-1].vn_obj.vn_label)
                 elif (chatlist[i-1].plot_branch
                         and chatlist[i-1].plot_branch.vn_after_branch):
-                    route.ending_chatrooms.append(
+                    route.ending_labels.append(
                         chatlist[i-1].plot_branch.stored_vn.vn_label)
                 else:
-                    route.ending_chatrooms.append(
+                    route.ending_labels.append(
                         chatlist[i-1].chatroom_label)
             elif (isinstance(chatlist[i-1], store.VNMode)
                     or isinstance(chatlist[i-1], VNMode)):
-                route.ending_chatrooms.append(chatlist[i-1].vn_label)
+                route.ending_labels.append(chatlist[i-1].vn_label)
         return extra_ending_titles
 
 

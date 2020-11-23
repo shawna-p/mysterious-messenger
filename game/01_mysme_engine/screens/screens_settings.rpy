@@ -347,11 +347,12 @@ init python:
         num_end = 0
         # Go through default branch backwards to find ending
         try:
-            for lbl in r.ending_chatrooms:
+            for lbl in r.ending_labels:
                 if lbl in store.persistent.completed_story:
                     num_end += 1
             return num_end
-        except:
+        except Exception as e:
+            print("WARNING: Couldn't calculate completed branches:", e)
             return 0
 
 
@@ -375,7 +376,7 @@ screen points_and_saveload():
                     size 30 font gui.sans_serif_1xb color "#fff"
                 null height 20
                 for r in all_routes:
-                    $ num_routes = len(r.ending_chatrooms)
+                    $ num_routes = len(r.ending_labels)
                     $ num_completed = completed_branches(r)
                     hbox:
                         xalign 0.5
