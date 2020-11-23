@@ -608,8 +608,10 @@ screen email_hub():
     default current_page = 0
     default num_pages = (len(email_list) + 7 - 1) // 7
 
-    on 'replace' action FileSave(mm_auto, confirm=False)
-    on 'show' action FileSave(mm_auto, confirm=False)
+    on 'replace' action [SetVariable('save_name', get_save_title()),
+        FileSave(mm_auto, confirm=False)]
+    on 'show' action [SetVariable('save_name', get_save_title()),
+        FileSave(mm_auto, confirm=False)]
 
 
     use menu_header('Email', Show('chat_home', Dissolve(0.5))):
@@ -884,8 +886,10 @@ screen guestbook():
     tag menu
 
     if not main_menu:
-        on 'replace' action FileSave(mm_auto, confirm=False)
-        on 'show' action FileSave(mm_auto, confirm=False)
+        on 'replace' action [SetVariable('save_name', get_save_title()),
+            FileSave(mm_auto, confirm=False)]
+        on 'show' action [SetVariable('save_name', get_save_title()),
+            FileSave(mm_auto, confirm=False)]
 
     if main_menu:
         $ return_action = Show('select_history', Dissolve(0.5))

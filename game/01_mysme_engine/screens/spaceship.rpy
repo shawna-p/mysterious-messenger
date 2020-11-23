@@ -272,6 +272,7 @@ screen chip_end():
             action [SetField(persistent, 'HP', persistent.HP + prize_heart),
                     SetField(persistent, 'HG', persistent.HG + prize_hg),
                     Hide('chip_end'),
+                    SetVariable('save_name', get_save_title()),
                     FileSave(mm_auto, confirm=False),
                     Function(renpy.retain_after_load)]
 

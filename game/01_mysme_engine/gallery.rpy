@@ -438,8 +438,10 @@ screen photo_album():
     tag menu
 
     if not main_menu:
-        on 'replace' action FileSave(mm_auto, confirm=False)
-        on 'show' action FileSave(mm_auto, confirm=False)
+        on 'replace' action [SetVariable('save_name', get_save_title()),
+            FileSave(mm_auto, confirm=False)]
+        on 'show' action [SetVariable('save_name', get_save_title()),
+            FileSave(mm_auto, confirm=False)]
 
     python:
         if main_menu:
