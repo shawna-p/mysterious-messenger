@@ -72,6 +72,7 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 html_static_path = ['_static']
+html_theme = "sphinx_rtd_theme"
 #import sphinx_pdj_theme
 # import sphinx_nervproject_theme
 # html_theme = "nervproject"
