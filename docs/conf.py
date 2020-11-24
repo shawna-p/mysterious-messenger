@@ -33,7 +33,8 @@ release = 'v2.2'
 # ones.
 # Add napoleon to the extensions list
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
-    'recommonmark', 'sphinx_rtd_theme', 'sphinx.ext.todo',
+    'recommonmark', #'sphinx_rtd_theme',
+    'sphinx.ext.todo',
     'sphinx.ext.githubpages',]
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
