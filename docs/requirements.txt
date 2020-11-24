@@ -1,2 +1,2 @@
 sphinx
-nerveproject_theme
+nervproject_theme
