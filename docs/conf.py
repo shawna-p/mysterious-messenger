@@ -72,15 +72,15 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 html_static_path = ['_static']
-import sphinx_pdj_theme
-html_theme = 'sphinx_pdj_theme'
-html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
+#import sphinx_pdj_theme
+html_theme = "nervproject"
+#html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
 
 
 # sets the darker appearence
-html_theme_options = {
-    'style': 'darker'
-}
+# html_theme_options = {
+#     'style': 'darker'
+# }
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
