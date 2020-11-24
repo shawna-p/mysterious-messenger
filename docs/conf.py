@@ -72,8 +72,8 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 html_static_path = ['_static']
-html_theme = 'sphinx_pdj_theme'
 import sphinx_pdj_theme
+html_theme = 'sphinx_pdj_theme'
 html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
 
 
