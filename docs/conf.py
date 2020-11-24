@@ -31,7 +31,8 @@ release = 'v2.2'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 # Add napoleon to the extensions list
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
+    'recommonmark']
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
 napoleon_include_init_with_doc = False
