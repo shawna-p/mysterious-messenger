@@ -644,7 +644,7 @@ screen timeline_story_calls(phonecall, item, was_played):
                 if phonecall.available or persistent.unlock_all_story:
                     action If(persistent.testing_mode,
                         [Function(phonecall.buy_back),
-                            Function(retain_after_load),
+                            Function(renpy.retain_after_load),
                             Function(renpy.restart_interaction),
                             AutoSave()],
 
