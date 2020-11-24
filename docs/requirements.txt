@@ -1,2 +1,3 @@
 sphinx
-sphinx_pdj_theme
+nervproject
+nerveproject_theme
