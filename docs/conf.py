@@ -33,7 +33,7 @@ release = 'v2.2'
 # ones.
 # Add napoleon to the extensions list
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
-    'recommonmark', #'sphinx_rtd_theme',
+    'recommonmark', 'sphinx_rtd_theme',
     'sphinx.ext.todo',
     'sphinx.ext.githubpages',]
 napoleon_google_docstring = False
@@ -73,8 +73,8 @@ pygments_style = 'sphinx'
 #
 html_static_path = ['_static']
 #import sphinx_pdj_theme
-import sphinx_nervproject_theme
-html_theme = "sphinx_nervproject_theme"
+# import sphinx_nervproject_theme
+# html_theme = "nervproject"
 #html_theme_path = [sphinx_nervproject_theme.get_html_theme_path()]
 #html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
 
