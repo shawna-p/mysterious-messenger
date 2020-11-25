@@ -73,7 +73,7 @@ pygments_style = 'sphinx'
 #
 html_static_path = ['_static']
 #html_theme = "sphinx_rtd_theme"
-import sphinx_nervproject_theme
+import sphinx_nervproject_theme # Currently not working :(
 html_theme = "nervproject"
 #html_theme_path = [sphinx_nervproject_theme.get_html_theme_path()]
 #html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
