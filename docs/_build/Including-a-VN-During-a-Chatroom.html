@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Including a VN During a Chatroom</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css"/>
+      <link rel="stylesheet" href="_static/theme-light.css"/>
+      <link rel="stylesheet" media="(prefers-contrast: high)" href="_static/theme-light-hc.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="_static/theme-dark.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark) and (prefers-contrast: high)" href="_static/theme-dark-hc.css"/>
+      
+        <link rel="stylesheet" media="print" href="_static/theme-print.css"/>
+      
+      
+      
+        
+        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        
+
+        <!-- sphinx script_files -->
+          <script src="_static/jquery.js"></script>
+          <script src="_static/underscore.js"></script>
+          <script src="_static/doctools.js"></script>
+          <script src="_static/language_data.js"></script>
+
+        <script src="_static/sphinx_nervproject_theme.js" defer></script>
+      
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+   
+  
+
+  </head>
+
+  <body>
+    <div id="app" class="theme-container"><header class="navbar">
+    <div id="header-identity" class="print-only">
+        <img id="navbar_logo" src="_static/"/>
+        <div id="navbar_title">Mysterious Messenger Wiki</div>
+    </div>
+
+  
+  <button class="sidebar-button">
+      <svg id="sidebar-button-svg" role="img" aria-labelledby="sidebar-button_label" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title id="sidebar-button_label">
+              Toggle sidebar
+          </title>
+          <use xlink:href="_static/fa/solid.svg#bars"></use>
+      </svg>
+  </button>
+
+  <a href="index.html" class="home-link">
+      <span class="site-name">Mysterious Messenger Wiki</span>
+  </a>
+
+  <div class="links">
+    <div class="nav-links can-hide">
+
+
+
+    </div>
+  </div>
+  
+</header>
+
+      
+      <table role="none" id="main_layout_table">
+        <thead>
+          <tr><th><div id="layout_header">
+          </div></th></tr>
+        </thead>
+        <tbody><tr><td>
+          <div id="appflex">
+            
+              <div class="sidebar" id="sidebar">
+                
+                <nav class="nav-links can-hide">
+                  
+
+
+
+                  
+                </nav><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><nav class="sidebar-links">
+  
+</nav>
+              </div>
+            
+
+            <div class="page">
+                <nav class="body-header">
+  
+  
+  
+
+  <ul class="page-nav no-print">
+</ul>
+  
+</nav>
+                <main class="content">
+                  
+  <div class="section" id="including-a-vn-during-a-chatroom">
+<h1>Including a VN During a Chatroom<a class="headerlink" href="#including-a-vn-during-a-chatroom" title="Permalink to this headline">¶</a></h1>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_9_storytelling.rpy">tutorial_9_storytelling.rpy</a></strong></p>
+<p>A brief overview of the steps required (more detail below): |
+————————————————————|</p>
+<blockquote>
+<div><ol class="simple">
+<li><p>Create a chatroom as you usually would (see [[Creating a Chatroom]])</p></li>
+<li><p>When you want the VN to interrupt the chatroom, use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat('name_of_vn_label')</span></code></p>
+<ol class="simple">
+<li><p>If you want to clear the chat history after the VN returns to the chatroom section, pass the argument <code class="docutils literal notranslate"><span class="pre">clearchat_on_return=True</span></code> e.g. <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat('name_of_vn_label',</span> <span class="pre">clearchat_on_return=True)</span></code></p></li>
+<li><p>If you want to change the background between chatroom sections, pass the argument <code class="docutils literal notranslate"><span class="pre">new_bg=&quot;morning&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">&quot;morning&quot;</span></code> is the name of the new background e.g. <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat('name_of_vn_label',</span> <span class="pre">new_bg=&quot;morning&quot;)</span></code></p></li>
+<li><p>If you want to change the list of chatroom participants between chatroom sections, pass the argument <code class="docutils literal notranslate"><span class="pre">reset_participants=[y,</span> <span class="pre">s,</span> <span class="pre">m]</span></code> where <code class="docutils literal notranslate"><span class="pre">[y,</span> <span class="pre">s,</span> <span class="pre">m]</span></code> is a list of ChatCharacter objects who you want to show participating in the chatroom e.g. <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat('name_of_vn_label',</span> <span class="pre">reset_participants=[z,</span> <span class="pre">m])</span></code></p></li>
+<li><p>If you don’t want to return to the chatroom section after jumping to a VN, use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat('name_of_vn_label',</span> <span class="pre">end_after_vn=True)</span></code> and then instead of <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">chat_end</span></code> use <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">vn_end</span></code>.</p></li>
+</ol>
+</li>
+<li><p>Create the VN label (e.g. <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">name_of_vn_label</span></code>) and write the VN section as normal (see [[Writing a VN section]]) but <strong>do not</strong> use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_begin</span></code> or <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">vn_end</span></code> and instead write <code class="docutils literal notranslate"><span class="pre">return</span></code> at the end of the label</p></li>
+<li><p>Continue writing the rest of the chatroom beneath your <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> line and end with <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">chat_end</span></code> as usual</p></li>
+</ol>
+</div></blockquote>
+<div class="section" id="note-on-usage">
+<h2>Note on usage<a class="headerlink" href="#note-on-usage" title="Permalink to this headline">¶</a></h2>
+<p>This page explains how to include a VN section <strong>in the middle of a chatroom</strong>, such that the player will be viewing the chatroom and it will immediately transition to the VN section and back to the chatroom in the same ‘scene’. This is different from how VN sections usually play out in-game: that is, first the player views a chatroom, is returned to the chatroom timeline screen, and then must select the corresponding Story Mode (VN) section to proceed. If you are interested in the latter, see [[Writing a VN section]].</p>
+<p>First, you’ll start by setting up a chatroom the way you usually would (see [[Creating a Chatroom]]). If you’d like to start with a VN that turns into a chatroom later, you must still begin with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">chat_begin(&quot;morning&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">&quot;morning&quot;</span></code> is the name of the background you will use for the chatroom. E.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
+    call chat_begin(&quot;night&quot;)
+    play music lonesome_practicalism
+    call enter(r)
+    r &quot;Some dialogue.&quot;
+</pre></div>
+</div>
+<p>Next, wherever you would like to have the VN appear and interrupt the chatroom, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat('my_vn_label')</span></code> where <code class="docutils literal notranslate"><span class="pre">'my_vn_label'</span></code> is the name of the label you will create for your VN section.</p>
+<p>For the VN section, create a label with the name you gave it earlier, e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_vn_label:
+</pre></div>
+</div>
+<p>In this label, you must write the VN section. It is written the same way as a regular VN – see [[Writing a VN section]] – however you <strong>should not</strong> begin with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_begin</span></code> and should just begin the VN section. E.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_vn_label:
+    scene bg rika_apartment
+    # This next line is optional; if you want the music to continue from the
+    # chatroom you can leave it out, or use `stop music`
+    play music lonesome_practicalism
+    show jaehee glasses happy
+    ja &quot;This is some example dialogue.&quot;
+</pre></div>
+</div>
+<p>Aside from the beginning and ending, everything can be written the same as described in the sections on VN writing.</p>
+<p>To end the VN, use <code class="docutils literal notranslate"><span class="pre">return</span></code> instead of <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">vn_end</span></code> e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_vn_label:
+    scene bg rika_apartment
+    show jaehee glasses happy
+    ja &quot;This is some example dialogue.&quot;
+    menu:
+        extend &#39;&#39;
+        &quot;Neat!&quot;:
+            m &quot;Neat!&quot;
+        &quot;Boring.&quot;:
+            m &quot;Boring.&quot;
+    ja neutral &quot;The VN section is now over.&quot;
+    return
+</pre></div>
+</div>
+<p>The program will then return to the point after which you wrote <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> and you can resume the chatroom as usual.</p>
+</div>
+<div class="section" id="clearing-the-chat-log-on-return">
+<h2>Clearing the chat log on return<a class="headerlink" href="#clearing-the-chat-log-on-return" title="Permalink to this headline">¶</a></h2>
+<p>If you would like to clear the chat log after returning from the VN section (that is, the player won’t see the previous messages in the conversation), you can also pass the <code class="docutils literal notranslate"><span class="pre">vn_during_chat</span></code> another argument like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Here&#39;s some test chatroom dialogue.&quot;
+u &quot;The game will jump to the VN section after this message.&quot;
+call vn_during_chat(&#39;my_vn_label&#39;, clearchat_on_return=True)
+u &quot;The chatroom resumes from here, but the message history is gone.&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="changing-backgrounds-between-chatrooms">
+<h2>Changing backgrounds between chatrooms<a class="headerlink" href="#changing-backgrounds-between-chatrooms" title="Permalink to this headline">¶</a></h2>
+<p>You can also change the chatroom background when it returns. To do so, pass <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> the argument <code class="docutils literal notranslate"><span class="pre">new_bg=&quot;morning&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">&quot;morning&quot;</span></code> is the new background you want to use. E.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;This scene plays out more like two separate chatrooms with a VN in between them.&quot;
+call exit(u)
+call vn_during_chat(&#39;my_vn_label&#39;, clearchat_on_return=True, new_bg=&quot;night&quot;)
+call enter(u)
+u &quot;The chatroom resumes from here, but the message history is gone and the background has changed.&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="modifying-the-chatroom-participants">
+<h2>Modifying the chatroom participants<a class="headerlink" href="#modifying-the-chatroom-participants" title="Permalink to this headline">¶</a></h2>
+<p>If you want to change the list of participants in the chatroom between scenes, you can pass <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> the argument <code class="docutils literal notranslate"><span class="pre">reset_participants=[ja,</span> <span class="pre">m]</span></code> where <code class="docutils literal notranslate"><span class="pre">[ja,</span> <span class="pre">m]</span></code> is a list of the ChatCharacter objects you want in the new chatroom. Note that you must include the main character (<code class="docutils literal notranslate"><span class="pre">m</span></code>) in this list if you want the player to appear as though they are participating in this chatroom.</p>
+<p>For example,</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>s &quot;Anyway, I should leave.&quot;
+call exit(s)
+y &quot;Me too!&quot;
+call exit(y)
+call vn_during_chat(&#39;my_vn_label&#39;, clearchat_on_return=True, new_bg=&quot;night&quot;, reset_participants=[ja, ju, m])
+ja &quot;This chatroom now looks like there are three people present, &#39;ja&#39;, &#39;ju&#39;, and the player (&#39;m&#39;)&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="ending-the-scene-after-a-vn">
+<h2>Ending the scene after a VN<a class="headerlink" href="#ending-the-scene-after-a-vn" title="Permalink to this headline">¶</a></h2>
+<p>If you don’t want the player to return to a chatroom section and instead want them to see the chatroom, then a VN, and then the scene ends without returning to a chatroom section, you can pass the <code class="docutils literal notranslate"><span class="pre">end_after_vn</span></code> argument to the <code class="docutils literal notranslate"><span class="pre">vn_during_chat</span></code> call e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Anyway, this is the end of the scene.&quot;
+call exit(u)
+call vn_during_chat(&quot;my_last_vn_label&quot;, end_after_vn=True)
+jump vn_end
+</pre></div>
+</div>
+<p>If you are ending on a VN, use <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">vn_end</span></code> after the call to <code class="docutils literal notranslate"><span class="pre">vn_during_chat</span></code> instead of <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">chat_end</span></code>.</p>
+</div>
+</div>
+
+  
+    <div class="section no-print">
+    
+      
+    
+    
+    
+    </div>
+  
+
+                </main><ul class="page-nav no-print">
+</ul>
+            </div>
+          </div>
+        </td></tr></tbody>
+        <tfoot>
+          <tr><th><div id="layout_footer">
+          </div></th></tr>
+        </tfoot>
+      </table><footer class="footer" role="contentinfo">
+  
+    <p>
+    
+      &#169; Copyright 2020, Shawna P.
+    
+    </p>
+  
+  
+    <p>
+    
+    
+      Licensed under .
+    
+    
+    </p>
+  
+  
+    <p>
+  
+  
+  
+    Created using <a
+        href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with
+    <a href="https://www.nerv-project.eu">Nerv Project theme</a>
+    based on <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>
+    and <a href="https://ablog.readthedocs.io/">ABlog</a>.</p>
+  
+  <div class="pagecount"></div>
+</footer>
+    </div>
+    
+    
+  </body>
+</html>

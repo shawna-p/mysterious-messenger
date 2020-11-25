@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Writing a VN Section</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css"/>
+      <link rel="stylesheet" href="_static/theme-light.css"/>
+      <link rel="stylesheet" media="(prefers-contrast: high)" href="_static/theme-light-hc.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="_static/theme-dark.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark) and (prefers-contrast: high)" href="_static/theme-dark-hc.css"/>
+      
+        <link rel="stylesheet" media="print" href="_static/theme-print.css"/>
+      
+      
+      
+        
+        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        
+
+        <!-- sphinx script_files -->
+          <script src="_static/jquery.js"></script>
+          <script src="_static/underscore.js"></script>
+          <script src="_static/doctools.js"></script>
+          <script src="_static/language_data.js"></script>
+
+        <script src="_static/sphinx_nervproject_theme.js" defer></script>
+      
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+   
+  
+
+  </head>
+
+  <body>
+    <div id="app" class="theme-container"><header class="navbar">
+    <div id="header-identity" class="print-only">
+        <img id="navbar_logo" src="_static/"/>
+        <div id="navbar_title">Mysterious Messenger Wiki</div>
+    </div>
+
+  
+  <button class="sidebar-button">
+      <svg id="sidebar-button-svg" role="img" aria-labelledby="sidebar-button_label" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title id="sidebar-button_label">
+              Toggle sidebar
+          </title>
+          <use xlink:href="_static/fa/solid.svg#bars"></use>
+      </svg>
+  </button>
+
+  <a href="index.html" class="home-link">
+      <span class="site-name">Mysterious Messenger Wiki</span>
+  </a>
+
+  <div class="links">
+    <div class="nav-links can-hide">
+
+
+
+    </div>
+  </div>
+  
+</header>
+
+      
+      <table role="none" id="main_layout_table">
+        <thead>
+          <tr><th><div id="layout_header">
+          </div></th></tr>
+        </thead>
+        <tbody><tr><td>
+          <div id="appflex">
+            
+              <div class="sidebar" id="sidebar">
+                
+                <nav class="nav-links can-hide">
+                  
+
+
+
+                  
+                </nav><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><nav class="sidebar-links">
+  
+</nav>
+              </div>
+            
+
+            <div class="page">
+                <nav class="body-header">
+  
+  
+  
+
+  <ul class="page-nav no-print">
+</ul>
+  
+</nav>
+                <main class="content">
+                  
+  <div class="section" id="writing-a-vn-section">
+<h1>Writing a VN Section<a class="headerlink" href="#writing-a-vn-section" title="Permalink to this headline">¶</a></h1>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a>, <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_3b_VN.rpy">tutorial_3b_VN.rpy</a></strong></p>
+<p>There are several pre-defined positions you can move the characters to. These are:</p>
+<ul class="simple">
+<li><p>vn_farleft</p></li>
+<li><p>vn_left</p></li>
+<li><p>vn_midleft</p></li>
+<li><p>vn_center</p></li>
+<li><p>vn_midright</p></li>
+<li><p>vn_right</p></li>
+<li><p>vn_farright</p></li>
+<li><p>default</p></li>
+</ul>
+<p>Not every position will work for every character due to spacing and differences in sprite design. You can define more positions in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/vn_mode.rpy">vn_mode.rpy</a> under <strong>Transforms/VN Positions</strong>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">vn_center</span></code> is a unique position because it moves the character closer to the screen in addition to centering them. It’s often used to imply the character is talking directly to the player. However, if you want to move a character who is currently shown in the <code class="docutils literal notranslate"><span class="pre">vn_center</span></code> position to another position, you have to <code class="docutils literal notranslate"><span class="pre">hide</span></code> them first. See the example files for examples of this.</p>
+<p>To show a character at a given position, write</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>show jumin front at vn_right
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">jumin</span> <span class="pre">front</span></code> is the name + attributes of the character you want to show (e.g. expressions, outfits, etc), and <code class="docutils literal notranslate"><span class="pre">vn_right</span></code> is the position to show them in. You can also add a transition like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>show jumin side happy at vn_left with ease
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ease</span></code> is a transition. (See <a class="reference external" href="https://www.renpy.org/doc/html/transitions.html">Transitions</a> in the Ren’Py documentation for more).</p>
+</div>
+
+  
+    <div class="section no-print">
+    
+      
+    
+    
+    
+    </div>
+  
+
+                </main><ul class="page-nav no-print">
+</ul>
+            </div>
+          </div>
+        </td></tr></tbody>
+        <tfoot>
+          <tr><th><div id="layout_footer">
+          </div></th></tr>
+        </tfoot>
+      </table><footer class="footer" role="contentinfo">
+  
+    <p>
+    
+      &#169; Copyright 2020, Shawna P.
+    
+    </p>
+  
+  
+    <p>
+    
+    
+      Licensed under .
+    
+    
+    </p>
+  
+  
+    <p>
+  
+  
+  
+    Created using <a
+        href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with
+    <a href="https://www.nerv-project.eu">Nerv Project theme</a>
+    based on <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>
+    and <a href="https://ablog.readthedocs.io/">ABlog</a>.</p>
+  
+  <div class="pagecount"></div>
+</footer>
+    </div>
+    
+    
+  </body>
+</html>

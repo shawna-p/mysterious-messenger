@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Setting up Sequential Chatrooms</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css"/>
+      <link rel="stylesheet" href="_static/theme-light.css"/>
+      <link rel="stylesheet" media="(prefers-contrast: high)" href="_static/theme-light-hc.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="_static/theme-dark.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark) and (prefers-contrast: high)" href="_static/theme-dark-hc.css"/>
+      
+        <link rel="stylesheet" media="print" href="_static/theme-print.css"/>
+      
+      
+      
+        
+        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        
+
+        <!-- sphinx script_files -->
+          <script src="_static/jquery.js"></script>
+          <script src="_static/underscore.js"></script>
+          <script src="_static/doctools.js"></script>
+          <script src="_static/language_data.js"></script>
+
+        <script src="_static/sphinx_nervproject_theme.js" defer></script>
+      
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+   
+  
+
+  </head>
+
+  <body>
+    <div id="app" class="theme-container"><header class="navbar">
+    <div id="header-identity" class="print-only">
+        <img id="navbar_logo" src="_static/"/>
+        <div id="navbar_title">Mysterious Messenger Wiki</div>
+    </div>
+
+  
+  <button class="sidebar-button">
+      <svg id="sidebar-button-svg" role="img" aria-labelledby="sidebar-button_label" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title id="sidebar-button_label">
+              Toggle sidebar
+          </title>
+          <use xlink:href="_static/fa/solid.svg#bars"></use>
+      </svg>
+  </button>
+
+  <a href="index.html" class="home-link">
+      <span class="site-name">Mysterious Messenger Wiki</span>
+  </a>
+
+  <div class="links">
+    <div class="nav-links can-hide">
+
+
+
+    </div>
+  </div>
+  
+</header>
+
+      
+      <table role="none" id="main_layout_table">
+        <thead>
+          <tr><th><div id="layout_header">
+          </div></th></tr>
+        </thead>
+        <tbody><tr><td>
+          <div id="appflex">
+            
+              <div class="sidebar" id="sidebar">
+                
+                <nav class="nav-links can-hide">
+                  
+
+
+
+                  
+                </nav><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><nav class="sidebar-links">
+  
+</nav>
+              </div>
+            
+
+            <div class="page">
+                <nav class="body-header">
+  
+  
+  
+
+  <ul class="page-nav no-print">
+</ul>
+  
+</nav>
+                <main class="content">
+                  
+  <div class="section" id="setting-up-sequential-chatrooms">
+<h1>Setting up Sequential Chatrooms<a class="headerlink" href="#setting-up-sequential-chatrooms" title="Permalink to this headline">¶</a></h1>
+<p>A brief overview of the steps required (more detail below): |
+————————————————————|</p>
+<blockquote>
+<div><ol class="simple">
+<li><p>Define a list of <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. The first item in the list should be the name of the ending e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Good</span> <span class="pre">End&quot;</span></code></p></li>
+<li><p>The first field of a <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> object is the name of the day (e.g. “1st”), and then the second is a list of <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> objects. Fill these out with the information for each chatroom</p></li>
+<li><p>Create a <code class="docutils literal notranslate"><span class="pre">Route</span></code> object and fill out its <code class="docutils literal notranslate"><span class="pre">default_branch</span></code> and optionally <code class="docutils literal notranslate"><span class="pre">branch_list</span></code> and <code class="docutils literal notranslate"><span class="pre">route_history_title</span></code> fields.</p></li>
+<li><p>Either customize the route select screen, or in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a>, change the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">new_route_setup(route=tutorial_route)</span></code> so that <code class="docutils literal notranslate"><span class="pre">tutorial_route</span></code> is replaced by the variable for the Route object you defined</p></li>
+<li><p>Select <strong>Start Over</strong> from the Settings screen to test out your new route</p></li>
+</ol>
+</div></blockquote>
+<p>To set up a route, you need to first define a list of <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. Each <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> object contains the information the program needs for one in-game Day. Go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy">route_setup.rpy</a> to see an example definition called <code class="docutils literal notranslate"><span class="pre">tutorial_good_end</span></code>.</p>
+<p>At its most basic level, your definition will look as follows:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default my_route_good_end = [ &quot;Good End&quot;,
+    RouteDay(&quot;1st&quot;),
+    RouteDay(&quot;2nd&quot;),
+    RouteDay(&quot;3rd&quot;),
+    # (...)
+    RouteDay(&quot;Final&quot;)]
+</pre></div>
+</div>
+<p>The <em>first</em> item in the list should be a string containing the name of the ending as it will appear in the History log. In this example, it is <code class="docutils literal notranslate"><span class="pre">&quot;Good</span> <span class="pre">End&quot;</span></code>.</p>
+<p>The rest of the items in the list are <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. They have the following fields:</p>
+<p>RouteDay |
+———–|
+<code class="docutils literal notranslate"><span class="pre">day,</span> <span class="pre">archive_list=[],</span> <span class="pre">day_icon='day_common2',</span> <span class="pre">branch_vn=False</span></code> |</p>
+<p>Field | Description | Example |
+——|————-|———|
+day | A string containing the name of the day as it should show up in the chatroom timeline (e.g. “1st” appears in-game as “1st Day”). Note that a special icon appears over a day titled “Final”. | “1st” |
+archive_list | A list of <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> objects; see below | <code class="docutils literal notranslate"><span class="pre">[ChatHistory(&quot;Example</span> <span class="pre">Chatroom&quot;,</span> <span class="pre">&quot;example_chat&quot;,</span> <span class="pre">&quot;00:01&quot;)]</span></code> |
+day_icon | The icon to use for this day in the timeline. Defaults to <code class="docutils literal notranslate"><span class="pre">'day_common2'</span></code>. Previously defined images can be found in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the heading <strong>Chat Select Screen</strong> – <code class="docutils literal notranslate"><span class="pre">&quot;day_common1&quot;</span></code> up to <code class="docutils literal notranslate"><span class="pre">&quot;day_z&quot;</span></code> can be used. | “day_s” |
+branch_vn | By default, this is False. Otherwise, it should contain a <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object. If this route is merged onto the main route during a plot branch, the <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object stored in <code class="docutils literal notranslate"><span class="pre">branch_vn</span></code> will appear after the chatroom immediately before the plot branch. | <code class="docutils literal notranslate"><span class="pre">VNMode('plot_branch_bre')</span></code> |</p>
+<div class="section" id="chathistory-objects">
+<h2>ChatHistory Objects<a class="headerlink" href="#chathistory-objects" title="Permalink to this headline">¶</a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object contains all the information needed for a single chatroom (plus its accompanying VN mode, phone calls, etc). You will need one <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object for every chatroom in your game.</p>
+<p>ChatHistory |
+———–|
+<code class="docutils literal notranslate"><span class="pre">title,</span> <span class="pre">chatroom_label,</span> <span class="pre">trigger_time,</span> <span class="pre">participants=[],</span> <span class="pre">vn_obj=False,</span> <span class="pre">plot_branch=False,</span> <span class="pre">save_img='auto'</span></code> |</p>
+<p>The initialization fields are explained below.</p>
+<p>Field | Description | Example |
+——|————-|———|
+title | The name of the chatroom as it should show up in the timeline. A string. | “My chatroom title” |
+chatroom_label | The name of the label to jump to for this chatroom. This is used for many things, such as phone call labels an VN labels. A string. | “day_1_chatroom_1” |
+trigger_time | The time this chatroom should trigger at. A string. This should be written in military time with leading zeroes, e.g. 1:00AM is written “01:00” and 1:38PM is written “13:38” | “05:28” |
+participants | Optional. A list of the ChatCharacter objects of the people who should be already present in the chatroom before the player enters. If left blank, no one starts in the chatroom. | [ja, ju] |
+vn_obj | Optional. Allows you to better customize the <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object associated with this chatroom. If not provided, the program will attempt to find appropriately labelled VN labels and create its own <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object. | <code class="docutils literal notranslate"><span class="pre">VNMode(&quot;my_vn_label&quot;,</span> <span class="pre">y)</span></code> |
+plot_branch | A <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object. Indicates if this chatroom should have a VN after it. A <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object only takes one argument – a boolean telling it whether or not there is a VN that should only be shown after the plot branch has been proceeded through. By default, this is False. | PlotBranch(True) |
+save_img | The image that will appear in the save screen on the left when the player saves their game. This is usually an image indicating which route the player is on, if any. Previously defined images can be found in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the heading <strong>Save &amp; Load Images</strong>. Note that you do <em>not</em> need the prefix “save_”, as this is automatically added. It is sufficient to use the character’s file_id to get their save image e.g. “seven”, “707”, and “s” will all get you the same save image, <code class="docutils literal notranslate"><span class="pre">save_seven</span></code>. | “casual” |</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object is not given a <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object, it will try to find a label with the correct naming scheme instead. However, in the event you want more control over the <code class="docutils literal notranslate"><span class="pre">vn_obj</span></code> field, you can define it yourself.</p>
+<p>VNMode |
+———–|
+<code class="docutils literal notranslate"><span class="pre">vn_label,</span> <span class="pre">who=None,</span> <span class="pre">party=False,</span> <span class="pre">trigger_time=False</span></code> |</p>
+<p>These fields are explained below.</p>
+<p>Field | Description | Example |
+——|————-|———|
+vn_label | The name of the label to jump to for this VN. A string. | “my_vn_label” |
+who | The ChatCharacter object of the character who this VN is associated with. Changes the image in the timeline. | <code class="docutils literal notranslate"><span class="pre">r</span></code> |
+party | True if this VN is the party, False otherwise. | <code class="docutils literal notranslate"><span class="pre">True</span></code> |
+trigger_time | Currently unused. May be used in the future to have VNs independent of chatrooms. | False |</p>
+<p>The other thing you may use is a <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object to indicate the existence of a plot branch.</p>
+<p>PlotBranch |
+———–|
+<code class="docutils literal notranslate"><span class="pre">vn_after_branch=False</span></code> |</p>
+<p>This field is explained below.</p>
+<p>Field | Description | Example |
+——|————-|———|
+vn_after_branch | True if the chatroom this is attached to has a VN that should only be seen after the player has proceeded through the plot branch; False otherwise. | True |</p>
+<p>A typical <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object, then, might look like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>ChatHistory(&quot;Welcome to the RFA!&quot;, &quot;day_1_chatroom_1&quot;, &quot;00:05&quot;, [s])
+</pre></div>
+</div>
+<p>This defines a <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object whose title is <code class="docutils literal notranslate"><span class="pre">&quot;Welcome</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">RFA!&quot;</span></code>. The label you need to put the chatroom in is called <code class="docutils literal notranslate"><span class="pre">day_1_chatroom_1</span></code> (so, somewhere in your program you should have</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label day_1_chatroom_1:
+    call chat_begin(&#39;earlyMorn&#39;)
+</pre></div>
+</div>
+<p>etc). The chatroom triggers at 00:05, or 12:05 AM. The character <code class="docutils literal notranslate"><span class="pre">s</span></code> starts in the chatroom.</p>
+<p>A chatroom with a plot branch following it may look like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>ChatHistory(&quot;Suspicious Happenings...&quot;, &quot;day_7_chatroom_8&quot;, &quot;19:32&quot;, [ja, z], save_img=&#39;z&#39;, plot_branch=PlotBranch(True))
+</pre></div>
+</div>
+<p>This defines a <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object whose title is <code class="docutils literal notranslate"><span class="pre">&quot;Suspicious</span> <span class="pre">Happenings...&quot;</span></code>, found at the label <code class="docutils literal notranslate"><span class="pre">day_7_chatroom_8</span></code>. It triggers at 19:32, or 7:32 PM. The characters <code class="docutils literal notranslate"><span class="pre">ja</span></code> and <code class="docutils literal notranslate"><span class="pre">z</span></code> begin in this chatroom. The save image for this chatroom is <code class="docutils literal notranslate"><span class="pre">'z'</span></code>. There is a plot branch after this chatroom, and a VN associated with this chatroom. This VN should only be shown to the player if they successfully pass the plot branch and continue on the main path (Hence <code class="docutils literal notranslate"><span class="pre">plot_branch=PlotBranch(True)</span></code> rather than just <code class="docutils literal notranslate"><span class="pre">plot_branch=PlotBranch()</span></code>).</p>
+<p>All in all, a full route definition may look like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default bob_good_end = [&quot;Good End&quot;,
+    RouteDay(&#39;1st&#39;,
+        [ChatHistory(&#39;Welcome!&#39;, &#39;day_1_chatroom_1&#39;, &#39;00:01&#39;),
+        ChatHistory(&#39;Relaxing&#39;,&#39;day_1_chatroom_2&#39;, &#39;09:11&#39;, [z, b]),
+        ChatHistory(&#39;How are you doing?&#39;, &#39;day_1_chatroom_3&#39;, &#39;09:53&#39;, [r]),
+        ChatHistory(&#39;Something strange...&#39;, &#39;day_1_chatroom_4&#39;, &#39;11:28&#39;, [s]),
+        ChatHistory(&#39;Do you...?&#39;, &#39;day_1_chatroom_5&#39;, &#39;15:05&#39;, [b]),
+        ChatHistory(&#39;Kimchi Sandwich&#39;, &#39;day_1_chatroom_6&#39;, &#39;18:25&#39;, [b, ja]),
+        ChatHistory(&#39;Very mysterious&#39;, &#39;day_1_chatroom_7&#39;, &#39;20:41&#39;),
+        ChatHistory(&#39;Will you visit?&#39;, &#39;day_1_chatroom_8&#39;, &#39;22:44&#39;, [b], plot_branch=PlotBranch(True)),
+        ChatHistory(&quot;Happily Ever After&quot;, &#39;day_1_chatroom_9&#39;, &#39;23:26&#39;)
+        ]),
+    RouteDay(&#39;2nd&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;3rd&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;4th&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;5th&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;6th&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;7th&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;8th&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;9th&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;10th&#39;, [ChatHistory(...)]),
+    RouteDay(&#39;Final&#39;, [ChatHistory(...)])]
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">[ChatHistory(...)]</span></code> is shorthand for a list of many more ChatHistory objects.</p>
+</div>
+<div class="section" id="displaying-a-route-in-the-history-screen">
+<h2>Displaying a Route in the History Screen<a class="headerlink" href="#displaying-a-route-in-the-history-screen" title="Permalink to this headline">¶</a></h2>
+<p>In order for the route to show up in the History screen, you also need to define a <code class="docutils literal notranslate"><span class="pre">Route</span></code> object. Do this after you have set up the variables for all the different endings/branches of the route itself.</p>
+<p>Route |
+———–|
+<code class="docutils literal notranslate"><span class="pre">default_branch,</span> <span class="pre">branch_list=[],</span> <span class="pre">route_history_title=&quot;Common&quot;,</span> <span class="pre">has_end_title=True</span></code> |</p>
+<p>These fields are explained below.</p>
+<p>Field | Description | Example |
+——|————-|———|
+default_branch | The “default” path for this route to take. This should be the longest path from start to finish, and may not necessarily be the “good” end. | <code class="docutils literal notranslate"><span class="pre">bob_good_end</span></code> |
+branch_list | A list of all the other paths this route can take. Typically includes all the bad, normal, bad relationship ends, etc. May also be empty, if this route does not branch. | [ bob_bad_end_1, bob_bad_end_2, bob_normal_end ] |
+route_history_title | How this route should show up in the History screen e.g. “Bob Route” or “Common Route”. “Route” is automatically appended to this title. | “Bob” |
+has_end_title | True if this route has a “title” at the beginning of its definition e.g. <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">bob_good_end</span> <span class="pre">=</span> <span class="pre">[&quot;Good</span> <span class="pre">End&quot;,</span> <span class="pre">RouteDay('1st',</span> <span class="pre">(...)</span></code> has the end title “Good End”. If this route has no branching paths, there is no need to label the name of the ending, so this field can be False. | True |</p>
+<p>Therefore a Route definition for a special New Year’s Eve route with endings for each of the characters as well as a normal ending might look like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default new_years_route = Route(
+    default_branch=new_years_normal_end,
+    branch_list=[new_years_ju, new_years_ja,
+        new_years_s, new_years_y, new_years_z],
+    route_history_title=&quot;New Year&#39;s&quot;
+)
+</pre></div>
+</div>
+<p>You can see some additonal definitions at the bottom of <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy">route_setup.rpy</a>.</p>
+</div>
+<div class="section" id="accessing-your-route-in-game">
+<h2>Accessing your Route In-Game<a class="headerlink" href="#accessing-your-route-in-game" title="Permalink to this headline">¶</a></h2>
+<p>To play your route, you can either customize the route select screen (see [[Customizing the Route Select Screen]]) or change the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">new_route_setup(route=tutorial_route)</span></code> in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a> so that <code class="docutils literal notranslate"><span class="pre">tutorial_good_end</span></code> is replaced by the “default route” of the Route object you defined.</p>
+<p>For example, for the “New Year’s Route” defined above, you will have a line in your introductory label that has</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ new_route_setup(route=new_years_route)
+</pre></div>
+</div>
+<div class="section" id="managing-multiple-routes">
+<h3>Managing Multiple Routes<a class="headerlink" href="#managing-multiple-routes" title="Permalink to this headline">¶</a></h3>
+<p>If you would like to keep the Tutorial Route (or any other routes with different variables) accessible while you test your new route, you will first need to customize the route select screen (see [[Customizing the Route Select Screen]]) to have multiple buttons, one to lead to each route.</p>
+<p>For example’s sake, the route select screen has buttons to lead to two routes, one called deep_story and one called another_story.</p>
+<p>In the introductory label for each story, you may need to re-define the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> and <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> variables so they display the correct characters. An example follows:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label deep_route_start:
+    $ new_route_setup(route=deep_story_end)
+    $ current_chatroom = ChatHistory(&#39;Starter Chat&#39;, &#39;deep_story_start&#39;, &#39;00:00&#39;)
+    $ character_list = [ju, z, s, y, ja, m]
+    $ heart_point_chars = [ju, z, s, y, ja]
+    # Write your introductory chatroom here
+
+# The following label is optional for text messages, voicemail, etc
+label after_deep_story_start:
+    # Optional things here
+    return
+
+label another_story_start:
+    $ new_route_setup(route=another_story_end)
+    $ current_chatroom = ChatHistory(&#39;Starter Chat&#39;, &#39;another_story_start&#39;, &#39;00:00&#39;)
+    $ character_list = [ju, z, s, y, ja, v, r, m]
+    $ heart_point_chars = [ju, z, s, y, ja, v, r]
+    # Write your introductory chatroom here
+
+# The following label is optional for text messages, voicemail, etc
+label after_another_story_start:
+    # Optional things here
+    return
+</pre></div>
+</div>
+<p>The main difference is that <code class="docutils literal notranslate"><span class="pre">another_story</span></code> includes the characters <code class="docutils literal notranslate"><span class="pre">r</span></code> and <code class="docutils literal notranslate"><span class="pre">v</span></code>, while <code class="docutils literal notranslate"><span class="pre">deep_route</span></code> does not. When the player begins playing the route, explicitly setting <code class="docutils literal notranslate"><span class="pre">character_list</span></code> and <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> ensures the correct profiles are shown on the chat home screen and that the player can see how many heart points they have with the relevant characters.</p>
+<p>Similarly, explicitly writing <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">current_chatroom</span> <span class="pre">=</span> <span class="pre">ChatHistory('Starter</span> <span class="pre">Chat',</span> <span class="pre">'deep_story_start',</span> <span class="pre">'00:00')</span></code> allows you to use the label <code class="docutils literal notranslate"><span class="pre">after_deep_story_start</span></code> to put any text messages, voicemail changes, spaceship thoughts, etc.</p>
+</div>
+</div>
+<div class="section" id="playing-your-route">
+<h2>Playing Your Route<a class="headerlink" href="#playing-your-route" title="Permalink to this headline">¶</a></h2>
+<p>To play your new route, re-launch the program and select <strong>Start Over</strong> from the Settings screen, then <strong>Original Story</strong> to test out your new route.</p>
+</div>
+</div>
+
+  
+    <div class="section no-print">
+    
+      
+    
+    
+    
+    </div>
+  
+
+                </main><ul class="page-nav no-print">
+</ul>
+            </div>
+          </div>
+        </td></tr></tbody>
+        <tfoot>
+          <tr><th><div id="layout_footer">
+          </div></th></tr>
+        </tfoot>
+      </table><footer class="footer" role="contentinfo">
+  
+    <p>
+    
+      &#169; Copyright 2020, Shawna P.
+    
+    </p>
+  
+  
+    <p>
+    
+    
+      Licensed under .
+    
+    
+    </p>
+  
+  
+    <p>
+  
+  
+  
+    Created using <a
+        href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with
+    <a href="https://www.nerv-project.eu">Nerv Project theme</a>
+    based on <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>
+    and <a href="https://ablog.readthedocs.io/">ABlog</a>.</p>
+  
+  <div class="pagecount"></div>
+</footer>
+    </div>
+    
+    
+  </body>
+</html>

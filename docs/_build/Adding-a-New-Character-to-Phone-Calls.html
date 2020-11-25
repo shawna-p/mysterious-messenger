@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Adding a New Character to Phone Calls</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css"/>
+      <link rel="stylesheet" href="_static/theme-light.css"/>
+      <link rel="stylesheet" media="(prefers-contrast: high)" href="_static/theme-light-hc.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="_static/theme-dark.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark) and (prefers-contrast: high)" href="_static/theme-dark-hc.css"/>
+      
+        <link rel="stylesheet" media="print" href="_static/theme-print.css"/>
+      
+      
+      
+        
+        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        
+
+        <!-- sphinx script_files -->
+          <script src="_static/jquery.js"></script>
+          <script src="_static/underscore.js"></script>
+          <script src="_static/doctools.js"></script>
+          <script src="_static/language_data.js"></script>
+
+        <script src="_static/sphinx_nervproject_theme.js" defer></script>
+      
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+   
+  
+
+  </head>
+
+  <body>
+    <div id="app" class="theme-container"><header class="navbar">
+    <div id="header-identity" class="print-only">
+        <img id="navbar_logo" src="_static/"/>
+        <div id="navbar_title">Mysterious Messenger Wiki</div>
+    </div>
+
+  
+  <button class="sidebar-button">
+      <svg id="sidebar-button-svg" role="img" aria-labelledby="sidebar-button_label" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title id="sidebar-button_label">
+              Toggle sidebar
+          </title>
+          <use xlink:href="_static/fa/solid.svg#bars"></use>
+      </svg>
+  </button>
+
+  <a href="index.html" class="home-link">
+      <span class="site-name">Mysterious Messenger Wiki</span>
+  </a>
+
+  <div class="links">
+    <div class="nav-links can-hide">
+
+
+
+    </div>
+  </div>
+  
+</header>
+
+      
+      <table role="none" id="main_layout_table">
+        <thead>
+          <tr><th><div id="layout_header">
+          </div></th></tr>
+        </thead>
+        <tbody><tr><td>
+          <div id="appflex">
+            
+              <div class="sidebar" id="sidebar">
+                
+                <nav class="nav-links can-hide">
+                  
+
+
+
+                  
+                </nav><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><nav class="sidebar-links">
+  
+</nav>
+              </div>
+            
+
+            <div class="page">
+                <nav class="body-header">
+  
+  
+  
+
+  <ul class="page-nav no-print">
+</ul>
+  
+</nav>
+                <main class="content">
+                  
+  <div class="section" id="adding-a-new-character-to-phone-calls">
+<h1>Adding a New Character to Phone Calls<a class="headerlink" href="#adding-a-new-character-to-phone-calls" title="Permalink to this headline">¶</a></h1>
+<p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a>. Under the heading <strong>Phone Call Characters</strong> you will see several characters already defined.</p>
+<p>For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.</p>
+<p>You need to give Bob a Character object so he can speak in phone calls. A definition for Bob may look like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>define b_phone = Character(&quot;Bob&quot;,
+    kind=phone_character,
+    voice_tag=&quot;b_voice&quot;)
+</pre></div>
+</div>
+<p>These variables are explained below.</p>
+<p>Field | Description | Example |
+——|————-|———|
+name | The name of the character | “Bob” |
+kind | Allows this Character to “inherit” from another, previously defined Character. In this case, the <code class="docutils literal notranslate"><span class="pre">phone_character</span></code> object already has many attributes related to phone calls defined, so inheriting them means you don’t have to retype them. | phone_character |
+voice_tag | The voice tag associated with this character. Allows players to switch voice acting for this character on and off. This should be Bob’s file_id + “_voice” | “b_voice” |</p>
+<p>See <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/wiki/Adding-a-New-Character-to-VNs#note-on-voiced-characters">Note on Voiced Characters</a> for more information on adding a voice tag to a character.</p>
+<p>So long as you have passed your definition of <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">ChatCharacter(...)</span></code> the variable <code class="docutils literal notranslate"><span class="pre">phone_char=b_phone</span></code>, you can now write dialogue for phone calls like so</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>b &quot;How are you, [name]?&quot;
+</pre></div>
+</div>
+</div>
+
+  
+    <div class="section no-print">
+    
+      
+    
+    
+    
+    </div>
+  
+
+                </main><ul class="page-nav no-print">
+</ul>
+            </div>
+          </div>
+        </td></tr></tbody>
+        <tfoot>
+          <tr><th><div id="layout_footer">
+          </div></th></tr>
+        </tfoot>
+      </table><footer class="footer" role="contentinfo">
+  
+    <p>
+    
+      &#169; Copyright 2020, Shawna P.
+    
+    </p>
+  
+  
+    <p>
+    
+    
+      Licensed under .
+    
+    
+    </p>
+  
+  
+    <p>
+  
+  
+  
+    Created using <a
+        href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with
+    <a href="https://www.nerv-project.eu">Nerv Project theme</a>
+    based on <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>
+    and <a href="https://ablog.readthedocs.io/">ABlog</a>.</p>
+  
+  <div class="pagecount"></div>
+</footer>
+    </div>
+    
+    
+  </body>
+</html>

@@ -35,6 +35,7 @@ release = 'v2.2'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
     'recommonmark', 'sphinx_rtd_theme',
     'sphinx.ext.todo',
+    'renpydoc',
     'sphinx.ext.githubpages',]
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True

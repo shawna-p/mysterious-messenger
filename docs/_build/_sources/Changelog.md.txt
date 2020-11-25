@@ -1,0 +1,108 @@
+# Full Changelog
+
+## 3.0.0
+
+### Major New Features
+
+| Feature | Description |
+| ------- | ----------- |
+| StoryMode | Story Mode sections can exist separately from chatrooms and take a trigger time and a title. This also replaces the previous `VNMode` class. |
+| StoryCall | Phone calls can appear in the timeline and be mandatory for story progression. If a story call expires, the character will leave a voicemail. Story calls can exist on their own with a trigger time or can be attached to Story Mode sections or chatrooms. Only one story call per character is allowed, but multiple story calls with different callers can exist on the same timeline item. |
+| `msg` CDS | A new way of writing chatroom and text message dialogue. Automatically adds text tags and parses emojis as images. Can also add new speech bubbles and fonts to work with this CDS. |
+| `text backlog` CDS | Allows messages to be added as "backlog" to a character's text message conversation history. Can manually set the date/time the message appears, relative to the current date/time. |
+| `compose text` CDS | Replaces calls like `call compose_text(r)` and `call compose_text_end("menu_a2")`. Makes it easier to set up and write text messages, and even schedule when they should be delivered. |
+| Choice paraphrasing | Can turn `paraphrase_choices` on or off on a global, per-menu, or per-choice basis to dictate whether or not the program should automatically make the main character say the dialogue in the selected choice. |
+| Bonus profile pictures | Characters have bonus profile pictures that are unlocked based on user-defined conditions or when seen in-game. NPC profile pictures cost 5 heart points with that character to unlock, and player profile pictures cost 1 hourglass. These values are modifiable. |
+| Profile picture callback | When the player changes their profile picture, a special function is called that allows the characters to comment on their profile picture choice (e.g. by phoning them or sending a text message) |
+| `scene` and `show` extention | `scene` and `show` have been extended to allow chatroom backgrounds to be set with `scene morning` instead of `call chat_begin('morning')`. Most other effects, such as banners, can be shown via `show` commands like `show banner heart` or `show hack effect`. |
+| `timed menu` CDS | Timed menus are now typed like regular menus. The dialogue before the first choice will dictate how long the timer is. Choices are shown on-screen while the characters continue messaging. A preferences option turns timed menus into regular menus, and a slider allows for timed menu "bullet time" so that the chat speed can be fast but timed menus slow down to give players time to read. |
+| Email system improvements | Email chains can be of an arbitrary length with any number of replies. Failing an email can still continue an email chain. A string parser makes using triple-quoted strings to type emails much more readable. Players can choose to reply to an email later after clicking Reply. |
+| `call chat_begin` / `jump phone_end`-style calls removed | The program handles the setup and cleanup of all timeline items. All labels can simply begin without further ado and all labels can end with `return`. |
+
+### Minor New Features
+
+| Feature | Description |
+| ------- | ----------- |
+| `add_to_album` function | Allows you to append a photo to an album after the game has begun. |
+| `hide_albums` function | If set, allows you to hide albums from the Album screen unless they have an unlocked CG in them already. Takes a list or a single Album. |
+| `_branch` for parties | The Party can exist on its own with a trigger time, and may have a `_branch` label which will execute when the player enters the party. |
+| Guestbook Hourglasses | The player is awarded 1 hourglass (HG) the first time they view a guest in the guestbook. |
+| `invite guest` CDS | Replaces `call invite(guest)`. |
+| `award heart` and `break heart` CDS | Replaces `call heart_icon(s)` and `call heart_break(s)`, respectively. `break heart` can also be written as `heart break`. |
+| `enter chatroom` and `exit chatroom` CDS | New way of writing `call enter(s)` and `call exit(s)` respectively. |
+| Custom speech bubbles | Can use provided functions to set custom speech bubbles or do things like let Unknown use Ray's speech bubbles. |
+| `was_expired` variable | This variable is set before the game executes an `after_` label. Allows you to change dialogue depending on whether or not the associated item was participated in or if it expired. |
+| `-b` and `-thumb` for album images | You can now define thumbnails and `-b` variants on thumbnails for gallery images. These variants will be used for bonus profile pictures. |
+| History screen customization | Can now add backgrounds to routes in the history screen. A rectangular image will automatically have the corners cropped to fit the button. Can also add prologues through a special variable in `variables_editable.rpy`. |
+| `.webp` and `.ogg` conversion | Most images have been converted to `.webp` to reduce file size. Some audio files have been converted to `.ogg` for similar reasons. |
+| `call answer` removed | `call answer` is no longer required before a chatroom or text message menu. |
+| `custom_route_select_screen` | Can easily switch between a custom route select screen and the default one. Default route select improved to have additional graphics. |
+
+### Fixes
+
+| Fix | Description |
+| --- | ----------- |
+| History cleanup | RouteDays without content don't show up in the History. Single-day routes are centered in the screen. |
+| `buyahead` | Buying 24 hours in advance while playing in real-time will continue to unlock items up to the 24 hour mark after proceeding through a plot branch in the middle of the purchased 24 hours. |
+| Text message preview | Text message previews can properly handle text tags such as special fonts or sizes. |
+| Sign screen | Sign screen doesn't show hourglasses/heart points if the player was just replaying it or the item was expired. |
+| Pronoun fixes | Capitalized variants of pronoun variables are automatically defined. |
+| Observing improvements | Replaying Story Mode/phone calls during a playthrough now only presents you with the choices you made on that particular playthrough. |
+| Screen shake | Screen shake now works with animated backgrounds. It can be shown via `show shake`. |
+| Profile picture flexibility | Profile pictures can now use solid colours or cropped/transformed images. |
+| Messenger Error screen | The program will try to catch operational errors and award the player an hourglass if something fails but it is able to recover. |
+| Viewing CGs | Viewing CGs full-screen while on the messenger or viewing a text message now simply halts the game state while it is being viewed instead of manually pausing the chat. |
+| Home screen grid fix | The home screen now properly calculates how many pictures it will be showing so the grid is not over- or underfull. |
+
+### QoL Improvements
+
+| Feature | Description |
+| ------- | ----------- |
+| `play music` and `play sound` | New CDSs replace `call play_music()` and `call play_sfx()`. Can be typed and used the same way as the regular Ren'Py function, but is now compatible with audio captions. |
+| Custom ending screens | Can now define your own ending image and pass the whole string to the `ending` variable upon ending a route. |
+| `create_incoming_call` | Easy way of creating a new incoming call; intended primarily to be used in combination with profile picture callbacks. |
+| Keyboard shortcuts | Space bar selects most chatroom footer options, like play/pause/answer/save & exit and the Sign button. Left/right arrows decrease/increase the chat speed. |
+| TimelineItem class | All timeline items (chatrooms and VN mode) have been switched to inherit from a base TimelineItem class. The new classes allow for more flexibility such as standalone story calls and story mode sections, and the individual items in a chain can all have a separate `after_` label. |
+| String to filename conversion | Guest names and album names can be converted to a filename which the program can search for to find images associated with that name. `all_albums` definitions can be modified to reflect this. |
+| `persistent.testing_mode` improvements | Activating `Testing Mode` from the Developer options will now show a button to instantly end a chatroom. It also removes a lot of the confirm-style message and allows you to right-click an item on the timeline to instantly mark it as played for testing purposes. |
+| `persistent.unlock_all_story` | An option, Unlock All Story, in the Developer options will make all timeline items immediately available. Plot branches can be proceeded through without playing all prior items. |
+| Save slots | Save slots are now paged rather than one long list. |
+| `add_choices` for spaceship thoughts | Can now append a new choice to a list of spaceship thoughts. |
+| `main_character` variable | A character defined as the main character will say non-paraphrased dialogue automatically and be moved to the right side of the messenger. |
+| `persistent.pv` | `pv` (for chatroom speed) is now persistent and will carry over across playthroughs and on the history screens. |
+
+### Other
+
+| Feature | Description |
+| ------- | ----------- |
+| Folder restructure | Engine code has been moved to the `01_mysme_engine` folder. Modifiable code, or code that is expected to be added to by the user, is directly inside the `game/` folder. |
+| Casual and Jaehee Route | A stub implementation of Casual Story and Jaehee Route is implemented as an example. Allows for easy testing of real-time mechanics and demonstrates a complete route definition with branches for multiple endings. |
+| `show_empty_menus` | Can choose whether timed menus with no choices (e.g. all choices have conditions which evaluate to False) should show their dialogue or be skipped altogether. |
+| Script error screen | The program will try to detect when you have made an error in your script and notify you or direct you to an appropriate wiki page rather than crashing. |
+| `missing_label` and `missing_image` callbacks | The program will try to correct and/or recover from missing labels or missing images without disrupting the program. |
+| `use_timed_menus` | `persistent.autoanswer_timed_menus` has been renamed to `persistent.use_timed_menus`. The preference option is titled Timed Menus. |
+
+### Renamed Variables
+
+Many variables have been renamed or replaced with other functions for clarity with the new TimelineItem implementation. They are listed below.
+
+| Old Name | New Name |
+| -------- | -------- |
+post_chat_actions | reset_story_vars |
+persistent.completed_chatrooms | persistent.completed_story |
+plot_branch_end() | execute_plot_branch |
+num_future_chatrooms | num_future_timeline_items |
+chatroom_hg | collected_hg |
+chatroom_hp | collected_hp |
+chat_archive | story_archive |
+.chatroom_label | .item_label |
+most_recent_chat | most_recent_item |
+current_chatroom | current_timeline_item |
+screen chatroom_item | timeline_item_display |
+screen chatroom_item_history | timeline_item_history |
+screen chatroom_timeline | timeline |
+next_chatroom | check_and_unlock_story |
+next_chat_time | next_story_time |
+chat_24_available | make_24h_available |
+screen chat_select | day_select |
+screen day_select | day_display |
