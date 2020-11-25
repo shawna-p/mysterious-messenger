@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Useful Chatroom Functions</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css"/>
+      <link rel="stylesheet" href="_static/theme-light.css"/>
+      <link rel="stylesheet" media="(prefers-contrast: high)" href="_static/theme-light-hc.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="_static/theme-dark.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark) and (prefers-contrast: high)" href="_static/theme-dark-hc.css"/>
+      
+        <link rel="stylesheet" media="print" href="_static/theme-print.css"/>
+      
+      
+      
+        
+        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        
+
+        <!-- sphinx script_files -->
+          <script src="_static/jquery.js"></script>
+          <script src="_static/underscore.js"></script>
+          <script src="_static/doctools.js"></script>
+          <script src="_static/language_data.js"></script>
+
+        <script src="_static/sphinx_nervproject_theme.js" defer></script>
+      
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+   
+  
+
+  </head>
+
+  <body>
+    <div id="app" class="theme-container"><header class="navbar">
+    <div id="header-identity" class="print-only">
+        <img id="navbar_logo" src="_static/"/>
+        <div id="navbar_title">Mysterious Messenger Wiki</div>
+    </div>
+
+  
+  <button class="sidebar-button">
+      <svg id="sidebar-button-svg" role="img" aria-labelledby="sidebar-button_label" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title id="sidebar-button_label">
+              Toggle sidebar
+          </title>
+          <use xlink:href="_static/fa/solid.svg#bars"></use>
+      </svg>
+  </button>
+
+  <a href="index.html" class="home-link">
+      <span class="site-name">Mysterious Messenger Wiki</span>
+  </a>
+
+  <div class="links">
+    <div class="nav-links can-hide">
+
+
+
+    </div>
+  </div>
+  
+</header>
+
+      
+      <table role="none" id="main_layout_table">
+        <thead>
+          <tr><th><div id="layout_header">
+          </div></th></tr>
+        </thead>
+        <tbody><tr><td>
+          <div id="appflex">
+            
+              <div class="sidebar" id="sidebar">
+                
+                <nav class="nav-links can-hide">
+                  
+
+
+
+                  
+                </nav><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><nav class="sidebar-links">
+  
+</nav>
+              </div>
+            
+
+            <div class="page">
+                <nav class="body-header">
+  
+  
+  
+
+  <ul class="page-nav no-print">
+</ul>
+  
+</nav>
+                <main class="content">
+                  
+  <div class="section" id="useful-chatroom-functions">
+<h1>Useful Chatroom Functions<a class="headerlink" href="#useful-chatroom-functions" title="Permalink to this headline">¶</a></h1>
+<p><strong>You can see many of these functions in use in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_1_chatroom.rpy">tutorial_1_chatroom.rpy</a></strong></p>
+<div class="section" id="how-to-let-the-player-make-a-choice">
+<h2>How to let the player make a choice<a class="headerlink" href="#how-to-let-the-player-make-a-choice" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call answer
+menu:
+    &quot;Choice 1&quot;:
+        m &quot;Choice 1&quot; (pauseVal=0)
+        # More dialogue here
+    &quot;Choice 2&quot;:
+        m &quot;Choice 2&quot; (pauseVal=0)
+        # More dialogue here
+# Regular dialogue continues here
+</pre></div>
+</div>
+<p>The main thing to remember is to write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">answer</span></code> before <code class="docutils literal notranslate"><span class="pre">menu:</span></code>, which will bring up the “answer” button at the bottom of the screen and pause the chat.</p>
+<p>You can add as many choices as you want to the menu, although only 5 options will fit on the screen at once. Any dialogue that is indented after a choice will only be shown to the player if they pick that choice. Dialogue intended at the same level as <code class="docutils literal notranslate"><span class="pre">menu:</span></code> will be shown to players regardless of what option they picked in the menu. You can use the <code class="docutils literal notranslate"><span class="pre">TAB</span></code> key to indent text an additional level to the right, though make sure your editor is using spaces to indent code (since Python and Ren’Py will have errors if you use actual <code class="docutils literal notranslate"><span class="pre">TAB</span></code> characters).</p>
+<p>After a choice, the MC usually has dialogue. You can see that under <code class="docutils literal notranslate"><span class="pre">&quot;Choice</span> <span class="pre">1&quot;:</span></code>, the dialogue is repeated, but this time it’s preceded by <code class="docutils literal notranslate"><span class="pre">m</span></code>. <code class="docutils literal notranslate"><span class="pre">m</span></code> is the variable used to make the MC speak in chatrooms. Unless the menu option is paraphrased, you need to copy the line of dialogue from the choice below for <code class="docutils literal notranslate"><span class="pre">m</span></code> to say.</p>
+<p>Secondly, there’s also an argument after the MC’s dialogue: <code class="docutils literal notranslate"><span class="pre">(pauseVal=0)</span></code>. The included spreadsheet will usually include this argument for you when the MC speaks (see [[Using the Chatroom Spreadsheet]]). It tells the program not to wait before posting this message. Otherwise, after choosing an answer, the program would pause for a moment to simulate “typing time” for the MC to send their message. Since this can be rather disorienting after a choice, adding <code class="docutils literal notranslate"><span class="pre">(pauseVal=0)</span></code> after the dialogue removes this wait time.</p>
+<p>However, the MC doesn’t need to send a message after a choice, or you can have other characters send things. For example, one of your choices could be <code class="docutils literal notranslate"><span class="pre">&quot;(Remain</span> <span class="pre">silent)&quot;</span></code>, in which case the MC probably won’t send a message after the choice. (You can see an example of this in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy">tutorial_8_plot_branches.rpy</a>).</p>
+</div>
+<div class="section" id="how-to-show-a-heart-icon">
+<h2>How to show a heart icon<a class="headerlink" href="#how-to-show-a-heart-icon" title="Permalink to this headline">¶</a></h2>
+<p>heart_icon |
+———–|
+<code class="docutils literal notranslate"><span class="pre">character,</span> <span class="pre">bad=False</span></code> |</p>
+<p>To show heart icons to the player and award them heart points, use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call heart_icon(s)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character whose heart point you’d like to show. The options built into the program are:</p>
+<ul class="simple">
+<li><p>ja (Jaehee)</p></li>
+<li><p>ju (Jumin)</p></li>
+<li><p>r (Ray/Saeran)</p></li>
+<li><p>ri (Rika)</p></li>
+<li><p>s (Seven)</p></li>
+<li><p>sa (Saeran/Ray)</p></li>
+<li><p>u (Unknown, a white heart)</p></li>
+<li><p>v (V)</p></li>
+<li><p>y (Yoosung)</p></li>
+<li><p>z (Zen)</p></li>
+</ul>
+<p>If you’d like to add your own character to give a heart point to, see [[Adding a New Character to Chatrooms]]. Both Ray and Saeran’s heart points count towards the same character.</p>
+<p>There is also an optional second argument in the <code class="docutils literal notranslate"><span class="pre">heart_icon</span></code> call:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call heart_icon(s, bad=True)
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">bad=True</span></code> argument tells the program that this heart is a “bad” heart icon – in other words, it indicates that this answer, while awarding the player a heart point, also counts towards a bad ending. In this way, you can conceal which answers lead to the “Good” end since you can award the player a heart point for both the good and bad ending answers (See <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a> for an example of this). When you get to a plot branch, you can have the program calculate whether the player has more “good” or “bad” heart points with a character. See [[Plot Branches]] for more information on this.</p>
+<p>Similarly, to show a “heartbreak” icon with a character, write</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call heart_break(s)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character whose heart break you’d like to show. This will <em>always</em> subtract from the character’s “good” heart points and never the “bad” points.</p>
+</div>
+<div class="section" id="how-to-show-a-banner">
+<h2>How to show a banner<a class="headerlink" href="#how-to-show-a-banner" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call banner(&#39;name of banner&#39;)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">'name</span> <span class="pre">of</span> <span class="pre">banner'</span></code> is replaced with the actual name e.g. <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">banner('heart')</span></code>. The available banners are:</p>
+<ul class="simple">
+<li><p>lightning</p></li>
+<li><p>heart</p></li>
+<li><p>annoy</p></li>
+<li><p>well</p></li>
+</ul>
+<p>The names are case-sensitive when you call them.</p>
+</div>
+<div class="section" id="how-to-make-a-character-enter-exit-the-chatroom">
+<h2>How to make a character enter/exit the chatroom<a class="headerlink" href="#how-to-make-a-character-enter-exit-the-chatroom" title="Permalink to this headline">¶</a></h2>
+<p>To get the message <code class="docutils literal notranslate"><span class="pre">Character</span> <span class="pre">has</span> <span class="pre">entered</span> <span class="pre">the</span> <span class="pre">chatroom</span></code> type:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call enter(y)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">y</span></code> is the variable of the character who is entering (see <a class="reference external" href="#how-to-show-a-heart-icon">How to show a heart icon</a> for a list).</p>
+<p>To get the message <code class="docutils literal notranslate"><span class="pre">Character</span> <span class="pre">has</span> <span class="pre">left</span> <span class="pre">the</span> <span class="pre">chatroom</span></code> type:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call exit(y)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">y</span></code> is the variable of the character who is exiting.</p>
+</div>
+<div class="section" id="how-to-update-a-character-s-profile-picture">
+<h2>How to update a character’s profile picture<a class="headerlink" href="#how-to-update-a-character-s-profile-picture" title="Permalink to this headline">¶</a></h2>
+<p>To update a character’s profile picture, use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ja.prof_pic = &#39;Profile Pics/Jaehee/your-pic.jpg&#39;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the character whose profile picture you’d like to change, and <code class="docutils literal notranslate"><span class="pre">'Profile</span> <span class="pre">Pics/Jaehee/your-pic.jpg'</span></code> is the path to the profile picture you’d like to update to. Profile pictures should be 110x110 pixels. You can also provide a larger image, up to 314x314 pixels, for use on the character’s profile page and on the phone call screens. This image should be in the same folder as the original, and should end with <code class="docutils literal notranslate"><span class="pre">-b</span></code> (b for “big”) just before the file extention.</p>
+<p>So, if you have a regular image that’s 110x110 in <code class="docutils literal notranslate"><span class="pre">Profile</span> <span class="pre">Pics/Jaehee/your-pic.jpg</span></code>, the program will look for the big version of the profile picture at <code class="docutils literal notranslate"><span class="pre">Profile</span> <span class="pre">Pics/Jaehee/your-pic-b.jpg</span></code>.</p>
+<p>You should usually change a character’s profile picture at the beginning of a chatroom, just after the <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> call.</p>
+<div class="section" id="changing-the-mc-s-profile-picture">
+<h3>Changing the MC’s profile picture<a class="headerlink" href="#changing-the-mc-s-profile-picture" title="Permalink to this headline">¶</a></h3>
+<p>Updating the MC’s profile picture is done differently. Currently the program has 5 default images that the player can cycle through by clicking on the profile picture in the Profile tab on the Settings screen. If you have a custom picture you’d like to use, you can drop it in the <code class="docutils literal notranslate"><span class="pre">game/Drop</span> <span class="pre">Your</span> <span class="pre">Profile</span> <span class="pre">Picture</span> <span class="pre">Here</span></code> folder. The dimensions should be at least 110x110 pixels, though images that are up to 363x363 pixels will display better on the profile screen. The program does not search for multiple image sizes and will instead scale up and down as appropriate (which can lead to fuzzy images or odd anti-aliasing with particularly small or large pictures). The program takes <code class="docutils literal notranslate"><span class="pre">png</span></code>, <code class="docutils literal notranslate"><span class="pre">jpg</span></code>, non-animated <code class="docutils literal notranslate"><span class="pre">gif</span></code> and <code class="docutils literal notranslate"><span class="pre">webp</span></code> image formats. You can add as many or as few pictures as you like and are free to remove the existing images in that folder.</p>
+</div>
+</div>
+<div class="section" id="how-to-update-a-character-s-cover-photo">
+<h2>How to update a character’s cover photo<a class="headerlink" href="#how-to-update-a-character-s-cover-photo" title="Permalink to this headline">¶</a></h2>
+<p>To update a character’s cover photo, use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ja.cover_pic = &#39;Cover Photos/Jaehee/your-pic.jpg&#39;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the character whose cover photo you’d like to change, and <code class="docutils literal notranslate"><span class="pre">'Cover</span> <span class="pre">Photos/Jaehee/your-pic.jpg'</span></code> is the path to the cover photo you’d like to update to. Cover photos should be 750x672 pixels.</p>
+<p>You should usually change a character’s cover photo at the beginning of a chatroom, just after the <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> call, as you do when changing a character’s profile photo. Don’t forget to do this both for the regular chatroom and the expired chatroom, if applicable.</p>
+</div>
+<div class="section" id="how-to-update-a-character-s-status">
+<h2>How to update a character’s status<a class="headerlink" href="#how-to-update-a-character-s-status" title="Permalink to this headline">¶</a></h2>
+<p>To update a character’s status, use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ja.status = &quot;This is my new status update.&quot;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the character whose status you’d like to change, and <code class="docutils literal notranslate"><span class="pre">&quot;This</span> <span class="pre">is</span> <span class="pre">my</span> <span class="pre">new</span> <span class="pre">status</span> <span class="pre">update.&quot;</span></code> is whatever you’d like to update their status to.</p>
+<p>You should usually change a character’s status at the beginning of a chatroom, just after the <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> call, as you do when changing a character’s profile photo or cover photo.</p>
+</div>
+</div>
+
+  
+    <div class="section no-print">
+    
+      
+    
+    
+    
+    </div>
+  
+
+                </main><ul class="page-nav no-print">
+</ul>
+            </div>
+          </div>
+        </td></tr></tbody>
+        <tfoot>
+          <tr><th><div id="layout_footer">
+          </div></th></tr>
+        </tfoot>
+      </table><footer class="footer" role="contentinfo">
+  
+    <p>
+    
+      &#169; Copyright 2020, Shawna P.
+    
+    </p>
+  
+  
+    <p>
+    
+    
+      Licensed under .
+    
+    
+    </p>
+  
+  
+    <p>
+  
+  
+  
+    Created using <a
+        href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with
+    <a href="https://www.nerv-project.eu">Nerv Project theme</a>
+    based on <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>
+    and <a href="https://ablog.readthedocs.io/">ABlog</a>.</p>
+  
+  <div class="pagecount"></div>
+</footer>
+    </div>
+    
+    
+  </body>
+</html>

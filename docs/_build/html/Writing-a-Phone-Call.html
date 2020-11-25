@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Writing a Phone Call</title>
+    
+      <link rel="stylesheet" href="_static/pygments.css"/>
+      <link rel="stylesheet" href="_static/theme-light.css"/>
+      <link rel="stylesheet" media="(prefers-contrast: high)" href="_static/theme-light-hc.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="_static/theme-dark.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark) and (prefers-contrast: high)" href="_static/theme-dark-hc.css"/>
+      
+        <link rel="stylesheet" media="print" href="_static/theme-print.css"/>
+      
+      
+      
+        
+        <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        
+
+        <!-- sphinx script_files -->
+          <script src="_static/jquery.js"></script>
+          <script src="_static/underscore.js"></script>
+          <script src="_static/doctools.js"></script>
+          <script src="_static/language_data.js"></script>
+
+        <script src="_static/sphinx_nervproject_theme.js" defer></script>
+      
+    
+  <link rel="index" title="Index" href="genindex.html" />
+  <link rel="search" title="Search" href="search.html" />
+   
+  
+
+  </head>
+
+  <body>
+    <div id="app" class="theme-container"><header class="navbar">
+    <div id="header-identity" class="print-only">
+        <img id="navbar_logo" src="_static/"/>
+        <div id="navbar_title">Mysterious Messenger Wiki</div>
+    </div>
+
+  
+  <button class="sidebar-button">
+      <svg id="sidebar-button-svg" role="img" aria-labelledby="sidebar-button_label" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title id="sidebar-button_label">
+              Toggle sidebar
+          </title>
+          <use xlink:href="_static/fa/solid.svg#bars"></use>
+      </svg>
+  </button>
+
+  <a href="index.html" class="home-link">
+      <span class="site-name">Mysterious Messenger Wiki</span>
+  </a>
+
+  <div class="links">
+    <div class="nav-links can-hide">
+
+
+
+    </div>
+  </div>
+  
+</header>
+
+      
+      <table role="none" id="main_layout_table">
+        <thead>
+          <tr><th><div id="layout_header">
+          </div></th></tr>
+        </thead>
+        <tbody><tr><td>
+          <div id="appflex">
+            
+              <div class="sidebar" id="sidebar">
+                
+                <nav class="nav-links can-hide">
+                  
+
+
+
+                  
+                </nav><div id="searchbox" class="searchbox" role="search">
+  <div class="caption"><span class="caption-text">Quick search</span>
+    <div class="searchformwrapper">
+      <form class="search" action="search.html" method="get">
+        <input type="text" name="q" />
+        <input type="submit" value="Search" />
+        <input type="hidden" name="check_keywords" value="yes" />
+        <input type="hidden" name="area" value="default" />
+      </form>
+    </div>
+  </div>
+</div><nav class="sidebar-links">
+  
+</nav>
+              </div>
+            
+
+            <div class="page">
+                <nav class="body-header">
+  
+  
+  
+
+  <ul class="page-nav no-print">
+</ul>
+  
+</nav>
+                <main class="content">
+                  
+  <div class="section" id="writing-a-phone-call">
+<h1>Writing a Phone Call<a class="headerlink" href="#writing-a-phone-call" title="Permalink to this headline">¶</a></h1>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
+<p>A brief overview of the steps required (more detail below): |
+————————————————————|</p>
+<blockquote>
+<div><ol class="simple">
+<li><p>Create a label + the correct suffix for the phone call</p>
+<ol class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">my_chatroom_outgoing_ja</span></code> to make an outgoing call to the character <code class="docutils literal notranslate"><span class="pre">ja</span></code> available</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">my_chatroom_incoming_ja</span></code> to trigger an incoming call from the character <code class="docutils literal notranslate"><span class="pre">ja</span></code> after the chatroom has been played</p></li>
+</ol>
+</li>
+<li><p>At the beginning of your new label, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">phone_begin</span></code></p></li>
+<li><p>Write the phone call dialogue</p></li>
+<li><p>End the phone call with <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">phone_end</span></code></p></li>
+</ol>
+</div></blockquote>
+<p>All phone call labels follow the same naming convention. If your chatroom is named</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
+</pre></div>
+</div>
+<p>then an incoming call should be named</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom_incoming_ja:
+</pre></div>
+</div>
+<p>and an outgoing call will be called</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom_outgoing_ja:
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the variable of the character whom the player is calling or who is calling the player (see <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a>) for a list of the existing characters).</p>
+<p>If the program finds the correct label, after the player has exited the chatroom, the appropriate phone calls will be made available. The player can then go to the phone menu and call the characters. You can make up to one phone call available for every character, regardless of whether or not that character also has an incoming call. In case the player misses the incoming call from that character, <strong>both</strong> the incoming and outgoing calls to that character will be made available, and the player can call the character twice to receive both conversations.</p>
+<p>Underneath your phone call label, begin the conversation by typing</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call phone_begin
+</pre></div>
+</div>
+<p>Then you will write dialogue the same way as you write it for the characters anywhere else in the program. Note that phone calls do not take the arguments you can pass during chatroom dialogue, such as <code class="docutils literal notranslate"><span class="pre">(pauseVal=0)</span></code> or <code class="docutils literal notranslate"><span class="pre">(img=True)</span></code>.</p>
+<p>All phone dialogue looks the same regardless of the speaking character (with the exception of the MC, whose dialogue is darker and disappears more quickly). However, using the different characters for the dialogue allows the player to switch off voice acting for particular characters. Currently there is very little voice acting in the program; however, both calls after the chatroom in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a> have voice acting included via Ren’Py’s automatic voice tagging system.</p>
+<p>You may also find Ren’Py’s “monologue mode” helpful, since unlike in VN mode, you won’t be switching between expressions or different speakers very often. See <code class="docutils literal notranslate"><span class="pre">tutorial_chat_outgoing_y</span></code> in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a> for an example of this.</p>
+<div class="section" id="writing-menus-in-phone-calls">
+<h2>Writing Menus in Phone Calls<a class="headerlink" href="#writing-menus-in-phone-calls" title="Permalink to this headline">¶</a></h2>
+<p>Writing a menu to provide a choice to the player works nearly the same way as a chatroom, with the exception of the line <code class="docutils literal notranslate"><span class="pre">extend</span> <span class="pre">''</span></code> right after the <code class="docutils literal notranslate"><span class="pre">menu:</span></code> statement:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>menu:
+    extend &#39;&#39;
+    &quot;Choice 1&quot;:
+        m &quot;Choice 1&quot;
+    &quot;Choice 2&quot;:
+        m &quot;Choice 2&quot;
+</pre></div>
+</div>
+<p>This shows the dialogue said just before the menu behind the choice screen</p>
+</div>
+<div class="section" id="ending-a-phone-call">
+<h2>Ending a Phone Call<a class="headerlink" href="#ending-a-phone-call" title="Permalink to this headline">¶</a></h2>
+<p>At the end of your phone call label, type</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>jump phone_end
+</pre></div>
+</div>
+<p>to finish up the phone call.</p>
+</div>
+</div>
+
+  
+    <div class="section no-print">
+    
+      
+    
+    
+    
+    </div>
+  
+
+                </main><ul class="page-nav no-print">
+</ul>
+            </div>
+          </div>
+        </td></tr></tbody>
+        <tfoot>
+          <tr><th><div id="layout_footer">
+          </div></th></tr>
+        </tfoot>
+      </table><footer class="footer" role="contentinfo">
+  
+    <p>
+    
+      &#169; Copyright 2020, Shawna P.
+    
+    </p>
+  
+  
+    <p>
+    
+    
+      Licensed under .
+    
+    
+    </p>
+  
+  
+    <p>
+  
+  
+  
+    Created using <a
+        href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with
+    <a href="https://www.nerv-project.eu">Nerv Project theme</a>
+    based on <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>
+    and <a href="https://ablog.readthedocs.io/">ABlog</a>.</p>
+  
+  <div class="pagecount"></div>
+</footer>
+    </div>
+    
+    
+  </body>
+</html>

@@ -1,0 +1,20 @@
+Welcome to the Mysterious Messenger Wiki!
+=========================================
+
+.. automodule:: chatcharacter_definition
+   :members:
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+   Introduction
+   Credits and Acknowledgements
+   Credits and Acknowledgements <Credits-and-Acknowledgements>
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
