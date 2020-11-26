@@ -14,7 +14,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('.'))
-
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
 
 # -- Project information -----------------------------------------------------
@@ -75,10 +75,12 @@ pygments_style = 'custom_monokai.CustomMonokaiStyle'
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-#html_static_path = ['_static']
-#html_theme = "sphinx_rtd_theme"
+html_static_path = ['_static']
 import sphinx_nervproject_theme
-html_theme = "nervproject"
+if on_rtd:
+    html_theme = "nervproject"
+else:
+    html_theme = "sphinx_rtd_theme"
 #html_theme_path = [sphinx_nervproject_theme.get_html_theme_path()]
 #html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
 
