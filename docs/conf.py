@@ -78,9 +78,9 @@ pygments_style = 'custom_monokai.CustomMonokaiStyle'
 html_static_path = ['_static']
 import sphinx_nervproject_theme
 if on_rtd:
-    html_theme = "nervproject"
-else:
     html_theme = "sphinx_rtd_theme"
+else:
+    html_theme = "nervproject"
 #html_theme_path = [sphinx_nervproject_theme.get_html_theme_path()]
 #html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
 
