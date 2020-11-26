@@ -133,12 +133,12 @@
 </div></blockquote>
 <p>The first thing you should do when creating a chatroom is create a new <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file and name it something descriptive so you’ll know where to find that chatroom. If you’re planning on making a lot of chatrooms (say, for a route), you should come up with a consistent naming scheme such as <code class="docutils literal notranslate"><span class="pre">day_1_chatroom_3.rpy</span></code> or <code class="docutils literal notranslate"><span class="pre">chatroom_1_3.rpy</span></code>so it’s easier to find the correct files later on.</p>
 <p>In your newly created <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file, start off by making a label:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label day1_1:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day1_1</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>Don’t forget the colon after the label name. Your label name also can’t have any spaces in it, nor can it begin with a number.</p>
 <p>Next, it’s time to begin the chatroom. Note that everything under the label <strong>must be indented at least one level to the right</strong>. Look at the example files mentioned above if you’re not sure what this means. To begin the chat, use the call:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call chat_begin(&quot;earlyMorn&quot;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;earlyMorn&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>chat_begin |
@@ -156,21 +156,21 @@
 <li><p>redcrack</p></li>
 </ul>
 <p>Note that it <em>is</em> case-sensitive, so you need to get the capitals right. The <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> function will also clear the chat log (aka your message history, so when you begin a new chatroom there are no messages on the screen at the beginning), but you can pass it a second argument so that it doesn’t clear the chat log. That looks like this:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call chat_begin(&quot;hack&quot;, clearchat=False)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;hack&quot;</span><span class="p">,</span> <span class="n">clearchat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The other thing the <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> call does is set the heart points the player has collected in this chatroom to zero. In general, this makes sure that if the player collected 15 heart points in the last chatroom, they start again at zero for this chatroom. Unless you are changing the chatroom background in the middle of a chatroom, you can usually leave this as True. If you don’t want to set the chatroom heart points to zero, you need to tell it the <code class="docutils literal notranslate"><span class="pre">resetHP</span></code> argument is <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call chat_begin(&quot;hack&quot;, resetHP=False)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;hack&quot;</span><span class="p">,</span> <span class="n">resetHP</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Besides preventing the program from resetting heart points, if <code class="docutils literal notranslate"><span class="pre">resetHP</span> <span class="pre">=</span> <span class="pre">False</span></code> the program will also assume you’re calling <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> in the middle of a chatroom and thus don’t want the participants reset. Otherwise, the list of participants shown at the top of the screen during a chatroom will also display people who have entered and then exited the chatroom. If you’re not calling <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> in the middle of a chatroom, you usually want <code class="docutils literal notranslate"><span class="pre">resetHP</span></code> to be <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 <p>So now that the chat is set up, you probably want to play some music. Music is played like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>play music mystic_chat
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> can be replaced by the name of whatever music you want. There are several files already pre-defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy">variables_music_sound.rpy</a> under the heading <strong>BACKGROUND MUSIC DEFINITIONS</strong>. If you want to define your own music files, be sure to add them to the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> so they are compatible with audio captions. See [[Adding new Audio]] for more information.</p>
 <p>Finally, to end your chatroom, you need to write</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>jump chat_end
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">jump</span> <span class="n">chat_end</span>
 </pre></div>
 </div>
 <p>To learn more about how to write dialogue for your chatroom, check out [[Using the Chatroom Spreadsheet]].</p>

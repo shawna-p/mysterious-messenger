@@ -121,9 +121,9 @@
 ————-|
 <code class="docutils literal notranslate"><span class="pre">char,</span> <span class="pre">thought</span></code> |</p>
 <p>To change the spaceship thoughts, in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of the chatroom after which you want the spaceship thoughts to change, add the line</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ space_thoughts.new_choices([
-    SpaceThought(ja, &quot;New thought here.&quot;)
-])
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">space_thoughts</span><span class="o">.</span><span class="n">new_choices</span><span class="p">([</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">ja</span><span class="p">,</span> <span class="s2">&quot;New thought here.&quot;</span><span class="p">)</span>
+<span class="p">])</span>
 </pre></div>
 </div>
 <p>You can add more <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> objects to the list, separating them with commas. This line will clear the previous list of thoughts and replace it with your new list after the player has gone through the chatroom (and the VN mode as well, if there is one).</p>

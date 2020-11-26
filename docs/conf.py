@@ -13,6 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
+sys.path.append(os.path.abspath('.'))
 
 
 
@@ -35,7 +36,8 @@ release = 'v2.2'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
     'recommonmark', 'sphinx_rtd_theme',
     'sphinx.ext.todo',
-    #'renpydoc',
+    'renpydoc',
+    'custom_monokai',
     'sphinx.ext.githubpages',]
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
@@ -64,7 +66,8 @@ source_suffix = ['.rst', '.md']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
-pygments_style = 'sphinx'
+# pygments_style = 'sphinx'
+pygments_style = 'custom_monokai.CustomMonokaiStyle'
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -74,7 +77,7 @@ pygments_style = 'sphinx'
 #
 html_static_path = ['_static']
 #html_theme = "sphinx_rtd_theme"
-import sphinx_nervproject_theme # Currently not working :(
+import sphinx_nervproject_theme
 html_theme = "nervproject"
 #html_theme_path = [sphinx_nervproject_theme.get_html_theme_path()]
 #html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]

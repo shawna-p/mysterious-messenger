@@ -115,7 +115,7 @@
   <div class="section" id="hacked-effects">
 <h1>Hacked Effects<a class="headerlink" href="#hacked-effects" title="Permalink to this headline">¶</a></h1>
 <p>In your route, you may want to cause the program to appear as though it has been hacked. There are a few features to help you achieve this look. First, there is a variable called <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> that, if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, will cause the chatroom timeline to have additional “broken” backgrounds, and will also show a glitchy screen tear effect every 10 seconds or so. You can set this variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> at any point during your route; simply including the line</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ hacked_effect = True
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">hacked_effect</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>in an <code class="docutils literal notranslate"><span class="pre">after_</span></code> label, for example, will activate it. Similarly, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">hacked_effect</span> <span class="pre">=</span> <span class="pre">False</span></code> will get rid of these effects.</p>
@@ -124,16 +124,16 @@
 <div class="section" id="the-tear-screen">
 <h2>The tear screen<a class="headerlink" href="#the-tear-screen" title="Permalink to this headline">¶</a></h2>
 <p>There is a special screen called the <code class="docutils literal notranslate"><span class="pre">tear</span></code> screen which will cause the screen to be split into several smaller pieces that are offset a little from their original position. It’s used to create the hacked effect in the chatroom timeline screen, but can also be shown in the middle of any ordinary chatroom/phone call/VN Mode/etc. You can call it like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call tear_screen(number=10, offtimeMult=0.4, ontimeMult=0.4, 
-    offsetMin=-10, offsetMax=30, w_timer=0.18, p=0.5)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offtimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ontimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> 
+    <span class="n">offsetMin</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">offsetMax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w_timer</span><span class="o">=</span><span class="mf">0.18</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">10</span></code> is the number of pieces to tear; <code class="docutils literal notranslate"><span class="pre">0.4</span></code> is the value for both <code class="docutils literal notranslate"><span class="pre">offtimeMult</span></code> and <code class="docutils literal notranslate"><span class="pre">ontimeMult</span></code> respectively – this controls how much the pieces bounce back and forth; <code class="docutils literal notranslate"><span class="pre">-10</span></code> is the minimum offset for the pieces (this can be negative, positive, or zero); <code class="docutils literal notranslate"><span class="pre">30</span></code> is the maximum offset for the pieces (can also be negative, positive, or zero; offset just means how far the pieces will move away from their origin point, in pixels); and <code class="docutils literal notranslate"><span class="pre">0.5</span></code> is how long the program should display the tear screen for before hiding.</p>
 <p>You can also briefly show an image on-screen before showing the tear screen in order to have that image “torn” as well. For this, you can use the special screen <code class="docutils literal notranslate"><span class="pre">display_img</span></code>:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>show screen display_img([ [&#39;vn_party&#39;, 200, 400] ])
-pause 0.0001
-call tear_screen(40, 0.4, 0.2, -100, 100, 0.3, 0.3)
-hide screen display_img
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="k">screen</span> <span class="n">display_img</span><span class="p">([</span> <span class="p">[</span><span class="s1">&#39;vn_party&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span> <span class="p">])</span>
+<span class="k">pause</span> <span class="mf">0.0001</span>
+<span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+<span class="k">hide</span> <span class="k">screen</span> <span class="n">display_img</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">display_img</span></code> screen will show an image in the specified position. It takes a lists of lists as its sole parameter. Each item in the list should be a list of three items: the image to display (which can be the name of a previously declared image, as above, a string with a path to the file name, or a Transform with the image, among other things), then the xpos, and then the ypos. So, in this case, the program displays the image <code class="docutils literal notranslate"><span class="pre">'vn_party'</span></code> at an xpos of 200 and a ypos of 400.</p>
@@ -142,9 +142,9 @@ hide screen display_img
 <div class="section" id="the-hack-rectangle-screen">
 <h2>The hack_rectangle screen<a class="headerlink" href="#the-hack-rectangle-screen" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">hack_rectangle</span></code> screen will also help create a “hacked” effect. It will show several random rectangles on the screen, and works well when paired with the tear screen. For example:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call hack_rectangle_screen(t=0.2, p=0.01)
-call tear_screen(number=10, offtimeMult=0.4, ontimeMult=0.2,
-    offsetMin=-10, offsetMax=30, w_timer=0.18, p=0.18)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">hack_rectangle_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offtimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ontimeMult</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">offsetMin</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">offsetMax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w_timer</span><span class="o">=</span><span class="mf">0.18</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.18</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will show the <code class="docutils literal notranslate"><span class="pre">hack_rectangle</span></code> screen for 0.2 seconds (<code class="docutils literal notranslate"><span class="pre">t=0.2</span></code>), and after pausing for 0.01 seconds (<code class="docutils literal notranslate"><span class="pre">p=0.01</span></code>) to give the program time to register the images on-screen, it shows the <code class="docutils literal notranslate"><span class="pre">tear</span></code> screen for 0.18 seconds.</p>
@@ -152,7 +152,7 @@ call tear_screen(number=10, offtimeMult=0.4, ontimeMult=0.2,
 <div class="section" id="static-white-squares">
 <h2>Static white squares<a class="headerlink" href="#static-white-squares" title="Permalink to this headline">¶</a></h2>
 <p>The program also has a screen called <code class="docutils literal notranslate"><span class="pre">white_squares</span></code> which randomly shows a sequence of white “static” squares on top of the screen. It is used for the chatroom select screen when <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> is True. To call it, use</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call white_square_screen(t=0.16, p=0.17)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">white_square_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.17</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">t=0.16</span></code> is how long to show the screen for (0.16 seconds) and <code class="docutils literal notranslate"><span class="pre">p=0.17</span></code> tells the program how long to pause for before continuing (0.17 seconds).</p>
@@ -160,15 +160,15 @@ call tear_screen(number=10, offtimeMult=0.4, ontimeMult=0.2,
 <div class="section" id="inverting-the-screen-colours">
 <h2>Inverting the screen colours<a class="headerlink" href="#inverting-the-screen-colours" title="Permalink to this headline">¶</a></h2>
 <p>Finally, there is also a screen called <code class="docutils literal notranslate"><span class="pre">invert</span></code> which will take a screenshot of the currently displayed screen and invert the colours:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call invert_screen(t=0.19, p=0.2)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">invert_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.19</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">t=0.19</span></code> is how long to show the screen for (0.19 seconds) and <code class="docutils literal notranslate"><span class="pre">p=0.2</span></code> is how long the program should pause for before continuing (0.2 seconds). This works well with screens that were previously mentioned. For example:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call hack_rectangle_screen(t=0.2, p=0.01)
-call invert_screen(t=0.19, p=0.01)
-call tear_screen(number=10, offtimeMult=0.4, ontimeMult=0.2, 
-            offsetMin=-10, offsetMax=30, w_timer=0.18, p=0.01)
-call white_square_screen(t=0.16, p=0.17)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">hack_rectangle_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">invert_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.19</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offtimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ontimeMult</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> 
+            <span class="n">offsetMin</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">offsetMax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w_timer</span><span class="o">=</span><span class="mf">0.18</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">white_square_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.17</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

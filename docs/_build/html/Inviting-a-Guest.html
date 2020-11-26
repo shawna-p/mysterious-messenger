@@ -116,11 +116,11 @@
 <h1>Inviting a Guest<a class="headerlink" href="#inviting-a-guest" title="Permalink to this headline">¶</a></h1>
 <p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_2_emails.rpy">tutorial_2_emails.rpy</a></strong></p>
 <p>After you’ve defined your guest as per [[Writing an Email Chain]], in the chatroom or VN section that you’d like to invite the guest in, use the call:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call invite(your_guest)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">invite</span><span class="p">(</span><span class="n">your_guest</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">your_guest</span></code> is the variable that you made when you defined the guest using</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default your_guest = Guest(&quot;test&quot;, &quot;thumbnail.png&quot;, ...)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">your_guest</span> <span class="o">=</span> <span class="n">Guest</span><span class="p">(</span><span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;thumbnail.png&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>After the chatroom or VN section is over, the player will receive the first email from that guest.</p>

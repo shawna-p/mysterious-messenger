@@ -117,9 +117,9 @@
 <p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a>. Under the heading <strong>Phone Call Characters</strong> you will see several characters already defined.</p>
 <p>For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.</p>
 <p>You need to give Bob a Character object so he can speak in phone calls. A definition for Bob may look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>define b_phone = Character(&quot;Bob&quot;,
-    kind=phone_character,
-    voice_tag=&quot;b_voice&quot;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">b_phone</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
+    <span class="n">kind</span><span class="o">=</span><span class="n">phone_character</span><span class="p">,</span>
+    <span class="n">voice_tag</span><span class="o">=</span><span class="s2">&quot;b_voice&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>These variables are explained below.</p>
@@ -130,7 +130,7 @@ kind | Allows this Character to “inherit” from another, previously defined C
 voice_tag | The voice tag associated with this character. Allows players to switch voice acting for this character on and off. This should be Bob’s file_id + “_voice” | “b_voice” |</p>
 <p>See <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/wiki/Adding-a-New-Character-to-VNs#note-on-voiced-characters">Note on Voiced Characters</a> for more information on adding a voice tag to a character.</p>
 <p>So long as you have passed your definition of <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">b</span> <span class="pre">=</span> <span class="pre">ChatCharacter(...)</span></code> the variable <code class="docutils literal notranslate"><span class="pre">phone_char=b_phone</span></code>, you can now write dialogue for phone calls like so</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>b &quot;How are you, [name]?&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="s2">&quot;How are you, [name]?&quot;</span>
 </pre></div>
 </div>
 </div>

@@ -118,36 +118,36 @@
 <p>In chatrooms, sometimes characters will post images that the player can click on to view full-size. These images will also be automatically unlocked in the corresponding Album once the player has seen them.</p>
 <p>For any CG you would like to show in-game, you must first go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/gallery.rpy">gallery_album_definitions.rpy</a> and define the image under the <strong>CGs</strong> header. For this example, a fourth CG found in the <strong>Common</strong> album will be added.</p>
 <p>First, define the image:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>image cg common_4 = &quot;CGs/common_album/cg-4.png&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">cg</span> <span class="n">common_4</span> <span class="o">=</span> <span class="s2">&quot;CGs/common_album/cg-4.png&quot;</span>
 </pre></div>
 </div>
 <p>The name of the cg must be <code class="docutils literal notranslate"><span class="pre">cg</span></code> + the name of the album it is found in, minus “album”, plus an underscore and some ID such as a number or a descriptor of the cg. Other possible definitions could be</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>image cg common_flower = &quot;CGs/common_album/cg-flower.png&quot;
-image cg ju_meeting = &quot;CGs/ju_album/ju-meeting.png&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">cg</span> <span class="n">common_flower</span> <span class="o">=</span> <span class="s2">&quot;CGs/common_album/cg-flower.png&quot;</span>
+<span class="k">image</span> <span class="n">cg</span> <span class="n">ju_meeting</span> <span class="o">=</span> <span class="s2">&quot;CGs/ju_album/ju-meeting.png&quot;</span>
 </pre></div>
 </div>
 <p>After defining your image, you must add it to the correct album. See [[Adding or Removing CG Albums]] for more on creating new albums as well.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default common_album = [
-    Album(&quot;cg common_1&quot;),
-    Album(&quot;cg common_2&quot;),
-    Album(&quot;cg common_3&quot;),
-    Album(&quot;cg common_4&quot;)
-]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">common_album</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_1&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_2&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_3&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_4&quot;</span><span class="p">)</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 <p>In this example, no thumbnail was added. However, if you want to define a particular image thumbnail for this CG, the <code class="docutils literal notranslate"><span class="pre">Album</span></code> object might look like</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>Album(&quot;cg common_4&quot;, &quot;CGs/thumbnails/common_4_thumbnail.png&quot;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_4&quot;</span><span class="p">,</span> <span class="s2">&quot;CGs/thumbnails/common_4_thumbnail.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The way you will show CGs differs depending on where you show it.</p>
 <div class="section" id="showing-cgs-in-chatrooms-or-text-messages">
 <h2>Showing CGs in Chatrooms or Text Messages<a class="headerlink" href="#showing-cgs-in-chatrooms-or-text-messages" title="Permalink to this headline">¶</a></h2>
 <p>To show a CG in the chatroom, simply put the name of the CG in the character’s dialogue e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>s &quot;cg common_4&quot; (img=True)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;cg common_4&quot;</span> <span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>s &quot;common_4&quot; (img=True)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;common_4&quot;</span> <span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You must ensure that the argument <code class="docutils literal notranslate"><span class="pre">img=True</span></code> accompanies the dialogue. The program will take care of resizing the image for the chatroom or text message and allowing the player to view it full-size. It will also unlock it in the appropriate album and notify the player if they have not yet seen the image in the album.</p>
@@ -155,16 +155,16 @@ image cg ju_meeting = &quot;CGs/ju_album/ju-meeting.png&quot;
 <div class="section" id="showing-cgs-in-a-visual-novel-section">
 <h2>Showing CGs in a Visual Novel section<a class="headerlink" href="#showing-cgs-in-a-visual-novel-section" title="Permalink to this headline">¶</a></h2>
 <p>All you need to do to have an image unlock after showing it in a Visual Novel section is to show it to the player. This can be done either through</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>scene cg common_4
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">scene</span> <span class="n">cg</span> <span class="n">common_4</span>
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>show cg common_4
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">cg</span> <span class="n">common_4</span>
 </pre></div>
 </div>
 <p>whichever is appropriate for that section. Unlike <code class="docutils literal notranslate"><span class="pre">show</span></code>, <code class="docutils literal notranslate"><span class="pre">scene</span></code> will clear the screen of any character sprites before showing the CG. In most cases this is what you will want.</p>
 <p>If you need to, you can also hide the CG by writing</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>hide cg
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">hide</span> <span class="n">cg</span>
 </pre></div>
 </div>
 <p>or by including another <code class="docutils literal notranslate"><span class="pre">scene</span></code> statement to reset the background. You can see an example of a CG posted this way in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy">tutorial_8_plot_branches.rpy</a>.</p>

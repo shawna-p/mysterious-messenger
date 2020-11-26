@@ -119,21 +119,21 @@
 <h2>Defining new music<a class="headerlink" href="#defining-new-music" title="Permalink to this headline">¶</a></h2>
 <p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy">variables_music_sound.rpy</a>. For this example, a file called “Jingle Bells” will be added.</p>
 <p>First, define a variable that leads to the audio file.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>define jingle_bells = &quot;audio/music/jingle_bells.mp3&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">jingle_bells</span> <span class="o">=</span> <span class="s2">&quot;audio/music/jingle_bells.mp3&quot;</span>
 </pre></div>
 </div>
 <p>Next, in the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code>, add <code class="docutils literal notranslate"><span class="pre">jingle_bells</span></code> at the end like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default music_dictionary = {
-    # (Complete definition omitted)
-    april_dark_secret : &quot;Suspenseful 8-bit music&quot;,
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">music_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># (Complete definition omitted)</span>
+    <span class="n">april_dark_secret</span> <span class="p">:</span> <span class="s2">&quot;Suspenseful 8-bit music&quot;</span><span class="p">,</span>
 
-    jingle_bells : &quot;Jolly Christmas music&quot;
-}
+    <span class="n">jingle_bells</span> <span class="p">:</span> <span class="s2">&quot;Jolly Christmas music&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Try to keep the description short while still conveying the general feel/mood of the song.</p>
 <p>You can now play your music in-game via</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>play music jingle_bells
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">jingle_bells</span>
 </pre></div>
 </div>
 </div>
@@ -141,21 +141,21 @@
 <h2>Defining new sound effects<a class="headerlink" href="#defining-new-sound-effects" title="Permalink to this headline">¶</a></h2>
 <p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy">variables_music_sound.rpy</a>. For this example, a file called “glass_breaking” will be added.</p>
 <p>First, define a variable that leads to the audio file.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>define glass_breaking_sfx = &quot;audio/sfx/glass_breaking.mp3&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">glass_breaking_sfx</span> <span class="o">=</span> <span class="s2">&quot;audio/sfx/glass_breaking.mp3&quot;</span>
 </pre></div>
 </div>
 <p>Next, in the <code class="docutils literal notranslate"><span class="pre">sfx_dictionary</span></code>, add <code class="docutils literal notranslate"><span class="pre">glass_breaking_sfx</span></code> at the end like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default sfx_dictionary = {
-    # (Complete definition omitted)
-    door_open_sfx : &quot;The door opens&quot;,
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">sfx_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># (Complete definition omitted)</span>
+    <span class="n">door_open_sfx</span> <span class="p">:</span> <span class="s2">&quot;The door opens&quot;</span><span class="p">,</span>
 
-    glass_breaking_sfx : &quot;A glass shatters&quot;
-}
+    <span class="n">glass_breaking_sfx</span> <span class="p">:</span> <span class="s2">&quot;A glass shatters&quot;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>As with the background music, the audio caption should briefly describe the action or event the sound effect is meant to convey.</p>
 <p>You can now play your sound effect in-game via</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>play sound glass_breaking_sfx
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">sound</span> <span class="n">glass_breaking_sfx</span>
 </pre></div>
 </div>
 </div>

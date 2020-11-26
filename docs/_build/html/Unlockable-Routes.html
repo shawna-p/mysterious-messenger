@@ -116,19 +116,19 @@
 <h1>Unlockable Routes<a class="headerlink" href="#unlockable-routes" title="Permalink to this headline">¶</a></h1>
 <p>If you want to keep certain features “locked” until the player has fulfilled a condition of your choosing (e.g. preventing the player from going through Character B’s route until after they have gone through Character A’s route), you need to set up your own persistent variables to keep track of whether the player has fulfilled your desired condition or not. You can define these variables anywhere you like, though <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> is a good place if you’re unsure.</p>
 <p>For this example, the program will check whether or not the player has successfully gotten the Good End in Tutorial day. First, define the variable:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default persistent.tutorial_good_end_complete = False
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">persistent</span><span class="o">.</span><span class="n">tutorial_good_end_complete</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">tutorial_good_end_complete</span></code> is the name of your created field in the <code class="docutils literal notranslate"><span class="pre">persistent</span></code> object; variables preceeded by <code class="docutils literal notranslate"><span class="pre">persistent</span></code> will be saved across playthroughs. The variable is first initialized to <code class="docutils literal notranslate"><span class="pre">False</span></code> and will be set to <code class="docutils literal notranslate"><span class="pre">True</span></code> after the player has successfully gone through the Good End.</p>
 <p>A player who has gone through the Tutorial Good End will have finished the party VN called <code class="docutils literal notranslate"><span class="pre">tutorial_good_end_party</span></code> found in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy">tutorial_8_plot_branches.rpy</a>. The last lines of that label are currently as follows:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ending = &#39;good&#39;
-jump vn_end_route
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ending</span> <span class="o">=</span> <span class="s1">&#39;good&#39;</span>
+<span class="k">jump</span> <span class="n">vn_end_route</span>
 </pre></div>
 </div>
 <p>This ends the route and takes the player back to the menu, so just before this you can set your variable to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ persistent.tutorial_good_end_complete = True
-$ ending = &#39;good&#39;
-jump vn_end_route
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">persistent</span><span class="o">.</span><span class="n">tutorial_good_end_complete</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">$</span> <span class="n">ending</span> <span class="o">=</span> <span class="s1">&#39;good&#39;</span>
+<span class="k">jump</span> <span class="n">vn_end_route</span>
 </pre></div>
 </div>
 <p>Note that you’re not limited to putting your variable check right at the end of a route – you could also put the <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">persistent.your_variable_here</span> <span class="pre">=</span> <span class="pre">True</span></code> check after a menu option, or after a particular phone call, for example.</p>
@@ -137,37 +137,37 @@ jump vn_end_route
 <h2>Customizing a screen based on variables<a class="headerlink" href="#customizing-a-screen-based-on-variables" title="Permalink to this headline">¶</a></h2>
 <p>If you only want to allow the player to access a route after a certain condition is fulfilled, you will need to add some extra code to the route select screen in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy">screens_menu.rpy</a>. This example will assume you’ve defined that screen as seen in [[Customizing the Route Select Screen]].</p>
 <p>In this example, Deep Route will be shown as “locked” until after the player has completed the Good End of Tutorial Day. Everything in <code class="docutils literal notranslate"><span class="pre">route_select_screen</span></code> will remain as shown in [[Customizing the Route Select Screen]] except for the Deep Route button:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>vbox:
-    style &#39;route_select_vbox&#39;
-    button:
-        style &#39;route_select_button&#39;
-        action Start(&#39;casual_route_start&#39;)
-        text &quot;Casual Route&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
-    button:
-        style &#39;route_select_button&#39;
-        if persistent.tutorial_good_end_complete:
-            add &#39;plot_lock&#39; align (0.7, 0.5)
-            action Show(&quot;confirm&quot;, message=&quot;This route is locked until you&#39;ve completed the Tutorial Good End.&quot;, yes_action=Hide(&#39;confirm&#39;))
-            hover_foreground None
-        else:
-            action Start(&#39;deep_route_start&#39;)
-        text &quot;Deep Route&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">vbox</span><span class="p">:</span>
+    <span class="k">style</span> <span class="s1">&#39;route_select_vbox&#39;</span>
+    <span class="k">button</span><span class="p">:</span>
+        <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+        <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;casual_route_start&#39;</span><span class="p">)</span>
+        <span class="k">text</span> <span class="s2">&quot;Casual Route&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">button</span><span class="p">:</span>
+        <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+        <span class="k">if</span> <span class="n">persistent</span><span class="o">.</span><span class="n">tutorial_good_end_complete</span><span class="p">:</span>
+            <span class="k">add</span> <span class="s1">&#39;plot_lock&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="na">action</span> <span class="n">Show</span><span class="p">(</span><span class="s2">&quot;confirm&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;This route is locked until you&#39;ve completed the Tutorial Good End.&quot;</span><span class="p">,</span> <span class="n">yes_action</span><span class="o">=</span><span class="n">Hide</span><span class="p">(</span><span class="s1">&#39;confirm&#39;</span><span class="p">))</span>
+            <span class="na">hover_foreground</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;deep_route_start&#39;</span><span class="p">)</span>
+        <span class="k">text</span> <span class="s2">&quot;Deep Route&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will show a “lock” icon next to the button for Deep Route if <code class="docutils literal notranslate"><span class="pre">persistent.tutorial_good_end_complete</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>. If the player clicks on Deep Route without having seen the Tutorial Good End, they will get a confirmation screen telling them that Deep Route is locked until they have completed the Tutorial Good End.</p>
 <p>After the player has completed the Tutorial Good End, the lock symbol will disappear and clicking on Deep Route will take the player to the beginning of that route as usual.</p>
 <p>Alternatively you could also put the <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">persistent.tutorial_good_end_complete</span></code> before the button for Deep Route, which would cause it to not be shown at all to a player who hasn’t unlocked it yet.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>vbox:
-    style &#39;route_select_vbox&#39;
-    button:
-        style &#39;route_select_button&#39;
-        action Start(&#39;casual_route_start&#39;)
-        text &quot;Casual Route&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
-    if persistent.tutorial_good_end_complete:
-        button:
-            style &#39;route_select_button&#39;
-            action Start(&#39;deep_route_start&#39;)
-            text &quot;Deep Route&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">vbox</span><span class="p">:</span>
+    <span class="k">style</span> <span class="s1">&#39;route_select_vbox&#39;</span>
+    <span class="k">button</span><span class="p">:</span>
+        <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+        <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;casual_route_start&#39;</span><span class="p">)</span>
+        <span class="k">text</span> <span class="s2">&quot;Casual Route&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">persistent</span><span class="o">.</span><span class="n">tutorial_good_end_complete</span><span class="p">:</span>
+        <span class="k">button</span><span class="p">:</span>
+            <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+            <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;deep_route_start&#39;</span><span class="p">)</span>
+            <span class="k">text</span> <span class="s2">&quot;Deep Route&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Keep in mind, however, that it’s usually a better idea to show the player this content exists so they have a reason to come back and play more of the game.</p>

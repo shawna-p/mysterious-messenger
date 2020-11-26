@@ -118,52 +118,52 @@
 <p>When you begin a new game, after pressing “Original Story” you’ll be taken to the “Mode Select” screen, where there is a large button that says “Start Game”. This screen is defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy">screens_menu.rpy</a> and is called <code class="docutils literal notranslate"><span class="pre">screen</span> <span class="pre">route_select_screen()</span></code>.</p>
 <p>To use your own route select screen, in the <strong>Developer</strong> settings, check off <strong>Use custom route select screen</strong>. This will cause the program to use the screen defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_custom_route_select.rpy">screens_custom_route_select.rpy</a> instead of <code class="docutils literal notranslate"><span class="pre">screen</span> <span class="pre">route_select_screen</span></code>. If you want other players to see this screen from the start, you should also uncomment the line <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">persistent.custom_route_select</span> <span class="pre">=</span> <span class="pre">True</span></code> in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_custom_route_select.rpy">screens_custom_route_select.rpy</a>.</p>
 <p>Your custom route select screen should look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default persistent.custom_route_select = True
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">persistent</span><span class="o">.</span><span class="n">custom_route_select</span> <span class="o">=</span> <span class="kc">True</span>
 
-screen custom_route_select_screen():
-    vbox:
-        style &#39;route_select_vbox&#39;
-        button:
-            style &#39;route_select_button&#39;
-            action Start()
-            text &quot;Start Game&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
+<span class="k">screen</span> <span class="n">custom_route_select_screen</span><span class="p">():</span>
+    <span class="k">vbox</span><span class="p">:</span>
+        <span class="k">style</span> <span class="s1">&#39;route_select_vbox&#39;</span>
+        <span class="k">button</span><span class="p">:</span>
+            <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+            <span class="na">action</span> <span class="n">Start</span><span class="p">()</span>
+            <span class="k">text</span> <span class="s2">&quot;Start Game&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Currently this screen is identical to the regular route select screen. The only element this screen requires is a button that will take the player to the beginning of the game or route. If you are using a common route, it is sufficient to have a button with the action</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>action Start(&#39;common_route_start&#39;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;common_route_start&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This will take the player to the <code class="docutils literal notranslate"><span class="pre">common_route_start</span></code> label; this should be a label containing your introductory chatroom. You can see [[Creating an Opening Chatroom]] for more on creating an introductory chatrooom to the route.</p>
 <div class="section" id="providing-multiple-route-options">
 <h2>Providing Multiple Route Options<a class="headerlink" href="#providing-multiple-route-options" title="Permalink to this headline">¶</a></h2>
 <p>Otherwise, you must create a button for each route you will allow the player to choose. For example, a screen which allows the player to choose between a “Casual” and a “Deep” route might look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>screen custom_route_select_screen():
-    vbox:
-        style &#39;route_select_vbox&#39;
-        button:
-            style &#39;route_select_button&#39;
-            action Start(&#39;casual_route_start&#39;)
-            text &quot;Casual Route&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
-        button:
-            style &#39;route_select_button&#39;
-            action Start(&#39;deep_route_start&#39;)
-            text &quot;Deep Route&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">custom_route_select_screen</span><span class="p">():</span>
+    <span class="k">vbox</span><span class="p">:</span>
+        <span class="k">style</span> <span class="s1">&#39;route_select_vbox&#39;</span>
+        <span class="k">button</span><span class="p">:</span>
+            <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+            <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;casual_route_start&#39;</span><span class="p">)</span>
+            <span class="k">text</span> <span class="s2">&quot;Casual Route&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="k">button</span><span class="p">:</span>
+            <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+            <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;deep_route_start&#39;</span><span class="p">)</span>
+            <span class="k">text</span> <span class="s2">&quot;Deep Route&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can, of course, change the button backgrounds, text, spacing, and other styles. This will create a very simple route select screen with two buttons tacked on top of each other – one for Casual Route, and one for Deep Route. For more information on customizing screens, you can read the <a class="reference external" href="https://www.renpy.org/doc/html/screens.html?">Ren’Py documentation on Screen Language</a>.</p>
 <p>Since you have two separate routes, casual and deep, you will need to have two separate lists of <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects and a <code class="docutils literal notranslate"><span class="pre">Route</span></code> object defined for them. For more on that, see [[Setting up Sequential Chatrooms]]. In this example, the Route object for “casual route” is defined in the variable <code class="docutils literal notranslate"><span class="pre">casual_route</span></code> and deep route in <code class="docutils literal notranslate"><span class="pre">deep_route</span></code>. Then you would have two labels that look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label casual_route_start:
-    $ new_route_setup(route=casual_route)
-    # (Intro continues from here)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">casual_route_start</span><span class="p">:</span>
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">casual_route</span><span class="p">)</span>
+    <span class="c1"># (Intro continues from here)</span>
 </pre></div>
 </div>
 <p>and</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label deep_route_start:
-    $ new_route_setup(route=deep_route)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">deep_route_start</span><span class="p">:</span>
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">deep_route</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you also want to include an “after_” label for things such as text messages and character status updates, you can add the field <code class="docutils literal notranslate"><span class="pre">chatroom_label</span></code> like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ new_route_setup(route=deep_route, chatroom_label=&quot;deep_starter_chat&quot;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">deep_route</span><span class="p">,</span> <span class="n">chatroom_label</span><span class="o">=</span><span class="s2">&quot;deep_starter_chat&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>which tells the program that the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label will be located at <code class="docutils literal notranslate"><span class="pre">after_deep_starter_chat</span></code>.</p>
@@ -171,12 +171,12 @@ screen custom_route_select_screen():
 <div class="section" id="skipping-the-introductory-chatroom">
 <h2>Skipping the Introductory Chatroom<a class="headerlink" href="#skipping-the-introductory-chatroom" title="Permalink to this headline">¶</a></h2>
 <p>If you do not want an introductory chatroom, and would instead like the player to begin in the chat hub where they can begin playing after selecting a chatroom from the day list, you still need to include some code after the label you told the program to start the game at. For example, if you want the casual story route to jump right to the chat hub after selecting “Casual Route” from the route select screen, your label should look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label casual_route_start:
-    $ new_route_setup(route=casual_route)
-    $ new_route_setup(route=my_new_route, chatroom_label=&quot;prologue&quot;, participants=[ja])
-    $ character_list = [ju, z, s, y, ja, m]
-    $ heart_point_chars = [ju, z, s, y, ja]
-    jump skip_intro_setup
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">casual_route_start</span><span class="p">:</span>
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">casual_route</span><span class="p">)</span>
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">my_new_route</span><span class="p">,</span> <span class="n">chatroom_label</span><span class="o">=</span><span class="s2">&quot;prologue&quot;</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+    <span class="k">jump</span> <span class="n">skip_intro_setup</span>
 </pre></div>
 </div>
 </div>

@@ -141,11 +141,11 @@
 <h3>The VN occurs on a branching path<a class="headerlink" href="#the-vn-occurs-on-a-branching-path" title="Permalink to this headline">¶</a></h3>
 <p>If the branch you are trying to merge onto the main path has a VN that should appear after the player has proceeded through the plot branch, then the <em>very first</em> <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> object of that route’s definition must have the argument <code class="docutils literal notranslate"><span class="pre">branch_vn=VNMode('branch_label',</span> <span class="pre">ja)</span></code> where <code class="docutils literal notranslate"><span class="pre">'branch_label'</span></code> is the name of the label for that VN section, and <code class="docutils literal notranslate"><span class="pre">ja</span></code> is an optional argument that tells the program it should use the character <code class="docutils literal notranslate"><span class="pre">ja</span></code>’s image on the VN icon. If not included, the program will simply show a default icon.</p>
 <p>In practice, this looks like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default bob_bad_end_1 = [&quot;Bad Story End 1&quot;,
-    RouteDay(&#39;7th&#39;, [ChatHistory(...),
-                     ChatHistory(...),
-                     (...)],
-             branch_vn=VNMode(&#39;bob_bad_story_end_1&#39;, b))]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">bob_bad_end_1</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bad Story End 1&quot;</span><span class="p">,</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;7th&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">ChatHistory</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+                     <span class="n">ChatHistory</span><span class="p">(</span><span class="o">...</span><span class="p">),</span>
+                     <span class="p">(</span><span class="o">...</span><span class="p">)],</span>
+             <span class="n">branch_vn</span><span class="o">=</span><span class="n">VNMode</span><span class="p">(</span><span class="s1">&#39;bob_bad_story_end_1&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">))]</span>
 </pre></div>
 </div>
 <p>In <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy">route_setup.rpy</a> you can see an example of this in the definition for <code class="docutils literal notranslate"><span class="pre">tutorial_bre</span></code>.</p>
@@ -154,25 +154,25 @@
 <div class="section" id="determining-which-route-to-branch-to">
 <h2>Determining Which Route to Branch To<a class="headerlink" href="#determining-which-route-to-branch-to" title="Permalink to this headline">¶</a></h2>
 <p>You need a way of telling the program which branching path to put the player on once they decide to go through the plot branch. You will tell the program what to do in the a label with the suffix <code class="docutils literal notranslate"><span class="pre">'_branch'</span></code>. So, if your chatroom is called</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>then you will create a branch label</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom_branch:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom_branch</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>In <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy">tutorial_8_plot_branches.rpy</a> there are many examples of functions under the label <code class="docutils literal notranslate"><span class="pre">plot_branch_tutorial_branch</span></code> that you might want to use to determine which route the player branches onto.</p>
 <p>To change which route the player is on, you will either use the function call</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ continue_route()
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">continue_route</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>which simply allows the player to continue along the “main” path, or you will use the function call</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ merge_routes(bob_route)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">merge_routes</span><span class="p">(</span><span class="n">bob_route</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">bob_route</span></code> is the name of the variable where you defined the route you want the player to branch onto.</p>
 <p>Finally, end the ‘_branch’ label with</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>jump plot_branch_end
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">jump</span> <span class="n">plot_branch_end</span>
 </pre></div>
 </div>
 </div>

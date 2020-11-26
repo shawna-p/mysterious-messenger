@@ -117,15 +117,15 @@
 <p><strong>You can see many of these functions in use in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_1_chatroom.rpy">tutorial_1_chatroom.rpy</a></strong></p>
 <div class="section" id="how-to-let-the-player-make-a-choice">
 <h2>How to let the player make a choice<a class="headerlink" href="#how-to-let-the-player-make-a-choice" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call answer
-menu:
-    &quot;Choice 1&quot;:
-        m &quot;Choice 1&quot; (pauseVal=0)
-        # More dialogue here
-    &quot;Choice 2&quot;:
-        m &quot;Choice 2&quot; (pauseVal=0)
-        # More dialogue here
-# Regular dialogue continues here
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">answer</span>
+<span class="k">menu</span><span class="p">:</span>
+    <span class="s2">&quot;Choice 1&quot;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="s2">&quot;Choice 1&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># More dialogue here</span>
+    <span class="s2">&quot;Choice 2&quot;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="s2">&quot;Choice 2&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># More dialogue here</span>
+<span class="c1"># Regular dialogue continues here</span>
 </pre></div>
 </div>
 <p>The main thing to remember is to write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">answer</span></code> before <code class="docutils literal notranslate"><span class="pre">menu:</span></code>, which will bring up the “answer” button at the bottom of the screen and pause the chat.</p>
@@ -140,7 +140,7 @@ menu:
 ———–|
 <code class="docutils literal notranslate"><span class="pre">character,</span> <span class="pre">bad=False</span></code> |</p>
 <p>To show heart icons to the player and award them heart points, use</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call heart_icon(s)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">heart_icon</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character whose heart point you’d like to show. The options built into the program are:</p>
@@ -158,19 +158,19 @@ menu:
 </ul>
 <p>If you’d like to add your own character to give a heart point to, see [[Adding a New Character to Chatrooms]]. Both Ray and Saeran’s heart points count towards the same character.</p>
 <p>There is also an optional second argument in the <code class="docutils literal notranslate"><span class="pre">heart_icon</span></code> call:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call heart_icon(s, bad=True)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">heart_icon</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">bad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">bad=True</span></code> argument tells the program that this heart is a “bad” heart icon – in other words, it indicates that this answer, while awarding the player a heart point, also counts towards a bad ending. In this way, you can conceal which answers lead to the “Good” end since you can award the player a heart point for both the good and bad ending answers (See <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a> for an example of this). When you get to a plot branch, you can have the program calculate whether the player has more “good” or “bad” heart points with a character. See [[Plot Branches]] for more information on this.</p>
 <p>Similarly, to show a “heartbreak” icon with a character, write</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call heart_break(s)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">heart_break</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character whose heart break you’d like to show. This will <em>always</em> subtract from the character’s “good” heart points and never the “bad” points.</p>
 </div>
 <div class="section" id="how-to-show-a-banner">
 <h2>How to show a banner<a class="headerlink" href="#how-to-show-a-banner" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call banner(&#39;name of banner&#39;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">banner</span><span class="p">(</span><span class="s1">&#39;name of banner&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">'name</span> <span class="pre">of</span> <span class="pre">banner'</span></code> is replaced with the actual name e.g. <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">banner('heart')</span></code>. The available banners are:</p>
@@ -185,12 +185,12 @@ menu:
 <div class="section" id="how-to-make-a-character-enter-exit-the-chatroom">
 <h2>How to make a character enter/exit the chatroom<a class="headerlink" href="#how-to-make-a-character-enter-exit-the-chatroom" title="Permalink to this headline">¶</a></h2>
 <p>To get the message <code class="docutils literal notranslate"><span class="pre">Character</span> <span class="pre">has</span> <span class="pre">entered</span> <span class="pre">the</span> <span class="pre">chatroom</span></code> type:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call enter(y)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">enter</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">y</span></code> is the variable of the character who is entering (see <a class="reference external" href="#how-to-show-a-heart-icon">How to show a heart icon</a> for a list).</p>
 <p>To get the message <code class="docutils literal notranslate"><span class="pre">Character</span> <span class="pre">has</span> <span class="pre">left</span> <span class="pre">the</span> <span class="pre">chatroom</span></code> type:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call exit(y)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">y</span></code> is the variable of the character who is exiting.</p>
@@ -198,7 +198,7 @@ menu:
 <div class="section" id="how-to-update-a-character-s-profile-picture">
 <h2>How to update a character’s profile picture<a class="headerlink" href="#how-to-update-a-character-s-profile-picture" title="Permalink to this headline">¶</a></h2>
 <p>To update a character’s profile picture, use</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ja.prof_pic = &#39;Profile Pics/Jaehee/your-pic.jpg&#39;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ja</span><span class="o">.</span><span class="n">prof_pic</span> <span class="o">=</span> <span class="s1">&#39;Profile Pics/Jaehee/your-pic.jpg&#39;</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the character whose profile picture you’d like to change, and <code class="docutils literal notranslate"><span class="pre">'Profile</span> <span class="pre">Pics/Jaehee/your-pic.jpg'</span></code> is the path to the profile picture you’d like to update to. Profile pictures should be 110x110 pixels. You can also provide a larger image, up to 314x314 pixels, for use on the character’s profile page and on the phone call screens. This image should be in the same folder as the original, and should end with <code class="docutils literal notranslate"><span class="pre">-b</span></code> (b for “big”) just before the file extention.</p>
@@ -212,7 +212,7 @@ menu:
 <div class="section" id="how-to-update-a-character-s-cover-photo">
 <h2>How to update a character’s cover photo<a class="headerlink" href="#how-to-update-a-character-s-cover-photo" title="Permalink to this headline">¶</a></h2>
 <p>To update a character’s cover photo, use</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ja.cover_pic = &#39;Cover Photos/Jaehee/your-pic.jpg&#39;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ja</span><span class="o">.</span><span class="n">cover_pic</span> <span class="o">=</span> <span class="s1">&#39;Cover Photos/Jaehee/your-pic.jpg&#39;</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the character whose cover photo you’d like to change, and <code class="docutils literal notranslate"><span class="pre">'Cover</span> <span class="pre">Photos/Jaehee/your-pic.jpg'</span></code> is the path to the cover photo you’d like to update to. Cover photos should be 750x672 pixels.</p>
@@ -221,7 +221,7 @@ menu:
 <div class="section" id="how-to-update-a-character-s-status">
 <h2>How to update a character’s status<a class="headerlink" href="#how-to-update-a-character-s-status" title="Permalink to this headline">¶</a></h2>
 <p>To update a character’s status, use</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ja.status = &quot;This is my new status update.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ja</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;This is my new status update.&quot;</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the character whose status you’d like to change, and <code class="docutils literal notranslate"><span class="pre">&quot;This</span> <span class="pre">is</span> <span class="pre">my</span> <span class="pre">new</span> <span class="pre">status</span> <span class="pre">update.&quot;</span></code> is whatever you’d like to update their status to.</p>

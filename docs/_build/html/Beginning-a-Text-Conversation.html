@@ -130,61 +130,61 @@
 </ol>
 </div></blockquote>
 <p>To have the characters begin a text conversation with the player after a chatroom, much like regular text messages, you need to have a label that follows a specific naming convention. For example, if your chatroom is called</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>then you need to create a label called</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label after_my_chatroom:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_my_chatroom</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>Then to begin writing the dialogue that will appear in the popup notifying the player of a new text message, begin with</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call compose_text(r, real_time=True)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">compose_text</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">real_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where r is the variable of the character who will text the player. <code class="docutils literal notranslate"><span class="pre">real_time=True</span></code> indicates to the program that this conversation will take place “in real-time” once the player enters the conversation.</p>
 <p>You can then write the character’s dialogue the way you would in a chatroom. These messages will show up as a “backlog” of sorts before the player enters the conversation, so it should be brief.</p>
 <p>At the end of the initial messages, write</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call compose_text_end(&#39;convo1&#39;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">compose_text_end</span><span class="p">(</span><span class="s1">&#39;convo1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">'convo1'</span></code> is the name of the label to jump to to continue the text message conversation. This can be named anything, though it’s recommended you come up with a consistent naming scheme so you don’t accidentally have two labels with the same name.</p>
 <p>You can repeat this for as many text conversations as you’d like to have, beginning each with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">compose_text(r,</span> <span class="pre">real_time=True)</span></code> and ending with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">compose_text_end('convo1')</span></code>, of course swapping out the character variables and label names for different values.</p>
 <p>Next, create a label with the name you passed it in <code class="docutils literal notranslate"><span class="pre">compose_text_end</span></code> and begin it with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">text_begin(r)</span></code> where <code class="docutils literal notranslate"><span class="pre">r</span></code> is the variable of the character who is in the conversation.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label convo1:
-    call text_begin(r)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">convo1</span><span class="p">:</span>
+    <span class="k">call</span> <span class="n">text_begin</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Next, write out the conversation just like a chatroom, including adding CGs, emojis, and changing fonts. Text messages do not currently support special speech bubbles. You can begin the label with additional dialogue before a menu choice. Like in chatrooms, menu choices should be preceeded with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">answer</span></code> in order to show the answer button at the bottom of the screen. Unlike regular text messages, you can award the player as many heart points as you would like, as they will be awarded in real-time.</p>
 <p>Finally, end the text conversation with</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>jump text_end
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">jump</span> <span class="n">text_end</span>
 </pre></div>
 </div>
 <p>An example of a label to jump to for a real-time text conversation might look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label convo1:
-    call text_begin(r)
-    r &quot;Some sample text.&quot;
-    r &quot;This is continuing the conversation from before.&quot;
-    call answer
-    menu:
-        &quot;Choice 1&quot;:
-            m &quot;Choice 1&quot; (pauseVal=0)
-            r &quot;Reply to choice 1.&quot;
-        &quot;Choice 2&quot;:
-            m &quot;Choice 2&quot; (pauseVal=0)
-            call heart_icon(r)
-            r &quot;Reply to choice 2.&quot;
-    r &quot;More dialogue for the conversation.&quot;
-    call answer
-    menu:
-        &quot;Choice 3&quot;:
-            m &quot;Choice 3&quot; (pauseVal=0)
-            r &quot;Reply to choice 3.&quot;
-        &quot;Choice 4&quot;:
-            m &quot;Choice 4&quot; (pauseVal=0)
-            call heart_icon(r)
-            r &quot;Reply to choice 4.&quot;
-    r &quot;Final dialogue.&quot;
-    jump text_end
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">convo1</span><span class="p">:</span>
+    <span class="k">call</span> <span class="n">text_begin</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">r</span> <span class="s2">&quot;Some sample text.&quot;</span>
+    <span class="n">r</span> <span class="s2">&quot;This is continuing the conversation from before.&quot;</span>
+    <span class="k">call</span> <span class="n">answer</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;Choice 1&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Choice 1&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">r</span> <span class="s2">&quot;Reply to choice 1.&quot;</span>
+        <span class="s2">&quot;Choice 2&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Choice 2&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">call</span> <span class="n">heart_icon</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">r</span> <span class="s2">&quot;Reply to choice 2.&quot;</span>
+    <span class="n">r</span> <span class="s2">&quot;More dialogue for the conversation.&quot;</span>
+    <span class="k">call</span> <span class="n">answer</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;Choice 3&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Choice 3&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">r</span> <span class="s2">&quot;Reply to choice 3.&quot;</span>
+        <span class="s2">&quot;Choice 4&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Choice 4&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">call</span> <span class="n">heart_icon</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">r</span> <span class="s2">&quot;Reply to choice 4.&quot;</span>
+    <span class="n">r</span> <span class="s2">&quot;Final dialogue.&quot;</span>
+    <span class="k">jump</span> <span class="n">text_end</span>
 </pre></div>
 </div>
 </div>

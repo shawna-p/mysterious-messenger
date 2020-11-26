@@ -117,19 +117,19 @@
 <p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a>. Under the heading <strong>Chatroom Characters</strong> near the middle of the file, you will see several characters already defined.</p>
 <p>For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.</p>
 <p>You need to give Bob a ChatCharacter object so he can speak in chatrooms. A definition for Bob may look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default b = ChatCharacter(
-    name=&quot;Bob&quot;,
-    file_id=&quot;b&quot;,
-    prof_pic=&quot;Profile Pics/Bob/bob1.png&quot;,
-    participant_pic=&quot;Profile Pics/b_chat.png&quot;,
-    heart_color=&quot;#f995f1&quot;,
-    cover_pic=&quot;Cover Photos/bob_cover.png&quot;,
-    status=&quot;Bob&#39;s Status&quot;,
-    bubble_color=&quot;#ffddfc&quot;,
-    glow_color=&quot;#d856cd&quot;,
-    homepage_pic=&quot;Profile Pics/main_profile_bob.png&quot;,
-    phone_char=b_phone,
-    vn_char=b_vn)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">b</span> <span class="o">=</span> <span class="n">ChatCharacter</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
+    <span class="n">file_id</span><span class="o">=</span><span class="s2">&quot;b&quot;</span><span class="p">,</span>
+    <span class="n">prof_pic</span><span class="o">=</span><span class="s2">&quot;Profile Pics/Bob/bob1.png&quot;</span><span class="p">,</span>
+    <span class="n">participant_pic</span><span class="o">=</span><span class="s2">&quot;Profile Pics/b_chat.png&quot;</span><span class="p">,</span>
+    <span class="n">heart_color</span><span class="o">=</span><span class="s2">&quot;#f995f1&quot;</span><span class="p">,</span>
+    <span class="n">cover_pic</span><span class="o">=</span><span class="s2">&quot;Cover Photos/bob_cover.png&quot;</span><span class="p">,</span>
+    <span class="n">status</span><span class="o">=</span><span class="s2">&quot;Bob&#39;s Status&quot;</span><span class="p">,</span>
+    <span class="n">bubble_color</span><span class="o">=</span><span class="s2">&quot;#ffddfc&quot;</span><span class="p">,</span>
+    <span class="n">glow_color</span><span class="o">=</span><span class="s2">&quot;#d856cd&quot;</span><span class="p">,</span>
+    <span class="n">homepage_pic</span><span class="o">=</span><span class="s2">&quot;Profile Pics/main_profile_bob.png&quot;</span><span class="p">,</span>
+    <span class="n">phone_char</span><span class="o">=</span><span class="n">b_phone</span><span class="p">,</span>
+    <span class="n">vn_char</span><span class="o">=</span><span class="n">b_vn</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Though this looks long, this will ensure all the variables for Bob are set up properly at the start of the game.</p>
@@ -154,25 +154,25 @@ voicemail | The label to jump to for this character’s voicemail | “voicemail
 right_msgr | Indicates this character should appear on the right side of the messenger (usually False for everyone but the MC) | False
 emote_list | A list of all the character’s emojis. Currently unused. | False</p>
 <p>Finally, below all the ChatCharacter definitions, there are two lists. The first is:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default character_list = [ju, z, s, y, ja, v, m, r, ri]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">ri</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>If you want Bob to show up on the home screen with a clickable profile, or to show up as a contact in the Contact book, you must add him to this list, e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default character_list = [ju, z, s, y, ja, v, m, r, ri, b]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">ri</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>The second list is</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">character_list</span> <span class="k">if</span> <span class="k">not</span> <span class="n">c</span><span class="o">.</span><span class="n">right_msgr</span> <span class="p">]</span>
 </pre></div>
 </div>
 <p>This list contains all the characters in <code class="docutils literal notranslate"><span class="pre">character_list</span></code> unless they have the property <code class="docutils literal notranslate"><span class="pre">right_msgr</span></code>, which generally means it’s True for everyone except the MC. Characters in this list will appear on the Profile screen with an indicator of how many points the player has with them.</p>
 <p>If you want an icon to appear letting the player know how many heart points they have with Bob, you need to define an image called <code class="docutils literal notranslate"><span class="pre">greet</span> <span class="pre">b</span></code> since <code class="docutils literal notranslate"><span class="pre">b</span></code> is Bob’s file_id. These images are stored in <code class="docutils literal notranslate"><span class="pre">game/images/Menu</span> <span class="pre">Screens/Main</span> <span class="pre">Menu</span></code> and defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the heading <strong>Image Definitions - Menu</strong>.</p>
 <p>If you don’t want Bob to appear in the Profile screen, replace this variable with a list of the characters whose heart points you want to display e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default heart_point_chars = [ju, z, s, y, ja]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>When all is said and done, you should be able to write dialogue for Bob like any other character in a chatroom, e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>b &quot;How&#39;s it going?&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="s2">&quot;How&#39;s it going?&quot;</span>
 </pre></div>
 </div>
 </div>

@@ -116,23 +116,23 @@
 <h1>Custom Emojis<a class="headerlink" href="#custom-emojis" title="Permalink to this headline">¶</a></h1>
 <p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/emoji_definitions.rpy">emoji_definitions.rpy</a></strong></p>
 <p>If you’d like to add your own emojis to the game, you need to add a few lines to the <code class="docutils literal notranslate"><span class="pre">emoji_lookup</span></code> dictionary found in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/emoji_definitions.rpy">emoji_definitions.rpy</a>. Emojis are saved as separate <code class="docutils literal notranslate"><span class="pre">.png</span></code> files, and are found in the <code class="docutils literal notranslate"><span class="pre">/Gifs</span></code> folder under <code class="docutils literal notranslate"><span class="pre">/images</span></code>. At the bottom of <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/emoji_definitions.rpy">emoji_definitions.rpy</a>, you can see how to define an emoji.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>image jaehee_angry:
-    &quot;Gifs/Jaehee/emo_jaehee_angry1.png&quot;
-    0.5
-    &quot;Gifs/Jaehee/emo_jaehee_angry2.png&quot;
-    0.5
-    repeat
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">jaehee_angry</span><span class="p">:</span>
+    <span class="s2">&quot;Gifs/Jaehee/emo_jaehee_angry1.png&quot;</span>
+    <span class="mf">0.5</span>
+    <span class="s2">&quot;Gifs/Jaehee/emo_jaehee_angry2.png&quot;</span>
+    <span class="mf">0.5</span>
+    <span class="k">repeat</span>
 </pre></div>
 </div>
 <p>Most emojis have the name of the character (e.g. <code class="docutils literal notranslate"><span class="pre">jaehee</span></code>) + the name for the expression (e.g. <code class="docutils literal notranslate"><span class="pre">angry</span></code>). The first line should be the path to the first frame of the emoji, followed by <code class="docutils literal notranslate"><span class="pre">0.5</span></code> to tell the program to wait half a second before showing the next image. The next line is the path to the second frame of your emoji, followed by another <code class="docutils literal notranslate"><span class="pre">0.5</span></code>, and then the line <code class="docutils literal notranslate"><span class="pre">repeat</span></code> which tells the program to continue to cycle through the emoji animation while it’s on the screen. You can, however, add more frames to your animation and reduce the time for the pause accordingly.</p>
 <p>Next, go to the <code class="docutils literal notranslate"><span class="pre">emoji_lookup</span></code> dictionary at the top of the file. You need to insert your own entry in order for the emoji to play sound when it’s used in a chatroom.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>&#39;{image=jaehee_angry}&#39;: &#39;audio/sfx/Emotes/Jaehee/jaehee_angry.mp3&#39;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;{image=jaehee_angry}&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Emotes/Jaehee/jaehee_angry.mp3&#39;</span>
 </pre></div>
 </div>
 <p>The left side uses the same name as defined for the image before(<code class="docutils literal notranslate"><span class="pre">jaehee_angry</span></code>). Replace <code class="docutils literal notranslate"><span class="pre">jaehee_angry</span></code> with whatever you named your emoji earlier.</p>
 <p>The right side after the colon is the path to the sound effect you want to play when this emoji is shown. Currenly all the sound effects are organized in the <code class="docutils literal notranslate"><span class="pre">audio/sfx/Emotes</span></code> folder under their respective characters.</p>
 <p>Then, to show your emoji in the chatroom or in text messages, you just need to type</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>ja &quot;{image=jaehee_angry}&quot; (img=True)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ja</span> <span class="s2">&quot;{image=jaehee_angry}&quot;</span> <span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>and it will display the emoji accompanied by the right voice clip. Note that if you use <code class="docutils literal notranslate"><span class="pre">Script</span> <span class="pre">Generator.xlsx</span></code> to write chatroom dialogue, it will usually check off the “image” column automatically for you if it detects <code class="docutils literal notranslate"><span class="pre">{image</span></code> in the Dialogue column. However, if the emoji is displaying oddly in-game, you may want to ensure that <code class="docutils literal notranslate"><span class="pre">(img=True)</span></code> accompanies the line in your script.</p>

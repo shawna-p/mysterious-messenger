@@ -116,18 +116,18 @@
 <h1>Adding Music and SFX<a class="headerlink" href="#adding-music-and-sfx" title="Permalink to this headline">¶</a></h1>
 <p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a>, <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_3b_VN.rpy">tutorial_3b_VN.rpy</a></strong></p>
 <p>Much like chatrooms, music can be played via</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>play music mystic_chat
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> can be replaced by the name of whatever music you want. There are several files already pre-defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy">variables_music_sound.rpy</a> under the heading <strong>BACKGROUND MUSIC DEFINITIONS</strong>.</p>
 <p>To add sound effects, use</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>play sound door_knock_sfx
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">sound</span> <span class="n">door_knock_sfx</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">door_knock_sfx</span></code> can be replaced by the name of whatever sound effect you want. There are several files already pre-defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy">variables_music_sound.rpy</a> under the heading <strong>SFX DEFINITIONS</strong>.</p>
 <p>Note that Ren’Py’s built-in music and sound functions have been modified to work with audio captions for this program. The program will notify you if an audio caption has not been defined for an audio file.</p>
 <p>If you would like to play a sound that does not have an audio caption, you can give it the <code class="docutils literal notranslate"><span class="pre">nocaption</span></code> argument e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>play music ringtone nocaption
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">ringtone</span> <span class="n">nocaption</span>
 </pre></div>
 </div>
 <p>For accessibility purposes, most audio should have a caption, so this argument should be used sparingly.</p>

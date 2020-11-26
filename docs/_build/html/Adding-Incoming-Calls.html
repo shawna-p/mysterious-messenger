@@ -116,11 +116,11 @@
 <h1>Adding Incoming Calls<a class="headerlink" href="#adding-incoming-calls" title="Permalink to this headline">¶</a></h1>
 <p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
 <p>To trigger an incoming call, there is a specific naming convention for the label. If your chatroom is called</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>then to trigger an incoming call, you must create a label called</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom_incoming_ja:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom_incoming_ja</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the variable of the character who will call the player (See <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a>) for a list of the existing characters).</p>

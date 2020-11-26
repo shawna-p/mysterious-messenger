@@ -121,23 +121,23 @@
 <p>If you would like to define additional variables to help with typing dialogue, you must first define the variable in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> as mentioned above, and also under the <code class="docutils literal notranslate"><span class="pre">set_pronouns()</span></code> function in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy">screens_menu.rpy</a>.</p>
 <p>For this example, a variable called <code class="docutils literal notranslate"><span class="pre">go_goes</span></code> will be defined for the three main pronoun options.</p>
 <p>First, in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the <strong>Short Forms/Startup Variables</strong> heading, add</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default go_goes = &quot;go&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">go_goes</span> <span class="o">=</span> <span class="s2">&quot;go&quot;</span>
 </pre></div>
 </div>
 <p>Then in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy">screens_menu.rpy</a> under the function <code class="docutils literal notranslate"><span class="pre">set_pronouns()</span></code> add</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>global go_goes
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">global</span> <span class="n">go_goes</span>
 </pre></div>
 </div>
 <p>at the top of the function. Then under both <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">persistent.pronoun</span> <span class="pre">==</span> <span class="pre">&quot;female&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">elif</span> <span class="pre">persistent.pronoun</span> <span class="pre">==</span> <span class="pre">&quot;male&quot;</span></code> add the line</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>go_goes = &quot;goes&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">go_goes</span> <span class="o">=</span> <span class="s2">&quot;goes&quot;</span>
 </pre></div>
 </div>
 <p>and under <code class="docutils literal notranslate"><span class="pre">elif</span> <span class="pre">persistent.pronoun</span> <span class="pre">=</span> <span class="pre">&quot;non</span> <span class="pre">binary&quot;</span></code> add</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>go_goes = &quot;go&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">go_goes</span> <span class="o">=</span> <span class="s2">&quot;go&quot;</span>
 </pre></div>
 </div>
 <p>That is all! To use the new variable in dialogue, you can type</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>y &quot;Yeah, [they] said [they] usually [go_goes] out on Fridays.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="s2">&quot;Yeah, [they] said [they] usually [go_goes] out on Fridays.&quot;</span>
 </pre></div>
 </div>
 <p>If the player has he/him pronouns, in-game this will display as <strong>Yeah, he said he usually goes out on Fridays.</strong>. If the player has they/them pronouns, this will instead display as <strong>Yeah, they said they usually go out on Fridays.</strong></p>

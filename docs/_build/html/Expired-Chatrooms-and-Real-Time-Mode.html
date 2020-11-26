@@ -120,11 +120,11 @@
 <p>In real-time mode, chatrooms unlock based on the current time. You also have the option to buy the next 24 hours’ worth of chatrooms in advance. If an old chatroom has not been viewed before a new one unlocks it will expire, and you will miss any incoming calls that were triggered to occur after the now-expired chatroom (though you can usually call the characters back).</p>
 <p>Each chatroom you create should have both a “regular” version and an “expired” version. The expired version is the version the player will play through if the chatroom has expired and they have not bought it back. Generally this means the player will not have the opportunity to participate in this chatroom or make choices.</p>
 <p>To create the expired chatroom, simply take the name of the regular chatroom and add <code class="docutils literal notranslate"><span class="pre">_expired</span></code>. So, if your chatroom has the label</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label mychat:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">mychat</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>then the expired chatroom should have the label</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label mychat_expired:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">mychat_expired</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>The rest can be filled out as any other chatroom.</p>

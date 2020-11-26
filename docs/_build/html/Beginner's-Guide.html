@@ -157,18 +157,18 @@
 <div class="section" id="defining-the-route">
 <h2>Defining the route<a class="headerlink" href="#defining-the-route" title="Permalink to this headline">¶</a></h2>
 <p>Inside your new <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file, copy and paste the following code:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default my_route_good_end = [&quot;Good End&quot;,
-    RouteDay(&#39;1st&#39;),
-    RouteDay(&#39;2nd&#39;),
-    RouteDay(&#39;3rd&#39;),
-    RouteDay(&#39;4th&#39;),
-    RouteDay(&#39;5th&#39;),
-    RouteDay(&#39;6th&#39;),
-    RouteDay(&#39;7th&#39;),
-    RouteDay(&#39;8th&#39;),
-    RouteDay(&#39;9th&#39;),
-    RouteDay(&#39;10th&#39;),
-    RouteDay(&#39;Final&#39;)]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">my_route_good_end</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Good End&quot;</span><span class="p">,</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;1st&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;2nd&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;3rd&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;4th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;5th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;6th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;7th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;8th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;9th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;10th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;Final&#39;</span><span class="p">)]</span>
 </pre></div>
 </div>
 <p>This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In the history screen, this will show up under the title “Good End”. This guide only covers how to add one ending, but if you want to learn more you can refer to the [[Setting up Sequential Chatrooms]] page.</p>
@@ -176,11 +176,11 @@
 <h3>Ensuring the route shows up in History<a class="headerlink" href="#ensuring-the-route-shows-up-in-history" title="Permalink to this headline">¶</a></h3>
 <p>The last variable you defined is just for the “Good End” of a route. You might want multiple endings, maybe with different characters or to reflect how the player’s choices affected the narrative. This next variable tells the program that the various endings are part of the same “route”. For now, you only have one ending, the “Good End”, but you might add more later.</p>
 <p>Beneath the code from earlier, copy and paste the following code:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default my_new_route = Route(
-    default_branch=my_route_good_end,
-    branch_list=[],
-    route_history_title=&quot;My New&quot;
-)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">my_new_route</span> <span class="o">=</span> <span class="n">Route</span><span class="p">(</span>
+    <span class="n">default_branch</span><span class="o">=</span><span class="n">my_route_good_end</span><span class="p">,</span>
+    <span class="n">branch_list</span><span class="o">=</span><span class="p">[],</span>
+    <span class="n">route_history_title</span><span class="o">=</span><span class="s2">&quot;My New&quot;</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <p>This tells the program which endings are associated with this route. <code class="docutils literal notranslate"><span class="pre">route_history_title=&quot;My</span> <span class="pre">New&quot;</span></code> means that in the History screen, this route will be displayed as “My New Route”.</p>
@@ -190,37 +190,37 @@
 <h2>Accessing the new route<a class="headerlink" href="#accessing-the-new-route" title="Permalink to this headline">¶</a></h2>
 <p>Now you need to tell the program to begin your route when the player hits the “Original Story” button from the main menu. To do this, you need to modify <code class="docutils literal notranslate"><span class="pre">screens_menu.rpy</span></code>, so open that file in your editor. It is located inside the game folder at <code class="docutils literal notranslate"><span class="pre">mysterious-messenger/game/screens_menu.rpy</span></code>.</p>
 <p>Next, scroll down to <code class="docutils literal notranslate"><span class="pre">screen</span> <span class="pre">route_select_screen()</span></code>. The code will look like this currently:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>screen route_select_screen():
-    tag menu
-    use menu_header(&quot;Mode Select&quot;, Show(&#39;main_menu&#39;, Dissolve(0.5))):
-        fixed:
-            xysize (720, 1170)
-            yalign 1.0
-            xalign 0.5
-            # New code after here
-            vbox:
-                style &#39;route_select_vbox&#39;
-                button:
-                    style &#39;route_select_button&#39;
-                    action Start()
-                    text &quot;Start Game&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">route_select_screen</span><span class="p">():</span>
+    <span class="k">tag</span> <span class="k">menu</span>
+    <span class="k">use</span> <span class="n">menu_header</span><span class="p">(</span><span class="s2">&quot;Mode Select&quot;</span><span class="p">,</span> <span class="n">Show</span><span class="p">(</span><span class="s1">&#39;main_menu&#39;</span><span class="p">,</span> <span class="n">Dissolve</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))):</span>
+        <span class="k">fixed</span><span class="p">:</span>
+            <span class="na">xysize</span> <span class="p">(</span><span class="mi">720</span><span class="p">,</span> <span class="mi">1170</span><span class="p">)</span>
+            <span class="na">yalign</span> <span class="mf">1.0</span>
+            <span class="na">xalign</span> <span class="mf">0.5</span>
+            <span class="c1"># New code after here</span>
+            <span class="k">vbox</span><span class="p">:</span>
+                <span class="k">style</span> <span class="s1">&#39;route_select_vbox&#39;</span>
+                <span class="k">button</span><span class="p">:</span>
+                    <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+                    <span class="na">action</span> <span class="n">Start</span><span class="p">()</span>
+                    <span class="k">text</span> <span class="s2">&quot;Start Game&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You need to modify the second-last line to direct the program to your introductory label. The line <code class="docutils literal notranslate"><span class="pre">action</span> <span class="pre">Start()</span></code> should be changed to <code class="docutils literal notranslate"><span class="pre">action</span> <span class="pre">Start(&quot;my_route_introduction&quot;)</span></code> so the whole thing will look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>screen route_select_screen():
-    tag menu
-    use menu_header(&quot;Mode Select&quot;, Show(&#39;main_menu&#39;, Dissolve(0.5))):
-        fixed:
-            xysize (720, 1170)
-            yalign 1.0
-            xalign 0.5
-            # New code after here
-            vbox:
-                style &#39;route_select_vbox&#39;
-                button:
-                    style &#39;route_select_button&#39;
-                    action Start(&quot;my_route_introduction&quot;)
-                    text &quot;Start Game&quot; style &#39;menu_text_small&#39; align (0.5, 0.5)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">route_select_screen</span><span class="p">():</span>
+    <span class="k">tag</span> <span class="k">menu</span>
+    <span class="k">use</span> <span class="n">menu_header</span><span class="p">(</span><span class="s2">&quot;Mode Select&quot;</span><span class="p">,</span> <span class="n">Show</span><span class="p">(</span><span class="s1">&#39;main_menu&#39;</span><span class="p">,</span> <span class="n">Dissolve</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))):</span>
+        <span class="k">fixed</span><span class="p">:</span>
+            <span class="na">xysize</span> <span class="p">(</span><span class="mi">720</span><span class="p">,</span> <span class="mi">1170</span><span class="p">)</span>
+            <span class="na">yalign</span> <span class="mf">1.0</span>
+            <span class="na">xalign</span> <span class="mf">0.5</span>
+            <span class="c1"># New code after here</span>
+            <span class="k">vbox</span><span class="p">:</span>
+                <span class="k">style</span> <span class="s1">&#39;route_select_vbox&#39;</span>
+                <span class="k">button</span><span class="p">:</span>
+                    <span class="k">style</span> <span class="s1">&#39;route_select_button&#39;</span>
+                    <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s2">&quot;my_route_introduction&quot;</span><span class="p">)</span>
+                    <span class="k">text</span> <span class="s2">&quot;Start Game&quot;</span> <span class="k">style</span> <span class="s1">&#39;menu_text_small&#39;</span> <span class="na">align</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -228,14 +228,14 @@
 <h2>Creating the Introduction<a class="headerlink" href="#creating-the-introduction" title="Permalink to this headline">¶</a></h2>
 <p>Now you are going to create a very simple introduction for your route. To keep things organized, you should create a new <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file like you did last time. Call this one <code class="docutils literal notranslate"><span class="pre">my_route_intro.rpy</span></code>.</p>
 <p>Now you need to create a label that the program will jump to when the player hits the Start button. Copy and paste the following code into your new file:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_route_introduction:
-    $ new_route_setup(route=my_new_route)
-    call chat_begin(&#39;morning&#39;)
-    play music mystic_chat
-    call enter(u)
-    u &quot;This is an example chatroom! You can customize it more later.&quot;
-    call exit(u)
-    jump chat_end
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_route_introduction</span><span class="p">:</span>
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">my_new_route</span><span class="p">)</span>
+    <span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">)</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
+    <span class="k">call</span> <span class="n">enter</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">u</span> <span class="s2">&quot;This is an example chatroom! You can customize it more later.&quot;</span>
+    <span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">jump</span> <span class="n">chat_end</span>
 </pre></div>
 </div>
 <p>This is where the program will go when the player hits the Start button. It tells the program which route to start the player on (in this case, <code class="docutils literal notranslate"><span class="pre">my_new_route</span></code> from earlier), and then sets up a chatroom.</p>
@@ -249,35 +249,35 @@
 <div class="section" id="defining-chatrooms">
 <h2>Defining Chatrooms<a class="headerlink" href="#defining-chatrooms" title="Permalink to this headline">¶</a></h2>
 <p>Now you need to create the first chatroom of the day for your route, so return to your file <code class="docutils literal notranslate"><span class="pre">my_route.rpy</span></code>. This file should contain the code:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default my_route_good_end = [&quot;Good End&quot;,
-    RouteDay(&#39;1st&#39;),
-    RouteDay(&#39;2nd&#39;),
-    RouteDay(&#39;3rd&#39;),
-    RouteDay(&#39;4th&#39;),
-    RouteDay(&#39;5th&#39;),
-    RouteDay(&#39;6th&#39;),
-    RouteDay(&#39;7th&#39;),
-    RouteDay(&#39;8th&#39;),
-    RouteDay(&#39;9th&#39;),
-    RouteDay(&#39;10th&#39;),
-    RouteDay(&#39;Final&#39;)]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">my_route_good_end</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Good End&quot;</span><span class="p">,</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;1st&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;2nd&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;3rd&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;4th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;5th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;6th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;7th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;8th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;9th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;10th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;Final&#39;</span><span class="p">)]</span>
 </pre></div>
 </div>
 <p>This will display a list of “Days” on the timeline screen, but there are no chatrooms for the player to go through just yet. You’ll be creating the first chatroom now. Modify the code above so that it now looks like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default my_route_good_end = [&quot;Good End&quot;,
-    RouteDay(&#39;1st&#39;,
-        [ChatHistory(&quot;Welcome!&quot;, &#39;day_1_chatroom_1&#39;, &#39;00:01&#39;)
-        ]),
-    RouteDay(&#39;2nd&#39;),
-    RouteDay(&#39;3rd&#39;),
-    RouteDay(&#39;4th&#39;),
-    RouteDay(&#39;5th&#39;),
-    RouteDay(&#39;6th&#39;),
-    RouteDay(&#39;7th&#39;),
-    RouteDay(&#39;8th&#39;),
-    RouteDay(&#39;9th&#39;),
-    RouteDay(&#39;10th&#39;),
-    RouteDay(&#39;Final&#39;)]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">my_route_good_end</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Good End&quot;</span><span class="p">,</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;1st&#39;</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">ChatHistory</span><span class="p">(</span><span class="s2">&quot;Welcome!&quot;</span><span class="p">,</span> <span class="s1">&#39;day_1_chatroom_1&#39;</span><span class="p">,</span> <span class="s1">&#39;00:01&#39;</span><span class="p">)</span>
+        <span class="p">]),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;2nd&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;3rd&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;4th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;5th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;6th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;7th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;8th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;9th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;10th&#39;</span><span class="p">),</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;Final&#39;</span><span class="p">)]</span>
 </pre></div>
 </div>
 <p>The main thing that has changed is the code after <code class="docutils literal notranslate"><span class="pre">RouteDay('1st',</span></code>, which now has something called a <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object. These objects hold information that tells the program information like the title of the chatroom (“Welcome!”), the label where the program can find the chatroom (‘day_1_chatroom_1’), and the time the chatroom should appear at (‘00:01’, aka 1 minute past midnight).</p>
@@ -286,25 +286,25 @@
 <h3>Creating the first chatroom<a class="headerlink" href="#creating-the-first-chatroom" title="Permalink to this headline">¶</a></h3>
 <p>Like before, you should create a new .rpy file in order to keep things organized. Call this one <code class="docutils literal notranslate"><span class="pre">day_1_chatroom_1.rpy</span></code>.</p>
 <p>Now you need to define the body of the chatroom. This chatroom will be fairly basic. First, you define the label you gave the <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object earlier, and then you define the body of the chatroom like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label day_1_chatroom_1():
-    call chat_begin(&quot;earlyMorn&quot;)
-    play music mystic_chat
-    call enter(u)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_chatroom_1</span><span class="p">():</span>
+    <span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;earlyMorn&quot;</span><span class="p">)</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
+    <span class="k">call</span> <span class="n">enter</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
 
-    u &quot;Congratulations! You&#39;ve created your first chatroom.&quot;
+    <span class="n">u</span> <span class="s2">&quot;Congratulations! You&#39;ve created your first chatroom.&quot;</span>
 
-    menu:
-        &quot;That&#39;s amazing!&quot;:
-            m &quot;That&#39;s amazing!&quot; (pauseVal=0)
-            u &quot;Isn&#39;t it? I&#39;m glad you think so.&quot;
-        &quot;This is a lot of work.&quot;:
-            m &quot;This is a lot of work.&quot; (pauseVal=0)
-            u &quot;I&#39;m sure it&#39;ll get easier with practice!&quot;
-            u &quot;There are plenty of wiki pages to help you out, too.&quot;
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;That&#39;s amazing!&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;That&#39;s amazing!&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">u</span> <span class="s2">&quot;Isn&#39;t it? I&#39;m glad you think so.&quot;</span>
+        <span class="s2">&quot;This is a lot of work.&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;This is a lot of work.&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">u</span> <span class="s2">&quot;I&#39;m sure it&#39;ll get easier with practice!&quot;</span>
+            <span class="n">u</span> <span class="s2">&quot;There are plenty of wiki pages to help you out, too.&quot;</span>
 
-    u &quot;I&#39;m leaving now. Good luck!&quot;
-    call exit(u)
-    jump chat_end
+    <span class="n">u</span> <span class="s2">&quot;I&#39;m leaving now. Good luck!&quot;</span>
+    <span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">jump</span> <span class="n">chat_end</span>
 </pre></div>
 </div>
 <p>This defines a very basic chatroom with the character “Unknown” (u). In this particular chatroom, the player is allowed to make a choice, as defined under the <code class="docutils literal notranslate"><span class="pre">menu:</span></code> code. For more on writing chatrooms and creating choices, see [[Useful Chatroom Functions]] and [[Creating a Chatroom]]. There are many more things you can do besides just chatrooms as well, such as having characters send text messages or call the player. For more on those, see the corresponding sections in the wiki.</p>
@@ -313,16 +313,16 @@
 <h3>Creating an expired chatroom<a class="headerlink" href="#creating-an-expired-chatroom" title="Permalink to this headline">¶</a></h3>
 <p>There’s one last thing you should do before finishing your first chatroom. If the player is playing in real-time, or chooses to back out of a chatroom before they’ve finished viewing it, the chatroom might “expire”. Typically this means that the player will then see a version of the chatroom where they don’t get to participate in the conversation.</p>
 <p>The program automatically looks for this “expired chatroom” using the name of the original chatroom + the suffix <code class="docutils literal notranslate"><span class="pre">_expired</span></code>. So you should define your expired chatroom beneath the regular chatroom like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label day_1_chatroom_1_expired():
-    call chat_begin(&quot;earlyMorn&quot;)
-    play music mystic_chat
-    call enter(u)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_chatroom_1_expired</span><span class="p">():</span>
+    <span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;earlyMorn&quot;</span><span class="p">)</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
+    <span class="k">call</span> <span class="n">enter</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
 
-    u &quot;Oh... it appears [name] is not here.&quot;
-    u &quot;Well, I&#39;ll come back later. Bye!&quot;
+    <span class="n">u</span> <span class="s2">&quot;Oh... it appears [name] is not here.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;Well, I&#39;ll come back later. Bye!&quot;</span>
 
-    call exit(u)
-    jump chat_end
+    <span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">jump</span> <span class="n">chat_end</span>
 </pre></div>
 </div>
 <p>This is the chatroom the player will see if it is expired. It can be as similar or as different from the original non-expired chatroom as you like.</p>

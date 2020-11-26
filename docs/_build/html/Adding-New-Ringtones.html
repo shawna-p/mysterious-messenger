@@ -116,17 +116,17 @@
 <h1>Adding New Ringtones<a class="headerlink" href="#adding-new-ringtones" title="Permalink to this headline">¶</a></h1>
 <p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_settings.rpy">screens_settings.rpy</a>. There are three dictionaries defined near the beginning of the file, along with three lists, one of each for email, text, and ringtones. As the method is the same for all three, only adding a text tone is described below.</p>
 <p>First, add a new entry to <code class="docutils literal notranslate"><span class="pre">text_tone_dict</span></code>. Dictionary entries are a key-value pair, separated by a colon. In this case, the “key” is the name of the tone you want to show the player, and the “value” is the path to the file with the correct sound effect. Note that no two entries can have the same key, so you should preface entries with a category title if you’re adding multiple text tones for the same character e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default text_tone_dict = {
-    &#39;ZEN&#39;: &#39;audio/sfx/Ringtones etc/text_basic_z.wav&#39;,
-    &#39;Bonus ZEN&#39;: &#39;audio/sfx/Ringtones etc/text_bonus_z.wav&#39;
-}
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">text_tone_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_basic_z.wav&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Bonus ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_bonus_z.wav&#39;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Next, you need to add your tone to the <code class="docutils literal notranslate"><span class="pre">text_tone_list</span></code>. You can either add on to an existing list entry to add more text tones in the same category, or you can create a new category like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>default text_tone_list = [ 
-    [&quot;Basic&quot;, [&#39;Default&#39;, &#39;707&#39;, &#39;ZEN&#39;]],
-    [&quot;Bonus&quot;, [&#39;Bonus 707&#39;, &#39;Bonus ZEN&#39;]]
-]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">text_tone_list</span> <span class="o">=</span> <span class="p">[</span> 
+    <span class="p">[</span><span class="s2">&quot;Basic&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Default&#39;</span><span class="p">,</span> <span class="s1">&#39;707&#39;</span><span class="p">,</span> <span class="s1">&#39;ZEN&#39;</span><span class="p">]],</span>
+    <span class="p">[</span><span class="s2">&quot;Bonus&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Bonus 707&#39;</span><span class="p">,</span> <span class="s1">&#39;Bonus ZEN&#39;</span><span class="p">]]</span>
+<span class="p">]</span>
 </pre></div>
 </div>
 <p>This will create a new category called “Bonus” which is shown when the player selects a new text tone. Note that entries need to match up with the key you entered in the <code class="docutils literal notranslate"><span class="pre">text_tone_dict</span></code> dictionary. And that’s all! Your ringtones should show up and be selectable in the Settings menu.</p>

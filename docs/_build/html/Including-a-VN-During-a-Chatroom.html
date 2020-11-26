@@ -136,42 +136,42 @@
 <h2>Note on usage<a class="headerlink" href="#note-on-usage" title="Permalink to this headline">¶</a></h2>
 <p>This page explains how to include a VN section <strong>in the middle of a chatroom</strong>, such that the player will be viewing the chatroom and it will immediately transition to the VN section and back to the chatroom in the same ‘scene’. This is different from how VN sections usually play out in-game: that is, first the player views a chatroom, is returned to the chatroom timeline screen, and then must select the corresponding Story Mode (VN) section to proceed. If you are interested in the latter, see [[Writing a VN section]].</p>
 <p>First, you’ll start by setting up a chatroom the way you usually would (see [[Creating a Chatroom]]). If you’d like to start with a VN that turns into a chatroom later, you must still begin with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">chat_begin(&quot;morning&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">&quot;morning&quot;</span></code> is the name of the background you will use for the chatroom. E.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
-    call chat_begin(&quot;night&quot;)
-    play music lonesome_practicalism
-    call enter(r)
-    r &quot;Some dialogue.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
+    <span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;night&quot;</span><span class="p">)</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">lonesome_practicalism</span>
+    <span class="k">call</span> <span class="n">enter</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">r</span> <span class="s2">&quot;Some dialogue.&quot;</span>
 </pre></div>
 </div>
 <p>Next, wherever you would like to have the VN appear and interrupt the chatroom, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat('my_vn_label')</span></code> where <code class="docutils literal notranslate"><span class="pre">'my_vn_label'</span></code> is the name of the label you will create for your VN section.</p>
 <p>For the VN section, create a label with the name you gave it earlier, e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_vn_label:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_vn_label</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>In this label, you must write the VN section. It is written the same way as a regular VN – see [[Writing a VN section]] – however you <strong>should not</strong> begin with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_begin</span></code> and should just begin the VN section. E.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_vn_label:
-    scene bg rika_apartment
-    # This next line is optional; if you want the music to continue from the
-    # chatroom you can leave it out, or use `stop music`
-    play music lonesome_practicalism
-    show jaehee glasses happy
-    ja &quot;This is some example dialogue.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_vn_label</span><span class="p">:</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_apartment</span>
+    <span class="c1"># This next line is optional; if you want the music to continue from the</span>
+    <span class="c1"># chatroom you can leave it out, or use `stop music`</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">lonesome_practicalism</span>
+    <span class="k">show</span> <span class="n">jaehee</span> <span class="n">glasses</span> <span class="n">happy</span>
+    <span class="n">ja</span> <span class="s2">&quot;This is some example dialogue.&quot;</span>
 </pre></div>
 </div>
 <p>Aside from the beginning and ending, everything can be written the same as described in the sections on VN writing.</p>
 <p>To end the VN, use <code class="docutils literal notranslate"><span class="pre">return</span></code> instead of <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">vn_end</span></code> e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_vn_label:
-    scene bg rika_apartment
-    show jaehee glasses happy
-    ja &quot;This is some example dialogue.&quot;
-    menu:
-        extend &#39;&#39;
-        &quot;Neat!&quot;:
-            m &quot;Neat!&quot;
-        &quot;Boring.&quot;:
-            m &quot;Boring.&quot;
-    ja neutral &quot;The VN section is now over.&quot;
-    return
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_vn_label</span><span class="p">:</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_apartment</span>
+    <span class="k">show</span> <span class="n">jaehee</span> <span class="n">glasses</span> <span class="n">happy</span>
+    <span class="n">ja</span> <span class="s2">&quot;This is some example dialogue.&quot;</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="n">extend</span> <span class="s1">&#39;&#39;</span>
+        <span class="s2">&quot;Neat!&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Neat!&quot;</span>
+        <span class="s2">&quot;Boring.&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Boring.&quot;</span>
+    <span class="n">ja</span> <span class="n">neutral</span> <span class="s2">&quot;The VN section is now over.&quot;</span>
+    <span class="k">return</span>
 </pre></div>
 </div>
 <p>The program will then return to the point after which you wrote <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> and you can resume the chatroom as usual.</p>
@@ -179,21 +179,21 @@
 <div class="section" id="clearing-the-chat-log-on-return">
 <h2>Clearing the chat log on return<a class="headerlink" href="#clearing-the-chat-log-on-return" title="Permalink to this headline">¶</a></h2>
 <p>If you would like to clear the chat log after returning from the VN section (that is, the player won’t see the previous messages in the conversation), you can also pass the <code class="docutils literal notranslate"><span class="pre">vn_during_chat</span></code> another argument like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Here&#39;s some test chatroom dialogue.&quot;
-u &quot;The game will jump to the VN section after this message.&quot;
-call vn_during_chat(&#39;my_vn_label&#39;, clearchat_on_return=True)
-u &quot;The chatroom resumes from here, but the message history is gone.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Here&#39;s some test chatroom dialogue.&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;The game will jump to the VN section after this message.&quot;</span>
+<span class="k">call</span> <span class="n">vn_during_chat</span><span class="p">(</span><span class="s1">&#39;my_vn_label&#39;</span><span class="p">,</span> <span class="n">clearchat_on_return</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">u</span> <span class="s2">&quot;The chatroom resumes from here, but the message history is gone.&quot;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="changing-backgrounds-between-chatrooms">
 <h2>Changing backgrounds between chatrooms<a class="headerlink" href="#changing-backgrounds-between-chatrooms" title="Permalink to this headline">¶</a></h2>
 <p>You can also change the chatroom background when it returns. To do so, pass <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> the argument <code class="docutils literal notranslate"><span class="pre">new_bg=&quot;morning&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">&quot;morning&quot;</span></code> is the new background you want to use. E.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;This scene plays out more like two separate chatrooms with a VN in between them.&quot;
-call exit(u)
-call vn_during_chat(&#39;my_vn_label&#39;, clearchat_on_return=True, new_bg=&quot;night&quot;)
-call enter(u)
-u &quot;The chatroom resumes from here, but the message history is gone and the background has changed.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;This scene plays out more like two separate chatrooms with a VN in between them.&quot;</span>
+<span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">vn_during_chat</span><span class="p">(</span><span class="s1">&#39;my_vn_label&#39;</span><span class="p">,</span> <span class="n">clearchat_on_return</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">new_bg</span><span class="o">=</span><span class="s2">&quot;night&quot;</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">enter</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="n">u</span> <span class="s2">&quot;The chatroom resumes from here, but the message history is gone and the background has changed.&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -201,22 +201,22 @@ u &quot;The chatroom resumes from here, but the message history is gone and the 
 <h2>Modifying the chatroom participants<a class="headerlink" href="#modifying-the-chatroom-participants" title="Permalink to this headline">¶</a></h2>
 <p>If you want to change the list of participants in the chatroom between scenes, you can pass <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> the argument <code class="docutils literal notranslate"><span class="pre">reset_participants=[ja,</span> <span class="pre">m]</span></code> where <code class="docutils literal notranslate"><span class="pre">[ja,</span> <span class="pre">m]</span></code> is a list of the ChatCharacter objects you want in the new chatroom. Note that you must include the main character (<code class="docutils literal notranslate"><span class="pre">m</span></code>) in this list if you want the player to appear as though they are participating in this chatroom.</p>
 <p>For example,</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>s &quot;Anyway, I should leave.&quot;
-call exit(s)
-y &quot;Me too!&quot;
-call exit(y)
-call vn_during_chat(&#39;my_vn_label&#39;, clearchat_on_return=True, new_bg=&quot;night&quot;, reset_participants=[ja, ju, m])
-ja &quot;This chatroom now looks like there are three people present, &#39;ja&#39;, &#39;ju&#39;, and the player (&#39;m&#39;)&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;Anyway, I should leave.&quot;</span>
+<span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="n">y</span> <span class="s2">&quot;Me too!&quot;</span>
+<span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">vn_during_chat</span><span class="p">(</span><span class="s1">&#39;my_vn_label&#39;</span><span class="p">,</span> <span class="n">clearchat_on_return</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">new_bg</span><span class="o">=</span><span class="s2">&quot;night&quot;</span><span class="p">,</span> <span class="n">reset_participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+<span class="n">ja</span> <span class="s2">&quot;This chatroom now looks like there are three people present, &#39;ja&#39;, &#39;ju&#39;, and the player (&#39;m&#39;)&quot;</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="ending-the-scene-after-a-vn">
 <h2>Ending the scene after a VN<a class="headerlink" href="#ending-the-scene-after-a-vn" title="Permalink to this headline">¶</a></h2>
 <p>If you don’t want the player to return to a chatroom section and instead want them to see the chatroom, then a VN, and then the scene ends without returning to a chatroom section, you can pass the <code class="docutils literal notranslate"><span class="pre">end_after_vn</span></code> argument to the <code class="docutils literal notranslate"><span class="pre">vn_during_chat</span></code> call e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Anyway, this is the end of the scene.&quot;
-call exit(u)
-call vn_during_chat(&quot;my_last_vn_label&quot;, end_after_vn=True)
-jump vn_end
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Anyway, this is the end of the scene.&quot;</span>
+<span class="k">call</span> <span class="n">exit</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">vn_during_chat</span><span class="p">(</span><span class="s2">&quot;my_last_vn_label&quot;</span><span class="p">,</span> <span class="n">end_after_vn</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">jump</span> <span class="n">vn_end</span>
 </pre></div>
 </div>
 <p>If you are ending on a VN, use <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">vn_end</span></code> after the call to <code class="docutils literal notranslate"><span class="pre">vn_during_chat</span></code> instead of <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">chat_end</span></code>.</p>

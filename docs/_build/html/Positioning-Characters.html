@@ -129,11 +129,11 @@
 <p>Not every position will work for every character due to spacing and differences in sprite design. You can define more positions in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/vn_mode.rpy">vn_mode.rpy</a> under <strong>Transforms/VN Positions</strong>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">vn_center</span></code> is a unique position because it moves the character closer to the screen in addition to centering them. It’s often used to imply the character is talking directly to the player. However, if you want to move a character who is currently shown in the <code class="docutils literal notranslate"><span class="pre">vn_center</span></code> position to another position, you have to <code class="docutils literal notranslate"><span class="pre">hide</span></code> them first. See the example files for examples of this.</p>
 <p>To show a character at a given position, write</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>show jumin front at vn_right
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">jumin</span> <span class="n">front</span> <span class="k">at</span> <span class="n">vn_right</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">jumin</span> <span class="pre">front</span></code> is the name + attributes of the character you want to show (e.g. expressions, outfits, etc), and <code class="docutils literal notranslate"><span class="pre">vn_right</span></code> is the position to show them in. You can also add a transition like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>show jumin side happy at vn_left with ease
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">jumin</span> <span class="k">side</span> <span class="n">happy</span> <span class="k">at</span> <span class="n">vn_left</span> <span class="k">with</span> <span class="n">ease</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">ease</span></code> is a transition. (See <a class="reference external" href="https://www.renpy.org/doc/html/transitions.html">Transitions</a> in the Ren’Py documentation for more).</p>

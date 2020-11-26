@@ -138,45 +138,45 @@
 </ol>
 </div></blockquote>
 <p>First, much like creating a chatroom, you must create a label for the VN. For a Story Mode icon not associated with any character, you can just use the name of the chatroom + the suffix <code class="docutils literal notranslate"><span class="pre">_vn</span></code> and the program will know to set it up after that chatroom e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>has the VN label</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom_vn:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom_vn</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>If you would instead like the VN to have a certain character’s image associated with it, you must add another suffix: <code class="docutils literal notranslate"><span class="pre">_</span></code> + the file_id of that character e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom_vn_ju:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom_vn_ju</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>will show up in the program as a VN section associated with Jumin.</p>
 <p>Alternatively, you can also use the suffix <code class="docutils literal notranslate"><span class="pre">_party</span></code> to indicate a VN contains the party. This will look like</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom_party:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom_party</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>Underneath your label, begin with</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call vn_begin
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">vn_begin</span>
 </pre></div>
 </div>
 <p>This sets some important variables before the VN. Next, set the background for your VN. It begins as black.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>scene bg rika_apartment with fade
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_apartment</span> <span class="k">with</span> <span class="n">fade</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">bg</span> <span class="pre">rika_apartment</span></code> is a pre-defined variable you can find in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/vn_mode.rpy">vn_mode.rpy</a> or one you defined yourself. Backgrounds should be <code class="docutils literal notranslate"><span class="pre">750x1334</span></code> pixels. <code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">fade</span></code> indicates the background should fade in from black.</p>
 <p>If you want the player to have a moment to look at the background before you move on, you can write <code class="docutils literal notranslate"><span class="pre">pause</span></code> after showing the image, e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>scene bg rika_apartment with fade
-pause
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_apartment</span> <span class="k">with</span> <span class="n">fade</span>
+<span class="k">pause</span>
 </pre></div>
 </div>
 <div class="section" id="writing-a-vn-menu">
 <h2>Writing a VN Menu<a class="headerlink" href="#writing-a-vn-menu" title="Permalink to this headline">¶</a></h2>
 <p>Writing a menu in a VN is the same as it is in phone calls; that is, you need to write <code class="docutils literal notranslate"><span class="pre">extend</span> <span class="pre">''</span></code> right after <code class="docutils literal notranslate"><span class="pre">menu:</span></code> and before the choices.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>menu:
-    extend &#39;&#39;
-    &quot;Choice 1&quot;:
-        m &quot;Choice 1&quot;
-    &quot;Choice 2&quot;:
-        m &quot;Choice 2&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">menu</span><span class="p">:</span>
+    <span class="n">extend</span> <span class="s1">&#39;&#39;</span>
+    <span class="s2">&quot;Choice 1&quot;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="s2">&quot;Choice 1&quot;</span>
+    <span class="s2">&quot;Choice 2&quot;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="s2">&quot;Choice 2&quot;</span>
 </pre></div>
 </div>
 <p>This tells the program to display the last line of dialogue underneath the choice menu.</p>
@@ -184,7 +184,7 @@ pause
 <div class="section" id="awarding-heart-points-in-a-vn">
 <h2>Awarding heart points in a VN<a class="headerlink" href="#awarding-heart-points-in-a-vn" title="Permalink to this headline">¶</a></h2>
 <p>You award heart points to a player the same way as you would anywhere else:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call heart_icon(ja)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">heart_icon</span><span class="p">(</span><span class="n">ja</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the variable of the character you’re awarding a heart point to.</p>

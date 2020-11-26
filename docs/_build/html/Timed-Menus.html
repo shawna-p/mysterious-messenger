@@ -131,21 +131,21 @@
 <div class="section" id="how-to-write-a-timed-menu">
 <h2>How to write a timed menu<a class="headerlink" href="#how-to-write-a-timed-menu" title="Permalink to this headline">¶</a></h2>
 <p>Writing timed menus works very similarly to regular menus. Whenever you’d like the answer button to become available, include the line</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call continue_answer(&quot;menu1&quot;, 8)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">continue_answer</span><span class="p">(</span><span class="s2">&quot;menu1&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">&quot;menu1&quot;</span></code> is the name of the menu to jump to when the player presses the answer button, and <code class="docutils literal notranslate"><span class="pre">8</span></code> is the number of seconds to show the answer button to a player with chatroom speed set to 5. It may take some trial and error to determine how long you should display the answer button for and how many messages the player might see before answering. If you don’t provide the number of seconds for the answer button to remain on-screen, it will default to 5 seconds.</p>
 <p>After calling <code class="docutils literal notranslate"><span class="pre">continue_answer</span></code>, you should write more dialogue that will continue to be sent to the chatroom until the player hits the answer button. In most cases, the time it takes to display this dialogue should be the number of seconds you show the answer button for. If you just want the player to have a limited time to answer before the chat moves on, see <a class="reference external" href="#pausing-for-an-answer">Pausing for an answer</a>.</p>
 <p>Next, write the menu. To use timed menus, you need to give each menu a name so the program can jump to it when the player hits the answer button.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>if timed_choose:
-    menu menu1:
-        &quot;Choice 1&quot;:
-            m &quot;Choice 1.&quot;
-        &quot;Choice 2&quot;:
-            m &quot;Choice 2.&quot;
-else:
-    s &quot;Optional dialogue here.&quot;
-s &quot;Regular dialogue resumes here.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">timed_choose</span><span class="p">:</span>
+    <span class="k">menu</span> <span class="n">menu1</span><span class="p">:</span>
+        <span class="s2">&quot;Choice 1&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Choice 1.&quot;</span>
+        <span class="s2">&quot;Choice 2&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Choice 2.&quot;</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">s</span> <span class="s2">&quot;Optional dialogue here.&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;Regular dialogue resumes here.&quot;</span>
 </pre></div>
 </div>
 <p>The main things to note is that you must write <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">timed_choose:</span></code> before your menu, and you must name the menu what you called it earlier in the <code class="docutils literal notranslate"><span class="pre">continue_answer</span></code> call.</p>
@@ -155,80 +155,80 @@ s &quot;Regular dialogue resumes here.&quot;
 <div class="section" id="example-chatroom">
 <h3>Example chatroom<a class="headerlink" href="#example-chatroom" title="Permalink to this headline">¶</a></h3>
 <p>An example of a chatroom with timed menus for interruptions may look as follows:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call continue_answer(&quot;menu1&quot;, 8)
-s &quot;You only have so long to reply,&quot;
-s &quot;and when the planet at the bottom of the screen reaches the right side,&quot;
-s &quot;BAM!!&quot;
-s &quot;The opportunity to answer has passed!!!&quot;
-s &quot;You write these menus a bit differently than regular menus&quot;
-s &quot;You&#39;ll see an example of it in this code.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">continue_answer</span><span class="p">(</span><span class="s2">&quot;menu1&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+<span class="n">s</span> <span class="s2">&quot;You only have so long to reply,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;and when the planet at the bottom of the screen reaches the right side,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;BAM!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;The opportunity to answer has passed!!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You write these menus a bit differently than regular menus&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You&#39;ll see an example of it in this code.&quot;</span>
 
-if timed_choose:
-    menu menu1:
-        &quot;Slow down! Timed menus??&quot;:
-            m &quot;Slow down! Timed menus??&quot;
-            s &quot;Whoops lolol I got a bit excited&quot;
-            s &quot;Yup! Maybe try playing through this chatroom a few times to see what happens?&quot;
+<span class="k">if</span> <span class="n">timed_choose</span><span class="p">:</span>
+    <span class="k">menu</span> <span class="n">menu1</span><span class="p">:</span>
+        <span class="s2">&quot;Slow down! Timed menus??&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Slow down! Timed menus??&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;Whoops lolol I got a bit excited&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;Yup! Maybe try playing through this chatroom a few times to see what happens?&quot;</span>
 
-        &quot;So I can choose between listening or interrupting?&quot; :
-            m &quot;So I can choose between listening or interrupting?&quot;
-            s &quot;Yeah! If you just let the chat play out,&quot;
-            s &quot;you&#39;ll see different dialogue than if you&#39;d decided to answer.&quot;
+        <span class="s2">&quot;So I can choose between listening or interrupting?&quot;</span> <span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;So I can choose between listening or interrupting?&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;Yeah! If you just let the chat play out,&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;you&#39;ll see different dialogue than if you&#39;d decided to answer.&quot;</span>
 
-else:
-    s &quot;If you don&#39;t reply and just listen,&quot;
-    s &quot;maybe you&#39;ll see some interesting dialogue!&quot;
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">s</span> <span class="s2">&quot;If you don&#39;t reply and just listen,&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;maybe you&#39;ll see some interesting dialogue!&quot;</span>
 
-s &quot;The timer will be faster or slower depending on what your chatroom speed is&quot;
+<span class="n">s</span> <span class="s2">&quot;The timer will be faster or slower depending on what your chatroom speed is&quot;</span>
 </pre></div>
 </div>
 <p>(This code can be seen in-game by playing through the Timed Menus chatroom on Tutorial Day).</p>
 <p>In a chatroom using the code above, a player who chooses the option “Slow down! Timed menus??” will see the following dialogue:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>s &quot;You only have so long to reply,&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;You only have so long to reply,&quot;</span>
 
-## Dialogue that may or may not be seen depending on
-## how fast the player presses the Answer button
-s &quot;and when the planet at the bottom of the screen reaches the right side,&quot;
-s &quot;BAM!!&quot;
-s &quot;The opportunity to answer has passed!!!&quot;
-s &quot;You write these menus a bit differently than regular menus&quot;
-s &quot;You&#39;ll see an example of it in this code.&quot;
-## End of optional dialogue
+<span class="c1">## Dialogue that may or may not be seen depending on</span>
+<span class="c1">## how fast the player presses the Answer button</span>
+<span class="n">s</span> <span class="s2">&quot;and when the planet at the bottom of the screen reaches the right side,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;BAM!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;The opportunity to answer has passed!!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You write these menus a bit differently than regular menus&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You&#39;ll see an example of it in this code.&quot;</span>
+<span class="c1">## End of optional dialogue</span>
 
-m &quot;Slow down! Timed menus??&quot;
-s &quot;Whoops lolol I got a bit excited&quot;
-s &quot;Yup! Maybe try playing through this chatroom a few times to see what happens?&quot;
-s &quot;The timer will be faster or slower depending on what your chatroom speed is&quot;
+<span class="n">m</span> <span class="s2">&quot;Slow down! Timed menus??&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;Whoops lolol I got a bit excited&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;Yup! Maybe try playing through this chatroom a few times to see what happens?&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;The timer will be faster or slower depending on what your chatroom speed is&quot;</span>
 </pre></div>
 </div>
 <p>A player who chooses the option “So I can choose between listening or interrupting?” will see the following dialogue:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>s &quot;You only have so long to reply,&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;You only have so long to reply,&quot;</span>
 
-## Dialogue that may or may not be seen depending on
-## how fast the player presses the Answer button
-s &quot;and when the planet at the bottom of the screen reaches the right side,&quot;
-s &quot;BAM!!&quot;
-s &quot;The opportunity to answer has passed!!!&quot;
-s &quot;You write these menus a bit differently than regular menus&quot;
-s &quot;You&#39;ll see an example of it in this code.&quot;
-## End of optional dialogue
+<span class="c1">## Dialogue that may or may not be seen depending on</span>
+<span class="c1">## how fast the player presses the Answer button</span>
+<span class="n">s</span> <span class="s2">&quot;and when the planet at the bottom of the screen reaches the right side,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;BAM!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;The opportunity to answer has passed!!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You write these menus a bit differently than regular menus&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You&#39;ll see an example of it in this code.&quot;</span>
+<span class="c1">## End of optional dialogue</span>
 
-m &quot;So I can choose between listening or interrupting?&quot;
-s &quot;Yeah! If you just let the chat play out,&quot;
-s &quot;you&#39;ll see different dialogue than if you&#39;d decided to answer.&quot;
-s &quot;The timer will be faster or slower depending on what your chatroom speed is&quot;
+<span class="n">m</span> <span class="s2">&quot;So I can choose between listening or interrupting?&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;Yeah! If you just let the chat play out,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;you&#39;ll see different dialogue than if you&#39;d decided to answer.&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;The timer will be faster or slower depending on what your chatroom speed is&quot;</span>
 </pre></div>
 </div>
 <p>Finally, a player who does not press the Answer button and lets the chat play out will see the following dialogue:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>s &quot;You only have so long to reply,&quot;
-s &quot;and when the planet at the bottom of the screen reaches the right side,&quot;
-s &quot;BAM!!&quot;
-s &quot;The opportunity to answer has passed!!!&quot;
-s &quot;You write these menus a bit differently than regular menus&quot;
-s &quot;You&#39;ll see an example of it in this code.&quot;
-s &quot;If you don&#39;t reply and just listen,&quot;
-s &quot;maybe you&#39;ll see some interesting dialogue!&quot;
-s &quot;The timer will be faster or slower depending on what your chatroom speed is&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;You only have so long to reply,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;and when the planet at the bottom of the screen reaches the right side,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;BAM!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;The opportunity to answer has passed!!!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You write these menus a bit differently than regular menus&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;You&#39;ll see an example of it in this code.&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;If you don&#39;t reply and just listen,&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;maybe you&#39;ll see some interesting dialogue!&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;The timer will be faster or slower depending on what your chatroom speed is&quot;</span>
 </pre></div>
 </div>
 </div>
@@ -236,21 +236,21 @@ s &quot;The timer will be faster or slower depending on what your chatroom speed
 <div class="section" id="pausing-for-an-answer">
 <h2>Pausing for an answer<a class="headerlink" href="#pausing-for-an-answer" title="Permalink to this headline">¶</a></h2>
 <p>If you would like to have the conversation pause for a moment to allow the player to interrupt, but continue on if they say nothing, there is a special function you can use in combination with a <code class="docutils literal notranslate"><span class="pre">timed_pause</span></code> call. For example, a chat like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Have you heard of it?&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Have you heard of it?&quot;</span>
 
-call continue_answer(&quot;other_storytelling_menu1&quot;, 5)
-call timed_pause(5)
+<span class="k">call</span> <span class="n">continue_answer</span><span class="p">(</span><span class="s2">&quot;other_storytelling_menu1&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">timed_pause</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 
-if timed_choose:
-    menu other_storytelling_menu1:
-        &quot;Yes.&quot;:
-            m &quot;Yes.&quot; (pauseVal=0)
-            u &quot;I thought you would.&quot;
-        &quot;No.&quot;:
-            m &quot;No.&quot; (pauseVal=0)
-            u &quot;Oh? I&#39;m surprised.&quot;
+<span class="k">if</span> <span class="n">timed_choose</span><span class="p">:</span>
+    <span class="k">menu</span> <span class="n">other_storytelling_menu1</span><span class="p">:</span>
+        <span class="s2">&quot;Yes.&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;Yes.&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">u</span> <span class="s2">&quot;I thought you would.&quot;</span>
+        <span class="s2">&quot;No.&quot;</span><span class="p">:</span>
+            <span class="n">m</span> <span class="s2">&quot;No.&quot;</span> <span class="p">(</span><span class="n">pauseVal</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">u</span> <span class="s2">&quot;Oh? I&#39;m surprised.&quot;</span>
 
-u &quot;Most people are familiar with it already.&quot;
+<span class="n">u</span> <span class="s2">&quot;Most people are familiar with it already.&quot;</span>
 </pre></div>
 </div>
 <p>After the line “Have you heard of it?”, the chat will pause for 5 seconds (or longer/shorter depending on the player’s chat speed) and the answer button will flash at the bottom of the screen. If, after the five seconds have passed, the player hasn’t answered, the chat will continue on from the line “Most people are familiar with it already.”</p>
@@ -261,22 +261,22 @@ u &quot;Most people are familiar with it already.&quot;
 <div class="section" id="example-results">
 <h3>Example results<a class="headerlink" href="#example-results" title="Permalink to this headline">¶</a></h3>
 <p>In a chatroom using the code above, a player who chooses the option “Yes.” will see the following dialogue:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Have you heard of it?&quot;
-m &quot;Yes.&quot;
-u &quot;I thought you would.&quot;
-u &quot;Most people are familiar with it already.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Have you heard of it?&quot;</span>
+<span class="n">m</span> <span class="s2">&quot;Yes.&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;I thought you would.&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;Most people are familiar with it already.&quot;</span>
 </pre></div>
 </div>
 <p>A player who chooses the option “No.” will see the following dialogue:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Have you heard of it?&quot;
-m &quot;No.&quot;
-u &quot;Oh? I&#39;m surprised.&quot;
-u &quot;Most people are familiar with it already.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Have you heard of it?&quot;</span>
+<span class="n">m</span> <span class="s2">&quot;No.&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;Oh? I&#39;m surprised.&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;Most people are familiar with it already.&quot;</span>
 </pre></div>
 </div>
 <p>And a player who does not press the answer button during the chat will see the following dialogue:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>u &quot;Have you heard of it?&quot;
-u &quot;Most people are familiar with it already.&quot;
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Have you heard of it?&quot;</span>
+<span class="n">u</span> <span class="s2">&quot;Most people are familiar with it already.&quot;</span>
 </pre></div>
 </div>
 </div>

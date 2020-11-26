@@ -118,8 +118,8 @@
 <div class="section" id="ending-a-route-after-a-vn">
 <h2>Ending a Route after a VN<a class="headerlink" href="#ending-a-route-after-a-vn" title="Permalink to this headline">¶</a></h2>
 <p>If you end the route after a VN, at the end of the VN label, write</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ending = &#39;good&#39;
-jump vn_end_route
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ending</span> <span class="o">=</span> <span class="s1">&#39;good&#39;</span>
+<span class="k">jump</span> <span class="n">vn_end_route</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">'good'</span></code> is one of <code class="docutils literal notranslate"><span class="pre">'good'</span></code>, <code class="docutils literal notranslate"><span class="pre">'normal'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'bad'</span></code>. It will show the correct ending screen before returning to the main menu.</p>
@@ -127,8 +127,8 @@ jump vn_end_route
 <div class="section" id="ending-a-route-after-a-chatroom">
 <h2>Ending a Route after a Chatroom<a class="headerlink" href="#ending-a-route-after-a-chatroom" title="Permalink to this headline">¶</a></h2>
 <p>At the end of the chatroom label, write</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ ending = &#39;bad&#39;
-jump chat_end_route
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ending</span> <span class="o">=</span> <span class="s1">&#39;bad&#39;</span>
+<span class="k">jump</span> <span class="n">chat_end_route</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">'good'</span></code> is one of <code class="docutils literal notranslate"><span class="pre">'good'</span></code>, <code class="docutils literal notranslate"><span class="pre">'normal'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'bad'</span></code>. It will show the correct ending before returning to the main menu.</p>

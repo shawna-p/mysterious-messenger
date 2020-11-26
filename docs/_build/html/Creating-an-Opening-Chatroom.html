@@ -117,56 +117,56 @@
 <p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a></strong></p>
 <p>When the player starts a new game, you may want to have an “introductory” chatroom, to introduce the characters and story before the player begins the route. Though you’re free to tell the program to jump to a different label, currently the game starts at the <code class="docutils literal notranslate"><span class="pre">start</span></code> label, which is found in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a>. It works a bit differently from regular chatrooms, so it’s recommended you have a good grasp of how to create regular chatrooms before you look at this code to modify it.</p>
 <p>The line</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ new_route_setup(route=tutorial_route)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">tutorial_route</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>tells the program to set the player on the previously-defined route <code class="docutils literal notranslate"><span class="pre">tutorial_route</span></code>. You should replace this with the name of the Route you have defined.</p>
 <p>Next there are two definitions, first</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ character_list = [ju, z, s, y, ja, v, m, r, ri]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">ri</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This is the beginning character list for this particular route. Characters in this list have profiles that appear in the chat hub and in the phone contacts list. You can add or remove characters from this list later during the route.</p>
 <p>The next definition is</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>$ heart_point_chars = [ju, z, s, y, ja, v, r, ri]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">ri</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This list contains the characters who should have “heart icons” on the Profile page indicating how many hearts the player has earned with this character. You can add or remove characters from this list later during the route.</p>
 <p>Next, you will see the line</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call new_incoming_call(PhoneCall(u, &#39;n/a&#39;))
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">new_incoming_call</span><span class="p">(</span><span class="n">PhoneCall</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s1">&#39;n/a&#39;</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>In the default program, this line causes Unknown to call the player immediately after they start a new route, before they get to the chat home screen. You can also include phone calls that trigger after an opening chatroom, but this phone call is included so you can see what it might look like if you want a phone call at the beginning.</p>
 <p>What follows is almost the exact same as any regular phone call: it begins with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">phone_begin</span></code> but ends with <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">phone_end</span></code> instead of <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">phone_end</span></code>. The <code class="docutils literal notranslate"><span class="pre">call</span></code> instead of <code class="docutils literal notranslate"><span class="pre">jump</span></code> means that you can continue writing the introduction instead of ending the introduction after the phone call is completed.</p>
 <p>Next is the line</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>scene bg black
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">scene</span> <span class="n">bg</span> <span class="n">black</span>
 </pre></div>
 </div>
 <p>which is optional, but it cleans up the transition between the phone call and the chatroom.</p>
 <p>Next, the chatroom begins as normal:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>call chat_begin(&#39;hack&#39;)
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s1">&#39;hack&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can add any of the usual chatroom functions to this, including the hack effects, background music, and heart icon calls, to name a few. It’s filled out the same way as a regular chatroom, including</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>jump chat_end
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">jump</span> <span class="n">chat_end</span>
 </pre></div>
 </div>
 <p>to finish off the label.</p>
 <p>If you want to have characters <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/wiki/Regular-Text-Messages">send text messages</a> after the introductory chat, or you’d like to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/wiki/Writing-a-Phone-Call">make phone calls available or trigger an incoming call</a> after this chatroom, it’s taken care of the same way as usual, except the label you use is called <code class="docutils literal notranslate"><span class="pre">starter_chat</span></code> <strong>not</strong> <code class="docutils literal notranslate"><span class="pre">start</span></code>. So incoming calls should look like</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label starter_chat_incoming_ja:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">starter_chat_incoming_ja</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>and post-chatroom things (including text messages) will be taken care of in the</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label after_starter_chat:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_starter_chat</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>label. Note that the introductory chatroom does not support a separate VN mode (Story Mode) section after the introductory chatroom. You can, however, include calls to VN sections in the starting label itself.</p>
 <div class="section" id="introductory-chatrooms-and-multiple-routes">
 <h2>Introductory Chatrooms and Multiple Routes<a class="headerlink" href="#introductory-chatrooms-and-multiple-routes" title="Permalink to this headline">¶</a></h2>
 <p>Note that if you have multiple routes you want to have post-chatroom features in, <strong>you must include an additional chatroom_label argument</strong> in your <code class="docutils literal notranslate"><span class="pre">new_route_setup</span></code> call. That may look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label prologue():
-    $ new_route_setup(route=my_new_route, chatroom_label=&quot;prologue&quot;, participants=[ja])
-    $ character_list = [ju, z, s, y, ja, m]
-    $ heart_point_chars = [ju, z, s, y, ja]
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">prologue</span><span class="p">():</span>
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">my_new_route</span><span class="p">,</span> <span class="n">chatroom_label</span><span class="o">=</span><span class="s2">&quot;prologue&quot;</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>This sets up an introductory chatroom for a route in which the characters involved are ju, z, s, y, ja (and the player, m); this is set up with the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">character_list</span> <span class="pre">=</span> <span class="pre">[ju,</span> <span class="pre">z,</span> <span class="pre">s,</span> <span class="pre">y,</span> <span class="pre">ja,</span> <span class="pre">m]</span></code>. The characters who will display on the Profile screen with how many hearts the player has collected are ju, z, s, y, ja – this is set up via <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">heart_point_chars</span> <span class="pre">=</span> <span class="pre">[ju,</span> <span class="pre">z,</span> <span class="pre">s,</span> <span class="pre">y,</span> <span class="pre">ja]</span></code>.</p>
@@ -181,11 +181,11 @@
 <div class="section" id="skipping-the-introductory-chatroom">
 <h2>Skipping the Introductory Chatroom<a class="headerlink" href="#skipping-the-introductory-chatroom" title="Permalink to this headline">¶</a></h2>
 <p>Alternatively, if you do not want any kind of introductory chatroom/phone call/VN mode, you can simply use your introductory label to set up the correct variables and then take the player to the home screen like so:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label prologue():
-    $ new_route_setup(route=my_new_route, chatroom_label=&quot;prologue&quot;, participants=[ja])
-    $ character_list = [ju, z, s, y, ja, m]
-    $ heart_point_chars = [ju, z, s, y, ja]
-    jump skip_intro_setup
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">prologue</span><span class="p">():</span>
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">my_new_route</span><span class="p">,</span> <span class="n">chatroom_label</span><span class="o">=</span><span class="s2">&quot;prologue&quot;</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+    <span class="k">jump</span> <span class="n">skip_intro_setup</span>
 </pre></div>
 </div>
 <p>When the player starts a new game, they will be taken immediately to the hub screen without seeing any kind of introductory chatroom/phone call/VN.</p>

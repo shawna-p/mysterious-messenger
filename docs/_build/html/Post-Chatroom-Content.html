@@ -117,11 +117,11 @@
 <p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
 <p>If there is anything you would like to have occur after a chatroom, or any additional content you would like to make available to the player (e.g. text messages), you need to create an “after chatroom” label. This is <code class="docutils literal notranslate"><span class="pre">after_</span></code> + the name of your label.</p>
 <p>For example, if your chatroom is called</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label my_chatroom:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>then the “after label” should be called</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>label after_my_chatroom:
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_my_chatroom</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>This needs to be separate from the main chatroom so the program knows to deliver things like text messages in the event that a chatroom has expired. You can do many things in this label – the most common use is for <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/wiki/Regular-Text-Messages">text messages</a>, though you can also use it to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/wiki/Changing-a-Character%27s-Voicemail">change a character’s voicemail</a>, among other things.</p>
