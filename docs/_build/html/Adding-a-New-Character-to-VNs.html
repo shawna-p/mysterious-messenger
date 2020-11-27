@@ -125,18 +125,58 @@
 </pre></div>
 </div>
 <p>These variables are explained below.</p>
-<p>Field | Description | Example |
-——|————-|———|
-name | The name of the character as it should appear during a VN | “Bob” |
-kind | Allows this Character to “inherit” from another, previously defined Character. In this case, the <code class="docutils literal notranslate"><span class="pre">vn_character</span></code> object already has many attributes related to VN mode defined, so inheriting them means you don’t have to retype them. | vn_character |
-image | This is the tag Ren’Py will apply to images if you want to include attribute tags during this character’s dialogue (See <a class="reference internal" href="Changing-Outfits-and-Expressions.html"><span class="doc">Changing Outfits and Expressions</span></a>) | “bob” |
-window_background | The image used for the background of this character’s dialogue. The part that you will change is the string <code class="docutils literal notranslate"><span class="pre">&quot;VN</span> <span class="pre">Mode/Chat</span> <span class="pre">Bubbles/vnmode_9.png&quot;</span></code>. The rest of that statement tells Ren’Py to make this background more or less transparent based on the value of <code class="docutils literal notranslate"><span class="pre">persistent.vn_window.alpha</span></code>. This allows players some degree of control over the window opacity. | Transform(“VN Mode/Chat Bubbles/vnmode_9.png”, alpha=persistent.vn_window_alpha) |
-voice_tag | The voice tag associated with this character. Allows players to switch voice acting for this character on and off. This should be Bob’s file_id + “_voice” | “b_voice” |</p>
-<p>Optionally, you can also include the argument <code class="docutils literal notranslate"><span class="pre">who_color</span></code>. This changes the colour of the character’s name displayed above their dialogue when they speak in VN mode.</p>
-<p>Field | Description | Example |
-——|————-|———|
-who_color | Changes the colour of the character’s name in the VN dialogue box. | “#fff5ca” |</p>
-<div class="section" id="note-on-voiced-characters">
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>The name of the character as it should appear during a VN</td>
+<td>"Bob"</td>
+</tr>
+<tr>
+<td>kind</td>
+<td>Allows this Character to "inherit" from another, previously defined Character. In this case, the <code>vn_character</code> object already has many attributes related to VN mode defined, so inheriting them means you don't have to retype them.</td>
+<td>vn_character</td>
+</tr>
+<tr>
+<td>image</td>
+<td>This is the tag Ren'Py will apply to images if you want to include attribute tags during this character's dialogue (See <a href="Changing-Outfits-and-Expressions.md">Changing Outfits and Expressions</a>)</td>
+<td>"bob"</td>
+</tr>
+<tr>
+<td>window_background</td>
+<td>The image used for the background of this character's dialogue. The part that you will change is the string <code>"VN Mode/Chat Bubbles/vnmode_9.png"</code>. The rest of that statement tells Ren'Py to make this background more or less transparent based on the value of <code>persistent.vn_window.alpha</code>. This allows players some degree of control over the window opacity.</td>
+<td>Transform("VN Mode/Chat Bubbles/vnmode_9.png", alpha=persistent.vn_window_alpha)</td>
+</tr>
+<tr>
+<td>voice_tag</td>
+<td>The voice tag associated with this character. Allows players to switch voice acting for this character on and off. This should be Bob's file_id + "_voice"</td>
+<td>"b_voice"</td>
+</tr>
+</tbody>
+</table><p>Optionally, you can also include the argument <code class="docutils literal notranslate"><span class="pre">who_color</span></code>. This changes the colour of the character’s name displayed above their dialogue when they speak in VN mode.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>who_color</td>
+<td>Changes the colour of the character's name in the VN dialogue box.</td>
+<td>"#fff5ca"</td>
+</tr>
+</tbody>
+</table><div class="section" id="note-on-voiced-characters">
 <h2>Note on Voiced Characters<a class="headerlink" href="#note-on-voiced-characters" title="Permalink to this headline">¶</a></h2>
 <p>If you don’t want to include a <code class="docutils literal notranslate"><span class="pre">voice_tag</span></code> for Bob, you will also need to modify a line in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_settings.rpy">screens_settings.rpy</a> under the screen <code class="docutils literal notranslate"><span class="pre">preferences()</span></code>. Partway down there is a <code class="docutils literal notranslate"><span class="pre">frame</span></code> containing the toggles for all voiced characters. In particular:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">vbox</span><span class="p">:</span>

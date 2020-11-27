@@ -2,8 +2,7 @@
 
 **Example files to look at: [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy "tutorial_6_meeting"), [tutorial_3b_VN.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_3b_VN.rpy "tutorial_3b_VN")**
 
-A brief overview of the steps required (more detail below): |
-------------------------------------------------------------|
+_A brief overview of the steps required (more detail below):_
 
 > 1. Create a label using the name of the chatroom + the suffix `_vn` (e.g. `label my_chatroom_vn`)
 >    1. (Optional) Indicate a character the VN is associated with by including their file_id as another suffix (e.g. `label my_chatroom_vn_s`)

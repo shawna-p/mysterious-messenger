@@ -2,8 +2,7 @@
 
 **Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee")**
 
-A brief overview of the steps required (more detail below): |
-------------------------------------------------------------|
+_A brief overview of the steps required (more detail below):_
 
 > 1. Create a label + the correct suffix for the phone call
 >    1. `my_chatroom_outgoing_ja` to make an outgoing call to the character `ja` available

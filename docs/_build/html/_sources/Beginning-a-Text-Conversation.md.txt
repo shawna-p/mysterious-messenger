@@ -2,8 +2,7 @@
 
 **Example files to look at: [tutorial_3_text_message.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_3_text_message.rpy "tutorial_3_text_message")**
 
-A brief overview of the steps required (more detail below): |
-------------------------------------------------------------|
+_A brief overview of the steps required (more detail below):_
 
 > 1. Create a label using the prefix `after_` + the name of the chatroom you want to send the text messages after e.g. `label after_my_chatroom`
 > 2. Begin the text chain with `call compose_text(s, real_time=True)` where `s` is the variable for the character who is sending the message

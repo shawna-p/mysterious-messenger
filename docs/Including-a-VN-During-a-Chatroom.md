@@ -2,8 +2,7 @@
 
 **Example files to look at: [tutorial_9_storytelling.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_9_storytelling.rpy "tutorial_9_storytelling")**
 
-A brief overview of the steps required (more detail below): |
-------------------------------------------------------------|
+_A brief overview of the steps required (more detail below):_
 
 > 1. Create a chatroom as you usually would (see [Creating a Chatroom](Creating-a-Chatroom.md))
 > 2. When you want the VN to interrupt the chatroom, use `call vn_during_chat('name_of_vn_label')`

@@ -35,6 +35,7 @@ release = 'v2.2'
 # Add napoleon to the extensions list
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
     'recommonmark', 'sphinx_rtd_theme',
+    'sphinx_markdown_tables',
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.todo',
     'renpydoc',
@@ -59,6 +60,10 @@ templates_path = ['_templates']
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
+source_parsers = {
+    '.md': 'recommonmark.parser.CommonMarkParser',
+}
+
 source_suffix = ['.rst', '.md']
 
 # List of patterns, relative to source directory, that match files and

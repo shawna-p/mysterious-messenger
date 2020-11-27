@@ -1,7 +1,6 @@
 # Setting up Sequential Chatrooms
 
-A brief overview of the steps required (more detail below): |
-------------------------------------------------------------|
+_A brief overview of the steps required (more detail below):_
 
 > 1. Define a list of `RouteDay` objects. The first item in the list should be the name of the ending e.g. `"Good End"`
 > 2. The first field of a `RouteDay` object is the name of the day (e.g. "1st"), and then the second is a list of `ChatHistory` objects. Fill these out with the information for each chatroom

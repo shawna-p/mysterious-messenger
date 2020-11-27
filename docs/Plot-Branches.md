@@ -2,8 +2,7 @@
 
 **Example Files to look at: [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches"), [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy)**
 
-A brief overview of the steps required (more detail below): |
-------------------------------------------------------------|
+_A brief overview of the steps required (more detail below):_
 
 > 1. Use the **List of Chatrooms** tab in **Script Generator.xlsx** or refer to [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md) to set up your route. In the `ChatHistory` object that contains the chatroom after which you want the plot to branch, either fill in `true` or `false` to the plot branch column in the spreadsheet or ensure you have `plot_branch=PlotBranch()` in your definition.
 > 2. Define another list of `RouteDay` objects for the path the player will branch onto.

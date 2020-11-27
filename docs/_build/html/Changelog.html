@@ -118,108 +118,369 @@
 <h2>3.0.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="major-new-features">
 <h3>Major New Features<a class="headerlink" href="#major-new-features" title="Permalink to this headline">¶</a></h3>
-<p>| Feature | Description |
-| ——- | ———– |
-| StoryMode | Story Mode sections can exist separately from chatrooms and take a trigger time and a title. This also replaces the previous <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> class. |
-| StoryCall | Phone calls can appear in the timeline and be mandatory for story progression. If a story call expires, the character will leave a voicemail. Story calls can exist on their own with a trigger time or can be attached to Story Mode sections or chatrooms. Only one story call per character is allowed, but multiple story calls with different callers can exist on the same timeline item. |
-| <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS | A new way of writing chatroom and text message dialogue. Automatically adds text tags and parses emojis as images. Can also add new speech bubbles and fonts to work with this CDS. |
-| <code class="docutils literal notranslate"><span class="pre">text</span> <span class="pre">backlog</span></code> CDS | Allows messages to be added as “backlog” to a character’s text message conversation history. Can manually set the date/time the message appears, relative to the current date/time. |
-| <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> CDS | Replaces calls like <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">compose_text(r)</span></code> and <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">compose_text_end(&quot;menu_a2&quot;)</span></code>. Makes it easier to set up and write text messages, and even schedule when they should be delivered. |
-| Choice paraphrasing | Can turn <code class="docutils literal notranslate"><span class="pre">paraphrase_choices</span></code> on or off on a global, per-menu, or per-choice basis to dictate whether or not the program should automatically make the main character say the dialogue in the selected choice. |
-| Bonus profile pictures | Characters have bonus profile pictures that are unlocked based on user-defined conditions or when seen in-game. NPC profile pictures cost 5 heart points with that character to unlock, and player profile pictures cost 1 hourglass. These values are modifiable. |
-| Profile picture callback | When the player changes their profile picture, a special function is called that allows the characters to comment on their profile picture choice (e.g. by phoning them or sending a text message) |
-| <code class="docutils literal notranslate"><span class="pre">scene</span></code> and <code class="docutils literal notranslate"><span class="pre">show</span></code> extention | <code class="docutils literal notranslate"><span class="pre">scene</span></code> and <code class="docutils literal notranslate"><span class="pre">show</span></code> have been extended to allow chatroom backgrounds to be set with <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">morning</span></code> instead of <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">chat_begin('morning')</span></code>. Most other effects, such as banners, can be shown via <code class="docutils literal notranslate"><span class="pre">show</span></code> commands like <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">banner</span> <span class="pre">heart</span></code> or <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">hack</span> <span class="pre">effect</span></code>. |
-| <code class="docutils literal notranslate"><span class="pre">timed</span> <span class="pre">menu</span></code> CDS | Timed menus are now typed like regular menus. The dialogue before the first choice will dictate how long the timer is. Choices are shown on-screen while the characters continue messaging. A preferences option turns timed menus into regular menus, and a slider allows for timed menu “bullet time” so that the chat speed can be fast but timed menus slow down to give players time to read. |
-| Email system improvements | Email chains can be of an arbitrary length with any number of replies. Failing an email can still continue an email chain. A string parser makes using triple-quoted strings to type emails much more readable. Players can choose to reply to an email later after clicking Reply. |
-| <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">chat_begin</span></code> / <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">phone_end</span></code>-style calls removed | The program handles the setup and cleanup of all timeline items. All labels can simply begin without further ado and all labels can end with <code class="docutils literal notranslate"><span class="pre">return</span></code>. |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StoryMode</td>
+<td>Story Mode sections can exist separately from chatrooms and take a trigger time and a title. This also replaces the previous <code>VNMode</code> class.</td>
+</tr>
+<tr>
+<td>StoryCall</td>
+<td>Phone calls can appear in the timeline and be mandatory for story progression. If a story call expires, the character will leave a voicemail. Story calls can exist on their own with a trigger time or can be attached to Story Mode sections or chatrooms. Only one story call per character is allowed, but multiple story calls with different callers can exist on the same timeline item.</td>
+</tr>
+<tr>
+<td><code>msg</code> CDS</td>
+<td>A new way of writing chatroom and text message dialogue. Automatically adds text tags and parses emojis as images. Can also add new speech bubbles and fonts to work with this CDS.</td>
+</tr>
+<tr>
+<td><code>text backlog</code> CDS</td>
+<td>Allows messages to be added as "backlog" to a character's text message conversation history. Can manually set the date/time the message appears, relative to the current date/time.</td>
+</tr>
+<tr>
+<td><code>compose text</code> CDS</td>
+<td>Replaces calls like <code>call compose_text(r)</code> and <code>call compose_text_end("menu_a2")</code>. Makes it easier to set up and write text messages, and even schedule when they should be delivered.</td>
+</tr>
+<tr>
+<td>Choice paraphrasing</td>
+<td>Can turn <code>paraphrase_choices</code> on or off on a global, per-menu, or per-choice basis to dictate whether or not the program should automatically make the main character say the dialogue in the selected choice.</td>
+</tr>
+<tr>
+<td>Bonus profile pictures</td>
+<td>Characters have bonus profile pictures that are unlocked based on user-defined conditions or when seen in-game. NPC profile pictures cost 5 heart points with that character to unlock, and player profile pictures cost 1 hourglass. These values are modifiable.</td>
+</tr>
+<tr>
+<td>Profile picture callback</td>
+<td>When the player changes their profile picture, a special function is called that allows the characters to comment on their profile picture choice (e.g. by phoning them or sending a text message)</td>
+</tr>
+<tr>
+<td><code>scene</code> and <code>show</code> extention</td>
+<td><code>scene</code> and <code>show</code> have been extended to allow chatroom backgrounds to be set with <code>scene morning</code> instead of <code>call chat_begin('morning')</code>. Most other effects, such as banners, can be shown via <code>show</code> commands like <code>show banner heart</code> or <code>show hack effect</code>.</td>
+</tr>
+<tr>
+<td><code>timed menu</code> CDS</td>
+<td>Timed menus are now typed like regular menus. The dialogue before the first choice will dictate how long the timer is. Choices are shown on-screen while the characters continue messaging. A preferences option turns timed menus into regular menus, and a slider allows for timed menu "bullet time" so that the chat speed can be fast but timed menus slow down to give players time to read.</td>
+</tr>
+<tr>
+<td>Email system improvements</td>
+<td>Email chains can be of an arbitrary length with any number of replies. Failing an email can still continue an email chain. A string parser makes using triple-quoted strings to type emails much more readable. Players can choose to reply to an email later after clicking Reply.</td>
+</tr>
+<tr>
+<td><code>call chat_begin</code> / <code>jump phone_end</code>-style calls removed</td>
+<td>The program handles the setup and cleanup of all timeline items. All labels can simply begin without further ado and all labels can end with <code>return</code>.</td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="minor-new-features">
 <h3>Minor New Features<a class="headerlink" href="#minor-new-features" title="Permalink to this headline">¶</a></h3>
-<p>| Feature | Description |
-| ——- | ———– |
-| <code class="docutils literal notranslate"><span class="pre">add_to_album</span></code> function | Allows you to append a photo to an album after the game has begun. |
-| <code class="docutils literal notranslate"><span class="pre">hide_albums</span></code> function | If set, allows you to hide albums from the Album screen unless they have an unlocked CG in them already. Takes a list or a single Album. |
-| <code class="docutils literal notranslate"><span class="pre">_branch</span></code> for parties | The Party can exist on its own with a trigger time, and may have a <code class="docutils literal notranslate"><span class="pre">_branch</span></code> label which will execute when the player enters the party. |
-| Guestbook Hourglasses | The player is awarded 1 hourglass (HG) the first time they view a guest in the guestbook. |
-| <code class="docutils literal notranslate"><span class="pre">invite</span> <span class="pre">guest</span></code> CDS | Replaces <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">invite(guest)</span></code>. |
-| <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> and <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span></code> CDS | Replaces <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">heart_icon(s)</span></code> and <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">heart_break(s)</span></code>, respectively. <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span></code> can also be written as <code class="docutils literal notranslate"><span class="pre">heart</span> <span class="pre">break</span></code>. |
-| <code class="docutils literal notranslate"><span class="pre">enter</span> <span class="pre">chatroom</span></code> and <code class="docutils literal notranslate"><span class="pre">exit</span> <span class="pre">chatroom</span></code> CDS | New way of writing <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">enter(s)</span></code> and <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">exit(s)</span></code> respectively. |
-| Custom speech bubbles | Can use provided functions to set custom speech bubbles or do things like let Unknown use Ray’s speech bubbles. |
-| <code class="docutils literal notranslate"><span class="pre">was_expired</span></code> variable | This variable is set before the game executes an <code class="docutils literal notranslate"><span class="pre">after_</span></code> label. Allows you to change dialogue depending on whether or not the associated item was participated in or if it expired. |
-| <code class="docutils literal notranslate"><span class="pre">-b</span></code> and <code class="docutils literal notranslate"><span class="pre">-thumb</span></code> for album images | You can now define thumbnails and <code class="docutils literal notranslate"><span class="pre">-b</span></code> variants on thumbnails for gallery images. These variants will be used for bonus profile pictures. |
-| History screen customization | Can now add backgrounds to routes in the history screen. A rectangular image will automatically have the corners cropped to fit the button. Can also add prologues through a special variable in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. |
-| <code class="docutils literal notranslate"><span class="pre">.webp</span></code> and <code class="docutils literal notranslate"><span class="pre">.ogg</span></code> conversion | Most images have been converted to <code class="docutils literal notranslate"><span class="pre">.webp</span></code> to reduce file size. Some audio files have been converted to <code class="docutils literal notranslate"><span class="pre">.ogg</span></code> for similar reasons. |
-| <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">answer</span></code> removed | <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">answer</span></code> is no longer required before a chatroom or text message menu. |
-| <code class="docutils literal notranslate"><span class="pre">custom_route_select_screen</span></code> | Can easily switch between a custom route select screen and the default one. Default route select improved to have additional graphics. |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>add_to_album</code> function</td>
+<td>Allows you to append a photo to an album after the game has begun.</td>
+</tr>
+<tr>
+<td><code>hide_albums</code> function</td>
+<td>If set, allows you to hide albums from the Album screen unless they have an unlocked CG in them already. Takes a list or a single Album.</td>
+</tr>
+<tr>
+<td><code>_branch</code> for parties</td>
+<td>The Party can exist on its own with a trigger time, and may have a <code>_branch</code> label which will execute when the player enters the party.</td>
+</tr>
+<tr>
+<td>Guestbook Hourglasses</td>
+<td>The player is awarded 1 hourglass (HG) the first time they view a guest in the guestbook.</td>
+</tr>
+<tr>
+<td><code>invite guest</code> CDS</td>
+<td>Replaces <code>call invite(guest)</code>.</td>
+</tr>
+<tr>
+<td><code>award heart</code> and <code>break heart</code> CDS</td>
+<td>Replaces <code>call heart_icon(s)</code> and <code>call heart_break(s)</code>, respectively. <code>break heart</code> can also be written as <code>heart break</code>.</td>
+</tr>
+<tr>
+<td><code>enter chatroom</code> and <code>exit chatroom</code> CDS</td>
+<td>New way of writing <code>call enter(s)</code> and <code>call exit(s)</code> respectively.</td>
+</tr>
+<tr>
+<td>Custom speech bubbles</td>
+<td>Can use provided functions to set custom speech bubbles or do things like let Unknown use Ray's speech bubbles.</td>
+</tr>
+<tr>
+<td><code>was_expired</code> variable</td>
+<td>This variable is set before the game executes an <code>after_</code> label. Allows you to change dialogue depending on whether or not the associated item was participated in or if it expired.</td>
+</tr>
+<tr>
+<td><code>-b</code> and <code>-thumb</code> for album images</td>
+<td>You can now define thumbnails and <code>-b</code> variants on thumbnails for gallery images. These variants will be used for bonus profile pictures.</td>
+</tr>
+<tr>
+<td>History screen customization</td>
+<td>Can now add backgrounds to routes in the history screen. A rectangular image will automatically have the corners cropped to fit the button. Can also add prologues through a special variable in <code>variables_editable.rpy</code>.</td>
+</tr>
+<tr>
+<td><code>.webp</code> and <code>.ogg</code> conversion</td>
+<td>Most images have been converted to <code>.webp</code> to reduce file size. Some audio files have been converted to <code>.ogg</code> for similar reasons.</td>
+</tr>
+<tr>
+<td><code>call answer</code> removed</td>
+<td><code>call answer</code> is no longer required before a chatroom or text message menu.</td>
+</tr>
+<tr>
+<td><code>custom_route_select_screen</code></td>
+<td>Can easily switch between a custom route select screen and the default one. Default route select improved to have additional graphics.</td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="fixes">
 <h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h3>
-<p>| Fix | Description |
-| — | ———– |
-| History cleanup | RouteDays without content don’t show up in the History. Single-day routes are centered in the screen. |
-| <code class="docutils literal notranslate"><span class="pre">buyahead</span></code> | Buying 24 hours in advance while playing in real-time will continue to unlock items up to the 24 hour mark after proceeding through a plot branch in the middle of the purchased 24 hours. |
-| Text message preview | Text message previews can properly handle text tags such as special fonts or sizes. |
-| Sign screen | Sign screen doesn’t show hourglasses/heart points if the player was just replaying it or the item was expired. |
-| Pronoun fixes | Capitalized variants of pronoun variables are automatically defined. |
-| Observing improvements | Replaying Story Mode/phone calls during a playthrough now only presents you with the choices you made on that particular playthrough. |
-| Screen shake | Screen shake now works with animated backgrounds. It can be shown via <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">shake</span></code>. |
-| Profile picture flexibility | Profile pictures can now use solid colours or cropped/transformed images. |
-| Messenger Error screen | The program will try to catch operational errors and award the player an hourglass if something fails but it is able to recover. |
-| Viewing CGs | Viewing CGs full-screen while on the messenger or viewing a text message now simply halts the game state while it is being viewed instead of manually pausing the chat. |
-| Home screen grid fix | The home screen now properly calculates how many pictures it will be showing so the grid is not over- or underfull. |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Fix</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>History cleanup</td>
+<td>RouteDays without content don't show up in the History. Single-day routes are centered in the screen.</td>
+</tr>
+<tr>
+<td><code>buyahead</code></td>
+<td>Buying 24 hours in advance while playing in real-time will continue to unlock items up to the 24 hour mark after proceeding through a plot branch in the middle of the purchased 24 hours.</td>
+</tr>
+<tr>
+<td>Text message preview</td>
+<td>Text message previews can properly handle text tags such as special fonts or sizes.</td>
+</tr>
+<tr>
+<td>Sign screen</td>
+<td>Sign screen doesn't show hourglasses/heart points if the player was just replaying it or the item was expired.</td>
+</tr>
+<tr>
+<td>Pronoun fixes</td>
+<td>Capitalized variants of pronoun variables are automatically defined.</td>
+</tr>
+<tr>
+<td>Observing improvements</td>
+<td>Replaying Story Mode/phone calls during a playthrough now only presents you with the choices you made on that particular playthrough.</td>
+</tr>
+<tr>
+<td>Screen shake</td>
+<td>Screen shake now works with animated backgrounds. It can be shown via <code>show shake</code>.</td>
+</tr>
+<tr>
+<td>Profile picture flexibility</td>
+<td>Profile pictures can now use solid colours or cropped/transformed images.</td>
+</tr>
+<tr>
+<td>Messenger Error screen</td>
+<td>The program will try to catch operational errors and award the player an hourglass if something fails but it is able to recover.</td>
+</tr>
+<tr>
+<td>Viewing CGs</td>
+<td>Viewing CGs full-screen while on the messenger or viewing a text message now simply halts the game state while it is being viewed instead of manually pausing the chat.</td>
+</tr>
+<tr>
+<td>Home screen grid fix</td>
+<td>The home screen now properly calculates how many pictures it will be showing so the grid is not over- or underfull.</td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="qol-improvements">
 <h3>QoL Improvements<a class="headerlink" href="#qol-improvements" title="Permalink to this headline">¶</a></h3>
-<p>| Feature | Description |
-| ——- | ———– |
-| <code class="docutils literal notranslate"><span class="pre">play</span> <span class="pre">music</span></code> and <code class="docutils literal notranslate"><span class="pre">play</span> <span class="pre">sound</span></code> | New CDSs replace <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">play_music()</span></code> and <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">play_sfx()</span></code>. Can be typed and used the same way as the regular Ren’Py function, but is now compatible with audio captions. |
-| Custom ending screens | Can now define your own ending image and pass the whole string to the <code class="docutils literal notranslate"><span class="pre">ending</span></code> variable upon ending a route. |
-| <code class="docutils literal notranslate"><span class="pre">create_incoming_call</span></code> | Easy way of creating a new incoming call; intended primarily to be used in combination with profile picture callbacks. |
-| Keyboard shortcuts | Space bar selects most chatroom footer options, like play/pause/answer/save &amp; exit and the Sign button. Left/right arrows decrease/increase the chat speed. |
-| TimelineItem class | All timeline items (chatrooms and VN mode) have been switched to inherit from a base TimelineItem class. The new classes allow for more flexibility such as standalone story calls and story mode sections, and the individual items in a chain can all have a separate <code class="docutils literal notranslate"><span class="pre">after_</span></code> label. |
-| String to filename conversion | Guest names and album names can be converted to a filename which the program can search for to find images associated with that name. <code class="docutils literal notranslate"><span class="pre">all_albums</span></code> definitions can be modified to reflect this. |
-| <code class="docutils literal notranslate"><span class="pre">persistent.testing_mode</span></code> improvements | Activating <code class="docutils literal notranslate"><span class="pre">Testing</span> <span class="pre">Mode</span></code> from the Developer options will now show a button to instantly end a chatroom. It also removes a lot of the confirm-style message and allows you to right-click an item on the timeline to instantly mark it as played for testing purposes. |
-| <code class="docutils literal notranslate"><span class="pre">persistent.unlock_all_story</span></code> | An option, Unlock All Story, in the Developer options will make all timeline items immediately available. Plot branches can be proceeded through without playing all prior items. |
-| Save slots | Save slots are now paged rather than one long list. |
-| <code class="docutils literal notranslate"><span class="pre">add_choices</span></code> for spaceship thoughts | Can now append a new choice to a list of spaceship thoughts. |
-| <code class="docutils literal notranslate"><span class="pre">main_character</span></code> variable | A character defined as the main character will say non-paraphrased dialogue automatically and be moved to the right side of the messenger. |
-| <code class="docutils literal notranslate"><span class="pre">persistent.pv</span></code> | <code class="docutils literal notranslate"><span class="pre">pv</span></code> (for chatroom speed) is now persistent and will carry over across playthroughs and on the history screens. |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>play music</code> and <code>play sound</code></td>
+<td>New CDSs replace <code>call play_music()</code> and <code>call play_sfx()</code>. Can be typed and used the same way as the regular Ren'Py function, but is now compatible with audio captions.</td>
+</tr>
+<tr>
+<td>Custom ending screens</td>
+<td>Can now define your own ending image and pass the whole string to the <code>ending</code> variable upon ending a route.</td>
+</tr>
+<tr>
+<td><code>create_incoming_call</code></td>
+<td>Easy way of creating a new incoming call; intended primarily to be used in combination with profile picture callbacks.</td>
+</tr>
+<tr>
+<td>Keyboard shortcuts</td>
+<td>Space bar selects most chatroom footer options, like play/pause/answer/save &amp; exit and the Sign button. Left/right arrows decrease/increase the chat speed.</td>
+</tr>
+<tr>
+<td>TimelineItem class</td>
+<td>All timeline items (chatrooms and VN mode) have been switched to inherit from a base TimelineItem class. The new classes allow for more flexibility such as standalone story calls and story mode sections, and the individual items in a chain can all have a separate <code>after_</code> label.</td>
+</tr>
+<tr>
+<td>String to filename conversion</td>
+<td>Guest names and album names can be converted to a filename which the program can search for to find images associated with that name. <code>all_albums</code> definitions can be modified to reflect this.</td>
+</tr>
+<tr>
+<td><code>persistent.testing_mode</code> improvements</td>
+<td>Activating <code>Testing Mode</code> from the Developer options will now show a button to instantly end a chatroom. It also removes a lot of the confirm-style message and allows you to right-click an item on the timeline to instantly mark it as played for testing purposes.</td>
+</tr>
+<tr>
+<td><code>persistent.unlock_all_story</code></td>
+<td>An option, Unlock All Story, in the Developer options will make all timeline items immediately available. Plot branches can be proceeded through without playing all prior items.</td>
+</tr>
+<tr>
+<td>Save slots</td>
+<td>Save slots are now paged rather than one long list.</td>
+</tr>
+<tr>
+<td><code>add_choices</code> for spaceship thoughts</td>
+<td>Can now append a new choice to a list of spaceship thoughts.</td>
+</tr>
+<tr>
+<td><code>main_character</code> variable</td>
+<td>A character defined as the main character will say non-paraphrased dialogue automatically and be moved to the right side of the messenger.</td>
+</tr>
+<tr>
+<td><code>persistent.pv</code></td>
+<td><code>pv</code> (for chatroom speed) is now persistent and will carry over across playthroughs and on the history screens.</td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="other">
 <h3>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h3>
-<p>| Feature | Description |
-| ——- | ———– |
-| Folder restructure | Engine code has been moved to the <code class="docutils literal notranslate"><span class="pre">01_mysme_engine</span></code> folder. Modifiable code, or code that is expected to be added to by the user, is directly inside the <code class="docutils literal notranslate"><span class="pre">game/</span></code> folder. |
-| Casual and Jaehee Route | A stub implementation of Casual Story and Jaehee Route is implemented as an example. Allows for easy testing of real-time mechanics and demonstrates a complete route definition with branches for multiple endings. |
-| <code class="docutils literal notranslate"><span class="pre">show_empty_menus</span></code> | Can choose whether timed menus with no choices (e.g. all choices have conditions which evaluate to False) should show their dialogue or be skipped altogether. |
-| Script error screen | The program will try to detect when you have made an error in your script and notify you or direct you to an appropriate wiki page rather than crashing. |
-| <code class="docutils literal notranslate"><span class="pre">missing_label</span></code> and <code class="docutils literal notranslate"><span class="pre">missing_image</span></code> callbacks | The program will try to correct and/or recover from missing labels or missing images without disrupting the program. |
-| <code class="docutils literal notranslate"><span class="pre">use_timed_menus</span></code> | <code class="docutils literal notranslate"><span class="pre">persistent.autoanswer_timed_menus</span></code> has been renamed to <code class="docutils literal notranslate"><span class="pre">persistent.use_timed_menus</span></code>. The preference option is titled Timed Menus. |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Folder restructure</td>
+<td>Engine code has been moved to the <code>01_mysme_engine</code> folder. Modifiable code, or code that is expected to be added to by the user, is directly inside the <code>game/</code> folder.</td>
+</tr>
+<tr>
+<td>Casual and Jaehee Route</td>
+<td>A stub implementation of Casual Story and Jaehee Route is implemented as an example. Allows for easy testing of real-time mechanics and demonstrates a complete route definition with branches for multiple endings.</td>
+</tr>
+<tr>
+<td><code>show_empty_menus</code></td>
+<td>Can choose whether timed menus with no choices (e.g. all choices have conditions which evaluate to False) should show their dialogue or be skipped altogether.</td>
+</tr>
+<tr>
+<td>Script error screen</td>
+<td>The program will try to detect when you have made an error in your script and notify you or direct you to an appropriate wiki page rather than crashing.</td>
+</tr>
+<tr>
+<td><code>missing_label</code> and <code>missing_image</code> callbacks</td>
+<td>The program will try to correct and/or recover from missing labels or missing images without disrupting the program.</td>
+</tr>
+<tr>
+<td><code>use_timed_menus</code></td>
+<td><code>persistent.autoanswer_timed_menus</code> has been renamed to <code>persistent.use_timed_menus</code>. The preference option is titled Timed Menus.</td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="renamed-variables">
 <h3>Renamed Variables<a class="headerlink" href="#renamed-variables" title="Permalink to this headline">¶</a></h3>
 <p>Many variables have been renamed or replaced with other functions for clarity with the new TimelineItem implementation. They are listed below.</p>
-<p>| Old Name | New Name |
-| ——– | ——– |
-post_chat_actions | reset_story_vars |
-persistent.completed_chatrooms | persistent.completed_story |
-plot_branch_end() | execute_plot_branch |
-num_future_chatrooms | num_future_timeline_items |
-chatroom_hg | collected_hg |
-chatroom_hp | collected_hp |
-chat_archive | story_archive |
-.chatroom_label | .item_label |
-most_recent_chat | most_recent_item |
-current_chatroom | current_timeline_item |
-screen chatroom_item | timeline_item_display |
-screen chatroom_item_history | timeline_item_history |
-screen chatroom_timeline | timeline |
-next_chatroom | check_and_unlock_story |
-next_chat_time | next_story_time |
-chat_24_available | make_24h_available |
-screen chat_select | day_select |
-screen day_select | day_display |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Old Name</th>
+<th>New Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>post_chat_actions</td>
+<td>reset_story_vars</td>
+</tr>
+<tr>
+<td>persistent.completed_chatrooms</td>
+<td>persistent.completed_story</td>
+</tr>
+<tr>
+<td>plot_branch_end()</td>
+<td>execute_plot_branch</td>
+</tr>
+<tr>
+<td>num_future_chatrooms</td>
+<td>num_future_timeline_items</td>
+</tr>
+<tr>
+<td>chatroom_hg</td>
+<td>collected_hg</td>
+</tr>
+<tr>
+<td>chatroom_hp</td>
+<td>collected_hp</td>
+</tr>
+<tr>
+<td>chat_archive</td>
+<td>story_archive</td>
+</tr>
+<tr>
+<td>.chatroom_label</td>
+<td>.item_label</td>
+</tr>
+<tr>
+<td>most_recent_chat</td>
+<td>most_recent_item</td>
+</tr>
+<tr>
+<td>current_chatroom</td>
+<td>current_timeline_item</td>
+</tr>
+<tr>
+<td>screen chatroom_item</td>
+<td>timeline_item_display</td>
+</tr>
+<tr>
+<td>screen chatroom_item_history</td>
+<td>timeline_item_history</td>
+</tr>
+<tr>
+<td>screen chatroom_timeline</td>
+<td>timeline</td>
+</tr>
+<tr>
+<td>next_chatroom</td>
+<td>check_and_unlock_story</td>
+</tr>
+<tr>
+<td>next_chat_time</td>
+<td>next_story_time</td>
+</tr>
+<tr>
+<td>chat_24_available</td>
+<td>make_24h_available</td>
+</tr>
+<tr>
+<td>screen chat_select</td>
+<td>day_select</td>
+</tr>
+<tr>
+<td>screen day_select</td>
+<td>day_display</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 </div>
 

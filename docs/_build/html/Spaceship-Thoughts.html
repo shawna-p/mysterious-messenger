@@ -117,10 +117,18 @@
 <p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a></strong></p>
 <p>When the floating spaceship isn’t giving out chips, you can click it to view a random thought from one of the characters. You can find the existing variable definitions in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/spaceship_variables.rpy">spaceship_variables.rpy</a>.</p>
 <p>The variable <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code> can be modified to change the spaceship thoughts the player sees upon starting the game, or you can modify them in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of any chatroom. You can have as many or as few <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> objects in the list as you like – even multiple thoughts for the same character. A <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> only has two fields – the first is the ChatCharacter variable of the character whose thought it is, and the second is the thought itself.</p>
-<p>SpaceThought |
-————-|
-<code class="docutils literal notranslate"><span class="pre">char,</span> <span class="pre">thought</span></code> |</p>
-<p>To change the spaceship thoughts, in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of the chatroom after which you want the spaceship thoughts to change, add the line</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>SpaceThought</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>char, thought</code></td>
+</tr>
+</tbody>
+</table><p>To change the spaceship thoughts, in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of the chatroom after which you want the spaceship thoughts to change, add the line</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">space_thoughts</span><span class="o">.</span><span class="n">new_choices</span><span class="p">([</span>
     <span class="n">SpaceThought</span><span class="p">(</span><span class="n">ja</span><span class="p">,</span> <span class="s2">&quot;New thought here.&quot;</span><span class="p">)</span>
 <span class="p">])</span>

@@ -9,8 +9,7 @@ This guide is best used by navigating to the sections with the information you n
 Most of these code excerpts are taken directly from the program itself and can be copied in to use for your own test purposes.
 Some sections will also have a "quick-start" guide at the beginning; they look like this:
 
-A brief overview of the steps required (more detail below): |
-------------------------------------------------------------|
+_A brief overview of the steps required (more detail below):_
 
 > 1. Step 1
 > 1. Step 2

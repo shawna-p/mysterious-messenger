@@ -133,27 +133,103 @@
 </pre></div>
 </div>
 <p>Though this looks long, this will ensure all the variables for Bob are set up properly at the start of the game.</p>
-<p>Field | Description | Example |
-——|————-|———|
-name | The name of the character as it appears in the chatroom | “Bob” |
-file_id | This is used for many things. For example, the program will look for Bob’s speech bubbles under “game/images/Bubble/b-Bubble.png” and for phone calls from Bob with the suffix “_incoming_b”. This is usually just a string of the name of the variable. | “b”
-prof_pic | Profile picture for the character. 110x110px | “Profile Pics/Bob/bob1.png”
-participant_pic | The image that shows on the timeline screen to show Bob was present in a chatroom. | “Profile Pics/b_chat.png”
-heart_color | The colour of the heart icon that appears when awarding the player a heart point with Bob. | “#f995f1”
-cover_pic | Bob’s cover photo on his profile screen | “Cover Photos/bob_cover.png”
-status | Bob’s status update | “I ate a sandwich today.”
-bubble_color | Optional; if this is not defined you must have an image in <code class="docutils literal notranslate"><span class="pre">game/images/Bubble/</span></code> called <code class="docutils literal notranslate"><span class="pre">b-Bubble.png</span></code>. If this argument is given a colour, it will instead dynamically colour a speech bubble to be that colour. | “#ffddfc”
-glow_color | Same as above. If not given, there should be an image in <code class="docutils literal notranslate"><span class="pre">game/images/Bubble</span></code> called <code class="docutils literal notranslate"><span class="pre">b-Glow.png</span></code>. | “#d856cd”
-homepage_pic | The picture to display on the home screen which the player clicks on to view Bob’s profile. This should generally be a headshot of Bob with a transparent background. | “Profile Pics/main_profile_bob.png”
-phone_char | The Character object you defined for Bob for phone calls. See <a class="reference internal" href="Adding-a-New-Character-to-Phone-Calls.html"><span class="doc">Adding a New Character to Phone Calls</span></a> | b_phone
-vn_char | The Character object you defined for Bob for VN sections. See <a class="reference internal" href="Adding-a-New-Character-to-VNs.html"><span class="doc">Adding a New Character to VNs</span></a> | b_vn</p>
-<p>Those are the main variables you should set when defining a new character. There are a few additional parameters you can declare if you want:</p>
-<p>Field | Description | Example |
-——|————-|———|
-voicemail | The label to jump to for this character’s voicemail | “voicemail_1”
-right_msgr | Indicates this character should appear on the right side of the messenger (usually False for everyone but the MC) | False
-emote_list | A list of all the character’s emojis. Currently unused. | False</p>
-<p>Finally, below all the ChatCharacter definitions, there are two lists. The first is:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>The name of the character as it appears in the chatroom</td>
+<td>"Bob"</td>
+</tr>
+<tr>
+<td>file_id</td>
+<td>This is used for many things. For example, the program will look for Bob's speech bubbles under "game/images/Bubble/b-Bubble.png" and for phone calls from Bob with the suffix "_incoming_b". This is usually just a string of the name of the variable.</td>
+<td>"b"</td>
+</tr>
+<tr>
+<td>prof_pic</td>
+<td>Profile picture for the character. 110x110px</td>
+<td>"Profile Pics/Bob/bob1.png"</td>
+</tr>
+<tr>
+<td>participant_pic</td>
+<td>The image that shows on the timeline screen to show Bob was present in a chatroom.</td>
+<td>"Profile Pics/b_chat.png"</td>
+</tr>
+<tr>
+<td>heart_color</td>
+<td>The colour of the heart icon that appears when awarding the player a heart point with Bob.</td>
+<td>"#f995f1"</td>
+</tr>
+<tr>
+<td>cover_pic</td>
+<td>Bob's cover photo on his profile screen</td>
+<td>"Cover Photos/bob_cover.png"</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Bob's status update</td>
+<td>"I ate a sandwich today."</td>
+</tr>
+<tr>
+<td>bubble_color</td>
+<td>Optional; if this is not defined you must have an image in <code>game/images/Bubble/</code> called <code>b-Bubble.png</code>. If this argument is given a colour, it will instead dynamically colour a speech bubble to be that colour.</td>
+<td>"#ffddfc"</td>
+</tr>
+<tr>
+<td>glow_color</td>
+<td>Same as above. If not given, there should be an image in <code>game/images/Bubble</code> called <code>b-Glow.png</code>.</td>
+<td>"#d856cd"</td>
+</tr>
+<tr>
+<td>homepage_pic</td>
+<td>The picture to display on the home screen which the player clicks on to view Bob's profile. This should generally be a headshot of Bob with a transparent background.</td>
+<td>"Profile Pics/main_profile_bob.png"</td>
+</tr>
+<tr>
+<td>phone_char</td>
+<td>The Character object you defined for Bob for phone calls. See <a href="Adding-a-New-Character-to-Phone-Calls.md">Adding a New Character to Phone Calls</a></td>
+<td>b_phone</td>
+</tr>
+<tr>
+<td>vn_char</td>
+<td>The Character object you defined for Bob for VN sections. See <a href="Adding-a-New-Character-to-VNs.md">Adding a New Character to VNs</a></td>
+<td>b_vn</td>
+</tr>
+</tbody>
+</table><p>Those are the main variables you should set when defining a new character. There are a few additional parameters you can declare if you want:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>voicemail</td>
+<td>The label to jump to for this character's voicemail</td>
+<td>"voicemail_1"</td>
+</tr>
+<tr>
+<td>right_msgr</td>
+<td>Indicates this character should appear on the right side of the messenger (usually False for everyone but the MC)</td>
+<td>False</td>
+</tr>
+<tr>
+<td>emote_list</td>
+<td>A list of all the character's emojis. Currently unused.</td>
+<td>False</td>
+</tr>
+</tbody>
+</table><p>Finally, below all the ChatCharacter definitions, there are two lists. The first is:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">ri</span><span class="p">]</span>
 </pre></div>
 </div>

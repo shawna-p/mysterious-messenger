@@ -114,8 +114,7 @@
                   
   <div class="section" id="setting-up-sequential-chatrooms">
 <h1>Setting up Sequential Chatrooms<a class="headerlink" href="#setting-up-sequential-chatrooms" title="Permalink to this headline">¶</a></h1>
-<p>A brief overview of the steps required (more detail below): |
-————————————————————|</p>
+<p><em>A brief overview of the steps required (more detail below):</em></p>
 <blockquote>
 <div><ol class="simple">
 <li><p>Define a list of <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. The first item in the list should be the name of the ending e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Good</span> <span class="pre">End&quot;</span></code></p></li>
@@ -137,51 +136,179 @@
 </div>
 <p>The <em>first</em> item in the list should be a string containing the name of the ending as it will appear in the History log. In this example, it is <code class="docutils literal notranslate"><span class="pre">&quot;Good</span> <span class="pre">End&quot;</span></code>.</p>
 <p>The rest of the items in the list are <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. They have the following fields:</p>
-<p>RouteDay |
-———–|
-<code class="docutils literal notranslate"><span class="pre">day,</span> <span class="pre">archive_list=[],</span> <span class="pre">day_icon='day_common2',</span> <span class="pre">branch_vn=False</span></code> |</p>
-<p>Field | Description | Example |
-——|————-|———|
-day | A string containing the name of the day as it should show up in the chatroom timeline (e.g. “1st” appears in-game as “1st Day”). Note that a special icon appears over a day titled “Final”. | “1st” |
-archive_list | A list of <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> objects; see below | <code class="docutils literal notranslate"><span class="pre">[ChatHistory(&quot;Example</span> <span class="pre">Chatroom&quot;,</span> <span class="pre">&quot;example_chat&quot;,</span> <span class="pre">&quot;00:01&quot;)]</span></code> |
-day_icon | The icon to use for this day in the timeline. Defaults to <code class="docutils literal notranslate"><span class="pre">'day_common2'</span></code>. Previously defined images can be found in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the heading <strong>Chat Select Screen</strong> – <code class="docutils literal notranslate"><span class="pre">&quot;day_common1&quot;</span></code> up to <code class="docutils literal notranslate"><span class="pre">&quot;day_z&quot;</span></code> can be used. | “day_s” |
-branch_vn | By default, this is False. Otherwise, it should contain a <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object. If this route is merged onto the main route during a plot branch, the <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object stored in <code class="docutils literal notranslate"><span class="pre">branch_vn</span></code> will appear after the chatroom immediately before the plot branch. | <code class="docutils literal notranslate"><span class="pre">VNMode('plot_branch_bre')</span></code> |</p>
-<div class="section" id="chathistory-objects">
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>RouteDay</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>day, archive_list=[], day_icon='day_common2', branch_vn=False</code></td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>day</td>
+<td>A string containing the name of the day as it should show up in the chatroom timeline (e.g. "1st" appears in-game as "1st Day"). Note that a special icon appears over a day titled "Final".</td>
+<td>"1st"</td>
+</tr>
+<tr>
+<td>archive_list</td>
+<td>A list of <code>ChatHistory</code> objects; see below</td>
+<td><code>[ChatHistory("Example Chatroom", "example_chat", "00:01")]</code></td>
+</tr>
+<tr>
+<td>day_icon</td>
+<td>The icon to use for this day in the timeline. Defaults to <code>'day_common2'</code>. Previously defined images can be found in <a href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy" title="variables.rpy">variables.rpy</a> under the heading <strong>Chat Select Screen</strong> -- <code>"day_common1"</code> up to <code>"day_z"</code> can be used.</td>
+<td>"day_s"</td>
+</tr>
+<tr>
+<td>branch_vn</td>
+<td>By default, this is False. Otherwise, it should contain a <code>VNMode</code> object. If this route is merged onto the main route during a plot branch, the <code>VNMode</code> object stored in <code>branch_vn</code> will appear after the chatroom immediately before the plot branch.</td>
+<td><code>VNMode('plot_branch_bre')</code></td>
+</tr>
+</tbody>
+</table><div class="section" id="chathistory-objects">
 <h2>ChatHistory Objects<a class="headerlink" href="#chathistory-objects" title="Permalink to this headline">¶</a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object contains all the information needed for a single chatroom (plus its accompanying VN mode, phone calls, etc). You will need one <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object for every chatroom in your game.</p>
-<p>ChatHistory |
-———–|
-<code class="docutils literal notranslate"><span class="pre">title,</span> <span class="pre">chatroom_label,</span> <span class="pre">trigger_time,</span> <span class="pre">participants=[],</span> <span class="pre">vn_obj=False,</span> <span class="pre">plot_branch=False,</span> <span class="pre">save_img='auto'</span></code> |</p>
-<p>The initialization fields are explained below.</p>
-<p>Field | Description | Example |
-——|————-|———|
-title | The name of the chatroom as it should show up in the timeline. A string. | “My chatroom title” |
-chatroom_label | The name of the label to jump to for this chatroom. This is used for many things, such as phone call labels an VN labels. A string. | “day_1_chatroom_1” |
-trigger_time | The time this chatroom should trigger at. A string. This should be written in military time with leading zeroes, e.g. 1:00AM is written “01:00” and 1:38PM is written “13:38” | “05:28” |
-participants | Optional. A list of the ChatCharacter objects of the people who should be already present in the chatroom before the player enters. If left blank, no one starts in the chatroom. | [ja, ju] |
-vn_obj | Optional. Allows you to better customize the <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object associated with this chatroom. If not provided, the program will attempt to find appropriately labelled VN labels and create its own <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object. | <code class="docutils literal notranslate"><span class="pre">VNMode(&quot;my_vn_label&quot;,</span> <span class="pre">y)</span></code> |
-plot_branch | A <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object. Indicates if this chatroom should have a VN after it. A <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object only takes one argument – a boolean telling it whether or not there is a VN that should only be shown after the plot branch has been proceeded through. By default, this is False. | PlotBranch(True) |
-save_img | The image that will appear in the save screen on the left when the player saves their game. This is usually an image indicating which route the player is on, if any. Previously defined images can be found in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the heading <strong>Save &amp; Load Images</strong>. Note that you do <em>not</em> need the prefix “save_”, as this is automatically added. It is sufficient to use the character’s file_id to get their save image e.g. “seven”, “707”, and “s” will all get you the same save image, <code class="docutils literal notranslate"><span class="pre">save_seven</span></code>. | “casual” |</p>
-<p>If the <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object is not given a <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object, it will try to find a label with the correct naming scheme instead. However, in the event you want more control over the <code class="docutils literal notranslate"><span class="pre">vn_obj</span></code> field, you can define it yourself.</p>
-<p>VNMode |
-———–|
-<code class="docutils literal notranslate"><span class="pre">vn_label,</span> <span class="pre">who=None,</span> <span class="pre">party=False,</span> <span class="pre">trigger_time=False</span></code> |</p>
-<p>These fields are explained below.</p>
-<p>Field | Description | Example |
-——|————-|———|
-vn_label | The name of the label to jump to for this VN. A string. | “my_vn_label” |
-who | The ChatCharacter object of the character who this VN is associated with. Changes the image in the timeline. | <code class="docutils literal notranslate"><span class="pre">r</span></code> |
-party | True if this VN is the party, False otherwise. | <code class="docutils literal notranslate"><span class="pre">True</span></code> |
-trigger_time | Currently unused. May be used in the future to have VNs independent of chatrooms. | False |</p>
-<p>The other thing you may use is a <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object to indicate the existence of a plot branch.</p>
-<p>PlotBranch |
-———–|
-<code class="docutils literal notranslate"><span class="pre">vn_after_branch=False</span></code> |</p>
-<p>This field is explained below.</p>
-<p>Field | Description | Example |
-——|————-|———|
-vn_after_branch | True if the chatroom this is attached to has a VN that should only be seen after the player has proceeded through the plot branch; False otherwise. | True |</p>
-<p>A typical <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object, then, might look like the following:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>ChatHistory</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title, chatroom_label, trigger_time, participants=[], vn_obj=False, plot_branch=False, save_img='auto'</code></td>
+</tr>
+</tbody>
+</table><p>The initialization fields are explained below.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>The name of the chatroom as it should show up in the timeline. A string.</td>
+<td>"My chatroom title"</td>
+</tr>
+<tr>
+<td>chatroom_label</td>
+<td>The name of the label to jump to for this chatroom. This is used for many things, such as phone call labels an VN labels. A string.</td>
+<td>"day_1_chatroom_1"</td>
+</tr>
+<tr>
+<td>trigger_time</td>
+<td>The time this chatroom should trigger at. A string. This should be written in military time with leading zeroes, e.g. 1:00AM is written "01:00" and 1:38PM is written "13:38"</td>
+<td>"05:28"</td>
+</tr>
+<tr>
+<td>participants</td>
+<td>Optional. A list of the ChatCharacter objects of the people who should be already present in the chatroom before the player enters. If left blank, no one starts in the chatroom.</td>
+<td>[ja, ju]</td>
+</tr>
+<tr>
+<td>vn_obj</td>
+<td>Optional. Allows you to better customize the <code>VNMode</code> object associated with this chatroom. If not provided, the program will attempt to find appropriately labelled VN labels and create its own <code>VNMode</code> object.</td>
+<td><code>VNMode("my_vn_label", y)</code></td>
+</tr>
+<tr>
+<td>plot_branch</td>
+<td>A <code>PlotBranch</code> object. Indicates if this chatroom should have a VN after it. A <code>PlotBranch</code> object only takes one argument -- a boolean telling it whether or not there is a VN that should only be shown after the plot branch has been proceeded through. By default, this is False.</td>
+<td>PlotBranch(True)</td>
+</tr>
+<tr>
+<td>save_img</td>
+<td>The image that will appear in the save screen on the left when the player saves their game. This is usually an image indicating which route the player is on, if any. Previously defined images can be found in <a href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy" title="variables.rpy">variables.rpy</a> under the heading <strong>Save &amp; Load Images</strong>. Note that you do <em>not</em> need the prefix "save_", as this is automatically added. It is sufficient to use the character's file_id to get their save image e.g. "seven", "707", and "s" will all get you the same save image, <code>save_seven</code>.</td>
+<td>"casual"</td>
+</tr>
+</tbody>
+</table><p>If the <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object is not given a <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object, it will try to find a label with the correct naming scheme instead. However, in the event you want more control over the <code class="docutils literal notranslate"><span class="pre">vn_obj</span></code> field, you can define it yourself.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>VNMode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vn_label, who=None, party=False, trigger_time=False</code></td>
+</tr>
+</tbody>
+</table><p>These fields are explained below.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vn_label</td>
+<td>The name of the label to jump to for this VN. A string.</td>
+<td>"my_vn_label"</td>
+</tr>
+<tr>
+<td>who</td>
+<td>The ChatCharacter object of the character who this VN is associated with. Changes the image in the timeline.</td>
+<td><code>r</code></td>
+</tr>
+<tr>
+<td>party</td>
+<td>True if this VN is the party, False otherwise.</td>
+<td><code>True</code></td>
+</tr>
+<tr>
+<td>trigger_time</td>
+<td>Currently unused. May be used in the future to have VNs independent of chatrooms.</td>
+<td>False</td>
+</tr>
+</tbody>
+</table><p>The other thing you may use is a <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object to indicate the existence of a plot branch.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>PlotBranch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vn_after_branch=False</code></td>
+</tr>
+</tbody>
+</table><p>This field is explained below.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vn_after_branch</td>
+<td>True if the chatroom this is attached to has a VN that should only be seen after the player has proceeded through the plot branch; False otherwise.</td>
+<td>True</td>
+</tr>
+</tbody>
+</table><p>A typical <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object, then, might look like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ChatHistory</span><span class="p">(</span><span class="s2">&quot;Welcome to the RFA!&quot;</span><span class="p">,</span> <span class="s2">&quot;day_1_chatroom_1&quot;</span><span class="p">,</span> <span class="s2">&quot;00:05&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">s</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -226,17 +353,49 @@ vn_after_branch | True if the chatroom this is attached to has a VN that should 
 <div class="section" id="displaying-a-route-in-the-history-screen">
 <h2>Displaying a Route in the History Screen<a class="headerlink" href="#displaying-a-route-in-the-history-screen" title="Permalink to this headline">¶</a></h2>
 <p>In order for the route to show up in the History screen, you also need to define a <code class="docutils literal notranslate"><span class="pre">Route</span></code> object. Do this after you have set up the variables for all the different endings/branches of the route itself.</p>
-<p>Route |
-———–|
-<code class="docutils literal notranslate"><span class="pre">default_branch,</span> <span class="pre">branch_list=[],</span> <span class="pre">route_history_title=&quot;Common&quot;,</span> <span class="pre">has_end_title=True</span></code> |</p>
-<p>These fields are explained below.</p>
-<p>Field | Description | Example |
-——|————-|———|
-default_branch | The “default” path for this route to take. This should be the longest path from start to finish, and may not necessarily be the “good” end. | <code class="docutils literal notranslate"><span class="pre">bob_good_end</span></code> |
-branch_list | A list of all the other paths this route can take. Typically includes all the bad, normal, bad relationship ends, etc. May also be empty, if this route does not branch. | [ bob_bad_end_1, bob_bad_end_2, bob_normal_end ] |
-route_history_title | How this route should show up in the History screen e.g. “Bob Route” or “Common Route”. “Route” is automatically appended to this title. | “Bob” |
-has_end_title | True if this route has a “title” at the beginning of its definition e.g. <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">bob_good_end</span> <span class="pre">=</span> <span class="pre">[&quot;Good</span> <span class="pre">End&quot;,</span> <span class="pre">RouteDay('1st',</span> <span class="pre">(...)</span></code> has the end title “Good End”. If this route has no branching paths, there is no need to label the name of the ending, so this field can be False. | True |</p>
-<p>Therefore a Route definition for a special New Year’s Eve route with endings for each of the characters as well as a normal ending might look like so:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Route</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>default_branch, branch_list=[], route_history_title="Common", has_end_title=True</code></td>
+</tr>
+</tbody>
+</table><p>These fields are explained below.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default_branch</td>
+<td>The "default" path for this route to take. This should be the longest path from start to finish, and may not necessarily be the "good" end.</td>
+<td><code>bob_good_end</code></td>
+</tr>
+<tr>
+<td>branch_list</td>
+<td>A list of all the other paths this route can take. Typically includes all the bad, normal, bad relationship ends, etc. May also be empty, if this route does not branch.</td>
+<td>[ bob_bad_end_1, bob_bad_end_2, bob_normal_end ]</td>
+</tr>
+<tr>
+<td>route_history_title</td>
+<td>How this route should show up in the History screen e.g. "Bob Route" or "Common Route". "Route" is automatically appended to this title.</td>
+<td>"Bob"</td>
+</tr>
+<tr>
+<td>has_end_title</td>
+<td>True if this route has a "title" at the beginning of its definition e.g. <code>default bob_good_end = ["Good End", RouteDay('1st', (...)</code> has the end title "Good End". If this route has no branching paths, there is no need to label the name of the ending, so this field can be False.</td>
+<td>True</td>
+</tr>
+</tbody>
+</table><p>Therefore a Route definition for a special New Year’s Eve route with endings for each of the characters as well as a normal ending might look like so:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">new_years_route</span> <span class="o">=</span> <span class="n">Route</span><span class="p">(</span>
     <span class="n">default_branch</span><span class="o">=</span><span class="n">new_years_normal_end</span><span class="p">,</span>
     <span class="n">branch_list</span><span class="o">=</span><span class="p">[</span><span class="n">new_years_ju</span><span class="p">,</span> <span class="n">new_years_ja</span><span class="p">,</span>
