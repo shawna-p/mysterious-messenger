@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Creating a Chatroom</title>
+    
+      <link rel="stylesheet" href="../_static/pygments.css"/>
+      <link rel="stylesheet" href="../_static/theme-light.css"/>
+      <link rel="stylesheet" media="(prefers-contrast: high)" href="../_static/theme-light-hc.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark)" href="../_static/theme-dark.css"/>
+      <link rel="stylesheet" media="(prefers-color-scheme: dark) and (prefers-contrast: high)" href="../_static/theme-dark-hc.css"/>
+      
+        <link rel="stylesheet" media="print" href="../_static/theme-print.css"/>
+      
+      
+          <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+      
+        
+        <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        
+
+        <!-- sphinx script_files -->
+          <script src="../_static/jquery.js"></script>
+          <script src="../_static/underscore.js"></script>
+          <script src="../_static/doctools.js"></script>
+          <script src="../_static/language_data.js"></script>
+
+        <script src="../_static/sphinx_nervproject_theme.js" defer></script>
+      
+    
+  <link rel="index" title="Index" href="../genindex.html" />
+  <link rel="search" title="Search" href="../search.html" />
+   
+  
+
+  </head>
+
+  <body>
+    <div id="app" class="theme-container"><header class="navbar">
+    <div id="header-identity" class="print-only">
+        <img id="navbar_logo" src="../_static/"/>
+        <div id="navbar_title">Mysterious Messenger Wiki</div>
+    </div>
+
+  
+  <button class="sidebar-button">
+      <svg id="sidebar-button-svg" role="img" aria-labelledby="sidebar-button_label" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title id="sidebar-button_label">
+              Toggle sidebar
+          </title>
+          <use xlink:href="../_static/fa/solid.svg#bars"></use>
+      </svg>
+  </button>
+
+  <a href="../index.html" class="home-link">
+      <span class="site-name">Mysterious Messenger Wiki</span>
+  </a>
+
+  <div class="links">
+    <div class="nav-links can-hide">
+
+  <div class="nav-item nav-dropdown-menu">
+    <details>
+      <summary>
+        <span
+           class="nav-link ">
+           welcome to the mysterious messenger wiki!
+        </span>
+      </summary>
+      <ul>
+        
+          <li class="nav-link">
+            <a href="../Home.html">
+                Introduction
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Changelog.html">
+                Full Changelog
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Credits-and-Acknowledgements.html">
+                Credits and Acknowledgements
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Useful-Built-in-Features.html">
+                Useful Built-in Features
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Beginners-Guide.html">
+                Beginner’s Guide
+            </a>
+          </li>
+        
+      </ul>
+    </details>
+  </div>
+
+
+
+    </div>
+  </div>
+  
+</header>
+
+      
+      <table role="none" id="main_layout_table">
+        <thead>
+          <tr><th><div id="layout_header">
+          </div></th></tr>
+        </thead>
+        <tbody><tr><td>
+          <div id="appflex">
+            
+              <div class="sidebar" id="sidebar">
+                
+                <nav class="nav-links can-hide">
+                  
+
+  <div class="nav-item nav-dropdown-menu">
+    <details>
+      <summary>
+        <span
+           class="nav-link ">
+           welcome to the mysterious messenger wiki!
+        </span>
+      </summary>
+      <ul>
+        
+          <li class="nav-link">
+            <a href="../Home.html">
+                Introduction
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Changelog.html">
+                Full Changelog
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Credits-and-Acknowledgements.html">
+                Credits and Acknowledgements
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Useful-Built-in-Features.html">
+                Useful Built-in Features
+            </a>
+          </li>
+        
+          <li class="nav-link">
+            <a href="../Beginners-Guide.html">
+                Beginner’s Guide
+            </a>
+          </li>
+        
+      </ul>
+    </details>
+  </div>
+
+
+
+                  
+                </nav>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../Home.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Changelog.html">Full Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Useful-Built-in-Features.html">Useful Built-in Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Beginners-Guide.html">Beginner’s Guide</a></li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/old_documentation/Creating-a-Chatroom.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+              </div>
+            
+
+            <div class="page">
+                <nav class="body-header">
+  
+  
+  
+
+  <ul class="page-nav no-print">
+</ul>
+  
+</nav>
+                <main class="content">
+                  
+  <div class="section" id="creating-a-chatroom">
+<h1>Creating a Chatroom<a class="headerlink" href="#creating-a-chatroom" title="Permalink to this headline">¶</a></h1>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a>, <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a></strong></p>
+<p><em>A brief overview of the steps required (more detail below):</em></p>
+<blockquote>
+<div><ol class="simple">
+<li><p>Create a new <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file (Optional, but recommended)</p></li>
+<li><p>Create a label for the chatroom</p>
+<ol class="simple">
+<li><p>You may also want to fill this in to the <code class="docutils literal notranslate"><span class="pre">Script</span> <span class="pre">Generator.xlsx</span> <span class="pre">spreadsheet</span></code> so you can set up your route later (see <a class="reference internal" href="Setting-up-Sequential-Chatrooms.html"><span class="doc">Setting up Sequential Chatrooms</span></a>)</p></li>
+</ol>
+</li>
+<li><p>After the label, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">chat_begin('noon')</span></code> where <code class="docutils literal notranslate"><span class="pre">'noon'</span></code> is replaced by whatever time of day/background you want to use</p></li>
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">play</span> <span class="pre">music</span> <span class="pre">yourmusic</span></code> where <code class="docutils literal notranslate"><span class="pre">yourmusic</span></code> is replaced by the desired music variable</p></li>
+<li><p>Write the chatroom (you may want to use <code class="docutils literal notranslate"><span class="pre">Script</span> <span class="pre">Generator.xlsx</span></code>)</p></li>
+<li><p>End the chatroom with <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">chat_end</span></code></p></li>
+</ol>
+</div></blockquote>
+<p>The first thing you should do when creating a chatroom is create a new <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file and name it something descriptive so you’ll know where to find that chatroom. If you’re planning on making a lot of chatrooms (say, for a route), you should come up with a consistent naming scheme such as <code class="docutils literal notranslate"><span class="pre">day_1_chatroom_3.rpy</span></code> or <code class="docutils literal notranslate"><span class="pre">chatroom_1_3.rpy</span></code>so it’s easier to find the correct files later on.</p>
+<p>In your newly created <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file, start off by making a label:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day1_1</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>Don’t forget the colon after the label name. Your label name also can’t have any spaces in it, nor can it begin with a number.</p>
+<p>Next, it’s time to begin the chatroom. Note that everything under the label <strong>must be indented at least one level to the right</strong>. Look at the example files mentioned above if you’re not sure what this means. To begin the chat, use the call:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;earlyMorn&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>chat_begin | <code class="docutils literal notranslate"><span class="pre">background,</span> <span class="pre">clearchat=True,</span> <span class="pre">resetHP=True</span></code> |</p>
+</div></blockquote>
+<p>The text in quotes tells the program what background to use. Your options are:</p>
+<ul class="simple">
+<li><p>morning</p></li>
+<li><p>noon</p></li>
+<li><p>evening</p></li>
+<li><p>night</p></li>
+<li><p>earlyMorn</p></li>
+<li><p>hack</p></li>
+<li><p>redhack</p></li>
+<li><p>redcrack</p></li>
+</ul>
+<p>Note that it <em>is</em> case-sensitive, so you need to get the capitals right. The <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> function will also clear the chat log (aka your message history, so when you begin a new chatroom there are no messages on the screen at the beginning), but you can pass it a second argument so that it doesn’t clear the chat log. That looks like this:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;hack&quot;</span><span class="p">,</span> <span class="n">clearchat</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The other thing the <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> call does is set the heart points the player has collected in this chatroom to zero. In general, this makes sure that if the player collected 15 heart points in the last chatroom, they start again at zero for this chatroom. Unless you are changing the chatroom background in the middle of a chatroom, you can usually leave this as True. If you don’t want to set the chatroom heart points to zero, you need to tell it the <code class="docutils literal notranslate"><span class="pre">resetHP</span></code> argument is <code class="docutils literal notranslate"><span class="pre">False</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s2">&quot;hack&quot;</span><span class="p">,</span> <span class="n">resetHP</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Besides preventing the program from resetting heart points, if <code class="docutils literal notranslate"><span class="pre">resetHP</span> <span class="pre">=</span> <span class="pre">False</span></code> the program will also assume you’re calling <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> in the middle of a chatroom and thus don’t want the participants reset. Otherwise, the list of participants shown at the top of the screen during a chatroom will also display people who have entered and then exited the chatroom. If you’re not calling <code class="docutils literal notranslate"><span class="pre">chat_begin</span></code> in the middle of a chatroom, you usually want <code class="docutils literal notranslate"><span class="pre">resetHP</span></code> to be <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<p>So now that the chat is set up, you probably want to play some music. Music is played like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> can be replaced by the name of whatever music you want. There are several files already pre-defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy">variables_music_sound.rpy</a> under the heading <strong>BACKGROUND MUSIC DEFINITIONS</strong>. If you want to define your own music files, be sure to add them to the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> so they are compatible with audio captions. See <a class="reference internal" href="Adding-new-Audio.html"><span class="doc">Adding new Audio</span></a> for more information.</p>
+<p>Finally, to end your chatroom, you need to write</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">jump</span> <span class="n">chat_end</span>
+</pre></div>
+</div>
+<p>To learn more about how to write dialogue for your chatroom, check out <a class="reference internal" href="Using-the-Chatroom-Spreadsheet.html"><span class="doc">Using the Chatroom Spreadsheet</span></a>.</p>
+</div>
+
+  
+    <div class="section no-print">
+    
+      
+    
+    
+    
+    </div>
+  
+
+                </main><ul class="page-nav no-print">
+</ul>
+            </div>
+          </div>
+        </td></tr></tbody>
+        <tfoot>
+          <tr><th><div id="layout_footer">
+          </div></th></tr>
+        </tfoot>
+      </table><footer class="footer" role="contentinfo">
+  
+    <p>
+    
+      &#169; Copyright 2020, Shawna P.
+    
+    </p>
+  
+  
+    <p>
+    
+    
+      Licensed under .
+    
+    
+    </p>
+  
+  
+    <p>
+  
+  
+  
+    Created using <a
+        href="http://sphinx-doc.org/">Sphinx</a> 3.2.1 with
+    <a href="https://www.nerv-project.eu">Nerv Project theme</a>
+    based on <a href="https://github.com/schettino72/sphinx_press_theme">Press Theme</a>
+    and <a href="https://ablog.readthedocs.io/">ABlog</a>.</p>
+  
+  <div class="pagecount"></div>
+</footer>
+    </div>
+    
+    
+  </body>
+</html>

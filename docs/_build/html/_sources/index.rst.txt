@@ -1,15 +1,14 @@
 Welcome to the Mysterious Messenger Wiki!
 =========================================
 
-.. automodule:: chatcharacter_definition
-   :members:
-
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-   Introduction
-   Credits and Acknowledgements
-   Credits and Acknowledgements <Credits-and-Acknowledgements>
+    :maxdepth: 1
+
+    Home
+    Changelog
+    Credits-and-Acknowledgements
+    Useful-Built-in-Features
+    Beginners-Guide
 
 
 Indices and tables

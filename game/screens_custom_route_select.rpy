@@ -14,4 +14,17 @@ screen custom_route_select_screen():
             # The box with text on the right side of the button
             frame:
                 text "Tutorial Day"
+        button:
+            style 'route_select_button'
+            ysize 200
+            action Start('prologue')
+            frame:
+                text "Parallel Path"
+        button:
+            style 'route_select_button'
+            ysize 200
+            action Start('ep_prologue')
+            frame:
+                text "Everlasting Party"
+
 

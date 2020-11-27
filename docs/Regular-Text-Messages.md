@@ -1,3 +1,0 @@
-# Regular Text Messages
-
-There are two kinds of text messaging styles available in this program. The first, referred to as "regular text messages", delivers text messages in "chunks" which the player can reply to whenever they like. The second style, called "real-time text conversations", plays out similar to a one-on-one chatroom. The player receives a text message, and upon entering the conversation, cannot leave until the conversation is either over or the player ends the conversation themselves. The following sections are on regular text messages. See [Real-Time Text Conversations](Real-Time-Text-Conversations.md) for more on real-time texting conversations instead.

@@ -39,7 +39,6 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon'
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.todo',
     'renpydoc',
-    'custom_monokai',
     'sphinx.ext.githubpages',]
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
@@ -83,6 +82,11 @@ pygments_style = 'custom_monokai.CustomMonokaiStyle'
 #
 html_static_path = ['_static']
 import sphinx_nervproject_theme
+html_context = {
+    'css_files': [
+        '_static/theme_overrides.css',  # override wide tables in RTD theme
+        ],
+    }
 if on_rtd:
     html_theme = "sphinx_rtd_theme"
 else:
@@ -90,6 +94,11 @@ else:
 #html_theme_path = [sphinx_nervproject_theme.get_html_theme_path()]
 #html_theme_path = [sphinx_pdj_theme.get_html_theme_path()]
 
+html_sidebars = { '**': ['globaltoc.html',
+                        'relations.html',
+                        'sourcelink.html',
+                        'searchbox.html'
+                        ] }
 
 # sets the darker appearence
 # html_theme_options = {
