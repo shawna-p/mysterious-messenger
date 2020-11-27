@@ -56,11 +56,3 @@
    5. [Hacked Effects](Hacked-Effects.md)
    6. [Showing CGs](Showing-CGs.md)
    7. [Adding new Audio](Adding-new-Audio.md)
-9. **UPDATE TEST 2**
-   1. [Pronoun Integration](Pronoun-Integration.md)
-   2. [Custom Emojis](Custom-Emojis.md)
-   3. [Spaceship Thoughts](Spaceship-Thoughts.md)
-   4. [Adding new Ringtones](Adding-New-Ringtones.md)
-   5. [Hacked Effects](Hacked-Effects.md)
-   6. [Showing CGs](Showing-CGs.md)
-   7. [Adding new Audio](Adding-new-Audio.md)
