@@ -2,7 +2,7 @@
 
 **Example files to look at: [tutorial_2_emails.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_2_emails.rpy "tutorial_2_emails")**
 
-After you've defined your guest as per [[Writing an Email Chain]], in the chatroom or VN section that you'd like to invite the guest in, use the call:
+After you've defined your guest as per [Writing an Email Chain](Writing-an-Email-Chain.md), in the chatroom or VN section that you'd like to invite the guest in, use the call:
 
 ```renpy
 call invite(your_guest)

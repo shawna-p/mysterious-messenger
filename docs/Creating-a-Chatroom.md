@@ -7,7 +7,7 @@ A brief overview of the steps required (more detail below): |
 
 > 1. Create a new `.rpy` file (Optional, but recommended)
 > 1. Create a label for the chatroom
->     1. You may also want to fill this in to the `Script Generator.xlsx spreadsheet` so you can set up your route later (see [[Setting up Sequential Chatrooms]])
+>     1. You may also want to fill this in to the `Script Generator.xlsx spreadsheet` so you can set up your route later (see [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md))
 > 1. After the label, write `call chat_begin('noon')` where `'noon'` is replaced by whatever time of day/background you want to use
 > 1. Add a `play music yourmusic` where `yourmusic` is replaced by the desired music variable
 > 1. Write the chatroom (you may want to use `Script Generator.xlsx`)
@@ -64,7 +64,7 @@ So now that the chat is set up, you probably want to play some music. Music is p
 play music mystic_chat
 ```
 
-where `mystic_chat` can be replaced by the name of whatever music you want. There are several files already pre-defined in [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy) under the heading **BACKGROUND MUSIC DEFINITIONS**. If you want to define your own music files, be sure to add them to the `music_dictionary` so they are compatible with audio captions. See [[Adding new Audio]] for more information.
+where `mystic_chat` can be replaced by the name of whatever music you want. There are several files already pre-defined in [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy) under the heading **BACKGROUND MUSIC DEFINITIONS**. If you want to define your own music files, be sure to add them to the `music_dictionary` so they are compatible with audio captions. See [Adding new Audio](Adding-new-Audio.md) for more information.
 
 Finally, to end your chatroom, you need to write
 
@@ -72,4 +72,4 @@ Finally, to end your chatroom, you need to write
 jump chat_end
 ```
 
-To learn more about how to write dialogue for your chatroom, check out [[Using the Chatroom Spreadsheet]].
+To learn more about how to write dialogue for your chatroom, check out [Using the Chatroom Spreadsheet](Using-the-Chatroom-Spreadsheet.md).

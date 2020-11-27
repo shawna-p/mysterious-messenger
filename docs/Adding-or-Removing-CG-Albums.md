@@ -40,7 +40,7 @@ default all_albums = [
 
 This will ensure Bob's album stays up-to-date if you add images to it.
 
-If you've set everything up with the correct names, Bob should now have a working album when you click the Album button from the chat home screen. See [[Showing CGs]] for more information on adding CGs to the album and showing them in-game.
+If you've set everything up with the correct names, Bob should now have a working album when you click the Album button from the chat home screen. See [Showing CGs](Showing-CGs.md) for more information on adding CGs to the album and showing them in-game.
 
 
 ## Albums not associated with characters

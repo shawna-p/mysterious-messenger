@@ -114,7 +114,7 @@
                   
   <div class="section" id="beginner-s-guide">
 <h1>Beginner’s Guide<a class="headerlink" href="#beginner-s-guide" title="Permalink to this headline">¶</a></h1>
-<p>If you want to create your own route and some of the technicalities are going over your head, this guide will take you through setting up a new route from start to finish. More specific pages will be referenced throughout. If you already know a bit about the program, you may want to start with [[Setting up Sequential Chatrooms]] instead.</p>
+<p>If you want to create your own route and some of the technicalities are going over your head, this guide will take you through setting up a new route from start to finish. More specific pages will be referenced throughout. If you already know a bit about the program, you may want to start with <a class="reference internal" href="Setting-up-Sequential-Chatrooms.html"><span class="doc">Setting up Sequential Chatrooms</span></a> instead.</p>
 <p>Navigation:</p>
 <ol class="simple">
 <li><p><a class="reference external" href="#getting-started">Getting Started</a></p>
@@ -171,7 +171,7 @@
     <span class="n">RouteDay</span><span class="p">(</span><span class="s1">&#39;Final&#39;</span><span class="p">)]</span>
 </pre></div>
 </div>
-<p>This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In the history screen, this will show up under the title “Good End”. This guide only covers how to add one ending, but if you want to learn more you can refer to the [[Setting up Sequential Chatrooms]] page.</p>
+<p>This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In the history screen, this will show up under the title “Good End”. This guide only covers how to add one ending, but if you want to learn more you can refer to the <a class="reference internal" href="Setting-up-Sequential-Chatrooms.html"><span class="doc">Setting up Sequential Chatrooms</span></a> page.</p>
 <div class="section" id="ensuring-the-route-shows-up-in-history">
 <h3>Ensuring the route shows up in History<a class="headerlink" href="#ensuring-the-route-shows-up-in-history" title="Permalink to this headline">¶</a></h3>
 <p>The last variable you defined is just for the “Good End” of a route. You might want multiple endings, maybe with different characters or to reflect how the player’s choices affected the narrative. This next variable tells the program that the various endings are part of the same “route”. For now, you only have one ending, the “Good End”, but you might add more later.</p>
@@ -239,9 +239,9 @@
 </pre></div>
 </div>
 <p>This is where the program will go when the player hits the Start button. It tells the program which route to start the player on (in this case, <code class="docutils literal notranslate"><span class="pre">my_new_route</span></code> from earlier), and then sets up a chatroom.</p>
-<p><code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">chat_begin('morning')</span></code> tells the program to set up the chatroom with the “morning” background. For more information, see [[Creating a Chatroom]].</p>
-<p><code class="docutils literal notranslate"><span class="pre">play</span> <span class="pre">music</span> <span class="pre">mystic_chat</span></code> tells the program to play the “mystic_chat” music in the background. The usual Ren’Py method of playing music has been overwritten with this method, which supports audio captions. For more information, see [[Adding Music and SFX]].</p>
-<p><code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">enter(u)</span></code> and <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">exit(u)</span></code> display messages like “Unknown has entered the chatroom”. For more information, see [[Useful Chatroom Functions]].</p>
+<p><code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">chat_begin('morning')</span></code> tells the program to set up the chatroom with the “morning” background. For more information, see <a class="reference internal" href="Creating-a-Chatroom.html"><span class="doc">Creating a Chatroom</span></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">play</span> <span class="pre">music</span> <span class="pre">mystic_chat</span></code> tells the program to play the “mystic_chat” music in the background. The usual Ren’Py method of playing music has been overwritten with this method, which supports audio captions. For more information, see <a class="reference internal" href="Adding-new-Audio.html"><span class="doc">Adding new Audio</span></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">enter(u)</span></code> and <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">exit(u)</span></code> display messages like “Unknown has entered the chatroom”. For more information, see <a class="reference internal" href="Useful-Chatroom-Functions.html"><span class="doc">Useful Chatroom Functions</span></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">chat_end</span></code> tells the program that the chatroom is over. Typically it will show the Save &amp; Exit screen to the player and return them to the chatroom hub or timeline screen.</p>
 <p>All of these features and more are covered under the <strong>Chatrooms</strong> section in the wiki.</p>
 <p>You’re welcome to flesh this chatroom out more later.</p>
@@ -307,7 +307,7 @@
     <span class="k">jump</span> <span class="n">chat_end</span>
 </pre></div>
 </div>
-<p>This defines a very basic chatroom with the character “Unknown” (u). In this particular chatroom, the player is allowed to make a choice, as defined under the <code class="docutils literal notranslate"><span class="pre">menu:</span></code> code. For more on writing chatrooms and creating choices, see [[Useful Chatroom Functions]] and [[Creating a Chatroom]]. There are many more things you can do besides just chatrooms as well, such as having characters send text messages or call the player. For more on those, see the corresponding sections in the wiki.</p>
+<p>This defines a very basic chatroom with the character “Unknown” (u). In this particular chatroom, the player is allowed to make a choice, as defined under the <code class="docutils literal notranslate"><span class="pre">menu:</span></code> code. For more on writing chatrooms and creating choices, see <a class="reference internal" href="Useful-Chatroom-Functions.html"><span class="doc">Useful Chatroom Functions</span></a> and <a class="reference internal" href="Creating-a-Chatroom.html"><span class="doc">Creating a Chatroom</span></a>. There are many more things you can do besides just chatrooms as well, such as having characters send text messages or call the player. For more on those, see the corresponding sections in the wiki.</p>
 </div>
 <div class="section" id="creating-an-expired-chatroom">
 <h3>Creating an expired chatroom<a class="headerlink" href="#creating-an-expired-chatroom" title="Permalink to this headline">¶</a></h3>
@@ -334,8 +334,8 @@
 </div>
 <div class="section" id="next-steps">
 <h2>Next steps<a class="headerlink" href="#next-steps" title="Permalink to this headline">¶</a></h2>
-<p>I recommend you take a look at the wiki pages about chatrooms to learn how to write more complex chatrooms, such as [[Creating a Chatroom]], [[Using the Chatroom Spreadsheet]], and [[Useful Chatroom Functions]]. You should also look at the corresponding example chatroom files included with the program, such as <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a>, as they have many notes included explaining the various features you will see when you play that chatroom on Tutorial Day.</p>
-<p>Once you’re comfortable writing and modifying chatrooms, you can look into adding text messages, then phone calls, and finally emails. You should also look at [[Setting up Sequential Chatrooms]] for more information on how to set up a full route. Good luck!</p>
+<p>I recommend you take a look at the wiki pages about chatrooms to learn how to write more complex chatrooms, such as <a class="reference internal" href="Creating-a-Chatroom.html"><span class="doc">Creating a Chatroom</span></a>, <a class="reference internal" href="Using-the-Chatroom-Spreadsheet.html"><span class="doc">Using the Chatroom Spreadsheet</span></a>, and <a class="reference internal" href="Useful-Chatroom-Functions.html"><span class="doc">Useful Chatroom Functions</span></a>. You should also look at the corresponding example chatroom files included with the program, such as <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a>, as they have many notes included explaining the various features you will see when you play that chatroom on Tutorial Day.</p>
+<p>Once you’re comfortable writing and modifying chatrooms, you can look into adding text messages, then phone calls, and finally emails. You should also look at <a class="reference internal" href="Setting-up-Sequential-Chatrooms.html"><span class="doc">Setting up Sequential Chatrooms</span></a> for more information on how to set up a full route. Good luck!</p>
 </div>
 </div>
 

@@ -18,4 +18,4 @@ A brief overview of the steps required (more detail below): |
 
 If you just need a quick reminder of what to do to get some code up and running, you can refer to this. If you need more detail, however, the rest of that section will explain further.
 
-If you haven't already, you should also play through the Tutorial Day in the program at least once to get a feel for what the program is capable of. Then, if you're new to Ren'Py and/or to programming, you should take a look at the [[Beginner's Guide]], which will take you through the steps to make the first chatroom of a new route playable.
+If you haven't already, you should also play through the Tutorial Day in the program at least once to get a feel for what the program is capable of. Then, if you're new to Ren'Py and/or to programming, you should take a look at the [Beginner's Guide](Beginner's-Guide.md), which will take you through the steps to make the first chatroom of a new route playable.

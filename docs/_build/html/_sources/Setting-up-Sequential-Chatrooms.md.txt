@@ -168,7 +168,7 @@ You can see some additonal definitions at the bottom of [route_setup.rpy](https:
 
 ## Accessing your Route In-Game
 
-To play your route, you can either customize the route select screen (see [[Customizing the Route Select Screen]]) or change the line `$ new_route_setup(route=tutorial_route)` in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction") so that `tutorial_good_end` is replaced by the "default route" of the Route object you defined.
+To play your route, you can either customize the route select screen (see [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md)) or change the line `$ new_route_setup(route=tutorial_route)` in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction") so that `tutorial_good_end` is replaced by the "default route" of the Route object you defined.
 
 For example, for the "New Year's Route" defined above, you will have a line in your introductory label that has
 
@@ -178,7 +178,7 @@ $ new_route_setup(route=new_years_route)
 
 ### Managing Multiple Routes
 
-If you would like to keep the Tutorial Route (or any other routes with different variables) accessible while you test your new route, you will first need to customize the route select screen (see [[Customizing the Route Select Screen]]) to have multiple buttons, one to lead to each route.
+If you would like to keep the Tutorial Route (or any other routes with different variables) accessible while you test your new route, you will first need to customize the route select screen (see [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md)) to have multiple buttons, one to lead to each route.
 
 For example's sake, the route select screen has buttons to lead to two routes, one called deep_story and one called another_story.
 

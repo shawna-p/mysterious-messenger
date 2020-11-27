@@ -4,6 +4,6 @@ Included with the program is a spreadsheet called `Script Generator.xlsx`. This 
 
 The tab **tutorial_6_meeting** also has examples right from the corresponding .rpy file of how the dialogue for that chatroom was written using the spreadsheet.
 
-In general, you should create a copy of the **CHATROOM TEMPLATE** tab, then fill it in with your desired dialogue. Don't forget that messages such as *707 has entered the chatroom* are handled with function calls -- see [[Useful Chatroom Functions]] for more.
+In general, you should create a copy of the **CHATROOM TEMPLATE** tab, then fill it in with your desired dialogue. Don't forget that messages such as *707 has entered the chatroom* are handled with function calls -- see [Useful Chatroom Functions](Useful-Chatroom-Functions.md) for more.
 
-Once you're happy with your chatroom and want to try it out, look at [[Setting up Sequential Chatrooms]] to see how to get the chatroom to show up in the program.
+Once you're happy with your chatroom and want to try it out, look at [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md) to see how to get the chatroom to show up in the program.

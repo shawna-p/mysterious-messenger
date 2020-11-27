@@ -19,7 +19,7 @@ image cg common_flower = "CGs/common_album/cg-flower.png"
 image cg ju_meeting = "CGs/ju_album/ju-meeting.png"
 ```
 
-After defining your image, you must add it to the correct album. See [[Adding or Removing CG Albums]] for more on creating new albums as well.
+After defining your image, you must add it to the correct album. See [Adding or Removing CG Albums](Adding-or-Removing-CG-Albums.md) for more on creating new albums as well.
 
 ```renpy
 default common_album = [

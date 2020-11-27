@@ -28,4 +28,4 @@ play music ringtone nocaption
 
 For accessibility purposes, most audio should have a caption, so this argument should be used sparingly.
 
-Previously defined audio captions can be found in [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy). To learn about adding your own audio, see [[Adding new Audio]].
+Previously defined audio captions can be found in [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy). To learn about adding your own audio, see [Adding new Audio](Adding-new-Audio.md).

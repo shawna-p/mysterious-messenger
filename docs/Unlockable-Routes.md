@@ -31,9 +31,9 @@ Note that if you don't need the program to remember a variable across playthroug
 
 ## Customizing a screen based on variables
 
-If you only want to allow the player to access a route after a certain condition is fulfilled, you will need to add some extra code to the route select screen in [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy). This example will assume you've defined that screen as seen in [[Customizing the Route Select Screen]].
+If you only want to allow the player to access a route after a certain condition is fulfilled, you will need to add some extra code to the route select screen in [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy). This example will assume you've defined that screen as seen in [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md).
 
-In this example, Deep Route will be shown as "locked" until after the player has completed the Good End of Tutorial Day. Everything in `route_select_screen` will remain as shown in [[Customizing the Route Select Screen]] except for the Deep Route button:
+In this example, Deep Route will be shown as "locked" until after the player has completed the Good End of Tutorial Day. Everything in `route_select_screen` will remain as shown in [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md) except for the Deep Route button:
 
 ```renpy
 vbox:

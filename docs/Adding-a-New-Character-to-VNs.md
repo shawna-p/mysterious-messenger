@@ -20,7 +20,7 @@ Field | Description | Example |
 ------|-------------|---------|
 name | The name of the character as it should appear during a VN | "Bob" |
 kind | Allows this Character to "inherit" from another, previously defined Character. In this case, the `vn_character` object already has many attributes related to VN mode defined, so inheriting them means you don't have to retype them. | vn_character |
-image | This is the tag Ren'Py will apply to images if you want to include attribute tags during this character's dialogue (See [[Changing Outfits and Expressions]]) | "bob" |
+image | This is the tag Ren'Py will apply to images if you want to include attribute tags during this character's dialogue (See [Changing Outfits and Expressions](Changing-Outfits-and-Expressions.md)) | "bob" |
 window_background | The image used for the background of this character's dialogue. The part that you will change is the string `"VN Mode/Chat Bubbles/vnmode_9.png"`. The rest of that statement tells Ren'Py to make this background more or less transparent based on the value of `persistent.vn_window.alpha`. This allows players some degree of control over the window opacity. | Transform("VN Mode/Chat Bubbles/vnmode_9.png", alpha=persistent.vn_window_alpha) |
 voice_tag | The voice tag associated with this character. Allows players to switch voice acting for this character on and off. This should be Bob's file_id + "_voice" | "b_voice" |
 
@@ -58,4 +58,4 @@ If possible, expressions should be separate from the character's body, and acces
 
 ### "Story Mode" Images
 
-If you would also like to define a "Story Mode" image for your new character (aka the image that shows up beneath a chatroom to let you enter story mode/VN mode), see [[Setting up Sequential Chatrooms]].
+If you would also like to define a "Story Mode" image for your new character (aka the image that shows up beneath a chatroom to let you enter story mode/VN mode), see [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md).

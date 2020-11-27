@@ -1,6 +1,6 @@
 # Beginner's Guide
 
-If you want to create your own route and some of the technicalities are going over your head, this guide will take you through setting up a new route from start to finish. More specific pages will be referenced throughout. If you already know a bit about the program, you may want to start with [[Setting up Sequential Chatrooms]] instead.
+If you want to create your own route and some of the technicalities are going over your head, this guide will take you through setting up a new route from start to finish. More specific pages will be referenced throughout. If you already know a bit about the program, you may want to start with [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md) instead.
 
 Navigation:
 
@@ -54,7 +54,7 @@ default my_route_good_end = ["Good End",
     RouteDay('Final')]
 ```
 
-This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In the history screen, this will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to the [[Setting up Sequential Chatrooms]] page.
+This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In the history screen, this will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to the [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md) page.
 
 ### Ensuring the route shows up in History
 
@@ -133,11 +133,11 @@ label my_route_introduction:
 
 This is where the program will go when the player hits the Start button. It tells the program which route to start the player on (in this case, `my_new_route` from earlier), and then sets up a chatroom.
 
-`call chat_begin('morning')` tells the program to set up the chatroom with the "morning" background. For more information, see [[Creating a Chatroom]].
+`call chat_begin('morning')` tells the program to set up the chatroom with the "morning" background. For more information, see [Creating a Chatroom](Creating-a-Chatroom.md).
 
-`play music mystic_chat` tells the program to play the "mystic_chat" music in the background. The usual Ren'Py method of playing music has been overwritten with this method, which supports audio captions. For more information, see [[Adding Music and SFX]].
+`play music mystic_chat` tells the program to play the "mystic_chat" music in the background. The usual Ren'Py method of playing music has been overwritten with this method, which supports audio captions. For more information, see [Adding new Audio](Adding-new-Audio.md).
 
-`call enter(u)` and `call exit(u)` display messages like "Unknown has entered the chatroom". For more information, see [[Useful Chatroom Functions]].
+`call enter(u)` and `call exit(u)` display messages like "Unknown has entered the chatroom". For more information, see [Useful Chatroom Functions](Useful-Chatroom-Functions.md).
 
 `jump chat_end` tells the program that the chatroom is over. Typically it will show the Save & Exit screen to the player and return them to the chatroom hub or timeline screen.
 
@@ -215,7 +215,7 @@ label day_1_chatroom_1():
     jump chat_end
 ```
 
-This defines a very basic chatroom with the character "Unknown" (u). In this particular chatroom, the player is allowed to make a choice, as defined under the `menu:` code. For more on writing chatrooms and creating choices, see [[Useful Chatroom Functions]] and [[Creating a Chatroom]]. There are many more things you can do besides just chatrooms as well, such as having characters send text messages or call the player. For more on those, see the corresponding sections in the wiki.
+This defines a very basic chatroom with the character "Unknown" (u). In this particular chatroom, the player is allowed to make a choice, as defined under the `menu:` code. For more on writing chatrooms and creating choices, see [Useful Chatroom Functions](Useful-Chatroom-Functions.md) and [Creating a Chatroom](Creating-a-Chatroom.md). There are many more things you can do besides just chatrooms as well, such as having characters send text messages or call the player. For more on those, see the corresponding sections in the wiki.
 
 ### Creating an expired chatroom
 
@@ -244,6 +244,6 @@ To play your new route, close the program if open and re-launch it. Select "Sett
 
 ## Next steps
 
-I recommend you take a look at the wiki pages about chatrooms to learn how to write more complex chatrooms, such as [[Creating a Chatroom]], [[Using the Chatroom Spreadsheet]], and [[Useful Chatroom Functions]]. You should also look at the corresponding example chatroom files included with the program, such as [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee"), as they have many notes included explaining the various features you will see when you play that chatroom on Tutorial Day.
+I recommend you take a look at the wiki pages about chatrooms to learn how to write more complex chatrooms, such as [Creating a Chatroom](Creating-a-Chatroom.md), [Using the Chatroom Spreadsheet](Using-the-Chatroom-Spreadsheet.md), and [Useful Chatroom Functions](Useful-Chatroom-Functions.md). You should also look at the corresponding example chatroom files included with the program, such as [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee"), as they have many notes included explaining the various features you will see when you play that chatroom on Tutorial Day.
 
-Once you're comfortable writing and modifying chatrooms, you can look into adding text messages, then phone calls, and finally emails. You should also look at [[Setting up Sequential Chatrooms]] for more information on how to set up a full route. Good luck!
+Once you're comfortable writing and modifying chatrooms, you can look into adding text messages, then phone calls, and finally emails. You should also look at [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md) for more information on how to set up a full route. Good luck!

@@ -5,13 +5,13 @@
 A brief overview of the steps required (more detail below): |
 ------------------------------------------------------------|
 
-> 1. Use the **List of Chatrooms** tab in **Script Generator.xlsx** or refer to [[Setting up Sequential Chatrooms]] to set up your route. In the `ChatHistory` object that contains the chatroom after which you want the plot to branch, either fill in `true` or `false` to the plot branch column in the spreadsheet or ensure you have `plot_branch=PlotBranch()` in your definition.
+> 1. Use the **List of Chatrooms** tab in **Script Generator.xlsx** or refer to [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md) to set up your route. In the `ChatHistory` object that contains the chatroom after which you want the plot to branch, either fill in `true` or `false` to the plot branch column in the spreadsheet or ensure you have `plot_branch=PlotBranch()` in your definition.
 > 2. Define another list of `RouteDay` objects for the path the player will branch onto.
 > 3. After the chatroom with the plot branch, create another label with the chatroom label name + `_branch` e.g. `label my_chatroom_branch`.
 > 4. Put whatever criteria you are testing for in this label. You can then either write `$ continue_route()` to have the player continue down the main path of the route, or use `$ merge_routes(my_route_bad_end)` where `my_route_bad_end` is the path you defined in step 2.
 > 5. At the end of the label, write `jump plot_branch_end`.
 
-To begin, you need to define a list of `RouteDay` objects for every path you want the user to be able to branch onto. For more on defining route branches, see [[Setting up Sequential Chatrooms]]. If you want the branch to have a title, the first item in the list should be a string like "Bob Good Ending".
+To begin, you need to define a list of `RouteDay` objects for every path you want the user to be able to branch onto. For more on defining route branches, see [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md). If you want the branch to have a title, the first item in the list should be a string like "Bob Good Ending".
 
 To show the plot branch icon in-game, the `ChatHistory` object containing the chatroom before the plot branch must have `plot_branch=PlotBranch()` **or** `plot_branch=PlotBranch(True)`.
 
@@ -25,7 +25,7 @@ If you only want a plot branch to occur *after* the player proceeds through the 
 
 ### The VN occurs on the main path
 
-If the plot branch occurs on the "main path" (aka the longest path in the game; likely the one you told the game to use in [[Creating an Opening Chatroom]]), then you simply need to ensure that the corresponding `ChatHistory` object has the argument `plot_branch=PlotBranch(True)`. This will only unlock its corresponding VN after the player has proceeded through the plot branch.
+If the plot branch occurs on the "main path" (aka the longest path in the game; likely the one you told the game to use in [Creating an Opening Chatroom](Creating-an-Opening-Chatroom.md)), then you simply need to ensure that the corresponding `ChatHistory` object has the argument `plot_branch=PlotBranch(True)`. This will only unlock its corresponding VN after the player has proceeded through the plot branch.
 
 ### The VN occurs on a branching path
 

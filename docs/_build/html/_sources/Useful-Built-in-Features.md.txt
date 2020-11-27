@@ -52,6 +52,6 @@ Plot branches can be proceeded through, though the program will still take into 
 
 **Receive Hourglasses in Chatrooms** - Unchecking this option will stop awarding players hourglasses during chatrooms. Currently hourglasses are awarded on a pseudo-random basis when a character posts a special bubble from a subset of all special bubbles. This option is useful if the chatroom is intended to be seen as a video and not played through, for example.
 
-**Use custom route select screen** - Checking this option will cause the program to use the screen titled `custom_route_select_screen` instead of `route_select_screen` when the player chooses a route at the start of the game. See [[Customizing the Route Select Screen]] for more.
+**Use custom route select screen** - Checking this option will cause the program to use the screen titled `custom_route_select_screen` instead of `route_select_screen` when the player chooses a route at the start of the game. See [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md) for more.
 
 **Fix Persistent** - This is an option primarily intended for users updating Mysterious Messenger from older versions (<2.0) to fix issues with saved persistent values. If Ren'Py is complaining of compatibility issues with persistent values, you can try using this option to fix it.

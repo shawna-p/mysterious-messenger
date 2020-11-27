@@ -36,8 +36,8 @@ status | Bob's status update | "I ate a sandwich today."
 bubble_color | Optional; if this is not defined you must have an image in `game/images/Bubble/` called `b-Bubble.png`. If this argument is given a colour, it will instead dynamically colour a speech bubble to be that colour. | "#ffddfc"
 glow_color | Same as above. If not given, there should be an image in `game/images/Bubble` called `b-Glow.png`. | "#d856cd"
 homepage_pic | The picture to display on the home screen which the player clicks on to view Bob's profile. This should generally be a headshot of Bob with a transparent background. | "Profile Pics/main_profile_bob.png"
-phone_char | The Character object you defined for Bob for phone calls. See [[Adding a New Character to Phone Calls]] | b_phone
-vn_char | The Character object you defined for Bob for VN sections. See [[Adding a New Character to VNs]] | b_vn
+phone_char | The Character object you defined for Bob for phone calls. See [Adding a New Character to Phone Calls](Adding-a-New-Character-to-Phone-Calls.md) | b_phone
+vn_char | The Character object you defined for Bob for VN sections. See [Adding a New Character to VNs](Adding-a-New-Character-to-VNs.md) | b_vn
 
 Those are the main variables you should set when defining a new character. There are a few additional parameters you can declare if you want:
 

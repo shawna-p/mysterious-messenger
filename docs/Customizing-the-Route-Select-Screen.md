@@ -26,7 +26,7 @@ Currently this screen is identical to the regular route select screen. The only 
 action Start('common_route_start')
 ```
 
-This will take the player to the `common_route_start` label; this should be a label containing your introductory chatroom. You can see [[Creating an Opening Chatroom]] for more on creating an introductory chatrooom to the route.
+This will take the player to the `common_route_start` label; this should be a label containing your introductory chatroom. You can see [Creating an Opening Chatroom](Creating-an-Opening-Chatroom.md) for more on creating an introductory chatrooom to the route.
 
 ## Providing Multiple Route Options
 
@@ -48,7 +48,7 @@ screen custom_route_select_screen():
 
 You can, of course, change the button backgrounds, text, spacing, and other styles. This will create a very simple route select screen with two buttons tacked on top of each other -- one for Casual Route, and one for Deep Route. For more information on customizing screens, you can read the [Ren'Py documentation on Screen Language](https://www.renpy.org/doc/html/screens.html?).
 
-Since you have two separate routes, casual and deep, you will need to have two separate lists of `RouteDay` objects and a `Route` object defined for them. For more on that, see [[Setting up Sequential Chatrooms]]. In this example, the Route object for "casual route" is defined in the variable `casual_route` and deep route in `deep_route`. Then you would have two labels that look like the following:
+Since you have two separate routes, casual and deep, you will need to have two separate lists of `RouteDay` objects and a `Route` object defined for them. For more on that, see [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md). In this example, the Route object for "casual route" is defined in the variable `casual_route` and deep route in `deep_route`. Then you would have two labels that look like the following:
 
 ```renpy
 label casual_route_start:

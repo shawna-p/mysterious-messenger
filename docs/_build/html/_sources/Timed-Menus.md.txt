@@ -45,7 +45,7 @@ Including `if timed_choose` ensures that if the player doesn't answer before the
 
 Unlike for regular menus, the dialogue immediately after a choice usually does **not** need the argument `(pauseVal=0)`. For ordinary menus, this reduces the delay between when the player selects a choice and when it displays in chat, but because timed menus allow the player to interrupt the flow of dialogue, it feels more natural for there to be a delay between selecting an answer and having it display in-chat.
 
-Otherwise, timed menus work almost the same as regular menus, and can be nested as well. See [[How to let the player make a choice | Useful-Chatroom-Functions#How_to_let_the_player_make_a_choice]] for more information on regular menus.
+Otherwise, timed menus work almost the same as regular menus, and can be nested as well. See [How to let the player make a choice](Useful-Chatroom-Functions.html#how-to-let-the-player-make-a-choice)e) for more information on regular menus.
 
 ### Example chatroom
 

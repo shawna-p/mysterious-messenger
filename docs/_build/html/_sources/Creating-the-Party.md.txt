@@ -16,7 +16,7 @@ then the party will be found at
 label my_chat_party:
 ```
 
-Before the party, the player will automatically be shown which guests are attending the party and it will unlock them in the guestbook. Since this is likely the end of the route, you should take a look at [[Ending a Route]] for more information on that.
+Before the party, the player will automatically be shown which guests are attending the party and it will unlock them in the guestbook. Since this is likely the end of the route, you should take a look at [Ending a Route](Ending-a-Route.md) for more information on that.
 
 Note that if you want to do any final "checks" before starting the party, you should put them at the beginning of the `_party` label. For example, you can check how many guests the player has successfully invited:
 

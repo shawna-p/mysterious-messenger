@@ -5,20 +5,20 @@
 A brief overview of the steps required (more detail below): |
 ------------------------------------------------------------|
 
-> 1. Create a chatroom as you usually would (see [[Creating a Chatroom]])
+> 1. Create a chatroom as you usually would (see [Creating a Chatroom](Creating-a-Chatroom.md))
 > 2. When you want the VN to interrupt the chatroom, use `call vn_during_chat('name_of_vn_label')`
 >     1. If you want to clear the chat history after the VN returns to the chatroom section, pass the argument `clearchat_on_return=True` e.g. `call vn_during_chat('name_of_vn_label', clearchat_on_return=True)`
 >     2. If you want to change the background between chatroom sections, pass the argument `new_bg="morning"` where `"morning"` is the name of the new background e.g. `call vn_during_chat('name_of_vn_label', new_bg="morning")`
 >     3. If you want to change the list of chatroom participants between chatroom sections, pass the argument `reset_participants=[y, s, m]` where `[y, s, m]` is a list of ChatCharacter objects who you want to show participating in the chatroom e.g. `call vn_during_chat('name_of_vn_label', reset_participants=[z, m])`
 >     4. If you don't want to return to the chatroom section after jumping to a VN, use `call vn_during_chat('name_of_vn_label', end_after_vn=True)` and then instead of `jump chat_end` use `jump vn_end`.
-> 3. Create the VN label (e.g. `label name_of_vn_label`) and write the VN section as normal (see [[Writing a VN section]]) but __do not__ use `call vn_begin` or `jump vn_end` and instead write `return` at the end of the label
+> 3. Create the VN label (e.g. `label name_of_vn_label`) and write the VN section as normal (see [Writing a VN section](Writing-a-VN-Section.md)) but __do not__ use `call vn_begin` or `jump vn_end` and instead write `return` at the end of the label
 > 4. Continue writing the rest of the chatroom beneath your `call vn_during_chat` line and end with `jump chat_end` as usual
 
 ## Note on usage
 
-This page explains how to include a VN section __in the middle of a chatroom__, such that the player will be viewing the chatroom and it will immediately transition to the VN section and back to the chatroom in the same 'scene'. This is different from how VN sections usually play out in-game: that is, first the player views a chatroom, is returned to the chatroom timeline screen, and then must select the corresponding Story Mode (VN) section to proceed. If you are interested in the latter, see [[Writing a VN section]].
+This page explains how to include a VN section __in the middle of a chatroom__, such that the player will be viewing the chatroom and it will immediately transition to the VN section and back to the chatroom in the same 'scene'. This is different from how VN sections usually play out in-game: that is, first the player views a chatroom, is returned to the chatroom timeline screen, and then must select the corresponding Story Mode (VN) section to proceed. If you are interested in the latter, see [Writing a VN section](Writing-a-VN-Section.md).
 
-First, you'll start by setting up a chatroom the way you usually would (see [[Creating a Chatroom]]). If you'd like to start with a VN that turns into a chatroom later, you must still begin with `call chat_begin("morning")` where `"morning"` is the name of the background you will use for the chatroom. E.g.
+First, you'll start by setting up a chatroom the way you usually would (see [Creating a Chatroom](Creating-a-Chatroom.md)). If you'd like to start with a VN that turns into a chatroom later, you must still begin with `call chat_begin("morning")` where `"morning"` is the name of the background you will use for the chatroom. E.g.
 
 ```renpy
 label my_chatroom:
@@ -36,7 +36,7 @@ For the VN section, create a label with the name you gave it earlier, e.g.
 label my_vn_label:
 ```
 
-In this label, you must write the VN section. It is written the same way as a regular VN -- see [[Writing a VN section]] -- however you __should not__ begin with `call vn_begin` and should just begin the VN section. E.g.
+In this label, you must write the VN section. It is written the same way as a regular VN -- see [Writing a VN section](Writing-a-VN-Section.md) -- however you __should not__ begin with `call vn_begin` and should just begin the VN section. E.g.
 
 ```renpy
 label my_vn_label:

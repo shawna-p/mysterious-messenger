@@ -95,7 +95,7 @@ Finally, the inclusion of `participants=[ja]` as an argument tells the program t
 
 You must always end the introductory chatroom with `jump chat_end` OR, if you want to customize the introduction more, ensure the end of your introduction sets the variables `starter_story = False`, `persistent.on_route = True`, and then you must call or jump to some form of the label `press_save_and_exit`. You can set `vn_choice = True` if you don't want the chatroom Save&Exit sign at the bottom of the screen.
 
-For more information on including VN sections during the introductory chatroom, look at [[Including a VN During a Chatroom]].
+For more information on including VN sections during the introductory chatroom, look at [Including a VN During a Chatroom](Including-a-VN-During-a-Chatroom.md).
 
 ## Skipping the Introductory Chatroom
 

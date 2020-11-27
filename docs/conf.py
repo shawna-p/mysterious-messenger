@@ -35,6 +35,7 @@ release = 'v2.2'
 # Add napoleon to the extensions list
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon',
     'recommonmark', 'sphinx_rtd_theme',
+    'sphinx.ext.autosectionlabel',
     'sphinx.ext.todo',
     'renpydoc',
     'custom_monokai',

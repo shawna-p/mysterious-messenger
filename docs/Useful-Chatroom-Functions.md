@@ -22,7 +22,7 @@ You can add as many choices as you want to the menu, although only 5 options wil
 
 After a choice, the MC usually has dialogue. You can see that under `"Choice 1":`, the dialogue is repeated, but this time it's preceded by `m`. `m` is the variable used to make the MC speak in chatrooms. Unless the menu option is paraphrased, you need to copy the line of dialogue from the choice below for `m` to say.
 
-Secondly, there's also an argument after the MC's dialogue: `(pauseVal=0)`. The included spreadsheet will usually include this argument for you when the MC speaks (see [[Using the Chatroom Spreadsheet]]). It tells the program not to wait before posting this message. Otherwise, after choosing an answer, the program would pause for a moment to simulate "typing time" for the MC to send their message. Since this can be rather disorienting after a choice, adding `(pauseVal=0)` after the dialogue removes this wait time.
+Secondly, there's also an argument after the MC's dialogue: `(pauseVal=0)`. The included spreadsheet will usually include this argument for you when the MC speaks (see [Using the Chatroom Spreadsheet](Using-the-Chatroom-Spreadsheet.md)). It tells the program not to wait before posting this message. Otherwise, after choosing an answer, the program would pause for a moment to simulate "typing time" for the MC to send their message. Since this can be rather disorienting after a choice, adding `(pauseVal=0)` after the dialogue removes this wait time.
 
 However, the MC doesn't need to send a message after a choice, or you can have other characters send things. For example, one of your choices could be `"(Remain silent)"`, in which case the MC probably won't send a message after the choice. (You can see an example of this in [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy)).
 
@@ -51,7 +51,7 @@ where `s` is the variable of the character whose heart point you'd like to show.
 * y (Yoosung)
 * z (Zen)
 
-If you'd like to add your own character to give a heart point to, see [[Adding a New Character to Chatrooms]]. Both Ray and Saeran's heart points count towards the same character.
+If you'd like to add your own character to give a heart point to, see [Adding a New Character to Chatrooms](Adding-a-New-Character-to-Chatrooms.md). Both Ray and Saeran's heart points count towards the same character.
 
 There is also an optional second argument in the `heart_icon` call:
 
@@ -59,7 +59,7 @@ There is also an optional second argument in the `heart_icon` call:
 call heart_icon(s, bad=True)
 ```
 
-The `bad=True` argument tells the program that this heart is a "bad" heart icon -- in other words, it indicates that this answer, while awarding the player a heart point, also counts towards a bad ending. In this way, you can conceal which answers lead to the "Good" end since you can award the player a heart point for both the good and bad ending answers (See [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy "tutorial_5_coffee") for an example of this). When you get to a plot branch, you can have the program calculate whether the player has more "good" or "bad" heart points with a character. See [[Plot Branches]] for more information on this.
+The `bad=True` argument tells the program that this heart is a "bad" heart icon -- in other words, it indicates that this answer, while awarding the player a heart point, also counts towards a bad ending. In this way, you can conceal which answers lead to the "Good" end since you can award the player a heart point for both the good and bad ending answers (See [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy "tutorial_5_coffee") for an example of this). When you get to a plot branch, you can have the program calculate whether the player has more "good" or "bad" heart points with a character. See [Plot Branches](Plot-Branches.md) for more information on this.
 
 Similarly, to show a "heartbreak" icon with a character, write
 

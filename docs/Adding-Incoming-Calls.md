@@ -18,4 +18,4 @@ where `ja` is the variable of the character who will call the player (See [chara
 
 Note that you can only have one incoming call after a chatroom, so if you define two labels like `label my_chatroom_incoming_ja` and `label my_chatroom_incoming_ju`, then only one of them will show up as an incoming call.
 
-You can then use that label to write the phone call as outlined in [[Writing a Phone Call]]. After the player goes through that chatroom (or its corresponding VN section), they will receive a phone call from that character.
+You can then use that label to write the phone call as outlined in [Writing a Phone Call](Writing-a-Phone-Call.md). After the player goes through that chatroom (or its corresponding VN section), they will receive a phone call from that character.
