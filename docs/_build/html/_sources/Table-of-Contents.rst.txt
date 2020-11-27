@@ -3,7 +3,6 @@ Table of Contents
 
 .. toctree::
     :maxdepth: 1
-    :titlesonly:
 
     Home
     Changelog
@@ -14,7 +13,6 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Chatrooms
-    :titlesonly:
 
     Creating-a-Chatroom
     Useful-Chatroom-Functions
@@ -26,7 +24,6 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Emails
-    :titlesonly:
 
     Writing-an-Email-Chain
     Inviting-a-Guest
@@ -35,7 +32,6 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Phone Calls
-    :titlesonly:
 
     Writing-a-Phone-Call
     Adding-Incoming-Calls
@@ -51,7 +47,6 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Visual Novel Mode (Story Mode)
-    :titlesonly:
 
     Writing-a-VN-Section
     Adding-Music-and-SFX
@@ -62,7 +57,6 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Creating New Characters
-    :titlesonly:
 
     Adding-a-New-Character-to-Chatrooms
     Adding-a-New-Character-to-VNs
@@ -73,7 +67,6 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Setting Up a Route
-    :titlesonly:
 
     Setting-up-Sequential-Chatrooms
     Post-Chatroom-Content
@@ -86,7 +79,6 @@ Table of Contents
 .. toctree::
     :maxdepth: 1
     :caption: Miscellaneous
-    :titlesonly:
 
     Pronoun-Integration
     Custom-Emojis
