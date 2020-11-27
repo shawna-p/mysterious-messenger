@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-      <title>Adding Spaceship Thoughts for a New Chatroom</title>
+      <title>Changing a Character’s Voicemail</title>
     
       <link rel="stylesheet" href="_static/pygments.css"/>
       <link rel="stylesheet" href="_static/theme-light.css"/>
@@ -113,22 +113,17 @@
 </nav>
                 <main class="content">
                   
-  <div class="section" id="adding-spaceship-thoughts-for-a-new-chatroom">
-<h1>Adding Spaceship Thoughts for a New Chatroom<a class="headerlink" href="#adding-spaceship-thoughts-for-a-new-chatroom" title="Permalink to this headline">¶</a></h1>
-<p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/spaceship_variables.rpy">spaceship_variables.rpy</a>. Under the heading <strong>Spaceship thought images</strong> you will see several images defined.</p>
-<p>For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.</p>
-<p>At the end of the declarations, add another image for Bob, using his file_id for the name + “_spacethought”.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">b_spacethought</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Spaceship/b_spacethought.png&quot;</span>
+  <div class="section" id="changing-a-character-s-voicemail">
+<h1>Changing a Character’s Voicemail<a class="headerlink" href="#changing-a-character-s-voicemail" title="Permalink to this headline">¶</a></h1>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
+<p>Voicemail is part of a character’s definition. If the program determines theree are no phone calls available for a character when the player phones them, it will automatically play the character’s voicemail instead.</p>
+<p>To update a character’s voicemail, type</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ja</span><span class="o">.</span><span class="n">voicemail</span> <span class="o">=</span> <span class="s1">&#39;voicemail_1&#39;</span>
 </pre></div>
 </div>
-<p>This image should be 651x374 pixels and will be shown behind the thought the character has when the spaceship icon is clicked.</p>
-<p>You can then give Bob a <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> when updating the <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code> list, which is found at the top of the file e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">space_thoughts</span> <span class="o">=</span> <span class="n">RandomBag</span><span class="p">(</span> <span class="p">[</span>
-    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">&quot;Your thought here.&quot;</span><span class="p">),</span>
-    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="s2">&quot;More thoughts.&quot;</span><span class="p">)</span>
-<span class="p">])</span>
-</pre></div>
-</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the variable of the character whose voicemail you’re changing, and <code class="docutils literal notranslate"><span class="pre">voicemail_1</span></code> is the name of the label where the voicemail call is.</p>
+<p>Existing voicemails are defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/phonecall_system.rpy">phonecall_system.rpy</a>. They are written the same way as a regular phone call, though there are no restrictions on what the label can be called (but it’s recommended you pick a descriptive name for it; probably including the word ‘voicemail’).</p>
+<p>If you want to write a “generic” voicemail message, there is a character named <code class="docutils literal notranslate"><span class="pre">vmail_phone</span></code> that you can use to write the dialogue. Otherwise, you can use the characters’ regular variables to write dialogue (e.g. <code class="docutils literal notranslate"><span class="pre">ja</span> <span class="pre">&quot;Some</span> <span class="pre">dialogue&quot;</span></code>).</p>
 </div>
 
   
