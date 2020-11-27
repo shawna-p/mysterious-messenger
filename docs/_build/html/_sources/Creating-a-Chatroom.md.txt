@@ -3,6 +3,7 @@
 **Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee"), [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy)**
 
 _A brief overview of the steps required (more detail below):_
+
 > 1. Create a new `.rpy` file (Optional, but recommended)
 > 1. Create a label for the chatroom
 >     1. You may also want to fill this in to the `Script Generator.xlsx spreadsheet` so you can set up your route later (see [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md))
@@ -27,9 +28,7 @@ Next, it's time to begin the chatroom. Note that everything under the label __mu
 call chat_begin("earlyMorn")
 ```
 
-chat_begin |
------------|
-`background, clearchat=True, resetHP=True` |
+> chat_begin | `background, clearchat=True, resetHP=True` |
 
 The text in quotes tells the program what background to use. Your options are:
 

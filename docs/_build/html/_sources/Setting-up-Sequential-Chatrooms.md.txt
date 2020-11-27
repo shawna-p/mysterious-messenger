@@ -25,9 +25,7 @@ The *first* item in the list should be a string containing the name of the endin
 
 The rest of the items in the list are `RouteDay` objects. They have the following fields:
 
-RouteDay |
------------|
-`day, archive_list=[], day_icon='day_common2', branch_vn=False` |
+> RouteDay | `day, archive_list=[], day_icon='day_common2', branch_vn=False` |
 
 Field | Description | Example |
 ------|-------------|---------|
@@ -40,9 +38,7 @@ branch_vn | By default, this is False. Otherwise, it should contain a `VNMode` o
 
 A `ChatHistory` object contains all the information needed for a single chatroom (plus its accompanying VN mode, phone calls, etc). You will need one `ChatHistory` object for every chatroom in your game.
 
-ChatHistory |
------------|
-`title, chatroom_label, trigger_time, participants=[], vn_obj=False, plot_branch=False, save_img='auto'` |
+> ChatHistory | `title, chatroom_label, trigger_time, participants=[], vn_obj=False, plot_branch=False, save_img='auto'` |
 
 The initialization fields are explained below.
 
@@ -58,9 +54,7 @@ save_img | The image that will appear in the save screen on the left when the pl
 
 If the `ChatHistory` object is not given a `VNMode` object, it will try to find a label with the correct naming scheme instead. However, in the event you want more control over the `vn_obj` field, you can define it yourself.
 
-VNMode |
------------|
-`vn_label, who=None, party=False, trigger_time=False` |
+> VNMode | `vn_label, who=None, party=False, trigger_time=False` |
 
 These fields are explained below.
 
@@ -73,9 +67,7 @@ trigger_time | Currently unused. May be used in the future to have VNs independe
 
 The other thing you may use is a `PlotBranch` object to indicate the existence of a plot branch.
 
-PlotBranch |
------------|
-`vn_after_branch=False` |
+> PlotBranch | `vn_after_branch=False` |
 
 This field is explained below.
 
@@ -139,9 +131,7 @@ Note that `[ChatHistory(...)]` is shorthand for a list of many more ChatHistory 
 
 In order for the route to show up in the History screen, you also need to define a `Route` object. Do this after you have set up the variables for all the different endings/branches of the route itself.
 
-Route |
------------|
-`default_branch, branch_list=[], route_history_title="Common", has_end_title=True` |
+> Route | `default_branch, branch_list=[], route_history_title="Common", has_end_title=True` |
 
 These fields are explained below.
 

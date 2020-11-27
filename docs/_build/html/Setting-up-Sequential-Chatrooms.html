@@ -136,18 +136,10 @@
 </div>
 <p>The <em>first</em> item in the list should be a string containing the name of the ending as it will appear in the History log. In this example, it is <code class="docutils literal notranslate"><span class="pre">&quot;Good</span> <span class="pre">End&quot;</span></code>.</p>
 <p>The rest of the items in the list are <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. They have the following fields:</p>
+<blockquote>
+<div><p>RouteDay | <code class="docutils literal notranslate"><span class="pre">day,</span> <span class="pre">archive_list=[],</span> <span class="pre">day_icon='day_common2',</span> <span class="pre">branch_vn=False</span></code> |</p>
+</div></blockquote>
 <table border="1" class="docutils">
-<thead>
-<tr>
-<th>RouteDay</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>day, archive_list=[], day_icon='day_common2', branch_vn=False</code></td>
-</tr>
-</tbody>
-</table><table border="1" class="docutils">
 <thead>
 <tr>
 <th>Field</th>
@@ -180,18 +172,10 @@
 </table><div class="section" id="chathistory-objects">
 <h2>ChatHistory Objects<a class="headerlink" href="#chathistory-objects" title="Permalink to this headline">¶</a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object contains all the information needed for a single chatroom (plus its accompanying VN mode, phone calls, etc). You will need one <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object for every chatroom in your game.</p>
-<table border="1" class="docutils">
-<thead>
-<tr>
-<th>ChatHistory</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>title, chatroom_label, trigger_time, participants=[], vn_obj=False, plot_branch=False, save_img='auto'</code></td>
-</tr>
-</tbody>
-</table><p>The initialization fields are explained below.</p>
+<blockquote>
+<div><p>ChatHistory | <code class="docutils literal notranslate"><span class="pre">title,</span> <span class="pre">chatroom_label,</span> <span class="pre">trigger_time,</span> <span class="pre">participants=[],</span> <span class="pre">vn_obj=False,</span> <span class="pre">plot_branch=False,</span> <span class="pre">save_img='auto'</span></code> |</p>
+</div></blockquote>
+<p>The initialization fields are explained below.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -238,18 +222,10 @@
 </tr>
 </tbody>
 </table><p>If the <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> object is not given a <code class="docutils literal notranslate"><span class="pre">VNMode</span></code> object, it will try to find a label with the correct naming scheme instead. However, in the event you want more control over the <code class="docutils literal notranslate"><span class="pre">vn_obj</span></code> field, you can define it yourself.</p>
-<table border="1" class="docutils">
-<thead>
-<tr>
-<th>VNMode</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>vn_label, who=None, party=False, trigger_time=False</code></td>
-</tr>
-</tbody>
-</table><p>These fields are explained below.</p>
+<blockquote>
+<div><p>VNMode | <code class="docutils literal notranslate"><span class="pre">vn_label,</span> <span class="pre">who=None,</span> <span class="pre">party=False,</span> <span class="pre">trigger_time=False</span></code> |</p>
+</div></blockquote>
+<p>These fields are explained below.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -281,18 +257,10 @@
 </tr>
 </tbody>
 </table><p>The other thing you may use is a <code class="docutils literal notranslate"><span class="pre">PlotBranch</span></code> object to indicate the existence of a plot branch.</p>
-<table border="1" class="docutils">
-<thead>
-<tr>
-<th>PlotBranch</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>vn_after_branch=False</code></td>
-</tr>
-</tbody>
-</table><p>This field is explained below.</p>
+<blockquote>
+<div><p>PlotBranch | <code class="docutils literal notranslate"><span class="pre">vn_after_branch=False</span></code> |</p>
+</div></blockquote>
+<p>This field is explained below.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -353,18 +321,10 @@
 <div class="section" id="displaying-a-route-in-the-history-screen">
 <h2>Displaying a Route in the History Screen<a class="headerlink" href="#displaying-a-route-in-the-history-screen" title="Permalink to this headline">¶</a></h2>
 <p>In order for the route to show up in the History screen, you also need to define a <code class="docutils literal notranslate"><span class="pre">Route</span></code> object. Do this after you have set up the variables for all the different endings/branches of the route itself.</p>
-<table border="1" class="docutils">
-<thead>
-<tr>
-<th>Route</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>default_branch, branch_list=[], route_history_title="Common", has_end_title=True</code></td>
-</tr>
-</tbody>
-</table><p>These fields are explained below.</p>
+<blockquote>
+<div><p>Route | <code class="docutils literal notranslate"><span class="pre">default_branch,</span> <span class="pre">branch_list=[],</span> <span class="pre">route_history_title=&quot;Common&quot;,</span> <span class="pre">has_end_title=True</span></code> |</p>
+</div></blockquote>
+<p>These fields are explained below.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
