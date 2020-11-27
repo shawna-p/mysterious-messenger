@@ -88,7 +88,7 @@ html_context = {
         ],
     }
 import sphinx_nervproject_theme
-if on_rtd:
+if False and on_rtd:
     html_theme = "sphinx_rtd_theme"
 else:
     html_theme = "nervproject"
