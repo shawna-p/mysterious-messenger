@@ -1,6 +1,6 @@
 # Post-Chatroom Content
 
-**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee")**
+**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee")**
 
 If there is anything you would like to have occur after a chatroom, or any additional content you would like to make available to the player (e.g. text messages), you need to create an "after chatroom" label. This is `after_` + the name of your label.
 

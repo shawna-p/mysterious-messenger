@@ -1,6 +1,6 @@
 # Writing a VN Section
 
-**Example files to look at: [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy "tutorial_6_meeting"), [tutorial_3b_VN.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_3b_VN.rpy "tutorial_3b_VN")**
+**Example files to look at: [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_6_meeting.rpy "tutorial_6_meeting"), [tutorial_3b_VN.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_3b_VN.rpy "tutorial_3b_VN")**
 
 _A brief overview of the steps required (more detail below):_
 
@@ -53,7 +53,7 @@ This sets some important variables before the VN. Next, set the background for y
 scene bg rika_apartment with fade
 ```
 
-where `bg rika_apartment` is a pre-defined variable you can find in [vn_mode.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/vn_mode.rpy "vn_mode.rpy") or one you defined yourself. Backgrounds should be `750x1334` pixels. `with fade` indicates the background should fade in from black.
+where `bg rika_apartment` is a pre-defined variable you can find in [vn_mode.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/vn_mode.rpy "vn_mode.rpy") or one you defined yourself. Backgrounds should be `750x1334` pixels. `with fade` indicates the background should fade in from black.
 
 If you want the player to have a moment to look at the background before you move on, you can write `pause` after showing the image, e.g.
 

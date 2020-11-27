@@ -1,6 +1,6 @@
 # Adding Incoming Calls
 
-**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee")**
+**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee")**
 
 To trigger an incoming call, there is a specific naming convention for the label. If your chatroom is called
 
@@ -14,7 +14,7 @@ then to trigger an incoming call, you must create a label called
 label my_chatroom_incoming_ja:
 ```
 
-where `ja` is the variable of the character who will call the player (See [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy "character_definitions.rpy")) for a list of the existing characters).
+where `ja` is the variable of the character who will call the player (See [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy "character_definitions.rpy")) for a list of the existing characters).
 
 Note that you can only have one incoming call after a chatroom, so if you define two labels like `label my_chatroom_incoming_ja` and `label my_chatroom_incoming_ju`, then only one of them will show up as an incoming call.
 

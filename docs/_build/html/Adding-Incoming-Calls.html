@@ -964,7 +964,7 @@
                   
   <div class="section" id="adding-incoming-calls">
 <h1>Adding Incoming Calls<a class="headerlink" href="#adding-incoming-calls" title="Permalink to this headline">¶</a></h1>
-<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
 <p>To trigger an incoming call, there is a specific naming convention for the label. If your chatroom is called</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
 </pre></div>
@@ -973,7 +973,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom_incoming_ja</span><span class="p">:</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the variable of the character who will call the player (See <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a>) for a list of the existing characters).</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the variable of the character who will call the player (See <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy">character_definitions.rpy</a>) for a list of the existing characters).</p>
 <p>Note that you can only have one incoming call after a chatroom, so if you define two labels like <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">my_chatroom_incoming_ja</span></code> and <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">my_chatroom_incoming_ju</span></code>, then only one of them will show up as an incoming call.</p>
 <p>You can then use that label to write the phone call as outlined in <a class="reference internal" href="Writing-a-Phone-Call.html"><span class="doc">Writing a Phone Call</span></a>. After the player goes through that chatroom (or its corresponding VN section), they will receive a phone call from that character.</p>
 </div>

@@ -1,10 +1,10 @@
 # Showing CGs
 
-**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee")**
+**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee")**
 
 In chatrooms, sometimes characters will post images that the player can click on to view full-size. These images will also be automatically unlocked in the corresponding Album once the player has seen them.
 
-For any CG you would like to show in-game, you must first go to [gallery_album_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/gallery.rpy "gallery_album_definitions.rpy") and define the image under the **CGs** header. For this example, a fourth CG found in the **Common** album will be added.
+For any CG you would like to show in-game, you must first go to [gallery_album_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/gallery.rpy "gallery_album_definitions.rpy") and define the image under the **CGs** header. For this example, a fourth CG found in the **Common** album will be added.
 
 First, define the image:
 
@@ -76,4 +76,4 @@ If you need to, you can also hide the CG by writing
 hide cg
 ```
 
-or by including another `scene` statement to reset the background. You can see an example of a CG posted this way in [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches").
+or by including another `scene` statement to reset the background. You can see an example of a CG posted this way in [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches").

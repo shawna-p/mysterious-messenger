@@ -1,8 +1,8 @@
 # Custom Emojis
 
-**Example files to look at: [emoji_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/emoji_definitions.rpy)**
+**Example files to look at: [emoji_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/emoji_definitions.rpy)**
 
-If you'd like to add your own emojis to the game, you need to add a few lines to the `emoji_lookup` dictionary found in [emoji_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/emoji_definitions.rpy). Emojis are saved as separate `.png` files, and are found in the `/Gifs` folder under `/images`. At the bottom of [emoji_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/emoji_definitions.rpy), you can see how to define an emoji.
+If you'd like to add your own emojis to the game, you need to add a few lines to the `emoji_lookup` dictionary found in [emoji_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/emoji_definitions.rpy). Emojis are saved as separate `.png` files, and are found in the `/Gifs` folder under `/images`. At the bottom of [emoji_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/emoji_definitions.rpy), you can see how to define an emoji.
 
 ```renpy
 image jaehee_angry:

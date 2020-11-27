@@ -1,6 +1,6 @@
 # Timed Menus
 
-**Example files to look at: [tutorial_4_timed_menus.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_4_timed_menus.rpy "tutorial_4_timed_menus"), [tutorial_9_storytelling.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_9_storytelling.rpy "tutorial_9_storytelling")**
+**Example files to look at: [tutorial_4_timed_menus.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_4_timed_menus.rpy "tutorial_4_timed_menus"), [tutorial_9_storytelling.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_9_storytelling.rpy "tutorial_9_storytelling")**
 
 If a timed menu is used instead of a regular one, the answer button will appear at the bottom of the screen for a specific period of time before disappearing. The chat will continue on while the answer button is displayed. The time the player has left to answer is shown above the answer bar as a planet moving towards the right side of the screen. When it reaches the right side, the answer button will disappear.
 

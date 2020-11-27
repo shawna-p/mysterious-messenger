@@ -5,10 +5,10 @@ _A brief overview of the steps required (more detail below):_
 > 1. Define a list of `RouteDay` objects. The first item in the list should be the name of the ending e.g. `"Good End"`
 > 2. The first field of a `RouteDay` object is the name of the day (e.g. "1st"), and then the second is a list of `ChatHistory` objects. Fill these out with the information for each chatroom
 > 3. Create a `Route` object and fill out its `default_branch` and optionally `branch_list` and `route_history_title` fields.
-> 4. Either customize the route select screen, or in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction"), change the line `$ new_route_setup(route=tutorial_route)` so that `tutorial_route` is replaced by the variable for the Route object you defined
+> 4. Either customize the route select screen, or in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction"), change the line `$ new_route_setup(route=tutorial_route)` so that `tutorial_route` is replaced by the variable for the Route object you defined
 > 5. Select **Start Over** from the Settings screen to test out your new route
 
-To set up a route, you need to first define a list of `RouteDay` objects. Each `RouteDay` object contains the information the program needs for one in-game Day. Go to [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy) to see an example definition called `tutorial_good_end`.
+To set up a route, you need to first define a list of `RouteDay` objects. Each `RouteDay` object contains the information the program needs for one in-game Day. Go to [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/route_setup.rpy) to see an example definition called `tutorial_good_end`.
 
 At its most basic level, your definition will look as follows:
 
@@ -31,7 +31,7 @@ Field | Description | Example |
 ------|-------------|---------|
 day | A string containing the name of the day as it should show up in the chatroom timeline (e.g. "1st" appears in-game as "1st Day"). Note that a special icon appears over a day titled "Final". | "1st" |
 archive_list | A list of `ChatHistory` objects; see below | `[ChatHistory("Example Chatroom", "example_chat", "00:01")]` |
-day_icon | The icon to use for this day in the timeline. Defaults to `'day_common2'`. Previously defined images can be found in [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy "variables.rpy") under the heading **Chat Select Screen** -- `"day_common1"` up to `"day_z"` can be used. | "day_s" |
+day_icon | The icon to use for this day in the timeline. Defaults to `'day_common2'`. Previously defined images can be found in [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy "variables.rpy") under the heading **Chat Select Screen** -- `"day_common1"` up to `"day_z"` can be used. | "day_s" |
 branch_vn | By default, this is False. Otherwise, it should contain a `VNMode` object. If this route is merged onto the main route during a plot branch, the `VNMode` object stored in `branch_vn` will appear after the chatroom immediately before the plot branch. | `VNMode('plot_branch_bre')` |
 
 ## ChatHistory Objects
@@ -50,7 +50,7 @@ trigger_time | The time this chatroom should trigger at. A string. This should b
 participants | Optional. A list of the ChatCharacter objects of the people who should be already present in the chatroom before the player enters. If left blank, no one starts in the chatroom. | [ja, ju] |
 vn_obj | Optional. Allows you to better customize the `VNMode` object associated with this chatroom. If not provided, the program will attempt to find appropriately labelled VN labels and create its own `VNMode` object. | `VNMode("my_vn_label", y)` |
 plot_branch | A `PlotBranch` object. Indicates if this chatroom should have a VN after it. A `PlotBranch` object only takes one argument -- a boolean telling it whether or not there is a VN that should only be shown after the plot branch has been proceeded through. By default, this is False. | PlotBranch(True) |
-save_img | The image that will appear in the save screen on the left when the player saves their game. This is usually an image indicating which route the player is on, if any. Previously defined images can be found in [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy "variables.rpy") under the heading **Save & Load Images**. Note that you do *not* need the prefix "save_", as this is automatically added. It is sufficient to use the character's file_id to get their save image e.g. "seven", "707", and "s" will all get you the same save image, `save_seven`. | "casual" |
+save_img | The image that will appear in the save screen on the left when the player saves their game. This is usually an image indicating which route the player is on, if any. Previously defined images can be found in [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy "variables.rpy") under the heading **Save & Load Images**. Note that you do *not* need the prefix "save_", as this is automatically added. It is sufficient to use the character's file_id to get their save image e.g. "seven", "707", and "s" will all get you the same save image, `save_seven`. | "casual" |
 
 If the `ChatHistory` object is not given a `VNMode` object, it will try to find a label with the correct naming scheme instead. However, in the event you want more control over the `vn_obj` field, you can define it yourself.
 
@@ -153,11 +153,11 @@ default new_years_route = Route(
 )
 ```
 
-You can see some additonal definitions at the bottom of [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy).
+You can see some additonal definitions at the bottom of [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/route_setup.rpy).
 
 ## Accessing your Route In-Game
 
-To play your route, you can either customize the route select screen (see [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md)) or change the line `$ new_route_setup(route=tutorial_route)` in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction") so that `tutorial_good_end` is replaced by the "default route" of the Route object you defined.
+To play your route, you can either customize the route select screen (see [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md)) or change the line `$ new_route_setup(route=tutorial_route)` in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction") so that `tutorial_good_end` is replaced by the "default route" of the Route object you defined.
 
 For example, for the "New Year's Route" defined above, you will have a line in your introductory label that has
 

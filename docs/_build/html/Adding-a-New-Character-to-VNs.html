@@ -964,7 +964,7 @@
                   
   <div class="section" id="adding-a-new-character-to-vns">
 <h1>Adding a New Character to VNs<a class="headerlink" href="#adding-a-new-character-to-vns" title="Permalink to this headline">¶</a></h1>
-<p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a>. Under the header <strong>Visual Novel Mode</strong> you will see several characters defined already.</p>
+<p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy">character_definitions.rpy</a>. Under the header <strong>Visual Novel Mode</strong> you will see several characters defined already.</p>
 <p>For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.</p>
 <p>You need to give Bob a Character object so he can speak in VN mode (Story mode). A definition for Bob may look like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">b_vn</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span>
@@ -1028,7 +1028,7 @@
 </tbody>
 </table><div class="section" id="note-on-voiced-characters">
 <h2>Note on Voiced Characters<a class="headerlink" href="#note-on-voiced-characters" title="Permalink to this headline">¶</a></h2>
-<p>If you don’t want to include a <code class="docutils literal notranslate"><span class="pre">voice_tag</span></code> for Bob, you will also need to modify a line in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_settings.rpy">screens_settings.rpy</a> under the screen <code class="docutils literal notranslate"><span class="pre">preferences()</span></code>. Partway down there is a <code class="docutils literal notranslate"><span class="pre">frame</span></code> containing the toggles for all voiced characters. In particular:</p>
+<p>If you don’t want to include a <code class="docutils literal notranslate"><span class="pre">voice_tag</span></code> for Bob, you will also need to modify a line in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_settings.rpy">screens_settings.rpy</a> under the screen <code class="docutils literal notranslate"><span class="pre">preferences()</span></code>. Partway down there is a <code class="docutils literal notranslate"><span class="pre">frame</span></code> containing the toggles for all voiced characters. In particular:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">vbox</span><span class="p">:</span>
     <span class="na">box_wrap</span> <span class="kc">True</span>
     <span class="na">box_wrap_spacing</span> <span class="mi">10</span>
@@ -1046,7 +1046,7 @@
 </div>
 <div class="section" id="declaring-a-layeredimage-for-a-new-character">
 <h2>Declaring a LayeredImage for a New Character<a class="headerlink" href="#declaring-a-layeredimage-for-a-new-character" title="Permalink to this headline">¶</a></h2>
-<p>At the bottom of <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy">character_definitions.rpy</a> are the layeredimage definitions for all the existing characters. These allow you to show the characters on-screen and easily change their expressions. In order to show Bob on-screen, you will also need to define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span> <span class="pre">bob</span></code>. As this is unchanged from the usual way of defining layeredimages, you can look to <a class="reference external" href="https://www.renpy.org/doc/html/layeredimage.html">Ren’Py’s layeredimage documentation</a> for more on that.</p>
+<p>At the bottom of <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy">character_definitions.rpy</a> are the layeredimage definitions for all the existing characters. These allow you to show the characters on-screen and easily change their expressions. In order to show Bob on-screen, you will also need to define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span> <span class="pre">bob</span></code>. As this is unchanged from the usual way of defining layeredimages, you can look to <a class="reference external" href="https://www.renpy.org/doc/html/layeredimage.html">Ren’Py’s layeredimage documentation</a> for more on that.</p>
 <p>If possible, expressions should be separate from the character’s body, and accessories such as glasses should be separate from facial expressions.</p>
 <div class="section" id="story-mode-images">
 <h3>“Story Mode” Images<a class="headerlink" href="#story-mode-images" title="Permalink to this headline">¶</a></h3>

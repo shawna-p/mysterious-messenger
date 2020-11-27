@@ -2,7 +2,7 @@
 
 For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.
 
-First, go to [gallery_album_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/gallery._album_definitionsrpy "gallery._album_definitionsrpy"). Here, you can define two images for Bob's album. The first is the background for the label under the album icon. Under the heading **Album Cover Images** you will see several image definitions that look like `cg_label_ja` and `cg_label_common`. If you want a custom label for Bob's album, define an image here e.g.
+First, go to [gallery_album_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/gallery._album_definitionsrpy "gallery._album_definitionsrpy"). Here, you can define two images for Bob's album. The first is the background for the label under the album icon. Under the heading **Album Cover Images** you will see several image definitions that look like `cg_label_ja` and `cg_label_common`. If you want a custom label for Bob's album, define an image here e.g.
 
 ```renpy
 image cg_label_b = "CGs/label_bg_b.png"

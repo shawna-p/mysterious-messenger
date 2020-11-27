@@ -1,6 +1,6 @@
 # Creating the Party
 
-**Example Files to look at: [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches")**
+**Example Files to look at: [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches")**
 
 The party at the end of a route functions almost exactly the same as any other VN section. The only real difference is how the icon itself displays.
 

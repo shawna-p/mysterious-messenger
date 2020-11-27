@@ -970,11 +970,11 @@
 <li><p>Define a list of <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. The first item in the list should be the name of the ending e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Good</span> <span class="pre">End&quot;</span></code></p></li>
 <li><p>The first field of a <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> object is the name of the day (e.g. “1st”), and then the second is a list of <code class="docutils literal notranslate"><span class="pre">ChatHistory</span></code> objects. Fill these out with the information for each chatroom</p></li>
 <li><p>Create a <code class="docutils literal notranslate"><span class="pre">Route</span></code> object and fill out its <code class="docutils literal notranslate"><span class="pre">default_branch</span></code> and optionally <code class="docutils literal notranslate"><span class="pre">branch_list</span></code> and <code class="docutils literal notranslate"><span class="pre">route_history_title</span></code> fields.</p></li>
-<li><p>Either customize the route select screen, or in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a>, change the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">new_route_setup(route=tutorial_route)</span></code> so that <code class="docutils literal notranslate"><span class="pre">tutorial_route</span></code> is replaced by the variable for the Route object you defined</p></li>
+<li><p>Either customize the route select screen, or in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a>, change the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">new_route_setup(route=tutorial_route)</span></code> so that <code class="docutils literal notranslate"><span class="pre">tutorial_route</span></code> is replaced by the variable for the Route object you defined</p></li>
 <li><p>Select <strong>Start Over</strong> from the Settings screen to test out your new route</p></li>
 </ol>
 </div></blockquote>
-<p>To set up a route, you need to first define a list of <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. Each <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> object contains the information the program needs for one in-game Day. Go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy">route_setup.rpy</a> to see an example definition called <code class="docutils literal notranslate"><span class="pre">tutorial_good_end</span></code>.</p>
+<p>To set up a route, you need to first define a list of <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> objects. Each <code class="docutils literal notranslate"><span class="pre">RouteDay</span></code> object contains the information the program needs for one in-game Day. Go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/route_setup.rpy">route_setup.rpy</a> to see an example definition called <code class="docutils literal notranslate"><span class="pre">tutorial_good_end</span></code>.</p>
 <p>At its most basic level, your definition will look as follows:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">my_route_good_end</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;Good End&quot;</span><span class="p">,</span>
     <span class="n">RouteDay</span><span class="p">(</span><span class="s2">&quot;1st&quot;</span><span class="p">),</span>
@@ -1010,7 +1010,7 @@
 </tr>
 <tr>
 <td>day_icon</td>
-<td>The icon to use for this day in the timeline. Defaults to <code>'day_common2'</code>. Previously defined images can be found in <a href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy" title="variables.rpy">variables.rpy</a> under the heading <strong>Chat Select Screen</strong> -- <code>"day_common1"</code> up to <code>"day_z"</code> can be used.</td>
+<td>The icon to use for this day in the timeline. Defaults to <code>'day_common2'</code>. Previously defined images can be found in <a href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy" title="variables.rpy">variables.rpy</a> under the heading <strong>Chat Select Screen</strong> -- <code>"day_common1"</code> up to <code>"day_z"</code> can be used.</td>
 <td>"day_s"</td>
 </tr>
 <tr>
@@ -1067,7 +1067,7 @@
 </tr>
 <tr>
 <td>save_img</td>
-<td>The image that will appear in the save screen on the left when the player saves their game. This is usually an image indicating which route the player is on, if any. Previously defined images can be found in <a href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy" title="variables.rpy">variables.rpy</a> under the heading <strong>Save &amp; Load Images</strong>. Note that you do <em>not</em> need the prefix "save_", as this is automatically added. It is sufficient to use the character's file_id to get their save image e.g. "seven", "707", and "s" will all get you the same save image, <code>save_seven</code>.</td>
+<td>The image that will appear in the save screen on the left when the player saves their game. This is usually an image indicating which route the player is on, if any. Previously defined images can be found in <a href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy" title="variables.rpy">variables.rpy</a> under the heading <strong>Save &amp; Load Images</strong>. Note that you do <em>not</em> need the prefix "save_", as this is automatically added. It is sufficient to use the character's file_id to get their save image e.g. "seven", "707", and "s" will all get you the same save image, <code>save_seven</code>.</td>
 <td>"casual"</td>
 </tr>
 </tbody>
@@ -1214,11 +1214,11 @@
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>You can see some additonal definitions at the bottom of <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy">route_setup.rpy</a>.</p>
+<p>You can see some additonal definitions at the bottom of <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/route_setup.rpy">route_setup.rpy</a>.</p>
 </div>
 <div class="section" id="accessing-your-route-in-game">
 <h2>Accessing your Route In-Game<a class="headerlink" href="#accessing-your-route-in-game" title="Permalink to this headline">¶</a></h2>
-<p>To play your route, you can either customize the route select screen (see <a class="reference internal" href="Customizing-the-Route-Select-Screen.html"><span class="doc">Customizing the Route Select Screen</span></a>) or change the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">new_route_setup(route=tutorial_route)</span></code> in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a> so that <code class="docutils literal notranslate"><span class="pre">tutorial_good_end</span></code> is replaced by the “default route” of the Route object you defined.</p>
+<p>To play your route, you can either customize the route select screen (see <a class="reference internal" href="Customizing-the-Route-Select-Screen.html"><span class="doc">Customizing the Route Select Screen</span></a>) or change the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">new_route_setup(route=tutorial_route)</span></code> in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_0_introduction.rpy">tutorial_0_introduction.rpy</a> so that <code class="docutils literal notranslate"><span class="pre">tutorial_good_end</span></code> is replaced by the “default route” of the Route object you defined.</p>
 <p>For example, for the “New Year’s Route” defined above, you will have a line in your introductory label that has</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">)</span>
 </pre></div>

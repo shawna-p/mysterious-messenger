@@ -1,6 +1,6 @@
 # Adding a New Character to VNs
 
-First, go to [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy "character_definitions.rpy"). Under the header **Visual Novel Mode** you will see several characters defined already.
+First, go to [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy "character_definitions.rpy"). Under the header **Visual Novel Mode** you will see several characters defined already.
 
 For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.
 
@@ -32,7 +32,7 @@ who_color | Changes the colour of the character's name in the VN dialogue box. |
 
 ## Note on Voiced Characters
 
-If you don't want to include a `voice_tag` for Bob, you will also need to modify a line in [screens_settings.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_settings.rpy "screens_settings.rpy") under the screen `preferences()`. Partway down there is a `frame` containing the toggles for all voiced characters. In particular:
+If you don't want to include a `voice_tag` for Bob, you will also need to modify a line in [screens_settings.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_settings.rpy "screens_settings.rpy") under the screen `preferences()`. Partway down there is a `frame` containing the toggles for all voiced characters. In particular:
 
 ```renpy
 vbox:
@@ -52,7 +52,7 @@ If you don't want Bob to have a voice button, you need to add him to the list wh
 
 ## Declaring a LayeredImage for a New Character
 
-At the bottom of [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy "character_definitions.rpy") are the layeredimage definitions for all the existing characters. These allow you to show the characters on-screen and easily change their expressions. In order to show Bob on-screen, you will also need to define a `layeredimage bob`. As this is unchanged from the usual way of defining layeredimages, you can look to [Ren'Py's layeredimage documentation](https://www.renpy.org/doc/html/layeredimage.html "Ren'Py layeredimage documentation") for more on that.
+At the bottom of [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy "character_definitions.rpy") are the layeredimage definitions for all the existing characters. These allow you to show the characters on-screen and easily change their expressions. In order to show Bob on-screen, you will also need to define a `layeredimage bob`. As this is unchanged from the usual way of defining layeredimages, you can look to [Ren'Py's layeredimage documentation](https://www.renpy.org/doc/html/layeredimage.html "Ren'Py layeredimage documentation") for more on that.
 
 If possible, expressions should be separate from the character's body, and accessories such as glasses should be separate from facial expressions.
 

@@ -1,6 +1,6 @@
 # Unlockable Routes
 
-If you want to keep certain features "locked" until the player has fulfilled a condition of your choosing (e.g. preventing the player from going through Character B's route until after they have gone through Character A's route), you need to set up your own persistent variables to keep track of whether the player has fulfilled your desired condition or not. You can define these variables anywhere you like, though [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy) is a good place if you're unsure.
+If you want to keep certain features "locked" until the player has fulfilled a condition of your choosing (e.g. preventing the player from going through Character B's route until after they have gone through Character A's route), you need to set up your own persistent variables to keep track of whether the player has fulfilled your desired condition or not. You can define these variables anywhere you like, though [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy) is a good place if you're unsure.
 
 For this example, the program will check whether or not the player has successfully gotten the Good End in Tutorial day. First, define the variable:
 
@@ -10,7 +10,7 @@ default persistent.tutorial_good_end_complete = False
 
 `tutorial_good_end_complete` is the name of your created field in the `persistent` object; variables preceeded by `persistent` will be saved across playthroughs. The variable is first initialized to `False` and will be set to `True` after the player has successfully gone through the Good End.
 
-A player who has gone through the Tutorial Good End will have finished the party VN called `tutorial_good_end_party` found in [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches"). The last lines of that label are currently as follows:
+A player who has gone through the Tutorial Good End will have finished the party VN called `tutorial_good_end_party` found in [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches"). The last lines of that label are currently as follows:
 
 ```renpy
 $ ending = 'good'
@@ -31,7 +31,7 @@ Note that if you don't need the program to remember a variable across playthroug
 
 ## Customizing a screen based on variables
 
-If you only want to allow the player to access a route after a certain condition is fulfilled, you will need to add some extra code to the route select screen in [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy). This example will assume you've defined that screen as seen in [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md).
+If you only want to allow the player to access a route after a certain condition is fulfilled, you will need to add some extra code to the route select screen in [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_menu.rpy). This example will assume you've defined that screen as seen in [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md).
 
 In this example, Deep Route will be shown as "locked" until after the player has completed the Good End of Tutorial Day. Everything in `route_select_screen` will remain as shown in [Customizing the Route Select Screen](Customizing-the-Route-Select-Screen.md) except for the Deep Route button:
 

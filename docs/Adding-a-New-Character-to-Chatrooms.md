@@ -1,6 +1,6 @@
 # Adding a New Character to Chatrooms
 
-First, go to [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy "character_definitions.rpy"). Under the heading **Chatroom Characters** near the middle of the file, you will see several characters already defined.
+First, go to [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy "character_definitions.rpy"). Under the heading **Chatroom Characters** near the middle of the file, you will see several characters already defined.
 
 For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.
 
@@ -67,7 +67,7 @@ default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
 
 This list contains all the characters in `character_list` unless they have the property `right_msgr`, which generally means it's True for everyone except the MC. Characters in this list will appear on the Profile screen with an indicator of how many points the player has with them.
 
-If you want an icon to appear letting the player know how many heart points they have with Bob, you need to define an image called `greet b` since `b` is Bob's file_id. These images are stored in `game/images/Menu Screens/Main Menu` and defined in [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy "variables.rpy") under the heading **Image Definitions - Menu**.
+If you want an icon to appear letting the player know how many heart points they have with Bob, you need to define an image called `greet b` since `b` is Bob's file_id. These images are stored in `game/images/Menu Screens/Main Menu` and defined in [variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy "variables.rpy") under the heading **Image Definitions - Menu**.
 
 If you don't want Bob to appear in the Profile screen, replace this variable with a list of the characters whose heart points you want to display e.g.
 

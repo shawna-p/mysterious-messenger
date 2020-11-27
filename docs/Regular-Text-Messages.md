@@ -4,7 +4,7 @@ There are two kinds of text messaging styles available in this program. The firs
 
 ## Writing Text Messages
 
-**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee"), [tutorial_3_text_message.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_3_text_message.rpy "tutorial_3_text_message")**
+**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee"), [tutorial_3_text_message.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_3_text_message.rpy "tutorial_3_text_message")**
 
 _A brief overview of the steps required (more detail below):_
 

@@ -964,17 +964,17 @@
                   
   <div class="section" id="pronoun-integration">
 <h1>Pronoun Integration<a class="headerlink" href="#pronoun-integration" title="Permalink to this headline">¶</a></h1>
-<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a></strong></p>
-<p>This program allows the player to change their pronouns whenever they desire during the game. This means that any reference to the player’s gender or use of pronouns to refer to the player will need to be taken care of via variables. In <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the <strong>Short Forms/Startup Variables</strong> heading you will find many default variables already defined.</p>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_6_meeting.rpy">tutorial_6_meeting.rpy</a></strong></p>
+<p>This program allows the player to change their pronouns whenever they desire during the game. This means that any reference to the player’s gender or use of pronouns to refer to the player will need to be taken care of via variables. In <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy">variables.rpy</a> under the <strong>Short Forms/Startup Variables</strong> heading you will find many default variables already defined.</p>
 <div class="section" id="defining-additional-helper-variables">
 <h2>Defining additional helper variables<a class="headerlink" href="#defining-additional-helper-variables" title="Permalink to this headline">¶</a></h2>
-<p>If you would like to define additional variables to help with typing dialogue, you must first define the variable in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> as mentioned above, and also under the <code class="docutils literal notranslate"><span class="pre">set_pronouns()</span></code> function in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy">screens_menu.rpy</a>.</p>
+<p>If you would like to define additional variables to help with typing dialogue, you must first define the variable in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy">variables.rpy</a> as mentioned above, and also under the <code class="docutils literal notranslate"><span class="pre">set_pronouns()</span></code> function in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_menu.rpy">screens_menu.rpy</a>.</p>
 <p>For this example, a variable called <code class="docutils literal notranslate"><span class="pre">go_goes</span></code> will be defined for the three main pronoun options.</p>
-<p>First, in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables.rpy">variables.rpy</a> under the <strong>Short Forms/Startup Variables</strong> heading, add</p>
+<p>First, in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables.rpy">variables.rpy</a> under the <strong>Short Forms/Startup Variables</strong> heading, add</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">go_goes</span> <span class="o">=</span> <span class="s2">&quot;go&quot;</span>
 </pre></div>
 </div>
-<p>Then in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy">screens_menu.rpy</a> under the function <code class="docutils literal notranslate"><span class="pre">set_pronouns()</span></code> add</p>
+<p>Then in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_menu.rpy">screens_menu.rpy</a> under the function <code class="docutils literal notranslate"><span class="pre">set_pronouns()</span></code> add</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">global</span> <span class="n">go_goes</span>
 </pre></div>
 </div>

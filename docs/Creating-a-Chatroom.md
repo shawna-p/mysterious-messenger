@@ -1,6 +1,6 @@
 # Creating a Chatroom
 
-**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee"), [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy)**
+**Example files to look at: [tutorial_5_coffee.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_5_coffee.rpy "tutorial_5_coffee"), [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_6_meeting.rpy)**
 
 _A brief overview of the steps required (more detail below):_
 
@@ -61,7 +61,7 @@ So now that the chat is set up, you probably want to play some music. Music is p
 play music mystic_chat
 ```
 
-where `mystic_chat` can be replaced by the name of whatever music you want. There are several files already pre-defined in [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy) under the heading **BACKGROUND MUSIC DEFINITIONS**. If you want to define your own music files, be sure to add them to the `music_dictionary` so they are compatible with audio captions. See [Adding new Audio](Adding-new-Audio.md) for more information.
+where `mystic_chat` can be replaced by the name of whatever music you want. There are several files already pre-defined in [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables_music_sound.rpy) under the heading **BACKGROUND MUSIC DEFINITIONS**. If you want to define your own music files, be sure to add them to the `music_dictionary` so they are compatible with audio captions. See [Adding new Audio](Adding-new-Audio.md) for more information.
 
 Finally, to end your chatroom, you need to write
 

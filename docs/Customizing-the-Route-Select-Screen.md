@@ -1,10 +1,10 @@
 # Customizing the Route Select Screen
 
-**Example files to look at: [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy)**
+**Example files to look at: [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_menu.rpy)**
 
-When you begin a new game, after pressing "Original Story" you'll be taken to the "Mode Select" screen, where there is a large button that says "Start Game". This screen is defined in [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_menu.rpy) and is called `screen route_select_screen()`.
+When you begin a new game, after pressing "Original Story" you'll be taken to the "Mode Select" screen, where there is a large button that says "Start Game". This screen is defined in [screens_menu.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_menu.rpy) and is called `screen route_select_screen()`.
 
-To use your own route select screen, in the **Developer** settings, check off **Use custom route select screen**. This will cause the program to use the screen defined in [screens_custom_route_select.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_custom_route_select.rpy) instead of `screen route_select_screen`. If you want other players to see this screen from the start, you should also uncomment the line `default persistent.custom_route_select = True` in [screens_custom_route_select.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/screens_custom_route_select.rpy).
+To use your own route select screen, in the **Developer** settings, check off **Use custom route select screen**. This will cause the program to use the screen defined in [screens_custom_route_select.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_custom_route_select.rpy) instead of `screen route_select_screen`. If you want other players to see this screen from the start, you should also uncomment the line `default persistent.custom_route_select = True` in [screens_custom_route_select.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/screens_custom_route_select.rpy).
 
 Your custom route select screen should look like the following:
 

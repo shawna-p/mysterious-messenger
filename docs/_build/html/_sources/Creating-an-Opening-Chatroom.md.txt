@@ -1,8 +1,8 @@
 # Creating an Opening Chatroom
 
-**Example files to look at: [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction")**
+**Example files to look at: [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction")**
 
-When the player starts a new game, you may want to have an "introductory" chatroom, to introduce the characters and story before the player begins the route. Though you're free to tell the program to jump to a different label, currently the game starts at the `start` label, which is found in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction"). It works a bit differently from regular chatrooms, so it's recommended you have a good grasp of how to create regular chatrooms before you look at this code to modify it.
+When the player starts a new game, you may want to have an "introductory" chatroom, to introduce the characters and story before the player begins the route. Though you're free to tell the program to jump to a different label, currently the game starts at the `start` label, which is found in [tutorial_0_introduction.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_0_introduction.rpy "tutorial_0_introduction"). It works a bit differently from regular chatrooms, so it's recommended you have a good grasp of how to create regular chatrooms before you look at this code to modify it.
 
 The line
 

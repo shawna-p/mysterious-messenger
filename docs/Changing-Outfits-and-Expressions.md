@@ -1,8 +1,8 @@
 # Changing Outfits and Expressions
 
-**Example files to look at: [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_6_meeting.rpy "tutorial_6_meeting"), [tutorial_3b_VN.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_3b_VN.rpy "tutorial_3b_VN")**
+**Example files to look at: [tutorial_6_meeting.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_6_meeting.rpy "tutorial_6_meeting"), [tutorial_3b_VN.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_3b_VN.rpy "tutorial_3b_VN")**
 
-To show a character, look at [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy "character_definitions.rpy") and find the character you want to show under the **Character VN Expressions Cheat Sheet** header.
+To show a character, look at [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy "character_definitions.rpy") and find the character you want to show under the **Character VN Expressions Cheat Sheet** header.
 
 To show a character, use their name tag (usually their first name) + any additional expression, position, outfit, or accessory tags as applicable. In practice, this means if you want to show `jaehee` with the expression `happy` and wearing her `glasses`, write
 

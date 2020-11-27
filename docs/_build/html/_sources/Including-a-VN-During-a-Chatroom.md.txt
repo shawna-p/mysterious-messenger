@@ -1,6 +1,6 @@
 # Including a VN During a Chatroom
 
-**Example files to look at: [tutorial_9_storytelling.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_9_storytelling.rpy "tutorial_9_storytelling")**
+**Example files to look at: [tutorial_9_storytelling.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_9_storytelling.rpy "tutorial_9_storytelling")**
 
 _A brief overview of the steps required (more detail below):_
 

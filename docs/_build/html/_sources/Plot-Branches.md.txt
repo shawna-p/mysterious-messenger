@@ -1,6 +1,6 @@
 # Plot Branches
 
-**Example Files to look at: [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches"), [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy)**
+**Example Files to look at: [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches"), [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/route_setup.rpy)**
 
 _A brief overview of the steps required (more detail below):_
 
@@ -40,7 +40,7 @@ default bob_bad_end_1 = ["Bad Story End 1",
              branch_vn=VNMode('bob_bad_story_end_1', b))]
 ```
 
-In [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/route_setup.rpy) you can see an example of this in the definition for `tutorial_bre`.
+In [route_setup.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/route_setup.rpy) you can see an example of this in the definition for `tutorial_bre`.
 
 ## Determining Which Route to Branch To
 
@@ -56,7 +56,7 @@ then you will create a branch label
 label my_chatroom_branch:
 ```
 
-In [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches") there are many examples of functions under the label `plot_branch_tutorial_branch` that you might want to use to determine which route the player branches onto.
+In [tutorial_8_plot_branches.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_8_plot_branches.rpy "tutorial_8_plot_branches") there are many examples of functions under the label `plot_branch_tutorial_branch` that you might want to use to determine which route the player branches onto.
 
 To change which route the player is on, you will either use the function call
 

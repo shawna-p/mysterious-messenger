@@ -1,6 +1,6 @@
 # Adding a New Character to Phone Calls
 
-First, go to [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/character_definitions.rpy "character_definitions.rpy"). Under the heading **Phone Call Characters** you will see several characters already defined.
+First, go to [character_definitions.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/character_definitions.rpy "character_definitions.rpy"). Under the heading **Phone Call Characters** you will see several characters already defined.
 
 For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.
 

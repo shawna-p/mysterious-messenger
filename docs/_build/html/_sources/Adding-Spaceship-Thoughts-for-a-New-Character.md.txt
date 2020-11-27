@@ -1,6 +1,6 @@
 # Adding Spaceship Thoughts for a New Chatroom
 
-First, go to [spaceship_variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/spaceship_variables.rpy "spaceship_variables.rpy"). Under the heading **Spaceship thought images** you will see several images defined.
+First, go to [spaceship_variables.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/spaceship_variables.rpy "spaceship_variables.rpy"). Under the heading **Spaceship thought images** you will see several images defined.
 
 For the purposes of this tutorial, these examples will show how to add a character named Bob to the program.
 

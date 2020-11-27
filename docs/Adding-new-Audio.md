@@ -4,7 +4,7 @@ In order to include audio captions, defining new music and sound effects to play
 
 ## Defining new music
 
-First, go to [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy). For this example, a file called "Jingle Bells" will be added.
+First, go to [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables_music_sound.rpy). For this example, a file called "Jingle Bells" will be added.
 
 First, define a variable that leads to the audio file.
 
@@ -33,7 +33,7 @@ play music jingle_bells
 
 ## Defining new sound effects
 
-First, go to [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/master/game/variables_music_sound.rpy). For this example, a file called "glass_breaking" will be added.
+First, go to [variables_music_sound.rpy](https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/variables_music_sound.rpy). For this example, a file called "glass_breaking" will be added.
 
 First, define a variable that leads to the audio file.
 

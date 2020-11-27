@@ -964,14 +964,14 @@
                   
   <div class="section" id="changing-a-character-s-voicemail">
 <h1>Changing a Character’s Voicemail<a class="headerlink" href="#changing-a-character-s-voicemail" title="Permalink to this headline">¶</a></h1>
-<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
+<p><strong>Example files to look at: <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/tutorial_day_scripts/tutorial_5_coffee.rpy">tutorial_5_coffee.rpy</a></strong></p>
 <p>Voicemail is part of a character’s definition. If the program determines theree are no phone calls available for a character when the player phones them, it will automatically play the character’s voicemail instead.</p>
 <p>To update a character’s voicemail, type</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ja</span><span class="o">.</span><span class="n">voicemail</span> <span class="o">=</span> <span class="s1">&#39;voicemail_1&#39;</span>
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the variable of the character whose voicemail you’re changing, and <code class="docutils literal notranslate"><span class="pre">voicemail_1</span></code> is the name of the label where the voicemail call is.</p>
-<p>Existing voicemails are defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/master/game/phonecall_system.rpy">phonecall_system.rpy</a>. They are written the same way as a regular phone call, though there are no restrictions on what the label can be called (but it’s recommended you pick a descriptive name for it; probably including the word ‘voicemail’).</p>
+<p>Existing voicemails are defined in <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/blob/v2.2.1-docs/game/phonecall_system.rpy">phonecall_system.rpy</a>. They are written the same way as a regular phone call, though there are no restrictions on what the label can be called (but it’s recommended you pick a descriptive name for it; probably including the word ‘voicemail’).</p>
 <p>If you want to write a “generic” voicemail message, there is a character named <code class="docutils literal notranslate"><span class="pre">vmail_phone</span></code> that you can use to write the dialogue. Otherwise, you can use the characters’ regular variables to write dialogue (e.g. <code class="docutils literal notranslate"><span class="pre">ja</span> <span class="pre">&quot;Some</span> <span class="pre">dialogue&quot;</span></code>).</p>
 </div>
 
