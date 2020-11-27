@@ -1,2 +1,3 @@
 sphinx==3.2.1
 sphinx_nervproject_theme
+sphinx_markdown_tables
