@@ -28,9 +28,7 @@ Next, it's time to begin the chatroom. Note that everything under the label __mu
 call chat_begin("earlyMorn")
 ```
 
-chat_begin |
------------|
-`background, clearchat=True, resetHP=True` |
+> chat_begin | `background, clearchat=True, resetHP=True` |
 
 The text in quotes tells the program what background to use. Your options are:
 

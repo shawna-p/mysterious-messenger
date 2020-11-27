@@ -6,9 +6,7 @@ When the floating spaceship isn't giving out chips, you can click it to view a r
 
 The variable `space_thoughts` can be modified to change the spaceship thoughts the player sees upon starting the game, or you can modify them in the `after_` label of any chatroom. You can have as many or as few `SpaceThought` objects in the list as you like -- even multiple thoughts for the same character. A `SpaceThought` only has two fields -- the first is the ChatCharacter variable of the character whose thought it is, and the second is the thought itself.
 
-SpaceThought |
--------------|
-`char, thought` |
+> SpaceThought | `char, thought` |
 
 To change the spaceship thoughts, in the `after_` label of the chatroom after which you want the spaceship thoughts to change, add the line
 

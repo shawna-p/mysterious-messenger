@@ -28,9 +28,7 @@ However, the MC doesn't need to send a message after a choice, or you can have o
 
 ## How to show a heart icon
 
-heart_icon |
------------|
-`character, bad=False` |
+> heart_icon | `character, bad=False` |
 
 To show heart icons to the player and award them heart points, use
 
