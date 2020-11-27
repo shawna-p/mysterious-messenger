@@ -39,8 +39,7 @@ extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', 'sphinx.ext.napoleon'
     'sphinx.ext.autosectionlabel',
     'sphinx.ext.todo',
     'renpydoc',
-    'sphinxcontrib.fulltoc',
-    #'custom_monokai',
+    #'sphinxcontrib.fulltoc',
     'sphinx.ext.githubpages',]
 napoleon_google_docstring = False
 napoleon_numpy_docstring = True
