@@ -4,7 +4,7 @@
 * [Changelog](Changelog.md)
 * [Credits and Acknowledgements](Credits-and-Acknowledgements.md)
 * [Useful Built-in Features](Useful-Built-in-Features.md)
-* [Beginner's Guide](Beginner's-Guide.md)
+* [Beginner's Guide](Beginners-Guide.md)
 
 1. **Chatrooms**
    1. [Creating a Chatroom](Creating-a-Chatroom.md)
@@ -20,7 +20,7 @@
 3. **Phone Calls**
    1. [Writing a Phone Call](Writing-a-Phone-Call.md)
    2. [Adding Incoming Calls](Adding-Incoming-Calls.md)
-   3. [Changing a Character's Voicemail](Changing-a-Character's-Voicemail.md)
+   3. [Changing a Character's Voicemail](Changing-a-Characters-Voicemail.md)
 4. **Text Messages**
    1. [Regular Text Messages](Regular-Text-Messages.md)
       1. [Writing Text Messages](Writing-Text-Messages.md)
