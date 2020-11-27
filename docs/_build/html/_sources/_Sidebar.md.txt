@@ -23,11 +23,11 @@
    3. [Changing a Character's Voicemail](Changing-a-Characters-Voicemail.md)
 4. **Text Messages**
    1. [Regular Text Messages](Regular-Text-Messages.md)
-      1. [Writing Text Messages](Writing-Text-Messages.md)
-      2. [How Text Message Delivery Works](How-Text-Message-Delivery-Works.md)
+      1. [Writing Text Messages](Regular-Text-Messages.md#writing-text-messages)
+      2. [How Text Message Delivery Works](Regular-Text-Messages.md#how-text-message-delivery-works)
    2. [Real-Time Text Conversations](Real-Time-Text-Conversations.md)
-      1. [Beginning a Text Conversation](Beginning-a-Text-Conversation.md)
-      2. [Leaving Real-Time Text Conversations](Leaving-Real-Time-Text-Conversations.md)
+      1. [Beginning a Text Conversation](Real-Time-Text-Conversations.md#beginning-a-text-conversation)
+      2. [Leaving Real-Time Text Conversations](Real-Time-Text-Conversations.md#leaving-real-time-text-conversations)
 5. **Visual Novel Mode (Story Mode)**
    1. [Writing a VN section](Writing-a-VN-Section.md)
    2. [Adding Music and SFX](Adding-Music-and-SFX.md)
