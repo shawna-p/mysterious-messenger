@@ -87,7 +87,7 @@ html_context = {
         '_static/theme_overrides.css',  # override wide tables in RTD theme
         ],
     }
-if on_rtd:
+if True or on_rtd:
     html_theme = "sphinx_rtd_theme"
 else:
     html_theme = "nervproject"

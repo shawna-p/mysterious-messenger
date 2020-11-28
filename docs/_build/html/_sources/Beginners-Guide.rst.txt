@@ -9,7 +9,7 @@ If you want to create your own route and some of the technicalities are going ov
 .. toctree::
     :caption: Navigation
 
-    Beginners-Guide
+    beginners-guide
 
 
 Getting Started
