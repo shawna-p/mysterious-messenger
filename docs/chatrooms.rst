@@ -9,6 +9,10 @@ Chatrooms
 
     chatrooms
 
+
+Creating a Chatroom
+===================
+
 .. note::
     Example files to look at:
 
@@ -24,10 +28,6 @@ Chatrooms
     #. Write the chatroom dialogue.
         #. You may want to use either ``Script Generator.xlsx`` or the ``msg`` CDS.
     #. End the label with ``return``.
-
-
-Creating a Chatroom
-===================
 
 The first thing you should do when creating a new chatroom is create a new ``.rpy`` file and name it something descriptive so it's easy to find it again. For example, you might name it something like ``day_1_chatroom_3.rpy`` or ``day_1_3.rpy``. It's a good idea to put all the files related to a particular route inside a folder for organization.
 
@@ -414,29 +414,4 @@ where ``ju`` is the variable of the character whose heart break you'd like to sh
 
 .. tip::
     Both ``break heart ju`` and ``heart break ju`` will show the heart break animation for the character ``ju``. You can't switch the word order for ``award heart`` though!
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-A section
-=========
-
-A subsection
-------------
-
-A sub-subsection
-^^^^^^^^^^^^^^^^
 

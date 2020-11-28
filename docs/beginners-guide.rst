@@ -53,16 +53,3 @@ Inside your new ``.rpy`` file, copy and paste the following code::
 
 This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to the [Setting up Sequential Chatrooms](Setting-up-Sequential-Chatrooms.md) page.
 
-
-
-
-A section
-=========
-
-A subsection
-------------
-
-A sub-subsection
-^^^^^^^^^^^^^^^^
-
-
