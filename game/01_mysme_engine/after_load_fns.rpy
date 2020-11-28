@@ -125,6 +125,9 @@ init python:
         # Turn the version back into a string
         store._version = '.'.join(map(str, store._version))
 
+        if False in store.persistent.unlocked_prof_pics:
+            store.persistent.unlocked_prof_pics.remove(False)
+
     def update_music():
         if '.mp3' in store.music_dictionary.keys()[0]:
             store.music_dictionary = dict((key.split('.mp3')[0] + '.ogg', value)

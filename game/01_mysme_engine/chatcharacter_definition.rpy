@@ -989,9 +989,21 @@ init -5 python:
 
             return
 
-        else:
-            set.add(img)
+        try:
+            if not renpy.loadable(img):
+                if '.webp' not in img:
+                    new_img = img.split('.')[0] + '.webp'
+                    if renpy.loadable(new_img):
+                        set.add(new_img)
+                        return
+                raise
+        except:
+            # Couldn't display this profile picture
+            print_file("WARNING: Couldn't evaluate given image", img)
             return
+
+        set.add(img)
+        return
 
 
 # The time the main character's profile picture was last changed at

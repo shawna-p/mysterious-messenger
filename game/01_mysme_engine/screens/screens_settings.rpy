@@ -317,6 +317,21 @@ init python:
         if isinstance(img, tuple):
             return tuple_to_pic(img, 140)
 
+        try:
+            if not ((img, renpy.display.transform.Transform)
+                    or renpy.loadable(img)):
+                if '.webp' not in img:
+                    new_img = img.split('.')[0] + '.webp'
+                    if renpy.loadable(new_img):
+                        return Transform(new_img, size=(140, 140))
+        except:
+            # Couldn't display this profile picture
+            print("ERROR: Couldn't display given profile picture", img)
+            renpy.show_screen('script_error',
+                message=("Couldn't display given profile picture "
+                    + str(img) + "."))
+            return Transform(Solid("#f00"), size=(140, 140))
+
         return Transform(img, size=(140, 140))
 
     def can_use_mc_pic(img):
