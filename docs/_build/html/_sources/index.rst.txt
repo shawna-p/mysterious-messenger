@@ -10,6 +10,13 @@ Welcome to the Mysterious Messenger Wiki!
     Useful-Built-in-Features
     Beginners-Guide
 
+.. toctree::
+    :maxdepth: 3
+
+    chatrooms
+    phone-calls
+    text-messages
+
 
 Indices and tables
 ==================

@@ -1,5 +1,3 @@
-.. _phone-calls:
-
 ===========
 Phone Calls
 ===========
@@ -115,3 +113,28 @@ The only notable difference is that you should include the line ``extend ''`` ri
 This menu, like others, also takes a ``paraphrased`` argument for either the menu as a whole or for an individual choice. For more information, see [[INSERT LINK HERE]].
 
 Note also that if you are writing out the main character's dialogue directly after a choice, the first line **does not** require a ``(pauseVal=0)`` clause.
+
+Changing a Character's Voicemail
+================================
+
+If the program determines there are no phone calls available for a character when the player phones them, it will automatically play the character's voicemail instead. You can change the character's voicemail whenever you like during a route.
+
+To update a character's voicemail, use::
+
+    $ ja.voicemail = "voicemail_1"
+
+where ``ja`` is the variable of the character whose voicemail you're changing, and ``voicemail_1`` is the name of the label where the voicemail can be found. The default voicemail, "voicemail_1", can be found in ``01_mysme_engine/phonecall_system.rpy``.
+
+Voicemails are written the same way as regular phone calls, though there are no restrictions on what a voicemail label can be called (but it's recommended you pick a descriptive name for it, probably including the word "voicemail").
+
+You can use a character to say voicemail dialogue, or you can use the "generic" voicemail character, ``vmail_phone`` to say dialogue e.g.
+
+::
+
+    label voicemail_1():
+        voice "voice files/voicemail_1.mp3"
+        vmail_phone "The person you have called is unavailable right now. Please leave a message at the tone or try again."
+        return
+
+As shown above, you can also add voice files to the voicemail, which will be played during the next line of dialogue.
+

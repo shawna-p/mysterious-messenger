@@ -36,7 +36,8 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Beginner’s Guide" href="beginners-guide.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -81,12 +82,40 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Chatrooms</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-a-chatroom">Creating a Chatroom</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#writing-chatroom-dialogue">Writing Chatroom Dialogue</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-the-msg-cds">Using the msg CDS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#fonts">Fonts</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#emphasis">Emphasis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#special-bubbles">Special Bubbles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#images">Images</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modifying-message-speed">Modifying Message Speed</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#using-the-chatroom-spreadsheet">Using the Chatroom Spreadsheet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparison-of-chatroom-dialogue">Comparison of Chatroom Dialogue</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-chatroom-features">Advanced Chatroom Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#entering-and-exiting-the-chatroom">Entering and Exiting the Chatroom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-a-chatroom-banner">Showing a Chatroom Banner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-a-heart-icon">Showing a Heart Icon</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#awarding-a-heart-point">Awarding a heart point</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#removing-a-heart-point">Removing a heart point</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 
             
@@ -153,7 +182,7 @@
            <div itemprop="articleBody">
             
   <div class="section" id="chatrooms">
-<span id="id1"></span><h1>Chatrooms<a class="headerlink" href="#chatrooms" title="Permalink to this headline">¶</a></h1>
+<h1>Chatrooms<a class="headerlink" href="#chatrooms" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Navigation</span></p>
 <ul class="current">
@@ -183,17 +212,12 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#a-section">A section</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#a-subsection">A subsection</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#a-sub-subsection">A sub-subsection</a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
 </div>
+<div class="section" id="creating-a-chatroom">
+<h2>Creating a Chatroom<a class="headerlink" href="#creating-a-chatroom" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Example files to look at:</p>
@@ -217,8 +241,6 @@
 <li><p>End the label with <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p></li>
 </ol>
 </div>
-<div class="section" id="creating-a-chatroom">
-<h2>Creating a Chatroom<a class="headerlink" href="#creating-a-chatroom" title="Permalink to this headline">¶</a></h2>
 <p>The first thing you should do when creating a new chatroom is create a new <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file and name it something descriptive so it’s easy to find it again. For example, you might name it something like <code class="docutils literal notranslate"><span class="pre">day_1_chatroom_3.rpy</span></code> or <code class="docutils literal notranslate"><span class="pre">day_1_3.rpy</span></code>. It’s a good idea to put all the files related to a particular route inside a folder for organization.</p>
 <p>In your newly created <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file, begin by making a label for the chatroom:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_1</span><span class="p">:</span>
@@ -583,15 +605,6 @@
 </div>
 </div>
 </div>
-<div class="section" id="a-section">
-<h2>A section<a class="headerlink" href="#a-section" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="a-subsection">
-<h3>A subsection<a class="headerlink" href="#a-subsection" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="a-sub-subsection">
-<h4>A sub-subsection<a class="headerlink" href="#a-sub-subsection" title="Permalink to this headline">¶</a></h4>
-</div>
-</div>
-</div>
 </div>
 
 
@@ -599,6 +612,13 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="beginners-guide.html" class="btn btn-neutral float-left" title="Beginner’s Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
