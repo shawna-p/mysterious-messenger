@@ -2,14 +2,20 @@ Welcome to the Mysterious Messenger Wiki!
 =========================================
 
 .. toctree::
+    :maxdepth: 1
 
     Home
     Changelog
     Credits-and-Acknowledgements
     Useful-Built-in-Features
     Beginners-Guide
+
+.. toctree::
+    :maxdepth: 3
+
     chatrooms
     phone-calls
+    text-messages
 
 
 Indices and tables
