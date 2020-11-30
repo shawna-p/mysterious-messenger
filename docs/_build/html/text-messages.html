@@ -37,6 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Story Mode (VN)" href="story-mode.html" />
     <link rel="prev" title="Phone Calls" href="phone-calls.html" /> 
 </head>
 
@@ -103,8 +104,15 @@
 <li class="toctree-l3"><a class="reference internal" href="#how-text-message-delivery-works">How Text Message Delivery Works</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#real-time-text-conversations">Real-Time Text Conversations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#writing-a-text-conversation">Writing a Text Conversation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#continuing-a-text-message-conversation">Continuing a Text Message Conversation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#leaving-a-real-time-text-conversation">Leaving a Real-Time Text Conversation</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
 </ul>
 
             
@@ -203,7 +211,7 @@
 <dl class="simple">
 <dt><cite>pause &lt;#&gt;</cite></dt><dd><p>Indicates that the delivery of the item after the pause should wait the given number of seconds before being delivered. This only occurs when the player is playing on real-time mode. <code class="docutils literal notranslate"><span class="pre">pause</span></code> also takes math expressions for the time e.g. <code class="docutils literal notranslate"><span class="pre">pause</span> <span class="pre">2*60</span></code> would cause the following message to be delivered two minutes (120 seconds) after the previous message.</p>
 </dd>
-<dt><cite>label &lt;somelabel&gt;</cite></dt><dd><p>Sets the label the program should jump to in order to continue a conversation or allow the player to reply. <code class="docutils literal notranslate"><span class="pre">somelabel</span></code> should not be in quotations. Including a label is optional; excluding it will simply not provide the player with the option to answer the text message.</p>
+<dt><cite>label &lt;labelname&gt;</cite></dt><dd><p>Sets the label the program should jump to in order to continue a conversation or allow the player to reply. <code class="docutils literal notranslate"><span class="pre">labelname</span></code> should not be in quotations. Including a label is optional; excluding it will simply not provide the player with the option to answer the text message.</p>
 </dd>
 </dl>
 <p>Text messages can also include conditional statements to vary dialogue based on certain conditions. An example text message with several of these options combined might look like:</p>
@@ -401,6 +409,113 @@
 <p>In this program, there are no time limits on when you can or can’t reply to text messages. However, if a character sends the player a new text message and the player hasn’t replied to the previous conversation, they will no longer be able to continue the older conversation.</p>
 </div>
 </div>
+<div class="section" id="real-time-text-conversations">
+<h2>Real-Time Text Conversations<a class="headerlink" href="#real-time-text-conversations" title="Permalink to this headline">¶</a></h2>
+<p>Unlike regular text messages, real-time text conversations play out similar to a chatroom with a single character. The player receives a text message, and upon entering the conversation, cannot leave until either the conversation is over or the player exits the conversation manually and the conversation is lost.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Example files to look at:</p>
+<ul class="simple">
+<li><p>tutorial_3_text_message.rpy</p></li>
+<li><p>tutorial_3b_VN.rpy</p></li>
+<li><p>tutorial_5_coffee.rpy</p></li>
+<li><p>tutorial_11_story_call.rpy</p></li>
+</ul>
+<p><em>A brief overview of the steps required (more detail below):</em></p>
+<ol class="arabic simple">
+<li><p>Create a label using the prefix <code class="docutils literal notranslate"><span class="pre">after_</span></code> + the name of the timeline item you want to send the text messages after e.g. <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">after_day_1_4</span></code></p></li>
+<li><dl class="simple">
+<dt>Write <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span> <span class="pre">z</span> <span class="pre">real_time:</span></code> where <code class="docutils literal notranslate"><span class="pre">z</span></code> is the variable for the character who is sending the message.</dt><dd><ol class="arabic simple">
+<li><p>Optionally, you can also include arguments to tell the program when to deliver the message. Acceptable options are <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">00:00</span></code> where <code class="docutils literal notranslate"><span class="pre">00:00</span></code> is the time to deliver the message at, in 24-hour time; <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">random</span></code> to deliver the message randomly before the next timeline item, or <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">next_item</span></code> to deliver the message sometime between the next timeline item being available and the one after that.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Write dialogue for the conversation, indented at least one level to the right underneath the <code class="docutils literal notranslate"><span class="pre">compose_text</span></code> line. You may also include conditionals here.</dt><dd><ol class="arabic simple">
+<li><p>You can also include the <code class="docutils literal notranslate"><span class="pre">pause</span></code> statement with a number of seconds to pause for, e.g. <code class="docutils literal notranslate"><span class="pre">pause</span> <span class="pre">2.0*60</span></code>. The message delivery will be “staggered”, with the message after the pause waiting the given number of seconds before sending.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p>(Optional) Include a label at the end which will be jumped to to continue the conversation e.g. <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">menu1</span></code></p></li>
+<li><p>End the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label with a return.</p></li>
+<li><dl class="simple">
+<dt>(Optional) Create the label the player can jump to to continue the conversation.</dt><dd><ol class="arabic simple">
+<li><p>(Optional) Allow the player to reply to the text message again by writing <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">s.text_label</span> <span class="pre">=</span> <span class="pre">&quot;menu2&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable for the character sending the message and <code class="docutils literal notranslate"><span class="pre">&quot;menu2&quot;</span></code> is the name of the label to jump to to continue the conversation.</p></li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p>Finish the reply label with <code class="docutils literal notranslate"><span class="pre">return</span></code></p></li>
+</ol>
+</div>
+<div class="section" id="writing-a-text-conversation">
+<h3>Writing a Text Conversation<a class="headerlink" href="#writing-a-text-conversation" title="Permalink to this headline">¶</a></h3>
+<p>To have a character initiate a text conversation, like with regular text messages, you need to have a label that follows a specific naming convention. For example, if your timeline item is called</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">casual_route_2_4</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>then you need to create a label called</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_casual_route_2_4</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>Then you will compose the text message. This uses a special <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> CDS:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">ju</span> <span class="n">real_time</span><span class="p">:</span>
+    <span class="n">ju</span> <span class="s2">&quot;I didn&#39;t understand what Luciel wrote in the chatroom earlier.&quot;</span>
+    <span class="n">ju</span> <span class="s2">&quot;What exactly does &#39;yeet&#39; mean?&quot;</span>
+</pre></div>
+</div>
+<p>The main difference between this and regular text messages is the addition of the <code class="docutils literal notranslate"><span class="pre">real_time</span></code> option. This tells the program that this conversation will play out in real time once the player enters the conversation rather than having all the messages delivered at once.</p>
+<p>Dialogue underneath the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> statement can be written the same way as it is for chatrooms, and allows the use of both the spreadsheet style as well as the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS. Text message conversations can also have CGs, emojis, and special fonts.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Text messages currently do not support special speech bubbles.</p>
+</div>
+<p>Any dialogue written under the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> statement will show up as “backlog” before the user enters the conversation, so it is usually brief.</p>
+<p>You can compose text messages for as many characters as you like, and mix and match regular text messages with real-time text conversations freely. There are also additional options available to you for scheduling when the first text message is delivered. See [[INSERT LINK HERE]] for more.</p>
+</div>
+<div class="section" id="continuing-a-text-message-conversation">
+<h3>Continuing a Text Message Conversation<a class="headerlink" href="#continuing-a-text-message-conversation" title="Permalink to this headline">¶</a></h3>
+<p>To allow the player to continue the text message conversation, you must provide a label for the program to jump to when the player opens that text message. This is done with the <code class="docutils literal notranslate"><span class="pre">label</span></code> argument inside the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> CDS:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">ju</span> <span class="n">real_time</span><span class="p">:</span>
+    <span class="n">ju</span> <span class="s2">&quot;I didn&#39;t understand what Luciel wrote in the chatroom earlier.&quot;</span>
+    <span class="n">ju</span> <span class="s2">&quot;What exactly does &#39;yeet&#39; mean?&quot;</span>
+    <span class="k">label</span> <span class="n">casual_2_4_ju_reply</span>
+</pre></div>
+</div>
+<p>The program will then jump to the label <code class="docutils literal notranslate"><span class="pre">casual_2_4_ju_reply</span></code> to continue the conversation. You will write dialogue inside the label identically to a chatroom:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_casual_route_2_4</span><span class="p">:</span>
+    <span class="n">compose</span> <span class="k">text</span> <span class="n">ju</span> <span class="n">real_time</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="n">ju</span> <span class="s2">&quot;I didn&#39;t understand what Luciel wrote in the chatroom earlier.&quot;</span>
+        <span class="n">msg</span> <span class="n">ju</span> <span class="s2">&quot;What exactly does &#39;yeet&#39; mean?&quot;</span> <span class="n">ser1</span>
+        <span class="k">label</span> <span class="n">casual_2_4_ju_reply</span>
+
+    <span class="k">return</span>
+
+<span class="k">label</span> <span class="n">casual_2_4_ju_reply</span><span class="p">:</span>
+    <span class="n">msg</span> <span class="n">ju</span> <span class="s2">&quot;I tried to search the Urban Dictionary, but I didn&#39;t understand the results.&quot;</span> <span class="n">ser1</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;You say it when you throw something.&quot;</span><span class="p">:</span>
+            <span class="n">ju</span> <span class="s2">&quot;When you throw something?&quot;</span>
+            <span class="n">ju</span> <span class="s2">&quot;Hmm. I don&#39;t know if I really understand.&quot;</span>
+            <span class="n">ju</span> <span class="s2">&quot;But thank you for attempting to explain, nevertheless.&quot;</span>
+            <span class="n">award</span> <span class="n">heart</span> <span class="n">ju</span>
+        <span class="s2">&quot;lololol you&#39;re so funny Jumin.&quot;</span><span class="p">:</span>
+            <span class="n">ju</span> <span class="s2">&quot;It was not my intention to be a source of entertainment.&quot;</span>
+            <span class="n">ju</span> <span class="s2">&quot;But I suppose I am glad if I was able to bring some levity to your day.&quot;</span>
+    <span class="n">msg</span> <span class="n">ju</span> <span class="s2">&quot;Perhaps I will ask Assistant Kang for further clarification.&quot;</span> <span class="n">ser1</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>You can add additional dialogue after the reply label, and as many or as few menus (for choices) as you like. Unlike with regular text messages, because the conversation occurs in real time, you may also award or take away heart points as many times as you like during the conversation using <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> and <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span></code>. The whole label should end with <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
+</div>
+<div class="section" id="leaving-a-real-time-text-conversation">
+<h3>Leaving a Real-Time Text Conversation<a class="headerlink" href="#leaving-a-real-time-text-conversation" title="Permalink to this headline">¶</a></h3>
+<p>Since real-time text conversations function more closely to chatrooms, if the player clicks the “Back” button during a real-time text conversation, they will be asked if they’d like to end the conversation.</p>
+<p><strong>Backing out of a real-time text conversation means that conversation will no longer be available to continue</strong>, though the player will retain any heart points or CGs they unlocked before they exited the conversation. There is no option to “replay” text message conversations, but unlike chatrooms a text message conversation does not expire until another text message overwrites it.</p>
+</div>
+</div>
 </div>
 
 
@@ -410,6 +525,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="story-mode.html" class="btn btn-neutral float-right" title="Story Mode (VN)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="phone-calls.html" class="btn btn-neutral float-left" title="Phone Calls" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

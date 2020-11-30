@@ -40,8 +40,8 @@ The dialogue inside the ``compose text`` block also takes options besides dialog
 `pause <#>`
     Indicates that the delivery of the item after the pause should wait the given number of seconds before being delivered. This only occurs when the player is playing on real-time mode. ``pause`` also takes math expressions for the time e.g. ``pause 2*60`` would cause the following message to be delivered two minutes (120 seconds) after the previous message.
 
-`label <somelabel>`
-    Sets the label the program should jump to in order to continue a conversation or allow the player to reply. ``somelabel`` should not be in quotations. Including a label is optional; excluding it will simply not provide the player with the option to answer the text message.
+`label <labelname>`
+    Sets the label the program should jump to in order to continue a conversation or allow the player to reply. ``labelname`` should not be in quotations. Including a label is optional; excluding it will simply not provide the player with the option to answer the text message.
 
 Text messages can also include conditional statements to vary dialogue based on certain conditions. An example text message with several of these options combined might look like::
 
@@ -86,10 +86,6 @@ Text messages can also include conditional statements to vary dialogue based on 
         return
 
 In this case, the last message of the ``compose text`` block will be the one delivered at the requested time (10:15), so the first message (Hello, [name]) is delivered around 10:14 and the final message at 10:15. The first message may be delivered slightly earlier depending on whether the player has more than 5 heart points with ``ja`` or not, as the program also calculates roughly how long it would take to type out each message and staggers delivery time accordingly. ``pause`` allows you to fine-tune this timing.
-
-
-
-
 
 
 
@@ -241,3 +237,106 @@ Similarly, if the player has replied to Character A's message, Character A's res
 All text messages in the delivery pool are immediately delivered as soon as the player clicks to enter the timeline screen.
 
 In this program, there are no time limits on when you can or can't reply to text messages. However, if a character sends the player a new text message and the player hasn't replied to the previous conversation, they will no longer be able to continue the older conversation.
+
+
+Real-Time Text Conversations
+============================
+
+Unlike regular text messages, real-time text conversations play out similar to a chatroom with a single character. The player receives a text message, and upon entering the conversation, cannot leave until either the conversation is over or the player exits the conversation manually and the conversation is lost.
+
+.. note::
+    Example files to look at:
+
+    * tutorial_3_text_message.rpy
+    * tutorial_3b_VN.rpy
+    * tutorial_5_coffee.rpy
+    * tutorial_11_story_call.rpy
+
+    *A brief overview of the steps required (more detail below):*
+
+    #. Create a label using the prefix ``after_`` + the name of the timeline item you want to send the text messages after e.g. ``label after_day_1_4``
+    #. Write ``compose text z real_time:`` where ``z`` is the variable for the character who is sending the message.
+        #. Optionally, you can also include arguments to tell the program when to deliver the message. Acceptable options are ``deliver_at 00:00`` where ``00:00`` is the time to deliver the message at, in 24-hour time; ``deliver_at random`` to deliver the message randomly before the next timeline item, or ``deliver_at next_item`` to deliver the message sometime between the next timeline item being available and the one after that.
+    #. Write dialogue for the conversation, indented at least one level to the right underneath the ``compose_text`` line. You may also include conditionals here.
+        #. You can also include the ``pause`` statement with a number of seconds to pause for, e.g. ``pause 2.0*60``. The message delivery will be "staggered", with the message after the pause waiting the given number of seconds before sending.
+    #. (Optional) Include a label at the end which will be jumped to to continue the conversation e.g. ``label menu1``
+    #. End the ``after_`` label with a return.
+    #. (Optional) Create the label the player can jump to to continue the conversation.
+        #. (Optional) Allow the player to reply to the text message again by writing ``$ s.text_label = "menu2"`` where ``s`` is the variable for the character sending the message and ``"menu2"`` is the name of the label to jump to to continue the conversation.
+    #. Finish the reply label with ``return``
+
+Writing a Text Conversation
+---------------------------
+
+To have a character initiate a text conversation, like with regular text messages, you need to have a label that follows a specific naming convention. For example, if your timeline item is called
+
+::
+
+    label casual_route_2_4:
+
+then you need to create a label called
+
+::
+
+    label after_casual_route_2_4:
+
+Then you will compose the text message. This uses a special ``compose text`` CDS::
+
+    compose text ju real_time:
+        ju "I didn't understand what Luciel wrote in the chatroom earlier."
+        ju "What exactly does 'yeet' mean?"
+
+The main difference between this and regular text messages is the addition of the ``real_time`` option. This tells the program that this conversation will play out in real time once the player enters the conversation rather than having all the messages delivered at once.
+
+Dialogue underneath the ``compose text`` statement can be written the same way as it is for chatrooms, and allows the use of both the spreadsheet style as well as the ``msg`` CDS. Text message conversations can also have CGs, emojis, and special fonts.
+
+.. warning::
+    Text messages currently do not support special speech bubbles.
+
+Any dialogue written under the ``compose text`` statement will show up as "backlog" before the user enters the conversation, so it is usually brief.
+
+You can compose text messages for as many characters as you like, and mix and match regular text messages with real-time text conversations freely. There are also additional options available to you for scheduling when the first text message is delivered. See [[INSERT LINK HERE]] for more.
+
+
+Continuing a Text Message Conversation
+--------------------------------------
+
+To allow the player to continue the text message conversation, you must provide a label for the program to jump to when the player opens that text message. This is done with the ``label`` argument inside the ``compose text`` CDS::
+
+    compose text ju real_time:
+        ju "I didn't understand what Luciel wrote in the chatroom earlier."
+        ju "What exactly does 'yeet' mean?"
+        label casual_2_4_ju_reply
+
+The program will then jump to the label ``casual_2_4_ju_reply`` to continue the conversation. You will write dialogue inside the label identically to a chatroom::
+
+    label after_casual_route_2_4:
+        compose text ju real_time:
+            msg ju "I didn't understand what Luciel wrote in the chatroom earlier."
+            msg ju "What exactly does 'yeet' mean?" ser1
+            label casual_2_4_ju_reply
+
+        return
+
+    label casual_2_4_ju_reply:
+        msg ju "I tried to search the Urban Dictionary, but I didn't understand the results." ser1
+        menu:
+            "You say it when you throw something.":
+                ju "When you throw something?"
+                ju "Hmm. I don't know if I really understand."
+                ju "But thank you for attempting to explain, nevertheless."
+                award heart ju
+            "lololol you're so funny Jumin.":
+                ju "It was not my intention to be a source of entertainment."
+                ju "But I suppose I am glad if I was able to bring some levity to your day."
+        msg ju "Perhaps I will ask Assistant Kang for further clarification." ser1
+        return
+
+You can add additional dialogue after the reply label, and as many or as few menus (for choices) as you like. Unlike with regular text messages, because the conversation occurs in real time, you may also award or take away heart points as many times as you like during the conversation using ``award heart`` and ``break heart``. The whole label should end with ``return``.
+
+Leaving a Real-Time Text Conversation
+-------------------------------------
+
+Since real-time text conversations function more closely to chatrooms, if the player clicks the "Back" button during a real-time text conversation, they will be asked if they'd like to end the conversation.
+
+**Backing out of a real-time text conversation means that conversation will no longer be available to continue**, though the player will retain any heart points or CGs they unlocked before they exited the conversation. There is no option to "replay" text message conversations, but unlike chatrooms a text message conversation does not expire until another text message overwrites it.
