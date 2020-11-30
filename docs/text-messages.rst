@@ -23,7 +23,7 @@ The main way of writing text messages is with a special ``compose text`` CDS tha
 The ``compose text`` CDS takes several options, which are explained below.
 
 `who`
-    This is required. "who" should be the ChatCharacter variable of the character who is taking part in the conversation. e.g. ``s``
+    Required. "who" should be the ChatCharacter variable of the character who is taking part in the conversation. e.g. ``s``
 
 `real_time`
     Indicates that this text message should play out as a real-time text conversation. If this option is not present, the conversation is treated as a regular text message.
@@ -37,18 +37,19 @@ The ``compose text`` CDS takes several options, which are explained below.
 
 The dialogue inside the ``compose text`` block also takes options besides dialogue:
 
-`pause 0.0`
+`pause <#>`
     Indicates that the delivery of the item after the pause should wait the given number of seconds before being delivered. This only occurs when the player is playing on real-time mode. ``pause`` also takes math expressions for the time e.g. ``pause 2*60`` would cause the following message to be delivered two minutes (120 seconds) after the previous message.
 
-`label somelabel`
-    Sets the label the program should jump to in order to continue a conversation or allow the player to reply. ``somelabel`` should not be in quotations. It is optional; excluding it will simply not provide the player with the option to answer the text message.
+`label <labelname>`
+    Sets the label the program should jump to in order to continue a conversation or allow the player to reply. ``labelname`` should not be in quotations. Including a label is optional; excluding it will simply not provide the player with the option to answer the text message.
 
 Text messages can also include conditional statements to vary dialogue based on certain conditions. An example text message with several of these options combined might look like::
 
     label after_day_1_4:
         compose text ja real_time deliver_at 10:15:
             ja "Hello, [name]."
-            ja "I had a moment of time on my break so I thought I would message."
+            pause 60
+            ja "I had a moment of time on my break so I thought I would message you."
             if ja.heart_points > 5:
                 ja "I would have liked to call and hear your voice, but time is short."
             label day_1_4_ja_msg
@@ -59,12 +60,32 @@ Text messages can also include conditional statements to vary dialogue based on 
         ja "What are you doing right now?"
         menu:
             "Not too much. I'm glad you messaged.":
-                ja "I see."
+                ja "I see. I had a question for you, in fact."
             "Perhaps you can call me later?" if ja.heart_points > 5:
                 ja "I would like that very much ^^"
                 award heart ja
+                ja "If you don't mind, I wanted to ask you:"
+            "I'm actually kind of busy at the moment.":
+                ja "Oh, I understand."
+                ja "I'm sorry to have caught you at a bad time."
+                ja "Before you go, however, I was hoping to ask:"
+        ja "Do you like coffee?"
+        menu:
+            "I love coffee! I drink it every morning.":
+                ja "You do? I think it can be nice to have a morning routine, certainly."
+            "Only if I can have it with lots of cream and sugar.":
+                ja "Ah, that's understandable."
+                ja "Coffee can be rather bitter on its own."
+            "I drink it straight black.":
+                ja "That's very bold of you. Some coffees are rather bitter."
+            "I don't really like coffee.":
+                ja "I understand. It's not always to everyone's taste."
+        ja "I'm afraid my break is over, but I'm glad I got to talk with you."
+        ja "I hope we can speak again soon."
 
+        return
 
+In this case, the last message of the ``compose text`` block will be the one delivered at the requested time (10:15), so the first message (Hello, [name]) is delivered around 10:14 and the final message at 10:15. The first message may be delivered slightly earlier depending on whether the player has more than 5 heart points with ``ja`` or not, as the program also calculates roughly how long it would take to type out each message and staggers delivery time accordingly. ``pause`` allows you to fine-tune this timing.
 
 
 
@@ -112,7 +133,12 @@ Next, inside the ``after_`` label, use the special ``compose text`` CDS::
 
     compose text s:
 
-where ``s`` is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. Text messages currently do not support special speech bubbles. You can use either the spreadsheet style or the ``msg`` CDS [[INSERT LINK HERE]]. Note that all dialogue for a text message should be indented one level to the right so as to be underneath the ``compose text`` statement::
+where ``s`` is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. You can use either the spreadsheet style or the ``msg`` CDS [[INSERT LINK HERE]].
+
+.. warning::
+    Text messages currently do not support special speech bubbles.
+
+Note that all dialogue for a text message should be indented one level to the right so as to be underneath the ``compose text`` statement::
 
     compose text s:
         msg s "This is an example text message!" curly
