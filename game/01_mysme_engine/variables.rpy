@@ -685,6 +685,8 @@ init -6 python:
         ## Chatroom backgrounds
         elif (not ('bg' in name and 'black' in name)
                 and renpy.get_screen('messenger_screen')
+                and not store.vn_choice
+                and not store.in_phone_call
                 and not at_list):
             # The messenger screen is showing, therefore this statement is
             # likely being used in conjunction with `scene` to display a
