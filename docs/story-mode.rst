@@ -254,7 +254,7 @@ Including a Story Mode During a Chatroom
 
 First, you'll begin by setting up a chatroom the way you usually would (see [[INSERT LINK HERE]]). Next, wherever you would like to have the story mode appear and interrupt the chatroom, write ``call vn_during_chat("my_vn_label")`` where ``my_vn_label`` is the name of the label you will be using for your story mode section.
 
-.. note::
+.. warning::
     Be sure your mid-chatroom story mode label **doesn't** follow one of the naming conventions for declaring an attached Story Mode -- so, if your chatroom is at ``label my_chatroom``, then don't call the mid-chatroom story mode ``label my_chatroom_vn`` or the program will generate an attached Story Mode leading to that label!
 
 Create this label and write the story mode. It is written the same way as a regular story mode -- see [[INSERT LINK HERE]]. Example::
@@ -277,6 +277,108 @@ Create this label and write the story mode. It is written the same way as a regu
         return
 
 Once the story mode is finished, the program will return to where it left off in the chatroom. All the previous messages will remain on-screen in the chatlog, and the background will be what it was before the story mode.
+
+Clearing the Chat History
+-------------------------
+
+If you would like to clear the chat history after returning from the Story Mode section (that is, previous messages in the chatroom will be erased), you can use the ``clear chat`` CDS::
+
+    y "Anyway, I should go now."
+    exit chatroom y
+    call vn_during_chat('my_chatroom_vn_chat')
+    clear chat
+    enter chatroom y
+    y "Hi, [name]."
+
+Modifying Chatroom Participants
+-------------------------------
+
+If you want to modify the list of participants between scenes, you can either clear the participants altogether or pass ``vn_during_chat`` a special ``reset_participants`` argument. First, to remove all participants from the chatroom, use ``clear chat participants``::
+
+    label my_chatroom:
+        scene morning
+        play music narcisisstic_jazz
+        enter chatroom z
+        z "Darn... I was hoping to catch Jaehee in the chatroom at this hour."
+        z "I wonder what she's up to..."
+        call vn_during_chat("my_chatroom_vn_chat")
+        clear chat participants
+        enter chatroom ja
+        ja "And the day begins to go downhill..."
+        ja "I suppose everyone is busy doing something else at this hour."
+        ja "I will log off as well, then."
+        exit chatroom ja
+        return
+
+    label my_chatroom_vn_chat:
+        scene bg cr_meeting_room
+        show jaehee glasses at vn_midleft
+        show jumin front at vn_midright
+        ju "Assistant Kang. I need you to reschedule a meeting."
+        ja "Oh... I see. Which meeting do you need to reschedule?"
+        ju "The one for the Cultured Citizens group this afternoon."
+        ju "I received word that Elizabeth the 3rd is acting particularly lethargic today so I will need to return to check on her."
+        ja "...Understood."
+        return
+
+In this example, when the player returns from the Story Mode section, the chat history will be cleared and the characters who were present in the chatroom prior to the story mode (aka Zen) will no longer be shown as in the chatroom. The main character will be automatically added back to the list of people present if this chatroom is not expired; otherwise, no one will be in this chatroom when the story mode returns to the chatroom.
+
+You can also tell the program exactly who you would like to appear in the chatroom when the story mode is finished via ``reset_participants``::
+
+    label day_3_8:
+        scene night
+        play music mint_eye
+        r "I know I've been really busy lately,"
+        msg r "But I wanted to let you know that I'll be over with food shortly!" curly glow
+        msg r "I made it myself ^^" glow
+        r "See you soon!"
+        call vn_during_chat("day_3_8_story_vn", reset_participants=[s, z])
+        clear chat
+        scene earlyMorn
+        play music narcisisstic_jazz
+        z "You know, we haven't heard from [name] for a few hours..."
+        z "I hope [they_re] doing all right."
+        s "lolol ur impatient aren't u."
+        s "I'm sure [they] just logged off for the night."
+        z "You're probably right. I should go to sleep, too."
+        s "Toodles~!"
+        exit chatroom z
+        exit chatroom s
+        return
+
+    label day_3_8_story_vn:
+        scene bg mint_eye_room
+        play sound door_knock_sfx
+        "(A knock at the door)"
+        menu:
+            extend ''
+            "(Answer the door)" (paraphrased=True):
+                pass
+            "Who is it?":
+                r "It's me, Ray! I've come to bring you dinner."
+        play sound door_open_sfx
+        "(Door opened)"
+        show saeran ray happy
+        r "Hi, [name]. I really missed you today."
+        r "I brought some food. I hope it's to your liking."
+        return
+
+In the above example, after the game returns from the story mode, the chat log is cleared and Zen and 707 are added to the list at the top of the chatroom to show that they are present. The main character is *not* added; in order to include them, the argument would need to be ``reset_participants=[s, z, m]`` instead (so, it needs to include ``m``).
+
+The background for the chatroom is also modified upon returning with another ``scene`` statement, and new music is played. Unless otherwise specified, any music that is already playing during the previous chatroom or story mode will be carried over into the next section until the timeline item ends. If you want to stop the music altogether, you can use the line ``stop music``.
+
+Ending a Timeline Item after a Story Mode Section
+-------------------------------------------------
+
+If you don't want the player to return to the chatroom and instead want the timeline item to end on the story mode section, you can pass the argument ``end_after_vn=True`` to ``vn_during_chat`` e.g.
+
+::
+
+    u "Anyway, this is the end of the scene."
+    exit chatroom u
+    call vn_during_chat("my_final_vn_label", end_after_vn=True)
+    return
+
 
 
 
