@@ -93,9 +93,14 @@
 <li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="phone-calls.html">Phone Calls</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Text Messages</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-compose-text-cds">The compose text CDS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#regular-text-messages">Regular Text Messages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sending-a-text-message">Sending a Text Message</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#replying-to-a-text-message">Replying to a Text Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#replying-to-a-text-message">Replying to a Text Message</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#replying-after-the-first-message">Replying after the first message</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#how-text-message-delivery-works">How Text Message Delivery Works</a></li>
 </ul>
 </li>
 </ul>
@@ -170,6 +175,81 @@
 <div class="toctree-wrapper compound">
 </div>
 <p>There are two kinds of text messaging styles available in this program. The first, referred to as “regular text messages”, delivers text messages in “chunks” which the player can reply to whenever they like. The second style, called “real-time text conversations”, plays out similar to a one-on-one chatroom. The player receives an initial text message, and upon opening the text conversation, cannot leave until the conversation is over or the player chooses to end it themselves.</p>
+<div class="section" id="the-compose-text-cds">
+<h2>The compose text CDS<a class="headerlink" href="#the-compose-text-cds" title="Permalink to this headline">¶</a></h2>
+<p>The main way of writing text messages is with a special <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> CDS that looks like the following example:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">s</span> <span class="n">real_time</span><span class="p">:</span>
+    <span class="n">r</span> <span class="s2">&quot;Hi, [name].&quot;</span>
+    <span class="n">r</span> <span class="s2">&quot;I wanted to show you how text messages work.&quot;</span>
+    <span class="n">r</span> <span class="s2">&quot;Send a reply if you got this message okay!&quot;</span>
+    <span class="k">label</span> <span class="n">example_reply_1</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> CDS takes several options, which are explained below.</p>
+<dl class="simple">
+<dt><cite>who</cite></dt><dd><p>Required. “who” should be the ChatCharacter variable of the character who is taking part in the conversation. e.g. <code class="docutils literal notranslate"><span class="pre">s</span></code></p>
+</dd>
+<dt><cite>real_time</cite></dt><dd><p>Indicates that this text message should play out as a real-time text conversation. If this option is not present, the conversation is treated as a regular text message.</p>
+</dd>
+<dt><cite>deliver_at</cite></dt><dd><p>Takes one of three arguments:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">random</span></code> to have the message delivered at a random time after the associated timeline item has been played but before the next one is made available. This is only applicable if the game is being played in real-time mode; otherwise, the message is simply delivered after the timeline item is played.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">next_item</span></code> to have the message delivered at a random time between the timeline item after this one and the item following it. e.g. if there are three items at 11:00, 12:00, and 13:00 and this text is in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of the 11:00 item, <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">next_item</span></code> will deliver this message sometime between 12:00 and 13:00, while <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">random</span></code> would deliver the text message sometime between 11:00 and 12:00. This only works when the player is playing in real-time mode; otherwise, the message is simply delivered after its timeline item has been played.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">00:00</span></code> where <code class="docutils literal notranslate"><span class="pre">00:00</span></code> is any time formatted in 24-hour format. For example, <code class="docutils literal notranslate"><span class="pre">14:23</span></code> would cause the message to be delivered at <code class="docutils literal notranslate"><span class="pre">14:23</span></code> in real-time. This only works when the player is playing in real-time mode; otherwise, the message is delivered after the associated timeline item is played.</p></li>
+</ul>
+</dd>
+</dl>
+<p>The dialogue inside the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> block also takes options besides dialogue:</p>
+<dl class="simple">
+<dt><cite>pause &lt;#&gt;</cite></dt><dd><p>Indicates that the delivery of the item after the pause should wait the given number of seconds before being delivered. This only occurs when the player is playing on real-time mode. <code class="docutils literal notranslate"><span class="pre">pause</span></code> also takes math expressions for the time e.g. <code class="docutils literal notranslate"><span class="pre">pause</span> <span class="pre">2*60</span></code> would cause the following message to be delivered two minutes (120 seconds) after the previous message.</p>
+</dd>
+<dt><cite>label &lt;somelabel&gt;</cite></dt><dd><p>Sets the label the program should jump to in order to continue a conversation or allow the player to reply. <code class="docutils literal notranslate"><span class="pre">somelabel</span></code> should not be in quotations. Including a label is optional; excluding it will simply not provide the player with the option to answer the text message.</p>
+</dd>
+</dl>
+<p>Text messages can also include conditional statements to vary dialogue based on certain conditions. An example text message with several of these options combined might look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_day_1_4</span><span class="p">:</span>
+    <span class="n">compose</span> <span class="k">text</span> <span class="n">ja</span> <span class="n">real_time</span> <span class="n">deliver_at</span> <span class="mi">10</span><span class="p">:</span><span class="mi">15</span><span class="p">:</span>
+        <span class="n">ja</span> <span class="s2">&quot;Hello, [name].&quot;</span>
+        <span class="k">pause</span> <span class="mi">60</span>
+        <span class="n">ja</span> <span class="s2">&quot;I had a moment of time on my break so I thought I would message you.&quot;</span>
+        <span class="k">if</span> <span class="n">ja</span><span class="o">.</span><span class="n">heart_points</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;I would have liked to call and hear your voice, but time is short.&quot;</span>
+        <span class="k">label</span> <span class="n">day_1_4_ja_msg</span>
+
+    <span class="k">return</span>
+
+<span class="k">label</span> <span class="n">day_1_4_ja_msg</span><span class="p">:</span>
+    <span class="n">ja</span> <span class="s2">&quot;What are you doing right now?&quot;</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;Not too much. I&#39;m glad you messaged.&quot;</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;I see. I had a question for you, in fact.&quot;</span>
+        <span class="s2">&quot;Perhaps you can call me later?&quot;</span> <span class="k">if</span> <span class="n">ja</span><span class="o">.</span><span class="n">heart_points</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;I would like that very much ^^&quot;</span>
+            <span class="n">award</span> <span class="n">heart</span> <span class="n">ja</span>
+            <span class="n">ja</span> <span class="s2">&quot;If you don&#39;t mind, I wanted to ask you:&quot;</span>
+        <span class="s2">&quot;I&#39;m actually kind of busy at the moment.&quot;</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;Oh, I understand.&quot;</span>
+            <span class="n">ja</span> <span class="s2">&quot;I&#39;m sorry to have caught you at a bad time.&quot;</span>
+            <span class="n">ja</span> <span class="s2">&quot;Before you go, however, I was hoping to ask:&quot;</span>
+    <span class="n">ja</span> <span class="s2">&quot;Do you like coffee?&quot;</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;I love coffee! I drink it every morning.&quot;</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;You do? I think it can be nice to have a morning routine, certainly.&quot;</span>
+        <span class="s2">&quot;Only if I can have it with lots of cream and sugar.&quot;</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;Ah, that&#39;s understandable.&quot;</span>
+            <span class="n">ja</span> <span class="s2">&quot;Coffee can be rather bitter on its own.&quot;</span>
+        <span class="s2">&quot;I drink it straight black.&quot;</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;That&#39;s very bold of you. Some coffees are rather bitter.&quot;</span>
+        <span class="s2">&quot;I don&#39;t really like coffee.&quot;</span><span class="p">:</span>
+            <span class="n">ja</span> <span class="s2">&quot;I understand. It&#39;s not always to everyone&#39;s taste.&quot;</span>
+    <span class="n">ja</span> <span class="s2">&quot;I&#39;m afraid my break is over, but I&#39;m glad I got to talk with you.&quot;</span>
+    <span class="n">ja</span> <span class="s2">&quot;I hope we can speak again soon.&quot;</span>
+
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>In this case, the last message of the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> block will be the one delivered at the requested time (10:15), so the first message (Hello, [name]) is delivered around 10:14 and the final message at 10:15. The first message may be delivered slightly earlier depending on whether the player has more than 5 heart points with <code class="docutils literal notranslate"><span class="pre">ja</span></code> or not, as the program also calculates roughly how long it would take to type out each message and staggers delivery time accordingly. <code class="docutils literal notranslate"><span class="pre">pause</span></code> allows you to fine-tune this timing.</p>
+</div>
 <div class="section" id="regular-text-messages">
 <h2>Regular Text Messages<a class="headerlink" href="#regular-text-messages" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
@@ -213,10 +293,9 @@
 <div class="section" id="sending-a-text-message">
 <h3>Sending a Text Message<a class="headerlink" href="#sending-a-text-message" title="Permalink to this headline">¶</a></h3>
 <p>To have a character text the player after a chatroom, the program looks for a label with a special naming convention. For example, if your chatroom is called</p>
-<dl class="simple">
-<dt>::</dt><dd><p>label my_chatroom:</p>
-</dd>
-</dl>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
+</pre></div>
+</div>
 <p>then you should create a label called</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_my_chatroom</span><span class="p">:</span>
 </pre></div>
@@ -225,7 +304,12 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. Text messages currently do not support special speech bubbles. You can use either the spreadsheet style or the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS [[INSERT LINK HERE]]. Note that all dialogue for a text message should be indented one level to the right so as to be underneath the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> statement:</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. You can use either the spreadsheet style or the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS [[INSERT LINK HERE]].</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Text messages currently do not support special speech bubbles.</p>
+</div>
+<p>Note that all dialogue for a text message should be indented one level to the right so as to be underneath the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> statement:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
     <span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;This is an example text message!&quot;</span> <span class="n">curly</span>
     <span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;You can write lots of dialogue here.&quot;</span>
@@ -244,10 +328,10 @@
 <p>Finally, end the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label with the line <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_my_chatroom</span><span class="p">:</span>
 
-    <span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
-        <span class="n">s</span> <span class="s2">&quot;This is an example text message.&quot;</span>
-        <span class="n">s</span> <span class="s2">&quot;The conversation will continue later.&quot;</span>
-        <span class="n">s</span> <span class="s2">&quot;In the label below.&quot;</span>
+    <span class="n">compose</span> <span class="k">text</span> <span class="n">z</span><span class="p">:</span>
+        <span class="n">z</span> <span class="s2">&quot;Hi [name]!&quot;</span>
+        <span class="n">z</span> <span class="s2">&quot;Hope your morning has been good so far.&quot;</span>
+        <span class="n">z</span> <span class="s2">&quot;Did you eat breakfast yet?&quot;</span>
         <span class="k">label</span> <span class="n">my_reply_1</span>
 
     <span class="k">return</span>
@@ -256,6 +340,65 @@
 </div>
 <div class="section" id="replying-to-a-text-message">
 <h3>Replying to a Text Message<a class="headerlink" href="#replying-to-a-text-message" title="Permalink to this headline">¶</a></h3>
+<p>If you gave <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> a label, when the player presses “Answer”, the program will jump to that label to continue the conversation. There are no restrictions on what you can call this label, but it’s recommended you come up with a consistent naming scheme to avoid accidentally creating several labels with the same name (which will cause errors).</p>
+<p>Create a new reply for the label from your text message:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_reply_1</span><span class="p">:</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;No, I haven&#39;t eaten yet.&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="s2">&quot;That&#39;s no good! You should eat something soon.&quot;</span>
+        <span class="s2">&quot;Yup! I ate as soon as I woke up.&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="s2">&quot;That&#39;s good to hear.&quot;</span>
+            <span class="n">award</span> <span class="n">heart</span> <span class="n">z</span>
+    <span class="n">z</span> <span class="s2">&quot;Eating breakfast in the morning is really important.&quot;</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>For regular text messages, the label should immediately begin with a <code class="docutils literal notranslate"><span class="pre">menu:</span></code> so that the player is presented with a choice of answers. You can add as many or as few options as you wish. The dialogue here is written the same way as chatrooms, including awarding heart points. You can only award one heart point per reply. It can be for a character not in the conversation as well. For more information on heart points, see [[INSERT LINK HERE]].</p>
+<p>Finally, end the whole label with <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
+<div class="section" id="replying-after-the-first-message">
+<h4>Replying after the first message<a class="headerlink" href="#replying-after-the-first-message" title="Permalink to this headline">¶</a></h4>
+<p>If you want the player to be able to reply again after the first message, you need to tell the program where it can find the label to continue the conversation with <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">z.text_label</span> <span class="pre">=</span> <span class="pre">&quot;menu2&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">z</span></code> is the variable of the character who is taking part in the conversation and <code class="docutils literal notranslate"><span class="pre">menu2</span></code> is the name of the label to jump to. A text message chain with two opportunities to reply might look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_my_chatroom</span><span class="p">:</span>
+
+    <span class="n">compose</span> <span class="k">text</span> <span class="n">z</span><span class="p">:</span>
+        <span class="n">z</span> <span class="s2">&quot;Hi [name]!&quot;</span>
+        <span class="n">z</span> <span class="s2">&quot;Hope your morning has been good so far.&quot;</span>
+        <span class="n">z</span> <span class="s2">&quot;Did you eat breakfast yet?&quot;</span>
+        <span class="k">label</span> <span class="n">my_reply_1</span>
+
+    <span class="k">return</span>
+
+<span class="k">label</span> <span class="n">my_reply_1</span><span class="p">:</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;No, I haven&#39;t eaten yet.&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="s2">&quot;That&#39;s no good! You should eat something soon.&quot;</span>
+        <span class="s2">&quot;Yup! I ate as soon as I woke up.&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="s2">&quot;That&#39;s good to hear.&quot;</span>
+    <span class="n">z</span> <span class="s2">&quot;Eating breakfast in the morning is really important.&quot;</span>
+    <span class="n">z</span> <span class="s2">&quot;Do you have any plans for the day?&quot;</span>
+    <span class="k">$</span> <span class="n">z</span><span class="o">.</span><span class="n">text_label</span> <span class="o">=</span> <span class="s2">&quot;my_reply_2&quot;</span>
+    <span class="k">return</span>
+
+<span class="k">label</span> <span class="n">my_reply_2</span><span class="p">:</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;Maybe you should call me~&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="s2">&quot;!!&quot;</span>
+            <span class="n">z</span> <span class="s2">&quot;{image=zen_wink}&quot;</span> <span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">z</span> <span class="s2">&quot;Haha, maybe I will~&quot;</span>
+        <span class="s2">&quot;Nah, I&#39;m going to be lazy today.&quot;</span><span class="p">:</span>
+            <span class="n">z</span> <span class="s2">&quot;Sometimes it&#39;s nice to have days like that.&quot;</span>
+    <span class="n">z</span> <span class="s2">&quot;It was good talking with you!&quot;</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="how-text-message-delivery-works">
+<h3>How Text Message Delivery Works<a class="headerlink" href="#how-text-message-delivery-works" title="Permalink to this headline">¶</a></h3>
+<p>When you write text messages inside an <code class="docutils literal notranslate"><span class="pre">after_</span></code> label, those messages are added to a “delivery pool” which is delivered to the player in increments after they finish playing the associated timeline item. So, if you composed text messages for characters A, B, and C, the player may receive Character A’s message immediately upon returning to the home screen, and will then receive Character B and C’s messages either by waiting around on the home screen or performing other actions such as replying to other text message or emails.</p>
+<p>Similarly, if the player has replied to Character A’s message, Character A’s response gets added to the pool and will eventually be delivered to the player after some time has passed.</p>
+<p>All text messages in the delivery pool are immediately delivered as soon as the player clicks to enter the timeline screen.</p>
+<p>In this program, there are no time limits on when you can or can’t reply to text messages. However, if a character sends the player a new text message and the player hasn’t replied to the previous conversation, they will no longer be able to continue the older conversation.</p>
 </div>
 </div>
 </div>
