@@ -17,6 +17,7 @@ Welcome to the Mysterious Messenger Wiki!
     phone-calls
     text-messages
     story-mode
+    emails
 
 
 Indices and tables
