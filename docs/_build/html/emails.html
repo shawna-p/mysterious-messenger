@@ -1,0 +1,479 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Emails &mdash; Mysterious Messenger Wiki v2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Mysterious Messenger Wiki
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phone-calls.html">Phone Calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mysterious Messenger Wiki</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Emails</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/emails.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="emails">
+<h1>Emails<a class="headerlink" href="#emails" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Navigation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Emails</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#writing-an-email-chain">Writing an Email Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Example files to look at:</p>
+<ul class="simple">
+<li><p>tutorial_2_emails.rpy</p></li>
+<li><p>email_template.rpy</p></li>
+</ul>
+<p><em>A brief overview of the steps required (more detail below):</em></p>
+<ol class="arabic simple">
+<li><p>Open <strong>email_template.rpy</strong> and copy-paste <code class="docutils literal notranslate"><span class="pre">example_guest</span></code> into a new file.</p></li>
+<li><p>Rename the guest and follow the instructions to fill out the various fields.</p></li>
+</ol>
+</div>
+<div class="section" id="writing-an-email-chain">
+<h2>Writing an Email Chain<a class="headerlink" href="#writing-an-email-chain" title="Permalink to this headline">¶</a></h2>
+<p>Emails in this program have several additional features:</p>
+<ul class="simple">
+<li><p>You may have a varying number of emails in a chain (limited only by how many email icons will fit comfortably on the email button)</p></li>
+<li><p>You may have as as few as one or up to five responses available to answer</p></li>
+<li><p>Emails can have “branching paths”; simply answering one email incorrectly does not necessarily mean the whole email chain is failed.</p></li>
+<li><p>Guests are automatically added to the guestbook. Some information about them is unlocked when the player invites them to the party, and additional information is added after the guest has attended the party.</p></li>
+<li><p>Viewing a guest’s information for the first time in the guestbook awards the player an hourglass.</p></li>
+</ul>
+<p>The easiest way to get started writing an email is to copy the definition for <code class="docutils literal notranslate"><span class="pre">example_guest</span></code> inside <strong>email_template.rpy</strong> and modify it to your needs. The various fields are explained with comments in the file itself so you understand what information to give it. The newest feature is the use of <code class="docutils literal notranslate"><span class="pre">EmailReply</span></code> objects, which allow email chains a greater degree of flexibility. This is explained below.</p>
+<blockquote>
+<div><p><strong>EmailReply</strong>(choice_text, player_msg, guest_reply, continue_chain=None, email_success=None)</p>
+<p>A class intended to facilitate writing email replies.</p>
+<dl class="simple">
+<dt><cite>choice_text</cite></dt><dd><p>A string. The text of the choice to reply to the email.</p>
+</dd>
+<dt><cite>player_msg</cite></dt><dd><p>A string. The message the player writes after the choice is made.</p>
+</dd>
+<dt><cite>guest_reply</cite></dt><dd><p>A string. The guest’s reply to the player’s message.</p>
+</dd>
+<dt><cite>continue_chain</cite></dt><dd><p>If this email chain will continue after the player selects this reply, this is a list of EmailReply objects that will be available the next time the player is given the opportunity to reply.</p>
+</dd>
+<dt><cite>email_success</cite></dt><dd><p>If explicitly set to a boolean value, this indicates if it ends the email chain in a good (True) or bad (False) way.</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Both the <code class="docutils literal notranslate"><span class="pre">player_msg</span></code> and <code class="docutils literal notranslate"><span class="pre">guest_reply</span></code> fields use a special helper function called <code class="docutils literal notranslate"><span class="pre">filter_whitespace</span></code>, which removes leading and trailing whitespace (mostly the “space” character) from the string and turns a single newline into a space. Double newlines are preserved.</p>
+<p>In practice, this means you can use line breaks to keep your email messages readable inside your code editing program, and can use indentation to better show a chain of emails.</p>
+<p>In order to have “branching paths” for emails, you must use the <code class="docutils literal notranslate"><span class="pre">continue_chain</span></code> field. The example below demonstrates how to write an email chain with three initial responses that each lead to a different second email:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">longcat</span> <span class="o">=</span> <span class="n">Guest</span><span class="p">(</span>
+<span class="s2">&quot;longcat&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Long Cat&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Email/Thumbnails/longcat.webp&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Email/Guest Images/longcat.webp&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Long Cat, the longest cat in the world.&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Meow? Mrrrow... meow meow.&quot;</span><span class="p">,</span>
+<span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">Meow? Meow meow.</span>
+
+<span class="sd">From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+<span class="p">[</span> <span class="n">EmailReply</span><span class="p">(</span>
+    <span class="s2">&quot;There will be fish at the party&quot;</span><span class="p">,</span>
+
+    <span class="sd">&quot;&quot;&quot;Dear Long Cat,</span>
+
+<span class="sd">    We will have fish at the party, meow!</span>
+
+<span class="sd">    From, [name]&quot;&quot;&quot;</span><span class="p">,</span>
+
+    <span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">    Meow!!! Mew meowww. Mrow?</span>
+
+<span class="sd">    From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+    <span class="p">[</span> <span class="n">EmailReply</span><span class="p">(</span>
+        <span class="s2">&quot;Tuna fish&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;Dear Long Cat,</span>
+
+<span class="sd">        The fish will be tuna fish, meow!</span>
+
+<span class="sd">        From, [name]&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">        Mrow... mew.</span>
+
+<span class="sd">        From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="n">email_success</span><span class="o">=</span><span class="kc">True</span>
+
+    <span class="p">),</span> <span class="n">EmailReply</span><span class="p">(</span>
+        <span class="s2">&quot;Salmon&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;Dear Long Cat,</span>
+
+<span class="sd">        We will have salmon available at the party, meow!</span>
+
+<span class="sd">        From, [name]&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">        Meow!!! Mew meow mew.</span>
+
+<span class="sd">        From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="n">email_success</span><span class="o">=</span><span class="kc">True</span>
+
+    <span class="p">)]</span>
+
+<span class="p">),</span> <span class="n">EmailReply</span><span class="p">(</span>
+    <span class="s2">&quot;Laser pointers&quot;</span><span class="p">,</span>
+
+    <span class="sd">&quot;&quot;&quot;Dear Long Cat,</span>
+
+<span class="sd">    We will be giving out laser pointers to the guests at the party! I</span>
+<span class="sd">    hope you find this a source of entertainment.</span>
+
+<span class="sd">    From, [name]&quot;&quot;&quot;</span><span class="p">,</span>
+
+    <span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">    Hiss!!! Mrow... meow.</span>
+
+<span class="sd">    From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+    <span class="n">email_success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+
+    <span class="n">continue_chain</span><span class="o">=</span><span class="p">[</span> <span class="n">EmailReply</span><span class="p">(</span>
+        <span class="s2">&quot;No laser pointers&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;Dear Long Cat,</span>
+
+<span class="sd">        My apologies for the misunderstanding; there will no longer be laser</span>
+<span class="sd">        pointers at the party. Hope to see you there!</span>
+
+<span class="sd">        From, [name]&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">        Mew mew meow!</span>
+
+<span class="sd">        From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="n">email_success</span><span class="o">=</span><span class="kc">True</span>
+
+    <span class="p">),</span> <span class="n">EmailReply</span><span class="p">(</span>
+        <span class="s2">&quot;Yarn&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;Dear Long Cat,</span>
+
+<span class="sd">        Beside the laser pointers, we will also have plenty of yarn for your</span>
+<span class="sd">        enjoyment. Hope to see you there!</span>
+
+<span class="sd">        From, [name]&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">        Hisssss! Hiss!!!</span>
+
+<span class="sd">        From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+        <span class="n">email_success</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)]</span>
+
+<span class="p">),</span> <span class="n">EmailReply</span><span class="p">(</span>
+    <span class="s2">&quot;Meow meow meow!&quot;</span><span class="p">,</span>
+
+    <span class="sd">&quot;&quot;&quot;Dear Long Cat,</span>
+
+<span class="sd">    Meow! Mew mew mew, mrow, meow!</span>
+
+<span class="sd">    From, [name]&quot;&quot;&quot;</span><span class="p">,</span>
+
+    <span class="sd">&quot;&quot;&quot;To [name]:</span>
+
+<span class="sd">    Purrrrrr.... meow.</span>
+
+<span class="sd">    From, Long Cat&quot;&quot;&quot;</span><span class="p">,</span>
+
+    <span class="n">email_success</span><span class="o">=</span><span class="kc">True</span>
+
+<span class="p">)],</span>
+
+<span class="s2">&quot;Meow meow! Purr....&quot;</span><span class="p">,</span>
+<span class="n">s</span><span class="p">,</span>
+<span class="s2">&quot;Omg it&#39;s Long Cat!!! I need to find them to pet them...&quot;</span><span class="p">,</span>
+<span class="s2">&quot;seven front party happy&quot;</span><span class="p">,</span>
+<span class="n">num_emails</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Though the example above is long, it functions as follows:</p>
+<blockquote>
+<div><dl>
+<dt>First email:</dt><dd><dl class="simple">
+<dt>“There will be fish at the party” (correct)</dt><dd><dl class="simple">
+<dt>Second email:</dt><dd><p>“Tuna fish” (correct)
+“Salmon” (correct)</p>
+</dd>
+</dl>
+</dd>
+<dt>“Laser pointers” (wrong)</dt><dd><dl class="simple">
+<dt>Second email:</dt><dd><p>“No laser pointers” (correct)
+“Yarn” (wrong)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p>“Meow meow meow!” (correct)</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Incorrect answers decrease the guest’s odds of attending the party, while correct answers will increase the odds. A “perfect” email chain (one where <code class="docutils literal notranslate"><span class="pre">num_emails</span></code> emails are replied to correctly) will guarantee the guest’s attendance at the party.</p>
+</div>
+<div class="section" id="calculating-if-a-guest-will-attend">
+<h2>Calculating if a Guest Will Attend<a class="headerlink" href="#calculating-if-a-guest-will-attend" title="Permalink to this headline">¶</a></h2>
+<p>The program follows its own set of logic for determining if a guest will attend the party. A guest is <strong>guaranteed</strong> to attend the party when:</p>
+<ul class="simple">
+<li><p>The player has correctly answered <code class="docutils literal notranslate"><span class="pre">num_emails</span></code> with the guest</p></li>
+<li><p>The player has read the guest’s final reply and the email is marked as Completed</p></li>
+</ul>
+<p>A guest will <strong>never</strong> attend the party if:</p>
+<ul class="simple">
+<li><p>The player has not read the most recent email</p></li>
+<li><p>The email chain is not complete</p></li>
+<li><p>The player did not get any emails correct</p></li>
+<li><p>The email chain has timed out</p></li>
+</ul>
+<p>If the player has read all the guest’s emails and reached the end of an email chain with them, then the odds of the guest attending depend on how many emails the player got correct with them. In the Long Cat example above, if the player answers “There will be fish at the party” -&gt; “Tuna fish” or “There will be fish at the party” -&gt; “Salmon”, then Long Cat is guaranteed to attend the party.</p>
+<p>If the player answers “Laser pointers” -&gt; “Yarn” then the email chain will be failed and Long Cat will not attend the party.</p>
+<p>If the player answers “Laser pointers” -&gt; “No laser pointers”, then Long Cat will have a 50% (1/2) chance of attending the party.</p>
+<p>If the player answers “Meow meow meow!” then Long Cat will have a 50% chance of attending the party, even though there are no further emails, since <code class="docutils literal notranslate"><span class="pre">num_emails</span></code> is 2 and the player only got 1 answer correct.</p>
+<p>The odds of a guest attending the party are calculated after the email is answered. In other words, if a guest has a 50% chance of attending the party, reloading a save just before playing the party will not change whether they attend or not.</p>
+<p>A guest will be unlocked in the guest book as soon as the player invites them to the party, but further information will only be unlocked if the guest actually attends the party.</p>
+</div>
+<div class="section" id="inviting-a-guest">
+<h2>Inviting a Guest<a class="headerlink" href="#inviting-a-guest" title="Permalink to this headline">¶</a></h2>
+<p>After defining your guest, you can invite them to the party using the line:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">invite</span> <span class="n">your_guest</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">your_guest</span></code> is the variable you made when defining the guest using</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">your_guest</span> <span class="o">=</span> <span class="n">Guest</span><span class="p">([</span><span class="o">...</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can also use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">invite(your_guest)</span></code> to invite a guest.</p>
+</div>
+<p>After the player finishes the timeline item where the guest was invited, they will receive the first email from the guest.</p>
+</div>
+<div class="section" id="how-emails-are-sent">
+<h2>How Emails are Sent<a class="headerlink" href="#how-emails-are-sent" title="Permalink to this headline">¶</a></h2>
+<p>After the guest is invited to the party, the player will receive an initial email from them. From that point onwards, if the player <strong>does not</strong> reply to the email, after every timeline item a variable attached to every Email object called <code class="docutils literal notranslate"><span class="pre">timeout</span></code> will decrease by 1. By default, <code class="docutils literal notranslate"><span class="pre">timeout</span></code> begins at 25.</p>
+<p>The timeout counter will reset to 25 as soon as the player replies to the email. However, if the timer reaches 0 (aka the player has gone through 25+ timeline items since they first received the email), the email will be considered <strong>timed out</strong> and can no longer be replied to.</p>
+<p>Once the player replies to the email, the program calculates when it should send the guest’s reply based on how many timeline items remain in the route. For example, if there are 20 remaining timeline items on the route and 2 remaining emails in the chain, then the maximum number of timeline items the program will wait before delivering an email reply is <code class="docutils literal notranslate"><span class="pre">20</span> <span class="pre">/</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">10</span></code>. The minimum number of timeline items it will wait is 1 or <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">-</span> <span class="pre">7</span> <span class="pre">=</span> <span class="pre">3</span></code>, whichever is larger – in this case, 3.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Shawna P
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

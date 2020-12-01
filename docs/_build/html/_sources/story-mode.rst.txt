@@ -316,7 +316,8 @@ If you want to modify the list of participants between scenes, you can either cl
         show jumin front at vn_midright
         ju "Assistant Kang. I need you to reschedule a meeting."
         ja "Oh... I see. Which meeting do you need to reschedule?"
-        ju "The one for the Cultured Citizens group this afternoon. I received word that Elizabeth the 3rd is acting particularly lethargic today so I will need to return to check on her."
+        ju "The one for the Cultured Citizens group this afternoon."
+        ju "I received word that Elizabeth the 3rd is acting particularly lethargic today so I will need to return to check on her."
         ja "...Understood."
         return
 
