@@ -36,7 +36,9 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Creating Characters" href="creating-characters.html" />
+    <link rel="prev" title="Story Mode (VN)" href="story-mode.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -88,11 +90,19 @@
 <li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
 </ul>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
 <li class="toctree-l1"><a class="reference internal" href="phone-calls.html">Phone Calls</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Emails</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#writing-an-email-chain">Writing an Email Chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
 </ul>
 
             
@@ -355,7 +365,7 @@
 
 <span class="s2">&quot;Meow meow! Purr....&quot;</span><span class="p">,</span>
 <span class="n">s</span><span class="p">,</span>
-<span class="s2">&quot;Omg it&#39;s Long Cat!!! I need to find them to pet them...&quot;</span><span class="p">,</span>
+<span class="s2">&quot;Omg it&#39;s Long Cat!!! I need to find and pet them...&quot;</span><span class="p">,</span>
 <span class="s2">&quot;seven front party happy&quot;</span><span class="p">,</span>
 <span class="n">num_emails</span><span class="o">=</span><span class="mi">2</span>
 <span class="p">)</span>
@@ -412,7 +422,7 @@
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">your_guest</span></code> is the variable you made when defining the guest using</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">your_guest</span> <span class="o">=</span> <span class="n">Guest</span><span class="p">([</span><span class="o">...</span><span class="p">])</span>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">your_guest</span> <span class="o">=</span> <span class="n">Guest</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition tip">
@@ -434,6 +444,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="creating-characters.html" class="btn btn-neutral float-right" title="Creating Characters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="story-mode.html" class="btn btn-neutral float-left" title="Story Mode (VN)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

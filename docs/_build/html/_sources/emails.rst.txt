@@ -195,7 +195,7 @@ In order to have "branching paths" for emails, you must use the ``continue_chain
 
     "Meow meow! Purr....",
     s,
-    "Omg it's Long Cat!!! I need to find them to pet them...",
+    "Omg it's Long Cat!!! I need to find and pet them...",
     "seven front party happy",
     num_emails=2
     )
@@ -253,7 +253,7 @@ where ``your_guest`` is the variable you made when defining the guest using
 
 ::
 
-    default your_guest = Guest([...])
+    default your_guest = Guest(...)
 
 .. tip::
     You can also use ``call invite(your_guest)`` to invite a guest.

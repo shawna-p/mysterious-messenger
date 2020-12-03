@@ -18,6 +18,7 @@ Welcome to the Mysterious Messenger Wiki!
     text-messages
     story-mode
     emails
+    creating-characters
 
 
 Indices and tables
