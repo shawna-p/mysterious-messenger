@@ -279,6 +279,9 @@ The definition fields are explained below.
     e.g. "em_voice"
 
 
+Note on voiced characters
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 .. warning::
     If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special ``novoice_chars`` list found in ``character_definitions.rpy`` e.g.
 
@@ -289,8 +292,76 @@ The definition fields are explained below.
     This will prevent the program from generating a voice toggle button for them.
 
 
+If you've also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma's ChatCharacter description includes the line ``vn_char=em_vn`` with her new Character object for story mode. You can then write dialogue during story mode like::
+
+    em "Brr, it's cold outside!"
+
+If Emma does not have a ChatCharacter object and is only intended for use during story mode (e.g. for a side character who only appears in story mode like Sarah), then you'll write her dialogue directly with her story mode Character object e.g.
+
+::
+
+    em_vn "Brr, it's cold outside!"
+
 Declaring a LayeredImage for a New Character
 --------------------------------------------
 
+At the bottom of ``character_definitions.rpy`` are all the layered image definitions for the existing characters. A layered image allows you to show the characters on-screen during story mode and easily change their expressions. In order to show Emma on-screen, you will need to define a ``layeredimage emma`` here. As this is unchanged from the usual way of defining a layered image, you can look into [[INSERT LINK HERE]] [Ren'Py's layeredimage documentation](https://www.renpy.org/doc/html/layeredimage.html "Ren'Py layeredimage documentation") for more information on how to declare a layered image.
+
+If possible, expressions should be separate from the character's body, and accessories such as glasses and masks should be separate from facial expressions. If a character has multiple positions, such as a side and front view, then those should be in two separate layeredimage definitions (see the definitions for characters like Jumin and Zen for how this is done).
+
+Story Mode Timeline Images
+--------------------------
+
+If you would also like to define a timeline image for Story Mode that is associated with your new character, in ``variables_editable.rpy`` under the heading **STORY MODE/VN IMAGES** you can see a list of existing images for story mode. This should be ``vn_`` + your character's file_id, so for Emma it would look like::
+
+    image vn_em = "Menu Screens/Day Select/vn_em.webp"
+
+The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix ``_vn_em`` on a label to associate a story mode with Emma. See [[INSERT LINK HERE]] for more information on writing a Story Mode section.
 
 
+
+Adding a New Character to Phone Calls
+=====================================
+
+All characters that currently exist in the program are defined in ``character_definitions.rpy``. Open that file and find the header **Phone Call Characters** at the top.
+
+To have Emma speak in a phone call, she needs to have a Character object defined for her. A definition for that may look like the following::
+
+    default em_phone = Character("Emma",
+        kind=phone_character,
+        voice_tag="em_voice"
+    )
+
+.. tip::
+    If you've made a ChatCharacter object for your new character, it's a good idea to call this variable their file_id + "_phone".
+
+The definition fields are explained below.
+
+`name`
+    This is the name of the character. This is not currently shown during a phone call but is kept for history purposes and to display the caller ID.
+
+    e.g. "Emma"
+
+`kind`
+    In order to simplify Character definitions, this field allows a Character object to "inherit" from an existing Character. In this case, using ``kind=phone_character`` sets up many of the properties that are consistent across all Characters for phone calls.
+
+    e.g. phone_character
+
+`voice_tag`
+    Optional. If this character will speak in phone calls or during story mode, then this is the tag associated with them when they speak. Including this allows players to switch voice acting for this character on and off. This should be the character's file_id + "_voice". Otherwise, by default this character's voice will fall under the "other_voice" tag in the Sound preferences.
+
+    e.g. "em_voice"
+
+.. warning::
+    See [[INSERT LINK HERE]] if your new character should not have their own voice toggle on the Settings screen.
+
+
+If you've also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma's ChatCharacter description includes the line ``phone_char=em_phone`` with her new Character object for phone calls. You can then write dialogue during a phone call like::
+
+    em "How are you, [name]?"
+
+If Emma does not have a ChatCharacter object and is only intended for use in phone calls (e.g. for a one-off character or a specific voicemail message), then you'll write her dialogue directly with her phone Character object e.g.
+
+::
+
+    em_phone "How are you, [name]?"
