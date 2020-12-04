@@ -18,6 +18,7 @@ Welcome to the Mysterious Messenger Wiki!
     text-messages
     story-mode
     emails
+    route-setup
     creating-characters
     cg-albums
 

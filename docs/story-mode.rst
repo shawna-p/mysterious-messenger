@@ -21,11 +21,15 @@ Writing a Story Mode
     *A brief overview of the steps required (more detail below):*
 
     #. If writing an attached Story Mode, create a label using the label of the attached chtroom + the suffix ``_vn`` (e.g. ``label my_chatroom_vn``)
+
         #. (Optional) Indicate the character a Story Mode section is associated with by including their file_id as an additional suffix (e.g. ``label my_chatroom_vn_s``)
         #. (Optional) Indicate that this Story Mode is the party by including the suffix ``_party`` (e.g. ``label my_chatroom_party``)
+
     #. Show your desired background with ``scene bg my_background``.
+
         #. (Optional) Use transitions like ``with fade`` e.g. ``scene bg your_bg with fade``
         #. (Optional) Write ``pause`` after your ``scene`` statement to give the player a moment to look at the background.
+
     #. Add music with ``play music your_music_var``.
     #. Fill out the dialogue and character expressions.
     #. End the label with ``return``.
@@ -238,13 +242,17 @@ Including a Story Mode During a Chatroom
 
     #. Create a chatroom as you usually would (see [[INSERT LINK HERE]].
     #. When you want the story mode to interrupt the chatroom, use ``call vn_during_chat("name_of_story_mode_label")`` where ``name_of_story_mode_label`` is the name of the label where the program can find the associated story mode.
+
         #. If you want to change the list of chatroom participants between chatroom sections, pass the argument ``reset_participants=[y, s, m]`` where ``[y, s, m]]`` is a list of the character variables who you want to show participating in the chatroom section following the story mode.
+
     #. If you don't want to return to the chatroom section after jumping to the story mode section, use the argument ``end_after_vn=True`` e.g. ``call vn_during_chat("vn_label", end_after_vn=True)``.
     #. Create the label for the story mode and write the dialogue as normal (see [[INSERT LINK HERE]]).
     #. If the timeline item does not end on the story mode, continue writing chatroom dialogue after the call to ``vn_during_chat``.
+
         #. (Optional) use ``clear chat`` to erase the chat history.
         #. (Optional) change the chat background with a ``scene`` statement.
         #. (Optional) clear all participants from the chatroom with ``clear chat participants``.
+
     #. End the chatroom and any story mode labels with ``return``.
 
 .. tip::

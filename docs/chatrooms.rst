@@ -24,7 +24,9 @@ Creating a Chatroom
     #. Set the background with ``scene morning`` where ``morning`` is replaced by whatever time of day/background you want to use.
     #. Add background music with ``play music mystic_chat`` where ``mystic_chat`` is replaced by the desired music variable.
     #. Write the chatroom dialogue.
+
         #. You may want to use either ``Script Generator.xlsx`` or the ``msg`` CDS.
+
     #. End the label with ``return``.
 
 The first thing you should do when creating a new chatroom is create a new ``.rpy`` file and name it something descriptive so it's easy to find it again. For example, you might name it something like ``day_1_chatroom_3.rpy`` or ``day_1_3.rpy``. It's a good idea to put all the files related to a particular route inside a folder for organization.

@@ -5,7 +5,7 @@ Creating Characters
 .. toctree::
     :caption: Navigation
 
-    creating-Characters
+    creating-characters
 
 While Mysterious Messenger does come with several characters already defined, you may want to define your own characters to participate in chatrooms or phone the player. There are a few definitions and several images you will need to set up in order for your character to work within the program.
 
@@ -31,17 +31,23 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
 
 
 * |uncheck| Define a ChatCharacter object in ``character_definitions.rpy`` under the heading **Chatroom Characters**
+
     * This step is NOT required if this character will never appear in a chatroom
+
 * |uncheck| **(Optional)** Add your character to the ``character_list`` in ``character_definitions.rpy`` if you want their profile to appear on the home screen and allow the player to call them.
 * |uncheck| **(Optional)** Add your character to the ``heart_point_chars`` list in ``character_definitions.rpy`` if you want the player to see how many heart points they have earned with this character.
 * |uncheck| **(May be required)** Define a ``greet`` image for your character. This is **required** if you have included the character in ``heart_point_chars`` (see above) AND/OR if you want them to have greetings on the main menu.
 * |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Story Mode**.
+
     * This step is NOT required if this character will never appear in a Story Mode section
+
 * |uncheck| Either: **1)** in the definition for your Story Mode Character, include the ``voice_tag`` argument (``voice_tag="em_voice"`` where ``em`` is the character's file_id), OR **2)** add their ChatCharacter object to the ``novoice_chars`` list in ``character_definitions.rpy``.
 * |uncheck| **(Optional)** Define a ``layeredimage`` for your character if you want to display their image during Story Mode (VN) sections.
 * |uncheck| **(May be required)** Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen.
 * |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Phone Call Characters**.
+
     * This step is NOT required if this character will never appear in a phone call
+
 * |uncheck| **(May be required)** Define a phone contact image for your new character. **Required** if you have added them to the ``character_list`` variable.
 * |uncheck| **(Optional)** Define a CG album for your character. Requires a ``cg_label``, ``album_cover``, and two album variables (one persistent and one regular). Add the character's file_id to the ``all_albums`` list.
 * |uncheck| **(Optional)** Add a spaceship thoughts image for your new character.
@@ -365,3 +371,36 @@ If Emma does not have a ChatCharacter object and is only intended for use in pho
 ::
 
     em_phone "How are you, [name]?"
+
+
+
+
+Giving a New Character Spaceship Thoughts
+=========================================
+
+In the file ``variables_editable.rpy`` under the header **SPACESHIP THOUGHT IMAGES** you will see several images defined for the various characters. To give Emma a spaceship thought, you must add an image here with her file_id::
+
+    image em_spacethought = "Menu Screens/Spaceship/em_spacethought.webp"
+
+The important thing is to call the image ``em_spacethought`` where ``em`` is the character's file_id. This image should be 651x374 px and is typically rounded and slightly transparent. It will be shown behind the thought the character has when the spaceship icon is clicked on the home screen.
+
+You can then give Emma a "SpaceThought" by updating the ``space_thoughts`` list, which can be found in ``variables_editable.rpy`` under the header **SPACESHIP/CHIP BAG VARIABLES**.
+
+The variable ``space_thoughts`` is a special ``RandomBag`` object, which will shuffle the thoughts to display to the player in a random order. It takes one parameter, a list of items to be shuffled.
+
+A SpaceThought takes two parameters. The first is the character's ChatCharacter object, and the second is the contents of the thought itself, as a string::
+
+    default space_thoughts = RandomBag( [
+        SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
+        SpaceThought(ju, "I wonder how Elizabeth the 3rd is doing at home."),
+        SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
+        SpaceThought(y, "Yes! Chocolate milk is on sale!"),
+        SpaceThought(z, "Maybe I should learn how to braid my hair..."),
+        SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
+        SpaceThought(ri, "Hmm... the soup tastes different today."),
+        SpaceThought(sa, "So... sleepy..."),
+        SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk."),
+        SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")
+        ] )
+
+You can see that ``SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")`` was added to the end of the list. Now when the player clicks on the spaceship, Emma's space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see [[INSERT LINK HERE]].

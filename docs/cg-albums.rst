@@ -6,6 +6,9 @@ CG Albums
 Adding a CG Album
 ==================
 
+Albums Associated a Character
+-----------------------------
+
 For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma's character definition and more in [[INSERT LINK HERE]].
 
 Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and two album variables.
@@ -52,8 +55,8 @@ You can reorganize this list as you see fit. Albums are organized in rows of thr
     If a player has already unlocked an image inside an album, it will be automatically added to ``all_albums``. If you're making a new route and don't want some characters' albums to appear, you must both 1) remove them from ``all_albums`` and 2) Use ``Reset Persistent`` from the Ren'Py launcher to cause Ren'Py to forget which CGs you unlocked over other routes.
 
 
-Albums not Associated With Characters
--------------------------------------
+Albums not Associated With a Character
+---------------------------------------
 
 If you want an album that isn't associated with any particular character, such as a "Common" album, the program expects you to follow certain naming conventions so it can find the correct album cover, label, and variables.
 
