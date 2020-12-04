@@ -1,0 +1,46 @@
+====================
+Setting up a Route
+====================
+
+.. toctree::
+    :caption: Navigation
+
+    route-setup
+
+.. note::
+    Example files to look at:
+
+    * route_setup.rpy
+    * route_example.rpy
+
+    *A brief overview of the steps required (more detail below):*
+
+    #. Define a list of ``RouteDay`` objects. The first item in the list should be the name of the ending e.g. ``"Good End""``.
+    #. The first parameter of the RouteDay object is the name of the day e.g. "1st". The second is a list of timeline items. Possible timeline items are:
+
+        #. ChatRoom("title", "label", "trigger_time", [participants])
+        #. StoryMode("title", "label", "trigger_time", associated_character)
+        #. StoryCall("title", "label", "trigger_time", caller)
+        #. TheParty("label", "trigger_time")
+
+    #. Create a ``Route`` object and fill in the information for your new route.
+    #. Customize the route select screen to include a button to your new route.
+    #. Create a short introduction for your new route.
+    #. Select **Start Over** from the settings to test out your new route.
+
+
+To set up a route and test out your own chatrooms, story mode, phone calls and more in the game, first you need to define a few special variables. The first is a list of ``RouteDay`` objects. Each ``RouteDay`` contains the information the program needs to know for one in-game day.
+
+First, go to ``route_setup.rpy``, where you'll see an example definition called ``tutorial_good_end``.
+
+At its most basic level, your definition will look as follows::
+
+    default my_route_good_end = [ "Good End",
+        RouteDay("1st"),
+        RouteDay("2nd"),
+        RouteDay("3rd"),
+        # (...)
+        RouteDay("Final")
+    ]
+
+The first item in the list should be a string with the name of the ending as it will appear in the History log. In this example, it is ``"Good End"``.

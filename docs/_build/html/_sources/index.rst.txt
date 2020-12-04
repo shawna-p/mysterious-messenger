@@ -19,6 +19,8 @@ Welcome to the Mysterious Messenger Wiki!
     story-mode
     emails
     creating-characters
+    cg-albums
+    route-setup
 
 
 Indices and tables

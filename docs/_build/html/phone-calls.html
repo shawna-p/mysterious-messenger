@@ -106,6 +106,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emails.html">Emails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
 </ul>
 
             
@@ -200,15 +204,15 @@
 <li><p>tutorial_11_story_call.rpy</p></li>
 </ul>
 <p><em>A brief overview of the steps required (more detail below):</em></p>
-<ol class="arabic simple">
-<li><dl class="simple">
-<dt>Create a label + the correct suffix for the phone call.</dt><dd><ol class="arabic simple">
+<ol class="arabic">
+<li><p>Create a label + the correct suffix for the phone call.</p>
+<blockquote>
+<div><ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">my_label_outgoing_ja</span></code> to make an outgoing call to the character <code class="docutils literal notranslate"><span class="pre">ja</span></code> available.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">my_label_incoming_ja</span></code> to trigger an incoming call from the character <code class="docutils literal notranslate"><span class="pre">ja</span></code> after the corresponding timeline item has been played.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">my_label_story_call_ja</span></code> to create a required Story Call after this timeline item from the character <code class="docutils literal notranslate"><span class="pre">ja</span></code>.</p></li>
 </ol>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 <li><p>Write the phone call dialogue.</p></li>
 <li><p>End the phone call with <code class="docutils literal notranslate"><span class="pre">return</span></code></p></li>

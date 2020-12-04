@@ -37,6 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="CG Albums" href="cg-albums.html" />
     <link rel="prev" title="Emails" href="emails.html" /> 
 </head>
 
@@ -103,10 +104,15 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-story-mode">Adding a New Character to Story Mode</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#declaring-a-layeredimage-for-a-new-character">Declaring a LayeredImage for a New Character</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#story-mode-timeline-images">Story Mode Timeline Images</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-phone-calls">Adding a New Character to Phone Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#giving-a-new-character-spaceship-thoughts">Giving a New Character Spaceship Thoughts</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
 </ul>
 
             
@@ -175,6 +181,24 @@
   <div class="section" id="creating-characters">
 <h1>Creating Characters<a class="headerlink" href="#creating-characters" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Navigation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Characters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#checklist-for-a-new-character">Checklist for a New Character</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-chatrooms">Adding a New Character to Chatrooms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#showing-your-character-on-the-home-screen">Showing Your Character on the Home Screen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-story-mode">Adding a New Character to Story Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#declaring-a-layeredimage-for-a-new-character">Declaring a LayeredImage for a New Character</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#story-mode-timeline-images">Story Mode Timeline Images</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-phone-calls">Adding a New Character to Phone Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#giving-a-new-character-spaceship-thoughts">Giving a New Character Spaceship Thoughts</a></li>
+</ul>
+</li>
+</ul>
 </div>
 <p>While Mysterious Messenger does come with several characters already defined, you may want to define your own characters to participate in chatrooms or phone the player. There are a few definitions and several images you will need to set up in order for your character to work within the program.</p>
 <p>On this page, the examples will show how to add a character named Emma to the program.</p>
@@ -183,33 +207,33 @@
 <p>There are many definitions and images you need to set up in order for a new character to work in the program. To ensure you don’t miss any steps, this page outlines what the necessary definitions and images are.</p>
 <p>Any tasks prefaced with <strong>(Optional)</strong> are optional. Read the description to determine if you want this feature for your new character.</p>
 <p>Items prefaced with <strong>(May be required)</strong> are dependent on whether or not you have previously implemented an <strong>(Optional)</strong> task. For example, if you have added a character to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> variable, you <strong>must</strong> define a phone contact image, but if the character is not in <code class="docutils literal notranslate"><span class="pre">character_list</span></code> then they won’t need this image.</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt><input type="checkbox"> Define a ChatCharacter object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Chatroom Characters</strong></dt><dd><ul>
+<ul>
+<li><p><input type="checkbox"> Define a ChatCharacter object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Chatroom Characters</strong></p>
+<blockquote>
+<div><ul class="simple">
 <li><p>This step is NOT required if this character will never appear in a chatroom</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 <li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want their profile to appear on the home screen and allow the player to call them.</p></li>
 <li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want the player to see how many heart points they have earned with this character.</p></li>
 <li><p><input type="checkbox"> <strong>(May be required)</strong> Define a <code class="docutils literal notranslate"><span class="pre">greet</span></code> image for your character. This is <strong>required</strong> if you have included the character in <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> (see above) AND/OR if you want them to have greetings on the main menu.</p></li>
-<li><dl class="simple">
-<dt><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Story Mode</strong>.</dt><dd><ul>
+<li><p><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Story Mode</strong>.</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>This step is NOT required if this character will never appear in a Story Mode section</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 <li><p><input type="checkbox"> Either: <strong>1)</strong> in the definition for your Story Mode Character, include the <code class="docutils literal notranslate"><span class="pre">voice_tag</span></code> argument (<code class="docutils literal notranslate"><span class="pre">voice_tag=&quot;em_voice&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">em</span></code> is the character’s file_id), OR <strong>2)</strong> add their ChatCharacter object to the <code class="docutils literal notranslate"><span class="pre">novoice_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>.</p></li>
 <li><p><input type="checkbox"> <strong>(Optional)</strong> Define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span></code> for your character if you want to display their image during Story Mode (VN) sections.</p></li>
 <li><p><input type="checkbox"> <strong>(May be required)</strong> Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen.</p></li>
-<li><dl class="simple">
-<dt><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Phone Call Characters</strong>.</dt><dd><ul>
+<li><p><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Phone Call Characters</strong>.</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>This step is NOT required if this character will never appear in a phone call</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
 <li><p><input type="checkbox"> <strong>(May be required)</strong> Define a phone contact image for your new character. <strong>Required</strong> if you have added them to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> variable.</p></li>
 <li><p><input type="checkbox"> <strong>(Optional)</strong> Define a CG album for your character. Requires a <code class="docutils literal notranslate"><span class="pre">cg_label</span></code>, <code class="docutils literal notranslate"><span class="pre">album_cover</span></code>, and two album variables (one persistent and one regular). Add the character’s file_id to the <code class="docutils literal notranslate"><span class="pre">all_albums</span></code> list.</p></li>
@@ -396,9 +420,92 @@
 </div>
 <p>This will prevent the program from generating a voice toggle button for them.</p>
 </div>
+<p>If you’ve also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma’s ChatCharacter description includes the line <code class="docutils literal notranslate"><span class="pre">vn_char=em_vn</span></code> with her new Character object for story mode. You can then write dialogue during story mode like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;Brr, it&#39;s cold outside!&quot;</span>
+</pre></div>
+</div>
+<p>If Emma does not have a ChatCharacter object and is only intended for use during story mode (e.g. for a side character who only appears in story mode like Sarah), then you’ll write her dialogue directly with her story mode Character object e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em_vn</span> <span class="s2">&quot;Brr, it&#39;s cold outside!&quot;</span>
+</pre></div>
+</div>
 <div class="section" id="declaring-a-layeredimage-for-a-new-character">
 <h3>Declaring a LayeredImage for a New Character<a class="headerlink" href="#declaring-a-layeredimage-for-a-new-character" title="Permalink to this headline">¶</a></h3>
+<p>At the bottom of <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> are all the layered image definitions for the existing characters. A layered image allows you to show the characters on-screen during story mode and easily change their expressions. In order to show Emma on-screen, you will need to define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span> <span class="pre">emma</span></code> here. As this is unchanged from the usual way of defining a layered image, you can look into [[INSERT LINK HERE]] [Ren’Py’s layeredimage documentation](<a class="reference external" href="https://www.renpy.org/doc/html/layeredimage.html">https://www.renpy.org/doc/html/layeredimage.html</a> “Ren’Py layeredimage documentation”) for more information on how to declare a layered image.</p>
+<p>If possible, expressions should be separate from the character’s body, and accessories such as glasses and masks should be separate from facial expressions. If a character has multiple positions, such as a side and front view, then those should be in two separate layeredimage definitions (see the definitions for characters like Jumin and Zen for how this is done).</p>
 </div>
+<div class="section" id="story-mode-timeline-images">
+<h3>Story Mode Timeline Images<a class="headerlink" href="#story-mode-timeline-images" title="Permalink to this headline">¶</a></h3>
+<p>If you would also like to define a timeline image for Story Mode that is associated with your new character, in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the heading <strong>STORY MODE/VN IMAGES</strong> you can see a list of existing images for story mode. This should be <code class="docutils literal notranslate"><span class="pre">vn_</span></code> + your character’s file_id, so for Emma it would look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">vn_em</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Day Select/vn_em.webp&quot;</span>
+</pre></div>
+</div>
+<p>The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix <code class="docutils literal notranslate"><span class="pre">_vn_em</span></code> on a label to associate a story mode with Emma. See [[INSERT LINK HERE]] for more information on writing a Story Mode section.</p>
+</div>
+</div>
+<div class="section" id="adding-a-new-character-to-phone-calls">
+<h2>Adding a New Character to Phone Calls<a class="headerlink" href="#adding-a-new-character-to-phone-calls" title="Permalink to this headline">¶</a></h2>
+<p>All characters that currently exist in the program are defined in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>. Open that file and find the header <strong>Phone Call Characters</strong> at the top.</p>
+<p>To have Emma speak in a phone call, she needs to have a Character object defined for her. A definition for that may look like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">em_phone</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Emma&quot;</span><span class="p">,</span>
+    <span class="n">kind</span><span class="o">=</span><span class="n">phone_character</span><span class="p">,</span>
+    <span class="n">voice_tag</span><span class="o">=</span><span class="s2">&quot;em_voice&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you’ve made a ChatCharacter object for your new character, it’s a good idea to call this variable their file_id + “_phone”.</p>
+</div>
+<p>The definition fields are explained below.</p>
+<dl>
+<dt><cite>name</cite></dt><dd><p>This is the name of the character. This is not currently shown during a phone call but is kept for history purposes and to display the caller ID.</p>
+<p>e.g. “Emma”</p>
+</dd>
+<dt><cite>kind</cite></dt><dd><p>In order to simplify Character definitions, this field allows a Character object to “inherit” from an existing Character. In this case, using <code class="docutils literal notranslate"><span class="pre">kind=phone_character</span></code> sets up many of the properties that are consistent across all Characters for phone calls.</p>
+<p>e.g. phone_character</p>
+</dd>
+<dt><cite>voice_tag</cite></dt><dd><p>Optional. If this character will speak in phone calls or during story mode, then this is the tag associated with them when they speak. Including this allows players to switch voice acting for this character on and off. This should be the character’s file_id + “_voice”. Otherwise, by default this character’s voice will fall under the “other_voice” tag in the Sound preferences.</p>
+<p>e.g. “em_voice”</p>
+</dd>
+</dl>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>See [[INSERT LINK HERE]] if your new character should not have their own voice toggle on the Settings screen.</p>
+</div>
+<p>If you’ve also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma’s ChatCharacter description includes the line <code class="docutils literal notranslate"><span class="pre">phone_char=em_phone</span></code> with her new Character object for phone calls. You can then write dialogue during a phone call like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;How are you, [name]?&quot;</span>
+</pre></div>
+</div>
+<p>If Emma does not have a ChatCharacter object and is only intended for use in phone calls (e.g. for a one-off character or a specific voicemail message), then you’ll write her dialogue directly with her phone Character object e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em_phone</span> <span class="s2">&quot;How are you, [name]?&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="giving-a-new-character-spaceship-thoughts">
+<h2>Giving a New Character Spaceship Thoughts<a class="headerlink" href="#giving-a-new-character-spaceship-thoughts" title="Permalink to this headline">¶</a></h2>
+<p>In the file <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>SPACESHIP THOUGHT IMAGES</strong> you will see several images defined for the various characters. To give Emma a spaceship thought, you must add an image here with her file_id:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">em_spacethought</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Spaceship/em_spacethought.webp&quot;</span>
+</pre></div>
+</div>
+<p>The important thing is to call the image <code class="docutils literal notranslate"><span class="pre">em_spacethought</span></code> where <code class="docutils literal notranslate"><span class="pre">em</span></code> is the character’s file_id. This image should be 651x374 px and is typically rounded and slightly transparent. It will be shown behind the thought the character has when the spaceship icon is clicked on the home screen.</p>
+<p>You can then give Emma a “SpaceThought” by updating the <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code> list, which can be found in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>SPACESHIP/CHIP BAG VARIABLES</strong>.</p>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code> is a special <code class="docutils literal notranslate"><span class="pre">RandomBag</span></code> object, which will shuffle the thoughts to display to the player in a random order. It takes one parameter, a list of items to be shuffled.</p>
+<p>A SpaceThought takes two parameters. The first is the character’s ChatCharacter object, and the second is the contents of the thought itself, as a string:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">space_thoughts</span> <span class="o">=</span> <span class="n">RandomBag</span><span class="p">(</span> <span class="p">[</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">ja</span><span class="p">,</span> <span class="s2">&quot;I should have broken these shoes in better before wearing them to work today.&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">ju</span><span class="p">,</span> <span class="s2">&quot;I wonder how Elizabeth the 3rd is doing at home.&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;Maybe I should Noogle how to get chip crumbs out of my keyboard...&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;Yes! Chocolate milk is on sale!&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="s2">&quot;Maybe I should learn how to braid my hair...&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="s2">&quot;I can&#39;t believe I accidentally used one of the other Believer&#39;s shampoo. My hair smells like lemons.&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">ri</span><span class="p">,</span> <span class="s2">&quot;Hmm... the soup tastes different today.&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">sa</span><span class="p">,</span> <span class="s2">&quot;So... sleepy...&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="s2">&quot;The weather is so very lovely today. Maybe I&#39;ll go for a walk.&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">em</span><span class="p">,</span> <span class="s2">&quot;I know I should take my dog for a walk but I&#39;m so tired...&quot;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>You can see that <code class="docutils literal notranslate"><span class="pre">SpaceThought(em,</span> <span class="pre">&quot;I</span> <span class="pre">know</span> <span class="pre">I</span> <span class="pre">should</span> <span class="pre">take</span> <span class="pre">my</span> <span class="pre">dog</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">walk</span> <span class="pre">but</span> <span class="pre">I'm</span> <span class="pre">so</span> <span class="pre">tired...&quot;)</span></code> was added to the end of the list. Now when the player clicks on the spaceship, Emma’s space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see [[INSERT LINK HERE]].</p>
 </div>
 </div>
 
@@ -409,6 +516,8 @@
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cg-albums.html" class="btn btn-neutral float-right" title="CG Albums" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="emails.html" class="btn btn-neutral float-left" title="Emails" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

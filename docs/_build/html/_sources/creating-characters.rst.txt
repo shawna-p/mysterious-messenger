@@ -5,7 +5,7 @@ Creating Characters
 .. toctree::
     :caption: Navigation
 
-    creating-Characters
+    creating-characters
 
 While Mysterious Messenger does come with several characters already defined, you may want to define your own characters to participate in chatrooms or phone the player. There are a few definitions and several images you will need to set up in order for your character to work within the program.
 
@@ -31,17 +31,23 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
 
 
 * |uncheck| Define a ChatCharacter object in ``character_definitions.rpy`` under the heading **Chatroom Characters**
+
     * This step is NOT required if this character will never appear in a chatroom
+
 * |uncheck| **(Optional)** Add your character to the ``character_list`` in ``character_definitions.rpy`` if you want their profile to appear on the home screen and allow the player to call them.
 * |uncheck| **(Optional)** Add your character to the ``heart_point_chars`` list in ``character_definitions.rpy`` if you want the player to see how many heart points they have earned with this character.
 * |uncheck| **(May be required)** Define a ``greet`` image for your character. This is **required** if you have included the character in ``heart_point_chars`` (see above) AND/OR if you want them to have greetings on the main menu.
 * |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Story Mode**.
+
     * This step is NOT required if this character will never appear in a Story Mode section
+
 * |uncheck| Either: **1)** in the definition for your Story Mode Character, include the ``voice_tag`` argument (``voice_tag="em_voice"`` where ``em`` is the character's file_id), OR **2)** add their ChatCharacter object to the ``novoice_chars`` list in ``character_definitions.rpy``.
 * |uncheck| **(Optional)** Define a ``layeredimage`` for your character if you want to display their image during Story Mode (VN) sections.
 * |uncheck| **(May be required)** Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen.
 * |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Phone Call Characters**.
+
     * This step is NOT required if this character will never appear in a phone call
+
 * |uncheck| **(May be required)** Define a phone contact image for your new character. **Required** if you have added them to the ``character_list`` variable.
 * |uncheck| **(Optional)** Define a CG album for your character. Requires a ``cg_label``, ``album_cover``, and two album variables (one persistent and one regular). Add the character's file_id to the ``all_albums`` list.
 * |uncheck| **(Optional)** Add a spaceship thoughts image for your new character.
@@ -279,6 +285,9 @@ The definition fields are explained below.
     e.g. "em_voice"
 
 
+Note on voiced characters
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
 .. warning::
     If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special ``novoice_chars`` list found in ``character_definitions.rpy`` e.g.
 
@@ -289,8 +298,109 @@ The definition fields are explained below.
     This will prevent the program from generating a voice toggle button for them.
 
 
+If you've also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma's ChatCharacter description includes the line ``vn_char=em_vn`` with her new Character object for story mode. You can then write dialogue during story mode like::
+
+    em "Brr, it's cold outside!"
+
+If Emma does not have a ChatCharacter object and is only intended for use during story mode (e.g. for a side character who only appears in story mode like Sarah), then you'll write her dialogue directly with her story mode Character object e.g.
+
+::
+
+    em_vn "Brr, it's cold outside!"
+
 Declaring a LayeredImage for a New Character
 --------------------------------------------
 
+At the bottom of ``character_definitions.rpy`` are all the layered image definitions for the existing characters. A layered image allows you to show the characters on-screen during story mode and easily change their expressions. In order to show Emma on-screen, you will need to define a ``layeredimage emma`` here. As this is unchanged from the usual way of defining a layered image, you can look into [[INSERT LINK HERE]] [Ren'Py's layeredimage documentation](https://www.renpy.org/doc/html/layeredimage.html "Ren'Py layeredimage documentation") for more information on how to declare a layered image.
+
+If possible, expressions should be separate from the character's body, and accessories such as glasses and masks should be separate from facial expressions. If a character has multiple positions, such as a side and front view, then those should be in two separate layeredimage definitions (see the definitions for characters like Jumin and Zen for how this is done).
+
+Story Mode Timeline Images
+--------------------------
+
+If you would also like to define a timeline image for Story Mode that is associated with your new character, in ``variables_editable.rpy`` under the heading **STORY MODE/VN IMAGES** you can see a list of existing images for story mode. This should be ``vn_`` + your character's file_id, so for Emma it would look like::
+
+    image vn_em = "Menu Screens/Day Select/vn_em.webp"
+
+The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix ``_vn_em`` on a label to associate a story mode with Emma. See [[INSERT LINK HERE]] for more information on writing a Story Mode section.
 
 
+
+Adding a New Character to Phone Calls
+=====================================
+
+All characters that currently exist in the program are defined in ``character_definitions.rpy``. Open that file and find the header **Phone Call Characters** at the top.
+
+To have Emma speak in a phone call, she needs to have a Character object defined for her. A definition for that may look like the following::
+
+    default em_phone = Character("Emma",
+        kind=phone_character,
+        voice_tag="em_voice"
+    )
+
+.. tip::
+    If you've made a ChatCharacter object for your new character, it's a good idea to call this variable their file_id + "_phone".
+
+The definition fields are explained below.
+
+`name`
+    This is the name of the character. This is not currently shown during a phone call but is kept for history purposes and to display the caller ID.
+
+    e.g. "Emma"
+
+`kind`
+    In order to simplify Character definitions, this field allows a Character object to "inherit" from an existing Character. In this case, using ``kind=phone_character`` sets up many of the properties that are consistent across all Characters for phone calls.
+
+    e.g. phone_character
+
+`voice_tag`
+    Optional. If this character will speak in phone calls or during story mode, then this is the tag associated with them when they speak. Including this allows players to switch voice acting for this character on and off. This should be the character's file_id + "_voice". Otherwise, by default this character's voice will fall under the "other_voice" tag in the Sound preferences.
+
+    e.g. "em_voice"
+
+.. warning::
+    See [[INSERT LINK HERE]] if your new character should not have their own voice toggle on the Settings screen.
+
+
+If you've also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma's ChatCharacter description includes the line ``phone_char=em_phone`` with her new Character object for phone calls. You can then write dialogue during a phone call like::
+
+    em "How are you, [name]?"
+
+If Emma does not have a ChatCharacter object and is only intended for use in phone calls (e.g. for a one-off character or a specific voicemail message), then you'll write her dialogue directly with her phone Character object e.g.
+
+::
+
+    em_phone "How are you, [name]?"
+
+
+
+
+Giving a New Character Spaceship Thoughts
+=========================================
+
+In the file ``variables_editable.rpy`` under the header **SPACESHIP THOUGHT IMAGES** you will see several images defined for the various characters. To give Emma a spaceship thought, you must add an image here with her file_id::
+
+    image em_spacethought = "Menu Screens/Spaceship/em_spacethought.webp"
+
+The important thing is to call the image ``em_spacethought`` where ``em`` is the character's file_id. This image should be 651x374 px and is typically rounded and slightly transparent. It will be shown behind the thought the character has when the spaceship icon is clicked on the home screen.
+
+You can then give Emma a "SpaceThought" by updating the ``space_thoughts`` list, which can be found in ``variables_editable.rpy`` under the header **SPACESHIP/CHIP BAG VARIABLES**.
+
+The variable ``space_thoughts`` is a special ``RandomBag`` object, which will shuffle the thoughts to display to the player in a random order. It takes one parameter, a list of items to be shuffled.
+
+A SpaceThought takes two parameters. The first is the character's ChatCharacter object, and the second is the contents of the thought itself, as a string::
+
+    default space_thoughts = RandomBag( [
+        SpaceThought(ja, "I should have broken these shoes in better before wearing them to work today."),
+        SpaceThought(ju, "I wonder how Elizabeth the 3rd is doing at home."),
+        SpaceThought(s, "Maybe I should Noogle how to get chip crumbs out of my keyboard..."),
+        SpaceThought(y, "Yes! Chocolate milk is on sale!"),
+        SpaceThought(z, "Maybe I should learn how to braid my hair..."),
+        SpaceThought(r, "I can't believe I accidentally used one of the other Believer's shampoo. My hair smells like lemons."),
+        SpaceThought(ri, "Hmm... the soup tastes different today."),
+        SpaceThought(sa, "So... sleepy..."),
+        SpaceThought(v, "The weather is so very lovely today. Maybe I'll go for a walk."),
+        SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")
+        ] )
+
+You can see that ``SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")`` was added to the end of the list. Now when the player clicks on the spaceship, Emma's space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see [[INSERT LINK HERE]].

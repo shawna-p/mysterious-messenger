@@ -20,9 +20,11 @@ Creating a Regular Phone Call
     *A brief overview of the steps required (more detail below):*
 
     #. Create a label + the correct suffix for the phone call.
+
         #. ``my_label_outgoing_ja`` to make an outgoing call to the character ``ja`` available.
         #. ``my_label_incoming_ja`` to trigger an incoming call from the character ``ja`` after the corresponding timeline item has been played.
         #. ``my_label_story_call_ja`` to create a required Story Call after this timeline item from the character ``ja``.
+
     #. Write the phone call dialogue.
     #. End the phone call with ``return``
 
