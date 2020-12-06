@@ -253,7 +253,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. PlotBranch(False)
 
 `save_img`
-    Optional. A string with the name of the save image to use for this particular story mode. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix "save_" is automatically added to this field.
+    Optional. A string with the name of the save image to use for this particular story call. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix "save_" is automatically added to this field.
 
     e.g. "ju"
 
@@ -270,6 +270,32 @@ Then the expired label should be located at
     label my_first_story_call_expired:
 
 Typically, an expired story call is treated as though the caller phoned the player and left a voicemail. For more on expired story calls and real-time mode, see [[INSERT LINK HERE]].
+
+The Party
+-------------
+
+There is a special convenience function intended to help you define a standalone party for a route. It has the following fields:
+
+`vn_label`
+    The label the program should jump to to play the party.
+
+    e.g. "emma_route_party"
+
+`trigger_time`
+    The time the party should appear at. This should be written in military time with leading zeroes, so a time like 1:00 AM becomes "01:00" and 1:38 PM becomes "13:38".
+
+    e.g. "12:00"
+
+`save_img`
+    Optional. A string with the name of the save image to use when this is the most recent timeline item. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix "save_" is automatically added to this field.
+
+    e.g. "em"
+
+An example may look like::
+
+    TheParty("emma_route_normal_party", "12:00")
+
+
 
 Example Route Day
 -----------------
