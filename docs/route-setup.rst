@@ -407,3 +407,107 @@ This defines a special New Year's Eve Route with endings for five of the charact
 
 Both ``route_setup.rpy`` and ``route_example.rpy`` have definitions of Routes and their associated branching paths so you can get an idea of how routes are defined.
 
+
+Customizing the Route Select Screen
+====================================
+
+Now that you have your route defined, you can customize the route select screen to include a button to your new route. You will need to create a label for your introduction as well. This can be called whatever you like e.g.
+
+::
+
+    label new_years_introduction:
+
+.. warning::
+    Even if you don't want an introduction and just want to take the player directly to the home screen, you **must still** create an introduction label. This label includes important instructions to set up the route properly.
+
+See [[INSERT LINK HERE]] for more information on how to write your introduction and set up the route. The important part here is the name of the label, which will be used for the button on the route select screen.
+
+Mysterious Messenger has a special screen called ``custom_route_select_screen``, found inside the file ``screens_custom_route_select.rpy``. Inside the **Developer** settings found on the main menu on on the home screen after loading a game, there is an option called **Use custom route select screen**. Checking this option will cause the game to use the ``custom_route_select_screen`` instead of the default version (which contains buttons for Tutorial Day and Casual Story).
+
+Your custom route select screen should look like the following::
+
+    screen custom_route_select_screen():
+        vbox:
+            style_prefix 'route_select' # Remove this if you want your own styles
+            button:
+                ysize 210 # Set the height of the button
+                # The image that goes on the left of the button
+                add 'Menu Screens/Main Menu/route_select_tutorial.webp':
+                    align (0.08, 0.5)
+                action Start()
+                # The box with text on the right side of the button
+                frame:
+                    text "Tutorial Day"
+
+You're free to replace the image "Menu Screens/Main Menu/route_select_tutorial.webp" with your own image or leave it out altogether. The important thing is the action on the button, currently ``Start()``. You need to give this the name of the label where it can find your route introduction::
+
+    screen custom_route_select_screen():
+        vbox:
+            style_prefix 'route_select' # Remove this if you want your own styles
+            button:
+                ysize 200 # Set the height of the button
+                action Start('new_years_introduction')
+                # The box with text on the right side of the button
+                frame:
+                    text "New Year's Story"
+
+Note that the action is now ``Start('new_years_introduction')``, which will start the game at the label ``new_years_introduction``.
+
+Providing Multiple Routes
+-------------------------
+
+If you want to provide multiple routes the player can begin on, you will need a button for each route on the route select screen. By default, the buttons on the route select screen are organized inside something called a ``vbox``, which will stack its contents on top of each other vertically. This makes it easy to create multiple buttons.
+
+For example, a version of the route select screen which allows the player to choose between a "Casual" or "Deep" story might look like the following::
+
+    screen custom_route_select_screen():
+        vbox:
+            style_prefix 'route_select'
+            button:
+                ysize 210
+                add 'Menu Screens/Main Menu/route_select_casual.webp':
+                    align (0.08, 0.5)
+                action Start('casual_story_start')
+                frame:
+                    text "Casual Story"
+            button:
+                ysize 210
+                add 'Menu Screens/Main Menu/route_select_deep.webp':
+                    align (0.08, 0.5)
+                action Start('deep_story_start')
+                frame:
+                    text "Deep Story"
+
+.. note::
+    The image 'Menu Screens/Main Menu/route_select_deep.webp' does not currently exist in the game; you would need to create it yourself.
+
+You're free to change the button backgrounds, text, spacing, and other styles. The above example provides two buttons. The first takes the player to a label called ``casual_story_start``, and the second to a label called ``deep_story_start``.
+
+Unlockable Routes
+-----------------
+
+If you want to keep certain routes "locked" until the player has fulfilled a condition of your choosing (e.g. preventing the player from going through Character B's route until after they have completed Character A's route), you need to set up persistent variables to keep track of whether the player has fulfilled your desired condition or not. You can define these variables anywhere you like, though it's a good idea to keep them in a separate ``.rpy`` file for organization. Since this variable affects the route select screen, you could put it in ``screens_custom_route_select.rpy``.
+
+For this example, the program will check whether or not the player has successfully gotten the Good End in Tutorial Day. First, define a variable::
+
+    default persistent.tutorial_good_end_complete = False
+
+``tutorial_good_end_complete`` is the name of your created field in the ``persistent`` object. ``persistent`` is a special class in Ren'Py that is saved across playthroughs. The above statement first initializes this variable to ``False``, and you will set it to ``True`` after the player has successfully gone through the Good End.
+
+The final label that a player will see if they achieved the good end on Tutorial Day is called ``label tutorial_good_end_party`` and can be found in ``tutorial_8_plot_branches.rpy``. The last lines of that label are currently as follows::
+
+    $ ending = 'good'
+    return
+
+This ends the route and takes the player back to the menu, so just before the ``return`` statement you can set your new persistent variable to ``True``::
+
+    $ persistent.tutorial_good_end_complete = True
+    $ ending = 'good'
+    return
+
+.. note::
+    You're not limited to putting your variable check right at the end of a route -- you can also put a variable like ``$ persistent.confessed_to_emma = True``, which might happen in the middle of a route and unlock a special Valentine's Day event or something else. Remember that ``persistent`` variables *persist* across multiple playthroughs, so they're best used for events you only want to unlock once.
+
+
+
+
