@@ -343,7 +343,7 @@ A list of RouteDays like this make up a single path on a route::
 
 Note that ``[ChatRoom(...)]`` is shorthand for a list of many more timeline items.
 
-..tip ::
+.. tip::
     The above RouteDay example could also be simplified as::
 
         RouteDay('1st',
@@ -554,7 +554,8 @@ Now you can customize the route select screen based on the value of your persist
             if persistent.tutorial_good_end_complete:
                 action Start('example_casual_start')
             else:
-                action CConfirm("This route is locked until you've played through Tutorial Day at least once.")
+                action CConfirm("This route is locked until you've "
+                    + "played the Good End on Tutorial Day")
                 hover_foreground None
 
 There are a lot of parts here, so each will be explained separately.
@@ -592,10 +593,12 @@ This part contains a button for Tutorial Day. There are no conditions on it, so 
 This makes a button for Casual Story. However, there is a conditional -- ``if persistent.tutorial_good_end_complete``, the variable defined earlier. If this variable is True -- aka the player has seen the Good End on Tutorial Day -- then the button just contains the text "Casual Story". However, if it is false, there is an ``hbox``, which organizes its items side-by-side. This hbox shows a "locked" image next to the text "Casual Story" to indicate that Casual Story is currently locked.
 
 ::
+
     if persistent.tutorial_good_end_complete:
         action Start('example_casual_start')
     else:
-        action CConfirm("This route is locked until you've played the Good End on Tutorial Day")
+        action CConfirm("This route is locked until you've "
+            + "played the Good End on Tutorial Day")
         hover_foreground None
 
 Finally, if the player hasn't gone through the Good End on Tutorial Day, they shouldn't be able to play Casual Story yet, so there is another conditional statement with the action inside it. If the player has seen the Good End, the game will start at the label ``example_casual_start``.
