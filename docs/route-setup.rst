@@ -508,6 +508,98 @@ This ends the route and takes the player back to the menu, so just before the ``
 .. note::
     You're not limited to putting your variable check right at the end of a route -- you can also put a variable like ``$ persistent.confessed_to_emma = True``, which might happen in the middle of a route and unlock a special Valentine's Day event or something else. Remember that ``persistent`` variables *persist* across multiple playthroughs, so they're best used for events you only want to unlock once.
 
+.. note::
+    If you *don't* need the program to remember a variable across different playthroughs (for example, if you want the game to remember you told Emma "I own a cat" so you can later have her mention the cat in a different conversation), you **do  not** need ``persistent`` in front of your variable definition and can simply use a variable like::
 
+        default owns_cat = False
+        label emma_route_3_8:
+            scene morning
+            play music mystic_chat
+            em "Hi, [name]!"
+            em "I had a question -- do you own a cat?"
+            menu:
+                "Yes, I have a cat.":
+                    $ owns_cat = True
+                    em "Cool!"
+                "No, I don't.":
+                    $ owns_cat = False
+                    em "Aw, okay."
 
+    The variable ``owns_cat`` will be set to False whenever the player begins a new game.
 
+Now you can customize the route select screen based on the value of your persistent variable::
+
+    vbox:
+        style_prefix 'route_select'
+        button:
+            ysize 210
+            add 'Menu Screens/Main Menu/route_select_tutorial.webp':
+                align (0.08, 0.5)
+            action Start()
+            frame:
+                text "Tutorial Day"
+        # Casual/Jaehee's route is only available to a player who
+        # has completed the Good End on Tutorial Day
+        button:
+            add 'Menu Screens/Main Menu/route_select_casual.webp':
+                align (0.08, 0.5)
+            frame:
+                if persistent.tutorial_good_end_complete:
+                    text "Casual Story"
+                else:
+                    hbox:
+                        align (0.4, 0.5)
+                        add 'plot_lock' align (0.5, 0.5)
+                        text "Casual Story"
+            if persistent.tutorial_good_end_complete:
+                action Start('example_casual_start')
+            else:
+                action CConfirm("This route is locked until you've played through Tutorial Day at least once.")
+                hover_foreground None
+
+There are a lot of parts here, so each will be explained separately.
+
+::
+
+    vbox:
+        style_prefix 'route_select'
+        button:
+            ysize 210
+            add 'Menu Screens/Main Menu/route_select_tutorial.webp':
+                align (0.08, 0.5)
+            action Start()
+            frame:
+                text "Tutorial Day"
+
+This part contains a button for Tutorial Day. There are no conditions on it, so it is always available to the player.
+
+::
+
+    # Casual/Jaehee's route is only available to a player who
+    # has completed the Good End on Tutorial Day
+    button:
+        add 'Menu Screens/Main Menu/route_select_casual.webp':
+            align (0.08, 0.5)
+        frame:
+            if persistent.tutorial_good_end_complete:
+                text "Casual Story"
+            else:
+                hbox:
+                    align (0.4, 0.5)
+                    add 'plot_lock' align (0.5, 0.5)
+                    text "Casual Story"
+
+This makes a button for Casual Story. However, there is a conditional -- ``if persistent.tutorial_good_end_complete``, the variable defined earlier. If this variable is True -- aka the player has seen the Good End on Tutorial Day -- then the button just contains the text "Casual Story". However, if it is false, there is an ``hbox``, which organizes its items side-by-side. This hbox shows a "locked" image next to the text "Casual Story" to indicate that Casual Story is currently locked.
+
+::
+    if persistent.tutorial_good_end_complete:
+        action Start('example_casual_start')
+    else:
+        action CConfirm("This route is locked until you've played the Good End on Tutorial Day")
+        hover_foreground None
+
+Finally, if the player hasn't gone through the Good End on Tutorial Day, they shouldn't be able to play Casual Story yet, so there is another conditional statement with the action inside it. If the player has seen the Good End, the game will start at the label ``example_casual_start``.
+
+However, if the player *hasn't* seen the Good End, the button will not light up (``hover_foreground None``), and the special action ``CConfirm`` is used. ``CConfirm`` shows a confirmation prompt to the user with the given message. In this case, it tells the player that they cannot access this route until they've played the Good End on Tutorial Day.
+
+You could leave the ``else`` out altogether, which would cause the button to be inactive if the player hasn't played the Good End, but including it helps the player understand why they can't play this route yet and what they have to do to unlock it.
