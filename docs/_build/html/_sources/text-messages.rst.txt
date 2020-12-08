@@ -110,7 +110,9 @@ Regular Text Messages
     #. (Optional) Include a label at the end which will be jumped to to continue the conversation e.g. ``label menu1``
     #. End the ``after_`` label with a return.
     #. (Optional) Create the label the player can jump to to continue the conversation.
+
         #. (Optional) Allow the player to reply to the text message again by writing ``$ s.text_label = "menu2"`` where ``s`` is the variable for the character sending the message and ``"menu2"`` is the name of the label to jump to to continue the conversation.
+
     #. Finish the reply label with ``return``
 
 
@@ -256,13 +258,19 @@ Unlike regular text messages, real-time text conversations play out similar to a
 
     #. Create a label using the prefix ``after_`` + the name of the timeline item you want to send the text messages after e.g. ``label after_day_1_4``
     #. Write ``compose text z real_time:`` where ``z`` is the variable for the character who is sending the message.
+
         #. Optionally, you can also include arguments to tell the program when to deliver the message. Acceptable options are ``deliver_at 00:00`` where ``00:00`` is the time to deliver the message at, in 24-hour time; ``deliver_at random`` to deliver the message randomly before the next timeline item, or ``deliver_at next_item`` to deliver the message sometime between the next timeline item being available and the one after that.
+
     #. Write dialogue for the conversation, indented at least one level to the right underneath the ``compose_text`` line. You may also include conditionals here.
+
         #. You can also include the ``pause`` statement with a number of seconds to pause for, e.g. ``pause 2.0*60``. The message delivery will be "staggered", with the message after the pause waiting the given number of seconds before sending.
+
     #. (Optional) Include a label at the end which will be jumped to to continue the conversation e.g. ``label menu1``
     #. End the ``after_`` label with a return.
     #. (Optional) Create the label the player can jump to to continue the conversation.
+
         #. (Optional) Allow the player to reply to the text message again by writing ``$ s.text_label = "menu2"`` where ``s`` is the variable for the character sending the message and ``"menu2"`` is the name of the label to jump to to continue the conversation.
+
     #. Finish the reply label with ``return``
 
 Writing a Text Conversation
