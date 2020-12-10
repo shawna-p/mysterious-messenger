@@ -1462,6 +1462,9 @@ label execute_plot_branch():
 
     $ renpy.call(item.item_label + '_branch')
 
+    # Ensure continue_route() is run to resolve the plot branch
+    $ continue_route()
+
     # CASE 1:
     # Plot branch is actually the party
     if (isinstance(item, StoryMode) and item.party):
