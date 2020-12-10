@@ -140,11 +140,29 @@ Finally, if the player doesn't have enough points with either character, they wi
     If the plot branch label returns without running either ``continue_route`` or ``merge_routes``, ``continue_route`` will be run automatically and the player will continue down the current route.
 
 
-Additional Plot Branch Examples
--------------------------------
+Branching on the Party
+======================
+
+You may also want to cause a branch to occur when the player clicks to enter the party, for example, to check how many guests are attending so that the player can branch onto either the Good End or the Normal End, as appropriate. This does not require any additional code in the route definition. So long as your timeline item is marked as the party -- either via using ``TheParty`` to define it, using something like ``StoryMode("The Party", "my_party_label", "12:00", party=True)``, or calling your attached Story Mode something like ``my_timeline_label_party`` (with the suffix ``_party``) -- then the program will automatically search for a branch label.
+
+The branch label is searched for with the suffix ``_branch``, so, if your party is found at the label ``emma_route_good_party``, then the program will execute the label ``emma_route_good_party_branch`` before the player plays the party.
+
+You can use this branch label as you would with any other branch label; however, if you ``merge_routes``, the path which is being merged onto the main route will need to have a party on it that will be swapped out for the current party. e.g.
+
+::
+
+    default emma_normal_end = [ "Normal End",
+        RouteDay("Final", [TheParty('emma_route_normal_end', '12:00')])
+    ]
+
+When the player clicks on the party, the program will check if there is a branch label. If so, it will execute the code in the branch label, which may involve merging onto a new path. If the player is merged onto a new path, they will go to the party label found on the merged route.
+
+
+Plot Branch Examples
+======================
 
 Checking for Participation
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
 
 You can check the percentage of timeline items the player has actively participated in (aka that haven't expired) with a special function::
 
@@ -177,7 +195,7 @@ If you want to check the participation from a particular day all the way to the 
     So, if you have 12 timeline items on the "6th" day and the plot branch is after the second item, if you calculate participation percentage on the "6th" day, the program will ignore the 10 timeline items which aren't available. That means that if the player played the item just before the plot branch but missed the first item, they will have a 50% participation percentage that day since only 2/12 items were available and the player participated in 1/2 (50%) of those items.
 
 Checking for Guest Attendance
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------
 
 You may also want to check how many guests are attending the party to determine which path to branch the player onto. The function ``attending_guests()`` returns the number of guests who will be attending the party at the time the function is called::
 
@@ -189,9 +207,9 @@ You may also want to check how many guests are attending the party to determine 
 This is best used for the plot branch when clicking the party (see [[INSERT LINK HERE]]).
 
 Comparing Heart Points:
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
-Typically, the easiest way to compare heart points between characters is to simply check with::
+Typically, the easiest way to compare heart points between characters is to check with::
 
     if s.heart_points > ju.heart_points:
         $ merge_routes(seven_route)
