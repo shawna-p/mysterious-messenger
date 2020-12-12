@@ -408,6 +408,42 @@ This defines a special New Year's Eve Route with endings for five of the charact
 Both ``route_setup.rpy`` and ``route_example.rpy`` have definitions of Routes and their associated branching paths so you can get an idea of how routes are defined.
 
 
+Ending a Route
+==============
+
+When the player has reached the end of the route, you need to tell the program which ending screen to show them by setting the ``ending`` variable. The built-in options are "bad", "normal", and "good" e.g.
+
+::
+
+    u "This is the end of the route."
+    exit chatroom u
+    $ ending = "normal"
+    return
+
+By setting ``$ ending = "normal"``, the program knows that when this timeline item ends, the route is over. The player will be shown the Save & Exit screen (if applicable) and then the ending image will be shown.
+
+You can also use your own image for the end of the route by passing ``ending`` the full image path or the name of a defined image e.g.
+
+::
+
+    image my_custom_ending = "Endings/my_custom_ending.webp"
+
+    label end_of_my_route():
+        scene hack
+        show hack effect
+        enter chatroom u
+        u "This is the end of the route."
+        exit chatroom u
+        $ ending = "my_custom_ending"
+        # $ ending = "Endings/my_custom_ending.webp" also works
+        return
+
+The program will show the desired image before taking the player back to the main menu. If they click "Original Story", they will be prompted to select a route for a new game.
+
+.. note::
+    The end of a route is also a good place to set any persistent variables if you're keeping track of a player's route completion to unlock routes/images/extras later.
+
+
 Customizing the Route Select Screen
 ====================================
 
@@ -555,7 +591,7 @@ Now you can customize the route select screen based on the value of your persist
                 action Start('example_casual_start')
             else:
                 action CConfirm("This route is locked until you've "
-                    + "played through Tutorial Day at least once.")
+                    + "played the Good End on Tutorial Day")
                 hover_foreground None
 
 There are a lot of parts here, so each will be explained separately.

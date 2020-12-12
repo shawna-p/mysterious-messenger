@@ -37,7 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Creating Characters" href="creating-characters.html" />
+    <link rel="next" title="Plot Branches" href="plot-branches.html" />
     <link rel="prev" title="Emails" href="emails.html" /> 
 </head>
 
@@ -109,6 +109,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-route">Setting up the Route</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ending-a-route">Ending a Route</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#customizing-the-route-select-screen">Customizing the Route Select Screen</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#providing-multiple-routes">Providing Multiple Routes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#unlockable-routes">Unlockable Routes</a></li>
@@ -116,6 +117,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
 </ul>
@@ -201,6 +203,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-route">Setting up the Route</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ending-a-route">Ending a Route</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#customizing-the-route-select-screen">Customizing the Route Select Screen</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#providing-multiple-routes">Providing Multiple Routes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#unlockable-routes">Unlockable Routes</a></li>
@@ -519,6 +522,36 @@
 </dl>
 <p>Both <code class="docutils literal notranslate"><span class="pre">route_setup.rpy</span></code> and <code class="docutils literal notranslate"><span class="pre">route_example.rpy</span></code> have definitions of Routes and their associated branching paths so you can get an idea of how routes are defined.</p>
 </div>
+<div class="section" id="ending-a-route">
+<h2>Ending a Route<a class="headerlink" href="#ending-a-route" title="Permalink to this headline">¶</a></h2>
+<p>When the player has reached the end of the route, you need to tell the program which ending screen to show them by setting the <code class="docutils literal notranslate"><span class="pre">ending</span></code> variable. The built-in options are “bad”, “normal”, and “good” e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;This is the end of the route.&quot;</span>
+<span class="n">exit</span> <span class="n">chatroom</span> <span class="n">u</span>
+<span class="k">$</span> <span class="n">ending</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span>
+<span class="k">return</span>
+</pre></div>
+</div>
+<p>By setting <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">ending</span> <span class="pre">=</span> <span class="pre">&quot;normal&quot;</span></code>, the program knows that when this timeline item ends, the route is over. The player will be shown the Save &amp; Exit screen (if applicable) and then the ending image will be shown.</p>
+<p>You can also use your own image for the end of the route by passing <code class="docutils literal notranslate"><span class="pre">ending</span></code> the full image path or the name of a defined image e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">my_custom_ending</span> <span class="o">=</span> <span class="s2">&quot;Endings/my_custom_ending.webp&quot;</span>
+
+<span class="k">label</span> <span class="n">end_of_my_route</span><span class="p">():</span>
+    <span class="k">scene</span> <span class="n">hack</span>
+    <span class="k">show</span> <span class="n">hack</span> <span class="n">effect</span>
+    <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">u</span>
+    <span class="n">u</span> <span class="s2">&quot;This is the end of the route.&quot;</span>
+    <span class="n">exit</span> <span class="n">chatroom</span> <span class="n">u</span>
+    <span class="k">$</span> <span class="n">ending</span> <span class="o">=</span> <span class="s2">&quot;my_custom_ending&quot;</span>
+    <span class="c1"># $ ending = &quot;Endings/my_custom_ending.webp&quot; also works</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>The program will show the desired image before taking the player back to the main menu. If they click “Original Story”, they will be prompted to select a route for a new game.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The end of a route is also a good place to set any persistent variables if you’re keeping track of a player’s route completion to unlock routes/images/extras later.</p>
+</div>
+</div>
 <div class="section" id="customizing-the-route-select-screen">
 <h2>Customizing the Route Select Screen<a class="headerlink" href="#customizing-the-route-select-screen" title="Permalink to this headline">¶</a></h2>
 <p>Now that you have your route defined, you can customize the route select screen to include a button to your new route. You will need to create a label for your introduction as well. This can be called whatever you like e.g.</p>
@@ -658,7 +691,7 @@
             <span class="na">action</span> <span class="n">Start</span><span class="p">(</span><span class="s1">&#39;example_casual_start&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="na">action</span> <span class="n">CConfirm</span><span class="p">(</span><span class="s2">&quot;This route is locked until you&#39;ve &quot;</span>
-                <span class="o">+</span> <span class="s2">&quot;played through Tutorial Day at least once.&quot;</span><span class="p">)</span>
+                <span class="o">+</span> <span class="s2">&quot;played the Good End on Tutorial Day&quot;</span><span class="p">)</span>
             <span class="na">hover_foreground</span> <span class="kc">None</span>
 </pre></div>
 </div>
@@ -714,7 +747,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="creating-characters.html" class="btn btn-neutral float-right" title="Creating Characters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="plot-branches.html" class="btn btn-neutral float-right" title="Plot Branches" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="emails.html" class="btn btn-neutral float-left" title="Emails" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
