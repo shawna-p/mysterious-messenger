@@ -66,7 +66,7 @@ And you're done! To use your new variable in dialogue, you can type
 
 If the player has they/them pronouns, in-game this displays as "Yeah, they said they usually go out on Fridays", but a player with she/her pronouns will see "Yeah, she said she usually goes out on Fridays.".
 
-Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see ``They`` vs ``they`` for an example of this), or you can write the variable with ``[is_are!c]`` to get the first letter capitalized (so, "Is" or "Are") or ``[is_are!u]`` to get the whole word in capitals (so "IS" or "ARE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
+Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see ``They`` vs ``they`` for an example of this), or you can write the variable with ``[is_are!cl]`` to get the first letter capitalized (so, "Is" or "Are") or ``[is_are!u]`` to get the whole word in capitals (so "IS" or "ARE"). See https://www.renpy.org/doc/html/text.html#interpolating-data for more information on interpolation flags.
 
 There is no limit to how many pronoun variables you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.
 
@@ -135,4 +135,83 @@ and if you've added it to the emoji_lookup dictionary, the following will also w
 
 
 
+Spaceship Thoughts and Chip Prizes
+==================================
 
+Spaceship Thoughts
+------------------
+
+When the floating spaceship on the home screen isn't giving out chips, you can click it to view a random thought from one of the characters. You can find the initial list of thoughts in ``variables_editable.rpy`` under the header **SPACESHIP/CHIP BAG VARIABLES** in the variable ``space_thoughts``.
+
+The variable ``space_thoughts`` can be modified here to change the spaceship thoughts the player sees upon starting the game. They can also be modified in any ``after_`` label during the game. You can have as many or as few ``SpaceThought`` objects in the list as you like -- even multiple thoughts for the same character. A ``SpaceThought`` only has two fields:
+
+`char`
+    The ChatCharacter object of the character whose thought this is. Used to find the background image for this thought.
+
+    e.g. ja
+
+`thought`
+    A string with the thought this character is thinking.
+
+    e.g. "I wonder if the cafe downstairs is open..."
+
+To change spaceship thoughts during the game, in the ``after_`` label of a timeline item, use::
+
+    $ space_thoughts.new_choices([
+        SpaceThought(ja, "I wonder if the cafe downstairs is open..."),
+        SpaceThought(ju, "The stripe on this sleeve is 3mm wider than the other stripes."),
+        SpaceThought(s, "I think my body is made of PhD Pepper and Honey Buddha Chips."),
+        SpaceThought(y, "Oh no, I'm going to be late for class again!"),
+        SpaceThought(z, "Is there a typo in the script here?")
+    ])
+
+You can see an example of this in ``tutorial_6_meeting.rpy``. Using ``space_thoughts.new_choices`` will overwrite any of the previous thoughts in the list. If you would like to simply add a thought instead, you can use::
+
+    $ space_thoughts.add_choices(
+        SpaceThought(z, "Wish I could take a nap right now...")
+    )
+
+Or you can add multiple thoughts by using a list::
+
+    $ space_thoughts.add_choices([
+        SpaceThought(z, "Wish I could take a nap right now..."),
+        SpaceThought(s, "Oh, a shooting star! How lucky~")
+    ])
+
+You can see an example of this in ``tutorial_0_introduction.rpy`` as part of a profile picture callback (see [[INSERT LINK HERE]]).
+
+
+Chip Prizes
+-----------
+
+Occasionally when finishing a timeline item, the chip bag on the home screen will give the player heart points and/or hourglasses. These heart points don't count toward any particular character. You can add to the list of possible prizes any time you like. The initial list of prizes is in ``variables_editable.rpy`` under the header **SPACESHIP/CHIP BAG VARIABLES** in the variable ``chip_prize_list``.
+
+You can modify this variable so that the initial chip prizes are different upon starting the game, or modify the list in the ``after_`` label of any timeline item. You can have as many or as few prizes as you like.
+
+Prizes are listed in something called a tuple with three items. The first is the text that should be shown when the player gets this prize e.g. "A clump of cat hair". The second and third items are numbers. The first number is the approximate amount of heart points the player should receive when they get this prize, and the second number is the number of hourglasses they should receive.
+
+An example prize might look like::
+
+    ("A clump of cat hair", 50, 1)
+
+In this case, the prize message is "A clump of cat hair", and the player will receive approximately 50 heart points and exactly 1 hourglass.
+
+The number of heart points is slightly randomized; the number will be within 10% of the value given, so the actual number of heart points the player will receive will be 45-55 in the above example. Hourglasses are not randomized in this way and the player will always receive the exact number of hourglasses specified.
+
+You can add or replace prizes in the same way as Spaceship Thoughts. To replace all the current prizes with a new list of prizes, use the method ``new_choices`` e.g.
+
+::
+
+    $ chip_prize_list.new_choices([
+        ("Trash. How unfortunate.", 25, 0),
+        ("Leftover snacks Yoosung was eating.", 80, 0),
+        ("A month's worth of rent!", 120, 2)
+    ])
+
+To add to the existing choices, use ``add_choices``::
+
+    $ chip_prize_list.add_choices([
+        ("Bubbly bubbles", 30, 0),
+        ("Yoosung's bus is waiting for you!", 130, 1),
+        ("A single potato chip", 75, 0)
+    ])
