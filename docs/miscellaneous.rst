@@ -215,3 +215,38 @@ To add to the existing choices, use ``add_choices``::
         ("Yoosung's bus is waiting for you!", 130, 1),
         ("A single potato chip", 75, 0)
     ])
+
+
+
+
+
+Adding New Ringtones, Text Tones, & Email Tones
+=================================================
+
+In ``variables_editable.rpy`` under the header **RINGTONES** are three variables, one for email tones, text tones, and ringtones. The method of adding a new tone is the same for each, so only adding a new text tone is described below.
+
+First, add a new entry to the corresponding dictionary. In this case, ``text_tone_dict``. Dictionary entries are a key-value pair, separated by a colon. In this case, the "key" is the name of the tone you want to show to the player, and the "value" is the path to the file with the correct sound effect. Note that no two entries can have the same key, so you should preface entries with a category title if you're adding multiple tones for the same character e.g.
+
+::
+
+    default text_tone_dict = {
+        'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav',
+        'Bonus ZEN': 'audio/sfx/Ringtones etc/text_bonus_z.wav'
+        'Christmas ZEN': 'audio/sfx/Ringtones etc/text_xmas_z.wav'
+    }
+
+Entries in the dictionary can be in any order; this dictionary is only used to find the correct sound file, and not to display possible tones to the player. That's taken care of next.
+
+To display your new tone to the settings screen, you must add it to the appropriate "tone" list, found below the tone dictionaries. For this case, you need to add an entry to ``persistent.text_tone_list``.
+
+.. tip::
+    You don't have to add all your ringtones/email/text tones right at the start of the game. For example, just before ending a route, you could add a set of "bonus" ringtones to ``persistent.ringtone_list`` e.g.
+
+    ::
+
+        $ persistent.ringtone_list.append([
+            "New Year's", ["Jumin Han NY", "Jaehee Kang NY", "707 NY",
+                "Yoosung NY", "ZEN NY"]
+        ])
+
+Each tone list is made up of two separate parts - the category title and a list of the available tones in that category. The names of the tones
