@@ -1263,15 +1263,15 @@ screen ringtone_dropdown(title, tone):
 
             # Text message tones
             if title == 'Text Sound':
-                $ the_list = text_tone_list
+                $ the_list = persistent.text_tone_list
                 $ the_dict = text_tone_dict
                 $ p_field = 'text_tone'
             elif title == 'Email Sound':
-                $ the_list = email_tone_list
+                $ the_list = persistent.email_tone_list
                 $ the_dict = email_tone_dict
                 $ p_field = 'email_tone'
             elif title == 'Ringtone':
-                $ the_list = ringtone_list
+                $ the_list = persistent.ringtone_list
                 $ the_dict = ringtone_dict
                 $ p_field = 'phone_tone'
 

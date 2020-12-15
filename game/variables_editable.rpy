@@ -333,16 +333,16 @@ define ringtone_dict = {
 # as you defined them above in the dictionary. To define more categories,
 # put a comma after the second-last bracket and define another list like
 # shown below
-default email_tone_list = [
+default persistent.email_tone_list = [
     ["Basic", ['Default 1', 'Default 2', 'Default 3' ]]
 ]
 
-default text_tone_list = [
+default persistent.text_tone_list = [
     ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
                 '707', 'Yoosung★', 'ZEN' ]]
 ]
 
-default ringtone_list = [
+default persistent.ringtone_list = [
     ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
                 '707','Yoosung★', 'ZEN' ]]
 ]
