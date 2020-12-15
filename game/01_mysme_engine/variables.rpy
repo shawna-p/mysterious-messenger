@@ -39,6 +39,42 @@ init -6 python:
             store.starter_story = self.label
             renpy.jump_out_of_context("begin_intro_mstmg")
 
+    class GameTone(object):
+        """
+        A class to better organize the various phone/text/email tones found
+        in the game.
+        """
+
+        def __init__(self, name, filepath):
+            self.name = name
+            self.filepath = filepath
+
+    class ToneCategory(object):
+        """
+        A class to better organize the categories of the various
+        phone/text/email tones found in the game.
+        """
+
+        def __init__(self, category, *args):
+            self.category = category
+            self.tones = [ ]
+
+            for i in range(len(args)-1):
+                try:
+                    # args should come in (title, file) pairs
+                    self.tones.append((args[i], args[i+1]))
+                except IndexError:
+                    print("WARNING: Given tone", args[i], "does not have a",
+                        "corresponding file path.")
+                    renpy.show_screen('script_error',
+                        message=("Given tone " + args[i] + " does not have "
+                            + "a corresponding file path."))
+                    return
+
+
+
+
+
 
     class MyTime(object):
         """
