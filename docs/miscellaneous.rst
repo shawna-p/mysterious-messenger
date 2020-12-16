@@ -327,3 +327,65 @@ where ``t=0.19`` is how long to show the screen for (0.19 seconds) and ``p=0.2``
                 offsetMin=-10, offsetMax=30, w_timer=0.18, p=0.01)
     call white_square_screen(t=0.16, p=0.17)
 
+
+Adding New Audio
+=================
+
+In order to support audio captions, defining new music and sound effects to play in the program requires a few extra steps.
+
+Defining New Music
+------------------
+
+All music currently in the game is defined in ``variables_music_sound.rpy``. Open that file and you will see several statements for the existing background music.
+
+For this example, a song called "Jingle Bells" will be added.
+
+First, define a variable that leads to the audio file::
+
+    define jingle_bells = "audio/music/jingle_bells.ogg"
+
+Next, in the ``music_dictionary`` variable, add ``jingle_bells`` to the end like so::
+
+    define music_dictionary = {
+        # (Complete definition omitted)
+        april_mystic_chat : "Upbeat 8-bit music",
+        april_mysterious_clues : "Sinister 8-bit music",
+        april_dark_secret : "Suspenseful 8-bit music",
+
+        jingle_bells : "Jolly Christmas music"
+    }
+
+This should be a pair of the name of your music variable (``jingle_bells``) and the description as will be displayed in an audio caption. Try to keep the description short while still conveying the general mood/feel of the song.
+
+You can now play your music in-game via::
+
+    play music jingle_bells
+
+
+
+Defining New Sound Effects
+--------------------------
+
+All sound effects currently in the game is defined in ``variables_music_sound.rpy``. Open that file and you will see several statements for the existing background music.
+
+For this example, a sound effect called "glass_breaking" will be added.
+
+First, define a variable that leads to the audio file::
+
+    define glass_breaking_sfx = "audio/sfx/glass_breaking.ogg"
+
+Next, in the ``sfx_dictionary`` variable, add ``glass_breaking_sfx`` to the end like so::
+
+    define sfx_dictionary = {
+        car_moving_sfx : "Sound of a car moving",
+        door_knock_sfx : "A knock at the door",
+        door_open_sfx : "The door opens",
+        glass_breaking_sfx : "A glass shatters"
+    }
+
+This should be a pair of the name of your sound effect (``glass_breaking_sfx``) and the description as will be displayed in an audio caption. The description should briefly describe the action or event the sound effect is meant to convey.
+
+You can now play your sound effect in-game via::
+
+    play sound glass_breaking_sfx
+
