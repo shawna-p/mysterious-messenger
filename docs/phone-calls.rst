@@ -80,6 +80,33 @@ Phone calls can also be missed if real-time mode is turned on from the Developer
 Additionally, if the player is using the game but has not yet played the 10:20 chatroom by 13:30, then if the game is open at 13:30 they will receive an incoming call which they can either accept or reject. This acts the same way as if the incoming call had been received immediately after playing the chatroom.
 
 
+Creating a Story Call
+=====================
+
+Mysterious Messenger also includes "story calls", phone calls from the characters which the player must see before they can continue with the story. Story calls can be standalone, appearing on the timeline as their own story with a trigger time, or they can be attached to chatrooms or standalone story mode items as well and played after the main/parent timeline item is complete.
+
+To create a standalone story call, see [[INSERT LINK HERE]]. Otherwise, the program will automatically create a story call if a certain naming convention is used. If the label of the parent item (i.e. a chatroom or standalone story mode) is ``newyear_4_2``, then you can create a label with the suffix ``_story_call_`` + the file_id of the character who will be calling the player e.g.
+
+::
+
+    label newyear_4_2_story_call_ja:
+        # This is a label for a story call from the character ja
+
+Unlike story mode labels, there is no "generic" story call; all story calls must come from a particular character who will be calling the player.
+
+.. tip::
+    If you want to hide the identity of the caller, you can create a special "Anonymous" ChatCharacter whose file_id you can use for the story call label.
+
+Story calls, like chatrooms, can also expire if the player is playing in real-time or if they hang up in the middle of the call. Expired story calls are treated as though the caller left the player a voicemail. As with chatrooms, the expired version of the story call is found at the name of the original story call label + ``_expired``::
+
+    label newyear_4_2_story_call_ja_expired:
+        # The expired version of the phone call
+
+A player who misses a story call or hangs up in the middle of it will either be able to play the expired version to continue the story, or can "buy back" the story call to experience the participated version.
+
+Story call dialogue is written the same way as regular phone calls.
+
+
 Writing a Phone Call
 ====================
 
