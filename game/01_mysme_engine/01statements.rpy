@@ -360,6 +360,13 @@ python early hide:
             day = l.integer()
             if day is None:
                 day = '0'
+        # Check to see if there's an initial timestamp
+        timestamp = None
+        if l.keyword('time'):
+            # Timestamp needs to be of the format ##:##
+            timestamp = l.match("\d\d:\d\d")
+            if timestamp is None:
+                renpy.error('expected timestamp for time argument')
         l.require(':')
         l.expect_eol()
 
@@ -372,7 +379,8 @@ python early hide:
 
         return dict(who=who,
                     day=day,
-                    messages=messages)
+                    messages=messages,
+                    timestamp=timestamp)
 
     def predict_backlog_stmt(p):
         messages = p['messages']
@@ -389,6 +397,7 @@ python early hide:
         try:
             sender = eval(p['who'])
             day = eval(p['day'])
+            global_timestamp = p.get('timestamp', None)
         except:
             renpy.error("Could not parse arguments of backlog CDS.")
 
@@ -433,6 +442,8 @@ python early hide:
                 # Create the 'when' timestamp
                 if timestamp:
                     when = upTime(day, timestamp)
+                elif global_timestamp:
+                    when = upTime(day, global_timestamp)
                 else:
                     when = upTime(day)
                 backlog.append((ChatEntry(who, dialogue, when, img), timestamp))
@@ -445,7 +456,7 @@ python early hide:
             return
         # Adjust timestamps for typing time
         total_sec = 0
-        start_time = None
+        start_time = global_timestamp
         for msg, timestamp in backlog:
             # Everything should be a tuple
             if isinstance(msg, ChatEntry):
