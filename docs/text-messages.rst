@@ -387,14 +387,16 @@ If you would like text messages to appear as "backlog" in the player's text mess
 
 Next, you will write the dialogue for the text messages. These are written like regular text messages, and you can use both the ``msg`` CDS as well as the spreadsheet method to write dialogue.
 
-The text message backlog statement **does not** support the use of Python, jumps, or many other features inside the text message block; these messages are intended to be used as setup and are not part of active conversations, so any Python or calculations should be done outside of the ``add backlog`` CDS.
+The text message backlog statement **does not** support the use of Python, jumps, or many other features besides dialogue inside the text message block; these messages are intended to be used as setup and are not part of active conversations, so any Python or calculations should be done outside of the ``add backlog`` CDS.
 
 However, the ``add backlog`` CDS **does** support conditional if/elif/else statements so that you can vary messages based on certain conditions. In the example at the top of this section, you can see that the message varies based on the number of heart points the player has with certain characters.
 
-Further Adjusting Timestamps
-----------------------------
+``add backlog`` does not support adding labels to jump to in order to reply to a conversation, as it is intended to setup "past" conversations. ``compose text`` is suitable for creating conversations that the player may respond to (see [[INSERT LINK HERE]]).
 
-*All* lines, regardless of the way they're written, take the special option ``time`` after the dialogue. This allows you to further customize when the messages are sent at e.g.
+Adjusting Timestamps
+---------------------
+
+All lines, regardless of the way they're written, take the special option ``time`` after the dialogue. This allows you to further customize when the messages are sent at e.g.
 
 ::
 
@@ -411,12 +413,15 @@ Additionally, there is the special line ``pause`` which will cause the program t
     add backlog ju -17 time 20:32:
         ju "Good evening, [name]."
         ju "You've been with the RFA for a month now so I hoped to ask you a question."
-        pause 35
+        pause 105
         m "What is it?"
         pause 60*2
         ju "Would you consider a position at C&R International?"
 
-The first message will have a timestamp of 20:32. The second message will take a few seconds to write, so it will likely have a timestamp of 20:32 or possibly 20:33. After that, there is a pause statement for 35 seconds. This guarantees that the program will add 35 seconds to its calculation of how long the next message should take to type, so the MC's message will have a timestamp of 20:33 or 20:34.
+The first message will have a timestamp of 20:32. The second message will take a few seconds to write but likely under a minute, so it will have a timestamp of 20:32 as well. After that, there is a pause statement for 105 seconds. This guarantees that the program will add 105 seconds to its calculation of how long the next message should take to type, so the MC's message will have a timestamp of 20:34.
 
-Finally, after the MC's line there is a pause of 60*2 seconds, so 2 minutes. This will force an additional two-minute delay between the timestamp of the next message, from Jumin, and the MC's message. The last message from Jumin should have a time stamp of 20:35 or 20:36.
+Finally, after the MC's line there is a pause of 60*2 seconds, so 2 minutes. This will force an additional two-minute delay between the timestamp of the next message, from Jumin, and the MC's message. The last message from Jumin should have a time stamp of 20:36.
+
+.. note::
+    The program will add several seconds to each backlog message's timestamp from the initial start timestamp unless an exact ``time`` argument is given. The exact number of seconds depends on the length of the message. This means that if a character has 10 messages in their text message backlog, there is likely to be at least a minute or more of difference in the timestamps of later messages to simulate the real-life time it would take to type out all 10 messages.
 
