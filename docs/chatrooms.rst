@@ -448,3 +448,73 @@ Mysterious Messenger includes a new kind of menu which will display answers at t
     msg u "Or just let the timer run out to stay silent, too."
 
 Timed menus are written almost identically to regular Ren'Py menus, but you can add as many lines of dialogue before the first choice as you like. The choices included in the menu will be on-screen while the dialogue after the ``timed menu:`` statement is shown.
+
+The dialogue for the menu can be written using the ``msg`` CDS or the spreadsheet format. You can also include other regular scripting lines, such as characters entering/exiting chatrooms, inviting guests, or awarding heart points. You can include conditional statements inside the menu dialogue or on choices themselves e.g.
+
+::
+
+    ju "[name], do you own a cat?"
+    menu:
+        "No.":
+            $ owns_cat = False
+        "I do.":
+            $ owns_cat = True
+    ju "I see. Cats are wonderful creatures, aren't they?"
+    timed menu:
+        ju "Elizabeth the 3rd has been a constant source of joy in my life"
+        if owns_cat:
+            ju "as I'm sure your cat is in yours."
+        ju "It's a shame some may never know the joy of owning a cat."
+        "Some people are allergic though, like Zen.":
+            ju "That is true."
+            ju "I believe that can be overcome with appropriate medication."
+        "I don't know what I'd do without my cat" if owns_cat:
+            ju "May the two of you never have to be parted, then."
+        "I think dogs are better, though.":
+            ju "Hmm. I don't agree but I will respect your opinion."
+
+For this menu, the line "as I'm sure your cat is in yours" only appears to a player who previously answered that they own a cat. Similarly, a player who didn't say they own a cat will not see the choice "I don't know what I'd do without my cat".
+
+.. tip::
+    Since the choices for a timed menu are smaller, it's often a good idea to either paraphrase the choices and/or keep the amount of text for each choice caption short. A maximum of three choices can appear on the screen at once for a timed menu.
+
+.. warning::
+    While you can use Python statements inside timed menus, such as ``$ owns_cat = True``, you **should not change the value of variables that are used in the menu**, such as in conditionals. This will cause undefined behaviour. So, the following is **incorrect**::
+
+        $ owns_cat = False
+        timed menu:
+            ju "I believe you mentioned you own a cat, [name]?"
+            $ owns_cat = True
+            ju "They are wonderful companions."
+            "Yeah I do own a cat" if owns_cat:
+                ju "I see."
+            "I don't have a cat" if not owns_cat:
+                ju "Oh, I was mistaken."
+
+    Because ``owns_cat`` was set to True inside the menu itself, its initial value before the menu (False) is used and it will be impossible for the player to ever see the "Yeah I do own a cat" choice, even if they see all the timed menu dialogue.
+
+    You can, however, set variables inside the menu provided they are not used in that same menu. So, the following is acceptable::
+
+        # These variables are set up outside the menu in the case that the player
+        # doesn't see the full menu
+        $ owns_cat = False
+        $ answered_jumin = False
+        timed menu:
+            ju "Do you own a cat, [name]?"
+            ju "Elizabeth the 3rd has been a constant source of joy in my life"
+            ju "It's a shame some may never know the joy of owning a cat."
+            $ answered_jumin = False
+            "I have a cat.":
+                $ owns_cat = True
+                $ answered_jumin = True
+                ju "You're someone of excellent taste, I see."
+            "I don't have a cat.":
+                $ owns_cat = False
+                $ answered_jumin = True
+                ju "Ah, that is most unfortunate then."
+        if not answered_jumin:
+            # The player didn't reply to the timed menu
+            ju "I apologize if that was an overly personal question."
+
+
+
