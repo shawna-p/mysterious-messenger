@@ -415,3 +415,36 @@ where ``ju`` is the variable of the character whose heart break you'd like to sh
 .. tip::
     Both ``break heart ju`` and ``heart break ju`` will show the heart break animation for the character ``ju``. You can't switch the word order for ``award heart`` though!
 
+
+
+Timed Menus
+============
+
+.. note::
+
+    Example files to look at:
+
+    * tutorial_5_coffee.rpy
+    * tutorial_6_meeting.rpy
+
+
+Mysterious Messenger includes a new kind of menu which will display answers at the bottom of the screen for a brief period of time while the characters continue to post messages to the chat. The player can choose an answer at any time before the timer runs out, or refrain from choosing anything and stay silent. The time the player has to choose a reply depends on the length of the dialogue before the menu. An example timed menu may look like the following::
+
+    u "Hello, [name]!"
+    timed menu:
+        u "I'm working on a UI for the choices you see at the bottom of the screen."
+        u "It's typed almost identically to regular menus this time,"
+        u "but with some convenience features I think you'll like."
+        u "You should try clicking the options before the timer runs out."
+        "This is really neat!":
+            msg u "I'm glad you think so!" curly
+            award heart u
+        "Does it remember choices?":
+            msg u "Yes it does!" bounce big curly
+            award heart u
+            msg u "And you can use regular Ren'Py code in the choices"
+            msg u "to do things like award heart points and the like." curly
+    msg u "You can choose an answer any time while the choices are on-screen,"
+    msg u "Or just let the timer run out to stay silent, too."
+
+Timed menus are written almost identically to regular Ren'Py menus, but you can add as many lines of dialogue before the first choice as you like. The choices included in the menu will be on-screen while the dialogue after the ``timed menu:`` statement is shown.
