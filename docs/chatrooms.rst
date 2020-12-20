@@ -428,7 +428,9 @@ Timed Menus
     * tutorial_6_meeting.rpy
 
 
-Mysterious Messenger includes a new kind of menu which will display answers at the bottom of the screen for a brief period of time while the characters continue to post messages to the chat. The player can choose an answer at any time before the timer runs out, or refrain from choosing anything and stay silent. The time the player has to choose a reply depends on the length of the dialogue before the menu. An example timed menu may look like the following::
+Mysterious Messenger includes a new kind of menu which will display answers at the bottom of the screen for a brief period of time while the characters continue to post messages to the chat. The player can choose an answer at any time before the timer runs out, or refrain from choosing anything and stay silent. The time the player has to choose a reply depends on the length of the dialogue before the menu. Currently, this type of menu is **only** available for chatrooms.
+
+An example timed menu may look like the following::
 
     u "Hello, [name]!"
     timed menu:
@@ -516,5 +518,14 @@ For this menu, the line "as I'm sure your cat is in yours" only appears to a pla
             # The player didn't reply to the timed menu
             ju "I apologize if that was an overly personal question."
 
+Timed Menu Settings
+--------------------
 
+There are two options in the settings that affect timed menus. Both are found under the Preferences tab. The first is **Timed Menu Speed**, a slider at the top of the screen. Clicking the title will cause the timed menu speed to be set to your current chatroom speed. Moving the slider further to the left will slow timed menus down (giving the player more time to reply), and moving the slider further to the right will speed timed menus up.
+
+This creates a sort of "bullet time" for timed menus, where the regular chat speed may be very fast, but the timed menus will slow down to give the player time to read the messages and possible responses before deciding what to do.
+
+The second option is under **Accessibility Options** and allows the player to toggle timed menus off altogether. If timed menus are turned off, the menu will act like a regular menu. All of the dialogue before the choices will be shown, and then the player will be presented with the "answer" button at the bottom of the screen. They will be able to choose between any of the given answers, or use a special choice that will be shown as "(Say nothing)" and will function as though the timer on the menu ran out without the player responding.
+
+Keep these options in mind when using timed menus in your script, as not all players will want to keep them turned on.
 
