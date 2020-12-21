@@ -529,3 +529,20 @@ The second option is under **Accessibility Options** and allows the player to to
 
 Keep these options in mind when using timed menus in your script, as not all players will want to keep them turned on.
 
+Timed Menu Functionality
+-------------------------
+
+There are a few special things to note about timed menus:
+
+* The time the player has to answer the timed menu depends on what the **Timed Menu Speed** slider in the settings is set to. By default this is set to the equivalent of SPEED 5 in the chatrooms.
+* The timed menu's timer will expire after all the dialogue inside the menu before the choices has been posted. How long it takes to post all the messages depends on the **Timed Menu Speed** as mentioned above. So, regardless of the player's chat speed or timed menu speed, they will always have enough time to view all the dialogue inside a menu before choosing an answer.
+* If a player is on Max Speed, the timed menu will be skipped entirely. The dialogue will be posted, but there will be no choices at the bottom of the screen and the program will act as though the player did not reply.
+
+    * However, if the player has timed menus turned off, the answer button will still appear at the bottom of the screen and allow the player to choose an answer (or choose to remain silent)
+
+* If a player chooses an answer before all the menu dialogue has been posted, they will not be able to see the rest of the menu dialogue.
+* If a player replays a chatroom with timed menus from the History screen, it will always act as though the Timed Menus option is turned **off**; that is, the chat will always stop at the end of the timed menu dialogue and show the answer button to allow the player to pick a response they have previously seen in-game.
+
+    * If the player has never chosen any of the menu choices in a past playthrough, the answer button and choices will not appear at all (since the only option would be to remain silent). The menu dialogue will be posted and the chat will simply move on.
+
+* If all the choices in the menu have a conditional dictating when they should be shown (e.g. ``"I want to visit Seven" if s.heart_points > 10:``) and none of those conditions evaluate to True (that is, none of the choices should be shown to the player because they don't meet the conditions), then the menu dialogue will be shown only if ``show_empty_menus`` is True. This variable can be found in ``variables_editable.rpy`` and is True by default. If set to False, if a menu has no valid choices then the menu dialogue will be skipped altogether and the chat will continue after the menu.
