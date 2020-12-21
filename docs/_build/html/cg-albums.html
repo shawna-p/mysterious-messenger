@@ -37,7 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Setting up a Route" href="route-setup.html" />
+    <link rel="next" title="Miscellaneous" href="miscellaneous.html" />
     <link rel="prev" title="Creating Characters" href="creating-characters.html" /> 
 </head>
 
@@ -96,6 +96,8 @@
 <li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emails.html">Emails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">CG Albums</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-cg-album">Adding a CG Album</a><ul>
@@ -104,9 +106,15 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#hiding-albums-until-unlocked">Hiding Albums Until Unlocked</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#defining-a-cg">Defining a CG</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#large-thumbnails">Large Thumbnails</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#showing-a-cg-in-a-chatroom-or-text-message">Showing a CG in a Chatroom or Text Message</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#showing-a-cg-during-story-mode">Showing a CG during Story Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
 </ul>
 
             
@@ -265,6 +273,92 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="defining-a-cg">
+<h2>Defining a CG<a class="headerlink" href="#defining-a-cg" title="Permalink to this headline">¶</a></h2>
+<p>For any CG you would like to show in-game, you must first go to <code class="docutils literal notranslate"><span class="pre">gallery_album_definitions.rpy</span></code> and define an image under the <strong>CGs</strong> header. For this example, a fourth CG in the <strong>Common</strong> album will be added. CG images should take up the entire screen, which is 750x1334 px. CGs of other sizes may not display correctly.</p>
+<p>First, define the image:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">cg</span> <span class="n">common_4</span> <span class="o">=</span> <span class="s2">&quot;CGs/common_album/cg-4.webp&quot;</span>
+</pre></div>
+</div>
+<p>The name of the cg must be <code class="docutils literal notranslate"><span class="pre">cg</span></code> + the name of the album it is found in, minus “album”, plus an underscore and some identifier for the image such as a number (<code class="docutils literal notranslate"><span class="pre">4</span></code>), or a descriptor of the CG. Other possible CG definitions might be:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">cg</span> <span class="n">common_flower</span> <span class="o">=</span> <span class="s2">&quot;CGs/common_album/cg-flower.webp&quot;</span>
+<span class="k">image</span> <span class="n">cg</span> <span class="n">ju_meeting</span> <span class="o">=</span> <span class="s2">&quot;CGs/ju_album/ju-meeting-office.webp&quot;</span>
+</pre></div>
+</div>
+<p>After defining your image, you must add it to the correct album. See [[INSERT LINK HERE]] for more on creating new albums as well.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">common_album</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_1&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_2&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_3&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_4&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>In this example, no unique thumbnail was specified. If the program can find an image with the suffix <code class="docutils literal notranslate"><span class="pre">-thumb</span></code> before the file extension, it will use that as the thumbnail. So, since the image is found at “CGs/common_album/cg-4.webp”, the program will look for a thumbnail image at “CGs/common_album/cg-4-thumb.webp”.</p>
+<p>Otherwise, you can also manually specify a thumbnail as the second argument to Album:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_4&quot;</span><span class="p">,</span> <span class="s2">&quot;CGs/thumbnails/common_4_thumbnail.webp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.</p>
+<div class="section" id="large-thumbnails">
+<h3>Large Thumbnails<a class="headerlink" href="#large-thumbnails" title="Permalink to this headline">¶</a></h3>
+<p>For better compatibility with the new profile picture system, you may also want to provide a “larger” version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix <code class="docutils literal notranslate"><span class="pre">-b</span></code> before the file extension. So, if our “cg common_4” isn’t given a different thumbnail, it will look for the large version of the thumbnail at “CGs/common_album/cg-4-thumb-b.webp”.</p>
+<p>If you provided a different thumbnail, as in <code class="docutils literal notranslate"><span class="pre">Album(&quot;cg</span> <span class="pre">common_4&quot;,</span> <span class="pre">&quot;CGs/thumbnails/common_4_thumbnail.webp&quot;)</span></code>, then the large version is expected to be called “CGs/thumbnails/common_4_thumbnail-b.webp”.</p>
+</div>
+</div>
+<div class="section" id="showing-a-cg-in-a-chatroom-or-text-message">
+<h2>Showing a CG in a Chatroom or Text Message<a class="headerlink" href="#showing-a-cg-in-a-chatroom-or-text-message" title="Permalink to this headline">¶</a></h2>
+<p>In chatrooms or text messages, sometimes characters will post images that the player can click on the view full-size. These images will automatically be unlocked in the appropriate Album once the player has seen them.</p>
+<p>To show a CG in the chatroom, put the name of the CG in the character’s dialogue e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;cg common_4&quot;</span> <span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># or with the msg CDS</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;cg common_4&quot;</span> <span class="n">img</span>
+</pre></div>
+</div>
+<p>You can also omit <a href="#id1"><span class="problematic" id="id2">``</span></a>cg `` at the beginning, so long as you remember to mark it as an image:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="s2">&quot;common_4&quot;</span> <span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">msg</span> <span class="n">z</span> <span class="s2">&quot;common_4&quot;</span> <span class="n">img</span>
+</pre></div>
+</div>
+<p>The program will take care of resizing the CG for the chatroom and allowing the player to view it full-size. It will also unlock the CG in the appropriate album and notify the player if they have not yet seen the image in the album. If this is the first time the player has seen this image, it will also become available for use as a bonus profile picture (see [[INSERT LINK HERE]]).</p>
+<p>You can see an example of a CG posted in a text message in <code class="docutils literal notranslate"><span class="pre">tutorial_3b_VN.rpy</span></code>, and an example of a CG posted during a chatroom in <code class="docutils literal notranslate"><span class="pre">tutorial_5_coffee.rpy</span></code>.</p>
+</div>
+<div class="section" id="showing-a-cg-during-story-mode">
+<h2>Showing a CG during Story Mode<a class="headerlink" href="#showing-a-cg-during-story-mode" title="Permalink to this headline">¶</a></h2>
+<p>All you need to do to have an image unlock after showing it in a Story Mode section is to show it to the player. This can be done through the <code class="docutils literal notranslate"><span class="pre">scene</span></code> or <code class="docutils literal notranslate"><span class="pre">show</span></code> statements. <code class="docutils literal notranslate"><span class="pre">scene</span></code> will clear the screen of any existing character sprites/backgrounds etc before showing the image.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ju</span> <span class="s2">&quot;I wanted to show you how the lounge has been decorated.&quot;</span>
+<span class="k">scene</span> <span class="n">cg</span> <span class="n">common_4</span>
+<span class="k">show</span> <span class="n">jumin</span> <span class="n">front</span> <span class="n">neutral</span>
+<span class="n">ju</span> <span class="s2">&quot;Do you like it?&quot;</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ja</span> <span class="s2">&quot;Oh, no, I&#39;ve spilled the flour everywhere.&quot;</span>
+<span class="k">show</span> <span class="n">cg</span> <span class="n">common_4</span>
+<span class="n">ja</span> <span class="s2">&quot;Could you get something to clean this up with?&quot;</span>
+</pre></div>
+</div>
+<p>In most cases, you will probably use <code class="docutils literal notranslate"><span class="pre">scene</span></code> to show a CG image to the player instead of <code class="docutils literal notranslate"><span class="pre">show</span></code>.</p>
+<p>The CG can be cleared from the screen either by replacing it with another <code class="docutils literal notranslate"><span class="pre">scene</span></code> statement or by explicitly hiding it with <code class="docutils literal notranslate"><span class="pre">hide</span> <span class="pre">cg</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;I wanted to show you how the lounge has been decorated.&quot;</span>
+<span class="k">scene</span> <span class="n">cg</span> <span class="n">common_4</span>
+<span class="k">show</span> <span class="n">jumin</span> <span class="n">front</span> <span class="n">neutral</span>
+<span class="n">ju</span> <span class="s2">&quot;Do you like it?&quot;</span>
+<span class="k">scene</span> <span class="n">bg</span> <span class="n">meeting_room</span> <span class="c1"># This clears the CG from the screen</span>
+<span class="n">ju</span> <span class="s2">&quot;I think it turned out rather well.&quot;</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ja</span> <span class="s2">&quot;Oh, no, I&#39;ve spilled the flour everywhere.&quot;</span>
+<span class="k">show</span> <span class="n">cg</span> <span class="n">common_4</span>
+<span class="n">ja</span> <span class="s2">&quot;Could you get something to clean this up with?&quot;</span>
+<span class="k">hide</span> <span class="n">cg</span> <span class="c1"># This clears the CG from the screen</span>
+<span class="k">show</span> <span class="n">jaehee</span> <span class="n">happy</span>
+<span class="n">ja</span> <span class="s2">&quot;I&#39;m sorry for the trouble.&quot;</span>
+</pre></div>
+</div>
+<p>You can see an example of a CG posted during a Story Mode section in <code class="docutils literal notranslate"><span class="pre">tutorial_8_plot_branches.rpy</span></code>.</p>
+</div>
 </div>
 
 
@@ -275,7 +369,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="route-setup.html" class="btn btn-neutral float-right" title="Setting up a Route" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="miscellaneous.html" class="btn btn-neutral float-right" title="Miscellaneous" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="creating-characters.html" class="btn btn-neutral float-left" title="Creating Characters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

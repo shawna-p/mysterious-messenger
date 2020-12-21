@@ -415,3 +415,134 @@ where ``ju`` is the variable of the character whose heart break you'd like to sh
 .. tip::
     Both ``break heart ju`` and ``heart break ju`` will show the heart break animation for the character ``ju``. You can't switch the word order for ``award heart`` though!
 
+
+
+Timed Menus
+============
+
+.. note::
+
+    Example files to look at:
+
+    * tutorial_5_coffee.rpy
+    * tutorial_6_meeting.rpy
+
+
+Mysterious Messenger includes a new kind of menu which will display answers at the bottom of the screen for a brief period of time while the characters continue to post messages to the chat. The player can choose an answer at any time before the timer runs out, or refrain from choosing anything and stay silent. The time the player has to choose a reply depends on the length of the dialogue before the menu. Currently, this type of menu is **only** available for chatrooms.
+
+An example timed menu may look like the following::
+
+    u "Hello, [name]!"
+    timed menu:
+        u "I'm working on a UI for the choices you see at the bottom of the screen."
+        u "It's typed almost identically to regular menus this time,"
+        u "but with some convenience features I think you'll like."
+        u "You should try clicking the options before the timer runs out."
+        "This is really neat!":
+            msg u "I'm glad you think so!" curly
+            award heart u
+        "Does it remember choices?":
+            msg u "Yes it does!" bounce big curly
+            award heart u
+            msg u "And you can use regular Ren'Py code in the choices"
+            msg u "to do things like award heart points and the like." curly
+    msg u "You can choose an answer any time while the choices are on-screen,"
+    msg u "Or just let the timer run out to stay silent, too."
+
+Timed menus are written almost identically to regular Ren'Py menus, but you can add as many lines of dialogue before the first choice as you like. The choices included in the menu will be on-screen while the dialogue after the ``timed menu:`` statement is shown.
+
+The dialogue for the menu can be written using the ``msg`` CDS or the spreadsheet format. You can also include other regular scripting lines, such as characters entering/exiting chatrooms, inviting guests, or awarding heart points. You can include conditional statements inside the menu dialogue or on choices themselves e.g.
+
+::
+
+    ju "[name], do you own a cat?"
+    menu:
+        "No.":
+            $ owns_cat = False
+        "I do.":
+            $ owns_cat = True
+    ju "I see. Cats are wonderful creatures, aren't they?"
+    timed menu:
+        ju "Elizabeth the 3rd has been a constant source of joy in my life"
+        if owns_cat:
+            ju "as I'm sure your cat is in yours."
+        ju "It's a shame some may never know the joy of owning a cat."
+        "Some people are allergic though, like Zen.":
+            ju "That is true."
+            ju "I believe that can be overcome with appropriate medication."
+        "I don't know what I'd do without my cat" if owns_cat:
+            ju "May the two of you never have to be parted, then."
+        "I think dogs are better, though.":
+            ju "Hmm. I don't agree but I will respect your opinion."
+
+For this menu, the line "as I'm sure your cat is in yours" only appears to a player who previously answered that they own a cat. Similarly, a player who didn't say they own a cat will not see the choice "I don't know what I'd do without my cat".
+
+.. tip::
+    Since the choices for a timed menu are smaller, it's often a good idea to either paraphrase the choices and/or keep the amount of text for each choice caption short. A maximum of three choices can appear on the screen at once for a timed menu.
+
+.. warning::
+    While you can use Python statements inside timed menus, such as ``$ owns_cat = True``, you **should not change the value of variables that are used in the menu**, such as in conditionals. This will cause undefined behaviour. So, the following is **incorrect**::
+
+        $ owns_cat = False
+        timed menu:
+            ju "I believe you mentioned you own a cat, [name]?"
+            $ owns_cat = True
+            ju "They are wonderful companions."
+            "Yeah I do own a cat" if owns_cat:
+                ju "I see."
+            "I don't have a cat" if not owns_cat:
+                ju "Oh, I was mistaken."
+
+    Because ``owns_cat`` was set to True inside the menu itself, its initial value before the menu (False) is used and it will be impossible for the player to ever see the "Yeah I do own a cat" choice, even if they see all the timed menu dialogue.
+
+    You can, however, set variables inside the menu provided they are not used in that same menu. So, the following is acceptable::
+
+        # These variables are set up outside the menu in the case that the player
+        # doesn't see the full menu
+        $ owns_cat = False
+        $ answered_jumin = False
+        timed menu:
+            ju "Do you own a cat, [name]?"
+            ju "Elizabeth the 3rd has been a constant source of joy in my life"
+            ju "It's a shame some may never know the joy of owning a cat."
+            $ answered_jumin = False
+            "I have a cat.":
+                $ owns_cat = True
+                $ answered_jumin = True
+                ju "You're someone of excellent taste, I see."
+            "I don't have a cat.":
+                $ owns_cat = False
+                $ answered_jumin = True
+                ju "Ah, that is most unfortunate then."
+        if not answered_jumin:
+            # The player didn't reply to the timed menu
+            ju "I apologize if that was an overly personal question."
+
+Timed Menu Settings
+--------------------
+
+There are two options in the settings that affect timed menus. Both are found under the Preferences tab. The first is **Timed Menu Speed**, a slider at the top of the screen. Clicking the title will cause the timed menu speed to be set to your current chatroom speed. Moving the slider further to the left will slow timed menus down (giving the player more time to reply), and moving the slider further to the right will speed timed menus up.
+
+This creates a sort of "bullet time" for timed menus, where the regular chat speed may be very fast, but the timed menus will slow down to give the player time to read the messages and possible responses before deciding what to do.
+
+The second option is under **Accessibility Options** and allows the player to toggle timed menus off altogether. If timed menus are turned off, the menu will act like a regular menu. All of the dialogue before the choices will be shown, and then the player will be presented with the "answer" button at the bottom of the screen. They will be able to choose between any of the given answers, or use a special choice that will be shown as "(Say nothing)" and will function as though the timer on the menu ran out without the player responding.
+
+Keep these options in mind when using timed menus in your script, as not all players will want to keep them turned on.
+
+Timed Menu Functionality
+-------------------------
+
+There are a few special things to note about timed menus:
+
+* The time the player has to answer the timed menu depends on what the **Timed Menu Speed** slider in the settings is set to. By default this is set to the equivalent of SPEED 5 in the chatrooms.
+* The timed menu's timer will expire after all the dialogue inside the menu before the choices has been posted. How long it takes to post all the messages depends on the **Timed Menu Speed** as mentioned above. So, regardless of the player's chat speed or timed menu speed, they will always have enough time to view all the dialogue inside a menu before choosing an answer.
+* If a player is on Max Speed, the timed menu will be skipped entirely. The dialogue will be posted, but there will be no choices at the bottom of the screen and the program will act as though the player did not reply.
+
+    * However, if the player has timed menus turned off, the answer button will still appear at the bottom of the screen and allow the player to choose an answer (or choose to remain silent)
+
+* If a player chooses an answer before all the menu dialogue has been posted, they will not be able to see the rest of the menu dialogue.
+* If a player replays a chatroom with timed menus from the History screen, it will always act as though the Timed Menus option is turned **off**; that is, the chat will always stop at the end of the timed menu dialogue and show the answer button to allow the player to pick a response they have previously seen in-game.
+
+    * If the player has never chosen any of the menu choices in a past playthrough, the answer button and choices will not appear at all (since the only option would be to remain silent). The menu dialogue will be posted and the chat will simply move on.
+
+* If all the choices in the menu have a conditional dictating when they should be shown (e.g. ``"I want to visit Seven" if s.heart_points > 10:``) and none of those conditions evaluate to True (that is, none of the choices should be shown to the player because they don't meet the conditions), then the menu dialogue will be shown only if ``show_empty_menus`` is True. This variable can be found in ``variables_editable.rpy`` and is True by default. If set to False, if a menu has no valid choices then the menu dialogue will be skipped altogether and the chat will continue after the menu.

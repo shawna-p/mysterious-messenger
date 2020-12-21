@@ -117,15 +117,22 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#timed-menu-settings">Timed Menu Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#timed-menu-functionality">Timed Menu Functionality</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="phone-calls.html">Phone Calls</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emails.html">Emails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
-<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
 </ul>
 
             
@@ -220,6 +227,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#removing-a-heart-point">Removing a heart point</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#timed-menu-settings">Timed Menu Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#timed-menu-functionality">Timed Menu Functionality</a></li>
 </ul>
 </li>
 </ul>
@@ -613,6 +625,135 @@
 <p>Both <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span> <span class="pre">ju</span></code> and <code class="docutils literal notranslate"><span class="pre">heart</span> <span class="pre">break</span> <span class="pre">ju</span></code> will show the heart break animation for the character <code class="docutils literal notranslate"><span class="pre">ju</span></code>. You can’t switch the word order for <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> though!</p>
 </div>
 </div>
+</div>
+</div>
+<div class="section" id="timed-menus">
+<h2>Timed Menus<a class="headerlink" href="#timed-menus" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Example files to look at:</p>
+<ul class="simple">
+<li><p>tutorial_5_coffee.rpy</p></li>
+<li><p>tutorial_6_meeting.rpy</p></li>
+</ul>
+</div>
+<p>Mysterious Messenger includes a new kind of menu which will display answers at the bottom of the screen for a brief period of time while the characters continue to post messages to the chat. The player can choose an answer at any time before the timer runs out, or refrain from choosing anything and stay silent. The time the player has to choose a reply depends on the length of the dialogue before the menu. Currently, this type of menu is <strong>only</strong> available for chatrooms.</p>
+<p>An example timed menu may look like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Hello, [name]!&quot;</span>
+<span class="n">timed</span> <span class="k">menu</span><span class="p">:</span>
+    <span class="n">u</span> <span class="s2">&quot;I&#39;m working on a UI for the choices you see at the bottom of the screen.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;It&#39;s typed almost identically to regular menus this time,&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;but with some convenience features I think you&#39;ll like.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;You should try clicking the options before the timer runs out.&quot;</span>
+    <span class="s2">&quot;This is really neat!&quot;</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;I&#39;m glad you think so!&quot;</span> <span class="n">curly</span>
+        <span class="n">award</span> <span class="n">heart</span> <span class="n">u</span>
+    <span class="s2">&quot;Does it remember choices?&quot;</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;Yes it does!&quot;</span> <span class="n">bounce</span> <span class="n">big</span> <span class="n">curly</span>
+        <span class="n">award</span> <span class="n">heart</span> <span class="n">u</span>
+        <span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;And you can use regular Ren&#39;Py code in the choices&quot;</span>
+        <span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;to do things like award heart points and the like.&quot;</span> <span class="n">curly</span>
+<span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;You can choose an answer any time while the choices are on-screen,&quot;</span>
+<span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;Or just let the timer run out to stay silent, too.&quot;</span>
+</pre></div>
+</div>
+<p>Timed menus are written almost identically to regular Ren’Py menus, but you can add as many lines of dialogue before the first choice as you like. The choices included in the menu will be on-screen while the dialogue after the <code class="docutils literal notranslate"><span class="pre">timed</span> <span class="pre">menu:</span></code> statement is shown.</p>
+<p>The dialogue for the menu can be written using the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS or the spreadsheet format. You can also include other regular scripting lines, such as characters entering/exiting chatrooms, inviting guests, or awarding heart points. You can include conditional statements inside the menu dialogue or on choices themselves e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ju</span> <span class="s2">&quot;[name], do you own a cat?&quot;</span>
+<span class="k">menu</span><span class="p">:</span>
+    <span class="s2">&quot;No.&quot;</span><span class="p">:</span>
+        <span class="k">$</span> <span class="n">owns_cat</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="s2">&quot;I do.&quot;</span><span class="p">:</span>
+        <span class="k">$</span> <span class="n">owns_cat</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">ju</span> <span class="s2">&quot;I see. Cats are wonderful creatures, aren&#39;t they?&quot;</span>
+<span class="n">timed</span> <span class="k">menu</span><span class="p">:</span>
+    <span class="n">ju</span> <span class="s2">&quot;Elizabeth the 3rd has been a constant source of joy in my life&quot;</span>
+    <span class="k">if</span> <span class="n">owns_cat</span><span class="p">:</span>
+        <span class="n">ju</span> <span class="s2">&quot;as I&#39;m sure your cat is in yours.&quot;</span>
+    <span class="n">ju</span> <span class="s2">&quot;It&#39;s a shame some may never know the joy of owning a cat.&quot;</span>
+    <span class="s2">&quot;Some people are allergic though, like Zen.&quot;</span><span class="p">:</span>
+        <span class="n">ju</span> <span class="s2">&quot;That is true.&quot;</span>
+        <span class="n">ju</span> <span class="s2">&quot;I believe that can be overcome with appropriate medication.&quot;</span>
+    <span class="s2">&quot;I don&#39;t know what I&#39;d do without my cat&quot;</span> <span class="k">if</span> <span class="n">owns_cat</span><span class="p">:</span>
+        <span class="n">ju</span> <span class="s2">&quot;May the two of you never have to be parted, then.&quot;</span>
+    <span class="s2">&quot;I think dogs are better, though.&quot;</span><span class="p">:</span>
+        <span class="n">ju</span> <span class="s2">&quot;Hmm. I don&#39;t agree but I will respect your opinion.&quot;</span>
+</pre></div>
+</div>
+<p>For this menu, the line “as I’m sure your cat is in yours” only appears to a player who previously answered that they own a cat. Similarly, a player who didn’t say they own a cat will not see the choice “I don’t know what I’d do without my cat”.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Since the choices for a timed menu are smaller, it’s often a good idea to either paraphrase the choices and/or keep the amount of text for each choice caption short. A maximum of three choices can appear on the screen at once for a timed menu.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While you can use Python statements inside timed menus, such as <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">owns_cat</span> <span class="pre">=</span> <span class="pre">True</span></code>, you <strong>should not change the value of variables that are used in the menu</strong>, such as in conditionals. This will cause undefined behaviour. So, the following is <strong>incorrect</strong>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">owns_cat</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">timed</span> <span class="k">menu</span><span class="p">:</span>
+    <span class="n">ju</span> <span class="s2">&quot;I believe you mentioned you own a cat, [name]?&quot;</span>
+    <span class="k">$</span> <span class="n">owns_cat</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">ju</span> <span class="s2">&quot;They are wonderful companions.&quot;</span>
+    <span class="s2">&quot;Yeah I do own a cat&quot;</span> <span class="k">if</span> <span class="n">owns_cat</span><span class="p">:</span>
+        <span class="n">ju</span> <span class="s2">&quot;I see.&quot;</span>
+    <span class="s2">&quot;I don&#39;t have a cat&quot;</span> <span class="k">if</span> <span class="k">not</span> <span class="n">owns_cat</span><span class="p">:</span>
+        <span class="n">ju</span> <span class="s2">&quot;Oh, I was mistaken.&quot;</span>
+</pre></div>
+</div>
+<p>Because <code class="docutils literal notranslate"><span class="pre">owns_cat</span></code> was set to True inside the menu itself, its initial value before the menu (False) is used and it will be impossible for the player to ever see the “Yeah I do own a cat” choice, even if they see all the timed menu dialogue.</p>
+<p>You can, however, set variables inside the menu provided they are not used in that same menu. So, the following is acceptable:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="c1"># These variables are set up outside the menu in the case that the player</span>
+<span class="c1"># doesn&#39;t see the full menu</span>
+<span class="k">$</span> <span class="n">owns_cat</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">$</span> <span class="n">answered_jumin</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">timed</span> <span class="k">menu</span><span class="p">:</span>
+    <span class="n">ju</span> <span class="s2">&quot;Do you own a cat, [name]?&quot;</span>
+    <span class="n">ju</span> <span class="s2">&quot;Elizabeth the 3rd has been a constant source of joy in my life&quot;</span>
+    <span class="n">ju</span> <span class="s2">&quot;It&#39;s a shame some may never know the joy of owning a cat.&quot;</span>
+    <span class="k">$</span> <span class="n">answered_jumin</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="s2">&quot;I have a cat.&quot;</span><span class="p">:</span>
+        <span class="k">$</span> <span class="n">owns_cat</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">$</span> <span class="n">answered_jumin</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">ju</span> <span class="s2">&quot;You&#39;re someone of excellent taste, I see.&quot;</span>
+    <span class="s2">&quot;I don&#39;t have a cat.&quot;</span><span class="p">:</span>
+        <span class="k">$</span> <span class="n">owns_cat</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">$</span> <span class="n">answered_jumin</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">ju</span> <span class="s2">&quot;Ah, that is most unfortunate then.&quot;</span>
+<span class="k">if</span> <span class="k">not</span> <span class="n">answered_jumin</span><span class="p">:</span>
+    <span class="c1"># The player didn&#39;t reply to the timed menu</span>
+    <span class="n">ju</span> <span class="s2">&quot;I apologize if that was an overly personal question.&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="timed-menu-settings">
+<h3>Timed Menu Settings<a class="headerlink" href="#timed-menu-settings" title="Permalink to this headline">¶</a></h3>
+<p>There are two options in the settings that affect timed menus. Both are found under the Preferences tab. The first is <strong>Timed Menu Speed</strong>, a slider at the top of the screen. Clicking the title will cause the timed menu speed to be set to your current chatroom speed. Moving the slider further to the left will slow timed menus down (giving the player more time to reply), and moving the slider further to the right will speed timed menus up.</p>
+<p>This creates a sort of “bullet time” for timed menus, where the regular chat speed may be very fast, but the timed menus will slow down to give the player time to read the messages and possible responses before deciding what to do.</p>
+<p>The second option is under <strong>Accessibility Options</strong> and allows the player to toggle timed menus off altogether. If timed menus are turned off, the menu will act like a regular menu. All of the dialogue before the choices will be shown, and then the player will be presented with the “answer” button at the bottom of the screen. They will be able to choose between any of the given answers, or use a special choice that will be shown as “(Say nothing)” and will function as though the timer on the menu ran out without the player responding.</p>
+<p>Keep these options in mind when using timed menus in your script, as not all players will want to keep them turned on.</p>
+</div>
+<div class="section" id="timed-menu-functionality">
+<h3>Timed Menu Functionality<a class="headerlink" href="#timed-menu-functionality" title="Permalink to this headline">¶</a></h3>
+<p>There are a few special things to note about timed menus:</p>
+<ul>
+<li><p>The time the player has to answer the timed menu depends on what the <strong>Timed Menu Speed</strong> slider in the settings is set to. By default this is set to the equivalent of SPEED 5 in the chatrooms.</p></li>
+<li><p>The timed menu’s timer will expire after all the dialogue inside the menu before the choices has been posted. How long it takes to post all the messages depends on the <strong>Timed Menu Speed</strong> as mentioned above. So, regardless of the player’s chat speed or timed menu speed, they will always have enough time to view all the dialogue inside a menu before choosing an answer.</p></li>
+<li><p>If a player is on Max Speed, the timed menu will be skipped entirely. The dialogue will be posted, but there will be no choices at the bottom of the screen and the program will act as though the player did not reply.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>However, if the player has timed menus turned off, the answer button will still appear at the bottom of the screen and allow the player to choose an answer (or choose to remain silent)</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>If a player chooses an answer before all the menu dialogue has been posted, they will not be able to see the rest of the menu dialogue.</p></li>
+<li><p>If a player replays a chatroom with timed menus from the History screen, it will always act as though the Timed Menus option is turned <strong>off</strong>; that is, the chat will always stop at the end of the timed menu dialogue and show the answer button to allow the player to pick a response they have previously seen in-game.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If the player has never chosen any of the menu choices in a past playthrough, the answer button and choices will not appear at all (since the only option would be to remain silent). The menu dialogue will be posted and the chat will simply move on.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>If all the choices in the menu have a conditional dictating when they should be shown (e.g. <code class="docutils literal notranslate"><span class="pre">&quot;I</span> <span class="pre">want</span> <span class="pre">to</span> <span class="pre">visit</span> <span class="pre">Seven&quot;</span> <span class="pre">if</span> <span class="pre">s.heart_points</span> <span class="pre">&gt;</span> <span class="pre">10:</span></code>) and none of those conditions evaluate to True (that is, none of the choices should be shown to the player because they don’t meet the conditions), then the menu dialogue will be shown only if <code class="docutils literal notranslate"><span class="pre">show_empty_menus</span></code> is True. This variable can be found in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> and is True by default. If set to False, if a menu has no valid choices then the menu dialogue will be skipped altogether and the chat will continue after the menu.</p></li>
+</ul>
 </div>
 </div>
 </div>

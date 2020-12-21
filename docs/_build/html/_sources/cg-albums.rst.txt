@@ -115,3 +115,113 @@ Note that since you are passing a list, you can pass multiple albums to be hidde
 
     $ hide_albums(["new year's", "christmas", "b"])
 
+
+
+Defining a CG
+==============
+
+For any CG you would like to show in-game, you must first go to ``gallery_album_definitions.rpy`` and define an image under the **CGs** header. For this example, a fourth CG in the **Common** album will be added. CG images should take up the entire screen, which is 750x1334 px. CGs of other sizes may not display correctly.
+
+First, define the image::
+
+    image cg common_4 = "CGs/common_album/cg-4.webp"
+
+The name of the cg must be ``cg`` + the name of the album it is found in, minus "album", plus an underscore and some identifier for the image such as a number (``4``), or a descriptor of the CG. Other possible CG definitions might be::
+
+    image cg common_flower = "CGs/common_album/cg-flower.webp"
+    image cg ju_meeting = "CGs/ju_album/ju-meeting-office.webp"
+
+After defining your image, you must add it to the correct album. See [[INSERT LINK HERE]] for more on creating new albums as well.
+
+::
+
+    default common_album = [
+        Album("cg common_1"),
+        Album("cg common_2"),
+        Album("cg common_3"),
+        Album("cg common_4")
+    ]
+
+In this example, no unique thumbnail was specified. If the program can find an image with the suffix ``-thumb`` before the file extension, it will use that as the thumbnail. So, since the image is found at "CGs/common_album/cg-4.webp", the program will look for a thumbnail image at "CGs/common_album/cg-4-thumb.webp".
+
+Otherwise, you can also manually specify a thumbnail as the second argument to Album::
+
+    Album("cg common_4", "CGs/thumbnails/common_4_thumbnail.webp")
+
+Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.
+
+Large Thumbnails
+-----------------
+
+For better compatibility with the new profile picture system, you may also want to provide a "larger" version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix ``-b`` before the file extension. So, if our "cg common_4" isn't given a different thumbnail, it will look for the large version of the thumbnail at "CGs/common_album/cg-4-thumb-b.webp".
+
+If you provided a different thumbnail, as in ``Album("cg common_4", "CGs/thumbnails/common_4_thumbnail.webp")``, then the large version is expected to be called "CGs/thumbnails/common_4_thumbnail-b.webp".
+
+
+Showing a CG in a Chatroom or Text Message
+===========================================
+
+In chatrooms or text messages, sometimes characters will post images that the player can click on the view full-size. These images will automatically be unlocked in the appropriate Album once the player has seen them.
+
+To show a CG in the chatroom, put the name of the CG in the character's dialogue e.g.
+
+::
+
+    s "cg common_4" (img=True)
+    # or with the msg CDS
+    msg s "cg common_4" img
+
+You can also omit ``cg `` at the beginning, so long as you remember to mark it as an image::
+
+    y "common_4" (img=True)
+    msg z "common_4" img
+
+The program will take care of resizing the CG for the chatroom and allowing the player to view it full-size. It will also unlock the CG in the appropriate album and notify the player if they have not yet seen the image in the album. If this is the first time the player has seen this image, it will also become available for use as a bonus profile picture (see [[INSERT LINK HERE]]).
+
+You can see an example of a CG posted in a text message in ``tutorial_3b_VN.rpy``, and an example of a CG posted during a chatroom in ``tutorial_5_coffee.rpy``.
+
+
+Showing a CG during Story Mode
+===============================
+
+All you need to do to have an image unlock after showing it in a Story Mode section is to show it to the player. This can be done through the ``scene`` or ``show`` statements. ``scene`` will clear the screen of any existing character sprites/backgrounds etc before showing the image.
+
+::
+
+    ju "I wanted to show you how the lounge has been decorated."
+    scene cg common_4
+    show jumin front neutral
+    ju "Do you like it?"
+
+or
+
+::
+
+    ja "Oh, no, I've spilled the flour everywhere."
+    show cg common_4
+    ja "Could you get something to clean this up with?"
+
+In most cases, you will probably use ``scene`` to show a CG image to the player instead of ``show``.
+
+The CG can be cleared from the screen either by replacing it with another ``scene`` statement or by explicitly hiding it with ``hide cg``::
+
+    u "I wanted to show you how the lounge has been decorated."
+    scene cg common_4
+    show jumin front neutral
+    ju "Do you like it?"
+    scene bg meeting_room # This clears the CG from the screen
+    ju "I think it turned out rather well."
+
+or
+
+::
+
+    ja "Oh, no, I've spilled the flour everywhere."
+    show cg common_4
+    ja "Could you get something to clean this up with?"
+    hide cg # This clears the CG from the screen
+    show jaehee happy
+    ja "I'm sorry for the trouble."
+
+You can see an example of a CG posted during a Story Mode section in ``tutorial_8_plot_branches.rpy``.
+

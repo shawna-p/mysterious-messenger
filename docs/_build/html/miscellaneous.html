@@ -1,0 +1,588 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Miscellaneous &mdash; Mysterious Messenger Wiki v2.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="CG Albums" href="cg-albums.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Mysterious Messenger Wiki
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="phone-calls.html">Phone Calls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="emails.html">Emails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
+<li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Miscellaneous</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pronoun-integration">Pronoun Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-additional-pronoun-variables">Defining Additional Pronoun Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-emojis">Custom Emojis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spaceship-thoughts-and-chip-prizes">Spaceship Thoughts and Chip Prizes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spaceship-thoughts">Spaceship Thoughts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chip-prizes">Chip Prizes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-new-ringtones-text-tones-email-tones">Adding New Ringtones, Text Tones, &amp; Email Tones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hacked-effects">Hacked Effects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-tear-screen">The tear screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-hack-rectangle-screen">The hack_rectangle screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#static-white-squares">Static white squares</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inverting-the-screen-colours">Inverting the screen colours</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-new-audio">Adding New Audio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-new-music">Defining New Music</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#defining-new-sound-effects">Defining New Sound Effects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Mysterious Messenger Wiki</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Miscellaneous</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/miscellaneous.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="miscellaneous">
+<h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Navigation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Miscellaneous</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pronoun-integration">Pronoun Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-additional-pronoun-variables">Defining Additional Pronoun Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-emojis">Custom Emojis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spaceship-thoughts-and-chip-prizes">Spaceship Thoughts and Chip Prizes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#spaceship-thoughts">Spaceship Thoughts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#chip-prizes">Chip Prizes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-new-ringtones-text-tones-email-tones">Adding New Ringtones, Text Tones, &amp; Email Tones</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hacked-effects">Hacked Effects</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#the-tear-screen">The tear screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-hack-rectangle-screen">The hack_rectangle screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#static-white-squares">Static white squares</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inverting-the-screen-colours">Inverting the screen colours</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-new-audio">Adding New Audio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#defining-new-music">Defining New Music</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#defining-new-sound-effects">Defining New Sound Effects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="pronoun-integration">
+<h2>Pronoun Integration<a class="headerlink" href="#pronoun-integration" title="Permalink to this headline">¶</a></h2>
+<p>Mysterious Messenger allows the player to change their pronouns whenever they desire during the game. This means that any reference to the player’s gender or use of pronouns to refer to the player must be taken care of via variables.</p>
+<p>At the top of <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> you will see a function called <code class="docutils literal notranslate"><span class="pre">set_pronouns</span></code> and several existing variables defined under the header <strong>PRONOUN VARIABLES</strong>. These can be used in script:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;Aw, it doesn&#39;t look like [name] is logged in. I wonder what [they_re] doing?&quot;</span>
+</pre></div>
+</div>
+<p>For a player with she/her pronouns, the final part of this dialogue will appear as “I wonder what she’s doing?” whereas a player with they/them pronouns will see “I wonder what they’re doing?”</p>
+<p>It’s important to remember that many verbs conjugate differently for “he/she” than for “they”, which is why you should use the pronoun variables. Ren’Py’s interpolation is very flexible; for example, you can negate the <code class="docutils literal notranslate"><span class="pre">do_does</span></code> variable like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ju</span> <span class="s2">&quot;I think [name] said [they] [do_does]n&#39;t know if [they]&#39;ll be free this weekend.&quot;</span>
+</pre></div>
+</div>
+<p>For a player with they/them pronouns, this displays as “I think [name] said they don’t know if they’ll be free this weekend”, meanwhile, a player with he/him pronouns will see “I think [name] said he doesn’t know if he’ll be free this weekend.” (Note: <code class="docutils literal notranslate"><span class="pre">[name]</span></code> is replaced with the player’s name)</p>
+<div class="section" id="defining-additional-pronoun-variables">
+<h3>Defining Additional Pronoun Variables<a class="headerlink" href="#defining-additional-pronoun-variables" title="Permalink to this headline">¶</a></h3>
+<p>If you would like to define additional variables to help with scripting dialogue, you must define the variable in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the <strong>PRONOUN VARIABLES</strong> header and also in the <code class="docutils literal notranslate"><span class="pre">set_pronouns</span></code> function.</p>
+<p>For this example, a variable called <code class="docutils literal notranslate"><span class="pre">go_goes</span></code> will be defined for the three main pronoun options.</p>
+<p>First, in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the <strong>PRONOUN VARIABLES</strong> header, add</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">go_goes</span> <span class="o">=</span> <span class="s2">&quot;go&quot;</span>
+</pre></div>
+</div>
+<p>Then in the <code class="docutils literal notranslate"><span class="pre">set_pronouns()</span></code> function under all the <code class="docutils literal notranslate"><span class="pre">global</span></code> declarations, add</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">global</span> <span class="n">go_goes</span>
+</pre></div>
+</div>
+<p>at the top of the function.</p>
+<p>Next, under both <code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">persistent.pronoun</span> <span class="pre">==</span> <span class="pre">&quot;she/her&quot;</span></code> and <code class="docutils literal notranslate"><span class="pre">elif</span> <span class="pre">persistent.pronoun</span> <span class="pre">==</span> <span class="pre">&quot;he/him&quot;</span></code> add the line</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">go_goes</span> <span class="o">=</span> <span class="s2">&quot;goes&quot;</span>
+</pre></div>
+</div>
+<p>and under <code class="docutils literal notranslate"><span class="pre">elif</span> <span class="pre">persistent.pronoun</span> <span class="pre">==</span> <span class="pre">&quot;they/them&quot;</span></code> add</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">go_goes</span> <span class="o">=</span> <span class="s2">&quot;go&quot;</span>
+</pre></div>
+</div>
+<p>And you’re done! To use your new variable in dialogue, you can type</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="s2">&quot;Yeah, [they] said [they] usually [go_goes] out on Fridays.&quot;</span>
+</pre></div>
+</div>
+<p>If the player has they/them pronouns, in-game this displays as “Yeah, they said they usually go out on Fridays”, but a player with she/her pronouns will see “Yeah, she said she usually goes out on Fridays.”.</p>
+<p>Variables are capitalization-sensitive; if you need a capitalized version of a variable you can either create another variable (see <code class="docutils literal notranslate"><span class="pre">They</span></code> vs <code class="docutils literal notranslate"><span class="pre">they</span></code> for an example of this), or you can write the variable with <code class="docutils literal notranslate"><span class="pre">[is_are!cl]</span></code> to get the first letter capitalized (so, “Is” or “Are”) or <code class="docutils literal notranslate"><span class="pre">[is_are!u]</span></code> to get the whole word in capitals (so “IS” or “ARE”). See <a class="reference external" href="https://www.renpy.org/doc/html/text.html#interpolating-data">https://www.renpy.org/doc/html/text.html#interpolating-data</a> for more information on interpolation flags.</p>
+<p>There is no limit to how many pronoun variables you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.</p>
+</div>
+</div>
+<div class="section" id="custom-emojis">
+<h2>Custom Emojis<a class="headerlink" href="#custom-emojis" title="Permalink to this headline">¶</a></h2>
+<p>If you’d like to add your own emojis to the program, you need to define it as an image and add a few lines to the <code class="docutils literal notranslate"><span class="pre">emoji_lookup</span></code> dictionary found in <code class="docutils literal notranslate"><span class="pre">emoji_definitions.rpy</span></code>. Emojis are saved as a series of frames, found in the <code class="docutils literal notranslate"><span class="pre">images/Gifs/</span></code> folder.</p>
+<p>The bottom of <code class="docutils literal notranslate"><span class="pre">emoji_definitions.rpy</span></code> contains several image definitions which look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">jaehee_angry</span><span class="p">:</span>
+    <span class="s2">&quot;Gifs/Jaehee/emo_jaehee_angry1.webp&quot;</span>
+    <span class="mf">0.5</span>
+    <span class="s2">&quot;Gifs/Jaehee/emo_jaehee_angry2.webp&quot;</span>
+    <span class="mf">0.5</span>
+    <span class="k">repeat</span>
+</pre></div>
+</div>
+<p>The name of this image is <code class="docutils literal notranslate"><span class="pre">jaehee_angry</span></code>. It is made up of two separate images with a half-second pause between them. The first image is “Gifs/Jaehee/emo_jaehee_angry1.webp” and the second is “Gifs/Jaehee/emo_jaehee_angry2.webp”. <code class="docutils literal notranslate"><span class="pre">0.5</span></code> tells the program to wait 0.5 seconds before showing the image on the next line. <code class="docutils literal notranslate"><span class="pre">repeat</span></code> lets the program know that it should loop indefinitely over these two images.</p>
+<p>You’re not limited to just two frames; for a smoother animation, something like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">my_new_emoji</span><span class="p">:</span>
+    <span class="s2">&quot;Gifs/Example/frame1.webp&quot;</span>
+    <span class="mf">0.25</span>
+    <span class="s2">&quot;Gifs/Example/frame2.webp&quot;</span>
+    <span class="mf">0.25</span>
+    <span class="s2">&quot;Gifs/Example/frame3.webp&quot;</span>
+    <span class="mf">0.3</span>
+    <span class="s2">&quot;Gifs/Example/frame4.webp&quot;</span>
+    <span class="mf">0.25</span>
+    <span class="k">repeat</span>
+</pre></div>
+</div>
+<p>will also work. This will cycle through frames 1-4 on repeat. Note that the time between each frame can be adjusted according to the animation’s needs.</p>
+<p>In order for the emoji to have an accompanying sound, you need to add it to the <code class="docutils literal notranslate"><span class="pre">emoji_lookup</span></code> dictionary near the top of the file. Assuming your image is named <code class="docutils literal notranslate"><span class="pre">my_new_emoji</span></code> as shown in the example definition above, you need to create an entry for your image like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;{image=my_new_emoji}&quot;</span><span class="p">:</span> <span class="s2">&quot;audio/sfx/Emotes/Example/some_audio_file.mp3&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">my_new_emoji</span></code> is the name of your defined image, and <code class="docutils literal notranslate"><span class="pre">audio/sfx/Emotes/Example/some_audio_file.mp3</span></code> is the path to the audio file that should play when this emoji is shown.</p>
+<p>If you’re adding this to the end of the dictionary, ensure there is a comma after each entry before the last e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span>    <span class="s1">&#39;{image=zen_shock}&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Emotes/Zen/zen_shock.mp3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;{image=zen_well}&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Emotes/Zen/zen_well.mp3&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;{image=zen_wink}&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Emotes/Zen/zen_wink.mp3&#39;</span><span class="p">,</span> <span class="c1"># &lt;- Comma</span>
+
+    <span class="s2">&quot;{image=my_new_emoji}&quot;</span><span class="p">:</span> <span class="s2">&quot;audio/sfx/Emotes/Example/some_audio_file.mp3&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now when you want to show your new emoji in a chatroom or text message, you just need to type</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ja</span> <span class="s2">&quot;{image=my_new_emoji}&quot;</span> <span class="p">(</span><span class="n">img</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and if you’ve added it to the emoji_lookup dictionary, the following will also work:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">ja</span> <span class="s2">&quot;{image=my_new_emoji}&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You may also notice that there are a few variables defined under <cite>emoji_lookup</cite> such as <cite>jaehee_emotes</cite>; these are used in the chatroom generator, which is not yet fully implemented. You can ignore these variables for now.</p>
+</div>
+</div>
+<div class="section" id="spaceship-thoughts-and-chip-prizes">
+<h2>Spaceship Thoughts and Chip Prizes<a class="headerlink" href="#spaceship-thoughts-and-chip-prizes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="spaceship-thoughts">
+<h3>Spaceship Thoughts<a class="headerlink" href="#spaceship-thoughts" title="Permalink to this headline">¶</a></h3>
+<p>When the floating spaceship on the home screen isn’t giving out chips, you can click it to view a random thought from one of the characters. You can find the initial list of thoughts in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>SPACESHIP/CHIP BAG VARIABLES</strong> in the variable <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code>.</p>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">space_thoughts</span></code> can be modified here to change the spaceship thoughts the player sees upon starting the game. They can also be modified in any <code class="docutils literal notranslate"><span class="pre">after_</span></code> label during the game. You can have as many or as few <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> objects in the list as you like – even multiple thoughts for the same character. A <code class="docutils literal notranslate"><span class="pre">SpaceThought</span></code> only has two fields:</p>
+<dl>
+<dt><cite>char</cite></dt><dd><p>The ChatCharacter object of the character whose thought this is. Used to find the background image for this thought.</p>
+<p>e.g. ja</p>
+</dd>
+<dt><cite>thought</cite></dt><dd><p>A string with the thought this character is thinking.</p>
+<p>e.g. “I wonder if the cafe downstairs is open…”</p>
+</dd>
+</dl>
+<p>To change spaceship thoughts during the game, in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of a timeline item, use:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">space_thoughts</span><span class="o">.</span><span class="n">new_choices</span><span class="p">([</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">ja</span><span class="p">,</span> <span class="s2">&quot;I wonder if the cafe downstairs is open...&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">ju</span><span class="p">,</span> <span class="s2">&quot;The stripe on this sleeve is 3mm wider than the other stripes.&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;I think my body is made of PhD Pepper and Honey Buddha Chips.&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;Oh no, I&#39;m going to be late for class again!&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="s2">&quot;Is there a typo in the script here?&quot;</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>You can see an example of this in <code class="docutils literal notranslate"><span class="pre">tutorial_6_meeting.rpy</span></code>. Using <code class="docutils literal notranslate"><span class="pre">space_thoughts.new_choices</span></code> will overwrite any of the previous thoughts in the list. If you would like to simply add a thought instead, you can use:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">space_thoughts</span><span class="o">.</span><span class="n">add_choices</span><span class="p">(</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="s2">&quot;Wish I could take a nap right now...&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Or you can add multiple thoughts by using a list:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">space_thoughts</span><span class="o">.</span><span class="n">add_choices</span><span class="p">([</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="s2">&quot;Wish I could take a nap right now...&quot;</span><span class="p">),</span>
+    <span class="n">SpaceThought</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="s2">&quot;Oh, a shooting star! How lucky~&quot;</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>You can see an example of this in <code class="docutils literal notranslate"><span class="pre">tutorial_0_introduction.rpy</span></code> as part of a profile picture callback (see [[INSERT LINK HERE]]).</p>
+</div>
+<div class="section" id="chip-prizes">
+<h3>Chip Prizes<a class="headerlink" href="#chip-prizes" title="Permalink to this headline">¶</a></h3>
+<p>Occasionally when finishing a timeline item, the chip bag on the home screen will give the player heart points and/or hourglasses. These heart points don’t count toward any particular character. You can add to the list of possible prizes any time you like. The initial list of prizes is in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>SPACESHIP/CHIP BAG VARIABLES</strong> in the variable <code class="docutils literal notranslate"><span class="pre">chip_prize_list</span></code>.</p>
+<p>You can modify this variable so that the initial chip prizes are different upon starting the game, or modify the list in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of any timeline item. You can have as many or as few prizes as you like.</p>
+<p>Prizes are listed in something called a tuple with three items. The first is the text that should be shown when the player gets this prize e.g. “A clump of cat hair”. The second and third items are numbers. The first number is the approximate amount of heart points the player should receive when they get this prize, and the second number is the number of hourglasses they should receive.</p>
+<p>An example prize might look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s2">&quot;A clump of cat hair&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, the prize message is “A clump of cat hair”, and the player will receive approximately 50 heart points and exactly 1 hourglass.</p>
+<p>The number of heart points is slightly randomized; the number will be within 10% of the value given, so the actual number of heart points the player will receive will be 45-55 in the above example. Hourglasses are not randomized in this way and the player will always receive the exact number of hourglasses specified.</p>
+<p>You can add or replace prizes in the same way as Spaceship Thoughts. To replace all the current prizes with a new list of prizes, use the method <code class="docutils literal notranslate"><span class="pre">new_choices</span></code> e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">chip_prize_list</span><span class="o">.</span><span class="n">new_choices</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;Trash. How unfortunate.&quot;</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Leftover snacks Yoosung was eating.&quot;</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;A month&#39;s worth of rent!&quot;</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+<p>To add to the existing choices, use <code class="docutils literal notranslate"><span class="pre">add_choices</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">chip_prize_list</span><span class="o">.</span><span class="n">add_choices</span><span class="p">([</span>
+    <span class="p">(</span><span class="s2">&quot;Bubbly bubbles&quot;</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Yoosung&#39;s bus is waiting for you!&quot;</span><span class="p">,</span> <span class="mi">130</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;A single potato chip&quot;</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="adding-new-ringtones-text-tones-email-tones">
+<h2>Adding New Ringtones, Text Tones, &amp; Email Tones<a class="headerlink" href="#adding-new-ringtones-text-tones-email-tones" title="Permalink to this headline">¶</a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>RINGTONES</strong> are three variables, one for email tones, text tones, and ringtones. The method of adding a new tone is the same for each, so only adding a new text tone is described below.</p>
+<p>First, add a new entry to the corresponding dictionary. In this case, <code class="docutils literal notranslate"><span class="pre">text_tone_dict</span></code>. Dictionary entries are a key-value pair, separated by a colon. In this case, the “key” is the name of the tone you want to show to the player, and the “value” is the path to the file with the correct sound effect. Note that no two entries can have the same key, so you should preface entries with a category title if you’re adding multiple tones for the same character e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">text_tone_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_basic_z.wav&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Bonus ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_bonus_z.wav&#39;</span>
+    <span class="s1">&#39;Christmas ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_xmas_z.wav&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Entries in the dictionary can be in any order; this dictionary is only used to find the correct sound file, and not to display possible tones to the player. That’s taken care of next.</p>
+<p>To display your new tone to the settings screen, you must add it to the appropriate “tone” list, found below the tone dictionaries. For this case, you need to add an entry to <code class="docutils literal notranslate"><span class="pre">persistent.text_tone_list</span></code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You don’t have to add all your ringtones/email/text tones right at the start of the game. For example, just before ending a route, you could add a set of “bonus” ringtones to <code class="docutils literal notranslate"><span class="pre">persistent.ringtone_list</span></code> e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">persistent</span><span class="o">.</span><span class="n">ringtone_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
+    <span class="s2">&quot;New Year&#39;s&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Jumin Han NY&quot;</span><span class="p">,</span> <span class="s2">&quot;Jaehee Kang NY&quot;</span><span class="p">,</span> <span class="s2">&quot;707 NY&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Yoosung NY&quot;</span><span class="p">,</span> <span class="s2">&quot;ZEN NY&quot;</span><span class="p">]</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>Each tone list is made up of two separate parts - the category title and a list of the available tones in that category. The names of the tones</p>
+</div>
+<div class="section" id="hacked-effects">
+<h2>Hacked Effects<a class="headerlink" href="#hacked-effects" title="Permalink to this headline">¶</a></h2>
+<p>In your route, you may want to cause the program to appear as though it has been hacked. There are a few features to help you achieve this look. First, there is a variable called <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> that, if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, will cause the chatroom timeline to have additional “broken” backgrounds, and will also show a glitchy screen tear effect every 10 seconds or so. You can set this variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> at any point during your route; simply including the line</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">hacked_effect</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p>in an <code class="docutils literal notranslate"><span class="pre">after_</span></code> label, for example, will activate it. Similarly, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">hacked_effect</span> <span class="pre">=</span> <span class="pre">False</span></code> will get rid of these effects.</p>
+<p>While you are testing a route, there is also an option to toggle the <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> on/off in the <strong>Developer</strong> settings from the home screen.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Many players may find the hacked effects distracting or irritating, so they should be used sparingly. There are also options in the Settings screen to turn off these effects, so know that not every player will be able to see or appreciate them.</p>
+</div>
+<div class="section" id="the-tear-screen">
+<h3>The tear screen<a class="headerlink" href="#the-tear-screen" title="Permalink to this headline">¶</a></h3>
+<p>There is a special screen called the <code class="docutils literal notranslate"><span class="pre">tear</span></code> screen which will cause the screen to be split into several smaller pieces that are offset a little from their original position. It’s used to create the hacked effect in the chatroom timeline screen, but can also be shown in the middle of any ordinary chatroom/phone call/Story Mode/etc. You can call it like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offtimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ontimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
+    <span class="n">offsetMin</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">offsetMax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w_timer</span><span class="o">=</span><span class="mf">0.18</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">10</span></code> is the number of pieces to tear; <code class="docutils literal notranslate"><span class="pre">0.4</span></code> is the value for both <code class="docutils literal notranslate"><span class="pre">offtimeMult</span></code> and <code class="docutils literal notranslate"><span class="pre">ontimeMult</span></code> respectively – this controls how much the pieces bounce back and forth; <code class="docutils literal notranslate"><span class="pre">-10</span></code> is the minimum offset for the pieces (this can be negative, positive, or zero); <code class="docutils literal notranslate"><span class="pre">30</span></code> is the maximum offset for the pieces (can also be negative, positive, or zero; offset just means how far the pieces will move away from their origin point, in pixels); and <code class="docutils literal notranslate"><span class="pre">0.5</span></code> is how long the program should display the tear screen for before hiding.</p>
+<p>You can also briefly show an image on-screen before showing the tear screen in order to have that image “torn” as well. For this, you can use the special screen <cite>display_img</cite>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="k">screen</span> <span class="n">display_img</span><span class="p">([</span> <span class="p">[</span><span class="s1">&#39;vn_party&#39;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">]</span> <span class="p">])</span>
+<span class="k">pause</span> <span class="mf">0.0001</span>
+<span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+<span class="k">hide</span> <span class="k">screen</span> <span class="n">display_img</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">display_img</span></code> screen will show an image in the specified position. It takes a lists of lists as its sole parameter. Each item in the list should be a list of three items: the image to display (which can be the name of a previously declared image, as above, a string with a path to the file name, or a Transform with the image, among other things), then the xpos, and then the ypos. So, in this case, the program displays the image <code class="docutils literal notranslate"><span class="pre">'vn_party'</span></code> at an xpos of 200 and a ypos of 400.</p>
+<p>The short pause after showing the <code class="docutils literal notranslate"><span class="pre">display_img</span></code> screen gives the program enough time to register the images before it takes a screenshot for the tear screen. Call the tear screen as normal. Be sure to hide the <cite>display_img</cite> screen at the end.</p>
+</div>
+<div class="section" id="the-hack-rectangle-screen">
+<h3>The hack_rectangle screen<a class="headerlink" href="#the-hack-rectangle-screen" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">hack_rectangle</span></code> screen will also help create a “hacked” effect. It will show several random rectangles on the screen, and works well when paired with the tear screen. For example:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">hack_rectangle_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offtimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ontimeMult</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">offsetMin</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">offsetMax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w_timer</span><span class="o">=</span><span class="mf">0.18</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.18</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will show the <code class="docutils literal notranslate"><span class="pre">hack_rectangle</span></code> screen for 0.2 seconds (<code class="docutils literal notranslate"><span class="pre">t=0.2</span></code>), and after pausing for 0.01 seconds (<code class="docutils literal notranslate"><span class="pre">p=0.01</span></code>) to give the program time to register the images on-screen, it shows the <cite>tear</cite> screen for 0.18 seconds.</p>
+</div>
+<div class="section" id="static-white-squares">
+<h3>Static white squares<a class="headerlink" href="#static-white-squares" title="Permalink to this headline">¶</a></h3>
+<p>The program also has a screen called <code class="docutils literal notranslate"><span class="pre">white_squares</span></code> which randomly shows a sequence of white “static” squares on top of the screen. It is used for the chatroom select screen when <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> is True. To call it, use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">white_square_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.17</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">t=0.16</span></code> is how long to show the screen for (0.16 seconds) and <code class="docutils literal notranslate"><span class="pre">p=0.17</span></code> tells the program how long to pause for before continuing (0.17 seconds).</p>
+</div>
+<div class="section" id="inverting-the-screen-colours">
+<h3>Inverting the screen colours<a class="headerlink" href="#inverting-the-screen-colours" title="Permalink to this headline">¶</a></h3>
+<p>Finally, there is also a screen called <code class="docutils literal notranslate"><span class="pre">invert</span></code> which will take a screenshot of the currently displayed screen and invert the colours:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">invert_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.19</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">t=0.19</span></code> is how long to show the screen for (0.19 seconds) and <code class="docutils literal notranslate"><span class="pre">p=0.2</span></code> is how long the program should pause for before continuing (0.2 seconds). This works well with screens that were previously mentioned. For example:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">hack_rectangle_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">invert_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.19</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">tear_screen</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">offtimeMult</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">ontimeMult</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+            <span class="n">offsetMin</span><span class="o">=-</span><span class="mi">10</span><span class="p">,</span> <span class="n">offsetMax</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">w_timer</span><span class="o">=</span><span class="mf">0.18</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">call</span> <span class="n">white_square_screen</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mf">0.16</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.17</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="adding-new-audio">
+<h2>Adding New Audio<a class="headerlink" href="#adding-new-audio" title="Permalink to this headline">¶</a></h2>
+<p>In order to support audio captions, defining new music and sound effects to play in the program requires a few extra steps.</p>
+<div class="section" id="defining-new-music">
+<h3>Defining New Music<a class="headerlink" href="#defining-new-music" title="Permalink to this headline">¶</a></h3>
+<p>All music currently in the game is defined in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. Open that file and you will see several statements for the existing background music.</p>
+<p>For this example, a song called “Jingle Bells” will be added.</p>
+<p>First, define a variable that leads to the audio file:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">jingle_bells</span> <span class="o">=</span> <span class="s2">&quot;audio/music/jingle_bells.ogg&quot;</span>
+</pre></div>
+</div>
+<p>Next, in the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> variable, add <code class="docutils literal notranslate"><span class="pre">jingle_bells</span></code> to the end like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">music_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># (Complete definition omitted)</span>
+    <span class="n">april_mystic_chat</span> <span class="p">:</span> <span class="s2">&quot;Upbeat 8-bit music&quot;</span><span class="p">,</span>
+    <span class="n">april_mysterious_clues</span> <span class="p">:</span> <span class="s2">&quot;Sinister 8-bit music&quot;</span><span class="p">,</span>
+    <span class="n">april_dark_secret</span> <span class="p">:</span> <span class="s2">&quot;Suspenseful 8-bit music&quot;</span><span class="p">,</span>
+
+    <span class="n">jingle_bells</span> <span class="p">:</span> <span class="s2">&quot;Jolly Christmas music&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This should be a pair of the name of your music variable (<code class="docutils literal notranslate"><span class="pre">jingle_bells</span></code>) and the description as will be displayed in an audio caption. Try to keep the description short while still conveying the general mood/feel of the song.</p>
+<p>You can now play your music in-game via:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">jingle_bells</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="defining-new-sound-effects">
+<h3>Defining New Sound Effects<a class="headerlink" href="#defining-new-sound-effects" title="Permalink to this headline">¶</a></h3>
+<p>All sound effects currently in the game is defined in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. Open that file and you will see several statements for the existing background music.</p>
+<p>For this example, a sound effect called “glass_breaking” will be added.</p>
+<p>First, define a variable that leads to the audio file:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">glass_breaking_sfx</span> <span class="o">=</span> <span class="s2">&quot;audio/sfx/glass_breaking.ogg&quot;</span>
+</pre></div>
+</div>
+<p>Next, in the <code class="docutils literal notranslate"><span class="pre">sfx_dictionary</span></code> variable, add <code class="docutils literal notranslate"><span class="pre">glass_breaking_sfx</span></code> to the end like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">sfx_dictionary</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">car_moving_sfx</span> <span class="p">:</span> <span class="s2">&quot;Sound of a car moving&quot;</span><span class="p">,</span>
+    <span class="n">door_knock_sfx</span> <span class="p">:</span> <span class="s2">&quot;A knock at the door&quot;</span><span class="p">,</span>
+    <span class="n">door_open_sfx</span> <span class="p">:</span> <span class="s2">&quot;The door opens&quot;</span><span class="p">,</span>
+    <span class="n">glass_breaking_sfx</span> <span class="p">:</span> <span class="s2">&quot;A glass shatters&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This should be a pair of the name of your sound effect (<code class="docutils literal notranslate"><span class="pre">glass_breaking_sfx</span></code>) and the description as will be displayed in an audio caption. The description should briefly describe the action or event the sound effect is meant to convey.</p>
+<p>You can now play your sound effect in-game via:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">sound</span> <span class="n">glass_breaking_sfx</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="cg-albums.html" class="btn btn-neutral float-left" title="CG Albums" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Shawna P
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

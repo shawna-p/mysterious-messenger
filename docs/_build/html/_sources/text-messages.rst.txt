@@ -348,3 +348,80 @@ Leaving a Real-Time Text Conversation
 Since real-time text conversations function more closely to chatrooms, if the player clicks the "Back" button during a real-time text conversation, they will be asked if they'd like to end the conversation.
 
 **Backing out of a real-time text conversation means that conversation will no longer be available to continue**, though the player will retain any heart points or CGs they unlocked before they exited the conversation. There is no option to "replay" text message conversations, but unlike chatrooms a text message conversation does not expire until another text message overwrites it.
+
+
+Text Message Backlog
+====================
+
+If you would like text messages to appear as "backlog" in the player's text message inbox to serve as backstory or to set up a route, there is a special CDS to make writing this easier. You can set the text message timestamps to be several real-life days in the past, and even specify what time a message should appear to be sent at::
+
+   add backlog s -4 time 23:22:
+        s "do u think Jumin would hire me as his assistant?"
+        msg s "Maybe he'd even let me take care of Elly for him ^^" curly
+        if s.heart_points < 5 or ju.heart_points > 5:
+            m "Not really likely, no"
+            s "Aw T_T"
+            s "I would be such a good worker!!"
+        else:
+            m "You'd be such a good cat mom!!"
+            s "Right???"
+            s "Maybe I should ask to be hired as his cat nanny."
+            s "He needs a cat nanny, doesn't he?"
+
+``add backlog`` takes the following options:
+
+`who`
+    The character whose text message this backlog is being added to. Should be a ChatCharacter object.
+
+    e.g. s
+
+`day`
+    Optional. An integer representing the number of days from the present day this message should be sent at. Negative numbers indicate a number of days in the past e.g. ``-1`` indicates the message should have a timestamp indicating it was sent yesterday (1 day ago). If not present, the message will appear to be sent on the current date.
+
+    e.g. -7
+
+`time ##:##`
+    Optional. A timestamp in 24-hour format that indicates the time this first message should appear to have been sent at. Requires a leading zero for times < 10am e.g. 1:05 AM is written as ``01:05`` and 1:30 PM is written as ``13:30``.
+
+    e.g. time 05:16
+
+Next, you will write the dialogue for the text messages. These are written like regular text messages, and you can use both the ``msg`` CDS as well as the spreadsheet method to write dialogue.
+
+The text message backlog statement **does not** support the use of Python, jumps, or many other features besides dialogue inside the text message block; these messages are intended to be used as setup and are not part of active conversations, so any Python or calculations should be done outside of the ``add backlog`` CDS.
+
+However, the ``add backlog`` CDS **does** support conditional if/elif/else statements so that you can vary messages based on certain conditions. In the example at the top of this section, you can see that the message varies based on the number of heart points the player has with certain characters.
+
+``add backlog`` does not support adding labels to jump to in order to reply to a conversation, as it is intended to setup "past" conversations. ``compose text`` is suitable for creating conversations that the player may respond to (see [[INSERT LINK HERE]]).
+
+Adjusting Timestamps
+---------------------
+
+All lines, regardless of the way they're written, take the special option ``time`` after the dialogue. This allows you to further customize when the messages are sent at e.g.
+
+::
+
+    add backlog ja -13:
+        m "Good luck for your first day at the new job, Jaehee ^^" time 07:03
+        ja "Thank you very much, [name]" time 07:15
+        ja "{image=jaehee_happy}"
+        ja "I will do my best!" time 07:18
+
+The above example will have a timestamp 13 days in the past at 7:03 AM for the first message from the MC. The next message, from Jaehee, is also 13 days in the past but has a timestamp for 7:15 AM. The third message does not have an explicit timestamp, so the program will calculate a brief delay between the time given for the previous message and the time the program estimates it would take someone to write the current message. Since Jaehee is merely posting an emoji, this delay will be under a minute long so it will likely also have a timestamp of 7:15 AM. Finally, the last message has a timestamp at 7:18 AM.
+
+Additionally, there is the special line ``pause`` which will cause the program to add the given number of seconds to the timestamp just after the pause statement. For example::
+
+    add backlog ju -17 time 20:32:
+        ju "Good evening, [name]."
+        ju "You've been with the RFA for a month now so I hoped to ask you a question."
+        pause 105
+        m "What is it?"
+        pause 60*2
+        ju "Would you consider a position at C&R International?"
+
+The first message will have a timestamp of 20:32. The second message will take a few seconds to write but likely under a minute, so it will have a timestamp of 20:32 as well. After that, there is a pause statement for 105 seconds. This guarantees that the program will add 105 seconds to its calculation of how long the next message should take to type, so the MC's message will have a timestamp of 20:34.
+
+Finally, after the MC's line there is a pause of 60*2 seconds, so 2 minutes. This will force an additional two-minute delay between the timestamp of the next message, from Jumin, and the MC's message. The last message from Jumin should have a time stamp of 20:36.
+
+.. note::
+    The program will add several seconds to each backlog message's timestamp from the initial start timestamp unless an exact ``time`` argument is given. The exact number of seconds depends on the length of the message. This means that if a character has 10 messages in their text message backlog, there is likely to be at least a minute or more of difference in the timestamps of later messages to simulate the real-life time it would take to type out all 10 messages.
+
