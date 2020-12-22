@@ -389,3 +389,45 @@ You can now play your sound effect in-game via::
 
     play sound glass_breaking_sfx
 
+
+Bonus Profile Pictures
+=======================
+
+Profile Pictures for the Characters
+------------------------------------
+
+In this program, the player can change the other characters' profile pictures on that character's profile screen by clicking their current profile picture. In-game, this is treated as a "bonus" profile picture and does not affect dialogue. The bonus profile picture is applied "on top of" the existing profile picture that is set by the game during the story. To return to the intended profile picture, there is a button captioned "Revert to default" which will restore the intended story profile picture.
+
+By default, all the images in a character's corresponding "Profile Pics/" folder are available to choose as a profile picture, as are all the image in their corresponding CG album. This is set up on a per-character basis in ``variables_editable.rpy`` under the header **BONUS PROFILE PICTURES**.
+
+If you want a new character to have bonus profile pictures, you must set up a variable for them in ``variables_editable.rpy``. For this example, the character Emma from [[INSERT LINK HERE]] will be given bonus profile pictures.
+
+Because Emma's file_id is ``em``, the variable will be called ``em_unlockable_pfps``::
+
+    define em_unlockable_pfps = combine_lists(
+        register_pfp(folder="Profile Pics/Emma/", filter_out='-b.'),
+        register_pfp(folder="CGs/em_album/", filter_keep='-thumb.')
+    )
+
+The functions used are explained below.
+
+First, ``combine_lists`` is a special function which will combine all the given arguments into one large list, removing duplicates. It can take individual items or lists of items as arguments. For the most part, you should just make sure that you pass all your bonus profile pictures into this function as shown in the existing variable definitions.
+
+The second and most important function is ``register_pfp``. This has many parameters which you may take advantage of that are explained below:
+
+`files`
+    Should be a string or a list of strings corresponding to file paths that lead to images you want to use for profile pictures.
+
+    e.g. ["Profile Pics/Emma/em-1.webp", "Profile Pics/Emma/em-2.webp"]
+
+`condition`
+    By default, this is 'seen', which means that
+
+
+Profile Pictures for the Player
+--------------------------------
+
+
+
+Profile Picture Callbacks
+==========================
