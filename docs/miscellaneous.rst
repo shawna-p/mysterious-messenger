@@ -416,12 +416,38 @@ First, ``combine_lists`` is a special function which will combine all the given 
 The second and most important function is ``register_pfp``. This has many parameters which you may take advantage of that are explained below:
 
 `files`
-    Should be a string or a list of strings corresponding to file paths that lead to images you want to use for profile pictures.
+    Should be a string or a list of strings corresponding to file paths that lead to images you want to use for profile pictures. Can be used in combination with the ``folder`` parameter to prepend folder names to file names.
 
-    e.g. ["Profile Pics/Emma/em-1.webp", "Profile Pics/Emma/em-2.webp"]
+    e.g. ["em-1.webp", "em-2.webp"]
 
 `condition`
-    By default, this is 'seen', which means that
+    By default, this is 'seen', which means that the images passed to the function will become visible on the profile picture screen once the player has seen the image in-game (either as a CG or as another character's profile picture).
+
+    Otherwise, the program expects a string that evaluates to a Python condition that determines when these images should be unlocked. For example, if you want the pictures to be unlocked after setting a particular variable, you could write ``condition="persistent.saw_casual_bad_end == True"``, for example. It is best to use persistent variables for conditions.
+
+    e.g. "persistent.seen_endings > 3"
+
+`folder`
+    A string with the folder path where the program should look for files. This is automatically prepended to each file name while searching.
+
+    e.g. "Profile Pics/Emma/"
+
+`ext`
+    The extension for this file. Automatically appended to each file name when searching.
+
+    e.g. "webp"
+
+`filter_out`
+    Requires the ``folder`` parameter. If included, searches through files in the given folder that do **not** contain the string in filter_out.
+
+    e.g. "-b" (this will *exclude* images in the folder that contain the string "-b")
+
+`filter_keep`
+    Requires the ``folder`` parameter. If included, searches through images in the provided folder that **do** contain the string in filter_keep.
+
+    e.g. "-thumb" (this will **only** include files if they include the string "-thumb")
+
+
 
 
 Profile Pictures for the Player
