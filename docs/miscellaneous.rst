@@ -447,7 +447,30 @@ The second and most important function is ``register_pfp``. This has many parame
 
     e.g. "-thumb" (this will **only** include files if they include the string "-thumb")
 
+These fields can be combined in many ways to intelligently create a filter which will add all your desired images to the character's profile picture list. For example, the current characters have two ``register_pfp`` statements::
 
+    define ja_unlockable_pfps = combine_lists(
+        register_pfp(folder="Profile Pics/Jaehee/", filter_out='-b.'),
+        register_pfp(folder="CGs/ja_album/", filter_keep='-thumb.')
+    )
+
+The first statement looks in the provided folder ("Profile Pics/Jaehee/") and adds all images in that folder so long as they do not contain the string "-b.". This is because the "big" version of each profile picture is saved as something like "jae-1-b.webp", and since the large versions of the images are all duplicates of their smaller counterparts, they don't need to be included in the unlockable profile pictures.
+
+The second statement looks in the folder "CGs/ja_album/" and only adds images if they have the string "-thumb." in them. Since this is a folder that holds the CGs for Jaehee, the full-size CGs shouldn't be added. The square thumbnails for the CGs are always called something like "cg-1-thumb.webp", so the program should only keep images that have the "-thumb." string in their file path.
+
+Other valid uses of the ``register_pfp`` statement might look like::
+
+    register_pfp(files=["em-1", "em-2", "em-3"], folder="Profile Pics/Emma/",
+        ext="webp")
+
+This will include the images "Profile Pics/Emma/em-1.webp" up to "Profile Pics/Emma/em-3.webp".
+
+::
+
+    register_pfp(files="Profile Pics/Bonus/em-bonus.webp",
+        condition="persistent.saw_emma_end")
+
+This will include the image "Profile Pics/Bonus/em-bonus.webp", which will be unlocked when the variable ``persistent.saw_emma_end`` is True (you are in charge of setting this variable yourself).
 
 
 Profile Pictures for the Player
