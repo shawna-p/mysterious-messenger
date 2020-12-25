@@ -472,9 +472,12 @@ This will include the images "Profile Pics/Emma/em-1.webp" up to "Profile Pics/E
 
 This will include the image "Profile Pics/Bonus/em-bonus.webp", which will be unlocked when the variable ``persistent.saw_emma_end`` is True (you are in charge of setting this variable yourself).
 
+Finally, there is also a variable in ``variables_editable.rpy`` under the **BONUS PROFILE PICTURES** header called ``pfp_cost``; this is the number of heart points the player must earn with a character in order to unlock a profile picture with the "seen" condition. All other conditions unlock automatically once their condition is fulfilled.
 
 Profile Pictures for the Player
 --------------------------------
+
+Whenever the player sees a new CG in-game or a character changes their profile picture, that image is automatically unlocked for the player to use as their own profile picture.
 
 
 
