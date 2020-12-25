@@ -1006,6 +1006,27 @@ init -5 python:
         return
 
 
+    def add_mc_pfp(img, unlocked=False):
+        """
+        Safely adds a new profile picture for the main character to choose. If
+        unlocked is True, it will not require the player use an hourglass to
+        unlock it. Otherwise, it will be visible but require an hourglass to
+        unlock.
+        """
+
+        if not isinstance(img, list):
+            img = [img]
+
+        if isinstance(img[0], tuple) and len(img[0]) == 2:
+            # Should be an (img, condition) pair
+            img = [ i for i, cond in img ]
+
+        for i in img:
+            add_img_to_set(store.unlocked_prof_pics, i)
+            if unlocked:
+                add_img_to_set(store.persistent.mc_unlocked_pfps, i)
+        return
+
 # The time the main character's profile picture was last changed at
 default mc_pfp_time = None
 # The previous picture the player had before the current one
