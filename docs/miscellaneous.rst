@@ -477,9 +477,64 @@ Finally, there is also a variable in ``variables_editable.rpy`` under the **BONU
 Profile Pictures for the Player
 --------------------------------
 
-Whenever the player sees a new CG in-game or a character changes their profile picture, that image is automatically unlocked for the player to use as their own profile picture.
+Whenever the player sees a new CG in-game or a character changes their profile picture, that image is automatically unlocked for the player to use as their own profile picture. Each profile picture requires the player spend 1 hourglass to unlock it.
+
+.. note::
+    For testing, if **Testing Mode** is turned on in the Developer Settings, than all profile pictures (for the MC and the NPCs) don't cost heart points or hourglasses.
+
+Unlike bonus profile pictures for the other characters, the player's own profile picture can be commented on in-game and is treated as their current profile picture (see [[INSERT LINK HERE]]). Bonus profile pictures remain unlocked across all playthroughs.
+
+The initial set of images available to the player are all the images in the ``Drop Your Profile Picture Here`` folder. If you would like to add new options for a player who is beginning a certain route, then you can use the special ``add_mc_pfp`` function::
+
+    $ add_mc_pfp("Profile Pics/MC/mc_bonus_1.webp")
+
+This will add the image "Profile Pics/MC/mc_bonus_1.webp" to the set of profile pictures available to the player, so that the player can unlock it on the profile pictures screen with an hourglass. This function also takes a list of images as its first parameter e.g.
+
+::
+
+    $ add_mc_pfp([
+        "Profile Pics/MC/mc_bonus_1.webp",
+        "Profile Pics/MC/mc_bonus_2.webp",
+        "Profile Pics/MC/mc_bonus_3.webp"
+    ])
+
+If you would like the images to be added already unlocked, there is a parameter ``unlocked`` you can set to True::
+
+    $ add_mc_pfp([
+        "Profile Pics/MC/mc_bonus_1.webp",
+        "Profile Pics/MC/mc_bonus_2.webp",
+        "Profile Pics/MC/mc_bonus_3.webp"
+    ], unlocked=True)
+
+You can use this in combination with the ``register_pfp`` function as well to filter out file names from folders; however, the ``condition`` field will be ignored.
+
+::
+
+    $ add_mc_pfp(register_pfp(folder="Profile Pics/MC Bonus/",
+        filter_out='-b.'), unlocked=True)
+
+This will add all the images in the "Profile Pics/MC Bonus/" folder without the string "-b." in the file name to the list of available profile pictures, and the images will come already unlocked.
 
 
 
 Profile Picture Callbacks
 ==========================
+
+.. note::
+    Example files to look at:
+
+    * tutorial_0_introduction.rpy
+    * variables_editable.rpy
+
+
+    *A brief overview of the steps required (more detail below):*
+
+    #. Create a Python function in an ``init -1 python:`` block which takes four parameters -- the time difference, previous profile picture, current profile picture, and character associated with the current profile picture.
+    #. Set the variable ``mc_pfp_callback`` to the name of your function.
+    #. Write some conditionals inside your callback function to determine which label the program should jump to if the player sets their profile picture to a given image.
+    #. Create a label for the callback. You can have characters call the player, send text messages, update their status, etc.
+
+
+If the player changes their profile picture, a special "callback" function is called that allows the characters to comment on their profile picture. This callback function can be different for different routes, and may also be changed in the middle of a route, if desired.
+
+To create a callback function, you must first put it inside an ``init -1 python:`` block. There are two examples of callback functions in the game -- the first is in ``variables_editable.rpy`` called ``bonus_pfp_dialogue``, and the second is the callback that is active during Tutorial Day, called ``tutorial_pfp_dialogue``.
