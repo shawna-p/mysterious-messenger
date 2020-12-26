@@ -909,10 +909,10 @@ init -5 python:
                 get_img_from_tuple(store.persistent.MC_pic), who)
         except:
             print("WARNING: Could not use mc_pfp_callback. Do you have at",
-                "least three function parameters?")
+                "least four function parameters?")
             renpy.show_screen('script_error',
                 message="Could not use mc_pfp_callback. Do you have at least"
-                    + " three function parameters?")
+                    + " four function parameters?")
             return
         if not lbl:
             print_file("Didn't get a pfp callback label")
