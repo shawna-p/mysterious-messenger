@@ -538,3 +538,135 @@ Profile Picture Callbacks
 If the player changes their profile picture, a special "callback" function is called that allows the characters to comment on their profile picture. This callback function can be different for different routes, and may also be changed in the middle of a route, if desired.
 
 To create a callback function, you must first put it inside an ``init -1 python:`` block. There are two examples of callback functions in the game -- the first is in ``variables_editable.rpy`` called ``bonus_pfp_dialogue``, and the second is the callback that is active during Tutorial Day, called ``tutorial_pfp_dialogue``.
+
+A callback function is given four parameters -- the time difference since the callback was last called, the player's previous profile picture, their current profile picture, and the ChatCharacter the profile picture is associated with (e.g. if it belongs in a particular character's CG album or they used it as a profile picture). A typical profile picture callback function may look like the following::
+
+    init -1 python:
+        def casual_route_pfp(time_diff, prev_pic, current_pic, who):
+
+While you can call these parameters anything you like, they will be explained with the names given above.
+
+`time_diff`
+    A MyTimeDelta object. This is the difference between the time the player last changed their profile picture and the current time. This can be helpful to prevent the player from constantly changing their profile picture just to see dialogue -- at the beginning of your profile picture callback, for example, you can include a conditional statement that will automatically return if less than 30 minutes have passed since the player last changed their profile picture.
+
+    A ``MyTimeDelta`` object has several useful fields you can access to compare the time the player last changed their profile picture at. Each field is rounded **down** to the nearest whole number; so, if 2 minutes and 45 seconds (2.75 minutes) have passed since the player last changed their profile picture, ``time_diff.minutes`` will be equal to 2 and ``time_diff.seconds`` will be equal to 165.
+
+    The available fields are ``days``, ``hours``, ``minutes``, and ``seconds``.
+
+`prev_pic`
+    The file path of the image that was used as the profile picture before the new one. This will never be the same as ``current_pic``; if they are the same, then the profile picture callback will not be called.
+
+`current_pic`
+    The file path to the image the player just set as their profile picture. This, like ``prev_pic``, may also be a string with a colour e.g. "#000".
+
+`who`
+    The ChatCharacter object of the character this image is associated with. This is determined by checking if the image is in a particular character's ``unlockable_pfps`` variable (see [[INSERT LINK HERE]]). If the image is not in any character's unlockable profile pictures set, then it will be equal to None.
+
+    This can be useful if you want a character to react generally to any image associated with themselves.
+
+
+You can use all or none of the passed parameters in your callback function. The callback function must either return ``None`` (either directly, via ``return None`` or ``return``, or implicitly by reaching the end of the function) or return a string or list of strings that correspond to a label the program can call for this profile picture callback.
+
+If the profile picture callback returns a string corresponding to the name of a label, the program will check if it has already jumped to this particular label. If so, then the player has already seen this callback and the program will do nothing. Otherwise, the program will execute the contents of the label before returning to the regular game context. This means that the contents of the label should **not** be real-time -- e.g. you can't include a phone call directly in the callback label, but you **can** add a new phone call to the list of available calls, which will then jump to a label with the contents of that phone call.
+
+You can also return a list of label names, in which case the program will check the list until it either finds a label which hasn't yet been executed or reaches the end of the list.
+
+.. note::
+    If **Testing Mode** is turned on from the developer settings, profile picture callbacks can execute more than once. Otherwise, they will only activate once on any given playthrough.
+
+
+Profile picture callbacks should typically be treated the same way as an ``after_`` label is, and can include the same sorts of functions. Some examples of things that you can do in a profile picture callback label are:
+
+* Have a character send the player a text message
+
+    * You can include a label that will be jumped to to allow the player to reply and/or continue the conversation
+
+* Change a character's status, profile picture, or cover photo
+* Add a new spaceship thought
+* Have a character call the player, or make a new phone call available for them
+* Unlock bonus ringtones or profile pictures
+
+Convenience functions and CDSs are provided to do the most common actions, but the true limit is your own programming ability. You could even use profile picture callbacks to branch the story, add new chatrooms to a route, or show a popup, for example.
+
+
+Common Profile Picture Callback Examples
+-----------------------------------------
+
+The following examples will include conditional statements that will go inside a profile picture callback function -- while this function can be called anything, for the purposes of these examples assume the callback is set up like so::
+
+    default mc_pfp_callback = example_pfp_callback
+
+    init -1 python:
+        def example_pfp_callback(time_diff, prev_pic, current_pic, who):
+
+You can assume that unless otherwise specified, the example code should be inside the profile picture callback function.
+
+Checking the Last Time the Picture was Changed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    if time_diff.minutes < 30:
+        # It has been less than 30 minutes since the player changed their
+        # profile picture, so don't execute a callback.
+        return
+
+::
+
+    init -1 python:
+        def example_pfp_callback(time_diff, prev_pic, current_pic, who):
+        if time_diff.seconds < 60:
+            # It has been less than a minute since the player changed their pfp
+            return 'quickly_changing_pfp'
+
+    # Outside of the main function
+    label quickly_changing_pfp:
+        compose text s:
+            s "Wow I thought you just changed your profile picture lol"
+        return
+
+::
+    init -1 python:
+        def example_pfp_callback(time_diff, prev_pic, current_pic, who):
+            if time_diff.days > 3:
+                # It has been more than 3 days since the player changed their pfp
+                return 'long_time_no_change'
+
+    label long_time_no_change:
+        $ space_thoughts.add_choices(
+            SpaceThought(y, "[name] finally changed [their] profile picture! I was starting to feel self-conscious changing mine so much...")
+        )
+        return
+
+Checking if an Image is Associated with a Character
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    if who == r:
+        # Profile picture is associated with `r` (Ray)
+        return ['ray_pfp_change_1', 'ray_pfp_change_2']
+
+This means that the first time the player changes their profile picture to an image associated with Ray (``r``), the label ``label ray_pfp_change_1`` will execute. The second time the player does so, ``label ray_pfp_change_2`` will execute.
+
+
+Checking For a Particular Image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    if "CGs/ja_bonus_cg" in current_pic:
+        return "ja_bonus_cg_dialogue"
+
+You should use the ``if x in y`` terminology to check for particular images, and it is generally a good idea to leave out the file extension (e.g. .png or .webp) to ensure the correct image is matched. The above condition would be True if ``current_pic`` was "images/CGs/ja_bonus_cg.png" or "CGs/ja_bonus_cg.webp", for example.
+
+The same should be done when comparing a string to the ``prev_pic`` variable e.g.
+
+::
+
+    if "Profile Pics/Ray/ray_03" in prev_pic and not who == r:
+        return 'changed_ray_pfp'
+
+This would cause ``label changed_ray_pfp`` to be executed the first time the player changes their profile picture from an image like "Profile Pics/Ray/ray_03.png" to a different image that isn't associated with Ray.
+
+
