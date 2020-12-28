@@ -86,6 +86,40 @@ So, using the rules above, "new year's" in the ``all_albums`` definition will be
     default new_years_album = []
 
 
+Adding a CG After Starting the Game
+------------------------------------
+
+While in most cases you should define your CGs in ``gallery_album_definitions.rpy``, you can also add new CGs to an album after the game has already started with the function ``add_to_album``. This function takes two parameters:
+
+`album`
+    The album variable that should contain this new CG.
+
+    e.g. ``ja_album``
+
+`photo_list`
+    An ``Album`` or list of ``Album`` objects which should be added to the given album variable above.
+
+    e.g. [ Album("cg s_4"), Album("cg s_5") ]
+
+Typically you would use this function at the beginning of a route, particularly if the route is DLC since this will allow you to add images to the album without having to directly modify the ``gallery_album_definitions.rpy`` file. An example may look like::
+
+    label new_year_prologue():
+
+        $ new_route_setup(route=new_years_route, chatroom_label='new_year_prologue',
+        participants=[ja])
+        $ paraphrase_choices = True
+
+        # Album definitions for this new route
+        $ add_to_album(ja_album, Album('cg ja_ny_1'))
+        $ add_to_album(ju_album, Album("cg ju_ny_1"))
+        $ add_to_album(s_album, [ Album("cg s_ny_1"), Album("cg s_ny_2") ])
+
+        $ character_list = [ju, z, s, y, ja, m]
+        $ heart_point_chars = [ju, z, s, y, ja]
+
+        # Route prologue begins here
+
+
 
 
 Hiding Albums Until Unlocked
