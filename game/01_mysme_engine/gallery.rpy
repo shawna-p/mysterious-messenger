@@ -268,6 +268,8 @@ init python:
         """Add the photos in photo_list to album."""
 
         global all_albums
+        if not isinstance(photo_list, list):
+            photo_list = [ photo_list ]
         for photo in photo_list:
             if photo not in album:
                 album.append(photo)
