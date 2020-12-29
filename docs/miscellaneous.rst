@@ -670,3 +670,94 @@ The same should be done when comparing a string to the ``prev_pic`` variable e.g
 This would cause ``label changed_ray_pfp`` to be executed the first time the player changes their profile picture from an image like "Profile Pics/Ray/ray_03.png" to a different image that isn't associated with Ray.
 
 
+Paraphrased Choices
+====================
+
+Inside ``variables_editable.rpy`` is a variable called ``paraphrase_choices`` under the header **MISCELLANEOUS VARIABLES**. If this variable is set to True, choices are treated as "paraphrased" -- that is, it is your responsibility to write out exactly what you want the MC to say after a choice. This was the default behaviour prior to v3.0.
+
+However, if ``paraphrase_choices`` is set to False, then the main character will automatically say the dialogue provided in a choice caption. This means that the following code is equivalent::
+
+    $ paraphrase_choices = True
+    menu:
+        "I don't want to go.":
+            m "I don't want to go." (pauseVal=0)
+            ju "I understand."
+        "I'll come with you.":
+            msg m "I'll come with you." pv 0
+            ju "That's good to hear."
+
+    # Is equivalent to
+    $ paraphrase choices = False
+    menu:
+        "I don't want to go.":
+            ju "I understand."
+        "I'll come with you.":
+            ju "That's good to hear."
+
+In both cases, the main character (``m``) will say "I don't want to go." after the player chooses that option (same with "I'll come with you."). This feature works for all choices -- i.e. text messages, chatrooms, phone calls, and story mode.
+
+You should set the value of ``paraphrase_choices`` at the beginning of a route, generally just after the ``new_route_setup`` function e.g.
+
+::
+
+    label new_year_prologue():
+
+        $ new_route_setup(route=new_years_route, chatroom_label='new_year_prologue',
+        participants=[ja])
+        $ paraphrase_choices = False
+        jump skip_intro_setup
+
+After setting it, it is expected to remain that way the rest of the route. However, you can toggle it on/off on a per-menu or per-choice basis.
+
+For example, if you have ``paraphrase_choices = False`` but want to have a menu include paraphrased choices, you can provide the menu argument ``paraphrased=True`` so that all the choices in that menu will be considered paraphrased::
+
+    menu (paraphrased=True):
+        "(Don't say anything)":
+            ri "...I see."
+        "(Try to reason with her)":
+            m "Rika, really, you don't have to do this."
+
+.. tip::
+    Setting ``paraphrased`` for a menu will work with timed menus ([[INSERT LINK HERE]]) as well as regular menus.
+
+You can also set the ``paraphrased`` argument for individual choices as well::
+
+    menu (paraphrased=True):
+        "(Don't say anything)":
+            ri "...I see."
+        "(Try to reason with her)":
+            m "Rika, really, you don't have to do this."
+        "You're better than this." (paraphrased=False):
+            ri "Oh? What makes you think that?"
+
+In this case, though the menu is treated as paraphrased (that is, the main character won't directly say the dialogue in the choices), the final choice *is not* paraphrased, so the main character will say "You're better than this" before Rika says "Oh? What makes you think that?".
+
+Paraphrasing can be particularly useful for timed menus, which have limited space for choice text::
+
+    timed menu:
+        s "Ugh, so tired..."
+        s "[name], help lol"
+        s "I need something to do."
+        s "Maybe Yoosung will come by."
+        "(Sympathize)" (paraphrased=True):
+            msg m "Right? It's been such a slow day." pv 0
+            msg m "Sometimes u just wanna be lazy."
+        "Get a hobby lol":
+            s "Omg 0_0"
+            s "ya maybe ur right lololol"
+
+In this case, ``paraphrase_choices`` is set to False for the whole route, but in this menu the choice "(Sympathize)" is paraphrased.
+
+Changing the Main Character
+----------------------------
+
+As non-paraphrased dialogue is automatically said by the main character, you may also want to change who the main character is. By default, it is ``m``, which uses the name and profile picture set by the player, but you can change it on a per-route basis or change the default definition in ``character_definitions.rpy``.
+
+::
+
+    default main_character = m
+
+If you set this variable equal to a different character (e.g. ``em`` from the character examples), then ``em`` will say non-paraphrased choice dialogue instead of ``m``. ``em`` will also appear on the right side of the screen when saying dialogue in chatrooms or text messages.
+
+
+
