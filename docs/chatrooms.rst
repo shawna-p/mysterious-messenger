@@ -119,7 +119,7 @@ The ``msg`` CDS has several built-in fonts that can be applied to the text. Thes
     * - blocky
       - Blocky font (BM-HANNA)
 
-You can also use your own fonts with the ``msg`` CDS. See [[INSERT LINK HERE]] for more on customizing the ``msg`` CDS.
+You can also use your own fonts with the ``msg`` CDS. See [[INSERT LINK HERE]] for more on custom fonts and special bubbles.
 
 In order to use one of the built-in fonts, just include the name of the desired font after the dialogue e.g.
 
@@ -213,7 +213,7 @@ To use a special bubble, add the name of the bubble after dialogue e.g.
     msg r "These can be combined with other fonts and effects, too!" glow curly big
 
 
-You can also use your own bubbles with the ``msg`` CDS, or modify it so that characters can use each other's special speech bubbles. See [[INSERT LINK HERE]] for more on customizing the ``msg`` CDS.
+You can also use your own bubbles with the ``msg`` CDS, or modify it so that characters can use each other's special speech bubbles. See [[INSERT LINK HERE]] for more on custom special bubbles and fonts.
 
 Images
 ^^^^^^
@@ -414,6 +414,89 @@ where ``ju`` is the variable of the character whose heart break you'd like to sh
 
 .. tip::
     Both ``break heart ju`` and ``heart break ju`` will show the heart break animation for the character ``ju``. You can't switch the word order for ``award heart`` though!
+
+Custom Fonts and Bubbles
+=========================
+
+Mysterious Messenger supports user-defined fonts and special bubbles through customizable variables and functions. These work with the ``msg`` CDS as well as the text tag approach used for the spreadsheet dialogue.
+
+Custom Fonts
+-------------
+
+To add your own font to the game, first you need to add it to the ``all_fonts_list`` found in ``variables_editable.rpy``::
+
+    define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly', 'blocky']
+
+In general you should **not** replace this list; just add your new font to the end. For this example, a font called "cursive" will be added.
+
+::
+
+    define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2',
+        'curly', 'blocky', 'cursive']
+
+Now you need to add it to the ``font_dict``.
+
+    define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
+            'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb,
+            'ser2' : gui.serif_2, 'ser2b' : gui.serif_2b,
+            'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
+            'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
+            'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font
+            'cursive' : "fonts/cursivefont.ttf"
+        }
+
+"fonts/cursivefont.ttf" should be the path to the ``.ttf`` or ``.otf`` file of your desired font.
+
+If your font has bold and/or extra bold variants, you will also add it to the ``bold_xbold_fonts_list`` variable::
+
+    define bold_xbold_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2', 'cursive']
+
+And you will need to specify how the bold and extra bold variants should be mapped. The bold version of a font is always the name of the font in the ``all_fonts_list`` + ``b``, and the extra bold is the name + ``xb``.
+
+::
+
+    define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
+            'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb,
+            'ser2' : gui.serif_2, 'ser2b' : gui.serif_2b,
+            'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
+            'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
+            'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font
+            'cursive' : "fonts/cursivefont.ttf",
+            'cursiveb' : "fonts/cursivefont-bold.ttf",
+            'cursivexb' : "fonts/cursivefont-xbold.ttf"
+        }
+
+In this example, the bold is called "cursiveb" and the extra bold "cursivexb". Note that you will need an entry for **both** bold and extra bold, even if you only have one font. In that case, you can set the file path for both entries to the same font.
+
+Finally, if you want to use the font as a text tag, you need to define a style for it. Existing styles can be found in ``style_definitions.rpy``::
+
+    style cursive:
+        font "fonts/cursivefont.ttf"
+
+    style cursiveb:
+        font "fonts/cursivefont-bold.ttf"
+
+    style cursivexb:
+        font "fonts/cursivefont-xbold.ttf"
+
+
+Now you can use the font while writing chatroom or text message dialogue. If you use the ``msg`` CDS, you need to preface the name of the font with the tag ``font`` e.g.
+
+::
+
+    msg s "This is a new font!" font cursive
+    msg s "You can add other effects, too!" big font cursive xbold
+
+And text tags work the way they would with the predefined fonts::
+
+    s "{=cursive}This is a bit more verbose.{/=cursive}"
+    s "{=cursivexb}Which method you use depends on your preference.{/=cursivexb}"
+
+
+
+
 
 
 
