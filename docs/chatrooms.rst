@@ -510,7 +510,7 @@ To add a new bubble, first you must add it to the ``all_bubbles_list`` in ``vari
     'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
     'flower_s', 'glow2', 'spooky_s', 'spooky_m', 'spooky_l']
 
-Next, you need to define a style for the bubble. Typically the most important properties are the padding and offset. First, define a general style::
+Next, you need to define a style for the bubble. Typically the most important property is the padding. First, define a general style::
 
     style spooky_s:
         padding (25, 25, 25, 25)
@@ -523,13 +523,31 @@ Next, you need to define a style for the bubble. Typically the most important pr
 
 This defines a style for the spooky bubbles with 25 pixels of padding on the left, top, right, and bottom of the bubble. These numbers should, of course, be adjusted to suit the actual bubble image you're using.
 
-Next, if any characters have a variant of this bubble that requires different styling, you can define a variant for them. For example, if the padding for ``s``'s spooky_m bubble is different, you can create an ``s_spooky_m`` style::
+Next, if any characters have a variant of this bubble that requires different styling, you can define a style for them. For example, if the padding for ``s``'s spooky_m bubble is different, you can create an ``s_spooky_m`` style::
 
     style s_spooky_m:
         is spooky_m # This inherits the spooky_m padding
         top_padding 35
 
 ``is spooky_m`` tells the style to inherit from the original ``spooky_m`` style; this is optional, but can be helpful. In this case, it means that the ``s_spooky_m`` bubble has a left/right/bottom padding of 25, as in the ``spooky_m`` style, but the ``top_padding`` is now 35.
+
+And that's all! To show this special bubble in-game, you must ensure you have the appropriate images defined inside the "Bubbles/Special/" folder.
+
+* The image extension must be one of ``.webp``, ``.png``, or ``.jpg``
+* If every character uses the same bubble, it is sufficient to have a "Bubbles/Special/spooky_s.webp" image. Otherwise, you will need an image with the file_id of each character who has a variant e.g. "Bubbles/Special/ja_spooky_s.webp", "Bubbles/Special/ju_spooky_s.webp", etc.
+
+Then you can write dialogue which will show the bubble in-game e.g.
+
+::
+
+    ju "This will use the spooky_m bubble." (bounce=True, specBubble="spooky_m")
+    msg ja "This message will also use the spooky_m bubble" bubble spooky_m
+
+Unlike the predefined bubbles, custom bubbles must be prefixed with ``bubble`` as in ``bubble spooky_m`` when used in the ``msg`` CDS.
+
+
+
+
 
 
 
