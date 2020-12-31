@@ -37,7 +37,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Creating Characters" href="creating-characters.html" />
+    <link rel="next" title="Setting up a Route" href="route-setup.html" />
     <link rel="prev" title="Story Mode (VN)" href="story-mode.html" /> 
 </head>
 
@@ -100,9 +100,14 @@
 <li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-guestbook">The Guestbook</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
 <li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
 </ul>
 
             
@@ -178,6 +183,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-guestbook">The Guestbook</a></li>
 </ul>
 </li>
 </ul>
@@ -437,6 +443,22 @@
 <p>The timeout counter will reset to 25 as soon as the player replies to the email. However, if the timer reaches 0 (aka the player has gone through 25+ timeline items since they first received the email), the email will be considered <strong>timed out</strong> and can no longer be replied to.</p>
 <p>Once the player replies to the email, the program calculates when it should send the guest’s reply based on how many timeline items remain in the route. For example, if there are 20 remaining timeline items on the route and 2 remaining emails in the chain, then the maximum number of timeline items the program will wait before delivering an email reply is <code class="docutils literal notranslate"><span class="pre">20</span> <span class="pre">/</span> <span class="pre">2</span> <span class="pre">=</span> <span class="pre">10</span></code>. The minimum number of timeline items it will wait is 1 or <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">-</span> <span class="pre">7</span> <span class="pre">=</span> <span class="pre">3</span></code>, whichever is larger – in this case, 3.</p>
 </div>
+<div class="section" id="the-guestbook">
+<h2>The Guestbook<a class="headerlink" href="#the-guestbook" title="Permalink to this headline">¶</a></h2>
+<p>There are several fields when defining a Guest which correspond to text which will appear in the guestbook. These are:</p>
+<dl>
+<dt><cite>comment_who</cite></dt><dd><p>The ChatCharacter object of the character who will talk about this guest in the guestbook.</p>
+<p>e.g. <code class="docutils literal notranslate"><span class="pre">s</span></code></p>
+</dd>
+<dt><cite>comment_what</cite></dt><dd><p>What the above character will say about the guest.</p>
+<p>e.g. “I can’t believe I got to meet Long Cat!”</p>
+</dd>
+<dt><cite>comment_img</cite></dt><dd><p>A string that corresponds to a defined image or layeredimage attributes to display the sprite of the character who is talking about the guest.</p>
+<p>e.g. “seven front party happy”</p>
+</dd>
+</dl>
+<p>The player will also receive 1 hourglass the first time they view a guest’s entry in the guestbook after successfully inviting them to the party. The <code class="docutils literal notranslate"><span class="pre">short_desc</span></code> field’s contents are shown to the player in the guestbook after they first invite the guest, and the <code class="docutils literal notranslate"><span class="pre">personal_info</span></code> field is revealed in the guestbook only after the guest has successfully attended the party.</p>
+</div>
 </div>
 
 
@@ -447,7 +469,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="creating-characters.html" class="btn btn-neutral float-right" title="Creating Characters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="route-setup.html" class="btn btn-neutral float-right" title="Setting up a Route" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="story-mode.html" class="btn btn-neutral float-left" title="Story Mode (VN)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

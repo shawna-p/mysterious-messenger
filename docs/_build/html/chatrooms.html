@@ -117,6 +117,11 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#custom-fonts">Custom Fonts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-bubbles">Custom Bubbles</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#timed-menu-settings">Timed Menu Settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#timed-menu-functionality">Timed Menu Functionality</a></li>
@@ -227,6 +232,11 @@
 <li class="toctree-l4"><a class="reference internal" href="#removing-a-heart-point">Removing a heart point</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#custom-fonts">Custom Fonts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#custom-bubbles">Custom Bubbles</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
@@ -352,7 +362,7 @@
 </tr>
 </tbody>
 </table>
-<p>You can also use your own fonts with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS. See [[INSERT LINK HERE]] for more on customizing the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS.</p>
+<p>You can also use your own fonts with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS. See [[INSERT LINK HERE]] for more on custom fonts and special bubbles.</p>
 <p>In order to use one of the built-in fonts, just include the name of the desired font after the dialogue e.g.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This is example dialogue in the cursive font.&quot;</span> <span class="n">curly</span>
 <span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This is in the sans serif 1 font.&quot;</span> <span class="n">sser1</span>
@@ -445,7 +455,7 @@
 <span class="n">msg</span> <span class="n">r</span> <span class="s2">&quot;These can be combined with other fonts and effects, too!&quot;</span> <span class="n">glow</span> <span class="n">curly</span> <span class="n">big</span>
 </pre></div>
 </div>
-<p>You can also use your own bubbles with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, or modify it so that characters can use each other’s special speech bubbles. See [[INSERT LINK HERE]] for more on customizing the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS.</p>
+<p>You can also use your own bubbles with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, or modify it so that characters can use each other’s special speech bubbles. See [[INSERT LINK HERE]] for more on custom special bubbles and fonts.</p>
 </div>
 <div class="section" id="images">
 <h4>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h4>
@@ -625,6 +635,110 @@
 <p>Both <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span> <span class="pre">ju</span></code> and <code class="docutils literal notranslate"><span class="pre">heart</span> <span class="pre">break</span> <span class="pre">ju</span></code> will show the heart break animation for the character <code class="docutils literal notranslate"><span class="pre">ju</span></code>. You can’t switch the word order for <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> though!</p>
 </div>
 </div>
+</div>
+</div>
+<div class="section" id="custom-fonts-and-bubbles">
+<h2>Custom Fonts and Bubbles<a class="headerlink" href="#custom-fonts-and-bubbles" title="Permalink to this headline">¶</a></h2>
+<p>Mysterious Messenger supports user-defined fonts and special bubbles through customizable variables and functions. These work with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS as well as the text tag approach used for the spreadsheet dialogue.</p>
+<div class="section" id="custom-fonts">
+<h3>Custom Fonts<a class="headerlink" href="#custom-fonts" title="Permalink to this headline">¶</a></h3>
+<p>To add your own font to the game, first you need to add it to the <code class="docutils literal notranslate"><span class="pre">all_fonts_list</span></code> found in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_fonts_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sser1&#39;</span><span class="p">,</span> <span class="s1">&#39;sser2&#39;</span><span class="p">,</span> <span class="s1">&#39;ser1&#39;</span><span class="p">,</span> <span class="s1">&#39;ser2&#39;</span><span class="p">,</span> <span class="s1">&#39;curly&#39;</span><span class="p">,</span> <span class="s1">&#39;blocky&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In general you should <strong>not</strong> replace this list; just add your new font to the end. For this example, a font called “cursive” will be added.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_fonts_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sser1&#39;</span><span class="p">,</span> <span class="s1">&#39;sser2&#39;</span><span class="p">,</span> <span class="s1">&#39;ser1&#39;</span><span class="p">,</span> <span class="s1">&#39;ser2&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;curly&#39;</span><span class="p">,</span> <span class="s1">&#39;blocky&#39;</span><span class="p">,</span> <span class="s1">&#39;cursive&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Now you need to add it to the <code class="docutils literal notranslate"><span class="pre">font_dict</span></code>.</p>
+<blockquote>
+<div><dl>
+<dt>define font_dict = { ‘curly’<span class="classifier">gui.curly_font, ‘ser1’</span><span class="classifier">gui.serif_1,</span></dt><dd><blockquote>
+<div><p>‘ser1b’ : gui.serif_1b, ‘ser1xb’ : gui.serif_1xb,
+‘ser2’ : gui.serif_2, ‘ser2b’ : gui.serif_2b,
+‘ser2xb’ : gui.serif_2xb, ‘sser1’ : gui.sans_serif_1,
+‘sser1b’ : gui.sans_serif_1b, ‘sser1xb’ : gui.sans_serif_1xb,
+‘sser2’ : gui.sans_serif_2, ‘sser2b’ : gui.sans_serif_2b,
+‘sser2xb’ : gui.sans_serif_2xb, ‘blocky’ : gui.blocky_font
+‘cursive’ : “fonts/cursivefont.ttf”</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>“fonts/cursivefont.ttf” should be the path to the <code class="docutils literal notranslate"><span class="pre">.ttf</span></code> or <code class="docutils literal notranslate"><span class="pre">.otf</span></code> file of your desired font.</p>
+<p>If your font has bold and/or extra bold variants, you will also add it to the <code class="docutils literal notranslate"><span class="pre">bold_xbold_fonts_list</span></code> variable:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">bold_xbold_fonts_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sser1&#39;</span><span class="p">,</span> <span class="s1">&#39;sser2&#39;</span><span class="p">,</span> <span class="s1">&#39;ser1&#39;</span><span class="p">,</span> <span class="s1">&#39;ser2&#39;</span><span class="p">,</span> <span class="s1">&#39;cursive&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>And you will need to specify how the bold and extra bold variants should be mapped. The bold version of a font is always the name of the font in the <code class="docutils literal notranslate"><span class="pre">all_fonts_list</span></code> + <code class="docutils literal notranslate"><span class="pre">b</span></code>, and the extra bold is the name + <code class="docutils literal notranslate"><span class="pre">xb</span></code>.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">font_dict</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;curly&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">curly_font</span><span class="p">,</span> <span class="s1">&#39;ser1&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_1</span><span class="p">,</span>
+        <span class="s1">&#39;ser1b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_1b</span><span class="p">,</span> <span class="s1">&#39;ser1xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_1xb</span><span class="p">,</span>
+        <span class="s1">&#39;ser2&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_2</span><span class="p">,</span> <span class="s1">&#39;ser2b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_2b</span><span class="p">,</span>
+        <span class="s1">&#39;ser2xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_2xb</span><span class="p">,</span> <span class="s1">&#39;sser1&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1</span><span class="p">,</span>
+        <span class="s1">&#39;sser1b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1b</span><span class="p">,</span> <span class="s1">&#39;sser1xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1xb</span><span class="p">,</span>
+        <span class="s1">&#39;sser2&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2</span><span class="p">,</span> <span class="s1">&#39;sser2b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2b</span><span class="p">,</span>
+        <span class="s1">&#39;sser2xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2xb</span><span class="p">,</span> <span class="s1">&#39;blocky&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">blocky_font</span>
+        <span class="s1">&#39;cursive&#39;</span> <span class="p">:</span> <span class="s2">&quot;fonts/cursivefont.ttf&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;cursiveb&#39;</span> <span class="p">:</span> <span class="s2">&quot;fonts/cursivefont-bold.ttf&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;cursivexb&#39;</span> <span class="p">:</span> <span class="s2">&quot;fonts/cursivefont-xbold.ttf&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>In this example, the bold is called “cursiveb” and the extra bold “cursivexb”. Note that you will need an entry for <strong>both</strong> bold and extra bold, even if you only have one font. In that case, you can set the file path for both entries to the same font.</p>
+<p>Finally, if you want to use the font as a text tag, you need to define a style for it. Existing styles can be found in <code class="docutils literal notranslate"><span class="pre">style_definitions.rpy</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="n">cursive</span><span class="p">:</span>
+    <span class="na">font</span> <span class="s2">&quot;fonts/cursivefont.ttf&quot;</span>
+
+<span class="k">style</span> <span class="n">cursiveb</span><span class="p">:</span>
+    <span class="na">font</span> <span class="s2">&quot;fonts/cursivefont-bold.ttf&quot;</span>
+
+<span class="k">style</span> <span class="n">cursivexb</span><span class="p">:</span>
+    <span class="na">font</span> <span class="s2">&quot;fonts/cursivefont-xbold.ttf&quot;</span>
+</pre></div>
+</div>
+<p>Now you can use the font while writing chatroom or text message dialogue. If you use the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, you need to preface the name of the font with the tag <code class="docutils literal notranslate"><span class="pre">font</span></code> e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;This is a new font!&quot;</span> <span class="na">font</span> <span class="n">cursive</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;You can add other effects, too!&quot;</span> <span class="n">big</span> <span class="na">font</span> <span class="n">cursive</span> <span class="n">xbold</span>
+</pre></div>
+</div>
+<p>And text tags work the way they would with the predefined fonts:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;{=cursive}This is a bit more verbose.{/=cursive}&quot;</span>
+<span class="n">s</span> <span class="s2">&quot;{=cursivexb}Which method you use depends on your preference.{/=cursivexb}&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-bubbles">
+<h3>Custom Bubbles<a class="headerlink" href="#custom-bubbles" title="Permalink to this headline">¶</a></h3>
+<p>You can also add your own custom bubbles to work with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles to work for other characters.</p>
+<p>To add a new bubble, first you must add it to the <code class="docutils literal notranslate"><span class="pre">all_bubbles_list</span></code> in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. For this example, three bubbles called “spooky_s”, “spooky_m”, and “spooky_l” will be added (for small, medium, and large variants).</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_bubbles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cloud_l&#39;</span><span class="p">,</span> <span class="s1">&#39;cloud_m&#39;</span><span class="p">,</span> <span class="s1">&#39;cloud_s&#39;</span><span class="p">,</span> <span class="s1">&#39;round_l&#39;</span><span class="p">,</span>
+<span class="s1">&#39;round_m&#39;</span><span class="p">,</span> <span class="s1">&#39;round_s&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_l&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_m&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_s&#39;</span><span class="p">,</span> <span class="s1">&#39;spike_l&#39;</span><span class="p">,</span> <span class="s1">&#39;spike_m&#39;</span><span class="p">,</span>
+<span class="s1">&#39;spike_s&#39;</span><span class="p">,</span> <span class="s1">&#39;square_l&#39;</span><span class="p">,</span> <span class="s1">&#39;square_m&#39;</span><span class="p">,</span> <span class="s1">&#39;square_s&#39;</span><span class="p">,</span> <span class="s1">&#39;square2_l&#39;</span><span class="p">,</span> <span class="s1">&#39;square2_m&#39;</span><span class="p">,</span>
+<span class="s1">&#39;square2_s&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_l&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_m&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_s&#39;</span><span class="p">,</span> <span class="s1">&#39;flower_l&#39;</span><span class="p">,</span> <span class="s1">&#39;flower_m&#39;</span><span class="p">,</span>
+<span class="s1">&#39;flower_s&#39;</span><span class="p">,</span> <span class="s1">&#39;glow2&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_s&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_m&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_l&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Next, you need to define a style for the bubble. Typically the most important properties are the padding and offset. First, define a general style:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="n">spooky_s</span><span class="p">:</span>
+    <span class="na">padding</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+
+<span class="k">style</span> <span class="n">spooky_m</span><span class="p">:</span>
+    <span class="na">padding</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+
+<span class="k">style</span> <span class="n">spooky_l</span><span class="p">:</span>
+    <span class="na">padding</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This defines a style for the spooky bubbles with 25 pixels of padding on the left, top, right, and bottom of the bubble. These numbers should, of course, be adjusted to suit the actual bubble image you’re using.</p>
+<p>Next, if any characters have a variant of this bubble that requires different styling, you can define a variant for them. For example, if the padding for <code class="docutils literal notranslate"><span class="pre">s</span></code>’s spooky_m bubble is different, you can create an <code class="docutils literal notranslate"><span class="pre">s_spooky_m</span></code> style:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="n">s_spooky_m</span><span class="p">:</span>
+    <span class="k">is</span> <span class="n">spooky_m</span> <span class="c1"># This inherits the spooky_m padding</span>
+    <span class="na">top_padding</span> <span class="mi">35</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">spooky_m</span></code> tells the style to inherit from the original <code class="docutils literal notranslate"><span class="pre">spooky_m</span></code> style; this is optional, but can be helpful. In this case, it means that the <code class="docutils literal notranslate"><span class="pre">s_spooky_m</span></code> bubble has a left/right/bottom padding of 25, as in the <code class="docutils literal notranslate"><span class="pre">spooky_m</span></code> style, but the <code class="docutils literal notranslate"><span class="pre">top_padding</span></code> is now 35.</p>
 </div>
 </div>
 <div class="section" id="timed-menus">

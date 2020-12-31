@@ -270,6 +270,27 @@ The timeout counter will reset to 25 as soon as the player replies to the email.
 Once the player replies to the email, the program calculates when it should send the guest's reply based on how many timeline items remain in the route. For example, if there are 20 remaining timeline items on the route and 2 remaining emails in the chain, then the maximum number of timeline items the program will wait before delivering an email reply is ``20 / 2 = 10``. The minimum number of timeline items it will wait is 1 or ``10 - 7 = 3``, whichever is larger -- in this case, 3.
 
 
+The Guestbook
+===============
+
+There are several fields when defining a Guest which correspond to text which will appear in the guestbook. These are:
+
+`comment_who`
+    The ChatCharacter object of the character who will talk about this guest in the guestbook.
+
+    e.g. ``s``
+
+`comment_what`
+    What the above character will say about the guest.
+
+    e.g. "I can't believe I got to meet Long Cat!"
+
+`comment_img`
+    A string that corresponds to a defined image or layeredimage attributes to display the sprite of the character who is talking about the guest.
+
+    e.g. "seven front party happy"
+
+The player will also receive 1 hourglass the first time they view a guest's entry in the guestbook after successfully inviting them to the party. The ``short_desc`` field's contents are shown to the player in the guestbook after they first invite the guest, and the ``personal_info`` field is revealed in the guestbook only after the guest has successfully attended the party.
 
 
 

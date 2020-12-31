@@ -389,3 +389,375 @@ You can now play your sound effect in-game via::
 
     play sound glass_breaking_sfx
 
+
+Bonus Profile Pictures
+=======================
+
+Profile Pictures for the Characters
+------------------------------------
+
+In this program, the player can change the other characters' profile pictures on that character's profile screen by clicking their current profile picture. In-game, this is treated as a "bonus" profile picture and does not affect dialogue. The bonus profile picture is applied "on top of" the existing profile picture that is set by the game during the story. To return to the intended profile picture, there is a button captioned "Revert to default" which will restore the intended story profile picture.
+
+By default, all the images in a character's corresponding "Profile Pics/" folder are available to choose as a profile picture, as are all the image in their corresponding CG album. This is set up on a per-character basis in ``variables_editable.rpy`` under the header **BONUS PROFILE PICTURES**.
+
+If you want a new character to have bonus profile pictures, you must set up a variable for them in ``variables_editable.rpy``. For this example, the character Emma from [[INSERT LINK HERE]] will be given bonus profile pictures.
+
+Because Emma's file_id is ``em``, the variable will be called ``em_unlockable_pfps``::
+
+    define em_unlockable_pfps = combine_lists(
+        register_pfp(folder="Profile Pics/Emma/", filter_out='-b.'),
+        register_pfp(folder="CGs/em_album/", filter_keep='-thumb.')
+    )
+
+The functions used are explained below.
+
+First, ``combine_lists`` is a special function which will combine all the given arguments into one large list, removing duplicates. It can take individual items or lists of items as arguments. For the most part, you should just make sure that you pass all your bonus profile pictures into this function as shown in the existing variable definitions.
+
+The second and most important function is ``register_pfp``. This has many parameters which you may take advantage of that are explained below:
+
+`files`
+    Should be a string or a list of strings corresponding to file paths that lead to images you want to use for profile pictures. Can be used in combination with the ``folder`` parameter to prepend folder names to file names.
+
+    e.g. ["em-1.webp", "em-2.webp"]
+
+`condition`
+    By default, this is 'seen', which means that the images passed to the function will become visible on the profile picture screen once the player has seen the image in-game (either as a CG or as another character's profile picture).
+
+    Otherwise, the program expects a string that evaluates to a Python condition that determines when these images should be unlocked. For example, if you want the pictures to be unlocked after setting a particular variable, you could write ``condition="persistent.saw_casual_bad_end == True"``, for example. It is best to use persistent variables for conditions.
+
+    e.g. "persistent.seen_endings > 3"
+
+`folder`
+    A string with the folder path where the program should look for files. This is automatically prepended to each file name while searching.
+
+    e.g. "Profile Pics/Emma/"
+
+`ext`
+    The extension for this file. Automatically appended to each file name when searching.
+
+    e.g. "webp"
+
+`filter_out`
+    Requires the ``folder`` parameter. If included, searches through files in the given folder that do **not** contain the string in filter_out.
+
+    e.g. "-b" (this will *exclude* images in the folder that contain the string "-b")
+
+`filter_keep`
+    Requires the ``folder`` parameter. If included, searches through images in the provided folder that **do** contain the string in filter_keep.
+
+    e.g. "-thumb" (this will **only** include files if they include the string "-thumb")
+
+These fields can be combined in many ways to intelligently create a filter which will add all your desired images to the character's profile picture list. For example, the current characters have two ``register_pfp`` statements::
+
+    define ja_unlockable_pfps = combine_lists(
+        register_pfp(folder="Profile Pics/Jaehee/", filter_out='-b.'),
+        register_pfp(folder="CGs/ja_album/", filter_keep='-thumb.')
+    )
+
+The first statement looks in the provided folder ("Profile Pics/Jaehee/") and adds all images in that folder so long as they do not contain the string "-b.". This is because the "big" version of each profile picture is saved as something like "jae-1-b.webp", and since the large versions of the images are all duplicates of their smaller counterparts, they don't need to be included in the unlockable profile pictures.
+
+The second statement looks in the folder "CGs/ja_album/" and only adds images if they have the string "-thumb." in them. Since this is a folder that holds the CGs for Jaehee, the full-size CGs shouldn't be added. The square thumbnails for the CGs are always called something like "cg-1-thumb.webp", so the program should only keep images that have the "-thumb." string in their file path.
+
+Other valid uses of the ``register_pfp`` statement might look like::
+
+    register_pfp(files=["em-1", "em-2", "em-3"], folder="Profile Pics/Emma/",
+        ext="webp")
+
+This will include the images "Profile Pics/Emma/em-1.webp" up to "Profile Pics/Emma/em-3.webp".
+
+::
+
+    register_pfp(files="Profile Pics/Bonus/em-bonus.webp",
+        condition="persistent.saw_emma_end")
+
+This will include the image "Profile Pics/Bonus/em-bonus.webp", which will be unlocked when the variable ``persistent.saw_emma_end`` is True (you are in charge of setting this variable yourself).
+
+Finally, there is also a variable in ``variables_editable.rpy`` under the **BONUS PROFILE PICTURES** header called ``pfp_cost``; this is the number of heart points the player must earn with a character in order to unlock a profile picture with the "seen" condition. All other conditions unlock automatically once their condition is fulfilled.
+
+Profile Pictures for the Player
+--------------------------------
+
+Whenever the player sees a new CG in-game or a character changes their profile picture, that image is automatically unlocked for the player to use as their own profile picture. Each profile picture requires the player spend 1 hourglass to unlock it.
+
+.. note::
+    For testing, if **Testing Mode** is turned on in the Developer Settings, than all profile pictures (for the MC and the NPCs) don't cost heart points or hourglasses.
+
+Unlike bonus profile pictures for the other characters, the player's own profile picture can be commented on in-game and is treated as their current profile picture (see [[INSERT LINK HERE]]). Bonus profile pictures remain unlocked across all playthroughs.
+
+The initial set of images available to the player are all the images in the ``Drop Your Profile Picture Here`` folder. If you would like to add new options for a player who is beginning a certain route, then you can use the special ``add_mc_pfp`` function::
+
+    $ add_mc_pfp("Profile Pics/MC/mc_bonus_1.webp")
+
+This will add the image "Profile Pics/MC/mc_bonus_1.webp" to the set of profile pictures available to the player, so that the player can unlock it on the profile pictures screen with an hourglass. This function also takes a list of images as its first parameter e.g.
+
+::
+
+    $ add_mc_pfp([
+        "Profile Pics/MC/mc_bonus_1.webp",
+        "Profile Pics/MC/mc_bonus_2.webp",
+        "Profile Pics/MC/mc_bonus_3.webp"
+    ])
+
+If you would like the images to be added already unlocked, there is a parameter ``unlocked`` you can set to True::
+
+    $ add_mc_pfp([
+        "Profile Pics/MC/mc_bonus_1.webp",
+        "Profile Pics/MC/mc_bonus_2.webp",
+        "Profile Pics/MC/mc_bonus_3.webp"
+    ], unlocked=True)
+
+You can use this in combination with the ``register_pfp`` function as well to filter out file names from folders; however, the ``condition`` field will be ignored.
+
+::
+
+    $ add_mc_pfp(register_pfp(folder="Profile Pics/MC Bonus/",
+        filter_out='-b.'), unlocked=True)
+
+This will add all the images in the "Profile Pics/MC Bonus/" folder without the string "-b." in the file name to the list of available profile pictures, and the images will come already unlocked.
+
+
+
+Profile Picture Callbacks
+==========================
+
+.. note::
+    Example files to look at:
+
+    * tutorial_0_introduction.rpy
+    * variables_editable.rpy
+
+
+    *A brief overview of the steps required (more detail below):*
+
+    #. Create a Python function in an ``init -1 python:`` block which takes four parameters -- the time difference, previous profile picture, current profile picture, and character associated with the current profile picture.
+    #. Set the variable ``mc_pfp_callback`` to the name of your function.
+    #. Write some conditionals inside your callback function to determine which label the program should jump to if the player sets their profile picture to a given image.
+    #. Create a label for the callback. You can have characters call the player, send text messages, update their status, etc.
+
+
+If the player changes their profile picture, a special "callback" function is called that allows the characters to comment on their profile picture. This callback function can be different for different routes, and may also be changed in the middle of a route, if desired.
+
+To create a callback function, you must first put it inside an ``init -1 python:`` block. There are two examples of callback functions in the game -- the first is in ``variables_editable.rpy`` called ``bonus_pfp_dialogue``, and the second is the callback that is active during Tutorial Day, called ``tutorial_pfp_dialogue``.
+
+A callback function is given four parameters -- the time difference since the callback was last called, the player's previous profile picture, their current profile picture, and the ChatCharacter the profile picture is associated with (e.g. if it belongs in a particular character's CG album or they used it as a profile picture). A typical profile picture callback function may look like the following::
+
+    init -1 python:
+        def casual_route_pfp(time_diff, prev_pic, current_pic, who):
+
+While you can call these parameters anything you like, they will be explained with the names given above.
+
+`time_diff`
+    A MyTimeDelta object. This is the difference between the time the player last changed their profile picture and the current time. This can be helpful to prevent the player from constantly changing their profile picture just to see dialogue -- at the beginning of your profile picture callback, for example, you can include a conditional statement that will automatically return if less than 30 minutes have passed since the player last changed their profile picture.
+
+    A ``MyTimeDelta`` object has several useful fields you can access to compare the time the player last changed their profile picture at. Each field is rounded **down** to the nearest whole number; so, if 2 minutes and 45 seconds (2.75 minutes) have passed since the player last changed their profile picture, ``time_diff.minutes`` will be equal to 2 and ``time_diff.seconds`` will be equal to 165.
+
+    The available fields are ``days``, ``hours``, ``minutes``, and ``seconds``.
+
+`prev_pic`
+    The file path of the image that was used as the profile picture before the new one. This will never be the same as ``current_pic``; if they are the same, then the profile picture callback will not be called.
+
+`current_pic`
+    The file path to the image the player just set as their profile picture. This, like ``prev_pic``, may also be a string with a colour e.g. "#000".
+
+`who`
+    The ChatCharacter object of the character this image is associated with. This is determined by checking if the image is in a particular character's ``unlockable_pfps`` variable (see [[INSERT LINK HERE]]). If the image is not in any character's unlockable profile pictures set, then it will be equal to None.
+
+    This can be useful if you want a character to react generally to any image associated with themselves.
+
+
+You can use all or none of the passed parameters in your callback function. The callback function must either return ``None`` (either directly, via ``return None`` or ``return``, or implicitly by reaching the end of the function) or return a string or list of strings that correspond to a label the program can call for this profile picture callback.
+
+If the profile picture callback returns a string corresponding to the name of a label, the program will check if it has already jumped to this particular label. If so, then the player has already seen this callback and the program will do nothing. Otherwise, the program will execute the contents of the label before returning to the regular game context. This means that the contents of the label should **not** be real-time -- e.g. you can't include a phone call directly in the callback label, but you **can** add a new phone call to the list of available calls, which will then jump to a label with the contents of that phone call.
+
+You can also return a list of label names, in which case the program will check the list until it either finds a label which hasn't yet been executed or reaches the end of the list.
+
+.. note::
+    If **Testing Mode** is turned on from the developer settings, profile picture callbacks can execute more than once. Otherwise, they will only activate once on any given playthrough.
+
+
+Profile picture callbacks should typically be treated the same way as an ``after_`` label is, and can include the same sorts of functions. Some examples of things that you can do in a profile picture callback label are:
+
+* Have a character send the player a text message
+
+    * You can include a label that will be jumped to to allow the player to reply and/or continue the conversation
+
+* Change a character's status, profile picture, or cover photo
+* Add a new spaceship thought
+* Have a character call the player, or make a new phone call available for them
+* Unlock bonus ringtones or profile pictures
+
+Convenience functions and CDSs are provided to do the most common actions, but the true limit is your own programming ability. You could even use profile picture callbacks to branch the story, add new chatrooms to a route, or show a popup, for example.
+
+
+Common Profile Picture Callback Examples
+-----------------------------------------
+
+The following examples will include conditional statements that will go inside a profile picture callback function -- while this function can be called anything, for the purposes of these examples assume the callback is set up like so::
+
+    default mc_pfp_callback = example_pfp_callback
+
+    init -1 python:
+        def example_pfp_callback(time_diff, prev_pic, current_pic, who):
+
+You can assume that unless otherwise specified, the example code should be inside the profile picture callback function.
+
+Checking the Last Time the Picture was Changed
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    if time_diff.minutes < 30:
+        # It has been less than 30 minutes since the player changed their
+        # profile picture, so don't execute a callback.
+        return
+
+::
+
+    init -1 python:
+        def example_pfp_callback(time_diff, prev_pic, current_pic, who):
+        if time_diff.seconds < 60:
+            # It has been less than a minute since the player changed their pfp
+            return 'quickly_changing_pfp'
+
+    # Outside of the main function
+    label quickly_changing_pfp:
+        compose text s:
+            s "Wow I thought you just changed your profile picture lol"
+        return
+
+::
+    init -1 python:
+        def example_pfp_callback(time_diff, prev_pic, current_pic, who):
+            if time_diff.days > 3:
+                # It has been more than 3 days since the player changed their pfp
+                return 'long_time_no_change'
+
+    label long_time_no_change:
+        $ space_thoughts.add_choices(
+            SpaceThought(y, "[name] finally changed [their] profile picture! I was starting to feel self-conscious changing mine so much...")
+        )
+        return
+
+Checking if an Image is Associated with a Character
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    if who == r:
+        # Profile picture is associated with `r` (Ray)
+        return ['ray_pfp_change_1', 'ray_pfp_change_2']
+
+This means that the first time the player changes their profile picture to an image associated with Ray (``r``), the label ``label ray_pfp_change_1`` will execute. The second time the player does so, ``label ray_pfp_change_2`` will execute.
+
+
+Checking For a Particular Image
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+    if "CGs/ja_bonus_cg" in current_pic:
+        return "ja_bonus_cg_dialogue"
+
+You should use the ``if x in y`` terminology to check for particular images, and it is generally a good idea to leave out the file extension (e.g. .png or .webp) to ensure the correct image is matched. The above condition would be True if ``current_pic`` was "images/CGs/ja_bonus_cg.png" or "CGs/ja_bonus_cg.webp", for example.
+
+The same should be done when comparing a string to the ``prev_pic`` variable e.g.
+
+::
+
+    if "Profile Pics/Ray/ray_03" in prev_pic and not who == r:
+        return 'changed_ray_pfp'
+
+This would cause ``label changed_ray_pfp`` to be executed the first time the player changes their profile picture from an image like "Profile Pics/Ray/ray_03.png" to a different image that isn't associated with Ray.
+
+
+Paraphrased Choices
+====================
+
+Inside ``variables_editable.rpy`` is a variable called ``paraphrase_choices`` under the header **MISCELLANEOUS VARIABLES**. If this variable is set to True, choices are treated as "paraphrased" -- that is, it is your responsibility to write out exactly what you want the MC to say after a choice. This was the default behaviour prior to v3.0.
+
+However, if ``paraphrase_choices`` is set to False, then the main character will automatically say the dialogue provided in a choice caption. This means that the following code is equivalent::
+
+    $ paraphrase_choices = True
+    menu:
+        "I don't want to go.":
+            m "I don't want to go." (pauseVal=0)
+            ju "I understand."
+        "I'll come with you.":
+            msg m "I'll come with you." pv 0
+            ju "That's good to hear."
+
+    # Is equivalent to
+    $ paraphrase choices = False
+    menu:
+        "I don't want to go.":
+            ju "I understand."
+        "I'll come with you.":
+            ju "That's good to hear."
+
+In both cases, the main character (``m``) will say "I don't want to go." after the player chooses that option (same with "I'll come with you."). This feature works for all choices -- i.e. text messages, chatrooms, phone calls, and story mode.
+
+You should set the value of ``paraphrase_choices`` at the beginning of a route, generally just after the ``new_route_setup`` function e.g.
+
+::
+
+    label new_year_prologue():
+
+        $ new_route_setup(route=new_years_route, chatroom_label='new_year_prologue',
+        participants=[ja])
+        $ paraphrase_choices = False
+        jump skip_intro_setup
+
+After setting it, it is expected to remain that way the rest of the route. However, you can toggle it on/off on a per-menu or per-choice basis.
+
+For example, if you have ``paraphrase_choices = False`` but want to have a menu include paraphrased choices, you can provide the menu argument ``paraphrased=True`` so that all the choices in that menu will be considered paraphrased::
+
+    menu (paraphrased=True):
+        "(Don't say anything)":
+            ri "...I see."
+        "(Try to reason with her)":
+            m "Rika, really, you don't have to do this."
+
+.. tip::
+    Setting ``paraphrased`` for a menu will work with timed menus ([[INSERT LINK HERE]]) as well as regular menus.
+
+You can also set the ``paraphrased`` argument for individual choices as well::
+
+    menu (paraphrased=True):
+        "(Don't say anything)":
+            ri "...I see."
+        "(Try to reason with her)":
+            m "Rika, really, you don't have to do this."
+        "You're better than this." (paraphrased=False):
+            ri "Oh? What makes you think that?"
+
+In this case, though the menu is treated as paraphrased (that is, the main character won't directly say the dialogue in the choices), the final choice *is not* paraphrased, so the main character will say "You're better than this" before Rika says "Oh? What makes you think that?".
+
+Paraphrasing can be particularly useful for timed menus, which have limited space for choice text::
+
+    timed menu:
+        s "Ugh, so tired..."
+        s "[name], help lol"
+        s "I need something to do."
+        s "Maybe Yoosung will come by."
+        "(Sympathize)" (paraphrased=True):
+            msg m "Right? It's been such a slow day." pv 0
+            msg m "Sometimes u just wanna be lazy."
+        "Get a hobby lol":
+            s "Omg 0_0"
+            s "ya maybe ur right lololol"
+
+In this case, ``paraphrase_choices`` is set to False for the whole route, but in this menu the choice "(Sympathize)" is paraphrased.
+
+Changing the Main Character
+----------------------------
+
+As non-paraphrased dialogue is automatically said by the main character, you may also want to change who the main character is. By default, it is ``m``, which uses the name and profile picture set by the player, but you can change it on a per-route basis or change the default definition in ``character_definitions.rpy``.
+
+::
+
+    default main_character = m
+
+If you set this variable equal to a different character (e.g. ``em`` from the character examples), then ``em`` will say non-paraphrased choice dialogue instead of ``m``. ``em`` will also appear on the right side of the screen when saying dialogue in chatrooms or text messages.
+
+
+

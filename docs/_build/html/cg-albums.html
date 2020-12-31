@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-cg-album">Adding a CG Album</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#albums-associated-a-character">Albums Associated a Character</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#albums-not-associated-with-a-character">Albums not Associated With a Character</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-cg-after-starting-the-game">Adding a CG After Starting the Game</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#hiding-albums-until-unlocked">Hiding Albums Until Unlocked</a></li>
@@ -251,6 +252,36 @@
 <span class="k">image</span> <span class="n">new_years_album_cover</span> <span class="o">=</span> <span class="s2">&quot;Image for your album cover.png&quot;</span>
 <span class="k">default</span> <span class="n">persistent</span><span class="o">.</span><span class="n">new_years_album</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">default</span> <span class="n">new_years_album</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-a-cg-after-starting-the-game">
+<h3>Adding a CG After Starting the Game<a class="headerlink" href="#adding-a-cg-after-starting-the-game" title="Permalink to this headline">¶</a></h3>
+<p>While in most cases you should define your CGs in <code class="docutils literal notranslate"><span class="pre">gallery_album_definitions.rpy</span></code>, you can also add new CGs to an album after the game has already started with the function <code class="docutils literal notranslate"><span class="pre">add_to_album</span></code>. This function takes two parameters:</p>
+<dl>
+<dt><cite>album</cite></dt><dd><p>The album variable that should contain this new CG.</p>
+<p>e.g. <code class="docutils literal notranslate"><span class="pre">ja_album</span></code></p>
+</dd>
+<dt><cite>photo_list</cite></dt><dd><p>An <code class="docutils literal notranslate"><span class="pre">Album</span></code> or list of <code class="docutils literal notranslate"><span class="pre">Album</span></code> objects which should be added to the given album variable above.</p>
+<p>e.g. [ Album(“cg s_4”), Album(“cg s_5”) ]</p>
+</dd>
+</dl>
+<p>Typically you would use this function at the beginning of a route, particularly if the route is DLC since this will allow you to add images to the album without having to directly modify the <code class="docutils literal notranslate"><span class="pre">gallery_album_definitions.rpy</span></code> file. An example may look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_year_prologue</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">,</span> <span class="n">chatroom_label</span><span class="o">=</span><span class="s1">&#39;new_year_prologue&#39;</span><span class="p">,</span>
+    <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">paraphrase_choices</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1"># Album definitions for this new route</span>
+    <span class="k">$</span> <span class="n">add_to_album</span><span class="p">(</span><span class="n">ja_album</span><span class="p">,</span> <span class="n">Album</span><span class="p">(</span><span class="s1">&#39;cg ja_ny_1&#39;</span><span class="p">))</span>
+    <span class="k">$</span> <span class="n">add_to_album</span><span class="p">(</span><span class="n">ju_album</span><span class="p">,</span> <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg ju_ny_1&quot;</span><span class="p">))</span>
+    <span class="k">$</span> <span class="n">add_to_album</span><span class="p">(</span><span class="n">s_album</span><span class="p">,</span> <span class="p">[</span> <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg s_ny_1&quot;</span><span class="p">),</span> <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg s_ny_2&quot;</span><span class="p">)</span> <span class="p">])</span>
+
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+
+    <span class="c1"># Route prologue begins here</span>
 </pre></div>
 </div>
 </div>
