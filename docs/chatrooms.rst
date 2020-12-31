@@ -495,6 +495,42 @@ And text tags work the way they would with the predefined fonts::
     s "{=cursivexb}Which method you use depends on your preference.{/=cursivexb}"
 
 
+Custom Bubbles
+----------------
+
+You can also add your own custom bubbles to work with the ``msg`` CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles to work for other characters.
+
+To add a new bubble, first you must add it to the ``all_bubbles_list`` in ``variables_editable.rpy``. For this example, three bubbles called "spooky_s", "spooky_m", and "spooky_l" will be added (for small, medium, and large variants).
+
+::
+
+    define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
+    'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
+    'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
+    'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
+    'flower_s', 'glow2', 'spooky_s', 'spooky_m', 'spooky_l']
+
+Next, you need to define a style for the bubble. Typically the most important properties are the padding and offset. First, define a general style::
+
+    style spooky_s:
+        padding (25, 25, 25, 25)
+
+    style spooky_m:
+        padding (25, 25, 25, 25)
+
+    style spooky_l:
+        padding (25, 25, 25, 25)
+
+This defines a style for the spooky bubbles with 25 pixels of padding on the left, top, right, and bottom of the bubble. These numbers should, of course, be adjusted to suit the actual bubble image you're using.
+
+Next, if any characters have a variant of this bubble that requires different styling, you can define a variant for them. For example, if the padding for ``s``'s spooky_m bubble is different, you can create an ``s_spooky_m`` style::
+
+    style s_spooky_m:
+        is spooky_m # This inherits the spooky_m padding
+        top_padding 35
+
+``is spooky_m`` tells the style to inherit from the original ``spooky_m`` style; this is optional, but can be helpful. In this case, it means that the ``s_spooky_m`` bubble has a left/right/bottom padding of 25, as in the ``spooky_m`` style, but the ``top_padding`` is now 35.
+
 
 
 

@@ -176,7 +176,25 @@ init -4 python:
             elif self.specBubble[:7] == "square2":
                 bubble_style = "square_" + self.specBubble[-1:]
 
-            return self.who.file_id + '_' + bubble_style
+            stylename = self.who.file_id + '_' + bubble_style
+            try:
+                renpy.style.get_style(stylename)
+                return stylename
+            except:
+                # This style does not exist
+                pass
+            try:
+                renpy.style.get_style(bubble_style)
+                return bubble_style
+            except:
+                print("WARNING: Could not find the style", bubble_style)
+                renpy.show_screen('script_error',
+                        message=("Could not find the style " + bubble_style))
+            return 'default'
+
+
+
+
 
         @property
         def spec_bubble_offset(self):
