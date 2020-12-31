@@ -312,8 +312,23 @@ init -4 python:
 
             # If this is a special bubble, set the background to said bubble
             if self.specBubble and self.specBubble != 'glow2':
-                return ("Bubble/Special/" + self.who.file_id + "_"
-                    + self.specBubble + ".webp")
+                # First, check if there's a specific variant for the character
+                possible_ext = [".webp", ".png", ".jpg"]
+                bubble_name = ("Bubble/Special/" + self.who.file_id + "_"
+                    + self.specBubble)
+                for ext in possible_ext:
+                    if renpy.loadable(bubble_name + ext):
+                        return bubble_name + ext
+                bubble_name = "Bubble/Special/" + self.specBubble
+                for ext in possible_ext:
+                    if renpy.loadable(bubble_name + ext):
+                        return bubble_name + ext
+                print("WARNING: Could not find bubble background for",
+                    self.specBubble)
+                renpy.show_screen('script_error',
+                        message=("Could not find bubble background for "
+                            + self.specBubble))
+                return None
             # Special case for the second glowing bubble variant
             elif self.specBubble and self.specBubble == 'glow2':
                 return Frame("Bubble/Special/" + self.who.file_id
