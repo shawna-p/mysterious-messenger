@@ -547,6 +547,89 @@ Unlike the predefined bubbles, custom bubbles must be prefixed with ``bubble`` a
 
 
 
+Extending Custom Bubbles
+--------------------------
+
+Besides adding your own bubbles, you can also extend the functionality of existing bubbles (or your own custom bubbles) via some special provided functions in ``variables_editable.rpy``. There are three such functions. All are passed a ``msg`` variable, which is a ChatEntry object with the following fields:
+
+`who`
+    The ChatCharacter object of the sender of the message.
+
+    e.g. ``s``
+
+`what`
+    The contents (dialogue) of the message.
+
+    e.g. "Have you heard from V lately?"
+
+`thetime`
+    A MyTime object with information on the time the message was sent at (in real-time)
+
+`img`
+    True if this message contains either an emoji or a CG; False otherwise.
+
+`bounce`
+    True if this message should "bounce" in as its animation. This is True if the message uses the "glowing" style of bubble, and also True if a special speech bubble is used (such as "cloud_m"). It is generally False for images and the default speech bubble.
+
+`specBubble`
+    The special bubble. Typically this is equal to somethingn like "sigh_s" or "spike_l". However, you can pass in particular strings and use this function to take care of what background image it should evaluate to.
+
+
+Custom Bubble Background Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Inside ``variables_editable.rpy`` is a function called ``custom_bubble_bg`` under the **CUSTOM MESSENGER ITEMS** header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds. For example, although currently characters can only use the special bubbles associated with their file_id, you could add a statement which will allow them to use each other's special speech bubbles::
+
+    def custom_bubble_bg(msg):
+
+        if msg.specBubble and len(specBubble.split('_')) > 2:
+            # msg.specBubble checks if the message is using a special bubble
+            # specBubble.split('_') splits the special bubble into separate
+            # words based on the '_' character. So, "square_m" becomes
+            # ["square", "m"]. the len() function checks the length of the
+            # resulting list, so ["square", "m"] has a length of 2. If the list
+            # is more than 2 long, it means it was something like "r_round_s"
+            # so it was split into ["r", "round", "s"], aka a length of 3
+            # In this case, the program shouldn't automatically add the
+            # character's file_id to the bubble.
+
+            return "Bubble/Special/" + msg.specBubble + ".webp"
+
+        return False
+
+The above code will then allow you to write dialogue such as
+
+::
+
+    s "Look, I'm using Jumin's bubble!" (bounce=True, specBubble="ju_cloud_l")
+    msg s "This message uses it too!" bubble ju_cloud_m
+
+in order to have the characters use each other's special speech bubbles.
+
+Note that you can also return general displayables, such as a Frame(), inside the ``custom_bubble_bg`` function. For example, you could give Emma (from the new character examples) a second "glowing" bubble variant::
+
+    def custom_bubble_bg(msg):
+
+        if msg.who.file_id == "em" and msg.specBubble == "glow2":
+            return Frame("Bubble/Special/em_glow2.webp", 25, 25)
+
+        return False
+
+This returns the "Bubble/Special/em_glow2.webp" image, formatted as a frame with borders 25 pixels wide. The inside of the bubble will expand to be large enough to accommodate the text (this is how the regular speech bubbles and glowing bubble variants are defined and used).
+
+You could then write dialogue to use this bubble like::
+
+    em "This goes in my glowing bubble." (bounce=True, specBubble="glow2")
+    msg em "As does this message." bubble glow2
+
+
+Custom Bubble Style Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+
+
+
 
 
 
