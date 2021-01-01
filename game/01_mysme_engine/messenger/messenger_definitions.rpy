@@ -19,9 +19,13 @@ init -4 python:
         bounce : bool
             True if this message should 'bounce' when it animates in. Used
             for glowing and special speech bubble variants.
-        specBubble : string or Nonee
+        specBubble : string or None
             String containing part of the image path to the relevant
             speech bubble.
+        saved_bubble_bg : string or None
+            Saves the calculated bubble background, if applicable.
+        saved_bubble_style : string or None
+            Saves the calculated bubble style, if applicable.
         """
 
         def __init__(self, who, what, thetime, img=False,
@@ -54,6 +58,10 @@ init -4 python:
             self.img = img
             self.bounce = bounce
             self.specBubble = specBubble
+
+            self.saved_bubble_bg = None
+            self.saved_bubble_style = None
+
 
 
         @property
@@ -142,14 +150,23 @@ init -4 python:
         def bubble_style(self):
             """Return the style used for regular bubbles."""
 
+            try:
+                return self.saved_bubble_style
+            except:
+                pass
+
             if self.who.right_msgr:
-                return 'reg_bubble_MC'
+                self.saved_bubble_style = 'reg_bubble_MC'
+                return self.saved_bubble_style
             elif not self.specBubble and not self.bounce:
-                return 'reg_bubble'
+                self.saved_bubble_style = 'reg_bubble'
+                return self.saved_bubble_style
             elif not self.specBubble and self.bounce:
-                return 'glow_bubble'
+                self.saved_bubble_style = 'glow_bubble'
+                return self.saved_bubble_style
             elif self.specBubble == "glow2":
-                return 'glow_bubble'
+                self.saved_bubble_style = 'glow_bubble'
+                return self.saved_bubble_style
 
             # Otherwise, there is a special bubble
             bubble_style = self.specBubble
@@ -158,6 +175,7 @@ init -4 python:
             try:
                 custom_style = custom_bubble_style(self)
                 if custom_style:
+                    self.saved_bubble_style = custom_style
                     return custom_style
             except:
                 print("WARNING: Could not evaluate the function 'custom_"
@@ -169,7 +187,8 @@ init -4 python:
             # Multiple round/square variants have the same styling as
             # the original round/square bubble
             if self.specBubble == "round2_s" and self.who.file_id == 's':
-                return self.who.file_id + '_' + bubble_style
+                self.saved_bubble_style = self.who.file_id + '_' + bubble_style
+                return self.saved_bubble_style
 
             if self.specBubble[:6] == "round2":
                 bubble_style = "round_" + self.specBubble[-1:]
@@ -179,20 +198,21 @@ init -4 python:
             stylename = self.who.file_id + '_' + bubble_style
             try:
                 renpy.style.get_style(stylename)
+                self.saved_bubble_style = stylename
                 return stylename
             except:
                 # This style does not exist
                 pass
             try:
                 renpy.style.get_style(bubble_style)
+                self.saved_bubble_style = bubble_style
                 return bubble_style
             except:
                 print("WARNING: Could not find the style", bubble_style)
                 renpy.show_screen('script_error',
                         message=("Could not find the style " + bubble_style))
+            self.saved_bubble_style = 'default'
             return 'default'
-
-
 
 
 
@@ -298,10 +318,16 @@ init -4 python:
         def bubble_bg(self):
             """Return the background used for this bubble."""
 
+            try:
+                return self.saved_bubble_bg
+            except:
+                pass
+
             # Allow for custom bubble backgrounds
             try:
                 custom_bg = custom_bubble_bg(self)
                 if custom_bg:
+                    self.saved_bubble_bg = custom_bg
                     return custom_bg
             except:
                 print("WARNING: Could not evaluate the function 'custom_"
@@ -318,28 +344,35 @@ init -4 python:
                     + self.specBubble)
                 for ext in possible_ext:
                     if renpy.loadable(bubble_name + ext):
+                        self.saved_bubble_bg = bubble_name + ext
                         return bubble_name + ext
                 bubble_name = "Bubble/Special/" + self.specBubble
                 for ext in possible_ext:
                     if renpy.loadable(bubble_name + ext):
+                        self.saved_bubble_bg = bubble_name + ext
                         return bubble_name + ext
                 print("WARNING: Could not find bubble background for",
                     self.specBubble)
                 renpy.show_screen('script_error',
                         message=("Could not find bubble background for "
                             + self.specBubble))
+                self.saved_bubble_bg = None
                 return None
             # Special case for the second glowing bubble variant
             elif self.specBubble and self.specBubble == 'glow2':
-                return Frame("Bubble/Special/" + self.who.file_id
+                self.saved_bubble_bg = Frame("Bubble/Special/" + self.who.file_id
                     + "_" + self.specBubble + ".webp", 25, 25)
+                return self.saved_bubble_bg
             # Glow bubble
             elif self.bounce:
-                return self.who.glow_bubble_img
+                self.saved_bubble_bg = self.who.glow_bubble_img
+                return self.saved_bubble_bg
             # Regular speech bubble
             elif self.who != answer:
-                return self.who.reg_bubble_img
+                self.saved_bubble_bg = self.who.reg_bubble_img
+                return self.saved_bubble_bg
             else:
+                self.saved_bubble_bg = None
                 return None
 
         def alt_text(self, anti):
