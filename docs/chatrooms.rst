@@ -626,7 +626,42 @@ You could then write dialogue to use this bubble like::
 Custom Bubble Style Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Although the program will try to pick out specific styles based on the name of the special speech bubble used, there may be some cases in which you want to apply a particular style to a bubble. The ``custom_bubble_style`` function in ``variables_editable.rpy`` will let you return a particular style.
 
+For example, if you want the characters to be able to use each other's special bubbles as shown in the example for the last section, you will also need them to use the other characters' bubble styles::
+
+    def custom_bubble_style(msg):
+
+        if msg.specBubble and len(specBubble.split('_')) > 2:
+            # See the example in the last section to understand what this
+            # conditional statement is checking for
+            return msg.specBubble
+
+        return False
+
+This will ensure that a character using another character's special bubble background will still get the original character's bubble styling as well.
+
+This function should return a string that corresponds to the name of a style. For example, if you want a bubble to use the style ``style my_special_bubble``, then you need to return the string ``"my_special_bubble"``.
+
+
+
+Custom Bubble Offset Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character's profile picture). For example, if you wanted special speech bubbles to appear appropriately for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.
+
+::
+
+    def custom_bubble_offset(msg):
+
+        if msg.who.right_msgr and msg.specBubble:
+            # This character is on the right side of the screen
+            # using a special bubble
+            # You will likely need more specific styling for particular bubbles,
+            # but this will return a generic position for each bubble.
+            return (0, 30)
+
+        return False
 
 
 
