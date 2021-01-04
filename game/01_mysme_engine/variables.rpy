@@ -419,7 +419,7 @@ init -6 python:
             self.days = self.hours // 24
 
 
-    def new_route_setup(route, chatroom_label='starter_chat', participants=None):
+    def new_route_setup(route, chatroom_label=None, participants=None):
         """Set up variables for a new route."""
 
         global story_archive, current_timeline_item, starter_story
@@ -444,7 +444,22 @@ init -6 python:
 
         if participants is None:
             participants = []
+        if not isinstance(participants, list):
+            # Check if this is a valid participant
+            if not isinstance(participants, ChatCharacter):
+                print("WARNING: Given participants list for new_route_setup",
+                    "is not recognized as a ChatCharacter or list of",
+                    "ChatCharacters.")
+                renpy.show_screen('script_error',
+                    message=("Given participants list for new_route_setup is"
+                    + " not recognized as a ChatCharacter or list of "
+                    + "ChatCharacters."))
+                participants = [ ]
+            else:
+                participants = [participants]
         define_variables()
+        if chatroom_label is None:
+            chatroom_label = starter_story
         current_timeline_item = ChatRoom('Introduction', chatroom_label,
                                         '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
