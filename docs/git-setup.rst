@@ -30,14 +30,16 @@ You should now have a local copy of the mysterious-messenger repository. Next yo
 * Navigate to the new directory where you cloned the repository. If you still have Bash open, you should be able to type ``cd mysterious-messenger`` to open it.
 * Type ``git remote -v`` and press Enter. You should see
 
-:: bash
+.. code-block:: bash
 
     $ git remote -v
     > origin https://github.com/YOUR-USERNAME/mysterious-messenger.git (fetch)
     > origin https://github.com/YOUR-USERNAME/mysterious-messenger.git (push)
 
 * Type ``git remote add upstream https://github.com/shawna-p/mysterious-messenger.git`` and press Enter.
-* Type ``git remote -v`` and press Enter. It should now look like:: bash
+* Type ``git remote -v`` and press Enter. It should now look like:
+
+.. code-block:: bash
 
     $ git remote -v
     > origin https://github.com/YOUR-USERNAME/mysterious-messenger.git (fetch)
@@ -53,7 +55,7 @@ Now you should make sure you get the most recent released version, which is curr
 You should now have v3.0 of Mysterious Messenger. In the future, you can use ``git checkout v3.0`` and ``git merge tags/v3.0`` with future version numbers to update to the latest version of Mysterious Messenger.
 
 Further resources
-------------------
+==================
 
 * How to fork a repo https://docs.github.com/en/github/getting-started-with-github/fork-a-repo
 * Configuring a remote for a fork https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork
