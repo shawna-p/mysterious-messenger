@@ -90,10 +90,8 @@
 <li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Git Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#further-resources">Further resources</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#further-resources">Further resources</a></li>
 </ul>
 </li>
 </ul>
@@ -179,10 +177,8 @@
 <p class="caption"><span class="caption-text">Navigation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Git Setup</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#further-resources">Further resources</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#further-resources">Further resources</a></li>
 </ul>
 </li>
 </ul>
@@ -213,37 +209,35 @@ What you need:</p>
 <li><p>Navigate to the new directory where you cloned the repository. If you still have Bash open, you should be able to type <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">mysterious-messenger</span></code> to open it.</p></li>
 <li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code> and press Enter. You should see</p></li>
 </ul>
-<p>:: bash</p>
-<blockquote>
-<div><p>$ git remote -v
-&gt; origin <a class="reference external" href="https://github.com/YOUR-USERNAME/mysterious-messenger.git">https://github.com/YOUR-USERNAME/mysterious-messenger.git</a> (fetch)
-&gt; origin <a class="reference external" href="https://github.com/YOUR-USERNAME/mysterious-messenger.git">https://github.com/YOUR-USERNAME/mysterious-messenger.git</a> (push)</p>
-</div></blockquote>
-<ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git remote -v
+&gt; origin https://github.com/YOUR-USERNAME/mysterious-messenger.git <span class="o">(</span>fetch<span class="o">)</span>
+&gt; origin https://github.com/YOUR-USERNAME/mysterious-messenger.git <span class="o">(</span>push<span class="o">)</span>
+</pre></div>
+</div>
+<ul class="simple">
 <li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">upstream</span> <span class="pre">https://github.com/shawna-p/mysterious-messenger.git</span></code> and press Enter.</p></li>
-<li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code> and press Enter. It should now look like:: bash</p>
-<blockquote>
-<div><p>$ git remote -v
-&gt; origin <a class="reference external" href="https://github.com/YOUR-USERNAME/mysterious-messenger.git">https://github.com/YOUR-USERNAME/mysterious-messenger.git</a> (fetch)
-&gt; origin <a class="reference external" href="https://github.com/YOUR-USERNAME/mysterious-messenger.git">https://github.com/YOUR-USERNAME/mysterious-messenger.git</a> (push)
-&gt; upstream <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger.git">https://github.com/shawna-p/mysterious-messenger.git</a> (fetch)
-&gt; upstream <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger.git">https://github.com/shawna-p/mysterious-messenger.git</a> (push)</p>
-</div></blockquote>
-</li>
+<li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code> and press Enter. It should now look like:</p></li>
 </ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git remote -v
+&gt; origin https://github.com/YOUR-USERNAME/mysterious-messenger.git <span class="o">(</span>fetch<span class="o">)</span>
+&gt; origin https://github.com/YOUR-USERNAME/mysterious-messenger.git <span class="o">(</span>push<span class="o">)</span>
+&gt; upstream https://github.com/shawna-p/mysterious-messenger.git <span class="o">(</span>fetch<span class="o">)</span>
+&gt; upstream https://github.com/shawna-p/mysterious-messenger.git <span class="o">(</span>push<span class="o">)</span>
+</pre></div>
+</div>
 <p>Now you should make sure you get the most recent released version, which is currently v3.0.</p>
 <ul class="simple">
 <li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">v2.2</span></code> and press Enter</p></li>
 <li><p>Next, type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">tags/v3.0</span></code> and press Enter.</p></li>
 </ul>
 <p>You should now have v3.0 of Mysterious Messenger. In the future, you can use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">v3.0</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">tags/v3.0</span></code> with future version numbers to update to the latest version of Mysterious Messenger.</p>
+</div>
 <div class="section" id="further-resources">
-<h3>Further resources<a class="headerlink" href="#further-resources" title="Permalink to this headline">¶</a></h3>
+<h2>Further resources<a class="headerlink" href="#further-resources" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>How to fork a repo <a class="reference external" href="https://docs.github.com/en/github/getting-started-with-github/fork-a-repo">https://docs.github.com/en/github/getting-started-with-github/fork-a-repo</a></p></li>
 <li><p>Configuring a remote for a fork <a class="reference external" href="https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork">https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/configuring-a-remote-for-a-fork</a></p></li>
 </ul>
-</div>
 </div>
 </div>
 
