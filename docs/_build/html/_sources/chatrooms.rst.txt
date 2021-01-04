@@ -510,7 +510,7 @@ To add a new bubble, first you must add it to the ``all_bubbles_list`` in ``vari
     'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
     'flower_s', 'glow2', 'spooky_s', 'spooky_m', 'spooky_l']
 
-Next, you need to define a style for the bubble. Typically the most important properties are the padding and offset. First, define a general style::
+Next, you need to define a style for the bubble. Typically the most important property is the padding. First, define a general style::
 
     style spooky_s:
         padding (25, 25, 25, 25)
@@ -523,13 +523,149 @@ Next, you need to define a style for the bubble. Typically the most important pr
 
 This defines a style for the spooky bubbles with 25 pixels of padding on the left, top, right, and bottom of the bubble. These numbers should, of course, be adjusted to suit the actual bubble image you're using.
 
-Next, if any characters have a variant of this bubble that requires different styling, you can define a variant for them. For example, if the padding for ``s``'s spooky_m bubble is different, you can create an ``s_spooky_m`` style::
+Next, if any characters have a variant of this bubble that requires different styling, you can define a style for them. For example, if the padding for ``s``'s spooky_m bubble is different, you can create an ``s_spooky_m`` style::
 
     style s_spooky_m:
         is spooky_m # This inherits the spooky_m padding
         top_padding 35
 
 ``is spooky_m`` tells the style to inherit from the original ``spooky_m`` style; this is optional, but can be helpful. In this case, it means that the ``s_spooky_m`` bubble has a left/right/bottom padding of 25, as in the ``spooky_m`` style, but the ``top_padding`` is now 35.
+
+And that's all! To show this special bubble in-game, you must ensure you have the appropriate images defined inside the "Bubbles/Special/" folder.
+
+* The image extension must be one of ``.webp``, ``.png``, or ``.jpg``
+* If every character uses the same bubble, it is sufficient to have a "Bubbles/Special/spooky_s.webp" image. Otherwise, you will need an image with the file_id of each character who has a variant e.g. "Bubbles/Special/ja_spooky_s.webp", "Bubbles/Special/ju_spooky_s.webp", etc.
+
+Then you can write dialogue which will show the bubble in-game e.g.
+
+::
+
+    ju "This will use the spooky_m bubble." (bounce=True, specBubble="spooky_m")
+    msg ja "This message will also use the spooky_m bubble" bubble spooky_m
+
+Unlike the predefined bubbles, custom bubbles must be prefixed with ``bubble`` as in ``bubble spooky_m`` when used in the ``msg`` CDS.
+
+
+
+Extending Custom Bubbles
+--------------------------
+
+Besides adding your own bubbles, you can also extend the functionality of existing bubbles (or your own custom bubbles) via some special provided functions in ``variables_editable.rpy``. There are three such functions. All are passed a ``msg`` variable, which is a ChatEntry object with the following fields:
+
+`who`
+    The ChatCharacter object of the sender of the message.
+
+    e.g. ``s``
+
+`what`
+    The contents (dialogue) of the message.
+
+    e.g. "Have you heard from V lately?"
+
+`thetime`
+    A MyTime object with information on the time the message was sent at (in real-time)
+
+`img`
+    True if this message contains either an emoji or a CG; False otherwise.
+
+`bounce`
+    True if this message should "bounce" in as its animation. This is True if the message uses the "glowing" style of bubble, and also True if a special speech bubble is used (such as "cloud_m"). It is generally False for images and the default speech bubble.
+
+`specBubble`
+    The special bubble. Typically this is equal to somethingn like "sigh_s" or "spike_l". However, you can pass in particular strings and use this function to take care of what background image it should evaluate to.
+
+
+Custom Bubble Background Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Inside ``variables_editable.rpy`` is a function called ``custom_bubble_bg`` under the **CUSTOM MESSENGER ITEMS** header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds. For example, although currently characters can only use the special bubbles associated with their file_id, you could add a statement which will allow them to use each other's special speech bubbles::
+
+    def custom_bubble_bg(msg):
+
+        if msg.specBubble and len(specBubble.split('_')) > 2:
+            # msg.specBubble checks if the message is using a special bubble
+            # specBubble.split('_') splits the special bubble into separate
+            # words based on the '_' character. So, "square_m" becomes
+            # ["square", "m"]. the len() function checks the length of the
+            # resulting list, so ["square", "m"] has a length of 2. If the list
+            # is more than 2 long, it means it was something like "r_round_s"
+            # so it was split into ["r", "round", "s"], aka a length of 3
+            # In this case, the program shouldn't automatically add the
+            # character's file_id to the bubble.
+
+            return "Bubble/Special/" + msg.specBubble + ".webp"
+
+        return False
+
+The above code will then allow you to write dialogue such as
+
+::
+
+    s "Look, I'm using Jumin's bubble!" (bounce=True, specBubble="ju_cloud_l")
+    msg s "This message uses it too!" bubble ju_cloud_m
+
+in order to have the characters use each other's special speech bubbles.
+
+Note that you can also return general displayables, such as a Frame(), inside the ``custom_bubble_bg`` function. For example, you could give Emma (from the new character examples) a second "glowing" bubble variant::
+
+    def custom_bubble_bg(msg):
+
+        if msg.who.file_id == "em" and msg.specBubble == "glow2":
+            return Frame("Bubble/Special/em_glow2.webp", 25, 25)
+
+        return False
+
+This returns the "Bubble/Special/em_glow2.webp" image, formatted as a frame with borders 25 pixels wide. The inside of the bubble will expand to be large enough to accommodate the text (this is how the regular speech bubbles and glowing bubble variants are defined and used).
+
+You could then write dialogue to use this bubble like::
+
+    em "This goes in my glowing bubble." (bounce=True, specBubble="glow2")
+    msg em "As does this message." bubble glow2
+
+
+Custom Bubble Style Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Although the program will try to pick out specific styles based on the name of the special speech bubble used, there may be some cases in which you want to apply a particular style to a bubble. The ``custom_bubble_style`` function in ``variables_editable.rpy`` will let you return a particular style.
+
+For example, if you want the characters to be able to use each other's special bubbles as shown in the example for the last section, you will also need them to use the other characters' bubble styles::
+
+    def custom_bubble_style(msg):
+
+        if msg.specBubble and len(specBubble.split('_')) > 2:
+            # See the example in the last section to understand what this
+            # conditional statement is checking for
+            return msg.specBubble
+
+        return False
+
+This will ensure that a character using another character's special bubble background will still get the original character's bubble styling as well.
+
+This function should return a string that corresponds to the name of a style. For example, if you want a bubble to use the style ``style my_special_bubble``, then you need to return the string ``"my_special_bubble"``.
+
+
+
+Custom Bubble Offset Function
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character's profile picture). For example, if you wanted special speech bubbles to appear appropriately for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.
+
+::
+
+    def custom_bubble_offset(msg):
+
+        if msg.who.right_msgr and msg.specBubble:
+            # This character is on the right side of the screen
+            # using a special bubble
+            # You will likely need more specific styling for particular bubbles,
+            # but this will return a generic position for each bubble.
+            return (0, 30)
+
+        return False
+
+
+
+
 
 
 

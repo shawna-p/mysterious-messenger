@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Phone Calls" href="phone-calls.html" />
-    <link rel="prev" title="Beginner’s Guide" href="beginners-guide.html" /> 
+    <link rel="prev" title="Git Setup" href="git-setup.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git-setup.html">Git Setup</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Chatrooms</a><ul>
@@ -120,6 +121,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#custom-fonts">Custom Fonts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#custom-bubbles">Custom Bubbles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extending-custom-bubbles">Extending Custom Bubbles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#custom-bubble-background-function">Custom Bubble Background Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-bubble-style-function">Custom Bubble Style Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-bubble-offset-function">Custom Bubble Offset Function</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
@@ -237,6 +244,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#custom-fonts">Custom Fonts</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#custom-bubbles">Custom Bubbles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#extending-custom-bubbles">Extending Custom Bubbles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#custom-bubble-background-function">Custom Bubble Background Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-bubble-style-function">Custom Bubble Style Function</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#custom-bubble-offset-function">Custom Bubble Offset Function</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
@@ -720,7 +733,7 @@
 <span class="s1">&#39;flower_s&#39;</span><span class="p">,</span> <span class="s1">&#39;glow2&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_s&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_m&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_l&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Next, you need to define a style for the bubble. Typically the most important properties are the padding and offset. First, define a general style:</p>
+<p>Next, you need to define a style for the bubble. Typically the most important property is the padding. First, define a general style:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="n">spooky_s</span><span class="p">:</span>
     <span class="na">padding</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
 
@@ -732,13 +745,120 @@
 </pre></div>
 </div>
 <p>This defines a style for the spooky bubbles with 25 pixels of padding on the left, top, right, and bottom of the bubble. These numbers should, of course, be adjusted to suit the actual bubble image you’re using.</p>
-<p>Next, if any characters have a variant of this bubble that requires different styling, you can define a variant for them. For example, if the padding for <code class="docutils literal notranslate"><span class="pre">s</span></code>’s spooky_m bubble is different, you can create an <code class="docutils literal notranslate"><span class="pre">s_spooky_m</span></code> style:</p>
+<p>Next, if any characters have a variant of this bubble that requires different styling, you can define a style for them. For example, if the padding for <code class="docutils literal notranslate"><span class="pre">s</span></code>’s spooky_m bubble is different, you can create an <code class="docutils literal notranslate"><span class="pre">s_spooky_m</span></code> style:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="n">s_spooky_m</span><span class="p">:</span>
     <span class="k">is</span> <span class="n">spooky_m</span> <span class="c1"># This inherits the spooky_m padding</span>
     <span class="na">top_padding</span> <span class="mi">35</span>
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">spooky_m</span></code> tells the style to inherit from the original <code class="docutils literal notranslate"><span class="pre">spooky_m</span></code> style; this is optional, but can be helpful. In this case, it means that the <code class="docutils literal notranslate"><span class="pre">s_spooky_m</span></code> bubble has a left/right/bottom padding of 25, as in the <code class="docutils literal notranslate"><span class="pre">spooky_m</span></code> style, but the <code class="docutils literal notranslate"><span class="pre">top_padding</span></code> is now 35.</p>
+<p>And that’s all! To show this special bubble in-game, you must ensure you have the appropriate images defined inside the “Bubbles/Special/” folder.</p>
+<ul class="simple">
+<li><p>The image extension must be one of <code class="docutils literal notranslate"><span class="pre">.webp</span></code>, <code class="docutils literal notranslate"><span class="pre">.png</span></code>, or <code class="docutils literal notranslate"><span class="pre">.jpg</span></code></p></li>
+<li><p>If every character uses the same bubble, it is sufficient to have a “Bubbles/Special/spooky_s.webp” image. Otherwise, you will need an image with the file_id of each character who has a variant e.g. “Bubbles/Special/ja_spooky_s.webp”, “Bubbles/Special/ju_spooky_s.webp”, etc.</p></li>
+</ul>
+<p>Then you can write dialogue which will show the bubble in-game e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ju</span> <span class="s2">&quot;This will use the spooky_m bubble.&quot;</span> <span class="p">(</span><span class="n">bounce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">specBubble</span><span class="o">=</span><span class="s2">&quot;spooky_m&quot;</span><span class="p">)</span>
+<span class="n">msg</span> <span class="n">ja</span> <span class="s2">&quot;This message will also use the spooky_m bubble&quot;</span> <span class="n">bubble</span> <span class="n">spooky_m</span>
+</pre></div>
+</div>
+<p>Unlike the predefined bubbles, custom bubbles must be prefixed with <code class="docutils literal notranslate"><span class="pre">bubble</span></code> as in <code class="docutils literal notranslate"><span class="pre">bubble</span> <span class="pre">spooky_m</span></code> when used in the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS.</p>
+</div>
+<div class="section" id="extending-custom-bubbles">
+<h3>Extending Custom Bubbles<a class="headerlink" href="#extending-custom-bubbles" title="Permalink to this headline">¶</a></h3>
+<p>Besides adding your own bubbles, you can also extend the functionality of existing bubbles (or your own custom bubbles) via some special provided functions in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. There are three such functions. All are passed a <code class="docutils literal notranslate"><span class="pre">msg</span></code> variable, which is a ChatEntry object with the following fields:</p>
+<dl>
+<dt><cite>who</cite></dt><dd><p>The ChatCharacter object of the sender of the message.</p>
+<p>e.g. <code class="docutils literal notranslate"><span class="pre">s</span></code></p>
+</dd>
+<dt><cite>what</cite></dt><dd><p>The contents (dialogue) of the message.</p>
+<p>e.g. “Have you heard from V lately?”</p>
+</dd>
+<dt><cite>thetime</cite></dt><dd><p>A MyTime object with information on the time the message was sent at (in real-time)</p>
+</dd>
+<dt><cite>img</cite></dt><dd><p>True if this message contains either an emoji or a CG; False otherwise.</p>
+</dd>
+<dt><cite>bounce</cite></dt><dd><p>True if this message should “bounce” in as its animation. This is True if the message uses the “glowing” style of bubble, and also True if a special speech bubble is used (such as “cloud_m”). It is generally False for images and the default speech bubble.</p>
+</dd>
+<dt><cite>specBubble</cite></dt><dd><p>The special bubble. Typically this is equal to somethingn like “sigh_s” or “spike_l”. However, you can pass in particular strings and use this function to take care of what background image it should evaluate to.</p>
+</dd>
+</dl>
+<div class="section" id="custom-bubble-background-function">
+<h4>Custom Bubble Background Function<a class="headerlink" href="#custom-bubble-background-function" title="Permalink to this headline">¶</a></h4>
+<p>Inside <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> is a function called <code class="docutils literal notranslate"><span class="pre">custom_bubble_bg</span></code> under the <strong>CUSTOM MESSENGER ITEMS</strong> header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds. For example, although currently characters can only use the special bubbles associated with their file_id, you could add a statement which will allow them to use each other’s special speech bubbles:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_bg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="k">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">specBubble</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># msg.specBubble checks if the message is using a special bubble</span>
+        <span class="c1"># specBubble.split(&#39;_&#39;) splits the special bubble into separate</span>
+        <span class="c1"># words based on the &#39;_&#39; character. So, &quot;square_m&quot; becomes</span>
+        <span class="c1"># [&quot;square&quot;, &quot;m&quot;]. the len() function checks the length of the</span>
+        <span class="c1"># resulting list, so [&quot;square&quot;, &quot;m&quot;] has a length of 2. If the list</span>
+        <span class="c1"># is more than 2 long, it means it was something like &quot;r_round_s&quot;</span>
+        <span class="c1"># so it was split into [&quot;r&quot;, &quot;round&quot;, &quot;s&quot;], aka a length of 3</span>
+        <span class="c1"># In this case, the program shouldn&#39;t automatically add the</span>
+        <span class="c1"># character&#39;s file_id to the bubble.</span>
+
+        <span class="k">return</span> <span class="s2">&quot;Bubble/Special/&quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">+</span> <span class="s2">&quot;.webp&quot;</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>The above code will then allow you to write dialogue such as</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;Look, I&#39;m using Jumin&#39;s bubble!&quot;</span> <span class="p">(</span><span class="n">bounce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">specBubble</span><span class="o">=</span><span class="s2">&quot;ju_cloud_l&quot;</span><span class="p">)</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;This message uses it too!&quot;</span> <span class="n">bubble</span> <span class="n">ju_cloud_m</span>
+</pre></div>
+</div>
+<p>in order to have the characters use each other’s special speech bubbles.</p>
+<p>Note that you can also return general displayables, such as a Frame(), inside the <code class="docutils literal notranslate"><span class="pre">custom_bubble_bg</span></code> function. For example, you could give Emma (from the new character examples) a second “glowing” bubble variant:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_bg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">file_id</span> <span class="o">==</span> <span class="s2">&quot;em&quot;</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;glow2&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Frame</span><span class="p">(</span><span class="s2">&quot;Bubble/Special/em_glow2.webp&quot;</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>This returns the “Bubble/Special/em_glow2.webp” image, formatted as a frame with borders 25 pixels wide. The inside of the bubble will expand to be large enough to accommodate the text (this is how the regular speech bubbles and glowing bubble variants are defined and used).</p>
+<p>You could then write dialogue to use this bubble like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;This goes in my glowing bubble.&quot;</span> <span class="p">(</span><span class="n">bounce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">specBubble</span><span class="o">=</span><span class="s2">&quot;glow2&quot;</span><span class="p">)</span>
+<span class="n">msg</span> <span class="n">em</span> <span class="s2">&quot;As does this message.&quot;</span> <span class="n">bubble</span> <span class="n">glow2</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="custom-bubble-style-function">
+<h4>Custom Bubble Style Function<a class="headerlink" href="#custom-bubble-style-function" title="Permalink to this headline">¶</a></h4>
+<p>Although the program will try to pick out specific styles based on the name of the special speech bubble used, there may be some cases in which you want to apply a particular style to a bubble. The <code class="docutils literal notranslate"><span class="pre">custom_bubble_style</span></code> function in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> will let you return a particular style.</p>
+<p>For example, if you want the characters to be able to use each other’s special bubbles as shown in the example for the last section, you will also need them to use the other characters’ bubble styles:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_style</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="k">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">specBubble</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="c1"># See the example in the last section to understand what this</span>
+        <span class="c1"># conditional statement is checking for</span>
+        <span class="k">return</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>This will ensure that a character using another character’s special bubble background will still get the original character’s bubble styling as well.</p>
+<p>This function should return a string that corresponds to the name of a style. For example, if you want a bubble to use the style <code class="docutils literal notranslate"><span class="pre">style</span> <span class="pre">my_special_bubble</span></code>, then you need to return the string <code class="docutils literal notranslate"><span class="pre">&quot;my_special_bubble&quot;</span></code>.</p>
+</div>
+<div class="section" id="custom-bubble-offset-function">
+<h4>Custom Bubble Offset Function<a class="headerlink" href="#custom-bubble-offset-function" title="Permalink to this headline">¶</a></h4>
+<p>This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character’s profile picture). For example, if you wanted special speech bubbles to appear appropriately for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_offset</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span><span class="p">:</span>
+        <span class="c1"># This character is on the right side of the screen</span>
+        <span class="c1"># using a special bubble</span>
+        <span class="c1"># You will likely need more specific styling for particular bubbles,</span>
+        <span class="c1"># but this will return a generic position for each bubble.</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 <div class="section" id="timed-menus">
@@ -883,7 +1003,7 @@
         <a href="phone-calls.html" class="btn btn-neutral float-right" title="Phone Calls" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="beginners-guide.html" class="btn btn-neutral float-left" title="Beginner’s Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="git-setup.html" class="btn btn-neutral float-left" title="Git Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -9,6 +9,7 @@ Welcome to the Mysterious Messenger Wiki!
     Credits-and-Acknowledgements
     Useful-Built-in-Features
     Beginners-Guide
+    git-setup
 
 .. toctree::
     :maxdepth: 2
