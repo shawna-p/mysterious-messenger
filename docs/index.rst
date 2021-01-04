@@ -8,7 +8,7 @@ Welcome to the Mysterious Messenger Wiki!
     Changelog
     Credits-and-Acknowledgements
     Useful-Built-in-Features
-    Beginners-Guide
+    beginners-guide
     git-setup
 
 .. toctree::
