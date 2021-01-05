@@ -244,7 +244,6 @@ init python:
         temp_first_boot = store.persistent.__dict__['first_boot']
         temp_animated_backgrounds = store.persistent.__dict__['animated_backgrounds']
         # temp_on_route = store.persistent.__dict__['on_route']
-        temp_hidden_route = store.persistent.__dict__['hidden_route']
         # v3.0 new vars
         temp_mc_unlocked_pfps = store.persistent.__dict__['mc_unlocked_pfps']
         temp_unlocked_prof_pics = store.persistent.__dict__['unlocked_prof_pics']
@@ -284,7 +283,6 @@ init python:
         store.persistent.testing_mode = temp_testing_mode
         store.persistent.first_boot = temp_first_boot
         store.persistent.on_route = False
-        store.persistent.hidden_route = temp_hidden_route
         store.persistent.animated_backgrounds = temp_animated_backgrounds
 
         store.persistent.ja_album = []
