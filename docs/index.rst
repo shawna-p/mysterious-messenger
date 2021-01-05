@@ -7,7 +7,7 @@ Welcome to the Mysterious Messenger Wiki!
     Home
     Changelog
     Credits-and-Acknowledgements
-    Useful-Built-in-Features
+    getting-started
     beginners-guide
     git-setup
 
