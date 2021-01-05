@@ -458,8 +458,10 @@ init -6 python:
             else:
                 participants = [participants]
         define_variables()
-        if chatroom_label is None:
+        if chatroom_label is None and isinstance(starter_story, basestring):
             chatroom_label = starter_story
+        else:
+            chatroom_label = 'starter_chat'
         current_timeline_item = ChatRoom('Introduction', chatroom_label,
                                         '00:00', participants)
         # This sets a specific variable that lets you have phone calls/
