@@ -298,7 +298,14 @@ init python:
 
         result = get_char_from_file_id(file_id)
         if result is None:
-            return string.capwords(file_id)
+            # This album name isn't associated with a character; probably
+            # a title like "Common"
+            file_lower = file_id.lower()
+            if file_id == file_lower:
+                return string.capwords(file_id)
+            else:
+                # Assume the capitalization is intentional
+                return file_id
         else:
             return result.name
 
