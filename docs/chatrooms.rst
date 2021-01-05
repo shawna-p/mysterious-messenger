@@ -612,6 +612,10 @@ Then you can write dialogue which will show the bubble in-game e.g.
 
 Unlike the predefined bubbles, custom bubbles must be prefixed with ``bubble`` as in ``bubble spooky_m`` when used in the ``msg`` CDS.
 
+.. tip::
+    You can also add the name of your bubble to the ``hourglass_bubbles`` variable in ``variables_editable.rpy``. This means that when a character uses that bubble in-game, it has a chance of awarding the player an hourglass.
+
+    Typically only the large (``l``) version of a bubble is added to this list e.g. ``"spooky_l"``
 
 
 Extending Custom Bubbles
