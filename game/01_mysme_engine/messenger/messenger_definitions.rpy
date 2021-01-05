@@ -151,7 +151,8 @@ init -4 python:
             """Return the style used for regular bubbles."""
 
             try:
-                return self.saved_bubble_style
+                if saved_bubble_style is not None:
+                    return self.saved_bubble_style
             except:
                 pass
 
@@ -319,7 +320,8 @@ init -4 python:
             """Return the background used for this bubble."""
 
             try:
-                return self.saved_bubble_bg
+                if self.saved_bubble_bg is not None:
+                    return self.saved_bubble_bg
             except:
                 pass
 
@@ -595,14 +597,13 @@ init -4 python:
         if actually_wait and renpy.is_skipping():
             renpy.pause(0.1)
             return
-        if not renpy.is_skipping():
+        if not renpy.is_skipping() and isinstance(length, (int, float)):
             renpy.pause(length)
 
     def award_hourglass(specBubble):
         """Show the hourglass icon and award the player a heart point."""
 
-        if specBubble not in ['cloud_l', 'round_l', 'square_l', 'flower_l',
-                'square2_l', 'round2_l']:
+        if specBubble not in store.hourglass_bubbles:
             return
 
         # Don't give HG when rewatching a chatroom, or not participating,
