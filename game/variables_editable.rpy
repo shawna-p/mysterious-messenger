@@ -389,6 +389,11 @@ define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
     'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
     'flower_s', 'glow2']
 
+# A list of bubbles which will occasionally award a bonus hourglass when used
+# in a chatroom.
+define hourglass_bubbles = ['cloud_l', 'round_l', 'square_l', 'flower_l',
+                'square2_l', 'round2_l']
+
 # All possible backgrounds are defined here. If they are a static image,
 # they should be defined as `image bg morning` and the list contains 'morning'.
 define all_static_backgrounds = ['morning', 'noon', 'evening', 'hack',
