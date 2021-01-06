@@ -1394,7 +1394,8 @@ init python:
 
         # Next, deliver emails and unlock the next story item
         deliver_emails()
-        check_and_unlock_story()
+        if not store.starter_story:
+            check_and_unlock_story()
 
         store.dialogue_picked = ""
         store.dialogue_paraphrase = store.paraphrase_choices
@@ -1518,12 +1519,15 @@ label end_prologue():
         $ chat = True
     else:
         $ chat = False
+    $ print_file("*********** End timeline item checks")
     $ end_timeline_item_checks()
     if chat:
         call screen save_and_exit()
     call screen signature_screen(chat)
+    $ print_file("*********** Finish timeline item checks")
     $ finish_timeline_item(current_timeline_item)
     $ starter_story = False
+    $ check_and_unlock_story()
     call screen chat_home
     return
 

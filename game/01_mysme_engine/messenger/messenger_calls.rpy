@@ -331,9 +331,6 @@ label skip_intro_setup():
         $ current_timeline_item.call_after_label()
         $ deliver_calls(current_timeline_item.item_label)
 
-    # Deliver emails and trigger the next chatroom (if applicable)
-    $ deliver_emails()
-    $ check_and_unlock_story()
     # Make sure any images shown are unlocked
     $ check_for_CGs(all_albums)
     $ renpy.retain_after_load()
@@ -344,9 +341,12 @@ label skip_intro_setup():
     # This helps clean up the transition between sections
     # in case it takes the program a few moments to calculate
     # messages, emails, etc
+    $ starter_story = False
+    # Deliver emails and trigger the next chatroom (if applicable)
+    $ deliver_emails()
+    $ check_and_unlock_story()
     pause 0.2
     hide screen loading_screen
-    $ starter_story = False
     $ renpy.save(mm_auto)
     call screen chat_home
     return
