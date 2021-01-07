@@ -14,8 +14,11 @@
 # This label has largely been rendered obsolete, however, it
 # is still used to set up a chatroom for introductions.
 label chat_begin(background=None, clearchat=True, resetHP=True):
+    if starter_story:
+        $ begin_timeline_item(generic_chatroom, clearchat, resetHP)
+    elif isinstance(current_timeline_item, ChatRoom):
+        $ begin_timeline_item(current_timeline_item, clearchat, resetHP)
     $ set_chatroom_background(background)
-    $ begin_timeline_item(generic_chatroom, clearchat, resetHP)
     return
 
 ## This label simplifies setting up backgrounds for chatrooms
