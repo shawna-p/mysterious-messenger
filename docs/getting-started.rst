@@ -151,3 +151,67 @@ Finally, there are several settings which are helpful when testing a route. They
 
 `Fix persistent`
     This is an option primarily intended for users updating Mysterious Messenger from older (<2.0) versions to fix issues with saved persistent values. If Ren'Py is complaining about compatibility issues with persistent variables, you can try using this option to fix it.
+
+
+Program Features
+=================
+
+Finally, below is an overview of the various features available within Mysterious Messenger:
+
+* Fully-featured chatrooms
+
+    * Banners, emojis, screen shake
+    * "Hacked" effects (e.g. screen tear)
+    * Special fonts and bubbles
+    * Animated chatroom backgrounds (optional; activated in settings)
+    * Heart icons
+    * Optional timed menus
+
+* Phone calls
+
+    * Calls can become available after each timeline item for the player to call the characters
+    * Characters can call the player
+    * Story Calls, which are a mandatory part of the story on the timeline
+    * Voicemail for when a character doesn't pick up
+
+* Text messages
+
+    * Characters can send text messages after any timeline item
+    * Schedule text messages to deliver at a particular time, or a time relative to other timeline items
+    * Send emojis and CGs through text
+    * Have text message conversations play out in real-time like a one-on-one chatroom
+    * Create text message backlog before a route begins
+
+* Story Mode (VN)
+
+    * Includes all the main characters' outfits and expressions
+    * Jump to Story Mode in the middle of a chatroom for flexible storytelling opportunities
+
+* Emails
+
+    * Automatically unlock guests in the guestbook when you first invite them and when they attend the party
+    * Flexible email chains of any length
+    * Allows for "recovery" emails where the player made the wrong choice but can continue to email the guestbook
+    * Successfully invited guests are showcased before the party
+    * Receive an hourglass for viewing a character in the guestbook for the first time
+
+* Routes
+
+    * Set up plot branches during the story or when the player enters the party
+    * Mix and match chatrooms, standalone story mode, and story calls
+    * Include different Good/Bad/Normal ends (or your own kind of end!)
+    * Previously played story is automatically unlocked in the History screen
+
+* Other features
+
+    * Unlock CG images for a character's album
+    * Profile picture callbacks to have the characters react to the player's profile picture choices
+    * Spaceship thoughts and occasional prizes from the Honey Buddha chip bag
+    * Customizable pronouns (she/her, he/him, they/them)
+    * Custom ringtones
+    * Character greetings on the main menu
+    * Real-time and sequential mode
+
+
+
+
