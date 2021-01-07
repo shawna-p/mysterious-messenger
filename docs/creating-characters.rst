@@ -9,6 +9,24 @@ Creating Characters
 
 While Mysterious Messenger does come with several characters already defined, you may want to define your own characters to participate in chatrooms or phone the player. There are a few definitions and several images you will need to set up in order for your character to work within the program.
 
+The characters that come with the program by default are:
+
+* ja (Jaehee Kang)
+* ju (Jumin Han)
+* m (The main character/"you")
+* r (Ray)
+* ri (Rika)
+* s (707)
+* sa (Saeran)
+* u (Unknown)
+* v (V)
+* y (Yoosung)
+* z (ZEN)
+
+There are also a few characters who are defined only for use in Story Mode:
+* sarah_vn (Sarah)
+* chief_vn (Chief Han)
+
 On this page, the examples will show how to add a character named Emma to the program.
 
 Checklist for a New Character
@@ -61,7 +79,7 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
 Adding a New Character to Chatrooms
 ===================================
 
-All characters that currently exist in the program are defined in [[INSERT LINK HERE]] ``character_definitions.rpy``. Open that file and scroll down to the header **Chatroom Characters**.
+All characters that currently exist in the program are defined in ``character_definitions.rpy``. Open that file and scroll down to the header **Chatroom Characters**.
 
 As mentioned, these examples will show how to add a character named Emma to the program. First, you need to give Emma a ChatCharacter object so she can speak in chatrooms. A definition for Emma might look like the following::
 
@@ -83,7 +101,7 @@ As mentioned, these examples will show how to add a character named Emma to the 
 Usually the actual variable name -- in this case, ``em`` -- is short. It is recommended that this be two characters long; usually the first two letters of the character's name. The program already uses ``ja``, ``ju``, ``m``, ``r``, ``ri``, ``s``, ``sa``, ``u``, ``v``, ``y``, and ``z``.
 
 .. warning::
-    New ChatCharacter variables should be at least two characters long to avoid conflicts with engine code.
+    New ChatCharacter variables should be at least two letters long to avoid conflicts with engine code.
 
 Each of those fields is explained below:
 
@@ -270,7 +288,7 @@ The definition fields are explained below.
     e.g. "#FFDDFC"
 
 `image`
-    Optional. Ren'Py will apply this tag to images if you include attribute tags during a character's dialogue (See [[INSERT LINK HERE]]).
+    Optional. Ren'Py will apply this tag to images if you include attribute tags during a character's dialogue (See `Say with Image Attributes <https://www.renpy.org/doc/html/dialogue.html?highlight=equivalent#say-with-image-attributes>`_).
 
     e.g. "emma"
 
@@ -286,7 +304,7 @@ The definition fields are explained below.
 
 
 Note on voiced characters
-^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
 
 .. warning::
     If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special ``novoice_chars`` list found in ``character_definitions.rpy`` e.g.
@@ -298,7 +316,7 @@ Note on voiced characters
     This will prevent the program from generating a voice toggle button for them.
 
 
-If you've also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma's ChatCharacter description includes the line ``vn_char=em_vn`` with her new Character object for story mode. You can then write dialogue during story mode like::
+If you've also defined a ChatCharacter variable for Emma as described in :ref:`Adding a New Character to Chatrooms`, make sure that Emma's ChatCharacter definition includes the line ``vn_char=em_vn`` with her new Character object for story mode. You can then write dialogue during story mode like::
 
     em "Brr, it's cold outside!"
 
@@ -311,7 +329,7 @@ If Emma does not have a ChatCharacter object and is only intended for use during
 Declaring a LayeredImage for a New Character
 --------------------------------------------
 
-At the bottom of ``character_definitions.rpy`` are all the layered image definitions for the existing characters. A layered image allows you to show the characters on-screen during story mode and easily change their expressions. In order to show Emma on-screen, you will need to define a ``layeredimage emma`` here. As this is unchanged from the usual way of defining a layered image, you can look into [[INSERT LINK HERE]] [Ren'Py's layeredimage documentation](https://www.renpy.org/doc/html/layeredimage.html "Ren'Py layeredimage documentation") for more information on how to declare a layered image.
+At the bottom of ``character_definitions.rpy`` are all the layered image definitions for the existing characters. A layered image allows you to show the characters on-screen during story mode and easily change their expressions. In order to show Emma on-screen, you will need to define a ``layeredimage emma`` here. As this is unchanged from the usual way of defining a layered image, you can look into  `Ren'Py's layered image documentation <https://www.renpy.org/doc/html/layeredimage.html>`_ for more information on how to declare a layered image.
 
 If possible, expressions should be separate from the character's body, and accessories such as glasses and masks should be separate from facial expressions. If a character has multiple positions, such as a side and front view, then those should be in two separate layeredimage definitions (see the definitions for characters like Jumin and Zen for how this is done).
 
@@ -322,7 +340,7 @@ If you would also like to define a timeline image for Story Mode that is associa
 
     image vn_em = "Menu Screens/Day Select/vn_em.webp"
 
-The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix ``_vn_em`` on a label to associate a story mode with Emma. See [[INSERT LINK HERE]] for more information on writing a Story Mode section.
+The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix ``_vn_em`` on a label to associate a story mode with Emma. See :ref:`Writing a Story Mode` for more information on writing a Story Mode section.
 
 
 
@@ -359,10 +377,10 @@ The definition fields are explained below.
     e.g. "em_voice"
 
 .. warning::
-    See [[INSERT LINK HERE]] if your new character should not have their own voice toggle on the Settings screen.
+    See :ref:`Note on voiced characters` if your new character should not have their own voice toggle on the Settings screen.
 
 
-If you've also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma's ChatCharacter description includes the line ``phone_char=em_phone`` with her new Character object for phone calls. You can then write dialogue during a phone call like::
+If you've also defined a ChatCharacter variable for Emma as described in :ref:`Adding a New Character to Chatrooms`, make sure that Emma's ChatCharacter description includes the line ``phone_char=em_phone`` with her new Character object for phone calls. You can then write dialogue during a phone call like::
 
     em "How are you, [name]?"
 
@@ -403,4 +421,4 @@ A SpaceThought takes two parameters. The first is the character's ChatCharacter 
         SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")
         ] )
 
-You can see that ``SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")`` was added to the end of the list. Now when the player clicks on the spaceship, Emma's space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see [[INSERT LINK HERE]].
+You can see that ``SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")`` was added to the end of the list. Now when the player clicks on the spaceship, Emma's space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see :ref:`Spaceship Thoughts`.
