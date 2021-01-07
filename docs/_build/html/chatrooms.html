@@ -86,9 +86,9 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="git-setup.html">Git Setup</a></li>
 </ul>
 <ul class="current">
@@ -109,6 +109,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-chatroom-features">Advanced Chatroom Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entering-and-exiting-the-chatroom">Entering and Exiting the Chatroom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clearing-the-chat-history">Clearing the Chat History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clearing-chatroom-participants">Clearing Chatroom Participants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-chatroom-banner">Showing a Chatroom Banner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-heart-icon">Showing a Heart Icon</a><ul>
@@ -116,6 +118,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#removing-a-heart-point">Removing a heart point</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-the-hacked-scroll-effect">Showing the Hacked Scroll Effect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
@@ -127,6 +131,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#custom-bubble-offset-function">Custom Bubble Offset Function</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-chatroom-backgrounds">Adding Chatroom Backgrounds</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-an-animated-background">Adding an Animated Background</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
@@ -232,6 +240,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-chatroom-features">Advanced Chatroom Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entering-and-exiting-the-chatroom">Entering and Exiting the Chatroom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clearing-the-chat-history">Clearing the Chat History</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clearing-chatroom-participants">Clearing Chatroom Participants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-chatroom-banner">Showing a Chatroom Banner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-heart-icon">Showing a Heart Icon</a><ul>
@@ -239,6 +249,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#removing-a-heart-point">Removing a heart point</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-the-hacked-scroll-effect">Showing the Hacked Scroll Effect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
@@ -250,6 +262,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#custom-bubble-offset-function">Custom Bubble Offset Function</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-chatroom-backgrounds">Adding Chatroom Backgrounds</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-an-animated-background">Adding an Animated Background</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#timed-menus">Timed Menus</a><ul>
@@ -570,6 +586,40 @@
 <p>You can also use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">exit(s)</span></code> to have a character leave the chatroom.</p>
 </div>
 </div>
+<div class="section" id="clearing-the-chat-history">
+<h3>Clearing the Chat History<a class="headerlink" href="#clearing-the-chat-history" title="Permalink to this headline">¶</a></h3>
+<p>If you would like to clear the chat history so that all previous messages are erased, you can use the <code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">chat</span></code> CDS:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="s2">&quot;Anyway, I should go now.&quot;</span>
+<span class="n">exit</span> <span class="n">chatroom</span> <span class="n">y</span>
+<span class="k">clear</span> <span class="n">chat</span>
+<span class="n">enter</span> <span class="n">chatroom</span> <span class="n">u</span>
+<span class="k">scene</span> <span class="n">hack</span>
+<span class="n">u</span> <span class="s2">&quot;Hi, [name].&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The chat history is automatically cleared before beginning a new chatroom.</p>
+</div>
+</div>
+<div class="section" id="clearing-chatroom-participants">
+<h3>Clearing Chatroom Participants<a class="headerlink" href="#clearing-chatroom-participants" title="Permalink to this headline">¶</a></h3>
+<p>If you would like to clear all current chatroom participants from the chatroom header, you can use the extra argument <code class="docutils literal notranslate"><span class="pre">participants</span></code> for the <code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">chat</span></code> CDS:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
+    <span class="k">scene</span> <span class="n">morning</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">narcisisstic_jazz</span>
+    <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">z</span>
+    <span class="n">z</span> <span class="s2">&quot;Has the chatroom been acting up for you too, [name]?&quot;</span>
+    <span class="n">msg</span> <span class="n">z</span> <span class="s2">&quot;I&#39;ve been having trouble with it all morning.&quot;</span> <span class="n">sigh_s</span>
+    <span class="k">clear</span> <span class="n">chat</span> <span class="n">participants</span>
+    <span class="k">scene</span> <span class="n">hack</span>
+    <span class="n">u</span> <span class="s2">&quot;Ah, excellent.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;I&#39;ve gained access to the messenger.&quot;</span>
+</pre></div>
+</div>
+<p>This will both clear the chat history and remove any existing participants from the list at the top of the messenger screen.</p>
+<p>This isn’t typically used outside of using story mode sections in the middle of chatrooms (see [[INSERT LINK HERE]]) or linking together “separate” chatrooms as part of a scene for something like an After End.</p>
+</div>
 <div class="section" id="providing-choices">
 <h3>Providing Choices<a class="headerlink" href="#providing-choices" title="Permalink to this headline">¶</a></h3>
 <p>During a chatroom, you may want to allow the player to make a choice. This can be accomplished with Ren’Py’s built-in menu system:</p>
@@ -647,6 +697,34 @@
 <p class="admonition-title">Tip</p>
 <p>Both <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span> <span class="pre">ju</span></code> and <code class="docutils literal notranslate"><span class="pre">heart</span> <span class="pre">break</span> <span class="pre">ju</span></code> will show the heart break animation for the character <code class="docutils literal notranslate"><span class="pre">ju</span></code>. You can’t switch the word order for <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> though!</p>
 </div>
+</div>
+</div>
+<div class="section" id="showing-the-hacked-scroll-effect">
+<h3>Showing the Hacked Scroll Effect<a class="headerlink" href="#showing-the-hacked-scroll-effect" title="Permalink to this headline">¶</a></h3>
+<p>To show the scrolling “hack” effect during a chatroom, use the line</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">hack</span> <span class="n">effect</span>
+</pre></div>
+</div>
+<p>or alternatively,</p>
+<blockquote>
+<div><p>show redhack effect</p>
+</div></blockquote>
+<p>for the red version of the scrolling hack image.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These effects are not displayed for players who have toggled the <strong>Hacking Effects</strong> setting off.</p>
+</div>
+</div>
+<div class="section" id="shaking-the-screen">
+<h3>Shaking the Screen<a class="headerlink" href="#shaking-the-screen" title="Permalink to this headline">¶</a></h3>
+<p>To shake the screen, use the line</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">shake</span>
+</pre></div>
+</div>
+<p>Screen shake is compatible both with regular backgrounds and with the animated backgrounds.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These effects are not displayed for players who have toggled the <strong>Hacking Effects</strong> setting off.</p>
 </div>
 </div>
 </div>
@@ -763,6 +841,11 @@
 </pre></div>
 </div>
 <p>Unlike the predefined bubbles, custom bubbles must be prefixed with <code class="docutils literal notranslate"><span class="pre">bubble</span></code> as in <code class="docutils literal notranslate"><span class="pre">bubble</span> <span class="pre">spooky_m</span></code> when used in the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can also add the name of your bubble to the <code class="docutils literal notranslate"><span class="pre">hourglass_bubbles</span></code> variable in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. This means that when a character uses that bubble in-game, it has a chance of awarding the player an hourglass.</p>
+<p>Typically only the large (<code class="docutils literal notranslate"><span class="pre">l</span></code>) version of a bubble is added to this list e.g. <code class="docutils literal notranslate"><span class="pre">&quot;spooky_l&quot;</span></code></p>
+</div>
 </div>
 <div class="section" id="extending-custom-bubbles">
 <h3>Extending Custom Bubbles<a class="headerlink" href="#extending-custom-bubbles" title="Permalink to this headline">¶</a></h3>
@@ -858,6 +941,63 @@
     <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 </div>
+</div>
+</div>
+</div>
+<div class="section" id="adding-chatroom-backgrounds">
+<h2>Adding Chatroom Backgrounds<a class="headerlink" href="#adding-chatroom-backgrounds" title="Permalink to this headline">¶</a></h2>
+<p>Chatroom backgrounds must be defined in a particular way in order to be compatible with the <code class="docutils literal notranslate"><span class="pre">scene</span></code> and <code class="docutils literal notranslate"><span class="pre">show</span></code> statements to display them.</p>
+<p>Existing background options are:</p>
+<ul class="simple">
+<li><p>morning</p></li>
+<li><p>noon</p></li>
+<li><p>evening</p></li>
+<li><p>night</p></li>
+<li><p>earlyMorn</p></li>
+<li><p>hack</p></li>
+<li><p>redhack</p></li>
+<li><p>redcrack</p></li>
+</ul>
+<p>The background names <strong>are</strong> case-sensitive, so you need to get the capitalization correct.</p>
+<p>For this example, a new background that will be displayed using <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">rainy_day</span></code> will be added.</p>
+<p>To add a new background, inside <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>CUSTOM MESSENGER ITEMS</strong> are several variables. First, you need to define the image that will be used as the background. This should be <code class="docutils literal notranslate"><span class="pre">bg</span></code> + the name of the image as you want to write when displaying it in a chatroom:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">bg</span> <span class="n">rainy_day</span> <span class="o">=</span> <span class="s2">&quot;center_bg:Phone UI/bg-rainy_day.webp&quot;</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">center_bg:</span></code> before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">bg</span> <span class="pre">rainy_day</span> <span class="pre">=</span> <span class="pre">&quot;Phone</span> <span class="pre">UI/bg-rainy_day.webp&quot;</span></code> would be sufficient.</p>
+<p>You can put this image definition wherever you like, though it may make sense to keep it under the <strong>CUSTOM MESSENGER ITEMS</strong> header alongside the background variable definitions.</p>
+<p>Next, add the background name to the <code class="docutils literal notranslate"><span class="pre">all_static_backgrounds</span></code> list:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_static_backgrounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;noon&#39;</span><span class="p">,</span> <span class="s1">&#39;evening&#39;</span><span class="p">,</span> <span class="s1">&#39;hack&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;redhack&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;earlyMorn&#39;</span><span class="p">,</span> <span class="s1">&#39;redcrack&#39;</span><span class="p">,</span> <span class="s1">&#39;rainy_day&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that you do <strong>not</strong> add the “bg” part to the name of your background.</p>
+<p>Next, if the characters’ names should appear in black during a chatroom (as is typical of the lighter backgrounds, such as “morning” and “noon”), you also need to add it to the <code class="docutils literal notranslate"><span class="pre">black_text_bgs</span></code> list:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">black_text_bgs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;noon&#39;</span><span class="p">,</span> <span class="s1">&#39;evening&#39;</span><span class="p">,</span> <span class="s1">&#39;rainy_day&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Otherwise, if the background is not in this list, the characters’ names will be displayed in white.</p>
+<div class="section" id="adding-an-animated-background">
+<h3>Adding an Animated Background<a class="headerlink" href="#adding-an-animated-background" title="Permalink to this headline">¶</a></h3>
+<p>If you would also like to add an animated version of your new background, you need to define a specific screen for it. First, however, you will add the background to the <code class="docutils literal notranslate"><span class="pre">all_animated_backgrounds</span></code> list in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_animated_backgrounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;noon&#39;</span><span class="p">,</span> <span class="s1">&#39;evening&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;earlyMorn&#39;</span><span class="p">,</span> <span class="s1">&#39;rainy_day&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Next, you need to define the screen which will have the animated background. The existing backgrounds are defined in <code class="docutils literal notranslate"><span class="pre">screens_backgrounds.rpy</span></code>.</p>
+<p>Because the new background is called “rainy_day”, you need to create a new screen called <code class="docutils literal notranslate"><span class="pre">animated_rainy_day</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">screen</span> <span class="n">animated_rainy_day</span><span class="p">():</span>
+    <span class="k">zorder</span> <span class="mi">0</span>
+    <span class="k">tag</span> <span class="n">animated_bg</span>
+
+    <span class="c1"># add images here</span>
+</pre></div>
+</div>
+<p>You <strong>must</strong> include the lines <code class="docutils literal notranslate"><span class="pre">zorder</span> <span class="pre">0</span></code> (to ensure the animated backgrounds appears behind other screen elements) and <code class="docutils literal notranslate"><span class="pre">tag</span> <span class="pre">animated_bg</span></code> (to ensure only one animated background is shown at once, and so that the background is properly cleared at the end of a chatroom).</p>
+<p>You can then add animated elements to the screen. For a rainy day background, for example, you might take advantage of the existing <code class="docutils literal notranslate"><span class="pre">slow_pan</span></code> transform for clouds, and perhaps add raindrops which fall from the top of the screen to the bottom. As the exact requirements for a given animated background will vary substantially depending on what sort of background you want to add, this part is largely up to your own skill with screen language. You can see how the existing animated backgrounds are put together in the <code class="docutils literal notranslate"><span class="pre">screens_backgrounds.rpy</span></code> file.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you would like to include an animated background, it must have a corresponding “static” version that can be displayed to users who don’t have animated backgrounds turned on.</p>
 </div>
 </div>
 </div>

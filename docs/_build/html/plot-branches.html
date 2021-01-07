@@ -86,9 +86,10 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git-setup.html">Git Setup</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
@@ -98,7 +99,7 @@
 <li class="toctree-l1"><a class="reference internal" href="emails.html">Emails</a></li>
 <li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plot Branches</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#determing-which-path-to-branch-to">Determing Which Path to Branch To</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#determining-which-path-to-branch-to">Determining Which Path to Branch To</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#branching-on-the-party">Branching on the Party</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#plot-branch-examples">Plot Branch Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#checking-for-participation">Checking for Participation</a></li>
@@ -110,6 +111,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="creating-characters.html">Creating Characters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
 </ul>
 
             
@@ -181,7 +183,7 @@
 <p class="caption"><span class="caption-text">Navigation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Plot Branches</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#determing-which-path-to-branch-to">Determing Which Path to Branch To</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#determining-which-path-to-branch-to">Determining Which Path to Branch To</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#branching-on-the-party">Branching on the Party</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#plot-branch-examples">Plot Branch Examples</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#checking-for-participation">Checking for Participation</a></li>
@@ -276,8 +278,8 @@
 <p>e.g. ja</p>
 </dd>
 </dl>
-<div class="section" id="determing-which-path-to-branch-to">
-<h2>Determing Which Path to Branch To<a class="headerlink" href="#determing-which-path-to-branch-to" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="determining-which-path-to-branch-to">
+<h2>Determining Which Path to Branch To<a class="headerlink" href="#determining-which-path-to-branch-to" title="Permalink to this headline">¶</a></h2>
 <p>Now that the paths are all set up, you need to create a special label which will tell the program which path to branch onto when the player proceeds through the plot branch. This is the name of the label after which the plot branch occurs + <code class="docutils literal notranslate"><span class="pre">_branch</span></code>. So, for the New Year’s route, the automatic labelling puts the plot branch at the label <code class="docutils literal notranslate"><span class="pre">new_years_t6</span></code>. That means you will create the label:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_t6_branch</span><span class="p">:</span>
 </pre></div>

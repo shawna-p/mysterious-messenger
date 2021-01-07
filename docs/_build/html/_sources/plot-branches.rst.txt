@@ -102,7 +102,7 @@ A BranchStoryMode is a special convenience function to create an attached StoryM
 
 
 
-Determing Which Path to Branch To
+Determining Which Path to Branch To
 ==================================
 
 Now that the paths are all set up, you need to create a special label which will tell the program which path to branch onto when the player proceeds through the plot branch. This is the name of the label after which the plot branch occurs + ``_branch``. So, for the New Year's route, the automatic labelling puts the plot branch at the label ``new_years_t6``. That means you will create the label::

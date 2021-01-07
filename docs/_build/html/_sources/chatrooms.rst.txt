@@ -326,6 +326,41 @@ where ``s`` is the variable of the character who is exiting the chatroom.
     You can also use ``call exit(s)`` to have a character leave the chatroom.
 
 
+Clearing the Chat History
+-------------------------
+
+If you would like to clear the chat history so that all previous messages are erased, you can use the ``clear chat`` CDS::
+
+    y "Anyway, I should go now."
+    exit chatroom y
+    clear chat
+    enter chatroom u
+    scene hack
+    u "Hi, [name]."
+
+.. note::
+    The chat history is automatically cleared before beginning a new chatroom.
+
+Clearing Chatroom Participants
+-------------------------------
+
+If you would like to clear all current chatroom participants from the chatroom header, you can use the extra argument ``participants`` for the ``clear chat`` CDS::
+
+    label my_chatroom:
+        scene morning
+        play music narcisisstic_jazz
+        enter chatroom z
+        z "Has the chatroom been acting up for you too, [name]?"
+        msg z "I've been having trouble with it all morning." sigh_s
+        clear chat participants
+        scene hack
+        u "Ah, excellent."
+        u "I've gained access to the messenger."
+
+This will both clear the chat history and remove any existing participants from the list at the top of the messenger screen.
+
+This isn't typically used outside of using story mode sections in the middle of chatrooms (see [[INSERT LINK HERE]]) or linking together "separate" chatrooms as part of a scene for something like an After End.
+
 
 Providing Choices
 -----------------
@@ -414,6 +449,38 @@ where ``ju`` is the variable of the character whose heart break you'd like to sh
 
 .. tip::
     Both ``break heart ju`` and ``heart break ju`` will show the heart break animation for the character ``ju``. You can't switch the word order for ``award heart`` though!
+
+Showing the Hacked Scroll Effect
+---------------------------------
+
+To show the scrolling "hack" effect during a chatroom, use the line
+
+::
+
+    show hack effect
+
+or alternatively,
+
+    show redhack effect
+
+for the red version of the scrolling hack image.
+
+.. note::
+    These effects are not displayed for players who have toggled the **Hacking Effects** setting off.
+
+Shaking the Screen
+-------------------
+
+To shake the screen, use the line
+
+::
+
+    show shake
+
+Screen shake is compatible both with regular backgrounds and with the animated backgrounds.
+
+.. note::
+    These effects are not displayed for players who have toggled the **Hacking Effects** setting off.
 
 Custom Fonts and Bubbles
 =========================
@@ -545,6 +612,10 @@ Then you can write dialogue which will show the bubble in-game e.g.
 
 Unlike the predefined bubbles, custom bubbles must be prefixed with ``bubble`` as in ``bubble spooky_m`` when used in the ``msg`` CDS.
 
+.. tip::
+    You can also add the name of your bubble to the ``hourglass_bubbles`` variable in ``variables_editable.rpy``. This means that when a character uses that bubble in-game, it has a chance of awarding the player an hourglass.
+
+    Typically only the large (``l``) version of a bubble is added to this list e.g. ``"spooky_l"``
 
 
 Extending Custom Bubbles
@@ -664,9 +735,73 @@ This function allows you to fine-tune the offset of a message, relative to the t
         return False
 
 
+Adding Chatroom Backgrounds
+============================
+
+Chatroom backgrounds must be defined in a particular way in order to be compatible with the ``scene`` and ``show`` statements to display them.
+
+Existing background options are:
+
+* morning
+* noon
+* evening
+* night
+* earlyMorn
+* hack
+* redhack
+* redcrack
+
+The background names **are** case-sensitive, so you need to get the capitalization correct.
+
+For this example, a new background that will be displayed using ``scene rainy_day`` will be added.
+
+To add a new background, inside ``variables_editable.rpy`` under the header **CUSTOM MESSENGER ITEMS** are several variables. First, you need to define the image that will be used as the background. This should be ``bg`` + the name of the image as you want to write when displaying it in a chatroom::
+
+    image bg rainy_day = "center_bg:Phone UI/bg-rainy_day.webp"
+
+The ``center_bg:`` before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just ``image bg rainy_day = "Phone UI/bg-rainy_day.webp"`` would be sufficient.
+
+You can put this image definition wherever you like, though it may make sense to keep it under the **CUSTOM MESSENGER ITEMS** header alongside the background variable definitions.
+
+Next, add the background name to the ``all_static_backgrounds`` list::
+
+    define all_static_backgrounds = ['morning', 'noon', 'evening', 'hack',
+                'redhack', 'night', 'earlyMorn', 'redcrack', 'rainy_day']
+
+Note that you do **not** add the "bg" part to the name of your background.
+
+Next, if the characters' names should appear in black during a chatroom (as is typical of the lighter backgrounds, such as "morning" and "noon"), you also need to add it to the ``black_text_bgs`` list::
+
+    define black_text_bgs = ['morning', 'noon', 'evening', 'rainy_day']
+
+Otherwise, if the background is not in this list, the characters' names will be displayed in white.
 
 
 
+Adding an Animated Background
+-------------------------------
+
+If you would also like to add an animated version of your new background, you need to define a specific screen for it. First, however, you will add the background to the ``all_animated_backgrounds`` list in ``variables_editable.rpy``::
+
+    define all_animated_backgrounds = ['morning', 'noon', 'evening', 'night',
+                'earlyMorn', 'rainy_day']
+
+Next, you need to define the screen which will have the animated background. The existing backgrounds are defined in ``screens_backgrounds.rpy``.
+
+Because the new background is called "rainy_day", you need to create a new screen called ``animated_rainy_day``::
+
+    screen animated_rainy_day():
+        zorder 0
+        tag animated_bg
+
+        # add images here
+
+You **must** include the lines ``zorder 0`` (to ensure the animated backgrounds appears behind other screen elements) and ``tag animated_bg`` (to ensure only one animated background is shown at once, and so that the background is properly cleared at the end of a chatroom).
+
+You can then add animated elements to the screen. For a rainy day background, for example, you might take advantage of the existing ``slow_pan`` transform for clouds, and perhaps add raindrops which fall from the top of the screen to the bottom. As the exact requirements for a given animated background will vary substantially depending on what sort of background you want to add, this part is largely up to your own skill with screen language. You can see how the existing animated backgrounds are put together in the ``screens_backgrounds.rpy`` file.
+
+.. warning::
+    If you would like to include an animated background, it must have a corresponding "static" version that can be displayed to users who don't have animated backgrounds turned on.
 
 
 

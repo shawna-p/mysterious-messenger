@@ -86,9 +86,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Git Setup</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#further-resources">Further resources</a></li>
@@ -183,8 +183,8 @@
 </li>
 </ul>
 </div>
-<p>Instructions on how to get set up with the repository on GitHub
-What you need:</p>
+<p>If you want to easily stay up-to-date with the latest version of Mysterious Messenger without disturbing your existing code, setting up a fork of the Mysterious Messenger repository will allow you to easily merge updates onto your existing code.</p>
+<p><strong>What you need:</strong></p>
 <ul>
 <li><p>A GitHub account (<a class="reference external" href="https://github.com/">https://github.com/</a>)</p></li>
 <li><p>Git and Bash (<a class="reference external" href="http://opensourcerer.diy.org/challenge/3">http://opensourcerer.diy.org/challenge/3</a>)</p>
@@ -201,12 +201,12 @@ What you need:</p>
 <li><p>First, go to <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger">https://github.com/shawna-p/mysterious-messenger</a> and sign into GitHub.</p></li>
 <li><p>In the top-right corner of the page, click <strong>Fork</strong>.</p></li>
 <li><p>Open Git Bash (Windows) or Terminal (Mac)</p></li>
-<li><p>Change the current directory to the one where you want the cloned project to be. You can type <code class="docutils literal notranslate"><span class="pre">ls</span></code> (lowercase <code class="docutils literal notranslate"><span class="pre">LS</span></code>) to see a list of directories available to you, and <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">Documents</span></code> to jump to the Documents folder, for example.</p></li>
+<li><p>Change the current directory to the one where you want the cloned project to be. You can type <code class="docutils literal notranslate"><span class="pre">ls</span></code> (lowercase <code class="docutils literal notranslate"><span class="pre">LS</span></code>) to see a list of directories available to you, and <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">Documents</span></code> to change to the Documents folder, for example.</p></li>
 <li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/YOUR-USERNAME/mysterious-messenger</span></code> where <code class="docutils literal notranslate"><span class="pre">YOUR-USERNAME</span></code> is your GitHub username where you forked the repository. Press Enter.</p></li>
 </ul>
-<p>You should now have a local copy of the mysterious-messenger repository. Next you’ll configure it to get the most recent update.</p>
+<p>You should now have a local copy of the mysterious-messenger repository. Next, you’ll configure it to get the most recent update.</p>
 <ul class="simple">
-<li><p>Navigate to the new directory where you cloned the repository. If you still have Bash open, you should be able to type <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">mysterious-messenger</span></code> to open it.</p></li>
+<li><p>Navigate in Git Bash/Terminal to the new directory where you cloned the repository. If you still have Git Bash/Terminal open, you should be able to type <code class="docutils literal notranslate"><span class="pre">cd</span> <span class="pre">mysterious-messenger</span></code> to open it.</p></li>
 <li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">-v</span></code> and press Enter. You should see</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ git remote -v
@@ -227,7 +227,7 @@ What you need:</p>
 </div>
 <p>Now you should make sure you get the most recent released version, which is currently v3.0.</p>
 <ul class="simple">
-<li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">v2.2</span></code> and press Enter</p></li>
+<li><p>Type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">v3.0</span></code> and press Enter</p></li>
 <li><p>Next, type <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">tags/v3.0</span></code> and press Enter.</p></li>
 </ul>
 <p>You should now have v3.0 of Mysterious Messenger. In the future, you can use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">v3.0</span></code> and <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span> <span class="pre">tags/v3.0</span></code> with future version numbers to update to the latest version of Mysterious Messenger.</p>
