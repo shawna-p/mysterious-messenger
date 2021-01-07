@@ -135,7 +135,7 @@ Next, inside the ``after_`` label, use the special ``compose text`` CDS::
 
     compose text s:
 
-where ``s`` is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. You can use either the spreadsheet style or the ``msg`` CDS [[INSERT LINK HERE]].
+where ``s`` is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. You can use either the spreadsheet style or the ``msg`` CDS (see :ref:`Writing Chatroom Dialogue`).
 
 .. warning::
     Text messages currently do not support special speech bubbles.
@@ -188,7 +188,7 @@ Create a new reply for the label from your text message::
         z "Eating breakfast in the morning is really important."
         return
 
-For regular text messages, the label should immediately begin with a ``menu:`` so that the player is presented with a choice of answers. You can add as many or as few options as you wish. The dialogue here is written the same way as chatrooms, including awarding heart points. You can only award one heart point per reply. It can be for a character not in the conversation as well. For more information on heart points, see [[INSERT LINK HERE]].
+For regular text messages, the label should immediately begin with a ``menu:`` so that the player is presented with a choice of answers. You can add as many or as few options as you wish. The dialogue here is written the same way as chatrooms, including awarding heart points. You can only award one heart point per reply. It can be for a character not in the conversation as well. For more information on heart points, see :ref:`Showing a Heart Icon`.
 
 Finally, end the whole label with ``return``.
 
@@ -303,7 +303,7 @@ Dialogue underneath the ``compose text`` statement can be written the same way a
 
 Any dialogue written under the ``compose text`` statement will show up as "backlog" before the user enters the conversation, so it is usually brief.
 
-You can compose text messages for as many characters as you like, and mix and match regular text messages with real-time text conversations freely. There are also additional options available to you for scheduling when the first text message is delivered. See [[INSERT LINK HERE]] for more.
+You can compose text messages for as many characters as you like, and mix and match regular text messages with real-time text conversations freely. There are also additional options available to you for scheduling when the first text message is delivered. See :ref:`The compose text CDS` for more.
 
 
 Continuing a Text Message Conversation
@@ -391,7 +391,7 @@ The text message backlog statement **does not** support the use of Python, jumps
 
 However, the ``add backlog`` CDS **does** support conditional if/elif/else statements so that you can vary messages based on certain conditions. In the example at the top of this section, you can see that the message varies based on the number of heart points the player has with certain characters.
 
-``add backlog`` does not support adding labels to jump to in order to reply to a conversation, as it is intended to setup "past" conversations. ``compose text`` is suitable for creating conversations that the player may respond to (see [[INSERT LINK HERE]]).
+``add backlog`` does not support adding labels to jump to in order to reply to a conversation, as it is intended to setup "past" conversations. ``compose text`` is suitable for creating conversations that the player may respond to (see :ref:`The compose text CDS`).
 
 Adjusting Timestamps
 ---------------------

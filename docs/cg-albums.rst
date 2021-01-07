@@ -9,7 +9,7 @@ Adding a CG Album
 Albums Associated a Character
 -----------------------------
 
-For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma's character definition and more in [[INSERT LINK HERE]].
+For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma's character definition and more in :ref:`Adding a New Character to Chatrooms`.
 
 Albums are defined in ``gallery_album_definitions.rpy``. There are two images to define and two album variables.
 
@@ -165,7 +165,7 @@ The name of the cg must be ``cg`` + the name of the album it is found in, minus 
     image cg common_flower = "CGs/common_album/cg-flower.webp"
     image cg ju_meeting = "CGs/ju_album/ju-meeting-office.webp"
 
-After defining your image, you must add it to the correct album. See [[INSERT LINK HERE]] for more on creating new albums as well.
+After defining your image, you must add it to the correct album. See :ref:`Adding a CG Album` for more on creating new albums as well.
 
 ::
 
@@ -210,7 +210,7 @@ You can also omit ``cg `` at the beginning, so long as you remember to mark it a
     y "common_4" (img=True)
     msg z "common_4" img
 
-The program will take care of resizing the CG for the chatroom and allowing the player to view it full-size. It will also unlock the CG in the appropriate album and notify the player if they have not yet seen the image in the album. If this is the first time the player has seen this image, it will also become available for use as a bonus profile picture (see [[INSERT LINK HERE]]).
+The program will take care of resizing the CG for the chatroom and allowing the player to view it full-size. It will also unlock the CG in the appropriate album and notify the player if they have not yet seen the image in the album. If this is the first time the player has seen this image, it will also become available for use as a bonus profile picture (see :ref:`Bonus Profile Pictures`).
 
 You can see an example of a CG posted in a text message in ``tutorial_3b_VN.rpy``, and an example of a CG posted during a chatroom in ``tutorial_5_coffee.rpy``.
 

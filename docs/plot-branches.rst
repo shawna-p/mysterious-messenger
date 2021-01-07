@@ -22,7 +22,7 @@ Plot Branches
     #. Fill out your criteria for branching. You can then either write ``$ continue_route()`` to have the player continue down the current path, or use ``$ merge_routes(my_route_normal_end)`` where ``my_route_normal_end`` is the path you defined in Step 2.
     #. ``return`` at the end of the plot branch label.
 
-To begin, you need a list of ``RouteDay`` objects for every path you want the user to be able to branch onto. For more on defining routes, see [[INSERT LINK HERE]]. If you want this branch to have a title, the first entry in the list should be a string like "Emma Good End".
+To begin, you need a list of ``RouteDay`` objects for every path you want the user to be able to branch onto. For more on defining routes, see :ref:`Setting up a Route`. If you want this branch to have a title, the first entry in the list should be a string like "Emma Good End".
 
 This example will demonstrate a New Year's Eve route with branching paths for the different characters. The New Year's Eve Route is shown below::
 
@@ -103,7 +103,7 @@ A BranchStoryMode is a special convenience function to create an attached StoryM
 
 
 Determining Which Path to Branch To
-==================================
+====================================
 
 Now that the paths are all set up, you need to create a special label which will tell the program which path to branch onto when the player proceeds through the plot branch. This is the name of the label after which the plot branch occurs + ``_branch``. So, for the New Year's route, the automatic labelling puts the plot branch at the label ``new_years_t6``. That means you will create the label::
 
@@ -204,7 +204,7 @@ You may also want to check how many guests are attending the party to determine 
     else:
         $ merge_routes(my_route_normal_end)
 
-This is best used for the plot branch when clicking the party (see [[INSERT LINK HERE]]).
+This is best used for the plot branch when clicking the party (see :ref:`Branching on the Party`).
 
 Comparing Heart Points:
 -----------------------

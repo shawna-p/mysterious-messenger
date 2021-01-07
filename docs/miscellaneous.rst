@@ -178,7 +178,7 @@ Or you can add multiple thoughts by using a list::
         SpaceThought(s, "Oh, a shooting star! How lucky~")
     ])
 
-You can see an example of this in ``tutorial_0_introduction.rpy`` as part of a profile picture callback (see [[INSERT LINK HERE]]).
+You can see an example of this in ``tutorial_0_introduction.rpy`` as part of a profile picture callback (see :ref:`Profile Picture Callbacks`).
 
 
 Chip Prizes
@@ -400,7 +400,7 @@ In this program, the player can change the other characters' profile pictures on
 
 By default, all the images in a character's corresponding "Profile Pics/" folder are available to choose as a profile picture, as are all the image in their corresponding CG album. This is set up on a per-character basis in ``variables_editable.rpy`` under the header **BONUS PROFILE PICTURES**.
 
-If you want a new character to have bonus profile pictures, you must set up a variable for them in ``variables_editable.rpy``. For this example, the character Emma from [[INSERT LINK HERE]] will be given bonus profile pictures.
+If you want a new character to have bonus profile pictures, you must set up a variable for them in ``variables_editable.rpy``. For this example, the character Emma from :ref:`Adding a New Character to Chatrooms` will be given bonus profile pictures.
 
 Because Emma's file_id is ``em``, the variable will be called ``em_unlockable_pfps``::
 
@@ -482,7 +482,7 @@ Whenever the player sees a new CG in-game or a character changes their profile p
 .. note::
     For testing, if **Testing Mode** is turned on in the Developer Settings, than all profile pictures (for the MC and the NPCs) don't cost heart points or hourglasses.
 
-Unlike bonus profile pictures for the other characters, the player's own profile picture can be commented on in-game and is treated as their current profile picture (see [[INSERT LINK HERE]]). Bonus profile pictures remain unlocked across all playthroughs.
+Unlike bonus profile pictures for the other characters, the player's own profile picture can be commented on in-game and is treated as their current profile picture (see :ref:`Profile Picture Callbacks`). Bonus profile pictures remain unlocked across all playthroughs.
 
 The initial set of images available to the player are all the images in the ``Drop Your Profile Picture Here`` folder. If you would like to add new options for a player who is beginning a certain route, then you can use the special ``add_mc_pfp`` function::
 
@@ -560,7 +560,7 @@ While you can call these parameters anything you like, they will be explained wi
     The file path to the image the player just set as their profile picture. This, like ``prev_pic``, may also be a string with a colour e.g. "#000".
 
 `who`
-    The ChatCharacter object of the character this image is associated with. This is determined by checking if the image is in a particular character's ``unlockable_pfps`` variable (see [[INSERT LINK HERE]]). If the image is not in any character's unlockable profile pictures set, then it will be equal to None.
+    The ChatCharacter object of the character this image is associated with. This is determined by checking if the image is in a particular character's ``unlockable_pfps`` variable (see :ref:`Profile Pictures for the Characters`). If the image is not in any character's unlockable profile pictures set, then it will be equal to None.
 
     This can be useful if you want a character to react generally to any image associated with themselves.
 
@@ -718,7 +718,7 @@ For example, if you have ``paraphrase_choices = False`` but want to have a menu 
             m "Rika, really, you don't have to do this."
 
 .. tip::
-    Setting ``paraphrased`` for a menu will work with timed menus ([[INSERT LINK HERE]]) as well as regular menus.
+    Setting ``paraphrased`` for a menu will work with timed menus (see :ref:`Paraphrased Choices`) as well as regular menus.
 
 You can also set the ``paraphrased`` argument for individual choices as well::
 

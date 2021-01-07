@@ -7,7 +7,7 @@ Story Mode (VN)
 
     story-mode
 
-In this program, you can create Story Mode sections which can either be attached to a chatroom or can appear as its own timeline item. You declare "solo" Story Mode items in the route definition (see [[INSERT LINK HERE]]).
+In this program, you can create Story Mode sections which can either be attached to a chatroom or can appear as its own timeline item. You declare "solo" Story Mode items in the route definition (see :ref:`Story Mode`).
 
 Writing a Story Mode
 ====================
@@ -65,9 +65,9 @@ Next, you can set up the Story Mode and begin writing dialogue. It's a good idea
 
     scene bg rika_apartment with fade
 
-``bg rika_apartment`` is a background that is already defined in [[INSERT LINK HERE]] vn_variables.rpy. You can add your own backgrounds here as well to display in-game. Backgrounds should be ``750x1334`` pixels.
+``bg rika_apartment`` is a background that is already defined in ``vn_variables.rpy``. You can add your own backgrounds here as well to display in-game. Backgrounds should be ``750x1334`` pixels.
 
-``with fade`` indicates that the background should fade in from black. There are many more transitions you can use that are covered in Ren'Py's documentation [[INSERT LINK HERE]].
+``with fade`` indicates that the background should fade in from black. There are many more transitions you can use that are covered in Ren'Py's documentation `Transitions <https://www.renpy.org/doc/html/transitions.html>`_.
 
 If you want the player to have a moment to look at the background before you move on, you can write ``pause`` after showing the image e.g.
 
@@ -79,7 +79,7 @@ If you want the player to have a moment to look at the background before you mov
 Adding Music and SFX
 ====================
 
-Playing background music inside a Story Mode is the same as playing music elsewhere in the program; simply use ``play music my_music_var`` where ``my_music_var`` is a track included in the ``music_dictionary`` in ``variables_music_sound.rpy`` [[INSERT LINK HERE]].
+Playing background music inside a Story Mode is the same as playing music elsewhere in the program; simply use ``play music my_music_var`` where ``my_music_var`` is a track included in the ``music_dictionary`` in ``variables_music_sound.rpy``.
 
 To add sound effects, use
 
@@ -87,7 +87,7 @@ To add sound effects, use
 
     play sound door_knock_sfx
 
-where ``door_knock_sfx`` can be replaced by the name of whatever sound effect you want. There are several files already pre-defined in [[INSERT LINK HERE]].
+where ``door_knock_sfx`` can be replaced by the name of whatever sound effect you want. There are several files already pre-defined in ``variables_music_sound.rpy``.
 
 Note that Ren'Py's built-in music and sound functions have been modified to work with audio captions for this program. The program will notify you if an audio caption has not been defined for an audio file.
 
@@ -97,7 +97,7 @@ If you would like to play a sound that does not have an audio caption, you can g
 
     play music ringtone nocaption
 
-For accessibility purposes, most audio should have a caption, so this option should be used sparingly. Previously defined audio captions can be found in [[INSERT LINK HERE]]. To learn about adding your own audio, see [[INSERT LINK HERE]].
+For accessibility purposes, most audio should have a caption, so this option should be used sparingly. Previously defined audio captions can be found in ``variables_music_sound.rpy``. To learn about adding your own audio, see :ref:`Adding New Audio`.
 
 
 Providing Choices
@@ -121,7 +121,7 @@ Heart points are awarded the same way as they are elsewhere in the game::
 
     award heart ja
 
-where ``ja`` is the variable of the character you're awarding a heart point for. See [[INSERT LINK HERE]] for more information.
+where ``ja`` is the variable of the character you're awarding a heart point for. See :ref:`Showing a Heart Icon` for more information.
 
 
 Positioning Characters
@@ -138,9 +138,9 @@ There are several pre-defined positions you can move the characters to. These ar
 * vn_farright
 * default
 
-Not every position will work for every character due to spacing and differences in sprite design. You can define more positions in [[INSERT LINK HERE]].
+Not every position will work for every character due to spacing and differences in sprite design. You can define more positions in ``vn_variables.rpy``.
 
-``vn_center`` is a unique position because it moves the character closer to the screen in addition to centering them. It's often used to imply the character is talking directly to the player. However, if you want to move a character who is currently shown in the ``vn_center`` position to another position, you must ``hide`` them first. See [[INSERT LINK HERE]] for an example of this.
+``vn_center`` is a unique position because it moves the character closer to the screen in addition to centering them. It's often used to imply the character is talking directly to the player. However, if you want to move a character who is currently shown in the ``vn_center`` position to another position, you must ``hide`` them first. See ``tutorial_6_meeting.rpy`` for an example of this.
 
 To show a character at a given position, write
 
@@ -152,7 +152,7 @@ where ``jumin front`` is the name + attributes of the character you want to show
 
     show jumin side happy at vn_left with ease
 
-where ``ease`` is a transition. (See [[INSERT LINK HERE]] (https://www.renpy.org/doc/html/transitions.html) in the Ren'Py documentation for more).
+where ``ease`` is a transition. (See `Transitions <https://www.renpy.org/doc/html/transitions.html>`_ in the Ren'Py documentation for more).
 
 
 Changing Outfits and Expressions
@@ -240,13 +240,13 @@ Including a Story Mode During a Chatroom
 
     *A brief overview of the steps required (more detail below):*
 
-    #. Create a chatroom as you usually would (see [[INSERT LINK HERE]].
+    #. Create a chatroom as you usually would (see :ref:`Creating a Chatroom`.
     #. When you want the story mode to interrupt the chatroom, use ``call vn_during_chat("name_of_story_mode_label")`` where ``name_of_story_mode_label`` is the name of the label where the program can find the associated story mode.
 
         #. If you want to change the list of chatroom participants between chatroom sections, pass the argument ``reset_participants=[y, s, m]`` where ``[y, s, m]]`` is a list of the character variables who you want to show participating in the chatroom section following the story mode.
 
     #. If you don't want to return to the chatroom section after jumping to the story mode section, use the argument ``end_after_vn=True`` e.g. ``call vn_during_chat("vn_label", end_after_vn=True)``.
-    #. Create the label for the story mode and write the dialogue as normal (see [[INSERT LINK HERE]]).
+    #. Create the label for the story mode and write the dialogue as normal (see :ref:`Writing a Story Mode`).
     #. If the timeline item does not end on the story mode, continue writing chatroom dialogue after the call to ``vn_during_chat``.
 
         #. (Optional) use ``clear chat`` to erase the chat history.
@@ -258,14 +258,14 @@ Including a Story Mode During a Chatroom
 .. tip::
     This section covers how to include a story mode section **in the middle of a chatroom**, such that the player will be viewing the chatroom and it will transition into a story mode section and back to the chatroom in the same "scene".
 
-    This is different from how Story Mode sections usually play out in-game; that is, first the player plays a chatroom, is returned to the timeline screen, and then must select the corresponding Story Mode section to proceed. If you are interested in the latter, see [[INSERT LINK HERE]].
+    This is different from how Story Mode sections usually play out in-game; that is, first the player plays a chatroom, is returned to the timeline screen, and then must select the corresponding Story Mode section to proceed. If you are interested in the latter, see :ref:`Attached Story Mode`.
 
-First, you'll begin by setting up a chatroom the way you usually would (see [[INSERT LINK HERE]]). Next, wherever you would like to have the story mode appear and interrupt the chatroom, write ``call vn_during_chat("my_vn_label")`` where ``my_vn_label`` is the name of the label you will be using for your story mode section.
+First, you'll begin by setting up a chatroom the way you usually would (see :ref:`Creating a Chatroom`). Next, wherever you would like to have the story mode appear and interrupt the chatroom, write ``call vn_during_chat("my_vn_label")`` where ``my_vn_label`` is the name of the label you will be using for your story mode section.
 
 .. warning::
     Be sure your mid-chatroom story mode label **doesn't** follow one of the naming conventions for declaring an attached Story Mode -- so, if your chatroom is at ``label my_chatroom``, then don't call the mid-chatroom story mode ``label my_chatroom_vn`` or the program will generate an attached Story Mode leading to that label!
 
-Create this label and write the story mode. It is written the same way as a regular story mode -- see [[INSERT LINK HERE]]. Example::
+Create this label and write the story mode. It is written the same way as a regular story mode -- see :ref:`Writing a Story Mode`. Example::
 
     label my_chatroom:
         scene morning

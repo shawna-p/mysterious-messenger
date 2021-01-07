@@ -147,7 +147,7 @@ Finally, there are several settings which are helpful when testing a route. They
     Unchecking this option will stop awarding the player hourglasses during chatrooms. Currently hourglasses are awarded on a pseudo-random basis when a character posts a special speech bubble from a subset of special bubbles. This option is useful if the chatroom is intended to be seen as a video and not played through, for example.
 
 `Use custom route select screen`
-    Checking this option will cause the program to use the screen titled ``custom_route_select_screen`` instead of ``route_select_screen`` when the player chooses a route at the start of the game. See [[INSERT LINK HERE]] for more.
+    Checking this option will cause the program to use the screen titled ``custom_route_select_screen`` instead of ``route_select_screen`` when the player chooses a route at the start of the game. See :ref:`Customizing the Route Select Screen` for more.
 
 `Fix persistent`
     This is an option primarily intended for users updating Mysterious Messenger from older (<2.0) versions to fix issues with saved persistent values. If Ren'Py is complaining about compatibility issues with persistent variables, you can try using this option to fix it.

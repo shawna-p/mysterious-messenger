@@ -44,7 +44,7 @@ First, you need to give the chatroom a background to show::
     label day_1_1:
         scene morning
 
-While chatrooms also use Ren'Py's ``scene`` statement to show backgrounds, there is a limited number of built-in backgrounds to use. New backgrounds must be defined as described in [[INSERT LINK HERE]]. Your background options are:
+While chatrooms also use Ren'Py's ``scene`` statement to show backgrounds, there is a limited number of built-in backgrounds to use. New backgrounds must be defined as described in :ref:`Adding Chatroom Backgrounds`. Your background options are:
 
 * morning
 * noon
@@ -61,9 +61,9 @@ Now that the background is set up, you probably want some music. Music is played
 
     play music mystic_chat
 
-where ``mystic_chat`` can be replaced by the name of whatever music you want. There are several files pre-defined in [[INSERT LINK HERE]] (variables_music_sound). If you want to define your own music, you need to add it to the ``music_dictionary`` as well so that it is compatible with audio captions. See [[INSERT LINK HERE]] for more information.
+where ``mystic_chat`` can be replaced by the name of whatever music you want. There are several files pre-defined in ``variables_music_sound.rpy``. If you want to define your own music, you need to add it to the ``music_dictionary`` as well so that it is compatible with audio captions. See :ref:`Adding New Audio` for more information.
 
-Next, you'll write the dialogue for your chatroom. See [[INSERT LINK HERE]]. Finally, to end the chatroom, end the label with ``return``::
+Next, you'll write the dialogue for your chatroom. See :ref:`Writing Chatroom Dialogue`. Finally, to end the chatroom, end the label with ``return``::
 
     label day_1_1:
         scene earlyMorn
@@ -71,7 +71,7 @@ Next, you'll write the dialogue for your chatroom. See [[INSERT LINK HERE]]. Fin
         # Dialogue will go here
         return
 
-To learn how to make this chatroom appear in your game, check out [[INSERT LINK HERE]].
+To learn how to make this chatroom appear in your game, check out :ref:`Setting up a Route`.
 
 
 Writing Chatroom Dialogue
@@ -91,7 +91,7 @@ The ``msg`` CDS helps add effects to your dialogue, such as special speech bubbl
     msg r "you can have text messages and phone calls and the like after any story item,"
     msg r "even a chatroom that has a Story Mode attached" glow
 
-(Dialogue can be found in [[INSERT LINK HERE]])
+(Dialogue can be found in ``tutorial_3_text_message.rpy``)
 
 The ``msg`` CDS requires a speaker (in the example, ``r``) and some dialogue (surrounded by ``""``). There are several optional clauses that can be added after the dialogue to affect how it displays.
 
@@ -119,7 +119,7 @@ The ``msg`` CDS has several built-in fonts that can be applied to the text. Thes
     * - blocky
       - Blocky font (BM-HANNA)
 
-You can also use your own fonts with the ``msg`` CDS. See [[INSERT LINK HERE]] for more on custom fonts and special bubbles.
+You can also use your own fonts with the ``msg`` CDS. See :ref:`Custom Fonts and Bubbles` for more on custom fonts and special bubbles.
 
 In order to use one of the built-in fonts, just include the name of the desired font after the dialogue e.g.
 
@@ -139,7 +139,7 @@ You can emphasize text in several ways. To use the **bold** version of a font, u
 
     msg u "This text is bolded." bold
 
-Some fonts have **extra-bold** variants as well. These are defined in [[INSERT LINK HERE]] variables_editable.rpy in the variable ``bold_xbold_fonts_list``. To make a font extra bold, add the ``xbold`` clause after the dialogue e.g.
+Some fonts have **extra-bold** variants as well. These are defined in ``variables_editable.rpy`` in the variable ``bold_xbold_fonts_list``. To make a font extra bold, add the ``xbold`` clause after the dialogue e.g.
 
 ::
 
@@ -213,7 +213,7 @@ To use a special bubble, add the name of the bubble after dialogue e.g.
     msg r "These can be combined with other fonts and effects, too!" glow curly big
 
 
-You can also use your own bubbles with the ``msg`` CDS, or modify it so that characters can use each other's special speech bubbles. See [[INSERT LINK HERE]] for more on custom special bubbles and fonts.
+You can also use your own bubbles with the ``msg`` CDS, or modify it so that characters can use each other's special speech bubbles. See :ref:`Custom Fonts and Bubbles` for more on custom special bubbles and fonts.
 
 Images
 ^^^^^^
@@ -223,7 +223,7 @@ The ``msg`` CDS will automatically detect if dialogue includes a recognized emoj
     s "cg s_1" img
     s "I just posted a CG!"
 
-You need to follow the rules outlined in [[INSERT LINK HERE]] in order for the program to find the correct image and display it during a chatroom. For CGs, the program will also automatically unlock the image in the gallery.
+You need to follow the rules outlined in :ref:`Defining a CG` and :ref:`Showing a CG in a Chatroom or Text Message` in order for the program to find the correct image and display it during a chatroom. For CGs, the program will also automatically unlock the image in the gallery.
 
 Modifying Message Speed
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -256,7 +256,7 @@ The first tab in the spreadsheet is called **Chatroom Instructions** and explain
 
 The tab **tutorial_6_meeting** has examples directly from the corresponding ``.rpy`` file of how dialogue for that chatroom was written using the spreadsheet.
 
-In general, you should create a copy of the **CHATROOM TEMPLATE** tab and fill it out with your desired dialogue. Don't forget that messages such as ``707 has entered the chatroom`` are handled differently -- see [[INSERT LINK HERE]] for more.
+In general, you should create a copy of the **CHATROOM TEMPLATE** tab and fill it out with your desired dialogue. Don't forget that messages such as ``707 has entered the chatroom`` are handled differently -- see :ref:`Advanced Chatroom Features` for more.
 
 If you've filled out the spreadsheet correctly, you should be able to copy-paste the dialogue from the "What should be filled into the program" column into your script file.
 
@@ -311,7 +311,7 @@ To get the message ``Character has entered the chatroom``, use the ``enter chatr
 
     enter chatroom s
 
-where ``s`` is the variable of the character who is entering the chatroom. See [[INSERT LINK HERE]] for a list of the characters currently programmed into the game.
+where ``s`` is the variable of the character who is entering the chatroom. See :ref:`Creating Characters` for a list of the characters currently programmed into the game.
 
 .. tip::
     You can also use ``call enter(s)`` to have a character enter the chatroom.
@@ -359,7 +359,7 @@ If you would like to clear all current chatroom participants from the chatroom h
 
 This will both clear the chat history and remove any existing participants from the list at the top of the messenger screen.
 
-This isn't typically used outside of using story mode sections in the middle of chatrooms (see [[INSERT LINK HERE]]) or linking together "separate" chatrooms as part of a scene for something like an After End.
+This isn't typically used outside of using story mode sections in the middle of chatrooms (see :ref:`Including a Story Mode During a Chatroom`) or linking together "separate" chatrooms as part of a scene for something like an After End.
 
 
 Providing Choices
@@ -387,7 +387,7 @@ Note that for this menu, it is assumed that ``paraphrase_choices`` is turned on 
             msg s "lolol same."
     msg s "But you should have a balanced diet, unlike me~" glow
 
-You can also turn ``paraphrased`` on or off on a per-menu or per-choice basis. For more on paraphrasing, see [[INSERT LINK HERE]].
+You can also turn ``paraphrased`` on or off on a per-menu or per-choice basis. For more on paraphrasing, see :ref:`Paraphrased Choices`.
 
 You can add as many choices as you want to the menu, though only 5 options will fit on the screen at once. All code indented after a choice will only be run if the player picks that choice. So, only a player who chose ``"I like soup"`` will see the line ``"You like soup?"``. Anything indented at the same level as the menu will be run regardless of the choice made, so the player will see the line ``"But you should have a balanced diet, unlike me~"`` regardless of whether they said they like soup or eat junk food.
 
@@ -425,7 +425,7 @@ To show a heart icon to the player and award them "heart points" associated with
 
     award heart s
 
-where ``s`` is the variable of the character whose heart icon you'd like to show. The player will receive one heart point with that character when this code is run. See [[INSERT LINK HERE]] for a list of the characters built-in to the program and how to add your own character.
+where ``s`` is the variable of the character whose heart icon you'd like to show. The player will receive one heart point with that character when this code is run. See :ref:`Creating Characters` for a list of the characters built-in to the program and how to add your own character.
 
 .. note::
     Ray (``r``) and Saeran (``sa``) share heart points. So, if you award a heart point for Saeran via ``award heart sa``, Ray will also receive 1 heart point.
@@ -434,7 +434,7 @@ There is also a second optional argument to ``award heart``::
 
     award heart ju bad
 
-``bad`` tells the program that this heart is a "bad" heart point, and should count towards a bad ending. In-game, a ``bad`` heart appears the same as a normal heart point. You can use this method to count the number of choices a player makes that would lead towards a bad ending, and then check whether the player made more "good" or "bad" ending choices when they reach a plot branch. See [[INSERT LINK HERE]] Plot Branches for more information on this.
+``bad`` tells the program that this heart is a "bad" heart point, and should count towards a bad ending. In-game, a ``bad`` heart appears the same as a normal heart point. You can use this method to count the number of choices a player makes that would lead towards a bad ending, and then check whether the player made more "good" or "bad" ending choices when they reach a plot branch. See :ref:`Plot Branches` for more information on this.
 
 Removing a heart point
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -445,7 +445,7 @@ If the player makes a choice a character doesn't like, you can cause them to los
 
     break heart ju
 
-where ``ju`` is the variable of the character whose heart break you'd like to show. This will **always** subtract points from the character's "good" heart points and never the "bad" points. Note that losing heart points in this way does not subtract from the heart point totals the player uses to unlock additional profile pictures for a character (See [[INSERT LINK HERE]]).
+where ``ju`` is the variable of the character whose heart break you'd like to show. This will **always** subtract points from the character's "good" heart points and never the "bad" points. Note that losing heart points in this way does not subtract from the heart point totals the player uses to unlock additional profile pictures for a character (See :ref:`Bonus Profile Pictures`).
 
 .. tip::
     Both ``break heart ju`` and ``heart break ju`` will show the heart break animation for the character ``ju``. You can't switch the word order for ``award heart`` though!
