@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="CG Albums" href="cg-albums.html" />
-    <link rel="prev" title="Emails" href="emails.html" /> 
+    <link rel="prev" title="Plot Branches" href="plot-branches.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -86,9 +86,10 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git-setup.html">Git Setup</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
@@ -96,6 +97,8 @@
 <li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
 <li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="emails.html">Emails</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Characters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#checklist-for-a-new-character">Checklist for a New Character</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-chatrooms">Adding a New Character to Chatrooms</a><ul>
@@ -103,6 +106,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-story-mode">Adding a New Character to Story Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#note-on-voiced-characters">Note on voiced characters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#declaring-a-layeredimage-for-a-new-character">Declaring a LayeredImage for a New Character</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#story-mode-timeline-images">Story Mode Timeline Images</a></li>
 </ul>
@@ -112,7 +116,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
-<li class="toctree-l1"><a class="reference internal" href="route-setup.html">Setting up a Route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous</a></li>
 </ul>
 
             
@@ -190,6 +194,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-story-mode">Adding a New Character to Story Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#note-on-voiced-characters">Note on voiced characters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#declaring-a-layeredimage-for-a-new-character">Declaring a LayeredImage for a New Character</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#story-mode-timeline-images">Story Mode Timeline Images</a></li>
 </ul>
@@ -201,6 +206,23 @@
 </ul>
 </div>
 <p>While Mysterious Messenger does come with several characters already defined, you may want to define your own characters to participate in chatrooms or phone the player. There are a few definitions and several images you will need to set up in order for your character to work within the program.</p>
+<p>The characters that come with the program by default are:</p>
+<ul class="simple">
+<li><p>ja (Jaehee Kang)</p></li>
+<li><p>ju (Jumin Han)</p></li>
+<li><p>m (The main character/”you”)</p></li>
+<li><p>r (Ray)</p></li>
+<li><p>ri (Rika)</p></li>
+<li><p>s (707)</p></li>
+<li><p>sa (Saeran)</p></li>
+<li><p>u (Unknown)</p></li>
+<li><p>v (V)</p></li>
+<li><p>y (Yoosung)</p></li>
+<li><p>z (ZEN)</p></li>
+</ul>
+<p>There are also a few characters who are defined only for use in Story Mode:
+* sarah_vn (Sarah)
+* chief_vn (Chief Han)</p>
 <p>On this page, the examples will show how to add a character named Emma to the program.</p>
 <div class="section" id="checklist-for-a-new-character">
 <h2>Checklist for a New Character<a class="headerlink" href="#checklist-for-a-new-character" title="Permalink to this headline">¶</a></h2>
@@ -244,7 +266,7 @@
 </div>
 <div class="section" id="adding-a-new-character-to-chatrooms">
 <h2>Adding a New Character to Chatrooms<a class="headerlink" href="#adding-a-new-character-to-chatrooms" title="Permalink to this headline">¶</a></h2>
-<p>All characters that currently exist in the program are defined in [[INSERT LINK HERE]] <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>. Open that file and scroll down to the header <strong>Chatroom Characters</strong>.</p>
+<p>All characters that currently exist in the program are defined in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>. Open that file and scroll down to the header <strong>Chatroom Characters</strong>.</p>
 <p>As mentioned, these examples will show how to add a character named Emma to the program. First, you need to give Emma a ChatCharacter object so she can speak in chatrooms. A definition for Emma might look like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">em</span> <span class="o">=</span> <span class="n">ChatCharacter</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Emma&quot;</span><span class="p">,</span>
@@ -265,7 +287,7 @@
 <p>Usually the actual variable name – in this case, <code class="docutils literal notranslate"><span class="pre">em</span></code> – is short. It is recommended that this be two characters long; usually the first two letters of the character’s name. The program already uses <code class="docutils literal notranslate"><span class="pre">ja</span></code>, <code class="docutils literal notranslate"><span class="pre">ju</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">ri</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">sa</span></code>, <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">v</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>New ChatCharacter variables should be at least two characters long to avoid conflicts with engine code.</p>
+<p>New ChatCharacter variables should be at least two letters long to avoid conflicts with engine code.</p>
 </div>
 <p>Each of those fields is explained below:</p>
 <dl>
@@ -402,7 +424,7 @@
 <dt><cite>who_color</cite></dt><dd><p>Optional. The colour of the character’s name during story mode. By default, it is “#FFF5CA”. The existing characters use the background colour of their chatroom speech bubbles as their <code class="docutils literal notranslate"><span class="pre">who_color</span></code>.</p>
 <p>e.g. “#FFDDFC”</p>
 </dd>
-<dt><cite>image</cite></dt><dd><p>Optional. Ren’Py will apply this tag to images if you include attribute tags during a character’s dialogue (See [[INSERT LINK HERE]]).</p>
+<dt><cite>image</cite></dt><dd><p>Optional. Ren’Py will apply this tag to images if you include attribute tags during a character’s dialogue (See <a class="reference external" href="https://www.renpy.org/doc/html/dialogue.html?highlight=equivalent#say-with-image-attributes">Say with Image Attributes</a>).</p>
 <p>e.g. “emma”</p>
 </dd>
 <dt><cite>window_background</cite></dt><dd><p>Optional. This is the image that will be shown behind the character’s dialogue. By default, it is “VN Mode/Chat Bubbles/vnmode_other.webp”. If you provide another image, it should be the same size as the default. Typically the borders are coloured differently for the various characters.</p>
@@ -412,6 +434,8 @@
 <p>e.g. “em_voice”</p>
 </dd>
 </dl>
+<div class="section" id="note-on-voiced-characters">
+<h3>Note on voiced characters<a class="headerlink" href="#note-on-voiced-characters" title="Permalink to this headline">¶</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special <code class="docutils literal notranslate"><span class="pre">novoice_chars</span></code> list found in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> e.g.</p>
@@ -420,7 +444,7 @@
 </div>
 <p>This will prevent the program from generating a voice toggle button for them.</p>
 </div>
-<p>If you’ve also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma’s ChatCharacter description includes the line <code class="docutils literal notranslate"><span class="pre">vn_char=em_vn</span></code> with her new Character object for story mode. You can then write dialogue during story mode like:</p>
+<p>If you’ve also defined a ChatCharacter variable for Emma as described in <a class="reference internal" href="#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a>, make sure that Emma’s ChatCharacter definition includes the line <code class="docutils literal notranslate"><span class="pre">vn_char=em_vn</span></code> with her new Character object for story mode. You can then write dialogue during story mode like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;Brr, it&#39;s cold outside!&quot;</span>
 </pre></div>
 </div>
@@ -428,9 +452,10 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em_vn</span> <span class="s2">&quot;Brr, it&#39;s cold outside!&quot;</span>
 </pre></div>
 </div>
+</div>
 <div class="section" id="declaring-a-layeredimage-for-a-new-character">
 <h3>Declaring a LayeredImage for a New Character<a class="headerlink" href="#declaring-a-layeredimage-for-a-new-character" title="Permalink to this headline">¶</a></h3>
-<p>At the bottom of <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> are all the layered image definitions for the existing characters. A layered image allows you to show the characters on-screen during story mode and easily change their expressions. In order to show Emma on-screen, you will need to define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span> <span class="pre">emma</span></code> here. As this is unchanged from the usual way of defining a layered image, you can look into [[INSERT LINK HERE]] [Ren’Py’s layeredimage documentation](<a class="reference external" href="https://www.renpy.org/doc/html/layeredimage.html">https://www.renpy.org/doc/html/layeredimage.html</a> “Ren’Py layeredimage documentation”) for more information on how to declare a layered image.</p>
+<p>At the bottom of <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> are all the layered image definitions for the existing characters. A layered image allows you to show the characters on-screen during story mode and easily change their expressions. In order to show Emma on-screen, you will need to define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span> <span class="pre">emma</span></code> here. As this is unchanged from the usual way of defining a layered image, you can look into  <a class="reference external" href="https://www.renpy.org/doc/html/layeredimage.html">Ren’Py’s layered image documentation</a> for more information on how to declare a layered image.</p>
 <p>If possible, expressions should be separate from the character’s body, and accessories such as glasses and masks should be separate from facial expressions. If a character has multiple positions, such as a side and front view, then those should be in two separate layeredimage definitions (see the definitions for characters like Jumin and Zen for how this is done).</p>
 </div>
 <div class="section" id="story-mode-timeline-images">
@@ -439,7 +464,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">vn_em</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Day Select/vn_em.webp&quot;</span>
 </pre></div>
 </div>
-<p>The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix <code class="docutils literal notranslate"><span class="pre">_vn_em</span></code> on a label to associate a story mode with Emma. See [[INSERT LINK HERE]] for more information on writing a Story Mode section.</p>
+<p>The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix <code class="docutils literal notranslate"><span class="pre">_vn_em</span></code> on a label to associate a story mode with Emma. See <a class="reference internal" href="story-mode.html#writing-a-story-mode"><span class="std std-ref">Writing a Story Mode</span></a> for more information on writing a Story Mode section.</p>
 </div>
 </div>
 <div class="section" id="adding-a-new-character-to-phone-calls">
@@ -470,9 +495,9 @@
 </dl>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>See [[INSERT LINK HERE]] if your new character should not have their own voice toggle on the Settings screen.</p>
+<p>See <a class="reference internal" href="#note-on-voiced-characters"><span class="std std-ref">Note on voiced characters</span></a> if your new character should not have their own voice toggle on the Settings screen.</p>
 </div>
-<p>If you’ve also defined a ChatCharacter variable for Emma as described in [[INSERT LINK HERE]], make sure that Emma’s ChatCharacter description includes the line <code class="docutils literal notranslate"><span class="pre">phone_char=em_phone</span></code> with her new Character object for phone calls. You can then write dialogue during a phone call like:</p>
+<p>If you’ve also defined a ChatCharacter variable for Emma as described in <a class="reference internal" href="#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a>, make sure that Emma’s ChatCharacter description includes the line <code class="docutils literal notranslate"><span class="pre">phone_char=em_phone</span></code> with her new Character object for phone calls. You can then write dialogue during a phone call like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;How are you, [name]?&quot;</span>
 </pre></div>
 </div>
@@ -505,7 +530,7 @@
     <span class="p">]</span> <span class="p">)</span>
 </pre></div>
 </div>
-<p>You can see that <code class="docutils literal notranslate"><span class="pre">SpaceThought(em,</span> <span class="pre">&quot;I</span> <span class="pre">know</span> <span class="pre">I</span> <span class="pre">should</span> <span class="pre">take</span> <span class="pre">my</span> <span class="pre">dog</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">walk</span> <span class="pre">but</span> <span class="pre">I'm</span> <span class="pre">so</span> <span class="pre">tired...&quot;)</span></code> was added to the end of the list. Now when the player clicks on the spaceship, Emma’s space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see [[INSERT LINK HERE]].</p>
+<p>You can see that <code class="docutils literal notranslate"><span class="pre">SpaceThought(em,</span> <span class="pre">&quot;I</span> <span class="pre">know</span> <span class="pre">I</span> <span class="pre">should</span> <span class="pre">take</span> <span class="pre">my</span> <span class="pre">dog</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">walk</span> <span class="pre">but</span> <span class="pre">I'm</span> <span class="pre">so</span> <span class="pre">tired...&quot;)</span></code> was added to the end of the list. Now when the player clicks on the spaceship, Emma’s space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see <a class="reference internal" href="miscellaneous.html#spaceship-thoughts"><span class="std std-ref">Spaceship Thoughts</span></a>.</p>
 </div>
 </div>
 
@@ -520,7 +545,7 @@
         <a href="cg-albums.html" class="btn btn-neutral float-right" title="CG Albums" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="emails.html" class="btn btn-neutral float-left" title="Emails" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="plot-branches.html" class="btn btn-neutral float-left" title="Plot Branches" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

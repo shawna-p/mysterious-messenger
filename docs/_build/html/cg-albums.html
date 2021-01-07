@@ -86,9 +86,10 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Credits-and-Acknowledgements.html">Credits and Acknowledgements</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Useful-Built-in-Features.html">Useful Built-in Features</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Beginners-Guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git-setup.html">Git Setup</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="chatrooms.html">Chatrooms</a></li>
@@ -187,7 +188,7 @@
 <h2>Adding a CG Album<a class="headerlink" href="#adding-a-cg-album" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="albums-associated-a-character">
 <h3>Albums Associated a Character<a class="headerlink" href="#albums-associated-a-character" title="Permalink to this headline">¶</a></h3>
-<p>For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma’s character definition and more in [[INSERT LINK HERE]].</p>
+<p>For this tutorial, this example shows how to add a character named Emma to the game. You can view Emma’s character definition and more in <a class="reference internal" href="creating-characters.html#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a>.</p>
 <p>Albums are defined in <code class="docutils literal notranslate"><span class="pre">gallery_album_definitions.rpy</span></code>. There are two images to define and two album variables.</p>
 <p>First, under the heading <strong>Album Cover Images</strong>, you will see images that look like <code class="docutils literal notranslate"><span class="pre">cg_label_ja</span></code>. This is the background of the small label that contains the name of the album. For Emma, you will define an image like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">cg_label_em</span> <span class="o">=</span> <span class="s2">&quot;CGs/label_bg_em.webp&quot;</span>
@@ -316,7 +317,7 @@
 <span class="k">image</span> <span class="n">cg</span> <span class="n">ju_meeting</span> <span class="o">=</span> <span class="s2">&quot;CGs/ju_album/ju-meeting-office.webp&quot;</span>
 </pre></div>
 </div>
-<p>After defining your image, you must add it to the correct album. See [[INSERT LINK HERE]] for more on creating new albums as well.</p>
+<p>After defining your image, you must add it to the correct album. See <a class="reference internal" href="#adding-a-cg-album"><span class="std std-ref">Adding a CG Album</span></a> for more on creating new albums as well.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">common_album</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_1&quot;</span><span class="p">),</span>
     <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_2&quot;</span><span class="p">),</span>
@@ -351,7 +352,7 @@
 <span class="n">msg</span> <span class="n">z</span> <span class="s2">&quot;common_4&quot;</span> <span class="n">img</span>
 </pre></div>
 </div>
-<p>The program will take care of resizing the CG for the chatroom and allowing the player to view it full-size. It will also unlock the CG in the appropriate album and notify the player if they have not yet seen the image in the album. If this is the first time the player has seen this image, it will also become available for use as a bonus profile picture (see [[INSERT LINK HERE]]).</p>
+<p>The program will take care of resizing the CG for the chatroom and allowing the player to view it full-size. It will also unlock the CG in the appropriate album and notify the player if they have not yet seen the image in the album. If this is the first time the player has seen this image, it will also become available for use as a bonus profile picture (see <a class="reference internal" href="miscellaneous.html#bonus-profile-pictures"><span class="std std-ref">Bonus Profile Pictures</span></a>).</p>
 <p>You can see an example of a CG posted in a text message in <code class="docutils literal notranslate"><span class="pre">tutorial_3b_VN.rpy</span></code>, and an example of a CG posted during a chatroom in <code class="docutils literal notranslate"><span class="pre">tutorial_5_coffee.rpy</span></code>.</p>
 </div>
 <div class="section" id="showing-a-cg-during-story-mode">

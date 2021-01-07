@@ -323,7 +323,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. You can use either the spreadsheet style or the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS [[INSERT LINK HERE]].</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable for the character who is sending the message. You can then write dialogue the same way as you would for a chatroom, including adding CGs, emojis, and changing fonts. You can use either the spreadsheet style or the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS (see <a class="reference internal" href="chatrooms.html#writing-chatroom-dialogue"><span class="std std-ref">Writing Chatroom Dialogue</span></a>).</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Text messages currently do not support special speech bubbles.</p>
@@ -372,7 +372,7 @@
     <span class="k">return</span>
 </pre></div>
 </div>
-<p>For regular text messages, the label should immediately begin with a <code class="docutils literal notranslate"><span class="pre">menu:</span></code> so that the player is presented with a choice of answers. You can add as many or as few options as you wish. The dialogue here is written the same way as chatrooms, including awarding heart points. You can only award one heart point per reply. It can be for a character not in the conversation as well. For more information on heart points, see [[INSERT LINK HERE]].</p>
+<p>For regular text messages, the label should immediately begin with a <code class="docutils literal notranslate"><span class="pre">menu:</span></code> so that the player is presented with a choice of answers. You can add as many or as few options as you wish. The dialogue here is written the same way as chatrooms, including awarding heart points. You can only award one heart point per reply. It can be for a character not in the conversation as well. For more information on heart points, see <a class="reference internal" href="chatrooms.html#showing-a-heart-icon"><span class="std std-ref">Showing a Heart Icon</span></a>.</p>
 <p>Finally, end the whole label with <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p>
 <div class="section" id="replying-after-the-first-message">
 <h4>Replying after the first message<a class="headerlink" href="#replying-after-the-first-message" title="Permalink to this headline">¶</a></h4>
@@ -484,7 +484,7 @@
 <p>Text messages currently do not support special speech bubbles.</p>
 </div>
 <p>Any dialogue written under the <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> statement will show up as “backlog” before the user enters the conversation, so it is usually brief.</p>
-<p>You can compose text messages for as many characters as you like, and mix and match regular text messages with real-time text conversations freely. There are also additional options available to you for scheduling when the first text message is delivered. See [[INSERT LINK HERE]] for more.</p>
+<p>You can compose text messages for as many characters as you like, and mix and match regular text messages with real-time text conversations freely. There are also additional options available to you for scheduling when the first text message is delivered. See <a class="reference internal" href="#the-compose-text-cds"><span class="std std-ref">The compose text CDS</span></a> for more.</p>
 </div>
 <div class="section" id="continuing-a-text-message-conversation">
 <h3>Continuing a Text Message Conversation<a class="headerlink" href="#continuing-a-text-message-conversation" title="Permalink to this headline">¶</a></h3>
@@ -559,7 +559,7 @@
 <p>Next, you will write the dialogue for the text messages. These are written like regular text messages, and you can use both the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS as well as the spreadsheet method to write dialogue.</p>
 <p>The text message backlog statement <strong>does not</strong> support the use of Python, jumps, or many other features besides dialogue inside the text message block; these messages are intended to be used as setup and are not part of active conversations, so any Python or calculations should be done outside of the <code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">backlog</span></code> CDS.</p>
 <p>However, the <code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">backlog</span></code> CDS <strong>does</strong> support conditional if/elif/else statements so that you can vary messages based on certain conditions. In the example at the top of this section, you can see that the message varies based on the number of heart points the player has with certain characters.</p>
-<p><code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">backlog</span></code> does not support adding labels to jump to in order to reply to a conversation, as it is intended to setup “past” conversations. <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> is suitable for creating conversations that the player may respond to (see [[INSERT LINK HERE]]).</p>
+<p><code class="docutils literal notranslate"><span class="pre">add</span> <span class="pre">backlog</span></code> does not support adding labels to jump to in order to reply to a conversation, as it is intended to setup “past” conversations. <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> is suitable for creating conversations that the player may respond to (see <a class="reference internal" href="#the-compose-text-cds"><span class="std std-ref">The compose text CDS</span></a>).</p>
 <div class="section" id="adjusting-timestamps">
 <h3>Adjusting Timestamps<a class="headerlink" href="#adjusting-timestamps" title="Permalink to this headline">¶</a></h3>
 <p>All lines, regardless of the way they’re written, take the special option <code class="docutils literal notranslate"><span class="pre">time</span></code> after the dialogue. This allows you to further customize when the messages are sent at e.g.</p>

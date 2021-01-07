@@ -46,9 +46,9 @@ and an attached Story Call should be named::
 
     label day_1_4_story_call_z:
 
-where ``z`` is the variable of the character whom the player is calling or who is calling the player (see [[INSERT LINK HERE]] for a list of the existing characters).
+where ``z`` is the variable of the character whom the player is calling or who is calling the player (see :ref:`Creating Characters` for a list of the existing characters).
 
-The following section will cover **incoming** and **outgoing** calls to characters that are optional for continuing with the story. You can find more information on Story Calls at [[INSERT LINK HERE]].
+The following section will cover **incoming** and **outgoing** calls to characters that are optional for continuing with the story. You can find more information on Story Calls at :ref:`Story Calls`.
 
 Incoming Calls
 --------------
@@ -85,7 +85,7 @@ Creating a Story Call
 
 Mysterious Messenger also includes "story calls", phone calls from the characters which the player must see before they can continue with the story. Story calls can be standalone, appearing on the timeline as their own story with a trigger time, or they can be attached to chatrooms or standalone story mode items as well and played after the main/parent timeline item is complete.
 
-To create a standalone story call, see [[INSERT LINK HERE]]. Otherwise, the program will automatically create a story call if a certain naming convention is used. If the label of the parent item (i.e. a chatroom or standalone story mode) is ``newyear_4_2``, then you can create a label with the suffix ``_story_call_`` + the file_id of the character who will be calling the player e.g.
+To create a standalone story call, see :ref:`Story Calls`. Otherwise, the program will automatically create a story call if a certain naming convention is used. If the label of the parent item (i.e. a chatroom or standalone story mode) is ``newyear_4_2``, then you can create a label with the suffix ``_story_call_`` + the file_id of the character who will be calling the player e.g.
 
 ::
 
@@ -122,7 +122,7 @@ Phone call dialogue uses the regular character variables and doesn't have any sp
 
 Phone call labels end with ``return`` like all other labels.
 
-You may also find Ren'Py's "monologue mode" helpful, since you won't be switching between expressions or different speakers very often. See [[INSERT LINK HERE]] for an example of this.
+You may also find Ren'Py's "monologue mode" helpful, since you won't be switching between expressions or different speakers very often. See ``tutorial_5_coffee.rpy`` for an example of this.
 
 
 Providing Choices
@@ -139,7 +139,7 @@ Menus for phone calls are written very similarly to menus in other parts of the 
 
 The only notable difference is that you should include the line ``extend ''`` right after the ``menu:`` statement and before the first choice. This will keep the dialogue said just before the menu on-screen while the choices are visible.
 
-This menu, like others, also takes a ``paraphrased`` argument for either the menu as a whole or for an individual choice. For more information, see [[INSERT LINK HERE]].
+This menu, like others, also takes a ``paraphrased`` argument for either the menu as a whole or for an individual choice. For more information, see :ref:`Paraphrased Choices`.
 
 Note also that if you are writing out the main character's dialogue directly after a choice, the first line **does not** require a ``(pauseVal=0)`` clause.
 

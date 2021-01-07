@@ -314,7 +314,7 @@
     <span class="k">scene</span> <span class="n">morning</span>
 </pre></div>
 </div>
-<p>While chatrooms also use Ren’Py’s <code class="docutils literal notranslate"><span class="pre">scene</span></code> statement to show backgrounds, there is a limited number of built-in backgrounds to use. New backgrounds must be defined as described in [[INSERT LINK HERE]]. Your background options are:</p>
+<p>While chatrooms also use Ren’Py’s <code class="docutils literal notranslate"><span class="pre">scene</span></code> statement to show backgrounds, there is a limited number of built-in backgrounds to use. New backgrounds must be defined as described in <a class="reference internal" href="#adding-chatroom-backgrounds"><span class="std std-ref">Adding Chatroom Backgrounds</span></a>. Your background options are:</p>
 <ul class="simple">
 <li><p>morning</p></li>
 <li><p>noon</p></li>
@@ -330,8 +330,8 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> can be replaced by the name of whatever music you want. There are several files pre-defined in [[INSERT LINK HERE]] (variables_music_sound). If you want to define your own music, you need to add it to the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> as well so that it is compatible with audio captions. See [[INSERT LINK HERE]] for more information.</p>
-<p>Next, you’ll write the dialogue for your chatroom. See [[INSERT LINK HERE]]. Finally, to end the chatroom, end the label with <code class="docutils literal notranslate"><span class="pre">return</span></code>:</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> can be replaced by the name of whatever music you want. There are several files pre-defined in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. If you want to define your own music, you need to add it to the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> as well so that it is compatible with audio captions. See <a class="reference internal" href="miscellaneous.html#adding-new-audio"><span class="std std-ref">Adding New Audio</span></a> for more information.</p>
+<p>Next, you’ll write the dialogue for your chatroom. See <a class="reference internal" href="#writing-chatroom-dialogue"><span class="std std-ref">Writing Chatroom Dialogue</span></a>. Finally, to end the chatroom, end the label with <code class="docutils literal notranslate"><span class="pre">return</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_1</span><span class="p">:</span>
     <span class="k">scene</span> <span class="n">earlyMorn</span>
     <span class="k">play</span> <span class="k">music</span> <span class="n">mint_eye</span>
@@ -339,7 +339,7 @@
     <span class="k">return</span>
 </pre></div>
 </div>
-<p>To learn how to make this chatroom appear in your game, check out [[INSERT LINK HERE]].</p>
+<p>To learn how to make this chatroom appear in your game, check out <a class="reference internal" href="route-setup.html#setting-up-a-route"><span class="std std-ref">Setting up a Route</span></a>.</p>
 </div>
 <div class="section" id="writing-chatroom-dialogue">
 <h2>Writing Chatroom Dialogue<a class="headerlink" href="#writing-chatroom-dialogue" title="Permalink to this headline">¶</a></h2>
@@ -355,7 +355,7 @@
 <span class="n">msg</span> <span class="n">r</span> <span class="s2">&quot;even a chatroom that has a Story Mode attached&quot;</span> <span class="n">glow</span>
 </pre></div>
 </div>
-<p>(Dialogue can be found in [[INSERT LINK HERE]])</p>
+<p>(Dialogue can be found in <code class="docutils literal notranslate"><span class="pre">tutorial_3_text_message.rpy</span></code>)</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS requires a speaker (in the example, <code class="docutils literal notranslate"><span class="pre">r</span></code>) and some dialogue (surrounded by <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>). There are several optional clauses that can be added after the dialogue to affect how it displays.</p>
 <div class="section" id="fonts">
 <h4>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h4>
@@ -391,7 +391,7 @@
 </tr>
 </tbody>
 </table>
-<p>You can also use your own fonts with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS. See [[INSERT LINK HERE]] for more on custom fonts and special bubbles.</p>
+<p>You can also use your own fonts with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS. See <a class="reference internal" href="#custom-fonts-and-bubbles"><span class="std std-ref">Custom Fonts and Bubbles</span></a> for more on custom fonts and special bubbles.</p>
 <p>In order to use one of the built-in fonts, just include the name of the desired font after the dialogue e.g.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This is example dialogue in the cursive font.&quot;</span> <span class="n">curly</span>
 <span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This is in the sans serif 1 font.&quot;</span> <span class="n">sser1</span>
@@ -405,7 +405,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This text is bolded.&quot;</span> <span class="na">bold</span>
 </pre></div>
 </div>
-<p>Some fonts have <strong>extra-bold</strong> variants as well. These are defined in [[INSERT LINK HERE]] variables_editable.rpy in the variable <code class="docutils literal notranslate"><span class="pre">bold_xbold_fonts_list</span></code>. To make a font extra bold, add the <code class="docutils literal notranslate"><span class="pre">xbold</span></code> clause after the dialogue e.g.</p>
+<p>Some fonts have <strong>extra-bold</strong> variants as well. These are defined in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> in the variable <code class="docutils literal notranslate"><span class="pre">bold_xbold_fonts_list</span></code>. To make a font extra bold, add the <code class="docutils literal notranslate"><span class="pre">xbold</span></code> clause after the dialogue e.g.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">ja</span> <span class="s2">&quot;This text is in the sans serif 2 font, extra bold.&quot;</span> <span class="n">sser2</span> <span class="n">xbold</span>
 </pre></div>
 </div>
@@ -484,7 +484,7 @@
 <span class="n">msg</span> <span class="n">r</span> <span class="s2">&quot;These can be combined with other fonts and effects, too!&quot;</span> <span class="n">glow</span> <span class="n">curly</span> <span class="n">big</span>
 </pre></div>
 </div>
-<p>You can also use your own bubbles with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, or modify it so that characters can use each other’s special speech bubbles. See [[INSERT LINK HERE]] for more on custom special bubbles and fonts.</p>
+<p>You can also use your own bubbles with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, or modify it so that characters can use each other’s special speech bubbles. See <a class="reference internal" href="#custom-fonts-and-bubbles"><span class="std std-ref">Custom Fonts and Bubbles</span></a> for more on custom special bubbles and fonts.</p>
 </div>
 <div class="section" id="images">
 <h4>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h4>
@@ -493,7 +493,7 @@
 <span class="n">s</span> <span class="s2">&quot;I just posted a CG!&quot;</span>
 </pre></div>
 </div>
-<p>You need to follow the rules outlined in [[INSERT LINK HERE]] in order for the program to find the correct image and display it during a chatroom. For CGs, the program will also automatically unlock the image in the gallery.</p>
+<p>You need to follow the rules outlined in <a class="reference internal" href="cg-albums.html#defining-a-cg"><span class="std std-ref">Defining a CG</span></a> and <a class="reference internal" href="cg-albums.html#showing-a-cg-in-a-chatroom-or-text-message"><span class="std std-ref">Showing a CG in a Chatroom or Text Message</span></a> in order for the program to find the correct image and display it during a chatroom. For CGs, the program will also automatically unlock the image in the gallery.</p>
 </div>
 <div class="section" id="modifying-message-speed">
 <h4>Modifying Message Speed<a class="headerlink" href="#modifying-message-speed" title="Permalink to this headline">¶</a></h4>
@@ -519,7 +519,7 @@
 <p>The second way of writing chatroom dialogue is similar to writing regular Ren’Py script, but passes special keyword arguments in brackets after the dialogue. A spreadsheet, <code class="docutils literal notranslate"><span class="pre">Script</span> <span class="pre">Generator.xlsx</span></code>, is included with the program to make this style of writing easier.</p>
 <p>The first tab in the spreadsheet is called <strong>Chatroom Instructions</strong> and explains how the <strong>CHATROOM TEMPLATE</strong> tab is used. Where possible, the spreadsheet will try to check off the appropriate boxes depending on what fonts, emphasis, or bubbles you want to use. It will also notify you if you’ve typed a character’s name incorrectly.</p>
 <p>The tab <strong>tutorial_6_meeting</strong> has examples directly from the corresponding <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file of how dialogue for that chatroom was written using the spreadsheet.</p>
-<p>In general, you should create a copy of the <strong>CHATROOM TEMPLATE</strong> tab and fill it out with your desired dialogue. Don’t forget that messages such as <code class="docutils literal notranslate"><span class="pre">707</span> <span class="pre">has</span> <span class="pre">entered</span> <span class="pre">the</span> <span class="pre">chatroom</span></code> are handled differently – see [[INSERT LINK HERE]] for more.</p>
+<p>In general, you should create a copy of the <strong>CHATROOM TEMPLATE</strong> tab and fill it out with your desired dialogue. Don’t forget that messages such as <code class="docutils literal notranslate"><span class="pre">707</span> <span class="pre">has</span> <span class="pre">entered</span> <span class="pre">the</span> <span class="pre">chatroom</span></code> are handled differently – see <a class="reference internal" href="#advanced-chatroom-features"><span class="std std-ref">Advanced Chatroom Features</span></a> for more.</p>
 <p>If you’ve filled out the spreadsheet correctly, you should be able to copy-paste the dialogue from the “What should be filled into the program” column into your script file.</p>
 </div>
 <div class="section" id="comparison-of-chatroom-dialogue">
@@ -571,7 +571,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">enter</span> <span class="n">chatroom</span> <span class="n">s</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character who is entering the chatroom. See [[INSERT LINK HERE]] for a list of the characters currently programmed into the game.</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character who is entering the chatroom. See <a class="reference internal" href="creating-characters.html#creating-characters"><span class="std std-ref">Creating Characters</span></a> for a list of the characters currently programmed into the game.</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You can also use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">enter(s)</span></code> to have a character enter the chatroom.</p>
@@ -618,7 +618,7 @@
 </pre></div>
 </div>
 <p>This will both clear the chat history and remove any existing participants from the list at the top of the messenger screen.</p>
-<p>This isn’t typically used outside of using story mode sections in the middle of chatrooms (see [[INSERT LINK HERE]]) or linking together “separate” chatrooms as part of a scene for something like an After End.</p>
+<p>This isn’t typically used outside of using story mode sections in the middle of chatrooms (see <a class="reference internal" href="story-mode.html#including-a-story-mode-during-a-chatroom"><span class="std std-ref">Including a Story Mode During a Chatroom</span></a>) or linking together “separate” chatrooms as part of a scene for something like an After End.</p>
 </div>
 <div class="section" id="providing-choices">
 <h3>Providing Choices<a class="headerlink" href="#providing-choices" title="Permalink to this headline">¶</a></h3>
@@ -644,7 +644,7 @@
 <span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;But you should have a balanced diet, unlike me~&quot;</span> <span class="n">glow</span>
 </pre></div>
 </div>
-<p>You can also turn <code class="docutils literal notranslate"><span class="pre">paraphrased</span></code> on or off on a per-menu or per-choice basis. For more on paraphrasing, see [[INSERT LINK HERE]].</p>
+<p>You can also turn <code class="docutils literal notranslate"><span class="pre">paraphrased</span></code> on or off on a per-menu or per-choice basis. For more on paraphrasing, see <a class="reference internal" href="miscellaneous.html#paraphrased-choices"><span class="std std-ref">Paraphrased Choices</span></a>.</p>
 <p>You can add as many choices as you want to the menu, though only 5 options will fit on the screen at once. All code indented after a choice will only be run if the player picks that choice. So, only a player who chose <code class="docutils literal notranslate"><span class="pre">&quot;I</span> <span class="pre">like</span> <span class="pre">soup&quot;</span></code> will see the line <code class="docutils literal notranslate"><span class="pre">&quot;You</span> <span class="pre">like</span> <span class="pre">soup?&quot;</span></code>. Anything indented at the same level as the menu will be run regardless of the choice made, so the player will see the line <code class="docutils literal notranslate"><span class="pre">&quot;But</span> <span class="pre">you</span> <span class="pre">should</span> <span class="pre">have</span> <span class="pre">a</span> <span class="pre">balanced</span> <span class="pre">diet,</span> <span class="pre">unlike</span> <span class="pre">me~&quot;</span></code> regardless of whether they said they like soup or eat junk food.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -675,7 +675,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">award</span> <span class="n">heart</span> <span class="n">s</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character whose heart icon you’d like to show. The player will receive one heart point with that character when this code is run. See [[INSERT LINK HERE]] for a list of the characters built-in to the program and how to add your own character.</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the variable of the character whose heart icon you’d like to show. The player will receive one heart point with that character when this code is run. See <a class="reference internal" href="creating-characters.html#creating-characters"><span class="std std-ref">Creating Characters</span></a> for a list of the characters built-in to the program and how to add your own character.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Ray (<code class="docutils literal notranslate"><span class="pre">r</span></code>) and Saeran (<code class="docutils literal notranslate"><span class="pre">sa</span></code>) share heart points. So, if you award a heart point for Saeran via <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span> <span class="pre">sa</span></code>, Ray will also receive 1 heart point.</p>
@@ -684,7 +684,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">award</span> <span class="n">heart</span> <span class="n">ju</span> <span class="n">bad</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">bad</span></code> tells the program that this heart is a “bad” heart point, and should count towards a bad ending. In-game, a <code class="docutils literal notranslate"><span class="pre">bad</span></code> heart appears the same as a normal heart point. You can use this method to count the number of choices a player makes that would lead towards a bad ending, and then check whether the player made more “good” or “bad” ending choices when they reach a plot branch. See [[INSERT LINK HERE]] Plot Branches for more information on this.</p>
+<p><code class="docutils literal notranslate"><span class="pre">bad</span></code> tells the program that this heart is a “bad” heart point, and should count towards a bad ending. In-game, a <code class="docutils literal notranslate"><span class="pre">bad</span></code> heart appears the same as a normal heart point. You can use this method to count the number of choices a player makes that would lead towards a bad ending, and then check whether the player made more “good” or “bad” ending choices when they reach a plot branch. See <a class="reference internal" href="plot-branches.html#plot-branches"><span class="std std-ref">Plot Branches</span></a> for more information on this.</p>
 </div>
 <div class="section" id="removing-a-heart-point">
 <h4>Removing a heart point<a class="headerlink" href="#removing-a-heart-point" title="Permalink to this headline">¶</a></h4>
@@ -692,7 +692,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">break</span> <span class="n">heart</span> <span class="n">ju</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">ju</span></code> is the variable of the character whose heart break you’d like to show. This will <strong>always</strong> subtract points from the character’s “good” heart points and never the “bad” points. Note that losing heart points in this way does not subtract from the heart point totals the player uses to unlock additional profile pictures for a character (See [[INSERT LINK HERE]]).</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">ju</span></code> is the variable of the character whose heart break you’d like to show. This will <strong>always</strong> subtract points from the character’s “good” heart points and never the “bad” points. Note that losing heart points in this way does not subtract from the heart point totals the player uses to unlock additional profile pictures for a character (See <a class="reference internal" href="miscellaneous.html#bonus-profile-pictures"><span class="std std-ref">Bonus Profile Pictures</span></a>).</p>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>Both <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span> <span class="pre">ju</span></code> and <code class="docutils literal notranslate"><span class="pre">heart</span> <span class="pre">break</span> <span class="pre">ju</span></code> will show the heart break animation for the character <code class="docutils literal notranslate"><span class="pre">ju</span></code>. You can’t switch the word order for <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> though!</p>

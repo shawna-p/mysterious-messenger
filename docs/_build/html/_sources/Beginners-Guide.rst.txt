@@ -4,7 +4,7 @@
 Beginner's Guide
 ================
 
-If you want to create your own route and some of the technicalities are going over your head, this guide will take you through setting up a new route from start to finish. More specific pages will be referenced throughout. If you already know a bit about the program, you may want to start with [[INSERT LINK HERE]] instead.
+If you want to create your own route and some of the technicalities are going over your head, this guide will take you through setting up a new route from start to finish. More specific pages will be referenced throughout. If you already know a bit about the program, you may want to start with :ref:`Setting up a Route` instead.
 
 .. toctree::
     :caption: Navigation
@@ -51,7 +51,7 @@ Inside your new ``.rpy`` file, copy and paste the following code::
         RouteDay('10th'),
         RouteDay('Final')]
 
-This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to [[INSERT LINK HERE]].
+This defines a variable which is going to contain the information the program needs to understand how to display the route to the player. In particular, this defines the "Good End" of a route. In the history screen, when the player reaches the end of this route the final timeline item will show up under the title "Good End". This guide only covers how to add one ending, but if you want to learn more you can refer to :ref:`Plot Branches`.
 
 Ensuring the route shows up in History
 ---------------------------------------
@@ -136,17 +136,17 @@ This is where the program will jump to when the player selects this route to pla
 `participants`
     By default, this is ``None``, which means that no one starts in the introductory chatroom. If you would like to have characters start in the chatroom, then you can add them here as a list e.g. ``participants=[ja, ju, s, y, z]`` adds the characters ja, ju, s, y, and z to the chatroom initially before the player arrives.
 
-Next is the line ``$ paraphrase_choices = False``. This tells the program that the main character should say the exact dialogue found on the choice buttons after the player has selected that choice. If you want to type out most choice dialogue yourself, then this should be ``$ paraphrase_choices = True`` instead. Note that you can toggle choice paraphrasing on and off on a per-menu or per-choice basis; see [[INSERT LINK HERE]] for more information. The rest of this tutorial will assume you have ``$ paraphrase_choices = False``.
+Next is the line ``$ paraphrase_choices = False``. This tells the program that the main character should say the exact dialogue found on the choice buttons after the player has selected that choice. If you want to type out most choice dialogue yourself, then this should be ``$ paraphrase_choices = True`` instead. Note that you can toggle choice paraphrasing on and off on a per-menu or per-choice basis; see :ref:`Paraphrased Choices` for more information. The rest of this tutorial will assume you have ``$ paraphrase_choices = False``.
 
-``scene night`` tells the program to set up the ``night`` background for the chatroom. For more information on backgrounds, see [[INSERT LINK HERE]].
+``scene night`` tells the program to set up the ``night`` background for the chatroom. For more information on backgrounds, see :ref:`Adding Chatroom Backgrounds`.
 
-``play music mystic_chat`` tells the program to play the "mystic_chat" music in the background. This loops automatically. The usual Ren'Py method of playing music has been overwritten to support audio captions, though it supports all the usual features such as fadeout and looping as found in the Ren'Py documentation on audio. For more information, see [[INSERT LINK HERE]].
+``play music mystic_chat`` tells the program to play the "mystic_chat" music in the background. This loops automatically. The usual Ren'Py method of playing music has been overwritten to support audio captions, though it supports all the usual features such as fadeout and looping as found in the Ren'Py documentation on audio. For more information, see :ref:`Adding New Audio`.
 
-``enter chatroom u`` and ``exit chatroom u`` display messages like "Unknown has entered the chatroom." and "Unknown has left the chatroom." respectively. For more information on these sorts of functions, see [[INSERT LINK HERE]].
+``enter chatroom u`` and ``exit chatroom u`` display messages like "Unknown has entered the chatroom." and "Unknown has left the chatroom." respectively. For more information on these sorts of functions, see :ref:`Advanced Chatroom Features`.
 
 Finally, all labels including this introductory chatroom should end with ``return``. In this case, it will show the Save & Exit button to the player and return them to the game's home screen.
 
-All of these features and more are covered in [[INSERT LINK HERE]], including how to write dialogue. You're welcome to expand on this chatroom later with more dialogue.
+All of these features and more are covered in :ref:`Chatrooms`, including how to write dialogue. You're welcome to expand on this chatroom later with more dialogue.
 
 
 Defining Timeline Items for your Route
@@ -186,7 +186,7 @@ To create your first chatroom, modify the above code so it now looks like the fo
         RouteDay('10th'),
         RouteDay('Final')]
 
-The main thing that has changed is the code after ``RouteDay('1st',``, which now has something called a ``ChatRoom`` object. This object holds information that tells the program information like the title of the chatroom ("Welcome!"), the label where the program can find the chatroom ("day_1_chatroom_1"), and the time the chatroom should appear at ("00:01" aka 1 minute past midnight). A typical RouteDay is made up of a list of these items, along with StoryMode and StoryCall objects (for more, see [[INSERT LINK HERE]]).
+The main thing that has changed is the code after ``RouteDay('1st',``, which now has something called a ``ChatRoom`` object. This object holds information that tells the program information like the title of the chatroom ("Welcome!"), the label where the program can find the chatroom ("day_1_chatroom_1"), and the time the chatroom should appear at ("00:01" aka 1 minute past midnight). A typical RouteDay is made up of a list of these items, along with StoryMode and StoryCall objects (for more, see :ref:`Adding Timeline Items`).
 
 Next, you need to define your new chatroom, similar to what you did for the introduction.
 
@@ -215,7 +215,7 @@ Now you need to define the body of the chatroom. First, make a label with the na
         exit chatroom u
         return
 
-This defines a very basic chatroom with the character "Unknown" (``u``). In this particular chatroom, the player is allowed to make a choice, as defined under the ``menu:`` code. For more on writing chatrooms and creating choices, see [[INSERT LINK HERE]]. There are many more things you can do besides just chatrooms as well, such as having characters send text messages or call the player. For more on those, see the corresponding sections in the documentation.
+This defines a very basic chatroom with the character "Unknown" (``u``). In this particular chatroom, the player is allowed to make a choice, as defined under the ``menu:`` code. For more on writing chatrooms and creating choices, see :ref:`Advanced Chatroom Features`. There are many more things you can do besides just chatrooms as well, such as having characters send text messages or call the player. For more on those, see the corresponding sections in the documentation.
 
 Creating an Expired Chatroom
 -----------------------------
@@ -249,7 +249,7 @@ To play your new route, close the program if open and re-launch it after saving 
 Next Steps
 ===========
 
-Since many things in the game build off of chatrooms, you should look at the documentation on chatrooms such as [[INSERT LINK HERE]]. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
+Since many things in the game build off of chatrooms, you should look at the documentation on chatrooms such as :ref:`Chatrooms`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
 
-Once you're comfortable writing and modifying chatrooms, you can look into adding text messages, then phone calls, and finally emails. You should also look at [[INSERT LINK HERE]] for more information on setting up a full route with plot branches and a party. Good luck!
+Once you're comfortable writing and modifying chatrooms, you can look into adding text messages, then phone calls, and finally emails. You should also look at :ref:`Setting up a Route` for more information on setting up a full route with plot branches and a party. Good luck!
 
