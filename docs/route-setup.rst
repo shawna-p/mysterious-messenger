@@ -125,10 +125,10 @@ There are some additional fields as well, each of which is explained below.
     e.g. StoryMode("", "my_vn_label")
 
     .. warning::
-        It is generally recommended that you let the program take care of defining StoryMode objects by using properly named labels. See [[INSERT LINK HERE]].
+        It is generally recommended that you let the program take care of defining StoryMode objects attached to chatrooms by using properly named labels. See :ref:`Attached Story Mode`.
 
 `plot_branch`
-    Optional. Indicates that there should be a plot branch after this chatroom. See [[INSERT LINK HERE]] for more on plot branches.
+    Optional. Indicates that there should be a plot branch after this chatroom. See :ref:`Plot Branches` for more on plot branches.
 
     e.g. PlotBranch(True)
 
@@ -149,7 +149,7 @@ Then the expired label should be located at
 
     label day_4_5_coffee_chat_expired:
 
-Typically, an expired chatroom covers most of the same topics as the original chatroom, though the player is not present. For more on expired chatrooms and real-time mode, see [[INSERT LINK HERE]].
+Typically, an expired chatroom covers most of the same topics as the original chatroom, though the player is not present. For more on expired chatrooms and real-time mode, see :ref:`Expired Timeline Items and Real-Time Mode`.
 
 
 Attached Story Mode
@@ -159,9 +159,9 @@ Chatrooms can have an attached Story Mode, which becomes available to play after
 
 If your chatroom's label is ``casual_day_1_4```, then if you create a label called ``casual_day_1_4_vn`` (note the ``_vn`` suffix), a general StoryMode will be created that will lead to that label.
 
-You can also specify which character should appear on the Story Mode icon in the timeline screen by adding their file_id to the end of the label e.g. ``casual_day_1_4_vn_ja`` would create a Story Mode attached to the chatroom found at ``casual_day_1_4`` which will show Jaehee's image on the icon. Most of the existing characters have an associated Story Mode icon defined for them. You can also define one for a new character: see [[INSERT LINK HERE]] for more.
+You can also specify which character should appear on the Story Mode icon in the timeline screen by adding their file_id to the end of the label e.g. ``casual_day_1_4_vn_ja`` would create a Story Mode attached to the chatroom found at ``casual_day_1_4`` which will show Jaehee's image on the icon. Most of the existing characters have an associated Story Mode icon defined for them. You can also define one for a new character: see :ref:`Story Mode Timeline Images` for more.
 
-An attached Story Mode is written the same way as other story mode sections. See [[INSERT LINK HERE]] for more.
+An attached Story Mode is written the same way as other story mode sections. See :ref:`Writing a Story Mode` for more.
 
 Story Mode
 ----------
@@ -172,7 +172,7 @@ A Story Mode definition looks like the following::
 
     StoryMode("Gone to the store", "extra_day_5_3", "20:16", y, save_img='y', plot_branch=PlotBranch(False))
 
-For this example, the title of the Story Mode is "Gone to the store". It can be found at the label ``extra_day_5_3`` and will appear at 8:16 pm. The story mode icon in the timeline will show Yoosung's story mode image, and if the player saves the game while this is the most recent timeline item, it will show a save icon associated with "y". Additionally, there is a plot branch after this Story Mode. For more on Plot Branches, see [[INSERT LINK HERE]].
+For this example, the title of the Story Mode is "Gone to the store". It can be found at the label ``extra_day_5_3`` and will appear at 8:16 pm. The story mode icon in the timeline will show Yoosung's story mode image, and if the player saves the game while this is the most recent timeline item, it will show a save icon associated with "y". Additionally, there is a plot branch after this Story Mode. For more on Plot Branches, see :ref:`Plot Branches`.
 
 There are some additional fields as well, each of which is explained below.
 
@@ -197,12 +197,12 @@ There are some additional fields as well, each of which is explained below.
     e.g. ja
 
 `plot_branch`
-    Optional. Indicates that there should be a plot branch after this story mode. See [[INSERT LINK HERE]] for more on plot branches.
+    Optional. Indicates that there should be a plot branch after this story mode. See :ref:`Plot Branches` for more on plot branches.
 
     e.g. PlotBranch(False)
 
 `party`
-    True if this Story Mode is the party. In general, you should instead use ``TheParty`` to define the party for your route. See [[INSERT LINK HERE]].
+    True if this Story Mode is the party. In general, you should instead use ``TheParty`` to define the party for your route. See :ref:`The Party`.
 
     e.g. False
 
@@ -248,7 +248,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. r
 
 `plot_branch`
-    Optional. Indicates that there should be a plot branch after this story call. See [[INSERT LINK HERE]] for more on plot branches.
+    Optional. Indicates that there should be a plot branch after this story call. See :ref:`Plot Branches` for more on plot branches.
 
     e.g. PlotBranch(False)
 
@@ -269,7 +269,7 @@ Then the expired label should be located at
 
     label my_first_story_call_expired:
 
-Typically, an expired story call is treated as though the caller phoned the player and left a voicemail. For more on expired story calls and real-time mode, see [[INSERT LINK HERE]].
+Typically, an expired story call is treated as though the caller phoned the player and left a voicemail. For more on expired story calls and real-time mode, see :ref:`Expired Timeline Items and Real-Time Mode`.
 
 The Party
 -------------
@@ -407,6 +407,55 @@ This defines a special New Year's Eve Route with endings for five of the charact
 
 Both ``route_setup.rpy`` and ``route_example.rpy`` have definitions of Routes and their associated branching paths so you can get an idea of how routes are defined.
 
+Expired Timeline Items and Real-Time Mode
+===========================================
+
+In this program, you can switch between two different play styles: real-time, and sequential. Sequential is currently the default. You can toggle real-time from the **Developer** settings button in the chat home screen or on the main menu.
+
+In sequential mode, timeline items unlock sequentially. In other words, once you finish a timeline item like a chatroom, the next one will automatically unlock. Chatrooms and story calls don't expire unless you back out of them (aka hitting the Back arrow while in an active chatroom or hanging up in the middle of a story call), and you can proceed through the story regardless of what the current real-life time is.
+
+In real-time mode, timeline items unlock based on the current time. You also have the option to buy the next 24 hours' worth of timeline items in advance. If an old chatroom or story call has not been viewed before a new one unlocks it will expire, and you will miss any incoming calls that were triggered to occur after the now-expired item (though you can usually call the characters back).
+
+Each chatroom and story call you create should have both a "regular" version and an "expired" version. The expired version is the version the player will play through if the item has expired and they have not bought it back. Generally this means the player will not have the opportunity to participate in the chatroom or make choices, and expired story calls function as though the caller left the player a voice message.
+
+To create an expired timeline item, simply take the name of the regular item's label and add `_expired`. So, if your chatroom has the label
+
+```renpy
+label mychat:
+```
+
+then the expired chatroom should have the label
+
+```renpy
+label mychat_expired:
+```
+
+The rest can be filled out as any other chatroom.
+
+.. note::
+    Story Mode sections, standalone or attached, do not expire even in real-time mode. However, if its time has already passed, any associated text messages *will* be delivered and associated phone calls will either be missed or require the player to call the character back. The difference is that there is no expired version of story mode sections; they will always play out the same way.
+
+Backing out vs. real-time expiry
+----------------------------------
+
+There are two different ways for timeline items to expire: first, items expire if you are playing in real-time and miss playing an item before the next one triggers. Second, items expire if you use the back arrow during a chatroom you haven't seen before or if you hang up in the middle of a story call.
+
+In the first case (expiry due to real-time mode being active), the following will happen:
+
+* You will receive a missed call from any character who was going to call you after the expired item. You can call that character back to receive that conversation.
+* Any text messages that would have been delivered after the item will be automatically delivered to your inbox
+* Any outgoing calls that were to be made available after the item will be made available
+
+Note that phone calls will "time out" two timeline items after they were set to appear. So, for example, say you have three chatrooms: A, B, and C. Emma is supposed to call you after chatroom A. If chatroom B becomes available before you've seen chatroom A, then chatroom A will expire and you will receive a missed phone call from Emma. You can call Emma back to receive this phone call up until chatroom C becomes available, at which point that phone call will become unavailable and you won't be able to call Emma back to get that conversation anymore.
+
+In the second case, where the player backs out of an active chatroom or hangs up in the middle of a story call and causes it to expire, the following will happen:
+
+* Any incoming calls that would have been triggered after the item are instead turned into outgoing calls, **though the player receives no missed call notification**
+* Any text messages that would have been delivered after the item will be automatically delivered to your inbox
+* Any outgoing calls that were to be made available after the item will be made available
+
+As you can see, the only real difference is in the first point. Incoming phone conversations will still be available, but you will not receive a missed call notification for it.
+
 
 Ending a Route
 ==============
@@ -456,7 +505,7 @@ Now that you have your route defined, you can customize the route select screen 
 .. warning::
     Even if you don't want an introduction and just want to take the player directly to the home screen, you **must still** create an introduction label. This label includes important instructions to set up the route properly.
 
-See [[INSERT LINK HERE]] for more information on how to write your introduction and set up the route. The important part here is the name of the label, which will be used for the button on the route select screen.
+See :ref:`` for more information on how to write your introduction and set up the route. The important part here is the name of the label, which will be used for the button on the route select screen.
 
 Mysterious Messenger has a special screen called ``custom_route_select_screen``, found inside the file ``screens_custom_route_select.rpy``. Inside the **Developer** settings found on the main menu on on the home screen after loading a game, there is an option called **Use custom route select screen**. Checking this option will cause the game to use the ``custom_route_select_screen`` instead of the default version (which contains buttons for Tutorial Day and Casual Story).
 
