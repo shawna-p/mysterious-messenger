@@ -436,6 +436,29 @@ The rest can be filled out as any other chatroom.
 .. note::
     Story Mode sections, standalone or attached, do not expire even in real-time mode. However, if its time has already passed, any associated text messages *will* be delivered and associated phone calls will either be missed or require the player to call the character back. The difference is that there is no expired version of story mode sections; they will always play out the same way.
 
+Changing Content If Expired
+----------------------------
+
+Besides the ``_expired``-style labels for story calls and chatrooms, there is also a special variable called ``was_expired`` which can be used to modify content depending on whether the associated timeline item was expired or not. For example, in the ``after_`` label for a chatroom, you can check if the player missed the chat or not and change the resulting content accordingly::
+
+    label after_my_chatroom():
+        if was_expired:
+            # The player played the chatroom after it expired and missed it
+            compose text s:
+                s "[name]..."
+                s "I missed u in the chat lol"
+                s "What were you up to?"
+                label my_chatroom_s_text_msg
+        else:
+            compose text s:
+                s "lolol ur so funny in the chatrooms [name] lolol"
+                s "u should come by more often~"
+        return
+
+If the player did not play through the ``my_chatroom`` label, 707 will send the first set of text messages. If the player *did* play this chatroom, however, they will instead see the second set of text messages.
+
+You can see an example of this in ``tutorial_11_story_call.rpy``.
+
 Backing out vs. real-time expiry
 ----------------------------------
 
