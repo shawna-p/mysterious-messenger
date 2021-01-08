@@ -407,6 +407,7 @@ This defines a special New Year's Eve Route with endings for five of the charact
 
 Both ``route_setup.rpy`` and ``route_example.rpy`` have definitions of Routes and their associated branching paths so you can get an idea of how routes are defined.
 
+
 Expired Timeline Items and Real-Time Mode
 ===========================================
 
@@ -691,3 +692,217 @@ Finally, if the player hasn't gone through the Good End on Tutorial Day, they sh
 However, if the player *hasn't* seen the Good End, the button will not light up (``hover_foreground None``), and the special action ``CConfirm`` is used. ``CConfirm`` shows a confirmation prompt to the user with the given message. In this case, it tells the player that they cannot access this route until they've played the Good End on Tutorial Day.
 
 You could leave the ``else`` out altogether, which would cause the button to be inactive if the player hasn't played the Good End, but including it helps the player understand why they can't play this route yet and what they have to do to unlock it.
+
+
+Creating an Introduction
+=========================
+
+Now that you have a button on the route select screen that leads to your new route, you may want to have an "introduction" to the route before the player is taken to the home screen. At the very least, your introduction label needs a few lines to finish setting up the route before it takes the player to the home screen.
+
+The introduction functions a bit differently from writing a regular chatroom/phone call/story mode/etc, so it's recommended you have a good grasp of how to create regular timeline items before you work on a custom introduction.
+
+Essential Setup Functions
+--------------------------
+
+Everything for the introduction will go inside the label name you gave the ``Start()`` action. So, for the above examples on the page, the button on the route select screen had an action of ``Start('example_casual_start')``, which means the label for the introduction is ``example_casual_start``.
+
+For this example, the introduction to the New Year's Route from the :ref:`Plot Branches` page will be created. Its definition is below::
+
+    default new_years_route = Route(
+        default_branch=new_years_normal_end,
+        branch_list=[new_years_ju, new_years_ja,
+            new_years_s, new_years_y, new_years_z],
+        route_history_title="New Year's",
+        history_background="Menu Screens/Main Menu/new_years_route_bg.webp"
+    )
+
+
+Assume there is a button with the action ``Start("new_years_intro")``::
+
+    label new_years_intro():
+
+        $ new_route_setup(route=new_years_route, participants=[ja, ju, z])
+
+``new_route_setup`` tells the program which route to set up for the player. In this case, you are setting up the New Year's Route, which was defined in the variable ``new_years_route``. That variable is passed to ``new_route_setup``.
+
+There is also a second parameter, ``participants``. This is given a list of the characters who should start in the introductory chatroom. This is optional; if omitted, no one begins in the chatroom.
+
+.. note::
+    The introduction is assumed to be a chatroom unless otherwise indicated.
+
+Next, you may want to adjust some of the variables for this route. For the New Year's Route, only the characters ``ja``, ``ju``, ``s``, ``y``, and ``z`` should have profiles on the home screen and contacts in the phone's contacts list. By default, ``v``, ``r``, and ``ri`` are included in the character list, so you will need to tell the program to not include them.
+
+::
+
+    label new_years_intro():
+
+        $ new_route_setup(route=new_years_route, participants=[ja, ju, z])
+        $ character_list = [ju, z, s, y, ja, m]
+
+This tells the program which characters are included on the home screen.
+
+Similarly, you may want to set which characters show up on the Profile screen with an indicator of their collected heart points. Since the New Year's route only has endings for ``ja``, ``ju``, ``s``, ``y``, and ``z``, you should set up the ``heart_point_chars`` list to reflect this::
+
+    label new_years_intro():
+
+        $ new_route_setup(route=new_years_route, participants=[ja, ju, z])
+        $ character_list = [ju, z, s, y, ja, m]
+        $ heart_point_chars = [ju, z, s, y, ja]
+
+Like the ``character_list``, by default ``v``, ``r``, and ``ri`` are normally included in this list, so you will need to specify if the list should include or exclude some of these characters.
+
+Next, you should decide whether this route will include paraphrased choices or not. For more information, see :ref:`Paraphrased Choices`. You will set this up here in the introduction label::
+
+    label new_years_intro():
+
+        $ new_route_setup(route=new_years_route, participants=[ja, ju, z])
+        $ character_list = [ju, z, s, y, ja, m]
+        $ heart_point_chars = [ju, z, s, y, ja]
+        $ paraphrase_choices = False
+
+This should be ``False`` if you want the main character to directly say the dialogue in the choices, and ``True`` if you want to always type out what dialogue should be said after a choice.
+
+Finally, you may want to set up a particular profile picture callback function for the main character. See :ref:`Profile Picture Callbacks` for more information. If so, set the variable ``mc_pfp_callback`` to the name of your callback function::
+
+    label new_years_intro():
+
+        $ new_route_setup(route=new_years_route, participants=[ja, ju, z])
+        $ character_list = [ju, z, s, y, ja, m]
+        $ heart_point_chars = [ju, z, s, y, ja]
+        $ paraphrase_choices = False
+        $ mc_pfp_callback = bonus_pfp_dialogue
+
+Now that the main variables for your introduction are set up, you can begin writing the actual introduction or jump directly to the home screen without further ado.
+
+If your introduction is a chatroom, you can set up the background with a ``scene`` statement and write the chatroom as normal, including heart icons, choice menus, and more. The introduction should end with a ``return`` statement. If you would like to include a phone call or story mode section in your introduction, this is handled differently (see below).
+
+Leaving out the Introduction
+-----------------------------
+
+While you *must* include the line ``$ new_route_setup(route=your_route)`` where ``your_route`` is replaced with the variable name of your actual route, you do not actually need an introduction in order to begin your route. Simply include the line ``jump skip_intro_setup`` at the end of your introduction label::
+
+    label new_years_intro():
+
+        $ new_route_setup(route=new_years_route, participants=[ja, ju, z])
+        $ character_list = [ju, z, s, y, ja, m]
+        $ heart_point_chars = [ju, z, s, y, ja]
+        $ paraphrase_choices = False
+        $ mc_pfp_callback = bonus_pfp_dialogue
+
+        jump skip_intro_setup
+
+This will set up the necessary variables and then jump immediately to the home screen to begin the route.
+
+Additional Introduction Features
+---------------------------------
+
+For the introduction of your route, you may want to include a combination of features such as phone calls, chatrooms, and story mode. In order to switch between these features, you must use special calls and functions to set up the screens properly.
+
+Including an Incoming Call
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To include an incoming call, use the line::
+
+    call new_incoming_call(u)
+
+where ``u`` is the ChatCharacter variable of the character who is phoning the player. This will cause that character to phone the player. The player is unable to "miss" this call and must answer it to proceed. You can then write the phone dialogue as you normally would.
+
+If you would then like to switch from the phone call to a chatroom or story mode, you must include special calls to set up the appropriate variables.
+
+Including a Story Mode
+^^^^^^^^^^^^^^^^^^^^^^^
+
+If you would like to begin with a story mode section, or switch to story mode after a phone call, you must use the line::
+
+    call vn_begin()
+
+to set up the appropriate variables. You can then write dialogue and show character portraits the way you normally would during a story mode section.
+
+If you'd like to switch to story mode in the middle of a chatroom, see instead :ref:`Including a Story Mode During a Chatroom`.
+
+Including a Chatroom with Other Features
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you begin your introduction with a phone call or a story mode and want to return to and/or end on a chatroom, you must include the line::
+
+    call chat_begin('morning')
+
+to set up the appropriate chatroom variables. ``'morning'`` should be the name of the background you are setting up.
+
+Introduction Example
+---------------------
+
+For example, an introduction which combines several elements into one introduction may look as follows::
+
+    label my_new_route_intro():
+
+        $ new_route_setup(route=my_new_route)
+        $ character_list = [ju, z, s, y, ja, m]
+        $ heart_point_chars = [ju, z, s, y, ja]
+
+        # First, this should begin with a Story Mode section
+        call vn_begin()
+        scene bg hallway with fade
+        pause
+        "(My phone is ringing)"
+        menu (paraphrased=True):
+            extend ''
+            "Answer it.":
+                call new_incoming_call(u)
+            "Ignore it.":
+                "(The phone goes silent)"
+                show saeran mask
+                u "Oh? You're not going to answer that?"
+                u "Hmm, that's too bad."
+                u happy "Well, nothing to be had for it. You need to come with me."
+                # This will end the route with the 'Bad Ending' screen
+                $ ending = 'bad'
+                return
+
+        # This is now the beginning of the phone call
+        u "Haha, I can't believe you picked up."
+        u "Um, I need you to do a favour for me. Can you do that?"
+
+        menu:
+            extend ''
+            "Sure, I guess.":
+                u "Great! That's so great. Alright, I'll send you some instructions over the messenger."
+                u "Don't worry if you see some flashy effects or anything."
+                u "That just means you're getting access."
+
+        # Show a chatroom
+        call chat_begin('hack')
+        show hack effect
+        scene hack
+        enter chatroom u
+        u "Hello~"
+        u "Thanks for coming."
+        u "I need a favour from you, like I said in the phone call."
+        u "You're in an apartment hallway, right?"
+        u "There's a door there that says \"RFA\" on the handle."
+        u "Type in the password 58439. Okay? It should open."
+
+        # Jump to story mode during the chatroom
+        call vn_during_chat("unlock_apt_door")
+        # Returned to the chatroom
+        m "It's open."
+        u "Yay!"
+        u "All right, see you soon~"
+        return
+
+    # This is the label the program jumps to for the story mode
+    # that is in the middle of a chatroom for the introduction.
+    label unlock_apt_door():
+        scene bg hallway with fade
+        pause
+        menu (paraphrased=True):
+            "(Approach the door)":
+                pass
+        scene bg rika_door_closed with fade
+        pause
+        menu (paraphrased=True):
+            "(Type in the password)":
+                pass
+        scene bg rika_door_open with dissolve
+        pause
+        return # Takes the player back to the chatroom
