@@ -1493,10 +1493,13 @@ label execute_plot_branch():
 ## Label which shows the ending screen of the route and returns the player
 ## to the main menu
 label end_route():
-    if isinstance(current_timeline_item, ChatRoom):
+    $ is_chat = False
+    if isinstance(current_timeline_item, ChatRoom) and not (starter_story
+            and (vn_choice or in_phone_call)):
         call screen save_and_exit()
+        $ is_chat = True
     if not isinstance(current_timeline_item, StoryCall):
-        call screen signature_screen(isinstance(current_timeline_item, ChatRoom))
+        call screen signature_screen(is_chat)
 
     $ reset_story_vars()
     $ finish_timeline_item(current_timeline_item, deliver_messages=False)
@@ -1519,12 +1522,12 @@ label end_prologue():
         $ chat = True
     else:
         $ chat = False
-    $ print_file("*********** End timeline item checks")
+    if ending is not None:
+        jump end_route
     $ end_timeline_item_checks()
     if chat:
         call screen save_and_exit()
     call screen signature_screen(chat)
-    $ print_file("*********** Finish timeline item checks")
     $ finish_timeline_item(current_timeline_item)
     $ starter_story = False
     $ check_and_unlock_story()
