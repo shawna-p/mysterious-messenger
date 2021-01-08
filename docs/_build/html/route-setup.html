@@ -111,6 +111,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-route">Setting up the Route</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#expired-timeline-items-and-real-time-mode">Expired Timeline Items and Real-Time Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#changing-content-if-expired">Changing Content If Expired</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#backing-out-vs-real-time-expiry">Backing out vs. real-time expiry</a></li>
 </ul>
 </li>
@@ -222,6 +223,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#setting-up-the-route">Setting up the Route</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#expired-timeline-items-and-real-time-mode">Expired Timeline Items and Real-Time Mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#changing-content-if-expired">Changing Content If Expired</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#backing-out-vs-real-time-expiry">Backing out vs. real-time expiry</a></li>
 </ul>
 </li>
@@ -574,6 +576,27 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Story Mode sections, standalone or attached, do not expire even in real-time mode. However, if its time has already passed, any associated text messages <em>will</em> be delivered and associated phone calls will either be missed or require the player to call the character back. The difference is that there is no expired version of story mode sections; they will always play out the same way.</p>
+</div>
+<div class="section" id="changing-content-if-expired">
+<h3>Changing Content If Expired<a class="headerlink" href="#changing-content-if-expired" title="Permalink to this headline">¶</a></h3>
+<p>Besides the <code class="docutils literal notranslate"><span class="pre">_expired</span></code>-style labels for story calls and chatrooms, there is also a special variable called <code class="docutils literal notranslate"><span class="pre">was_expired</span></code> which can be used to modify content depending on whether the associated timeline item was expired or not. For example, in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label for a chatroom, you can check if the player missed the chat or not and change the resulting content accordingly:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">after_my_chatroom</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">was_expired</span><span class="p">:</span>
+        <span class="c1"># The player played the chatroom after it expired and missed it</span>
+        <span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
+            <span class="n">s</span> <span class="s2">&quot;[name]...&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;I missed u in the chat lol&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;What were you up to?&quot;</span>
+            <span class="k">label</span> <span class="n">my_chatroom_s_text_msg</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
+            <span class="n">s</span> <span class="s2">&quot;lolol ur so funny in the chatrooms [name] lolol&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;u should come by more often~&quot;</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>If the player did not play through the <code class="docutils literal notranslate"><span class="pre">my_chatroom</span></code> label, 707 will send the first set of text messages. If the player <em>did</em> play this chatroom, however, they will instead see the second set of text messages.</p>
+<p>You can see an example of this in <code class="docutils literal notranslate"><span class="pre">tutorial_11_story_call.rpy</span></code>.</p>
 </div>
 <div class="section" id="backing-out-vs-real-time-expiry">
 <h3>Backing out vs. real-time expiry<a class="headerlink" href="#backing-out-vs-real-time-expiry" title="Permalink to this headline">¶</a></h3>
