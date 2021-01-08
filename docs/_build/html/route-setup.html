@@ -120,6 +120,18 @@
 <li class="toctree-l3"><a class="reference internal" href="#unlockable-routes">Unlockable Routes</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-an-introduction">Creating an Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#essential-setup-functions">Essential Setup Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#leaving-out-the-introduction">Leaving out the Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-introduction-features">Additional Introduction Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#including-an-incoming-call">Including an Incoming Call</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#including-a-story-mode">Including a Story Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#including-a-chatroom-with-other-features">Including a Chatroom with Other Features</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#introduction-example">Introduction Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plot-branches.html">Plot Branches</a></li>
@@ -217,6 +229,18 @@
 <li class="toctree-l2"><a class="reference internal" href="#customizing-the-route-select-screen">Customizing the Route Select Screen</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#providing-multiple-routes">Providing Multiple Routes</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#unlockable-routes">Unlockable Routes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-an-introduction">Creating an Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#essential-setup-functions">Essential Setup Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#leaving-out-the-introduction">Leaving out the Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#additional-introduction-features">Additional Introduction Features</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#including-an-incoming-call">Including an Incoming Call</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#including-a-story-mode">Including a Story Mode</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#including-a-chatroom-with-other-features">Including a Chatroom with Other Features</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#introduction-example">Introduction Example</a></li>
 </ul>
 </li>
 </ul>
@@ -783,6 +807,200 @@
 <p>Finally, if the player hasn’t gone through the Good End on Tutorial Day, they shouldn’t be able to play Casual Story yet, so there is another conditional statement with the action inside it. If the player has seen the Good End, the game will start at the label <code class="docutils literal notranslate"><span class="pre">example_casual_start</span></code>.</p>
 <p>However, if the player <em>hasn’t</em> seen the Good End, the button will not light up (<code class="docutils literal notranslate"><span class="pre">hover_foreground</span> <span class="pre">None</span></code>), and the special action <code class="docutils literal notranslate"><span class="pre">CConfirm</span></code> is used. <code class="docutils literal notranslate"><span class="pre">CConfirm</span></code> shows a confirmation prompt to the user with the given message. In this case, it tells the player that they cannot access this route until they’ve played the Good End on Tutorial Day.</p>
 <p>You could leave the <code class="docutils literal notranslate"><span class="pre">else</span></code> out altogether, which would cause the button to be inactive if the player hasn’t played the Good End, but including it helps the player understand why they can’t play this route yet and what they have to do to unlock it.</p>
+</div>
+</div>
+<div class="section" id="creating-an-introduction">
+<h2>Creating an Introduction<a class="headerlink" href="#creating-an-introduction" title="Permalink to this headline">¶</a></h2>
+<p>Now that you have a button on the route select screen that leads to your new route, you may want to have an “introduction” to the route before the player is taken to the home screen. At the very least, your introduction label needs a few lines to finish setting up the route before it takes the player to the home screen.</p>
+<p>The introduction functions a bit differently from writing a regular chatroom/phone call/story mode/etc, so it’s recommended you have a good grasp of how to create regular timeline items before you work on a custom introduction.</p>
+<div class="section" id="essential-setup-functions">
+<h3>Essential Setup Functions<a class="headerlink" href="#essential-setup-functions" title="Permalink to this headline">¶</a></h3>
+<p>Everything for the introduction will go inside the label name you gave the <code class="docutils literal notranslate"><span class="pre">Start()</span></code> action. So, for the above examples on the page, the button on the route select screen had an action of <code class="docutils literal notranslate"><span class="pre">Start('example_casual_start')</span></code>, which means the label for the introduction is <code class="docutils literal notranslate"><span class="pre">example_casual_start</span></code>.</p>
+<p>For this example, the introduction to the New Year’s Route from the <a class="reference internal" href="plot-branches.html#plot-branches"><span class="std std-ref">Plot Branches</span></a> page will be created. Its definition is below:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">new_years_route</span> <span class="o">=</span> <span class="n">Route</span><span class="p">(</span>
+    <span class="n">default_branch</span><span class="o">=</span><span class="n">new_years_normal_end</span><span class="p">,</span>
+    <span class="n">branch_list</span><span class="o">=</span><span class="p">[</span><span class="n">new_years_ju</span><span class="p">,</span> <span class="n">new_years_ja</span><span class="p">,</span>
+        <span class="n">new_years_s</span><span class="p">,</span> <span class="n">new_years_y</span><span class="p">,</span> <span class="n">new_years_z</span><span class="p">],</span>
+    <span class="n">route_history_title</span><span class="o">=</span><span class="s2">&quot;New Year&#39;s&quot;</span><span class="p">,</span>
+    <span class="n">history_background</span><span class="o">=</span><span class="s2">&quot;Menu Screens/Main Menu/new_years_route_bg.webp&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Assume there is a button with the action <code class="docutils literal notranslate"><span class="pre">Start(&quot;new_years_intro&quot;)</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_intro</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">new_route_setup</span></code> tells the program which route to set up for the player. In this case, you are setting up the New Year’s Route, which was defined in the variable <code class="docutils literal notranslate"><span class="pre">new_years_route</span></code>. That variable is passed to <code class="docutils literal notranslate"><span class="pre">new_route_setup</span></code>.</p>
+<p>There is also a second parameter, <code class="docutils literal notranslate"><span class="pre">participants</span></code>. This is given a list of the characters who should start in the introductory chatroom. This is optional; if omitted, no one begins in the chatroom.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The introduction is assumed to be a chatroom unless otherwise indicated.</p>
+</div>
+<p>Next, you may want to adjust some of the variables for this route. For the New Year’s Route, only the characters <code class="docutils literal notranslate"><span class="pre">ja</span></code>, <code class="docutils literal notranslate"><span class="pre">ju</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code> should have profiles on the home screen and contacts in the phone’s contacts list. By default, <code class="docutils literal notranslate"><span class="pre">v</span></code>, <code class="docutils literal notranslate"><span class="pre">r</span></code>, and <code class="docutils literal notranslate"><span class="pre">ri</span></code> are included in the character list, so you will need to tell the program to not include them.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_intro</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This tells the program which characters are included on the home screen.</p>
+<p>Similarly, you may want to set which characters show up on the Profile screen with an indicator of their collected heart points. Since the New Year’s route only has endings for <code class="docutils literal notranslate"><span class="pre">ja</span></code>, <code class="docutils literal notranslate"><span class="pre">ju</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code>, you should set up the <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> list to reflect this:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_intro</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Like the <code class="docutils literal notranslate"><span class="pre">character_list</span></code>, by default <code class="docutils literal notranslate"><span class="pre">v</span></code>, <code class="docutils literal notranslate"><span class="pre">r</span></code>, and <code class="docutils literal notranslate"><span class="pre">ri</span></code> are normally included in this list, so you will need to specify if the list should include or exclude some of these characters.</p>
+<p>Next, you should decide whether this route will include paraphrased choices or not. For more information, see <a class="reference internal" href="miscellaneous.html#paraphrased-choices"><span class="std std-ref">Paraphrased Choices</span></a>. You will set this up here in the introduction label:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_intro</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">paraphrase_choices</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+<p>This should be <code class="docutils literal notranslate"><span class="pre">False</span></code> if you want the main character to directly say the dialogue in the choices, and <code class="docutils literal notranslate"><span class="pre">True</span></code> if you want to always type out what dialogue should be said after a choice.</p>
+<p>Finally, you may want to set up a particular profile picture callback function for the main character. See <a class="reference internal" href="miscellaneous.html#profile-picture-callbacks"><span class="std std-ref">Profile Picture Callbacks</span></a> for more information. If so, set the variable <code class="docutils literal notranslate"><span class="pre">mc_pfp_callback</span></code> to the name of your callback function:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_intro</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">paraphrase_choices</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">$</span> <span class="n">mc_pfp_callback</span> <span class="o">=</span> <span class="n">bonus_pfp_dialogue</span>
+</pre></div>
+</div>
+<p>Now that the main variables for your introduction are set up, you can begin writing the actual introduction or jump directly to the home screen without further ado.</p>
+<p>If your introduction is a chatroom, you can set up the background with a <code class="docutils literal notranslate"><span class="pre">scene</span></code> statement and write the chatroom as normal, including heart icons, choice menus, and more. The introduction should end with a <code class="docutils literal notranslate"><span class="pre">return</span></code> statement. If you would like to include a phone call or story mode section in your introduction, this is handled differently (see below).</p>
+</div>
+<div class="section" id="leaving-out-the-introduction">
+<h3>Leaving out the Introduction<a class="headerlink" href="#leaving-out-the-introduction" title="Permalink to this headline">¶</a></h3>
+<p>While you <em>must</em> include the line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">new_route_setup(route=your_route)</span></code> where <code class="docutils literal notranslate"><span class="pre">your_route</span></code> is replaced with the variable name of your actual route, you do not actually need an introduction in order to begin your route. Simply include the line <code class="docutils literal notranslate"><span class="pre">jump</span> <span class="pre">skip_intro_setup</span></code> at the end of your introduction label:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_intro</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">new_years_route</span><span class="p">,</span> <span class="n">participants</span><span class="o">=</span><span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">paraphrase_choices</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">$</span> <span class="n">mc_pfp_callback</span> <span class="o">=</span> <span class="n">bonus_pfp_dialogue</span>
+
+    <span class="k">jump</span> <span class="n">skip_intro_setup</span>
+</pre></div>
+</div>
+<p>This will set up the necessary variables and then jump immediately to the home screen to begin the route.</p>
+</div>
+<div class="section" id="additional-introduction-features">
+<h3>Additional Introduction Features<a class="headerlink" href="#additional-introduction-features" title="Permalink to this headline">¶</a></h3>
+<p>For the introduction of your route, you may want to include a combination of features such as phone calls, chatrooms, and story mode. In order to switch between these features, you must use special calls and functions to set up the screens properly.</p>
+<div class="section" id="including-an-incoming-call">
+<h4>Including an Incoming Call<a class="headerlink" href="#including-an-incoming-call" title="Permalink to this headline">¶</a></h4>
+<p>To include an incoming call, use the line:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">new_incoming_call</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">u</span></code> is the ChatCharacter variable of the character who is phoning the player. This will cause that character to phone the player. The player is unable to “miss” this call and must answer it to proceed. You can then write the phone dialogue as you normally would.</p>
+<p>If you would then like to switch from the phone call to a chatroom or story mode, you must include special calls to set up the appropriate variables.</p>
+</div>
+<div class="section" id="including-a-story-mode">
+<h4>Including a Story Mode<a class="headerlink" href="#including-a-story-mode" title="Permalink to this headline">¶</a></h4>
+<p>If you would like to begin with a story mode section, or switch to story mode after a phone call, you must use the line:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">vn_begin</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>to set up the appropriate variables. You can then write dialogue and show character portraits the way you normally would during a story mode section.</p>
+<p>If you’d like to switch to story mode in the middle of a chatroom, see instead <a class="reference internal" href="story-mode.html#including-a-story-mode-during-a-chatroom"><span class="std std-ref">Including a Story Mode During a Chatroom</span></a>.</p>
+</div>
+<div class="section" id="including-a-chatroom-with-other-features">
+<h4>Including a Chatroom with Other Features<a class="headerlink" href="#including-a-chatroom-with-other-features" title="Permalink to this headline">¶</a></h4>
+<p>If you begin your introduction with a phone call or a story mode and want to return to and/or end on a chatroom, you must include the line:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s1">&#39;morning&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>to set up the appropriate chatroom variables. <code class="docutils literal notranslate"><span class="pre">'morning'</span></code> should be the name of the background you are setting up.</p>
+</div>
+</div>
+<div class="section" id="introduction-example">
+<h3>Introduction Example<a class="headerlink" href="#introduction-example" title="Permalink to this headline">¶</a></h3>
+<p>For example, an introduction which combines several elements into one introduction may look as follows:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_new_route_intro</span><span class="p">():</span>
+
+    <span class="k">$</span> <span class="n">new_route_setup</span><span class="p">(</span><span class="n">route</span><span class="o">=</span><span class="n">my_new_route</span><span class="p">)</span>
+    <span class="k">$</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">m</span><span class="p">]</span>
+    <span class="k">$</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">]</span>
+
+    <span class="c1"># First, this should begin with a Story Mode section</span>
+    <span class="k">call</span> <span class="n">vn_begin</span><span class="p">()</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">hallway</span> <span class="k">with</span> <span class="n">fade</span>
+    <span class="k">pause</span>
+    <span class="s2">&quot;(My phone is ringing)&quot;</span>
+    <span class="k">menu</span> <span class="p">(</span><span class="n">paraphrased</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">extend</span> <span class="s1">&#39;&#39;</span>
+        <span class="s2">&quot;Answer it.&quot;</span><span class="p">:</span>
+            <span class="k">call</span> <span class="n">new_incoming_call</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+        <span class="s2">&quot;Ignore it.&quot;</span><span class="p">:</span>
+            <span class="s2">&quot;(The phone goes silent)&quot;</span>
+            <span class="k">show</span> <span class="n">saeran</span> <span class="n">mask</span>
+            <span class="n">u</span> <span class="s2">&quot;Oh? You&#39;re not going to answer that?&quot;</span>
+            <span class="n">u</span> <span class="s2">&quot;Hmm, that&#39;s too bad.&quot;</span>
+            <span class="n">u</span> <span class="n">happy</span> <span class="s2">&quot;Well, nothing to be had for it. You need to come with me.&quot;</span>
+            <span class="c1"># This will end the route with the &#39;Bad Ending&#39; screen</span>
+            <span class="k">$</span> <span class="n">ending</span> <span class="o">=</span> <span class="s1">&#39;bad&#39;</span>
+            <span class="k">return</span>
+
+    <span class="c1"># This is now the beginning of the phone call</span>
+    <span class="n">u</span> <span class="s2">&quot;Haha, I can&#39;t believe you picked up.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;Um, I need you to do a favour for me. Can you do that?&quot;</span>
+
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="n">extend</span> <span class="s1">&#39;&#39;</span>
+        <span class="s2">&quot;Sure, I guess.&quot;</span><span class="p">:</span>
+            <span class="n">u</span> <span class="s2">&quot;Great! That&#39;s so great. Alright, I&#39;ll send you some instructions over the messenger.&quot;</span>
+            <span class="n">u</span> <span class="s2">&quot;Don&#39;t worry if you see some flashy effects or anything.&quot;</span>
+            <span class="n">u</span> <span class="s2">&quot;That just means you&#39;re getting access.&quot;</span>
+
+    <span class="c1"># Show a chatroom</span>
+    <span class="k">call</span> <span class="n">chat_begin</span><span class="p">(</span><span class="s1">&#39;hack&#39;</span><span class="p">)</span>
+    <span class="k">show</span> <span class="n">hack</span> <span class="n">effect</span>
+    <span class="k">scene</span> <span class="n">hack</span>
+    <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">u</span>
+    <span class="n">u</span> <span class="s2">&quot;Hello~&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;Thanks for coming.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;I need a favour from you, like I said in the phone call.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;You&#39;re in an apartment hallway, right?&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;There&#39;s a door there that says </span><span class="se">\&quot;</span><span class="s2">RFA</span><span class="se">\&quot;</span><span class="s2"> on the handle.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;Type in the password 58439. Okay? It should open.&quot;</span>
+
+    <span class="c1"># Jump to story mode during the chatroom</span>
+    <span class="k">call</span> <span class="n">vn_during_chat</span><span class="p">(</span><span class="s2">&quot;unlock_apt_door&quot;</span><span class="p">)</span>
+    <span class="c1"># Returned to the chatroom</span>
+    <span class="n">m</span> <span class="s2">&quot;It&#39;s open.&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;Yay!&quot;</span>
+    <span class="n">u</span> <span class="s2">&quot;All right, see you soon~&quot;</span>
+    <span class="k">return</span>
+
+<span class="c1"># This is the label the program jumps to for the story mode</span>
+<span class="c1"># that is in the middle of a chatroom for the introduction.</span>
+<span class="k">label</span> <span class="n">unlock_apt_door</span><span class="p">():</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">hallway</span> <span class="k">with</span> <span class="n">fade</span>
+    <span class="k">pause</span>
+    <span class="k">menu</span> <span class="p">(</span><span class="n">paraphrased</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="s2">&quot;(Approach the door)&quot;</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_door_closed</span> <span class="k">with</span> <span class="n">fade</span>
+    <span class="k">pause</span>
+    <span class="k">menu</span> <span class="p">(</span><span class="n">paraphrased</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="s2">&quot;(Type in the password)&quot;</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_door_open</span> <span class="k">with</span> <span class="n">dissolve</span>
+    <span class="k">pause</span>
+    <span class="k">return</span> <span class="c1"># Takes the player back to the chatroom</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
