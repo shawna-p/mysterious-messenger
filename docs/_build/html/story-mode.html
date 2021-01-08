@@ -286,7 +286,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">ringtone</span> <span class="n">nocaption</span>
 </pre></div>
 </div>
-<p>For accessibility purposes, most audio should have a caption, so this option should be used sparingly. Previously defined audio captions can be found in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. To learn about adding your own audio, see <a class="reference internal" href="miscellaneous.html#adding-new-audio"><span class="std std-ref">Adding New Audio</span></a>.</p>
+<p>For accessibility purposes, most audio should have a caption, so this option should be used sparingly. Previously defined audio captions can be found in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. To learn about adding your own audio, see <a class="reference internal" href="old_documentation/Adding-new-Audio.html#adding-new-audio"><span class="std std-ref">Adding new Audio</span></a>.</p>
 </div>
 <div class="section" id="providing-choices">
 <h2>Providing Choices<a class="headerlink" href="#providing-choices" title="Permalink to this headline">¶</a></h2>
@@ -397,7 +397,7 @@
 </ul>
 <p><em>A brief overview of the steps required (more detail below):</em></p>
 <ol class="arabic">
-<li><p>Create a chatroom as you usually would (see <a class="reference internal" href="chatrooms.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>.</p></li>
+<li><p>Create a chatroom as you usually would (see <a class="reference internal" href="old_documentation/Creating-a-Chatroom.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>.</p></li>
 <li><p>When you want the story mode to interrupt the chatroom, use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat(&quot;name_of_story_mode_label&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">name_of_story_mode_label</span></code> is the name of the label where the program can find the associated story mode.</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -424,7 +424,7 @@
 <p>This section covers how to include a story mode section <strong>in the middle of a chatroom</strong>, such that the player will be viewing the chatroom and it will transition into a story mode section and back to the chatroom in the same “scene”.</p>
 <p>This is different from how Story Mode sections usually play out in-game; that is, first the player plays a chatroom, is returned to the timeline screen, and then must select the corresponding Story Mode section to proceed. If you are interested in the latter, see <a class="reference internal" href="route-setup.html#attached-story-mode"><span class="std std-ref">Attached Story Mode</span></a>.</p>
 </div>
-<p>First, you’ll begin by setting up a chatroom the way you usually would (see <a class="reference internal" href="chatrooms.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>). Next, wherever you would like to have the story mode appear and interrupt the chatroom, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat(&quot;my_vn_label&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">my_vn_label</span></code> is the name of the label you will be using for your story mode section.</p>
+<p>First, you’ll begin by setting up a chatroom the way you usually would (see <a class="reference internal" href="old_documentation/Creating-a-Chatroom.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>). Next, wherever you would like to have the story mode appear and interrupt the chatroom, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat(&quot;my_vn_label&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">my_vn_label</span></code> is the name of the label you will be using for your story mode section.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Be sure your mid-chatroom story mode label <strong>doesn’t</strong> follow one of the naming conventions for declaring an attached Story Mode – so, if your chatroom is at <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">my_chatroom</span></code>, then don’t call the mid-chatroom story mode <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">my_chatroom_vn</span></code> or the program will generate an attached Story Mode leading to that label!</p>

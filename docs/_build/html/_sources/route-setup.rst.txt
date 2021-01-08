@@ -506,7 +506,7 @@ Now that you have your route defined, you can customize the route select screen 
 .. warning::
     Even if you don't want an introduction and just want to take the player directly to the home screen, you **must still** create an introduction label. This label includes important instructions to set up the route properly.
 
-See :ref:`` for more information on how to write your introduction and set up the route. The important part here is the name of the label, which will be used for the button on the route select screen.
+See :ref:`Creating an Introduction` for more information on how to write your introduction and set up the route. The important part here is the name of the label, which will be used for the button on the route select screen.
 
 Mysterious Messenger has a special screen called ``custom_route_select_screen``, found inside the file ``screens_custom_route_select.rpy``. Inside the **Developer** settings found on the main menu on on the home screen after loading a game, there is an option called **Use custom route select screen**. Checking this option will cause the game to use the ``custom_route_select_screen`` instead of the default version (which contains buttons for Tutorial Day and Casual Story).
 
