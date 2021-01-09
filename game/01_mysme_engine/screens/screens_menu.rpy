@@ -1582,18 +1582,24 @@ screen chara_profile(who):
                 yalign 0.95
                 text who.status style "profile_status"
 
-## Screen that lets you choose a profile picture for a character
-screen pick_chara_pfp(who):
-    modal True
-    python:
+init python:
+    def get_pfp_list(who):
+        """Get the appropriate profile picture list for who, if it exists."""
         try:
-            if who == sa:
-                who = r
+            if who == store.sa:
+                who = store.r
             pfp_list = getattr(store, who.file_id + '_unlockable_pfps')
         except:
             print("ERROR: Could not find unlockable_pfps variable")
             pfp_list = []
-        num_rows = -(-(len(pfp_list)+1) // 4)
+        return pfp_list
+
+## Screen that lets you choose a profile picture for a character
+screen pick_chara_pfp(who):
+    modal True
+
+    default pfp_list = get_pfp_list(who)
+    default num_rows = -(-(len(pfp_list)+1) // 4)
 
     add "#000a"
     frame:
