@@ -245,7 +245,7 @@ default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.webp',
 
 # This list is used *specifically* to display characters you can see on the
 # main menu -- they have profiles and show up in your phone contacts
-default character_list = [ju, z, s, y, ja, v, m, r, ri]
+default character_list = [ju, z, s, y, ja, v, r, ri]
 # This is the list of characters who you can see your heart points for in the
 # Profile screen. Currently it is a duplicate of the above list, but without
 # 'm'. You could also write it as default heart_point_chars = [ju, ja, s, y, z]

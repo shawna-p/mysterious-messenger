@@ -1095,16 +1095,17 @@ screen chat_home(reshow=False):
         # Note that only characters in the list 'character_list' will
         # show up here as profile pictures
         python:
-            if len(character_list) > 6:
-                pfp_size = 95
-            elif len(character_list) > 5:
-                pfp_size = 105
-            else:
-                pfp_size = 115
             if m in character_list:
                 sub_num = 1
             else:
                 sub_num = 0
+            char_list_len = len(character_list) - sub_num + 1
+            if char_list_len > 6:
+                pfp_size = 95
+            elif char_list_len > 5:
+                pfp_size = 105
+            else:
+                pfp_size = 115
             num_col = (741-8-16-pfp_size) // pfp_size
             num_row = -(-(len(character_list)-sub_num) // num_col)
             extra_space = (741-8-8-pfp_size) - (num_col * pfp_size)
@@ -1155,7 +1156,7 @@ screen chat_home(reshow=False):
             button:
                 style_prefix 'small_menu_circle'
                 xalign 0.62
-                if len(character_list) > 10:
+                if char_list_len > 10:
                     yalign 0.2
                 else:
                     yalign 0.1
@@ -1175,7 +1176,7 @@ screen chat_home(reshow=False):
             button:
                 style_prefix 'small_menu_circle'
                 xalign 0.91
-                if len(character_list) > 10:
+                if char_list_len > 10:
                     yalign 0.4
                 else:
                     yalign 0.3
@@ -1195,7 +1196,7 @@ screen chat_home(reshow=False):
             button:
                 style_prefix 'small_menu_circle'
                 xalign 0.342
-                if len(character_list) > 10:
+                if char_list_len > 10:
                     yalign 0.4
                 else:
                     yalign 0.3

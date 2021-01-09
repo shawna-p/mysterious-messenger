@@ -109,7 +109,7 @@ label example_casual_start:
     python:
         new_route_setup(route=example_casual_route)
         # r, v, and ri are not present on casual route.
-        character_list = [ju, z, s, y, ja, m]
+        character_list = [ju, z, s, y, ja]
         heart_point_chars = [ju, z, s, y, ja]
     # Typically you would put an introductory chatroom of some kind here.
     # For convenience, this simply jumps to the home screen.

@@ -11,7 +11,7 @@
 
     # This tells the program which characters' profiles you want to see
     # on the hub screen / available for phone calls / etc
-    $ character_list = [ju, z, s, y, ja, v, m, r, ri]
+    $ character_list = [ju, z, s, y, ja, v, r, ri]
     # This tells the program which characters to show on the Profile screen
     # next to how many heart points the player has earned
     $ heart_point_chars = [ju, z, s, y, ja, v, r, ri]
