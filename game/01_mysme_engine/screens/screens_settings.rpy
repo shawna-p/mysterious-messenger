@@ -1234,19 +1234,15 @@ screen ringtone_dropdown(title):
 
     if title == 'Text Sound':
         default full_tone_list = text_tones
-        default tone_dict = text_tone_dict
         default p_field = 'text_tone'
     elif title == 'Email Sound':
         default full_tone_list = email_tones
-        default tone_dict = email_tone_dict
         default p_field = 'email_tone'
     elif title == 'Ringtone':
         default full_tone_list = ringtones
-        default tone_dict = ringtone_dict
         default p_field = 'phone_tone'
     # Only include tones for which the condition evaluates to True
-    default tone_list = [t for t in full_tone_list
-        if tone_dict[t].eval_condition()]
+    default tone_list = [t for t in full_tone_list if t.eval_condition()]
 
     add "#000a"
     frame:
@@ -1279,11 +1275,11 @@ screen ringtone_dropdown(title):
             for cat in tone_list:
                 # Name of the category
                 null height 10
-                text cat color '#fff' xalign 0.5 text_align 0.5
+                text cat.category color '#fff' xalign 0.5 text_align 0.5
                 null height 10
 
                 # List of the ringtones
-                for tone in tone_dict[cat].tones:
+                for tone in cat.tones:
                     textbutton _(tone.title):
                         style 'ringtone_button'
                         text_style 'ringtone_button_text'
