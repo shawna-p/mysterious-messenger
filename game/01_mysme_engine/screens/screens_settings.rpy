@@ -1105,8 +1105,7 @@ screen sound_settings():
                             text persistent.text_tone_name:
                                 style 'ringtone_description'
                         action Show('ringtone_dropdown',
-                                title='Text Sound', tone='text')
-
+                                title='Text Sound')
                     button:
                         vbox:
                             align (0.5, 0.5)
@@ -1114,7 +1113,8 @@ screen sound_settings():
                             text persistent.email_tone_name:
                                 style 'ringtone_description'
                         action Show('ringtone_dropdown',
-                                title='Email Sound', tone='text')
+                                title='Email Sound')
+
 
                     button:
                         vbox:
@@ -1123,7 +1123,7 @@ screen sound_settings():
                             text persistent.phone_tone_name:
                                 style 'ringtone_description'
                         action Show('ringtone_dropdown',
-                                title='Ringtone', tone='text')
+                                title='Ringtone')
 
 style sound_settings_frame:
     is default
@@ -1228,9 +1228,26 @@ style voice_toggle_off:
 
 ## A helper screen for displaying the choices for
 ## ringtones, email tones, and text tones
-screen ringtone_dropdown(title, tone):
+screen ringtone_dropdown(title):
 
     modal True
+
+    if title == 'Text Sound':
+        default full_tone_list = text_tones
+        default tone_dict = text_tone_dict
+        default p_field = 'text_tone'
+    elif title == 'Email Sound':
+        default full_tone_list = email_tones
+        default tone_dict = email_tone_dict
+        default p_field = 'email_tone'
+    elif title == 'Ringtone':
+        default full_tone_list = ringtones
+        default tone_dict = ringtone_dict
+        default p_field = 'phone_tone'
+    # Only include tones for which the condition evaluates to True
+    default tone_list = [t for t in full_tone_list
+        if tone_dict[t].eval_condition()]
+
     add "#000a"
     frame:
         xysize(675,1000)
@@ -1248,8 +1265,7 @@ screen ringtone_dropdown(title, tone):
 
         viewport:
             xysize(600, 940)
-            xalign 0.5
-            yalign 0.85
+            align (0.5, 0.85)
             draggable True
             mousewheel True
             scrollbars "vertical"
@@ -1260,48 +1276,33 @@ screen ringtone_dropdown(title, tone):
             xalign 0.5
             yalign 0.5
 
-
-            # Text message tones
-            if title == 'Text Sound':
-                $ the_list = persistent.text_tone_list
-                $ the_dict = text_tone_dict
-                $ p_field = 'text_tone'
-            elif title == 'Email Sound':
-                $ the_list = persistent.email_tone_list
-                $ the_dict = email_tone_dict
-                $ p_field = 'email_tone'
-            elif title == 'Ringtone':
-                $ the_list = persistent.ringtone_list
-                $ the_dict = ringtone_dict
-                $ p_field = 'phone_tone'
-
-            for pair in the_list:
+            for cat in tone_list:
                 # Name of the category
                 null height 10
-                text pair[0] color '#fff' xalign 0.5 text_align 0.5
+                text cat color '#fff' xalign 0.5 text_align 0.5
                 null height 10
 
                 # List of the ringtones
-                for tone in pair[1]:
-                    textbutton _(tone):
+                for tone in tone_dict[cat].tones:
+                    textbutton _(tone.title):
                         style 'ringtone_button'
                         text_style 'ringtone_button_text'
-                        selected getattr(persistent, p_field) == the_dict[tone]
+                        selected getattr(persistent, p_field) == tone.file
                         if title != "Ringtone":
-                            activate_sound the_dict[tone]
+                            activate_sound tone.file
                             action [SetField(persistent,
-                                        p_field, the_dict[tone]),
+                                        p_field, tone.file),
                                     SetField(persistent,
-                                        p_field + '_name', tone)]
+                                        p_field + '_name', tone.title)]
                         else:
                             action [Stop('sound'),
                                     Play('music', "<silence 5.0>"),
                                     Play('sound', ("<from 0 to 5>"
-                                        + the_dict[tone])),
+                                        + tone.file)),
                                     SetField(persistent,
-                                        p_field, the_dict[tone]),
+                                        p_field, tone.file),
                                     SetField(persistent,
-                                        p_field + '_name', tone)]
+                                        p_field + '_name', tone.title)]
 
 style ringtone_button:
     xysize(450, 60)
