@@ -123,3 +123,46 @@ define sfx_dictionary = {
     door_knock_sfx : "A knock at the door",
     door_open_sfx : "The door opens"
 }
+
+
+########################################
+## RINGTONES
+########################################
+## Here you can customize the ringtones available for emails,
+## text messages, and phone calls.
+
+define email_tone_dict = {
+    "Basic" : ToneCategory("audio/sfx/Ringtones etc/email_basic_", "wav",
+        "Default 1", "1",
+        "Default 2", "2",
+        "Default 3", "3"),
+    "Extended" : ToneCategory("audio/sfx/Ringtones etc/email_basic_", "wav",
+        "Default 4", "1",
+        "Default 5", "2",
+        "Default 6", "3",
+        condition="name == 'Rainbow'")
+}
+
+define text_tone_dict = {
+    "Basic" : ToneCategory("audio/sfx/Ringtones etc/text_basic_", "wav",
+        "Default", "1",
+        'Jumin Han', "ju",
+        'Jaehee Kang', "ja",
+        '707', "s",
+        'Yoosung★', "y",
+        'ZEN', "z")
+}
+
+define ringtone_dict = {
+    "Basic" : ToneCategory("audio/sfx/Ringtones etc/phone_basic_", "wav",
+        "Default", "1",
+        'Jumin Han', "ju",
+        'Jaehee Kang', "ja",
+        '707', "s",
+        'Yoosung★', "y",
+        'ZEN', "z")
+}
+
+define email_tones = [ "Basic", "Extended" ]
+define text_tones = [ "Basic" ]
+define ringtones = [ "Basic" ]
