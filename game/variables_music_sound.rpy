@@ -136,12 +136,14 @@ define email_tones = [
     ToneCategory("Basic", "audio/sfx/Ringtones etc/email_basic_", "wav",
         "Default 1", "1",
         "Default 2", "2",
-        "Default 3", "3"),
-    ToneCategory("Extended", "audio/sfx/Ringtones etc/email_basic_", "wav",
-        "Default 4", "1",
-        "Default 5", "2",
-        "Default 6", "3",
-        condition="name == 'Rainbow'")
+        "Default 3", "3")
+    ## An example of an additional category which has a condition dictating
+    ## whether it will be shown to the player or not
+    # ToneCategory("Extended", "audio/sfx/Ringtones etc/email_basic_", "wav",
+    #     "Default 4", "1",
+    #     "Default 5", "2",
+    #     "Default 6", "3",
+    #     condition="name == 'Rainbow'")
 ]
 
 define text_tones = [
