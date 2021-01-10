@@ -183,6 +183,10 @@ python early hide:
         elif (bold or xbold):
             extra_item = 'b'
 
+        if extra_item:
+            dialogue = ("{" + extra_item + "}" + dialogue + "{/"
+                + extra_item + "}")
+
         if ((is_text_msg and ffont in store.font_dict)
                 or ffont not in ['sser1', 'sser2', 'ser1', 'ser2', 'curly',
                 'blocky']):
@@ -198,10 +202,6 @@ python early hide:
             # Add the font around the dialogue, unless it's the default
             if d_font != 'sser1':
                 dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
-
-        if extra_item:
-            dialogue = ("{" + extra_item + "}" + dialogue + "{/"
-                + extra_item + "}")
 
         # There is a special bubble; check if need to correct it
         if (spec_bubble and spec_bubble[:7] == "round"
@@ -720,6 +720,8 @@ python early hide:
             spec_bubble = kwargs.get('specBubble', spec_bubble)
             # Check for pv
             pv = kwargs.get('pauseVal', pv)
+        else:
+            kwargs = dict()
 
         # Correct 'what' into dialogue with the right text tags
         dialogue, img, spec_bubble = parse_message_args(what, ffont, bold,
