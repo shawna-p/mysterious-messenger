@@ -46,7 +46,7 @@ define z_phone = Character("Zen",
     kind=phone_character, voice_tag="z_voice")
 define m_phone = Character("[name]",
     kind=phone_character, what_color="#a6a6a6",
-    what_suffix="{w=0.8}{nw}", dynamic=True)
+    what_suffix="{w=0.8}{nw}")
 define vmail_phone = Character('Voicemail', kind=phone_character)
 # define yourchar_phone = Character("Name", kind=phone_character)
 
