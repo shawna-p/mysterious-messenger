@@ -39,7 +39,7 @@ Don't forget the colon after the label name. Your label name also can't have any
 
 Next, it's time to set up the chatroom background. Note that everything under the label name **should be indented at least one level to the right**. You can look at the example files mentioned above if you're not sure what this means.
 
-First, you need to give the chatroom a background to show::
+You need to give the chatroom a background to show::
 
     label day_1_1:
         scene morning
@@ -77,7 +77,7 @@ To learn how to make this chatroom appear in your game, check out :ref:`Setting 
 Writing Chatroom Dialogue
 =========================
 
-There are two primary ways of writing dialogue for your chatroom. The first is to use a special ``msg`` CDS, and the second is to use a special spreadsheet to help generate the dialogue for you.
+There are two primary ways of writing dialogue for your chatroom. The first is to use the ``msg`` CDS, and the second is to use a special spreadsheet to help generate the dialogue for you.
 
 Using the msg CDS
 -----------------
@@ -91,7 +91,7 @@ The ``msg`` CDS helps add effects to your dialogue, such as special speech bubbl
     msg r "you can have text messages and phone calls and the like after any story item,"
     msg r "even a chatroom that has a Story Mode attached" glow
 
-(Dialogue can be found in ``tutorial_3_text_message.rpy``)
+(Dialogue taken from ``tutorial_3_text_message.rpy``)
 
 The ``msg`` CDS requires a speaker (in the example, ``r``) and some dialogue (surrounded by ``""``). There are several optional clauses that can be added after the dialogue to affect how it displays.
 
@@ -128,7 +128,7 @@ In order to use one of the built-in fonts, just include the name of the desired 
     msg u "This is example dialogue in the cursive font." curly
     msg u "This is in the sans serif 1 font." sser1
 
-Note that you can only have one font at a time; including more than one will simply use the last font given. The default font is ``sser1``.
+Note that you can only have one font at a time; including more than one will simply use the last font given. The default font is ``sser1``, and dialogue will show up using ``sser1`` unless you give it a different font.
 
 Emphasis
 ^^^^^^^^
@@ -145,7 +145,7 @@ Some fonts have **extra-bold** variants as well. These are defined in ``variable
 
     msg ja "This text is in the sans serif 2 font, extra bold." sser2 xbold
 
-Finally, you can also increase the size of the text inside a speech bubble with the ``big`` argument e.g.
+Finally, you can increase the size of the text inside a speech bubble with the ``big`` argument e.g.
 
 ::
 
@@ -220,10 +220,16 @@ Images
 
 The ``msg`` CDS will automatically detect if dialogue includes a recognized emoji and mark the dialogue as an image accordingly. If you want a character to post an image in the chatroom (such as a CG), then you can use the ``img`` argument::
 
-    s "cg s_1" img
-    s "I just posted a CG!"
+    msg s "cg s_1" img
+    msg s "I just posted a CG!"
 
 You need to follow the rules outlined in :ref:`Defining a CG` and :ref:`Showing a CG in a Chatroom or Text Message` in order for the program to find the correct image and display it during a chatroom. For CGs, the program will also automatically unlock the image in the gallery.
+
+For emojis, it's sufficient to write::
+
+    msg s "{image=seven_wow}"
+
+where ``seven_wow`` is the name of the emoji image to be shown. The program will automatically recognize it as an emoji.
 
 Modifying Message Speed
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -232,11 +238,11 @@ Finally, you can also adjust the speed at which a message is posted. For example
 
 ::
 
-    s "These" pv 0.1
-    s "messages" pv 0.1
-    s "are" pv 0.1
-    s "posted" pv 0.1
-    s "quickly!!!" pv 0.1
+    msg s "These" pv 0.1
+    msg s "messages" pv 0.1
+    msg s "are" pv 0.1
+    msg s "posted" pv 0.1
+    msg s "quickly!!!" pv 0.1
 
 If you have ``paraphrase_choices`` turned off, you will generally want to add ``pv 0`` after a message posted by the main character after a menu e.g.
 
@@ -334,8 +340,9 @@ If you would like to clear the chat history so that all previous messages are er
     y "Anyway, I should go now."
     exit chatroom y
     clear chat
-    enter chatroom u
     scene hack
+    show hack effect
+    enter chatroom u
     u "Hi, [name]."
 
 .. note::
@@ -348,12 +355,14 @@ If you would like to clear all current chatroom participants from the chatroom h
 
     label my_chatroom:
         scene morning
-        play music narcisisstic_jazz
+        play music narcissistic_jazz
         enter chatroom z
         z "Has the chatroom been acting up for you too, [name]?"
         msg z "I've been having trouble with it all morning." sigh_s
         clear chat participants
         scene hack
+        show hack effect
+        enter chatroom u
         u "Ah, excellent."
         u "I've gained access to the messenger."
 
@@ -413,6 +422,9 @@ You can show a banner with the code::
 
 Note that while the order of ``banner`` and ``lightning`` don't matter, the name is case-sensitive. So, you could also use ``show lightning banner`` but ``show Lightning banner`` would not work.
 
+.. note::
+    These images are not displayed for players who have toggled the **Chatroom Banners** setting off.
+
 Showing a Heart Icon
 --------------------
 
@@ -461,6 +473,8 @@ To show the scrolling "hack" effect during a chatroom, use the line
 
 or alternatively,
 
+::
+
     show redhack effect
 
 for the red version of the scrolling hack image.
@@ -480,7 +494,7 @@ To shake the screen, use the line
 Screen shake is compatible both with regular backgrounds and with the animated backgrounds.
 
 .. note::
-    These effects are not displayed for players who have toggled the **Hacking Effects** setting off.
+    This effect is not displayed for players who have toggled the **Screen Shake** setting off.
 
 Custom Fonts and Bubbles
 =========================

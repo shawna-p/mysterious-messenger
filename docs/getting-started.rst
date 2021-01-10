@@ -14,7 +14,7 @@ Setting Up
 ============
 
 * If you want to run this code, you will need to download the Ren'Py engine: https://www.renpy.org/
-* As of 2021-01-05 (the time of this update) the version of Ren'Py used is 7.3.5.606. An update to support version 7.4.x is upcoming.
+* As of 2021-01-10 (the time of this update) the version of Ren'Py used is 7.3.5.606. An update to support version 7.4.x is upcoming.
 * Download or clone the `most recent release <https://github.com/shawna-p/mysterious-messenger/releases>`_ into your Ren'Py Projects Directory and unzip it into its own folder. If you don't know what it is, you can change it from the Ren'Py launcher via ``preferences -> Projects Directory``.
 
   * The current stable version is v2.2.
