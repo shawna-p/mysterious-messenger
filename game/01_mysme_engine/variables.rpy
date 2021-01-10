@@ -47,9 +47,47 @@ init -6 python:
         """
         A class to better organize the categories of the various
         phone/text/email tones found in the game.
+
+        Attributes:
+        -----------
+        category : string
+            The name of the category.
+        folder : string
+            The folder name and/or prefix that should be added to the start
+            of each tone in this category.
+        ext : string
+            The file extension for each tone in this category e.g. "wav"
+        tones : GameTone
+            A list of GameTone tuples containing the title and file of a tone.
+        condition : string
+            A string that evaluates to a condition which determines whether a
+            tone should be shown to the player or not.
         """
 
-        def __init__(self, folder, ext, *args, **kwargs):
+        def __init__(self, category, folder, ext, *args, **kwargs):
+            """
+            Create a ToneCategory object to hold the information on a category
+            of tones.
+
+            Parameters:
+            -----------
+            category : string
+                The name of the category
+            folder : string
+                The folder name and/or prefix that should be added to the start
+                of each tone in this category.
+            ext : string
+                The file extension for each tone in this category e.g. "wav"
+            args
+                Expected to be a list of title, field pairs (both strings) that
+                will be added to the tone dictionary.
+            kwargs
+                May contain the keyword argument "condition", which should
+                evaluate to a Python condition that determines whether this
+                category should be shown to the player.
+            """
+
+            self.category = category
             if len(ext) > 0 and ext[0] != ".":
                 ext = "." + ext
             self.folder = folder
