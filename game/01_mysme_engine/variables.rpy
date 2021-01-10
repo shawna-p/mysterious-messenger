@@ -39,15 +39,9 @@ init -6 python:
             store.starter_story = self.label
             renpy.jump_out_of_context("begin_intro_mstmg")
 
-    class GameTone(object):
-        """
-        A class to better organize the various phone/text/email tones found
-        in the game.
-        """
 
-        def __init__(self, name, filepath):
-            self.name = name
-            self.filepath = filepath
+    from collections import namedtuple
+    GameTone = namedtuple('GameTone', ['title', 'file'])
 
     class ToneCategory(object):
         """
@@ -55,14 +49,20 @@ init -6 python:
         phone/text/email tones found in the game.
         """
 
-        def __init__(self, category, *args):
-            self.category = category
+        def __init__(self, folder, ext, *args, **kwargs):
+            if len(ext) > 0 and ext[0] != ".":
+                ext = "." + ext
+            self.folder = folder
+            self.ext = ext
             self.tones = [ ]
+            self.condition = kwargs.get('condition', 'True')
 
-            for i in range(len(args)-1):
+            for i in range(0, len(args), 2):
                 try:
                     # args should come in (title, file) pairs
-                    self.tones.append((args[i], args[i+1]))
+                    title = args[i]
+                    file = args[i+1]
+                    self.add_tone(title, file)
                 except IndexError:
                     print("WARNING: Given tone", args[i], "does not have a",
                         "corresponding file path.")
@@ -71,7 +71,31 @@ init -6 python:
                             + "a corresponding file path."))
                     return
 
+        def add_tone(self, title, file):
+            """Add this tone to the category."""
 
+            if isinstance(title, ChatCharacter):
+                title = title.name
+            file = self.folder + file + self.ext
+
+            self.tones.append(GameTone(title, file))
+
+        def eval_condition(self):
+            """
+            Evaluate the condition on this category to determine if it
+            should be available.
+            """
+
+            try:
+                return renpy.python.py_eval(self.condition)
+            except:
+                # Notify the user if the condition could not be evaluated.
+                print("WARNING: Could not evaluate condition", self.condition,
+                    "for a tone category")
+                renpy.show_screen('script_error',
+                    message=("Could not evaluate given condition "
+                        + str(self.condition) + " for a tone category."))
+                return True
 
 
 
