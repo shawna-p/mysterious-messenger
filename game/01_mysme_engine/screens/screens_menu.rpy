@@ -1217,9 +1217,15 @@ screen chat_home(reshow=False):
                 if persistent.real_time:
                     action [Function(check_and_unlock_story),
                             Function(deliver_all_texts),
-                            Show('day_select')]
+                            If(not story_archive
+                                or not story_archive[0].archive_list,
+                                Show('script_error', message="There is no content for this route"),
+                            Show('day_select'))]
                 else:
-                    action [Function(deliver_all_texts), Show('day_select')]
+                    action [Function(deliver_all_texts), If(not story_archive
+                                or not story_archive[0].archive_list,
+                                Show('script_error', message="There is no content for this route"),
+                            Show('day_select'))]
                 add "rfa_chatcircle" yalign 0.5 xalign 0.5
                 add "blue_chatcircle" xalign 0.5 yalign 0.5
                 add "chat_icon" xalign 0.5 yalign 0.5
