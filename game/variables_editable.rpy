@@ -300,54 +300,6 @@ image vn_party = 'Menu Screens/Day Select/vn_party.webp'
 image vn_party_inactive = 'Menu Screens/Day Select/vn_party_inactive.webp'
 
 ########################################
-## RINGTONES
-########################################
-## Here you can customize the ringtones available for emails,
-## text messages, and phone calls.
-define email_tone_dict = {
-    'Default 1': 'audio/sfx/Ringtones etc/email_basic_1.wav',
-    'Default 2': 'audio/sfx/Ringtones etc/email_basic_2.wav',
-    'Default 3': 'audio/sfx/Ringtones etc/email_basic_3.wav'
-}
-
-define text_tone_dict = {
-    'Default': 'audio/sfx/Ringtones etc/text_basic_1.wav',
-    'Jumin Han': 'audio/sfx/Ringtones etc/text_basic_ju.wav',
-    'Jaehee Kang': 'audio/sfx/Ringtones etc/text_basic_ja.wav',
-    '707': 'audio/sfx/Ringtones etc/text_basic_s.wav',
-    'Yoosung★': 'audio/sfx/Ringtones etc/text_basic_y.wav',
-    'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav'
-}
-
-define ringtone_dict = {
-    'Default': 'audio/sfx/Ringtones etc/phone_basic_1.wav',
-    'Jumin Han': 'audio/sfx/Ringtones etc/phone_basic_ju.wav',
-    'Jaehee Kang': 'audio/sfx/Ringtones etc/phone_basic_ja.wav',
-    '707': 'audio/sfx/Ringtones etc/phone_basic_s.wav',
-    'Yoosung★': 'audio/sfx/Ringtones etc/phone_basic_y.wav',
-    'ZEN': 'audio/sfx/Ringtones etc/phone_basic_z.wav'
-}
-
-# This is organized as a list of lists. The first item is the name of
-# the category. The second item is a list of the names of the tones
-# as you defined them above in the dictionary. To define more categories,
-# put a comma after the second-last bracket and define another list like
-# shown below
-default persistent.email_tone_list = [
-    ["Basic", ['Default 1', 'Default 2', 'Default 3' ]]
-]
-
-default persistent.text_tone_list = [
-    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
-                '707', 'Yoosung★', 'ZEN' ]]
-]
-
-default persistent.ringtone_list = [
-    ["Basic", ['Default', 'Jumin Han', 'Jaehee Kang',
-                '707','Yoosung★', 'ZEN' ]]
-]
-
-########################################
 ## PARTY RANKING
 ########################################
 # It seems 15+ guests is A grade and 6- guests is D grade.
