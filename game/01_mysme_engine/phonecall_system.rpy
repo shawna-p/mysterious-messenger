@@ -842,6 +842,8 @@ label new_incoming_call(phonecall=None):
     play music persistent.phone_tone loop nocaption
     if phonecall is None:
         $ phonecall = current_call
+    $ begin_timeline_item(generic_storycall, resetHP=False, stop_music=False)
+
     if isinstance(phonecall, PhoneCall):
         call screen incoming_call(phonecall=phonecall)
     else:
