@@ -1300,6 +1300,13 @@ init python:
 
         # Story phone calls
         elif isinstance(item, StoryCall):
+            renpy.scene()
+            renpy.show('bg black')
+
+            renpy.hide_screen('phone_overlay')
+            renpy.hide_screen('messenger_screen')
+            renpy.hide_screen('pause_button')
+
             store._history = False
             store.in_phone_call = True
             preferences.afm_enable = True
