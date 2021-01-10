@@ -468,6 +468,8 @@ init -6 python:
         # VNs for a starter chat/opening
         starter_story = True
         renpy.retain_after_load()
+        # Load it as though it is a chatroom
+        begin_timeline_item(generic_chatroom)
         return
 
     def hide_all_popups():
