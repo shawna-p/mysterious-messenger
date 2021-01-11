@@ -515,7 +515,7 @@ In general you should **not** replace this list; just add your new font to the e
     define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2',
         'curly', 'blocky', 'cursive']
 
-Now you need to add it to the ``font_dict``.
+Now you need to add it to the ``font_dict``::
 
     define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
             'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb,
@@ -523,7 +523,7 @@ Now you need to add it to the ``font_dict``.
             'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
             'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
             'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
-            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font,
             'cursive' : "fonts/cursivefont.ttf"
         }
 
@@ -543,7 +543,7 @@ And you will need to specify how the bold and extra bold variants should be mapp
             'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
             'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
             'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
-            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font,
             'cursive' : "fonts/cursivefont.ttf",
             'cursiveb' : "fonts/cursivefont-bold.ttf",
             'cursivexb' : "fonts/cursivefont-xbold.ttf"
@@ -551,7 +551,7 @@ And you will need to specify how the bold and extra bold variants should be mapp
 
 In this example, the bold is called "cursiveb" and the extra bold "cursivexb". Note that you will need an entry for **both** bold and extra bold, even if you only have one font. In that case, you can set the file path for both entries to the same font.
 
-Finally, if you want to use the font as a text tag, you need to define a style for it. Existing styles can be found in ``style_definitions.rpy``::
+Finally, to use the font as a text tag, you need to define a style for it. Existing styles can be found in ``style_definitions.rpy``::
 
     style cursive:
         font "fonts/cursivefont.ttf"
@@ -586,12 +586,12 @@ To add a new bubble, first you must add it to the ``all_bubbles_list`` in ``vari
 ::
 
     define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
-    'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
-    'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
-    'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
-    'flower_s', 'glow2', 'spooky_s', 'spooky_m', 'spooky_l']
+        'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
+        'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
+        'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
+        'flower_s', 'glow2', 'spooky_s', 'spooky_m', 'spooky_l']
 
-Next, you need to define a style for the bubble. Typically the most important property is the padding. First, define a general style::
+Next, you need to define a base style for the bubble. Typically the most important property is the padding. First, define a general style::
 
     style spooky_s:
         padding (25, 25, 25, 25)
@@ -611,6 +611,14 @@ Next, if any characters have a variant of this bubble that requires different st
         top_padding 35
 
 ``is spooky_m`` tells the style to inherit from the original ``spooky_m`` style; this is optional, but can be helpful. In this case, it means that the ``s_spooky_m`` bubble has a left/right/bottom padding of 25, as in the ``spooky_m`` style, but the ``top_padding`` is now 35.
+
+Finally, you need to define an offset for each of your new bubbles. This is how far the bubble should be relative to the top left corner of the character's profile picture (for bubbles posted on the left side of the messenger). All the existing bubble offsets can be found in ``gui.rpy``. For the ``spooky_`` bubbles, three variables are needed::
+
+    define gui.spooky_s_offset = (140, 38)
+    define gui.spooky_m_offset = (130, 38)
+    define gui.spooky_l_offset = (140, 32)
+
+Note that these are the name of the bubble + the suffix ``_offset``.
 
 And that's all! To show this special bubble in-game, you must ensure you have the appropriate images defined inside the "Bubbles/Special/" folder.
 
