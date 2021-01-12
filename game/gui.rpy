@@ -491,6 +491,7 @@ define gui.cloud_m_offset = (135, 25)
 ## Large Cloud Bubble
 define gui.cloud_l_padding = (65, 40, 70, 80)
 define gui.cloud_l_offset = (115, 20)
+define gui.ju_cloud_l_offset = (115, 5)
 
 ## Large Cloud Bubble v2
 define gui.cloud_l2_padding = (115, 50, 70, 40)
