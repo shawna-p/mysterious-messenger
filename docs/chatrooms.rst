@@ -618,7 +618,7 @@ Finally, you need to define an offset for each of your new bubbles. This is how 
     define gui.spooky_m_offset = (130, 38)
     define gui.spooky_l_offset = (140, 32)
 
-Note that these are the name of the bubble + the suffix ``_offset``.
+Note that these are the name of the bubble + the suffix ``_offset``. You can also define specific offsets for characters using their file_id. e.g. if ``em``'s spooky_m bubble needs to be a bit further to the right than the rest of the characters', you can define the value ``define gui.em_spooky_m_offset = (150, 32)``.
 
 And that's all! To show this special bubble in-game, you must ensure you have the appropriate images defined inside the "Bubbles/Special/" folder.
 
@@ -675,7 +675,7 @@ Inside ``variables_editable.rpy`` is a function called ``custom_bubble_bg`` unde
 
     def custom_bubble_bg(msg):
 
-        if msg.specBubble and len(specBubble.split('_')) > 2:
+        if msg.specBubble and len(msg.specBubble.split('_')) > 2:
             # msg.specBubble checks if the message is using a special bubble
             # specBubble.split('_') splits the special bubble into separate
             # words based on the '_' character. So, "square_m" becomes
@@ -698,6 +698,9 @@ The above code will then allow you to write dialogue such as
     msg s "This message uses it too!" bubble ju_cloud_m
 
 in order to have the characters use each other's special speech bubbles.
+
+.. warning::
+    Aside from allowing characters to use each other's special speech bubbles, you need to make sure any new bubbles you allow characters to use (such as a third glowing bubble variant) are added to the ``all_bubbles_list`` and have styles defined for them as described above.
 
 Note that you can also return general displayables, such as a Frame(), inside the ``custom_bubble_bg`` function. For example, you could give Emma (from the new character examples) a second "glowing" bubble variant::
 
