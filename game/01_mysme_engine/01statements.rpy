@@ -149,21 +149,22 @@ python early hide:
 
         # Ensure the font is known
         if not ffont in store.all_fonts_list:
-            print("WARNING: The font %s for dialogue \"" + what + "\" could "
-                + "not be evaluated." % ffont)
+            print("WARNING: The font %s for dialogue \"" % ffont + what
+                + "\" could not be evaluated." )
             renpy.show_screen('script_error',
-                    message=("The font %s for dialogue \"" + what + "\" could "
-                        + "not be evaluated." % ffont))
+                    message=("The font %s for dialogue \"" % ffont + what
+                        + "\" could not be evaluated." ))
             # Use the default font instead
             ffont = 'sser1'
 
         # Ensure the special bubble is known
-        if spec_bubble and not spec_bubble in store.all_bubbles_list:
-            print("WARNING: The special bubble %s for dialogue \"" + what
-                + "\" could not be evaluated." % spec_bubble)
+        if spec_bubble and (spec_bubble not in store.all_bubbles_list
+                and '_'.join(spec_bubble.split('_')[1:]) not in store.all_bubbles_list):
+            print("WARNING: The special bubble %s for dialogue \"" % spec_bubble
+                + what + "\" could not be evaluated." )
             renpy.show_screen('script_error',
-                    message=("The special bubble %s for dialogue \"" + what
-                        + "\" could not be evaluated." % spec_bubble))
+                    message=("The special bubble %s for dialogue \"" % spec_bubble
+                    + what + "\" could not be evaluated."))
             # Don't use a special bubble
             spec_bubble = None
 
