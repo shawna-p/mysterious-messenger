@@ -185,18 +185,35 @@ init -4 python:
                         message=("Could not evaluate the function 'custom_"
                             + "bubble_style'."))
 
+
+
             # Multiple round/square variants have the same styling as
             # the original round/square bubble
             if self.specBubble == "round2_s" and self.who.file_id == 's':
                 self.saved_bubble_style = self.who.file_id + '_' + bubble_style
                 return self.saved_bubble_style
+            elif self.specBubble == "s_round2_s":
+                self.saved_bubble_style = bubble_style
+                return self.saved_bubble_style
 
-            if self.specBubble[:6] == "round2":
-                bubble_style = "round_" + self.specBubble[-1:]
-            elif self.specBubble[:7] == "square2":
-                bubble_style = "square_" + self.specBubble[-1:]
+            try:
+                stylename = self.who.file_id + '_' + bubble_style
+                if self.specBubble[-8:-2] == "round2":
+                    bubble_style = "round_" + self.specBubble[-1]
+                elif self.specBubble[-9:-2] == "square2":
+                    bubble_style = "square_" + self.specBubble[-1]
 
-            stylename = self.who.file_id + '_' + bubble_style
+                # Check if a character is using someone else's bubble
+                if len(self.specBubble.split('_')) > 2:
+                    if self.specBubble == bubble_style:
+                        stylename = bubble_style
+                    else:
+                        stylename = self.specBubble.split('_')[0] + "_" + bubble_style
+                else:
+                    stylename = self.who.file_id + '_' + bubble_style
+            except:
+                pass
+
             try:
                 renpy.style.get_style(stylename)
                 self.saved_bubble_style = stylename
@@ -224,10 +241,15 @@ init -4 python:
             bubble_style = self.specBubble
             # Multiple round/square variants have the same styling as
             # the original round/square bubble
-            if self.specBubble[:6] == "round2":
-                bubble_style = "round_" + self.specBubble[-1:]
-            elif self.specBubble[:7] == "square2":
-                bubble_style = "square_" + self.specBubble[-1:]
+            try:
+                if self.specBubble[-8:-2] == "round2":
+                    bubble_style = "round_" + self.specBubble[-1:]
+                elif self.specBubble[-9:-2] == "square2":
+                    bubble_style = "square_" + self.specBubble[-1:]
+                elif len(self.specBubble.split('_')) > 2:
+                    bubble_style = '_'.join(self.specBubble.split('_')[1:])
+            except:
+                pass
             bubble_style += '_offset'
 
             # Allow for custom bubble styling
@@ -243,10 +265,12 @@ init -4 python:
                             + "bubble_offset'."))
 
             ## Rule exceptions
-            full_style = self.who.file_id + '_' + self.specBubble
-            if full_style == 'ju_cloud_l':
-                return (115, 5)
-            elif full_style == 'ju_square_m':
+            if len(self.specBubble.split('_')) > 2:
+                full_style = self.specBubble
+            else:
+                full_style = self.who.file_id + '_' + self.specBubble
+
+            if full_style == 'ju_square_m':
                 return (140, 5)
             elif full_style == 'ju_round_l':
                 return (110, 27)
@@ -299,6 +323,12 @@ init -4 python:
             elif full_style == 'z_flower_l':
                 return (115, 10)
 
+            # Try for the specific style
+            try:
+                return getattr(store.gui, self.who.file_id + "_" + bubble_style)
+            except:
+                pass
+
             try:
                 return getattr(store.gui, bubble_style)
             except:
@@ -331,14 +361,19 @@ init -4 python:
                 if custom_bg:
                     self.saved_bubble_bg = custom_bg
                     return custom_bg
-            except:
+            except Exception as e:
                 print("WARNING: Could not evaluate the function 'custom_"
-                    + "bubble_bg'.")
+                    + "bubble_bg'.", e)
                 renpy.show_screen('script_error',
                         message=("Could not evaluate the function 'custom_"
                             + "bubble_bg'."))
 
             # If this is a special bubble, set the background to said bubble
+            # Is a character trying to use someone else's bubble?
+            if self.specBubble and len(self.specBubble.split('_')) > 2:
+                self.saved_bubble_bg = "Bubble/Special/" + self.specBubble + ".webp"
+                return self.saved_bubble_bg
+
             if self.specBubble and self.specBubble != 'glow2':
                 # First, check if there's a specific variant for the character
                 possible_ext = [".webp", ".png", ".jpg"]
