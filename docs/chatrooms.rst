@@ -579,7 +579,7 @@ And text tags work the way they would with the predefined fonts::
 Custom Bubbles
 ----------------
 
-You can also add your own custom bubbles to work with the ``msg`` CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles to work for other characters.
+You can also add your own custom bubbles to work with the ``msg`` CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles.
 
 To add a new bubble, first you must add it to the ``all_bubbles_list`` in ``variables_editable.rpy``. For this example, three bubbles called "spooky_s", "spooky_m", and "spooky_l" will be added (for small, medium, and large variants).
 
@@ -671,38 +671,12 @@ Besides adding your own bubbles, you can also extend the functionality of existi
 Custom Bubble Background Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Inside ``variables_editable.rpy`` is a function called ``custom_bubble_bg`` under the **CUSTOM MESSENGER ITEMS** header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds. For example, although currently characters can only use the special bubbles associated with their file_id, you could add a statement which will allow them to use each other's special speech bubbles::
-
-    def custom_bubble_bg(msg):
-
-        if msg.specBubble and len(msg.specBubble.split('_')) > 2:
-            # msg.specBubble checks if the message is using a special bubble
-            # specBubble.split('_') splits the special bubble into separate
-            # words based on the '_' character. So, "square_m" becomes
-            # ["square", "m"]. the len() function checks the length of the
-            # resulting list, so ["square", "m"] has a length of 2. If the list
-            # is more than 2 long, it means it was something like "r_round_s"
-            # so it was split into ["r", "round", "s"], aka a length of 3
-            # In this case, the program shouldn't automatically add the
-            # character's file_id to the bubble.
-
-            return "Bubble/Special/" + msg.specBubble + ".webp"
-
-        return False
-
-The above code will then allow you to write dialogue such as
-
-::
-
-    s "Look, I'm using Jumin's bubble!" (bounce=True, specBubble="ju_cloud_l")
-    msg s "This message uses it too!" bubble ju_cloud_m
-
-in order to have the characters use each other's special speech bubbles.
+Inside ``variables_editable.rpy`` is a function called ``custom_bubble_bg`` under the **CUSTOM MESSENGER ITEMS** header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds.
 
 .. warning::
-    Aside from allowing characters to use each other's special speech bubbles, you need to make sure any new bubbles you allow characters to use (such as a third glowing bubble variant) are added to the ``all_bubbles_list`` and have styles defined for them as described above.
+    You must ensure any new bubbles you allow characters to use (such as a third glowing bubble variant) are added to the ``all_bubbles_list`` and have styles defined for them as described above, and aren't just defined in the custom bubble function.
 
-Note that you can also return general displayables, such as a Frame(), inside the ``custom_bubble_bg`` function. For example, you could give Emma (from the new character examples) a second "glowing" bubble variant::
+You can also return general displayables, such as a Frame(), inside the ``custom_bubble_bg`` function. For example, you could give Emma (from the new character examples) a second "glowing" bubble variant::
 
     def custom_bubble_bg(msg):
 
@@ -724,18 +698,17 @@ Custom Bubble Style Function
 
 Although the program will try to pick out specific styles based on the name of the special speech bubble used, there may be some cases in which you want to apply a particular style to a bubble. The ``custom_bubble_style`` function in ``variables_editable.rpy`` will let you return a particular style.
 
-For example, if you want the characters to be able to use each other's special bubbles as shown in the example for the last section, you will also need them to use the other characters' bubble styles::
+For example, you might want to apply special styling to ``em``'s second glowing bubble variant from the last example::
 
     def custom_bubble_style(msg):
 
-        if msg.specBubble and len(specBubble.split('_')) > 2:
-            # See the example in the last section to understand what this
-            # conditional statement is checking for
-            return msg.specBubble
+        if msg.who.file_id == "em" and msg.specBubble == "glow2":
+            return "em_glow2_style"
 
         return False
 
-This will ensure that a character using another character's special bubble background will still get the original character's bubble styling as well.
+    style em_glow2_style:
+        padding (30, 40)
 
 This function should return a string that corresponds to the name of a style. For example, if you want a bubble to use the style ``style my_special_bubble``, then you need to return the string ``"my_special_bubble"``.
 
@@ -755,7 +728,7 @@ This function allows you to fine-tune the offset of a message, relative to the t
             # using a special bubble
             # You will likely need more specific styling for particular bubbles,
             # but this will return a generic position for each bubble.
-            return (0, 30)
+            return (0, 38)
 
         return False
 
