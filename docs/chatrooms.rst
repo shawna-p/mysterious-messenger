@@ -724,20 +724,37 @@ This function should return a string that corresponds to the name of a style. Fo
 Custom Bubble Offset Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character's profile picture). For example, if you wanted special speech bubbles to appear appropriately for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.
+This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character's profile picture). For example, if you wanted to use special speech bubbles for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.
 
-::
+An example utilizing all three custom functions that allows the right messenger to use Jumin's large and medium-sized "cat" bubbles might look like the following::
+
+    def custom_bubble_bg(msg):
+        # If the messenger is on the right side (usually the player), flip
+        # the background of the special cat bubble
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_l":
+            return Transform("Bubble/Special/ju_cloud_l.webp", xzoom=-1)
+        elif msg.who.right_msgr and msg.specBubble == "ju_cloud_m":
+            return Transform("Bubble/Special/ju_cloud_m.webp", xzoom=-1)
+        return False
 
     def custom_bubble_offset(msg):
-
-        if msg.who.right_msgr and msg.specBubble:
-            # This character is on the right side of the screen
-            # using a special bubble
-            # You will likely need more specific styling for particular bubbles,
-            # but this will return a generic position for each bubble.
-            return (0, 38)
-
+        # If the messenger is on the right side, adjust the offset for
+        # the two cat bubbles
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_l":
+            return (650, 10)
+        elif msg.who.right_msgr and msg.specBubble == "ju_cloud_m":
+            return (640, 39)
         return False
+
+    def custom_bubble_style(msg):
+        # Ensure the bubbles use their original styling rather than styling
+        # for the main character's bubbles
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_m":
+            return 'ju_cloud_m'
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_l":
+            return 'ju_cloud_l'
+        return False
+
 
 
 Adding Chatroom Backgrounds
@@ -762,9 +779,9 @@ For this example, a new background that will be displayed using ``scene rainy_da
 
 To add a new background, inside ``variables_editable.rpy`` under the header **CUSTOM MESSENGER ITEMS** are several variables. First, you need to define the image that will be used as the background. This should be ``bg`` + the name of the image as you want to write when displaying it in a chatroom::
 
-    image bg rainy_day = "center_bg:Phone UI/bg-rainy_day.webp"
+    image bg rainy_day = "center_bg:Phone UI/bg_rainy_day.webp"
 
-The ``center_bg:`` before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just ``image bg rainy_day = "Phone UI/bg-rainy_day.webp"`` would be sufficient.
+The ``center_bg:`` before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just ``image bg rainy_day = "Phone UI/bg_rainy_day.webp"`` would be sufficient.
 
 You can put this image definition wherever you like, though it may make sense to keep it under the **CUSTOM MESSENGER ITEMS** header alongside the background variable definitions.
 
