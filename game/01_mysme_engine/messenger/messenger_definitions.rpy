@@ -156,6 +156,19 @@ init -4 python:
             except:
                 pass
 
+            # Allow for custom bubble styling
+            try:
+                custom_style = custom_bubble_style(self)
+                if custom_style:
+                    self.saved_bubble_style = custom_style
+                    return custom_style
+            except:
+                print("WARNING: Could not evaluate the function 'custom_"
+                    + "bubble_style'.")
+                renpy.show_screen('script_error',
+                        message=("Could not evaluate the function 'custom_"
+                            + "bubble_style'."))
+
             if self.who.right_msgr:
                 self.saved_bubble_style = 'reg_bubble_MC'
                 return self.saved_bubble_style
@@ -171,21 +184,6 @@ init -4 python:
 
             # Otherwise, there is a special bubble
             bubble_style = self.specBubble
-
-            # Allow for custom bubble styling
-            try:
-                custom_style = custom_bubble_style(self)
-                if custom_style:
-                    self.saved_bubble_style = custom_style
-                    return custom_style
-            except:
-                print("WARNING: Could not evaluate the function 'custom_"
-                    + "bubble_style'.")
-                renpy.show_screen('script_error',
-                        message=("Could not evaluate the function 'custom_"
-                            + "bubble_style'."))
-
-
 
             # Multiple round/square variants have the same styling as
             # the original round/square bubble
