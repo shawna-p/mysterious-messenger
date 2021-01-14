@@ -200,7 +200,7 @@ You can also use special speech bubbles as the background of dialogue. There are
       - N/A
       - Only available for ``sa``. An extra variant on the ``glow`` bubble.
 
-Unless otherwise mentioned, ``u``, ``ri``, and ``m`` have no special bubble variants.
+Unless otherwise mentioned, ``u``, ``ri``, and ``m`` have no special bubble variants of their own.
 
 For bubbles which have sizes, you must include which size bubble you would like (``s`` for small, ``m`` for medium, and ``l`` for large) after the name of the bubble e.g. ``square_m`` or ``sigh_l``.
 
@@ -213,7 +213,14 @@ To use a special bubble, add the name of the bubble after dialogue e.g.
     msg r "These can be combined with other fonts and effects, too!" glow curly big
 
 
-You can also use your own bubbles with the ``msg`` CDS, or modify it so that characters can use each other's special speech bubbles. See :ref:`Custom Fonts and Bubbles` for more on custom special bubbles and fonts.
+You can also have the characters use each other's special speech bubbles by prefacing the bubble name with their file_id e.g.
+
+::
+
+    msg s "I'm using Jumin's cat bubble!" bubble ju_cloud_l
+    y "This message uses Zen's flower bubble~" (bounce=True, specBubble="z_flower_m")
+
+Finally, you can use your own bubbles with the ``msg`` CDS. See :ref:`Custom Fonts and Bubbles` for more on custom special bubbles and fonts.
 
 Images
 ^^^^^^
