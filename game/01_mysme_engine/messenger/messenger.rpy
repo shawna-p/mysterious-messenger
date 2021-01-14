@@ -110,6 +110,8 @@ screen chat_animation(i, anti=False, no_anim=False):
         if i.specBubble != None and i.specBubble != 'glow2':
             fixed at i.msg_animation(anti, no_anim):
                 offset i.spec_bubble_offset
+                if i.who.right_msgr:
+                    anchor (1.0, 0.0)
                 fit_first True
                 add i.bubble_bg
                 frame:
