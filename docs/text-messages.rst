@@ -15,9 +15,9 @@ The compose text CDS
 The main way of writing text messages is with a special ``compose text`` CDS that looks like the following example::
 
     compose text s real_time:
-        r "Hi, [name]."
-        r "I wanted to show you how text messages work."
-        r "Send a reply if you got this message okay!"
+        s "Hi, [name]."
+        s "I wanted to show you how text messages work."
+        s "Send a reply if you got this message okay!"
         label example_reply_1
 
 The ``compose text`` CDS takes several options, which are explained below.
