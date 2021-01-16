@@ -285,10 +285,13 @@ python early hide:
             is_text_msg=is_text_msg)
         entries.append((condition, block))
 
+        state = l.checkpoint()
+
         l.advance()
 
         # Optionally, there may be an 'elif' or 'else' clause.
         while l.keyword('elif'):
+            state = l.checkpoint()
             condition = l.require(l.python_expression)
             l.require(':')
             l.expect_eol()
@@ -300,6 +303,7 @@ python early hide:
             l.advance()
 
         if l.keyword('else'):
+            state = l.checkpoint()
             l.require(':')
             l.expect_eol()
             l.expect_block('elif clause')
@@ -308,6 +312,9 @@ python early hide:
                 is_text_msg=is_text_msg)
             entries.append(('True', block))
             l.advance()
+
+        # Revert to just before the advancement
+        l.revert(state)
 
         return entries
 
@@ -555,7 +562,7 @@ python early hide:
         # This is also used to parse backlogs; if it begins with if/elif/else
         # then the program was trying to evaluate a python string so it
         # should raise an error and stop parsing.
-        if who in ['elif', 'if', 'else']:
+        if who in ['elif', 'if', 'else', 'label', 'pause']:
             raise AttributeError
         elif msg_prefix and who == 'msg':
             who = l.simple_expression()
@@ -1039,9 +1046,12 @@ python early hide:
         for msg in p['messages']:
             if isinstance(msg, list):
                 # This is a conditional
+                print_file("Found a conditional:", msg)
                 messages.extend(resolve_conditionals(msg))
             else:
                 messages.append(msg)
+
+        print_file("Messages is now resolved to:", messages)
 
         # Now go through and turn this into an understandable dictionary
         for d in messages:
