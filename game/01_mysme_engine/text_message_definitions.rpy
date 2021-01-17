@@ -56,10 +56,10 @@ python early:
                 lbl = self.__dict__['reply_label']
 
             # Does this label exist?
-            if renpy.has_label(lbl):
+            if lbl and renpy.has_label(lbl):
                 return lbl
-
-            ScriptError("Text message reply label \"", lbl, "\" does not exist.")
+            elif lbl:
+                ScriptError("Text message reply label \"", lbl, "\" does not exist.")
             return False
 
         @reply_label.setter
