@@ -474,7 +474,10 @@ screen text_animation(i, animate=False, anti=False):
                     else:
                         if not i.img:
                             yoffset 35
-                        text i.what style "bubble_text" color '#fff'
+                        text i.text_msg_what:
+                            style "bubble_text"
+                            color '#fff'
+                            font i.text_msg_font
 
             if i != filler and not anti:
                 text i.thetime.get_twelve_hour():
