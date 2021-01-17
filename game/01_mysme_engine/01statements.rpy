@@ -243,7 +243,8 @@ python early hide:
                         label_name = l.rest()
                         messages.append('label' + '|' + label_name)
                     else:
-                        line = parse_msg_stmt(l, check_time=check_time)
+                        line = parse_msg_stmt(l, check_time=check_time,
+                            msg_prefix=is_text_msg)
                         messages.append(line)
                     continue
                 except:
@@ -424,7 +425,7 @@ python early hide:
                     d2 = execute_msg_stmt(d, return_dict=True)
                     timestamp = d['timestamp']
                     who = d2['who']
-                    dialogue = d2['dialogue']
+                    dialogue = d2['what']
                     img = d2['img']
                 except:
                     ScriptError("The arguments for dialogue \"", d['what'],
@@ -577,7 +578,6 @@ python early hide:
         font_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
 
         while True:
-
             if l.eol():
                 break
 
@@ -606,9 +606,9 @@ python early hide:
                 if l.keyword('time'):
                     # Timestamp needs to be of the format ##:##
                     timestamp = l.match("\d\d:\d\d")
-                if timestamp is None:
-                    renpy.error('expected timestamp for time argument')
-                continue
+                    if timestamp is None:
+                        renpy.error('expected timestamp for time argument')
+                    continue
             if l.keyword('bold'):
                 bold = True
                 xbold = False
