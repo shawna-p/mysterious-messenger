@@ -508,9 +508,12 @@ init -6 python:
             else:
                 participants = [participants]
         define_variables()
-        if chatroom_label is None and isinstance(starter_story, basestring):
-            chatroom_label = starter_story
-        else:
+        try:
+            if chatroom_label is None and isinstance(store.mlabel, basestring):
+                chatroom_label = store.mlabel
+            else:
+                chatroom_label = 'starter_chat'
+        except:
             chatroom_label = 'starter_chat'
         current_timeline_item = ChatRoom('Introduction', chatroom_label,
                                         '00:00', participants)
