@@ -229,11 +229,8 @@ init python:
             reg_album = getattr(store, convert_to_file_name(alb))
             per_album = getattr(store.persistent, convert_to_file_name(alb))
         except:
-            print("WARNING: Couldn't find variable", convert_to_file_name(alb),
-                "to update albums")
-            renpy.show_screen('script_error',
-                message=("Couldn't find variable " + convert_to_file_name(alb)
-                    + " to update albums"))
+            ScriptError("Couldn't find variable \"", convert_to_file_name(alb),
+                "\" to update albums.")
             return
 
         merge_albums(per_album, reg_album)
@@ -254,11 +251,8 @@ init python:
                 try:
                     per_album = getattr(store.persistent, convert_to_file_name(a))
                 except:
-                    print("WARNING: Couldn't find variable", convert_to_file_name(a),
-                        "to update albums")
-                    renpy.show_screen('script_error',
-                        message=("Couldn't find variable " + convert_to_file_name(a)
-                            + " to update albums"))
+                    ScriptError("Couldn't find variable \"", convert_to_file_name(a),
+                        "\" to update albums.")
                     return
                 for cg in per_album:
                     cg.check_if_seen()
@@ -336,11 +330,8 @@ init python:
             try:
                 per_album = getattr(store.persistent, convert_to_file_name(album))
             except:
-                print("WARNING: Couldn't find variable", convert_to_file_name(album),
-                    "to update albums")
-                renpy.show_screen('script_error',
-                    message=("Couldn't find variable " + convert_to_file_name(album)
-                        + " to update albums"))
+                ScriptError("Couldn't find variable \"", convert_to_file_name(album),
+                    "\" to update albums.")
                 return
 
             for photo in per_album:

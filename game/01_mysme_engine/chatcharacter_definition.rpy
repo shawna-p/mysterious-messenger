@@ -799,10 +799,7 @@ init -5 python:
                 if isImg(item):
                     return [ (item, condition)]
                 else:
-                    print("WARNING: " + item + " is not recognized as an "
-                        + "image file.")
-                    renpy.show_screen('script_error',
-                        message=(item + " is not recognized as an image file."))
+                    ScriptError('"',item,'" is not recognized as an image file.')
                     return
             # Otherwise, iterate through the list
             for file in files:
@@ -810,10 +807,8 @@ init -5 python:
                 if isImg(item):
                     result.append((item, condition))
                 else:
-                    print("WARNING: " + item + " is not recognized as an "
-                        + "image file.")
-                    renpy.show_screen('script_error',
-                        message=(item + " is not recognized as an image file."))
+                    ScriptError('"',item,'" is not recognized as an image file.')
+
             return result
 
         # Otherwise, one of the filter conditions is True
@@ -908,11 +903,8 @@ init -5 python:
             lbl = store.mc_pfp_callback(time_diff, old_pfp,
                 get_img_from_tuple(store.persistent.MC_pic), who)
         except:
-            print("WARNING: Could not use mc_pfp_callback. Do you have at",
+            ScriptError("Could not use mc_pfp_callback. Do you have at",
                 "least four function parameters?")
-            renpy.show_screen('script_error',
-                message="Could not use mc_pfp_callback. Do you have at least"
-                    + " four function parameters?")
             return
         if not lbl:
             print_file("Didn't get a pfp callback label")

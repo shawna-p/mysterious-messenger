@@ -17,10 +17,8 @@ python early hide:
             renpy.error("enter chatroom requires a ChatCharacter")
 
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable", d_who, "provided to enter chatroom is not",
-                 "recognized as a ChatCharacter.")
-            renpy.show_screen('script_error',
-                message="Variable %s provided to enter chatroom is not recognized as a ChatCharacter.",
+            ScriptError("Variable", d_who, "provided to enter chatroom is not",
+                "recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
                 link_text="How to make a character enter/exit the chatroom")
             return
@@ -56,10 +54,8 @@ python early hide:
             renpy.error("exit chatroom requires a ChatCharacter")
 
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable", d_who, "provided to exit chatroom is",
-                "not recognized as a ChatCharacter.")
-            renpy.show_screen('script_error',
-                message="Variable %s provided to exit chatroom is not recognized as a ChatCharacter.",
+            ScriptError("Variable", d_who, "provided to exit chatroom is",
+                "not recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-make-a-character-enterexit-the-chatroom",
                 link_text="How to make a character enter/exit the chatroom")
             return
@@ -149,22 +145,16 @@ python early hide:
 
         # Ensure the font is known
         if not ffont in store.all_fonts_list:
-            print("WARNING: The font %s for dialogue \"" % ffont + what
-                + "\" could not be evaluated." )
-            renpy.show_screen('script_error',
-                    message=("The font %s for dialogue \"" % ffont + what
-                        + "\" could not be evaluated." ))
+            ScriptError("The font", ffont, "for dialogue \"", what,
+                "\" could not be evaluated.")
             # Use the default font instead
             ffont = 'sser1'
 
         # Ensure the special bubble is known
         if spec_bubble and (spec_bubble not in store.all_bubbles_list
                 and '_'.join(spec_bubble.split('_')[1:]) not in store.all_bubbles_list):
-            print("WARNING: The special bubble %s for dialogue \"" % spec_bubble
-                + what + "\" could not be evaluated." )
-            renpy.show_screen('script_error',
-                    message=("The special bubble %s for dialogue \"" % spec_bubble
-                    + what + "\" could not be evaluated."))
+            ScriptError("The special bubble", spec_bubble, "for dialogue \"",
+                what, "\" could not be evaluated.")
             # Don't use a special bubble
             spec_bubble = None
 
@@ -411,13 +401,10 @@ python early hide:
 
         # Double-check 'sender' is a ChatCharacter
         if not isinstance(sender, ChatCharacter):
-            print("WARNING: The ChatCharacter %s for dialogue \"" + what
-                + "\" could not be evaluated." % p['who'])
-            renpy.show_screen('script_error',
-                    message=("The ChatCharacter %s for dialogue " + what
-                        + " could not be evaluated." % p['who']),
-                    link="Adding-a-New-Character-to-Chatrooms",
-                    link_text="Adding a New Character to Chatrooms")
+            ScriptError("The ChatCharacter \"", p['who'], "\" for dialogue \"",
+                    what, "\" could not be evaluated.",
+                link="Adding-a-New-Character-to-Chatrooms",
+                link_text="Adding a New Character to Chatrooms")
             return
 
         # Time to go through the messages and determine if there are any
@@ -440,11 +427,8 @@ python early hide:
                     dialogue = d2['dialogue']
                     img = d2['img']
                 except:
-                    print("WARNING: The arguments for dialogue %s could not "
-                        + "be evaluated." % d['what'])
-                    renpy.show_screen('script_error',
-                            message=("The arguments for dialogue %s could not "
-                                + "be evaluated." % d['what']))
+                    ScriptError("The arguments for dialogue \"", d['what'],
+                        "\"could not be evaluated.")
                     return
 
                 # Create the 'when' timestamp
@@ -469,11 +453,8 @@ python early hide:
             # Everything should be a tuple
             if isinstance(msg, ChatEntry):
                 if start_time is None and not timestamp:
-                    print("WARNING: Did not get an initial timestamp for %s's"
-                        + " text message backlog." % sender.name)
-                    renpy.show_screen('script_error',
-                            message=("Did not get an initial timestamp for %s's"
-                                + " text message backlog." % sender.name))
+                    ScriptError("Did not get an initial timestamp for the",
+                        "text message backlog for", sender.name)
                     start_time = '00:00'
                 elif start_time is None:
                     start_time = timestamp
@@ -696,20 +677,16 @@ python early hide:
             spec_bubble = p["spec_bubble"]
             arg_dict = p['arg_dict']
         except:
-            print("ERROR: msg CDS failed. Results:", p['who'], p['what'], p['pv'])
-            renpy.show_screen('script_error',
-                message=("Could not parse msg CDS.")),
+            ScriptError("Could not parse msg CDS. Results:", p['who'],
+                p['what'], p['pv'])
             return
 
         # Double-check 'who' is a ChatCharacter
         if not isinstance(who, ChatCharacter):
-            print("WARNING: The ChatCharacter %s for dialogue \"" + what
-                + "\" could not be evaluated." % p['who'])
-            renpy.show_screen('script_error',
-                    message=("The ChatCharacter %s for dialogue " + what
-                        + " could not be evaluated." % p['who']),
-                    link="Adding-a-New-Character-to-Chatrooms",
-                    link_text="Adding a New Character to Chatrooms")
+            ScriptError("The ChatCharacter", p['who'], "for dialogue \"", what,
+                    "\" could not be evaluated.",
+                link="Adding-a-New-Character-to-Chatrooms",
+                link_text="Adding a New Character to Chatrooms")
             return
 
         # Retrieve the arguments, if applicable
@@ -944,13 +921,10 @@ python early hide:
 
         # Double-check 'sender' is a ChatCharacter
         if not isinstance(sender, ChatCharacter):
-            print("WARNING: The ChatCharacter %s for dialogue \"" + what
-                + "\" could not be evaluated." % p['who'])
-            renpy.show_screen('script_error',
-                    message=("The ChatCharacter %s for dialogue " + what
-                        + " could not be evaluated." % p['who']),
-                    link="Adding-a-New-Character-to-Chatrooms",
-                    link_text="Adding a New Character to Chatrooms")
+            ScriptError("The ChatCharacter", p['who'], "for dialogue \"", what,
+                    "\" could not be evaluated.",
+                link="Adding-a-New-Character-to-Chatrooms",
+                link_text="Adding a New Character to Chatrooms")
             return
 
         sender.set_real_time_text(real_time)
@@ -1060,11 +1034,8 @@ python early hide:
                     dialogue = d2['what']
                     img = d2['img']
                 except:
-                    print("WARNING: The arguments for dialogue %s could not "
-                        + "be evaluated." % d['what'])
-                    renpy.show_screen('script_error',
-                            message=("The arguments for dialogue %s could not "
-                                + "be evaluated." % d['what']))
+                    ScriptError("The arguments for dialogue \"", d['what'],
+                        "\" could not be evaluated.")
                     return
 
 
@@ -1184,13 +1155,11 @@ python early hide:
             renpy.error("award heart requires a ChatCharacter the heart belongs to")
 
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable %s provided to award heart is not recognized as a ChatCharacter." % p["who"])
-            renpy.show_screen('script_error',
-                message="Variable %s provided to award heart is not recognized as a ChatCharacter.",
+            ScriptError("Variable \"", p['who'], "\" provided to award heart",
+                    "is not recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-show-a-heart-icon",
                 link_text="How to show a heart icon")
             return
-
 
         bad = p["bad"]
 
@@ -1219,9 +1188,7 @@ python early hide:
                         msg = who.name + " +1"
                         renpy.show_screen(allocate_notification_screen(), msg)
             except:
-                print("WARNING: Heart could not be awarded for %s." % p["who"])
-                renpy.show_screen('script_error',
-                    message="Heart could not be awarded for " + p["who"],
+                ScriptError("Heart could not be awarded for \"", p["who"], '"',
                     link="Useful-Chatroom-Functions#how-to-show-a-heart-icon",
                     link_text="How to show a heart icon")
                 return
@@ -1279,9 +1246,8 @@ python early hide:
             renpy.error("break heart requires a ChatCharacter the heart belongs to")
 
         if who is None or not isinstance(who, ChatCharacter):
-            print("WARNING: variable %s provided to break heart is not recognized as a ChatCharacter." % p["who"])
-            renpy.show_screen('script_error',
-                message="Variable %s provided to break heart is not recognized as a ChatCharacter.",
+            ScriptError("Variable \"", p['who'], "\" provided to break heart",
+                "is not recognized as a ChatCharacter.",
                 link="Useful-Chatroom-Functions#how-to-show-a-heart-icon",
                 link_text="How to show a heart icon")
             return
@@ -1349,14 +1315,13 @@ python early hide:
             renpy.error("invite requires a guest to invite.")
 
         if not (isinstance(guest, Guest) or isinstance(guest, Guestv3)):
-            print("WARNING: Invited guest is not recognized as a Guest object.")
-            renpy.show_screen('script_error',
-                message="Invited guest %s is not recognized as a Guest object." % p["guest"],
-                link="Inviting-a-Guest", link_text="Inviting a Guest")
+            ScriptError("Invited guest \"", p['guest'], "\" is not recognized",
+                "as a Guest object.",
+                link="Inviting-a-Guest",
+                link_text="Inviting a Guest")
             return
         elif guest is None:
-            print("WARNING: Invited guest cannot be None.")
-            renpy.show_screen('script_error', message="Invited guest cannot be None.",
+            ScriptError("Invited guest cannot be None.",
                 link="Inviting-a-Guest", link_text="Inviting a Guest")
             return
 
@@ -1381,9 +1346,7 @@ python early hide:
                 if not store.persistent.guestbook[g.name]:
                     store.persistent.guestbook[g.name] = "seen"
             except:
-                print("WARNING: Guest %s could not be invited." % p["guest"])
-                renpy.show_screen('script_error',
-                    message="Guest %s could not be invited." % p["guest"],
+                ScriptError("Guest \"", p['guest'], "\" could not be invited.",
                     link="Inviting-a-Guest", link_text="Inviting a Guest")
 
         return
@@ -1550,10 +1513,8 @@ python early hide:
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
             except (KeyError, AttributeError) as e:
-                renpy.show_screen('script_error',
-                    message="No Audio Caption defined for %s" % p["file"],
+                ScriptError("No Audio Caption defined for \"", p["file"], '"',
                     link="Adding-Music-and-SFX", link_text="Adding Music and SFX")
-                print("WARNING: No Audio Caption defined for " + p["file"])
 
             if (not store.observing and not store.persistent.testing_mode
                     and not store.vn_choice):
@@ -1636,10 +1597,8 @@ python early hide:
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
             except (KeyError, AttributeError) as e:
-                renpy.show_screen('script_error',
-                    message="No Audio Caption defined for %s" % p["file"],
+                ScriptError("No Audio Caption defined for \"", p["file"], '"',
                     link="Adding-Music-and-SFX", link_text="Adding Music and SFX")
-                print("WARNING: No Audio Caption defined for " + p["file"])
 
 
         renpy.sound.play(_audio_eval(p["file"]),

@@ -249,8 +249,7 @@ label chatroom_replay():
                         if persistent.audio_captions:
                             renpy.show_screen('notify', notification)
                     except (KeyError, AttributeError) as e:
-                        renpy.show_screen('script_error',
-                            message="No Audio Caption defined for %s" % second,
+                        ScriptError("No audio caption defined for", second,
                             link="Adding-Music-and-SFX",
                             link_text="Adding Music and SFX")
                         print("WARNING: No Audio Caption defined for " + second)

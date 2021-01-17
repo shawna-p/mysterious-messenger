@@ -432,11 +432,8 @@ init -6 python:
             elif self.parent and self.parent.trigger_time:
                 return self.parent.trigger_time
             else:
-                print("WARNING: Could not determine the time for the timeline",
-                    "item at", item.label)
-                renpy.show_screen('script_error',
-                    message=("Could not determine the time for the timeline "
-                        " item at " + item.label))
+                ScriptError("Could not determine the time for the timeline",
+                    "item at \"", item.label, '"')
                 return "24:00"
 
         @trigger_time.setter
@@ -1344,10 +1341,7 @@ init python:
         elif store.most_recent_item is None:
             store.most_recent_item = ChatRoom('Example Chatroom',
                 'example_chat', '00:01')
-            print("WARNING: Could not find any TimelineItems for this route.")
-            renpy.show_screen('script_error',
-                message="Could not find any TimelineItems for this route.")
-
+            ScriptError("Could not find any TimelineItems for this route.")
         return
 
 

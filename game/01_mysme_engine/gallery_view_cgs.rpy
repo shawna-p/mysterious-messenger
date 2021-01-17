@@ -29,9 +29,7 @@ init python:
             album_name = filepath.split('_')[0].split(' ')[1] + '_album'
             cg_list = getattr(store.persistent, album_name)
         except:
-            print("WARNING: Couldn't get album name from CG image.")
-            renpy.show_screen('script_error',
-                message="Couldn't find album name from image " + what)
+            ScriptError("Couldn't get album name from CG image \"", what, '"')
             return
 
         for photo in cg_list:

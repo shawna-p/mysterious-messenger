@@ -2,6 +2,7 @@ init -6 python:
     from datetime import datetime, date, timedelta
     from copy import copy, deepcopy
 
+
     class CConfirm(Show):
         """A special Action for showing confirmation prompts to the player."""
 
@@ -102,11 +103,8 @@ init -6 python:
                     file = args[i+1]
                     self.add_tone(title, file)
                 except IndexError:
-                    print("WARNING: Given tone", args[i], "does not have a",
+                    ScriptError("Given tone", args[i], "does not have a",
                         "corresponding file path.")
-                    renpy.show_screen('script_error',
-                        message=("Given tone " + args[i] + " does not have "
-                            + "a corresponding file path."))
                     return
 
         def add_tone(self, title, file):
@@ -128,11 +126,8 @@ init -6 python:
                 return renpy.python.py_eval(self.condition)
             except:
                 # Notify the user if the condition could not be evaluated.
-                print("WARNING: Could not evaluate condition", self.condition,
+                ScriptError("Could not evaluate condition", self.condition,
                     "for a tone category")
-                renpy.show_screen('script_error',
-                    message=("Could not evaluate given condition "
-                        + str(self.condition) + " for a tone category."))
                 return True
 
 
@@ -491,11 +486,8 @@ init -6 python:
             try:
                 route = route.default_branch
             except AttributeError:
-                print("WARNING: Given Route object does not have a ",
+                ScriptError("Given Route object does not have a ",
                     "default_branch field.")
-                renpy.show_screen('script_error',
-                    message=("Route object for new route does not "
-                        + "have a default_branch field."))
 
         if (len(route) > 0
                 and (isinstance(route[0], RouteDay)
@@ -509,13 +501,9 @@ init -6 python:
         if not isinstance(participants, list):
             # Check if this is a valid participant
             if not isinstance(participants, ChatCharacter):
-                print("WARNING: Given participants list for new_route_setup",
+                ScriptError("Given participants list for new_route_setup",
                     "is not recognized as a ChatCharacter or list of",
                     "ChatCharacters.")
-                renpy.show_screen('script_error',
-                    message=("Given participants list for new_route_setup is"
-                    + " not recognized as a ChatCharacter or list of "
-                    + "ChatCharacters."))
                 participants = [ ]
             else:
                 participants = [participants]
@@ -608,6 +596,59 @@ init -6 python:
         except:
             print("Print to file did not work:", args)
 
+
+    def ScriptError(*args, **kwargs):
+        """
+        Print an error message and display a pop-up to the user informing
+        them of an error in their script. Can also link to an appropriate
+        page in the documentation.
+
+        Parameters:
+        -----------
+        args : strings
+            A list of strings which will be printed out as part of the
+            error message.
+        kwargs - link : string
+            A string used as part of the link to lead to an appropriate
+            page in the documentation.
+        kwargs - link_text : string
+            The text the link should be attached to.
+        """
+
+        # First, convert all arguments to strings
+        str_args = [ ]
+        for arg in args:
+            try:
+                str_args.append(str(arg))
+            except:
+                print_file("ERROR: Couldn't convert arg to a string.")
+
+        # Construct the args into a sentence, being mindful of quotes
+        sentence = ""
+        open_quote = False
+        new_quote = False
+        for arg in str_args:
+            if arg[-1] == '"' and not open_quote:
+                open_quote = True
+                new_quote = True
+            if arg[0] == '"' and not new_quote:
+                open_quote = False
+            sentence += arg
+            if not open_quote and arg != str_args[-1]:
+                sentence += " "
+            new_quote = False
+
+        # Print the message to the console
+        print("WARNING:", sentence)
+
+        link = kwargs.get('link', False)
+        link_text = kwargs.get('link_text', False)
+        # Now show the error message screen
+        renpy.show_screen('script_error', message=sentence, link=link,
+            link_text=link_text)
+
+
+
     def combine_lists(*args):
         """
         Combine args into one giant list and return it. Removes duplicates.
@@ -669,9 +710,7 @@ init -6 python:
             return None
         if lbl[0] == "_":
             return None
-        print("WARNING: Could not find the label", lbl)
-        renpy.show_screen('script_error',
-                message=("Could not find the label " + str(lbl)))
+        ScriptError("Could not find the label", lbl)
 
         if lbl == store.current_timeline_item.item_label:
             # Couldn't find this item's correct label; use `just_return` as a

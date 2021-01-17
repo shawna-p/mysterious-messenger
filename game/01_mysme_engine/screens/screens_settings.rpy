@@ -326,10 +326,7 @@ init python:
                         return Transform(new_img, size=(140, 140))
         except:
             # Couldn't display this profile picture
-            print("ERROR: Couldn't display given profile picture", img)
-            renpy.show_screen('script_error',
-                message=("Couldn't display given profile picture "
-                    + str(img) + "."))
+            ScriptError("Couldn't display given profile picture \"", img, "\".")
             return Transform(Solid("#f00"), size=(140, 140))
 
         return Transform(img, size=(140, 140))

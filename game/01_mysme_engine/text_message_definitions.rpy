@@ -58,6 +58,8 @@ python early:
             # Does this label exist?
             if renpy.has_label(lbl):
                 return lbl
+
+            ScriptError("Text message reply label \"", lbl, "\" does not exist.")
             return False
 
         @reply_label.setter

@@ -163,11 +163,8 @@ init -4 python:
                     self.saved_bubble_style = custom_style
                     return custom_style
             except:
-                print("WARNING: Could not evaluate the function 'custom_"
-                    + "bubble_style'.")
-                renpy.show_screen('script_error',
-                        message=("Could not evaluate the function 'custom_"
-                            + "bubble_style'."))
+                ScriptError("Could not evaluate the function",
+                    "'custom_bubble_style'.")
 
             if self.who.right_msgr:
                 self.saved_bubble_style = 'reg_bubble_MC'
@@ -224,9 +221,7 @@ init -4 python:
                 self.saved_bubble_style = bubble_style
                 return bubble_style
             except:
-                print("WARNING: Could not find the style", bubble_style)
-                renpy.show_screen('script_error',
-                        message=("Could not find the style " + bubble_style))
+                ScriptError("Could not find the style", bubble_style)
             self.saved_bubble_style = 'default'
             return 'default'
 
@@ -256,11 +251,8 @@ init -4 python:
                 if custom_offset:
                     return custom_offset
             except:
-                print("WARNING: Could not evaluate the function 'custom_"
-                    + "bubble_offset'.")
-                renpy.show_screen('script_error',
-                        message=("Could not evaluate the function 'custom_"
-                            + "bubble_offset'."))
+                ScriptError("Could not evaluate the function",
+                    "'custom_bubble_offset'.")
 
             ## Rule exceptions
             if len(self.specBubble.split('_')) > 2:
@@ -360,11 +352,8 @@ init -4 python:
                     self.saved_bubble_bg = custom_bg
                     return custom_bg
             except Exception as e:
-                print("WARNING: Could not evaluate the function 'custom_"
-                    + "bubble_bg'.", e)
-                renpy.show_screen('script_error',
-                        message=("Could not evaluate the function 'custom_"
-                            + "bubble_bg'."))
+                ScriptError("Could not evaluate the function",
+                    "'custom_bubble_bg'.")
 
             # If this is a special bubble, set the background to said bubble
             # Is a character trying to use someone else's bubble?
@@ -386,11 +375,8 @@ init -4 python:
                     if renpy.loadable(bubble_name + ext):
                         self.saved_bubble_bg = bubble_name + ext
                         return bubble_name + ext
-                print("WARNING: Could not find bubble background for",
+                ScriptError("Could not find bubble background for",
                     self.specBubble)
-                renpy.show_screen('script_error',
-                        message=("Could not find bubble background for "
-                            + self.specBubble))
                 self.saved_bubble_bg = None
                 return None
             # Special case for the second glowing bubble variant
@@ -598,9 +584,8 @@ init -4 python:
                 try:
                     renpy.play(emoji_lookup[what], channel="voice_sfx")
                 except:
-                    print("WARNING: Could not find sound file in the emoji dictionary associated with %s." % what)
-                    renpy.show_screen('script_error',
-                        message=("Could not find sound file in the emoji dictionary associated with " + what))
+                    ScriptError("Could not find sound file in the emoji",
+                        "dictionary associated with \"", what, "\".")
             elif "{image" not in what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
@@ -710,9 +695,8 @@ init -4 python:
                 try:
                     renpy.play(emoji_lookup[what], channel="voice_sfx")
                 except:
-                    print("WARNING: Could not find sound file in the emoji dictionary associated with %s." % chatbackup.what)
-                    renpy.show_screen('script_error',
-                        message=("Could not find sound file in the emoji dictionary associated with " + chatbackup.what))
+                    ScriptError("Could not find sound file in the emoji",
+                        "dictionary associated with \"", chatbackup.what, "\".")
             elif "{image" not in chatbackup.what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)

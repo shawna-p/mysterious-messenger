@@ -239,18 +239,12 @@ init -6 python:
 
         # Do some error checking
         if not isinstance(who, ChatCharacter):
-            print("WARNING: The ChatCharacter for the phonecall at \"" + lbl
-                + "\" could not be evaluated.")
-            renpy.show_screen('script_error',
-                    message=("The ChatCharacter for the phonecall " + lbl
-                        + " could not be evaluated."))
+            ScriptError("The ChatCharacter for the phonecall at \"", lbl,
+                "\" could not be evaluated.")
             return
         if not renpy.has_label(lbl):
-            print("WARNING: Could not find label \"" + lbl
-                + "\" for incoming phone call.")
-            renpy.show_screen('script_error',
-                    message=("Could not find label " + lbl
-                        + " for incoming phone call."))
+            ScriptError("Could not find label \"", lbl,
+                "\" for incoming phone call.")
             return
         store.incoming_call = PhoneCall(who, lbl)
         renpy.retain_after_load()
@@ -265,18 +259,12 @@ init -6 python:
 
         # Do some error checking
         if not isinstance(who, ChatCharacter):
-            print("WARNING: The ChatCharacter for the phonecall at \"" + lbl
-                + "\" could not be evaluated.")
-            renpy.show_screen('script_error',
-                    message=("The ChatCharacter for the phonecall " + lbl
-                        + " could not be evaluated."))
+            ScriptError("The ChatCharacter for the phonecall at \"", lbl,
+                "\" could not be evaluated.")
             return
         if not renpy.has_label(lbl):
-            print("WARNING: Could not find label \"" + lbl
-                + "\" for incoming phone call.")
-            renpy.show_screen('script_error',
-                    message=("Could not find label " + lbl
-                        + " for incoming phone call."))
+            ScriptError("Could not find label \"", lbl,
+                "\" for incoming phone call.")
             return
         store.available_calls.append(PhoneCall(who, lbl, 'outgoing'))
         renpy.retain_after_load()
