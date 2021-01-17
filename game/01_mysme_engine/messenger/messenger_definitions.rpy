@@ -26,6 +26,8 @@ init -4 python:
             Saves the calculated bubble background, if applicable.
         saved_bubble_style : string or None
             Saves the calculated bubble style, if applicable.
+        text_msg_font : string
+            The font used for the text.
         """
 
         def __init__(self, who, what, thetime, img=False,
@@ -62,7 +64,49 @@ init -4 python:
             self.saved_bubble_bg = None
             self.saved_bubble_style = None
 
+            self.__text_msg_font = 'sser1'
 
+        @property
+        def text_msg_what(self):
+            """Return `what` with the font removed, for text messages."""
+
+            text_what = self.what
+            deny_list = [ x for x in font_dict.keys() ]
+            deny_list.append("font")
+            deny_list.append("=")
+            text_what = renpy.filter_text_tags(text_what, deny=deny_list)
+            for tag in deny_list:
+                remove = "{=" + tag + "}"
+                if remove in text_what:
+                    self.text_msg_font = tag
+                    text_what = text_what.replace(remove, '')
+                    remove = "{/=" + tag + "}"
+                    text_what = text_what.replace(remove, '')
+            return text_what
+
+        @property
+        def text_msg_font(self):
+            """Return the font the text message should be displayed in."""
+
+            try:
+                return store.font_dict[self.__text_msg_font]
+            except Exception as e:
+                print_file("Exception with text font:", e)
+            try:
+                return getattr(store, self.__text_msg_font)
+            except:
+                return store.font_dict['sser1']
+
+        @text_msg_font.setter
+        def text_msg_font(self, ffont):
+            try:
+                if ffont in store.font_dict.keys():
+                    self.__text_msg_font = ffont
+                else:
+                    ScriptError("Given font \"", ffont, "\" is not in the",
+                        "font dictionary.")
+            except:
+                self.__text_msg_font = 'sser1'
 
         @property
         def name_style(self):

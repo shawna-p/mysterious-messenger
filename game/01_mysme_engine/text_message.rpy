@@ -466,10 +466,11 @@ screen text_animation(i, animate=False, anti=False):
                     style i.text_bubble_style
                     yalign 0.0
                     if i.dialogue_width > gui.longer_than:
-                        text i.what:
+                        text i.text_msg_what:
                             style "bubble_text_long"
                             min_width gui.long_line_min_width
                             color '#fff'
+                            font i.text_msg_font
                     else:
                         if not i.img:
                             yoffset 35
