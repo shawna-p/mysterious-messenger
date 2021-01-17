@@ -413,12 +413,12 @@ Additionally, there is the special line ``pause`` which will cause the program t
     add backlog ju -17 time 20:32:
         ju "Good evening, [name]."
         ju "You've been with the RFA for a month now so I hoped to ask you a question."
-        pause 105
+        pause 110
         m "What is it?"
         pause 60*2
         ju "Would you consider a position at C&R International?"
 
-The first message will have a timestamp of 20:32. The second message will take a few seconds to write but likely under a minute, so it will have a timestamp of 20:32 as well. After that, there is a pause statement for 105 seconds. This guarantees that the program will add 105 seconds to its calculation of how long the next message should take to type, so the MC's message will have a timestamp of 20:34.
+The first message will have a timestamp of 20:32. The second message will take a few seconds to write but likely under a minute, so it will have a timestamp of 20:32 as well. After that, there is a pause statement for 110 seconds. This guarantees that the program will add 110 seconds to its calculation of how long the next message should take to type, so the MC's message will have a timestamp of 20:34.
 
 Finally, after the MC's line there is a pause of 60*2 seconds, so 2 minutes. This will force an additional two-minute delay between the timestamp of the next message, from Jumin, and the MC's message. The last message from Jumin should have a time stamp of 20:36.
 
