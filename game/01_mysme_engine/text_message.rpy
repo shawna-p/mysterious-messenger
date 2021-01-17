@@ -304,9 +304,9 @@ screen text_message_footer(c):
                 if not renpy.get_screen("choice"):
                     action [Jump('play_text_message')]
                     activate_sound "audio/sfx/UI/answer_screen.mp3"
+                add 'text_answer_text' xalign 0.5 yalign 0.5
             else:
-                background 'text_answer_inactive'
-            add 'text_answer_text' xalign 0.5 yalign 0.5
+                background None
 
 ## Displays the date separator between two messages that
 ## have a time difference of one day or more
