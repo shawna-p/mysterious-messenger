@@ -1046,12 +1046,9 @@ python early hide:
         for msg in p['messages']:
             if isinstance(msg, list):
                 # This is a conditional
-                print_file("Found a conditional:", msg)
                 messages.extend(resolve_conditionals(msg))
             else:
                 messages.append(msg)
-
-        print_file("Messages is now resolved to:", messages)
 
         # Now go through and turn this into an understandable dictionary
         for d in messages:
