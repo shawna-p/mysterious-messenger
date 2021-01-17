@@ -51,9 +51,14 @@ python early:
             if len(self.msg_queue) > 0:
                 return False
             try:
-                return self.__reply_label
+                lbl = self.__reply_label
             except:
-                return self.__dict__['reply_label']
+                lbl = self.__dict__['reply_label']
+
+            # Does this label exist?
+            if renpy.has_label(lbl):
+                return lbl
+            return False
 
         @reply_label.setter
         def reply_label(self, new_label):
