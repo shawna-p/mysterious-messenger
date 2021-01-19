@@ -104,7 +104,9 @@ init -6 python:
                     self.add_tone(title, file)
                 except IndexError:
                     ScriptError("Given tone", args[i], "does not have a",
-                        "corresponding file path.")
+                        "corresponding file path.",
+                        header="Miscellaneous",
+                        subheader="Adding New Ringtones, Text Tones, & Email Tones")
                     return
 
         def add_tone(self, title, file):
@@ -127,7 +129,9 @@ init -6 python:
             except:
                 # Notify the user if the condition could not be evaluated.
                 ScriptError("Could not evaluate condition", self.condition,
-                    "for a tone category")
+                    "for a tone category",
+                    header="Miscellaneous",
+                    subheader="Adding New Ringtones, Text Tones, & Email Tones")
                 return True
 
 
@@ -487,7 +491,8 @@ init -6 python:
                 route = route.default_branch
             except AttributeError:
                 ScriptError("Given Route object does not have a ",
-                    "default_branch field.")
+                    "default_branch field.",
+                    link="route-setup", link_text="Setting up a Route")
 
         if (len(route) > 0
                 and (isinstance(route[0], RouteDay)
@@ -503,7 +508,9 @@ init -6 python:
             if not isinstance(participants, ChatCharacter):
                 ScriptError("Given participants list for new_route_setup",
                     "is not recognized as a ChatCharacter or list of",
-                    "ChatCharacters.")
+                    "ChatCharacters.",
+                    header="route-setup", subheader="Chatrooms",
+                    link_text="Adding a Chatroom")
                 participants = [ ]
             else:
                 participants = [participants]
@@ -646,7 +653,7 @@ init -6 python:
 
         link = kwargs.get('link', False)
         header = kwargs.get('header', False)
-        sub_header = kwargs.get('sub_header', '')
+        sub_header = kwargs.get('sub_header', '') or kwargs.get('subheader', '')
         link_text = kwargs.get('link_text', False)
         if header or sub_header and not link_text:
             if sub_header:

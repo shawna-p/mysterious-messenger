@@ -47,7 +47,8 @@ init python:
             renpy.scene()
             renpy.show('bg black')
             store.current_background = 'morning'
-            ScriptError("Could not find the background \"bg ", new_bg + "\"")
+            ScriptError("Could not find the background \"bg ", new_bg + "\"",
+                header="Chatrooms", subheader="Adding Chatroom Backgrounds")
 
         if store.persistent.animated_backgrounds:
             renpy.scene()
@@ -57,7 +58,9 @@ init python:
                     renpy.show_screen('animated_' + new_bg, _layer='animated_bg')
                 except:
                     ScriptError("Could not find the screen \"animated_"
-                        + new_bg + "\"")
+                        + new_bg + "\"",
+                        header="Chatrooms",
+                        subheader="Adding an Animated Background")
             elif new_bg == 'hack':
                 renpy.show_screen('animated_hack_background', _layer='animated_bg')
             elif new_bg == 'redhack':

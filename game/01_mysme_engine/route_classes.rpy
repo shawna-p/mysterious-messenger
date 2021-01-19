@@ -433,7 +433,8 @@ init -6 python:
                 return self.parent.trigger_time
             else:
                 ScriptError("Could not determine the time for the timeline",
-                    "item at \"", item.label, '"')
+                    "item at \"", item.label, '"',
+                    header="route-setup", subheader="Adding Timeline Items")
                 return "24:00"
 
         @trigger_time.setter
@@ -1341,7 +1342,8 @@ init python:
         elif store.most_recent_item is None:
             store.most_recent_item = ChatRoom('Example Chatroom',
                 'example_chat', '00:01')
-            ScriptError("Could not find any TimelineItems for this route.")
+            ScriptError("Could not find any TimelineItems for this route.",
+                link="route-setup", link_text="Setting up a Route")
         return
 
 

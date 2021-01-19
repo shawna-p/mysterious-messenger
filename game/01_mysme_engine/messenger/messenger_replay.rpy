@@ -250,8 +250,8 @@ label chatroom_replay():
                             renpy.show_screen('notify', notification)
                     except (KeyError, AttributeError) as e:
                         ScriptError("No audio caption defined for", second,
-                            link="Adding-Music-and-SFX",
-                            link_text="Adding Music and SFX")
+                            header="Miscellaneous",
+                            subheader="Adding New Audio")
                         print("WARNING: No Audio Caption defined for " + second)
                     renpy.music.play(second, loop=True)
                 elif first == "shake":

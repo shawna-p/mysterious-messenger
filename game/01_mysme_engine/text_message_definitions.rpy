@@ -59,7 +59,9 @@ python early:
             if lbl and renpy.has_label(lbl):
                 return lbl
             elif lbl:
-                ScriptError("Text message reply label \"", lbl, "\" does not exist.")
+                ScriptError("Text message reply label \"", lbl,
+                    "\" does not exist.",
+                    header="Text Messages")
             return False
 
         @reply_label.setter

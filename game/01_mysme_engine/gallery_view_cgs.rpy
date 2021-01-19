@@ -29,7 +29,9 @@ init python:
             album_name = filepath.split('_')[0].split(' ')[1] + '_album'
             cg_list = getattr(store.persistent, album_name)
         except:
-            ScriptError("Couldn't get album name from CG image \"", what, '"')
+            ScriptError("Couldn't get album name from CG image \"", what, '"',
+            header="CG Albums",
+            subheader="Showing a CG in a Chatroom or Text Message")
             return
 
         for photo in cg_list:

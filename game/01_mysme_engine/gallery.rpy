@@ -230,7 +230,8 @@ init python:
             per_album = getattr(store.persistent, convert_to_file_name(alb))
         except:
             ScriptError("Couldn't find variable \"", convert_to_file_name(alb),
-                "\" to update albums.")
+                "\" to update albums.", header="CG Albums",
+                subheader="Adding a CG Album")
             return
 
         merge_albums(per_album, reg_album)
@@ -252,7 +253,8 @@ init python:
                     per_album = getattr(store.persistent, convert_to_file_name(a))
                 except:
                     ScriptError("Couldn't find variable \"", convert_to_file_name(a),
-                        "\" to update albums.")
+                        "\" to update albums.", header="CG Albums",
+                        subheader="Adding a CG Album")
                     return
                 for cg in per_album:
                     cg.check_if_seen()
@@ -331,7 +333,8 @@ init python:
                 per_album = getattr(store.persistent, convert_to_file_name(album))
             except:
                 ScriptError("Couldn't find variable \"", convert_to_file_name(album),
-                    "\" to update albums.")
+                    "\" to update albums.", header="CG Albums",
+                    subheader="Adding a CG Album")
                 return
 
             for photo in per_album:

@@ -104,7 +104,8 @@ init -4 python:
                     self.__text_msg_font = ffont
                 else:
                     ScriptError("Given font \"", ffont, "\" is not in the",
-                        "font dictionary.")
+                        "font dictionary.",
+                        header="Chatrooms", subheader="Custom Fonts")
             except:
                 self.__text_msg_font = 'sser1'
 
@@ -208,7 +209,9 @@ init -4 python:
                     return custom_style
             except:
                 ScriptError("Could not evaluate the function",
-                    "'custom_bubble_style'.")
+                    "'custom_bubble_style'.",
+                    header="Chatrooms",
+                    subheader="Custom Bubble Style Function")
 
             if self.who.right_msgr:
                 self.saved_bubble_style = 'reg_bubble_MC'
@@ -265,7 +268,9 @@ init -4 python:
                 self.saved_bubble_style = bubble_style
                 return bubble_style
             except:
-                ScriptError("Could not find the style", bubble_style)
+                ScriptError("Could not find the style", bubble_style,
+                    header="Chatrooms",
+                    subheader="Custom Bubbles")
             self.saved_bubble_style = 'default'
             return 'default'
 
@@ -296,7 +301,9 @@ init -4 python:
                     return custom_offset
             except:
                 ScriptError("Could not evaluate the function",
-                    "'custom_bubble_offset'.")
+                    "'custom_bubble_offset'.",
+                    header='Chatrooms',
+                    subheader="Custom Bubble Offset Function")
 
             ## Rule exceptions
             if len(self.specBubble.split('_')) > 2:
@@ -397,7 +404,8 @@ init -4 python:
                     return custom_bg
             except Exception as e:
                 ScriptError("Could not evaluate the function",
-                    "'custom_bubble_bg'.")
+                    "'custom_bubble_bg'.", header="Chatroooms",
+                    subheader="Custom Bubble Background Function")
 
             # If this is a special bubble, set the background to said bubble
             # Is a character trying to use someone else's bubble?
@@ -420,7 +428,8 @@ init -4 python:
                         self.saved_bubble_bg = bubble_name + ext
                         return bubble_name + ext
                 ScriptError("Could not find bubble background for",
-                    self.specBubble)
+                    self.specBubble, header="Chatrooms",
+                    subheader="Custom Bubbles")
                 self.saved_bubble_bg = None
                 return None
             # Special case for the second glowing bubble variant
@@ -629,7 +638,9 @@ init -4 python:
                     renpy.play(emoji_lookup[what], channel="voice_sfx")
                 except:
                     ScriptError("Could not find sound file in the emoji",
-                        "dictionary associated with \"", what, "\".")
+                        "dictionary associated with \"", what, "\".",
+                        header="Miscellaneous",
+                        subheader="Custom Emojis")
             elif "{image" not in what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)
@@ -740,7 +751,9 @@ init -4 python:
                     renpy.play(emoji_lookup[what], channel="voice_sfx")
                 except:
                     ScriptError("Could not find sound file in the emoji",
-                        "dictionary associated with \"", chatbackup.what, "\".")
+                        "dictionary associated with \"", chatbackup.what, "\".",
+                        header="Miscellaneous",
+                        subheader="Custom Emojis")
             elif "{image" not in chatbackup.what and not observing:
                 # Unlock the CG in the gallery
                 cg_helper(what, who, True)

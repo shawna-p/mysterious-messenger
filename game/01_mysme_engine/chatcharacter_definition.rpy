@@ -799,7 +799,10 @@ init -5 python:
                 if isImg(item):
                     return [ (item, condition)]
                 else:
-                    ScriptError('"',item,'" is not recognized as an image file.')
+                    ScriptError('"',item,'" is not recognized as an image file.',
+                    header='Miscellaneous',
+                    subheader='Profile Pictures for the Characters',
+                    link_text="The register_pfp function")
                     return
             # Otherwise, iterate through the list
             for file in files:
@@ -807,7 +810,10 @@ init -5 python:
                 if isImg(item):
                     result.append((item, condition))
                 else:
-                    ScriptError('"',item,'" is not recognized as an image file.')
+                    ScriptError('"',item,'" is not recognized as an image file.',
+                    header='Miscellaneous',
+                    subheader='Profile Pictures for the Characters',
+                    link_text="The register_pfp function")
 
             return result
 
@@ -904,7 +910,9 @@ init -5 python:
                 get_img_from_tuple(store.persistent.MC_pic), who)
         except:
             ScriptError("Could not use mc_pfp_callback. Do you have at",
-                "least four function parameters?")
+                "least four function parameters?",
+                header='Miscellaneous',
+                subheader="Profile Picture Callbacks")
             return
         if not lbl:
             print_file("Didn't get a pfp callback label")

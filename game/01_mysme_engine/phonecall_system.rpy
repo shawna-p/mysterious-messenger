@@ -240,11 +240,15 @@ init -6 python:
         # Do some error checking
         if not isinstance(who, ChatCharacter):
             ScriptError("The ChatCharacter for the phonecall at \"", lbl,
-                "\" could not be evaluated.")
+                "\" could not be evaluated.",
+                header="Creating Characters",
+                subheader="Adding a New Character to Phone Calls")
             return
         if not renpy.has_label(lbl):
             ScriptError("Could not find label \"", lbl,
-                "\" for incoming phone call.")
+                "\" for incoming phone call.",
+                header="Phone Calls",
+                subheader="Incoming Calls")
             return
         store.incoming_call = PhoneCall(who, lbl)
         renpy.retain_after_load()
@@ -260,11 +264,15 @@ init -6 python:
         # Do some error checking
         if not isinstance(who, ChatCharacter):
             ScriptError("The ChatCharacter for the phonecall at \"", lbl,
-                "\" could not be evaluated.")
+                "\" could not be evaluated.",
+                header="Creating Characters",
+                subheader="Adding a New Character to Phone Calls")
             return
         if not renpy.has_label(lbl):
             ScriptError("Could not find label \"", lbl,
-                "\" for incoming phone call.")
+                "\" for outgoing phone call.",
+                header="Phone Calls",
+                subheader="Outgoing Calls")
             return
         store.available_calls.append(PhoneCall(who, lbl, 'outgoing'))
         renpy.retain_after_load()
