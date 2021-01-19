@@ -43,7 +43,7 @@ label extra_features_showcase():
             pause 0.5
             show tut_arrow:
                 xpos 330
-                ypos 540
+                ypos 540-18
             z "{b}Testing Mode{/b}, when checked, will add several features to the program."
             z "First, every time you enter a timeline item it is considered to be the \"first\" time."
             z "So that means you can make different choices each time, or even use the back button in chatrooms and the end call button in phone calls to force that story item to expire."
@@ -70,14 +70,14 @@ label extra_features_showcase():
             pause 0.5
             show tut_arrow:
                 xpos 360
-                ypos 575
+                ypos 575-18
             z neutral "If you want to jump right to a particular chatroom or Story Mode, for example, you can also toggle \"Unlock all story\"."
             z "This automatically makes all items on the timeline available to play and allows you to proceed through a plot branch even if you haven't played all the story items before it."
             z "Note that if you turn \"Unlock all story\" off on a save file where it was already activated, chatrooms and other story items will remain visible on the timeline screen,"
             z thinking "But you'll have to play through the items in order again and can't jump to later items before playing earlier ones."
             show tut_arrow:
                 xpos 365
-                ypos 612
+                ypos 612-18
             z neutral "There's also a toggle for \"Real-Time Mode\", which causes the game to run on real-time."
             z "So, story items will unlock based on the real-world time they are scheduled to be available at."
             hide tut_dev_options
@@ -96,7 +96,7 @@ label extra_features_showcase():
             pause 0.5
             show tut_arrow:
                 xpos 342
-                ypos 647
+                ypos 647-18
             z neutral "Next there's a toggle for \"Hacked Effect\", which will only work if you're not on the main menu."
             hide tut_dev_options
             hide tut_arrow
@@ -108,23 +108,35 @@ label extra_features_showcase():
             pause 0.5
             show tut_arrow:
                 xpos 575
-                ypos 683
+                ypos 683-18
             z "Then there's \"Receive Hourglasses in Chatrooms\", which, if checked, will randomly award the player an hourglass for some lines of dialogue in chatrooms."
             z "If you're using Mysterious Messenger for a fanfic or for narrative purposes, you may want this option off."
             show tut_arrow:
                 xpos 545
-                ypos 720
-            z happy "And finally, there's \"Use custom route select screen\"."
+                ypos 720-18
+            z happy "Next, there's \"Use custom route select screen\"."
             z "There are more instructions on how to make your own route select screen in the wiki."
             z neutral "This will allow you to easily switch between your own routes and the built-in Tutorial Day."
             show tut_arrow:
-                xpos 315
-                ypos 800
+                xpos 485
+                ypos 720+20
+            z happy "And finally, there's \"Prefer local documentation\"."
+            z "If there's something wrong with your script, sometimes you'll get a popup with a link to the documentation."
+            z neutral "By default, this opens in a web browser, but if you check this option, it will open the offline version that comes in the repository."
+            z happy "It can be good if you're working offline!"
+            show tut_arrow:
+                xpos 345
+                ypos 810
             z thinking "There's also a button, \"Fix Persistent\"."
             z neutral "If you're having trouble with persistent values, but don't want to lose information like how many heart points you have and what gallery images you've unlocked, you can try using this button."
+            z "If you run into a major program issue though, don't hesitate to open an issue on the Mysterious Messenger GitHub or send a message in the Discord server."
+            show tut_arrow:
+                xzoom -1.0
+                xpos 235
+                ypos 810
+            z "Beside it, there's the \"Documentation\" button, which will open the documentation home page in case you need to look anything up."
             hide tut_arrow
             hide tut_dev_options
-            z "If you run into a major program issue though, don't hesitate to open an issue on the Mysterious Messenger GitHub or send a message in the Discord server."
             z happy "And that's all! Is there anything else you want to know about?"
 
         "That's all I wanted to know." (paraphrased=False):
