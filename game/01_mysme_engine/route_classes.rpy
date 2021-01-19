@@ -1153,11 +1153,11 @@ label play_timeline_item():
     $ end_timeline_item_checks()
 
     if not skip_story_item:
-        if isinstance(current_timeline_item, ChatRoom):
+        if isinstance(current_timeline_item, ChatRoom) and not vn_choice:
             call screen save_and_exit()
             if not observing:
                 call screen signature_screen(True)
-        elif isinstance(current_timeline_item, StoryMode):
+        elif isinstance(current_timeline_item, StoryMode) or vn_choice:
             call screen signature_screen(False)
 
         if observing and not _in_replay:
@@ -1495,8 +1495,8 @@ label execute_plot_branch():
 ## to the main menu
 label end_route():
     $ is_chat = False
-    if isinstance(current_timeline_item, ChatRoom) and not (starter_story
-            and (vn_choice or in_phone_call)):
+    if isinstance(current_timeline_item, ChatRoom) and not (vn_choice
+            or in_phone_call):
         call screen save_and_exit()
         $ is_chat = True
     if not isinstance(current_timeline_item, StoryCall):
