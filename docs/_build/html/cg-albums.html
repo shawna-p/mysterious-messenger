@@ -232,10 +232,10 @@
 <p>If you want an album that isn’t associated with any particular character, such as a “Common” album, the program expects you to follow certain naming conventions so it can find the correct album cover, label, and variables.</p>
 <p>For example, if you wanted to add a “New Year’s” album, you must do the following:</p>
 <ol class="arabic simple">
-<li><p>Add “new year’s” to the <code class="docutils literal notranslate"><span class="pre">all_albums</span></code> definition. Capitalization doesn’t matter, but note the use of double quotes (“) instead of single so you don’t have to escape the apostrophe.</p></li>
+<li><p>Add “new year’s” to the <code class="docutils literal notranslate"><span class="pre">all_albums</span></code> definition. If a string is all lowercase, the first letter will be capitalized when it is displayed on the Album screen, but otherwise capitalization is preserved. Also note the use of double quotes (“) instead of single so you don’t have to escape the apostrophe.</p></li>
 </ol>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">all_albums</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;ju&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;ja&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;common&#39;</span><span class="p">,</span> <span class="s2">&quot;new year&#39;s&quot;</span>
+    <span class="s1">&#39;ju&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;ja&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;common&#39;</span><span class="p">,</span> <span class="s2">&quot;New Year&#39;s&quot;</span>
 <span class="p">]</span>
 </pre></div>
 </div>

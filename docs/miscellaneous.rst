@@ -665,6 +665,7 @@ Checking the Last Time the Picture was Changed
         return
 
 ::
+
     init -1 python:
         def example_pfp_callback(time_diff, prev_pic, current_pic, who):
             if time_diff.days > 3:
@@ -726,7 +727,7 @@ However, if ``paraphrase_choices`` is set to False, then the main character will
             ju "That's good to hear."
 
     # Is equivalent to
-    $ paraphrase choices = False
+    $ paraphrase_choices = False
     menu:
         "I don't want to go.":
             ju "I understand."

@@ -785,27 +785,19 @@
     <span class="k">return</span>
 </pre></div>
 </div>
-<dl>
-<dt>::</dt><dd><dl>
-<dt>init -1 python:</dt><dd><dl class="simple">
-<dt>def example_pfp_callback(time_diff, prev_pic, current_pic, who):</dt><dd><dl class="simple">
-<dt>if time_diff.days &gt; 3:</dt><dd><p># It has been more than 3 days since the player changed their pfp
-return ‘long_time_no_change’</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd>
-<dt>label long_time_no_change:</dt><dd><dl class="simple">
-<dt>$ space_thoughts.add_choices(</dt><dd><p>SpaceThought(y, “[name] finally changed [their] profile picture! I was starting to feel self-conscious changing mine so much…”)</p>
-</dd>
-</dl>
-<p>)
-return</p>
-</dd>
-</dl>
-</dd>
-</dl>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="o">-</span><span class="mi">1</span> <span class="k">python</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">example_pfp_callback</span><span class="p">(</span><span class="n">time_diff</span><span class="p">,</span> <span class="n">prev_pic</span><span class="p">,</span> <span class="n">current_pic</span><span class="p">,</span> <span class="n">who</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">time_diff</span><span class="o">.</span><span class="n">days</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="c1"># It has been more than 3 days since the player changed their pfp</span>
+            <span class="k">return</span> <span class="s1">&#39;long_time_no_change&#39;</span>
+
+<span class="k">label</span> <span class="n">long_time_no_change</span><span class="p">:</span>
+    <span class="k">$</span> <span class="n">space_thoughts</span><span class="o">.</span><span class="n">add_choices</span><span class="p">(</span>
+        <span class="n">SpaceThought</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s2">&quot;[name] finally changed [their] profile picture! I was starting to feel self-conscious changing mine so much...&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="checking-if-an-image-is-associated-with-a-character">
 <h4>Checking if an Image is Associated with a Character<a class="headerlink" href="#checking-if-an-image-is-associated-with-a-character" title="Permalink to this headline">¶</a></h4>
@@ -846,7 +838,7 @@ return</p>
         <span class="n">ju</span> <span class="s2">&quot;That&#39;s good to hear.&quot;</span>
 
 <span class="c1"># Is equivalent to</span>
-<span class="k">$</span> <span class="n">paraphrase</span> <span class="n">choices</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">$</span> <span class="n">paraphrase_choices</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">menu</span><span class="p">:</span>
     <span class="s2">&quot;I don&#39;t want to go.&quot;</span><span class="p">:</span>
         <span class="n">ju</span> <span class="s2">&quot;I understand.&quot;</span>
