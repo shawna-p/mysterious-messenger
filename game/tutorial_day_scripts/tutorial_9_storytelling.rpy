@@ -25,8 +25,8 @@ label other_storytelling():
 
     # This will stop the chat and display a "Continue" button at the bottom
     # of the screen. Clicking it will take the player to the label you pass
-    # it; here it goes to 'other_storytelling_vn_1'
-    call vn_during_chat('other_storytelling_vn_1')
+    # it; here it goes to 'other_storytelling_chat_vn_1'
+    call vn_during_chat('other_storytelling_chat_vn_1')
 
     y "{=sser2}See? We're back here in the chat.{/=sser2}"
     y "{=ser1}You might have noticed that the messages I sent you earlier are still in the history.{/=ser1}"
@@ -38,7 +38,7 @@ label other_storytelling():
     # participants and the chatlog with `clear chat participants`, and then set
     # the background again. If you just want to clear the chatlog, not the
     # participants, just use `clear chat`. `clear chat participants` does both.
-    call vn_during_chat('other_storytelling_vn_2')
+    call vn_during_chat('other_storytelling_chat_vn_2')
     clear chat participants
     scene night
 
@@ -54,7 +54,11 @@ label other_storytelling():
     exit chatroom y
     return
 
-label other_storytelling_vn_1():
+# There aren't any restrictions on what you can call this label, but remember
+# that if you call it the label of the chatroom + _vn, that makes an attached
+# StoryMode, which isn't what you want. That's why this one is called
+# other_storytelling_chat_vn_1 instead of other_storytelling_vn
+label other_storytelling_chat_vn_1():
     # The music also carries over from the chatroom
     scene bg yoosung_room_day with fade
     show yoosung sparkle
@@ -65,7 +69,7 @@ label other_storytelling_vn_1():
     # End with `return` like usual
     return
 
-label other_storytelling_vn_2():
+label other_storytelling_chat_vn_2():
     scene bg yoosung_room_night with fade
     play music mystic_chat
     show yoosung neutral
@@ -90,7 +94,7 @@ label other_storytelling_expired():
 
     # Note that in some cases, you can reuse the VN label for
     # expired chatrooms as well.
-    call vn_during_chat('other_storytelling_vn_1')
+    call vn_during_chat('other_storytelling_chat_vn_1')
 
     y "There are more neat things you can do with it too."
     y "I hope you'll check them out!"
