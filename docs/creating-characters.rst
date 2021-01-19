@@ -24,6 +24,7 @@ The characters that come with the program by default are:
 * z (ZEN)
 
 There are also a few characters who are defined only for use in Story Mode:
+
 * sarah_vn (Sarah)
 * chief_vn (Chief Han)
 
