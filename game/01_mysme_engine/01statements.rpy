@@ -112,6 +112,68 @@ python early hide:
     ########################################
     ## MSG AND BACKLOG CDS
     ########################################
+    ## A helper to parse menu arguments. Modified slightly from the engine
+    ## code at renpy/parser.py
+    def c_parse_arguments(l, include_wait=True):
+        """
+        Parse a list of arguments, if one is present.
+        """
+
+        arguments = [ ]
+        extrakw = None
+        extrapos = None
+        wait = None
+
+        if not l.match(r'\('):
+            return dict(args=arguments,
+                        kwargs=extrakw,
+                        pos=extrapos,
+                        wait=wait)
+
+        while True:
+
+            if l.match('\)'):
+                break
+
+            if l.match(r'\*\*'):
+
+                if extrakw is not None:
+                    l.error('a call may have only one ** argument')
+
+                extrakw = l.delimited_python("),")
+
+            elif l.match(r'\*'):
+                if extrapos is not None:
+                    l.error('a call may have only one * argument')
+
+                extrapos = l.delimited_python("),")
+
+            else:
+
+                state = l.checkpoint()
+
+                name = l.name()
+                if not (name and l.match(r'=')):
+                    l.revert(state)
+                    name = None
+
+                l.skip_whitespace()
+                if include_wait and name == 'wait':
+                    # This is a wait argument
+                    wait = l.delimited_python("),")
+                else:
+                    arguments.append((name, l.delimited_python("),")))
+
+            if l.match(r'\)'):
+                break
+
+            l.require(r',')
+
+        return dict(args=arguments,
+                    kwargs=extrakw,
+                    pos=extrapos,
+                    wait=wait)
+
     def parse_message_args(what, ffont, bold, xbold, big, img, spec_bubble,
             is_text_msg=False):
         """
@@ -247,7 +309,7 @@ python early hide:
                             msg_prefix=is_text_msg)
                         messages.append(line)
                     continue
-                except:
+                except Exception as e:
                     l.revert(state)
 
                 try:
@@ -581,6 +643,10 @@ python early hide:
             if l.eol():
                 break
 
+            # If there are arguments, there shouldn't be any more keywords
+            if arg_dict:
+                renpy.error("Cannot have keywords after argument list.")
+
             # If you preface the argument with `font`, you can use custom
             # fonts
             if l.keyword('font'):
@@ -646,6 +712,10 @@ python early hide:
             l.revert(state)
 
             arg_dict = c_parse_arguments(l)
+            # If there was anything in the arg dict
+            if (arg_dict['args'] or arg_dict['kwargs']
+                    or arg_dict['pos'] or arg_dict['wait']):
+                continue
 
             renpy.error("couldn't recognize msg argument")
 
