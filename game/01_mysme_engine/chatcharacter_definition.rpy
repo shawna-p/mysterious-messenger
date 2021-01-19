@@ -890,8 +890,8 @@ init -5 python:
                         and get_img_from_tuple(store.persistent.MC_pic)[7:] in pfp_list):
                     who = chara
                     break
-            except:
-                print_file("Couldn't look at", chara.file_id)
+            except Exception as e:
+                print_file("Couldn't look at", chara.file_id, "Error:", e)
                 continue
         old_pfp = store.mc_previous_pfp
         store.mc_previous_pfp = get_img_from_tuple(store.persistent.MC_pic)
