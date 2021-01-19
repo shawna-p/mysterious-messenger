@@ -86,6 +86,8 @@ Adding Timeline Items
 
 The main way you will add content to your route is by filling out a RouteDay's ``archive_list``. There are four main timeline items.
 
+.. _Route Chatrooms:
+
 Chatrooms
 ---------
 
@@ -163,6 +165,8 @@ You can also specify which character should appear on the Story Mode icon in the
 
 An attached Story Mode is written the same way as other story mode sections. See :ref:`Writing a Story Mode` for more.
 
+.. _Route Story Mode:
+
 Story Mode
 ----------
 
@@ -211,7 +215,7 @@ There are some additional fields as well, each of which is explained below.
 
     e.g. "s"
 
-
+.. _Route Story Calls:
 
 Story Calls
 -------------
