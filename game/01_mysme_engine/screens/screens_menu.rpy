@@ -1532,27 +1532,64 @@ screen developer_settings():
                     textbutton _("Use custom route select screen"):
                         action ToggleField(persistent, 'custom_route_select')
 
+            hbox:
+                align (0.5, 0.5)
+                spacing 40
+                textbutton _('Fix Persistent'):
+                    style "other_settings_end_button"
+                    text_style 'other_settings_end_button_text'
+                    ysize 80
+                    xsize 285
+                    yalign 1.0
+                    if not main_menu:
+                        action CConfirm(("Resetting "
+                            + "your persistent variables may cause "
+                            + "information to be lost. You will "
+                            + "need to start a new game after resetting "
+                            + "your persistent variables.\nContinue?"),
+                            [Function(reset_old_persistent),
+                                Jump('restart_game')])
+                    else:
+                        action CConfirm(("Resetting your persistent"
+                            + " variables may cause information to be lost. You "
+                            + "will need to start a new game after resetting your "
+                            + "persistent variables.\nContinue?"),
+                            [Function(reset_old_persistent)])
 
-            textbutton _('Fix Persistent'):
-                style "other_settings_end_button"
-                text_style 'other_settings_end_button_text'
-                ysize 80
-                yalign 1.0
-                if not main_menu:
-                    action CConfirm(("Resetting "
-                        + "your persistent variables may cause "
-                        + "information to be lost. You will "
-                        + "need to start a new game after resetting "
-                        + "your persistent variables.\nContinue?"),
-                        [Function(reset_old_persistent),
-                            Jump('restart_game')])
-                else:
-                    action CConfirm(("Resetting your persistent"
-                        + " variables may cause information to be lost. You "
-                        + "will need to start a new game after resetting your "
-                        + "persistent variables.\nContinue?"),
-                        [Function(reset_old_persistent)])
+                textbutton _('Documentation'):
+                    style "other_settings_end_button"
+                    text_style 'other_settings_end_button_text'
+                    ysize 80
+                    xsize 285
+                    yalign 1.0
+                    action OpenMysMeDocumentation()
 
+init python:
+
+    import os.path
+
+    def OpenMysMeDocumentation():
+        """
+        A custom action which opens the Mysterious Messenger documentation.
+        """
+
+        WEB_DOC_URL = "https://mysterious-messenger.readthedocs.io/en/latest/"
+
+        # Get the game dir without "/game"
+        folder_dir = os.path.dirname(config.gamedir)
+        DOC_PATH = os.path.join(folder_dir, "docs/_build/html/index.html")
+
+
+        if os.path.exists(DOC_PATH):
+            DOC_LOCAL_URL = "file:///" + DOC_PATH
+        else:
+            DOC_LOCAL_URL = None
+
+
+        if DOC_LOCAL_URL is not None:
+            return OpenURL(DOC_LOCAL_URL)
+        else:
+            return OpenURL(WEB_DOC_URL)
 
 
 ########################################################
