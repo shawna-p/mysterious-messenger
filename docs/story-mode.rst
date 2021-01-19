@@ -79,7 +79,13 @@ If you want the player to have a moment to look at the background before you mov
 Adding Music and SFX
 ====================
 
-Playing background music inside a Story Mode is the same as playing music elsewhere in the program; simply use ``play music my_music_var`` where ``my_music_var`` is a track included in the ``music_dictionary`` in ``variables_music_sound.rpy``.
+Playing background music inside a Story Mode is the same as playing music elsewhere in the program; simply use
+
+::
+
+    play music my_music_var
+
+where ``my_music_var`` is a track included in the ``music_dictionary`` in ``variables_music_sound.rpy``.
 
 To add sound effects, use
 
@@ -97,7 +103,11 @@ If you would like to play a sound that does not have an audio caption, you can g
 
     play music ringtone nocaption
 
-For accessibility purposes, most audio should have a caption, so this option should be used sparingly. Previously defined audio captions can be found in ``variables_music_sound.rpy``. To learn about adding your own audio, see :ref:`Adding New Audio`.
+
+.. warning::
+    For accessibility purposes, most audio should have a caption, so this option should be used sparingly.
+
+Previously defined audio captions can be found in ``variables_music_sound.rpy``. To learn about adding your own audio, see :ref:`Adding New Audio`.
 
 
 Providing Choices
@@ -113,6 +123,22 @@ Writing a menu in a Story Mode is identical to how it is written in phone calls;
             u "Why hello there."
 
 This tells the program to display the last line of dialogue underneath the choice menu while it is on-screen.
+
+.. tip::
+    If you don't have any dialogue *before* a menu (i.e. the menu is the first thing that happens in the story mode), you **don't** need to include ``extend ''``. So, the following is correct::
+
+        label day_1_chatroom_1_vn():
+            scene bg rika_apartment with fade
+            pause
+            play sound door_knock_sfx
+            menu (paraphrased=True):
+                "(Investigate the window)":
+                    u "Don't move."
+                "(Stay where you are)":
+                    u "Why hello there."
+
+    There is no dialogue before the menu, so the ``extend ''`` is not necessary (and if included, would actually cause an error).
+
 
 Awarding Heart Points
 =====================
@@ -158,7 +184,7 @@ where ``ease`` is a transition. (See `Transitions <https://www.renpy.org/doc/htm
 Changing Outfits and Expressions
 ================================
 
-To show a character, look at [[INSERT LINK HERE] and find the character you want to show under the **Character VN Expressions Cheat Sheet** header.
+To show a character, look at ``character_definitions.rpy`` and find the character you want to show under the **Character VN Expressions Cheat Sheet** header.
 
 To show a character, use their name tag (usually their first name) + any additional expression, position, outfit, or accessory tags as applicable. In practice, this means if you want to show ``jaehee`` with the expression ``happy`` and wearing her ``glasses``, write
 
@@ -278,7 +304,7 @@ Create this label and write the story mode. It is written the same way as a regu
         return
 
     label my_chatroom_vn_chat:
-        scene bg rika_apartment
+        scene bg cr_meeting_room
         play music lonesome_practicalism
         show jaehee glasses happy
         ja "Oh dear. It seems the new intern has spilled coffee on this file."
@@ -305,7 +331,7 @@ If you want to modify the list of participants between scenes, you can either cl
 
     label my_chatroom:
         scene morning
-        play music narcisisstic_jazz
+        play music narcissistic_jazz
         enter chatroom z
         z "Darn... I was hoping to catch Jaehee in the chatroom at this hour."
         z "I wonder what she's up to..."
@@ -343,7 +369,7 @@ You can also tell the program exactly who you would like to appear in the chatro
         call vn_during_chat("day_3_8_story_vn", reset_participants=[s, z])
         clear chat
         scene earlyMorn
-        play music narcisisstic_jazz
+        play music narcissistic_jazz
         z "You know, we haven't heard from [name] for a few hours..."
         z "I hope [they_re] doing all right."
         s "lolol ur impatient aren't u."
