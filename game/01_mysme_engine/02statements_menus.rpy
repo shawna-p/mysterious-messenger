@@ -10,67 +10,6 @@ python early hide:
 
         return choice_block
 
-    ## A helper to parse menu arguments. Modified slightly from the engine
-    ## code at renpy/parser.py
-    def c_parse_arguments(l, include_wait=True):
-        """
-        Parse a list of arguments, if one is present.
-        """
-
-        arguments = [ ]
-        extrakw = None
-        extrapos = None
-        wait = None
-
-        if not l.match(r'\('):
-            return dict(args=arguments,
-                        kwargs=extrakw,
-                        pos=extrapos,
-                        wait=wait)
-
-        while True:
-
-            if l.match('\)'):
-                break
-
-            if l.match(r'\*\*'):
-
-                if extrakw is not None:
-                    l.error('a call may have only one ** argument')
-
-                extrakw = l.delimited_python("),")
-
-            elif l.match(r'\*'):
-                if extrapos is not None:
-                    l.error('a call may have only one * argument')
-
-                extrapos = l.delimited_python("),")
-
-            else:
-
-                state = l.checkpoint()
-
-                name = l.name()
-                if not (name and l.match(r'=')):
-                    l.revert(state)
-                    name = None
-
-                l.skip_whitespace()
-                if include_wait and name == 'wait':
-                    # This is a wait argument
-                    wait = l.delimited_python("),")
-                else:
-                    arguments.append((name, l.delimited_python("),")))
-
-            if l.match(r'\)'):
-                break
-
-            l.require(r',')
-
-        return dict(args=arguments,
-                    kwargs=extrakw,
-                    pos=extrapos,
-                    wait=wait)
 
     def construct_menu(stmtl, has_wait_time=False):
         """
