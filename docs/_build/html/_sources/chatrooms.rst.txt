@@ -348,7 +348,7 @@ If you would like to clear all current chatroom participants from the chatroom h
 
     label my_chatroom:
         scene morning
-        play music narcisisstic_jazz
+        play music narcissistic_jazz
         enter chatroom z
         z "Has the chatroom been acting up for you too, [name]?"
         msg z "I've been having trouble with it all morning." sigh_s

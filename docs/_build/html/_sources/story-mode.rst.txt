@@ -305,7 +305,7 @@ If you want to modify the list of participants between scenes, you can either cl
 
     label my_chatroom:
         scene morning
-        play music narcisisstic_jazz
+        play music narcissistic_jazz
         enter chatroom z
         z "Darn... I was hoping to catch Jaehee in the chatroom at this hour."
         z "I wonder what she's up to..."
@@ -343,7 +343,7 @@ You can also tell the program exactly who you would like to appear in the chatro
         call vn_during_chat("day_3_8_story_vn", reset_participants=[s, z])
         clear chat
         scene earlyMorn
-        play music narcisisstic_jazz
+        play music narcissistic_jazz
         z "You know, we haven't heard from [name] for a few hours..."
         z "I hope [they_re] doing all right."
         s "lolol ur impatient aren't u."
