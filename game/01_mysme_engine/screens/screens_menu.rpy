@@ -1491,6 +1491,7 @@ screen developer_settings():
         xysize (675, 600)
         background 'menu_settings_panel_bright'
         align (0.5, 0.5)
+        bottom_padding 20
 
         imagebutton:
             align (1.0, 0.0)
@@ -1507,30 +1508,31 @@ screen developer_settings():
             null height 30
 
             frame:
-                xysize(650,360)
+                xsize 650
                 background "menu_settings_panel"
+                has vbox
+                spacing 6
+                first_spacing 15
                 text "Variables for testing":
                     style "settings_style" xpos 45 ypos -3
-
-                vbox:
-                    spacing 6
-                    style_prefix "check"
-                    null height 30
-                    textbutton _("Testing Mode"):
-                        action ToggleField(persistent, "testing_mode")
-                    textbutton _("Unlock all story"):
-                        action If(not main_menu,
-                            [ToggleField(persistent, "unlock_all_story"),
-                            Function(check_and_unlock_story)],
-                            ToggleField(persistent, "unlock_all_story"))
-                    textbutton _("Real-Time Mode"):
-                        action ToggleField(persistent, "real_time")
-                    textbutton _("Hacked Effect"):
-                        action ToggleVariable('hacked_effect')
-                    textbutton _("Receive Hourglasses in Chatrooms"):
-                        action ToggleField(persistent, 'receive_hg')
-                    textbutton _("Use custom route select screen"):
-                        action ToggleField(persistent, 'custom_route_select')
+                style_prefix "check"
+                textbutton _("Testing Mode"):
+                    action ToggleField(persistent, "testing_mode")
+                textbutton _("Unlock all story"):
+                    action If(not main_menu,
+                        [ToggleField(persistent, "unlock_all_story"),
+                        Function(check_and_unlock_story)],
+                        ToggleField(persistent, "unlock_all_story"))
+                textbutton _("Real-Time Mode"):
+                    action ToggleField(persistent, "real_time")
+                textbutton _("Hacked Effect"):
+                    action ToggleVariable('hacked_effect')
+                textbutton _("Receive Hourglasses in Chatrooms"):
+                    action ToggleField(persistent, 'receive_hg')
+                textbutton _("Use custom route select screen"):
+                    action ToggleField(persistent, 'custom_route_select')
+                textbutton _("Prefer local documentation"):
+                    action ToggleField(persistent, 'open_docs_locally')
 
             hbox:
                 align (0.5, 0.5)
@@ -1564,32 +1566,46 @@ screen developer_settings():
                     yalign 1.0
                     action OpenMysMeDocumentation()
 
+default persistent.open_docs_locally = False
+
 init python:
 
     import os.path
 
-    def OpenMysMeDocumentation():
+    MM_WEB_DOC_URL = "https://mysterious-messenger.readthedocs.io/en/latest/"
+
+    # Get the game dir without "/game"
+    mm_folder_dir = os.path.dirname(config.gamedir)
+    MM_DOC_PATH = os.path.join(mm_folder_dir, "docs\\_build\\html\\")
+
+
+    def OpenMysMeDocumentation(link=False):
         """
         A custom action which opens the Mysterious Messenger documentation.
         """
 
-        WEB_DOC_URL = "https://mysterious-messenger.readthedocs.io/en/latest/"
+        if not link:
+            link = "index.html"
 
-        # Get the game dir without "/game"
-        folder_dir = os.path.dirname(config.gamedir)
-        DOC_PATH = os.path.join(folder_dir, "docs/_build/html/index.html")
+        web_link = MM_WEB_DOC_URL + link
+        doc_link = os.path.join(MM_DOC_PATH, link)
 
+        if store.persistent.open_docs_locally:
+            if "#" in link:
+                truncated_link = link.split('#')[0]
+                existing_link = os.path.join(MM_DOC_PATH, truncated_link)
+            else:
+                existing_link = doc_link
 
-        if os.path.exists(DOC_PATH):
-            DOC_LOCAL_URL = "file:///" + DOC_PATH
-        else:
-            DOC_LOCAL_URL = None
+            if os.path.exists(existing_link):
+                doc_link = "file:///" + doc_link
+            else:
+                doc_link = None
 
+            if doc_link is not None:
+                return OpenURL(doc_link)
+        return OpenURL(web_link)
 
-        if DOC_LOCAL_URL is not None:
-            return OpenURL(DOC_LOCAL_URL)
-        else:
-            return OpenURL(WEB_DOC_URL)
 
 
 ########################################################
