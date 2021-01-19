@@ -62,12 +62,12 @@ If you want an album that isn't associated with any particular character, such a
 
 For example, if you wanted to add a "New Year's" album, you must do the following:
 
-1. Add "new year's" to the ``all_albums`` definition. Capitalization doesn't matter, but note the use of double quotes (") instead of single so you don't have to escape the apostrophe.
+1. Add "new year's" to the ``all_albums`` definition. If a string is all lowercase, the first letter will be capitalized when it is displayed on the Album screen, but otherwise capitalization is preserved. Also note the use of double quotes (") instead of single so you don't have to escape the apostrophe.
 
 ::
 
     default all_albums = [
-        'ju', 'z', 's', 'y', 'ja', 'v', 'u', 'r', 'common', "new year's"
+        'ju', 'z', 's', 'y', 'ja', 'v', 'u', 'r', 'common', "New Year's"
     ]
 
 2. Determine what the program will expect the variables to be called.
