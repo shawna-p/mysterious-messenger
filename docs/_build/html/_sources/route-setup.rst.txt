@@ -135,7 +135,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. PlotBranch(True)
 
 `save_img`
-    Optional. A string with the name of the save image to use for this particular chatroom. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix "save_" is automatically added to this field.
+    Optional. A string with the name of the save image to use for this particular chatroom. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix ``"save_"`` is automatically added to this field.
 
     e.g. "casual"
 
@@ -211,7 +211,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. False
 
 `save_img`
-    Optional. A string with the name of the save image to use for this particular story mode. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix "save_" is automatically added to this field.
+    Optional. A string with the name of the save image to use for this particular story mode. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix ``"save_"`` is automatically added to this field.
 
     e.g. "s"
 
@@ -257,7 +257,7 @@ There are some additional fields as well, each of which is explained below.
     e.g. PlotBranch(False)
 
 `save_img`
-    Optional. A string with the name of the save image to use for this particular story call. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix "save_" is automatically added to this field.
+    Optional. A string with the name of the save image to use for this particular story call. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix ``"save_"`` is automatically added to this field.
 
     e.g. "ju"
 
@@ -291,7 +291,7 @@ There is a special convenience function intended to help you define a standalone
     e.g. "12:00"
 
 `save_img`
-    Optional. A string with the name of the save image to use when this is the most recent timeline item. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix "save_" is automatically added to this field.
+    Optional. A string with the name of the save image to use when this is the most recent timeline item. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix ``"save_"`` is automatically added to this field.
 
     e.g. "em"
 
