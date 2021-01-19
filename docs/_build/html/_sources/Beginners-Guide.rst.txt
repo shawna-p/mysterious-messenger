@@ -98,7 +98,7 @@ The simplest way to modify this is to change the ``action Start()`` property for
                 # The image that goes on the left of the button
                 add 'Menu Screens/Main Menu/route_select_tutorial.webp':
                     align (0.08, 0.5)
-                action Start("my_route_introduction)
+                action Start("my_route_introduction")
                 # The box with text on the right side of the button
                 frame:
                     text "My New Route"
@@ -152,7 +152,7 @@ All of these features and more are covered in :ref:`Chatrooms`, including how to
 Defining Timeline Items for your Route
 =======================================
 
-Now that you've created an introduction for your route, you need to actually put some content in it. Currently the player can select your route and play the introduction (feel free to test it out!) but there won't be any chatrooms or Story Mode sections on their timeline screen. It's time to fix that now.
+Now that you've created an introduction for your route, you need to actually put some content in it. Currently the player can select your route and play the introduction (feel free to test it out!) but there won't be any chatrooms or Story Mode sections on their timeline screen. You'll also see an error message informing you that you have no content to your route. It's time to fix that now.
 
 Return to your file ``my_route.rpy``. It should contain the code from earlier::
 
@@ -235,7 +235,7 @@ The program automatically looks for this "expired chatroom" using the name of th
         exit chatroom u
         return
 
-This is the chatroom the player will see if it is expired. It can be as similar or different from the original non-expired chatroom as you like.
+This is the chatroom the player will see if it is expired. It can be as similar or different from the original non-expired chatroom as you like. You may also note the use of ``[name]`` in the dialogue; this will be replaced with the player's name as it was entered in the profile screen. There are also variables to handle the player's pronouns, as players are free to choose one of she/her, he/him, or they/them pronouns at any time. See :ref:`Pronoun Integration` for more.
 
 .. note::
     In this program, there are also standalone Story Mode and Story Calls. Story Mode sections do not expire, but Story Calls *will* expire like chatrooms in real-time or if the player hangs up in the middle of a conversation, and should have an ``_expired`` label as well.
@@ -249,7 +249,7 @@ To play your new route, close the program if open and re-launch it after saving 
 Next Steps
 ===========
 
-Since many things in the game build off of chatrooms, you should look at the documentation on chatrooms such as :ref:`Chatrooms`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
+Since many things in the game build off of chatrooms, you should look at the documentation on :ref:`Chatrooms`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
 
-Once you're comfortable writing and modifying chatrooms, you can look into adding text messages, then phone calls, and finally emails. You should also look at :ref:`Setting up a Route` for more information on setting up a full route with plot branches and a party. Good luck!
+Once you're comfortable writing and modifying chatrooms, you can look into adding :ref:`Text Messages`, then :ref:`Phone Calls`, and finally :ref:`Emails`. You should also look at :ref:`Setting up a Route` for more information on setting up a full route with plot branches and a party. Good luck!
 

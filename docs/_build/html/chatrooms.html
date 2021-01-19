@@ -309,7 +309,7 @@
 </div>
 <p>Don’t forget the colon after the label name. Your label name also can’t have any spaces in it or begin with a number.</p>
 <p>Next, it’s time to set up the chatroom background. Note that everything under the label name <strong>should be indented at least one level to the right</strong>. You can look at the example files mentioned above if you’re not sure what this means.</p>
-<p>First, you need to give the chatroom a background to show:</p>
+<p>You need to give the chatroom a background to show:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_1</span><span class="p">:</span>
     <span class="k">scene</span> <span class="n">morning</span>
 </pre></div>
@@ -330,7 +330,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
 </pre></div>
 </div>
-<p>where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> can be replaced by the name of whatever music you want. There are several files pre-defined in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. If you want to define your own music, you need to add it to the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> as well so that it is compatible with audio captions. See <a class="reference internal" href="old_documentation/Adding-new-Audio.html#adding-new-audio"><span class="std std-ref">Adding new Audio</span></a> for more information.</p>
+<p>where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> can be replaced by the name of whatever music you want. There are several files pre-defined in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. If you want to define your own music, you need to add it to the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> as well so that it is compatible with audio captions. See <a class="reference internal" href="miscellaneous.html#adding-new-audio"><span class="std std-ref">Adding New Audio</span></a> for more information.</p>
 <p>Next, you’ll write the dialogue for your chatroom. See <a class="reference internal" href="#writing-chatroom-dialogue"><span class="std std-ref">Writing Chatroom Dialogue</span></a>. Finally, to end the chatroom, end the label with <code class="docutils literal notranslate"><span class="pre">return</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_1</span><span class="p">:</span>
     <span class="k">scene</span> <span class="n">earlyMorn</span>
@@ -343,7 +343,7 @@
 </div>
 <div class="section" id="writing-chatroom-dialogue">
 <h2>Writing Chatroom Dialogue<a class="headerlink" href="#writing-chatroom-dialogue" title="Permalink to this headline">¶</a></h2>
-<p>There are two primary ways of writing dialogue for your chatroom. The first is to use a special <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, and the second is to use a special spreadsheet to help generate the dialogue for you.</p>
+<p>There are two primary ways of writing dialogue for your chatroom. The first is to use the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, and the second is to use a special spreadsheet to help generate the dialogue for you.</p>
 <div class="section" id="using-the-msg-cds">
 <h3>Using the msg CDS<a class="headerlink" href="#using-the-msg-cds" title="Permalink to this headline">¶</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS helps add effects to your dialogue, such as special speech bubbles or alternative fonts, without sacrificing the readability of the dialogue. Dialogue written with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS looks like the following:</p>
@@ -355,7 +355,7 @@
 <span class="n">msg</span> <span class="n">r</span> <span class="s2">&quot;even a chatroom that has a Story Mode attached&quot;</span> <span class="n">glow</span>
 </pre></div>
 </div>
-<p>(Dialogue can be found in <code class="docutils literal notranslate"><span class="pre">tutorial_3_text_message.rpy</span></code>)</p>
+<p>(Dialogue taken from <code class="docutils literal notranslate"><span class="pre">tutorial_3_text_message.rpy</span></code>)</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS requires a speaker (in the example, <code class="docutils literal notranslate"><span class="pre">r</span></code>) and some dialogue (surrounded by <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>). There are several optional clauses that can be added after the dialogue to affect how it displays.</p>
 <div class="section" id="fonts">
 <h4>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h4>
@@ -397,7 +397,7 @@
 <span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This is in the sans serif 1 font.&quot;</span> <span class="n">sser1</span>
 </pre></div>
 </div>
-<p>Note that you can only have one font at a time; including more than one will simply use the last font given. The default font is <code class="docutils literal notranslate"><span class="pre">sser1</span></code>.</p>
+<p>Note that you can only have one font at a time; including more than one will simply use the last font given. The default font is <code class="docutils literal notranslate"><span class="pre">sser1</span></code>, and dialogue will show up using <code class="docutils literal notranslate"><span class="pre">sser1</span></code> unless you give it a different font.</p>
 </div>
 <div class="section" id="emphasis">
 <h4>Emphasis<a class="headerlink" href="#emphasis" title="Permalink to this headline">¶</a></h4>
@@ -409,7 +409,7 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">ja</span> <span class="s2">&quot;This text is in the sans serif 2 font, extra bold.&quot;</span> <span class="n">sser2</span> <span class="n">xbold</span>
 </pre></div>
 </div>
-<p>Finally, you can also increase the size of the text inside a speech bubble with the <code class="docutils literal notranslate"><span class="pre">big</span></code> argument e.g.</p>
+<p>Finally, you can increase the size of the text inside a speech bubble with the <code class="docutils literal notranslate"><span class="pre">big</span></code> argument e.g.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">ju</span> <span class="s2">&quot;This text is shown at a bigger size.&quot;</span> <span class="n">big</span>
 </pre></div>
 </div>
@@ -476,7 +476,7 @@
 </tr>
 </tbody>
 </table>
-<p>Unless otherwise mentioned, <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">ri</span></code>, and <code class="docutils literal notranslate"><span class="pre">m</span></code> have no special bubble variants.</p>
+<p>Unless otherwise mentioned, <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">ri</span></code>, and <code class="docutils literal notranslate"><span class="pre">m</span></code> have no special bubble variants of their own.</p>
 <p>For bubbles which have sizes, you must include which size bubble you would like (<code class="docutils literal notranslate"><span class="pre">s</span></code> for small, <code class="docutils literal notranslate"><span class="pre">m</span></code> for medium, and <code class="docutils literal notranslate"><span class="pre">l</span></code> for large) after the name of the bubble e.g. <code class="docutils literal notranslate"><span class="pre">square_m</span></code> or <code class="docutils literal notranslate"><span class="pre">sigh_l</span></code>.</p>
 <p>To use a special bubble, add the name of the bubble after dialogue e.g.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">r</span> <span class="s2">&quot;This is a bubble with the flower background.&quot;</span> <span class="n">flower_m</span>
@@ -484,25 +484,35 @@
 <span class="n">msg</span> <span class="n">r</span> <span class="s2">&quot;These can be combined with other fonts and effects, too!&quot;</span> <span class="n">glow</span> <span class="n">curly</span> <span class="n">big</span>
 </pre></div>
 </div>
-<p>You can also use your own bubbles with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS, or modify it so that characters can use each other’s special speech bubbles. See <a class="reference internal" href="#custom-fonts-and-bubbles"><span class="std std-ref">Custom Fonts and Bubbles</span></a> for more on custom special bubbles and fonts.</p>
+<p>You can also have the characters use each other’s special speech bubbles by prefacing the bubble name with their file_id e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;I&#39;m using Jumin&#39;s cat bubble!&quot;</span> <span class="n">bubble</span> <span class="n">ju_cloud_l</span>
+<span class="n">y</span> <span class="s2">&quot;This message uses Zen&#39;s flower bubble~&quot;</span> <span class="p">(</span><span class="n">bounce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">specBubble</span><span class="o">=</span><span class="s2">&quot;z_flower_m&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, you can use your own bubbles with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS. See <a class="reference internal" href="#custom-fonts-and-bubbles"><span class="std std-ref">Custom Fonts and Bubbles</span></a> for more on custom special bubbles and fonts.</p>
 </div>
 <div class="section" id="images">
 <h4>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h4>
 <p>The <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS will automatically detect if dialogue includes a recognized emoji and mark the dialogue as an image accordingly. If you want a character to post an image in the chatroom (such as a CG), then you can use the <code class="docutils literal notranslate"><span class="pre">img</span></code> argument:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;cg s_1&quot;</span> <span class="n">img</span>
-<span class="n">s</span> <span class="s2">&quot;I just posted a CG!&quot;</span>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;cg s_1&quot;</span> <span class="n">img</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;I just posted a CG!&quot;</span>
 </pre></div>
 </div>
 <p>You need to follow the rules outlined in <a class="reference internal" href="cg-albums.html#defining-a-cg"><span class="std std-ref">Defining a CG</span></a> and <a class="reference internal" href="cg-albums.html#showing-a-cg-in-a-chatroom-or-text-message"><span class="std std-ref">Showing a CG in a Chatroom or Text Message</span></a> in order for the program to find the correct image and display it during a chatroom. For CGs, the program will also automatically unlock the image in the gallery.</p>
+<p>For emojis, it’s sufficient to write:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;{image=seven_wow}&quot;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">seven_wow</span></code> is the name of the emoji image to be shown. The program will automatically recognize it as an emoji.</p>
 </div>
 <div class="section" id="modifying-message-speed">
 <h4>Modifying Message Speed<a class="headerlink" href="#modifying-message-speed" title="Permalink to this headline">¶</a></h4>
 <p>Finally, you can also adjust the speed at which a message is posted. For example, if you want a character to post a bunch of messages in quick succession, you can use the <code class="docutils literal notranslate"><span class="pre">pv</span></code> clause to use a multiplier on the speed at which a message is posted e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;These&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
-<span class="n">s</span> <span class="s2">&quot;messages&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
-<span class="n">s</span> <span class="s2">&quot;are&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
-<span class="n">s</span> <span class="s2">&quot;posted&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
-<span class="n">s</span> <span class="s2">&quot;quickly!!!&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;These&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;messages&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;are&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;posted&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
+<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;quickly!!!&quot;</span> <span class="n">pv</span> <span class="mf">0.1</span>
 </pre></div>
 </div>
 <p>If you have <code class="docutils literal notranslate"><span class="pre">paraphrase_choices</span></code> turned off, you will generally want to add <code class="docutils literal notranslate"><span class="pre">pv</span> <span class="pre">0</span></code> after a message posted by the main character after a menu e.g.</p>
@@ -592,8 +602,9 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="s2">&quot;Anyway, I should go now.&quot;</span>
 <span class="n">exit</span> <span class="n">chatroom</span> <span class="n">y</span>
 <span class="k">clear</span> <span class="n">chat</span>
-<span class="n">enter</span> <span class="n">chatroom</span> <span class="n">u</span>
 <span class="k">scene</span> <span class="n">hack</span>
+<span class="k">show</span> <span class="n">hack</span> <span class="n">effect</span>
+<span class="n">enter</span> <span class="n">chatroom</span> <span class="n">u</span>
 <span class="n">u</span> <span class="s2">&quot;Hi, [name].&quot;</span>
 </pre></div>
 </div>
@@ -607,12 +618,14 @@
 <p>If you would like to clear all current chatroom participants from the chatroom header, you can use the extra argument <code class="docutils literal notranslate"><span class="pre">participants</span></code> for the <code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">chat</span></code> CDS:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
     <span class="k">scene</span> <span class="n">morning</span>
-    <span class="k">play</span> <span class="k">music</span> <span class="n">narcisisstic_jazz</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">narcissistic_jazz</span>
     <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">z</span>
     <span class="n">z</span> <span class="s2">&quot;Has the chatroom been acting up for you too, [name]?&quot;</span>
     <span class="n">msg</span> <span class="n">z</span> <span class="s2">&quot;I&#39;ve been having trouble with it all morning.&quot;</span> <span class="n">sigh_s</span>
     <span class="k">clear</span> <span class="n">chat</span> <span class="n">participants</span>
     <span class="k">scene</span> <span class="n">hack</span>
+    <span class="k">show</span> <span class="n">hack</span> <span class="n">effect</span>
+    <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">u</span>
     <span class="n">u</span> <span class="s2">&quot;Ah, excellent.&quot;</span>
     <span class="n">u</span> <span class="s2">&quot;I&#39;ve gained access to the messenger.&quot;</span>
 </pre></div>
@@ -666,6 +679,10 @@
 </pre></div>
 </div>
 <p>Note that while the order of <code class="docutils literal notranslate"><span class="pre">banner</span></code> and <code class="docutils literal notranslate"><span class="pre">lightning</span></code> don’t matter, the name is case-sensitive. So, you could also use <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">lightning</span> <span class="pre">banner</span></code> but <code class="docutils literal notranslate"><span class="pre">show</span> <span class="pre">Lightning</span> <span class="pre">banner</span></code> would not work.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These images are not displayed for players who have toggled the <strong>Chatroom Banners</strong> setting off.</p>
+</div>
 </div>
 <div class="section" id="showing-a-heart-icon">
 <h3>Showing a Heart Icon<a class="headerlink" href="#showing-a-heart-icon" title="Permalink to this headline">¶</a></h3>
@@ -706,9 +723,9 @@
 </pre></div>
 </div>
 <p>or alternatively,</p>
-<blockquote>
-<div><p>show redhack effect</p>
-</div></blockquote>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">redhack</span> <span class="n">effect</span>
+</pre></div>
+</div>
 <p>for the red version of the scrolling hack image.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -724,7 +741,7 @@
 <p>Screen shake is compatible both with regular backgrounds and with the animated backgrounds.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>These effects are not displayed for players who have toggled the <strong>Hacking Effects</strong> setting off.</p>
+<p>This effect is not displayed for players who have toggled the <strong>Screen Shake</strong> setting off.</p>
 </div>
 </div>
 </div>
@@ -742,22 +759,18 @@
     <span class="s1">&#39;curly&#39;</span><span class="p">,</span> <span class="s1">&#39;blocky&#39;</span><span class="p">,</span> <span class="s1">&#39;cursive&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Now you need to add it to the <code class="docutils literal notranslate"><span class="pre">font_dict</span></code>.</p>
-<blockquote>
-<div><dl>
-<dt>define font_dict = { ‘curly’<span class="classifier">gui.curly_font, ‘ser1’</span><span class="classifier">gui.serif_1,</span></dt><dd><blockquote>
-<div><p>‘ser1b’ : gui.serif_1b, ‘ser1xb’ : gui.serif_1xb,
-‘ser2’ : gui.serif_2, ‘ser2b’ : gui.serif_2b,
-‘ser2xb’ : gui.serif_2xb, ‘sser1’ : gui.sans_serif_1,
-‘sser1b’ : gui.sans_serif_1b, ‘sser1xb’ : gui.sans_serif_1xb,
-‘sser2’ : gui.sans_serif_2, ‘sser2b’ : gui.sans_serif_2b,
-‘sser2xb’ : gui.sans_serif_2xb, ‘blocky’ : gui.blocky_font
-‘cursive’ : “fonts/cursivefont.ttf”</p>
-</div></blockquote>
-<p>}</p>
-</dd>
-</dl>
-</div></blockquote>
+<p>Now you need to add it to the <code class="docutils literal notranslate"><span class="pre">font_dict</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">font_dict</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;curly&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">curly_font</span><span class="p">,</span> <span class="s1">&#39;ser1&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_1</span><span class="p">,</span>
+        <span class="s1">&#39;ser1b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_1b</span><span class="p">,</span> <span class="s1">&#39;ser1xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_1xb</span><span class="p">,</span>
+        <span class="s1">&#39;ser2&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_2</span><span class="p">,</span> <span class="s1">&#39;ser2b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_2b</span><span class="p">,</span>
+        <span class="s1">&#39;ser2xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_2xb</span><span class="p">,</span> <span class="s1">&#39;sser1&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1</span><span class="p">,</span>
+        <span class="s1">&#39;sser1b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1b</span><span class="p">,</span> <span class="s1">&#39;sser1xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1xb</span><span class="p">,</span>
+        <span class="s1">&#39;sser2&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2</span><span class="p">,</span> <span class="s1">&#39;sser2b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2b</span><span class="p">,</span>
+        <span class="s1">&#39;sser2xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2xb</span><span class="p">,</span> <span class="s1">&#39;blocky&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">blocky_font</span><span class="p">,</span>
+        <span class="s1">&#39;cursive&#39;</span> <span class="p">:</span> <span class="s2">&quot;fonts/cursivefont.ttf&quot;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
 <p>“fonts/cursivefont.ttf” should be the path to the <code class="docutils literal notranslate"><span class="pre">.ttf</span></code> or <code class="docutils literal notranslate"><span class="pre">.otf</span></code> file of your desired font.</p>
 <p>If your font has bold and/or extra bold variants, you will also add it to the <code class="docutils literal notranslate"><span class="pre">bold_xbold_fonts_list</span></code> variable:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">bold_xbold_fonts_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sser1&#39;</span><span class="p">,</span> <span class="s1">&#39;sser2&#39;</span><span class="p">,</span> <span class="s1">&#39;ser1&#39;</span><span class="p">,</span> <span class="s1">&#39;ser2&#39;</span><span class="p">,</span> <span class="s1">&#39;cursive&#39;</span><span class="p">]</span>
@@ -770,7 +783,7 @@
         <span class="s1">&#39;ser2xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">serif_2xb</span><span class="p">,</span> <span class="s1">&#39;sser1&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1</span><span class="p">,</span>
         <span class="s1">&#39;sser1b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1b</span><span class="p">,</span> <span class="s1">&#39;sser1xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_1xb</span><span class="p">,</span>
         <span class="s1">&#39;sser2&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2</span><span class="p">,</span> <span class="s1">&#39;sser2b&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2b</span><span class="p">,</span>
-        <span class="s1">&#39;sser2xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2xb</span><span class="p">,</span> <span class="s1">&#39;blocky&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">blocky_font</span>
+        <span class="s1">&#39;sser2xb&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">sans_serif_2xb</span><span class="p">,</span> <span class="s1">&#39;blocky&#39;</span> <span class="p">:</span> <span class="n">gui</span><span class="o">.</span><span class="n">blocky_font</span><span class="p">,</span>
         <span class="s1">&#39;cursive&#39;</span> <span class="p">:</span> <span class="s2">&quot;fonts/cursivefont.ttf&quot;</span><span class="p">,</span>
         <span class="s1">&#39;cursiveb&#39;</span> <span class="p">:</span> <span class="s2">&quot;fonts/cursivefont-bold.ttf&quot;</span><span class="p">,</span>
         <span class="s1">&#39;cursivexb&#39;</span> <span class="p">:</span> <span class="s2">&quot;fonts/cursivefont-xbold.ttf&quot;</span>
@@ -778,7 +791,7 @@
 </pre></div>
 </div>
 <p>In this example, the bold is called “cursiveb” and the extra bold “cursivexb”. Note that you will need an entry for <strong>both</strong> bold and extra bold, even if you only have one font. In that case, you can set the file path for both entries to the same font.</p>
-<p>Finally, if you want to use the font as a text tag, you need to define a style for it. Existing styles can be found in <code class="docutils literal notranslate"><span class="pre">style_definitions.rpy</span></code>:</p>
+<p>Finally, to use the font as a text tag, you need to define a style for it. Existing styles can be found in <code class="docutils literal notranslate"><span class="pre">style_definitions.rpy</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="n">cursive</span><span class="p">:</span>
     <span class="na">font</span> <span class="s2">&quot;fonts/cursivefont.ttf&quot;</span>
 
@@ -802,16 +815,16 @@
 </div>
 <div class="section" id="custom-bubbles">
 <h3>Custom Bubbles<a class="headerlink" href="#custom-bubbles" title="Permalink to this headline">¶</a></h3>
-<p>You can also add your own custom bubbles to work with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles to work for other characters.</p>
+<p>You can also add your own custom bubbles to work with the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles.</p>
 <p>To add a new bubble, first you must add it to the <code class="docutils literal notranslate"><span class="pre">all_bubbles_list</span></code> in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. For this example, three bubbles called “spooky_s”, “spooky_m”, and “spooky_l” will be added (for small, medium, and large variants).</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_bubbles_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;cloud_l&#39;</span><span class="p">,</span> <span class="s1">&#39;cloud_m&#39;</span><span class="p">,</span> <span class="s1">&#39;cloud_s&#39;</span><span class="p">,</span> <span class="s1">&#39;round_l&#39;</span><span class="p">,</span>
-<span class="s1">&#39;round_m&#39;</span><span class="p">,</span> <span class="s1">&#39;round_s&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_l&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_m&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_s&#39;</span><span class="p">,</span> <span class="s1">&#39;spike_l&#39;</span><span class="p">,</span> <span class="s1">&#39;spike_m&#39;</span><span class="p">,</span>
-<span class="s1">&#39;spike_s&#39;</span><span class="p">,</span> <span class="s1">&#39;square_l&#39;</span><span class="p">,</span> <span class="s1">&#39;square_m&#39;</span><span class="p">,</span> <span class="s1">&#39;square_s&#39;</span><span class="p">,</span> <span class="s1">&#39;square2_l&#39;</span><span class="p">,</span> <span class="s1">&#39;square2_m&#39;</span><span class="p">,</span>
-<span class="s1">&#39;square2_s&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_l&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_m&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_s&#39;</span><span class="p">,</span> <span class="s1">&#39;flower_l&#39;</span><span class="p">,</span> <span class="s1">&#39;flower_m&#39;</span><span class="p">,</span>
-<span class="s1">&#39;flower_s&#39;</span><span class="p">,</span> <span class="s1">&#39;glow2&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_s&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_m&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_l&#39;</span><span class="p">]</span>
+    <span class="s1">&#39;round_m&#39;</span><span class="p">,</span> <span class="s1">&#39;round_s&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_l&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_m&#39;</span><span class="p">,</span> <span class="s1">&#39;sigh_s&#39;</span><span class="p">,</span> <span class="s1">&#39;spike_l&#39;</span><span class="p">,</span> <span class="s1">&#39;spike_m&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;spike_s&#39;</span><span class="p">,</span> <span class="s1">&#39;square_l&#39;</span><span class="p">,</span> <span class="s1">&#39;square_m&#39;</span><span class="p">,</span> <span class="s1">&#39;square_s&#39;</span><span class="p">,</span> <span class="s1">&#39;square2_l&#39;</span><span class="p">,</span> <span class="s1">&#39;square2_m&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;square2_s&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_l&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_m&#39;</span><span class="p">,</span> <span class="s1">&#39;round2_s&#39;</span><span class="p">,</span> <span class="s1">&#39;flower_l&#39;</span><span class="p">,</span> <span class="s1">&#39;flower_m&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;flower_s&#39;</span><span class="p">,</span> <span class="s1">&#39;glow2&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_s&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_m&#39;</span><span class="p">,</span> <span class="s1">&#39;spooky_l&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>Next, you need to define a style for the bubble. Typically the most important property is the padding. First, define a general style:</p>
+<p>Next, you need to define a base style for the bubble. Typically the most important property is the padding. First, define a general style:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">style</span> <span class="n">spooky_s</span><span class="p">:</span>
     <span class="na">padding</span> <span class="p">(</span><span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
 
@@ -830,6 +843,13 @@
 </pre></div>
 </div>
 <p><code class="docutils literal notranslate"><span class="pre">is</span> <span class="pre">spooky_m</span></code> tells the style to inherit from the original <code class="docutils literal notranslate"><span class="pre">spooky_m</span></code> style; this is optional, but can be helpful. In this case, it means that the <code class="docutils literal notranslate"><span class="pre">s_spooky_m</span></code> bubble has a left/right/bottom padding of 25, as in the <code class="docutils literal notranslate"><span class="pre">spooky_m</span></code> style, but the <code class="docutils literal notranslate"><span class="pre">top_padding</span></code> is now 35.</p>
+<p>Finally, you need to define an offset for each of your new bubbles. This is how far the bubble should be relative to the top left corner of the character’s profile picture (for bubbles posted on the left side of the messenger). All the existing bubble offsets can be found in <code class="docutils literal notranslate"><span class="pre">gui.rpy</span></code>. For the <code class="docutils literal notranslate"><span class="pre">spooky_</span></code> bubbles, three variables are needed:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">gui</span><span class="o">.</span><span class="n">spooky_s_offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">38</span><span class="p">)</span>
+<span class="k">define</span> <span class="n">gui</span><span class="o">.</span><span class="n">spooky_m_offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">130</span><span class="p">,</span> <span class="mi">38</span><span class="p">)</span>
+<span class="k">define</span> <span class="n">gui</span><span class="o">.</span><span class="n">spooky_l_offset</span> <span class="o">=</span> <span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that these are the name of the bubble + the suffix <code class="docutils literal notranslate"><span class="pre">_offset</span></code>. You can also define specific offsets for characters using their file_id. e.g. if <code class="docutils literal notranslate"><span class="pre">em</span></code>’s spooky_m bubble needs to be a bit further to the right than the rest of the characters’, you can define the value <code class="docutils literal notranslate"><span class="pre">define</span> <span class="pre">gui.em_spooky_m_offset</span> <span class="pre">=</span> <span class="pre">(150,</span> <span class="pre">32)</span></code>.</p>
 <p>And that’s all! To show this special bubble in-game, you must ensure you have the appropriate images defined inside the “Bubbles/Special/” folder.</p>
 <ul class="simple">
 <li><p>The image extension must be one of <code class="docutils literal notranslate"><span class="pre">.webp</span></code>, <code class="docutils literal notranslate"><span class="pre">.png</span></code>, or <code class="docutils literal notranslate"><span class="pre">.jpg</span></code></p></li>
@@ -868,32 +888,12 @@
 </dl>
 <div class="section" id="custom-bubble-background-function">
 <h4>Custom Bubble Background Function<a class="headerlink" href="#custom-bubble-background-function" title="Permalink to this headline">¶</a></h4>
-<p>Inside <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> is a function called <code class="docutils literal notranslate"><span class="pre">custom_bubble_bg</span></code> under the <strong>CUSTOM MESSENGER ITEMS</strong> header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds. For example, although currently characters can only use the special bubbles associated with their file_id, you could add a statement which will allow them to use each other’s special speech bubbles:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_bg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
-
-    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="k">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">specBubble</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="c1"># msg.specBubble checks if the message is using a special bubble</span>
-        <span class="c1"># specBubble.split(&#39;_&#39;) splits the special bubble into separate</span>
-        <span class="c1"># words based on the &#39;_&#39; character. So, &quot;square_m&quot; becomes</span>
-        <span class="c1"># [&quot;square&quot;, &quot;m&quot;]. the len() function checks the length of the</span>
-        <span class="c1"># resulting list, so [&quot;square&quot;, &quot;m&quot;] has a length of 2. If the list</span>
-        <span class="c1"># is more than 2 long, it means it was something like &quot;r_round_s&quot;</span>
-        <span class="c1"># so it was split into [&quot;r&quot;, &quot;round&quot;, &quot;s&quot;], aka a length of 3</span>
-        <span class="c1"># In this case, the program shouldn&#39;t automatically add the</span>
-        <span class="c1"># character&#39;s file_id to the bubble.</span>
-
-        <span class="k">return</span> <span class="s2">&quot;Bubble/Special/&quot;</span> <span class="o">+</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">+</span> <span class="s2">&quot;.webp&quot;</span>
-
-    <span class="k">return</span> <span class="kc">False</span>
-</pre></div>
+<p>Inside <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> is a function called <code class="docutils literal notranslate"><span class="pre">custom_bubble_bg</span></code> under the <strong>CUSTOM MESSENGER ITEMS</strong> header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You must ensure any new bubbles you allow characters to use (such as a third glowing bubble variant) are added to the <code class="docutils literal notranslate"><span class="pre">all_bubbles_list</span></code> and have styles defined for them as described above, and aren’t just defined in the custom bubble function.</p>
 </div>
-<p>The above code will then allow you to write dialogue such as</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;Look, I&#39;m using Jumin&#39;s bubble!&quot;</span> <span class="p">(</span><span class="n">bounce</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">specBubble</span><span class="o">=</span><span class="s2">&quot;ju_cloud_l&quot;</span><span class="p">)</span>
-<span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;This message uses it too!&quot;</span> <span class="n">bubble</span> <span class="n">ju_cloud_m</span>
-</pre></div>
-</div>
-<p>in order to have the characters use each other’s special speech bubbles.</p>
-<p>Note that you can also return general displayables, such as a Frame(), inside the <code class="docutils literal notranslate"><span class="pre">custom_bubble_bg</span></code> function. For example, you could give Emma (from the new character examples) a second “glowing” bubble variant:</p>
+<p>You can also return general displayables, such as a Frame(), inside the <code class="docutils literal notranslate"><span class="pre">custom_bubble_bg</span></code> function. For example, you could give Emma (from the new character examples) a second “glowing” bubble variant:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_bg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
 
     <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">file_id</span> <span class="o">==</span> <span class="s2">&quot;em&quot;</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;glow2&quot;</span><span class="p">:</span>
@@ -912,32 +912,49 @@
 <div class="section" id="custom-bubble-style-function">
 <h4>Custom Bubble Style Function<a class="headerlink" href="#custom-bubble-style-function" title="Permalink to this headline">¶</a></h4>
 <p>Although the program will try to pick out specific styles based on the name of the special speech bubble used, there may be some cases in which you want to apply a particular style to a bubble. The <code class="docutils literal notranslate"><span class="pre">custom_bubble_style</span></code> function in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> will let you return a particular style.</p>
-<p>For example, if you want the characters to be able to use each other’s special bubbles as shown in the example for the last section, you will also need them to use the other characters’ bubble styles:</p>
+<p>For example, you might want to apply special styling to <code class="docutils literal notranslate"><span class="pre">em</span></code>’s second glowing bubble variant from the last example:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_style</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
 
-    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="k">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">specBubble</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="c1"># See the example in the last section to understand what this</span>
-        <span class="c1"># conditional statement is checking for</span>
-        <span class="k">return</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">file_id</span> <span class="o">==</span> <span class="s2">&quot;em&quot;</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;glow2&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;em_glow2_style&quot;</span>
 
     <span class="k">return</span> <span class="kc">False</span>
+
+<span class="k">style</span> <span class="n">em_glow2_style</span><span class="p">:</span>
+    <span class="na">padding</span> <span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This will ensure that a character using another character’s special bubble background will still get the original character’s bubble styling as well.</p>
 <p>This function should return a string that corresponds to the name of a style. For example, if you want a bubble to use the style <code class="docutils literal notranslate"><span class="pre">style</span> <span class="pre">my_special_bubble</span></code>, then you need to return the string <code class="docutils literal notranslate"><span class="pre">&quot;my_special_bubble&quot;</span></code>.</p>
 </div>
 <div class="section" id="custom-bubble-offset-function">
 <h4>Custom Bubble Offset Function<a class="headerlink" href="#custom-bubble-offset-function" title="Permalink to this headline">¶</a></h4>
-<p>This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character’s profile picture). For example, if you wanted special speech bubbles to appear appropriately for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_offset</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+<p>This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character’s profile picture). For example, if you wanted to use special speech bubbles for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.</p>
+<p>An example utilizing all three custom functions that allows the right messenger to use Jumin’s large and medium-sized “cat” bubbles might look like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">custom_bubble_bg</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="c1"># If the messenger is on the right side (usually the player), flip</span>
+    <span class="c1"># the background of the special cat bubble</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;ju_cloud_l&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;Bubble/Special/ju_cloud_l.webp&quot;</span><span class="p">,</span> <span class="na">xzoom</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;ju_cloud_m&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Transform</span><span class="p">(</span><span class="s2">&quot;Bubble/Special/ju_cloud_m.webp&quot;</span><span class="p">,</span> <span class="na">xzoom</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
 
-    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span><span class="p">:</span>
-        <span class="c1"># This character is on the right side of the screen</span>
-        <span class="c1"># using a special bubble</span>
-        <span class="c1"># You will likely need more specific styling for particular bubbles,</span>
-        <span class="c1"># but this will return a generic position for each bubble.</span>
-        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">custom_bubble_offset</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="c1"># If the messenger is on the right side, adjust the offset for</span>
+    <span class="c1"># the two cat bubbles</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;ju_cloud_l&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">650</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;ju_cloud_m&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">640</span><span class="p">,</span> <span class="mi">39</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">False</span>
 
+<span class="k">def</span> <span class="nf">custom_bubble_style</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+    <span class="c1"># Ensure the bubbles use their original styling rather than styling</span>
+    <span class="c1"># for the main character&#39;s bubbles</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;ju_cloud_m&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;ju_cloud_m&#39;</span>
+    <span class="k">if</span> <span class="n">msg</span><span class="o">.</span><span class="n">who</span><span class="o">.</span><span class="n">right_msgr</span> <span class="k">and</span> <span class="n">msg</span><span class="o">.</span><span class="n">specBubble</span> <span class="o">==</span> <span class="s2">&quot;ju_cloud_l&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;ju_cloud_l&#39;</span>
     <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 </div>
@@ -961,10 +978,10 @@
 <p>The background names <strong>are</strong> case-sensitive, so you need to get the capitalization correct.</p>
 <p>For this example, a new background that will be displayed using <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">rainy_day</span></code> will be added.</p>
 <p>To add a new background, inside <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>CUSTOM MESSENGER ITEMS</strong> are several variables. First, you need to define the image that will be used as the background. This should be <code class="docutils literal notranslate"><span class="pre">bg</span></code> + the name of the image as you want to write when displaying it in a chatroom:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">bg</span> <span class="n">rainy_day</span> <span class="o">=</span> <span class="s2">&quot;center_bg:Phone UI/bg-rainy_day.webp&quot;</span>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">bg</span> <span class="n">rainy_day</span> <span class="o">=</span> <span class="s2">&quot;center_bg:Phone UI/bg_rainy_day.webp&quot;</span>
 </pre></div>
 </div>
-<p>The <code class="docutils literal notranslate"><span class="pre">center_bg:</span></code> before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">bg</span> <span class="pre">rainy_day</span> <span class="pre">=</span> <span class="pre">&quot;Phone</span> <span class="pre">UI/bg-rainy_day.webp&quot;</span></code> would be sufficient.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">center_bg:</span></code> before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">bg</span> <span class="pre">rainy_day</span> <span class="pre">=</span> <span class="pre">&quot;Phone</span> <span class="pre">UI/bg_rainy_day.webp&quot;</span></code> would be sufficient.</p>
 <p>You can put this image definition wherever you like, though it may make sense to keep it under the <strong>CUSTOM MESSENGER ITEMS</strong> header alongside the background variable definitions.</p>
 <p>Next, add the background name to the <code class="docutils literal notranslate"><span class="pre">all_static_backgrounds</span></code> list:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_static_backgrounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;noon&#39;</span><span class="p">,</span> <span class="s1">&#39;evening&#39;</span><span class="p">,</span> <span class="s1">&#39;hack&#39;</span><span class="p">,</span>

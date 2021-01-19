@@ -39,7 +39,7 @@ Don't forget the colon after the label name. Your label name also can't have any
 
 Next, it's time to set up the chatroom background. Note that everything under the label name **should be indented at least one level to the right**. You can look at the example files mentioned above if you're not sure what this means.
 
-First, you need to give the chatroom a background to show::
+You need to give the chatroom a background to show::
 
     label day_1_1:
         scene morning
@@ -77,7 +77,7 @@ To learn how to make this chatroom appear in your game, check out :ref:`Setting 
 Writing Chatroom Dialogue
 =========================
 
-There are two primary ways of writing dialogue for your chatroom. The first is to use a special ``msg`` CDS, and the second is to use a special spreadsheet to help generate the dialogue for you.
+There are two primary ways of writing dialogue for your chatroom. The first is to use the ``msg`` CDS, and the second is to use a special spreadsheet to help generate the dialogue for you.
 
 Using the msg CDS
 -----------------
@@ -91,7 +91,7 @@ The ``msg`` CDS helps add effects to your dialogue, such as special speech bubbl
     msg r "you can have text messages and phone calls and the like after any story item,"
     msg r "even a chatroom that has a Story Mode attached" glow
 
-(Dialogue can be found in ``tutorial_3_text_message.rpy``)
+(Dialogue taken from ``tutorial_3_text_message.rpy``)
 
 The ``msg`` CDS requires a speaker (in the example, ``r``) and some dialogue (surrounded by ``""``). There are several optional clauses that can be added after the dialogue to affect how it displays.
 
@@ -128,7 +128,7 @@ In order to use one of the built-in fonts, just include the name of the desired 
     msg u "This is example dialogue in the cursive font." curly
     msg u "This is in the sans serif 1 font." sser1
 
-Note that you can only have one font at a time; including more than one will simply use the last font given. The default font is ``sser1``.
+Note that you can only have one font at a time; including more than one will simply use the last font given. The default font is ``sser1``, and dialogue will show up using ``sser1`` unless you give it a different font.
 
 Emphasis
 ^^^^^^^^
@@ -145,7 +145,7 @@ Some fonts have **extra-bold** variants as well. These are defined in ``variable
 
     msg ja "This text is in the sans serif 2 font, extra bold." sser2 xbold
 
-Finally, you can also increase the size of the text inside a speech bubble with the ``big`` argument e.g.
+Finally, you can increase the size of the text inside a speech bubble with the ``big`` argument e.g.
 
 ::
 
@@ -200,7 +200,7 @@ You can also use special speech bubbles as the background of dialogue. There are
       - N/A
       - Only available for ``sa``. An extra variant on the ``glow`` bubble.
 
-Unless otherwise mentioned, ``u``, ``ri``, and ``m`` have no special bubble variants.
+Unless otherwise mentioned, ``u``, ``ri``, and ``m`` have no special bubble variants of their own.
 
 For bubbles which have sizes, you must include which size bubble you would like (``s`` for small, ``m`` for medium, and ``l`` for large) after the name of the bubble e.g. ``square_m`` or ``sigh_l``.
 
@@ -213,17 +213,30 @@ To use a special bubble, add the name of the bubble after dialogue e.g.
     msg r "These can be combined with other fonts and effects, too!" glow curly big
 
 
-You can also use your own bubbles with the ``msg`` CDS, or modify it so that characters can use each other's special speech bubbles. See :ref:`Custom Fonts and Bubbles` for more on custom special bubbles and fonts.
+You can also have the characters use each other's special speech bubbles by prefacing the bubble name with their file_id e.g.
+
+::
+
+    msg s "I'm using Jumin's cat bubble!" bubble ju_cloud_l
+    y "This message uses Zen's flower bubble~" (bounce=True, specBubble="z_flower_m")
+
+Finally, you can use your own bubbles with the ``msg`` CDS. See :ref:`Custom Fonts and Bubbles` for more on custom special bubbles and fonts.
 
 Images
 ^^^^^^
 
 The ``msg`` CDS will automatically detect if dialogue includes a recognized emoji and mark the dialogue as an image accordingly. If you want a character to post an image in the chatroom (such as a CG), then you can use the ``img`` argument::
 
-    s "cg s_1" img
-    s "I just posted a CG!"
+    msg s "cg s_1" img
+    msg s "I just posted a CG!"
 
 You need to follow the rules outlined in :ref:`Defining a CG` and :ref:`Showing a CG in a Chatroom or Text Message` in order for the program to find the correct image and display it during a chatroom. For CGs, the program will also automatically unlock the image in the gallery.
+
+For emojis, it's sufficient to write::
+
+    msg s "{image=seven_wow}"
+
+where ``seven_wow`` is the name of the emoji image to be shown. The program will automatically recognize it as an emoji.
 
 Modifying Message Speed
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -232,11 +245,11 @@ Finally, you can also adjust the speed at which a message is posted. For example
 
 ::
 
-    s "These" pv 0.1
-    s "messages" pv 0.1
-    s "are" pv 0.1
-    s "posted" pv 0.1
-    s "quickly!!!" pv 0.1
+    msg s "These" pv 0.1
+    msg s "messages" pv 0.1
+    msg s "are" pv 0.1
+    msg s "posted" pv 0.1
+    msg s "quickly!!!" pv 0.1
 
 If you have ``paraphrase_choices`` turned off, you will generally want to add ``pv 0`` after a message posted by the main character after a menu e.g.
 
@@ -334,8 +347,9 @@ If you would like to clear the chat history so that all previous messages are er
     y "Anyway, I should go now."
     exit chatroom y
     clear chat
-    enter chatroom u
     scene hack
+    show hack effect
+    enter chatroom u
     u "Hi, [name]."
 
 .. note::
@@ -354,6 +368,8 @@ If you would like to clear all current chatroom participants from the chatroom h
         msg z "I've been having trouble with it all morning." sigh_s
         clear chat participants
         scene hack
+        show hack effect
+        enter chatroom u
         u "Ah, excellent."
         u "I've gained access to the messenger."
 
@@ -413,6 +429,9 @@ You can show a banner with the code::
 
 Note that while the order of ``banner`` and ``lightning`` don't matter, the name is case-sensitive. So, you could also use ``show lightning banner`` but ``show Lightning banner`` would not work.
 
+.. note::
+    These images are not displayed for players who have toggled the **Chatroom Banners** setting off.
+
 Showing a Heart Icon
 --------------------
 
@@ -461,6 +480,8 @@ To show the scrolling "hack" effect during a chatroom, use the line
 
 or alternatively,
 
+::
+
     show redhack effect
 
 for the red version of the scrolling hack image.
@@ -480,7 +501,7 @@ To shake the screen, use the line
 Screen shake is compatible both with regular backgrounds and with the animated backgrounds.
 
 .. note::
-    These effects are not displayed for players who have toggled the **Hacking Effects** setting off.
+    This effect is not displayed for players who have toggled the **Screen Shake** setting off.
 
 Custom Fonts and Bubbles
 =========================
@@ -501,7 +522,7 @@ In general you should **not** replace this list; just add your new font to the e
     define all_fonts_list = ['sser1', 'sser2', 'ser1', 'ser2',
         'curly', 'blocky', 'cursive']
 
-Now you need to add it to the ``font_dict``.
+Now you need to add it to the ``font_dict``::
 
     define font_dict = { 'curly' : gui.curly_font, 'ser1' : gui.serif_1,
             'ser1b' : gui.serif_1b, 'ser1xb' : gui.serif_1xb,
@@ -509,7 +530,7 @@ Now you need to add it to the ``font_dict``.
             'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
             'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
             'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
-            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font,
             'cursive' : "fonts/cursivefont.ttf"
         }
 
@@ -529,7 +550,7 @@ And you will need to specify how the bold and extra bold variants should be mapp
             'ser2xb' : gui.serif_2xb, 'sser1' : gui.sans_serif_1,
             'sser1b' : gui.sans_serif_1b, 'sser1xb' : gui.sans_serif_1xb,
             'sser2' : gui.sans_serif_2, 'sser2b' : gui.sans_serif_2b,
-            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font
+            'sser2xb' : gui.sans_serif_2xb, 'blocky' : gui.blocky_font,
             'cursive' : "fonts/cursivefont.ttf",
             'cursiveb' : "fonts/cursivefont-bold.ttf",
             'cursivexb' : "fonts/cursivefont-xbold.ttf"
@@ -537,7 +558,7 @@ And you will need to specify how the bold and extra bold variants should be mapp
 
 In this example, the bold is called "cursiveb" and the extra bold "cursivexb". Note that you will need an entry for **both** bold and extra bold, even if you only have one font. In that case, you can set the file path for both entries to the same font.
 
-Finally, if you want to use the font as a text tag, you need to define a style for it. Existing styles can be found in ``style_definitions.rpy``::
+Finally, to use the font as a text tag, you need to define a style for it. Existing styles can be found in ``style_definitions.rpy``::
 
     style cursive:
         font "fonts/cursivefont.ttf"
@@ -565,19 +586,19 @@ And text tags work the way they would with the predefined fonts::
 Custom Bubbles
 ----------------
 
-You can also add your own custom bubbles to work with the ``msg`` CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles to work for other characters.
+You can also add your own custom bubbles to work with the ``msg`` CDS and spreadsheet dialogue method, or expand the functionality of existing bubbles.
 
 To add a new bubble, first you must add it to the ``all_bubbles_list`` in ``variables_editable.rpy``. For this example, three bubbles called "spooky_s", "spooky_m", and "spooky_l" will be added (for small, medium, and large variants).
 
 ::
 
     define all_bubbles_list = ['cloud_l', 'cloud_m', 'cloud_s', 'round_l',
-    'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
-    'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
-    'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
-    'flower_s', 'glow2', 'spooky_s', 'spooky_m', 'spooky_l']
+        'round_m', 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
+        'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l', 'square2_m',
+        'square2_s', 'round2_l', 'round2_m', 'round2_s', 'flower_l', 'flower_m',
+        'flower_s', 'glow2', 'spooky_s', 'spooky_m', 'spooky_l']
 
-Next, you need to define a style for the bubble. Typically the most important property is the padding. First, define a general style::
+Next, you need to define a base style for the bubble. Typically the most important property is the padding. First, define a general style::
 
     style spooky_s:
         padding (25, 25, 25, 25)
@@ -597,6 +618,14 @@ Next, if any characters have a variant of this bubble that requires different st
         top_padding 35
 
 ``is spooky_m`` tells the style to inherit from the original ``spooky_m`` style; this is optional, but can be helpful. In this case, it means that the ``s_spooky_m`` bubble has a left/right/bottom padding of 25, as in the ``spooky_m`` style, but the ``top_padding`` is now 35.
+
+Finally, you need to define an offset for each of your new bubbles. This is how far the bubble should be relative to the top left corner of the character's profile picture (for bubbles posted on the left side of the messenger). All the existing bubble offsets can be found in ``gui.rpy``. For the ``spooky_`` bubbles, three variables are needed::
+
+    define gui.spooky_s_offset = (140, 38)
+    define gui.spooky_m_offset = (130, 38)
+    define gui.spooky_l_offset = (140, 32)
+
+Note that these are the name of the bubble + the suffix ``_offset``. You can also define specific offsets for characters using their file_id. e.g. if ``em``'s spooky_m bubble needs to be a bit further to the right than the rest of the characters', you can define the value ``define gui.em_spooky_m_offset = (150, 32)``.
 
 And that's all! To show this special bubble in-game, you must ensure you have the appropriate images defined inside the "Bubbles/Special/" folder.
 
@@ -649,35 +678,12 @@ Besides adding your own bubbles, you can also extend the functionality of existi
 Custom Bubble Background Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Inside ``variables_editable.rpy`` is a function called ``custom_bubble_bg`` under the **CUSTOM MESSENGER ITEMS** header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds. For example, although currently characters can only use the special bubbles associated with their file_id, you could add a statement which will allow them to use each other's special speech bubbles::
+Inside ``variables_editable.rpy`` is a function called ``custom_bubble_bg`` under the **CUSTOM MESSENGER ITEMS** header. Each chatroom message is passed to this function, which allows you a chance to check for certain conditions and return particular bubble backgrounds.
 
-    def custom_bubble_bg(msg):
+.. warning::
+    You must ensure any new bubbles you allow characters to use (such as a third glowing bubble variant) are added to the ``all_bubbles_list`` and have styles defined for them as described above, and aren't just defined in the custom bubble function.
 
-        if msg.specBubble and len(specBubble.split('_')) > 2:
-            # msg.specBubble checks if the message is using a special bubble
-            # specBubble.split('_') splits the special bubble into separate
-            # words based on the '_' character. So, "square_m" becomes
-            # ["square", "m"]. the len() function checks the length of the
-            # resulting list, so ["square", "m"] has a length of 2. If the list
-            # is more than 2 long, it means it was something like "r_round_s"
-            # so it was split into ["r", "round", "s"], aka a length of 3
-            # In this case, the program shouldn't automatically add the
-            # character's file_id to the bubble.
-
-            return "Bubble/Special/" + msg.specBubble + ".webp"
-
-        return False
-
-The above code will then allow you to write dialogue such as
-
-::
-
-    s "Look, I'm using Jumin's bubble!" (bounce=True, specBubble="ju_cloud_l")
-    msg s "This message uses it too!" bubble ju_cloud_m
-
-in order to have the characters use each other's special speech bubbles.
-
-Note that you can also return general displayables, such as a Frame(), inside the ``custom_bubble_bg`` function. For example, you could give Emma (from the new character examples) a second "glowing" bubble variant::
+You can also return general displayables, such as a Frame(), inside the ``custom_bubble_bg`` function. For example, you could give Emma (from the new character examples) a second "glowing" bubble variant::
 
     def custom_bubble_bg(msg):
 
@@ -699,18 +705,17 @@ Custom Bubble Style Function
 
 Although the program will try to pick out specific styles based on the name of the special speech bubble used, there may be some cases in which you want to apply a particular style to a bubble. The ``custom_bubble_style`` function in ``variables_editable.rpy`` will let you return a particular style.
 
-For example, if you want the characters to be able to use each other's special bubbles as shown in the example for the last section, you will also need them to use the other characters' bubble styles::
+For example, you might want to apply special styling to ``em``'s second glowing bubble variant from the last example::
 
     def custom_bubble_style(msg):
 
-        if msg.specBubble and len(specBubble.split('_')) > 2:
-            # See the example in the last section to understand what this
-            # conditional statement is checking for
-            return msg.specBubble
+        if msg.who.file_id == "em" and msg.specBubble == "glow2":
+            return "em_glow2_style"
 
         return False
 
-This will ensure that a character using another character's special bubble background will still get the original character's bubble styling as well.
+    style em_glow2_style:
+        padding (30, 40)
 
 This function should return a string that corresponds to the name of a style. For example, if you want a bubble to use the style ``style my_special_bubble``, then you need to return the string ``"my_special_bubble"``.
 
@@ -719,20 +724,37 @@ This function should return a string that corresponds to the name of a style. Fo
 Custom Bubble Offset Function
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character's profile picture). For example, if you wanted special speech bubbles to appear appropriately for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.
+This function allows you to fine-tune the offset of a message, relative to the top-left corner of the message box (typically the top-left corner of the character's profile picture). For example, if you wanted to use special speech bubbles for the character on the right side of the messenger (typically the MC), you would need to adjust these values appropriately. This function is expected to return either False or a tuple of (x, y) integers for the position of this bubble.
 
-::
+An example utilizing all three custom functions that allows the right messenger to use Jumin's large and medium-sized "cat" bubbles might look like the following::
+
+    def custom_bubble_bg(msg):
+        # If the messenger is on the right side (usually the player), flip
+        # the background of the special cat bubble
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_l":
+            return Transform("Bubble/Special/ju_cloud_l.webp", xzoom=-1)
+        elif msg.who.right_msgr and msg.specBubble == "ju_cloud_m":
+            return Transform("Bubble/Special/ju_cloud_m.webp", xzoom=-1)
+        return False
 
     def custom_bubble_offset(msg):
-
-        if msg.who.right_msgr and msg.specBubble:
-            # This character is on the right side of the screen
-            # using a special bubble
-            # You will likely need more specific styling for particular bubbles,
-            # but this will return a generic position for each bubble.
-            return (0, 30)
-
+        # If the messenger is on the right side, adjust the offset for
+        # the two cat bubbles
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_l":
+            return (650, 10)
+        elif msg.who.right_msgr and msg.specBubble == "ju_cloud_m":
+            return (640, 39)
         return False
+
+    def custom_bubble_style(msg):
+        # Ensure the bubbles use their original styling rather than styling
+        # for the main character's bubbles
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_m":
+            return 'ju_cloud_m'
+        if msg.who.right_msgr and msg.specBubble == "ju_cloud_l":
+            return 'ju_cloud_l'
+        return False
+
 
 
 Adding Chatroom Backgrounds
@@ -757,9 +779,9 @@ For this example, a new background that will be displayed using ``scene rainy_da
 
 To add a new background, inside ``variables_editable.rpy`` under the header **CUSTOM MESSENGER ITEMS** are several variables. First, you need to define the image that will be used as the background. This should be ``bg`` + the name of the image as you want to write when displaying it in a chatroom::
 
-    image bg rainy_day = "center_bg:Phone UI/bg-rainy_day.webp"
+    image bg rainy_day = "center_bg:Phone UI/bg_rainy_day.webp"
 
-The ``center_bg:`` before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just ``image bg rainy_day = "Phone UI/bg-rainy_day.webp"`` would be sufficient.
+The ``center_bg:`` before the file path to the image file itself is optional, but will center the image on the screen if it is not exactly 750x1334 pixels. If your image is exactly 750x1334 pixels, then just ``image bg rainy_day = "Phone UI/bg_rainy_day.webp"`` would be sufficient.
 
 You can put this image definition wherever you like, though it may make sense to keep it under the **CUSTOM MESSENGER ITEMS** header alongside the background variable definitions.
 

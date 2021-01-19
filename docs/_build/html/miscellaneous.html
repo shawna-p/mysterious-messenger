@@ -111,7 +111,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#chip-prizes">Chip Prizes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#adding-new-ringtones-text-tones-email-tones">Adding New Ringtones, Text Tones, &amp; Email Tones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#hacked-effects">Hacked Effects</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#the-tear-screen">The tear screen</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#the-hack-rectangle-screen">The hack_rectangle screen</a></li>
@@ -122,6 +121,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-new-audio">Adding New Audio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-music">Defining New Music</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-sound-effects">Defining New Sound Effects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-new-ringtones-text-tones-email-tones">Adding New Ringtones, Text Tones, &amp; Email Tones</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#bonus-profile-pictures">Bonus Profile Pictures</a><ul>
@@ -225,7 +225,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#chip-prizes">Chip Prizes</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#adding-new-ringtones-text-tones-email-tones">Adding New Ringtones, Text Tones, &amp; Email Tones</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#hacked-effects">Hacked Effects</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#the-tear-screen">The tear screen</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#the-hack-rectangle-screen">The hack_rectangle screen</a></li>
@@ -236,6 +235,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#adding-new-audio">Adding New Audio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-music">Defining New Music</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-sound-effects">Defining New Sound Effects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-new-ringtones-text-tones-email-tones">Adding New Ringtones, Text Tones, &amp; Email Tones</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#bonus-profile-pictures">Bonus Profile Pictures</a><ul>
@@ -425,31 +425,6 @@
 </div>
 </div>
 </div>
-<div class="section" id="adding-new-ringtones-text-tones-email-tones">
-<h2>Adding New Ringtones, Text Tones, &amp; Email Tones<a class="headerlink" href="#adding-new-ringtones-text-tones-email-tones" title="Permalink to this headline">¶</a></h2>
-<p>In <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>RINGTONES</strong> are three variables, one for email tones, text tones, and ringtones. The method of adding a new tone is the same for each, so only adding a new text tone is described below.</p>
-<p>First, add a new entry to the corresponding dictionary. In this case, <code class="docutils literal notranslate"><span class="pre">text_tone_dict</span></code>. Dictionary entries are a key-value pair, separated by a colon. In this case, the “key” is the name of the tone you want to show to the player, and the “value” is the path to the file with the correct sound effect. Note that no two entries can have the same key, so you should preface entries with a category title if you’re adding multiple tones for the same character e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">text_tone_dict</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_basic_z.wav&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;Bonus ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_bonus_z.wav&#39;</span>
-    <span class="s1">&#39;Christmas ZEN&#39;</span><span class="p">:</span> <span class="s1">&#39;audio/sfx/Ringtones etc/text_xmas_z.wav&#39;</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Entries in the dictionary can be in any order; this dictionary is only used to find the correct sound file, and not to display possible tones to the player. That’s taken care of next.</p>
-<p>To display your new tone to the settings screen, you must add it to the appropriate “tone” list, found below the tone dictionaries. For this case, you need to add an entry to <code class="docutils literal notranslate"><span class="pre">persistent.text_tone_list</span></code>.</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>You don’t have to add all your ringtones/email/text tones right at the start of the game. For example, just before ending a route, you could add a set of “bonus” ringtones to <code class="docutils literal notranslate"><span class="pre">persistent.ringtone_list</span></code> e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">persistent</span><span class="o">.</span><span class="n">ringtone_list</span><span class="o">.</span><span class="n">append</span><span class="p">([</span>
-    <span class="s2">&quot;New Year&#39;s&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Jumin Han NY&quot;</span><span class="p">,</span> <span class="s2">&quot;Jaehee Kang NY&quot;</span><span class="p">,</span> <span class="s2">&quot;707 NY&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;Yoosung NY&quot;</span><span class="p">,</span> <span class="s2">&quot;ZEN NY&quot;</span><span class="p">]</span>
-<span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<p>Each tone list is made up of two separate parts - the category title and a list of the available tones in that category. The names of the tones</p>
-</div>
 <div class="section" id="hacked-effects">
 <h2>Hacked Effects<a class="headerlink" href="#hacked-effects" title="Permalink to this headline">¶</a></h2>
 <p>In your route, you may want to cause the program to appear as though it has been hacked. There are a few features to help you achieve this look. First, there is a variable called <code class="docutils literal notranslate"><span class="pre">hacked_effect</span></code> that, if set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, will cause the chatroom timeline to have additional “broken” backgrounds, and will also show a glitchy screen tear effect every 10 seconds or so. You can set this variable to <code class="docutils literal notranslate"><span class="pre">True</span></code> at any point during your route; simply including the line</p>
@@ -565,6 +540,63 @@
 </pre></div>
 </div>
 </div>
+<div class="section" id="adding-new-ringtones-text-tones-email-tones">
+<h3>Adding New Ringtones, Text Tones, &amp; Email Tones<a class="headerlink" href="#adding-new-ringtones-text-tones-email-tones" title="Permalink to this headline">¶</a></h3>
+<p>In <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code> under the header <strong>RINGTONES</strong> are three variables, one for email tones, text tones, and ringtones. The method of adding a new tone is the same for each, so only adding a new text tone is described below.</p>
+<p>First, you need to add a new category to the corresponding tone variable. In this case, <code class="docutils literal notranslate"><span class="pre">text_tones</span></code>. Categories are handled with a special class called <code class="docutils literal notranslate"><span class="pre">ToneCategory</span></code>, which takes the following arguments:</p>
+<dl>
+<dt><cite>category</cite></dt><dd><p>The name of the category as it should appear in the tone list.</p>
+<p>e.g. “Bonus”</p>
+</dd>
+<dt><cite>folder</cite></dt><dd><p>The folder and/or prefix that should be prepended to the start of each tone name in this category.</p>
+<p>e.g. “audio/ringtones/” or “audio/ringtones/<a href="#id1"><span class="problematic" id="id2">bonus_</span></a>”</p>
+</dd>
+<dt><cite>ext</cite></dt><dd><p>The extension of each file in this category.</p>
+<p>e.g. “ogg” or “wav”</p>
+</dd>
+<dt><cite>condition</cite></dt><dd><p>Optional. If used, this should be given at the end of the definition. A string which evaluates to a condition that determines if this category of tones should be shown to the player. Can be used to unlock bonus ringtones etc after the player has reached the ending of a route, for example.</p>
+<p>e.g. condition=”persistent.ray_good_end”</p>
+</dd>
+</dl>
+<p>A typical ToneCategory definition looks like the following:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ToneCategory</span><span class="p">(</span><span class="s2">&quot;Bonus&quot;</span><span class="p">,</span> <span class="s2">&quot;audio/sfx/Ringtones etc/text_tone_bonus_&quot;</span><span class="p">,</span> <span class="s2">&quot;wav&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Bonus Unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Bonus V&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Bonus Rika&quot;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">,</span>
+    <span class="n">condition</span><span class="o">=</span><span class="s2">&quot;name == &#39;Rainbow&#39;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>First, the category’s title is given as “Bonus”. The second argument, “audio/sfx/Ringtones etc/<a href="#id3"><span class="problematic" id="id4">text_tone_bonus_</span></a>” is combined with the next argument, “wav”, to create a file name for each of the tones in this category.</p>
+<p>After “wav”, each of the following arguments comes in a pair – first, the title of the tone, and second, the name of the tone as combined with the folder and ext arguments to construct a file path to the audio file. So for the above example, the first tone is called “Bonus Unknown”, and its sound file is found at “audio/sfx/Ringtones etc/text_tone_bonus_unknown.wav”. The last file in this category is called “Bonus Rika” and its associated sound file is “audio/sfx/Ringtones etc/text_tone_bonus_ri.wav”.</p>
+<p>Finally, there is the special argument <code class="docutils literal notranslate"><span class="pre">condition</span></code>. By default, a ToneCategory is automatically shown to the player. However, you can also add a condition after all the tone definitions. This condition will determine whether the tone is shown to a player.</p>
+<p>For the above example, the condition is <code class="docutils literal notranslate"><span class="pre">condition=&quot;name</span> <span class="pre">==</span> <span class="pre">'Rainbow'&quot;</span></code>. Note that the condition <em>must</em> be a string. When evaluating whether this category should be available, the program will take apart the string and evaluate it. In this case, it will evaluate <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">==</span> <span class="pre">'Rainbow'</span></code>. Therefore, if the player currently has their name set to “Rainbow” when they check the text tones list, they will see the “Bonus” tone category.</p>
+<p>You can permanently unlock tones for the player using persistent variables in a similar method to the one described in <a class="reference internal" href="route-setup.html#unlockable-routes"><span class="std std-ref">Unlockable Routes</span></a>. For example, if you want to unlock the bonus text tones after the player has seen the good end of Tutorial Day, you could create a variable called <code class="docutils literal notranslate"><span class="pre">persistent.tutorial_good_end_complete</span></code> which you set to True at the end of the Good End on Tutorial Day. Your condition for the ToneCategory would then be:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ToneCategory</span><span class="p">(</span><span class="s2">&quot;Bonus&quot;</span><span class="p">,</span> <span class="s2">&quot;audio/sfx/Ringtones etc/text_tone_bonus_&quot;</span><span class="p">,</span> <span class="s2">&quot;wav&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Bonus Unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Bonus V&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;Bonus Rika&quot;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">,</span>
+    <span class="n">condition</span><span class="o">=</span><span class="s2">&quot;persistent.tutorial_good_end_complete == True&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Overall, the <code class="docutils literal notranslate"><span class="pre">text_tones</span></code> variable might look like the following if you were to add a Bonus category:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">text_tones</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">ToneCategory</span><span class="p">(</span><span class="s2">&quot;Basic&quot;</span><span class="p">,</span> <span class="s2">&quot;audio/sfx/Ringtones etc/text_basic_&quot;</span><span class="p">,</span> <span class="s2">&quot;wav&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Default&quot;</span><span class="p">,</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;Jumin Han&#39;</span><span class="p">,</span> <span class="s2">&quot;ju&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;Jaehee Kang&#39;</span><span class="p">,</span> <span class="s2">&quot;ja&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;707&#39;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;Yoosung★&#39;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span>
+        <span class="s1">&#39;ZEN&#39;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">),</span>
+    <span class="n">ToneCategory</span><span class="p">(</span><span class="s2">&quot;Bonus&quot;</span><span class="p">,</span> <span class="s2">&quot;audio/sfx/Ringtones etc/text_tone_bonus_&quot;</span><span class="p">,</span> <span class="s2">&quot;wav&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Bonus Unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Bonus V&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Bonus Rika&quot;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">,</span>
+        <span class="n">condition</span><span class="o">=</span><span class="s2">&quot;persistent.tutorial_good_end_complete == True&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>You can add as many tones and categories as you like. The <code class="docutils literal notranslate"><span class="pre">condition</span></code> field is always optional; if omitted, that category will always be available.</p>
+</div>
 </div>
 <div class="section" id="bonus-profile-pictures">
 <h2>Bonus Profile Pictures<a class="headerlink" href="#bonus-profile-pictures" title="Permalink to this headline">¶</a></h2>
@@ -572,7 +604,7 @@
 <h3>Profile Pictures for the Characters<a class="headerlink" href="#profile-pictures-for-the-characters" title="Permalink to this headline">¶</a></h3>
 <p>In this program, the player can change the other characters’ profile pictures on that character’s profile screen by clicking their current profile picture. In-game, this is treated as a “bonus” profile picture and does not affect dialogue. The bonus profile picture is applied “on top of” the existing profile picture that is set by the game during the story. To return to the intended profile picture, there is a button captioned “Revert to default” which will restore the intended story profile picture.</p>
 <p>By default, all the images in a character’s corresponding “Profile Pics/” folder are available to choose as a profile picture, as are all the image in their corresponding CG album. This is set up on a per-character basis in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>BONUS PROFILE PICTURES</strong>.</p>
-<p>If you want a new character to have bonus profile pictures, you must set up a variable for them in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. For this example, the character Emma from <a class="reference internal" href="old_documentation/Adding-a-New-Character-to-Chatrooms.html#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a> will be given bonus profile pictures.</p>
+<p>If you want a new character to have bonus profile pictures, you must set up a variable for them in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. For this example, the character Emma from <a class="reference internal" href="creating-characters.html#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a> will be given bonus profile pictures.</p>
 <p>Because Emma’s file_id is <code class="docutils literal notranslate"><span class="pre">em</span></code>, the variable will be called <code class="docutils literal notranslate"><span class="pre">em_unlockable_pfps</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">em_unlockable_pfps</span> <span class="o">=</span> <span class="n">combine_lists</span><span class="p">(</span>
     <span class="n">register_pfp</span><span class="p">(</span><span class="n">folder</span><span class="o">=</span><span class="s2">&quot;Profile Pics/Emma/&quot;</span><span class="p">,</span> <span class="n">filter_out</span><span class="o">=</span><span class="s1">&#39;-b.&#39;</span><span class="p">),</span>

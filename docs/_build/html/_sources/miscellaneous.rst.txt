@@ -220,38 +220,6 @@ To add to the existing choices, use ``add_choices``::
 
 
 
-Adding New Ringtones, Text Tones, & Email Tones
-=================================================
-
-In ``variables_editable.rpy`` under the header **RINGTONES** are three variables, one for email tones, text tones, and ringtones. The method of adding a new tone is the same for each, so only adding a new text tone is described below.
-
-First, add a new entry to the corresponding dictionary. In this case, ``text_tone_dict``. Dictionary entries are a key-value pair, separated by a colon. In this case, the "key" is the name of the tone you want to show to the player, and the "value" is the path to the file with the correct sound effect. Note that no two entries can have the same key, so you should preface entries with a category title if you're adding multiple tones for the same character e.g.
-
-::
-
-    default text_tone_dict = {
-        'ZEN': 'audio/sfx/Ringtones etc/text_basic_z.wav',
-        'Bonus ZEN': 'audio/sfx/Ringtones etc/text_bonus_z.wav'
-        'Christmas ZEN': 'audio/sfx/Ringtones etc/text_xmas_z.wav'
-    }
-
-Entries in the dictionary can be in any order; this dictionary is only used to find the correct sound file, and not to display possible tones to the player. That's taken care of next.
-
-To display your new tone to the settings screen, you must add it to the appropriate "tone" list, found below the tone dictionaries. For this case, you need to add an entry to ``persistent.text_tone_list``.
-
-.. tip::
-    You don't have to add all your ringtones/email/text tones right at the start of the game. For example, just before ending a route, you could add a set of "bonus" ringtones to ``persistent.ringtone_list`` e.g.
-
-    ::
-
-        $ persistent.ringtone_list.append([
-            "New Year's", ["Jumin Han NY", "Jaehee Kang NY", "707 NY",
-                "Yoosung NY", "ZEN NY"]
-        ])
-
-Each tone list is made up of two separate parts - the category title and a list of the available tones in that category. The names of the tones
-
-
 Hacked Effects
 ===============
 
@@ -388,6 +356,77 @@ This should be a pair of the name of your sound effect (``glass_breaking_sfx``) 
 You can now play your sound effect in-game via::
 
     play sound glass_breaking_sfx
+
+
+Adding New Ringtones, Text Tones, & Email Tones
+---------------------------------------------------
+
+In ``variables_music_sound.rpy`` under the header **RINGTONES** are three variables, one for email tones, text tones, and ringtones. The method of adding a new tone is the same for each, so only adding a new text tone is described below.
+
+First, you need to add a new category to the corresponding tone variable. In this case, ``text_tones``. Categories are handled with a special class called ``ToneCategory``, which takes the following arguments:
+
+`category`
+    The name of the category as it should appear in the tone list.
+
+    e.g. "Bonus"
+
+`folder`
+    The folder and/or prefix that should be prepended to the start of each tone name in this category.
+
+    e.g. "audio/ringtones/" or "audio/ringtones/bonus_"
+
+`ext`
+    The extension of each file in this category.
+
+    e.g. "ogg" or "wav"
+
+`condition`
+    Optional. If used, this should be given at the end of the definition. A string which evaluates to a condition that determines if this category of tones should be shown to the player. Can be used to unlock bonus ringtones etc after the player has reached the ending of a route, for example.
+
+    e.g. condition="persistent.ray_good_end"
+
+A typical ToneCategory definition looks like the following::
+
+    ToneCategory("Bonus", "audio/sfx/Ringtones etc/text_tone_bonus_", "wav",
+        "Bonus Unknown", "unknown",
+        "Bonus V", "v",
+        "Bonus Rika", "ri",
+        condition="name == 'Rainbow'")
+
+First, the category's title is given as "Bonus". The second argument, "audio/sfx/Ringtones etc/text_tone_bonus_" is combined with the next argument, "wav", to create a file name for each of the tones in this category.
+
+After "wav", each of the following arguments comes in a pair -- first, the title of the tone, and second, the name of the tone as combined with the folder and ext arguments to construct a file path to the audio file. So for the above example, the first tone is called "Bonus Unknown", and its sound file is found at "audio/sfx/Ringtones etc/text_tone_bonus_unknown.wav". The last file in this category is called "Bonus Rika" and its associated sound file is "audio/sfx/Ringtones etc/text_tone_bonus_ri.wav".
+
+Finally, there is the special argument ``condition``. By default, a ToneCategory is automatically shown to the player. However, you can also add a condition after all the tone definitions. This condition will determine whether the tone is shown to a player.
+
+For the above example, the condition is ``condition="name == 'Rainbow'"``. Note that the condition *must* be a string. When evaluating whether this category should be available, the program will take apart the string and evaluate it. In this case, it will evaluate ``name == 'Rainbow'``. Therefore, if the player currently has their name set to "Rainbow" when they check the text tones list, they will see the "Bonus" tone category.
+
+You can permanently unlock tones for the player using persistent variables in a similar method to the one described in :ref:`Unlockable Routes`. For example, if you want to unlock the bonus text tones after the player has seen the good end of Tutorial Day, you could create a variable called ``persistent.tutorial_good_end_complete`` which you set to True at the end of the Good End on Tutorial Day. Your condition for the ToneCategory would then be::
+
+    ToneCategory("Bonus", "audio/sfx/Ringtones etc/text_tone_bonus_", "wav",
+        "Bonus Unknown", "unknown",
+        "Bonus V", "v",
+        "Bonus Rika", "ri",
+        condition="persistent.tutorial_good_end_complete == True")
+
+Overall, the ``text_tones`` variable might look like the following if you were to add a Bonus category::
+
+    define text_tones = [
+        ToneCategory("Basic", "audio/sfx/Ringtones etc/text_basic_", "wav",
+            "Default", "1",
+            'Jumin Han', "ju",
+            'Jaehee Kang', "ja",
+            '707', "s",
+            'Yoosung★', "y",
+            'ZEN', "z"),
+        ToneCategory("Bonus", "audio/sfx/Ringtones etc/text_tone_bonus_", "wav",
+            "Bonus Unknown", "unknown",
+            "Bonus V", "v",
+            "Bonus Rika", "ri",
+            condition="persistent.tutorial_good_end_complete == True")
+    ]
+
+You can add as many tones and categories as you like. The ``condition`` field is always optional; if omitted, that category will always be available.
 
 
 Bonus Profile Pictures

@@ -14,7 +14,7 @@ Setting Up
 ============
 
 * If you want to run this code, you will need to download the Ren'Py engine: https://www.renpy.org/
-* As of 2021-01-05 (the time of this update) the version of Ren'Py used is 7.3.5.606. An update to support version 7.4.x is upcoming.
+* As of 2021-01-10 (the time of this update) the version of Ren'Py used is 7.3.5.606. An update to support version 7.4.x is upcoming.
 * Download or clone the `most recent release <https://github.com/shawna-p/mysterious-messenger/releases>`_ into your Ren'Py Projects Directory and unzip it into its own folder. If you don't know what it is, you can change it from the Ren'Py launcher via ``preferences -> Projects Directory``.
 
   * The current stable version is v2.2.
@@ -152,6 +152,15 @@ Finally, there are several settings which are helpful when testing a route. They
 `Fix persistent`
     This is an option primarily intended for users updating Mysterious Messenger from older (<2.0) versions to fix issues with saved persistent values. If Ren'Py is complaining about compatibility issues with persistent variables, you can try using this option to fix it.
 
+Uncategorized
+---------------
+
+This section is for tips or program features that don't have a particular category, but may be useful to players.
+
+* The space bar will activate most of the main buttons in a chatroom. It will switch between play/pause, click the Answer button when it is available, activate the Save & Close button, and click "Sign" on the signature screen.
+* The left/right arrows will decrease/increase the chat speed during a chatroom.
+* You can swipe photos in a CG album to view the next or previous image without returning to the selection screen. It will automatically skip locked photos.
+* You can see the heart points you've earned with each character on your character's profile screen
 
 Program Features
 =================

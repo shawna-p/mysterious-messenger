@@ -275,7 +275,11 @@
 </div>
 <div class="section" id="adding-music-and-sfx">
 <h2>Adding Music and SFX<a class="headerlink" href="#adding-music-and-sfx" title="Permalink to this headline">¶</a></h2>
-<p>Playing background music inside a Story Mode is the same as playing music elsewhere in the program; simply use <code class="docutils literal notranslate"><span class="pre">play</span> <span class="pre">music</span> <span class="pre">my_music_var</span></code> where <code class="docutils literal notranslate"><span class="pre">my_music_var</span></code> is a track included in the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>.</p>
+<p>Playing background music inside a Story Mode is the same as playing music elsewhere in the program; simply use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">my_music_var</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">my_music_var</span></code> is a track included in the <code class="docutils literal notranslate"><span class="pre">music_dictionary</span></code> in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>.</p>
 <p>To add sound effects, use</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">sound</span> <span class="n">door_knock_sfx</span>
 </pre></div>
@@ -286,7 +290,11 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">play</span> <span class="k">music</span> <span class="n">ringtone</span> <span class="n">nocaption</span>
 </pre></div>
 </div>
-<p>For accessibility purposes, most audio should have a caption, so this option should be used sparingly. Previously defined audio captions can be found in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. To learn about adding your own audio, see <a class="reference internal" href="old_documentation/Adding-new-Audio.html#adding-new-audio"><span class="std std-ref">Adding new Audio</span></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For accessibility purposes, most audio should have a caption, so this option should be used sparingly.</p>
+</div>
+<p>Previously defined audio captions can be found in <code class="docutils literal notranslate"><span class="pre">variables_music_sound.rpy</span></code>. To learn about adding your own audio, see <a class="reference internal" href="miscellaneous.html#adding-new-audio"><span class="std std-ref">Adding New Audio</span></a>.</p>
 </div>
 <div class="section" id="providing-choices">
 <h2>Providing Choices<a class="headerlink" href="#providing-choices" title="Permalink to this headline">¶</a></h2>
@@ -300,6 +308,22 @@
 </pre></div>
 </div>
 <p>This tells the program to display the last line of dialogue underneath the choice menu while it is on-screen.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>If you don’t have any dialogue <em>before</em> a menu (i.e. the menu is the first thing that happens in the story mode), you <strong>don’t</strong> need to include <code class="docutils literal notranslate"><span class="pre">extend</span> <span class="pre">''</span></code>. So, the following is correct:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_chatroom_1_vn</span><span class="p">():</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_apartment</span> <span class="k">with</span> <span class="n">fade</span>
+    <span class="k">pause</span>
+    <span class="k">play</span> <span class="k">sound</span> <span class="n">door_knock_sfx</span>
+    <span class="k">menu</span> <span class="p">(</span><span class="n">paraphrased</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="s2">&quot;(Investigate the window)&quot;</span><span class="p">:</span>
+            <span class="n">u</span> <span class="s2">&quot;Don&#39;t move.&quot;</span>
+        <span class="s2">&quot;(Stay where you are)&quot;</span><span class="p">:</span>
+            <span class="n">u</span> <span class="s2">&quot;Why hello there.&quot;</span>
+</pre></div>
+</div>
+<p>There is no dialogue before the menu, so the <code class="docutils literal notranslate"><span class="pre">extend</span> <span class="pre">''</span></code> is not necessary (and if included, would actually cause an error).</p>
+</div>
 </div>
 <div class="section" id="awarding-heart-points">
 <h2>Awarding Heart Points<a class="headerlink" href="#awarding-heart-points" title="Permalink to this headline">¶</a></h2>
@@ -336,7 +360,7 @@
 </div>
 <div class="section" id="changing-outfits-and-expressions">
 <h2>Changing Outfits and Expressions<a class="headerlink" href="#changing-outfits-and-expressions" title="Permalink to this headline">¶</a></h2>
-<p>To show a character, look at [[INSERT LINK HERE] and find the character you want to show under the <strong>Character VN Expressions Cheat Sheet</strong> header.</p>
+<p>To show a character, look at <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> and find the character you want to show under the <strong>Character VN Expressions Cheat Sheet</strong> header.</p>
 <p>To show a character, use their name tag (usually their first name) + any additional expression, position, outfit, or accessory tags as applicable. In practice, this means if you want to show <code class="docutils literal notranslate"><span class="pre">jaehee</span></code> with the expression <code class="docutils literal notranslate"><span class="pre">happy</span></code> and wearing her <code class="docutils literal notranslate"><span class="pre">glasses</span></code>, write</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">jaehee</span> <span class="n">glasses</span> <span class="n">happy</span>
 </pre></div>
@@ -397,7 +421,7 @@
 </ul>
 <p><em>A brief overview of the steps required (more detail below):</em></p>
 <ol class="arabic">
-<li><p>Create a chatroom as you usually would (see <a class="reference internal" href="old_documentation/Creating-a-Chatroom.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>.</p></li>
+<li><p>Create a chatroom as you usually would (see <a class="reference internal" href="chatrooms.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>.</p></li>
 <li><p>When you want the story mode to interrupt the chatroom, use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat(&quot;name_of_story_mode_label&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">name_of_story_mode_label</span></code> is the name of the label where the program can find the associated story mode.</p>
 <blockquote>
 <div><ol class="arabic simple">
@@ -424,7 +448,7 @@
 <p>This section covers how to include a story mode section <strong>in the middle of a chatroom</strong>, such that the player will be viewing the chatroom and it will transition into a story mode section and back to the chatroom in the same “scene”.</p>
 <p>This is different from how Story Mode sections usually play out in-game; that is, first the player plays a chatroom, is returned to the timeline screen, and then must select the corresponding Story Mode section to proceed. If you are interested in the latter, see <a class="reference internal" href="route-setup.html#attached-story-mode"><span class="std std-ref">Attached Story Mode</span></a>.</p>
 </div>
-<p>First, you’ll begin by setting up a chatroom the way you usually would (see <a class="reference internal" href="old_documentation/Creating-a-Chatroom.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>). Next, wherever you would like to have the story mode appear and interrupt the chatroom, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat(&quot;my_vn_label&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">my_vn_label</span></code> is the name of the label you will be using for your story mode section.</p>
+<p>First, you’ll begin by setting up a chatroom the way you usually would (see <a class="reference internal" href="chatrooms.html#creating-a-chatroom"><span class="std std-ref">Creating a Chatroom</span></a>). Next, wherever you would like to have the story mode appear and interrupt the chatroom, write <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat(&quot;my_vn_label&quot;)</span></code> where <code class="docutils literal notranslate"><span class="pre">my_vn_label</span></code> is the name of the label you will be using for your story mode section.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Be sure your mid-chatroom story mode label <strong>doesn’t</strong> follow one of the naming conventions for declaring an attached Story Mode – so, if your chatroom is at <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">my_chatroom</span></code>, then don’t call the mid-chatroom story mode <code class="docutils literal notranslate"><span class="pre">label</span> <span class="pre">my_chatroom_vn</span></code> or the program will generate an attached Story Mode leading to that label!</p>
@@ -441,7 +465,7 @@
     <span class="k">return</span>
 
 <span class="k">label</span> <span class="n">my_chatroom_vn_chat</span><span class="p">:</span>
-    <span class="k">scene</span> <span class="n">bg</span> <span class="n">rika_apartment</span>
+    <span class="k">scene</span> <span class="n">bg</span> <span class="n">cr_meeting_room</span>
     <span class="k">play</span> <span class="k">music</span> <span class="n">lonesome_practicalism</span>
     <span class="k">show</span> <span class="n">jaehee</span> <span class="n">glasses</span> <span class="n">happy</span>
     <span class="n">ja</span> <span class="s2">&quot;Oh dear. It seems the new intern has spilled coffee on this file.&quot;</span>
@@ -466,7 +490,7 @@
 <p>If you want to modify the list of participants between scenes, you can either clear the participants altogether or pass <code class="docutils literal notranslate"><span class="pre">vn_during_chat</span></code> a special <code class="docutils literal notranslate"><span class="pre">reset_participants</span></code> argument. First, to remove all participants from the chatroom, use <code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">chat</span> <span class="pre">participants</span></code>:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">my_chatroom</span><span class="p">:</span>
     <span class="k">scene</span> <span class="n">morning</span>
-    <span class="k">play</span> <span class="k">music</span> <span class="n">narcisisstic_jazz</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">narcissistic_jazz</span>
     <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">z</span>
     <span class="n">z</span> <span class="s2">&quot;Darn... I was hoping to catch Jaehee in the chatroom at this hour.&quot;</span>
     <span class="n">z</span> <span class="s2">&quot;I wonder what she&#39;s up to...&quot;</span>
@@ -503,7 +527,7 @@
     <span class="k">call</span> <span class="n">vn_during_chat</span><span class="p">(</span><span class="s2">&quot;day_3_8_story_vn&quot;</span><span class="p">,</span> <span class="n">reset_participants</span><span class="o">=</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">z</span><span class="p">])</span>
     <span class="k">clear</span> <span class="n">chat</span>
     <span class="k">scene</span> <span class="n">earlyMorn</span>
-    <span class="k">play</span> <span class="k">music</span> <span class="n">narcisisstic_jazz</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">narcissistic_jazz</span>
     <span class="n">z</span> <span class="s2">&quot;You know, we haven&#39;t heard from [name] for a few hours...&quot;</span>
     <span class="n">z</span> <span class="s2">&quot;I hope [they_re] doing all right.&quot;</span>
     <span class="n">s</span> <span class="s2">&quot;lolol ur impatient aren&#39;t u.&quot;</span>

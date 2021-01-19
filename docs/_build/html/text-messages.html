@@ -198,9 +198,9 @@
 <h2>The compose text CDS<a class="headerlink" href="#the-compose-text-cds" title="Permalink to this headline">¶</a></h2>
 <p>The main way of writing text messages is with a special <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> CDS that looks like the following example:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">s</span> <span class="n">real_time</span><span class="p">:</span>
-    <span class="n">r</span> <span class="s2">&quot;Hi, [name].&quot;</span>
-    <span class="n">r</span> <span class="s2">&quot;I wanted to show you how text messages work.&quot;</span>
-    <span class="n">r</span> <span class="s2">&quot;Send a reply if you got this message okay!&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;Hi, [name].&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;I wanted to show you how text messages work.&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;Send a reply if you got this message okay!&quot;</span>
     <span class="k">label</span> <span class="n">example_reply_1</span>
 </pre></div>
 </div>
@@ -575,13 +575,13 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">add</span> <span class="n">backlog</span> <span class="n">ju</span> <span class="o">-</span><span class="mi">17</span> <span class="k">time</span> <span class="mi">20</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span>
     <span class="n">ju</span> <span class="s2">&quot;Good evening, [name].&quot;</span>
     <span class="n">ju</span> <span class="s2">&quot;You&#39;ve been with the RFA for a month now so I hoped to ask you a question.&quot;</span>
-    <span class="k">pause</span> <span class="mi">105</span>
+    <span class="k">pause</span> <span class="mi">110</span>
     <span class="n">m</span> <span class="s2">&quot;What is it?&quot;</span>
     <span class="k">pause</span> <span class="mi">60</span><span class="o">*</span><span class="mi">2</span>
     <span class="n">ju</span> <span class="s2">&quot;Would you consider a position at C&amp;R International?&quot;</span>
 </pre></div>
 </div>
-<p>The first message will have a timestamp of 20:32. The second message will take a few seconds to write but likely under a minute, so it will have a timestamp of 20:32 as well. After that, there is a pause statement for 105 seconds. This guarantees that the program will add 105 seconds to its calculation of how long the next message should take to type, so the MC’s message will have a timestamp of 20:34.</p>
+<p>The first message will have a timestamp of 20:32. The second message will take a few seconds to write but likely under a minute, so it will have a timestamp of 20:32 as well. After that, there is a pause statement for 110 seconds. This guarantees that the program will add 110 seconds to its calculation of how long the next message should take to type, so the MC’s message will have a timestamp of 20:34.</p>
 <p>Finally, after the MC’s line there is a pause of 60*2 seconds, so 2 minutes. This will force an additional two-minute delay between the timestamp of the next message, from Jumin, and the MC’s message. The last message from Jumin should have a time stamp of 20:36.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
