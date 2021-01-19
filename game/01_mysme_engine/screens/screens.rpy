@@ -1026,15 +1026,14 @@ screen script_error(message, link=False, link_text=False):
                 xalign 0.5
             if link:
                 null height -53
-                textbutton "[link_text]":
+                textbutton link_text:
                     style 'button_text'
                     text_layout "subtitle"
                     text_style 'button_text'
                     text_text_align 0.5 xalign 0.5
                     text_hover_underline True
                     text_color "#00b08d"
-                    action OpenURL("https://github.com/shawna-p/mysterious-messenger/wiki/"
-                        + link)
+                    action OpenMysMeDocumentation(link=link)
 
             hbox:
                 textbutton _("Confirm") action Hide('script_error')
