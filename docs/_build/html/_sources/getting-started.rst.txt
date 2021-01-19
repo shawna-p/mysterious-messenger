@@ -149,8 +149,14 @@ Finally, there are several settings which are helpful when testing a route. They
 `Use custom route select screen`
     Checking this option will cause the program to use the screen titled ``custom_route_select_screen`` instead of ``route_select_screen`` when the player chooses a route at the start of the game. See :ref:`Customizing the Route Select Screen` for more.
 
+`Prefer local documentation`
+    Checking this will cause the script error popup links to open the locally-saved html documentation that comes with the repository, where possible. If a file cannot be found, it will be opened in a web browser instead. This can be useful if you are working offline.
+
 `Fix persistent`
     This is an option primarily intended for users updating Mysterious Messenger from older (<2.0) versions to fix issues with saved persistent values. If Ren'Py is complaining about compatibility issues with persistent variables, you can try using this option to fix it.
+
+`Documentation`
+    Clicking this will open the documentation home page for Mysterious Messenger. By default, this opens the documentation in a web browser. However, you can check off **Prefer local documentation** (above) to open the html files that come with the repository instead. Both the online and offline versions contain the same information.
 
 Uncategorized
 ---------------

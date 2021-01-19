@@ -5,7 +5,7 @@ Text Messages
 .. toctree::
     :caption: Navigation
 
-    text-Messages
+    text-messages
 
 There are two kinds of text messaging styles available in this program. The first, referred to as "regular text messages", delivers text messages in "chunks" which the player can reply to whenever they like. The second style, called "real-time text conversations", plays out similar to a one-on-one chatroom. The player receives an initial text message, and upon opening the text conversation, cannot leave until the conversation is over or the player chooses to end it themselves.
 
