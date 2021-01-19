@@ -645,7 +645,25 @@ init -6 python:
         print("WARNING:", sentence)
 
         link = kwargs.get('link', False)
+        header = kwargs.get('header', False)
+        sub_header = kwargs.get('sub_header', '')
         link_text = kwargs.get('link_text', False)
+        if header or sub_header and not link_text:
+            if sub_header:
+                link_text = sub_header
+            elif header:
+                link_text = header
+        if header:
+            header = header.replace(' ', '-')
+            header = header.lower()
+            header += ".html"
+        if sub_header:
+            sub_header = sub_header.replace(' ', '-')
+            sub_header = sub_header.lower()
+            sub_header = "#" + sub_header
+        if header:
+            link = header + sub_header
+
         # Now show the error message screen
         renpy.show_screen('script_error', message=sentence, link=link,
             link_text=link_text)
