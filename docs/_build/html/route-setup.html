@@ -317,7 +317,7 @@
 <h2>Adding Timeline Items<a class="headerlink" href="#adding-timeline-items" title="Permalink to this headline">¶</a></h2>
 <p>The main way you will add content to your route is by filling out a RouteDay’s <code class="docutils literal notranslate"><span class="pre">archive_list</span></code>. There are four main timeline items.</p>
 <div class="section" id="chatrooms">
-<h3>Chatrooms<a class="headerlink" href="#chatrooms" title="Permalink to this headline">¶</a></h3>
+<span id="route-chatrooms"></span><h3>Chatrooms<a class="headerlink" href="#chatrooms" title="Permalink to this headline">¶</a></h3>
 <p>To add a Chatroom, you will use the <code class="docutils literal notranslate"><span class="pre">ChatRoom</span></code> class. It contains all the information the program needs for a single chatroom along with any accompanying phone calls or a story mode section, if applicable. You will need one <code class="docutils literal notranslate"><span class="pre">ChatRoom</span></code> object for each chatroom in your route.</p>
 <p>A typical chatroom definition looks like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ChatRoom</span><span class="p">(</span><span class="s2">&quot;Fight over cats&quot;</span><span class="p">,</span> <span class="s1">&#39;casual_d2_example_4&#39;</span><span class="p">,</span> <span class="s1">&#39;08:05&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">ja</span><span class="p">,</span> <span class="n">ju</span><span class="p">])</span>
@@ -370,7 +370,7 @@
 </div>
 </div>
 <div class="section" id="story-mode">
-<h3>Story Mode<a class="headerlink" href="#story-mode" title="Permalink to this headline">¶</a></h3>
+<span id="route-story-mode"></span><h3>Story Mode<a class="headerlink" href="#story-mode" title="Permalink to this headline">¶</a></h3>
 <p>To add a <strong>standalone</strong> Story Mode section, you will use the <code class="docutils literal notranslate"><span class="pre">StoryMode</span></code> class. It contains all the information the program needs for a single story mode along with any accompanying phone calls, if applicable. You will need one <code class="docutils literal notranslate"><span class="pre">StoryMode</span></code> object for each standalone story mode in your route.</p>
 <p>A Story Mode definition looks like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">StoryMode</span><span class="p">(</span><span class="s2">&quot;Gone to the store&quot;</span><span class="p">,</span> <span class="s2">&quot;extra_day_5_3&quot;</span><span class="p">,</span> <span class="s2">&quot;20:16&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">save_img</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">plot_branch</span><span class="o">=</span><span class="n">PlotBranch</span><span class="p">(</span><span class="kc">False</span><span class="p">))</span>
@@ -403,7 +403,7 @@
 </dl>
 </div>
 <div class="section" id="story-calls">
-<h3>Story Calls<a class="headerlink" href="#story-calls" title="Permalink to this headline">¶</a></h3>
+<span id="route-story-calls"></span><h3>Story Calls<a class="headerlink" href="#story-calls" title="Permalink to this headline">¶</a></h3>
 <p>To add a <strong>standalone</strong> Story Call, you will use the <code class="docutils literal notranslate"><span class="pre">StoryCall</span></code> class. It contains all the information the program needs for a single story call along with any accompanying regular phone calls, if applicable. You will need one <code class="docutils literal notranslate"><span class="pre">StoryCall</span></code> object for each standalone story call in your route.</p>
 <p>A Story Call definition looks like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">StoryCall</span><span class="p">(</span><span class="s2">&quot;Did you hear?&quot;</span><span class="p">,</span> <span class="s2">&quot;new_years_3&quot;</span><span class="p">,</span> <span class="s2">&quot;16:10&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>

@@ -1,3 +1,5 @@
+.. _Chatrooms Topic:
+
 ================
 Chatrooms
 ================

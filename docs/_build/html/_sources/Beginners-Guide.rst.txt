@@ -146,7 +146,7 @@ Next is the line ``$ paraphrase_choices = False``. This tells the program that t
 
 Finally, all labels including this introductory chatroom should end with ``return``. In this case, it will show the Save & Exit button to the player and return them to the game's home screen.
 
-All of these features and more are covered in :ref:`Chatrooms`, including how to write dialogue. You're welcome to expand on this chatroom later with more dialogue.
+All of these features and more are covered in :ref:`Chatrooms Topic`, including how to write dialogue. You're welcome to expand on this chatroom later with more dialogue.
 
 
 Defining Timeline Items for your Route
@@ -249,7 +249,7 @@ To play your new route, close the program if open and re-launch it after saving 
 Next Steps
 ===========
 
-Since many things in the game build off of chatrooms, you should look at the documentation on :ref:`Chatrooms`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
+Since many things in the game build off of chatrooms, you should look at the documentation on :ref:`Chatrooms Topic`. You should also look at the code for some of the chatrooms and other features included on Tutorial Day, such as ``tutorial_5_coffee.rpy`` and ``tutorial_6_meeting.rpy``, as they have many notes included explaining the various features you will see when you play through those chatrooms.
 
 Once you're comfortable writing and modifying chatrooms, you can look into adding :ref:`Text Messages`, then :ref:`Phone Calls`, and finally :ref:`Emails`. You should also look at :ref:`Setting up a Route` for more information on setting up a full route with plot branches and a party. Good luck!
 
