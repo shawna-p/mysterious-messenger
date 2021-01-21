@@ -122,6 +122,9 @@ init python:
 
             store._version = (3, 0, 0)
 
+        # Update to most recent version
+        store._version = (3, 0, 1)
+
         # Turn the version back into a string
         store._version = '.'.join(map(str, store._version))
 
