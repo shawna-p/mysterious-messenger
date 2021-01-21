@@ -115,7 +115,7 @@ label extra_features_showcase():
                 xpos 545
                 ypos 720-18
             z happy "Next, there's \"Use custom route select screen\"."
-            z "There are more instructions on how to make your own route select screen in the wiki."
+            z "There are more instructions on how to make your own route select screen in the docs."
             z neutral "This will allow you to easily switch between your own routes and the built-in Tutorial Day."
             show tut_arrow:
                 xpos 485
@@ -192,7 +192,7 @@ label bonus_pfp_showcase():
             s "It's passed some helpful arguments, like how long it's been since the player last changed their profile picture,"
             s "what the last profile picture was,"
             s "and who the current profile picture is associated with, if applicable."
-            s "But, you can find all that in the wiki."
+            s "But, you can find all that in the documentation."
             s happy "The important part is you can use this to have the characters react when you change your profile picture!"
             s "You can have them send you a text message, change their spaceship thoughts, or even call you."
             s "The possibilities are nearly endless!"

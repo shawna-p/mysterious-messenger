@@ -476,7 +476,7 @@ label popcorn_chat_vn_ju():
     scene bg black with fade
     pause
 
-    # Use this to end the VN section
+    # Use this to end the Story Mode section
     return
 
 

@@ -31,7 +31,7 @@ label example_email():
             z "They'll decrease by an additional 1 when you exit this chatroom."
             z "In other words, guests will reply to you more quickly!"
     z "If you ever want to learn about inviting guests in the game,"
-    z "there's a whole section on emails in the wiki."
+    z "there's a whole section on emails in the documentation."
     z "You can also look at {b}tutorial_2_emails.rpy{/b}"
     z "to see how this invitation works,"
     z "and {b}email_template.rpy{/b} has a template to make your own guests."

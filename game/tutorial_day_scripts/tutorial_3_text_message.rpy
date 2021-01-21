@@ -22,9 +22,7 @@ label example_text():
     msg r "So, you'll receive some text messages after this chatroom,"
     msg r "and the rest after the Story Mode."
     r "{=ser1}You can set up text messages using an {b}after_{/b} chatroom label.{/=ser1}"
-    r "Usually I'd recommend you see the wiki for more,"
-    r "but it's under construction for v3.0 so you can look at the code instead!"
-    r "The dev worked hard commenting the code to demonstrate how the new features work."
+    r "You can take a look at the documentation for more information and examples!"
     r "{image=ray_happy}" (img=True)
     r "Anyway, I won't keep you."
     r "See you soon!"

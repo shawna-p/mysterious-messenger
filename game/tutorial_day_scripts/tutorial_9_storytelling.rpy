@@ -16,11 +16,11 @@ label other_storytelling():
         "No":
             pass
 
-    y "{=curly}Well, you can also have VN sections in the middle of chatrooms!{/=curly}" (bounce=True, specBubble="square_l")
+    y "{=curly}Well, you can also have Story Mode sections in the middle of chatrooms!{/=curly}" (bounce=True, specBubble="square_l")
     y "I'll show you what I mean in a second."
-    y "{=ser1}When the chatroom is about to switch to a VN section,{/=ser1}"
+    y "{=ser1}When the chatroom is about to switch to a story mode section,{/=ser1}"
     y "{=ser1}you'll get a button at the bottom of the screen kinda like the 'answer' button.{/=ser1}"
-    y "{=ser1xb}And if you press that, you'll be taken to the VN section.{/=ser1xb}"
+    y "{=ser1xb}And if you press that, you'll be taken to the story mode section.{/=ser1xb}"
     y "{=curly}Like now!{/=curly}" (bounce=True)
 
     # This will stop the chat and display a "Continue" button at the bottom
@@ -30,7 +30,7 @@ label other_storytelling():
 
     y "{=sser2}See? We're back here in the chat.{/=sser2}"
     y "{=ser1}You might have noticed that the messages I sent you earlier are still in the history.{/=ser1}"
-    y "{=ser1}If you want to start a new chatroom when you come back from the VN though, you can do that too.{/=ser1}"
+    y "{=ser1}If you want to start a new chatroom when you come back from story mode though, you can do that too.{/=ser1}"
     y "I'll demonstrate."
     exit chatroom y
 
@@ -73,7 +73,7 @@ label other_storytelling_chat_vn_2():
     scene bg yoosung_room_night with fade
     play music mystic_chat
     show yoosung neutral
-    y "Okay so this is a different VN section."
+    y "Okay so this is a different story mode section."
     y grin "Pretend like it's a whole new scene! Time has passed!"
     y neutral "And now when we return, the chat log will be cleared."
     return
@@ -92,7 +92,7 @@ label other_storytelling_expired():
     y "plus I can show you how we can switch to Story Mode in the middle of a chat."
     y "Like this!" (bounce=True)
 
-    # Note that in some cases, you can reuse the VN label for
+    # Note that in some cases, you can reuse the story mode label for
     # expired chatrooms as well.
     call vn_during_chat('other_storytelling_chat_vn_1')
 

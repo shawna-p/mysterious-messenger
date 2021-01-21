@@ -31,8 +31,8 @@ label after_example_text_vn_r():
     # delivered immediately after the Story Mode, it will be randomly delivered
     # sometime before the next story item if the player is playing in real-time.
     # If not, it gets delivered after this Story Mode as usual.
-    # There are other arguments you can pass this as well; check the wiki for
-    # more information!
+    # There are other arguments you can pass this as well; check the
+    # documentation for more information!
     compose text z real_time deliver_at random:
         z "You know, you never send us any photos..."
         label menu_a3
@@ -84,17 +84,17 @@ label vn_tutorial():
 label vn_writing():
     show saeran neutral
     r """
-    Writing a VN section is pretty straightforward.
+    Writing a Story Mode section is pretty straightforward.
 
     First, you need to define a label, and then you can start adding dialogue and characters!
 
     This part works in the 'traditional' Ren'Py manner, so if you're not sure how to start adding characters and dialogue,
 
-    I'd recommend checking out the LemmaSoft forums and looking through the VN section in the wiki.
+    I'd recommend checking out the LemmaSoft forums and looking through the Story Mode section in the documentation.
 
     If you don't plan to change the speaking character's expression for a while,
 
-    you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this VN section.
+    you can also look into Ren'Py's \"monologue\" feature, which you can see an example of in the code for this Story Mode section.
     """
     show saeran smile
     r "Other than that, there are three buttons on the screen in Story Mode -- {b}Auto{/b}, {b}Skip{/b}, and {b}Log{/b}."
@@ -189,7 +189,7 @@ label vn_writing():
 label vn_layeredimage():
 
     show saeran happy
-    r "To get different expressions and outfits, this program makes a lot of use of Ren'Py's {b}layeredimage{/b} feature."
+    r "To get different expressions and outfits, this program makes a lot of use of Ren'Py's {b}Layered Image{/b} feature."
     r unknown neutral "It lets me change outfits and expressions very quickly just by adding the appropriate tags."
     r mask happy "For example, the attributes used to display this sprite are {b}mask{/b} and {b}happy{/b}."
     r unknown blush "Not all expressions are available with the mask on, however, like this one."
@@ -328,7 +328,7 @@ menu vn_showcase_major1:
         $ shuffle = False
         jump seven_showcase
 
-    "More ->":
+    "More ->" (paraphrased=True):
         $ shuffle = False
         jump vn_showcase_major2
 
@@ -336,7 +336,7 @@ menu vn_showcase_major2:
 
     "Who would you like to see?{fast}"
 
-    "<- Back":
+    "<- Back" (paraphrased=True):
         $ shuffle = False
         jump vn_showcase_major1
 
@@ -376,7 +376,7 @@ menu vn_showcase_minor1:
         $ shuffle = False
         jump glam_showcase
 
-    "More ->":
+    "More ->" (paraphrased=True):
         $ shuffle = False
         jump vn_showcase_minor2
 
@@ -384,7 +384,7 @@ menu vn_showcase_minor2:
 
     "Who would you like to see?{fast}"
 
-    "<- Back":
+    "<- Back" (paraphrased=True):
         $ shuffle = False
         jump vn_showcase_minor1
 

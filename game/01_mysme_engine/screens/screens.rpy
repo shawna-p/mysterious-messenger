@@ -1016,7 +1016,7 @@ screen script_error(message, link=False, link_text=False):
     python:
         message = "{=sser1xb}{color=#f00}Script Error:\n{/color}{/=sser1xb}" + message
         if link:
-            message += "\n\nLink to wiki:"
+            message += "\n\nLink to documentation:"
     style_prefix "confirm"
     add "gui/overlay/confirm.png"
     frame:

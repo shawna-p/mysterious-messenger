@@ -14,10 +14,10 @@ label plot_branch_tutorial():
         "It seems quite complicated.":
             u "A lot of work has been put into it!" (bounce=True)
             u "So there are lots of new things to learn."
-            u "If you need more help, there's always the {b}Mysterious Messenger wiki{/b}, which you can find on GitHub."
+            u "If you need more help, there's always the {b}Mysterious Messenger Documentation{/b}, which you can open by clicking the {b}Documentation{/b} button in the Developer options."
         "I'm excited to start using it!":
             u "{=curly}That's great!{/=curly}" (bounce=True)
-            u "If you ever need help with some features, you can also take a look at the {b}wiki{/b} on the Mysterious Messenger GitHub."
+            u "If you ever need help with some features, you can also take a look at the {b}Documentation{/b} by clicking the button in the Developer options."
 
     u "{=ser1}The last feature I'll show you is how to create a plot branch.{/=ser1}"
     u "{=ser1}You might have noticed that after this chatroom there's a \"Tap to unlock\" icon, right?{/=ser1}"
@@ -209,7 +209,7 @@ label tutorial_bad_end_expired():
     $ ending = 'bad'
     return
 
-## You get this VN after the Plot Branch Tutorial
+## You get this Story Mode after the Plot Branch Tutorial
 ## chatroom if you continue on to the Good End.
 label plot_branch_tutorial_vn():
 
@@ -432,7 +432,7 @@ label ending_descrip(ending_type, who):
 
     return
 
-## And this is a very brief VN for the party
+## And this is a very brief Story Mode for the party
 label tutorial_good_end_party():
     play music mystic_chat
     scene bg rika_apartment with fade
@@ -443,7 +443,7 @@ label tutorial_good_end_party():
     u distant "The party works the same way as any other Story Mode section; the only thing that's different is the icon."
     u neutral "As this is probably the end of your game though, you should be sure you show the user which ending they got."
     u "Then you can reset the game so they can play through it again."
-    u smile "As always, there's more information on that in the wiki."
+    u smile "As always, there's more information on that in the documentation."
     u neutral "As a bonus for getting to the Good End, there's one more thing I can show you:"
     u "How to show a CG in a Story Mode section."
     u smile "You'll be able to see it in the Album after this Story Mode section is over."

@@ -4,7 +4,7 @@ label tutorial_chat():
     $ y.prof_pic = 'Profile Pics/Yoosung/yoo-11.webp'
 
     # First, you need a background for the chatroom. Several have been
-    # pre-defined, but you can add more. See the wiki for information.
+    # pre-defined, but you can add more. See the documentation for information.
     scene earlyMorn
 
     # Look for music in variables_music_sound.rpy. Ren'Py's default
