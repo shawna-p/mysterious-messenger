@@ -117,15 +117,17 @@ screen day_display(day, day_num):
 
     vbox:
         spacing 10
-        vbox:
+        fixed:
             xysize (265,235)
             if is_today:
                 # The bouncy 'TODAY' sign
-                add 'day_today' align (0.5, 1.0):
+                add 'day_today' align (0.5, 0.0):
                     if day.day == 'Final':
-                        yoffset 50
+                        yoffset 100
+                    else:
+                        yoffset 215
             if day.day == 'Final':
-                add 'final_day' align (0.5, 1.0)
+                add 'final_day' align (0.5, 0.0) yoffset 145
 
         textbutton _(day.day + " Day"):
             text_style 'day_title'

@@ -744,7 +744,8 @@ screen preferences():
 
                     null height 5
                     hbox:
-                        xsize 650
+                        xmaximum 650
+                        spacing 20
                         xalign 0.5
                         style_prefix "check"
                         textbutton _("Modified UI"):
