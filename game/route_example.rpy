@@ -368,7 +368,17 @@ label example_jaehee_good_party:
 label casual_d1_example_1:
     scene morning
     play music lonesome_practicalism
-    ja "Some example dialogue."
+    enter chatroom ja
+    ja "This route doesn't have any content,"
+    ja "as it's supposed to demonstrate how to set up a complete route."
+    msg ja "If you're looking for information on how to write chatrooms," sser1
+    msg ja "{u}then I suggest you take a look at Tutorial Day or the documentation{/u}" sser1
+    ja "Since the rest of the chatrooms and story mode don't have any content,"
+    ja "I suggest you turn {b}Testing Mode{/b} on from the Developer options"
+    ja "and simply right-click the items to mark them as played and proceed."
+    msg ja "You can take a look at {b}route_example.rpy{/b} to see how this route is set up." sser2
+    msg ja "Good luck with the program!" curly glow
+    exit chatroom ja
     return
 label casual_d1_example_2:
     scene morning
