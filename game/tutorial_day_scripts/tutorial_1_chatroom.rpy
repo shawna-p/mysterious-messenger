@@ -592,8 +592,9 @@ menu bubbles:
         jump large_bubbles
     "Done" (paraphrased=True):
         ju "{=ser1}That's all from us.{/=ser1}"
-        ju "{=ser1}Note that currently you can only use the bubbles associated with the speaking character{/=ser1}"
-        ju "{=ser1}For example, Assistant Kang cannot use my Elizabeth the 3rd bubble.{/=ser1}" (bounce=True, specBubble="cloud_l")
+        ju "{=ser1}Note that if you want to use bubbles not associated with the speaking character,{/=ser1}"
+        msg ju "you need to prefix it with the file_id for that character." ser1
+        msg ju "For example, I can use Assistant Kang's bubble with {b}ja_round_l{/b}" bubble ja_round_l
         ju "{=sser2}I must excuse myself.{/=sser2}"
         exit chatroom ju
         ja "{=ser1}I'll be leaving too. Best of luck with the program.{/=ser1}"
