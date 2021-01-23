@@ -231,6 +231,7 @@ init python:
 
     # Put fonts into the fonts archive
     build.classify("game/**.ttf", "fonts")
+    build.classify("game/**.otf", "fonts")
 
 
     ## Files matching documentation patterns are duplicated in a mac app build,
