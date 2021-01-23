@@ -467,9 +467,10 @@ layeredimage rika:
         attribute dress "VN Mode/Rika/rika01_body_2.webp"
         attribute blue_dress "VN Mode/Rika/rika01_body_3.webp"
         attribute blue_dress_front "VN Mode/Rika/rika_body_01.webp"
+        attribute middle_school "VN Mode/Rika/rika_body_0.webp"
 
     group face:
-        if_not ["blue_dress_front"]
+        if_not ["blue_dress_front", "middle_school"]
         align(0.666, 0.097)
         attribute happy "VN Mode/Rika/rika01_face_0.webp"
         attribute sad "VN Mode/Rika/rika01_face_1.webp"
@@ -492,9 +493,17 @@ layeredimage rika:
         attribute angry "VN Mode/Rika/rika_face_07.webp"
         attribute cry "VN Mode/Rika/rika_face_08.webp"
 
+    group face:
+        if_any ["middle_school"]
+        attribute neutral default "VN Mode/Rika/rika_face_0.webp"
+        attribute happy "VN Mode/Rika/rika_face_1.webp"
+        attribute upset "VN Mode/Rika/rika_face_2.webp"
+        attribute sad "VN Mode/Rika/rika_face_3.webp"
+
     group head:
-        if_not ["blue_dress_front"]
+        if_not ["blue_dress_front", "middle_school"]
         attribute mask "VN Mode/Rika/rika01_head_0.webp" align(0.715, 0.05)
+
 
 
 
@@ -544,6 +553,14 @@ layeredimage seven side:
         attribute angry "VN Mode/707/seven_sideface_7.webp"
         attribute worried "VN Mode/707/seven_sideface_8.webp"
 
+layeredimage seven young:
+    always "VN Mode/707/young_seven_body_0.webp"
+
+    group face:
+        attribute neutral default "VN Mode/707/young_seven_face_0.webp"
+        attribute surprised "VN Mode/707/young_seven_face_1.webp"
+        attribute serious "VN Mode/707/young_seven_face_2.webp"
+        attribute worried "VN Mode/707/young_seven_face_3.webp"
 
 ## ****************************
 ## Saeran
@@ -558,8 +575,8 @@ layeredimage saeran:
         attribute ray default "VN Mode/Unknown/unknown_body_ray.webp"
         attribute saeran "VN Mode/Unknown/unknown_body_saeran.webp"
         attribute suit "VN Mode/Unknown/unknown_body_suit.webp"
-        attribute front_normal default "VN Mode/Unknown/saeran_body_01.webp"
-        attribute front_arm default "VN Mode/Unknown/saeran_body_02.webp"
+        attribute front_normal "VN Mode/Unknown/saeran_body_01.webp"
+        attribute front_arm "VN Mode/Unknown/saeran_body_02.webp"
 
     group face:
         align(0.41, 0.142)
@@ -593,7 +610,7 @@ layeredimage saeran:
 
 
     group face:
-        if_any ["front_normal", "front_arm"]]
+        if_any ["front_normal", "front_arm"]
         attribute blush "VN Mode/Unknown/saeran_face_01.webp"
         attribute cry "VN Mode/Unknown/saeran_face_02.webp"
         attribute sad "VN Mode/Unknown/saeran_face_03.webp"
@@ -917,4 +934,33 @@ layeredimage pastor:
         attribute shocked "VN Mode/Pastor/pastor_face_2.webp"
 
 
+## ****************************
+## Mika
+## ****************************
+
+layeredimage mika:
+    yoffset 20
+    always "VN Mode/Rika/mika_body_0.webp"
+
+    group face:
+        attribute blank "VN Mode/Rika/mika_blank.webp"
+        attribute happy "VN Mode/Rika/mika_happy.webp"
+        attribute neutral default "VN Mode/Rika/mika_neutral.webp"
+        attribute smiling "VN Mode/Rika/mika_smiling.webp"
+        attribute upset "VN Mode/Rika/mika_upset.webp"
+        attribute worried "VN Mode/Rika/mika_worried.webp"
+
+## ****************************
+## Rika's Mom
+## ****************************
+
+layeredimage rika_mom:
+    yoffset 20
+    always "VN Mode/Rika Mom/rikamom_body_0.webp"
+
+    group face:
+        attribute neutral default "VN Mode/Rika Mom/rikamom_face_0.webp"
+        attribute angry "VN Mode/Rika Mom/rikamom_face_1.webp"
+        attribute tired "VN Mode/Rika Mom/rikamom_face_2.webp"
+        attribute ugh "VN Mode/Rika Mom/rikamom_face_3.webp"
 

@@ -400,6 +400,31 @@ menu vn_showcase_minor2:
         $ shuffle = False
         jump vanderwood_showcase
 
+    "More ->" (paraphrased=True):
+        $ shuffle = False
+        jump vn_showcase_minor3
+
+menu vn_showcase_minor3:
+
+    "Who would you like to see?{fast}"
+
+    "<- Back" (paraphrased=True):
+        $ shuffle = False
+        jump vn_showcase_minor2
+
+    "Mika":
+        $ shuffle = False
+        jump mika_showcase
+
+    "The pastor":
+        $ shuffle = False
+        jump pastor_showcase
+
+    "Rika's mom":
+        $ shuffle = False
+        jump rikamom_showcase
+
+
 #************************
 # Major Characters
 #************************
@@ -1083,3 +1108,58 @@ label vanderwood_showcase():
     "And that's all."
     hide vanderwood
     jump vn_showcase
+
+label mika_showcase():
+    hide saeran
+    show mika
+    "If you'd like the minor characters to speak, you need to define your own character for them."
+    "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
+    "Mika has the following expressions:"
+    show mika blank
+    pause 0.8
+    show mika happy
+    pause 0.8
+    show mika smiling
+    pause 0.8
+    show mika upset
+    pause 0.8
+    show mika worried
+    pause 0.8
+    "And that's all."
+    hide mika
+    jump vn_showcase
+
+label pastor_showcase():
+    hide saeran
+    show pastor
+    "If you'd like the minor characters to speak, you need to define your own character for them."
+    "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
+    "The pastor has the following expressions:"
+    show pastor pleased
+    pause 0.8
+    show pastor happy
+    pause 0.8
+    show pastor shocked
+    pause 0.8
+    "And that's all."
+    hide pastor
+    jump vn_showcase
+
+label rikamom_showcase():
+    hide saeran
+    show rika_mom
+    "If you'd like the minor characters to speak, you need to define your own character for them."
+    "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
+    "Rika's mom has the following expressions:"
+    show rika_mom angry
+    pause 0.8
+    show rika_mom tired
+    pause 0.8
+    show rika_mom ugh
+    pause 0.8
+    "And that's all."
+    hide rika_mom
+    jump vn_showcase
+
+
+
