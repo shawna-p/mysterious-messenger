@@ -544,6 +544,8 @@ label rika_showcase():
     pause 0.8
     show rika savior
     pause 0.8
+    show rika blue_dress
+    pause 0.8
     show rika dress
     pause 0.8
     ri "I also have a mask accessory available to me."

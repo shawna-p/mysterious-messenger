@@ -465,8 +465,11 @@ layeredimage rika:
         attribute normal default "VN Mode/Rika/rika01_body_0.webp"
         attribute savior "VN Mode/Rika/rika01_body_1.webp"
         attribute dress "VN Mode/Rika/rika01_body_2.webp"
+        attribute blue_dress "VN Mode/Rika/rika01_body_3.webp"
+        attribute blue_dress_front "VN Mode/Rika/rika_body_01.webp"
 
     group face:
+        if_not ["blue_dress_front"]
         align(0.666, 0.097)
         attribute happy "VN Mode/Rika/rika01_face_0.webp"
         attribute sad "VN Mode/Rika/rika01_face_1.webp"
@@ -478,8 +481,22 @@ layeredimage rika:
         attribute sob "VN Mode/Rika/rika01_face_7.webp"
         attribute crazy "VN Mode/Rika/rika01_face_8.webp"
 
+    group face:
+        if_any ["blue_dress_front"]
+        attribute happy "VN Mode/Rika/rika_face_01.webp"
+        attribute blush "VN Mode/Rika/rika_face_02.webp"
+        attribute frown default "VN Mode/Rika/rika_face_03.webp"
+        attribute sad "VN Mode/Rika/rika_face_04.webp"
+        attribute worried "VN Mode/Rika/rika_face_05.webp"
+        attribute smile "VN Mode/Rika/rika_face_06.webp"
+        attribute angry "VN Mode/Rika/rika_face_07.webp"
+        attribute cry "VN Mode/Rika/rika_face_08.webp"
+
     group head:
+        if_not ["blue_dress_front"]
         attribute mask "VN Mode/Rika/rika01_head_0.webp" align(0.715, 0.05)
+
+
 
 
 ## ****************************
@@ -541,10 +558,12 @@ layeredimage saeran:
         attribute ray default "VN Mode/Unknown/unknown_body_ray.webp"
         attribute saeran "VN Mode/Unknown/unknown_body_saeran.webp"
         attribute suit "VN Mode/Unknown/unknown_body_suit.webp"
+        attribute front_normal default "VN Mode/Unknown/saeran_body_01.webp"
+        attribute front_arm default "VN Mode/Unknown/saeran_body_02.webp"
 
     group face:
         align(0.41, 0.142)
-        if_not "mask"
+        if_not ["mask", "front_normal", "front_arm"]
         attribute happy "VN Mode/Unknown/unknown_face_0.webp"
         attribute smile "VN Mode/Unknown/unknown_face_1.webp"
         attribute neutral default "VN Mode/Unknown/unknown_face_2.webp"
@@ -571,6 +590,23 @@ layeredimage saeran:
         attribute thinking "VN Mode/Unknown/unknown_face_12.webp"
         attribute tense "VN Mode/Unknown/unknown_face_13.webp"
         attribute creepy "VN Mode/Unknown/unknown_face_14.webp"
+
+
+    group face:
+        if_any ["front_normal", "front_arm"]]
+        attribute blush "VN Mode/Unknown/saeran_face_01.webp"
+        attribute cry "VN Mode/Unknown/saeran_face_02.webp"
+        attribute sad "VN Mode/Unknown/saeran_face_03.webp"
+        attribute nervous "VN Mode/Unknown/saeran_face_04.webp"
+        attribute worried "VN Mode/Unknown/saeran_face_05.webp"
+        attribute tired "VN Mode/Unknown/saeran_face_06.webp"
+        attribute neutral default "VN Mode/Unknown/saeran_face_07.webp"
+        attribute frown "VN Mode/Unknown/saeran_face_08.webp"
+        attribute thinking "VN Mode/Unknown/saeran_face_09.webp"
+        attribute surprised "VN Mode/Unknown/saeran_face_10.webp"
+        attribute angry "VN Mode/Unknown/saeran_face_11.webp"
+        attribute happy "VN Mode/Unknown/saeran_face_12.webp"
+        attribute happy_cry "VN Mode/Unknown/saeran_face_13.webp"
 
 
 ## ****************************
@@ -778,8 +814,7 @@ layeredimage bodyguard_side:
 
 layeredimage chairman_han:
     yoffset 45
-    group body:
-        attribute normal default "VN Mode/Mr Chairman/han_body_0.webp"
+    always "VN Mode/Mr Chairman/han_body_0.webp"
 
     group face:
         align(0.263, 0.088)
@@ -794,8 +829,7 @@ layeredimage chairman_han:
 
 layeredimage echo_girl:
     yoffset 70
-    group body:
-        attribute normal default "VN Mode/Echo girl/eco_body_0.webp"
+    always "VN Mode/Echo girl/eco_body_0.webp"
 
     group face:
         align(0.508, 0.09)
@@ -812,8 +846,7 @@ layeredimage echo_girl:
 
 layeredimage glam_choi:
     yoffset 115
-    group body:
-        attribute normal default "VN Mode/Glam Choi/glam_body_0.webp"
+    always "VN Mode/Glam Choi/glam_body_0.webp"
 
     group face:
         align(0.4585, 0.099)
@@ -839,8 +872,7 @@ image prime_minister:
 
 layeredimage sarah:
     yoffset 115
-    group body:
-        attribute normal default "VN Mode/Sarah Choi/sarah_body_0.webp"
+    always "VN Mode/Sarah Choi/sarah_body_0.webp"
 
     group face:
         align(0.233, 0.097)
@@ -857,8 +889,7 @@ layeredimage sarah:
 
 layeredimage vanderwood:
     yoffset 20
-    group body:
-        attribute normal default "VN Mode/Vanderwood/van_body_0.webp"
+    always "VN Mode/Vanderwood/van_body_0.webp"
 
     group face:
         align(0.57, 0.112)
@@ -868,5 +899,22 @@ layeredimage vanderwood:
         attribute determined "VN Mode/Vanderwood/ven_face_3.webp"
         attribute ouch "VN Mode/Vanderwood/ven_face_4.webp"
         attribute angry "VN Mode/Vanderwood/ven_face_5.webp"
+
+
+
+## ****************************
+## Pastor
+## ****************************
+
+layeredimage pastor:
+    yoffset 20
+    always "VN Mode/Pastor/pastor_body_0.webp"
+
+    group face:
+        attribute neutral default "VN Mode/Pastor/pastor_face_3.webp"
+        attribute pleased "VN Mode/Pastor/pastor_face_0.webp"
+        attribute happy "VN Mode/Pastor/pastor_face_1.webp"
+        attribute shocked "VN Mode/Pastor/pastor_face_2.webp"
+
 
 
