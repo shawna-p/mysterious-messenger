@@ -102,7 +102,9 @@ screen settings_tabs(active_tab):
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"
-                action ShowMenu("preferences", Dissolve(0.5))
+                action If(_menu and not main_menu,
+                    ShowMenu("preferences", _transition=Dissolve(0.5)),
+                    Show('preferences', Dissolve(0.5)))
 
         textbutton _('Sound'):
             if active_tab == "Sound":
@@ -686,7 +688,8 @@ screen preferences():
     tag settings_screen
     modal True
 
-    use menu_header("Settings", If(_menu, Return(), Hide('preferences', Dissolve(0.5)))):
+    use menu_header("Settings", If(_menu and not main_menu,
+            Return(), Hide('preferences', Dissolve(0.5)))):
         use settings_tabs("Preferences")
 
         viewport:

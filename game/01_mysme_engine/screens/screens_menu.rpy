@@ -996,7 +996,8 @@ screen menu_header(title, return_action=NullAction,
                                     + " continue this conversation."),
                                     [Jump('leave_inst_text')])
                     else:
-                        action If(_menu, Return(), return_action)
+                        action If(_menu and not main_menu,
+                            Return(), return_action)
 
 
     if title == "Save" or title == "Load" or title == "Mode Select":
