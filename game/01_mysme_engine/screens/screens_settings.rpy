@@ -102,7 +102,7 @@ screen settings_tabs(active_tab):
                 background "menu_tab_active"
             else:
                 background "menu_tab_inactive"
-                action Show("preferences", Dissolve(0.5))
+                action ShowMenu("preferences", Dissolve(0.5))
 
         textbutton _('Sound'):
             if active_tab == "Sound":
@@ -686,7 +686,7 @@ screen preferences():
     tag settings_screen
     modal True
 
-    use menu_header("Settings", Hide('preferences', Dissolve(0.5))):
+    use menu_header("Settings", If(_menu, Return(), Hide('preferences', Dissolve(0.5)))):
         use settings_tabs("Preferences")
 
         viewport:
@@ -873,8 +873,6 @@ screen toggle_buttons(field, title):
             action ToggleField(persistent, field)
 
 transform toggle_btn_transform:
-    on show:
-        pass
     on idle, hover:
         linear 0.25 xoffset 0
     on selected_idle, selected_hover:

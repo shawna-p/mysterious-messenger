@@ -936,9 +936,9 @@ screen menu_header(title, return_action=NullAction,
                         action [Hide('preferences'),
                                 Hide('profile_pic'),
                                 Hide('other_settings'),
-                                Show('preferences')]
+                                ShowMenu('preferences')]
                     else:
-                        action Show("preferences")
+                        action ShowMenu("preferences")
                 else:
                     action Function(print, "Settings won't work because: choice? ",
                         renpy.get_screen("choice"), " in_call? ", renpy.get_screen("in_call"),
@@ -996,7 +996,7 @@ screen menu_header(title, return_action=NullAction,
                                     + " continue this conversation."),
                                     [Jump('leave_inst_text')])
                     else:
-                        action return_action
+                        action If(_menu, Return(), return_action)
 
 
     if title == "Save" or title == "Load" or title == "Mode Select":
