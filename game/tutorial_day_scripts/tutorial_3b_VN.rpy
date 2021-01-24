@@ -436,43 +436,43 @@ label jaehee_showcase():
     show jaehee sparkle arm
     ja "First, I'll show you the expressions I have with my glasses."
     show jaehee happy -arm
-    pause 0.8
+    with Pause(0.8)
     show jaehee sad
-    pause 0.8
+    with Pause(0.8)
     show jaehee neutral
-    pause 0.8
+    with Pause(0.8)
     show jaehee thinking
-    pause 0.8
+    with Pause(0.8)
     show jaehee worried
-    pause 0.8
+    with Pause(0.8)
     show jaehee angry
-    pause 0.8
+    with Pause(0.8)
     show jaehee sparkle
-    pause 0.8
+    with Pause(0.8)
     show jaehee serious
-    pause 0.8
+    with Pause(0.8)
     show jaehee surprised
     ja "And now I'll show you the expressions I have without my glasses."
     show jaehee happy -glasses
-    pause 0.8
+    with Pause(0.8)
     show jaehee sad
-    pause 0.8
+    with Pause(0.8)
     show jaehee neutral
-    pause 0.8
+    with Pause(0.8)
     show jaehee thinking
-    pause 0.8
+    with Pause(0.8)
     show jaehee worried
-    pause 0.8
+    with Pause(0.8)
     show jaehee neutral
     ja "These are my available outfits."
     show jaehee normal
-    pause 0.8
+    with Pause(0.8)
     show jaehee arm
-    pause 0.8
+    with Pause(0.8)
     show jaehee party
-    pause 0.8
+    with Pause(0.8)
     show jaehee dress
-    pause 0.8
+    with Pause(0.8)
     show jaehee apron
     ja "That is all from me."
     hide jaehee
@@ -484,56 +484,56 @@ label jumin_showcase():
     ju "Hello. You can view my outfits and poses here."
     ju "First, here are the expressions I have in my 'front' pose."
     show jumin happy
-    pause 0.8
+    with Pause(0.8)
     show jumin upset
-    pause 0.8
+    with Pause(0.8)
     show jumin blush
-    pause 0.8
+    with Pause(0.8)
     show jumin neutral
-    pause 0.8
+    with Pause(0.8)
     show jumin surprised
-    pause 0.8
+    with Pause(0.8)
     show jumin angry
-    pause 0.8
+    with Pause(0.8)
     show jumin sad
-    pause 0.8
+    with Pause(0.8)
     show jumin unsure
-    pause 0.8
+    with Pause(0.8)
     show jumin thinking
-    pause 0.8
+    with Pause(0.8)
     show jumin neutral
     ju "And here are my available outfits."
     show jumin
-    pause 0.8
+    with Pause(0.8)
     show jumin arm
-    pause 0.8
+    with Pause(0.8)
     show jumin party
-    pause 0.8
+    with Pause(0.8)
     ju "I also have a second position."
     show jumin side
     ju "These are the available expressions."
     show jumin happy
-    pause 0.8
+    with Pause(0.8)
     show jumin upset
-    pause 0.8
+    with Pause(0.8)
     show jumin blush
-    pause 0.8
+    with Pause(0.8)
     show jumin neutral
-    pause 0.8
+    with Pause(0.8)
     show jumin surprised
-    pause 0.8
+    with Pause(0.8)
     show jumin angry
-    pause 0.8
+    with Pause(0.8)
     show jumin thinking
-    pause 0.8
+    with Pause(0.8)
     show jumin worried
-    pause 0.8
+    with Pause(0.8)
     show jumin neutral
     ju "And here are the available outfits."
     show jumin normal
-    pause 0.8
+    with Pause(0.8)
     show jumin suit
-    pause 0.8
+    with Pause(0.8)
     ju "That is all."
     hide jumin
     jump vn_showcase
@@ -545,48 +545,48 @@ label rika_showcase():
     show rika -happy
     ri "I'll show you my expressions, first."
     show rika happy
-    pause 0.8
+    with Pause(0.8)
     show rika sad
-    pause 0.8
+    with Pause(0.8)
     show rika neutral
-    pause 0.8
+    with Pause(0.8)
     show rika thinking
-    pause 0.8
+    with Pause(0.8)
     show rika worried
-    pause 0.8
+    with Pause(0.8)
     show rika dark
-    pause 0.8
+    with Pause(0.8)
     show rika angry
-    pause 0.8
+    with Pause(0.8)
     show rika sob
-    pause 0.8
+    with Pause(0.8)
     show rika crazy
-    pause 0.8
+    with Pause(0.8)
     show rika neutral
-    pause 0.8
+    with Pause(0.8)
     ri "And these are my available outfits."
     show rika normal
-    pause 0.8
+    with Pause(0.8)
     show rika savior
-    pause 0.8
+    with Pause(0.8)
     show rika blue_dress
-    pause 0.8
+    with Pause(0.8)
     show rika dress
-    pause 0.8
+    with Pause(0.8)
     ri "I also have a mask accessory available to me."
     show rika dress mask
-    pause 0.8
+    with Pause(0.8)
     show rika dress -mask
-    pause 0.8
+    with Pause(0.8)
     ri "And then I have a younger version as well."
     show rika middle_school
-    pause 0.8
+    with Pause(0.8)
     show rika happy
-    pause 0.8
+    with Pause(0.8)
     show rika upset
-    pause 0.8
+    with Pause(0.8)
     show rika sad
-    pause 0.8
+    with Pause(0.8)
     ri happy "That's all from me!"
     hide rika
     jump vn_showcase
@@ -597,76 +597,76 @@ label seven_showcase():
     s "Hey hey hey~! I get to show off my expressions, hmm~?"
     s "Here they are!"
     show seven happy
-    pause 0.8
+    with Pause(0.8)
     show seven blush
-    pause 0.8
+    with Pause(0.8)
     show seven neutral
-    pause 0.8
+    with Pause(0.8)
     show seven surprised
-    pause 0.8
+    with Pause(0.8)
     show seven serious
-    pause 0.8
+    with Pause(0.8)
     show seven thinking
-    pause 0.8
+    with Pause(0.8)
     show seven sad
-    pause 0.8
+    with Pause(0.8)
     show seven worried
-    pause 0.8
+    with Pause(0.8)
     show seven dark
-    pause 0.8
+    with Pause(0.8)
     show seven angry
-    pause 0.8
+    with Pause(0.8)
     show seven hurt
-    pause 0.8
+    with Pause(0.8)
     show seven neutral
-    pause 0.8
+    with Pause(0.8)
     s "And here are my outfits~"
     show seven normal
-    pause 0.8
+    with Pause(0.8)
     show seven arm
-    pause 0.8
+    with Pause(0.8)
     show seven party
-    pause 0.8
+    with Pause(0.8)
     s "I have another pose, too!"
     show seven side
-    pause 0.8
+    with Pause(0.8)
     s "Here are the expressions for this pose."
     show seven happy
-    pause 0.8
+    with Pause(0.8)
     show seven concern
-    pause 0.8
+    with Pause(0.8)
     show seven surprised
-    pause 0.8
+    with Pause(0.8)
     show seven thinking
-    pause 0.8
+    with Pause(0.8)
     show seven sad
-    pause 0.8
+    with Pause(0.8)
     show seven neutral
-    pause 0.8
+    with Pause(0.8)
     show seven dark
-    pause 0.8
+    with Pause(0.8)
     show seven angry
-    pause 0.8
+    with Pause(0.8)
     show seven worried
-    pause 0.8
+    with Pause(0.8)
     show seven neutral
-    pause 0.8
+    with Pause(0.8)
     s "And here are the outfits."
     show seven normal
-    pause 0.8
+    with Pause(0.8)
     show seven arm
-    pause 0.8
+    with Pause(0.8)
     show seven suit
-    pause 0.8
+    with Pause(0.8)
     s "And finally, I also have a younger version."
     show seven young
-    pause 0.8
+    with Pause(0.8)
     show seven surprised
-    pause 0.8
+    with Pause(0.8)
     show seven serious
-    pause 0.8
+    with Pause(0.8)
     show seven worried
-    pause 0.8
+    with Pause(0.8)
     show seven side happy
     s "That's it! Enjoy the rest of the program~"
     hide seven
@@ -677,91 +677,91 @@ label saeran_showcase():
     r "Oh, me?"
     r "Okay. I have several different expressions."
     show saeran happy
-    pause 0.8
+    with Pause(0.8)
     show saeran smile
-    pause 0.8
+    with Pause(0.8)
     show saeran neutral
-    pause 0.8
+    with Pause(0.8)
     show saeran angry
-    pause 0.8
+    with Pause(0.8)
     show saeran thinking
-    pause 0.8
+    with Pause(0.8)
     show saeran tense
-    pause 0.8
+    with Pause(0.8)
     show saeran creepy
-    pause 0.8
+    with Pause(0.8)
     show saeran cry
-    pause 0.8
+    with Pause(0.8)
     show saeran blush
-    pause 0.8
+    with Pause(0.8)
     show saeran sob
-    pause 0.8
+    with Pause(0.8)
     show saeran teary
-    pause 0.8
+    with Pause(0.8)
     show saeran nervous
-    pause 0.8
+    with Pause(0.8)
     show saeran sad
-    pause 0.8
+    with Pause(0.8)
     show saeran worried
-    pause 0.8
+    with Pause(0.8)
     show saeran distant
-    pause 0.8
+    with Pause(0.8)
     show saeran neutral
-    pause 0.8
+    with Pause(0.8)
     r "And then I have many outfits, too."
     show saeran ray
-    pause 0.8
+    with Pause(0.8)
     show saeran saeran
-    pause 0.8
+    with Pause(0.8)
     show saeran suit
-    pause 0.8
+    with Pause(0.8)
     show saeran unknown
-    pause 0.8
+    with Pause(0.8)
     show saeran mask
-    pause 0.8
+    with Pause(0.8)
     r "This outfit has fewer expressions than the other outfits since my face is partially covered"
     show saeran happy mask
-    pause 0.8
+    with Pause(0.8)
     show saeran smile mask
-    pause 0.8
+    with Pause(0.8)
     show saeran neutral mask
-    pause 0.8
+    with Pause(0.8)
     show saeran angry mask
-    pause 0.8
+    with Pause(0.8)
     show saeran thinking mask
-    pause 0.8
+    with Pause(0.8)
     show saeran tense mask
-    pause 0.8
+    with Pause(0.8)
     show saeran creepy mask
-    pause 0.8
+    with Pause(0.8)
     show saeran ray smile
     r "And now I have new positions as well!"
     show saeran front normal
-    pause 0.8
+    with Pause(0.8)
     show saeran blush
-    pause 0.8
+    with Pause(0.8)
     show saeran cry
-    pause 0.8
+    with Pause(0.8)
     show saeran sad
-    pause 0.8
+    with Pause(0.8)
     show saeran nervous
-    pause 0.8
+    with Pause(0.8)
     show saeran worried
-    pause 0.8
+    with Pause(0.8)
     show saeran tired
-    pause 0.8
+    with Pause(0.8)
     show saeran frown front arm
-    pause 0.8
+    with Pause(0.8)
     show saeran thinking
-    pause 0.8
+    with Pause(0.8)
     show saeran surprised
-    pause 0.8
+    with Pause(0.8)
     show saeran angry
-    pause 0.8
+    with Pause(0.8)
     show saeran happy
-    pause 0.8
+    with Pause(0.8)
     show saeran happy_cry
-    pause 0.8
+    with Pause(0.8)
     r "Hope that's what you were looking for!"
     jump vn_showcase
 
@@ -771,120 +771,120 @@ label v_showcase():
     v "Hello there."
     v "I'm told I'm supposed to show you my expressions."
     show v neutral
-    pause 0.8
+    with Pause(0.8)
     show v happy
-    pause 0.8
+    with Pause(0.8)
     show v angry
-    pause 0.8
+    with Pause(0.8)
     show v worried
-    pause 0.8
+    with Pause(0.8)
     show v thinking
-    pause 0.8
+    with Pause(0.8)
     show v talking
-    pause 0.8
+    with Pause(0.8)
     show v surprised
-    pause 0.8
+    with Pause(0.8)
     show v tense
-    pause 0.8
+    with Pause(0.8)
     show v sweating
-    pause 0.8
+    with Pause(0.8)
     show v sad
-    pause 0.8
+    with Pause(0.8)
     show v upset
-    pause 0.8
+    with Pause(0.8)
     show v concerned
-    pause 0.8
+    with Pause(0.8)
     show v regret
-    pause 0.8
+    with Pause(0.8)
     show v unsure
-    pause 0.8
+    with Pause(0.8)
     show v afraid
-    pause 0.8
+    with Pause(0.8)
     show v neutral
-    pause 0.8
+    with Pause(0.8)
     v "And then here are my outfits."
     show v normal
-    pause 0.8
+    with Pause(0.8)
     show v arm
-    pause 0.8
+    with Pause(0.8)
     show v hair_normal
-    pause 0.8
+    with Pause(0.8)
     show v hair_arm
-    pause 0.8
+    with Pause(0.8)
     show v mint_eye
-    pause 0.8
+    with Pause(0.8)
     v "I also have a hood accessory with this outfit."
     show v mint_eye hood_down
-    pause 0.8
+    with Pause(0.8)
     show v mint_eye hood_up
-    pause 0.8
+    with Pause(0.8)
     show v mint_eye hood_down
-    pause 0.8
+    with Pause(0.8)
     v "And then I have a side pose, too."
     show v side
-    pause 0.8
+    with Pause(0.8)
     v "Here are the poses for this pose."
-    pause 0.8
+    with Pause(0.8)
     show v happy
-    pause 0.8
+    with Pause(0.8)
     show v angry
-    pause 0.8
+    with Pause(0.8)
     show v neutral
-    pause 0.8
+    with Pause(0.8)
     show v surprised
-    pause 0.8
+    with Pause(0.8)
     show v thinking
-    pause 0.8
+    with Pause(0.8)
     show v worried
-    pause 0.8
+    with Pause(0.8)
     show v sweat
-    pause 0.8
+    with Pause(0.8)
     show v shock
-    pause 0.8
+    with Pause(0.8)
     show v afraid
-    pause 0.8
+    with Pause(0.8)
     show v blush
-    pause 0.8
+    with Pause(0.8)
     show v sad
-    pause 0.8
+    with Pause(0.8)
     show v unsure
-    pause 0.8
+    with Pause(0.8)
     show v neutral
-    pause 0.8
+    with Pause(0.8)
     v "All of these expressions also have a version with sunglasses."
     show v glasses happy
-    pause 0.8
+    with Pause(0.8)
     show v angry
-    pause 0.8
+    with Pause(0.8)
     show v neutral
-    pause 0.8
+    with Pause(0.8)
     show v surprised
-    pause 0.8
+    with Pause(0.8)
     show v thinking
-    pause 0.8
+    with Pause(0.8)
     show v worried
-    pause 0.8
+    with Pause(0.8)
     show v sweat
-    pause 0.8
+    with Pause(0.8)
     show v shock
-    pause 0.8
+    with Pause(0.8)
     show v afraid
-    pause 0.8
+    with Pause(0.8)
     show v blush
-    pause 0.8
+    with Pause(0.8)
     show v sad
-    pause 0.8
+    with Pause(0.8)
     show v unsure
-    pause 0.8
+    with Pause(0.8)
     show v neutral
-    pause 0.8
+    with Pause(0.8)
     v "And then I have different outfits for this position."
     show v normal
-    pause 0.8
+    with Pause(0.8)
     show v short_hair
-    pause 0.8
+    with Pause(0.8)
     show v long_hair
-    pause 0.8
+    with Pause(0.8)
     v "And that's all. Please enjoy the program."
     hide v
     jump vn_showcase
@@ -895,62 +895,62 @@ label yoosung_showcase():
     y "Hi! It's nice to see you~"
     y "I can show you the expressions I have in Story Mode."
     show yoosung happy
-    pause 0.8
+    with Pause(0.8)
     show yoosung neutral
-    pause 0.8
+    with Pause(0.8)
     show yoosung thinking
-    pause 0.8
+    with Pause(0.8)
     show yoosung surprised
-    pause 0.8
+    with Pause(0.8)
     show yoosung sparkle
-    pause 0.8
+    with Pause(0.8)
     show yoosung angry
-    pause 0.8
+    with Pause(0.8)
     show yoosung sad
-    pause 0.8
+    with Pause(0.8)
     show yoosung dark
-    pause 0.8
+    with Pause(0.8)
     show yoosung tired
-    pause 0.8
+    with Pause(0.8)
     show yoosung upset
-    pause 0.8
+    with Pause(0.8)
     show yoosung happy
-    pause 0.8
+    with Pause(0.8)
     y "I've also got a set of expressions when I'm wearing glasses."
     show yoosung glasses happy
-    pause 0.8
+    with Pause(0.8)
     show yoosung neutral
-    pause 0.8
+    with Pause(0.8)
     show yoosung thinking
-    pause 0.8
+    with Pause(0.8)
     show yoosung surprised
-    pause 0.8
+    with Pause(0.8)
     show yoosung sparkle
-    pause 0.8
+    with Pause(0.8)
     show yoosung happy -glasses
-    pause 0.8
+    with Pause(0.8)
     y "And here are my outfits!"
     show yoosung normal
-    pause 0.8
+    with Pause(0.8)
     show yoosung arm
-    pause 0.8
+    with Pause(0.8)
     show yoosung sweater
-    pause 0.8
+    with Pause(0.8)
     show yoosung suit
-    pause 0.8
+    with Pause(0.8)
     show yoosung party
-    pause 0.8
+    with Pause(0.8)
     show yoosung bandage
-    pause 0.8
+    with Pause(0.8)
     y "I've only got a few expressions when I have the bandage."
     show yoosung bandage happy
-    pause 0.8
+    with Pause(0.8)
     show yoosung neutral
-    pause 0.8
+    with Pause(0.8)
     show yoosung thinking
-    pause 0.8
+    with Pause(0.8)
     show yoosung normal happy -bandage
-    pause 0.8
+    with Pause(0.8)
     y "That's all! Have fun with the program~!"
     hide yoosung
     jump vn_showcase
@@ -961,59 +961,59 @@ label zen_showcase():
     z "Hey babe~ Glad you came by!"
     z "Here are my available expressions!"
     show zen happy
-    pause 0.8
+    with Pause(0.8)
     show zen angry
-    pause 0.8
+    with Pause(0.8)
     show zen blush
-    pause 0.8
+    with Pause(0.8)
     show zen wink
-    pause 0.8
+    with Pause(0.8)
     show zen neutral
-    pause 0.8
+    with Pause(0.8)
     show zen surprised
-    pause 0.8
+    with Pause(0.8)
     show zen thinking
-    pause 0.8
+    with Pause(0.8)
     show zen worried
-    pause 0.8
+    with Pause(0.8)
     show zen oh
-    pause 0.8
+    with Pause(0.8)
     show zen upset
-    pause 0.8
+    with Pause(0.8)
     show zen neutral
-    pause 0.8
+    with Pause(0.8)
     z "I've got a few outfits for this front pose, too."
     show zen arm
-    pause 0.8
+    with Pause(0.8)
     show zen party
-    pause 0.8
+    with Pause(0.8)
     show zen normal
-    pause 0.8
+    with Pause(0.8)
     z "Handsome, aren't I?"
     z "Anyway, here are my side expressions."
     show zen side happy
-    pause 0.8
+    with Pause(0.8)
     show zen angry
-    pause 0.8
+    with Pause(0.8)
     show zen blush
-    pause 0.8
+    with Pause(0.8)
     show zen wink
-    pause 0.8
+    with Pause(0.8)
     show zen surprised
-    pause 0.8
+    with Pause(0.8)
     show zen thinking
-    pause 0.8
+    with Pause(0.8)
     show zen worried
-    pause 0.8
+    with Pause(0.8)
     show zen upset
-    pause 0.8
+    with Pause(0.8)
     show zen neutral
-    pause 0.8
+    with Pause(0.8)
     z "And then a few more outfits."
     show zen suit
-    pause 0.8
+    with Pause(0.8)
     show zen normal
-    pause 0.8
+    with Pause(0.8)
     z "And that's it! Enjoy the program, hon~"
     hide zen
     jump vn_showcase
@@ -1049,13 +1049,13 @@ label chairman_showcase():
     chief_vn "I already have a character defined so I can speak."
     chief_vn "These are my expressions:"
     show chairman_han happy
-    pause 0.8
+    with Pause(0.8)
     show chairman_han thinking
-    pause 0.8
+    with Pause(0.8)
     show chairman_han stressed
-    pause 0.8
+    with Pause(0.8)
     show chairman_han neutral
-    pause 0.8
+    with Pause(0.8)
     "That's all."
     hide chairman_han
     jump vn_showcase
@@ -1067,15 +1067,15 @@ label echo_showcase():
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Echo Girl has the following expressions:"
     show echo_girl happy
-    pause 0.8
+    with Pause(0.8)
     show echo_girl angry
-    pause 0.8
+    with Pause(0.8)
     show echo_girl smile
-    pause 0.8
+    with Pause(0.8)
     show echo_girl surprised
-    pause 0.8
+    with Pause(0.8)
     show echo_girl neutral
-    pause 0.8
+    with Pause(0.8)
     "That's all."
     hide echo_girl
     jump vn_showcase
@@ -1088,17 +1088,17 @@ label glam_showcase():
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Glam Choi has the following expressions:"
     show glam_choi happy
-    pause 0.8
+    with Pause(0.8)
     show glam_choi smirk
-    pause 0.8
+    with Pause(0.8)
     show glam_choi thinking
-    pause 0.8
+    with Pause(0.8)
     show glam_choi stressed
-    pause 0.8
+    with Pause(0.8)
     show glam_choi worried
-    pause 0.8
+    with Pause(0.8)
     show glam_choi neutral
-    pause 0.8
+    with Pause(0.8)
     "And that's all."
     hide glam_choi
     jump vn_showcase
@@ -1119,17 +1119,17 @@ label sarah_showcase():
     sarah_vn "I already have a character defined so I can talk, haha~"
     sarah_vn "These are my expressions!"
     show sarah happy
-    pause 0.8
+    with Pause(0.8)
     show sarah excited
-    pause 0.8
+    with Pause(0.8)
     show sarah smirk
-    pause 0.8
+    with Pause(0.8)
     show sarah stressed
-    pause 0.8
+    with Pause(0.8)
     show sarah sad
-    pause 0.8
+    with Pause(0.8)
     show sarah neutral
-    pause 0.8
+    with Pause(0.8)
     "That's all."
     hide sarah
     jump vn_showcase
@@ -1141,17 +1141,17 @@ label vanderwood_showcase():
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Vanderwood has the following expressions:"
     show vanderwood unamused
-    pause 0.8
+    with Pause(0.8)
     show vanderwood unsure
-    pause 0.8
+    with Pause(0.8)
     show vanderwood determined
-    pause 0.8
+    with Pause(0.8)
     show vanderwood ouch
-    pause 0.8
+    with Pause(0.8)
     show vanderwood angry
-    pause 0.8
+    with Pause(0.8)
     show vanderwood neutral
-    pause 0.8
+    with Pause(0.8)
     "And that's all."
     hide vanderwood
     jump vn_showcase
@@ -1163,15 +1163,15 @@ label mika_showcase():
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Mika has the following expressions:"
     show mika blank
-    pause 0.8
+    with Pause(0.8)
     show mika happy
-    pause 0.8
+    with Pause(0.8)
     show mika smiling
-    pause 0.8
+    with Pause(0.8)
     show mika upset
-    pause 0.8
+    with Pause(0.8)
     show mika worried
-    pause 0.8
+    with Pause(0.8)
     "And that's all."
     hide mika
     jump vn_showcase
@@ -1183,11 +1183,11 @@ label pastor_showcase():
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "The pastor has the following expressions:"
     show pastor pleased
-    pause 0.8
+    with Pause(0.8)
     show pastor happy
-    pause 0.8
+    with Pause(0.8)
     show pastor shocked
-    pause 0.8
+    with Pause(0.8)
     "And that's all."
     hide pastor
     jump vn_showcase
@@ -1199,11 +1199,11 @@ label rikamom_showcase():
     "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
     "Rika's mom has the following expressions:"
     show rika_mom angry
-    pause 0.8
+    with Pause(0.8)
     show rika_mom tired
-    pause 0.8
+    with Pause(0.8)
     show rika_mom ugh
-    pause 0.8
+    with Pause(0.8)
     "And that's all."
     hide rika_mom
     jump vn_showcase

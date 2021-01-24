@@ -328,7 +328,7 @@ label hack():
         $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
         show screen hack_screen('hack scroll')
-        pause 3.0
+        with Pause(3.0)
         hide screen hack_screen
     return
 
@@ -339,7 +339,7 @@ label redhack():
         $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
         show screen hack_screen('redhack scroll')
-        pause 3.0
+        with Pause(3.0)
         hide screen hack_screen
     return
 
