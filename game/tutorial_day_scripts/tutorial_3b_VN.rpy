@@ -293,7 +293,7 @@ label menu_a3():
 ##************************************
 label vn_showcase():
     $ shuffle = False
-    menu:
+    menu (paraphrased=True):
         "Who would you like to see?{fast}"
 
         "Major Characters":
@@ -304,7 +304,7 @@ label vn_showcase():
             $ shuffle = False
             jump vn_showcase_minor1
 
-        "I'm done viewing characters":
+        "I'm done viewing characters" (paraphrased=False):
             $ shuffle = False
             jump vn_tutorial
 
@@ -577,7 +577,17 @@ label rika_showcase():
     show rika dress mask
     pause 0.8
     show rika dress -mask
-    ri "That's all from me!"
+    pause 0.8
+    ri "And then I have a younger version as well."
+    show rika middle_school
+    pause 0.8
+    show rika happy
+    pause 0.8
+    show rika upset
+    pause 0.8
+    show rika sad
+    pause 0.8
+    ri happy "That's all from me!"
     hide rika
     jump vn_showcase
 
@@ -648,6 +658,16 @@ label seven_showcase():
     pause 0.8
     show seven suit
     pause 0.8
+    s "And finally, I also have a younger version."
+    show seven young
+    pause 0.8
+    show seven surprised
+    pause 0.8
+    show seven serious
+    pause 0.8
+    show seven worried
+    pause 0.8
+    show seven side happy
     s "That's it! Enjoy the rest of the program~"
     hide seven
     jump vn_showcase
@@ -715,6 +735,33 @@ label saeran_showcase():
     show saeran creepy mask
     pause 0.8
     show saeran ray smile
+    r "And now I have new positions as well!"
+    show saeran front normal
+    pause 0.8
+    show saeran blush
+    pause 0.8
+    show saeran cry
+    pause 0.8
+    show saeran sad
+    pause 0.8
+    show saeran nervous
+    pause 0.8
+    show saeran worried
+    pause 0.8
+    show saeran tired
+    pause 0.8
+    show saeran frown front arm
+    pause 0.8
+    show saeran thinking
+    pause 0.8
+    show saeran surprised
+    pause 0.8
+    show saeran angry
+    pause 0.8
+    show saeran happy
+    pause 0.8
+    show saeran happy_cry
+    pause 0.8
     r "Hope that's what you were looking for!"
     jump vn_showcase
 

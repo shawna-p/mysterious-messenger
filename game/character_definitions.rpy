@@ -466,7 +466,7 @@ layeredimage rika:
         attribute savior "VN Mode/Rika/rika01_body_1.webp"
         attribute dress "VN Mode/Rika/rika01_body_2.webp"
         attribute blue_dress "VN Mode/Rika/rika01_body_3.webp"
-        attribute blue_dress_front "VN Mode/Rika/rika_body_01.webp"
+        attribute blue_dress_front "VN Mode/Rika/rika_body_01.webp" yoffset 400
         attribute middle_school "VN Mode/Rika/rika_body_0.webp"
 
     group face:
@@ -484,6 +484,7 @@ layeredimage rika:
 
     group face:
         if_any ["blue_dress_front"]
+        xoffset 298 yoffset 514
         attribute happy "VN Mode/Rika/rika_face_01.webp"
         attribute blush "VN Mode/Rika/rika_face_02.webp"
         attribute frown default "VN Mode/Rika/rika_face_03.webp"
@@ -495,6 +496,7 @@ layeredimage rika:
 
     group face:
         if_any ["middle_school"]
+        xoffset 100 yoffset 122
         attribute neutral default "VN Mode/Rika/rika_face_0.webp"
         attribute happy "VN Mode/Rika/rika_face_1.webp"
         attribute upset "VN Mode/Rika/rika_face_2.webp"
@@ -557,6 +559,7 @@ layeredimage seven young:
     always "VN Mode/707/young_seven_body_0.webp"
 
     group face:
+        xoffset 156 yoffset 164
         attribute neutral default "VN Mode/707/young_seven_face_0.webp"
         attribute surprised "VN Mode/707/young_seven_face_1.webp"
         attribute serious "VN Mode/707/young_seven_face_2.webp"
@@ -575,12 +578,10 @@ layeredimage saeran:
         attribute ray default "VN Mode/Unknown/unknown_body_ray.webp"
         attribute saeran "VN Mode/Unknown/unknown_body_saeran.webp"
         attribute suit "VN Mode/Unknown/unknown_body_suit.webp"
-        attribute front_normal "VN Mode/Unknown/saeran_body_01.webp"
-        attribute front_arm "VN Mode/Unknown/saeran_body_02.webp"
 
     group face:
         align(0.41, 0.142)
-        if_not ["mask", "front_normal", "front_arm"]
+        if_not ["mask"]
         attribute happy "VN Mode/Unknown/unknown_face_0.webp"
         attribute smile "VN Mode/Unknown/unknown_face_1.webp"
         attribute neutral default "VN Mode/Unknown/unknown_face_2.webp"
@@ -609,8 +610,15 @@ layeredimage saeran:
         attribute creepy "VN Mode/Unknown/unknown_face_14.webp"
 
 
+layeredimage saeran front:
+    yoffset 1260
+
+    group body:
+        attribute normal "VN Mode/Unknown/saeran_body_01.webp"
+        attribute arm "VN Mode/Unknown/saeran_body_02.webp"
+
     group face:
-        if_any ["front_normal", "front_arm"]
+        xoffset 228 yoffset 142
         attribute blush "VN Mode/Unknown/saeran_face_01.webp"
         attribute cry "VN Mode/Unknown/saeran_face_02.webp"
         attribute sad "VN Mode/Unknown/saeran_face_03.webp"
@@ -624,7 +632,6 @@ layeredimage saeran:
         attribute angry "VN Mode/Unknown/saeran_face_11.webp"
         attribute happy "VN Mode/Unknown/saeran_face_12.webp"
         attribute happy_cry "VN Mode/Unknown/saeran_face_13.webp"
-
 
 ## ****************************
 ## V
@@ -924,10 +931,11 @@ layeredimage vanderwood:
 ## ****************************
 
 layeredimage pastor:
-    yoffset 20
+    yoffset 160
     always "VN Mode/Pastor/pastor_body_0.webp"
 
     group face:
+        xoffset 305 yoffset 75
         attribute neutral default "VN Mode/Pastor/pastor_face_3.webp"
         attribute pleased "VN Mode/Pastor/pastor_face_0.webp"
         attribute happy "VN Mode/Pastor/pastor_face_1.webp"
@@ -939,12 +947,12 @@ layeredimage pastor:
 ## ****************************
 
 layeredimage mika:
-    yoffset 20
     always "VN Mode/Rika/mika_body_0.webp"
 
     group face:
+        xoffset 148 yoffset 130
         attribute blank "VN Mode/Rika/mika_blank.webp"
-        attribute happy "VN Mode/Rika/mika_happy.webp"
+        attribute happy "VN Mode/Rika/mika_happy.webp" yoffset 132
         attribute neutral default "VN Mode/Rika/mika_neutral.webp"
         attribute smiling "VN Mode/Rika/mika_smiling.webp"
         attribute upset "VN Mode/Rika/mika_upset.webp"
@@ -955,10 +963,11 @@ layeredimage mika:
 ## ****************************
 
 layeredimage rika_mom:
-    yoffset 20
+    yoffset 230
     always "VN Mode/Rika Mom/rikamom_body_0.webp"
 
     group face:
+        xoffset 165 yoffset 85
         attribute neutral default "VN Mode/Rika Mom/rikamom_face_0.webp"
         attribute angry "VN Mode/Rika Mom/rikamom_face_1.webp"
         attribute tired "VN Mode/Rika Mom/rikamom_face_2.webp"
