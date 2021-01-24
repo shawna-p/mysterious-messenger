@@ -9,6 +9,8 @@ init python:
     ## sound effects play on. Players can adjust the volume
     ## of the emojis separately from voice, music, and sfx
     renpy.music.register_channel("voice_sfx", mixer="voice_sfx", loop=False)
+    renpy.music.register_channel("voice_sfx2", mixer="voice_sfx", loop=False)
+    renpy.music.register_channel("voice_sfx3", mixer="voice_sfx", loop=False)
 
     def set_voicesfx_volume(value=None):
         """Set the volume of the voice sfx channel."""

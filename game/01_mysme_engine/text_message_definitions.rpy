@@ -278,17 +278,7 @@ init -6 python:
             renpy.pause(typeTime)
 
         if img:
-            # Adjust the {image=seven_wow} etc statement to
-            # suit the emoji dictionary
-            if "{image =" in what:
-                first, last = what.split('=')
-                if len(last) > 0 and last[0] == ' ':
-                    last.pop(0)
-                what = "{image=" + last
-            if what in emoji_lookup:
-                renpy.play(emoji_lookup[what], channel='voice_sfx')
-            elif "{image" not in what:
-                cg_helper(what, who, True)
+            show_msg_img(what, who)
 
         textlog.append(ChatEntry(who, what, upTime(), img))
         renpy.checkpoint()
@@ -336,16 +326,7 @@ init -6 python:
             renpy.pause(typeTime)
 
         if textbackup.img == True:
-            # Adjust the {image=seven_wow} etc statement to
-            # suit the emoji dictionary
-            if "{image =" in textbackup.what:
-                first, last = textbackup.what.split('=')
-                if len(last) > 0 and last[0] == ' ':
-                    last.pop(0)
-                textbackup.what = "{image=" + last
-            if (textbackup.what in emoji_lookup
-                    and renpy.get_screen('text_message_screen')):
-                renpy.play(emoji_lookup[textbackup.what], channel="voice_sfx")
+            show_msg_img(textbackup.what, textbackup.who)
 
         textlog.append(ChatEntry(textbackup.who, textbackup.what,
                 upTime(), textbackup.img))

@@ -627,23 +627,7 @@ init -4 python:
         # If it's an image, first check if it's an emoji
         # If so, it has an associated sound file
         if img:
-            # Try to adjust the {image=seven_wow} etc statement to
-            # suit the emoji dictionary
-            if "{image =" in what:
-                first, last = what.split('=')
-                last.strip()
-                what = "{image=" + last
-            if what in emoji_lookup:
-                try:
-                    renpy.play(emoji_lookup[what], channel="voice_sfx")
-                except:
-                    ScriptError("Could not find sound file in the emoji",
-                        "dictionary associated with \"", what, "\".",
-                        header="Miscellaneous",
-                        subheader="Custom Emojis")
-            elif "{image" not in what and not observing:
-                # Unlock the CG in the gallery
-                cg_helper(what, who, True)
+            show_msg_img(what, who)
 
         # Some special bubbles will award the player with a heart icon
         award_hourglass(specBubble)
@@ -653,6 +637,40 @@ init -4 python:
                             img, bounce, specBubble))
         # Create a rollback checkpoint
         renpy.checkpoint()
+
+    def show_msg_img(what, who):
+        """
+        Play the emoji sound effect associated with what, if it exists.
+        Otherwise, unlock the CG in the gallery.
+        """
+
+        # Try to adjust the {image=seven_wow} etc statement to
+        # suit the emoji dictionary
+        if "{image =" in what:
+            first, last = what.split('=')
+            last.strip()
+            what = "{image=" + last
+        if what in emoji_lookup:
+            try:
+                if not renpy.music.get_playing('voice_sfx'):
+                    renpy.play(emoji_lookup[what], channel='voice_sfx')
+                elif not renpy.music.get_playing('voice_sfx2'):
+                    renpy.play(emoji_lookup[what], channel='voice_sfx2')
+                elif not renpy.music.get_playing('voice_sfx3'):
+                    renpy.play(emoji_lookup[what], channel='voice_sfx3')
+                else:
+                    renpy.play(emoji_lookup[what], channel='voice_sfx')
+            except:
+                ScriptError("Could not find sound file in the emoji",
+                    "dictionary associated with \"", what, "\".",
+                    header="Miscellaneous",
+                    subheader="Custom Emojis")
+        elif "{image" not in what and not observing:
+            # Unlock the CG in the gallery
+            cg_helper(what, who, True)
+        return
+
+
 
     def calculate_type_time(what):
         """Return the length of time to pause for 'what'."""
@@ -742,21 +760,7 @@ init -4 python:
             messenger_pause(typeTime, True)
 
         if chatbackup.img:
-            if "{image =" in chatbackup.what:
-                first, last = chatbackup.what.split('=')
-                last.strip()
-                chatbackup.what = "{image=" + last
-            if chatbackup.what in emoji_lookup:
-                try:
-                    renpy.play(emoji_lookup[what], channel="voice_sfx")
-                except:
-                    ScriptError("Could not find sound file in the emoji",
-                        "dictionary associated with \"", chatbackup.what, "\".",
-                        header="Miscellaneous",
-                        subheader="Custom Emojis")
-            elif "{image" not in chatbackup.what and not observing:
-                # Unlock the CG in the gallery
-                cg_helper(what, who, True)
+            show_msg_img(chatbackup.what, chatbackup.who)
 
         award_hourglass(chatbackup.specBubble)
 

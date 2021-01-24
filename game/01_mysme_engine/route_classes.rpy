@@ -1583,6 +1583,8 @@ init python:
 
         renpy.music.stop('voice', fadeout=0.1)
         renpy.music.stop('voice_sfx', fadeout=0.1)
+        renpy.music.stop('voice_sfx2', fadeout=0.1)
+        renpy.music.stop('voice_sfx3', fadeout=0.1)
 
         config.skipping = False
         store.choosing = False
