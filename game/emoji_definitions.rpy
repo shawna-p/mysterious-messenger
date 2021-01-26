@@ -65,6 +65,9 @@ init python:
         '{image=saeran_happy}': 'audio/sfx/Emotes/Saeran/saeran_happy.mp3',
         '{image=saeran_questioning}': 'audio/sfx/Emotes/Saeran/saeran_questioning.mp3',
         '{image=saeran_well}': 'audio/sfx/Emotes/Saeran/saeran_well.mp3',
+        '{image=saeran_hehe}': "audio/sfx/Emotes/Saeran/saeran_hehe.wav",
+        '{image=saeran_pleased}': "audio/sfx/Emotes/Saeran/saeran_pleased.wav",
+        '{image=saeran_sad}': "audio/sfx/Emotes/Saeran/saeran_sad.wav",
 
         '{image=seven_cry}': 'audio/sfx/Emotes/Seven/seven_cry.mp3',
         '{image=seven_huff}': 'audio/sfx/Emotes/Seven/seven_huff.mp3',
@@ -142,7 +145,10 @@ define ray_emotes = ['{image=ray_cry}',
 define saeran_emotes = ['{image=saeran_expecting}',
                     '{image=saeran_happy}',
                     '{image=saeran_questioning}',
-                    '{image=saeran_well}']
+                    '{image=saeran_well}',
+                    '{image=saeran_hehe}',
+                    '{image=saeran_pleased}',
+                    '{image=saeran_sad}']
 
 define seven_emotes = ['{image=seven_cry}',
                     '{image=seven_huff}',
@@ -386,6 +392,27 @@ image saeran_well:
     "Gifs/Saeran/emo_saeran_well1.webp"
     0.5
     "Gifs/Saeran/emo_saeran_well2.webp"
+    0.5
+    repeat
+
+image saeran_hehe:
+    "Gifs/Saeran/emo_saeran_hehe.webp"
+    0.5
+    "Gifs/Saeran/emo_saeran_hehe2.webp"
+    0.5
+    repeat
+
+image saeran_sad:
+    "Gifs/Saeran/emo_saeran_sad.webp"
+    0.5
+    "Gifs/Saeran/emo_saeran_sad2.webp"
+    0.5
+    repeat
+
+image saeran_pleased:
+    "Gifs/Saeran/emo_saeran_pleased.webp"
+    0.5
+    "Gifs/Saeran/emo_saeran_pleased2.webp"
     0.5
     repeat
 
