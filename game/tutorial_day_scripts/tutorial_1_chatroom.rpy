@@ -690,6 +690,10 @@ label saeran_emoji():
     sa "{image=saeran_happy}" (img=True)
     sa "{image=saeran_well}" (img=True)
     sa "{image=saeran_questioning}" (img=True)
+    sa "There are also these emotes:"
+    msg sa "{image=saeran_hehe}"
+    msg sa "{image=saeran_sad}"
+    msg sa "{image=saeran_pleased}"
     $ shuffle = False
     jump emoji
 
