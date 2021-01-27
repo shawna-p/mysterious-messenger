@@ -368,3 +368,29 @@ screen banner_screen(banner):
         add 'banner ' + banner align (0.5, 1.0)
 
     timer 0.72 action Hide('banner_screen')
+
+#************************************
+# Other
+#************************************
+
+# The "secure chat" animation
+label secure_anim():
+    if (not observing and not persistent.testing_mode):
+        $ entry = ("anim", "secure_anim")
+        $ current_timeline_item.replay_log.append(entry)
+    show screen secure_anim_screen()
+    with Pause(1.25)
+    hide screen secure_anim_screen
+    return
+
+screen secure_anim_screen():
+    zorder 10
+    modal True
+    add 'black'
+    imagebutton:
+        align (0.5, 0.5)
+        idle 'secure_chat_intro'
+        if observing and not _in_replay:
+            action Hide('secure_anim_screen')
+
+    timer 1.25 action Hide('secure_anim_screen')

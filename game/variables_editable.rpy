@@ -349,7 +349,7 @@ define hourglass_bubbles = ['cloud_l', 'round_l', 'square_l', 'flower_l',
 # All possible backgrounds are defined here. If they are a static image,
 # they should be defined as `image bg morning` and the list contains 'morning'.
 define all_static_backgrounds = ['morning', 'noon', 'evening', 'hack',
-                'redhack', 'night', 'earlyMorn', 'redcrack']
+                'redhack', 'night', 'earlyMorn', 'redcrack', 'secure']
 # If there is an animated version, it goes here. They should be defined as
 # `screen animated_evening` and the list contains 'evening'.
 # Animated backgrounds should have a `zorder` of 0 and be tagged `animated_bg`.

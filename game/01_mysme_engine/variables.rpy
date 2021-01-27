@@ -864,8 +864,10 @@ init -6 python:
                 and not at_list):
             renpy.call('shake')
             return
-
-
+        ## The secure chat animation
+        elif ('secure' in name and 'anim' in name):
+            renpy.call('secure_anim')
+            return
         ## Chatroom backgrounds
         elif (not ('bg' in name and 'black' in name)
                 and renpy.get_screen('messenger_screen')
@@ -1007,7 +1009,33 @@ image bg noon = "center_bg:Phone UI/bg-noon.webp"
 image bg hack = "Phone UI/bg-hack.webp"
 image bg redhack = "Phone UI/bg-redhack.webp"
 image bg redcrack = "Phone UI/bg-redhack-crack.webp"
+image bg secure = Fixed("center_bg:Phone UI/bg_secure.webp",
+    Transform("#000", alpha=0.5), xysize=(750, 1334))
 image black = "#000000"
+
+
+## The "secure chatroom" animation
+image secure_lock = "Phone UI/chat_lock_secure.webp"
+image secure_lock_glow = "Phone UI/chat_lock_glow.webp"
+
+transform lock_spin():
+    rotate 0
+    ease 1.2 rotate -360
+
+image secure_chat_intro = Fixed(
+    # The background
+    Transform('Phone UI/bg_secure.webp', zoom=1.19, align=(0.5, 0.5)),
+    # The lock
+    Fixed(Transform('secure_lock', align=(0.5, 0.5)),
+        # The circle animation
+        At(Fixed(Transform('secure_lock_glow', align=(0.0, 0.5)),
+            xysize=(545, 545), align=(0.5, 0.5)
+        ), lock_spin),
+        align=(0.5, 0.5), xysize=(545, 545)
+    ),
+    xysize=(892, 1334), align=(0.5, 0.5)
+)
+
 
 # A starry night background with some static stars;
 # used in menu screens
