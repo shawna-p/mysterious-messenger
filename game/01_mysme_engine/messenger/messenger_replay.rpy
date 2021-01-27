@@ -193,6 +193,12 @@ label chatroom_replay():
                     renpy.call('vn_during_chat', second[0], second[1],
                                         second[2], second[3])
 
+                # The secure chat animation
+                elif first == "anim":
+                    renpy.show_screen('secure_anim_screen')
+                    if not renpy.is_skipping():
+                        renpy.pause(1.25)
+
                 elif first == "hack":
                     if persistent.hacking_effects:
                         if second == "regular":
