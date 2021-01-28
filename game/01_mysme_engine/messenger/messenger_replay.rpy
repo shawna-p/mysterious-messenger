@@ -248,6 +248,30 @@ label chatroom_replay():
                                     and renpy.get_screen("hack_screen")):
                                 renpy.pause(0.5, hard=False)
                             renpy.hide_screen('hack_screen')
+                        elif second == "red_static":
+                            renpy.show_screen('hack_screen',
+                                hack='red_static_scroll',
+                                flicker=False,
+                                bg='red_static_background')
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            if (not renpy.is_skipping()
+                                    and renpy.get_screen("hack_screen")):
+                                renpy.pause(0.5, hard=False)
+                            renpy.hide_screen('hack_screen')
                 elif first == "play music":
                     try:
                         notification =  ("♪ " +
