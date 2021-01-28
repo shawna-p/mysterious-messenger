@@ -308,11 +308,13 @@ screen speed_num():
 #************************************
 # Displays the scrolled hacking effect
 
-screen hack_screen(hack):
+screen hack_screen(hack, flicker=True, bg="black"):
     zorder 10
     modal True
-    add 'black'
-    imagebutton at flicker:
+    add bg
+    imagebutton:
+        if flicker:
+            at flicker
         xysize (750,1334)
         idle hack
         if observing and not _in_replay:
@@ -339,6 +341,18 @@ label redhack():
         $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
         show screen hack_screen('redhack scroll')
+        with Pause(3.0)
+        hide screen hack_screen
+    return
+
+label red_static():
+    if (not observing and not persistent.testing_mode
+            and not vn_choice):
+        $ hack_entry = ("hack", "red_static")
+        $ current_timeline_item.replay_log.append(hack_entry)
+    if persistent.hacking_effects:
+        show screen hack_screen('red_static_scroll', False,
+            'red_static_background')
         with Pause(3.0)
         hide screen hack_screen
     return
