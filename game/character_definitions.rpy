@@ -199,7 +199,7 @@ default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.webp',
                 phone_char=r_phone, vn_char=r_vn,
                 pronunciation_help="ray")
 default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.webp',
-                'Profile Pics/ri_chat.webp', "#fcef5a",
+                'Profile Pics/ri_chat.webp', "#FFE84A",
                 "Cover Photos/profile_cover_photo.webp", "Rika's status",
                 emote_list=rika_emotes,
                 homepage_pic="Profile Pics/main_profile_rika.webp",
