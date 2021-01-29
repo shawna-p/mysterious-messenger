@@ -308,13 +308,13 @@ screen speed_num():
 #************************************
 # Displays the scrolled hacking effect
 
-screen hack_screen(hack, flicker=True, bg="black"):
+screen hack_screen(hack, flicker_anim=True, bg="black"):
     zorder 10
     modal True
     add bg
     imagebutton:
-        if flicker:
-            at flicker
+        if flicker_anim:
+            at flicker()
         xysize (750,1334)
         idle hack
         if observing and not _in_replay:
@@ -356,6 +356,18 @@ label red_static():
         with Pause(3.0)
         hide screen hack_screen
     return
+
+# Shows the "cracked" phone screen overlay
+label screen_crack_overlay():
+    if (not observing and not persistent.testing_mode):
+        $ entry = ("overlay", "screen_crack")
+        $ current_timeline_item.replay_log.append(entry)
+    $ renpy.show_screen('screen_crack_overlay_bg', _layer='master')
+    return
+
+screen screen_crack_overlay_bg():
+    zorder 1
+    add 'screen_crack'
 
 #************************************
 # Banners
