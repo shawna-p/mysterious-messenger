@@ -2,7 +2,10 @@
 ## you can created a 'hacked' effect within chatrooms
 label hack_example():
     $ sa.prof_pic = "Profile Pics/Saeran/sae-3.webp"
-    scene night
+    # The "lock" for the secure chatroom animation
+    show secure anim
+    # The secure background
+    scene secure
     enter chatroom u
     u "Before we start -- are you okay with seeing flashing 'hacked' animations?"
     u "If not, we can turn them off."
@@ -16,16 +19,19 @@ label hack_example():
                 $ persistent.hacking_effects = True
     u "Got it. See you around."
     exit chatroom u
-    enter chatroom sa
-    # This shows the red version of the "scrolled hacking" effect.
-    show redhack effect
+    # This is the red "static hacking" scroll effect
+    show red static effect
     # And this sets the background again, but doesn't clear the chatroom.
     scene redhack
+    # This shows the "cracked glass" overlay on top of the background
+    show screen_crack
     play music mysterious_clues_v2
+    enter chatroom sa
     sa "Oh, so you want to know more about glitchy effects, do you?"
     sa "You want to make use of my hacking skills?"
     sa "Freak out your users?" (bounce=True, specBubble="glow2")
     sa "{size=+10}Get inside their minds?{/size}" (bounce=True, specBubble="glow2")
+    show shake
 
     menu:
         "Er... yes?":
@@ -74,6 +80,7 @@ label hack_example():
     sa "{=ser1}You should probably space out the glitchy effects,{/=ser1}"
     sa "{=ser1}otherwise it'll be bothersome for your users.{/=ser1}"
     sa "Whoops, gotta go."
+    # This shows the red version of the "scrolled hacking" effect.
     show redhack effect
     sa "Don't miss me too much~" (bounce=True)
     sa "{image=saeran_expecting}" (img=True)
