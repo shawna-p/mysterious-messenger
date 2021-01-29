@@ -832,10 +832,17 @@ init -6 python:
                 and not at_list):
             renpy.call('hack')
             return
-        elif ('redhack' in name and 'effect' in name
+        elif ((('redhack' in name) or ('red' in name and 'hack' in name))
+                and 'effect' in name
                 and renpy.get_screen('messenger_screen')
                 and not at_list):
             renpy.call('redhack')
+            return
+        # The scrolling red static effect
+        elif ("red" in name and "static" in name and "effect" in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('red_static')
             return
         ## Banners
         elif ('lightning' in name and 'banner' in name
@@ -865,8 +872,16 @@ init -6 python:
             renpy.call('shake')
             return
         ## The secure chat animation
-        elif ('secure' in name and 'anim' in name):
+        elif ('secure' in name and 'anim' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
             renpy.call('secure_anim')
+            return
+        ## The screen crack overlay
+        elif ('screen_crack' in name
+                and renpy.get_screen('messenger_screen')
+                and not at_list):
+            renpy.call('screen_crack_overlay')
             return
         ## Chatroom backgrounds
         elif (not ('bg' in name and 'black' in name)
