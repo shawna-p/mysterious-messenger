@@ -160,17 +160,17 @@ image red_static_scroll:
     "Phone UI/red_static_scroll.webp"
     subpixel True
     yalign 0.0
-    linear 1.0 yalign 1.0
+    linear 1.5 yalign 1.0
     yalign 0.0
-    linear 1.0 yalign 1.0
-    yalign 0.0
-    linear 1.0 yalign 1.0
+    linear 1.5 yalign 1.0
 
 image red_static_background = Fixed(
     Transform("center_bg:Phone UI/bg_red_static.webp", zoom=1.19, align=(0.5, 0.5)),
     "Phone UI/red_static_scroll.webp",
     xysize=(750,1334)
 )
+
+image screen_crack = "center_bg:Phone UI/screen_crack.webp"
 
 image banner annoy:
     "Banners/Annoy/annoy_0.webp"
