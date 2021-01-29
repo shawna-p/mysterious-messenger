@@ -1200,6 +1200,7 @@ init python:
 
         renpy.hide_screen('starry_night')
         renpy.hide_screen('animated_bg')
+        renpy.hide_screen('screen_crack_overlay_bg')
         renpy.hide_screen('timeline')
         hide_all_popups()
 
