@@ -198,7 +198,9 @@ label chatroom_replay():
                     renpy.show_screen('secure_anim_screen')
                     if not renpy.is_skipping():
                         renpy.pause(1.25)
-
+                elif first == "overlay":
+                    renpy.show_screen('screen_crack_overlay_bg',
+                        _layer='animated_bg')
                 elif first == "hack":
                     if persistent.hacking_effects:
                         if second == "regular":
