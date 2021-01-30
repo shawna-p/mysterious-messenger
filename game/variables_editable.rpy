@@ -106,6 +106,7 @@ image greet ri = "Menu Screens/Main Menu/ri_greeting.webp"
 image greet s = "Menu Screens/Main Menu/s_greeting.webp"
 image greet u = "Menu Screens/Main Menu/u_greeting.webp"
 image greet v = "Menu Screens/Main Menu/v_greeting.webp"
+image greet va = "Menu Screens/Main Menu/va_greeting.webp"
 image greet y = "Menu Screens/Main Menu/y_greeting.webp"
 image greet z = "Menu Screens/Main Menu/z_greeting.webp"
 
@@ -277,6 +278,7 @@ image ja_contact = 'Phone Calls/call_contact_jaehee.webp'
 image ju_contact = 'Phone Calls/call_contact_jumin.webp'
 image r_contact = 'Phone Calls/call_contact_ray.webp'
 image v_contact = 'Phone Calls/call_contact_v.webp'
+image va_contact = "Phone Calls/call_contact_vanderwood.webp"
 image y_contact = 'Phone Calls/call_contact_yoosung.webp'
 image z_contact = 'Phone Calls/call_contact_zen.webp'
 image ri_contact = 'Phone Calls/call_contact_rika.webp'
