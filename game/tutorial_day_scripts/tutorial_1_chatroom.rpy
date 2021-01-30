@@ -763,6 +763,7 @@ label cloud_s():
     s "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
     r "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
     sa "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
+    msg sa "Some small text" pv 0.35 cloud2_s
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="cloud_s")
 
@@ -774,6 +775,7 @@ label sigh_s():
     ju "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
     ja "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
     s "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
+    msg sa "Some small text" pv 0.35 sigh_s
     r "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="sigh_s")
@@ -801,6 +803,8 @@ label square_s():
     r "Some small text" (pauseVal=0.35, bounce=True, specBubble="square2_s")
     r "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
     sa "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
+    msg sa "Some small text" pv 0.35 square2_s
+    msg sa "Some small text" pv 0.35 square3_s
     v "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
     y "Some small text" (pauseVal=0.35, bounce=True, specBubble="square_s")
 
@@ -826,6 +830,7 @@ label cloud_m():
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
     r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
     sa "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
+    msg sa "Longer text because this is a medium-sized bubble" pv 0.2 cloud2_m
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="cloud_m")
 
@@ -837,6 +842,7 @@ label sigh_m():
     ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
+    msg sa "Longer text because this is a medium-sized bubble." pv 0.2 sigh_m
     r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="sigh_m")
@@ -864,6 +870,8 @@ label square_m():
     r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square2_m")
     r "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
     sa "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
+    msg sa "Longer text because this is a medium-sized bubble" pv 0.2 square2_m
+    msg sa "Longer text because this is a medium-sized bubble" pv 0.2 square3_m
     v "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="square_m")
 
@@ -875,6 +883,8 @@ label spike_m():
     ju "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     ja "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     s "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
+    msg sa "Longer text because this is a medium-sized bubble" pv 0.2 spike_m
+    msg sa "Longer text because this is a medium-sized bubble" pv 0.2 spike2_m
     y "Longer text because this is a medium-sized bubble" (pauseVal=0.2, bounce=True, specBubble="spike_m")
     $ shuffle = False
     jump bubbles
@@ -889,6 +899,7 @@ label cloud_l():
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
     r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
     sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
+    msg sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" pv 0.1 cloud2_l
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="cloud_l")
 
@@ -900,6 +911,7 @@ label sigh_l():
     ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
+    msg sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" pv 0.1 sigh_l
     r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="sigh_l")
@@ -927,6 +939,8 @@ label square_l():
     r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square2_l")
     r "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
     sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
+    msg sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" pv 0.1 square2_l
+    msg sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" pv 0.1 square3_l
     v "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="square_l")
 
@@ -937,6 +951,8 @@ label spike_l():
     z "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     ju "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     ja "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
+    msg sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" pv 0.1 spike_l
+    msg sa "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" pv 0.1 spike2_l
     s "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     y "Longest text since this is a large bubble and as such should wrap text so it doesn't overflow from the bubble" (pauseVal=0.1, bounce=True, specBubble="spike_l")
     $ shuffle = False
