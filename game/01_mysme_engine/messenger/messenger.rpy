@@ -107,7 +107,7 @@ screen chat_animation(i, anti=False, no_anim=False):
     # Now add the dialogue
     if not i.has_new: # Not a "regular" dialogue bubble
         # Not an image; check if it's a special bubble
-        if i.specBubble != None and i.specBubble != 'glow2':
+        if i.specBubble != None and i.specBubble not in ['glow2', 'glow3']:
             fixed at i.msg_animation(anti, no_anim):
                 offset i.spec_bubble_offset
                 if i.who.right_msgr:
