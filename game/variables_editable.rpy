@@ -312,7 +312,7 @@ image party_grade = ConditionSwitch(
     "guest_countup >= 10", "Email/b_grade.webp",
     "guest_countup >= 5", "Email/c_grade.webp",
     "guest_countup >= 2", "Email/d_grade.webp",
-    True, "Email/e_grade.webp",
+    True, "Email/f_grade.webp",
 )
 
 ########################################

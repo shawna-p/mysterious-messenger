@@ -895,13 +895,13 @@ style guest_digi_text:
 ## Shows the number of guests who arrived at the party
 ## and a grade based on that number
 screen guests_arrived():
-
     style_prefix "sig_screen"
     add "choice_darken"
     frame:
         has vbox
-        spacing 10
-        null height 80
+        first_spacing 10
+        spacing 5
+        null height 65
         text "Party Guest Result":
             if persistent.custom_footers:
                 color "#fff"
@@ -909,6 +909,7 @@ screen guests_arrived():
         hbox:
             style_prefix "guest_num"
             frame:
+                yalign 0.85
                 text "{:02d}".format(guest_countup)
             frame:
                 add 'party_grade'
@@ -925,7 +926,7 @@ screen guests_arrived():
 
 style guest_num_hbox:
     align (.5, .5)
-    spacing 30
+    spacing 10
     ysize 118
 
 style guest_num_text:
