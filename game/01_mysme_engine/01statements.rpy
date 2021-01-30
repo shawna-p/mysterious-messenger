@@ -646,7 +646,9 @@ python early hide:
                 'round_s', 'sigh_l', 'sigh_m', 'sigh_s', 'spike_l', 'spike_m',
                 'spike_s', 'square_l', 'square_m', 'square_s', 'square2_l',
                 'square2_m', 'square2_s', 'round2_l', 'round2_m', 'round2_s',
-                'flower_l', 'flower_m', 'flower_s', 'glow2']
+                'flower_l', 'flower_m', 'flower_s', 'glow2', 'glow3',
+                'square3_s', 'square3_m', 'square3_l', 'cloud2_s', 'cloud2_m',
+                'cloud2_l', 'spike2_l', 'spike2_m']
 
         font_list = ['sser1', 'sser2', 'ser1', 'ser2', 'curly','blocky']
 
