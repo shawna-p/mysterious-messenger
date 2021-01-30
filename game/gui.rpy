@@ -479,6 +479,9 @@ define gui.spike_m_offset = (130, 38)
 define gui.spike_l_padding = (40, 60, 60, 65)
 define gui.spike_l_offset = (140, 25)
 
+define gui.spike2_l_offset = gui.spike_l_offset
+define gui.spike2_m_offset = gui.spike_m_offset
+
 ## CLOUD
 ## Small Cloud Bubble
 define gui.cloud_s_padding = (30, 20, 30, 20)
@@ -492,6 +495,11 @@ define gui.cloud_m_offset = (135, 25)
 define gui.cloud_l_padding = (65, 40, 70, 80)
 define gui.cloud_l_offset = (115, 20)
 define gui.ju_cloud_l_offset = (115, 5)
+
+## Cloud2 Bubbles
+define gui.cloud2_l_offset = gui.cloud_l_offset
+define gui.cloud2_m_offset = gui.cloud_m_offset
+define gui.cloud2_s_offset = gui.cloud_s_offset
 
 ## Large Cloud Bubble v2
 define gui.cloud_l2_padding = (115, 50, 70, 40)
@@ -522,6 +530,11 @@ define gui.square_m_offset = (135, 35)
 ## Large Special 2 Bubble
 define gui.square_l_padding = (80, 60, 90, 50)
 define gui.square_l_offset = (120,35)
+
+## Square 3
+define gui.square3_l_offset = gui.square_l_offset
+define gui.square3_m_offset = gui.square_m_offset
+define gui.square3_s_offset = gui.square_s_offset
 
 ## SPECIAL 3 (Flower)
 ## Small Special 3 Bubble
