@@ -222,7 +222,7 @@ init -4 python:
             elif not self.specBubble and self.bounce:
                 self.saved_bubble_style = 'glow_bubble'
                 return self.saved_bubble_style
-            elif self.specBubble == "glow2":
+            elif self.specBubble in ["glow2", "glow3"]:
                 self.saved_bubble_style = 'glow_bubble'
                 return self.saved_bubble_style
 
@@ -242,8 +242,8 @@ init -4 python:
                 stylename = self.who.file_id + '_' + bubble_style
                 if self.specBubble[-8:-2] == "round2":
                     bubble_style = "round_" + self.specBubble[-1]
-                elif self.specBubble[-9:-2] == "square2":
-                    bubble_style = "square_" + self.specBubble[-1]
+                #elif self.specBubble[-9:-2] == "square2":
+                #    bubble_style = "square_" + self.specBubble[-1]
 
                 # Check if a character is using someone else's bubble
                 if len(self.specBubble.split('_')) > 2:
@@ -413,7 +413,7 @@ init -4 python:
                 self.saved_bubble_bg = "Bubble/Special/" + self.specBubble + ".webp"
                 return self.saved_bubble_bg
 
-            if self.specBubble and self.specBubble != 'glow2':
+            if self.specBubble and self.specBubble not in ['glow2', 'glow3']:
                 # First, check if there's a specific variant for the character
                 possible_ext = [".webp", ".png", ".jpg"]
                 bubble_name = ("Bubble/Special/" + self.who.file_id + "_"
@@ -433,7 +433,7 @@ init -4 python:
                 self.saved_bubble_bg = None
                 return None
             # Special case for the second glowing bubble variant
-            elif self.specBubble and self.specBubble == 'glow2':
+            elif self.specBubble and self.specBubble in ['glow2', 'glow3']:
                 self.saved_bubble_bg = Frame("Bubble/Special/" + self.who.file_id
                     + "_" + self.specBubble + ".webp", 25, 25)
                 return self.saved_bubble_bg
