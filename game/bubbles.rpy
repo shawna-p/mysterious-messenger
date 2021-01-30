@@ -145,6 +145,10 @@ style v_spike_l is spike_l
 style y_spike_l is spike_l
 style z_spike_l is spike_l
 
+style spike2_s is spike_s
+style spike2_m is spike_m
+style spike2_l is spike_l
+
 ## CLOUD
 
 style cloud_s:
@@ -155,6 +159,14 @@ style cloud_m:
 
 style cloud_l:
     padding gui.cloud_l_padding
+
+style cloud2_l:
+    padding (65, 60, 70, 70)
+style cloud2_m:
+    is cloud_m
+style cloud2_s:
+    is cloud_s
+
 
 style cloud_l2:
     padding gui.cloud_l2_padding
@@ -268,6 +280,47 @@ style square_m:
 
 style square_l:
     padding gui.square_l_padding
+
+style square2_l:
+    is square_l
+style square2_m:
+    is square_m
+style square2_s:
+    is square_s
+# style r_square2_l:
+#     is r_square_l
+style r_square2_m:
+    is r_square_m
+# style r_square2_s:
+#     is r_square_s
+
+
+style square3_l:
+    is square_l
+style square3_m:
+    is square_m
+style square3_s:
+    is square_s
+style sa_square2_s:
+    is square_s
+    left_padding 50
+    right_padding 40
+style sa_square2_m:
+    is square_m
+    left_padding 70
+    right_padding 50
+style sa_square2_l:
+    is square_l
+    padding (100, 50, 75, 50)
+style sa_square3_l:
+    is square3_l
+    right_padding 70
+style sa_square3_m:
+    is square3_m
+    right_padding 50
+style sa_square3_s:
+    is square3_s
+    right_padding 35
 
 # square_s_padding = (40, 30, 50, 25)
 style ja_square_s is square_s:
