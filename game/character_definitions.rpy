@@ -40,6 +40,8 @@ define y_phone = Character("Yoosung★",
     kind=phone_character, voice_tag="y_voice")
 define v_phone = Character("V",
     kind=phone_character, voice_tag="v_voice")
+define va_phone = Character("Vanderwood",
+    kind=phone_character)
 define u_phone = Character("Unknown",
     kind=phone_character, voice_tag="sa_voice")
 define z_phone = Character("Zen",
@@ -112,6 +114,9 @@ default v_vn = Character("V", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_v.webp",
     who_color="#cbfcfc", voice_tag="v_voice",
     image="v")
+default va_vn = Character("Vanderwood", kind=vn_character,
+    window_background="VN Mode/Chat Bubbles/vnmode_other.webp",
+    who_color="#eab3a9", image="vanderwood")
 default y_vn = Character("Yoosung", kind=vn_character,
     window_background="VN Mode/Chat Bubbles/vnmode_y.webp",
     who_color="#effff3", voice_tag="y_voice",
@@ -228,6 +233,12 @@ default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.webp',
                 emote_list=v_emotes,
                 homepage_pic="Profile Pics/main_profile_v.webp",
                 phone_char=v_phone, vn_char=v_vn)
+default va = ChatCharacter("Vanderwood", 'va',
+                "Profile Pics/Vanderwood/va-1.webp",
+                "Profile Pics/va_chat.webp", "#825a9e",
+                "Cover Photos/profile_cover_photo.webp", "Vanderwood's status",
+                homepage_pic="Profile Pics/main_profile_va.webp",
+                phone_char=va_phone, vn_char=va_vn)
 default y = ChatCharacter("Yoosung★", 'y',
                 'Profile Pics/Yoosung/yoo-default.webp',
                 'Profile Pics/y_chat.webp', "#31ff26",
@@ -256,7 +267,7 @@ default heart_point_chars = [ c for c in character_list if not c.right_msgr ]
 # Add ChatCharacter objects to this list if they should not have a
 # voice toggle in the settings screen
 # Unknown and Saeran are lumped into Ray's voice button and MC doesn't speak
-default novoice_chars = [u, sa, m]
+default novoice_chars = [u, sa, m, va]
 
 # If a character other than `m` is here, it will set them to display on
 # the right side of the messenger instead. During menus, this will be the
