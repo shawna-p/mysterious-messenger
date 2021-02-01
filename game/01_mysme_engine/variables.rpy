@@ -703,26 +703,27 @@ init -6 python:
                 if renpy.loadable(new_img):
                     return Image(new_img)
                 return None
+            # Replace the old VN window backgrounds
             if "VN Mode/Chat Bubbles/vnmode_" in img:
-                prefix = "VN Mode/Chat Bubbles/vnmode_"
-                if "0." in img:
-                    return prefix + "ju.webp"
-                elif "1." in img:
-                    return prefix + "z.webp"
-                elif "2." in img:
-                    return prefix + "s.webp"
-                elif "3." in img:
-                    return prefix + "y.webp"
-                elif "4." in img:
-                    return prefix + "ja.webp"
-                elif "5." in img:
-                    return prefix + "v.webp"
-                elif "7." in img:
-                    return prefix + "ri.webp"
-                elif "8." in img:
-                    return prefix + "sa.webp"
+                #prefix = "VN Mode/Chat Bubbles/vnmode_"
+                if "0." in img or "ju." in img:
+                    return colorize_vn_window("#648EFC")
+                elif "1." in img or "z." in img:
+                    return colorize_vn_window("#929292")
+                elif "2." in img or "s." in img:
+                    return colorize_vn_window("#F54848")
+                elif "3." in img or "y." in img:
+                    return colorize_vn_window("#75C480")
+                elif "4." in img or "ja." in img:
+                    return colorize_vn_window("#C8954D")
+                elif "5." in img or "v." in img:
+                    return colorize_vn_window("#7ED4C7")
+                elif "7." in img or "ri." in img:
+                    return colorize_vn_window("#A774CC")
+                elif "8." in img or "sa." in img:
+                    return colorize_vn_window("#FC9796")
                 else:
-                    return prefix + "other.webp"
+                    return colorize_vn_window("#b7b7b7")
         except:
             pass
         # Otherwise, assume the image couldn't be found.
