@@ -55,6 +55,9 @@
     # introduction. For the tutorial, it allows the player to skip some of the
     # dialogue.
     if persistent.HP:
+        if renpy.is_skipping():
+            # You can also instantly skip the intro by holding CTRL
+            jump skip_intro_setup
         u "It looks like you've played through some of this program before! I'm happy you've come back~"
         u "There are lots of new things to check out in the most recent version, so I hope you'll give Tutorial Day another playthrough."
         u "Since you're so seasoned, I'll let you start right away."
