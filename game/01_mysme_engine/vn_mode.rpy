@@ -26,6 +26,12 @@ init -10 python:
                     store.dialogue_paraphrase, store.dialogue_pv)
 
             if (self.screen != 'phone_say'
+                    and self.window_args.get('color', None)):
+                # Colorize the window background
+                wbg = colorize_vn_window(self.window_args.get('color', "#fff"))
+                self.window_args['background'] = Transform(wbg,
+                    alpha=store.persistent.vn_window_alpha)
+            elif (self.screen != 'phone_say'
                     and self.window_args.get('background', None)):
                 wbg = self.window_args['background']
                 if isinstance(wbg, renpy.display.transform.Transform):
@@ -35,6 +41,12 @@ init -10 python:
 
             return super(MyADVCharacter, self).__call__(what, interact,
                 _call_done, multiple, **kwargs)
+
+    def colorize_vn_window(c):
+        """Colorizes the generic VN window background with colour c."""
+
+        return im.MatrixColor('VN Mode/Chat Bubbles/white_vn.webp',
+            im.matrix.colorize('#000', c))
 
     # Essentially copied from renpy.store.adv; a default ADV character
     # to work with the new MyADVCharacter class.
