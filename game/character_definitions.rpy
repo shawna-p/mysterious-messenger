@@ -68,7 +68,7 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 default vn_character = Character(None,
     what_font=gui.sans_serif_1,
     what_color="#ffffff",
-    window_background="VN Mode/Chat Bubbles/vnmode_other.webp",
+    window_color="#b7b7b7",
     who_color="#fff5ca",
     who_size=40,
     voice_tag="other_voice")
@@ -79,50 +79,52 @@ default vn_character = Character(None,
 default name_only = Character(None,
     what_font=gui.sans_serif_1,
     what_color="#ffffff",
-    window_background="VN Mode/Chat Bubbles/vnmode_other.webp",
+    window_color="#b7b7b7",
     who_color="#fff5ca",
     who_size=40,
     voice_tag="other_voice")
 
 default ja_vn = Character("Jaehee", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_ja.webp",
+    window_color="#C8954D",
     who_color="#fff5eb", voice_tag="ja_voice",
     image="jaehee")
 default ju_vn = Character("Jumin", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_ju.webp",
+    window_color="#648EFC",
     who_color="#d2e6f7", voice_tag="ju_voice",
     image="jumin")
 default r_vn = Character("Ray", kind=vn_character,
+    window_color="#FC9796",
     who_color="#f2ebfd", voice_tag="sa_voice",
     image="saeran")
 default ri_vn = Character("Rika", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_ri.webp",
+    window_color="#A774CC",
     who_color="#fff9db", voice_tag="ri_voice",
     image="rika")
 default s_vn = Character("707", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_s.webp",
+    window_color="#F54848",
     who_color="#fff1f1", voice_tag="s_voice",
     image="seven")
 default sa_vn = Character("Saeran", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_sa.webp",
+    window_color="#FC9796",
     who_color="#f2ebfd", voice_tag="sa_voice",
     image="saeran")
 default u_vn = Character("???", kind=vn_character,
+    window_color="#FC9796",
     who_color="#f2ebfd", voice_tag="sa_voice",
     image="saeran")
 default v_vn = Character("V", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_v.webp",
+    window_color="#7ED4C7",
     who_color="#cbfcfc", voice_tag="v_voice",
     image="v")
 default va_vn = Character("Vanderwood", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_other.webp",
+    window_color="#daaf49",
     who_color="#eab3a9", image="vanderwood")
 default y_vn = Character("Yoosung", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_y.webp",
+    window_color="#75C480",
     who_color="#effff3", voice_tag="y_voice",
     image="yoosung")
 default z_vn = Character("Zen", kind=vn_character,
-    window_background="VN Mode/Chat Bubbles/vnmode_z.webp",
+    window_color="#929292",
     who_color="#d8e9f9", voice_tag="z_voice",
     image="zen")
 
