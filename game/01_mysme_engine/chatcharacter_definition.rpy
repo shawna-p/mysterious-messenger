@@ -216,6 +216,13 @@ python early:
 
             if not self.bubble_color:
                 reg_bub_img = "Bubble/" + self.file_id + "-Bubble.webp"
+                # Can't find the image
+                if not renpy.loadable(reg_bub_img):
+                    ScriptError("Could not find the image \"", reg_bub_img,
+                        "\" for use as a regular bubble.",
+                        header="Creating Characters",
+                        subheader="Adding a New Character to Chatrooms")
+                    reg_bub_img = "#f00"
                 # This person is the messenger; typically MC
                 if self.right_msgr:
                     reg_bub_img = Transform(reg_bub_img, xzoom=-1)
@@ -223,7 +230,18 @@ python early:
                 else:
                     return Frame(reg_bub_img, 25,18,18,18)
             else:
-                reg_bub_img = reg_bubble_fn(self.bubble_color)
+                # Check if the program was given a valid colour
+                try:
+                    c = Color(self.bubble_color)
+                    reg_bub_img = reg_bubble_fn(self.bubble_color)
+                except:
+                    # Couldn't initialize this as a colour
+                    ScriptError("Could not recognize \"", self.bubble_color,
+                        "\" as a color for a regular speech bubble.",
+                        header="Creating Characters",
+                        subheader="Adding a New Character to Chatrooms")
+                    reg_bub_img = reg_bubble_fn("#f00")
+
                 if self.right_msgr:
                     reg_bub_img = Transform(reg_bub_img, xzoom=-1)
                     return Frame(reg_bub_img, 18,18,25,18)
@@ -238,9 +256,26 @@ python early:
 
             if not self.glow_color:
                 glow_bub_img = "Bubble/" + self.file_id + "-Glow.webp"
+                if not renpy.loadable(glow_bub_img):
+                    ScriptError("Could not find the image \"", glow_bub_img,
+                        "\" for use as a glowing bubble.",
+                        header="Creating Characters",
+                        subheader="Adding a New Character to Chatrooms")
+                    glow_bub_img = "#f00"
                 return Frame(glow_bub_img, 25,25)
             else:
-                return Frame(glow_bubble_fn(self.glow_color), 25, 25)
+                # Check if the program was given a valid colour
+                try:
+                    c = Color(self.glow_color)
+                    glow_bub_img = glow_bubble_fn(self.glow_color)
+                except:
+                    # Couldn't initialize this as a colour
+                    ScriptError("Could not recognize \"", self.glow_color,
+                        "\" as a color for a regular speech bubble.",
+                        header="Creating Characters",
+                        subheader="Adding a New Character to Chatrooms")
+                    glow_bub_img = glow_bubble_fn("#f00")
+                return Frame(glow_bub_img, 25, 25)
 
         @property
         def voicemail(self):
