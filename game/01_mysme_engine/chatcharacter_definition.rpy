@@ -95,7 +95,9 @@ python early:
                 glow_color=False, emote_list=False, voicemail=False,
                 right_msgr=False, homepage_pic=False,
                 phone_char=False, vn_char=False,
-                pronunciation_help=False):
+                pronunciation_help=False, voice_tag='other_voice',
+                vn_name=renpy.character.NotSet, **properties
+                ):
 
             """
             Creates a ChatCharacter object for use in the messenger.
@@ -150,6 +152,12 @@ python early:
             pronunciation_help : string or False
                 A string with the phoenetic pronunciation of this character's
                 name. Used for self-voicing e.g. "seven oh seven"
+            voice_tag : string
+                The voice tag associated with this character for VN and
+                phone calls.
+            vn_name : string
+                The name that should be used for this character during Story
+                Mode (VN) sections. If not given, defaults to their chat name.
             """
 
             self.name = name
@@ -189,14 +197,19 @@ python early:
             self.text_msg = TextMessage(self)
             self.real_time_text = False
 
+            if vn_name is renpy.character.NotSet:
+                vn_name = self.name
+
             if phone_char:
                 self.phone_char = phone_char
             else:
-                self.phone_char = Character(self.name, kind=phone_character)
+                self.phone_char = Character(vn_name, kind=phone_character,
+                    voice_tag=voice_tag)
             if vn_char:
                 self.vn_char = vn_char
             else:
-                self.vn_char = Character(self.name, kind=vn_character)
+                self.vn_char = Character(vn_name, kind=vn_character,
+                    voice_tag=voice_tag, **properties)
 
             if pronunciation_help:
                 self.p_name = pronunciation_help
