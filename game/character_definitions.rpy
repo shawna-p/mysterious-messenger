@@ -4,12 +4,15 @@ init offset = -2
 # Phone Call Characters
 # ****************************
 
-# These are separate from the Story Mode and chatroom character definitions
-# since they display more like Story Mode. You won't actually see their name
-# in-game. For most purposes, you can just copy any character besides m_phone
-# and replace the name with the name you want. The main difference is
-# in the voice tags, so that if you mute a character you won't hear their
-# voice during phone calls or Story Mode.
+# If you only want a character to speak during phone calls, or want to
+# customize features about a character's dialogue during phone calls, you
+# can define them a phone character here. Otherwise, the program automatically
+# defines a phone character using information provided when initializing a
+# ChatCharacter object.
+# Note that you won't actually see the character's name during phone calls.
+# If you're not sure whether you need to define a phone character, you
+# probably don't. The program will do it for you!
+
 # For ease of remembering, Phone Call characters are just their
 # ChatCharacter variables + '_phone' e.g. ja -> ja_phone
 
@@ -24,31 +27,13 @@ define phone_character = Character(None,
     voice_tag="other_voice",
     screen='phone_say')
 
-define ja_phone = Character("Jaehee Kang",
-    kind=phone_character, voice_tag="ja_voice")
-define ju_phone = Character("Jumin Han",
-    kind=phone_character, voice_tag="ju_voice")
-define s_phone = Character("707",
-    kind=phone_character, voice_tag="s_voice")
-define sa_phone = Character("Saeran",
-    kind=phone_character, voice_tag="sa_voice")
-define r_phone = Character("Ray",
-    kind=phone_character, voice_tag="sa_voice")
-define ri_phone = Character("Rika",
-    kind=phone_character, voice_tag="ri_voice")
-define y_phone = Character("Yoosung★",
-    kind=phone_character, voice_tag="y_voice")
-define v_phone = Character("V",
-    kind=phone_character, voice_tag="v_voice")
-define va_phone = Character("Vanderwood",
-    kind=phone_character)
-define u_phone = Character("Unknown",
-    kind=phone_character, voice_tag="sa_voice")
-define z_phone = Character("Zen",
-    kind=phone_character, voice_tag="z_voice")
+# The MC's dialogue is a different colour and disappears quicker than
+# the other characters', which is why they have a specific phone character
+# defined here.
 define m_phone = Character("[name]",
     kind=phone_character, what_color="#a6a6a6",
     what_suffix="{w=0.8}{nw}")
+# vmail_phone is used only for voicemail messages, so it is defined here.
 define vmail_phone = Character('Voicemail', kind=phone_character)
 # define yourchar_phone = Character("Name", kind=phone_character)
 
@@ -57,15 +42,13 @@ define vmail_phone = Character('Voicemail', kind=phone_character)
 # ****************************
 ## CHARACTER DEFINITIONS ****************
 
-# Again, you can copy-paste a character definition from here and change the
-# window_background and voice_tag as appropriate.
 # For ease of remembering, Story Mode characters are just their ChatCharacter
 # variables + "_vn" e.g. s -> s_vn. The who_color is also the background of the
 # characters' speech bubbles rather than the default #fff5ca
 
 # This is the 'generic' VN character, which you can inherit from
 # for any new character you want to create
-default vn_character = Character(None,
+define vn_character = Character(None,
     what_font=gui.sans_serif_1,
     what_color="#ffffff",
     window_color="#b7b7b7",
@@ -76,7 +59,7 @@ default vn_character = Character(None,
 # Similarly, this is for characters you don't want to actually define and
 # instead want to just use once or twice. You can write their dialogue like
 # "Bodyguard" "Your dialogue"
-default name_only = Character(None,
+define name_only = Character(None,
     what_font=gui.sans_serif_1,
     what_color="#ffffff",
     window_color="#b7b7b7",
@@ -84,67 +67,18 @@ default name_only = Character(None,
     who_size=40,
     voice_tag="other_voice")
 
-default ja_vn = Character("Jaehee", kind=vn_character,
-    window_color="#C8954D",
-    who_color="#fff5eb", voice_tag="ja_voice",
-    image="jaehee")
-default ju_vn = Character("Jumin", kind=vn_character,
-    window_color="#648EFC",
-    who_color="#d2e6f7", voice_tag="ju_voice",
-    image="jumin")
-default r_vn = Character("Ray", kind=vn_character,
-    window_color="#FC9796",
-    who_color="#f2ebfd", voice_tag="sa_voice",
-    image="saeran")
-default ri_vn = Character("Rika", kind=vn_character,
-    window_color="#A774CC",
-    who_color="#fff9db", voice_tag="ri_voice",
-    image="rika")
-default s_vn = Character("707", kind=vn_character,
-    window_color="#F54848",
-    who_color="#fff1f1", voice_tag="s_voice",
-    image="seven")
-default sa_vn = Character("Saeran", kind=vn_character,
-    window_color="#FC9796",
-    who_color="#f2ebfd", voice_tag="sa_voice",
-    image="saeran")
-default u_vn = Character("???", kind=vn_character,
-    window_color="#FC9796",
-    who_color="#f2ebfd", voice_tag="sa_voice",
-    image="saeran")
-default v_vn = Character("V", kind=vn_character,
-    window_color="#7ED4C7",
-    who_color="#cbfcfc", voice_tag="v_voice",
-    image="v")
-default va_vn = Character("Vanderwood", kind=vn_character,
-    window_color="#daaf49",
-    who_color="#eab3a9", image="vanderwood")
-default y_vn = Character("Yoosung", kind=vn_character,
-    window_color="#75C480",
-    who_color="#effff3", voice_tag="y_voice",
-    image="yoosung")
-default z_vn = Character("Zen", kind=vn_character,
-    window_color="#929292",
-    who_color="#d8e9f9", voice_tag="z_voice",
-    image="zen")
-
-## Note: The MC's name will show up in Story Mode in this program.
-## If you'd like it to be blank, just replace "[persistent.name]" with None
-default m_vn = Character("[persistent.name]", kind=vn_character,
-                        who_color="#ffffed")
-
 ## This is the 'generic' template character -- if you want a
 ## side character like Echo Girl, copy this character and
 ## replace None with their name.
-default narrator = Character(None, kind=vn_character)
-# default yourchar_vn = Character("Name", kind=vn_character)
+define narrator = Character(None, kind=vn_character)
+# define yourchar_vn = Character("Name", kind=vn_character)
 
 # Giving Sarah the property `image='sarah'` means you can use her
 # dialogue to also show images of her with a different expression.
 # See tutorial_6_meeting.rpy for an example of this
-default sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
+define sarah_vn = Character("Sarah", kind=vn_character, image='sarah')
 
-default chief_vn = Character("Chief Han", kind=vn_character,
+define chief_vn = Character("Chief Han", kind=vn_character,
                                         image='chairman_han')
 
 
@@ -185,76 +119,95 @@ default ja = ChatCharacter("Jaehee Kang", 'ja',
                 "Cover Photos/profile_cover_photo.webp", "Jaehee's status",
                 emote_list=jaehee_emotes,
                 homepage_pic="Profile Pics/main_profile_jaehee.webp",
-                phone_char=ja_phone, vn_char=ja_vn,
-                pronunciation_help="jayhee kang")
+                pronunciation_help="jayhee kang", vn_name="Jaehee",
+                window_color="#C8954D", image="jaehee",
+                who_color="#fff5eb", voice_tag="ja_voice")
 default ju = ChatCharacter("Jumin Han", 'ju',
                 'Profile Pics/Jumin/ju-default.webp',
                 'Profile Pics/ju_chat.webp', "#b3a6ff",
                 "Cover Photos/profile_cover_photo.webp", "Jumin's status",
                 emote_list=jumin_emotes,
                 homepage_pic="Profile Pics/main_profile_jumin.webp",
-                phone_char=ju_phone, vn_char=ju_vn,
-                pronunciation_help="jumin han")
+                pronunciation_help="jumin han", vn_name="Jumin",
+                window_color="#648EFC", image="jumin",
+                who_color="#d2e6f7", voice_tag="ju_voice")
 default m = ChatCharacter("[persistent.name]", 'm',
                 persistent.MC_pic, right_msgr=True, phone_char=m_phone,
-                vn_char=m_vn, pronunciation_help="you")
+                pronunciation_help="you", who_color="#ffffed")
+                # NOTE: The MC's name appears in Story Mode sections in this
+                # program. If you would like it to be blank, add the parameter
+                # `vn_name=None` to the above definition.
 default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.webp',
                 'Profile Pics/r_chat.webp', "#c93f9f",
                 "Cover Photos/profile_cover_photo.webp", "Ray's status",
                 emote_list=ray_emotes,
                 homepage_pic="Profile Pics/main_profile_ray.webp",
-                phone_char=r_phone, vn_char=r_vn,
-                pronunciation_help="ray")
+                pronunciation_help="ray", vn_name="Ray",
+                voice_tag="sa_voice", image="saeran",
+                window_color="#FC9796", who_color="#f2ebfd")
 default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.webp',
                 'Profile Pics/ri_chat.webp', "#ffee65",
                 "Cover Photos/profile_cover_photo.webp", "Rika's status",
                 emote_list=rika_emotes,
                 homepage_pic="Profile Pics/main_profile_rika.webp",
-                phone_char=ri_phone, vn_char=ri_vn,
-                pronunciation_help="rika")
+                pronunciation_help="rika", window_color="#A774CC",
+                who_color="#fff9db", voice_tag="ri_voice", image="rika")
 default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.webp',
                 'Profile Pics/s_chat.webp', "#ff2626",
                 "Cover Photos/profile_cover_photo.webp", "707's status",
                 emote_list=seven_emotes,
                 homepage_pic="Profile Pics/main_profile_seven.webp",
-                phone_char=s_phone, vn_char=s_vn,
-                pronunciation_help="seven oh seven")
+                pronunciation_help="seven oh seven",
+                window_color="#F54848",
+                who_color="#fff1f1", voice_tag="s_voice",
+                image="seven")
 default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.webp',
                 'Profile Pics/sa_chat.webp', "#c93f9f",
                 "Cover Photos/profile_cover_photo.webp", "Saeran's status",
                 emote_list=saeran_emotes,
                 homepage_pic="Profile Pics/main_profile_sa1.webp",
-                phone_char=sa_phone, vn_char=sa_vn,
-                pronunciation_help="sairan")
+                pronunciation_help="sairan",
+                window_color="#FC9796",
+                who_color="#f2ebfd", voice_tag="sa_voice",
+                image="saeran")
 default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.webp',
                 'Profile Pics/u_chat.webp', "#ffffff",
-                phone_char=u_phone, vn_char=u_vn)
+                window_color="#FC9796", vn_name="???",
+                who_color="#f2ebfd", voice_tag="sa_voice",
+                image="saeran")
 default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.webp',
                 'Profile Pics/v_chat.webp', "#60bcba",
                 "Cover Photos/profile_cover_photo.webp", "V's status",
                 emote_list=v_emotes,
                 homepage_pic="Profile Pics/main_profile_v.webp",
-                phone_char=v_phone, vn_char=v_vn)
+                window_color="#7ED4C7",
+                who_color="#cbfcfc", voice_tag="v_voice",
+                image="v")
 default va = ChatCharacter("Vanderwood", 'va',
                 "Profile Pics/Vanderwood/va-1.webp",
                 "Profile Pics/va_chat.webp", "#825a9e",
                 "Cover Photos/profile_cover_photo.webp", "Vanderwood's status",
                 homepage_pic="Profile Pics/main_profile_va.webp",
-                phone_char=va_phone, vn_char=va_vn)
+                window_color="#daaf49",
+                who_color="#eab3a9", image="vanderwood")
 default y = ChatCharacter("Yoosung★", 'y',
                 'Profile Pics/Yoosung/yoo-default.webp',
                 'Profile Pics/y_chat.webp', "#31ff26",
                 "Cover Photos/profile_cover_photo.webp", "Yoosung's status",
                 emote_list=yoosung_emotes,
                 homepage_pic="Profile Pics/main_profile_yoosung.webp",
-                phone_char=y_phone, vn_char=y_vn,
-                pronunciation_help="yoosung")
+                pronunciation_help="yoosung",
+                window_color="#75C480", vn_name="Yoosung",
+                who_color="#effff3", voice_tag="y_voice",
+                image="yoosung")
 default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.webp',
                 'Profile Pics/z_chat.webp', "#c9c9c9",
                 "Cover Photos/profile_cover_photo.webp", "Zen's status",
                 emote_list=zen_emotes,
                 homepage_pic="Profile Pics/main_profile_zen.webp",
-                phone_char=z_phone, vn_char=z_vn)
+                window_color="#929292", vn_name="Zen",
+                who_color="#d8e9f9", voice_tag="z_voice",
+                image="zen")
 
 # This list is used *specifically* to display characters you can see on the
 # main menu -- they have profiles and show up in your phone contacts
