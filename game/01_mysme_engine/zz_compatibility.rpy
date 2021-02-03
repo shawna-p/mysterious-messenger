@@ -1263,3 +1263,73 @@ init -6 python:
 
             return (self.vn_label != other.vn_label
                     or self.who != other.who)
+
+############################################
+## OLD CHARACTER DEFINITIONS
+############################################
+## The game will now automatically create Phone and VN characters
+## to speak dialogue in those situations.
+
+define ja_phone = Character("Jaehee Kang",
+    kind=phone_character, voice_tag="ja_voice")
+define ju_phone = Character("Jumin Han",
+    kind=phone_character, voice_tag="ju_voice")
+define s_phone = Character("707",
+    kind=phone_character, voice_tag="s_voice")
+define sa_phone = Character("Saeran",
+    kind=phone_character, voice_tag="sa_voice")
+define r_phone = Character("Ray",
+    kind=phone_character, voice_tag="sa_voice")
+define ri_phone = Character("Rika",
+    kind=phone_character, voice_tag="ri_voice")
+define y_phone = Character("Yoosung★",
+    kind=phone_character, voice_tag="y_voice")
+define v_phone = Character("V",
+    kind=phone_character, voice_tag="v_voice")
+define va_phone = Character("Vanderwood",
+    kind=phone_character)
+define u_phone = Character("Unknown",
+    kind=phone_character, voice_tag="sa_voice")
+define z_phone = Character("Zen",
+    kind=phone_character, voice_tag="z_voice")
+
+define ja_vn = Character("Jaehee", kind=vn_character,
+    window_color="#C8954D",
+    who_color="#fff5eb", voice_tag="ja_voice",
+    image="jaehee")
+define ju_vn = Character("Jumin", kind=vn_character,
+    window_color="#648EFC",
+    who_color="#d2e6f7", voice_tag="ju_voice",
+    image="jumin")
+define r_vn = Character("Ray", kind=vn_character,
+    window_color="#FC9796",
+    who_color="#f2ebfd", voice_tag="sa_voice",
+    image="saeran")
+define ri_vn = Character("Rika", kind=vn_character,
+    window_color="#A774CC",
+    who_color="#fff9db", voice_tag="ri_voice",
+    image="rika")
+define s_vn = Character("707", kind=vn_character,
+    window_color="#F54848",
+    who_color="#fff1f1", voice_tag="s_voice",
+    image="seven")
+define sa_vn = Character("Saeran", kind=vn_character,
+    window_color="#FC9796",
+    who_color="#f2ebfd", voice_tag="sa_voice",
+    image="saeran")
+define u_vn = Character("???", kind=vn_character,
+    window_color="#FC9796",
+    who_color="#f2ebfd", voice_tag="sa_voice",
+    image="saeran")
+define v_vn = Character("V", kind=vn_character,
+    window_color="#7ED4C7",
+    who_color="#cbfcfc", voice_tag="v_voice",
+    image="v")
+define y_vn = Character("Yoosung", kind=vn_character,
+    window_color="#75C480",
+    who_color="#effff3", voice_tag="y_voice",
+    image="yoosung")
+define z_vn = Character("Zen", kind=vn_character,
+    window_color="#929292",
+    who_color="#d8e9f9", voice_tag="z_voice",
+    image="zen")
