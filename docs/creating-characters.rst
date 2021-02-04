@@ -49,27 +49,27 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
     <input type="checkbox">
 
 
-* |uncheck| Define a ChatCharacter object in ``character_definitions.rpy`` under the heading **Chatroom Characters**
+* |uncheck| Define a ChatCharacter object in ``character_definitions.rpy`` under the heading **Chatroom Characters** (:ref:`Adding a New Character to Chatrooms`)
 
     * This step is NOT required if this character will never appear in a chatroom
 
-* |uncheck| **(Optional)** Add your character to the ``character_list`` in ``character_definitions.rpy`` if you want their profile to appear on the home screen and allow the player to call them.
+* |uncheck| **(Optional)** Add your character to the ``character_list`` in ``character_definitions.rpy`` if you want their profile to appear on the home screen and allow the player to call them. (:ref:`Showing Your Character on the Home Screen`)
 * |uncheck| **(Optional)** Add your character to the ``heart_point_chars`` list in ``character_definitions.rpy`` if you want the player to see how many heart points they have earned with this character.
-* |uncheck| **(May be required)** Define a ``greet`` image for your character. This is **required** if you have included the character in ``heart_point_chars`` (see above) AND/OR if you want them to have greetings on the main menu.
-* |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Story Mode**.
+* |uncheck| **(May be required)** Define a ``greet`` image for your character. This is **required** if you have included the character in ``heart_point_chars`` (see above) AND/OR if you want them to have greetings on the main menu. (:ref:`Showing Your Character on the Home Screen`)
+* |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Story Mode**. (:ref:`Adding a New Character to Story Mode`)
 
     * This step is NOT required if this character will never appear in a Story Mode section
 
-* |uncheck| Either: **1)** in the definition for your Story Mode Character, include the ``voice_tag`` argument (``voice_tag="em_voice"`` where ``em`` is the character's file_id), OR **2)** add their ChatCharacter object to the ``novoice_chars`` list in ``character_definitions.rpy``.
-* |uncheck| **(Optional)** Define a ``layeredimage`` for your character if you want to display their image during Story Mode (VN) sections.
-* |uncheck| **(May be required)** Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen.
-* |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Phone Call Characters**.
+* |uncheck| Either: **1)** in the definition for your Story Mode Character, include the ``voice_tag`` argument (``voice_tag="em_voice"`` where ``em`` is the character's file_id), OR **2)** add their ChatCharacter object to the ``novoice_chars`` list in ``character_definitions.rpy``. (:ref:`Note on voiced characters`)
+* |uncheck| **(Optional)** Define a ``layeredimage`` for your character if you want to display their image during Story Mode (VN) sections. (:ref:`Declaring a LayeredImage for a New Character`)
+* |uncheck| **(May be required)** Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen. (:ref:`Story Mode Timeline Images`)
+* |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Phone Call Characters**. (:ref:`Adding a New Character to Phone Calls`)
 
     * This step is NOT required if this character will never appear in a phone call
 
 * |uncheck| **(May be required)** Define a phone contact image for your new character. **Required** if you have added them to the ``character_list`` variable.
-* |uncheck| **(Optional)** Define a CG album for your character. Requires a ``cg_label``, ``album_cover``, and two album variables (one persistent and one regular). Add the character's file_id to the ``all_albums`` list.
-* |uncheck| **(Optional)** Add a spaceship thoughts image for your new character.
+* |uncheck| **(Optional)** Define a CG album for your character. Requires a ``cg_label``, ``album_cover``, and two album variables (one persistent and one regular). Add the character's file_id to the ``all_albums`` list. (:ref:`Adding a CG Album`)
+* |uncheck| **(Optional)** Add a spaceship thoughts image for your new character. (:ref:`Giving a New Character Spaceship Thoughts`)
 * |uncheck| **(Optional)** Add a day select image for your new character.
 * |uncheck| **(Optional)** Add a Save & Load image for your new character.
 
