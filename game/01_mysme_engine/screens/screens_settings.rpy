@@ -449,7 +449,7 @@ screen heart_point_grid(c):
     vbox:
         xysize (150*0.8,200*0.8)
         align (.5, .5)
-        add Transform('greet ' + c.file_id, zoom=0.8)
+        add c.greet_img(0.8)
         text str(c.heart_points) + " {image=header_heart}":
             style "point_indicator"
 

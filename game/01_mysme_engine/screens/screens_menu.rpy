@@ -1715,7 +1715,7 @@ screen pick_chara_pfp(who):
         has hbox
         spacing 5
         align (0.5, 0.5)
-        add Transform('greet ' + who.file_id, zoom=0.8) align (0.5, 0.5)
+        add who.greet_img(0.8) align (0.5, 0.5)
         text str(persistent.spendable_hearts.get(who.file_id, 0)):
             style "point_indicator"
             align (0.5, 0.5)
