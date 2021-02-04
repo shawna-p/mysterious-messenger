@@ -65,10 +65,23 @@ python early:
         @property
         def filename(self):
             """Return the file name (including extension) for this image."""
-            if '.' in self.img:
-                return self.img
             try:
-                return renpy.get_registered_image(self.img).filename
+                if '.' in self.img and renpy.loadable(self.img):
+                    return self.img
+                elif ('.' in self.img
+                        and renpy.loadable(self.img.split('.')[0] + '.webp')):
+                    self.img = self.img.split('.')[0] + '.webp'
+                    return self.img
+            except:
+                pass
+            reg_img = renpy.get_registered_image(self.img)
+            try:
+                if reg_img is None:
+                    if not renpy.image_exists(self.img):
+                        raise
+                    else:
+                        return False
+                return reg_img.filename
             except:
                 print("WARNING: Could not retrieve filename associated with",
                     self.img)
@@ -136,24 +149,27 @@ python early:
         def get_thumb(self, exclude_transform=False):
             """Retrieve the CG's thumbnail, regardless of its unlock state."""
 
-            if (isinstance(self.__thumbnail, renpy.display.transform.Transform)
-                    and exclude_transform):
-                return self.__thumbnail.child.filename
+            # if (isinstance(self.__thumbnail, renpy.display.transform.Transform)
+            #         and exclude_transform):
+            #     return self.__thumbnail.child.filename
 
-            try:
-                if not renpy.loadable(self.__thumbnail):
-                    thumb_name = self.__thumbnail.split('.')[0] + '.webp'
-                    if renpy.loadable(thumb_name):
-                        self.__thumbnail = thumb_name
-            except:
-                # Assume it was a cropped image
-                img = self.filename.split('.')[0] + '.webp'
-                if renpy.loadable(img) and not exclude_transform:
-                    self.__thumbnail = Transform(img, crop_relative=True,
-                                        crop=(0.0, 0.15, 1.0, 0.5625),
-                                        size=(155,155))
-                elif renpy.loadable(img):
-                    return img
+            # try:
+            #     if not renpy.loadable(self.__thumbnail):
+            #         thumb_name = self.__thumbnail.split('.')[0] + '.webp'
+            #         if renpy.loadable(thumb_name):
+            #             self.__thumbnail = thumb_name
+            # except:
+            #     try:
+            #         # Assume it was a cropped image
+            #         img = self.filename.split('.')[0] + '.webp'
+            #         if renpy.loadable(img) and not exclude_transform:
+            #             self.__thumbnail = Transform(img, crop_relative=True,
+            #                                 crop=(0.0, 0.15, 1.0, 0.5625),
+            #                                 size=(155,155))
+            #         elif renpy.loadable(img):
+            #             return img
+            #     except:
+            #         pass
 
             return self.__thumbnail
 
@@ -215,8 +231,11 @@ init python:
                         p_photo.thumbnail = photo.get_thumb()
                         break
         # Remove photos in p_album that aren't in update
+        remove_list = [ ]
         for photo in p_album:
             if photo not in update:
+                remove_list.append(photo)
+        for photo in remove_list:
                 p_album.remove(photo)
         return p_album
 
@@ -225,11 +244,12 @@ init python:
 
         if alb[-6:] != "_album":
             alb += "_album"
+        alb_s = convert_to_file_name(alb)
         try:
-            reg_album = getattr(store, convert_to_file_name(alb))
-            per_album = getattr(store.persistent, convert_to_file_name(alb))
+            reg_album = getattr(store, alb_s)
+            per_album = getattr(store.persistent, alb_s)
         except:
-            ScriptError("Couldn't find variable \"", convert_to_file_name(alb),
+            ScriptError("Couldn't find variable \"", alb_s,
                 "\" to update albums.", header="CG Albums",
                 subheader="Adding a CG Album")
             return
@@ -310,12 +330,16 @@ init python:
 
         new_id = file_id
 
-        if ' ' in file_id:
-            new_id = new_id.replace(' ', '_')
-        if "'" in file_id:
-            new_id = new_id.replace("'", "")
+        try:
+            if ' ' in file_id:
+                new_id = new_id.replace(' ', '_')
+            if "'" in file_id:
+                new_id = new_id.replace("'", "")
 
-        return new_id.lower()
+            return new_id.lower()
+        except:
+            print("WARNING: Received non-string file_id for file name:", file_id)
+            return str(file_id)
 
 
     def hide_albums(album_list):
