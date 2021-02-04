@@ -220,6 +220,17 @@ python early:
             if self not in store.all_characters and self.prof_pic:
                 store.all_characters.append(self)
 
+        def greet_img(self, scale=1.0):
+            """
+            Return the greet image associated with this character,
+            or their homepage picture if one isn't provided.
+            """
+
+            if renpy.get_registered_image('greet ' + self.file_id):
+                return Transform('greet ' + self.file_id, zoom=scale)
+            else:
+                return Transform(self.homepage_pic, size=(110*scale, 110*scale))
+
 
         @property
         def reg_bubble_img(self):
