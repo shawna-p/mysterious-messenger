@@ -185,7 +185,7 @@ default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.webp',
                 image="v")
 default va = ChatCharacter("Vanderwood", 'va',
                 "Profile Pics/Vanderwood/va-1.webp",
-                "Profile Pics/va_chat.webp", "#825a9e",
+                "Profile Pics/va_chat.webp", "#d08577",
                 "Cover Photos/profile_cover_photo.webp", "Vanderwood's status",
                 homepage_pic="Profile Pics/main_profile_va.webp",
                 window_color="#daaf49",
