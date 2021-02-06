@@ -136,7 +136,10 @@ python early:
                         return
             except:
                 # Assume it was a cropped image
-                img = self.filename.split('.')[0] + '.webp'
+                if self.filename:
+                    img = self.filename.split('.')[0] + '.webp'
+                else:
+                    img = self.img
                 if renpy.loadable(img):
                     self.__thumbnail = Transform(img, crop_relative=True,
                                             crop=(0.0, 0.15, 1.0, 0.5625),
