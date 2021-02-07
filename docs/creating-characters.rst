@@ -85,7 +85,7 @@ All characters that currently exist in the program are defined in ``character_de
 As mentioned, these examples will show how to add a character named Emma to the program. First, you need to give Emma a ChatCharacter object so she can speak in chatrooms. A definition for Emma might look like the following::
 
     default em = ChatCharacter(
-        name="Emma",
+        name="Emma<3",
         file_id="em",
         prof_pic="Profile Pics/Emma/emma1.webp",
         participant_pic="Profile Pics/em_chat.webp",
@@ -95,8 +95,10 @@ As mentioned, these examples will show how to add a character named Emma to the 
         bubble_color="#FFDDFC",
         glow_color="#D856CD",
         homepage_pic="Profile Pics/main_profile_emma.webp",
-        phone_char=em_phone,
-        vn_char=em_vn
+        vn_name="Emma",
+        window_color="#B400A4",
+        image="emma",
+        voice_tag="em_voice"
     )
 
 Usually the actual variable name -- in this case, ``em`` -- is short. It is recommended that this be two characters long; usually the first two letters of the character's name. The program already uses ``ja``, ``ju``, ``m``, ``r``, ``ri``, ``s``, ``sa``, ``u``, ``v``, ``y``, and ``z``.
