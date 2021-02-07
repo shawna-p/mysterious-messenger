@@ -190,6 +190,10 @@ python early:
             self.heart_color = heart_color
             self.glow_color = glow_color
             self.bubble_color = bubble_color
+            if self.bubble_color:
+                # This is typically also the color of the character's name
+                if not properties.get('who_color', False):
+                    properties['who_color'] = self.bubble_color
             self.right_msgr = right_msgr
 
             self.emote_list = emote_list
