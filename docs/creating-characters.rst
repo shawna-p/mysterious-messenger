@@ -145,7 +145,7 @@ The following two fields either must be given a colour, or you will need to plac
 `bubble_color`
     Optional; however, if this is not defined **you must provide an image** in ``game/images/Bubble/`` called ``em-Bubble.webp`` if the character's file_id is ``em``.
 
-    Otherwise, ``bubble_color`` should be a string containing a colour code. The character's regular speech bubble will have this colour as its background.
+    Otherwise, ``bubble_color`` should be a string containing a colour code. The character's regular speech bubble will have this colour as its background. Unless the ``who_color`` parameter is also supplied, this will also be the colour of the character's name during Story Mode.
 
     e.g. "#FFDDFC"
 
@@ -172,6 +172,16 @@ If this character will appear on the home screen with a clickable profile, you s
     e.g. "Profile Pics/main_profile_emma.webp"
 
 If the character will appear in phone calls and/or story mode sections, you should define the following fields:
+
+`window_color`
+    A string containing the colour code that will be used for the dialogue window of this character during Story Mode. Replaces the need for the ``window_background`` property. If not provided, defaults to a grey colour.
+
+    e.g. "#C8954D"
+
+`vn_name`
+    Optional; if not provided, the character will use the ``name`` field. However, if the chatroom name is more of a nickname (e.g. "Emma<3"), then you may want to provide this field so that the name appears as "Emma" during story mode.
+
+    e.g. "Emma"
 
 `phone_char`
     The Character object you defined for this character for phone calls.
