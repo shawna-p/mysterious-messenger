@@ -121,7 +121,7 @@ default ja = ChatCharacter("Jaehee Kang", 'ja',
                 homepage_pic="Profile Pics/main_profile_jaehee.webp",
                 pronunciation_help="jayhee kang", vn_name="Jaehee",
                 window_color="#C8954D", image="jaehee",
-                who_color="#fff5eb", voice_tag="ja_voice")
+                bubble_color="#fff5eb", voice_tag="ja_voice")
 default ju = ChatCharacter("Jumin Han", 'ju',
                 'Profile Pics/Jumin/ju-default.webp',
                 'Profile Pics/ju_chat.webp', "#b3a6ff",
@@ -130,7 +130,7 @@ default ju = ChatCharacter("Jumin Han", 'ju',
                 homepage_pic="Profile Pics/main_profile_jumin.webp",
                 pronunciation_help="jumin han", vn_name="Jumin",
                 window_color="#648EFC", image="jumin",
-                who_color="#d2e6f7", voice_tag="ju_voice")
+                bubble_color="#d2e6f7", voice_tag="ju_voice")
 default m = ChatCharacter("[persistent.name]", 'm',
                 persistent.MC_pic, right_msgr=True, phone_char=m_phone,
                 pronunciation_help="you", who_color="#ffffed")
@@ -144,14 +144,14 @@ default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.webp',
                 homepage_pic="Profile Pics/main_profile_ray.webp",
                 pronunciation_help="ray", vn_name="Ray",
                 voice_tag="sa_voice", image="saeran",
-                window_color="#FC9796", who_color="#f2ebfd")
+                window_color="#FC9796", bubble_color="#f2ebfd")
 default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.webp',
                 'Profile Pics/ri_chat.webp', "#ffee65",
                 "Cover Photos/profile_cover_photo.webp", "Rika's status",
                 emote_list=rika_emotes,
                 homepage_pic="Profile Pics/main_profile_rika.webp",
                 pronunciation_help="rika", window_color="#A774CC",
-                who_color="#fff9db", voice_tag="ri_voice", image="rika")
+                bubble_color="#fff9db", voice_tag="ri_voice", image="rika")
 default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.webp',
                 'Profile Pics/s_chat.webp', "#ff2626",
                 "Cover Photos/profile_cover_photo.webp", "707's status",
@@ -159,7 +159,7 @@ default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.webp',
                 homepage_pic="Profile Pics/main_profile_seven.webp",
                 pronunciation_help="seven oh seven",
                 window_color="#F54848",
-                who_color="#fff1f1", voice_tag="s_voice",
+                bubble_color="#fff1f1", voice_tag="s_voice",
                 image="seven")
 default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.webp',
                 'Profile Pics/sa_chat.webp', "#c93f9f",
@@ -168,12 +168,12 @@ default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.webp',
                 homepage_pic="Profile Pics/main_profile_sa1.webp",
                 pronunciation_help="sairan",
                 window_color="#FC9796",
-                who_color="#f2ebfd", voice_tag="sa_voice",
+                bubble_color="#f2ebfd", voice_tag="sa_voice",
                 image="saeran")
 default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.webp',
                 'Profile Pics/u_chat.webp', "#ffffff",
                 window_color="#FC9796", vn_name="???",
-                who_color="#f2ebfd", voice_tag="sa_voice",
+                bubble_color="#f2ebfd", voice_tag="sa_voice",
                 image="saeran")
 default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.webp',
                 'Profile Pics/v_chat.webp', "#60bcba",
@@ -181,7 +181,7 @@ default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.webp',
                 emote_list=v_emotes,
                 homepage_pic="Profile Pics/main_profile_v.webp",
                 window_color="#7ED4C7",
-                who_color="#cbfcfc", voice_tag="v_voice",
+                bubble_color="#cbfcfc", voice_tag="v_voice",
                 image="v")
 default va = ChatCharacter("Vanderwood", 'va',
                 "Profile Pics/Vanderwood/va-1.webp",
@@ -189,7 +189,7 @@ default va = ChatCharacter("Vanderwood", 'va',
                 "Cover Photos/profile_cover_photo.webp", "Vanderwood's status",
                 homepage_pic="Profile Pics/main_profile_va.webp",
                 window_color="#daaf49",
-                who_color="#eab3a9", image="vanderwood")
+                bubble_color="#eab3a9", image="vanderwood")
 default y = ChatCharacter("Yoosung★", 'y',
                 'Profile Pics/Yoosung/yoo-default.webp',
                 'Profile Pics/y_chat.webp', "#31ff26",
@@ -198,7 +198,7 @@ default y = ChatCharacter("Yoosung★", 'y',
                 homepage_pic="Profile Pics/main_profile_yoosung.webp",
                 pronunciation_help="yoosung",
                 window_color="#75C480", vn_name="Yoosung",
-                who_color="#effff3", voice_tag="y_voice",
+                bubble_color="#effff3", voice_tag="y_voice",
                 image="yoosung")
 default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.webp',
                 'Profile Pics/z_chat.webp', "#c9c9c9",
@@ -206,7 +206,7 @@ default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.webp',
                 emote_list=zen_emotes,
                 homepage_pic="Profile Pics/main_profile_zen.webp",
                 window_color="#929292", vn_name="Zen",
-                who_color="#d8e9f9", voice_tag="z_voice",
+                bubble_color="#d8e9f9", voice_tag="z_voice",
                 image="zen")
 
 # This list is used *specifically* to display characters you can see on the
