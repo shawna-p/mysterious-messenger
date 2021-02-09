@@ -183,6 +183,8 @@ If the character will appear in phone calls and/or story mode sections, you shou
 
     e.g. "Emma"
 
+You can also fine-tune the properties of the characters used for phone calls and story mode (VN) sections via the following fields:
+
 `phone_char`
     The Character object you defined for this character for phone calls.
 
