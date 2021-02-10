@@ -85,11 +85,11 @@ All characters that currently exist in the program are defined in ``character_de
 As mentioned, these examples will show how to add a character named Emma to the program. First, you need to give Emma a ChatCharacter object so she can speak in chatrooms. A definition for Emma might look like the following::
 
     default em = ChatCharacter(
-        name="Emma<3",
+        name="Emma♥",
         file_id="em",
         prof_pic="Profile Pics/Emma/emma1.webp",
-        participant_pic="Profile Pics/em_chat.webp",
         heart_color="#F995F1",
+        participant_pic="Profile Pics/em_chat.webp",
         cover_pic="Cover Photos/emma_cover.png",
         status="Emma's Status",
         bubble_color="#FFDDFC",
@@ -101,7 +101,7 @@ As mentioned, these examples will show how to add a character named Emma to the 
         voice_tag="em_voice"
     )
 
-Usually the actual variable name -- in this case, ``em`` -- is short. It is recommended that this be two characters long; usually the first two letters of the character's name. The program already uses ``ja``, ``ju``, ``m``, ``r``, ``ri``, ``s``, ``sa``, ``u``, ``v``, ``y``, and ``z``.
+Usually the actual variable name -- in this case, ``em`` -- is short. It is recommended that this be two characters long or more; usually the first two letters of the character's name. The program already uses ``ja``, ``ju``, ``m``, ``r``, ``ri``, ``s``, ``sa``, ``u``, ``v``, ``y``, and ``z``.
 
 .. warning::
     New ChatCharacter variables should be at least two letters long to avoid conflicts with engine code.
@@ -111,7 +111,7 @@ Each of those fields is explained below:
 `name`
     A string. This is the name of the character as it should appear above their chatroom messages and in some other locations, like in a text message conversation with them.
 
-    e.g. ``"Emma"``
+    e.g. ``"Emma♥"``
 
 `file_id`
     A string. This is used for many things internally to associate images and other variables with the character. For example, if a character's file_id is ``"em"``, then the program will look for incoming phone calls from this character with the suffix "_em" e.g. ``my_chatroom_incoming_em``. This is usually just the string version of what you called the ChatCharacter variable.
@@ -128,11 +128,6 @@ Each of those fields is explained below:
 
     e.g. "Profile Pics/Emma/emma1.webp"
 
-`participant_pic`
-    The file path to the image that should be used on the timeline screen to indicate that the character was present in a chatroom.
-
-    e.g. "Profile Pics/em_chat.webp"
-
 `heart_color`
     A string containing hex colour code of the heart icon that appears when awarding the player a heart point for this character. It is not case-sensitive.
 
@@ -141,6 +136,11 @@ Each of those fields is explained below:
 The remaining fields are optional or semi-optional depending on where this character will appear and what other variables or images are defined.
 
 The following two fields either must be given a colour, or you will need to place a special image file inside the game's ``images/Bubble`` folder to use as the background for the character's dialogue bubbles.
+
+`participant_pic`
+    Optional. The file path to the image that should be used on the timeline screen to indicate that the character was present in a chatroom. If not provided, their default profile picture is used.
+
+    e.g. "Profile Pics/em_chat.webp"
 
 `bubble_color`
     Optional; however, if this is not defined **you must provide an image** in ``game/images/Bubble/`` called ``em-Bubble.webp`` if the character's file_id is ``em``.
@@ -171,7 +171,7 @@ If this character will appear on the home screen with a clickable profile, you s
 
     e.g. "Profile Pics/main_profile_emma.webp"
 
-If the character will appear in phone calls and/or story mode sections, you should define the following fields:
+If the character will appear in story mode sections, you should define the following fields:
 
 `window_color`
     A string containing the colour code that will be used for the dialogue window of this character during Story Mode. Replaces the need for the ``window_background`` property. If not provided, defaults to a grey colour.
@@ -179,23 +179,51 @@ If the character will appear in phone calls and/or story mode sections, you shou
     e.g. "#C8954D"
 
 `vn_name`
-    Optional; if not provided, the character will use the ``name`` field. However, if the chatroom name is more of a nickname (e.g. "Emma<3"), then you may want to provide this field so that the name appears as "Emma" during story mode.
+    Optional; if not provided, the character will use the ``name`` field. However, if the chatroom name is more of a nickname (e.g. "Emma♥"), then you may want to provide this field so that the name appears as "Emma" during story mode.
 
     e.g. "Emma"
+
+`who_color`
+    Optional. The colour of the character's name during story mode. If the field ``bubble_color`` is provided (the colour of the character's default speech bubbles), it will be used for the ``who_color`` field unless an alternative is provided. If neither ``bubble_color`` or ``who_color`` is provided, it is "#FFF5CA" by default.
+
+    e.g. "#FFDDFC"
+
+`image`
+    Optional. Ren'Py will apply this tag to images if you include attribute tags during a character's dialogue (See `Say with Image Attributes <https://www.renpy.org/doc/html/dialogue.html?highlight=equivalent#say-with-image-attributes>`_).
+
+    e.g. "emma"
+
+`voice_tag`
+    Optional. If this character will speak in phone calls or during story mode, then this is the tag associated with them when they speak. Including this allows players to switch voice acting for this character on and off. This should be the character's file_id + "_voice". Otherwise, by default this character's voice will fall under the "other_voice" tag in the Sound preferences.
+
+    e.g. "em_voice"
+
+
+Note on voiced characters
+--------------------------
+
+.. warning::
+    If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special ``novoice_chars`` list found in ``character_definitions.rpy`` e.g.
+
+    ::
+
+        default novoice_chars = [u, sa, m, em]
+
+    This will prevent the program from generating a voice toggle button for them.
 
 You can also fine-tune the properties of the characters used for phone calls and story mode (VN) sections via the following fields:
 
 `phone_char`
-    The Character object you defined for this character for phone calls.
+    A Character object defined for this character for phone calls.
 
     e.g. ``em_phone``
 
 `vn_char`
-    The Character object you defined for this character for Story Mode.
+    A Character object defined for this character for Story Mode.
 
     e.g. ``em_vn``
 
-Finally, ``ChatCharacter`` has some additional optional fields that are either currently unused or not necessary to set manually:
+Finally, ``ChatCharacter`` has some additional optional fields that are either currently unused or not necessary to set manually during definition time:
 
 `voicemail`
     A string with the name of the label to jump to for this character's voicemail.
@@ -212,6 +240,9 @@ Finally, ``ChatCharacter`` has some additional optional fields that are either c
     A screen reader-friendly spelling of the character's name for use with self-voicing.
 
     e.g. ``pronunciation_help`` for 707 is ``"seven-oh-seven"``
+
+
+If this character will be used during story mode, you may also provide additional properties for the story mode character, such as ``what_prefix`` to further customize how their dialogue is displayed. See `Ren'Py's documentation <https://www.renpy.org/doc/html/dialogue.html#defining-character-objects>`_ for more information.
 
 
 Showing Your Character on the Home Screen
@@ -242,6 +273,9 @@ This list contains all the characters in ``character_list`` unless they have the
 
 Characters in ``heart_point_chars`` will appear on the player's Profile screen with an indicator of how many points the player has with them. If you want to add Emma to this list, then you need to define an image called ``greet em`` since ``em`` is Emma's file_id.
 
+Greeting Images
+^^^^^^^^^^^^^^^^^
+
 You can find the existing characters' images in ``variables_editable.rpy`` under the heading **GREETING IMAGES**. Greeting images are approximately 121x107 px up to 143x127px.
 
 A greeting image for Emma might look like::
@@ -256,13 +290,13 @@ If you won't be defining greeting messages for Emma to say on the main menu, the
 
     default no_greet_chars = [r, m, em]
 
+This image is also used on the character's profile picture screen to indicate how many heart points the player has earned with this character and can spend on bonus profile pictures (if not provided, the character's homepage_pic is used instead).
 
-When all is said and done, you should now be able to write dialogue for Emma inside chatrooms the way you would with the existing ChatCharacters::
+
+When all is said and done, you should now be able to write dialogue for Emma anywhere in the program. For example, some chatroom dialogue might look like::
 
     em "How are you?"
     msg em "It's a lovely morning~" glow
-
-
 
 
 
@@ -317,19 +351,8 @@ The definition fields are explained below.
 
     e.g. "em_voice"
 
-
-Note on voiced characters
---------------------------
-
 .. warning::
-    If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special ``novoice_chars`` list found in ``character_definitions.rpy`` e.g.
-
-    ::
-
-        default novoice_chars = [u, sa, m, em]
-
-    This will prevent the program from generating a voice toggle button for them.
-
+    See :ref:`Note on voiced characters` if your new character should not have their own voice toggle on the Settings screen.
 
 If you've also defined a ChatCharacter variable for Emma as described in :ref:`Adding a New Character to Chatrooms`, make sure that Emma's ChatCharacter definition includes the line ``vn_char=em_vn`` with her new Character object for story mode. You can then write dialogue during story mode like::
 
