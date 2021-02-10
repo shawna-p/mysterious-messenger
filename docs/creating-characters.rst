@@ -174,7 +174,7 @@ If this character will appear on the home screen with a clickable profile, you s
 If the character will appear in story mode sections, you should define the following fields:
 
 `window_color`
-    A string containing the colour code that will be used for the dialogue window of this character during Story Mode. Replaces the need for the ``window_background`` property. If not provided, defaults to a grey colour.
+    A string containing the colour code that will be used for the dialogue window of this character during Story Mode. Replaces the ``window_background`` property. If not provided, defaults to a grey colour.
 
     e.g. "#C8954D"
 
@@ -306,18 +306,18 @@ Adding a New Character to Story Mode
 
 All characters that currently exist in the program are defined in ``character_definitions.rpy``. Open that file and scroll down to the header **Story Mode**.
 
-To have Emma speak during story mode, she needs to have a Character object defined for her. A definition for that may look like the following::
+If you have already defined a ChatCharacter for your new character, they will automatically be able to speak in story mode and phone calls without needing to define anything else. However, if you have a character who will *only* speak during story mode (e.g. a character like Echo Girl), you will define them in this way::
 
-    default em_vn = Character("Emma",
+    define em_vn = Character("Emma",
         kind=vn_character,
         who_color="#FFDDFC",
         image="emma",
-        window_background="VN Mode/Chat Bubbles/vnmode_other.webp",
+        window_color="#b7b7b7",
         voice_tag="em_voice"
     )
 
 .. tip::
-    If you've made a ChatCharacter object for your new character, it's a good idea to call this variable their file_id + "_vn".
+    You can also define a character for Story Mode separately from a character's ChatCharacter definition, and pass it the character variable in the ``vn_char`` field. This allows you to have more control over the different properties of the story mode character. However, for most purposes, the character that the program automatically defines during the ChatCharacter setup will be sufficient.
 
 The definition fields are explained below.
 
@@ -341,10 +341,10 @@ The definition fields are explained below.
 
     e.g. "emma"
 
-`window_background`
-    Optional. This is the image that will be shown behind the character's dialogue. By default, it is "VN Mode/Chat Bubbles/vnmode_other.webp". If you provide another image, it should be the same size as the default. Typically the borders are coloured differently for the various characters.
+`window_color`
+    A string containing the colour code that will be used for the dialogue window of this character during Story Mode. Replaces the ``window_background`` property. If not provided, defaults to a grey colour.
 
-    e.g. "VN Mode/Chat Bubbles/vnmode_em.webp",
+    e.g. "#C8954D"
 
 `voice_tag`
     Optional. If this character will speak in phone calls or during story mode, then this is the tag associated with them when they speak. Including this allows players to switch voice acting for this character on and off. This should be the character's file_id + "_voice". Otherwise, by default this character's voice will fall under the "other_voice" tag in the Sound preferences.
@@ -354,15 +354,10 @@ The definition fields are explained below.
 .. warning::
     See :ref:`Note on voiced characters` if your new character should not have their own voice toggle on the Settings screen.
 
-If you've also defined a ChatCharacter variable for Emma as described in :ref:`Adding a New Character to Chatrooms`, make sure that Emma's ChatCharacter definition includes the line ``vn_char=em_vn`` with her new Character object for story mode. You can then write dialogue during story mode like::
-
-    em "Brr, it's cold outside!"
-
-If Emma does not have a ChatCharacter object and is only intended for use during story mode (e.g. for a side character who only appears in story mode like Sarah), then you'll write her dialogue directly with her story mode Character object e.g.
-
-::
+You can then write dialogue during story mode like::
 
     em_vn "Brr, it's cold outside!"
+
 
 Declaring a LayeredImage for a New Character
 --------------------------------------------
@@ -380,6 +375,8 @@ If you would also like to define a timeline image for Story Mode that is associa
 
 The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix ``_vn_em`` on a label to associate a story mode with Emma. See :ref:`Writing a Story Mode` for more information on writing a Story Mode section.
 
+Note that this is only applicable to characters with a ChatCharacter definition (and therefore with a ``file_id``). Characters who only speak during story mode do not automatically have this defined and cannot have their own automatic story mode timeline images.
+
 
 
 Adding a New Character to Phone Calls
@@ -387,7 +384,9 @@ Adding a New Character to Phone Calls
 
 All characters that currently exist in the program are defined in ``character_definitions.rpy``. Open that file and find the header **Phone Call Characters** at the top.
 
-To have Emma speak in a phone call, she needs to have a Character object defined for her. A definition for that may look like the following::
+If you have already defined a ChatCharacter object for your new character, there is no need to define a separate phone character (unless you want more control over the phone character definition). It is automatically defined for you already.
+
+However, if you want to define a character who only speaks during phone calls, they will need to have a Character object defined for them. A definition for Emma may look like the following::
 
     default em_phone = Character("Emma",
         kind=phone_character,
@@ -395,7 +394,7 @@ To have Emma speak in a phone call, she needs to have a Character object defined
     )
 
 .. tip::
-    If you've made a ChatCharacter object for your new character, it's a good idea to call this variable their file_id + "_phone".
+    You can also define a character for phone calls separately from a character's ChatCharacter definition, and pass it the character variable in the ``phone_char`` field. This allows you to have more control over the different properties of the phone call character. However, for most purposes, the character that the program automatically defines during the ChatCharacter setup will be sufficient.
 
 The definition fields are explained below.
 
@@ -418,13 +417,7 @@ The definition fields are explained below.
     See :ref:`Note on voiced characters` if your new character should not have their own voice toggle on the Settings screen.
 
 
-If you've also defined a ChatCharacter variable for Emma as described in :ref:`Adding a New Character to Chatrooms`, make sure that Emma's ChatCharacter description includes the line ``phone_char=em_phone`` with her new Character object for phone calls. You can then write dialogue during a phone call like::
-
-    em "How are you, [name]?"
-
-If Emma does not have a ChatCharacter object and is only intended for use in phone calls (e.g. for a one-off character or a specific voicemail message), then you'll write her dialogue directly with her phone Character object e.g.
-
-::
+You can then write dialogue during a phone call like::
 
     em_phone "How are you, [name]?"
 
