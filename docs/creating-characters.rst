@@ -73,7 +73,7 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
 * |uncheck| **(Optional)** Add a spaceship thoughts image for your new character. (:ref:`Giving a New Character Spaceship Thoughts`)
 * |uncheck| **(Optional)** Add a day select image for your new character. (:ref:`Adding a Day Select Image`)
 * |uncheck| **(Optional)** Add a Save & Load image for your new character. (:ref:`Adding a Save/Load Image`)
-* |uncheck| **(Optional)** Add bonus profile pictures for your new character.
+* |uncheck| **(Optional)** Add bonus profile pictures for your new character. (:ref:`Bonus Profile Pictures`)
 
 
 
