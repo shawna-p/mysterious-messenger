@@ -71,7 +71,7 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
 * |uncheck| **(May be required)** Define a phone contact image for your new character. **Required** if you have added them to the ``character_list`` variable. (:ref:`Adding a Phone Contact Image`)
 * |uncheck| **(Optional)** Define a CG album for your character. Requires a ``cg_label``, ``album_cover``, and two album variables (one persistent and one regular). Add the character's file_id to the ``all_albums`` list. (:ref:`Adding a CG Album`)
 * |uncheck| **(Optional)** Add a spaceship thoughts image for your new character. (:ref:`Giving a New Character Spaceship Thoughts`)
-* |uncheck| **(Optional)** Add a day select image for your new character.
+* |uncheck| **(Optional)** Add a day select image for your new character. (:ref:`Adding a Day Select Image`)
 * |uncheck| **(Optional)** Add a Save & Load image for your new character. (:ref:`Adding a Save/Load Image`)
 * |uncheck| **(Optional)** Add bonus profile pictures for your new character.
 
@@ -470,6 +470,27 @@ A SpaceThought takes two parameters. The first is the character's ChatCharacter 
 You can see that ``SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")`` was added to the end of the list. Now when the player clicks on the spaceship, Emma's space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see :ref:`Spaceship Thoughts`.
 
 
+Adding a Day Select Image
+===========================
+
+If you want a particular image to be used on the timeline screen when choosing a day, you can define it in ``variables_editable.rpy`` under the header **DAY SELECT IMAGES**. There are no restrictions on what this can be called other than it must begin with ``day_`` (i.e. there is no need to use a character's file_id). You will use this in the ``day_icon`` field when defining a route.
+
+So, if you wanted to define a particular image to use on days corresponding with Emma's route, your definition may look like::
+
+    image day_em = "Menu Screens/Day Select/day_em.webp"
+
+Then, when defining your route, you could have the ``save_img`` field like::
+
+    default emma_good_end = ["Good End",
+        RouteDay("5th",
+            [ChatRoom("Bright and early...", 'emma_d5_c1', '00:33', [em])],
+            day_icon='em'
+        )
+    ]
+
+Note that the string given to ``day_icon`` is "em" because the image was defined as ``day_em``, so you drop the ``day_`` prefix and pass the rest of the image name (in this case, "em").
+
+
 Adding a Save/Load Image
 =========================
 
@@ -487,4 +508,4 @@ Then, when defining your route, you could have the ``save_img`` field like::
         )
     ]
 
-Note that the string given to ``save_img`` is "emma" because the image was defined as ``save_emma``, so you drop the ``save_`` prefix and pass a string of the image name.
+Note that the string given to ``save_img`` is "emma" because the image was defined as ``save_emma``, so you drop the ``save_`` prefix and pass the rest of the image name (in this case, "emma").
