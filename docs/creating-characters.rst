@@ -55,23 +55,25 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
 
 * |uncheck| **(Optional)** Add your character to the ``character_list`` in ``character_definitions.rpy`` if you want their profile to appear on the home screen and allow the player to call them. (:ref:`Showing Your Character on the Home Screen`)
 * |uncheck| **(Optional)** Add your character to the ``heart_point_chars`` list in ``character_definitions.rpy`` if you want the player to see how many heart points they have earned with this character. (:ref:`Showing Your Character on the Home Screen`)
-* |uncheck| **(May be required)** Define a ``greet`` image for your character. This is **required** if you have included the character in ``heart_point_chars`` (see above) AND/OR if you want them to have greetings on the main menu.
+* |uncheck| **(May be required)** Define a ``greet`` image for your character. This is **required** if you have included the character in ``heart_point_chars`` (see above) AND/OR if you want them to have greetings on the main menu. (:ref:`Greeting Images`)
+* |uncheck| If your character will not have any voiced greetings on the main menu, add them to the ``no_greet_chars`` list in ``variables_editable.rpy`` under the **GREETING IMAGES** header.
 * |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Story Mode**. (:ref:`Adding a New Character to Story Mode`)
 
-    * This step is NOT required if this character will never appear in a Story Mode section
+    * This step is NOT required if this character will never appear in a Story Mode section, OR if you've already defined a ChatCharacter object for them.
 
-* |uncheck| Either: **1)** in the definition for your Story Mode Character, include the ``voice_tag`` argument (``voice_tag="em_voice"`` where ``em`` is the character's file_id), OR **2)** add their ChatCharacter object to the ``novoice_chars`` list in ``character_definitions.rpy``. (:ref:`Note on voiced characters`)
+* |uncheck| Either: **1)** in the definition for your Story Mode Character or ChatCharacter, include the ``voice_tag`` argument (``voice_tag="em_voice"`` where ``em`` is the character's file_id), OR **2)** add their ChatCharacter variable to the ``novoice_chars`` list in ``character_definitions.rpy``. (:ref:`Note on voiced characters`)
 * |uncheck| **(Optional)** Define a ``layeredimage`` for your character if you want to display their image during Story Mode (VN) sections. (:ref:`Declaring a LayeredImage for a New Character`)
 * |uncheck| **(May be required)** Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen. (:ref:`Story Mode Timeline Images`)
 * |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Phone Call Characters**. (:ref:`Adding a New Character to Phone Calls`)
 
-    * This step is NOT required if this character will never appear in a phone call
+    * This step is NOT required if this character will never appear in a phone call, OR if you've already defined a ChatCharacter object for them.
 
-* |uncheck| **(May be required)** Define a phone contact image for your new character. **Required** if you have added them to the ``character_list`` variable.
+* |uncheck| **(May be required)** Define a phone contact image for your new character. **Required** if you have added them to the ``character_list`` variable. (:ref:`Adding a Phone Contact Image`)
 * |uncheck| **(Optional)** Define a CG album for your character. Requires a ``cg_label``, ``album_cover``, and two album variables (one persistent and one regular). Add the character's file_id to the ``all_albums`` list. (:ref:`Adding a CG Album`)
 * |uncheck| **(Optional)** Add a spaceship thoughts image for your new character. (:ref:`Giving a New Character Spaceship Thoughts`)
 * |uncheck| **(Optional)** Add a day select image for your new character.
-* |uncheck| **(Optional)** Add a Save & Load image for your new character.
+* |uncheck| **(Optional)** Add a Save & Load image for your new character. (:ref:`Adding a Save/Load Image`)
+* |uncheck| **(Optional)** Add bonus profile pictures for your new character.
 
 
 
@@ -422,6 +424,19 @@ You can then write dialogue during a phone call like::
     em_phone "How are you, [name]?"
 
 
+Adding a Phone Contact Image
+-----------------------------
+
+In order for your new character to appear as a contact in the Contacts tab of the phone, you will need to define a contact image for them.
+
+In ``variables_editable.rpy`` under the header **PHONE CONTACT IMAGES** you will see several images already defined. This is the file_id of the character + ``_contact``. So, for Emma, it may look like::
+
+    image em_contact = "Phone Calls/call_contact_emma.webp"
+
+This image is 188x188 and round.
+
+
+
 
 
 Giving a New Character Spaceship Thoughts
@@ -453,3 +468,23 @@ A SpaceThought takes two parameters. The first is the character's ChatCharacter 
         ] )
 
 You can see that ``SpaceThought(em, "I know I should take my dog for a walk but I'm so tired...")`` was added to the end of the list. Now when the player clicks on the spaceship, Emma's space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see :ref:`Spaceship Thoughts`.
+
+
+Adding a Save/Load Image
+=========================
+
+If you want a particular image to be used for a save file's icon, you can define it in ``variables_editable.rpy`` under the header **SAVE & LOAD IMAGES**. There are no restrictions on what this can be called other than it must begin with ``save_`` (i.e. there is no need to use a character's file_id). You will use this in the ``save_img`` field when defining a route.
+
+So, if you wanted to define a particular image to be used during a route for Emmma, it might look like::
+
+    image save_emma = "Menu Screens/Main Menu/save_img_emma.webp"
+
+Then, when defining your route, you could have the ``save_img`` field like::
+
+    default emma_good_end = ["Good End",
+        RouteDay("5th",
+            [ChatRoom("Bright and early...", 'emma_d5_c1', '00:33', [em], save_img="emma")]
+        )
+    ]
+
+Note that the string given to ``save_img`` is "emma" because the image was defined as ``save_emma``, so you drop the ``save_`` prefix and pass a string of the image name.
