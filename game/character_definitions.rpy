@@ -253,7 +253,11 @@ init offset = 0
 ## Rika:
 # EXPRESSIONS: happy, sad, neutral (default), thinking,
 #              worried, dark, angry, sob, crazy
-# OUTFITS: normal (default), savior, dress
+# FRONT EXPRESSIONS: happy, blush, frown, sad, worried, smile, angry, cry
+# MIDDLE SCHOOL EXPRESSIONS: neutral, happy, upset, sad
+# OUTFITS: normal (default), savior, dress, blue_dress
+# OTHER: blue_dress_front (pose facing forward - see Front Expressions),
+#   middle_school (younger Rika sprite - see Middle School Expressions)
 # ACCESSORIES: mask
 
 ## Seven:
@@ -263,12 +267,16 @@ init offset = 0
 # SIDE: happy, concern, surprised, thinking, sad, neutral (default),
 #       dark, angry, worried
 # SIDE OUTFITS: normal (default), arm, suit
+# YOUNG: neutral, surprised, serious, worried
 
 ## Saeran:
 # WITH OR WITHOUT MASK: happy, smile, neutral (default),
 #                       angry, thinking, tense, creepy
 # WITHOUT MASK: cry, blush, sob, teary, nervous, sad, worried, distant
 # OUTFITS: unknown, mask, ray (default), saeran, suit
+# FRONT OUTFITS: normal (default), arm
+# FRONT EXPRESSIONS: blush, cry, sad, nervous, worried, tired,
+#       neutral (default), frown, thinking, surprised, angry, happy, happy_cry
 
 ## V:
 # FRONT: neutral (default), happy, angry, worried, thinking,
@@ -321,6 +329,14 @@ init offset = 0
 ## Vanderwood:
 # EXPRESSIONS: neutral (default), unamused, unsure, determined, ouch, angry
 
+## Pastor:
+# EXPRESSIONS: neutral (default), pleased, happy, shocked
+
+## Mika:
+# EXPRESSIONS: blank, happy, neutral (default), smiling, upset, worried
+
+## Rika's Mom:
+# EXPRESSIONS: neutral (default), angry, tired, ugh
 
 ## ***********************************
 ## Character Image Declarations
