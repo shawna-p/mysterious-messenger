@@ -391,7 +391,7 @@ layeredimage jaehee:
     # This is an unusual little hack that lets the program
     # identify whether jaehee should be wearing her glasses or not
     group eyewear:
-        attribute glasses Transform('transparent.webp', size=(10,10))
+        attribute glasses null
 
 
 ## ****************************
@@ -692,7 +692,7 @@ layeredimage v side:
         attribute unsure "VN Mode/V/v_face_22.webp"
 
     group eyewear:
-        attribute glasses Transform('transparent.webp', size=(10,10))
+        attribute glasses null
 
 
 ## ****************************
@@ -741,7 +741,7 @@ layeredimage yoosung:
         attribute grin "VN Mode/Yoosung/yoosung_face_19.webp"
 
     group eyewear:
-        attribute glasses Transform('transparent.webp', size=(10,10))
+        attribute glasses null
 
 
 
