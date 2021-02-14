@@ -80,6 +80,11 @@ The remaining items in the list are ``RouteDay`` objects. They have the followin
 
     e.g. 'casual_d3_'
 
+`exclude_suffix`
+    Optional. A boolean value that controls whether the " Day" suffix is added to the end of the day name on the timeline screen. The default behaviour is to append " Day" to the end of the title given in the ``day`` field, so "1st" appears as "1st Day" on the timeline screen. If ``exclude_suffix`` is True, however, then " Day" will not be appended to the name of the day so it would appear simply as "1st".
+
+    e.g. True
+
 
 Adding Timeline Items
 =====================
