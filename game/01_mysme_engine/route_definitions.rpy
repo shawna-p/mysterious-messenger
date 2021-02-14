@@ -119,10 +119,14 @@ init -6 python:
         day_icon : string
             The icon for the route this day is considered a part of. Used to
             display an icon in the day timeline screen.
+        exclude_suffix : bool
+            If True, doesn't append " Day" to the name of this day in
+            the timeline screen.
         """
 
         def __init__(self, day, archive_list=None, day_icon='day_common2',
-                        branch_vn=None, save_img=None, auto_label=None):
+                        branch_vn=None, save_img=None, auto_label=None,
+                        exclude_suffix=False):
             """
             Creates a RouteDay object to hold information on a day's worth
             of story items.
@@ -149,11 +153,15 @@ init -6 python:
                 has a save img set.
             auto_label : string
                 The pattern to name all items in the archive_list by.
+            exclude_suffix : bool
+                If True, doesn't append " Day" to the name of this day in
+                the timeline screen.
             """
 
             self.day = day
             self.archive_list = archive_list or []
             self.branch_vn = branch_vn
+            self.exclude_suffix = exclude_suffix
 
             day_icon = day_icon.lower()
             if day_icon == 'common':
@@ -183,6 +191,20 @@ init -6 python:
 
             if auto_label is not None:
                 self.set_label(auto_label)
+
+        @property
+        def day_title(self):
+            """
+            Return the name of this day as it should appear in the
+            Timeline screen.
+            """
+
+            try:
+                if self.exclude_suffix:
+                    return self.day
+            except AttributeError:
+                pass
+            return self.day + " Day"
 
         def set_label(self, lbl):
             """
