@@ -129,7 +129,7 @@ screen day_display(day, day_num):
             if day.day == 'Final':
                 add 'final_day' align (0.5, 0.0) yoffset 145
 
-        textbutton _(day.day + " Day"):
+        textbutton _(day.day_title):
             text_style 'day_title'
             xysize (265,152)
             background day_bkgr padding(-80, 0)
