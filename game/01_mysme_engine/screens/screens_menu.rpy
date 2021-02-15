@@ -536,8 +536,13 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                         $ dn2 = info[3]
                     else:
                         $ dn2 = dn
+                    if len(info) > 4:
+                        $ day_suffix = info[4]
+                    else:
+                        $ day_suffix = " DAY"
                 else:
                     $ rt, dn, cn, dn2 = 'auto', '1st', 'Example Chatroom', '2nd'
+                    $ day_suffix = " DAY"
 
                 button:
                     background 'save_auto_idle'
@@ -563,7 +568,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             fixed:
                                 text ("This is a backup file that"
                                         + " is auto-generated")
-                            text "Today: [dn] DAY" yalign 1.0
+                            text "Today: [dn]" + day_suffix yalign 1.0
 
                         frame:
                             style_prefix 'save_stamp'
@@ -593,8 +598,13 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             dn2 = info[3]
                         else:
                             dn2 = dn
+                        if len(info) > 4:
+                            day_suffix = info[4]
+                        else:
+                            day_suffix = " DAY"
                     else:
                         rt, dn, cn, dn2 = 'auto', '1st', 'Example', '2nd'
+                        day_suffix = " DAY"
 
                     file_time = FileTime(slot, empty="00:00")[-5:]
 
@@ -624,7 +634,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             if FileLoadable(slot):
                                 fixed:
                                     text "[cn]"
-                                text "Today: [dn] DAY" yalign 1.0
+                                text "Today: [dn]" + day_suffix yalign 1.0
                             else:
                                 fixed:
                                     text "Empty Slot"
@@ -690,17 +700,23 @@ init python:
         # Find today
         today = "1st"
         tomorrow = "2nd"
+        day_suffix = " DAY"
         for day_num, day in enumerate(store.story_archive):
             if save_title_item in day.archive_list:
                 today = day.day
+                if day.exclude_suffix:
+                    day_suffix = ""
                 if day_num+1 < len(store.story_archive):
                     tomorrow = store.story_archive[day_num+1].day
                 else:
                     tomorrow = today
                 break
 
-        return (save_title_item.save_img + "|" + today + "|"
+        the_title = (save_title_item.save_img + "|" + today + "|"
                 + save_title_item.title + "|" + tomorrow)
+        if day_suffix:
+            the_title += "|" + day_suffix
+        return the_title
 
 
 
