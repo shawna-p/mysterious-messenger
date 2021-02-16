@@ -542,11 +542,14 @@ init -6 python:
         replay_log : ReplayEntry
             List of ReplayEntry objects that keeps track of how this chatroom
             played out to display to the player during a replay.
+        box_bg : string
+            One of either "secure" or "colorhack". Causes an extra image to
+            be shown under the timeline image box.
         """
 
         def __init__(self, title, chatroom_label, trigger_time,
                 participants=None, story_mode=None, plot_branch=None,
-                save_img='auto'):
+                save_img='auto', box_bg=None):
             """
             Create a ChatRoom object to store information about a particular
             chatroom on a route.
@@ -575,6 +578,9 @@ init -6 python:
             save_img : string
                 A short version of the file path used to display the icon next
                 to a save file when this is the active timeline item.
+            box_bg : string
+                One of either "secure" or "colorhack". Causes an extra image to
+                be shown under the timeline image box.
             """
 
             self.story_mode = None
@@ -586,6 +592,8 @@ init -6 python:
                 self.original_participants = []
             else:
                 self.original_participants = list(participants)
+
+            self.box_bg = box_bg
 
             if story_mode:
                 self.story_mode = story_mode
@@ -620,6 +628,17 @@ init -6 python:
 
             self.participated = False
             self.replay_log = []
+
+        @property
+        def timeline_box_bg(self):
+            """Return the chat box background for this image."""
+
+            try:
+                if self.box_bg:
+                    return 'chat_' + self.box_bg + '_box'
+            except:
+                pass
+            return None
 
         def set_label(self, lbl):
             """Set a new item label for this TimelineItem."""
