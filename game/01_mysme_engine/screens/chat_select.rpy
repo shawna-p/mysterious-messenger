@@ -382,65 +382,69 @@ screen timeline_item_display(day, day_num, item, index):
     if isinstance(item, ChatRoom):
         hbox:
             style 'timeline_hbox'
-            button at anim(10):
+            fixed:
                 xysize (chat_box_width, 160)
-                xalign 0.0
-                background item.timeline_img(was_played)
-                hover_foreground 'chat_timeline_hover'
-                if item.available and was_played:
-                    action [SetVariable('current_timeline_item', item),
-                            Jump('play_timeline_item')]
-                    if persistent.testing_mode:
-                        alternate [SetVariable('current_timeline_item', item),
-                            SetVariable('skip_story_item', True),
-                            Jump('play_timeline_item')]
+                frame:
+                    background item.timeline_box_bg
+                    xysize (chat_box_width, 160)
+                button at anim(10):
+                    xysize (chat_box_width, 160)
+                    xalign 0.0
+                    background item.timeline_img(was_played)
+                    hover_foreground 'chat_timeline_hover'
+                    if item.available and was_played:
+                        action [SetVariable('current_timeline_item', item),
+                                Jump('play_timeline_item')]
+                        if persistent.testing_mode:
+                            alternate [SetVariable('current_timeline_item', item),
+                                SetVariable('skip_story_item', True),
+                                Jump('play_timeline_item')]
+                    if (hacked_effect and item.currently_expired
+                            and persistent.hacking_effects):
+                        add 'day_reg_hacked' xoffset -185 yoffset -178
+                    elif hacked_effect and persistent.hacking_effects:
+                        add 'day_reg_hacked_long' xoffset -210 yoffset -170
 
-                if (hacked_effect and item.currently_expired
-                        and persistent.hacking_effects):
-                    add 'day_reg_hacked' xoffset -185 yoffset -178
-                elif hacked_effect and persistent.hacking_effects:
-                    add 'day_reg_hacked_long' xoffset -210 yoffset -170
-
-                vbox:
-                    style_prefix 'chat_timeline'
-                    # This box displays the trigger time and title of the
-                    # chatroom; optionally at a scrolling transform so you
-                    # can read the entire title
-                    hbox:
-                        frame:
-                            xoffset 77
-                            yoffset 13
-                            text item.trigger_time:
-                                size 27
-                                xalign 0.5
-                                text_align 0.5
+                    vbox:
+                        style_prefix 'chat_timeline'
+                        # This box displays the trigger time and title of the
+                        # chatroom; optionally at a scrolling transform so you
+                        # can read the entire title
+                        hbox:
+                            frame:
+                                xoffset 77
+                                yoffset 13
+                                text item.trigger_time:
+                                    size 27
+                                    xalign 0.5
+                                    text_align 0.5
+                            viewport:
+                                xysize(chat_title_width,27)
+                                if get_text_width(item.title,
+                                        'chat_timeline_text') >= chat_title_width:
+                                    frame:
+                                        xysize(chat_title_width,27)
+                                        text item.title at chat_title_scroll
+                                else:
+                                    text item.title
+                        # Shows a list of all the people who were in/
+                        # are in this chatroom
                         viewport:
-                            xysize(chat_title_width,27)
-                            if get_text_width(item.title,
-                                    'chat_timeline_text') >= chat_title_width:
-                                frame:
-                                    xysize(chat_title_width,27)
-                                    text item.title at chat_title_scroll
-                            else:
-                                text item.title
-                    # Shows a list of all the people who were in/
-                    # are in this chatroom
-                    viewport:
-                        xysize(partic_viewport_width, 85)
-                        yoffset 13
-                        xoffset 77
-                        yalign 0.5
-                        frame:
                             xysize(partic_viewport_width, 85)
-                            hbox at part_anim:
-                                spacing 5
-                                if item.participants:
-                                    for person in item.participants:
-                                        if person.participant_pic:
-                                            add person.participant_pic
+                            yoffset 13
+                            xoffset 77
+                            yalign 0.5
+                            frame:
+                                xysize(partic_viewport_width, 85)
+                                hbox at part_anim:
+                                    spacing 5
+                                    if item.participants:
+                                        for person in item.participants:
+                                            if person.participant_pic:
+                                                add person.participant_pic
 
-                                if item.participated and item.played:
-                                    add m.get_pfp(80)
+                                    if item.participated and item.played:
+                                        add m.get_pfp(80)
 
             # If this chat is expired and hasn't been bought back,
             # show a button allowing the player to buy this chat again
