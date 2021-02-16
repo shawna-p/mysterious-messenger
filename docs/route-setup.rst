@@ -144,6 +144,11 @@ There are some additional fields as well, each of which is explained below.
 
     e.g. "casual"
 
+`box_bg`
+    Optional. If you want the chatroom's timeline image box to have one of the special backgrounds, you'll specify which one -- either "colorhack" or "secure". "secure" displays a gear image beneath the title and participant pictures, and "colorhack" displays several coloured squares. If omitted, the regular box background is used.
+
+    e.g. "colorhack"
+
 Chatrooms also have "expired" versions. This means that if the player is playing real-time mode and doesn't play this chatroom before the next timeline item appears, it will "expire". The program will look for the expired version of a chatroom under the chatroom's regular label + the suffix ``_expired``. So, if the chatroom is found at
 
 ::
