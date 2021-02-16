@@ -1510,6 +1510,8 @@ image chat_inactive = Frame('Menu Screens/Day Select/daychat01_chat_inactive.web
 image chat_continue = Frame('Menu Screens/Day Select/daychat01_chat_continue.webp',190, 70, 40, 20)
 image chat_selected = Frame('Menu Screens/Day Select/daychat01_chat_mint.webp',190, 70, 40, 50)
 image chat_timeline_hover = Frame('Menu Screens/Day Select/daychat01_chat_hover.webp', 190, 70, 40, 50)
+image chat_secure_box = Frame('Menu Screens/Day Select/chatbox_secure_underlay.webp', 190, 70, 40, 50)
+image chat_colorhack_box = Frame('Menu Screens/Day Select/chatbox_hacker_underlay.webp', 190, 70, 40, 50)
 
 image story_call_active = Frame('Menu Screens/Day Select/story_call_active.webp', 290, 56, 40, 50)
 image story_call_inactive = Frame('Menu Screens/Day Select/story_call_inactive.webp', 290, 56, 40, 50)
