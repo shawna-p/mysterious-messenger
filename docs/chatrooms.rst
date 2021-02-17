@@ -489,6 +489,10 @@ or alternatively,
 
 for the red version of the scrolling hack image.
 
+There is also a "red static" effect which can be shown with::
+
+    show red static effect
+
 .. note::
     These effects are not displayed for players who have toggled the **Hacking Effects** setting off.
 
