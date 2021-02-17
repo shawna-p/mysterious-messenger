@@ -56,6 +56,7 @@ While chatrooms also use Ren'Py's ``scene`` statement to show backgrounds, there
 * hack
 * redhack
 * redcrack
+* secure
 
 The background names **are** case-sensitive, so you need to get the capitalization correct. The program will automatically clear the chat history when beginning a new chatroom so new messages begin appearing at the bottom.
 
