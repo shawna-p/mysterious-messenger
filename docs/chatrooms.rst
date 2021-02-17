@@ -496,6 +496,22 @@ There is also a "red static" effect which can be shown with::
 .. note::
     These effects are not displayed for players who have toggled the **Hacking Effects** setting off.
 
+Showing the Secure Chatroom Animation
+-----------------------------------------
+
+To show the "secure chatroom" animation, use the line
+
+::
+
+    show secure anim
+
+.. note::
+    If you're using this effect, you may also want to change the background of the chatroom box on the timeline screen. You can do this with the ``box_bg`` parameter when defining a ChatRoom for the route e.g.
+
+    ::
+
+        ChatRoom('Hacking', 'hack_example', '20:41', box_bg='secure')
+
 Shaking the Screen
 -------------------
 
