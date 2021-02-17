@@ -526,6 +526,16 @@ Screen shake is compatible both with regular backgrounds and with the animated b
 .. note::
     This effect is not displayed for players who have toggled the **Screen Shake** setting off.
 
+Showing the Cracked Overlay
+----------------------------
+
+There is also a "cracked" overlay you can layer on top of any chatroom background (including animated backgrounds). It gives the appearance of cracked glass on top of the background. After showing your background, show the crack effect like::
+
+    scene redhack
+    show screen_crack
+
+
+
 Custom Fonts and Bubbles
 =========================
 
