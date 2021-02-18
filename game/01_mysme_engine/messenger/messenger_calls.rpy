@@ -107,9 +107,11 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
         $ current_timeline_item.replay_log.append(vn_jump_entry)
 
     # Give the player a moment to read the last of the messages
-    # before jumping to the VN
-    $ renpy.pause(persistent.pv*2.0)
-    call screen continue_button
+    # before jumping to the VN, unless there's nothing in the chatlog.
+    if chatlog and not (len(chatlog) == 1
+            and chatlog[-1].who in [filler, answer, chat_pause]):
+        $ renpy.pause(persistent.pv*2.0)
+        call screen continue_button
     # Hide all the chatroom screens
     $ reset_story_vars(vn_jump=True)
 
