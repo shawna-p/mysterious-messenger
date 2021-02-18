@@ -805,6 +805,7 @@ Existing background options are:
 * hack
 * redhack
 * redcrack
+* secure
 
 The background names **are** case-sensitive, so you need to get the capitalization correct.
 
@@ -821,7 +822,7 @@ You can put this image definition wherever you like, though it may make sense to
 Next, add the background name to the ``all_static_backgrounds`` list::
 
     define all_static_backgrounds = ['morning', 'noon', 'evening', 'hack',
-                'redhack', 'night', 'earlyMorn', 'redcrack', 'rainy_day']
+            'redhack', 'night', 'earlyMorn', 'redcrack', 'secure', 'rainy_day']
 
 Note that you do **not** add the "bg" part to the name of your background.
 
