@@ -5,7 +5,8 @@
 # shake the screen during a chatroom
 label shake():
     if persistent.screenshake and not persistent.animated_backgrounds:
-        show expression "center_crop_bg:bg " + current_background at shake
+        $ renpy.show('bgshake', what=center_crop_bg_img('bg ' + current_background),
+                            at_list=[shake])
     elif persistent.screenshake:
         show layer animated_bg at shake
     if (not observing and not persistent.testing_mode
@@ -199,8 +200,7 @@ label chatroom_replay():
                     if not renpy.is_skipping():
                         renpy.pause(1.25)
                 elif first == "overlay":
-                    renpy.show_screen('screen_crack_overlay_bg',
-                        _layer='animated_bg')
+                    renpy.show_screen('screen_crack_overlay_bg')
                 elif first == "hack":
                     if persistent.hacking_effects:
                         if second == "regular":
@@ -253,7 +253,7 @@ label chatroom_replay():
                         elif second == "red_static":
                             renpy.show_screen('hack_screen',
                                 hack='red_static_scroll',
-                                flicker=False,
+                                flicker_anim=False,
                                 bg='red_static_background')
                             if (not renpy.is_skipping()
                                     and renpy.get_screen("hack_screen")):
@@ -289,7 +289,7 @@ label chatroom_replay():
                 elif first == "shake":
                     current_background = second
                     if persistent.screenshake and not persistent.animated_backgrounds:
-                        renpy.show("center_crop_bg:bg " + second,
+                        renpy.show('bgshake', what=center_crop_bg_img('bg ' + second),
                             at_list=[shake])
                     elif persistent.screenshake:
                         renpy.show_layer_at([shake], 'animated_bg')
