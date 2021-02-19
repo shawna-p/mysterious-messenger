@@ -2,10 +2,10 @@
 ## you can created a 'hacked' effect within chatrooms
 label hack_example():
     $ sa.prof_pic = "Profile Pics/Saeran/sae-3.webp"
-    # The "lock" for the secure chatroom animation
-    show secure anim
     # The secure background
     scene secure
+    # The "lock" for the secure chatroom animation
+    show secure anim
     enter chatroom u
     u "Before we start -- are you okay with seeing flashing 'hacked' animations?"
     u "If not, we can turn them off."
