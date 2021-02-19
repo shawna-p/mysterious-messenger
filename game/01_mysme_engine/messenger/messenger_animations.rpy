@@ -362,11 +362,11 @@ label screen_crack_overlay():
     if (not observing and not persistent.testing_mode):
         $ entry = ("overlay", "screen_crack")
         $ current_timeline_item.replay_log.append(entry)
-    $ renpy.show_screen('screen_crack_overlay_bg', _layer='master')
+    $ renpy.show_screen('screen_crack_overlay_bg')
     return
 
 screen screen_crack_overlay_bg():
-    zorder 1
+    zorder 0
     add 'screen_crack'
 
 #************************************
