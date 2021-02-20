@@ -874,6 +874,7 @@ label play_phone_call():
     # from the phone call in the history log
     $ _history = False
     $ in_phone_call = True
+    $ preferences.afm_enable = True
     hide screen incoming_call
     hide screen outgoing_call
 
