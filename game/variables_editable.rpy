@@ -146,6 +146,9 @@ define v_unlockable_pfps = combine_lists(
     register_pfp(folder="Profile Pics/V/", filter_out='-b.'),
     register_pfp(folder="CGs/v_album/", filter_keep='-thumb.')
 )
+define va_unlockable_pfps = combine_lists(
+    register_pfp(folder="Profile Pics/Vanderwood/", filter_out='-b.')
+)
 define y_unlockable_pfps = combine_lists(
     register_pfp(folder="Profile Pics/Yoosung/", filter_out='-b.'),
     register_pfp(folder="CGs/y_album/", filter_keep='-thumb.')
