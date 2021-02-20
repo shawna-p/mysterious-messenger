@@ -1137,9 +1137,11 @@ label sarah_showcase():
 label vanderwood_showcase():
     hide saeran
     show vanderwood
-    "If you'd like the minor characters to speak, you need to define your own character for them."
-    "It's pretty easy; just go to {b}character_definitions.rpy{/b} and follow the guidelines there."
-    "Vanderwood has the following expressions:"
+    va "While I'm not part of the main RFA cast, I do have a character defined."
+    va unamused "So I you can add me to chatrooms, phone calls, story mode and more."
+    va neutral "I even have my own heart icon now."
+    award heart va
+    va "Anyway, these are all my expressions."
     show vanderwood unamused
     with Pause(0.8)
     show vanderwood unsure
@@ -1152,7 +1154,7 @@ label vanderwood_showcase():
     with Pause(0.8)
     show vanderwood neutral
     with Pause(0.8)
-    "And that's all."
+    va "That's it."
     hide vanderwood
     jump vn_showcase
 
