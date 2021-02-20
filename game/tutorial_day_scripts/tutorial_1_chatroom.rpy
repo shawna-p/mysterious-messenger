@@ -414,6 +414,9 @@ label heart_icons():
         z "{=sser2}And then there is this heart{/=sser2}"
         award heart ri
         z "{=sser2}which in this game is for Rika.{/=sser2}"
+        msg z "And new in v3.0 is this heart" sser2
+        award heart va
+        msg z "Which is for Vanderwood." sser2
         z "The last thing I'm here to explain is the 'heartbreak' icon"
         z "It works the same as the regular heart icons -- just write \"break heart z\" with the character you want"
         z "{=ser1}It will automatically colour itself{/=ser1}"
