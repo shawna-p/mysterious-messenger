@@ -708,7 +708,8 @@ python early:
                 self.vn_char.do_extend()
 
         def __call__(self, what, pauseVal=None, img=False,
-                    bounce=False, specBubble=None, **kwargs):
+                    bounce=False, specBubble=None, link_img=None,
+                    link_title=None, link_text=None, **kwargs):
             """
             Send this character's dialogue to the program.
 
@@ -726,6 +727,13 @@ python early:
                 True if this message should bounce when it animates in.
             specBubble : string
                 Indicates what kind of special speech bubble this message uses.
+            link_img : string
+                A string with the image path to be used on the right side of
+                a link message. Approx 81x81px.
+            link_title : string
+                The title to be used for the link message.
+            link_text : string
+                The text on a link message.
 
             Result:
             -------
@@ -801,7 +809,8 @@ python early:
                         self, what, new_pv, img, bounce, specBubble))
 
                 addchat(self, what, pauseVal=pauseVal, img=img,
-                            bounce=bounce, specBubble=specBubble)
+                            bounce=bounce, specBubble=specBubble,
+                            link_img=None, link_title=None, link_text=None)
 
         def __eq__(self, other):
             """Check for equality between two ChatCharacter objects."""
