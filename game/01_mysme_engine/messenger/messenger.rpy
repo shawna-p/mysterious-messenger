@@ -150,6 +150,14 @@ screen chat_animation(i, anti=False, no_anim=False):
                     text i.what style 'bubble_text'
                 alt i.alt_text(anti)
 
+        # Posting an image with a link (like an address or password)
+        elif i.link:
+            frame:
+                style i.bubble_style
+                background i.link_bubble_bg
+                has hbox
+                add i.link_img
+
         # Otherwise it must be regular MC dialogue
         else:
             frame at i.msg_animation(anti, no_anim):
