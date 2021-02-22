@@ -31,7 +31,8 @@ init -4 python:
         """
 
         def __init__(self, who, what, thetime, img=False,
-                        bounce=False, specBubble=None):
+                        bounce=False, specBubble=None,
+                        link_img=None, link_title=None, link_text=None):
             """
             Creates a ChatEntry object to display a message in the messenger.
 
@@ -65,6 +66,10 @@ init -4 python:
             self.saved_bubble_style = None
 
             self.__text_msg_font = 'sser1'
+
+            self.__link_img = link_img or 'Bubble/link_house_btn.webp'
+            self.__link_title = link_title or ""
+            self.__link_text = link_text or "Click Link"
 
         @property
         def text_msg_what(self):
@@ -192,11 +197,57 @@ init -4 python:
                 return 'img_text_message'
 
         @property
+        def link_bubble_bg(self):
+            """Return the background used for link messages."""
+
+            try:
+                c = Color(self.who.bubble_color)
+                c = self.who.bubble_color
+            except:
+                # Couldn't initialize this as a colour
+                c = "#fff"
+
+            return Frame(im.MatrixColor('Bubble/link_bubble.webp',
+                            im.matrix.colorize('#000', c)),
+                        25, 25)
+
+        @property
+        def link_img(self):
+            """
+            Return the image that should be used on the left of a
+            posted link message.
+            """
+
+            try:
+                return self.__link_img
+            except:
+                return 'Bubble/link_house_btn.webp'
+
+        @property
+        def link_title(self):
+            """Return the title for a link message."""
+
+            try:
+                return self.__link_title
+            except:
+                return ""
+
+        @property
+        def link_text(self):
+            """Return the text associated with this link message."""
+
+            try:
+                return self.__link_text
+            except:
+                return "Click Link"
+
+
+        @property
         def bubble_style(self):
             """Return the style used for regular bubbles."""
 
             try:
-                if saved_bubble_style is not None:
+                if self.saved_bubble_style is not None:
                     return self.saved_bubble_style
             except:
                 pass
