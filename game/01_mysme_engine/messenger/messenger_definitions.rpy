@@ -635,7 +635,8 @@ init -4 python:
     ## For ease of adding Chatlog entries
     ##************************************
 
-    def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None):
+    def addchat(who, what, pauseVal, img=False, bounce=False, specBubble=None,
+            link_img=None, link_title=None, link_text=None, link_action=None):
         """
         Function that adds entries to the chatlog. Calculates how long it
         should take this message to be posted and then waits the appropriate
