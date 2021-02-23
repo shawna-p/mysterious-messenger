@@ -709,7 +709,8 @@ python early:
 
         def __call__(self, what, pauseVal=None, img=False,
                     bounce=False, specBubble=None, link_img=None,
-                    link_title=None, link_text=None, **kwargs):
+                    link_title=None, link_text=None, link_action=None,
+                    **kwargs):
             """
             Send this character's dialogue to the program.
 
@@ -734,6 +735,8 @@ python early:
                 The title to be used for the link message.
             link_text : string
                 The text on a link message.
+            link_action : Screen Action
+                The action to be performed when a link message is clicked.
 
             Result:
             -------
@@ -806,11 +809,13 @@ python early:
                     if self == store.main_character and new_pv == 0:
                         new_pv = None
                     store.current_timeline_item.replay_log.append(ReplayEntry(
-                        self, what, new_pv, img, bounce, specBubble))
+                        self, what, new_pv, img, bounce, specBubble,
+                        link_img, link_title, link_text, link_action))
 
                 addchat(self, what, pauseVal=pauseVal, img=img,
                             bounce=bounce, specBubble=specBubble,
-                            link_img=None, link_title=None, link_text=None)
+                            link_img=None, link_title=None, link_text=None,
+                            link_action=None)
 
         def __eq__(self, other):
             """Check for equality between two ChatCharacter objects."""
