@@ -28,11 +28,19 @@ init -4 python:
             Saves the calculated bubble style, if applicable.
         text_msg_font : string
             The font used for the text.
+        link_img : string
+            The image used on the left side of a link message.
+        link_title : string
+            The title for a link message.
+        link_text : string
+            The clickable text for a link message.
+        link_action : Screen Action
+            The action to be performed when a link message is clicked.
         """
 
         def __init__(self, who, what, thetime, img=False,
-                        bounce=False, specBubble=None,
-                        link_img=None, link_title=None, link_text=None):
+                        bounce=False, specBubble=None, link_img=None,
+                        link_title=None, link_text=None, link_action=None):
             """
             Creates a ChatEntry object to display a message in the messenger.
 
@@ -53,6 +61,14 @@ init -4 python:
             specBubble : string or None
                 String containing part of the image path to the relevant
                 speech bubble.
+            link_img : string
+                The image used on the left side of a link message.
+            link_title : string
+                The title for a link message.
+            link_text : string
+                The clickable text for a link message.
+            link_action : Screen Action
+                The action to be performed when a link message is clicked.
             """
 
             self.who = who
@@ -70,6 +86,7 @@ init -4 python:
             self.__link_img = link_img or 'Bubble/link_house_btn.webp'
             self.__link_title = link_title or ""
             self.__link_text = link_text or "Click Link"
+            self.__link_action = link_action or NullAction()
 
         @property
         def text_msg_what(self):
@@ -228,7 +245,7 @@ init -4 python:
             """Return the title for a link message."""
 
             try:
-                return self.__link_title
+                return "[[" + self.__link_title + "]"
             except:
                 return ""
 
@@ -240,6 +257,15 @@ init -4 python:
                 return self.__link_text
             except:
                 return "Click Link"
+
+        @property
+        def link_action(self):
+            """Return the action associated with this link message."""
+
+            try:
+                return self.__link_action
+            except:
+                return NullAction()
 
 
         @property
@@ -550,10 +576,19 @@ init -4 python:
         specBubble : string or None
             String containing part of the image path to the relevant
             speech bubble.
+        link_img : string
+            The image used on the left side of a link message.
+        link_title : string
+            The title for a link message.
+        link_text : string
+            The clickable text for a link message.
+        link_action : Screen Action
+            The action to be performed when a link message is clicked.
         """
 
         def __init__(self, who, what, pauseVal=None, img=False,
-                        bounce=False, specBubble=None):
+                        bounce=False, specBubble=None, link_img=None,
+                        link_title=None, link_text=None, link_action=None):
             """
             Creates a ChatEntry object to display a message in the messenger.
 
@@ -574,6 +609,14 @@ init -4 python:
             specBubble : string or None
                 String containing part of the image path to the relevant
                 speech bubble.
+            link_img : string
+                The image used on the left side of a link message.
+            link_title : string
+                The title for a link message.
+            link_text : string
+                The clickable text for a link message.
+            link_action : Screen Action
+                The action to be performed when a link message is clicked.
             """
 
             self.who = who
@@ -582,6 +625,11 @@ init -4 python:
             self.img = img
             self.bounce = bounce
             self.specBubble = specBubble
+
+            self.link_img = link_img or 'Bubble/link_house_btn.webp'
+            self.link_title = link_title or ""
+            self.link_text = link_text or "Click Link"
+            self.link_action = link_action or NullAction()
 
     ##************************************
     ## For ease of adding Chatlog entries
