@@ -152,9 +152,10 @@ screen chat_animation(i, anti=False, no_anim=False):
 
         # Posting an image with a link (like an address or password)
         elif i.link:
-            frame:
+            button:
                 style i.bubble_style
                 background i.link_bubble_bg
+                action i.link_action
                 has hbox
                 add i.link_img
                 vbox:
