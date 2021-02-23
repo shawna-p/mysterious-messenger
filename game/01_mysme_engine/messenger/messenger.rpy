@@ -157,6 +157,9 @@ screen chat_animation(i, anti=False, no_anim=False):
                 background i.link_bubble_bg
                 has hbox
                 add i.link_img
+                vbox:
+                    text i.link_title
+                    text i.link_text
 
         # Otherwise it must be regular MC dialogue
         else:
