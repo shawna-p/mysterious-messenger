@@ -40,6 +40,13 @@ init -6 python:
             store.starter_story = self.label
             renpy.jump_out_of_context("begin_intro_mstmg")
 
+    class ShowCG(ShowMenu):
+        """A special Action for displaying a CG to the player."""
+
+        def __init__(self, img, *args, **kwargs):
+            super(ShowCG, self).__init__('viewCG_fullsize', *args,
+                fullsizeCG=img, **kwargs)
+
 
     from collections import namedtuple
     GameTone = namedtuple('GameTone', ['title', 'file'])
