@@ -62,6 +62,24 @@ style reg_bubble:
     padding (20, 15, 20, 9)
     pos (138, 38)
 
+## Styles for link messages
+style link_bubble:
+    is reg_bubble
+    padding (20, 15, 45, 15)
+    xoffset 10
+
+style link_bubble_hbox:
+    spacing 10
+
+style link_bubble_vbox:
+    spacing 4
+    align (0.5, 0.5)
+
+style link_bubble_link_text:
+    align (0.5, 0.5):
+    color "#00f"
+    size 30
+    font gui.sans_serif_1b
 
 ## TEXT MESSAGES
 # MC's text message speech bubble
