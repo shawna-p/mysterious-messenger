@@ -76,7 +76,7 @@ style link_bubble_vbox:
     align (0.5, 0.5)
 
 style link_bubble_link_text:
-    align (0.5, 0.5):
+    align (0.5, 0.5)
     color "#00f"
     size 30
     font gui.sans_serif_1b
