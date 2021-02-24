@@ -28,6 +28,17 @@ init 5:
         0.2
         linear 0.5 alpha 0.0
 
+    ## Used to make link messages flash yellow
+    transform flash_yellow():
+        alpha 0.0
+        pause 2.0
+        block:
+            pause 1.5
+            easein 1.0 alpha 1.0
+            easeout 1.0 alpha 0.0
+            pause 0.5
+            repeat
+
     #***********************************
     # Choice button enter/exit animation
     #***********************************
