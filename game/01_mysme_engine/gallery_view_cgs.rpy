@@ -75,12 +75,12 @@ label viewCG(textmsg=False):
 ## when you click the CG.
 screen viewCG_fullsize(fullsizeCG):
     zorder 5
-    imagebutton:
-        xalign 0.5
-        yalign 0.5
-        focus_mask True
-        idle fullsizeCG
+
+    button:
+        xysize (750, 1334)
         action ToggleVariable("close_visible", False, True)
+
+    add fullsizeCG align (0.5, 0.5)
 
     if close_visible:
         imagebutton:
