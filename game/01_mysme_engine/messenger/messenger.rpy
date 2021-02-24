@@ -152,38 +152,31 @@ screen chat_animation(i, anti=False, no_anim=False):
         # Posting an image with a link (like an address or password)
         elif i.link:
             button:
-                #at flash_yellow(i.who.bubble_color)
                 at i.msg_animation(anti, no_anim)
                 style i.bubble_style
-                padding (20, 15, 45, 15)
-                xoffset 10
-                background Fixed(i.link_bubble_bg,
-                    At(Frame('Bubble/link_bubble.webp', 25, 25), flash_yellow))
-                action i.link_action
+                background i.link_bubble_bg
+                if i.link_action:
+                    action i.link_action
                 has hbox
-                spacing 10
+                style_prefix 'link_bubble'
+                # Check if there's actually a link image
                 if not isinstance(i.link_img, Null):
                     fixed:
                         xysize (82, 82)
                         add i.link_img align (0.5, 0.5)
                 vbox:
-                    spacing 4
-                    align (0.5, 0.5)
                     if i.link_title:
                         frame:
-                            #background "#fffa"
                             ysize 28
                             text i.link_title size 22
                     fixed:
                         fit_first True
                         frame:
-                            #background "#fffa"
                             left_padding 40
                             ysize 35
-                            text i.link_text align (0.5, 0.5):
-                                color "#00f"
-                                size 30
-                                font gui.sans_serif_1b
+                            text i.link_text style 'link_bubble_link_text'
+                        # Underlines the link; for whatever reason, the
+                        # built-in underline text tag doesn't work.
                         add HBox(Null(width=41),
                             Transform("#00f", ysize=2)) yalign 1.0
 
@@ -225,15 +218,4 @@ screen chat_animation(i, anti=False, no_anim=False):
 
 
 
-define config.gl2 = True
-
-transform flash_yellow():
-    matrixcolor TintMatrix("#e2ca53") alpha 0.0
-    pause 2.0
-    block:
-        pause 1.5
-        easein 1.0 alpha 1.0
-        easeout 1.0 alpha 0.0
-        pause 0.5
-        repeat
 
