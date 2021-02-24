@@ -814,8 +814,8 @@ python early:
 
                 addchat(self, what, pauseVal=pauseVal, img=img,
                             bounce=bounce, specBubble=specBubble,
-                            link_img=None, link_title=None, link_text=None,
-                            link_action=None)
+                            link_img=link_img, link_title=link_title,
+                            link_text=link_text, link_action=link_action)
 
         def __eq__(self, other):
             """Check for equality between two ChatCharacter objects."""
