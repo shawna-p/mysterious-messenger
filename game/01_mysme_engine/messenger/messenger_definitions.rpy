@@ -89,7 +89,7 @@ init -4 python:
             self.__link_img = link_img or 'Bubble/link_house_btn.webp'
             self.__link_title = link_title or ""
             self.__link_text = link_text or "Click Link"
-            self.__link_action = link_action or NullAction()
+            self.__link_action = link_action
 
         @property
         def text_msg_what(self):
@@ -229,9 +229,16 @@ init -4 python:
                 # Couldn't initialize this as a colour
                 c = "#fff"
 
-            return Frame(im.MatrixColor('Bubble/link_bubble.webp',
-                            im.matrix.colorize('#000', c)),
-                        25, 25)
+            if self.link_action:
+                # Return yellow flashing version
+                return Fixed(Frame(im.MatrixColor('Bubble/link_bubble.webp',
+                            im.matrix.colorize('#000', c)), 25, 25),
+                    At(Frame(im.MatrixColor('Bubble/link_bubble.webp',
+                            im.matrix.colorize('#000', "#e2ca53")),
+                        25, 25), flash_yellow))
+            else:
+                return Frame(im.MatrixColor('Bubble/link_bubble.webp',
+                            im.matrix.colorize('#000', c)), 25, 25)
 
         @property
         def link_img(self):
@@ -311,7 +318,10 @@ init -4 python:
                 self.saved_bubble_style = 'reg_bubble_MC'
                 return self.saved_bubble_style
             elif not self.specBubble and not self.bounce:
-                self.saved_bubble_style = 'reg_bubble'
+                if self.link:
+                    self.saved_bubble_style = 'link_bubble'
+                else:
+                    self.saved_bubble_style = 'reg_bubble'
                 return self.saved_bubble_style
             elif not self.specBubble and self.bounce:
                 self.saved_bubble_style = 'glow_bubble'
