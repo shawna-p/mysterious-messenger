@@ -278,9 +278,28 @@ init -4 python:
             """Return the action associated with this link message."""
 
             try:
-                return self.__link_action
+                if (self.__link_action
+                        and not isinstance(self.__link_action, ShowCG)):
+                    # Deactivate the button after it's been clicked once
+                    the_action = [SetField(self, 'link_action', None)]
+                    if isinstance(self.__link_action, list):
+                        the_action.extend(self.__link_action)
+                    else:
+                        the_action.append(self.__link_action)
+                    return the_action
+                elif self.__link_action:
+                    # This just shows a CG; don't need to remove the action
+                    return self.__link_action
+                return None
             except:
-                return NullAction()
+                return None
+
+        @link_action.setter
+        def link_action(self, new_action):
+            try:
+                self.__link_action = new_action
+            except:
+                return
 
         @property
         def link(self):
