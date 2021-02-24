@@ -28,6 +28,8 @@ init -4 python:
             Saves the calculated bubble style, if applicable.
         text_msg_font : string
             The font used for the text.
+        link : bool
+            True if this message is a link message.
         link_img : string
             The image used on the left side of a link message.
         link_title : string
@@ -39,8 +41,8 @@ init -4 python:
         """
 
         def __init__(self, who, what, thetime, img=False,
-                        bounce=False, specBubble=None, link_img=None,
-                        link_title=None, link_text=None, link_action=None):
+                    bounce=False, specBubble=None, link_img=None,
+                    link_title=None, link_text=None, link_action=None):
             """
             Creates a ChatEntry object to display a message in the messenger.
 
@@ -83,6 +85,7 @@ init -4 python:
 
             self.__text_msg_font = 'sser1'
 
+            self.__link = link_img or link_title or link_text or link_action or False
             self.__link_img = link_img or 'Bubble/link_house_btn.webp'
             self.__link_title = link_title or ""
             self.__link_text = link_text or "Click Link"
@@ -158,6 +161,8 @@ init -4 python:
             elif self.who.right_msgr:
                 return False
             elif self.img:
+                return False
+            elif self.link:
                 return False
             return True
 
@@ -245,7 +250,10 @@ init -4 python:
             """Return the title for a link message."""
 
             try:
-                return "[[" + self.__link_title + "]"
+                if self.__link_title:
+                    return "[[" + self.__link_title + "]"
+                else:
+                    return None
             except:
                 return ""
 
@@ -266,6 +274,15 @@ init -4 python:
                 return self.__link_action
             except:
                 return NullAction()
+
+        @property
+        def link(self):
+            """Return whether this message is a link message."""
+
+            try:
+                return self.__link
+            except:
+                return False
 
 
         @property
@@ -734,7 +751,9 @@ init -4 python:
 
         # Add this entry to the chatlog
         chatlog.append(ChatEntry(who, what, upTime(),
-                            img, bounce, specBubble))
+                            img, bounce, specBubble,
+                            link_img=link_img, link_title=link_title,
+                            link_text=link_text, link_action=link_action))
         # Create a rollback checkpoint
         renpy.checkpoint()
 
@@ -867,7 +886,11 @@ init -4 python:
         chatlog.append(ChatEntry(chatbackup.who, chatbackup.what,
                                     upTime(), chatbackup.img,
                                     chatbackup.bounce,
-                                    chatbackup.specBubble))
+                                    chatbackup.specBubble,
+                                    chatbackup.link_img,
+                                    chatbackup.link_title,
+                                    chatbackup.link_text,
+                                    chatbackup.link_action))
 
 ## The multiplier for chat speed. Default modifier is 0.8; increasing the
 ## speed by one level puts it at 0.8 - chat_speed_increment (so, 0.65)
