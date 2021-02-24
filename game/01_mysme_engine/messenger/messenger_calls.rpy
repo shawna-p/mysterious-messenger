@@ -98,7 +98,8 @@ label chat_end_route():
 ## you to show a VN section in the middle of a chatroom
 ## The VN section needs to be defined in its own separate label
 label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
-                     reset_participants=False, end_after_vn=False):
+                     reset_participants=False, end_after_vn=False,
+                     from_link=False):
 
     # Add an instruction for the replay log
     if (not observing and not persistent.testing_mode):
@@ -108,8 +109,9 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
 
     # Give the player a moment to read the last of the messages
     # before jumping to the VN, unless there's nothing in the chatlog.
-    if chatlog and not (len(chatlog) == 1
-            and chatlog[-1].who in [filler, answer, chat_pause]):
+    if (chatlog and not (len(chatlog) == 1
+            and chatlog[-1].who in [filler, answer, chat_pause])
+            and not from_link):
         $ renpy.pause(persistent.pv*2.0)
         call screen continue_button
     # Hide all the chatroom screens
