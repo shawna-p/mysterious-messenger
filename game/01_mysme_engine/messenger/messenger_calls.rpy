@@ -105,7 +105,14 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     if (not observing and not persistent.testing_mode):
         $ vn_jump_entry = ("vn jump",
             [vn_label, clearchat_on_return, new_bg, reset_participants])
-        $ current_timeline_item.replay_log.append(vn_jump_entry)
+        # Check if the chatbackup entry was posted; if not, it will be
+        # posted when the player returns so this entry should be second last
+        if not chatbackup_posted():
+            $ old_entry = current_timeline_item.replay_log.pop()
+            $ current_timeline_item.replay_log.append(vn_jump_entry)
+            $ current_timeline_item.replay_log.append(old_entry)
+        else:
+            $ current_timeline_item.replay_log.append(vn_jump_entry)
 
     # Give the player a moment to read the last of the messages
     # before jumping to the VN, unless there's nothing in the chatlog.
