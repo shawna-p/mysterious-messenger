@@ -168,7 +168,7 @@ screen chat_animation(i, anti=False, no_anim=False):
                     if i.link_title:
                         frame:
                             ysize 28
-                            text i.link_title size 22
+                            text "[[" + i.link_title + "]" size 22
                     fixed:
                         fit_first True
                         frame:
