@@ -248,37 +248,45 @@ init -4 python:
             """
 
             try:
-                return self.__link_img
+                if self.link:
+                    return self.__link_img or 'Bubble/link_house_btn.webp'
+                else:
+                    return None
             except:
-                return 'Bubble/link_house_btn.webp'
+                return None
 
         @property
         def link_title(self):
             """Return the title for a link message."""
 
             try:
-                if self.__link_title:
+                if self.link and self.__link_title:
                     return "[[" + self.__link_title + "]"
                 else:
                     return None
             except:
-                return ""
+                return None
 
         @property
         def link_text(self):
             """Return the text associated with this link message."""
 
             try:
-                return self.__link_text
+                if self.link:
+                    return self.__link_text or "Click Link"
+                else:
+                    return None
             except:
-                return "Click Link"
+                return None
 
         @property
         def link_action(self):
             """Return the action associated with this link message."""
 
             try:
-                if (self.__link_action
+                if not self.link:
+                    return None
+                elif (self.__link_action
                         and not isinstance(self.__link_action, ShowCG)):
                     # Deactivate the button after it's been clicked once
                     the_action = [SetField(self, 'link_action', None)]
