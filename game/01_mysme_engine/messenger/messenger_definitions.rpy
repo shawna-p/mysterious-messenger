@@ -753,7 +753,9 @@ init -4 python:
                 pauseFailsafe()
             # Store the current message in the backup
             chatbackup = ChatEntry(who, what, upTime(),
-                                    img, bounce, specBubble)
+                                    img, bounce, specBubble,
+                                    link_img, link_title, link_text,
+                                    link_action)
             oldPV = pauseVal
 
         # Now calculate how long to wait before
