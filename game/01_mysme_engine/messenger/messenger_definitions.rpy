@@ -261,7 +261,7 @@ init -4 python:
 
             try:
                 if self.link and self.__link_title:
-                    return "[[" + self.__link_title + "]"
+                    return self.__link_title
                 else:
                     return None
             except:
@@ -680,10 +680,10 @@ init -4 python:
             self.bounce = bounce
             self.specBubble = specBubble
 
-            self.link_img = link_img or 'Bubble/link_house_btn.webp'
-            self.link_title = link_title or ""
-            self.link_text = link_text or "Click Link"
-            self.link_action = link_action or NullAction()
+            self.link_img = link_img
+            self.link_title = link_title
+            self.link_text = link_text
+            self.link_action = link_action
 
     ##************************************
     ## For ease of adding Chatlog entries
@@ -879,29 +879,38 @@ init -4 python:
                 + [True for i in range(2) ])
 
 
+    def chatbackup_posted():
+        """Return True if the chatbackup was posted successfully."""
 
-    def pauseFailsafe():
+        global chatlog
+        if len(chatlog) > 0:
+            last_chat = chatlog[-1]
+        else:
+            return True
+
+        if last_chat.who.file_id == 'delete':
+            if len(chatlog) > 1:
+                last_chat = chatlog[-2]
+            else:
+                return True
+        elif last_chat.who == store.filler:
+            return True
+
+        if (last_chat.who.file_id == chatbackup.who.file_id
+                and last_chat.what == chatbackup.what):
+            # the last entry was successfully added; return
+            return True
+        return False
+
+
+    def pauseFailsafe(wait=True):
         """
         Check if the previous entry was successfully added to the chatlog,
         and add it if it was missed.
         """
 
-        global reply_instant
-        if len(chatlog) > 0:
-            last_chat = chatlog[-1]
-        else:
-            return
-        if last_chat.who.file_id == 'delete':
-            if len(chatlog) > 1:
-                last_chat = chatlog[-2]
-            else:
-                return
-        elif last_chat.who == filler:
-            return
-
-        if (last_chat.who.file_id == chatbackup.who.file_id
-                and last_chat.what == chatbackup.what):
-            # the last entry was successfully added; return
+        global reply_instant, chatbackup
+        if chatbackup_posted():
             return
 
         print_file("EXECUTING pause failsafe")
@@ -909,7 +918,7 @@ init -4 python:
         # add the backup entry to the chatlog
         if reply_instant:
             reply_instant = False
-        else:
+        elif wait:
             typeTime = chatbackup.what.count(' ') + 1
             typeTime = typeTime / 3
             if typeTime < 1.5:
