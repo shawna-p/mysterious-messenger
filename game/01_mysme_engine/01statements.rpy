@@ -1498,6 +1498,26 @@ python early hide:
         execute=execute_clear_chat,
         warp=lambda : True)
     ########################################
+    ## STOP CHAT CDS
+    ########################################
+    # Definitions that allow you to stop the chat to wait for an interaction
+    # (typically by clicking an in-chat link).
+    def parse_stop_chat(l):
+        wait_text = l.string() or "Click the link to proceed"
+        return wait_text
+
+    def execute_stop_chat(wait_text):
+        store.choosing = True
+        renpy.call_screen('play_button', wait_for_interact=wait_text)
+        store.choosing = False
+        return
+
+    renpy.register_statement('stop chat',
+        parse=parse_stop_chat,
+        execute=execute_stop_chat,
+        warp=lambda : False)
+
+    ########################################
     ## PLAY MUSIC/SOUND REPLACEMENT CDS
     ########################################
     # These statements replace Ren'Py's default `play music` and `play sound`
