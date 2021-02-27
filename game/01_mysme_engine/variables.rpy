@@ -65,6 +65,17 @@ init -6 python:
             super(JumpVN, self).__init__('vn_during_chat', *args, vn_label=label,
                 from_link=True, **kwargs)
 
+    class ContinueChat(Call):
+        """A special action which continues the chat when called."""
+
+        def __init__(self, *args, **kwargs):
+            super(ContinueChat, self).__init__('play_after_link')
+
+        def __call__(self):
+            store.choosing = False
+            # If observing?
+            super(ContinueChat, self).__call__()
+
 
 
     from collections import namedtuple
