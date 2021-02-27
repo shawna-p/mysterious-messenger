@@ -636,7 +636,16 @@ This will prevent any further messages from being posted and displays the text "
         link_action=JumpVN('unlock_door_password'))
     stop chat "Click the link to continue"
 
-This is *only* intended for use with the ``JumpVN`` action. When the game returns from the story mode, the chat will automatically continue on after the ``stop chat`` statement.
+
+.. warning::
+    If you use the ``JumpVN`` action, the chat will automatically resume after it returns from the VN label. However, if your action is doing something like viewing a CG or setting a variable, you **must** include the action ``ContinueChat()`` as the final action in your link_action parameter::
+
+        s "Add to Contacts" (link_title="Contact Info", link_img=Null(),
+            link_action=[CConfirm("Phone number added to contact list."), ContinueChat()])
+
+    .. note::
+        ``CConfirm`` is a special action which shows a confirmation prompt to the user. In this case, it displays the given message and requires the player to press Confirm to dismiss it.
+
 
 
 Custom Fonts and Bubbles
