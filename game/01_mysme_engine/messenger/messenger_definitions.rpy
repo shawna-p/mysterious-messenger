@@ -286,6 +286,12 @@ init -4 python:
             try:
                 if not self.link:
                     return None
+                elif store.observing and not store._in_replay:
+                    # Just replaying the chat in-game
+                    if (self.__link_action
+                            and isinstance(self.__link_action, ShowCG)):
+                        return self.__link_action
+                    return None # Shouldn't have buttons in a replay
                 elif (self.__link_action
                         and not isinstance(self.__link_action, ShowCG)):
                     # Deactivate the button after it's been clicked once
