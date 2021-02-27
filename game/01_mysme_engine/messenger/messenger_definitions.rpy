@@ -88,7 +88,7 @@ init -4 python:
             self.__link = link_img or link_title or link_text or link_action or False
             self.__link_img = link_img or 'Bubble/link_house_btn.webp'
             self.__link_title = link_title or ""
-            self.__link_text = link_text or "Click Link"
+            self.__link_text = link_text
             self.__link_action = link_action
 
         @property
@@ -273,7 +273,7 @@ init -4 python:
 
             try:
                 if self.link:
-                    return self.__link_text or "Click Link"
+                    return self.__link_text or self.what or "Click Link"
                 else:
                     return None
             except:
