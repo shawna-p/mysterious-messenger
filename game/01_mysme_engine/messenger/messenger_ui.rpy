@@ -109,6 +109,10 @@ label play():
         show screen text_pause_button
     return
 
+label play_after_link():
+    show screen pause_button
+    return
+
 # This screen is visible when the chat is paused;
 # shows the play button
 screen play_button(wait_for_interact=False):
