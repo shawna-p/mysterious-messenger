@@ -459,7 +459,7 @@ screen text_animation(i, animate=False, anti=False):
                         focus_mask True
                         idle smallCG(cg_helper(i.what))
                         if not choosing:
-                            action [ShowCG(cg_helper(i.what))]
+                            action [ShowCG(i.what)]
 
                 else:
                     style i.text_bubble_style

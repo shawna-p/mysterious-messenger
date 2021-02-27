@@ -129,7 +129,7 @@ screen chat_animation(i, anti=False, no_anim=False):
                         focus_mask True
                         idle smallCG(cg_helper(i.what))
                         if not choosing:
-                            action [ShowCG(cg_helper(i.what))]
+                            action [ShowCG(i.what)]
                         alt i.alt_text(anti)
 
 
