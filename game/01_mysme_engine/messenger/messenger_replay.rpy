@@ -179,7 +179,9 @@ label chatroom_replay():
             if isinstance(entry, ReplayEntry):
                 # pop it through the addchat function
                 addchat(entry.who, entry.what, entry.pauseVal,
-                    entry.img, entry.bounce, entry.specBubble)
+                    entry.img, entry.bounce, entry.specBubble,
+                    entry.link_img, entry.link_title, entry.link_text,
+                    entry.link_action)
             elif isinstance(entry, tuple):
                 # It's some kind of command; determine what to do
                 # based on what the command and given info is
