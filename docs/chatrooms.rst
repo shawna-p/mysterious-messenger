@@ -535,6 +535,109 @@ There is also a "cracked" overlay you can layer on top of any chatroom backgroun
     show screen_crack
 
 
+Sending Links
+--------------
+
+Characters may also send links in the chatroom. A link message can be provided an action, which will occur when the player clicks on it. Some convenience functions are provided to make some of these actions simpler.
+
+The simplest way to show a link looks like::
+
+    va "Click Link" (link_title="Password")
+
+There are several fields you can provide to a link message to customize it. You must provide at least one of these fields in order for a message to be considered a link.
+
+`link_title`
+    By default, links do not have titles. If provided, the title will be shown in a smaller size above the link's text inside square brackets (so, ``link_title="Password"`` appears in-game like ``[Password]``.
+
+    e.g. "Address"
+
+`link_img`
+    By default, this is an image of a house. It is 81x81 pixels but can be slightly larger or smaller. You can also provide a general displayable such as a Transform or an AlphaMask.
+
+    If you don't want an image at all, this should be ``Null()``, so ``link_img=Null()`` will prevent the link message from having an image.
+
+    e.g. "Bubble/link_house_btn.webp"
+
+`link_action`
+    By default, a link button will not have any action at all and will not be interactable. See :ref:`Link Actions` for more action examples.
+
+    e.g. ShowCG('common_1')
+
+`link_text`
+    Optional. If this isn't provided, the link text takes the character's dialogue (so in the line ``va "Click me" (link_action=ShowCG('common_1'))``, the ``link_text`` is "Click me". If the dialogue is empty, it will be the phrase "Click Link".
+
+    e.g. "Click Link"
+
+
+
+Link Actions
+^^^^^^^^^^^^^
+
+Link messages can take any action you want. By default, only a ``ShowCG`` action (which shows a CG image) can be clicked more than once. All other actions cause the link button to be insensitive after the action has executed once.
+
+Some special link actions include:
+
+`ShowCG`
+    Takes one argument, the name of the CG image to show. This follows the same naming rules as :ref:`Defining a CG` and :ref:`Showing a CG in a Chatroom or Text Message`, so if you have::
+
+        image cg common_4 = "CGs/common_album/cg-4.webp"
+        default common_album = [
+            Album("cg common_1"),
+            Album("cg common_2"),
+            Album("cg common_3"),
+            Album("cg common_4")
+        ]
+
+    and you want to show "cg common_4", then you should use the action ``ShowCG("common_4")``.
+
+    This will also take care of automatically unlocking the CG in the player's album.
+
+`JumpVN`
+    This action will take the player to a Story Mode (VN) section before returning to the chat. It works the same way as ``call vn_during_chat`` as explained in :ref:`Including a Story Mode During a Chatroom`. The first argument should be the name of the label the program should jump to for the story mode.
+
+    It also takes all the same arguments, including ``clearchat_on_return``, ``new_bg``, ``reset_participants``, and ``end_after_vn``.
+
+    e.g. ``JumpVN("my_story_label", end_after_vn=True)``
+
+    .. note::
+        Unless you pass the argument ``end_after_vn=True`` to JumpVN, when the Story Mode ends the game will return to the chatroom exactly where the chat left off before the player clicked the link which took them to Story Mode.
+
+        This means if you have a chatroom like::
+
+            u "Click Link" (link_title="Password", link_action=JumpVN("prologue_unlock_door"))
+            u "That's the password for the door."
+            # Player clicks the link before this next message appears
+            u "Try to use it, okay?"
+
+        If the player clicks the link where indicated, when they return to the chatroom, Unknown will post the message "Try to use it, okay?" and the rest of the chatroom will proceed as normal. It's the equivalent of::
+
+            u "That's the password for the door."
+            call vn_during_chat('prologue_unlock_door')
+            u "Try to use it, okay?"
+
+        However, with the link, the player **does not** have to click the link to proceed; the chat will simply continue even if they do nothing. If you want to stop the chat to ensure the player clicks the link, see :ref:`Stopping the Chat`.
+
+
+
+Stopping the Chat
+^^^^^^^^^^^^^^^^^^
+
+If you want to stop the chat to wait for the player to click on a link, you can do so with ``stop chat`` e.g.
+
+::
+
+    u "Click Link" (link_title="Password",
+        link_action=JumpVN('unlock_door_password'))
+    stop chat
+
+This will prevent any further messages from being posted and displays the text "Click the link to proceed" at the bottom of the screen. If you would like to change the text, at the bottom, you can also provide a string after ``stop chat`` like::
+
+    u "Click Link" (link_title="Password",
+        link_action=JumpVN('unlock_door_password'))
+    stop chat "Click the link to continue"
+
+This is *only* intended for use with the ``JumpVN`` action. When the game returns from the story mode, the chat will automatically continue on after the ``stop chat`` statement.
+
 
 Custom Fonts and Bubbles
 =========================
