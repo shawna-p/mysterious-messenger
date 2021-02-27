@@ -47,6 +47,24 @@ init -6 python:
             super(ShowCG, self).__init__('viewCG_fullsize', *args,
                 fullsizeCG=img, **kwargs)
 
+    class JumpVN(Call):
+        """
+        A special Action for jumping to a Story Mode (VN) in the
+        middle of a chatroom.
+        """
+
+        def __init__(self, label, *args, **kwargs):
+            """
+            Initializes a JumpVN action.
+
+            label : string
+                The label to jump to for this VN.
+            """
+
+            super(JumpVN, self).__init__('vn_during_chat', *args, vn_label=label,
+                from_link=True, **kwargs)
+
+
 
     from collections import namedtuple
     GameTone = namedtuple('GameTone', ['title', 'file'])
