@@ -111,24 +111,43 @@ label play():
 
 # This screen is visible when the chat is paused;
 # shows the play button
-screen play_button():
+screen play_button(wait_for_interact=False):
     zorder 4
     tag chat_footer
+    if wait_for_interact:
+        default wait_text = str(wait_for_interact)
+    else:
+        default wait_text = "Click the link to proceed"
+
     if not choosing:
         if persistent.custom_footers:
             add 'custom_pausebutton' xalign 0.96 yalign 0.16
         else:
             add "pausebutton" xalign 0.96 yalign 0.16
         add "pause_square" yalign 0.59
-    imagebutton:
-        xanchor 0.0
-        yanchor 0.0
-        xpos 0
-        ypos 1220
-        focus_mask True
-        idle 'phone_play'
-        keysym "K_SPACE"
-        action [Show('pause_button'), Return()]
+    if not wait_for_interact:
+        imagebutton:
+            xanchor 0.0
+            yanchor 0.0
+            xpos 0
+            ypos 1220
+            focus_mask True
+            idle 'phone_play'
+            keysym "K_SPACE"
+            action [Show('pause_button'), Return()]
+    else:
+        viewport:
+            # Use this viewport to "consume" the mouse input so the player
+            # can't click to proceed without going through a link.
+            draggable True
+            align (0.5, 1.0)
+            xysize (750, 113)
+            frame:
+                align (0.5, 1.0)
+                background "#282828"
+                xysize (750, 113)
+                text wait_text:
+                    color "#fff" text_align 0.5 align (0.5, 0.5)
 
     if not choosing:
         use fast_slow_buttons()
