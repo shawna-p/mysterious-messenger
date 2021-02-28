@@ -548,7 +548,7 @@ python early:
             on the_size, resized to the given size.
             """
 
-            max_small = 110 * 1.5
+            max_small = 110 * 1.2
             # If this character has a bonus_pfp, it gets priority
             try:
                 the_pic = self.__bonus_pfp
