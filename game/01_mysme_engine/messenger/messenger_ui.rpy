@@ -110,8 +110,13 @@ label play():
     return
 
 label play_after_link():
+    $ chat_stopped = False
     show screen pause_button
     return
+
+## True if the chat is stopped (typically due to waiting for a link
+## to be pressed).
+default chat_stopped = False
 
 # This screen is visible when the chat is paused;
 # shows the play button
