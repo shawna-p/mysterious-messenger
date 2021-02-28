@@ -73,6 +73,7 @@ init -6 python:
 
         def __call__(self):
             store.choosing = False
+            store.chat_stopped = False
             # If observing?
             super(ContinueChat, self).__call__()
 
