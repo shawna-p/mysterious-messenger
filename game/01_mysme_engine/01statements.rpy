@@ -1477,9 +1477,14 @@ python early hide:
         return wait_text
 
     def execute_stop_chat(wait_text):
+        # Post the chatbackup (in case that has the link!)
+        if store.chatbackup:
+            pauseFailsafe()
         store.choosing = True
+        store.chat_stopped = True
         renpy.call_screen('play_button', wait_for_interact=wait_text)
         store.choosing = False
+        store.chat_stopped = False
         return
 
     renpy.register_statement('stop chat',
