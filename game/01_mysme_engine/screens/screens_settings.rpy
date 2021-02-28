@@ -215,7 +215,7 @@ screen pic_and_pronouns():
             style 'pronoun_frame'
             style_prefix "pronoun_window"
             has vbox
-            text "Preferred Pronouns"
+            text "Pronouns"
             button:
                 action [SetField(persistent, "pronoun", "she/her"),
                         Function(set_pronouns)]
