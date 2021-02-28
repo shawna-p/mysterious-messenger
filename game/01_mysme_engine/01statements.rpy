@@ -766,6 +766,12 @@ python early hide:
                 subheader='Using the msg CDS')
             return
 
+        # Set up vars for links
+        link_img = None
+        link_title = None
+        link_text = None
+        link_action = None
+
         # Double-check 'who' is a ChatCharacter
         if not isinstance(who, ChatCharacter):
             ScriptError("The ChatCharacter", p['who'], "for dialogue \"", what,
@@ -789,6 +795,11 @@ python early hide:
             spec_bubble = kwargs.get('specBubble', spec_bubble)
             # Check for pv
             pv = kwargs.get('pauseVal', pv)
+            # Check for link vars
+            link_img = kwargs.get('link_img', None)
+            link_title = kwargs.get('link_title', None)
+            link_text = kwargs.get('link_text', None)
+            link_action = kwargs.get('link_action', None)
         else:
             kwargs = dict()
 
@@ -804,61 +815,20 @@ python early hide:
                         pauseVal=pv,
                         img=img,
                         bounce=bounce,
-                        specBubble=spec_bubble)
+                        specBubble=spec_bubble,
+                        link_img=link_img,
+                        link_title=link_title,
+                        link_text=link_text,
+                        link_action=link_action)
 
-        # Check if the player just got out of a menu and there's dialogue
-        # for the main character.
-        if (who != store.main_character and not store.dialogue_paraphrase
-                and store.dialogue_picked != ""):
-            say_choice_caption(store.dialogue_picked,
-                store.dialogue_paraphrase, store.dialogue_pv)
 
-        if (who == store.main_character
-                and not kwargs.get('from_paraphrase', None)):
-            # This didn't come from `say_choice_caption`, but the MC is
-            # speaking. Is this the same dialogue that was going to be posted?
-            if what == store.dialogue_picked:
-                # Clear the stored no-paraphrase items
-                store.dialogue_picked = ""
-                store.dialogue_paraphrase = store.paraphrase_choices
-                store.dialogue_pv = 0
-                # If paraphrase_choices is None, set it to True
-                if store.paraphrase_choices is None:
-                    store.paraphrase_choices = True
-
-        if store.text_person is not None:
-            # If the player is on the text message screen, then show the
-            # message in real-time
-            if store.text_person.real_time_text and store.text_msg_reply:
-                addtext_realtime(who, dialogue, pauseVal=pv, img=img)
-            # If they're not on the text message screen, this is "backlog"
-            # to a text conversation
-            elif store.text_person.real_time_text:
-                if not who.right_msgr:
-                    store.text_person.text_msg.notified = False
-                if img and "{image" not in what:
-                    cg_helper(what, who, False)
-                store.text_person.text_msg.msg_list.append(ChatEntry(
-                    who, dialogue, upTime(), img))
-            # Otherwise, this is a regular text conversation and is added
-            # all at once
-            else:
-                addtext(who, dialogue, img)
-        # This is for a chatroom
-        else:
-            # Add an entry to the replay_log if the player is not observing
-            # this chat
-            if not store.observing:
-                new_pv = pv
-                # For replays, MC shouldn't reply instantly
-                if who.right_msgr and new_pv == 0:
-                    new_pv = None
-                    store.current_timeline_item.replay_log.append(ReplayEntry(
-                            who, dialogue, new_pv, img, bounce, spec_bubble))
-
-            # Now add this dialogue to the chatlog
-            addchat(who, dialogue, pauseVal=pv, img=img, bounce=bounce,
-                specBubble=spec_bubble)
+        ## Pass this off to the character's __call__ method
+        try:
+            who(dialogue, pv, img, bounce, spec_bubble, link_img, link_title,
+                link_text, link_action)
+        except Exception as e:
+            ScriptError("Could not recognize msg CDS. Exception:", e,
+                header='Chatrooms', subheader='Using the msg CDS')
 
         return
 
