@@ -119,8 +119,11 @@ init python:
             except:
                 store.paraphrase_choices = True
 
-
             store._version = (3, 0, 0)
+
+        if store._version < (3, 0, 1):
+            if store.ending == False:
+                store.ending = None
 
         # Update to most recent version
         store._version = (3, 0, 1)
@@ -132,9 +135,13 @@ init python:
             store.persistent.unlocked_prof_pics.remove(False)
 
     def update_music():
-        if '.mp3' in store.music_dictionary.keys()[0]:
-            store.music_dictionary = dict((key.split('.mp3')[0] + '.ogg', value)
-                for (key, value) in store.music_dictionary.items())
+        try:
+            if store.music_dictionary.get(store.mint_eye, False):
+                store.music_dictionary.update(updated_music_dict)
+            elif store.music_dictionary.get("audio/music/03 Mystic Chat.ogg", False):
+                store.music_dictionary.update(updated_music_dict)
+        except Exception as e:
+            print_file("ERROR Updating music dictionary:", e)
 
 
     def unlock_profile_pics(who):
@@ -656,6 +663,10 @@ init python:
             renpy.show_screen('confirm', yes_action=Hide('confirm'),
                 message=popup_msg)
         return
+
+init offset = 2
+define updated_music_dict = music_dictionary
+init offset = 0
 
 label after_load():
 
