@@ -1608,6 +1608,7 @@ init python:
 
         config.skipping = False
         store.choosing = False
+        store.chat_stopped = False
 
         # Switch off variables
         store.vn_choice = False
