@@ -1586,22 +1586,32 @@ python early hide:
 
         if captions:
             try:
-                notification =  ("♪ " +
-                        store.music_dictionary[getattr(store, p["file"])]
-                        + " ♪")
+                file_var = getattr(store, p['file'])
+            except AttributeError:
+                file_var = p['file']
+
+            the_caption = store.music_dictionary.get(file_var, False)
+            if the_caption == False:
+                try:
+                    file_var = file_var.split('.')[0] + '.ogg'
+                    the_caption = store.music_dictionary.get(file_var, "")
+                    if the_caption == False:
+                        file_var = file_var.split('.')[0] + '.mp3'
+                        the_caption = store.music_dictionary.get(file_var, "")
+                except:
+                    ScriptError("No Audio Caption defined for \"", p["file"], '"',
+                        header="Miscellaneous", subheader="Adding New Audio")
+
+            if the_caption:
+                notification =  ("♪ " + the_caption + " ♪")
+
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
-            except (KeyError, AttributeError) as e:
-                ScriptError("No Audio Caption defined for \"", p["file"], '"',
-                    header="Miscellaneous", subheader="Adding New Audio")
 
             if (not store.observing and not store.persistent.testing_mode
                     and not store.vn_choice):
                 # Add this music to the replay_log
-                try:
-                    music_entry = ("play music", getattr(store, p["file"]))
-                except AttributeError:
-                    music_entry = ("play music", p["file"])
+                music_entry = ("play music", file_var)
                 store.current_timeline_item.replay_log.append(music_entry)
 
         renpy.music.play(_audio_eval(p["file"]),
@@ -1671,13 +1681,33 @@ python early hide:
 
         if captions:
             try:
-                notification = ("SFX: " +
-                        store.sfx_dictionary[getattr(store, p["file"])])
+                file_var = getattr(store, p['file'])
+            except AttributeError:
+                file_var = p['file']
+
+            the_caption = store.music_dictionary.get(file_var, False)
+            if the_caption == False:
+                try:
+                    file_var = file_var.split('.')[0] + '.ogg'
+                    the_caption = store.music_dictionary.get(file_var, "")
+                    if the_caption == False:
+                        file_var = file_var.split('.')[0] + '.mp3'
+                        the_caption = store.music_dictionary.get(file_var, "")
+                except:
+                    ScriptError("No Audio Caption defined for \"", p["file"], '"',
+                        header="Miscellaneous", subheader="Adding New Audio")
+
+            if the_caption:
+                notification =  ("SFX: " + the_caption)
+
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
-            except (KeyError, AttributeError) as e:
-                ScriptError("No Audio Caption defined for \"", p["file"], '"',
-                    header="Miscellaneous", subheader="Adding New Audio")
+
+            # if (not store.observing and not store.persistent.testing_mode
+            #         and not store.vn_choice):
+            #     # Add this music to the replay_log
+            #     music_entry = ("play music", file_var)
+            #     store.current_timeline_item.replay_log.append(music_entry)
 
 
         renpy.sound.play(_audio_eval(p["file"]),
