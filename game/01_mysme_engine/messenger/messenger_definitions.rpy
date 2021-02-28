@@ -945,6 +945,7 @@ init -4 python:
                                     chatbackup.link_title,
                                     chatbackup.link_text,
                                     chatbackup.link_action))
+        chatbackup = None
 
 ## The multiplier for chat speed. Default modifier is 0.8; increasing the
 ## speed by one level puts it at 0.8 - chat_speed_increment (so, 0.65)
