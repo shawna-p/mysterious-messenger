@@ -693,7 +693,7 @@ init python:
 
         global most_recent_item
 
-        if most_recent_item.parent:
+        if most_recent_item and most_recent_item.parent:
             save_title_item = most_recent_item.parent
         else:
             save_title_item = most_recent_item
@@ -704,8 +704,11 @@ init python:
         for day_num, day in enumerate(store.story_archive):
             if save_title_item in day.archive_list:
                 today = day.day
-                if day.exclude_suffix:
-                    day_suffix = ""
+                try:
+                    if day.exclude_suffix:
+                        day_suffix = ""
+                except AttributeError:
+                    pass
                 if day_num+1 < len(store.story_archive):
                     tomorrow = store.story_archive[day_num+1].day
                 else:
