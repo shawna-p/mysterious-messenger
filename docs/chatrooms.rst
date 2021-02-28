@@ -568,12 +568,15 @@ There are several fields you can provide to a link message to customize it. You 
 
     e.g. "Click Link"
 
+.. note::
+    You can use the ``msg`` CDS for links as well, though they don't take any additional arguments such as font, bounce/glow, image, or specBubble. A msg version of a link post might look like::
 
+        msg va "Click Link" (link_title="Password", link_img=Null(), link_action=JumpVN('unlock_door'))
 
 Link Actions
 ^^^^^^^^^^^^^
 
-Link messages can take any action you want. By default, only a ``ShowCG`` action (which shows a CG image) can be clicked more than once. All other actions cause the link button to be insensitive after the action has executed once.
+Link messages can take any action you want. By default, only a ``ShowCG`` action (which shows a CG image) can be clicked more than once. All other actions (including multiple actions in a list) cause the link button to be insensitive after the action has executed once.
 
 Some special link actions include:
 
@@ -616,6 +619,9 @@ Some special link actions include:
             u "Try to use it, okay?"
 
         However, with the link, the player **does not** have to click the link to proceed; the chat will simply continue even if they do nothing. If you want to stop the chat to ensure the player clicks the link, see :ref:`Stopping the Chat`.
+
+`ContinueChat`
+    This action will cause the chat to continue if it was previously stopped.
 
 
 
