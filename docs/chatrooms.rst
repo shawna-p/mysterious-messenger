@@ -569,7 +569,7 @@ There are several fields you can provide to a link message to customize it. You 
     e.g. "Click Link"
 
 .. note::
-    You can use the ``msg`` CDS for links as well, though they don't take any additional arguments such as font, bounce/glow, image, or specBubble. A msg version of a link post might look like::
+    You can use the ``msg`` CDS for links as well, though it can't take any additional special parameters such as font, bounce/glow, image, or specBubble. A msg version of a link post might look like::
 
         msg va "Click Link" (link_title="Password", link_img=Null(), link_action=JumpVN('unlock_door'))
 
