@@ -220,9 +220,15 @@ python early:
             else:
                 self.p_name = self.name
 
-            # Any initialized character should go in all_characters
-            if self not in store.all_characters and self.prof_pic:
-                store.all_characters.append(self)
+            try:
+                # Any initialized character should go in all_characters
+                if (self not in store.all_characters and self.prof_pic
+                        and self.file_id):
+                    store.all_characters.append(self)
+            except AttributeError:
+                # Generally expected for a character like name_only
+                return
+
 
         def greet_img(self, scale=1.0):
             """
