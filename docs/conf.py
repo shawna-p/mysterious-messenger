@@ -20,11 +20,11 @@ on_rtd = os.environ.get('READTHEDOCS') == 'True'
 # -- Project information -----------------------------------------------------
 
 project = 'Mysterious Messenger Wiki'
-copyright = '2020, Shawna P'
+copyright = '2021, Shawna P'
 author = 'Shawna P'
 
 # The full version, including alpha/beta/rc tags
-release = 'v2.2'
+release = 'v3.0.1'
 
 
 # -- General configuration ---------------------------------------------------
