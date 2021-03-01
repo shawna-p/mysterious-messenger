@@ -427,13 +427,22 @@ init -6 python:
         def trigger_time(self):
             """Return the trigger time of this item or its parent."""
 
-            if self.__trigger_time:
-                return self.__trigger_time
-            elif self.parent and self.parent.trigger_time:
+            try:
+                if self.__trigger_time:
+                    return self.__trigger_time
+            except:
+                pass
+
+            if self.parent and self.parent.trigger_time:
                 return self.parent.trigger_time
             else:
+                try:
+                    if self.__dict__.get('trigger_time', False):
+                        return self.__dict__.get('trigger_time')
+                except:
+                    pass
                 ScriptError("Could not determine the time for the timeline",
-                    "item at \"", item.label, '"',
+                    "item at \"", self.item_label, '"',
                     header="route-setup", subheader="Adding Timeline Items")
                 return "24:00"
 

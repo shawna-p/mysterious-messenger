@@ -134,6 +134,7 @@ init python:
         if False in store.persistent.unlocked_prof_pics:
             store.persistent.unlocked_prof_pics.remove(False)
 
+
     def update_music():
         try:
             if store.music_dictionary.get(store.mint_eye, False):
