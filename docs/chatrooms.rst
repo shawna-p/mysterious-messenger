@@ -538,7 +538,7 @@ There is also a "cracked" overlay you can layer on top of any chatroom backgroun
 Sending Links
 --------------
 
-Characters may also send links in the chatroom. A link message can be provided an action, which will occur when the player clicks on it. Some convenience functions are provided to make some of these actions simpler.
+Characters may also send links in the chatroom. You can provide an action for a link message, which will be executed when the player clicks on it. Some convenience functions are provided to make some of these actions simpler.
 
 The simplest way to show a link looks like::
 
