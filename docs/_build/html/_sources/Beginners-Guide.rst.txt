@@ -22,7 +22,14 @@ Opening the code in a code editor
 
 Next, you need to create a new ``.rpy`` file. This is where you will write the code that will tell Mysterious Messenger how you want your route to be set up. If you have a program to edit code in, such as VS Code or Atom, you should open that program. Otherwise, you can either download an editor online or tell Ren'Py to download it for you.
 
-To get Ren'Py to download an editor for you, in the Ren'Py launcher under ``Preferences`` there is an option called ``Text Editor``. Click on that, and you'll see a variety of suggested editors. Of these, I recommend downloading Atom. Otherwise, you can tell Ren'Py to use the System Editor, and then when you double-click a ``.rpy`` file in the ``mysterious-messenger/game`` folder, tell it to always open ``.rpy`` files with your editor of choice.
+.. note::
+    If you don't yet have a code editor, I recommend VS Code, which you can download here: `<https://code.visualstudio.com/download>`_
+
+    You can then install the Ren'Py language extension, which will highlight keywords in Ren'Py for you: `<https://marketplace.visualstudio.com/items?itemName=LuqueDaniel.languague-renpy>`_
+
+    Finally, you can tell Ren'Py to use the System Editor under ``Preferences`` -> ``Text Editor`` -> ``System Editor``. Outside of Ren'Py, when you double-click a ``.rpy`` file in the ``mysterious-messenger/game`` folder, tell it to always open ``.rpy`` files with VS Code.
+
+Otherwise, to get Ren'Py to download an editor for you, in the Ren'Py launcher under ``Preferences`` there is an option called ``Text Editor``. Click on that, and you'll see a variety of suggested editors. Of these, I recommend downloading Atom.
 
 ``Return`` to the main screen of the Ren'Py launcher. Next, in your file explorer, open the ``mysterious-messenger/game`` folder. To keep things organized, you should create a new folder here. Call it ``my_new_route``.
 
