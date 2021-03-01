@@ -5,9 +5,8 @@ A messenger program with many features such as phone calls, text messages, chatr
 ## Getting Started
 
 * If you want to run this code, you will need to download the Ren'Py engine: [https://www.renpy.org/](https://www.renpy.org/)
-* As of 2021-01-21 (the time of this update) the version of Ren'Py used is 7.3.5.606. Updating to support version 7.4.x is upcoming.
+* As of 2021-02-28 (the time of this update) the version of Ren'Py used is 7.4.2.
 * Download or clone the [most recent release](https://github.com/shawna-p/mysterious-messenger/releases) into your Ren'Py Projects Directory and unzip it into its own folder. If you don't know what it is, you can change it from the Ren'Py launcher via `preferences -> Projects Directory`.
-  * Testing of v3.0 is complete. However, due to bugs with v7.4 of Ren'Py, *it is recommended you use Ren'Py version 7.3.5*. v3.0x will come out of prerelease once these issues are fixed on the latest version of Ren'Py.
 * Refresh your Projects list and you should see `mysterious-messenger` listed
 * Save the Script Generator spreadsheet somewhere you can find it later
 * **The images and sound files used in this project are not included in the repository. Please contact me directly if you would like to request the assets for personal use.**
