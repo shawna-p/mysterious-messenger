@@ -5,7 +5,7 @@ Welcome to the Mysterious Messenger Wiki!
     :maxdepth: 1
 
     Home
-    Changelog
+    changelog
     credits-and-acknowledgements
     getting-started
     beginners-guide
