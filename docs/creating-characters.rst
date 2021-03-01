@@ -13,13 +13,14 @@ The characters that come with the program by default are:
 
 * ja (Jaehee Kang)
 * ju (Jumin Han)
-* m (The main character/"you")
+* m (The main character (MC)/"you")
 * r (Ray)
 * ri (Rika)
 * s (707)
 * sa (Saeran)
 * u (Unknown)
 * v (V)
+* va (Vanderwood)
 * y (Yoosung)
 * z (ZEN)
 
