@@ -85,7 +85,6 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
@@ -102,17 +101,25 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Characters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#checklist-for-a-new-character">Checklist for a New Character</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-chatrooms">Adding a New Character to Chatrooms</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#showing-your-character-on-the-home-screen">Showing Your Character on the Home Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#note-on-voiced-characters">Note on voiced characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-your-character-on-the-home-screen">Showing Your Character on the Home Screen</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#greeting-images">Greeting Images</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-story-mode">Adding a New Character to Story Mode</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#note-on-voiced-characters">Note on voiced characters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#declaring-a-layeredimage-for-a-new-character">Declaring a LayeredImage for a New Character</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#story-mode-timeline-images">Story Mode Timeline Images</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-phone-calls">Adding a New Character to Phone Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-phone-calls">Adding a New Character to Phone Calls</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-phone-contact-image">Adding a Phone Contact Image</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#giving-a-new-character-spaceship-thoughts">Giving a New Character Spaceship Thoughts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-day-select-image">Adding a Day Select Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-save-load-image">Adding a Save/Load Image</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
@@ -190,17 +197,25 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Characters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#checklist-for-a-new-character">Checklist for a New Character</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-chatrooms">Adding a New Character to Chatrooms</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#showing-your-character-on-the-home-screen">Showing Your Character on the Home Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#note-on-voiced-characters">Note on voiced characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-your-character-on-the-home-screen">Showing Your Character on the Home Screen</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#greeting-images">Greeting Images</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-story-mode">Adding a New Character to Story Mode</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#note-on-voiced-characters">Note on voiced characters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#declaring-a-layeredimage-for-a-new-character">Declaring a LayeredImage for a New Character</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#story-mode-timeline-images">Story Mode Timeline Images</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-phone-calls">Adding a New Character to Phone Calls</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-new-character-to-phone-calls">Adding a New Character to Phone Calls</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-phone-contact-image">Adding a Phone Contact Image</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#giving-a-new-character-spaceship-thoughts">Giving a New Character Spaceship Thoughts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-day-select-image">Adding a Day Select Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-a-save-load-image">Adding a Save/Load Image</a></li>
 </ul>
 </li>
 </ul>
@@ -232,38 +247,40 @@
 <p>Any tasks prefaced with <strong>(Optional)</strong> are optional. Read the description to determine if you want this feature for your new character.</p>
 <p>Items prefaced with <strong>(May be required)</strong> are dependent on whether or not you have previously implemented an <strong>(Optional)</strong> task. For example, if you have added a character to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> variable, you <strong>must</strong> define a phone contact image, but if the character is not in <code class="docutils literal notranslate"><span class="pre">character_list</span></code> then they won’t need this image.</p>
 <ul>
-<li><p><input type="checkbox"> Define a ChatCharacter object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Chatroom Characters</strong></p>
+<li><p><input type="checkbox"> Define a ChatCharacter object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Chatroom Characters</strong> (<a class="reference internal" href="#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a>)</p>
 <blockquote>
 <div><ul class="simple">
 <li><p>This step is NOT required if this character will never appear in a chatroom</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want their profile to appear on the home screen and allow the player to call them.</p></li>
-<li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want the player to see how many heart points they have earned with this character.</p></li>
-<li><p><input type="checkbox"> <strong>(May be required)</strong> Define a <code class="docutils literal notranslate"><span class="pre">greet</span></code> image for your character. This is <strong>required</strong> if you have included the character in <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> (see above) AND/OR if you want them to have greetings on the main menu.</p></li>
-<li><p><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Story Mode</strong>.</p>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want their profile to appear on the home screen and allow the player to call them. (<a class="reference internal" href="#showing-your-character-on-the-home-screen"><span class="std std-ref">Showing Your Character on the Home Screen</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want the player to see how many heart points they have earned with this character. (<a class="reference internal" href="#showing-your-character-on-the-home-screen"><span class="std std-ref">Showing Your Character on the Home Screen</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(May be required)</strong> Define a <code class="docutils literal notranslate"><span class="pre">greet</span></code> image for your character. This is <strong>required</strong> if you have included the character in <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> (see above) AND/OR if you want them to have greetings on the main menu. (<a class="reference internal" href="#greeting-images"><span class="std std-ref">Greeting Images</span></a>)</p></li>
+<li><p><input type="checkbox"> If your character will not have any voiced greetings on the main menu, add them to the <code class="docutils literal notranslate"><span class="pre">no_greet_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the <strong>GREETING IMAGES</strong> header.</p></li>
+<li><p><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Story Mode</strong>. (<a class="reference internal" href="#adding-a-new-character-to-story-mode"><span class="std std-ref">Adding a New Character to Story Mode</span></a>)</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>This step is NOT required if this character will never appear in a Story Mode section</p></li>
+<li><p>This step is NOT required if this character will never appear in a Story Mode section, OR if you’ve already defined a ChatCharacter object for them.</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p><input type="checkbox"> Either: <strong>1)</strong> in the definition for your Story Mode Character, include the <code class="docutils literal notranslate"><span class="pre">voice_tag</span></code> argument (<code class="docutils literal notranslate"><span class="pre">voice_tag=&quot;em_voice&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">em</span></code> is the character’s file_id), OR <strong>2)</strong> add their ChatCharacter object to the <code class="docutils literal notranslate"><span class="pre">novoice_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>.</p></li>
-<li><p><input type="checkbox"> <strong>(Optional)</strong> Define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span></code> for your character if you want to display their image during Story Mode (VN) sections.</p></li>
-<li><p><input type="checkbox"> <strong>(May be required)</strong> Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen.</p></li>
-<li><p><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Phone Call Characters</strong>.</p>
+<li><p><input type="checkbox"> Either: <strong>1)</strong> in the definition for your Story Mode Character or ChatCharacter, include the <code class="docutils literal notranslate"><span class="pre">voice_tag</span></code> argument (<code class="docutils literal notranslate"><span class="pre">voice_tag=&quot;em_voice&quot;</span></code> where <code class="docutils literal notranslate"><span class="pre">em</span></code> is the character’s file_id), OR <strong>2)</strong> add their ChatCharacter variable to the <code class="docutils literal notranslate"><span class="pre">novoice_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>. (<a class="reference internal" href="#note-on-voiced-characters"><span class="std std-ref">Note on voiced characters</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Define a <code class="docutils literal notranslate"><span class="pre">layeredimage</span></code> for your character if you want to display their image during Story Mode (VN) sections. (<a class="reference internal" href="#declaring-a-layeredimage-for-a-new-character"><span class="std std-ref">Declaring a LayeredImage for a New Character</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(May be required)</strong> Define a Story Mode timeline image for your character if you want to display a Story Mode associated with them on the timeline screen. (<a class="reference internal" href="#story-mode-timeline-images"><span class="std std-ref">Story Mode Timeline Images</span></a>)</p></li>
+<li><p><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Phone Call Characters</strong>. (<a class="reference internal" href="#adding-a-new-character-to-phone-calls"><span class="std std-ref">Adding a New Character to Phone Calls</span></a>)</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>This step is NOT required if this character will never appear in a phone call</p></li>
+<li><p>This step is NOT required if this character will never appear in a phone call, OR if you’ve already defined a ChatCharacter object for them.</p></li>
 </ul>
 </div></blockquote>
 </li>
-<li><p><input type="checkbox"> <strong>(May be required)</strong> Define a phone contact image for your new character. <strong>Required</strong> if you have added them to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> variable.</p></li>
-<li><p><input type="checkbox"> <strong>(Optional)</strong> Define a CG album for your character. Requires a <code class="docutils literal notranslate"><span class="pre">cg_label</span></code>, <code class="docutils literal notranslate"><span class="pre">album_cover</span></code>, and two album variables (one persistent and one regular). Add the character’s file_id to the <code class="docutils literal notranslate"><span class="pre">all_albums</span></code> list.</p></li>
-<li><p><input type="checkbox"> <strong>(Optional)</strong> Add a spaceship thoughts image for your new character.</p></li>
-<li><p><input type="checkbox"> <strong>(Optional)</strong> Add a day select image for your new character.</p></li>
-<li><p><input type="checkbox"> <strong>(Optional)</strong> Add a Save &amp; Load image for your new character.</p></li>
+<li><p><input type="checkbox"> <strong>(May be required)</strong> Define a phone contact image for your new character. <strong>Required</strong> if you have added them to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> variable. (<a class="reference internal" href="#adding-a-phone-contact-image"><span class="std std-ref">Adding a Phone Contact Image</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Define a CG album for your character. Requires a <code class="docutils literal notranslate"><span class="pre">cg_label</span></code>, <code class="docutils literal notranslate"><span class="pre">album_cover</span></code>, and two album variables (one persistent and one regular). Add the character’s file_id to the <code class="docutils literal notranslate"><span class="pre">all_albums</span></code> list. (<a class="reference internal" href="cg-albums.html#adding-a-cg-album"><span class="std std-ref">Adding a CG Album</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Add a spaceship thoughts image for your new character. (<a class="reference internal" href="#giving-a-new-character-spaceship-thoughts"><span class="std std-ref">Giving a New Character Spaceship Thoughts</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Add a day select image for your new character. (<a class="reference internal" href="#adding-a-day-select-image"><span class="std std-ref">Adding a Day Select Image</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Add a Save &amp; Load image for your new character. (<a class="reference internal" href="#adding-a-save-load-image"><span class="std std-ref">Adding a Save/Load Image</span></a>)</p></li>
+<li><p><input type="checkbox"> <strong>(Optional)</strong> Add bonus profile pictures for your new character. (<a class="reference internal" href="miscellaneous.html#bonus-profile-pictures"><span class="std std-ref">Bonus Profile Pictures</span></a>)</p></li>
 </ul>
 </div>
 <div class="section" id="adding-a-new-character-to-chatrooms">
@@ -271,22 +288,24 @@
 <p>All characters that currently exist in the program are defined in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>. Open that file and scroll down to the header <strong>Chatroom Characters</strong>.</p>
 <p>As mentioned, these examples will show how to add a character named Emma to the program. First, you need to give Emma a ChatCharacter object so she can speak in chatrooms. A definition for Emma might look like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">em</span> <span class="o">=</span> <span class="n">ChatCharacter</span><span class="p">(</span>
-    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Emma&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Emma♥&quot;</span><span class="p">,</span>
     <span class="n">file_id</span><span class="o">=</span><span class="s2">&quot;em&quot;</span><span class="p">,</span>
     <span class="n">prof_pic</span><span class="o">=</span><span class="s2">&quot;Profile Pics/Emma/emma1.webp&quot;</span><span class="p">,</span>
-    <span class="n">participant_pic</span><span class="o">=</span><span class="s2">&quot;Profile Pics/em_chat.webp&quot;</span><span class="p">,</span>
     <span class="n">heart_color</span><span class="o">=</span><span class="s2">&quot;#F995F1&quot;</span><span class="p">,</span>
+    <span class="n">participant_pic</span><span class="o">=</span><span class="s2">&quot;Profile Pics/em_chat.webp&quot;</span><span class="p">,</span>
     <span class="n">cover_pic</span><span class="o">=</span><span class="s2">&quot;Cover Photos/emma_cover.png&quot;</span><span class="p">,</span>
     <span class="n">status</span><span class="o">=</span><span class="s2">&quot;Emma&#39;s Status&quot;</span><span class="p">,</span>
     <span class="n">bubble_color</span><span class="o">=</span><span class="s2">&quot;#FFDDFC&quot;</span><span class="p">,</span>
     <span class="n">glow_color</span><span class="o">=</span><span class="s2">&quot;#D856CD&quot;</span><span class="p">,</span>
     <span class="n">homepage_pic</span><span class="o">=</span><span class="s2">&quot;Profile Pics/main_profile_emma.webp&quot;</span><span class="p">,</span>
-    <span class="n">phone_char</span><span class="o">=</span><span class="n">em_phone</span><span class="p">,</span>
-    <span class="n">vn_char</span><span class="o">=</span><span class="n">em_vn</span>
+    <span class="n">vn_name</span><span class="o">=</span><span class="s2">&quot;Emma&quot;</span><span class="p">,</span>
+    <span class="n">window_color</span><span class="o">=</span><span class="s2">&quot;#B400A4&quot;</span><span class="p">,</span>
+    <span class="k">image</span><span class="o">=</span><span class="s2">&quot;emma&quot;</span><span class="p">,</span>
+    <span class="n">voice_tag</span><span class="o">=</span><span class="s2">&quot;em_voice&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>Usually the actual variable name – in this case, <code class="docutils literal notranslate"><span class="pre">em</span></code> – is short. It is recommended that this be two characters long; usually the first two letters of the character’s name. The program already uses <code class="docutils literal notranslate"><span class="pre">ja</span></code>, <code class="docutils literal notranslate"><span class="pre">ju</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">ri</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">sa</span></code>, <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">v</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code>.</p>
+<p>Usually the actual variable name – in this case, <code class="docutils literal notranslate"><span class="pre">em</span></code> – is short. It is recommended that this be two characters long or more; usually the first two letters of the character’s name. The program already uses <code class="docutils literal notranslate"><span class="pre">ja</span></code>, <code class="docutils literal notranslate"><span class="pre">ju</span></code>, <code class="docutils literal notranslate"><span class="pre">m</span></code>, <code class="docutils literal notranslate"><span class="pre">r</span></code>, <code class="docutils literal notranslate"><span class="pre">ri</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">sa</span></code>, <code class="docutils literal notranslate"><span class="pre">u</span></code>, <code class="docutils literal notranslate"><span class="pre">v</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>New ChatCharacter variables should be at least two letters long to avoid conflicts with engine code.</p>
@@ -294,7 +313,7 @@
 <p>Each of those fields is explained below:</p>
 <dl>
 <dt><cite>name</cite></dt><dd><p>A string. This is the name of the character as it should appear above their chatroom messages and in some other locations, like in a text message conversation with them.</p>
-<p>e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Emma&quot;</span></code></p>
+<p>e.g. <code class="docutils literal notranslate"><span class="pre">&quot;Emma♥&quot;</span></code></p>
 </dd>
 <dt><cite>file_id</cite></dt><dd><p>A string. This is used for many things internally to associate images and other variables with the character. For example, if a character’s file_id is <code class="docutils literal notranslate"><span class="pre">&quot;em&quot;</span></code>, then the program will look for incoming phone calls from this character with the suffix “_em” e.g. <code class="docutils literal notranslate"><span class="pre">my_chatroom_incoming_em</span></code>. This is usually just the string version of what you called the ChatCharacter variable.</p>
 <p>e.g. <code class="docutils literal notranslate"><span class="pre">&quot;em&quot;</span></code></p>
@@ -307,9 +326,6 @@
 </div>
 <p>e.g. “Profile Pics/Emma/emma1.webp”</p>
 </dd>
-<dt><cite>participant_pic</cite></dt><dd><p>The file path to the image that should be used on the timeline screen to indicate that the character was present in a chatroom.</p>
-<p>e.g. “Profile Pics/em_chat.webp”</p>
-</dd>
 <dt><cite>heart_color</cite></dt><dd><p>A string containing hex colour code of the heart icon that appears when awarding the player a heart point for this character. It is not case-sensitive.</p>
 <p>e.g. “#F995F1”</p>
 </dd>
@@ -317,8 +333,11 @@
 <p>The remaining fields are optional or semi-optional depending on where this character will appear and what other variables or images are defined.</p>
 <p>The following two fields either must be given a colour, or you will need to place a special image file inside the game’s <code class="docutils literal notranslate"><span class="pre">images/Bubble</span></code> folder to use as the background for the character’s dialogue bubbles.</p>
 <dl>
+<dt><cite>participant_pic</cite></dt><dd><p>Optional. The file path to the image that should be used on the timeline screen to indicate that the character was present in a chatroom. If not provided, their default profile picture is used.</p>
+<p>e.g. “Profile Pics/em_chat.webp”</p>
+</dd>
 <dt><cite>bubble_color</cite></dt><dd><p>Optional; however, if this is not defined <strong>you must provide an image</strong> in <code class="docutils literal notranslate"><span class="pre">game/images/Bubble/</span></code> called <code class="docutils literal notranslate"><span class="pre">em-Bubble.webp</span></code> if the character’s file_id is <code class="docutils literal notranslate"><span class="pre">em</span></code>.</p>
-<p>Otherwise, <code class="docutils literal notranslate"><span class="pre">bubble_color</span></code> should be a string containing a colour code. The character’s regular speech bubble will have this colour as its background.</p>
+<p>Otherwise, <code class="docutils literal notranslate"><span class="pre">bubble_color</span></code> should be a string containing a colour code. The character’s regular speech bubble will have this colour as its background. Unless the <code class="docutils literal notranslate"><span class="pre">who_color</span></code> parameter is also supplied, this will also be the colour of the character’s name during Story Mode.</p>
 <p>e.g. “#FFDDFC”</p>
 </dd>
 <dt><cite>glow_color</cite></dt><dd><p>Same as bubble_color, however, if <code class="docutils literal notranslate"><span class="pre">glow_color</span></code> is not provided the game will look for an image in <code class="docutils literal notranslate"><span class="pre">game/images/Bubble/em-Glow.webp</span></code> if the character’s file_id is <code class="docutils literal notranslate"><span class="pre">em</span></code>.</p>
@@ -337,16 +356,44 @@
 <p>e.g. “Profile Pics/main_profile_emma.webp”</p>
 </dd>
 </dl>
-<p>If the character will appear in phone calls and/or story mode sections, you should define the following fields:</p>
+<p>If the character will appear in story mode sections, you should define the following fields:</p>
 <dl>
-<dt><cite>phone_char</cite></dt><dd><p>The Character object you defined for this character for phone calls.</p>
+<dt><cite>window_color</cite></dt><dd><p>A string containing the colour code that will be used for the dialogue window of this character during Story Mode. Replaces the <code class="docutils literal notranslate"><span class="pre">window_background</span></code> property. If not provided, defaults to a grey colour.</p>
+<p>e.g. “#C8954D”</p>
+</dd>
+<dt><cite>vn_name</cite></dt><dd><p>Optional; if not provided, the character will use the <code class="docutils literal notranslate"><span class="pre">name</span></code> field. However, if the chatroom name is more of a nickname (e.g. “Emma♥”), then you may want to provide this field so that the name appears as “Emma” during story mode.</p>
+<p>e.g. “Emma”</p>
+</dd>
+<dt><cite>who_color</cite></dt><dd><p>Optional. The colour of the character’s name during story mode. If the field <code class="docutils literal notranslate"><span class="pre">bubble_color</span></code> is provided (the colour of the character’s default speech bubbles), it will be used for the <code class="docutils literal notranslate"><span class="pre">who_color</span></code> field unless an alternative is provided. If neither <code class="docutils literal notranslate"><span class="pre">bubble_color</span></code> or <code class="docutils literal notranslate"><span class="pre">who_color</span></code> is provided, it is “#FFF5CA” by default.</p>
+<p>e.g. “#FFDDFC”</p>
+</dd>
+<dt><cite>image</cite></dt><dd><p>Optional. Ren’Py will apply this tag to images if you include attribute tags during a character’s dialogue (See <a class="reference external" href="https://www.renpy.org/doc/html/dialogue.html?highlight=equivalent#say-with-image-attributes">Say with Image Attributes</a>).</p>
+<p>e.g. “emma”</p>
+</dd>
+<dt><cite>voice_tag</cite></dt><dd><p>Optional. If this character will speak in phone calls or during story mode, then this is the tag associated with them when they speak. Including this allows players to switch voice acting for this character on and off. This should be the character’s file_id + “_voice”. Otherwise, by default this character’s voice will fall under the “other_voice” tag in the Sound preferences.</p>
+<p>e.g. “em_voice”</p>
+</dd>
+</dl>
+<div class="section" id="note-on-voiced-characters">
+<h3>Note on voiced characters<a class="headerlink" href="#note-on-voiced-characters" title="Permalink to this headline">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special <code class="docutils literal notranslate"><span class="pre">novoice_chars</span></code> list found in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">novoice_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">em</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>This will prevent the program from generating a voice toggle button for them.</p>
+</div>
+<p>You can also fine-tune the properties of the characters used for phone calls and story mode (VN) sections via the following fields:</p>
+<dl>
+<dt><cite>phone_char</cite></dt><dd><p>A Character object defined for this character for phone calls.</p>
 <p>e.g. <code class="docutils literal notranslate"><span class="pre">em_phone</span></code></p>
 </dd>
-<dt><cite>vn_char</cite></dt><dd><p>The Character object you defined for this character for Story Mode.</p>
+<dt><cite>vn_char</cite></dt><dd><p>A Character object defined for this character for Story Mode.</p>
 <p>e.g. <code class="docutils literal notranslate"><span class="pre">em_vn</span></code></p>
 </dd>
 </dl>
-<p>Finally, <code class="docutils literal notranslate"><span class="pre">ChatCharacter</span></code> has some additional optional fields that are either currently unused or not necessary to set manually:</p>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">ChatCharacter</span></code> has some additional optional fields that are either currently unused or not necessary to set manually during definition time:</p>
 <dl>
 <dt><cite>voicemail</cite></dt><dd><p>A string with the name of the label to jump to for this character’s voicemail.</p>
 <p>e.g. “voicemail_1”</p>
@@ -359,6 +406,8 @@
 <p>e.g. <code class="docutils literal notranslate"><span class="pre">pronunciation_help</span></code> for 707 is <code class="docutils literal notranslate"><span class="pre">&quot;seven-oh-seven&quot;</span></code></p>
 </dd>
 </dl>
+<p>If this character will be used during story mode, you may also provide additional properties for the story mode character, such as <code class="docutils literal notranslate"><span class="pre">what_prefix</span></code> to further customize how their dialogue is displayed. See <a class="reference external" href="https://www.renpy.org/doc/html/dialogue.html#defining-character-objects">Ren’Py’s documentation</a> for more information.</p>
+</div>
 <div class="section" id="showing-your-character-on-the-home-screen">
 <h3>Showing Your Character on the Home Screen<a class="headerlink" href="#showing-your-character-on-the-home-screen" title="Permalink to this headline">¶</a></h3>
 <p>Finally, beneath all the ChatCharacter definitions in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>, there are two lists. The first of these is</p>
@@ -378,6 +427,8 @@
 </pre></div>
 </div>
 <p>Characters in <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> will appear on the player’s Profile screen with an indicator of how many points the player has with them. If you want to add Emma to this list, then you need to define an image called <code class="docutils literal notranslate"><span class="pre">greet</span> <span class="pre">em</span></code> since <code class="docutils literal notranslate"><span class="pre">em</span></code> is Emma’s file_id.</p>
+<div class="section" id="greeting-images">
+<h4>Greeting Images<a class="headerlink" href="#greeting-images" title="Permalink to this headline">¶</a></h4>
 <p>You can find the existing characters’ images in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the heading <strong>GREETING IMAGES</strong>. Greeting images are approximately 121x107 px up to 143x127px.</p>
 <p>A greeting image for Emma might look like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">greet</span> <span class="n">em</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Main Menu/em_greeting.webp&quot;</span>
@@ -391,29 +442,31 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">no_greet_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">em</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>When all is said and done, you should now be able to write dialogue for Emma inside chatrooms the way you would with the existing ChatCharacters:</p>
+<p>This image is also used on the character’s profile picture screen to indicate how many heart points the player has earned with this character and can spend on bonus profile pictures (if not provided, the character’s homepage_pic is used instead).</p>
+<p>When all is said and done, you should now be able to write dialogue for Emma anywhere in the program. For example, some chatroom dialogue might look like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;How are you?&quot;</span>
 <span class="n">msg</span> <span class="n">em</span> <span class="s2">&quot;It&#39;s a lovely morning~&quot;</span> <span class="n">glow</span>
 </pre></div>
 </div>
 </div>
 </div>
+</div>
 <div class="section" id="adding-a-new-character-to-story-mode">
 <h2>Adding a New Character to Story Mode<a class="headerlink" href="#adding-a-new-character-to-story-mode" title="Permalink to this headline">¶</a></h2>
 <p>All characters that currently exist in the program are defined in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>. Open that file and scroll down to the header <strong>Story Mode</strong>.</p>
-<p>To have Emma speak during story mode, she needs to have a Character object defined for her. A definition for that may look like the following:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">em_vn</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Emma&quot;</span><span class="p">,</span>
+<p>If you have already defined a ChatCharacter for your new character, they will automatically be able to speak in story mode and phone calls without needing to define anything else. However, if you have a character who will <em>only</em> speak during story mode (e.g. a character like Echo Girl), you will define them in this way:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">em_vn</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Emma&quot;</span><span class="p">,</span>
     <span class="n">kind</span><span class="o">=</span><span class="n">vn_character</span><span class="p">,</span>
     <span class="n">who_color</span><span class="o">=</span><span class="s2">&quot;#FFDDFC&quot;</span><span class="p">,</span>
     <span class="k">image</span><span class="o">=</span><span class="s2">&quot;emma&quot;</span><span class="p">,</span>
-    <span class="n">window_background</span><span class="o">=</span><span class="s2">&quot;VN Mode/Chat Bubbles/vnmode_other.webp&quot;</span><span class="p">,</span>
+    <span class="n">window_color</span><span class="o">=</span><span class="s2">&quot;#b7b7b7&quot;</span><span class="p">,</span>
     <span class="n">voice_tag</span><span class="o">=</span><span class="s2">&quot;em_voice&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If you’ve made a ChatCharacter object for your new character, it’s a good idea to call this variable their file_id + “_vn”.</p>
+<p>You can also define a character for Story Mode separately from a character’s ChatCharacter definition, and pass it the character variable in the <code class="docutils literal notranslate"><span class="pre">vn_char</span></code> field. This allows you to have more control over the different properties of the story mode character. However, for most purposes, the character that the program automatically defines during the ChatCharacter setup will be sufficient.</p>
 </div>
 <p>The definition fields are explained below.</p>
 <dl>
@@ -429,31 +482,20 @@
 <dt><cite>image</cite></dt><dd><p>Optional. Ren’Py will apply this tag to images if you include attribute tags during a character’s dialogue (See <a class="reference external" href="https://www.renpy.org/doc/html/dialogue.html?highlight=equivalent#say-with-image-attributes">Say with Image Attributes</a>).</p>
 <p>e.g. “emma”</p>
 </dd>
-<dt><cite>window_background</cite></dt><dd><p>Optional. This is the image that will be shown behind the character’s dialogue. By default, it is “VN Mode/Chat Bubbles/vnmode_other.webp”. If you provide another image, it should be the same size as the default. Typically the borders are coloured differently for the various characters.</p>
-<p>e.g. “VN Mode/Chat Bubbles/vnmode_em.webp”,</p>
+<dt><cite>window_color</cite></dt><dd><p>A string containing the colour code that will be used for the dialogue window of this character during Story Mode. Replaces the <code class="docutils literal notranslate"><span class="pre">window_background</span></code> property. If not provided, defaults to a grey colour.</p>
+<p>e.g. “#C8954D”</p>
 </dd>
 <dt><cite>voice_tag</cite></dt><dd><p>Optional. If this character will speak in phone calls or during story mode, then this is the tag associated with them when they speak. Including this allows players to switch voice acting for this character on and off. This should be the character’s file_id + “_voice”. Otherwise, by default this character’s voice will fall under the “other_voice” tag in the Sound preferences.</p>
 <p>e.g. “em_voice”</p>
 </dd>
 </dl>
-<div class="section" id="note-on-voiced-characters">
-<h3>Note on voiced characters<a class="headerlink" href="#note-on-voiced-characters" title="Permalink to this headline">¶</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If your new character does not have their own voice tag and should not include their own voice toggle in the Settings, then you must also include them in the special <code class="docutils literal notranslate"><span class="pre">novoice_chars</span></code> list found in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> e.g.</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">novoice_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">u</span><span class="p">,</span> <span class="n">sa</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">em</span><span class="p">]</span>
-</pre></div>
+<p>See <a class="reference internal" href="#note-on-voiced-characters"><span class="std std-ref">Note on voiced characters</span></a> if your new character should not have their own voice toggle on the Settings screen.</p>
 </div>
-<p>This will prevent the program from generating a voice toggle button for them.</p>
-</div>
-<p>If you’ve also defined a ChatCharacter variable for Emma as described in <a class="reference internal" href="#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a>, make sure that Emma’s ChatCharacter definition includes the line <code class="docutils literal notranslate"><span class="pre">vn_char=em_vn</span></code> with her new Character object for story mode. You can then write dialogue during story mode like:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;Brr, it&#39;s cold outside!&quot;</span>
-</pre></div>
-</div>
-<p>If Emma does not have a ChatCharacter object and is only intended for use during story mode (e.g. for a side character who only appears in story mode like Sarah), then you’ll write her dialogue directly with her story mode Character object e.g.</p>
+<p>You can then write dialogue during story mode like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em_vn</span> <span class="s2">&quot;Brr, it&#39;s cold outside!&quot;</span>
 </pre></div>
-</div>
 </div>
 <div class="section" id="declaring-a-layeredimage-for-a-new-character">
 <h3>Declaring a LayeredImage for a New Character<a class="headerlink" href="#declaring-a-layeredimage-for-a-new-character" title="Permalink to this headline">¶</a></h3>
@@ -467,12 +509,14 @@
 </pre></div>
 </div>
 <p>The image should be 555x126 px to fit inside the story mode frame on the timeline. You will then be able to use the suffix <code class="docutils literal notranslate"><span class="pre">_vn_em</span></code> on a label to associate a story mode with Emma. See <a class="reference internal" href="story-mode.html#writing-a-story-mode"><span class="std std-ref">Writing a Story Mode</span></a> for more information on writing a Story Mode section.</p>
+<p>Note that this is only applicable to characters with a ChatCharacter definition (and therefore with a <code class="docutils literal notranslate"><span class="pre">file_id</span></code>). Characters who only speak during story mode do not automatically have this defined and cannot have their own automatic story mode timeline images.</p>
 </div>
 </div>
 <div class="section" id="adding-a-new-character-to-phone-calls">
 <h2>Adding a New Character to Phone Calls<a class="headerlink" href="#adding-a-new-character-to-phone-calls" title="Permalink to this headline">¶</a></h2>
 <p>All characters that currently exist in the program are defined in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code>. Open that file and find the header <strong>Phone Call Characters</strong> at the top.</p>
-<p>To have Emma speak in a phone call, she needs to have a Character object defined for her. A definition for that may look like the following:</p>
+<p>If you have already defined a ChatCharacter object for your new character, there is no need to define a separate phone character (unless you want more control over the phone character definition). It is automatically defined for you already.</p>
+<p>However, if you want to define a character who only speaks during phone calls, they will need to have a Character object defined for them. A definition for Emma may look like the following:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">em_phone</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Emma&quot;</span><span class="p">,</span>
     <span class="n">kind</span><span class="o">=</span><span class="n">phone_character</span><span class="p">,</span>
     <span class="n">voice_tag</span><span class="o">=</span><span class="s2">&quot;em_voice&quot;</span>
@@ -481,7 +525,7 @@
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>If you’ve made a ChatCharacter object for your new character, it’s a good idea to call this variable their file_id + “_phone”.</p>
+<p>You can also define a character for phone calls separately from a character’s ChatCharacter definition, and pass it the character variable in the <code class="docutils literal notranslate"><span class="pre">phone_char</span></code> field. This allows you to have more control over the different properties of the phone call character. However, for most purposes, the character that the program automatically defines during the ChatCharacter setup will be sufficient.</p>
 </div>
 <p>The definition fields are explained below.</p>
 <dl>
@@ -499,13 +543,18 @@
 <p class="admonition-title">Warning</p>
 <p>See <a class="reference internal" href="#note-on-voiced-characters"><span class="std std-ref">Note on voiced characters</span></a> if your new character should not have their own voice toggle on the Settings screen.</p>
 </div>
-<p>If you’ve also defined a ChatCharacter variable for Emma as described in <a class="reference internal" href="#adding-a-new-character-to-chatrooms"><span class="std std-ref">Adding a New Character to Chatrooms</span></a>, make sure that Emma’s ChatCharacter description includes the line <code class="docutils literal notranslate"><span class="pre">phone_char=em_phone</span></code> with her new Character object for phone calls. You can then write dialogue during a phone call like:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;How are you, [name]?&quot;</span>
-</pre></div>
-</div>
-<p>If Emma does not have a ChatCharacter object and is only intended for use in phone calls (e.g. for a one-off character or a specific voicemail message), then you’ll write her dialogue directly with her phone Character object e.g.</p>
+<p>You can then write dialogue during a phone call like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em_phone</span> <span class="s2">&quot;How are you, [name]?&quot;</span>
 </pre></div>
+</div>
+<div class="section" id="adding-a-phone-contact-image">
+<h3>Adding a Phone Contact Image<a class="headerlink" href="#adding-a-phone-contact-image" title="Permalink to this headline">¶</a></h3>
+<p>In order for your new character to appear as a contact in the Contacts tab of the phone, you will need to define a contact image for them.</p>
+<p>In <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>PHONE CONTACT IMAGES</strong> you will see several images already defined. This is the file_id of the character + <code class="docutils literal notranslate"><span class="pre">_contact</span></code>. So, for Emma, it may look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">em_contact</span> <span class="o">=</span> <span class="s2">&quot;Phone Calls/call_contact_emma.webp&quot;</span>
+</pre></div>
+</div>
+<p>This image is 188x188 and round.</p>
 </div>
 </div>
 <div class="section" id="giving-a-new-character-spaceship-thoughts">
@@ -533,6 +582,41 @@
 </pre></div>
 </div>
 <p>You can see that <code class="docutils literal notranslate"><span class="pre">SpaceThought(em,</span> <span class="pre">&quot;I</span> <span class="pre">know</span> <span class="pre">I</span> <span class="pre">should</span> <span class="pre">take</span> <span class="pre">my</span> <span class="pre">dog</span> <span class="pre">for</span> <span class="pre">a</span> <span class="pre">walk</span> <span class="pre">but</span> <span class="pre">I'm</span> <span class="pre">so</span> <span class="pre">tired...&quot;)</span></code> was added to the end of the list. Now when the player clicks on the spaceship, Emma’s space thought has a chance of appearing. For more on adding or changing the spaceship thoughts during a route, see <a class="reference internal" href="miscellaneous.html#spaceship-thoughts"><span class="std std-ref">Spaceship Thoughts</span></a>.</p>
+</div>
+<div class="section" id="adding-a-day-select-image">
+<h2>Adding a Day Select Image<a class="headerlink" href="#adding-a-day-select-image" title="Permalink to this headline">¶</a></h2>
+<p>If you want a particular image to be used on the timeline screen when choosing a day, you can define it in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>DAY SELECT IMAGES</strong>. There are no restrictions on what this can be called other than it must begin with <code class="docutils literal notranslate"><span class="pre">day_</span></code> (i.e. there is no need to use a character’s file_id). You will use this in the <code class="docutils literal notranslate"><span class="pre">day_icon</span></code> field when defining a route.</p>
+<p>So, if you wanted to define a particular image to use on days corresponding with Emma’s route, your definition may look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">day_em</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Day Select/day_em.webp&quot;</span>
+</pre></div>
+</div>
+<p>Then, when defining your route, you could have the <code class="docutils literal notranslate"><span class="pre">save_img</span></code> field like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">emma_good_end</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Good End&quot;</span><span class="p">,</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s2">&quot;5th&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">ChatRoom</span><span class="p">(</span><span class="s2">&quot;Bright and early...&quot;</span><span class="p">,</span> <span class="s1">&#39;emma_d5_c1&#39;</span><span class="p">,</span> <span class="s1">&#39;00:33&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">em</span><span class="p">])],</span>
+        <span class="n">day_icon</span><span class="o">=</span><span class="s1">&#39;em&#39;</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that the string given to <code class="docutils literal notranslate"><span class="pre">day_icon</span></code> is “em” because the image was defined as <code class="docutils literal notranslate"><span class="pre">day_em</span></code>, so you drop the <code class="docutils literal notranslate"><span class="pre">day_</span></code> prefix and pass the rest of the image name (in this case, “em”).</p>
+</div>
+<div class="section" id="adding-a-save-load-image">
+<h2>Adding a Save/Load Image<a class="headerlink" href="#adding-a-save-load-image" title="Permalink to this headline">¶</a></h2>
+<p>If you want a particular image to be used for a save file’s icon, you can define it in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>SAVE &amp; LOAD IMAGES</strong>. There are no restrictions on what this can be called other than it must begin with <code class="docutils literal notranslate"><span class="pre">save_</span></code> (i.e. there is no need to use a character’s file_id). You will use this in the <code class="docutils literal notranslate"><span class="pre">save_img</span></code> field when defining a route.</p>
+<p>So, if you wanted to define a particular image to be used during a route for Emmma, it might look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">save_emma</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Main Menu/save_img_emma.webp&quot;</span>
+</pre></div>
+</div>
+<p>Then, when defining your route, you could have the <code class="docutils literal notranslate"><span class="pre">save_img</span></code> field like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">emma_good_end</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Good End&quot;</span><span class="p">,</span>
+    <span class="n">RouteDay</span><span class="p">(</span><span class="s2">&quot;5th&quot;</span><span class="p">,</span>
+        <span class="p">[</span><span class="n">ChatRoom</span><span class="p">(</span><span class="s2">&quot;Bright and early...&quot;</span><span class="p">,</span> <span class="s1">&#39;emma_d5_c1&#39;</span><span class="p">,</span> <span class="s1">&#39;00:33&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">em</span><span class="p">],</span> <span class="n">save_img</span><span class="o">=</span><span class="s2">&quot;emma&quot;</span><span class="p">)]</span>
+    <span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that the string given to <code class="docutils literal notranslate"><span class="pre">save_img</span></code> is “emma” because the image was defined as <code class="docutils literal notranslate"><span class="pre">save_emma</span></code>, so you drop the <code class="docutils literal notranslate"><span class="pre">save_</span></code> prefix and pass the rest of the image name (in this case, “emma”).</p>
 </div>
 </div>
 

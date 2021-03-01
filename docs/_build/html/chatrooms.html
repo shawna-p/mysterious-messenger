@@ -85,7 +85,6 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
@@ -119,7 +118,14 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-the-hacked-scroll-effect">Showing the Hacked Scroll Effect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-the-secure-chatroom-animation">Showing the Secure Chatroom Animation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-the-cracked-overlay">Showing the Cracked Overlay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sending-links">Sending Links</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#link-actions">Link Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stopping-the-chat">Stopping the Chat</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
@@ -250,7 +256,14 @@
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-the-hacked-scroll-effect">Showing the Hacked Scroll Effect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-the-secure-chatroom-animation">Showing the Secure Chatroom Animation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#showing-the-cracked-overlay">Showing the Cracked Overlay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sending-links">Sending Links</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#link-actions">Link Actions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stopping-the-chat">Stopping the Chat</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-fonts-and-bubbles">Custom Fonts and Bubbles</a><ul>
@@ -324,6 +337,7 @@
 <li><p>hack</p></li>
 <li><p>redhack</p></li>
 <li><p>redcrack</p></li>
+<li><p>secure</p></li>
 </ul>
 <p>The background names <strong>are</strong> case-sensitive, so you need to get the capitalization correct. The program will automatically clear the chat history when beginning a new chatroom so new messages begin appearing at the bottom.</p>
 <p>Now that the background is set up, you probably want some music. Music is played with the line:</p>
@@ -727,9 +741,27 @@
 </pre></div>
 </div>
 <p>for the red version of the scrolling hack image.</p>
+<p>There is also a “red static” effect which can be shown with:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">red</span> <span class="n">static</span> <span class="n">effect</span>
+</pre></div>
+</div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>These effects are not displayed for players who have toggled the <strong>Hacking Effects</strong> setting off.</p>
+</div>
+</div>
+<div class="section" id="showing-the-secure-chatroom-animation">
+<h3>Showing the Secure Chatroom Animation<a class="headerlink" href="#showing-the-secure-chatroom-animation" title="Permalink to this headline">¶</a></h3>
+<p>To show the “secure chatroom” animation, use the line</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">secure</span> <span class="n">anim</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you’re using this effect, you may also want to change the background of the chatroom box on the timeline screen. You can do this with the <code class="docutils literal notranslate"><span class="pre">box_bg</span></code> parameter when defining a ChatRoom for the route e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">ChatRoom</span><span class="p">(</span><span class="s1">&#39;Hacking&#39;</span><span class="p">,</span> <span class="s1">&#39;hack_example&#39;</span><span class="p">,</span> <span class="s1">&#39;20:41&#39;</span><span class="p">,</span> <span class="n">box_bg</span><span class="o">=</span><span class="s1">&#39;secure&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="shaking-the-screen">
@@ -742,6 +774,116 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This effect is not displayed for players who have toggled the <strong>Screen Shake</strong> setting off.</p>
+</div>
+</div>
+<div class="section" id="showing-the-cracked-overlay">
+<h3>Showing the Cracked Overlay<a class="headerlink" href="#showing-the-cracked-overlay" title="Permalink to this headline">¶</a></h3>
+<p>There is also a “cracked” overlay you can layer on top of any chatroom background (including animated backgrounds). It gives the appearance of cracked glass on top of the background. After showing your background, show the crack effect like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">scene</span> <span class="n">redhack</span>
+<span class="k">show</span> <span class="n">screen_crack</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="sending-links">
+<h3>Sending Links<a class="headerlink" href="#sending-links" title="Permalink to this headline">¶</a></h3>
+<p>Characters may also send links in the chatroom. A link message can be provided an action, which will occur when the player clicks on it. Some convenience functions are provided to make some of these actions simpler.</p>
+<p>The simplest way to show a link looks like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">va</span> <span class="s2">&quot;Click Link&quot;</span> <span class="p">(</span><span class="n">link_title</span><span class="o">=</span><span class="s2">&quot;Password&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There are several fields you can provide to a link message to customize it. You must provide at least one of these fields in order for a message to be considered a link.</p>
+<dl>
+<dt><cite>link_title</cite></dt><dd><p>By default, links do not have titles. If provided, the title will be shown in a smaller size above the link’s text inside square brackets (so, <code class="docutils literal notranslate"><span class="pre">link_title=&quot;Password&quot;</span></code> appears in-game like <code class="docutils literal notranslate"><span class="pre">[Password]</span></code>.</p>
+<p>e.g. “Address”</p>
+</dd>
+<dt><cite>link_img</cite></dt><dd><p>By default, this is an image of a house. It is 81x81 pixels but can be slightly larger or smaller. You can also provide a general displayable such as a Transform or an AlphaMask.</p>
+<p>If you don’t want an image at all, this should be <code class="docutils literal notranslate"><span class="pre">Null()</span></code>, so <code class="docutils literal notranslate"><span class="pre">link_img=Null()</span></code> will prevent the link message from having an image.</p>
+<p>e.g. “Bubble/link_house_btn.webp”</p>
+</dd>
+<dt><cite>link_action</cite></dt><dd><p>By default, a link button will not have any action at all and will not be interactable. See <a class="reference internal" href="#link-actions"><span class="std std-ref">Link Actions</span></a> for more action examples.</p>
+<p>e.g. ShowCG(‘common_1’)</p>
+</dd>
+<dt><cite>link_text</cite></dt><dd><p>Optional. If this isn’t provided, the link text takes the character’s dialogue (so in the line <code class="docutils literal notranslate"><span class="pre">va</span> <span class="pre">&quot;Click</span> <span class="pre">me&quot;</span> <span class="pre">(link_action=ShowCG('common_1'))</span></code>, the <code class="docutils literal notranslate"><span class="pre">link_text</span></code> is “Click me”. If the dialogue is empty, it will be the phrase “Click Link”.</p>
+<p>e.g. “Click Link”</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS for links as well, though it can’t take any additional special parameters such as font, bounce/glow, image, or specBubble. A msg version of a link post might look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">va</span> <span class="s2">&quot;Click Link&quot;</span> <span class="p">(</span><span class="n">link_title</span><span class="o">=</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="n">link_img</span><span class="o">=</span><span class="n">Null</span><span class="p">(),</span> <span class="n">link_action</span><span class="o">=</span><span class="n">JumpVN</span><span class="p">(</span><span class="s1">&#39;unlock_door&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="link-actions">
+<h4>Link Actions<a class="headerlink" href="#link-actions" title="Permalink to this headline">¶</a></h4>
+<p>Link messages can take any action you want. By default, only a <code class="docutils literal notranslate"><span class="pre">ShowCG</span></code> action (which shows a CG image) can be clicked more than once. All other actions (including multiple actions in a list) cause the link button to be insensitive after the action has executed once.</p>
+<p>Some special link actions include:</p>
+<dl>
+<dt><cite>ShowCG</cite></dt><dd><p>Takes one argument, the name of the CG image to show. This follows the same naming rules as <a class="reference internal" href="cg-albums.html#defining-a-cg"><span class="std std-ref">Defining a CG</span></a> and <a class="reference internal" href="cg-albums.html#showing-a-cg-in-a-chatroom-or-text-message"><span class="std std-ref">Showing a CG in a Chatroom or Text Message</span></a>, so if you have:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">cg</span> <span class="n">common_4</span> <span class="o">=</span> <span class="s2">&quot;CGs/common_album/cg-4.webp&quot;</span>
+<span class="k">default</span> <span class="n">common_album</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_1&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_2&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_3&quot;</span><span class="p">),</span>
+    <span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_4&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>and you want to show “cg common_4”, then you should use the action <code class="docutils literal notranslate"><span class="pre">ShowCG(&quot;common_4&quot;)</span></code>.</p>
+<p>This will also take care of automatically unlocking the CG in the player’s album.</p>
+</dd>
+<dt><cite>JumpVN</cite></dt><dd><p>This action will take the player to a Story Mode (VN) section before returning to the chat. It works the same way as <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> as explained in <a class="reference internal" href="story-mode.html#including-a-story-mode-during-a-chatroom"><span class="std std-ref">Including a Story Mode During a Chatroom</span></a>. The first argument should be the name of the label the program should jump to for the story mode.</p>
+<p>It also takes all the same arguments, including <code class="docutils literal notranslate"><span class="pre">clearchat_on_return</span></code>, <code class="docutils literal notranslate"><span class="pre">new_bg</span></code>, <code class="docutils literal notranslate"><span class="pre">reset_participants</span></code>, and <code class="docutils literal notranslate"><span class="pre">end_after_vn</span></code>.</p>
+<p>e.g. <code class="docutils literal notranslate"><span class="pre">JumpVN(&quot;my_story_label&quot;,</span> <span class="pre">end_after_vn=True)</span></code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unless you pass the argument <code class="docutils literal notranslate"><span class="pre">end_after_vn=True</span></code> to JumpVN, when the Story Mode ends the game will return to the chatroom exactly where the chat left off before the player clicked the link which took them to Story Mode.</p>
+<p>This means if you have a chatroom like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Click Link&quot;</span> <span class="p">(</span><span class="n">link_title</span><span class="o">=</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span> <span class="n">link_action</span><span class="o">=</span><span class="n">JumpVN</span><span class="p">(</span><span class="s2">&quot;prologue_unlock_door&quot;</span><span class="p">))</span>
+<span class="n">u</span> <span class="s2">&quot;That&#39;s the password for the door.&quot;</span>
+<span class="c1"># Player clicks the link before this next message appears</span>
+<span class="n">u</span> <span class="s2">&quot;Try to use it, okay?&quot;</span>
+</pre></div>
+</div>
+<p>If the player clicks the link where indicated, when they return to the chatroom, Unknown will post the message “Try to use it, okay?” and the rest of the chatroom will proceed as normal. It’s the equivalent of:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;That&#39;s the password for the door.&quot;</span>
+<span class="k">call</span> <span class="n">vn_during_chat</span><span class="p">(</span><span class="s1">&#39;prologue_unlock_door&#39;</span><span class="p">)</span>
+<span class="n">u</span> <span class="s2">&quot;Try to use it, okay?&quot;</span>
+</pre></div>
+</div>
+<p>However, with the link, the player <strong>does not</strong> have to click the link to proceed; the chat will simply continue even if they do nothing. If you want to stop the chat to ensure the player clicks the link, see <a class="reference internal" href="#stopping-the-chat"><span class="std std-ref">Stopping the Chat</span></a>.</p>
+</div>
+</dd>
+<dt><cite>ContinueChat</cite></dt><dd><p>This action will cause the chat to continue if it was previously stopped.</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="stopping-the-chat">
+<h4>Stopping the Chat<a class="headerlink" href="#stopping-the-chat" title="Permalink to this headline">¶</a></h4>
+<p>If you want to stop the chat to wait for the player to click on a link, you can do so with <code class="docutils literal notranslate"><span class="pre">stop</span> <span class="pre">chat</span></code> e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Click Link&quot;</span> <span class="p">(</span><span class="n">link_title</span><span class="o">=</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span>
+    <span class="n">link_action</span><span class="o">=</span><span class="n">JumpVN</span><span class="p">(</span><span class="s1">&#39;unlock_door_password&#39;</span><span class="p">))</span>
+<span class="k">stop</span> <span class="n">chat</span>
+</pre></div>
+</div>
+<p>This will prevent any further messages from being posted and displays the text “Click the link to proceed” at the bottom of the screen. If you would like to change the text, at the bottom, you can also provide a string after <code class="docutils literal notranslate"><span class="pre">stop</span> <span class="pre">chat</span></code> like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Click Link&quot;</span> <span class="p">(</span><span class="n">link_title</span><span class="o">=</span><span class="s2">&quot;Password&quot;</span><span class="p">,</span>
+    <span class="n">link_action</span><span class="o">=</span><span class="n">JumpVN</span><span class="p">(</span><span class="s1">&#39;unlock_door_password&#39;</span><span class="p">))</span>
+<span class="k">stop</span> <span class="n">chat</span> <span class="s2">&quot;Click the link to continue&quot;</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you use the <code class="docutils literal notranslate"><span class="pre">JumpVN</span></code> action, the chat will automatically resume after it returns from the VN label. However, if your action is doing something like viewing a CG or setting a variable, you <strong>must</strong> include the action <code class="docutils literal notranslate"><span class="pre">ContinueChat()</span></code> as the final action in your link_action parameter:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="s2">&quot;Add to Contacts&quot;</span> <span class="p">(</span><span class="n">link_title</span><span class="o">=</span><span class="s2">&quot;Contact Info&quot;</span><span class="p">,</span> <span class="n">link_img</span><span class="o">=</span><span class="n">Null</span><span class="p">(),</span>
+    <span class="n">link_action</span><span class="o">=</span><span class="p">[</span><span class="n">CConfirm</span><span class="p">(</span><span class="s2">&quot;Phone number added to contact list.&quot;</span><span class="p">),</span> <span class="n">ContinueChat</span><span class="p">()])</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="docutils literal notranslate"><span class="pre">CConfirm</span></code> is a special action which shows a confirmation prompt to the user. In this case, it displays the given message and requires the player to press Confirm to dismiss it.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -974,6 +1116,7 @@
 <li><p>hack</p></li>
 <li><p>redhack</p></li>
 <li><p>redcrack</p></li>
+<li><p>secure</p></li>
 </ul>
 <p>The background names <strong>are</strong> case-sensitive, so you need to get the capitalization correct.</p>
 <p>For this example, a new background that will be displayed using <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">rainy_day</span></code> will be added.</p>
@@ -985,7 +1128,7 @@
 <p>You can put this image definition wherever you like, though it may make sense to keep it under the <strong>CUSTOM MESSENGER ITEMS</strong> header alongside the background variable definitions.</p>
 <p>Next, add the background name to the <code class="docutils literal notranslate"><span class="pre">all_static_backgrounds</span></code> list:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">all_static_backgrounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;morning&#39;</span><span class="p">,</span> <span class="s1">&#39;noon&#39;</span><span class="p">,</span> <span class="s1">&#39;evening&#39;</span><span class="p">,</span> <span class="s1">&#39;hack&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;redhack&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;earlyMorn&#39;</span><span class="p">,</span> <span class="s1">&#39;redcrack&#39;</span><span class="p">,</span> <span class="s1">&#39;rainy_day&#39;</span><span class="p">]</span>
+        <span class="s1">&#39;redhack&#39;</span><span class="p">,</span> <span class="s1">&#39;night&#39;</span><span class="p">,</span> <span class="s1">&#39;earlyMorn&#39;</span><span class="p">,</span> <span class="s1">&#39;redcrack&#39;</span><span class="p">,</span> <span class="s1">&#39;secure&#39;</span><span class="p">,</span> <span class="s1">&#39;rainy_day&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Note that you do <strong>not</strong> add the “bg” part to the name of your background.</p>

@@ -85,7 +85,6 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
@@ -473,6 +472,10 @@
 </pre></div>
 </div>
 <p>Once the story mode is finished, the program will return to where it left off in the chatroom. All the previous messages will remain on-screen in the chatlog, and the background will be what it was before the story mode.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you begin a chatroom with the <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">vn_during_chat</span></code> call before any dialogue is said in the chatroom, it will begin immediately in the VN portion instead of showing the player the chatroom with a Continue button.</p>
+</div>
 <div class="section" id="clearing-the-chat-history">
 <h3>Clearing the Chat History<a class="headerlink" href="#clearing-the-chat-history" title="Permalink to this headline">¶</a></h3>
 <p>If you would like to clear the chat history after returning from the Story Mode section (that is, previous messages in the chatroom will be erased), you can use the <code class="docutils literal notranslate"><span class="pre">clear</span> <span class="pre">chat</span></code> CDS:</p>

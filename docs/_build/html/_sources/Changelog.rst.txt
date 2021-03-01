@@ -7,8 +7,80 @@ Full Changelog
 
     changelog
 
+
+3.0.1
+======
+
+.. _major-3-0-1:
+
+Major New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Chatroom Links
+      - Characters can now post links in chatrooms. Clicking a link can cause a variety of actions to occur, such as jumping to a Story Mode section or showing a CG.
+    * - Vanderwood
+      - Vanderwood has been added as a fully-fledged character with his own profile, chat bubbles, heart icon, and more.
+    * - Additional Assets
+      - Story Mode has new characters. Chatrooms have two new timeline backgrounds, a new secure chat background, a cracked glass overlay, and a new secure lock opening animation. There is a new red static hack effect.
+
+.. _minor-3-0-1:
+
+Minor New Features
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Character definitions condensed
+      - Players now only need to define a ChatCharacter for a new character, and their vn_char and phone_char fields will be automatically defined.
+    * - Auto-defined Story Mode window background
+      - Users can now supply a character's definition with the ``window_color`` field to automatically colour the dialogue background in Story Mode.
+
+.. _fixes-3-0-1:
+
+Fixes
+------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Fix**
+      - **Description**
+    * - Phone call replay
+      - Replaying a phone call always begins with the phone audio playing automatically.
+    * - Bonus profile pictures
+      - There is better error checking for bonus profile pictures. Characters without a greeting image can still use their profile picture next to the number of hearts earned with them.
+    * - Saves track the next day
+      - Save files now track the name of the next day when loading in real-time.
+
+.. _other-3-0-1:
+
+Other
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Guest grade update
+      - The images used for your guest grade after all party guests have arrived have been updated.
+
 3.0.0
 =======
+
+.. _major-3-0-0:
 
 Major New Features
 --------------------
@@ -43,6 +115,8 @@ Major New Features
       - Email chains can be of an arbitrary length with any number of replies. Failing an email can still continue an email chain. A string parser makes using triple-quoted strings to type emails much more readable. Players can choose to reply to an email later after clicking Reply.
     * - `call chat_begin` / `jump phone_end`-style calls removed
       - The program handles the setup and cleanup of all timeline items. All labels can simply begin without further ado and all labels can end with `return`.
+
+.. _minor-3-0-0:
 
 Minor New Features
 --------------------
@@ -82,6 +156,8 @@ Minor New Features
     * - `custom_route_select_screen`
       - Can easily switch between a custom route select screen and the default one. Default route select improved to have additional graphics.
 
+.. _fixes-3-0-0:
+
 Fixes
 --------------------
 
@@ -114,6 +190,7 @@ Fixes
     * - Home screen grid fix
       - The home screen now properly calculates how many pictures it will be showing so the grid is not over- or underfull.
 
+.. _qol-3-0-0:
 
 QoL Improvements
 --------------------
@@ -149,6 +226,7 @@ QoL Improvements
     * - `persistent.pv`
       - `pv` (for chatroom speed) is now persistent and will carry over across playthroughs and on the history screens.
 
+.. _other-3-0-0:
 
 Other
 --------------------
@@ -171,6 +249,8 @@ Other
       - The program will try to correct and/or recover from missing labels or missing images without disrupting the program.
     * - `use_timed_menus`
       - `persistent.autoanswer_timed_menus` has been renamed to `persistent.use_timed_menus`. The preference option is titled Timed Menus.
+
+.. _vars-3-0-0:
 
 Renamed Variables
 --------------------

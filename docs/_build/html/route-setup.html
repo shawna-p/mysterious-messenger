@@ -85,7 +85,6 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
@@ -312,6 +311,9 @@
 <dt><cite>auto_label</cite></dt><dd><p>Optional. A string which is used as the pattern to automatically name all item labels inside this RouteDay’s <code class="docutils literal notranslate"><span class="pre">archive_list</span></code>. Each item in <code class="docutils literal notranslate"><span class="pre">archive_list</span></code> with None as its label will be given a label with this prefix + a number in increasing order.</p>
 <p>e.g. ‘<a href="#id1"><span class="problematic" id="id2">casual_d3_</span></a>’</p>
 </dd>
+<dt><cite>exclude_suffix</cite></dt><dd><p>Optional. A boolean value that controls whether the ” Day” suffix is added to the end of the day name on the timeline screen. The default behaviour is to append ” Day” to the end of the title given in the <code class="docutils literal notranslate"><span class="pre">day</span></code> field, so “1st” appears as “1st Day” on the timeline screen. If <code class="docutils literal notranslate"><span class="pre">exclude_suffix</span></code> is True, however, then ” Day” will not be appended to the name of the day so it would appear simply as “1st”.</p>
+<p>e.g. True</p>
+</dd>
 </dl>
 <div class="section" id="adding-timeline-items">
 <h2>Adding Timeline Items<a class="headerlink" href="#adding-timeline-items" title="Permalink to this headline">¶</a></h2>
@@ -350,6 +352,9 @@
 </dd>
 <dt><cite>save_img</cite></dt><dd><p>Optional. A string with the name of the save image to use for this particular chatroom. This takes precedent over a save image set by the RouteDay. It is typically an image indicating which route the player is on. The prefix <code class="docutils literal notranslate"><span class="pre">&quot;save_&quot;</span></code> is automatically added to this field.</p>
 <p>e.g. “casual”</p>
+</dd>
+<dt><cite>box_bg</cite></dt><dd><p>Optional. If you want the chatroom’s timeline image box to have one of the special backgrounds, you’ll specify which one – either “colorhack” or “secure”. “secure” displays a gear image beneath the title and participant pictures, and “colorhack” displays several coloured squares. If omitted, the regular box background is used.</p>
+<p>e.g. “colorhack”</p>
 </dd>
 </dl>
 <p>Chatrooms also have “expired” versions. This means that if the player is playing real-time mode and doesn’t play this chatroom before the next timeline item appears, it will “expire”. The program will look for the expired version of a chatroom under the chatroom’s regular label + the suffix <code class="docutils literal notranslate"><span class="pre">_expired</span></code>. So, if the chatroom is found at</p>

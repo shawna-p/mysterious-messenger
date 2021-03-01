@@ -36,9 +36,7 @@
 
     
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Credits and Acknowledgements" href="credits-and-acknowledgements.html" />
-    <link rel="prev" title="Full Changelog" href="Changelog.html" /> 
+    <link rel="search" title="Search" href="search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,7 +83,6 @@
             
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="Home.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Changelog.html">Full Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credits-and-acknowledgements.html">Credits and Acknowledgements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting-started.html">Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="beginners-guide.html">Beginner’s Guide</a></li>
@@ -148,8 +145,6 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-          <li><a href="Changelog.html">Full Changelog</a> &raquo;</li>
-        
       <li>Full Changelog</li>
     
     
@@ -175,12 +170,19 @@
 <p class="caption"><span class="caption-text">Navigation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Full Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">3.0.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">3.0.1</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#major-new-features">Major New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#minor-new-features">Minor New Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixes">Fixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#qol-improvements">QoL Improvements</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#other">Other</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">3.0.0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#major-3-0-0">Major New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#minor-3-0-0">Minor New Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fixes-3-0-0">Fixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qol-improvements">QoL Improvements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#other-3-0-0">Other</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#renamed-variables">Renamed Variables</a></li>
 </ul>
 </li>
@@ -189,9 +191,103 @@
 </ul>
 </div>
 <div class="section" id="id1">
-<h2>3.0.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>3.0.1<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="major-new-features">
-<h3>Major New Features<a class="headerlink" href="#major-new-features" title="Permalink to this headline">¶</a></h3>
+<span id="major-3-0-1"></span><h3>Major New Features<a class="headerlink" href="#major-new-features" title="Permalink to this headline">¶</a></h3>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Feature</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Chatroom Links</p></td>
+<td><p>Characters can now post links in chatrooms. Clicking a link can cause a variety of actions to occur, such as jumping to a Story Mode section or showing a CG.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Vanderwood</p></td>
+<td><p>Vanderwood has been added as a fully-fledged character with his own profile, chat bubbles, heart icon, and more.</p></td>
+</tr>
+<tr class="row-even"><td><p>Additional Assets</p></td>
+<td><p>Story Mode has new characters. Chatrooms have two new timeline backgrounds, a new secure chat background, a cracked glass overlay, and a new secure lock opening animation. There is a new red static hack effect.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="minor-new-features">
+<span id="minor-3-0-1"></span><h3>Minor New Features<a class="headerlink" href="#minor-new-features" title="Permalink to this headline">¶</a></h3>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Feature</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Character definitions condensed</p></td>
+<td><p>Players now only need to define a ChatCharacter for a new character, and their vn_char and phone_char fields will be automatically defined.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Auto-defined Story Mode window background</p></td>
+<td><p>Users can now supply a character’s definition with the <code class="docutils literal notranslate"><span class="pre">window_color</span></code> field to automatically colour the dialogue background in Story Mode.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="fixes">
+<span id="fixes-3-0-1"></span><h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h3>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Fix</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Phone call replay</p></td>
+<td><p>Replaying a phone call always begins with the phone audio playing automatically.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Bonus profile pictures</p></td>
+<td><p>There is better error checking for bonus profile pictures. Characters without a greeting image can still use their profile picture next to the number of hearts earned with them.</p></td>
+</tr>
+<tr class="row-even"><td><p>Saves track the next day</p></td>
+<td><p>Save files now track the name of the next day when loading in real-time.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="other">
+<span id="other-3-0-1"></span><h3>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h3>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Feature</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Guest grade update</p></td>
+<td><p>The images used for your guest grade after all party guests have arrived have been updated.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>3.0.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="major-3-0-0">
+<span id="id3"></span><h3>Major New Features<a class="headerlink" href="#major-3-0-0" title="Permalink to this headline">¶</a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -242,8 +338,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="minor-new-features">
-<h3>Minor New Features<a class="headerlink" href="#minor-new-features" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="minor-3-0-0">
+<span id="id4"></span><h3>Minor New Features<a class="headerlink" href="#minor-3-0-0" title="Permalink to this headline">¶</a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -300,8 +396,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="fixes">
-<h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="fixes-3-0-0">
+<span id="id5"></span><h3>Fixes<a class="headerlink" href="#fixes-3-0-0" title="Permalink to this headline">¶</a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -350,7 +446,7 @@
 </table>
 </div>
 <div class="section" id="qol-improvements">
-<h3>QoL Improvements<a class="headerlink" href="#qol-improvements" title="Permalink to this headline">¶</a></h3>
+<span id="qol-3-0-0"></span><h3>QoL Improvements<a class="headerlink" href="#qol-improvements" title="Permalink to this headline">¶</a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -401,8 +497,8 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="other">
-<h3>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="other-3-0-0">
+<span id="id6"></span><h3>Other<a class="headerlink" href="#other-3-0-0" title="Permalink to this headline">¶</a></h3>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 15%" />
@@ -436,7 +532,7 @@
 </table>
 </div>
 <div class="section" id="renamed-variables">
-<h3>Renamed Variables<a class="headerlink" href="#renamed-variables" title="Permalink to this headline">¶</a></h3>
+<span id="vars-3-0-0"></span><h3>Renamed Variables<a class="headerlink" href="#renamed-variables" title="Permalink to this headline">¶</a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 50%" />
@@ -513,15 +609,6 @@
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="credits-and-acknowledgements.html" class="btn btn-neutral float-right" title="Credits and Acknowledgements" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="Changelog.html" class="btn btn-neutral float-left" title="Full Changelog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

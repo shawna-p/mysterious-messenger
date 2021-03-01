@@ -312,6 +312,9 @@ Create this label and write the story mode. It is written the same way as a regu
 
 Once the story mode is finished, the program will return to where it left off in the chatroom. All the previous messages will remain on-screen in the chatlog, and the background will be what it was before the story mode.
 
+.. note::
+    If you begin a chatroom with the ``call vn_during_chat`` call before any dialogue is said in the chatroom, it will begin immediately in the VN portion instead of showing the player the chatroom with a Continue button.
+
 Clearing the Chat History
 -------------------------
 
