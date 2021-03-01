@@ -63,6 +63,20 @@ Fixes
     * - Saves track the next day
       - Save files now track the name of the next day when loading in real-time.
 
+.. _qol-3-0-1:
+
+QoL Improvements
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Tutorial Day Introduction
+      - If you hold Ctrl (Skip) during the introductory phone call on Tutorial Day, you will automatically go directly to the home screen, skipping the introduction.
+
 .. _other-3-0-1:
 
 Other
@@ -76,6 +90,7 @@ Other
       - **Description**
     * - Guest grade update
       - The images used for your guest grade after all party guests have arrived have been updated.
+
 
 3.0.0
 =======

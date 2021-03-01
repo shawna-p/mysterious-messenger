@@ -917,11 +917,10 @@ For example, an introduction which combines several elements into one introducti
         u "I need a favour from you, like I said in the phone call."
         u "You're in an apartment hallway, right?"
         u "There's a door there that says \"RFA\" on the handle."
-        u "Here, I'll send you the password."
-        # Jump to story mode during the chatroom when the player clicks a link
-        u "Click to Open" (link_title="Password", link_action=JumpVN('unlock_apt_door'))
-        # Stop the chat to wait for the player to click the link
-        stop chat
+        u "Type in the password 58439. Okay? It should open."
+
+        # Jump to story mode during the chatroom
+        call vn_during_chat("unlock_apt_door")
         # Returned to the chatroom
         m "It's open."
         u "Yay!"

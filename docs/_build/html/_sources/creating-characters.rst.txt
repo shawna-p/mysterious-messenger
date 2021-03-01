@@ -287,11 +287,11 @@ A greeting image for Emma might look like::
 
 Beneath this image definition, you will also see the line::
 
-    default no_greet_chars = [r, m]
+    default no_greet_chars = [r, m, va]
 
 If you won't be defining greeting messages for Emma to say on the main menu, then you should add her to this list as well::
 
-    default no_greet_chars = [r, m, em]
+    default no_greet_chars = [r, m, va, em]
 
 This image is also used on the character's profile picture screen to indicate how many heart points the player has earned with this character and can spend on bonus profile pictures (if not provided, the character's homepage_pic is used instead).
 
