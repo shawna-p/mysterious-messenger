@@ -154,7 +154,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="_sources/Home.md.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/Home.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -171,22 +171,52 @@
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>Welcome to Mysterious Messenger, a messenger game created in Ren’Py. This guide was created to help users understand how the program works together, and how to take advantage of the various functions.</p>
 <p>This guide is best used by navigating to the sections with the information you need as you need it rather than reading it from start-to-finish. Most sections have a line at the top that says “Example files to look at”; these will usually show the features described in the guide in action in the program itself. As much as possible, the code has been annotated to help you understand what’s happening in the program. Additionally, you’ll find plenty of code excerpts in this guide itself. They look like this:</p>
-<p><code class="docutils literal notranslate"><span class="pre">##</span> <span class="pre">Sample</span> <span class="pre">code</span> <span class="pre">here</span></code></p>
-<p>Most of these code excerpts are taken directly from the program itself and can be copied in to use for your own test purposes.
-Some sections will also have a “quick-start” guide at the beginning; they look like this:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_chatroom_1</span><span class="p">():</span>
+    <span class="k">scene</span> <span class="n">earlyMorn</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">mystic_chat</span>
+    <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">u</span>
+
+    <span class="n">u</span> <span class="s2">&quot;Congratulations! You&#39;ve created your first chatroom.&quot;</span>
+
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;That&#39;s amazing!&quot;</span><span class="p">:</span>
+            <span class="n">u</span> <span class="s2">&quot;Isn&#39;t it? I&#39;m glad you think so.&quot;</span>
+        <span class="s2">&quot;This is a lot of work.&quot;</span><span class="p">:</span>
+            <span class="n">u</span> <span class="s2">&quot;I&#39;m sure it will get easier with practice!&quot;</span>
+            <span class="n">u</span> <span class="s2">&quot;There are plenty of wiki pages to help you out, too.&quot;</span>
+
+    <span class="n">u</span> <span class="s2">&quot;I&#39;m leaving now. Good luck!&quot;</span>
+    <span class="n">exit</span> <span class="n">chatroom</span> <span class="n">u</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>Most of these code excerpts are taken directly from the program itself and can be copied in to use for your own test purposes.</p>
+<p>Some sections will also have a “quick-start” guide at the beginning; they look like this:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Example files to look at:</p>
+<ul class="simple">
+<li><p>tutorial_5_coffee.rpy</p></li>
+<li><p>tutorial_6_meeting.rpy</p></li>
+</ul>
 <p><em>A brief overview of the steps required (more detail below):</em></p>
+<ol class="arabic">
+<li><p>Create a new <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file (Optional, but recommended)</p></li>
+<li><p>Create a new label for the chatroom.</p></li>
+<li><p>Set the background with <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">morning</span></code> where <code class="docutils literal notranslate"><span class="pre">morning</span></code> is replaced by whatever time of day/background you want to use.</p></li>
+<li><p>Add background music with <code class="docutils literal notranslate"><span class="pre">play</span> <span class="pre">music</span> <span class="pre">mystic_chat</span></code> where <code class="docutils literal notranslate"><span class="pre">mystic_chat</span></code> is replaced by the desired music variable.</p></li>
+<li><p>Write the chatroom dialogue.</p>
 <blockquote>
-<div><ol class="simple">
-<li><p>Step 1</p></li>
-<li><p>Step 2</p>
-<ol class="simple">
-<li><p>Step 2a</p></li>
-</ol>
-</li>
+<div><ol class="arabic simple">
+<li><p>You may want to use either <code class="docutils literal notranslate"><span class="pre">Script</span> <span class="pre">Generator.xlsx</span></code> or the <code class="docutils literal notranslate"><span class="pre">msg</span></code> CDS.</p></li>
 </ol>
 </div></blockquote>
+</li>
+<li><p>End the label with <code class="docutils literal notranslate"><span class="pre">return</span></code>.</p></li>
+</ol>
+</div>
 <p>If you just need a quick reminder of what to do to get some code up and running, you can refer to this. If you need more detail, however, the rest of that section will explain further.</p>
-<p>If you haven’t already, you should also play through the Tutorial Day in the program at least once to get a feel for what the program is capable of. Then, if you’re new to Ren’Py and/or to programming, you should take a look at the <a class="reference external" href="Beginner%27s-Guide">Beginner’s Guide</a>, which will take you through the steps to make the first chatroom of a new route playable.</p>
+<p>If you haven’t already, you should also play through the Tutorial Day in the program at least once to get a feel for what the program is capable of. Then, if you’re new to Ren’Py and/or to programming, you should take a look at the <a class="reference internal" href="beginners-guide.html#beginner-s-guide"><span class="std std-ref">Beginner’s Guide</span></a>, which will take you through the steps to make the first chatroom of a new route playable.</p>
 </div>
 
 
