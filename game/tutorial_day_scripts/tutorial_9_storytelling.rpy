@@ -49,6 +49,16 @@ label other_storytelling():
     y "{=curly}Hello again!{/=curly}" (bounce=True)
     y "See how the background has changed and the message history is gone?"
     y "{=curly}You can use this feature for a lot of neat things ^^{/=curly}"
+    msg y "There's also another feature, customizable links."
+    msg y "They look like this!"
+    y "Click Link" (link_title="Address", link_action=JumpVN('other_storytelling_link_vn'))
+    stop chat "Click on the link to continue"
+    msg y "You might have noticed that the link can't be clicked anymore" ser1
+    msg y "now that we're back in the chat" ser1
+    msg y "Most links can only be clicked once," ser1
+    msg y "But some, like links that show CG images, can be clicked more than once." ser1
+    msg y "There's a lot you can do with these features!" curly glow
+    msg y "I hope it inspires you to write some interesting chats~"
     y "Good luck!" (bounce=True, specBubble="cloud_s")
     y "{image=yoosung_yahoo}" (img=True)
     exit chatroom y
@@ -78,6 +88,17 @@ label other_storytelling_chat_vn_2():
     y neutral "And now when we return, the chat log will be cleared."
     return
 
+label other_storytelling_link_vn():
+    scene bg yoosung_room_day with fade
+    show yoosung happy
+    y "Hi there!"
+    y grin "Clicking this particular link took you to a story mode,"
+    y "But you can use them to do all sorts of things."
+    y "Any action you can give to a button, you can give to a link."
+    y sparkle "So you could show an image, or toggle a variable, for example!"
+    y neutral "Anyway, let's go back to the chat."
+    return
+
 label other_storytelling_expired():
     $ y.prof_pic = "Profile Pics/Yoosung/yoo-13.webp"
     scene evening
@@ -96,7 +117,7 @@ label other_storytelling_expired():
     # expired chatrooms as well.
     call vn_during_chat('other_storytelling_chat_vn_1')
 
-    y "There are more neat things you can do with it too."
+    y "There are even in-chat links you can post"
     y "I hope you'll check them out!"
     exit chatroom y
     return
