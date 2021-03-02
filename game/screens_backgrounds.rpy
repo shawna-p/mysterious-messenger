@@ -753,3 +753,64 @@ EXPORT_SYMBOL(groups_free);
 #     return 0;
 # }
 # """
+
+
+image falling_rain:
+    "Phone UI/rain/rain_f1.webp"
+    0.1
+    "Phone UI/rain/rain_f2.webp"
+    0.1
+    "Phone UI/rain/rain_f3.webp"
+    0.1
+    "Phone UI/rain/rain_f4.webp"
+    0.1
+    "Phone UI/rain/rain_f5.webp"
+    0.1
+    "Phone UI/rain/rain_f6.webp"
+    0.1
+    repeat
+
+
+screen animated_rainy_day():
+    zorder 0
+    tag animated_bg
+    add 'Phone UI/rainy_clouds_gradient.webp'
+    # Clouds
+    add Transform('Phone UI/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, 1125, 2250)
+    add Transform('Phone UI/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, -1125, 2250)
+
+    add 'Phone UI/rainy_clouds_lightning.webp' at slow_pan_lightning(200, 0, 2250)
+    add 'Phone UI/rainy_clouds_lightning.webp' at slow_pan_lightning(200, -2250, 2250)
+
+    add 'Phone UI/rainy_clouds_back.webp' at slow_pan(300, 0, 2250)
+    add 'Phone UI/rainy_clouds_back.webp' at slow_pan(300, -2250, 2250)
+    add 'Phone UI/rainy_clouds_mid.webp' at slow_pan(200, 0, 2250)
+    add 'Phone UI/rainy_clouds_mid.webp' at slow_pan(200, -2250, 2250)
+    add 'falling_rain'
+    add 'Phone UI/rainy_clouds_front.webp' at slow_pan(110, 0, 2250)
+    add 'Phone UI/rainy_clouds_front.webp' at slow_pan(110, -2250, 2250)
+
+transform slow_pan_lightning(timing, init_x, x_move):
+    parallel:
+        # The pan
+        block:
+            xalign 0.0 xoffset init_x
+            linear timing xoffset x_move + init_x subpixel True
+            repeat
+    parallel:
+        block:
+            # The lightning
+            alpha 0.0
+            choice:
+                pause 10
+            choice:
+                pause 5
+            choice:
+                pause 15
+            ease 0.04 alpha 0.4
+            linear 0.04 alpha 0.0
+            ease 0.08 alpha 0.6
+            linear 0.04 alpha 0.0
+            ease 0.1 alpha 1.0
+            linear 0.08 alpha 0.0
+            repeat

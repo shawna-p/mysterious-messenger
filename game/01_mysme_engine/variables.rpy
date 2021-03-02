@@ -629,7 +629,7 @@ init -6 python:
     def print_file(*args, **kwargs):
         """Print statements to a file or to the console for debugging."""
 
-        DEBUG = None
+        DEBUG = False
         if DEBUG is None:
             return
 
@@ -1059,6 +1059,7 @@ image bg evening = "center_bg:Phone UI/bg-evening.webp"
 image bg night = "center_bg:Phone UI/bg-night.webp"
 image bg earlyMorn = "center_bg:Phone UI/bg-earlyMorn.webp"
 image bg noon = "center_bg:Phone UI/bg-noon.webp"
+image bg rainy_day = "center_bg:Phone UI/bg-rainy-day.webp"
 
 image bg hack = "Phone UI/bg-hack.webp"
 image bg redhack = "Phone UI/bg-redhack.webp"
