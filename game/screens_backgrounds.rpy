@@ -770,6 +770,12 @@ image falling_rain:
     0.1
     repeat
 
+image lightning_clouds = Composite(
+    (750, 1334),
+    (0, 0), At('Phone UI/rainy_clouds_lightning.webp', slow_pan_lightning),
+    (-2250, 0), At('Phone UI/rainy_clouds_lightning.webp', slow_pan_lightning)
+)
+
 
 screen animated_rainy_day():
     zorder 0
@@ -779,8 +785,7 @@ screen animated_rainy_day():
     add Transform('Phone UI/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, 1125, 2250)
     add Transform('Phone UI/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, -1125, 2250)
 
-    add 'Phone UI/rainy_clouds_lightning.webp' at slow_pan_lightning(200, 0, 2250)
-    add 'Phone UI/rainy_clouds_lightning.webp' at slow_pan_lightning(200, -2250, 2250)
+    add 'lightning_clouds' at lightning_cloud_flash()
 
     add 'Phone UI/rainy_clouds_back.webp' at slow_pan(300, 0, 2250)
     add 'Phone UI/rainy_clouds_back.webp' at slow_pan(300, -2250, 2250)
@@ -790,27 +795,30 @@ screen animated_rainy_day():
     add 'Phone UI/rainy_clouds_front.webp' at slow_pan(110, 0, 2250)
     add 'Phone UI/rainy_clouds_front.webp' at slow_pan(110, -2250, 2250)
 
-transform slow_pan_lightning(timing, init_x, x_move):
-    parallel:
-        # The pan
-        block:
-            xalign 0.0 xoffset init_x
-            linear timing xoffset x_move + init_x subpixel True
-            repeat
-    parallel:
-        block:
-            # The lightning
-            alpha 0.0
-            choice:
-                pause 10
-            choice:
-                pause 5
-            choice:
-                pause 15
-            ease 0.04 alpha 0.4
-            linear 0.04 alpha 0.0
-            ease 0.08 alpha 0.6
-            linear 0.04 alpha 0.0
-            ease 0.1 alpha 1.0
-            linear 0.08 alpha 0.0
-            repeat
+
+transform lightning_cloud_flash():
+    block:
+        # The lightning
+        alpha 0.0
+        choice:
+            pause 10
+        choice:
+            pause 5
+        choice:
+            pause 15
+        ease 0.04 alpha 0.4
+        linear 0.04 alpha 0.0
+        ease 0.08 alpha 0.6
+        linear 0.04 alpha 0.0
+        ease 0.1 alpha 1.0
+        linear 0.08 alpha 0.0
+        repeat
+
+transform slow_pan_lightning(timing=200, init_x=0, x_move=2250):
+    # The pan
+    block:
+        xalign 0.0 xoffset init_x
+        linear timing xoffset x_move + init_x subpixel True
+        repeat
+
+
