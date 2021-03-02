@@ -1592,7 +1592,7 @@ init python:
 
     import os.path
 
-    MM_WEB_DOC_URL = "https://mysterious-messenger.readthedocs.io/en/stable/"
+    MM_WEB_DOC_URL = "https://mysterious-messenger.readthedocs.io/en/latest/"
 
     # Get the game dir without "/game"
     mm_folder_dir = os.path.dirname(config.gamedir)
