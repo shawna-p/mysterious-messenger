@@ -1,84 +1,139 @@
 ## This is the file where the various animated backgrounds are defined.
 ## They are defined as screens instead of images for additional flexibility
 ## and animations.
+
+###########################################################
+## Morning background
+###########################################################
+
+image animated_big_star = "Phone UI/animated_bgs/morning/big_star.webp"
+image animated_med_star = "Phone UI/animated_bgs/morning/med_star.webp"
+image animated_tiny_star = "Phone UI/animated_bgs/morning/tiny_star.webp"
+
+image animated_morning_clouds_back = 'Phone UI/animated_bgs/morning/morning_clouds_back.webp'
+image animated_morning_clouds_mid = 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp'
+image animated_morning_clouds_front = 'Phone UI/animated_bgs/morning/morning_clouds_front.webp'
+
 screen animated_morning():
     zorder 0
     tag animated_bg
-    add 'Phone UI/morning_clouds_bg.webp':
+    add 'Phone UI/animated_bgs/morning/morning_clouds_bg.webp':
         at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
 
     # Add a bunch of stars
     for x in [0, 375]:
         for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big',
                           'med', 'tiny', 'big', 'med', 'tiny', 'big']:
-            add 'Phone UI/' + star_type + '_star.webp':
+            add 'animated_' + star_type + '_star':
                 at star_twinkle_out(100, x, x+375, 200, 200+350)
-            add 'Phone UI/' + star_type + '_star.webp':
+            add 'animated_' + star_type + '_star':
                 at star_twinkle_out(100, x, x+375, 200+350, 200+350*2)
-            add 'Phone UI/' + star_type + '_star.webp':
+            add 'animated_' + star_type + '_star':
                 at star_twinkle_out(100, x, x+375, 200+350*2, 1150)
 
     # Clouds
-    add 'Phone UI/morning_clouds_back.webp' at slow_pan(300, 0, 2250, 250, 0, -400)
-    add 'Phone UI/morning_clouds_back.webp' at slow_pan(300, -2250, 2250, 250, 0, -400)
-    add 'Phone UI/morning_clouds_mid.webp' at slow_pan(220, 0, 2250, 230, 0, -400)
-    add 'Phone UI/morning_clouds_mid.webp' at slow_pan(220, -2250, 2250, 230, 0, -400)
-    add 'Phone UI/morning_clouds_front.webp' at slow_pan(150, 0, 2250, 210, 0, -400)
-    add 'Phone UI/morning_clouds_front.webp' at slow_pan(150, -2250, 2250, 210, 0, -400)
+    add 'gentle_snow_back' at colorize_snow_morning()
+    add 'animated_morning_clouds_back' at slow_pan(300, 0, 2250, 250, 0, -400)
+    add 'animated_morning_clouds_back' at slow_pan(300, -2250, 2250, 250, 0, -400)
+    add 'animated_morning_clouds_mid' at slow_pan(220, 0, 2250, 230, 0, -400)
+    add 'animated_morning_clouds_mid' at slow_pan(220, -2250, 2250, 230, 0, -400)
+    add 'animated_morning_clouds_front' at slow_pan(150, 0, 2250, 210, 0, -400)
+    add 'animated_morning_clouds_front' at slow_pan(150, -2250, 2250, 210, 0, -400)
+    add 'gentle_snow_front' at colorize_snow_morning()
 
     # A gradient overlay to ease the transition from night into morning
-    add 'Phone UI/morning_darken.webp':
+    add 'Phone UI/animated_bgs/morning/morning_darken.webp':
         at topbottom_pan(180, 160, 30, 0, -1334, 0.8, 0, 0.0, 0.0)
+
+transform colorize_snow_morning():
+    alpha 0.45
+    linear 80 alpha 1.0
+
+###########################################################
+## Noon background
+###########################################################
+
+image animated_noon_clouds_back = 'Phone UI/animated_bgs/noon/noon_clouds_back.webp'
+image animated_noon_clouds_mid = 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp'
+image animated_noon_clouds_front = 'Phone UI/animated_bgs/noon/noon_clouds_front.webp'
 
 screen animated_noon():
     zorder 0
     tag animated_bg
-    add 'Phone UI/noon_background.webp'
+    add 'Phone UI/animated_bgs/noon/noon_background.webp'
     # Clouds
-    add 'Phone UI/noon_back_clouds.webp' at slow_pan(300, 0, 2250)
-    add 'Phone UI/noon_back_clouds.webp' at slow_pan(300, -2250, 2250)
-    add 'Phone UI/noon_mid_clouds.webp' at slow_pan(200, 0, 2250)
-    add 'Phone UI/noon_mid_clouds.webp' at slow_pan(200, -2250, 2250)
-    add 'Phone UI/noon_front_clouds.webp' at slow_pan(110, 0, 2250)
-    add 'Phone UI/noon_front_clouds.webp' at slow_pan(110, -2250, 2250)
+    add 'animated_noon_clouds_back' at slow_pan(300, 0, 2250)
+    add 'animated_noon_clouds_back' at slow_pan(300, -2250, 2250)
+    add 'animated_noon_clouds_mid' at slow_pan(200, 0, 2250)
+    add 'animated_noon_clouds_mid' at slow_pan(200, -2250, 2250)
+    add 'animated_noon_clouds_front' at slow_pan(110, 0, 2250)
+    add 'animated_noon_clouds_front' at slow_pan(110, -2250, 2250)
+
+###########################################################
+## Evening background
+###########################################################
+
+image animated_evening_clouds_back = "Phone UI/animated_bgs/evening/evening_clouds_back.webp"
+image animated_evening_clouds_mid = "Phone UI/animated_bgs/evening/evening_clouds_mid.webp"
+image animated_evening_clouds_front = "Phone UI/animated_bgs/evening/evening_clouds_front.webp"
 
 screen animated_evening():
     zorder 0
     tag animated_bg
-    add 'Phone UI/evening_clouds_bright.webp' xalign 0.487
+    add 'Phone UI/animated_bgs/evening/evening_clouds_bright.webp' xalign 0.487
 
     # There are three different sun colours for the evening as the sun sets
-    add 'Phone UI/evening_clouds_yellow_sun.webp':
+    add 'Phone UI/animated_bgs/evening/evening_clouds_yellow_sun.webp':
         xalign 0.5
         at topbottom_pan(180, 0, 60, -1138, 1138*1.5, 1.0, 100)
-    add 'Phone UI/evening_clouds_orange_sun.webp':
+    add 'Phone UI/animated_bgs/evening/evening_clouds_orange_sun.webp':
         xalign 0.5
         at topbottom_pan(180, 60, 60, -1138, 1138*1.5, 0.0, 100)
-    add 'Phone UI/evening_clouds_red_sun.webp':
+    add 'Phone UI/animated_bgs/evening/evening_clouds_red_sun.webp':
         xalign 0.5
         at topbottom_pan(180, 120, 60, -1138, 1138*1.5, 0.0, 100, 1.0)
 
     # Clouds
-    add 'Phone UI/evening_clouds_slow.webp' at slow_pan(300, 0, 2208)
-    add 'Phone UI/evening_clouds_slow.webp' at slow_pan(300, -2208, 2208)
-    add 'Phone UI/evening_clouds_mid.webp' at slow_pan(200, 0, 2208)
-    add 'Phone UI/evening_clouds_mid.webp' at slow_pan(200, -2208, 2208)
-    add 'Phone UI/evening_clouds_fast.webp' at slow_pan(110, 0, 2208)
-    add 'Phone UI/evening_clouds_fast.webp' at slow_pan(110, -2208, 2208)
+    add 'gentle_snow_back' at colorize_snow_evening()
+    add 'animated_evening_clouds_back' at slow_pan(300, 0, 2208)
+    add 'animated_evening_clouds_back' at slow_pan(300, -2208, 2208)
+    add 'animated_evening_clouds_mid' at slow_pan(200, 0, 2208)
+    add 'animated_evening_clouds_mid' at slow_pan(200, -2208, 2208)
+    add 'animated_evening_clouds_front' at slow_pan(110, 0, 2208)
+    add 'animated_evening_clouds_front' at slow_pan(110, -2208, 2208)
+    add 'gentle_snow_front' at colorize_snow_evening()
 
     # These gradients help blend the sun colours with the sky and clouds
-    add 'Phone UI/evening_clouds_orange.webp':
+    add 'Phone UI/animated_bgs/evening/evening_clouds_orange.webp':
         at fadein_out(60, 60, 60, 170-90-75, 0.0)
-    add 'Phone UI/evening_clouds_red.webp':
+    add 'Phone UI/animated_bgs/evening/evening_clouds_red.webp':
         at fadein_out(120, 60, 10, 10, 0.0, 0.3)
+
+define config.gl2 = True
+transform colorize_snow_evening():
+    matrixcolor TintMatrix("#fff")
+    linear 60 matrixcolor TintMatrix("#fce9cc")
+    linear 60 matrixcolor TintMatrix("#ffecdb")
+    linear 60 matrixcolor TintMatrix("#ffeaec")
+
+###########################################################
+## Night background
+###########################################################
+
+image animated_night_big_star = "Phone UI/animated_bgs/night/night_big_star.webp"
+image animated_night_med_star = "Phone UI/animated_bgs/night/night_med_star.webp"
+image animated_night_tiny_star = "Phone UI/animated_bgs/night/night_tiny_star.webp"
+
+image animated_shooting_star1 = 'Phone UI/animated_bgs/night/night_shooting_star_1.webp'
+image animated_shooting_star2 = 'Phone UI/animated_bgs/night/night_shooting_star_2.webp'
 
 screen animated_night():
     zorder 0
     tag animated_bg
-    add 'Phone UI/night_background.webp'
+    add 'Phone UI/animated_bgs/night/night_background.webp'
 
     # Gradient overlay
-    add 'Phone UI/night_overlay.webp':
+    add 'Phone UI/animated_bgs/night/night_overlay.webp':
         at topbottom_pan(100, 100, 50, -1334, 1334, 1.0, 0, 0.0, 0.0)
 
     fixed:
@@ -89,102 +144,106 @@ screen animated_night():
         # Stars
         for x in [0, 250, 500]:#[0, 381, 762, 1143]:
             for y in [0, 333, 666, 999]:#[0, 381, 762, 1143]:
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_twinkle_in(0, 50,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_twinkle_in(51, 100,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_twinkle_in(101, 200,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_twinkle_in(0, 50,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_twinkle_in(51, 100,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_twinkle_in(101, 200,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_twinkle_in(0, 50,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_twinkle_in(51, 100,
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_twinkle_in(101, 200,
                         x, x+250,
                         y, y+333)
 
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
 
                 for i in range(2):
-                    add 'Phone UI/night_med_star.webp':
+                    add 'animated_night_med_star':
                         at star_fade_in(20, 50,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_med_star.webp':
+                    add 'animated_night_med_star':
                         at star_fade_in(51, 100,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_med_star.webp':
+                    add 'animated_night_med_star':
                         at star_fade_in(101, 200,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_tiny_star.webp':
+                    add 'animated_night_tiny_star':
                         at star_fade_in(0, 50,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_tiny_star.webp':
+                    add 'animated_night_tiny_star':
                         at star_fade_in(51, 100,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_tiny_star.webp':
+                    add 'animated_night_tiny_star':
                         at star_fade_in(101, 200,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_big_star.webp':
+                    add 'animated_night_big_star':
                         at star_fade_in(30, 50,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_big_star.webp':
+                    add 'animated_night_big_star':
                         at star_fade_in(51, 100,
                             x, x+250,
                             y, y+333)
-                    add 'Phone UI/night_big_star.webp':
+                    add 'animated_night_big_star':
                         at star_fade_in(101, 200,
                             x, x+250,
                             y, y+333)
         # Shooting stars
-        add 'Phone UI/night_shooting_star_1.webp' at shooting_star
-        add 'Phone UI/night_shooting_star_2.webp' at shooting_star
+        add 'animated_shooting_star1' at shooting_star
+        add 'animated_shooting_star2' at shooting_star
+
+###########################################################
+## Early morning background
+###########################################################
 
 screen animated_earlyMorn():
     zorder 0
     tag animated_bg
-    add 'Phone UI/earlymorn_background.webp' at topbottom_pan(150, 0, 0, 0,
-                                                            -946, 1.0, 0, 1.0)
+    add 'Phone UI/animated_bgs/earlyMorn/earlymorn_background.webp':
+        at topbottom_pan(150, 0, 0, 0, -946, 1.0, 0, 1.0)
 
     fixed:
         # Stars
@@ -192,76 +251,76 @@ screen animated_earlyMorn():
         align (0.5, 0.6)
         for x in [0, 250, 500]:
             for y in [0, 333, 666, 999]:
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_twinkle_randomly(
                         x, x+250,
                         y, y+333)
 
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_med_star.webp':
+                add 'animated_night_med_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_tiny_star.webp':
+                add 'animated_night_tiny_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
-                add 'Phone UI/night_big_star.webp':
+                add 'animated_night_big_star':
                     at star_place_randomly(
                         x, x+250,
                         y, y+333)
@@ -283,103 +342,109 @@ screen animated_earlyMorn():
 
 
 image gemini_constellation:
-    "Phone UI/gemini_stars.webp"
+    "Phone UI/animated_bgs/earlyMorn/gemini_stars.webp"
     random.randint(60, 80)
     block:
-        "Phone UI/gemini_stars.webp"
+        "Phone UI/animated_bgs/earlyMorn/gemini_stars.webp"
         3.0
-        "Phone UI/gemini_const.webp" with CropMove(3.0, 'irisout')
+        "Phone UI/animated_bgs/earlyMorn/gemini_const.webp" with CropMove(3.0, 'irisout')
         5.0
-        "Phone UI/gemini_symbol.webp" with Dissolve(3.0)
+        "Phone UI/animated_bgs/earlyMorn/gemini_symbol.webp" with Dissolve(3.0)
         5.0
         'Phone UI/gemini_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
 image libra_constellation:
-    "Phone UI/libra_stars.webp"
+    "Phone UI/animated_bgs/earlyMorn/libra_stars.webp"
     random.randint(120, 140)
     block:
-        "Phone UI/libra_stars.webp"
+        "Phone UI/animated_bgs/earlyMorn/libra_stars.webp"
         3.0
-        "Phone UI/libra_const.webp" with CropMove(3.0, 'irisout')
+        "Phone UI/animated_bgs/earlyMorn/libra_const.webp" with CropMove(3.0, 'irisout')
         5.0
-        "Phone UI/libra_symbol.webp" with Dissolve(3.0)
+        "Phone UI/animated_bgs/earlyMorn/libra_symbol.webp" with Dissolve(3.0)
         5.0
         'Phone UI/libra_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
 image virgo_constellation:
-    "Phone UI/virgo_stars.webp"
+    "Phone UI/animated_bgs/earlyMorn/virgo_stars.webp"
     random.randint(20, 40)
     block:
-        "Phone UI/virgo_stars.webp"
+        "Phone UI/animated_bgs/earlyMorn/virgo_stars.webp"
         3.0
-        "Phone UI/virgo_const.webp" with CropMove(3.0, 'irisout')
+        "Phone UI/animated_bgs/earlyMorn/virgo_const.webp" with CropMove(3.0, 'irisout')
         5.0
-        "Phone UI/virgo_symbol.webp" with Dissolve(3.0)
+        "Phone UI/animated_bgs/earlyMorn/virgo_symbol.webp" with Dissolve(3.0)
         5.0
         'Phone UI/virgo_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
 image pisces_constellation:
-    "Phone UI/pisces_stars.webp"
+    "Phone UI/animated_bgs/earlyMorn/pisces_stars.webp"
     random.randint(0, 20)
     block:
-        "Phone UI/pisces_stars.webp"
+        "Phone UI/animated_bgs/earlyMorn/pisces_stars.webp"
         3.0
-        "Phone UI/pisces_const.webp" with CropMove(3.0, 'irisout')
+        "Phone UI/animated_bgs/earlyMorn/pisces_const.webp" with CropMove(3.0, 'irisout')
         5.0
-        "Phone UI/pisces_symbol.webp" with Dissolve(3.0)
+        "Phone UI/animated_bgs/earlyMorn/pisces_symbol.webp" with Dissolve(3.0)
         5.0
         'Phone UI/pisces_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
 image scorpius_constellation:
-    "Phone UI/scorpius_stars.webp"
+    "Phone UI/animated_bgs/earlyMorn/scorpius_stars.webp"
     random.randint(80, 100)
     block:
-        "Phone UI/scorpius_stars.webp"
+        "Phone UI/animated_bgs/earlyMorn/scorpius_stars.webp"
         3.0
-        "Phone UI/scorpius_const.webp" with CropMove(3.0, 'irisout')
+        "Phone UI/animated_bgs/earlyMorn/scorpius_const.webp" with CropMove(3.0, 'irisout')
         5.0
-        "Phone UI/scorpius_symbol.webp" with Dissolve(3.0)
+        "Phone UI/animated_bgs/earlyMorn/scorpius_symbol.webp" with Dissolve(3.0)
         5.0
         'Phone UI/scorpius_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
 image aries_constellation:
-    "Phone UI/aries_stars.webp"
+    "Phone UI/animated_bgs/earlyMorn/aries_stars.webp"
     random.randint(100, 120)
     block:
-        "Phone UI/aries_stars.webp"
+        "Phone UI/animated_bgs/earlyMorn/aries_stars.webp"
         3.0
-        "Phone UI/aries_const.webp" with CropMove(3.0, 'irisout')
+        "Phone UI/animated_bgs/earlyMorn/aries_const.webp" with CropMove(3.0, 'irisout')
         5.0
-        "Phone UI/aries_symbol.webp" with Dissolve(3.0)
+        "Phone UI/animated_bgs/earlyMorn/aries_symbol.webp" with Dissolve(3.0)
         5.0
         'Phone UI/aries_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
 image capricorn_constellation:
-    "Phone UI/capricorn_stars.webp"
+    "Phone UI/animated_bgs/earlyMorn/capricorn_stars.webp"
     random.randint(40, 60)
     block:
-        "Phone UI/capricorn_stars.webp"
+        "Phone UI/animated_bgs/earlyMorn/capricorn_stars.webp"
         3.0
-        "Phone UI/capricorn_const.webp" with CropMove(3.0, 'irisout')
+        "Phone UI/animated_bgs/earlyMorn/capricorn_const.webp" with CropMove(3.0, 'irisout')
         5.0
-        "Phone UI/capricorn_symbol.webp" with Dissolve(3.0)
+        "Phone UI/animated_bgs/earlyMorn/capricorn_symbol.webp" with Dissolve(3.0)
         5.0
         'Phone UI/capricorn_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
+###########################################################
+## Reused Transforms
+###########################################################
+# Slowly pan an image across the screen for timing seconds. Optionally,
+# also pan it in the y direction. The x direction repeats but the y
+# direction does not.
 transform slow_pan(timing, init_x, x_move, y_timing=0, init_y=0, y_move=0):
     parallel:
         block:
@@ -390,6 +455,8 @@ transform slow_pan(timing, init_x, x_move, y_timing=0, init_y=0, y_move=0):
         yalign 0.0 yoffset init_y
         easein y_timing yoffset y_move + init_y subpixel True
 
+# Slowly pan an image from the top of the screen to the bottom. Optionally,
+# includes an alpha transform.
 transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move,
         start_alpha, delay_2, disappear=0.0, fadein_alpha=1.0):
     yalign 0.0 yoffset init_y alpha start_alpha
@@ -402,6 +469,7 @@ transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move,
         delay_2
         alpha disappear
 
+# Slowly fade an image in and out
 transform fadein_out(delay1, fadein, fadeout, delay_2,
         start_alpha, end_alpha=0.0):
     alpha start_alpha
@@ -410,6 +478,7 @@ transform fadein_out(delay1, fadein, fadeout, delay_2,
     delay_2
     linear fadeout alpha end_alpha
 
+# Currently unused; pans the moon across the screen
 transform moon_pan():
     xpos -360 ypos -200 yoffset 0 xoffset 0 zoom 0.5
     parallel:
@@ -423,8 +492,7 @@ transform moon_pan():
         linear 20  alpha 0.0
     repeat
 
-
-
+# Currently unused; used to rotate the whole star field around the screen
 transform star_rotate(speed):
     rotate 0
     block:
@@ -432,6 +500,7 @@ transform star_rotate(speed):
         linear speed rotate 360 subpixel True
         repeat
 
+# Randomly chooses a direction and origin point to spawn a shooting star
 transform shooting_star():
     rotate 0 xzoom 1 xoffset 0 yoffset 0 alpha 0.0
     (renpy.random.randint(20, 70) + renpy.random.random())
@@ -506,15 +575,15 @@ transform shooting_star():
         parallel:
             linear 0.5 rotate 80
     repeat
-
+# Fades a star in after waiting some arbitrary number of seconds
 transform star_fade_in(delay_min, delay_max, x_min=0, x_max=0, y_min=0, y_max=0):
     alpha 0.0 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
     renpy.random.randint(delay_min, delay_max)
     ease 1.0 + renpy.random.random() alpha 1.0
-
+# Places a star at a random position on the screen, within certain bounds
 transform star_place_randomly(x_min=0, x_max=0, y_min=0, y_max=0):
     alpha 0.6 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
-
+# Places a star randomly on the screen, then animates it twinkling on occasion
 transform star_twinkle_randomly(x_min=0, x_max=0, y_min=0, y_max=0):
     alpha 0.6 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
     block:
@@ -523,7 +592,7 @@ transform star_twinkle_randomly(x_min=0, x_max=0, y_min=0, y_max=0):
         ease 1.1 + renpy.random.random() alpha 0.0
         linear 0.3
         repeat
-
+# Animates a star blinking onto the screen, then makes it twinkle occasionally
 transform star_twinkle_in(delay_min, delay_max, x_min, x_max, y_min, y_max):
     alpha 0.0 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
     renpy.random.randint(delay_min, delay_max)
@@ -533,7 +602,7 @@ transform star_twinkle_in(delay_min, delay_max, x_min, x_max, y_min, y_max):
         ease 1.1 + renpy.random.random() alpha 0.0
         linear 0.3
         repeat
-
+# Places a star on the screen, twinkling randomly until it disappears
 transform star_twinkle_out(delay1, x_min, x_max, y_min, y_max):
     alpha 1.0 xpos renpy.random.randint(x_min, x_max) ypos (renpy.random.randint(y_min, y_max))
     block:
@@ -543,6 +612,9 @@ transform star_twinkle_out(delay1, x_min, x_max, y_min, y_max):
         linear 0.3
         repeat (delay1 // 18) + 1
 
+###########################################################
+## Hack background
+###########################################################
 
 init python:
     def scramble_text(txt):
@@ -754,48 +826,57 @@ EXPORT_SYMBOL(groups_free);
 # }
 # """
 
+###########################################################
+## Rainy day background
+###########################################################
+
 
 image falling_rain:
-    "Phone UI/rain/rain_f1.webp"
+    "Phone UI/animated_bgs/rainy_day/rain_f1.webp"
     0.1
-    "Phone UI/rain/rain_f2.webp"
+    "Phone UI/animated_bgs/rainy_day/rain_f2.webp"
     0.1
-    "Phone UI/rain/rain_f3.webp"
+    "Phone UI/animated_bgs/rainy_day/rain_f3.webp"
     0.1
-    "Phone UI/rain/rain_f4.webp"
+    "Phone UI/animated_bgs/rainy_day/rain_f4.webp"
     0.1
-    "Phone UI/rain/rain_f5.webp"
+    "Phone UI/animated_bgs/rainy_day/rain_f5.webp"
     0.1
-    "Phone UI/rain/rain_f6.webp"
+    "Phone UI/animated_bgs/rainy_day/rain_f6.webp"
     0.1
     repeat
 
 image lightning_clouds = Composite(
     (750, 1334),
-    (0, 0), At('Phone UI/rainy_clouds_lightning.webp', slow_pan_lightning),
-    (-2250, 0), At('Phone UI/rainy_clouds_lightning.webp', slow_pan_lightning)
+    (0, 0), At('Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
+        slow_pan_lightning),
+    (-2250, 0), At('Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
+        slow_pan_lightning)
 )
 
+image animated_rainy_clouds_back = 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp'
+image animated_rainy_clouds_mid = 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp'
+image animated_rainy_clouds_front = 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp'
 
 screen animated_rainy_day():
     zorder 0
     tag animated_bg
-    add 'Phone UI/rainy_clouds_gradient.webp'
+    add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp'
     # Clouds
-    add Transform('Phone UI/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, 1125, 2250)
-    add Transform('Phone UI/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, -1125, 2250)
+    add Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, 1125, 2250)
+    add Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, -1125, 2250)
 
     add 'lightning_clouds' at lightning_cloud_flash()
 
-    add 'Phone UI/rainy_clouds_back.webp' at slow_pan(300, 0, 2250)
-    add 'Phone UI/rainy_clouds_back.webp' at slow_pan(300, -2250, 2250)
-    add 'Phone UI/rainy_clouds_mid.webp' at slow_pan(200, 0, 2250)
-    add 'Phone UI/rainy_clouds_mid.webp' at slow_pan(200, -2250, 2250)
+    add 'animated_rainy_clouds_back' at slow_pan(300, 0, 2250)
+    add 'animated_rainy_clouds_back' at slow_pan(300, -2250, 2250)
+    add 'animated_rainy_clouds_mid' at slow_pan(200, 0, 2250)
+    add 'animated_rainy_clouds_mid' at slow_pan(200, -2250, 2250)
     add 'falling_rain'
-    add 'Phone UI/rainy_clouds_front.webp' at slow_pan(110, 0, 2250)
-    add 'Phone UI/rainy_clouds_front.webp' at slow_pan(110, -2250, 2250)
+    add 'animated_rainy_clouds_front' at slow_pan(110, 0, 2250)
+    add 'animated_rainy_clouds_front' at slow_pan(110, -2250, 2250)
 
-
+# A transform that causes lightning to randomly appear and flash
 transform lightning_cloud_flash():
     block:
         # The lightning
@@ -814,11 +895,343 @@ transform lightning_cloud_flash():
         linear 0.08 alpha 0.0
         repeat
 
+# Moves the lightning clouds slowly across the screen uniformly
 transform slow_pan_lightning(timing=200, init_x=0, x_move=2250):
     # The pan
     block:
         xalign 0.0 xoffset init_x
         linear timing xoffset x_move + init_x subpixel True
         repeat
+
+
+###########################################################
+## Snow background
+###########################################################
+
+
+image snow_giant = "Phone UI/animated_bgs/snow/snow_giant.webp"
+image snow_med = "Phone UI/animated_bgs/snow/snow_med.webp"
+image snow_tiny = "Phone UI/animated_bgs/snow/snow_tiny.webp"
+
+init python:
+    def giant_snow(xspeed=0, yspeed=(50, 100), start=100,
+            count=5, fluttering=10):
+        return SnowBlossom2("snow_giant", count=count,
+            border=-70,#border=123,
+            xspeed=xspeed,
+            yspeed=yspeed,
+            start=start, fluttering=fluttering, fast=True)
+
+    def med_snow(xspeed=0, yspeed=(32, 75), start=100,
+            count=75, fluttering=10, alpha=1.0):
+        if alpha == 1.0:
+            img = 'snow_med'
+        else:
+            img = Transform('snow_med', alpha=alpha, xzoom=-1.0)
+
+        return SnowBlossom2(img, count=count, border=-70,#border=25,
+            xspeed=xspeed,
+            yspeed=yspeed,
+            start=start, fluttering=fluttering, fast=True)
+
+
+    def tiny_snow(xspeed=0, yspeed=(32, 75), start=100,
+            count=150, fluttering=10):
+
+        return SnowBlossom2('snow_tiny', count=count, border=-70,#border=25,
+            xspeed=xspeed,
+            yspeed=yspeed,
+            start=start, fluttering=fluttering, fast=True)
+
+## Snow image definitions
+image gentle_snow_back = Fixed(
+    med_snow(start=0, alpha=0.5), med_snow(start=75, alpha=0.5),
+    med_snow(start=150, alpha=0.5), med_snow(start=225, alpha=0.5),
+
+    tiny_snow(start=0), tiny_snow(start=50), tiny_snow(start=100),
+    tiny_snow(start=150), tiny_snow(start=200), tiny_snow(start=250)
+)
+
+image gentle_snow_front = Fixed(
+    giant_snow(start=0), giant_snow(start=100), giant_snow(start=200),
+    med_snow(start=0), med_snow(start=75), med_snow(start=150),
+    med_snow(start=225)
+)
+
+
+image animated_snow_clouds_back = Transform('animated_noon_clouds_back', alpha=0.2)
+image animated_snow_clouds_mid = Transform('animated_noon_clouds_mid', alpha=0.2)
+image animated_snow_clouds_front = Transform('animated_noon_clouds_front', alpha=0.2)
+
+screen animated_snowy_day():
+    zorder 0
+    tag animated_bg
+
+    add "Phone UI/animated_bgs/snow/snow_bg2.webp"
+
+    # Clouds
+    add 'animated_snow_clouds_back' at slow_pan(300, 0, 2250)
+    add 'animated_snow_clouds_back' at slow_pan(300, -2250, 2250)
+    add 'gentle_snow_back'
+    add 'animated_snow_clouds_mid' at slow_pan(200, 0, 2250)
+    add 'animated_snow_clouds_mid' at slow_pan(200, -2250, 2250)
+    add 'animated_snow_clouds_front' at slow_pan(110, 0, 2250)
+    add 'animated_snow_clouds_front' at slow_pan(110, -2250, 2250)
+    add 'gentle_snow_front'
+
+image animated_morning_snow_clouds_back = Transform('animated_noon_clouds_back', alpha=0.8)
+image animated_morning_snow_clouds_mid = Transform('animated_noon_clouds_mid', alpha=0.8)
+image animated_morning_snow_clouds_front = Transform('animated_noon_clouds_front', alpha=0.8)
+
+
+screen animated_morning_snow():
+    zorder 0
+    tag animated_bg
+
+    add "Phone UI/animated_bgs/snow/snow_bg1.webp"
+
+    # Clouds
+    add 'animated_morning_snow_clouds_back' at slow_pan(300, 0, 2250)
+    add 'animated_morning_snow_clouds_back' at slow_pan(300, -2250, 2250)
+    add 'gentle_snow_back'
+    add 'animated_morning_snow_clouds_mid' at slow_pan(200, 0, 2250)
+    add 'animated_morning_snow_clouds_mid' at slow_pan(200, -2250, 2250)
+    add 'animated_morning_snow_clouds_front' at slow_pan(110, 0, 2250)
+    add 'animated_morning_snow_clouds_front' at slow_pan(110, -2250, 2250)
+    add 'gentle_snow_front'
+
+
+
+# Code adapted from SnowBlossom2 code on the lemmasoft forums.
+# Original link: https://lemmasoft.renai.us/forums/viewtopic.php?t=36421
+init -100 python:
+
+    def SnowBlossom2(d, count=10, border=50, xspeed=(20, 50),
+            yspeed=(100, 200), start=0, fluttering=0, flutteringspeed=0.01,
+            fast=False, horizontal=False):
+
+        """
+        :doc: sprites_extra
+
+        The snowblossom effect moves multiple instances of a sprite up,
+        down, left or right on the screen. When a sprite leaves the screen, it
+        is returned to the start.
+
+        `d`
+            The displayable to use for the sprites.
+
+        `border`
+            The size of the border of the screen. The sprite is considered to be
+            on the screen until it clears the border, ensuring that sprites do
+            not disappear abruptly.
+
+        `xspeed`, `yspeed`
+            The speed at which the sprites move, in the horizontal and vertical
+            directions, respectively. These can be a single number or a tuple of
+            two numbers. In the latter case, each particle is assigned a random
+            speed between the two numbers. The speeds can be positive or negative,
+            as long as the second number in a tuple is larger than the first.
+
+        `start`
+            The delay, in seconds, before each particle is added. This allows
+            the particles to start at the top of the screen, while not looking
+            like a "wave" effect.
+
+        `fluttering`
+            The width of fluttering in pixel.
+
+        `flutteringspeed`
+            The speed of fluttering.
+
+        `fast`
+            If true, particles start in the center of the screen, rather than
+            only at the edges.
+
+        `horizontal`
+            If true, particles appear on the left or right side of the screen,
+            rather than the top or bottom.
+            """
+
+        # If going horizontal, swap the xspeed and the yspeed.
+        if horizontal:
+            xspeed, yspeed = yspeed, xspeed
+
+        return Particles(SnowBlossomFactory2(image=d,
+                                            count=count,
+                                            border=border,
+                                            xspeed=xspeed,
+                                            yspeed=yspeed,
+                                            start=start,
+                                            fluttering=fluttering,
+                                            flutteringspeed=flutteringspeed,
+                                            fast=fast,
+                                            rotate=horizontal))
+
+
+    class SnowBlossomFactory2(renpy.python.NoRollback):
+
+        # Determines whether we calculate things from left to right instead
+        # of from top to bottom
+        rotate = False
+
+        def __setstate__(self, state):
+            self.start = 0
+            vars(self).update(state)
+            self.init()
+
+        def __init__(self, image, count, xspeed, yspeed, border, start,
+                fluttering, flutteringspeed, fast, rotate=False):
+            self.image = renpy.easy.displayable(image)
+            self.count = count
+            self.xspeed = xspeed
+            self.yspeed = yspeed
+            self.border = border
+            self.start = start
+            self.fluttering = fluttering
+            self.flutteringspeed = flutteringspeed
+            self.fast = fast
+            self.rotate = rotate
+            self.init()
+
+        def init(self):
+            # Get a random float between 0 and self.start for all the particles
+            self.starts = [ random.uniform(0, self.start)
+                for _i in xrange(0, self.count) ]
+            self.starts.append(self.start)
+            # Sort them from earliest to latest appearance
+            self.starts.sort()
+
+        def create(self, particles, st):
+
+            def ranged(n):
+                if isinstance(n, tuple):
+                    # Return a random float between range n[0] and n[1]
+                    return random.uniform(n[0], n[1])
+                else:
+                    # Otherwise just return the number
+                    return n
+
+            if not particles and self.fast:
+                # Show some particles on screen instantly if there aren't
+                # any showing yet
+                rv = [ ]
+
+                for _i in xrange(0, self.count):
+                    rv.append(SnowBlossomParticle2(self.image,
+                                                  ranged(self.xspeed),
+                                                  ranged(self.yspeed),
+                                                  self.border,
+                                                  st,
+                                                  self.fluttering,
+                                                  self.flutteringspeed,
+                                                  random.uniform(0, 100),
+                                                  fast=True,
+                                                  rotate=self.rotate))
+                return rv
+
+            # Otherwise, wait to display particles until their start time
+            if particles is None or len(particles) < self.count:
+
+                # Check to see if we have a particle ready to start. If not,
+                # don't start it.
+                if particles and st < self.starts[len(particles)]:
+                    return None
+
+                return [ SnowBlossomParticle2(self.image,
+                                             ranged(self.xspeed),
+                                             ranged(self.yspeed),
+                                             self.border,
+                                             st,
+                                             self.fluttering,
+                                             self.flutteringspeed,
+                                             random.uniform(0, 100),
+                                             fast=False,
+                                             rotate=self.rotate) ]
+
+        def predict(self):
+            return [ self.image ]
+
+
+    class SnowBlossomParticle2(renpy.python.NoRollback):
+
+        def __init__(self, image, xspeed, yspeed, border, start, fluttering,
+                flutteringspeed, offset, fast, rotate):
+
+            # Correct to 1; otherwise could be dividing by zero
+            if yspeed == 0:
+                yspeed = 1
+
+            self.image = image
+            self.xspeed = xspeed
+            self.yspeed = yspeed
+            self.border = border
+            self.start = start
+            self.fluttering = fluttering
+            self.flutteringspeed = flutteringspeed
+            self.offset = offset
+            self.rotate = rotate
+            self.angle = 0
+
+
+            if not rotate:
+                sh = renpy.config.screen_height
+                sw = renpy.config.screen_width
+            else:
+                sw = renpy.config.screen_height
+                sh = renpy.config.screen_width
+
+            # Start above or below the edge of the screen, as needed
+            if self.yspeed > 0:
+                self.ystart = -border
+            else:
+                self.ystart = sh + border
+
+            # travel_time is the screen height + 2*border (aka height of the
+            # particle itself so it clears the edge of the screen) divided
+            # by the speed
+            travel_time = (2.0 * border + sh) / abs(yspeed)
+
+            # How far the particle should travel in the x direction during
+            # the given travel time
+            xdist = xspeed * travel_time
+
+            # Minimum x distance to cover is 0, maximum is the width of
+            # the screen + the distance it needs to cover
+            x0 = min(-xdist, 0)
+            x1 = max(sw + xdist, sw)
+
+            # Figure out a start position between the min and max
+            self.xstart = random.uniform(x0, x1)
+
+            # If fast, this particle can begin on-screen
+            if fast:
+                self.ystart = random.uniform(-border, sh + border)
+                self.xstart = random.uniform(0, sw)
+
+        def update(self, st):
+            # how long the particle has been on-screen for
+            to = st - self.start
+            self.angle += self.flutteringspeed
+
+            xpos = self.xstart + to * self.xspeed + math.sin(self.angle)*self.fluttering
+            ypos = self.ystart + to * self.yspeed
+
+            if not self.rotate:
+                sh = renpy.config.screen_height
+            else:
+                sh = renpy.config.screen_width
+
+            if ypos > sh + self.border:
+                # This particle can be deleted; it's past the border
+                return None
+
+            if ypos < -self.border:
+                # This particle shouldn't be displayed; it's above the border
+                return None
+
+            if not self.rotate:
+                return int(xpos), int(ypos), to + self.offset, self.image
+            else:
+                return int(ypos), int(xpos), to + self.offset, self.image
 
 
