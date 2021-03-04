@@ -830,6 +830,50 @@ EXPORT_SYMBOL(groups_free);
 ## Rainy day background
 ###########################################################
 
+image single_raindrop = "Phone UI/animated_bgs/rainy_day/single_raindrop.webp"
+
+init python:
+    rain_mult = 25
+    def big_rain(xspeed=0, yspeed=(50*rain_mult, 100*rain_mult), start=100,
+            count=10):
+        img = Transform('single_raindrop', zoom=1.3, alpha=0.5)
+
+        return SnowBlossom2(img, count=count, border=-70,#border=25,
+            xspeed=xspeed,
+            yspeed=yspeed,
+            start=start, fluttering=0, fast=True)
+
+    def med_rain(xspeed=0, yspeed=(32*rain_mult, 75*rain_mult), start=100,
+            count=75, alpha=1.0):
+        if alpha == 1.0:
+            img = 'single_raindrop'
+        else:
+            img = Transform('single_raindrop', alpha=alpha)
+
+        return SnowBlossom2(img, count=count, border=-70,#border=25,
+            xspeed=xspeed,
+            yspeed=yspeed,
+            start=start, fluttering=0, fast=True)
+
+    def tiny_rain(xspeed=0, yspeed=(32*rain_mult, 75*rain_mult), start=100,
+            count=150):
+        img = Transform('single_raindrop', zoom=0.6)
+        return SnowBlossom2(img, count=count, border=-70,#border=25,
+            xspeed=xspeed,
+            yspeed=yspeed,
+            start=start, fluttering=0, fast=True)
+
+image simulated_rain = Fixed(
+    med_rain(start=0, alpha=0.5), med_rain(start=75),
+    med_rain(start=150, alpha=0.5), med_rain(start=225, alpha=0.25),
+
+    tiny_rain(start=0), tiny_rain(start=100),
+    tiny_rain(start=200), tiny_rain(start=250)
+)
+
+image front_rain = Fixed(
+    big_rain(start=0), big_rain(start=150)
+)
 
 image falling_rain:
     "Phone UI/animated_bgs/rainy_day/rain_f1.webp"
@@ -872,9 +916,12 @@ screen animated_rainy_day():
     add 'animated_rainy_clouds_back' at slow_pan(300, -2250, 2250)
     add 'animated_rainy_clouds_mid' at slow_pan(200, 0, 2250)
     add 'animated_rainy_clouds_mid' at slow_pan(200, -2250, 2250)
-    add 'falling_rain'
+    #add 'falling_rain'
+    add 'simulated_rain'
     add 'animated_rainy_clouds_front' at slow_pan(110, 0, 2250)
     add 'animated_rainy_clouds_front' at slow_pan(110, -2250, 2250)
+    add Solid("#000") size (750, 3) yalign 1.0
+    add 'front_rain'
 
 # A transform that causes lightning to randomly appear and flash
 transform lightning_cloud_flash():
