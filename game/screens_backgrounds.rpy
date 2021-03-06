@@ -875,21 +875,6 @@ image front_rain = Fixed(
     big_rain(start=0), big_rain(start=150)
 )
 
-image falling_rain:
-    "Phone UI/animated_bgs/rainy_day/rain_f1.webp"
-    0.1
-    "Phone UI/animated_bgs/rainy_day/rain_f2.webp"
-    0.1
-    "Phone UI/animated_bgs/rainy_day/rain_f3.webp"
-    0.1
-    "Phone UI/animated_bgs/rainy_day/rain_f4.webp"
-    0.1
-    "Phone UI/animated_bgs/rainy_day/rain_f5.webp"
-    0.1
-    "Phone UI/animated_bgs/rainy_day/rain_f6.webp"
-    0.1
-    repeat
-
 image lightning_clouds = Composite(
     (750, 1334),
     (0, 0), At('Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
@@ -916,7 +901,6 @@ screen animated_rainy_day():
     add 'animated_rainy_clouds_back' at slow_pan(300, -2250, 2250)
     add 'animated_rainy_clouds_mid' at slow_pan(200, 0, 2250)
     add 'animated_rainy_clouds_mid' at slow_pan(200, -2250, 2250)
-    #add 'falling_rain'
     add 'simulated_rain'
     add 'animated_rainy_clouds_front' at slow_pan(110, 0, 2250)
     add 'animated_rainy_clouds_front' at slow_pan(110, -2250, 2250)
