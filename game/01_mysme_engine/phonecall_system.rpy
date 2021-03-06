@@ -947,15 +947,30 @@ label play_phone_call():
     show screen in_call(current_call.caller, isinstance(current_call, StoryCall))
     if not starter_story:
         # Play the phone call
-        if observing:
+        if observing and not _in_replay:
             $ store.current_choices = list(current_call.choices)
-        $ renpy.call(current_call.phone_label)
+        # If this is a replay, check if the player has seen both a version of
+        # this call regularly and/or as a callback
+        if _in_replay:
+            if current_call.played_regular and current_call.played_callback:
+                # Offer the player a menu
+                $ shuffle = "default" # Don't modify this menu at all
+                menu (paraphrased=True):
+                    "(Answer the incoming call)":
+                        m "(Pick up)"
+                    "(Call back the missed call)":
+                        m "(Call back)"
+                        $ current_call.callback = True
+            elif current_call.played_callback:
+                $ current_call.callback = True
+
+        $ renpy.call(current_call.get_label)
         if (not dialogue_paraphrase and dialogue_picked != ""):
             $ say_choice_caption(dialogue_picked,
                 dialogue_paraphrase, dialogue_pv)
         if not observing:
             $ current_call.finished()
-            $ persistent.completed_story.add(current_call.phone_label)
+            $ persistent.completed_story.add(current_call.get_label)
         $ reset_story_vars()
         $ renpy.end_replay()
         $ in_phone_call = False
