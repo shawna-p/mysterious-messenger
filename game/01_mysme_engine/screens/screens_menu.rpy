@@ -1503,13 +1503,9 @@ screen developer_settings():
     add "#000a"
 
     frame:
-        xysize (675, 600)
-        background Transform('menu_settings_panel_light', alpha=0.95)
-        align (0.5, 0.5)
-
-    frame:
-        xysize (675, 600)
-        background 'menu_settings_panel_bright'
+        xysize (675, 660)
+        background Fixed('menu_settings_panel_light',
+            'menu_settings_panel_bright')
         align (0.5, 0.5)
         bottom_padding 20
 
@@ -1545,8 +1541,9 @@ screen developer_settings():
                         ToggleField(persistent, "unlock_all_story"))
                 textbutton _("Real-Time Mode"):
                     action ToggleField(persistent, "real_time")
-                textbutton _("Hacked Effect"):
-                    action ToggleVariable('hacked_effect')
+                if not main_menu:
+                    textbutton _("Hacked Effect"):
+                        action ToggleVariable('hacked_effect')
                 textbutton _("Receive Hourglasses in Chatrooms"):
                     action ToggleField(persistent, 'receive_hg')
                 textbutton _("Use custom route select screen"):
@@ -1585,6 +1582,20 @@ screen developer_settings():
                     xsize 285
                     yalign 1.0
                     action OpenMysMeDocumentation()
+            if main_menu:
+                textbutton _('Reset Albums'):
+                    style "other_settings_end_button"
+                    text_style 'other_settings_end_button_text'
+                    ysize 80
+                    xsize 285
+                    align (0.5, 0.5)
+                    action CConfirm("This will cause Mysterious Messenger to forget"
+                        + " all previously unlocked images and reset all persistent"
+                        + " albums in the {b}all_albums{/b} variable.\n\nDo you"
+                        + " want to continue?\n\n{size=-10}{i}Note: Resetting"
+                        + " albums will cause the script to be reloaded, which"
+                        + " may take a few seconds.{/i}{/size}",
+                            Function(reset_albums))
 
 default persistent.open_docs_locally = False
 
