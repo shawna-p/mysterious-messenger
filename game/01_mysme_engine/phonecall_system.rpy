@@ -65,6 +65,38 @@ python early:
             self.__callback = False
 
         @property
+        def get_label(self):
+            """
+            Return the label that should be played for this particular phone
+            call, depending on things such as if the player is calling back
+            the caller or if this is a replay.
+            """
+
+            if self.callback and renpy.has_label(self.phone_label + "_callback"):
+                return self.phone_label + "_callback"
+            return self.phone_label
+
+        @property
+        def played_regular(self):
+            """
+            Return True if the player has played the regular version of this
+            phone call.
+            """
+
+            return self.phone_label in store.persistent.completed_story
+
+        @property
+        def played_callback(self):
+            """
+            Return True if the player has played the callback version of this
+            phone call.
+            """
+
+            callback_lbl = self.phone_label + "_callback"
+            return (renpy.has_label(callback_lbl)
+                    and callback_lbl in store.persistent.completed_story)
+
+        @property
         def callback(self):
             """
             Return True if the player is calling the character back after
