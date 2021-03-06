@@ -375,6 +375,38 @@ init python:
                 all_albums.remove(album)
 
 
+    def reset_albums():
+        """
+        Reset the persistent albums to lock all images and re-sync with
+        the original variables.
+        """
+
+        global all_albums
+        if isinstance(all_albums[0], tuple) or isinstance(all_albums[0], list):
+            for p_album, reg_album in all_albums:
+                p_album = [ ]
+            merge_albums(p_album, reg_album)
+        else: # Should be a string
+            for alb in all_albums:
+                # Fetch the album variable name
+                if alb[-6:] != "_album":
+                    alb += "_album"
+                alb_s = convert_to_file_name(alb)
+                try:
+                    p_album = getattr(store.persistent, alb_s)
+                    reg_album = getattr(store, alb_s)
+                except:
+                    ScriptError("Couldn't find variable \"", alb_s,
+                        "\" to reset albums.", header="CG Albums",
+                        subheader="Adding a CG Album")
+                    return
+                setattr(store.persistent, alb_s, [ ])
+                merge_albums(p_album, reg_album)
+        # Reset seen images
+        store.persistent._seen_images.clear()
+        renpy.reload_script()
+
+
     def drag_box(drags, drop):
         """
         A callback for the translucent image displayed on top of the CGs

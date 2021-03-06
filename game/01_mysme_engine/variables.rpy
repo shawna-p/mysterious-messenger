@@ -173,8 +173,6 @@ init -6 python:
                 return True
 
 
-
-
     class MyTime(object):
         """
         A class that fetches the current time/date information and stores
