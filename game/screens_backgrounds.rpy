@@ -351,7 +351,7 @@ image gemini_constellation:
         5.0
         "Phone UI/animated_bgs/earlyMorn/gemini_symbol.webp" with Dissolve(3.0)
         5.0
-        'Phone UI/gemini_stars.webp' with Dissolve(5.0)
+        'Phone UI/animated_bgs/earlyMorn/gemini_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
@@ -365,7 +365,7 @@ image libra_constellation:
         5.0
         "Phone UI/animated_bgs/earlyMorn/libra_symbol.webp" with Dissolve(3.0)
         5.0
-        'Phone UI/libra_stars.webp' with Dissolve(5.0)
+        'Phone UI/animated_bgs/earlyMorn/libra_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
@@ -379,7 +379,7 @@ image virgo_constellation:
         5.0
         "Phone UI/animated_bgs/earlyMorn/virgo_symbol.webp" with Dissolve(3.0)
         5.0
-        'Phone UI/virgo_stars.webp' with Dissolve(5.0)
+        'Phone UI/animated_bgs/earlyMorn/virgo_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
@@ -393,7 +393,7 @@ image pisces_constellation:
         5.0
         "Phone UI/animated_bgs/earlyMorn/pisces_symbol.webp" with Dissolve(3.0)
         5.0
-        'Phone UI/pisces_stars.webp' with Dissolve(5.0)
+        'Phone UI/animated_bgs/earlyMorn/pisces_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
@@ -407,7 +407,7 @@ image scorpius_constellation:
         5.0
         "Phone UI/animated_bgs/earlyMorn/scorpius_symbol.webp" with Dissolve(3.0)
         5.0
-        'Phone UI/scorpius_stars.webp' with Dissolve(5.0)
+        'Phone UI/animated_bgs/earlyMorn/scorpius_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
@@ -421,7 +421,7 @@ image aries_constellation:
         5.0
         "Phone UI/animated_bgs/earlyMorn/aries_symbol.webp" with Dissolve(3.0)
         5.0
-        'Phone UI/aries_stars.webp' with Dissolve(5.0)
+        'Phone UI/animated_bgs/earlyMorn/aries_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
@@ -435,7 +435,7 @@ image capricorn_constellation:
         5.0
         "Phone UI/animated_bgs/earlyMorn/capricorn_symbol.webp" with Dissolve(3.0)
         5.0
-        'Phone UI/capricorn_stars.webp' with Dissolve(5.0)
+        'Phone UI/animated_bgs/earlyMorn/capricorn_stars.webp' with Dissolve(5.0)
         140 + random.random()
         repeat
 
