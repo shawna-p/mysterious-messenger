@@ -62,6 +62,31 @@ python early:
             self.playback = False
             self.avail_timeout = avail_timeout
             self.__choices = []
+            self.__callback = False
+
+        @property
+        def callback(self):
+            """
+            Return True if the player is calling the character back after
+            initially missing their call.
+            """
+            try:
+                return self.__callback
+            except AttributeError:
+                try:
+                    self.__callback = False
+                except:
+                    pass
+                return False
+
+        @callback.setter
+        def callback(self, new_status):
+            """Set the callback status."""
+
+            try:
+                self.__callback = new_status
+            except AttributeError:
+                return
 
         @property
         def choices(self):
