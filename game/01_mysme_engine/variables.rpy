@@ -794,12 +794,16 @@ init -6 python:
         # Copy the items list
         items = list(items)
         global shuffle
-        if shuffle and shuffle != "last":
+        if shuffle and shuffle not in ["last", "default"]:
             renpy.random.shuffle(items)
         elif shuffle == "last":
             last = items.pop()
             renpy.random.shuffle(items)
             items.append(last)
+        elif shuffle == "default":
+            # Don't shuffle or modify these answers
+            shuffle = True
+            return renpy_menu(items)
         shuffle = True
 
         # If observing, check which items have already been seen
