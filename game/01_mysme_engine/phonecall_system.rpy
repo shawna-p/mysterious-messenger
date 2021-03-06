@@ -180,6 +180,7 @@ init -6 python:
         missed_call.playback = False
         if missed_call not in call_history:
             call_history.insert(0, missed_call)
+        phonecall.callback = True
         if phonecall not in available_calls:
             available_calls.append(phonecall)
         renpy.retain_after_load()
@@ -230,6 +231,7 @@ init -6 python:
                 if expired:
                     phonecall = PhoneCall(c, lbl + '_incoming_' + c.file_id,
                                     'outgoing')
+                    phonecall.callback = True
                     missed_call = PhoneCall(c, lbl + '_incoming_' + c.file_id,
                                     'missed')
                 else:
