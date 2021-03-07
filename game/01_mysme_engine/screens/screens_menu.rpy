@@ -324,6 +324,14 @@ screen main_menu():
                     add "menu_dlc" align (0.5, 0.5)
                     text "Developer"
 
+    textbutton _('Updates'):
+        style "other_settings_end_button"
+        text_style 'other_settings_end_button_text'
+        ysize 80
+        xsize 285
+        align (1.0, 1.0)
+        action Show('program_updates')
+
 style greet_text is text:
     color "#ffffff"
     size 27
@@ -1637,7 +1645,88 @@ init python:
                 return OpenURL(doc_link)
         return OpenURL(web_link)
 
+##########################################################
+## The screen which informs the user of program updates
+##########################################################
 
+screen program_updates(ver_name="Mysterious Messenger v3.0.#",
+        publish_time="2020-01-01", is_prerelease="Maybe"):
+    modal True
+    add "#000a"
+    frame:
+        xysize (675, 660)
+        background Fixed('menu_settings_panel_light',
+            'menu_settings_panel_bright')
+        align (0.5, 0.5)
+        bottom_padding 20
+
+        imagebutton:
+            align (1.0, 0.0)
+            xoffset 3 yoffset -3
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('program_updates')
+
+        text "Program Updates" style "settings_style" xpos 55 ypos 5
+
+        vbox:
+            style_prefix "update_program"
+            align (0.5, 0.5)
+            spacing 20
+            null height 30
+            text "A new update for Mysterious Messenger is available!":
+                font gui.blocky_font
+                color "#fff"
+                text_align 0.5
+                xalign 0.5
+                layout "subtitle"
+                size 45
+            null height 20
+            text ver_name:
+                color "#fff"
+                text_align 0.5
+                xalign 0.5
+                size 35
+                font gui.sans_serif_1xb
+            hbox:
+                fixed:
+                    ysize 40
+                    xsize 230
+                    text "Publish date:" xalign 1.0 font gui.sans_serif_1b
+                fixed:
+                    ysize 40
+                    xsize 230
+                    text publish_time
+            hbox:
+                fixed:
+                    ysize 40
+                    xsize 230
+                    text "Prerelease:" xalign 1.0 font gui.sans_serif_1b
+                fixed:
+                    ysize 40
+                    xsize 230
+                    text is_prerelease
+            textbutton "Download Link":
+                style 'button_text'
+                text_style 'button_text'
+                text_text_align 0.5 xalign 0.5
+                text_hover_underline True
+                text_color "#00b08d"
+                action OpenURL("https://ko-fi.com/somniarre")
+            null height 20
+            textbutton _("Ignore this release"):
+                style_prefix "check"
+                xalign 0.5
+                action ToggleField(persistent, "testing_mode")
+
+style update_program_text:
+    is other_settings_text
+    color "#fff"
+    size 28
+    xalign 0.0
+style update_program_hbox:
+    xalign 0.5
+    spacing 12
 
 ########################################################
 ## The Profile Screen for each of the characters
