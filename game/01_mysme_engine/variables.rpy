@@ -973,6 +973,81 @@ init -6 python:
 
         renpy.hide(name, layer)
 
+    import requests
+    LATEST_UPDATE_URL = "https://api.github.com/repos/shawna-p/mysterious-messenger/releases/latest"
+    RELEASES_UPDATE_URL = "https://api.github.com/repos/shawna-p/mysterious-messenger/releases"
+    CHECK_INTERVAL_TIME = 3600*6 # How long to wait before checking for updates
+    def check_version(test=False):
+        """Check for updates to Mysterious Messenger."""
+
+        if renpy.variant("mobile") or not config.developer:
+            # Don't check for updates on mobile or if not developing
+            return
+        # When's the last time the program checked for an update? If it's
+        # too recent, stop.
+        if store.persistent.last_update_check is None:
+            pass
+        elif time.time() < store.persistent.last_update_check + check_interval:
+            # Too soon; don't check
+            print_file("We already checked for updates not long ago")
+            if not test:
+                return
+
+        store.persistent.last_update_check = time.time()
+
+        try:
+            # Parse for relevant information
+            if store.persistent.check_for_updates == "stable":
+                rel = return_version_info(stable=True)
+            else:
+                rel = return_version_info(stable=False)
+            version_tag = rel['tag_name']
+            is_prerelease = rel['prerelease']
+            publish_time = rel['published_at']
+            download_link = rel['zipball_url']
+            ver_name = rel['name']
+        except Exception as e:
+            print("ERROR while checking for updates:", e)
+            print("Could not connect to the internet to check for updates")
+            return
+
+        try:
+            # Compare version tag with current version
+            version_tag = version_tag[1:] # Strip the starting 'v'
+            if is_prerelease:
+                version_tag = version_tag[:-5] # Strip the -beta suffix
+            if version_tag == store.config.version:
+                # Program is up-to-date; return
+                return
+            # Otherwise, notify the user that they can update to this
+            # newer version.
+            pretty_time = publish_time[:10]
+            prerelease_yn = "Yes" if is_prerelease else "No"
+        except:
+            pass
+
+
+    def return_version_info(stable=False):
+        """
+        Return information for the stable version of Mysterious Messenger,
+        after retrieving information from the GitHub API.
+        """
+
+        response = requests.get(RELEASES_UPDATE_URL)
+        releases = response.json()
+        for rel in releases:
+            if stable and rel['prerelease']:
+                continue
+            if rel['tag_name'] not in ignored_versions:
+                return rel
+        return
+
+
+
+
+
+
+
     # Some colour names, mostly for testing
     WHITE = "#FFF"
     BLACK = "#000"
@@ -990,6 +1065,13 @@ init -6 python:
     NAVY = "#000080"
     FUCHSIA = "#F0F"
     PURPLE = "#800080"
+
+# Track the last time the program checked for updates
+default persistent.last_update_check = None
+# True if the program should automatically check for updates
+default persistent.check_for_updates = True
+# List of ignored versions for updates
+default persistent.ignored_versions = [ ]
 
 # These definitions allow the program to get the first pass at show/hide/scene
 # statements, to be compatible with chatrooms and paraphrasing.
