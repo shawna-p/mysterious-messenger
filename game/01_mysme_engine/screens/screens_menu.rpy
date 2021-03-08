@@ -324,13 +324,23 @@ screen main_menu():
                     add "menu_dlc" align (0.5, 0.5)
                     text "Developer"
 
-    textbutton _('Updates'):
-        style "other_settings_end_button"
-        text_style 'other_settings_end_button_text'
-        ysize 80
-        xsize 285
+    if config.developer:
+        on 'show' action Function(check_version, test=True)
+        button:
+            selected_background 'Menu Screens/Main Menu/update_icon_new.webp'
+            selected_hover_foreground 'Menu Screens/Main Menu/update_icon_new.webp'
+            background 'Menu Screens/Main Menu/update_icon.webp'
+            hover_foreground 'Menu Screens/Main Menu/update_icon.webp'
+            xysize (104,71)
         align (1.0, 1.0)
-        action Show('program_updates')
+            offset (-6, -6)
+            selected persistent.available_update
+            action If(persistent.available_update,
+                Show('program_updates', ver_name=persistent.available_update[0],
+                    ver_tag=persistent.available_update[1],
+                    publish_time=persistent.available_update[2],
+                    is_prerelease=persistent.available_update[3]),
+                NullAction())
 
 style greet_text is text:
     color "#ffffff"
