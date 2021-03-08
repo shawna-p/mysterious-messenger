@@ -332,7 +332,7 @@ screen main_menu():
             background 'Menu Screens/Main Menu/update_icon.webp'
             hover_foreground 'Menu Screens/Main Menu/update_icon.webp'
             xysize (104,71)
-        align (1.0, 1.0)
+            align (1.0, 1.0)
             offset (-6, -6)
             selected persistent.available_update
             action If(persistent.available_update,
@@ -1659,8 +1659,8 @@ init python:
 ## The screen which informs the user of program updates
 ##########################################################
 
-screen program_updates(ver_name="Mysterious Messenger v3.0.#",
-        publish_time="2020-01-01", is_prerelease="Maybe"):
+screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
+        publish_time="2020-01-01", is_prerelease="Maybe", ):
     modal True
     add "#000a"
     frame:
@@ -1668,7 +1668,17 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#",
         background Fixed('menu_settings_panel_light',
             'menu_settings_panel_bright')
         align (0.5, 0.5)
-        bottom_padding 20
+        bottom_padding 10
+
+        text "Your program version: v3.0.0":#[config.version]":
+            color "#fff" size 18
+            align (0.0, 1.0)
+            offset (5, 5)
+
+        # text 'Ignored: ' + ', '.join(persistent.ignored_versions):
+        #     color "#fff" size 18
+        #     align (0.0, 0.9)
+        #     offset (5, 5)
 
         imagebutton:
             align (1.0, 0.0)
@@ -1682,15 +1692,20 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#",
         vbox:
             style_prefix "update_program"
             align (0.5, 0.5)
-            spacing 20
+            spacing 15
             null height 30
-            text "A new update for Mysterious Messenger is available!":
-                font gui.blocky_font
-                color "#fff"
-                text_align 0.5
-                xalign 0.5
-                layout "subtitle"
-                size 45
+            frame:
+                ypadding 30
+                xpadding 15
+                background Frame("Menu Screens/Main Menu/menu_header.webp", 0, 28)
+                text "A new update for Mysterious Messenger is available!":
+                    font gui.curlicue_font
+                    color "#fff"
+                    text_align 0.5
+                    xalign 0.5
+                    layout "subtitle"
+                    size 45
+
             null height 20
             text ver_name:
                 color "#fff"
@@ -1727,7 +1742,7 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#",
             textbutton _("Ignore this release"):
                 style_prefix "check"
                 xalign 0.5
-                action ToggleField(persistent, "testing_mode")
+                action ToggleSetMembership(persistent.ignored_versions, ver_tag)
 
 style update_program_text:
     is other_settings_text
