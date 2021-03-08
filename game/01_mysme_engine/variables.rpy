@@ -976,7 +976,8 @@ init -6 python:
     import requests
     LATEST_UPDATE_URL = "https://api.github.com/repos/shawna-p/mysterious-messenger/releases/latest"
     RELEASES_UPDATE_URL = "https://api.github.com/repos/shawna-p/mysterious-messenger/releases"
-    CHECK_INTERVAL_TIME = 3600*6 # How long to wait before checking for updates
+    CHECK_INTERVAL_TIME = 15 #3600*6 # How long to wait before checking for updates
+
     def check_version(test=False):
         """Check for updates to Mysterious Messenger."""
 
@@ -987,7 +988,7 @@ init -6 python:
         # too recent, stop.
         if store.persistent.last_update_check is None:
             pass
-        elif time.time() < store.persistent.last_update_check + check_interval:
+        elif time.time() < store.persistent.last_update_check + CHECK_INTERVAL_TIME:
             # Too soon; don't check
             print_file("We already checked for updates not long ago")
             if not test:
@@ -1001,6 +1002,8 @@ init -6 python:
                 rel = return_version_info(stable=True)
             else:
                 rel = return_version_info(stable=False)
+            if rel is None:
+                return
             version_tag = rel['tag_name']
             is_prerelease = rel['prerelease']
             publish_time = rel['published_at']
@@ -1017,14 +1020,22 @@ init -6 python:
             if is_prerelease:
                 version_tag = version_tag[:-5] # Strip the -beta suffix
             if version_tag == store.config.version:
-                # Program is up-to-date; return
-                return
+                # Program is up-to-date; reset available update and return
+                store.persistent.available_update = [ ]
+                if not test:
+                    return
             # Otherwise, notify the user that they can update to this
             # newer version.
             pretty_time = publish_time[:10]
             prerelease_yn = "Yes" if is_prerelease else "No"
-        except:
-            pass
+        except Exception as e:
+            print("ERROR getting update:", e)
+
+        store.persistent.available_update = [ ver_name, version_tag,
+            pretty_time, prerelease_yn ]
+        renpy.show_screen('program_updates', ver_name=ver_name,
+            ver_tag=version_tag, publish_time=pretty_time,
+            is_prerelease=prerelease_yn)
 
 
     def return_version_info(stable=False):
@@ -1038,13 +1049,9 @@ init -6 python:
         for rel in releases:
             if stable and rel['prerelease']:
                 continue
-            if rel['tag_name'] not in ignored_versions:
+            if rel['tag_name'] not in store.persistent.ignored_versions:
                 return rel
-        return
-
-
-
-
+        return None
 
 
 
@@ -1072,6 +1079,8 @@ default persistent.last_update_check = None
 default persistent.check_for_updates = True
 # List of ignored versions for updates
 default persistent.ignored_versions = [ ]
+# Information on the next available update
+default persistent.available_update = [ ]
 
 # These definitions allow the program to get the first pass at show/hide/scene
 # statements, to be compatible with chatrooms and paraphrasing.
