@@ -1691,8 +1691,7 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
 
         vbox:
             style_prefix "update_program"
-            align (0.5, 0.5)
-            spacing 15
+
             null height 30
             frame:
                 ypadding 30
@@ -1700,7 +1699,6 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
                 background Frame("Menu Screens/Main Menu/menu_header.webp", 0, 28)
                 text "A new update for Mysterious Messenger is available!":
                     font gui.curlicue_font
-                    color "#fff"
                     text_align 0.5
                     xalign 0.5
                     layout "subtitle"
@@ -1708,28 +1706,19 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
 
             null height 20
             text ver_name:
-                color "#fff"
                 text_align 0.5
                 xalign 0.5
                 size 35
                 font gui.sans_serif_1xb
             hbox:
                 fixed:
-                    ysize 40
-                    xsize 230
                     text "Publish date:" xalign 1.0 font gui.sans_serif_1b
                 fixed:
-                    ysize 40
-                    xsize 230
                     text publish_time
             hbox:
                 fixed:
-                    ysize 40
-                    xsize 230
                     text "Prerelease:" xalign 1.0 font gui.sans_serif_1b
                 fixed:
-                    ysize 40
-                    xsize 230
                     text is_prerelease
             textbutton "Download Link":
                 style 'button_text'
@@ -1752,6 +1741,14 @@ style update_program_text:
 style update_program_hbox:
     xalign 0.5
     spacing 12
+
+style update_program_vbox:
+    align (0.5, 0.5)
+    spacing 15
+style update_program_fixed:
+    ysize 40
+    xsize 230
+
 
 ########################################################
 ## The Profile Screen for each of the characters
