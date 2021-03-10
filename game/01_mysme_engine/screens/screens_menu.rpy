@@ -1691,12 +1691,8 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
 
         vbox:
             style_prefix "update_program"
-
             null height 30
             frame:
-                ypadding 30
-                xpadding 15
-                background Frame("Menu Screens/Main Menu/menu_header.webp", 0, 28)
                 text "A new update for Mysterious Messenger is available!":
                     font gui.curlicue_font
                     text_align 0.5
@@ -1721,11 +1717,6 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
                 fixed:
                     text is_prerelease
             textbutton "Download Link":
-                style 'button_text'
-                text_style 'button_text'
-                text_text_align 0.5 xalign 0.5
-                text_hover_underline True
-                text_color "#00b08d"
                 action OpenURL("https://ko-fi.com/somniarre")
             null height 20
             textbutton _("Ignore this release"):
@@ -1741,13 +1732,24 @@ style update_program_text:
 style update_program_hbox:
     xalign 0.5
     spacing 12
-
 style update_program_vbox:
     align (0.5, 0.5)
     spacing 15
 style update_program_fixed:
     ysize 40
     xsize 230
+style update_program_frame:
+    ypadding 30
+    xpadding 15
+    background Frame("Menu Screens/Main Menu/menu_header.webp", 0, 28)
+style update_program_button_text:
+    is button_text
+    text_align 0.5 xalign 0.5
+    hover_underline True
+    color "#00b08d"
+style update_program_button:
+    is button_text
+    xalign 0.5
 
 
 ########################################################
