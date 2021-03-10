@@ -1032,10 +1032,10 @@ init -6 python:
             print("ERROR getting update:", e)
 
         store.persistent.available_update = [ ver_name, version_tag,
-            pretty_time, prerelease_yn ]
+            pretty_time, prerelease_yn, download_link ]
         renpy.show_screen('program_updates', ver_name=ver_name,
             ver_tag=version_tag, publish_time=pretty_time,
-            is_prerelease=prerelease_yn)
+            is_prerelease=prerelease_yn, dl_link=download_link)
 
 
     def return_version_info(stable=False):

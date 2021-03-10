@@ -1660,29 +1660,15 @@ init python:
 ##########################################################
 
 screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
-        publish_time="2020-01-01", is_prerelease="Maybe", ):
+        publish_time="2020-01-01", is_prerelease="Maybe", dl_link=None):
     modal True
     add "#000a"
     frame:
-        xysize (675, 660)
-        background Fixed('menu_settings_panel_light',
-            'menu_settings_panel_bright')
-        align (0.5, 0.5)
-        bottom_padding 10
-
-        text "Your program version: v[config.version]":
-            color "#fff" size 18
-            align (0.0, 1.0)
-            offset (5, 5)
-
-        # text 'Ignored: ' + ', '.join(persistent.ignored_versions):
-        #     color "#fff" size 18
-        #     align (0.0, 0.9)
-        #     offset (5, 5)
+        style_prefix 'update_box'
+        text "Your program version: v[config.version]"
+        # text 'Ignored: ' + ', '.join(persistent.ignored_versions)
 
         imagebutton:
-            align (1.0, 0.0)
-            xoffset 3 yoffset -3
             idle 'input_close'
             hover 'input_close_hover'
             action Hide('program_updates')
@@ -1716,14 +1702,28 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
                     text "Prerelease:" xalign 1.0 font gui.sans_serif_1b
                 fixed:
                     text is_prerelease
-            textbutton "Download Link":
-                action OpenURL("https://ko-fi.com/somniarre")
+            if dl_link:
+                textbutton "Download Link":
+                    action OpenURL(dl_link)
             null height 20
             textbutton _("Ignore this release"):
                 style_prefix "check"
                 xalign 0.5
                 action ToggleSetMembership(persistent.ignored_versions, ver_tag)
 
+style update_box_frame:
+    xysize (675, 660)
+    background Fixed('menu_settings_panel_light',
+        'menu_settings_panel_bright')
+    align (0.5, 0.5)
+    bottom_padding 10
+style update_box_text:
+    color "#fff" size 18
+    align (0.0, 1.0)
+    offset (5, 5)
+style update_box_image_button:
+    align (1.0, 0.0)
+    xoffset 3 yoffset -3
 style update_program_text:
     is other_settings_text
     color "#fff"
