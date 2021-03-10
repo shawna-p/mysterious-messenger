@@ -1670,7 +1670,7 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
         align (0.5, 0.5)
         bottom_padding 10
 
-        text "Your program version: v3.0.0":#[config.version]":
+        text "Your program version: v[config.version]":
             color "#fff" size 18
             align (0.0, 1.0)
             offset (5, 5)
