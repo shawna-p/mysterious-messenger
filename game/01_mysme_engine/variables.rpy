@@ -978,8 +978,18 @@ init -6 python:
     RELEASES_UPDATE_URL = "https://api.github.com/repos/shawna-p/mysterious-messenger/releases"
     CHECK_INTERVAL_TIME = 15 #3600*6 # How long to wait before checking for updates
 
-    def check_version(test=False):
-        """Check for updates to Mysterious Messenger."""
+    def check_version(test=False, force=False):
+        """
+        Check for updates to Mysterious Messenger.
+
+        Parameters:
+        -----------
+        test : bool
+            True for testing; bypasses checks for update time and whether the
+            current version is already up-to-date.
+        force : bool
+            True if the user is forcing an update check from the update menu.
+        """
 
         if renpy.variant("mobile") or not config.developer:
             # Don't check for updates on mobile or if not developing
@@ -987,6 +997,8 @@ init -6 python:
         # When's the last time the program checked for an update? If it's
         # too recent, stop.
         if store.persistent.last_update_check is None:
+            pass
+        elif force:
             pass
         elif time.time() < store.persistent.last_update_check + CHECK_INTERVAL_TIME:
             # Too soon; don't check
@@ -998,7 +1010,7 @@ init -6 python:
 
         try:
             # Parse for relevant information
-            if store.persistent.check_for_updates == "stable":
+            if not store.persistent.check_for_prerelease :
                 rel = return_version_info(stable=True)
             else:
                 rel = return_version_info(stable=False)
@@ -1012,6 +1024,11 @@ init -6 python:
         except Exception as e:
             print("ERROR while checking for updates:", e)
             print("Could not connect to the internet to check for updates")
+            if force:
+                renpy.show_screen("confirm", message=("Could not check for "
+                    + "updates. Make sure you're connected to the internet "
+                    + "before trying again."),
+                    yes_action=Hide('confirm'))
             return
 
         try:
@@ -1022,6 +1039,10 @@ init -6 python:
             if version_tag == store.config.version:
                 # Program is up-to-date; reset available update and return
                 store.persistent.available_update = [ ]
+                if force:
+                    renpy.show_screen("confirm", message=("Your program is "
+                        + "already up-to-date."),
+                    yes_action=Hide('confirm'))
                 if not test:
                     return
             # Otherwise, notify the user that they can update to this
@@ -1077,6 +1098,8 @@ init -6 python:
 default persistent.last_update_check = None
 # True if the program should automatically check for updates
 default persistent.check_for_updates = True
+# True if the program should include prerelease updates
+default persistent.check_for_prerelease = False
 # List of ignored versions for updates
 default persistent.ignored_versions = [ ]
 # Information on the next available update
