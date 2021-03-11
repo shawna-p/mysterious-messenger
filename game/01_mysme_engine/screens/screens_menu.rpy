@@ -1751,6 +1751,65 @@ style update_program_button:
     is button_text
     xalign 0.5
 
+##########################################################
+## A screen where the user can customize their update
+## preferences.
+##########################################################
+
+screen update_preferences():
+    modal True
+    add "#000a"
+
+    default ig_size = 10
+    default ig_btn_height = 44 + 3
+    default ignored_size = min(len(persistent.ignored_versions), 10)*ig_btn_height
+
+    frame:
+        style_prefix 'update_box'
+        ysize 300 + ignored_size + 80 + 18*2
+        text "Your program version: v[config.version]"
+
+        imagebutton:
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('update_preferences')
+
+        text "Update Preferences" style "settings_style" xpos 55 ypos 5
+
+        vbox:
+            style 'update_program_vbox'
+            null height 30
+            textbutton _("Check for updates (once per day)"):
+                style_prefix "check"
+                action ToggleField(persistent, 'check_for_updates')
+            textbutton _("Check for prereleases"):
+                style_prefix "check"
+                action ToggleField(persistent, 'check_for_prerelease')
+
+            if persistent.ignored_versions:
+                text "Ignored releases:" style 'update_program_text'
+                frame:
+                    background "#0005"
+                    padding (18, 18)
+                    xsize 650
+                    ymaximum ignored_size + 18*2
+                    has vbox
+                    spacing 3
+                    for i in persistent.ignored_versions[-10:]:
+                        textbutton _(i):
+                            ysize 44
+                            style_prefix "check"
+                            action ToggleSetMembership(persistent.ignored_versions, i)
+
+            textbutton _('Check for updates'):
+                style "other_settings_end_button"
+                text_style 'other_settings_end_button_text'
+                ysize 80
+                xsize 330
+                xalign 0.5
+                action Function(check_version, force=True)
+
+
 
 ########################################################
 ## The Profile Screen for each of the characters
