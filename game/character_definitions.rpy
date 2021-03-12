@@ -86,123 +86,149 @@ define chief_vn = Character("Chief Han", kind=vn_character,
 ## Chatroom Characters
 ##****************************
 
-## Chatroom character declarations. Format is:
-##  name - nickname for the chatrooms
-##  file_id - short form appended to file names like speech bubbles
-##  prof_pic - profile pic (110x110 - 314x314)
-##  participant_pic - pic that shows they're present in a chatroom
-##  heart_color - hex number of their heart colour
-##  cover_pic/status  - as stated
-##  bubble_color - colour of their regular speech bubbles. If not given,
-##              the program looks for a bubble using the character's file_id
-##  glow_color - same as above, for glowing speech bubbles
-##  voicemail - generally set at the end of a chatroom,
-##              not during definition time
-##  emote_list - used for chatroom creation (can be left False
-##               if you don't need it/don't know what to do with it)
-##  right_msgr - indicates this character will send messages from the right
-##               side of the screen (this is usually true only for
-##               MC, and it is automatically False for everyone else)
-##  homepage_pic - the image used in the chat_hub screen to show if a
-##                 character has updated their profile
-##  phone_char - The phone character you defined for this character earlier
-##               (usually just the character's short form + _phone)
-##  vn_char - The VN character you defined for this character earlier
-##              (usually just the character's short form + _vn)
+## Chatroom character declarations. Possible parameters:
+## name - nickname for chatrooms
+## file_id - short form appended to file names like speech bubbles and used
+##      to find images
+## prof_pic - profile picture (110x110 for small, up to 314x314 for large)
+## participant_pic - pic that shows a character is present in a chatroom
+## heart_color - colour code of this character's heart colour
+## cover_pic - The character's cover photo (750x672)
+## status - The character's status update
+## bubble_color - colour code of this character's regular speech bubbles
+## glow_color - colour code of this character's glowing speech bubbles
+## homepage_pic - image used on the home screen to display this character's
+##      profile
+## right_msgr - True if this character should message from the right side of
+##      the messenger
+## vn_name - name of the character as it appears in Story Mode
+## image - image tag used for showing this character in Story Mode
+## voice_tag - voice tag associated with this character's voiced lines
+## window_color - colour of the background of this character's dialogue during
+##      Story Mode
+## For more properties, see the docs on declaring a new character
 
 # This list populates itself with every character in the game
 default all_characters = []
 
-default ja = ChatCharacter("Jaehee Kang", 'ja',
-                'Profile Pics/Jaehee/ja-default.webp',
-                'Profile Pics/ja_chat.webp', "#d9c362",
-                "Cover Photos/profile_cover_photo.webp", "Jaehee's status",
+default ja = ChatCharacter("Jaehee Kang", file_id='ja',
+                prof_pic='Profile Pics/Jaehee/ja-default.webp',
+                participant_pic='Profile Pics/ja_chat.webp',
+                heart_color="#d9c362",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Jaehee's status",
                 emote_list=jaehee_emotes,
                 homepage_pic="Profile Pics/main_profile_jaehee.webp",
                 pronunciation_help="jayhee kang", vn_name="Jaehee",
                 window_color="#C8954D", image="jaehee",
                 bubble_color="#fff5eb", voice_tag="ja_voice")
-default ju = ChatCharacter("Jumin Han", 'ju',
-                'Profile Pics/Jumin/ju-default.webp',
-                'Profile Pics/ju_chat.webp', "#b3a6ff",
-                "Cover Photos/profile_cover_photo.webp", "Jumin's status",
+default ju = ChatCharacter("Jumin Han", file_id='ju',
+                prof_pic='Profile Pics/Jumin/ju-default.webp',
+                participant_pic='Profile Pics/ju_chat.webp',
+                heart_color="#b3a6ff",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Jumin's status",
                 emote_list=jumin_emotes,
                 homepage_pic="Profile Pics/main_profile_jumin.webp",
                 pronunciation_help="jumin han", vn_name="Jumin",
                 window_color="#648EFC", image="jumin",
                 bubble_color="#d2e6f7", voice_tag="ju_voice")
-default m = ChatCharacter("[persistent.name]", 'm',
-                persistent.MC_pic, right_msgr=True, phone_char=m_phone,
+default m = ChatCharacter("[persistent.name]", file_id='m',
+                prof_pic=persistent.MC_pic, right_msgr=True, phone_char=m_phone,
                 pronunciation_help="you", who_color="#ffffed")
                 # NOTE: The MC's name appears in Story Mode sections in this
                 # program. If you would like it to be blank, add the parameter
                 # `vn_name=None` to the above definition.
-default r = ChatCharacter("Ray", 'r', 'Profile Pics/Ray/ray-default.webp',
-                'Profile Pics/r_chat.webp', "#c93f9f",
-                "Cover Photos/profile_cover_photo.webp", "Ray's status",
+default r = ChatCharacter("Ray", file_id='r',
+                prof_pic='Profile Pics/Ray/ray-default.webp',
+                participant_pic='Profile Pics/r_chat.webp',
+                heart_color="#c93f9f",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Ray's status",
                 emote_list=ray_emotes,
                 homepage_pic="Profile Pics/main_profile_ray.webp",
                 pronunciation_help="ray", vn_name="Ray",
                 voice_tag="sa_voice", image="saeran",
                 window_color="#FC9796", bubble_color="#f2ebfd")
-default ri = ChatCharacter("Rika", 'ri', 'Profile Pics/Rika/rika-default.webp',
-                'Profile Pics/ri_chat.webp', "#ffee65",
-                "Cover Photos/profile_cover_photo.webp", "Rika's status",
+default ri = ChatCharacter("Rika", file_id='ri',
+                prof_pic='Profile Pics/Rika/rika-default.webp',
+                participant_pic='Profile Pics/ri_chat.webp',
+                heart_color="#ffee65",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Rika's status",
                 emote_list=rika_emotes,
                 homepage_pic="Profile Pics/main_profile_rika.webp",
                 pronunciation_help="rika", window_color="#A774CC",
                 bubble_color="#fff9db", voice_tag="ri_voice", image="rika")
-default s = ChatCharacter("707", 's', 'Profile Pics/Seven/sev-default.webp',
-                'Profile Pics/s_chat.webp', "#ff2626",
-                "Cover Photos/profile_cover_photo.webp", "707's status",
+default s = ChatCharacter("707", file_id='s',
+                prof_pic='Profile Pics/Seven/sev-default.webp',
+                participant_pic='Profile Pics/s_chat.webp',
+                heart_color="#ff2626",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="707's status",
                 emote_list=seven_emotes,
                 homepage_pic="Profile Pics/main_profile_seven.webp",
                 pronunciation_help="seven oh seven",
                 window_color="#F54848",
                 bubble_color="#fff1f1", voice_tag="s_voice",
                 image="seven")
-default sa = ChatCharacter("Saeran", "sa", 'Profile Pics/Saeran/sae-1.webp',
-                'Profile Pics/sa_chat.webp', "#c93f9f",
-                "Cover Photos/profile_cover_photo.webp", "Saeran's status",
+default sa = ChatCharacter("Saeran", file_id="sa",
+                prof_pic='Profile Pics/Saeran/sae-1.webp',
+                participant_pic='Profile Pics/sa_chat.webp',
+                heart_color="#c93f9f",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Saeran's status",
                 emote_list=saeran_emotes,
                 homepage_pic="Profile Pics/main_profile_sa1.webp",
                 pronunciation_help="sairan",
                 window_color="#FC9796",
                 bubble_color="#f2ebfd", voice_tag="sa_voice",
                 image="saeran")
-default u = ChatCharacter("Unknown", "u", 'Profile Pics/Unknown/Unknown-1.webp',
-                'Profile Pics/u_chat.webp', "#ffffff",
+default u = ChatCharacter("Unknown", file_id="u",
+                prof_pic='Profile Pics/Unknown/Unknown-1.webp',
+                participant_pic='Profile Pics/u_chat.webp',
+                heart_color="#ffffff",
                 window_color="#FC9796", vn_name="???",
                 bubble_color="#f2ebfd", voice_tag="sa_voice",
                 image="saeran")
-default v = ChatCharacter("V", 'v', 'Profile Pics/V/V-default.webp',
-                'Profile Pics/v_chat.webp', "#60bcba",
-                "Cover Photos/profile_cover_photo.webp", "V's status",
+default v = ChatCharacter("V", file_id='v',
+                prof_pic='Profile Pics/V/V-default.webp',
+                participant_pic='Profile Pics/v_chat.webp',
+                heart_color="#60bcba",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="V's status",
                 emote_list=v_emotes,
                 homepage_pic="Profile Pics/main_profile_v.webp",
                 window_color="#7ED4C7",
                 bubble_color="#cbfcfc", voice_tag="v_voice",
                 image="v")
-default va = ChatCharacter("Vanderwood", 'va',
-                "Profile Pics/Vanderwood/va-1.webp",
-                "Profile Pics/va_chat.webp", "#d08577",
-                "Cover Photos/profile_cover_photo.webp", "Vanderwood's status",
+default va = ChatCharacter("Vanderwood", file_id='va',
+                prof_pic="Profile Pics/Vanderwood/va-1.webp",
+                participant_pic="Profile Pics/va_chat.webp",
+                heart_color="#d08577",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Vanderwood's status",
                 homepage_pic="Profile Pics/main_profile_va.webp",
                 window_color="#daaf49",
                 bubble_color="#eab3a9", image="vanderwood")
-default y = ChatCharacter("Yoosung★", 'y',
-                'Profile Pics/Yoosung/yoo-default.webp',
-                'Profile Pics/y_chat.webp', "#31ff26",
-                "Cover Photos/profile_cover_photo.webp", "Yoosung's status",
+default y = ChatCharacter("Yoosung★", file_id='y',
+                prof_pic='Profile Pics/Yoosung/yoo-default.webp',
+                participant_pic='Profile Pics/y_chat.webp',
+                heart_color="#31ff26",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Yoosung's status",
                 emote_list=yoosung_emotes,
                 homepage_pic="Profile Pics/main_profile_yoosung.webp",
                 pronunciation_help="yoosung",
                 window_color="#75C480", vn_name="Yoosung",
                 bubble_color="#effff3", voice_tag="y_voice",
                 image="yoosung")
-default z = ChatCharacter("ZEN", 'z', 'Profile Pics/Zen/zen-default.webp',
-                'Profile Pics/z_chat.webp', "#c9c9c9",
-                "Cover Photos/profile_cover_photo.webp", "Zen's status",
+default z = ChatCharacter("ZEN", file_id='z',
+                prof_pic='Profile Pics/Zen/zen-default.webp',
+                participant_pic='Profile Pics/z_chat.webp',
+                heart_color="#c9c9c9",
+                cover_pic="Cover Photos/profile_cover_photo.webp",
+                status="Zen's status",
                 emote_list=zen_emotes,
                 homepage_pic="Profile Pics/main_profile_zen.webp",
                 window_color="#929292", vn_name="Zen",
