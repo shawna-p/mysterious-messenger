@@ -1795,11 +1795,11 @@ screen update_preferences():
                     ymaximum ignored_size + 18*2
                     has vbox
                     spacing 3
-                    for i in persistent.ignored_versions[-10:]:
-                        textbutton _(i):
+                    for ver in persistent.ignored_versions[-10:]:
+                        textbutton _(ver):
                             ysize 44
                             style_prefix "check"
-                            action ToggleSetMembership(persistent.ignored_versions, i)
+                            action ToggleSetMembership(persistent.ignored_versions, ver)
 
             textbutton _('Check for updates'):
                 style "other_settings_end_button"
