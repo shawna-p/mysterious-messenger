@@ -622,7 +622,7 @@ layeredimage saeran front:
     yoffset 1260
 
     group body:
-        attribute normal "VN Mode/Unknown/saeran_body_01.webp"
+        attribute normal default "VN Mode/Unknown/saeran_body_01.webp"
         attribute arm "VN Mode/Unknown/saeran_body_02.webp"
 
     group face:
