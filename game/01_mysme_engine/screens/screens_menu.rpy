@@ -1802,13 +1802,17 @@ screen update_preferences():
                             action ToggleSetMembership(persistent.ignored_versions, ver)
 
             textbutton _('Check for updates'):
-                style "other_settings_end_button"
-                text_style 'other_settings_end_button_text'
+                style_prefix 'update_check'
+                action Function(check_version, force=True)
+
+style update_check_button:
+    is other_settings_end_button
                 ysize 80
                 xsize 330
                 xalign 0.5
-                action Function(check_version, force=True)
 
+style update_check_button_text:
+    is other_settings_end_button_text
 
 
 ########################################################
