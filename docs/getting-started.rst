@@ -185,6 +185,7 @@ Finally, below is an overview of the various features available within Mysteriou
     * Animated chatroom backgrounds (optional; activated in settings)
     * Heart icons
     * Optional timed menus
+    * Messages with clickable links
 
 * Phone calls
 
