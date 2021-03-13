@@ -140,7 +140,7 @@ Finally, there are several settings which are helpful when testing a route. They
     By default, this is unchecked. Timeline items will appear sequentially one after the other after the previous item is played. However, if Real-Time Mode is checked off, then chatrooms and other content will appear at the scheduled time in real-time.
 
 `Hacked Effect`
-    This turns on/off the messenger "hacked" effects. This particular variable only affects the save file it is activated from. It causes the timeline items to appear "glitchy" and changes the music on the main menu screen. Some of these glitch effects will not appear for players with the **Hacking Effect** option turned off.
+    This turns on/off the messenger "hacked" effects. This particular variable only affects the save file it is activated from, so it is not available to toggle from the main menu (only the in-game developer menu). It causes the timeline items to appear "glitchy" and changes the music on the main menu screen. Some of these glitch effects will not appear for players with the **Hacking Effect** option turned off.
 
 `Receive Hourglasses in Chatrooms`
     Unchecking this option will stop awarding the player hourglasses during chatrooms. Currently hourglasses are awarded on a pseudo-random basis when a character posts a special speech bubble from a subset of special bubbles. This option is useful if the chatroom is intended to be seen as a video and not played through, for example.
@@ -156,6 +156,11 @@ Finally, there are several settings which are helpful when testing a route. They
 
 `Documentation`
     Clicking this will open the documentation home page for Mysterious Messenger. By default, this opens the documentation in a web browser. However, you can check off **Prefer local documentation** (above) to open the html files that come with the repository instead. Both the online and offline versions contain the same information.
+
+`Reset Albums`
+    This will cause the program to forget all persistent variables associated with albums. This includes all the persistent albums as defined in the ``all_albums`` variable, and will also clear the program's memory of images the player has been shown in-game (typically this will only affect CG images shown during Story Mode). Use this if you want to reset the persistent albums to their original, defaulted value.
+
+    This option is only available on the main menu (not in-game).
 
 Uncategorized
 ---------------
