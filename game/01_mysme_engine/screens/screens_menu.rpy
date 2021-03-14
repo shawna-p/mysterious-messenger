@@ -324,23 +324,28 @@ screen main_menu():
                     add "menu_dlc" align (0.5, 0.5)
                     text "Developer"
 
+    # The update button. Only checks for and shows updates if this
+    # is a developer version (not a full release).
     if config.developer:
-        on 'show' action Function(check_version, test=True)
+        on 'show' action Function(check_version)
         button:
-            selected_background 'Menu Screens/Main Menu/update_icon_new.webp'
-            selected_hover_foreground 'Menu Screens/Main Menu/update_icon_new.webp'
-            background 'Menu Screens/Main Menu/update_icon.webp'
-            hover_foreground 'Menu Screens/Main Menu/update_icon.webp'
-            xysize (104,71)
-            align (1.0, 1.0)
-            offset (-6, -6)
+            style 'update_button'
             selected persistent.available_update
-            action If(persistent.available_update,
-                Show('program_updates', ver_name=persistent.available_update[0],
-                    ver_tag=persistent.available_update[1],
-                    publish_time=persistent.available_update[2],
-                    is_prerelease=persistent.available_update[3]),
-                NullAction())
+            # If there's a new update the user hasn't ignored, show them it.
+            # Otherwise, they can see the regular preferences screen.
+            action If((persistent.available_update
+                    and len(persistent.available_update) > 4),
+                Show('program_updates', update=persistent.available_update),
+                Show('update_preferences'))
+
+style update_button:
+    selected_background 'Menu Screens/Main Menu/update_icon_new.webp'
+    selected_hover_foreground 'Menu Screens/Main Menu/update_icon_new.webp'
+    background 'Menu Screens/Main Menu/update_icon.webp'
+    hover_foreground 'Menu Screens/Main Menu/update_icon.webp'
+    xysize (104,71)
+    align (1.0, 1.0)
+    offset (-6, -6)
 
 style greet_text is text:
     color "#ffffff"
@@ -1659,9 +1664,25 @@ init python:
 ## The screen which informs the user of program updates
 ##########################################################
 
-screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
-        publish_time="2020-01-01", is_prerelease="Maybe", dl_link=None):
+screen program_updates(update=None):
+
+    if update:
+        default ver_name = update[0]
+        default ver_tag = update[1]
+        default publish_time = update[2]
+        default is_prerelease = update[3]
+        default dl_link = update[4]
+    else:
+        default ver_name = ""
+        default ver_tag = ""
+        default publish_time = ""
+        default is_prerelease = ""
+        default dl_link = ""
+
     modal True
+
+    default clear_update = False
+
     add "#000a"
     frame:
         style_prefix 'update_box'
@@ -1671,7 +1692,10 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
         imagebutton:
             idle 'input_close'
             hover 'input_close_hover'
-            action Hide('program_updates')
+            action [If(clear_update,
+                [Hide('program_updates'),
+                    SetField(persistent, "available_update", [ ])],
+                Hide('program_updates'))]
 
         text "Program Updates" style "settings_style" xpos 55 ypos 5
 
@@ -1709,7 +1733,14 @@ screen program_updates(ver_name="Mysterious Messenger v3.0.#", ver_tag="v3.0.#",
             textbutton _("Ignore this release"):
                 style_prefix "check"
                 xalign 0.5
-                action ToggleSetMembership(persistent.ignored_versions, ver_tag)
+                selected ver_tag in persistent.ignored_versions
+                action If((ver_tag not in persistent.ignored_versions
+                        and persistent.available_update
+                        and persistent.available_update[1] == ver_tag),
+                    [AddToSet(persistent.ignored_versions, ver_tag),
+                    SetScreenVariable('clear_update', True)],
+                    [RemoveFromSet(persistent.ignored_versions, ver_tag),
+                    SetScreenVariable('clear_update', False)])
 
 style update_box_frame:
     xysize (675, 660)
@@ -1799,7 +1830,10 @@ screen update_preferences():
                         textbutton _(ver):
                             ysize 44
                             style_prefix "check"
-                            action ToggleSetMembership(persistent.ignored_versions, ver)
+                            selected True
+                            action [RemoveFromSet(persistent.ignored_versions,
+                                ver)]
+
 
             textbutton _('Check for updates'):
                 style_prefix 'update_check'
@@ -1807,9 +1841,9 @@ screen update_preferences():
 
 style update_check_button:
     is other_settings_end_button
-                ysize 80
-                xsize 330
-                xalign 0.5
+    ysize 80
+    xsize 330
+    xalign 0.5
 
 style update_check_button_text:
     is other_settings_end_button_text
