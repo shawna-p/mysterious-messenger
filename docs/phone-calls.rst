@@ -79,6 +79,8 @@ Phone calls can also be missed if real-time mode is turned on from the Developer
 
 Additionally, if the player is using the game but has not yet played the 10:20 chatroom by 13:30, then if the game is open at 13:30 they will receive an incoming call which they can either accept or reject. This acts the same way as if the incoming call had been received immediately after playing the chatroom.
 
+You can also change the dialogue of a phone call depending on whether the player picked up when the character first called, or if they are calling the character back. For more on that, see :ref:`Phone Callbacks`.
+
 
 Creating a Story Call
 =====================
@@ -166,4 +168,68 @@ You can use a character to say voicemail dialogue, or you can use the "generic" 
         return
 
 As shown above, you can also add voice files to the voicemail, which will be played during the next line of dialogue.
+
+Phone Callbacks
+================
+
+Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.
+
+However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix ``_incoming_z_callback`` where ``z`` is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call::
+
+    label day_7_chat_4():
+
+        scene morning
+        s "This is some dialogue for the chatroom!"
+        return
+
+    label day_7_chat_4_incoming_s():
+        s "Hello [name]!"
+        s "I'm glad you picked up~"
+        # ...
+        return
+
+Then you can create the "callback" label for ``s``'s incoming call at::
+
+    label day_7_chat_4_incoming_s_callback():
+        s "[name]!!! You called me back, haha."
+        s "I thought maybe you were busy so I didn't wanna bother you."
+        s "But I'm glad you called."
+        # ...
+        return
+
+If this ``callback`` label is present, the program will jump to it when the player is calling the character back instead of going to the regular ``incoming_s`` label. In replay, if the player has seen both the callback version of the call as well as the regular version, they will be prompted with a menu that allows them to pick whether they want to replay the regular version or the callback version.
+
+If you'll be reusing dialogue between the two phone calls, it might be useful to create a second label that both calls can jump to. For example::
+
+    label day_7_chat_4():
+        scene morning
+        s "This is some dialogue for the chatroom!"
+        return
+
+    label day_7_chat_4_incoming_s():
+        s "Hello [name]!"
+        s "I thought maybe you'd be having lunch and wouldn't pick up."
+        jump day_7_chat_4_incoming_s_ending
+
+    label day_7_chat_4_incoming_s_callback():
+        s "[name]!!! You called me back, haha."
+        s "I thought maybe you were busy so I didn't wanna bother you."
+        s "But I'm glad you called."
+        jump day_7_chat_4_incoming_s_ending
+
+    label day_7_chat_4_incoming_s_ending():
+        s "Are you busy right now?"
+        menu:
+            "No, not particularly.":
+                s "Great! So I had this idea for a cat cafe I wanted to bring up in the chatroom."
+                s "Don't tell Jaehee though, okay? She might get mad."
+            "Yeah, I should probably get something done today.":
+                s "Aw... don't be like that..."
+                s "But, if you really have to leave, I'll understand."
+                s "Just call me back when you're free!"
+        s "Oh... looks like I actually have to go already. I'm sorry for ditching you!"
+        s "Let's talk again later in the chatroom. Toodles!"
+        return
+
+The two calls start differently, but both jump to the ``day_7_chat_4_incoming_s_ending`` label to finish off the phone call. This can help keep your code more organized so you're not repeating dialogue in two separate labels.
 
