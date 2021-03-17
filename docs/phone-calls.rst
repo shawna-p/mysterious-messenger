@@ -233,3 +233,39 @@ If you'll be reusing dialogue between the two phone calls, it might be useful to
 
 The two calls start differently, but both jump to the ``day_7_chat_4_incoming_s_ending`` label to finish off the phone call. This can help keep your code more organized so you're not repeating dialogue in two separate labels.
 
+
+
+Phone-Only Characters
+======================
+
+Like with Story Mode, sometimes you may have a character who only needs to exist for a phone call but doesn't need all the bells and whistles of a full ChatCharacter definition. There are two ways to define such characters:
+
+Dialogue-Only Phone Characters
+-------------------------------
+
+For characters that only need to speak in phone calls, but don't need a profile picture or any other information, you can create a regular Character and inherit from the ``phone_char`` object. This applies in situations such as:
+
+* The player can hear the voice of someone else in the background of a call (e.g. the player called Yoosung, but can hear a professor talking in the background on occasion)
+* The player called a regular character, but the person who picked up was not the regular character (e.g. the player phoned Jumin, but his father picked up instead)
+* You are defining a specific voicemail voice
+
+These characters don't need their own profile picture, but should have their own Character object to speak dialogue with so that the player can properly use the voice tagging system to mute characters they don't want to listen to.
+
+To define a dialogue-only phone character, you can do::
+
+    define hana_phone = Character("Hana", kind=phone_character)
+
+You can then write dialogue in-game via::
+
+    hana_phone "This is some dialogue said by Hana."
+    hana_phone "It uses the other_voice tag."
+
+
+
+Incoming Call Phone Characters
+-------------------------------
+
+
+
+
+
