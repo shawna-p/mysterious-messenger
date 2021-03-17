@@ -622,6 +622,9 @@ init -6 python:
             for char in store.all_characters:
                 if char.file_id == file_id:
                     return char
+            for char in store.phone_only_characters:
+                if char.file_id == file_id:
+                    return char
         return None
 
     def print_file(*args, **kwargs):
