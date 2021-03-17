@@ -251,8 +251,9 @@ init -6 python:
         global unseen_calls, all_characters
         missed_call = False
         phonecall = False
+        all_call_list = list(all_characters).extend(store.phone_only_characters)
         # Add available calls
-        for c in all_characters:
+        for c in all_call_list:
             # Add available outgoing calls to the list
             if renpy.has_label(lbl + '_outgoing_' + c.file_id):
                 available_calls.append(PhoneCall(c,
@@ -335,6 +336,37 @@ init -6 python:
             return
         store.available_calls.append(PhoneCall(who, lbl, 'outgoing'))
         renpy.retain_after_load()
+
+    class PhoneCharacter(ChatCharacter):
+        """
+        Class that keeps track of information needed for phone call-only
+        characters.
+
+        Attributes:
+        -----------
+        name : string
+            Name of this character as it should appear on the call display.
+        prof_pic : string
+            File path to this character's profile picture. Follows the same
+            conventions as the ChatCharacter profile picture.
+        """
+
+        def __init__(self, name, prof_pic, file_id=False, **properties):
+            super(PhoneCharacter, self).__init__(name=name, prof_pic=prof_pic,
+                **properties)
+            self.file_id = file_id
+
+            try:
+                if (self not in store.phone_only_characters
+                        and self.file_id):
+                    store.phone_only_characters.append(self)
+            except AttributeError:
+                return
+
+init offset = -2
+# Track characters who only appear in phone calls
+default phone_only_characters = [ ]
+init offset =  0
 
 # Number of calls the player missed
 default unseen_calls = 0
@@ -441,6 +473,7 @@ screen phone_calls():
                             idle 'call_back'
                             align(0.5, 0.5)
                             xysize(96,85)
+                            sensitive i.caller (not in phone_only_characters)
                             hover Transform('call_back', zoom=1.1)
                             if call_available(i.caller):
                                 action [Preference("auto-forward", "enable"),
