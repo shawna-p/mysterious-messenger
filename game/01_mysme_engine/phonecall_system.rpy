@@ -251,7 +251,8 @@ init -6 python:
         global unseen_calls, all_characters
         missed_call = False
         phonecall = False
-        all_call_list = list(all_characters).extend(store.phone_only_characters)
+        all_call_list = list(all_characters)
+        all_call_list.extend(store.phone_only_characters)
         # Add available calls
         for c in all_call_list:
             # Add available outgoing calls to the list
@@ -473,7 +474,7 @@ screen phone_calls():
                             idle 'call_back'
                             align(0.5, 0.5)
                             xysize(96,85)
-                            sensitive i.caller (not in phone_only_characters)
+                            sensitive (i.caller not in phone_only_characters)
                             hover Transform('call_back', zoom=1.1)
                             if call_available(i.caller):
                                 action [Preference("auto-forward", "enable"),
