@@ -159,8 +159,9 @@ init -6 python:
                 + x.file_id) for x in store.all_characters
                 if renpy.has_label(self.item_label + '_outgoing_'
                     + x.file_id)]
+            all_call_list = list(store.all_characters).extend(store.phone_only_characters)
             self.incoming_calls_list = [ (self.item_label + '_incoming_'
-                + x.file_id) for x in store.all_characters
+                + x.file_id) for x in all_call_list
                 if renpy.has_label(self.item_label + '_incoming_'
                     + x.file_id)]
 
