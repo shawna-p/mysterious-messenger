@@ -478,12 +478,22 @@ screen history_timeline_story_calls(phonecall, item):
 screen history_calls_list(item, call_list, call_icon):
     for c in call_list:
         if c in persistent.completed_story:
+            $ caller_file_id = c.split('_')[-1]
+            $ p_caller = get_char_from_file_id(caller_file_id)
             button:
-                background Transform(c.split('_')[-1] + '_contact',
-                                                size=(85,85))
-                hover_background Fixed(Transform(c.split('_')[-1] + '_contact',
-                                size=(85,85)), Transform(c.split('_')[-1]
-                                + '_contact', size=(85,85)))
+                if (p_caller in phone_only_characters):
+                    background AlphaMask(p_caller.get_pfp(85),
+                        Transform('contact_darken', size=(85, 85)))
+                    hover_background Fixed(AlphaMask(p_caller.get_pfp(85),
+                        Transform('contact_darken', size=(85, 85))),
+                        AlphaMask("#fff6",
+                        Transform('contact_darken', size=(85, 85))))
+                else:
+                    background Transform(caller_file_id + '_contact',
+                        size=(85,85))
+                    hover_background Fixed(
+                        Transform(caller_file_id + '_contact', size=(85,85)),
+                        Transform(caller_file_id + '_contact', size=(85,85)))
                 add Transform('contact_darken', size=(85,85), alpha=0.3):
                     align (0.5,0.5)
                 add Transform('call_' + call_icon + '_outline', size=(32, 32)):
