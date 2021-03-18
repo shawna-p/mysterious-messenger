@@ -368,6 +368,7 @@ init offset = -2
 # Track characters who only appear in phone calls
 default phone_only_characters = [ ]
 init offset =  0
+default hana_phone = PhoneCharacter("Hana", "Profile Pics/Yoosung/yoo-9.webp", 'ha')
 
 # Number of calls the player missed
 default unseen_calls = 0
@@ -472,15 +473,17 @@ screen phone_calls():
 
                         imagebutton:
                             idle 'call_back'
+                            insensitive Transform('call_back',
+                                matrixcolor=SaturationMatrix(0.0))
                             align(0.5, 0.5)
                             xysize(96,85)
-                            sensitive (i.caller not in phone_only_characters)
                             hover Transform('call_back', zoom=1.1)
                             if call_available(i.caller):
                                 action [Preference("auto-forward", "enable"),
                                 Show('outgoing_call',
                                     phonecall=call_available(i.caller))]
                             else:
+                                sensitive (i.caller not in phone_only_characters)
                                 action [Preference("auto-forward", "enable"),
                                 Show('outgoing_call',
                                     phonecall=i.caller.voicemail,
