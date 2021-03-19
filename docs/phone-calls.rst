@@ -265,7 +265,36 @@ You can then write dialogue in-game via::
 Incoming Call Phone Characters
 -------------------------------
 
+For characters who can call the player, but don't need a fully-fledged character definition, there's the special ``PhoneCharacter`` class you can use to define a character for phone calls.
 
+PhoneCharacters only need a name, a profile picture, and a file_id. Like with regular characters, the file_id is used to associate them with phone calls, so you can write incoming call labels that are automatically detected by the program. It also helps the program find the phone call to fill out the History.
+
+A typical PhoneCharacter definition might look as follows::
+
+    default hana_phone  = PhoneCharacter("Hana", "Profile Pics/Other/hana-1.webp", 'ha')
+
+You can put this definition anywhere you like, though it's usually a good idea to keep your character definitions in a central place where you can find them later.
+
+Then, to write a phone call for this character, you can add a label like you would with the regular cast of characters::
+
+    label day_3_chat_7():
+        scene evening
+        y "Hi [name], sorry to bother you with this!"
+        y "I'm about to write a test so I gave your number to a friend."
+        y "She'll call you if anything changes."
+        y "Wish me luck!"
+        exit chatroom y
+
+    label day_3_chat_7_incoming_ha():
+        hana_phone "Hi, this is... um, [name], I think? Yoosung gave me your number."
+        hana_phone "Nothing's wrong, I just wanted to check if the number worked."
+        hana_phone "Haha, this is actually pretty awkward, so I think I'll hang up now."
+        hana_phone "Bye."
+        return
+
+A ``PhoneCharacter`` acts the same as a ``ChatCharacter`` in nearly all respects, including the ability to update their profile picture, name, and more, but they won't appear in the player's contact list or on the home screen as a character profile. If you want that functionality, you should define them as a ChatCharacter instead (see :ref:`Creating Characters`).
+
+Additionally, if the player misses a call from a ``PhoneCharacter``, they will only be able to call the character back if that call is still available. In practice, this means that the player can't call a ``PhoneCharacter`` whenever they like; only when an outstanding call is available. Outgoing calls to ``PhoneCharacter``s are not supported at this time; if you wish to allow for outgoing calls, you should define this character using the ``ChatCharacter`` class instead of ``PhoneCharacter``.
 
 
 
