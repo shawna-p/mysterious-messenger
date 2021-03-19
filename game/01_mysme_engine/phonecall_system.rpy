@@ -364,7 +364,7 @@ init -6 python:
             except AttributeError:
                 return
 
-init offset = -2
+init offset = -5
 # Track characters who only appear in phone calls
 default phone_only_characters = [ ]
 init offset =  0
