@@ -425,6 +425,10 @@ You can then write dialogue during a phone call like::
     em_phone "How are you, [name]?"
 
 
+.. note::
+    You can also make "Phone-only" characters who can call the player and have a profile picture and can speak dialogue during phone calls, but aren't part of the player's contact list and won't appear fully in the game. For more information, see :ref:`Phone-Only Characters`.
+
+
 Adding a Phone Contact Image
 -----------------------------
 
