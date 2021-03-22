@@ -77,6 +77,14 @@ init -6 python:
             # If observing?
             super(ContinueChat, self).__call__()
 
+    def IfChatStopped(true_list, false_list=None):
+        """
+        A function that acts like an action. Has two parameters, what action
+        to do if chat_stopped is True and what to do if it's False.
+        """
+
+        return (true_list, false_list)
+
 
 
     from collections import namedtuple
