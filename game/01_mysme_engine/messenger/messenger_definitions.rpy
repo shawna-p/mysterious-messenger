@@ -286,24 +286,35 @@ init -4 python:
             try:
                 if not self.link:
                     return None
-                elif store.observing and not store._in_replay:
+                if not self.__link_action:
+                    return None
+                elif isinstance(self.__link_action, tuple):
+                    # It's conditional on chat_stopped
+                    if chat_stopped:
+                        link_act = self.__link_action[0]
+                    else:
+                        link_act = self.__link_action[1]
+                    if not link_act:
+                        return None
+                else:
+                    link_act = self.__link_action
+
+                if store.observing and not store._in_replay:
                     # Just replaying the chat in-game
-                    if (self.__link_action
-                            and isinstance(self.__link_action, ShowCG)):
-                        return self.__link_action
+                    if (isinstance(link_act, ShowCG)):
+                        return link_act
                     return None # Shouldn't have buttons in a replay
-                elif (self.__link_action
-                        and not isinstance(self.__link_action, ShowCG)):
+                elif (not isinstance(link_act, ShowCG)):
                     # Deactivate the button after it's been clicked once
                     the_action = [SetField(self, 'link_action', None)]
-                    if isinstance(self.__link_action, list):
-                        the_action.extend(self.__link_action)
+                    if isinstance(link_act, list):
+                        the_action.extend(link_act)
                     else:
-                        the_action.append(self.__link_action)
+                        the_action.append(link_act)
                     return the_action
-                elif self.__link_action:
+                elif link_act:
                     # This just shows a CG; don't need to remove the action
-                    return self.__link_action
+                    return link_act
                 return None
             except:
                 return None
