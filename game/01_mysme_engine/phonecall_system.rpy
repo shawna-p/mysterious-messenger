@@ -532,8 +532,6 @@ screen phone_contacts():
 
         vpgrid:
             style_prefix 'call_display'
-            xysize (705, 1070)
-            xalign 0.5
             if len(contact_list) <= 9:
                 yoffset 60
                 xoffset 15
@@ -548,8 +546,10 @@ screen phone_contacts():
 
 style call_display_vpgrid:
     align (0.5, 0.3)
-    xspacing 60
+    xspacing 55
     yspacing 100
+    xysize (705, 1070)
+    xalign 0.4
 
 style phone_contacts_frame:
     xalign 0.5
