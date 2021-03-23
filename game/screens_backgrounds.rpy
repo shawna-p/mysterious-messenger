@@ -32,14 +32,14 @@ screen animated_morning():
                 at star_twinkle_out(100, x, x+375, 200+350*2, 1150)
 
     # Clouds
-    add 'gentle_snow_back' at colorize_snow_morning()
+    # add 'gentle_snow_back' at colorize_snow_morning()
     add 'animated_morning_clouds_back' at slow_pan(300, 0, 2250, 250, 0, -400)
     add 'animated_morning_clouds_back' at slow_pan(300, -2250, 2250, 250, 0, -400)
     add 'animated_morning_clouds_mid' at slow_pan(220, 0, 2250, 230, 0, -400)
     add 'animated_morning_clouds_mid' at slow_pan(220, -2250, 2250, 230, 0, -400)
     add 'animated_morning_clouds_front' at slow_pan(150, 0, 2250, 210, 0, -400)
     add 'animated_morning_clouds_front' at slow_pan(150, -2250, 2250, 210, 0, -400)
-    add 'gentle_snow_front' at colorize_snow_morning()
+    # add 'gentle_snow_front' at colorize_snow_morning()
 
     # A gradient overlay to ease the transition from night into morning
     add 'Phone UI/animated_bgs/morning/morning_darken.webp':
@@ -94,14 +94,14 @@ screen animated_evening():
         at topbottom_pan(180, 120, 60, -1138, 1138*1.5, 0.0, 100, 1.0)
 
     # Clouds
-    add 'gentle_snow_back' at colorize_snow_evening()
+    # add 'gentle_snow_back' at colorize_snow_evening()
     add 'animated_evening_clouds_back' at slow_pan(300, 0, 2208)
     add 'animated_evening_clouds_back' at slow_pan(300, -2208, 2208)
     add 'animated_evening_clouds_mid' at slow_pan(200, 0, 2208)
     add 'animated_evening_clouds_mid' at slow_pan(200, -2208, 2208)
     add 'animated_evening_clouds_front' at slow_pan(110, 0, 2208)
     add 'animated_evening_clouds_front' at slow_pan(110, -2208, 2208)
-    add 'gentle_snow_front' at colorize_snow_evening()
+    # add 'gentle_snow_front' at colorize_snow_evening()
 
     # These gradients help blend the sun colours with the sky and clouds
     add 'Phone UI/animated_bgs/evening/evening_clouds_orange.webp':
