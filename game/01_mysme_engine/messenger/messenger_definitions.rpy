@@ -860,6 +860,9 @@ init -4 python:
     def messenger_pause(length, actually_wait=False):
         """Pause for length, unless skipping."""
 
+        if main_menu:
+            return
+
         if actually_wait and renpy.is_skipping():
             renpy.pause(0.1)
             return
