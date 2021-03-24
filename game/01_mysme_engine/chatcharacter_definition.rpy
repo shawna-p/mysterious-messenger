@@ -165,6 +165,8 @@ python early:
             self.big_prof_pic = prof_pic
             self.__prof_pic = False
             self.prof_pic = prof_pic
+            if self.__prof_pic == False and self.file_id and self.file_id != 'delete':
+                print("WARNING: Couldn't set profile picture to", prof_pic)
             self.default_prof_pic = prof_pic
             if not homepage_pic:
                 self.homepage_pic = prof_pic
@@ -515,6 +517,15 @@ python early:
                     self.seen_updates = False
                 elif isImg(new_img.split('.')[0] + '.webp'):
                     self.__prof_pic = new_img.split('.')[0] + '.webp'
+                else:
+                    # Couldn't figure out this image! It has to be a string
+                    # if the program got to this point.
+                    ScriptError("Could not find the image \"", new_img,
+                        "\" for use as a profile picture.",
+                        header="Creating Characters",
+                        subheader="Adding a New Character to Chatrooms")
+                    new_img = "#f00"
+                    raise
             except:
                 is_transform = True
                 self.seen_updates = self.__prof_pic == new_img
@@ -587,6 +598,12 @@ python early:
 
             # Regular profile pic is 110x110
             # Big pfp is 314x314
+            if not self.__prof_pic:
+                ScriptError("Could not find the image \"", self.__prof_pic,
+                        "\" for use as a profile picture.",
+                        header="Creating Characters",
+                        subheader="Adding a New Character to Chatrooms")
+                return Transform("#f00", size=(the_size, the_size))
             if the_size <= max_small:
                 return Transform(self.__prof_pic,
                                 size=(the_size, the_size))
