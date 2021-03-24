@@ -38,7 +38,7 @@ screen chatroom_creator():
     use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5))):
         use messenger_screen()
         textbutton "Add to chatlog":
-            action [#Function(chat_dialogue_input.enter),
+            action [chat_dialogue_input.Disable(),#Function(chat_dialogue_input.enter),
                 Function(print, 'chat_dialogue is', chat_dialogue,
                     'inputdialogue is', chat_dialogue_input.s, 'ugh',
                     chat_dialogue_input.get_text()),
