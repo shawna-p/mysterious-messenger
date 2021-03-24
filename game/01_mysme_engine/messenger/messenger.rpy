@@ -18,9 +18,12 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
 
     frame:
         align (0.5, 1.0)
-        yoffset -114
         xfill True
+        if not main_menu:
+        yoffset -114
         ysize 1080
+        else:
+            ysize 640
         if animate_down:
             at slide_down(-220)
 
@@ -28,7 +31,10 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             yadjustment yadj
             draggable True
             mousewheel True
+            if not main_menu:
             ysize 1080
+            else:
+                ysize 640
             xfill True
 
             has vbox
