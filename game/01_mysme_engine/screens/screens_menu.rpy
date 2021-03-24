@@ -1606,19 +1606,30 @@ screen developer_settings():
                     yalign 1.0
                     action OpenMysMeDocumentation()
             if main_menu:
-                textbutton _('Reset Albums'):
-                    style "other_settings_end_button"
-                    text_style 'other_settings_end_button_text'
-                    ysize 80
-                    xsize 285
+                hbox:
                     align (0.5, 0.5)
-                    action CConfirm("This will cause Mysterious Messenger to forget"
-                        + " all previously unlocked images and reset all persistent"
-                        + " albums in the {b}all_albums{/b} variable.\n\nDo you"
-                        + " want to continue?\n\n{size=-10}{i}Note: Resetting"
-                        + " albums will cause the script to be reloaded, which"
-                        + " may take a few seconds.{/i}{/size}",
-                            Function(reset_albums))
+                    spacing 40
+                    textbutton _('Reset Albums'):
+                        style "other_settings_end_button"
+                        text_style 'other_settings_end_button_text'
+                        ysize 80
+                        xsize 285
+                        align (0.5, 0.5)
+                        action CConfirm("This will cause Mysterious Messenger to forget"
+                            + " all previously unlocked images and reset all persistent"
+                            + " albums in the {b}all_albums{/b} variable.\n\nDo you"
+                            + " want to continue?\n\n{size=-10}{i}Note: Resetting"
+                            + " albums will cause the script to be reloaded, which"
+                            + " may take a few seconds.{/i}{/size}",
+                                Function(reset_albums))
+                    textbutton _("Chatroom Creator"):
+                        style "other_settings_end_button"
+                        text_style 'other_settings_end_button_text'
+                        ysize 80 xsize 285
+                        text_size 28
+                        align (0.5, 0.5)
+                        action [Hide('developer_settings'),
+                            Show('chatroom_creator')]
 
 default persistent.open_docs_locally = False
 
