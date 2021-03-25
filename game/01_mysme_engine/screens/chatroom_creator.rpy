@@ -20,7 +20,9 @@ init python:
 
         def enter(self, simulate=False):
             if not simulate:
-                renpy.run(self.Disable())
+                renpy.run([Function(add_creation_entry),
+                    Function(chat_dialogue_input.set_text, ''),
+                    SetVariable('last_added', [ ])])
             else:
                 renpy.run(self.Enable())
             raise renpy.IgnoreEvent()
@@ -41,14 +43,32 @@ init python:
             store.chatlog.append(store.last_added.pop())
         return
 
+    def add_creation_entry():
+        # Make a copy of the entry
+        entry = copy(store.the_entry)
+        # Add fonts and bubbles and stuff
+        dialogue = entry.what
+        dialogue = "{font=" + store.entry_styles['font'] + "}" + dialogue
+        dialogue += "{/font}"
+        entry.what = dialogue
+        store.chatlog.append(entry)
+        return
 
 default chat_dialogue = ""
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
 default last_added = [ ]
 define creator_messenger_ysize = 640
+default entry_styles = {
+    'font' : gui.sans_serif_1,
+    'specBubble' : None,
+    'img' : False
+}
 
 screen chatroom_creator():
+
+    default show_fonts = False
+
     tag menu
     use starry_night()
     add Transform('bg ' + current_background,
@@ -67,10 +87,103 @@ screen chatroom_creator():
                 textbutton chara.name:
                     left_padding 35
                     action SetField(the_entry, 'who', chara)
+        hbox:
+            spacing 5
+            # Font styles and stuff
+            button:
+                background "#fff"
+                xysize (47, 47)
+                padding (2, 2)
+                add "#000"
+                text "B" style 'sser1xb' align (0.5, 0.5) color "#fff"
+            button:
+                background "#fff"
+                xysize (47, 47)
+                padding (2, 2)
+                add "#000"
+                text "I" italic True align (0.5, 0.5) color "#fff"
+            button:
+                background "#fff"
+                xysize (47, 47)
+                padding (2, 2)
+                add "#000"
+                vbox:
+                    spacing -3
+                    align (0.5, 0.5)
+                    text "U" underline True color "#fff" xalign 0.5
+                    add Solid("#fff") size (30, 1) xalign 0.5
+            button:
+                background "#fff"
+                xysize (47+20, 47)
+                padding (2, 2)
+                add "#000"
+                add 'text_size_decrease'
+            button:
+                background "#fff"
+                xysize (47+20, 47)
+                padding (2, 2)
+                add "#000"
+                add 'text_size_increase'
+            button:
+                background "#fff"
+                xysize (105, 47)
+                padding (5, 2)
+                add "#000"
+                text "Fonts" color "#fff" size 29 align (0.5, 0.5)
+                action ToggleScreenVariable('show_fonts', True)
+        showif show_fonts:
+            hbox:
+                at slide_in_out()
+                spacing 5
+                button:
+                    background "#fff"
+                    xysize (105, 47)
+                    padding (5, 2)
+                    add "#000"
+                    text "Font 1" style 'sser1' color "#fff" size 29 align (0.5, 0.5)
+                    action SetDict(entry_styles, 'font', gui.sans_serif_1)
+                button:
+                    background "#fff"
+                    xysize (105, 47)
+                    padding (5, 2)
+                    add "#000"
+                    text "Font 2" style 'sser2' color "#fff" size 29 align (0.5, 0.5)
+                    action SetDict(entry_styles, 'font', gui.sans_serif_2)
+                button:
+                    background "#fff"
+                    xysize (105, 47)
+                    padding (5, 2)
+                    add "#000"
+                    text "Font 3" style 'ser1' color "#fff" size 29 align (0.5, 0.5)
+                    action SetDict(entry_styles, 'font', gui.serif_1)
+                button:
+                    background "#fff"
+                    xysize (105, 47)
+                    padding (5, 2)
+                    add "#000"
+                    text "Font 4" style 'ser2' color "#fff" size 29 align (0.5, 0.5)
+                    action SetDict(entry_styles, 'font', gui.serif_2)
+                button:
+                    background "#fff"
+                    xysize (105, 47)
+                    padding (5, 2)
+                    add "#000"
+                    text "Font 5" style 'curly' color "#fff" size 29 align (0.5, 0.5)
+                    action SetDict(entry_styles, 'font', gui.curly_font)
+                button:
+                    background "#fff"
+                    xysize (105, 47)
+                    padding (5, 2)
+                    add "#000"
+                    text "Font 6" style 'blocky' color "#fff" size 29 align (0.5, 0.5)
+                    action SetDict(entry_styles, 'font', gui.blocky_font)
+
+
         use dialogue_input()
         hbox:
             spacing 40 xalign 0.5
             textbutton "Clear Chat":
+                selected False
                 action [SetVariable('last_added', chatlog),
                     SetVariable('chatlog', [ ])]
             textbutton "Undo":
@@ -81,9 +194,17 @@ screen chatroom_creator():
                 action Function(redo_chatlog)
             textbutton "Add to chatlog":
                 action [chat_dialogue_input.Disable(),
-                    AddToSet(chatlog, copy(the_entry)),
+                    Function(add_creation_entry),
                     Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ])]
+
+transform slide_in_out():
+    on show, appear:
+        yzoom 0.0
+        easein 0.35 yzoom 1.0
+    on hide:
+        yzoom 1.0
+        easein 0.35 yzoom 0.0
 
 screen dialogue_input():
     button:
@@ -94,6 +215,7 @@ screen dialogue_input():
         input value chat_dialogue_input:
             color "#000"
             caret 'text_caret'
+            font entry_styles['font']
         action chat_dialogue_input.Enable()
 
 image text_caret:
@@ -102,3 +224,16 @@ image text_caret:
     Transform("#0000", size=(2, 40))
     0.5
     repeat
+
+image text_size_increase = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+5, 8), Text("+", color="#fff", font=gui.serif_1xb, size=30)
+)
+image text_size_decrease = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+5, 8), Text("-", color="#fff", font=gui.serif_1xb, size=30)
+)
