@@ -903,6 +903,10 @@ init -4 python:
         """Return True if the chatbackup was posted successfully."""
 
         global chatlog
+
+        if main_menu:
+            return True
+
         if len(chatlog) > 0:
             last_chat = chatlog[-1]
         else:
