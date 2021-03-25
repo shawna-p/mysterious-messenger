@@ -27,24 +27,68 @@ init python:
                 renpy.run(self.Enable())
             raise renpy.IgnoreEvent()
 
+    def pop_chatlog():
+        if store.chatlog:
+            store.last_added.append(store.chatlog.pop())
+            # Cut down on how many entries we remember
+            store.last_added = store.last_added[-20:]
+        else:
+            # They want to undo clearing the chatlog
+            store.chatlog = store.last_added
+            store.last_added = [ ]
+        return
+
+    def redo_chatlog():
+        if store.last_added:
+            store.chatlog.append(store.last_added.pop())
+        return
+
+
 default chat_dialogue = ""
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
+default last_added = [ ]
+define creator_messenger_ysize = 640
 
 screen chatroom_creator():
     tag menu
 
-    use starry_night()
-    use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5))):
+    add Transform('bg ' + current_background,
+            crop=(0, 315, 750, creator_messenger_ysize)):
+        yoffset 150
+    use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5)),
+            hide_bkgr=True):
         use messenger_screen()
-        textbutton "Add to chatlog":
-            action [chat_dialogue_input.Disable(),#Function(chat_dialogue_input.enter),
-                Function(print, 'chat_dialogue is', chat_dialogue,
-                    'inputdialogue is', chat_dialogue_input.s, 'ugh',
-                    chat_dialogue_input.get_text()),
-                Function(addchat, random.choice(character_list),
-                chat_dialogue, 0)]
+        hbox:
+            box_wrap True
+            spacing 15
+            xalign 0.5
+            xmaximum 740
+            style_prefix 'check'
+            for chara in all_characters:
+                textbutton chara.name:
+                    left_padding 35
+                    action SetField(the_entry, 'who', chara)
         use dialogue_input()
+        hbox:
+            spacing 40 xalign 0.5
+            textbutton "Clear Chat":
+                action [SetVariable('last_added', chatlog),
+                    SetVariable('chatlog', [ ])]
+            textbutton "Undo":
+                sensitive chatlog or (last_added and not chatlog)
+                action Function(pop_chatlog)
+            textbutton "Redo":
+                sensitive last_added
+                action Function(redo_chatlog)
+            textbutton "Add to chatlog":
+                action [chat_dialogue_input.Disable(),
+                    #Function(addchat, random.choice(character_list), chat_dialogue, 0),
+                    SetField(the_entry, 'what', chat_dialogue),
+                    AddToSet(chatlog, copy(the_entry)),
+                    SetVariable('chat_dialogue', ''),
+                    SetVariable('last_added', [ ])]
+
 
 
 screen dialogue_input():
@@ -54,5 +98,4 @@ screen dialogue_input():
         padding (12, 10)
         xalign 0.5 yalign 0.4
         input value chat_dialogue_input
-        #if not chat_dialogue_input.editable:
         action chat_dialogue_input.Enable()
