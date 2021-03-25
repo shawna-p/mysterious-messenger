@@ -11,17 +11,14 @@ init python:
             return getattr(store, self.var) or self.s
 
         def set_text(self, s):
-            print("updating var to", s)
             setattr(store, self.var, s)
             self.s = s
 
             store.the_entry.what = s
             if s:
                 self.enter(simulate=True)
-            #renpy.run(self.Enable())
 
         def enter(self, simulate=False):
-            print("Pressed enter")
             if not simulate:
                 renpy.run(self.Disable())
             else:
@@ -84,20 +81,24 @@ screen chatroom_creator():
                 action Function(redo_chatlog)
             textbutton "Add to chatlog":
                 action [chat_dialogue_input.Disable(),
-                    #Function(addchat, random.choice(character_list), chat_dialogue, 0),
-                    #SetField(the_entry, 'what', chat_dialogue),
                     AddToSet(chatlog, copy(the_entry)),
-                    #SetVariable('chat_dialogue', ''),
                     Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ])]
 
-
-
 screen dialogue_input():
     button:
-        xysize (730, 200)
-        background 'input_popup_bkgr'
-        padding (12, 10)
+        xysize (730, 180)
+        background 'input_square'
+        padding (14, 10)
         xalign 0.5 yalign 0.4
-        input value chat_dialogue_input
+        input value chat_dialogue_input:
+            color "#000"
+            caret 'text_caret'
         action chat_dialogue_input.Enable()
+
+image text_caret:
+    Transform("#000", size=(2, 40))
+    0.5
+    Transform("#0000", size=(2, 40))
+    0.5
+    repeat
