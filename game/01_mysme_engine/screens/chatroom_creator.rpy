@@ -16,7 +16,8 @@ init python:
             self.s = s
 
             store.the_entry.what = s
-            self.enter(simulate=True)
+            if s:
+                self.enter(simulate=True)
             #renpy.run(self.Enable())
 
         def enter(self, simulate=False):
@@ -52,7 +53,7 @@ define creator_messenger_ysize = 640
 
 screen chatroom_creator():
     tag menu
-
+    use starry_night()
     add Transform('bg ' + current_background,
             crop=(0, 315, 750, creator_messenger_ysize)):
         yoffset 150
@@ -84,9 +85,10 @@ screen chatroom_creator():
             textbutton "Add to chatlog":
                 action [chat_dialogue_input.Disable(),
                     #Function(addchat, random.choice(character_list), chat_dialogue, 0),
-                    SetField(the_entry, 'what', chat_dialogue),
+                    #SetField(the_entry, 'what', chat_dialogue),
                     AddToSet(chatlog, copy(the_entry)),
-                    SetVariable('chat_dialogue', ''),
+                    #SetVariable('chat_dialogue', ''),
+                    Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ])]
 
 
