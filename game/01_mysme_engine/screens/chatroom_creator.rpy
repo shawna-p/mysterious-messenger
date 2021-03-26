@@ -117,7 +117,7 @@ screen chatroom_creator():
                 align (0.5, 0.5)
                 spacing 8
                 add Transform('album_icon', zoom=0.85) align (0.5, 0.5)
-                text "Change background" color "#fff"
+                text "Change background" color "#fff" size 30
         hbox:
             box_wrap True
             spacing 15
@@ -129,106 +129,70 @@ screen chatroom_creator():
                     left_padding 35
                     action SetField(the_entry, 'who', chara)
         hbox:
-            spacing 5
+            style_prefix 'font_options'
             # Font styles and stuff
             button:
-                background "#fff"
-                xysize (47, 47)
-                padding (2, 2)
                 add "#000"
-                text "B" style 'sser1xb' align (0.5, 0.5) color "#fff"
+                text "B" font gui.sans_serif_1xb
                 action ToggleDict(entry_styles, 'bold')
             button:
-                background "#fff"
-                xysize (47, 47)
-                padding (2, 2)
                 add "#000"
-                text "I" italic True align (0.5, 0.5) color "#fff"
+                text "I" italic True
                 action ToggleDict(entry_styles, 'italics')
             button:
-                background "#fff"
-                xysize (47, 47)
-                padding (2, 2)
                 add "#000"
                 action ToggleDict(entry_styles, 'underline')
                 vbox:
-                    spacing -3
-                    align (0.5, 0.5)
-                    text "U" underline True color "#fff" xalign 0.5
+                    text "U" underline True
                     add Solid("#fff") size (30, 1) xalign 0.5
             button:
-                background "#fff"
-                xysize (47+20, 47)
-                padding (2, 2)
+                xsize 67
                 add "#000"
                 add 'text_size_decrease'
                 action SetDict(entry_styles, 'size', entry_styles['size']-5)
             button:
-                background "#fff"
-                xysize (47+20, 47)
-                padding (2, 2)
+                xsize 67
                 add "#000"
                 add 'text_size_increase'
                 action SetDict(entry_styles, 'size', entry_styles['size']+5)
             button:
-                background "#fff"
-                xysize (47+20, 47)
-                padding (2, 2)
+                xsize 67
                 add "#000"
                 add 'text_size_reset'
                 action SetDict(entry_styles, 'size', 0)
             button:
-                background "#fff"
-                xysize (105, 47)
-                padding (5, 2)
+                xsize 105
+                xpadding 5
                 add "#000"
-                text "Fonts" color "#fff" size 29 align (0.5, 0.5)
+                text "Fonts" size 29
                 action ToggleScreenVariable('show_fonts', True)
         showif show_fonts:
             hbox:
+                style_prefix 'font_options2'
                 at slide_in_out()
-                spacing 5
                 button:
-                    background "#fff"
-                    xysize (105, 47)
-                    padding (5, 2)
                     add "#000"
-                    text "Font 1" style 'sser1' color "#fff" size 29 align (0.5, 0.5)
+                    text "Font 1" font gui.sans_serif_1
                     action SetDict(entry_styles, 'font', gui.sans_serif_1)
                 button:
-                    background "#fff"
-                    xysize (105, 47)
-                    padding (5, 2)
                     add "#000"
-                    text "Font 2" style 'sser2' color "#fff" size 29 align (0.5, 0.5)
+                    text "Font 2" font gui.sans_serif_2
                     action SetDict(entry_styles, 'font', gui.sans_serif_2)
                 button:
-                    background "#fff"
-                    xysize (105, 47)
-                    padding (5, 2)
                     add "#000"
-                    text "Font 3" style 'ser1' color "#fff" size 29 align (0.5, 0.5)
+                    text "Font 3" font gui.serif_1
                     action SetDict(entry_styles, 'font', gui.serif_1)
                 button:
-                    background "#fff"
-                    xysize (105, 47)
-                    padding (5, 2)
                     add "#000"
-                    text "Font 4" style 'ser2' color "#fff" size 29 align (0.5, 0.5)
+                    text "Font 4" font gui.serif_2
                     action SetDict(entry_styles, 'font', gui.serif_2)
                 button:
-                    background "#fff"
-                    xysize (105, 47)
-                    padding (5, 2)
                     add "#000"
-                    text "Font 5" style 'curly' color "#fff" size 29 align (0.5, 0.5)
+                    text "Font 5" font gui.curly_font size 29+5
                     action SetDict(entry_styles, 'font', gui.curly_font)
                 button:
-                    background "#fff"
-                    xysize (105, 47)
-                    padding (5, 2)
                     add "#000"
-                    text "Font 6" style 'blocky' color "#fff" size 29 align (0.5, 0.5)
+                    text "Font 6" font gui.blocky_font
                     action SetDict(entry_styles, 'font', gui.blocky_font)
 
 
@@ -250,6 +214,35 @@ screen chatroom_creator():
                     Function(add_creation_entry),
                     Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ])]
+
+style font_options_button:
+    background "#fff"
+    xysize (47, 47)
+    padding (2, 2)
+
+style font_options_text:
+    align (0.5, 0.5)
+    color "#fff"
+
+style font_options_hbox:
+    spacing 5
+
+style font_options_vbox:
+    spacing -3
+    align (0.5, 0.5)
+
+style font_options2_button:
+    is font_options_button
+    xysize (105, 47)
+    padding (5, 2)
+
+
+style font_options2_text:
+    is font_options_text
+    size 29
+style font_options2_hbox is font_options_hbox
+style font_options2_vbox is font_options_vbox
+
 
 transform slide_in_out():
     on show, appear:
