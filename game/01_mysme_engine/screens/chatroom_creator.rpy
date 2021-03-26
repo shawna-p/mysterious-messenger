@@ -57,6 +57,11 @@ init python:
             else:
                 dialogue = "{size=-" + str(abs(entry_styles['size'])) + "}" + dialogue
             dialogue += "{/size}"
+        # Check for underline
+        if entry_styles['underline']:
+            dialogue = "{u}" + dialogue + "{/u}"
+        if entry_styles['italics']:
+            dialogue = "{i}" + dialogue + "{/i}"
 
         # Check for bold fonts
         newfont = entry_styles['font']
@@ -89,7 +94,9 @@ default entry_styles = {
     'specBubble' : None,
     'img' : False,
     'size' : 0,
-    'bold' : False
+    'bold' : False,
+    'italics' : False,
+    'underline' : False
 }
 
 screen chatroom_creator():
@@ -130,11 +137,13 @@ screen chatroom_creator():
                 padding (2, 2)
                 add "#000"
                 text "I" italic True align (0.5, 0.5) color "#fff"
+                action ToggleDict(entry_styles, 'italics')
             button:
                 background "#fff"
                 xysize (47, 47)
                 padding (2, 2)
                 add "#000"
+                action ToggleDict(entry_styles, 'underline')
                 vbox:
                     spacing -3
                     align (0.5, 0.5)
@@ -264,6 +273,7 @@ screen dialogue_input():
             input value chat_dialogue_input:
                 copypaste True
                 color "#000"
+                line_spacing 1
                 if is_focused:
                     caret 'text_caret'
                 else:
@@ -284,6 +294,8 @@ screen dialogue_input():
                     font entry_styles['font']
                 align (0.0, 0.5)
                 xmaximum 690
+                italic entry_styles['italics']
+                underline entry_styles['underline']
                 size gui.text_size + entry_styles['size'] + size_bonus
         action chat_dialogue_input.Enable()
 
