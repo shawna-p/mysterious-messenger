@@ -44,11 +44,21 @@ init python:
         return
 
     def add_creation_entry():
+        global entry_styles
         # Make a copy of the entry
         entry = copy(store.the_entry)
         # Add fonts and bubbles and stuff
         dialogue = entry.what
-        dialogue = "{font=" + store.entry_styles['font'] + "}" + dialogue
+        if entry_styles['font'] == gui.curly_font:
+            entry_styles['size'] += 5
+        if entry_styles['size'] != 0:
+            if entry_styles['size'] > 0:
+                dialogue = "{size=+" + str(entry_styles['size']) + "}" + dialogue
+            else:
+                dialogue = "{size=-" + str(abs(entry_styles['size'])) + "}" + dialogue
+            dialogue += "{/size}"
+
+        dialogue = "{font=" + entry_styles['font'] + "}" + dialogue
         dialogue += "{/font}"
         entry.what = dialogue
         store.chatlog.append(entry)
@@ -62,7 +72,8 @@ define creator_messenger_ysize = 640
 default entry_styles = {
     'font' : gui.sans_serif_1,
     'specBubble' : None,
-    'img' : False
+    'img' : False,
+    'size' : 0
 }
 
 screen chatroom_creator():
@@ -118,12 +129,21 @@ screen chatroom_creator():
                 padding (2, 2)
                 add "#000"
                 add 'text_size_decrease'
+                action SetDict(entry_styles, 'size', entry_styles['size']-5)
             button:
                 background "#fff"
                 xysize (47+20, 47)
                 padding (2, 2)
                 add "#000"
                 add 'text_size_increase'
+                action SetDict(entry_styles, 'size', entry_styles['size']+5)
+            button:
+                background "#fff"
+                xysize (47+20, 47)
+                padding (2, 2)
+                add "#000"
+                add 'text_size_reset'
+                action SetDict(entry_styles, 'size', 0)
             button:
                 background "#fff"
                 xysize (105, 47)
@@ -192,11 +212,16 @@ screen chatroom_creator():
             textbutton "Redo":
                 sensitive last_added
                 action Function(redo_chatlog)
-            textbutton "Add to chatlog":
+            textbutton "Add to Chat":
                 action [chat_dialogue_input.Disable(),
                     Function(add_creation_entry),
                     Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ])]
+
+    frame:
+        background "#fff" align (0.5, 1.0)
+        $ focus_coord = renpy.focus_coordinates()
+        text "[focus_coord]" color "#000"
 
 transform slide_in_out():
     on show, appear:
@@ -207,21 +232,30 @@ transform slide_in_out():
         easein 0.35 yzoom 0.0
 
 screen dialogue_input():
+    $ focus_coord = renpy.focus_coordinates()
+    $ is_focused = focus_coord[2] == 730.0 and focus_coord[3] == 180.0
+
     button:
         xysize (730, 180)
         background 'input_square'
+        if not is_focused:
+            foreground "#0003"
         padding (14, 10)
         xalign 0.5 yalign 0.4
         input value chat_dialogue_input:
             color "#000"
-            caret 'text_caret'
+            if is_focused:
+                caret 'text_caret'
+            else:
+                caret Null()
             font entry_styles['font']
+            size gui.text_size + entry_styles['size']
         action chat_dialogue_input.Enable()
 
 image text_caret:
-    Transform("#000", size=(2, 40))
+    Solid("#000", xmaximum=2)
     0.5
-    Transform("#0000", size=(2, 40))
+    Solid("#0000", xmaximum=2)
     0.5
     repeat
 
@@ -236,4 +270,11 @@ image text_size_decrease = Composite(
     (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
     (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
     (30+5, 8), Text("-", color="#fff", font=gui.serif_1xb, size=30)
+)
+
+image text_size_reset = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+3, 12), 'Menu Screens/Main Menu/update_arrow.png'
 )
