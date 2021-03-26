@@ -111,6 +111,13 @@ screen chatroom_creator():
     use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5)),
             hide_bkgr=True):
         use messenger_screen()
+        button:
+            xysize (280, 85)
+            hbox:
+                align (0.5, 0.5)
+                spacing 8
+                add Transform('album_icon', zoom=0.85) align (0.5, 0.5)
+                text "Change background" color "#fff"
         hbox:
             box_wrap True
             spacing 15
