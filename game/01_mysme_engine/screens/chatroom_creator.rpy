@@ -149,11 +149,13 @@ screen chatroom_creator():
                 xsize 67
                 add "#000"
                 add 'text_size_decrease'
+                sensitive entry_styles['size'] > 10
                 action SetDict(entry_styles, 'size', entry_styles['size']-5)
             button:
                 xsize 67
                 add "#000"
                 add 'text_size_increase'
+                sensitive entry_styles['size'] < 50
                 action SetDict(entry_styles, 'size', entry_styles['size']+5)
             button:
                 xsize 67
