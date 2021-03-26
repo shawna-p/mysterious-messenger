@@ -98,27 +98,18 @@ screen settings_tabs(active_tab):
     hbox:
         # Preferences / Sound / Others tab
         textbutton _('Preferences'):
-            if active_tab == "Preferences":
-                background "menu_tab_active"
-            else:
-                background "menu_tab_inactive"
-                action If(_menu and not main_menu,
-                    ShowMenu("preferences", _transition=Dissolve(0.5)),
-                    Show('preferences', Dissolve(0.5)))
+            sensitive active_tab != "Preferences"
+            action If(_menu and not main_menu,
+                ShowMenu("preferences", _transition=Dissolve(0.5)),
+                Show('preferences', Dissolve(0.5)))
 
         textbutton _('Sound'):
-            if active_tab == "Sound":
-                background "menu_tab_active"
-            else:
-                background "menu_tab_inactive"
-                action Show("sound_settings", Dissolve(0.5))
+            sensitive active_tab != "Sound"
+            action Show("sound_settings", Dissolve(0.5))
 
         textbutton _('Others'):
-            if active_tab == "Others":
-                background "menu_tab_active"
-            else:
-                background "menu_tab_inactive"
-                action Show("other_settings", Dissolve(0.5))
+            sensitive active_tab != "Others"
+            action Show("other_settings", Dissolve(0.5))
 
 style settings_tabs_hbox is empty
 style settings_tabs_button is empty
@@ -132,6 +123,8 @@ style settings_tabs_button:
     ysize 57
     activate_sound 'audio/sfx/UI/settings_tab_switch.mp3'
     hover_background "menu_tab_inactive_hover"
+    background 'menu_tab_inactive'
+    insensitive_background 'menu_tab_active'
 
 style settings_tabs_button_text:
     color '#fff'
