@@ -93,9 +93,8 @@ default persistent.email_tone_name = "Default 1"
 
 screen settings_tabs(active_tab):
 
-    style_prefix "settings_tabs"
-    # "Backgrounds" of the different panels
     hbox:
+        style_prefix "settings_tabs"
         # Preferences / Sound / Others tab
         textbutton _('Preferences'):
             sensitive active_tab != "Preferences"
