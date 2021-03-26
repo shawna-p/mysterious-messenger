@@ -58,7 +58,22 @@ init python:
                 dialogue = "{size=-" + str(abs(entry_styles['size'])) + "}" + dialogue
             dialogue += "{/size}"
 
-        dialogue = "{font=" + entry_styles['font'] + "}" + dialogue
+        # Check for bold fonts
+        newfont = entry_styles['font']
+        if entry_styles['bold']:
+            if entry_styles['font'] == gui.sans_serif_1:
+                newfont = gui.sans_serif_1xb
+            elif entry_styles['font'] == gui.sans_serif_2:
+                newfont = gui.sans_serif_2xb
+            elif entry_styles['font'] == gui.serif_1:
+                newfont = gui.serif_1xb
+            elif entry_styles['font'] == gui.serif_2:
+                newfont = gui.serif_2xb
+            else:
+                # Just put bold tags around it
+                dialogue = "{b}" + dialogue + "{/b}"
+
+        dialogue = "{font=" + newfont + "}" + dialogue
         dialogue += "{/font}"
         entry.what = dialogue
         store.chatlog.append(entry)
@@ -73,7 +88,8 @@ default entry_styles = {
     'font' : gui.sans_serif_1,
     'specBubble' : None,
     'img' : False,
-    'size' : 0
+    'size' : 0,
+    'bold' : False
 }
 
 screen chatroom_creator():
@@ -107,6 +123,7 @@ screen chatroom_creator():
                 padding (2, 2)
                 add "#000"
                 text "B" style 'sser1xb' align (0.5, 0.5) color "#fff"
+                action ToggleDict(entry_styles, 'bold')
             button:
                 background "#fff"
                 xysize (47, 47)
@@ -232,6 +249,7 @@ screen dialogue_input():
     $ focus_coord = renpy.focus_coordinates()
     $ is_focused = focus_coord[2] == 730.0 and focus_coord[3] == 180.0
     $ text_input_yadj.value = yadjValue
+    $ size_bonus = 5 if entry_styles['font'] == gui.curly_font else 0
     button:
         xysize (730, 180)
         background 'input_square'
@@ -250,10 +268,23 @@ screen dialogue_input():
                     caret 'text_caret'
                 else:
                     caret Null()
-                font entry_styles['font']
+                if entry_styles['bold']:
+                    if entry_styles['font'] == gui.sans_serif_1:
+                        font gui.sans_serif_1xb
+                    elif entry_styles['font'] == gui.sans_serif_2:
+                        font gui.sans_serif_2xb
+                    elif entry_styles['font'] == gui.serif_1:
+                        font gui.serif_1xb
+                    elif entry_styles['font'] == gui.serif_2:
+                        font gui.serif_2xb
+                    else:
+                        bold True
+                        font entry_styles['font']
+                else:
+                    font entry_styles['font']
                 align (0.0, 0.5)
                 xmaximum 690
-                size gui.text_size + entry_styles['size']
+                size gui.text_size + entry_styles['size'] + size_bonus
         action chat_dialogue_input.Enable()
 
 image text_caret:
