@@ -244,6 +244,7 @@ screen dialogue_input():
             xysize (730-28, 180-20)
             mousewheel True
             input value chat_dialogue_input:
+                copypaste True
                 color "#000"
                 if is_focused:
                     caret 'text_caret'
