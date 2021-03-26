@@ -218,11 +218,6 @@ screen chatroom_creator():
                     Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ])]
 
-    frame:
-        background "#fff" align (0.5, 1.0)
-        $ focus_coord = renpy.focus_coordinates()
-        text "[focus_coord]" color "#000"
-
 transform slide_in_out():
     on show, appear:
         yzoom 0.0
@@ -231,10 +226,12 @@ transform slide_in_out():
         yzoom 1.0
         easein 0.35 yzoom 0.0
 
+default text_input_yadj = ui.adjustment()
+
 screen dialogue_input():
     $ focus_coord = renpy.focus_coordinates()
     $ is_focused = focus_coord[2] == 730.0 and focus_coord[3] == 180.0
-
+    $ text_input_yadj.value = yadjValue
     button:
         xysize (730, 180)
         background 'input_square'
@@ -242,14 +239,20 @@ screen dialogue_input():
             foreground "#0003"
         padding (14, 10)
         xalign 0.5 yalign 0.4
-        input value chat_dialogue_input:
-            color "#000"
-            if is_focused:
-                caret 'text_caret'
-            else:
-                caret Null()
-            font entry_styles['font']
-            size gui.text_size + entry_styles['size']
+        viewport:
+            yadjustment text_input_yadj
+            xysize (730-28, 180-20)
+            mousewheel True
+            input value chat_dialogue_input:
+                color "#000"
+                if is_focused:
+                    caret 'text_caret'
+                else:
+                    caret Null()
+                font entry_styles['font']
+                align (0.0, 0.5)
+                xmaximum 690
+                size gui.text_size + entry_styles['size']
         action chat_dialogue_input.Enable()
 
 image text_caret:
