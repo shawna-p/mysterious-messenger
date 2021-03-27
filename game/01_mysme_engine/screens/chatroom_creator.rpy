@@ -99,6 +99,23 @@ default entry_styles = {
     'underline' : False
 }
 
+screen chat_creator_tabs(active_tab):
+    hbox:
+        style_prefix "settings_tabs"
+        xalign 0.5
+        # Dialogue / Effects / Other
+        textbutton _('Dialogue'):
+            sensitive active_tab != "Dialogue"
+            action NullAction()
+
+        textbutton _('Effects'):
+            sensitive active_tab != "Effects"
+            action NullAction()
+
+        textbutton _('Other'):
+            sensitive active_tab != "Other"
+            action NullAction()
+
 screen chatroom_creator():
 
     default show_fonts = False
