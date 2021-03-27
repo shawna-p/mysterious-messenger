@@ -331,6 +331,26 @@ screen dialogue_input():
                 size gui.text_size + entry_styles['size'] + size_bonus
         action chat_dialogue_input.Enable()
 
+screen pick_speaker():
+    button:
+        xysize (config.screen_width, config.screen_height)
+        background None
+        action Hide('pick_speaker')
+    frame:
+        background "#000"
+        padding (2, 2)
+        anchor (0.0, 0.5)
+        pos (340, 890)
+        has fixed:
+            fit_first True
+        vbox:
+            for chara in all_characters:
+                textbutton chara.name:
+                    xminimum 200
+                    text_color "#fff"
+                    action [SetField(the_entry, 'who', chara),
+                        Hide('pick_speaker')]
+
 image text_caret:
     Solid("#000", xmaximum=2)
     0.5
