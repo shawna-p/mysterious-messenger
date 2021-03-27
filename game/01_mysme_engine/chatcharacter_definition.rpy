@@ -719,6 +719,21 @@ python early:
                 when, img))
             self.text_msg.read = True
 
+        def get_bubbles(self):
+            """Get the special bubbles associated with this character."""
+
+            spec_bubbles_1 = [ bub for bub in store.all_bubbles_list ]
+            spec_bubbles_2 = [ ]
+            for bub in spec_bubbles_1:
+                if bub[-2:] == "_l" or "glow" in bub:
+                    bub = "Bubble/Special/" + self.file_id + "_" + bub + '.webp'
+                    spec_bubbles_2.append(bub)
+
+            spec_bubbles = [ bub for bub in spec_bubbles_2
+                if renpy.loadable(bub) ]
+            print("Special bubbles for", self.file_id, spec_bubbles)
+            return spec_bubbles
+
         def do_extend(self, **kwargs):
             """
             Allow this ChatCharacter object to act as a proxy for the
