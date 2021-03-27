@@ -128,23 +128,36 @@ screen chatroom_creator():
     use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5)),
             hide_bkgr=True):
         use messenger_screen()
-        button:
-            xysize (280, 85)
-            hbox:
-                align (0.5, 0.5)
-                spacing 8
-                add Transform('album_icon', zoom=0.85) align (0.5, 0.5)
-                text "Change background" color "#fff" size 30
+        use chat_creator_tabs("Dialogue")
         hbox:
-            box_wrap True
-            spacing 15
-            xalign 0.5
-            xmaximum 740
-            style_prefix 'check'
-            for chara in all_characters:
-                textbutton chara.name:
-                    left_padding 35
-                    action SetField(the_entry, 'who', chara)
+        button:
+                style_prefix 'font_options'
+                xysize (320, 47)
+                add "#000"
+                action Show('pick_speaker')
+            hbox:
+                    xoffset 6
+                    text "Speaker:"
+                    text the_entry.who.name size 27
+            button:
+                style_prefix 'font_options'
+                xysize (210, 47)
+                add "#000"
+                text "Add Enter Msg" size 27
+            button:
+                style_prefix 'font_options'
+                xysize (210, 47)
+                add "#000"
+                text "Add Exit Msg" size 27
+
+        # button:
+        #     xysize (280, 85)
+        #     hbox:
+        #         align (0.5, 0.5)
+        #         spacing 8
+        #         add Transform('album_icon', zoom=0.85) align (0.5, 0.5)
+        #         text "Change background" color "#fff" size 30
+
         hbox:
             style_prefix 'font_options'
             # Font styles and stuff
