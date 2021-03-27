@@ -103,8 +103,12 @@ init python:
             the_str, upTime(), img=True))
         return
 
+    def add_bubble(bubble):
+        return
+
 default chat_dialogue = ""
 default emoji_speaker = s
+default bubble_user = s
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
 default last_added = [ ]
@@ -319,6 +323,9 @@ screen effects_tab():
         textbutton "Add Emote":
             style_prefix "other_settings_end"
             action Show('select_emote')
+        textbutton "Special Bubbles":
+            style_prefix "other_settings_end"
+            action Show('select_bubble')
 
 screen select_emote():
 
@@ -347,7 +354,7 @@ screen select_emote():
                     style_prefix 'font_options'
                     xysize (320, 47)
                     add "#000"
-                    action Show('pick_speaker', active_tab="Effects",
+                    action Show('pick_speaker', active_tab="Emoji",
                         pos=(220, 280), anchor=(0.5, 0.0))
                     hbox:
                         xoffset 6
@@ -392,8 +399,83 @@ screen select_emote():
                 action [Function(add_emote, selected_emote),
                     Hide('select_emote')]
 
+screen select_bubble():
+
+    zorder 100
+    modal True
+
+    default selected_bubble = None
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_bubble')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            button:
+                style_prefix 'font_options'
+                xysize (320, 47)
+                xalign 0.5
+                add "#000"
+                action Show('pick_speaker', active_tab="Bubble",
+                    pos=(370, 300), anchor=(0.5, 0.0))
+                hbox:
+                    xoffset 6
+                    text "Bubbles:"
+                    text bubble_user.name size 27
+
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'menu_popup_bkgrd' padding (20,20)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,720)
+                    align (0.5, 0.5)
+                    cols 2
+                    $ bub_list = bubble_user.get_bubbles()
+                    for bub in bub_list:
+                        button:
+                            xysize (580//2, 220)
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            action NullAction()
+                            if "glow" not in bub:
+                                add Transform(bub, zoom=0.46) align (0.5, 0.5)
+                            else:
+                                frame:
+                                    background Frame(bub, 25, 25)
+                                    align (0.5, 0.5)
+                                    style 'glow_bubble'
+                                    add Null(height=100, width=150)
+                    # for emote in emoji_speaker.emote_list:
+                    #     button:
+                    #         xysize (int(310*0.63),int(310*0.63))
+                    #         hover_background '#e0e0e0'
+                    #         selected_background '#a8a8a8'
+                    #         add Transform(emote, zoom=0.63) align (0.5, 0.5)
+                    #         action ToggleScreenVariable('selected_bubble',
+                    #             bubble)
 
 
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 80
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Function(add_bubble, selected_bubble),
+                    Hide('select_bubble')]
 
 
 
@@ -447,7 +529,7 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
 
     zorder 101
     python:
-        if active_tab != "Dialogue":
+        if active_tab == "Emoji":
             all_chara = [chara for chara in all_characters if chara.emote_list]
         else:
             all_chara = all_characters
@@ -476,9 +558,12 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
                     if active_tab == "Dialogue":
                         action [SetField(the_entry, 'who', chara),
                             Hide('pick_speaker')]
-                    else:
+                    elif active_tab == "Emoji":
                         action [SetVariable('emoji_speaker', chara),
                             SetField(the_entry, 'who', chara),
+                            Hide('pick_speaker')]
+                    elif active_tab == "Bubble":
+                        action [SetVariable('bubble_user', chara),
                             Hide('pick_speaker')]
 
 image text_caret:
