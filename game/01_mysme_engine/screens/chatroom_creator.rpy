@@ -316,6 +316,90 @@ transform slide_in_out():
 
 default text_input_yadj = ui.adjustment()
 
+screen effects_tab():
+    hbox:
+        textbutton "Add Emote":
+            style_prefix "other_settings_end"
+            action Show('select_emote')
+
+screen select_emote():
+
+    zorder 100
+    modal True
+
+    default selected_emote = None
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_emote')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            hbox:
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    add "#000"
+                    action Show('pick_speaker', active_tab="Effects",
+                        pos=(220, 280), anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Emotes:"
+                        text emoji_speaker.name size 27
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    add "#000"
+                    action Show('pick_speaker', pos=(535, 280),
+                        anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Speaker:"
+                        text the_entry.who.name size 27
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,740)
+                    align (0.5, 0.5)
+                    cols 3
+                    for emote in emoji_speaker.emote_list:
+                        button:
+                            xysize (int(310*0.63),int(310*0.63))
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            add Transform(emote, zoom=0.63) align (0.5, 0.5)
+                            action ToggleScreenVariable('selected_emote',
+                                emote)
+
+
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 80
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [Function(add_emote, selected_emote),
+                    Hide('select_emote')]
+
+
+
+
+
+
+
 screen dialogue_input():
     $ focus_coord = renpy.focus_coordinates()
     $ is_focused = focus_coord[2] == 730.0 and focus_coord[3] == 180.0
