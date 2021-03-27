@@ -448,7 +448,8 @@ screen select_bubble():
                             xysize (580//2, 220)
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
-                            action NullAction()
+                            selected False
+                            action Show('pick_bubble_size')
                             if "glow" not in bub:
                                 add Transform(bub, zoom=0.46) align (0.5, 0.5)
                             else:
@@ -565,6 +566,32 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
                     elif active_tab == "Bubble":
                         action [SetVariable('bubble_user', chara),
                             Hide('pick_speaker')]
+
+screen pick_bubble_size():
+    default pos = renpy.get_mouse_pos()
+    zorder 101
+    button:
+        xysize (config.screen_width, config.screen_height)
+        background None
+        action Hide('pick_bubble_size')
+    frame:
+        background "#000"
+        xysize (150, 150)
+        pos pos
+        anchor (0.0, 0.5)
+        has vbox:
+            textbutton "Small":
+                xsize 150
+                text_color "#fff"
+                action Hide('pick_bubble_size')
+            textbutton "Medium":
+                xsize 150
+                text_color "#fff"
+                action Hide('pick_bubble_size')
+            textbutton "Large":
+                xsize 150
+                text_color "#fff"
+                action Hide('pick_bubble_size')
 
 image text_caret:
     Solid("#000", xmaximum=2)
