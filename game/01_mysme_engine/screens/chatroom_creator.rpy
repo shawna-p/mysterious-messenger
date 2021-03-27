@@ -126,11 +126,11 @@ screen chat_creator_tabs(active_tab):
         # Dialogue / Effects / Other
         textbutton _('Dialogue'):
             sensitive active_tab != "Dialogue"
-            action NullAction()
+            action SetScreenVariable('active_tab', 'Dialogue')
 
         textbutton _('Effects'):
             sensitive active_tab != "Effects"
-            action NullAction()
+            action SetScreenVariable('active_tab', 'Effects')
 
         textbutton _('Other'):
             sensitive active_tab != "Other"
@@ -138,7 +138,7 @@ screen chat_creator_tabs(active_tab):
 
 screen chatroom_creator():
 
-    default show_fonts = False
+    default active_tab = "Effects"
 
     tag menu
     use starry_night()
@@ -148,7 +148,15 @@ screen chatroom_creator():
     use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5)),
             hide_bkgr=True):
         use messenger_screen()
-        use chat_creator_tabs("Dialogue")
+        use chat_creator_tabs(active_tab)
+        if active_tab == "Dialogue":
+            use dialogue_tab()
+        elif active_tab == "Effects":
+            use effects_tab()
+
+screen dialogue_tab():
+    default show_fonts = False
+
         hbox:
             button:
                 style_prefix 'font_options'
