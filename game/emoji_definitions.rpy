@@ -107,84 +107,84 @@ init python:
         }
 
 ## These are defined for the (currently unused) create_a_chatroom
-define jaehee_emotes = ['{image=jaehee_angry}',
-                    '{image=jaehee_happy}',
-                    '{image=jaehee_hehe}',
-                    '{image=jaehee_huff}',
-                    '{image=jaehee_oops}',
-                    '{image=jaehee_question}',
-                    '{image=jaehee_sad}',
-                    '{image=jaehee_well}',
-                    '{image=jaehee_wow}']
+define jaehee_emotes = ['jaehee_angry',
+                    'jaehee_happy',
+                    'jaehee_hehe',
+                    'jaehee_huff',
+                    'jaehee_oops',
+                    'jaehee_question',
+                    'jaehee_sad',
+                    'jaehee_well',
+                    'jaehee_wow']
 
-define jumin_emotes = [ '{image=jumin_angry}',
-                    '{image=jumin_sad}',
-                    '{image=jumin_smile}',
-                    '{image=jumin_well}']
+define jumin_emotes = [ 'jumin_angry',
+                    'jumin_sad',
+                    'jumin_smile',
+                    'jumin_well']
 
-define rika_emotes = ['{image=rika_happy}',
-                        '{image=rika_pout}',
-                        '{image=rika_cry}']
+define rika_emotes = ['rika_happy',
+                        'rika_pout',
+                        'rika_cry']
 
-define ray_emotes = ['{image=ray_cry}',
-                    '{image=ray_happy}',
-                    '{image=ray_huff}',
-                    '{image=ray_question}',
-                    '{image=ray_smile}',
-                    '{image=ray_well}',
-                    '{image=ray_wink}',
+define ray_emotes = ['ray_cry',
+                    'ray_happy',
+                    'ray_huff',
+                    'ray_question',
+                    'ray_smile',
+                    'ray_well',
+                    'ray_wink',
 
-                    '{image=saeran2_cry}',
-                    '{image=saeran2_happy}',
-                    '{image=saeran2_huff}',
-                    '{image=saeran2_question}',
-                    '{image=saeran2_smile}',
-                    '{image=saeran2_well}',
-                    '{image=saeran2_wink}']
+                    'saeran2_cry',
+                    'saeran2_happy',
+                    'saeran2_huff',
+                    'saeran2_question',
+                    'saeran2_smile',
+                    'saeran2_well',
+                    'saeran2_wink']
 
-define saeran_emotes = ['{image=saeran_expecting}',
-                    '{image=saeran_happy}',
-                    '{image=saeran_questioning}',
-                    '{image=saeran_well}',
-                    '{image=saeran_hehe}',
-                    '{image=saeran_pleased}',
-                    '{image=saeran_sad}']
+define saeran_emotes = ['saeran_expecting',
+                    'saeran_happy',
+                    'saeran_questioning',
+                    'saeran_well',
+                    'saeran_hehe',
+                    'saeran_pleased',
+                    'saeran_sad']
 
-define seven_emotes = ['{image=seven_cry}',
-                    '{image=seven_huff}',
-                    '{image=seven_khee}',
-                    '{image=seven_love}',
-                    '{image=seven_question}',
-                    '{image=seven_what}',
-                    '{image=seven_wow}',
-                    '{image=seven_yahoo}',
-                    '{image=seven_yoohoo}']
+define seven_emotes = ['seven_cry',
+                    'seven_huff',
+                    'seven_khee',
+                    'seven_love',
+                    'seven_question',
+                    'seven_what',
+                    'seven_wow',
+                    'seven_yahoo',
+                    'seven_yoohoo']
 
-define v_emotes = ['{image=v_shock}',
-                    '{image=v_smile}',
-                    '{image=v_well}',
-                    '{image=v_wink}']
+define v_emotes = ['v_shock',
+                    'v_smile',
+                    'v_well',
+                    'v_wink']
 
-define yoosung_emotes = ['{image=yoosung_angry}',
-                    '{image=yoosung_cry}',
-                    '{image=yoosung_happy}',
-                    '{image=yoosung_huff}',
-                    '{image=yoosung_puff}',
-                    '{image=yoosung_question}',
-                    '{image=yoosung_thankyou}',
-                    '{image=yoosung_what}',
-                    '{image=yoosung_wow}',
-                    '{image=yoosung_yahoo}']
+define yoosung_emotes = ['yoosung_angry',
+                    'yoosung_cry',
+                    'yoosung_happy',
+                    'yoosung_huff',
+                    'yoosung_puff',
+                    'yoosung_question',
+                    'yoosung_thankyou',
+                    'yoosung_what',
+                    'yoosung_wow',
+                    'yoosung_yahoo']
 
-define zen_emotes = ['{image=zen_angry}',
-                    '{image=zen_happy}',
-                    '{image=zen_hmm}',
-                    '{image=zen_oyeah}',
-                    '{image=zen_question}',
-                    '{image=zen_sad}',
-                    '{image=zen_shock}',
-                    '{image=zen_well}',
-                    '{image=zen_wink}']
+define zen_emotes = ['zen_angry',
+                    'zen_happy',
+                    'zen_hmm',
+                    'zen_oyeah',
+                    'zen_question',
+                    'zen_sad',
+                    'zen_shock',
+                    'zen_well',
+                    'zen_wink']
 
 define all_emotes = (jaehee_emotes + jumin_emotes + rika_emotes
                     + ray_emotes + seven_emotes + saeran_emotes
