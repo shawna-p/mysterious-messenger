@@ -23,7 +23,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             yoffset -114
             ysize 1080
         else:
-            ysize creator_messenger_ysize
+            ysize creator_messenger_ysize-5
         if animate_down:
             at slide_down(-220)
 
@@ -34,7 +34,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             if not main_menu:
                 ysize 1080
             else:
-                ysize creator_messenger_ysize
+                ysize creator_messenger_ysize-5
             xfill True
 
             has vbox
