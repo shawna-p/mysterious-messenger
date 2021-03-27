@@ -157,125 +157,125 @@ screen chatroom_creator():
 screen dialogue_tab():
     default show_fonts = False
 
-        hbox:
-            button:
-                style_prefix 'font_options'
-                xysize (320, 47)
-                add "#000"
-                action Show('pick_speaker')
-                hbox:
-                    xoffset 6
-                    text "Speaker:"
-                    text the_entry.who.name size 27
-            button:
-                style_prefix 'font_options'
-                xysize (210, 47)
-                add "#000"
-                text "Add Enter Msg" size 27
-                action Function(create_enter_exit, the_entry.who, True)
-            button:
-                style_prefix 'font_options'
-                xysize (210, 47)
-                add "#000"
-                text "Add Exit Msg" size 27
-                action Function(create_enter_exit, the_entry.who, False)
-
-        # button:
-        #     xysize (280, 85)
-        #     hbox:
-        #         align (0.5, 0.5)
-        #         spacing 8
-        #         add Transform('album_icon', zoom=0.85) align (0.5, 0.5)
-        #         text "Change background" color "#fff" size 30
-
-        hbox:
+    hbox:
+        button:
             style_prefix 'font_options'
-            # Font styles and stuff
-            button:
-                add "#000"
-                text "B" font gui.sans_serif_1xb
-                action ToggleDict(entry_styles, 'bold')
-            button:
-                add "#000"
-                text "I" italic True
-                action ToggleDict(entry_styles, 'italics')
-            button:
-                add "#000"
-                action ToggleDict(entry_styles, 'underline')
-                vbox:
-                    text "U" underline True
-                    add Solid("#fff") size (30, 1) xalign 0.5
-            button:
-                xsize 67
-                add "#000"
-                add 'text_size_decrease'
-                sensitive entry_styles['size'] > 10
-                action SetDict(entry_styles, 'size', entry_styles['size']-5)
-            button:
-                xsize 67
-                add "#000"
-                add 'text_size_increase'
-                sensitive entry_styles['size'] < 50
-                action SetDict(entry_styles, 'size', entry_styles['size']+5)
-            button:
-                xsize 67
-                add "#000"
-                add 'text_size_reset'
-                action SetDict(entry_styles, 'size', 0)
-            button:
-                xsize 105
-                xpadding 5
-                add "#000"
-                text "Fonts" size 29
-                action ToggleScreenVariable('show_fonts', True)
-        showif show_fonts:
+            xysize (320, 47)
+            add "#000"
+            action Show('pick_speaker')
             hbox:
-                style_prefix 'font_options2'
-                at slide_in_out()
-                button:
-                    add "#000"
-                    text "Font 1" font gui.sans_serif_1
-                    action SetDict(entry_styles, 'font', gui.sans_serif_1)
-                button:
-                    add "#000"
-                    text "Font 2" font gui.sans_serif_2
-                    action SetDict(entry_styles, 'font', gui.sans_serif_2)
-                button:
-                    add "#000"
-                    text "Font 3" font gui.serif_1
-                    action SetDict(entry_styles, 'font', gui.serif_1)
-                button:
-                    add "#000"
-                    text "Font 4" font gui.serif_2
-                    action SetDict(entry_styles, 'font', gui.serif_2)
-                button:
-                    add "#000"
-                    text "Font 5" font gui.curly_font size 29+5
-                    action SetDict(entry_styles, 'font', gui.curly_font)
-                button:
-                    add "#000"
-                    text "Font 6" font gui.blocky_font
-                    action SetDict(entry_styles, 'font', gui.blocky_font)
+                xoffset 6
+                text "Speaker:"
+                text the_entry.who.name size 27
+        button:
+            style_prefix 'font_options'
+            xysize (210, 47)
+            add "#000"
+            text "Add Enter Msg" size 27
+            action Function(create_enter_exit, the_entry.who, True)
+        button:
+            style_prefix 'font_options'
+            xysize (210, 47)
+            add "#000"
+            text "Add Exit Msg" size 27
+            action Function(create_enter_exit, the_entry.who, False)
 
+    # button:
+    #     xysize (280, 85)
+    #     hbox:
+    #         align (0.5, 0.5)
+    #         spacing 8
+    #         add Transform('album_icon', zoom=0.85) align (0.5, 0.5)
+    #         text "Change background" color "#fff" size 30
 
-        use dialogue_input()
+    hbox:
+        style_prefix 'font_options'
+        # Font styles and stuff
+        button:
+            add "#000"
+            text "B" font gui.sans_serif_1xb
+            action ToggleDict(entry_styles, 'bold')
+        button:
+            add "#000"
+            text "I" italic True
+            action ToggleDict(entry_styles, 'italics')
+        button:
+            add "#000"
+            action ToggleDict(entry_styles, 'underline')
+            vbox:
+                text "U" underline True
+                add Solid("#fff") size (30, 1) xalign 0.5
+        button:
+            xsize 67
+            add "#000"
+            add 'text_size_decrease'
+            sensitive entry_styles['size'] > 10
+            action SetDict(entry_styles, 'size', entry_styles['size']-5)
+        button:
+            xsize 67
+            add "#000"
+            add 'text_size_increase'
+            sensitive entry_styles['size'] < 50
+            action SetDict(entry_styles, 'size', entry_styles['size']+5)
+        button:
+            xsize 67
+            add "#000"
+            add 'text_size_reset'
+            action SetDict(entry_styles, 'size', 0)
+        button:
+            xsize 105
+            xpadding 5
+            add "#000"
+            text "Fonts" size 29
+            action ToggleScreenVariable('show_fonts', True)
+    showif show_fonts:
         hbox:
-            spacing 40 xalign 0.5
-            textbutton "Clear Chat":
-                selected False
-                action [SetVariable('last_added', chatlog),
-                    SetVariable('chatlog', [ ])]
-            textbutton "Undo":
-                sensitive chatlog or (last_added and not chatlog)
-                action Function(pop_chatlog)
-            textbutton "Redo":
-                sensitive last_added
-                action Function(redo_chatlog)
-            textbutton "Add to Chat":
-                action [chat_dialogue_input.Disable(),
-                    Function(add_creation_entry),
-                    Function(chat_dialogue_input.set_text, ''),
-                    SetVariable('last_added', [ ])]
+            style_prefix 'font_options2'
+            at slide_in_out()
+            button:
+                add "#000"
+                text "Font 1" font gui.sans_serif_1
+                action SetDict(entry_styles, 'font', gui.sans_serif_1)
+            button:
+                add "#000"
+                text "Font 2" font gui.sans_serif_2
+                action SetDict(entry_styles, 'font', gui.sans_serif_2)
+            button:
+                add "#000"
+                text "Font 3" font gui.serif_1
+                action SetDict(entry_styles, 'font', gui.serif_1)
+            button:
+                add "#000"
+                text "Font 4" font gui.serif_2
+                action SetDict(entry_styles, 'font', gui.serif_2)
+            button:
+                add "#000"
+                text "Font 5" font gui.curly_font size 29+5
+                action SetDict(entry_styles, 'font', gui.curly_font)
+            button:
+                add "#000"
+                text "Font 6" font gui.blocky_font
+                action SetDict(entry_styles, 'font', gui.blocky_font)
+
+
+    use dialogue_input()
+    hbox:
+        spacing 40 xalign 0.5
+        textbutton "Clear Chat":
+            selected False
+            action [SetVariable('last_added', chatlog),
+                SetVariable('chatlog', [ ])]
+        textbutton "Undo":
+            sensitive chatlog or (last_added and not chatlog)
+            action Function(pop_chatlog)
+        textbutton "Redo":
+            sensitive last_added
+            action Function(redo_chatlog)
+        textbutton "Add to Chat":
+            action [chat_dialogue_input.Disable(),
+                Function(add_creation_entry),
+                Function(chat_dialogue_input.set_text, ''),
+                SetVariable('last_added', [ ])]
 
 style font_options_button:
     background "#fff"
@@ -304,8 +304,6 @@ style font_options2_text:
     size 29
 style font_options2_hbox is font_options_hbox
 style font_options2_vbox is font_options_vbox
-
-
 transform slide_in_out():
     on show, appear:
         yzoom 0.0
@@ -445,7 +443,15 @@ screen dialogue_input():
                 size gui.text_size + entry_styles['size'] + size_bonus
         action chat_dialogue_input.Enable()
 
-screen pick_speaker():
+screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
+
+    zorder 101
+    python:
+        if active_tab != "Dialogue":
+            all_chara = [chara for chara in all_characters if chara.emote_list]
+        else:
+            all_chara = all_characters
+
     button:
         xysize (config.screen_width, config.screen_height)
         background None
@@ -453,12 +459,12 @@ screen pick_speaker():
     frame:
         background "#000"
         padding (2, 2)
-        anchor (0.0, 0.5)
-        pos (340, 890)
+        anchor anchor
+        pos pos
         has fixed:
             fit_first True
         vbox:
-            for chara in all_characters:
+            for chara in all_chara:
                 textbutton chara.name:
                     if chara.bubble_color:
                         background chara.bubble_color
@@ -467,8 +473,13 @@ screen pick_speaker():
                     # Add size_group for the buttons
                     xminimum 200
                     text_idle_color "#000"
-                    action [SetField(the_entry, 'who', chara),
-                        Hide('pick_speaker')]
+                    if active_tab == "Dialogue":
+                        action [SetField(the_entry, 'who', chara),
+                            Hide('pick_speaker')]
+                    else:
+                        action [SetVariable('emoji_speaker', chara),
+                            SetField(the_entry, 'who', chara),
+                            Hide('pick_speaker')]
 
 image text_caret:
     Solid("#000", xmaximum=2)
