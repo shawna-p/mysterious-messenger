@@ -84,6 +84,16 @@ init python:
         store.chatlog.append(entry)
         return
 
+    def create_enter_exit(who, enter=True):
+        the_str = ""
+        if enter:
+            the_str = who.name + " has entered the chatroom."
+        else:
+            the_str = who.name + " has left the chatroom."
+
+        chatlog.append(ChatEntry(store.special_msg, the_str, upTime()))
+        return
+
 default chat_dialogue = ""
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
@@ -130,12 +140,12 @@ screen chatroom_creator():
         use messenger_screen()
         use chat_creator_tabs("Dialogue")
         hbox:
-        button:
+            button:
                 style_prefix 'font_options'
                 xysize (320, 47)
                 add "#000"
                 action Show('pick_speaker')
-            hbox:
+                hbox:
                     xoffset 6
                     text "Speaker:"
                     text the_entry.who.name size 27
@@ -144,11 +154,13 @@ screen chatroom_creator():
                 xysize (210, 47)
                 add "#000"
                 text "Add Enter Msg" size 27
+                action Function(create_enter_exit, the_entry.who, True)
             button:
                 style_prefix 'font_options'
                 xysize (210, 47)
                 add "#000"
                 text "Add Exit Msg" size 27
+                action Function(create_enter_exit, the_entry.who, False)
 
         # button:
         #     xysize (280, 85)
