@@ -94,7 +94,17 @@ init python:
         chatlog.append(ChatEntry(store.special_msg, the_str, upTime()))
         return
 
+    def add_emote(emote):
+
+        if emote is None:
+            return
+        the_str = "{image=" + emote + "}"
+        chatlog.append(ChatEntry(store.the_entry.who,
+            the_str, upTime(), img=True))
+        return
+
 default chat_dialogue = ""
+default emoji_speaker = s
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
 default last_added = [ ]
