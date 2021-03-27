@@ -358,8 +358,13 @@ screen pick_speaker():
         vbox:
             for chara in all_characters:
                 textbutton chara.name:
+                    if chara.bubble_color:
+                        background chara.bubble_color
+                    else:
+                        background "#fff"
+                    # Add size_group for the buttons
                     xminimum 200
-                    text_color "#fff"
+                    text_idle_color "#000"
                     action [SetField(the_entry, 'who', chara),
                         Hide('pick_speaker')]
 
