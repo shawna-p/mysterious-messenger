@@ -1000,6 +1000,13 @@ init python:
         return im.MatrixColor('Bubble/white-Bubble.webp',
                             im.matrix.colorize('#000', bubble_color))
 
+    def reset_participants(participants):
+        store.in_chat = [ ]
+        for person in participants:
+            store.in_chat.append(person.name)
+            if not observing:
+                store.current_timeline_item.add_participant(person)
+
 
 ## There is a custom version of the chat footers (pause/play/save&exit/answer)
 ## that you can use by setting this variable to True. Otherwise, it will use
