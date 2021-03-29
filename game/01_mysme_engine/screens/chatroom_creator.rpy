@@ -660,6 +660,7 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
                     text_idle_color "#000"
                     if active_tab == "Dialogue":
                         action [SetField(the_entry, 'who', chara),
+                            SetVariable('bubble_user', chara),
                             Hide('pick_speaker')]
                     elif active_tab == "Emoji":
                         action [SetVariable('emoji_speaker', chara),
