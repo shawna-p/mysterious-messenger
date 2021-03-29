@@ -163,7 +163,7 @@ init python:
             return None
         return sizes
 
-
+default edit_mode = True
 default chat_dialogue = ""
 default emoji_speaker = s
 default bubble_user = s
@@ -205,7 +205,7 @@ screen chat_creator_tabs(active_tab):
 
 screen chatroom_creator():
 
-    default active_tab = "Effects"
+    default active_tab = "Dialogue"
     default show_fonts = False
 
     tag menu
@@ -689,6 +689,24 @@ screen pick_bubble_size(bubble_sizes):
                 text_color "#fff"
                 action [SetDict(bubble_info, 'size', sz),
                     Hide('pick_bubble_size')]
+
+screen edit_msg_menu(msg):
+    default pos = renpy.get_mouse_pos()
+    zorder 50
+    button:
+        xysize (config.screen_width, config.screen_height)
+        background None
+        action Hide('edit_msg_menu')
+    frame:
+        background "#000"
+        xysize (300, 175)
+        pos pos
+        anchor (0.0, 0.5)
+        has vbox
+        text "Remove message" color "#fff"
+        text "Edit text" color "#fff"
+        text "Change bubble" color "#fff"
+        text "Change speaker" color "#fff"
 
 image text_caret:
     Solid("#000", xmaximum=2)
