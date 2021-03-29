@@ -206,6 +206,7 @@ screen chat_creator_tabs(active_tab):
 screen chatroom_creator():
 
     default active_tab = "Effects"
+    default show_fonts = False
 
     tag menu
     use starry_night()
@@ -217,12 +218,11 @@ screen chatroom_creator():
         use messenger_screen()
         use chat_creator_tabs(active_tab)
         if active_tab == "Dialogue":
-            use dialogue_tab()
+            use dialogue_tab(show_fonts)
         elif active_tab == "Effects":
             use effects_tab()
 
-screen dialogue_tab():
-    default show_fonts = False
+screen dialogue_tab(show_fonts):
 
     hbox:
         button:
