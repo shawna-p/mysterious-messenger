@@ -681,7 +681,10 @@ screen pick_bubble_size(bubble_sizes):
         background "#000"
         xysize (150, 150)
         pos pos
-        anchor (0.0, 0.5)
+        if (pos[0] + 150) > config.screen_width:
+            anchor (1.0, 0.5)
+        else:
+            anchor (0.0, 0.5)
         has vbox
         for sz in bubble_sizes:
             textbutton sz:
@@ -701,7 +704,10 @@ screen edit_msg_menu(msg):
         background "#000"
         xysize (300, 175)
         pos pos
-        anchor (0.0, 0.5)
+        if (pos[0] + 300) > config.screen_width:
+            anchor (1.0, 0.5)
+        else:
+            anchor (0.0, 0.5)
         has vbox
         text "Remove message" color "#fff"
         text "Edit text" color "#fff"
