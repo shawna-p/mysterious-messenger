@@ -28,7 +28,10 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             at slide_down(-220)
 
         viewport: # viewport id "VP":
-            yadjustment yadj
+            if not edit_mode:
+                yadjustment yadj
+            else:
+                yinitial 1.0
             draggable True
             mousewheel True
             if not main_menu:
@@ -62,12 +65,12 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                                 and i in no_anim_list):
                             use chat_animation(i, no_anim=True)
             else:
-                for i index id(i) in chatlog:
+                for ind, i index id(i) in enumerate(chatlog):
                     button:
                         padding (0, 0) background None
                         hover_background "#fff6"
                         if edit_mode:
-                            action Show('edit_msg_menu', msg=i)
+                            action Show('edit_msg_menu', msg=i, ind=ind)
                         has fixed:
                             yfit True
                             xfill True
