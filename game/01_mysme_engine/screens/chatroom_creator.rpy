@@ -163,6 +163,14 @@ init python:
             return None
         return sizes
 
+    def update_speaker(ind, chara):
+        the_msg = store.chatlog[ind]
+        new_entry = ChatEntry(chara, the_msg.what, the_msg.thetime,
+            the_msg.img, the_msg.bounce, the_msg.specBubble)
+        store.chatlog.insert(ind, new_entry)
+        chatlog.remove(the_msg)
+        return
+
 default edit_mode = True
 default chat_dialogue = ""
 default emoji_speaker = s
@@ -628,7 +636,8 @@ screen dialogue_input():
                 size gui.text_size + entry_styles['size'] + size_bonus
         action chat_dialogue_input.Enable()
 
-screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
+screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
+        msg_ind=None):
 
     zorder 101
     python:
@@ -658,7 +667,10 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
                     # Add size_group for the buttons
                     xminimum 200
                     text_idle_color "#000"
-                    if active_tab == "Dialogue":
+                    if msg_ind:
+                        action [Function(update_speaker, msg_ind, chara),
+                            Hide('pick_speaker'), Hide('edit_msg_menu')]
+                    elif active_tab == "Dialogue":
                         action [SetField(the_entry, 'who', chara),
                             SetVariable('bubble_user', chara),
                             Hide('pick_speaker')]
@@ -670,6 +682,7 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
                         action [SetVariable('bubble_user', chara),
                             Hide('pick_speaker')]
 
+
 screen pick_bubble_size(bubble_sizes):
     default pos = renpy.get_mouse_pos()
     zorder 101
@@ -678,6 +691,7 @@ screen pick_bubble_size(bubble_sizes):
         background None
         action Hide('pick_bubble_size')
     frame:
+        at yzoom_in()
         background "#000"
         xysize (150, 150)
         pos pos
@@ -693,26 +707,43 @@ screen pick_bubble_size(bubble_sizes):
                 action [SetDict(bubble_info, 'size', sz),
                     Hide('pick_bubble_size')]
 
-screen edit_msg_menu(msg):
+screen edit_msg_menu(msg, ind):
     default pos = renpy.get_mouse_pos()
+    default too_wide = (pos[0] + 300) > config.screen_width
+    default speaker_pos = (pos[0], pos[1]+(175//2)) if not too_wide else (pos[0]-300, pos[1]+(175//2))
     zorder 50
     button:
         xysize (config.screen_width, config.screen_height)
         background None
         action Hide('edit_msg_menu')
     frame:
+        at yzoom_in()
         background "#000"
         xysize (300, 175)
         pos pos
-        if (pos[0] + 300) > config.screen_width:
+        if too_wide:
             anchor (1.0, 0.5)
         else:
             anchor (0.0, 0.5)
         has vbox
-        text "Remove message" color "#fff"
+        textbutton "Remove message":
+            text_color "#fff"
+            action CConfirm(("Are you sure you want to delete the message \""
+                + msg.what + "\"?"), [RemoveFromSet(chatlog, msg),
+                Hide('edit_msg_menu')])
         text "Edit text" color "#fff"
         text "Change bubble" color "#fff"
-        text "Change speaker" color "#fff"
+        textbutton "Change speaker":
+            text_color "#fff"
+            action Show('pick_speaker', msg_ind=ind, pos=speaker_pos,
+                anchor=(0.0, 0.0))
+
+
+transform yzoom_in():
+    yzoom 0.0
+    easein 0.2 yzoom 1.0
+    on hide:
+        easeout 0.2 yzoom 0.0
 
 image text_caret:
     Solid("#000", xmaximum=2)
