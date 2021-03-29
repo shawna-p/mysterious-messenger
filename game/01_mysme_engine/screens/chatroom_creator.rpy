@@ -105,7 +105,46 @@ init python:
             the_str, upTime(), img=True))
         return
 
-    def add_bubble(bubble):
+    def add_bubble(bubble_info):
+
+        entry = add_creation_entry(True)
+        # Determine if the bubble had its size set
+        if bubble_info['size'] not in ['Large', None]:
+            # Adjust the size
+            bub_start, bub_end = bubble_info['bubble'].split('_l.')
+            if bubble_info['size'] == "Small":
+                bub = bub_start + '_s.' + bub_end
+            else:
+                bub = bub_start + '_m.' + bub_end
+        elif bubble_info['bubble'] is not None:
+            bub = bubble_info['bubble']
+        else:
+            bub = None
+
+        if bub:
+            # Get just the "s_cloud_m" bit
+            full_bub = bub.split('/')[-1].split('.')[0]
+            bub_who = full_bub.split('_')[0]
+            bub_end = full_bub.split('_')[1:]
+            bub_end = ('_').join(bub_end)
+            if bub_who == store.the_entry.who.file_id:
+                # This belongs to the speaker
+                entry.specBubble = bub_end
+            else:
+                entry.specBubble = full_bub
+
+        if bubble_info['bounce']:
+            entry.bounce = True
+
+        store.chatlog.append(entry)
+
+        # Reset the bubble dict
+        store.bubble_info = {
+            'size' : None,
+            'bounce' : False,
+            'bubble' : None
+        }
+
         return
 
 default chat_dialogue = ""
