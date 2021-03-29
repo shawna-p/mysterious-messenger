@@ -467,8 +467,6 @@ screen select_bubble():
     zorder 100
     modal True
 
-    default selected_bubble = None
-
     frame:
         maximum(680, 1000)
         background 'input_popup_bkgr'
@@ -505,6 +503,38 @@ screen select_bubble():
                     xysize (590,720)
                     align (0.5, 0.5)
                     cols 2
+                    # Add the regular bubble image
+                    if bubble_user is the_entry.who:
+                        button:
+                            xysize (580//2, 220)
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            selected not bubble_info['bounce']
+                            action [SetDict(bubble_info, 'size', None),
+                                SetDict(bubble_info, 'bubble', None),
+                                SetDict(bubble_info, 'bounce', False)]
+                            frame:
+                                background bubble_user.reg_bubble_img
+                                align (0.5, 0.5)
+                                style 'reg_bubble'
+                                add Null(height=100, width=150)
+                        # The glowing bubble image
+                        if bubble_user is not m:
+                            button:
+                                xysize (580//2, 220)
+                                hover_background '#e0e0e0'
+                                selected_background '#a8a8a8'
+                                selected (bubble_info['bounce']
+                                    and bubble_info['bubble'] is None)
+                                action [SetDict(bubble_info, 'size', None),
+                                    SetDict(bubble_info, 'bubble', None),
+                                    SetDict(bubble_info, 'bounce', True)]
+                                frame:
+                                    background bubble_user.glow_bubble_img
+                                    align (0.5, 0.5)
+                                    style 'glow_bubble'
+                                    add Null(height=100, width=150)
+
                     $ bub_list = bubble_user.get_bubbles()
                     for bub in bub_list:
                         button:
