@@ -147,9 +147,31 @@ init python:
 
         return
 
+    def find_bubble_sizes(bubble):
+        """Find the sizes this bubble comes in."""
+
+        if 'glow' in bubble:
+            return None
+        sizes = [ 'Large' ]
+        try:
+            bub_start, bub_end = bubble.split('_l.')
+            if renpy.loadable(bub_start + '_m.' + bub_end):
+                sizes.append('Medium')
+            if renpy.loadable(bub_start + '_s.' + bub_end):
+                sizes.append('Small')
+        except:
+            return None
+        return sizes
+
+
 default chat_dialogue = ""
 default emoji_speaker = s
 default bubble_user = s
+default bubble_info = {
+    'size' : None,
+    'bounce' : False,
+    'bubble' : None
+}
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
 default last_added = [ ]
