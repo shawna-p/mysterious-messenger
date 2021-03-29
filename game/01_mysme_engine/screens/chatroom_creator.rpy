@@ -541,11 +541,17 @@ screen select_bubble():
                             xysize (580//2, 220)
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
-                            selected False
-                            action Show('pick_bubble_size')
+                            selected (bubble_info['bubble'] == bub)
                             if "glow" not in bub:
+                                action [Show('pick_bubble_size',
+                                    bubble_sizes=find_bubble_sizes(bub)),
+                                    SetDict(bubble_info, 'bubble', bub),
+                                    SetDict(bubble_info, 'bounce', True)]
                                 add Transform(bub, zoom=0.46) align (0.5, 0.5)
                             else:
+                                action [SetDict(bubble_info, 'size', None),
+                                    SetDict(bubble_info, 'bubble', bub),
+                                    SetDict(bubble_info, 'bounce', True)]
                                 frame:
                                     background Frame(bub, 25, 25)
                                     align (0.5, 0.5)
@@ -568,7 +574,10 @@ screen select_bubble():
                 ysize 80
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [Function(add_bubble, selected_bubble),
+                action [chat_dialogue_input.Disable(),
+                    Function(add_bubble, bubble_info),
+                    Function(chat_dialogue_input.set_text, ''),
+                    SetVariable('last_added', [ ]),
                     Hide('select_bubble')]
 
 
