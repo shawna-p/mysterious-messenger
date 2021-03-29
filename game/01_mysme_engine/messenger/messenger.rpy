@@ -40,26 +40,51 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             has vbox
             spacing 10
             xfill True
-            for i index id(i) in chatlog[-bubbles_to_keep:]:
-                fixed:
-                    yfit True
-                    xfill True
-                    if i.who.name in ['msg', 'filler']:
-                        use special_msg(i)
-                    elif i.who == answer:
-                        pass
-                    # This trick means that the program displays
-                    # an invisible bubble behind the visible one
-                    # so the animation doesn't "slide" in
-                    else:# i == finalchat:
-                        use chat_animation(i, True)
-                    if (i.who.name not in ['msg', 'filler', 'answer']
-                            and (no_anim_list is None
-                                or i not in no_anim_list)):
-                        use chat_animation(i)
-                    elif (i.who.name not in ['msg', 'filler', 'answer']
-                            and i in no_anim_list):
-                        use chat_animation(i, no_anim=True)
+            if not main_menu:
+                for i index id(i) in chatlog[-bubbles_to_keep:]:
+                    fixed:
+                        yfit True
+                        xfill True
+                        if i.who.name in ['msg', 'filler']:
+                            use special_msg(i)
+                        elif i.who == answer:
+                            pass
+                        # This trick means that the program displays
+                        # an invisible bubble behind the visible one
+                        # so the animation doesn't "slide" in
+                        else:# i == finalchat:
+                            use chat_animation(i, True)
+                        if (i.who.name not in ['msg', 'filler', 'answer']
+                                and (no_anim_list is None
+                                    or i not in no_anim_list)):
+                            use chat_animation(i)
+                        elif (i.who.name not in ['msg', 'filler', 'answer']
+                                and i in no_anim_list):
+                            use chat_animation(i, no_anim=True)
+            else:
+                for i index id(i) in chatlog:
+                    button:
+                        padding (0, 0) background None
+                        hover_background "#fff6"
+                        if edit_mode:
+                            action Show('edit_msg_menu', msg=i)
+                        has fixed:
+                            yfit True
+                            xfill True
+                        if i.who.name in ['msg', 'filler']:
+                            use special_msg(i)
+                        elif i.who == answer:
+                            pass
+                        else:
+                            use chat_animation(i, True)
+                        if (i.who.name not in ['msg', 'filler', 'answer']
+                                and (no_anim_list is None
+                                    or i not in no_anim_list)):
+                            use chat_animation(i)
+                        elif (i.who.name not in ['msg', 'filler', 'answer']
+                                and i in no_anim_list):
+                            use chat_animation(i, no_anim=True)
+
                 null height 10
 
 ## This displays the special messages like "xyz
@@ -75,6 +100,7 @@ screen special_msg(i):
                 font gui.sans_serif_1b
 
         alt i.alt_text(False)
+
 
 ## This screen does the heavy lifting for displaying
 ## all the messages, names, profile pictures, etc
