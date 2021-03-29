@@ -669,7 +669,7 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5)):
                         action [SetVariable('bubble_user', chara),
                             Hide('pick_speaker')]
 
-screen pick_bubble_size():
+screen pick_bubble_size(bubble_sizes):
     default pos = renpy.get_mouse_pos()
     zorder 101
     button:
@@ -681,19 +681,13 @@ screen pick_bubble_size():
         xysize (150, 150)
         pos pos
         anchor (0.0, 0.5)
-        has vbox:
-            textbutton "Small":
+        has vbox
+        for sz in bubble_sizes:
+            textbutton sz:
                 xsize 150
                 text_color "#fff"
-                action Hide('pick_bubble_size')
-            textbutton "Medium":
-                xsize 150
-                text_color "#fff"
-                action Hide('pick_bubble_size')
-            textbutton "Large":
-                xsize 150
-                text_color "#fff"
-                action Hide('pick_bubble_size')
+                action [SetDict(bubble_info, 'size', sz),
+                    Hide('pick_bubble_size')]
 
 image text_caret:
     Solid("#000", xmaximum=2)
