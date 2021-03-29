@@ -731,7 +731,6 @@ python early:
 
             spec_bubbles = [ bub for bub in spec_bubbles_2
                 if renpy.loadable(bub) ]
-            print("Special bubbles for", self.file_id, spec_bubbles)
             return spec_bubbles
 
         def do_extend(self, **kwargs):
