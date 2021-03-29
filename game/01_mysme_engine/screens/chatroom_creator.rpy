@@ -43,7 +43,7 @@ init python:
             store.chatlog.append(store.last_added.pop())
         return
 
-    def add_creation_entry():
+    def add_creation_entry(return_entry=False):
         global entry_styles
         # Make a copy of the entry
         entry = copy(store.the_entry)
@@ -81,6 +81,8 @@ init python:
         dialogue = "{font=" + newfont + "}" + dialogue
         dialogue += "{/font}"
         entry.what = dialogue
+        if return_entry:
+            return entry
         store.chatlog.append(entry)
         return
 
