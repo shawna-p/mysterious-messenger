@@ -318,7 +318,7 @@ screen add_enter_exit_msg():
         action Function(create_enter_exit, the_entry.who, False)
 
 screen dialogue_tab(show_fonts, compact_ver=False):
-
+    default styles_dict = entry_styles if not compact_ver else edit_styles
     hbox:
         button:
             style_prefix 'font_options'
@@ -348,14 +348,14 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         button:
             add "#000"
             text "B" font gui.sans_serif_1xb
-            action ToggleDict(entry_styles, 'bold')
+            action ToggleDict(styles_dict, 'bold')
         button:
             add "#000"
             text "I" italic True
-            action ToggleDict(entry_styles, 'italics')
+            action ToggleDict(styles_dict, 'italics')
         button:
             add "#000"
-            action ToggleDict(entry_styles, 'underline')
+            action ToggleDict(styles_dict, 'underline')
             vbox:
                 text "U" underline True
                 add Solid("#fff") size (30, 1) xalign 0.5
@@ -363,19 +363,19 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             xsize 67
             add "#000"
             add 'text_size_decrease'
-            sensitive entry_styles['size'] > 10
-            action SetDict(entry_styles, 'size', entry_styles['size']-5)
+            sensitive styles_dict['size'] > 10
+            action SetDict(styles_dict, 'size', styles_dict['size']-5)
         button:
             xsize 67
             add "#000"
             add 'text_size_increase'
-            sensitive entry_styles['size'] < 50
-            action SetDict(entry_styles, 'size', entry_styles['size']+5)
+            sensitive styles_dict['size'] < 50
+            action SetDict(styles_dict, 'size', styles_dict['size']+5)
         button:
             xsize 67
             add "#000"
             add 'text_size_reset'
-            action SetDict(entry_styles, 'size', 0)
+            action SetDict(styles_dict, 'size', 0)
         button:
             xsize 105
             xpadding 5
@@ -389,27 +389,27 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             button:
                 add "#000"
                 text "Font 1" font gui.sans_serif_1
-                action SetDict(entry_styles, 'font', gui.sans_serif_1)
+                action SetDict(styles_dict, 'font', gui.sans_serif_1)
             button:
                 add "#000"
                 text "Font 2" font gui.sans_serif_2
-                action SetDict(entry_styles, 'font', gui.sans_serif_2)
+                action SetDict(styles_dict, 'font', gui.sans_serif_2)
             button:
                 add "#000"
                 text "Font 3" font gui.serif_1
-                action SetDict(entry_styles, 'font', gui.serif_1)
+                action SetDict(styles_dict, 'font', gui.serif_1)
             button:
                 add "#000"
                 text "Font 4" font gui.serif_2
-                action SetDict(entry_styles, 'font', gui.serif_2)
+                action SetDict(styles_dict, 'font', gui.serif_2)
             button:
                 add "#000"
                 text "Font 5" font gui.curly_font size 29+5
-                action SetDict(entry_styles, 'font', gui.curly_font)
+                action SetDict(styles_dict, 'font', gui.curly_font)
             button:
                 add "#000"
                 text "Font 6" font gui.blocky_font
-                action SetDict(entry_styles, 'font', gui.blocky_font)
+                action SetDict(styles_dict, 'font', gui.blocky_font)
 
 
     use dialogue_input(compact_ver)
@@ -817,7 +817,9 @@ screen edit_msg_menu(msg, ind):
                 Hide('edit_msg_menu')])
         textbutton "Edit text":
             text_color "#fff"
-            action [Hide('edit_msg_menu'), Show('dialogue_edit_popup')]
+            action [Function(get_styles_from_entry, msg),
+                Hide('edit_msg_menu'),
+                Show('dialogue_edit_popup')]
         text "Change bubble" color "#fff"
         textbutton "Change speaker":
             text_color "#fff"
