@@ -95,6 +95,48 @@ init python:
         store.chatlog.append(entry)
         return
 
+    def get_styles_from_entry(msg):
+        global edit_styles
+        edit_styles = {
+            'font' : gui.sans_serif_1,
+            'specBubble' : None,
+            'img' : False,
+            'size' : 0,
+            'bold' : False,
+            'italics' : False,
+            'underline' : False
+        }
+        # Fetch the dialogue styles from an entry
+        dialogue = msg.what
+        if "{i}" in dialogue:
+            edit_styles['italics'] = True
+        if "{u}" in dialogue:
+            edit_styles['underline'] = True
+        if "{font" in msg.what:
+            # isolate out the font
+            ffont = msg.what.split('{font=')[1]
+            str_font = ffont.split('}')[0]
+            # Check for bold/xbold
+            if "xb" in str_font:
+                edit_styles['bold'] = True
+
+            ffont = getattr(store, str_font)
+            edit_styles['font'] = ffont
+        if "{b}" in msg.what:
+            edit_styles['bold'] = True
+        if "{size" in msg.what:
+            # Fetch the size
+            ssize = msg.what.split("{size=")[1]
+            str_size = ssize.split("}")[0]
+            if str_size[0] == "+":
+                str_size = str_size[1:]
+            int_size = int(str_size)
+            edit_styles['size'] = int_size
+
+
+
+
+
     def create_enter_exit(who, enter=True):
         the_str = ""
         if enter:
@@ -362,16 +404,17 @@ screen dialogue_tab(show_fonts, compact_ver=False):
     use dialogue_input(compact_ver)
     hbox:
         spacing 40 xalign 0.5
-        textbutton "Clear Chat":
-            selected False
-            action [SetVariable('last_added', chatlog),
-                SetVariable('chatlog', [ ])]
-        textbutton "Undo":
-            sensitive chatlog or (last_added and not chatlog)
-            action Function(pop_chatlog)
-        textbutton "Redo":
-            sensitive last_added
-            action Function(redo_chatlog)
+        if not compact_ver:
+            textbutton "Clear Chat":
+                selected False
+                action [SetVariable('last_added', chatlog),
+                    SetVariable('chatlog', [ ])]
+            textbutton "Undo":
+                sensitive chatlog or (last_added and not chatlog)
+                action Function(pop_chatlog)
+            textbutton "Redo":
+                sensitive last_added
+                action Function(redo_chatlog)
         textbutton "Add to Chat":
             action [chat_dialogue_input.Disable(),
                 Function(add_creation_entry),
@@ -776,17 +819,18 @@ screen dialogue_edit_popup():
     default show_fonts = False
 
     frame:
-        maximum(680, 1000)
+        maximum(680, 600)
         background 'input_popup_bkgr'
         xpadding 20
         xalign 0.5
         yalign 0.6
         imagebutton:
-            align (1.0, 0.0)
+            align (1.0, 0.0) xoffset 20
             idle 'input_close'
             hover 'input_close_hover'
             action Hide('dialogue_edit_popup')
         vbox:
+            spacing 10
             null height 60
             use dialogue_tab(show_fonts, compact_ver=True)
 
