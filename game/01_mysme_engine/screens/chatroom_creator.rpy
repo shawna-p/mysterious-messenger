@@ -18,6 +18,10 @@ init python:
 
             if not self.edit_action:
                 store.the_entry.what = s
+            elif s:
+                entry_update = add_creation_entry(return_entry=True,
+                    is_edit=True)
+
             if s:
                 self.enter(simulate=True)
 
@@ -31,6 +35,7 @@ init python:
                     # This is an edit to an existing entry
                     renpy.run([
                         Function(self.set_text, ''),
+                        Hide('dialogue_edit_popup')
                     ])
             else:
                 renpy.run(self.Enable())
@@ -52,36 +57,43 @@ init python:
             store.chatlog.append(store.last_added.pop())
         return
 
-    def add_creation_entry(return_entry=False):
-        global entry_styles
-        # Make a copy of the entry
-        entry = copy(store.the_entry)
+    def add_creation_entry(return_entry=False, is_edit=False):
+        global entry_styles, edit_styles
+        if is_edit:
+            styles_dict = edit_styles
+            entry = store.edit_msg
+            dialogue = store.edit_dialogue
+        else:
+            styles_dict = entry_styles
+            # Make a copy of the entry
+            entry = copy(store.the_entry)
+            dialogue = entry.what
+
         # Add fonts and bubbles and stuff
-        dialogue = entry.what
-        if entry_styles['font'] == gui.curly_font:
-            entry_styles['size'] += 5
-        if entry_styles['size'] != 0:
-            if entry_styles['size'] > 0:
-                dialogue = "{size=+" + str(entry_styles['size']) + "}" + dialogue
+        if styles_dict['font'] == gui.curly_font:
+            styles_dict['size'] += 5
+        if styles_dict['size'] != 0:
+            if styles_dict['size'] > 0:
+                dialogue = "{size=+" + str(styles_dict['size']) + "}" + dialogue
             else:
-                dialogue = "{size=-" + str(abs(entry_styles['size'])) + "}" + dialogue
+                dialogue = "{size=-" + str(abs(styles_dict['size'])) + "}" + dialogue
             dialogue += "{/size}"
         # Check for underline
-        if entry_styles['underline']:
+        if styles_dict['underline']:
             dialogue = "{u}" + dialogue + "{/u}"
-        if entry_styles['italics']:
+        if styles_dict['italics']:
             dialogue = "{i}" + dialogue + "{/i}"
 
         # Check for bold fonts
-        newfont = entry_styles['font']
-        if entry_styles['bold']:
-            if entry_styles['font'] == gui.sans_serif_1:
+        newfont = styles_dict['font']
+        if styles_dict['bold']:
+            if styles_dict['font'] == gui.sans_serif_1:
                 newfont = gui.sans_serif_1xb
-            elif entry_styles['font'] == gui.sans_serif_2:
+            elif styles_dict['font'] == gui.sans_serif_2:
                 newfont = gui.sans_serif_2xb
-            elif entry_styles['font'] == gui.serif_1:
+            elif styles_dict['font'] == gui.serif_1:
                 newfont = gui.serif_1xb
-            elif entry_styles['font'] == gui.serif_2:
+            elif styles_dict['font'] == gui.serif_2:
                 newfont = gui.serif_2xb
             else:
                 # Just put bold tags around it
@@ -145,6 +157,7 @@ init python:
 
         dialogue = renpy.filter_text_tags(msg.what, allow="image")
         store.edit_dialogue = dialogue
+        store.edit_msg = msg
 
 
 
@@ -234,7 +247,8 @@ init python:
         return
 
 default edit_dialogue = ""
-default edit_dialogue_input = InputDialogue('edit_dialogue')
+default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
+default edit_msg = None
 default edit_mode = True
 default chat_dialogue = ""
 default emoji_speaker = s
@@ -426,11 +440,16 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             textbutton "Redo":
                 sensitive last_added
                 action Function(redo_chatlog)
-        textbutton "Add to Chat":
-            action [chat_dialogue_input.Disable(),
-                Function(add_creation_entry),
-                Function(chat_dialogue_input.set_text, ''),
-                SetVariable('last_added', [ ])]
+            textbutton "Add to Chat":
+                action [chat_dialogue_input.Disable(),
+                    Function(add_creation_entry),
+                    Function(chat_dialogue_input.set_text, ''),
+                    SetVariable('last_added', [ ])]
+        else:
+            textbutton "Update":
+                action [edit_dialogue_input.Disable(),
+                    Function(edit_dialogue_input.set_text, ''),
+                    Hide('dialogue_edit_popup')]
 
 style font_options_button:
     background "#fff"
@@ -836,7 +855,7 @@ screen dialogue_edit_popup():
         background 'input_popup_bkgr'
         xpadding 20
         xalign 0.5
-        yalign 0.6
+        yalign 0.85
         imagebutton:
             align (1.0, 0.0) xoffset 20
             idle 'input_close'
