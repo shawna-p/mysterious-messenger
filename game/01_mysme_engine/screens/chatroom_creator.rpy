@@ -180,6 +180,8 @@ init python:
         chatlog.remove(the_msg)
         return
 
+default edit_dialogue = ""
+default edit_dialogue_input = InputDialogue('edit_dialogue')
 default edit_mode = True
 default chat_dialogue = ""
 default emoji_speaker = s
@@ -194,6 +196,15 @@ default chat_dialogue_input = InputDialogue('chat_dialogue')
 default last_added = [ ]
 define creator_messenger_ysize = 640
 default entry_styles = {
+    'font' : gui.sans_serif_1,
+    'specBubble' : None,
+    'img' : False,
+    'size' : 0,
+    'bold' : False,
+    'italics' : False,
+    'underline' : False
+}
+default edit_styles = {
     'font' : gui.sans_serif_1,
     'specBubble' : None,
     'img' : False,
