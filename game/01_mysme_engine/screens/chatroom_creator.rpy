@@ -117,11 +117,21 @@ init python:
             ffont = msg.what.split('{font=')[1]
             str_font = ffont.split('}')[0]
             # Check for bold/xbold
-            if "xb" in str_font:
+            if str_font in [gui.serif_1b, gui.serif_1xb]:
+                str_font = gui.serif_1
+                edit_styles['bold'] = True
+            elif str_font in [gui.serif_2b, gui.serif_2xb]:
+                str_font = gui.serif_2
+                edit_styles['bold'] = True
+            elif str_font in [gui.sans_serif_1b, gui.sans_serif_1xb]:
+                str_font = gui.sans_serif_1
+                edit_styles['bold'] = True
+            elif str_font in [gui.sans_serif_2b, gui.sans_serif_2xb]:
+                str_font = gui.sans_serif_2
                 edit_styles['bold'] = True
 
-            ffont = getattr(store, str_font)
-            edit_styles['font'] = ffont
+            edit_styles['font'] = str_font
+            print("font is", str_font)
         if "{b}" in msg.what:
             edit_styles['bold'] = True
         if "{size" in msg.what:
