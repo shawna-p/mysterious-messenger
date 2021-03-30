@@ -761,12 +761,34 @@ screen edit_msg_menu(msg, ind):
             action CConfirm(("Are you sure you want to delete the message \""
                 + msg.what + "\"?"), [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu')])
-        text "Edit text" color "#fff"
+        textbutton "Edit text":
+            text_color "#fff"
+            action [Hide('edit_msg_menu'), Show('dialogue_edit_popup')]
         text "Change bubble" color "#fff"
         textbutton "Change speaker":
             text_color "#fff"
             action Show('pick_speaker', msg_ind=ind, pos=speaker_pos,
                 anchor=(0.0, 0.0))
+
+screen dialogue_edit_popup():
+    modal True
+
+    default show_fonts = False
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xpadding 20
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('dialogue_edit_popup')
+        vbox:
+            null height 60
+            use dialogue_tab(show_fonts, compact_ver=True)
 
 
 transform yzoom_in():
