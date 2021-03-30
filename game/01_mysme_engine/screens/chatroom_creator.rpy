@@ -143,7 +143,8 @@ init python:
             int_size = int(str_size)
             edit_styles['size'] = int_size
 
-
+        dialogue = renpy.filter_text_tags(msg.what, allow="image")
+        store.edit_dialogue = dialogue
 
 
 
