@@ -1,9 +1,11 @@
 init python:
     class InputDialogue(InputValue):
         """InputValue that lets the user type dialogue to the program."""
-        def __init__(self, var, default="Insert Text Here"):
+        def __init__(self, var, default="Insert Text Here",
+                edit_action=False):
             self.var = var
             self.s = default
+            self.edit_action = edit_action
             if not hasattr(store, var):
                 setattr(store, var, default)
 
@@ -14,15 +16,22 @@ init python:
             setattr(store, self.var, s)
             self.s = s
 
-            store.the_entry.what = s
+            if not self.edit_action:
+                store.the_entry.what = s
             if s:
                 self.enter(simulate=True)
 
         def enter(self, simulate=False):
             if not simulate:
-                renpy.run([Function(add_creation_entry),
-                    Function(chat_dialogue_input.set_text, ''),
-                    SetVariable('last_added', [ ])])
+                if not self.edit_action:
+                    renpy.run([Function(add_creation_entry),
+                        Function(self.set_text, ''),
+                        SetVariable('last_added', [ ])])
+                else:
+                    # This is an edit to an existing entry
+                    renpy.run([
+                        Function(self.set_text, ''),
+                    ])
             else:
                 renpy.run(self.Enable())
             raise renpy.IgnoreEvent()
