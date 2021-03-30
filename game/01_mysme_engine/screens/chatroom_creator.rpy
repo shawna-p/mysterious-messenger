@@ -250,7 +250,21 @@ screen chatroom_creator():
         elif active_tab == "Effects":
             use effects_tab()
 
-screen dialogue_tab(show_fonts):
+screen add_enter_exit_msg():
+    button:
+        style_prefix 'font_options'
+        xysize (210, 47)
+        add "#000"
+        text "Add Enter Msg" size 27
+        action Function(create_enter_exit, the_entry.who, True)
+    button:
+        style_prefix 'font_options'
+        xysize (210, 47)
+        add "#000"
+        text "Add Exit Msg" size 27
+        action Function(create_enter_exit, the_entry.who, False)
+
+screen dialogue_tab(show_fonts, compact_ver=False):
 
     hbox:
         button:
@@ -262,19 +276,11 @@ screen dialogue_tab(show_fonts):
                 xoffset 6
                 text "Speaker:"
                 text the_entry.who.name size 27
-        button:
-            style_prefix 'font_options'
-            xysize (210, 47)
-            add "#000"
-            text "Add Enter Msg" size 27
-            action Function(create_enter_exit, the_entry.who, True)
-        button:
-            style_prefix 'font_options'
-            xysize (210, 47)
-            add "#000"
-            text "Add Exit Msg" size 27
-            action Function(create_enter_exit, the_entry.who, False)
-
+        if not compact_ver:
+            use add_enter_exit_msg()
+    if compact_ver:
+        hbox:
+            use add_enter_exit_msg()
     # button:
     #     xysize (280, 85)
     #     hbox:
