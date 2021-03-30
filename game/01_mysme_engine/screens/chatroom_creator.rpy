@@ -359,7 +359,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 action SetDict(entry_styles, 'font', gui.blocky_font)
 
 
-    use dialogue_input()
+    use dialogue_input(compact_ver)
     hbox:
         spacing 40 xalign 0.5
         textbutton "Clear Chat":
@@ -617,13 +617,17 @@ screen select_bubble():
 
 
 
-screen dialogue_input():
+screen dialogue_input(compact_ver=False):
+    default box_size = (730, 180) if not compact_ver else (600, 220)
+    default styles_dict = entry_styles if not compact_ver else edit_styles
+    default size_bonus = 5 if styles_dict['font'] == gui.curly_font else 0
+    default the_input = chat_dialogue_input if not compact_ver else edit_dialogue_input
     $ focus_coord = renpy.focus_coordinates()
-    $ is_focused = focus_coord[2] == 730.0 and focus_coord[3] == 180.0
+    $ is_focused = (focus_coord[2] == box_size[0] and focus_coord[3] == box_size[1])
     $ text_input_yadj.value = yadjValue
-    $ size_bonus = 5 if entry_styles['font'] == gui.curly_font else 0
+
     button:
-        xysize (730, 180)
+        xysize box_size
         background 'input_square'
         if not is_focused:
             foreground "#0003"
@@ -633,7 +637,7 @@ screen dialogue_input():
             yadjustment text_input_yadj
             xysize (730-28, 180-20)
             mousewheel True
-            input value chat_dialogue_input:
+            input value the_input:
                 copypaste True
                 color "#000"
                 line_spacing 1
@@ -641,26 +645,26 @@ screen dialogue_input():
                     caret 'text_caret'
                 else:
                     caret Null()
-                if entry_styles['bold']:
-                    if entry_styles['font'] == gui.sans_serif_1:
+                if styles_dict['bold']:
+                    if styles_dict['font'] == gui.sans_serif_1:
                         font gui.sans_serif_1xb
-                    elif entry_styles['font'] == gui.sans_serif_2:
+                    elif styles_dict['font'] == gui.sans_serif_2:
                         font gui.sans_serif_2xb
-                    elif entry_styles['font'] == gui.serif_1:
+                    elif styles_dict['font'] == gui.serif_1:
                         font gui.serif_1xb
-                    elif entry_styles['font'] == gui.serif_2:
+                    elif styles_dict['font'] == gui.serif_2:
                         font gui.serif_2xb
                     else:
                         bold True
-                        font entry_styles['font']
+                        font styles_dict['font']
                 else:
-                    font entry_styles['font']
+                    font styles_dict['font']
                 align (0.0, 0.5)
                 xmaximum 690
-                italic entry_styles['italics']
-                underline entry_styles['underline']
-                size gui.text_size + entry_styles['size'] + size_bonus
-        action chat_dialogue_input.Enable()
+                italic styles_dict['italics']
+                underline styles_dict['underline']
+                size gui.text_size + styles_dict['size'] + size_bonus
+        action the_input.Enable()
 
 screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
         msg_ind=None):
