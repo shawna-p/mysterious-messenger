@@ -71,12 +71,14 @@ init python:
 
         # Add fonts and bubbles and stuff
         if styles_dict['font'] == gui.curly_font:
-            styles_dict['size'] += 5
-        if styles_dict['size'] != 0:
-            if styles_dict['size'] > 0:
-                dialogue = "{size=+" + str(styles_dict['size']) + "}" + dialogue
+            the_size = styles_dict['size'] + 5
+        else:
+            the_size = style_dict['size']
+        if the_size != 0:
+            if the_size > 0:
+                dialogue = "{size=+" + str(the_size) + "}" + dialogue
             else:
-                dialogue = "{size=-" + str(abs(styles_dict['size'])) + "}" + dialogue
+                dialogue = "{size=-" + str(abs(the_size)) + "}" + dialogue
             dialogue += "{/size}"
         # Check for underline
         if styles_dict['underline']:
