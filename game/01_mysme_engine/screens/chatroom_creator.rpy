@@ -61,7 +61,7 @@ init python:
         global entry_styles, edit_styles
         if is_edit:
             styles_dict = edit_styles
-            entry = store.edit_msg
+            entry = store.chatlog[store.edit_msg_index]
             dialogue = store.edit_dialogue
         else:
             styles_dict = entry_styles
@@ -249,6 +249,7 @@ init python:
 default edit_dialogue = ""
 default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
 default edit_msg = None
+default edit_msg_index = -1
 default edit_mode = True
 default chat_dialogue = ""
 default emoji_speaker = s
@@ -338,11 +339,15 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             style_prefix 'font_options'
             xysize (320, 47)
             add "#000"
-            action Show('pick_speaker')
+            action If(compact_ver, Show('pick_speaker', msg_ind=edit_msg_index),
+                Show('pick_speaker'))
             hbox:
                 xoffset 6
                 text "Speaker:"
-                text the_entry.who.name size 27
+                if compact_ver:
+                    text chatlog[edit_msg_index].who.name size 27
+                else:
+                    text the_entry.who.name size 27
         if not compact_ver:
             use add_enter_exit_msg()
     if compact_ver:
@@ -449,6 +454,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             textbutton "Update":
                 action [edit_dialogue_input.Disable(),
                     Function(edit_dialogue_input.set_text, ''),
+                    SetVariable('edit_msg_index', -1),
                     Hide('dialogue_edit_popup')]
 
 style font_options_button:
@@ -772,6 +778,7 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
                     text_idle_color "#000"
                     if msg_ind:
                         action [Function(update_speaker, msg_ind, chara),
+                            SetVariable('edit_msg_index', -1),
                             Hide('pick_speaker'), Hide('edit_msg_menu')]
                     elif active_tab == "Dialogue":
                         action [SetField(the_entry, 'who', chara),
@@ -818,7 +825,7 @@ screen edit_msg_menu(msg, ind):
     button:
         xysize (config.screen_width, config.screen_height)
         background None
-        action Hide('edit_msg_menu')
+        action [SetVariable('edit_msg_index', -1), Hide('edit_msg_menu')]
     frame:
         at yzoom_in()
         background "#000"
@@ -833,7 +840,8 @@ screen edit_msg_menu(msg, ind):
             text_color "#fff"
             action CConfirm(("Are you sure you want to delete the message \""
                 + msg.what + "\"?"), [RemoveFromSet(chatlog, msg),
-                Hide('edit_msg_menu')])
+                Hide('edit_msg_menu'),
+                SetVariable('edit_msg_index', -1)])
         textbutton "Edit text":
             text_color "#fff"
             action [Function(get_styles_from_entry, msg),
