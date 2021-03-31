@@ -70,7 +70,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                         padding (0, 0) background None
                         hover_background "#fff6"
                         if edit_mode:
-                            action Show('edit_msg_menu', msg=i, ind=ind)
+                            action [SetVariable('edit_msg_index', ind),
+                                Show('edit_msg_menu', msg=i, ind=ind)]
                         has fixed:
                             yfit True
                             xfill True
