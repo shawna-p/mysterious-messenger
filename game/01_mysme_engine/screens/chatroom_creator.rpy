@@ -803,10 +803,13 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
                     # Add size_group for the buttons
                     xminimum 200
                     text_idle_color "#000"
-                    if msg_ind:
+                    if msg_ind is not None and active_tab == "Edit":
                         action [Function(update_speaker, msg_ind, chara),
                             SetVariable('edit_msg_index', -1),
                             Hide('pick_speaker'), Hide('edit_msg_menu')]
+                    elif msg_ind is not None:
+                        action [Function(update_speaker, msg_ind, chara),
+                            Hide('pick_speaker')]
                     elif active_tab == "Dialogue":
                         action [SetField(the_entry, 'who', chara),
                             SetVariable('bubble_user', chara),
