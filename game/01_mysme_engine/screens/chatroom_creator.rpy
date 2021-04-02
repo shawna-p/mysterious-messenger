@@ -278,6 +278,11 @@ default bubble_info = {
     'bounce' : False,
     'bubble' : None
 }
+default edit_bubble_info = {
+    'size' : None,
+    'bounce' : False,
+    'bubble' : None
+}
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
 default last_added = [ ]
