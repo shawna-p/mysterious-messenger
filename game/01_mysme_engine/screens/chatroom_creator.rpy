@@ -599,7 +599,14 @@ screen select_emote():
                 action [Function(add_emote, selected_emote),
                     Hide('select_emote')]
 
-screen select_bubble():
+screen select_bubble(editing=False):
+
+    if editing:
+        default bubble_dict = bubble_info
+        default bubble_who = chatlog[edit_msg_index].who
+    else:
+        default bubble_dict = edit_bubble_info
+        default bubble_who = the_entry.who
 
     zorder 100
     modal True
@@ -641,15 +648,15 @@ screen select_bubble():
                     align (0.5, 0.5)
                     cols 2
                     # Add the regular bubble image
-                    if bubble_user is the_entry.who:
+                    if bubble_user is bubble_who:
                         button:
                             xysize (580//2, 220)
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
-                            selected not bubble_info['bounce']
-                            action [SetDict(bubble_info, 'size', None),
-                                SetDict(bubble_info, 'bubble', None),
-                                SetDict(bubble_info, 'bounce', False)]
+                            selected not bubble_dict['bounce']
+                            action [SetDict(bubble_dict, 'size', None),
+                                SetDict(bubble_dict, 'bubble', None),
+                                SetDict(bubble_dict, 'bounce', False)]
                             frame:
                                 background bubble_user.reg_bubble_img
                                 align (0.5, 0.5)
@@ -661,11 +668,11 @@ screen select_bubble():
                                 xysize (580//2, 220)
                                 hover_background '#e0e0e0'
                                 selected_background '#a8a8a8'
-                                selected (bubble_info['bounce']
-                                    and bubble_info['bubble'] is None)
-                                action [SetDict(bubble_info, 'size', None),
-                                    SetDict(bubble_info, 'bubble', None),
-                                    SetDict(bubble_info, 'bounce', True)]
+                                selected (bubble_dict['bounce']
+                                    and bubble_dict['bubble'] is None)
+                                action [SetDict(bubble_dict, 'size', None),
+                                    SetDict(bubble_dict, 'bubble', None),
+                                    SetDict(bubble_dict, 'bounce', True)]
                                 frame:
                                     background bubble_user.glow_bubble_img
                                     align (0.5, 0.5)
@@ -678,31 +685,23 @@ screen select_bubble():
                             xysize (580//2, 220)
                             hover_background '#e0e0e0'
                             selected_background '#a8a8a8'
-                            selected (bubble_info['bubble'] == bub)
+                            selected (bubble_dict['bubble'] == bub)
                             if "glow" not in bub:
                                 action [Show('pick_bubble_size',
-                                    bubble_sizes=find_bubble_sizes(bub)),
-                                    SetDict(bubble_info, 'bubble', bub),
-                                    SetDict(bubble_info, 'bounce', True)]
+                                    bubble_sizes=find_bubble_sizes(bub),
+                                    editing=True),
+                                    SetDict(bubble_dict, 'bubble', bub),
+                                    SetDict(bubble_dict, 'bounce', True)]
                                 add Transform(bub, zoom=0.46) align (0.5, 0.5)
                             else:
-                                action [SetDict(bubble_info, 'size', None),
-                                    SetDict(bubble_info, 'bubble', bub),
-                                    SetDict(bubble_info, 'bounce', True)]
+                                action [SetDict(bubble_dict, 'size', None),
+                                    SetDict(bubble_dict, 'bubble', bub),
+                                    SetDict(bubble_dict, 'bounce', True)]
                                 frame:
                                     background Frame(bub, 25, 25)
                                     align (0.5, 0.5)
                                     style 'glow_bubble'
                                     add Null(height=100, width=150)
-                    # for emote in emoji_speaker.emote_list:
-                    #     button:
-                    #         xysize (int(310*0.63),int(310*0.63))
-                    #         hover_background '#e0e0e0'
-                    #         selected_background '#a8a8a8'
-                    #         add Transform(emote, zoom=0.63) align (0.5, 0.5)
-                    #         action ToggleScreenVariable('selected_bubble',
-                    #             bubble)
-
 
             textbutton _('Confirm'):
                 text_style 'mode_select'
@@ -711,11 +710,15 @@ screen select_bubble():
                 ysize 80
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
-                action [chat_dialogue_input.Disable(),
-                    Function(add_bubble, bubble_info),
+                action If(not editing,
+                    [chat_dialogue_input.Disable(),
+                    Function(add_bubble, bubble_dict),
                     Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ]),
-                    Hide('select_bubble')]
+                    Hide('select_bubble')],
+                    [Function(add_bubble, bubble_dict, is_edit=True),
+                    Hide('select_bubble')])
+
 
 
 
