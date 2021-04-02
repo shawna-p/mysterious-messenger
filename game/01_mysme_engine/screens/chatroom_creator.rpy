@@ -882,11 +882,15 @@ screen edit_msg_menu(msg, ind):
             action [Function(get_styles_from_entry, msg),
                 Hide('edit_msg_menu'),
                 Show('dialogue_edit_popup')]
-        text "Change bubble" color "#fff"
+        textbutton "Change bubble":
+            text_color "#fff"
+            action [Hide('edit_msg_menu'),
+                Show('select_bubble', editing=True)]
+
         textbutton "Change speaker":
             text_color "#fff"
-            action Show('pick_speaker', msg_ind=ind, pos=speaker_pos,
-                anchor=(0.0, 0.0))
+            action Show('pick_speaker', active_tab="Edit",
+                msg_ind=ind, pos=speaker_pos, anchor=(0.0, 0.0))
 
 screen dialogue_edit_popup():
     modal True
