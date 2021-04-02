@@ -181,9 +181,16 @@ init python:
             the_str, upTime(), img=True))
         return
 
-    def add_bubble(bubble_info):
+    def add_bubble(bubble_info, is_edit=False):
 
-        entry = add_creation_entry(True)
+        if is_edit:
+            entry = store.chatlog.pop(store.edit_msg_index)
+        else:
+            entry = add_creation_entry(True, is_edit)
+
+        entry.img = False
+        entry.bounce = False
+        entry.specBubble = None
         # Determine if the bubble had its size set
         if bubble_info['size'] not in ['Large', None]:
             # Adjust the size
@@ -212,10 +219,21 @@ init python:
         if bubble_info['bounce']:
             entry.bounce = True
 
-        store.chatlog.append(entry)
+        if is_edit:
+            # Replace the edit entry with this new one
+            store.chatlog.insert(store.edit_msg_index,
+                ChatEntry(entry.who, entry.what, entry.thetime,
+                    entry.img, entry.bounce, entry.specBubble))
+        else:
+            store.chatlog.append(entry)
 
         # Reset the bubble dict
         store.bubble_info = {
+            'size' : None,
+            'bounce' : False,
+            'bubble' : None
+        }
+        store.edit_bubble_info = {
             'size' : None,
             'bounce' : False,
             'bubble' : None
