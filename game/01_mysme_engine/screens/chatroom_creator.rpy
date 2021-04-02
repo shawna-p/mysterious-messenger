@@ -823,8 +823,13 @@ screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
                             Hide('pick_speaker')]
 
 
-screen pick_bubble_size(bubble_sizes):
+screen pick_bubble_size(bubble_sizes, editing=False):
     default pos = renpy.get_mouse_pos()
+    if editing:
+        default bubble_dict = bubble_info
+    else:
+        default bubble_dict = edit_bubble_info
+
     zorder 101
     button:
         xysize (config.screen_width, config.screen_height)
@@ -844,7 +849,7 @@ screen pick_bubble_size(bubble_sizes):
             textbutton sz:
                 xsize 150
                 text_color "#fff"
-                action [SetDict(bubble_info, 'size', sz),
+                action [SetDict(bubble_dict, 'size', sz),
                     Hide('pick_bubble_size')]
 
 screen edit_msg_menu(msg, ind):
