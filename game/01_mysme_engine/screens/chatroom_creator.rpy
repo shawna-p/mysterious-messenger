@@ -73,7 +73,7 @@ init python:
         if styles_dict['font'] == gui.curly_font:
             the_size = styles_dict['size'] + 5
         else:
-            the_size = style_dict['size']
+            the_size = styles_dict['size']
         if the_size != 0:
             if the_size > 0:
                 dialogue = "{size=+" + str(the_size) + "}" + dialogue
@@ -145,7 +145,6 @@ init python:
                 edit_styles['bold'] = True
 
             edit_styles['font'] = str_font
-            print("font is", str_font)
         if "{b}" in msg.what:
             edit_styles['bold'] = True
         if "{size" in msg.what:
