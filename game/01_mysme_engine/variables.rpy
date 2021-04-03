@@ -685,10 +685,10 @@ init -6 python:
         open_quote = False
         new_quote = False
         for arg in str_args:
-            if arg[-1] == '"' and not open_quote:
+            if arg and arg[-1] == '"' and not open_quote:
                 open_quote = True
                 new_quote = True
-            if arg[0] == '"' and not new_quote:
+            if arg and arg[0] == '"' and not new_quote:
                 open_quote = False
             sentence += arg
             if not open_quote and arg != str_args[-1]:
