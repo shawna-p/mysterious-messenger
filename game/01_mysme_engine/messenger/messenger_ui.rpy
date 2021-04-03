@@ -321,18 +321,29 @@ screen phone_overlay(is_menu_pause=False):
                     hover 'skip_intro_hover'
                     if not renpy.get_screen('no_modal_confirm'):
                         action [If(renpy.call_stack_depth() > 0,
-                            Function(renpy.pop_call), NullAction()),
+                                Function(renpy.pop_call), NullAction()),
                             SetField(persistent, 'first_boot', False),
                             SetField(persistent, 'on_route', True),
                             SetVariable('vn_choice', True),
-                            Jump('chat_end')]
+                            If(is_menu_pause,
+                                Function(renpy.jump_out_of_context,
+                                    label='chat_end'),
+                                Jump('chat_end'))]
                 else:
                     idle 'skip_to_end_idle'
                     hover 'skip_to_end_hover'
                     if not renpy.get_screen('no_modal_confirm'):
-                        action If(renpy.call_stack_depth() > 1,
-                            [Function(renpy.pop_call), Jump('just_return')],
-                            [Jump('just_return')])
+                        if not is_menu_pause:
+                            action If(renpy.call_stack_depth() > 1,
+                                [Function(renpy.pop_call), Jump('just_return')],
+                                [Jump('just_return')])
+                        else:
+                            action If(renpy.call_stack_depth() > 1,
+                                [Function(renpy.pop_call),
+                                    Function(renpy.jump_out_of_context,
+                                        label='just_return')],
+                                [Function(renpy.jump_out_of_context,
+                                        label='just_return')])
 
     frame:
         yalign 0.04
@@ -381,7 +392,10 @@ screen phone_overlay(is_menu_pause=False):
                 if _in_replay:
                     action EndReplay(False)
                 elif (observing or current_timeline_item.currently_expired):
-                    action Jump('exit_item_early')
+                    action If(is_menu_pause,
+                        Function(renpy.jump_out_of_context,
+                            label='exit_item_early'),
+                        Jump('exit_item_early'))
                 elif on_screen_choices > 0:
                     # Continuous menus must continue on or their animation
                     # timing will de-sync.
@@ -390,14 +404,20 @@ screen phone_overlay(is_menu_pause=False):
                         + "cannot participate once you leave. If you want to "
                         + "enter this chatroom again, you will need to buy it "
                         + "back."), yes_action=[Hide('no_modal_confirm'),
-                                Jump('exit_item_early')],
+                                If(is_menu_pause,
+                                    Function(renpy.jump_out_of_context,
+                                        label='exit_item_early'),
+                                    Jump('exit_item_early'))],
                             no_action=[Hide('no_modal_confirm')])
                 else:
                     action CConfirm(("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
                         + "participate once you leave. If you want to enter "
                         + "this chatroom again, you will need to buy it back."),
-                                    [Jump('exit_item_early')])
+                                    [If(is_menu_pause,
+                                        Function(renpy.jump_out_of_context,
+                                            label='exit_item_early'),
+                                        Jump('exit_item_early'))])
 
 
 #************************************
