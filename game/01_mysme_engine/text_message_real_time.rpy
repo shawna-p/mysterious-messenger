@@ -53,23 +53,25 @@ screen text_pause_button():
         yalign 0.98
         xalign 0.5
         focus_mask True
+        keysym "K_SPACE"
         idle "text_pause_button"
         if not choosing:
-            action [Call("play"), Return()]
-
+            action ShowMenu('text_message_pause_screen')
 
 ## This screen is visible when the chat is paused;
 ## shows the play button
-screen text_play_button():
-    zorder 4
-    tag chat_footer
+screen text_message_pause_screen():
+
+    use text_message_screen(text_person)
 
     imagebutton at text_footer_disappear:
         yalign 0.98
         xalign 0.5
         focus_mask True
         idle "text_play_button"
-        action [Show('text_pause_button'), Return()]
+        keysym "K_SPACE"
+        action Return()
+
 
 
 
