@@ -79,37 +79,12 @@ screen pause_button():
                     not (timed_menu_dict and persistent.use_timed_menus
                         and not _in_replay)
                     and not renpy.get_screen('answer_choice')):
-                action ShowMenu('play_button_pause_chat')#[Call("play"), Return()]
+                action ShowMenu('play_button_pause_chat')
                 keysym "K_SPACE"
 
         if not choosing:
             use fast_slow_buttons()
 
-
-
-# This is automatically called when you pause the chat;
-# it makes sure no messages are skipped
-label play():
-    $ renpy.run(ShowMenu('play_button_pause_chat'))
-    return
-    if (observing and not _in_replay
-            and not vn_choice and not text_msg_reply
-            and not in_phone_call and not email_reply
-            and not renpy.get_screen('answer_choice')):
-        # Rewatching a chatroom
-        call screen play_button
-        show screen pause_button
-        $ replay_from = chatroom_replay_index
-        jump chatroom_replay
-    if not text_person:
-        # Playing a chatroom
-        call screen play_button
-        show screen pause_button
-    else:
-        # Playing a text message conversation
-        call screen text_play_button
-        show screen text_pause_button
-    return
 
 label play_after_link():
     $ chat_stopped = False
@@ -141,7 +116,7 @@ screen play_button_pause_chat():
 
 # This screen is visible when the chat is paused;
 # shows the play button
-screen play_button(wait_for_interact=False):
+screen stop_chat_screen(wait_for_interact=False):
     zorder 4
     tag chat_footer
     if wait_for_interact:
@@ -149,38 +124,18 @@ screen play_button(wait_for_interact=False):
     else:
         default wait_text = "Click the link to proceed"
 
-    if not choosing:
-        if persistent.custom_footers:
-            add 'custom_pausebutton' xalign 0.96 yalign 0.16
-        else:
-            add "pausebutton" xalign 0.96 yalign 0.16
-        add "pause_square" yalign 0.59
-    if not wait_for_interact:
-        imagebutton:
-            xanchor 0.0
-            yanchor 0.0
-            xpos 0
-            ypos 1220
-            focus_mask True
-            idle 'phone_play'
-            keysym "K_SPACE"
-            action Return()#[Show('pause_button'), Return()]
-    else:
-        viewport:
-            # Use this viewport to "consume" the mouse input so the player
-            # can't click to proceed without going through a link.
-            draggable True
+    viewport:
+        # Use this viewport to "consume" the mouse input so the player
+        # can't click to proceed without going through a link.
+        draggable True
+        align (0.5, 1.0)
+        xysize (750, 113)
+        frame:
             align (0.5, 1.0)
+            background "#282828"
             xysize (750, 113)
-            frame:
-                align (0.5, 1.0)
-                background "#282828"
-                xysize (750, 113)
-                text wait_text:
-                    color "#fff" text_align 0.5 align (0.5, 0.5)
-
-    if not choosing:
-        use fast_slow_buttons()
+            text wait_text:
+                color "#fff" text_align 0.5 align (0.5, 0.5)
 
 # Buttons that speed up or slow down the chat speed
 screen fast_slow_buttons():
