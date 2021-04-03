@@ -827,6 +827,9 @@ python early hide:
             who(dialogue, pv, img, bounce, spec_bubble, link_img, link_title,
                 link_text, link_action)
         except Exception as e:
+            print("Msg exception:", e)
+            if not e:
+                return
             ScriptError("Could not recognize msg CDS. Exception:", e,
                 header='Chatrooms', subheader='Using the msg CDS')
 
