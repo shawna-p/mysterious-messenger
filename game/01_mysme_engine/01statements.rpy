@@ -827,7 +827,6 @@ python early hide:
             who(dialogue, pv, img, bounce, spec_bubble, link_img, link_title,
                 link_text, link_action)
         except Exception as e:
-            print("Msg exception:", e)
             if not e:
                 return
             ScriptError("Could not recognize msg CDS. Exception:", e,
@@ -1485,7 +1484,7 @@ python early hide:
             pauseFailsafe()
         store.choosing = True
         store.chat_stopped = True
-        renpy.call_screen('play_button', wait_for_interact=wait_text)
+        renpy.call_screen('stop_chat_screen', wait_for_interact=wait_text)
         store.choosing = False
         store.chat_stopped = False
         return
