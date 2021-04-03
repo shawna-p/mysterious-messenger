@@ -949,8 +949,6 @@ screen menu_header(title, return_action=NullAction,
                             + "you'd like to support its development, you can "),
                             #+ "{a=https://ko-fi.com/somniarre}check out my Ko-Fi here.{/a}",
                             show_link=True)
-                        #if not renpy.get_screen("choice"):
-                        #    action NullAction
                     frame:
                         has hbox
                         xalign 1.0
@@ -1031,12 +1029,16 @@ screen menu_header(title, return_action=NullAction,
                     # If the player is texting in real time, leaving
                     # text messages works differently
                     elif (text_person and text_person.real_time_text
-                            and renpy.get_screen('text_message_screen')
-                            and len(renpy.get_return_stack()) > 0):
+                            and ((renpy.get_screen('text_message_screen')
+                                and len(renpy.get_return_stack()) > 0)
+                            or renpy.get_screen('text_message_pause_screen'))):
                         action CConfirm(("Do you really want to leave this"
                                     + " text message? You won't be able to"
                                     + " continue this conversation."),
-                                    [Jump('leave_inst_text')])
+                                    If(_menu and not main_menu,
+                                        Function(renpy.jump_out_of_context,
+                                            label='leave_inst_text'),
+                                        Jump('leave_inst_text')))
                     else:
                         action If(_menu and not main_menu,
                             Return(), return_action)
