@@ -79,7 +79,7 @@ screen pause_button():
                     not (timed_menu_dict and persistent.use_timed_menus
                         and not _in_replay)
                     and not renpy.get_screen('answer_choice')):
-                action [Call("play"), Return()]
+                action ShowMenu('play_button_pause_chat')#[Call("play"), Return()]
                 keysym "K_SPACE"
 
         if not choosing:
@@ -90,6 +90,8 @@ screen pause_button():
 # This is automatically called when you pause the chat;
 # it makes sure no messages are skipped
 label play():
+    $ renpy.run(ShowMenu('play_button_pause_chat'))
+    return
     if (observing and not _in_replay
             and not vn_choice and not text_msg_reply
             and not in_phone_call and not email_reply
@@ -118,6 +120,25 @@ label play_after_link():
 ## to be pressed).
 default chat_stopped = False
 
+screen play_button_pause_chat():
+    zorder 4
+    use messenger_screen(no_anim_list=chatlog[-bubbles_to_keep:])
+    use phone_overlay(is_menu_pause=True)
+    if persistent.custom_footers:
+        add 'custom_pausebutton' xalign 0.96 yalign 0.16
+    else:
+        add "pausebutton" xalign 0.96 yalign 0.16
+    add "pause_square" yalign 0.59
+    imagebutton:
+        xanchor 0.0
+        yanchor 0.0
+        xpos 0
+        ypos 1220
+        focus_mask True
+        idle 'phone_play'
+        keysym "K_SPACE"
+        action Return()
+
 # This screen is visible when the chat is paused;
 # shows the play button
 screen play_button(wait_for_interact=False):
@@ -143,7 +164,7 @@ screen play_button(wait_for_interact=False):
             focus_mask True
             idle 'phone_play'
             keysym "K_SPACE"
-            action [Show('pause_button'), Return()]
+            action Return()#[Show('pause_button'), Return()]
     else:
         viewport:
             # Use this viewport to "consume" the mouse input so the player
@@ -267,7 +288,7 @@ style battery_bar_undetected:
     bottom_bar "battery_high"
 
 ## This screen shows the header/footer above the chat
-screen phone_overlay():
+screen phone_overlay(is_menu_pause=False):
     zorder 2
     add 'phone_ui'
 
