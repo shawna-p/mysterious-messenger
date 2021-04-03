@@ -8,7 +8,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
         # This is the infinite value from earlier which
         # tells the viewport to always scroll to
         # the bottom
-        yadj.value = yadjValue
+        if not _menu or main_menu:
+            yadj.value = yadjValue
         finalchat = None
         if len(chatlog) > 0:
             finalchat = chatlog[-1]
