@@ -21,6 +21,25 @@ image small star:
         renpy.random.randint(3, 7) + renpy.random.random()
         repeat
 
+image small_star_2:
+    block:
+        "transparent_img" with Dissolve(1.0, alpha=True)
+        0.9
+        "small_star_static" with Dissolve(1.0, alpha=True)
+        # This just tells the program to pick a number between 5 and 9
+        # and then wait that many seconds before continuing with the animation
+        random.randint(3, 7) + random.random()
+        repeat
+image medium_star_2:
+    block:
+        "transparent_img" with Dissolve(1.0, alpha=True)
+        0.9
+        "small_star_static" with Dissolve(1.0, alpha=True)
+        # This just tells the program to pick a number between 5 and 9
+        # and then wait that many seconds before continuing with the animation
+        random.randint(3, 7) + random.random()
+        repeat
+
 image medium_star_static = "Menu Screens/Main Menu/medium-star.webp"
 
 image medium star:
@@ -42,6 +61,44 @@ screen starry_night():
     for j in range(11):
         add "medium star"
     add Transform("#000", alpha=persistent.starry_contrast)
+
+image starry_night_img = Composite(
+    (750, 1334),
+    (0, 0), "#000",
+    (0, 0), "bg starry_night",
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+    (renpy.random.random(), renpy.random.random()), 'small_star_2',
+
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2',
+    (renpy.random.random(), renpy.random.random()), 'medium_star_2'
+)
 
 image load_circle:
     'loading_circle_stationary'

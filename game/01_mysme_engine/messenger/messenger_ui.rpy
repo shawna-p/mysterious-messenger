@@ -79,35 +79,12 @@ screen pause_button():
                     not (timed_menu_dict and persistent.use_timed_menus
                         and not _in_replay)
                     and not renpy.get_screen('answer_choice')):
-                action [Call("play"), Return()]
+                action ShowMenu('play_button_pause_chat')
                 keysym "K_SPACE"
 
         if not choosing:
             use fast_slow_buttons()
 
-
-
-# This is automatically called when you pause the chat;
-# it makes sure no messages are skipped
-label play():
-    if (observing and not _in_replay
-            and not vn_choice and not text_msg_reply
-            and not in_phone_call and not email_reply
-            and not renpy.get_screen('answer_choice')):
-        # Rewatching a chatroom
-        call screen play_button
-        show screen pause_button
-        $ replay_from = chatroom_replay_index
-        jump chatroom_replay
-    if not text_person:
-        # Playing a chatroom
-        call screen play_button
-        show screen pause_button
-    else:
-        # Playing a text message conversation
-        call screen text_play_button
-        show screen text_pause_button
-    return
 
 label play_after_link():
     $ chat_stopped = False
@@ -118,9 +95,28 @@ label play_after_link():
 ## to be pressed).
 default chat_stopped = False
 
+screen play_button_pause_chat():
+    zorder 4
+    use messenger_screen(no_anim_list=chatlog[-bubbles_to_keep:])
+    use phone_overlay(is_menu_pause=True)
+    if persistent.custom_footers:
+        add 'custom_pausebutton' xalign 0.96 yalign 0.16
+    else:
+        add "pausebutton" xalign 0.96 yalign 0.16
+    add "pause_square" yalign 0.59
+    imagebutton:
+        xanchor 0.0
+        yanchor 0.0
+        xpos 0
+        ypos 1220
+        focus_mask True
+        idle 'phone_play'
+        keysym "K_SPACE"
+        action Return()
+
 # This screen is visible when the chat is paused;
 # shows the play button
-screen play_button(wait_for_interact=False):
+screen stop_chat_screen(wait_for_interact=False):
     zorder 4
     tag chat_footer
     if wait_for_interact:
@@ -128,38 +124,18 @@ screen play_button(wait_for_interact=False):
     else:
         default wait_text = "Click the link to proceed"
 
-    if not choosing:
-        if persistent.custom_footers:
-            add 'custom_pausebutton' xalign 0.96 yalign 0.16
-        else:
-            add "pausebutton" xalign 0.96 yalign 0.16
-        add "pause_square" yalign 0.59
-    if not wait_for_interact:
-        imagebutton:
-            xanchor 0.0
-            yanchor 0.0
-            xpos 0
-            ypos 1220
-            focus_mask True
-            idle 'phone_play'
-            keysym "K_SPACE"
-            action [Show('pause_button'), Return()]
-    else:
-        viewport:
-            # Use this viewport to "consume" the mouse input so the player
-            # can't click to proceed without going through a link.
-            draggable True
+    viewport:
+        # Use this viewport to "consume" the mouse input so the player
+        # can't click to proceed without going through a link.
+        draggable True
+        align (0.5, 1.0)
+        xysize (750, 113)
+        frame:
             align (0.5, 1.0)
+            background "#282828"
             xysize (750, 113)
-            frame:
-                align (0.5, 1.0)
-                background "#282828"
-                xysize (750, 113)
-                text wait_text:
-                    color "#fff" text_align 0.5 align (0.5, 0.5)
-
-    if not choosing:
-        use fast_slow_buttons()
+            text wait_text:
+                color "#fff" text_align 0.5 align (0.5, 0.5)
 
 # Buttons that speed up or slow down the chat speed
 screen fast_slow_buttons():
@@ -267,7 +243,7 @@ style battery_bar_undetected:
     bottom_bar "battery_high"
 
 ## This screen shows the header/footer above the chat
-screen phone_overlay():
+screen phone_overlay(is_menu_pause=False):
     zorder 2
     add 'phone_ui'
 
@@ -300,18 +276,29 @@ screen phone_overlay():
                     hover 'skip_intro_hover'
                     if not renpy.get_screen('no_modal_confirm'):
                         action [If(renpy.call_stack_depth() > 0,
-                            Function(renpy.pop_call), NullAction()),
+                                Function(renpy.pop_call), NullAction()),
                             SetField(persistent, 'first_boot', False),
                             SetField(persistent, 'on_route', True),
                             SetVariable('vn_choice', True),
-                            Jump('chat_end')]
+                            If(is_menu_pause,
+                                Function(renpy.jump_out_of_context,
+                                    label='chat_end'),
+                                Jump('chat_end'))]
                 else:
                     idle 'skip_to_end_idle'
                     hover 'skip_to_end_hover'
                     if not renpy.get_screen('no_modal_confirm'):
-                        action If(renpy.call_stack_depth() > 1,
-                            [Function(renpy.pop_call), Jump('just_return')],
-                            [Jump('just_return')])
+                        if not is_menu_pause:
+                            action If(renpy.call_stack_depth() > 1,
+                                [Function(renpy.pop_call), Jump('just_return')],
+                                [Jump('just_return')])
+                        else:
+                            action If(renpy.call_stack_depth() > 1,
+                                [Function(renpy.pop_call),
+                                    Function(renpy.jump_out_of_context,
+                                        label='just_return')],
+                                [Function(renpy.jump_out_of_context,
+                                        label='just_return')])
 
     frame:
         yalign 0.04
@@ -360,7 +347,10 @@ screen phone_overlay():
                 if _in_replay:
                     action EndReplay(False)
                 elif (observing or current_timeline_item.currently_expired):
-                    action Jump('exit_item_early')
+                    action If(is_menu_pause,
+                        Function(renpy.jump_out_of_context,
+                            label='exit_item_early'),
+                        Jump('exit_item_early'))
                 elif on_screen_choices > 0:
                     # Continuous menus must continue on or their animation
                     # timing will de-sync.
@@ -369,14 +359,20 @@ screen phone_overlay():
                         + "cannot participate once you leave. If you want to "
                         + "enter this chatroom again, you will need to buy it "
                         + "back."), yes_action=[Hide('no_modal_confirm'),
-                                Jump('exit_item_early')],
+                                If(is_menu_pause,
+                                    Function(renpy.jump_out_of_context,
+                                        label='exit_item_early'),
+                                    Jump('exit_item_early'))],
                             no_action=[Hide('no_modal_confirm')])
                 else:
                     action CConfirm(("Do you really want to "
                         + "exit this chatroom? Please note that you cannot "
                         + "participate once you leave. If you want to enter "
                         + "this chatroom again, you will need to buy it back."),
-                                    [Jump('exit_item_early')])
+                                    [If(is_menu_pause,
+                                        Function(renpy.jump_out_of_context,
+                                            label='exit_item_early'),
+                                        Jump('exit_item_early'))])
 
 
 #************************************

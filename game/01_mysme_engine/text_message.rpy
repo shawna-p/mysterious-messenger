@@ -375,10 +375,12 @@ screen text_message_screen(sender, animate=True):
     default prev_msg = None
 
     use menu_header(sender.name, [SetVariable('CG_who', None),
-                                Show('text_message_hub', Dissolve(0.5))], True)
+                                Show('text_message_hub', Dissolve(0.5))], True,
+                                hide_bkgr=(_menu and not main_menu) or animate)
 
     python:
-        yadj.value = yadjValue
+        if not _menu or main_menu:
+            yadj.value = yadjValue
         textlog = sender.text_msg.msg_list
 
     viewport:
@@ -409,7 +411,8 @@ screen text_message_screen(sender, animate=True):
                 if i == textlog[-1]:
                     use text_animation(i, False, True)
                 use text_animation(i, (sender.real_time_text
-                    and i == textlog[-1] and animate))
+                    and i == textlog[-1] and animate
+                    and (not _menu or main_menu)))
             $ prev_msg = i
         null height 5
     if not sender.real_time_text:

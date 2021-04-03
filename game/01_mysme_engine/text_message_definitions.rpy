@@ -426,6 +426,7 @@ label leave_inst_text():
 
 ## The label that is called to play text messages
 label play_text_message():
+    scene starry_night_img
     if text_person.real_time_text:
         show screen text_message_screen(text_person)
         show screen text_pause_button

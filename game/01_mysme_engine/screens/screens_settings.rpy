@@ -590,7 +590,8 @@ style my_input:
 screen other_settings():
     tag settings_screen
     modal True
-    use menu_header("Settings", Hide('other_settings', Dissolve(0.5))):
+    use menu_header("Settings", If(_menu and not main_menu,
+            Return(), Hide('other_settings', Dissolve(0.5)))):
         use settings_tabs("Others")
         null height 10
         frame:
@@ -1005,7 +1006,8 @@ screen sound_settings():
     tag settings_screen
     modal True
 
-    use menu_header("Settings", Hide('sound_settings', Dissolve(0.5))):
+    use menu_header("Settings", If(_menu and not main_menu,
+            Return(), Hide('sound_settings', Dissolve(0.5)))):
         use settings_tabs("Sound")
         viewport:
             style_prefix 'other_settings'
