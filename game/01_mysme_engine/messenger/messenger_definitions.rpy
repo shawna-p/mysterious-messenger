@@ -915,6 +915,9 @@ init -4 python:
         else:
             return True
 
+        if chatbackup is None:
+            return True
+
         if last_chat.who.file_id == 'delete':
             if len(chatlog) > 1:
                 last_chat = chatlog[-2]
