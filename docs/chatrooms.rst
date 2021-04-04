@@ -381,6 +381,22 @@ This will both clear the chat history and remove any existing participants from 
 This isn't typically used outside of using story mode sections in the middle of chatrooms (see :ref:`Including a Story Mode During a Chatroom`) or linking together "separate" chatrooms as part of a scene for something like an After End.
 
 
+
+Resetting Chatroom Participants
+--------------------------------
+
+Similar to the above section on clearing chat participants, there is also a special function provided to reset chat participants even without jumping to Story Mode and back, for example, as part of a montage of chatroom sequences. The function is called ``reset_participants`` and takes one parameter, a list of ChatCharacters to add back to the participants list.
+
+::
+
+    u "This is the end of the first chatroom."
+    $ reset_participants([z, s, m])
+    s "Hey [name], Zen, you haven't seen anything suspicious lately, right?"
+
+.. note::
+    You will need to add ``m`` to the participant list yourself if you would like the player to appear in the participants list after the reset, regardless of whether the chatroom was expired or not.
+
+
 Providing Choices
 -----------------
 
