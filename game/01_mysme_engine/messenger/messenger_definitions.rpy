@@ -1003,7 +1003,9 @@ init python:
         return im.MatrixColor('Bubble/white-Bubble.webp',
                             im.matrix.colorize('#000', bubble_color))
 
-    def reset_participants(participants):
+    def reset_participants(participants=None):
+        if participants is None:
+            participants = [ ]
         store.in_chat = [ ]
         for person in participants:
             store.in_chat.append(person.name)
