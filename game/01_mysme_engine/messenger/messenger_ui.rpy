@@ -86,9 +86,13 @@ screen pause_button():
             use fast_slow_buttons()
 
 
-label play_after_link():
+label play_after_link(jump_link=None):
     $ chat_stopped = False
     show screen pause_button
+    if jump_link:
+        $ jlink = jump_link
+        $ renpy.pop_call()
+        jump expression jlink
     return
 
 ## True if the chat is stopped (typically due to waiting for a link
