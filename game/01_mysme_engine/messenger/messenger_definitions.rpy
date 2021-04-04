@@ -299,8 +299,11 @@ init -4 python:
                 else:
                     link_act = self.__link_action
 
-                if store.observing and not store._in_replay:
-                    # Just replaying the chat in-game
+                if ((store.observing and not store._in_replay)
+                        or (_menu and not main_menu)):
+                    # Just replaying the chat in-game, or the player
+                    # has paused the game (and should only be able to
+                    # click CG links).
                     if (isinstance(link_act, ShowCG)):
                         return link_act
                     return None # Shouldn't have buttons in a replay
