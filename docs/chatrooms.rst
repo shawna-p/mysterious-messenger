@@ -636,6 +636,22 @@ Some special link actions include:
 
         However, with the link, the player **does not** have to click the link to proceed; the chat will simply continue even if they do nothing. If you want to stop the chat to ensure the player clicks the link, see :ref:`Stopping the Chat`.
 
+`LinkJump(label=None, is_menu=False)`
+    Similar to ``JumpVN``, this action acts as a jump between labels. Unlike ``JumpVN``, however, the jump is intended to be within the same chatroom, rather than jumping to a Story Mode (VN) section.
+
+    ``LinkJump`` takes two optional parameters. The first, ``label``, is the name of a label or menu to jump to when the link is pressed. If left blank, this acts like ``ContinueChat`` if the chat is stopped, or does nothing if the chat is not stopped.
+
+    ``is_menu`` can be set to True if you would like this LinkJump to jump to a menu without showing the answer button at the bottom of the screen. For example::
+
+        u "Click Link" (link_title="Address", link_action=LinkJump('getaddress', is_menu=True))
+        stop chat
+        menu getaddress (paraphrased=True):
+            "(Go to the sent address).":
+                pass
+
+    When the player presses the link, they will immediately see the option to (Go to the sent address) as though they had pressed the answer button on a menu.
+
+
 `ContinueChat`
     This action will cause the chat to continue if it was previously stopped.
 
