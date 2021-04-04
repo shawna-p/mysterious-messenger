@@ -623,6 +623,26 @@ Some special link actions include:
 `ContinueChat`
     This action will cause the chat to continue if it was previously stopped.
 
+`IfChatStopped(true_action, false_action=None)`
+    This is a special action that takes two parameters. The first is the action (or list of actions) to perform if the chat is stopped when this button is clicked. It can also be ``None`` to do nothing if the chat is stopped.
+
+    The second parameter is the action to perform if the chat is not stopped (see the section below for more on stopping the chat). This parameter can also be ``None`` or omitted to do nothing if the chat is not stopped.
+
+    e.g.
+
+    ::
+
+        link_action=IfChatStopped([ShowCG('common_2'), ContinueChat()], ShowCG('common_3'))
+
+    This causes the CG "common_2" to be shown to the player if the chat is paused before continuing the chat. Otherwise, if the chat is not paused, clicking the link will show the "common_3" CG instead.
+
+    This action is useful if you only want the player to be able to proceed by clicking a link once the chat is stopped e.g.
+
+    ::
+
+        link_action=IfChatStopped(JumpVN('drive_scene_2'))
+
+    If used as the link action, the player can only click on the link when the chat is stopped.
 
 
 Stopping the Chat
