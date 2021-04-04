@@ -1528,7 +1528,7 @@ screen developer_settings():
     add "#000a"
 
     frame:
-        xysize (675, 660)
+        xysize (675, 700)
         background Fixed('menu_settings_panel_light',
             'menu_settings_panel_bright')
         align (0.5, 0.5)
@@ -1549,7 +1549,7 @@ screen developer_settings():
             null height 30
 
             frame:
-                xsize 650
+                xsize 680
                 background "menu_settings_panel"
                 has vbox
                 spacing 6
@@ -1575,6 +1575,8 @@ screen developer_settings():
                     action ToggleField(persistent, 'custom_route_select')
                 textbutton _("Prefer local documentation"):
                     action ToggleField(persistent, 'open_docs_locally')
+                textbutton _("Use pause footer for links"):
+                    action ToggleField(persistent, 'link_wait_pause')
 
             hbox:
                 align (0.5, 0.5)
@@ -1634,6 +1636,7 @@ screen developer_settings():
                             Show('chatroom_creator')]
 
 default persistent.open_docs_locally = False
+default persistent.link_wait_pause = False
 
 init python:
 
