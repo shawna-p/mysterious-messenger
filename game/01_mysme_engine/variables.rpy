@@ -65,6 +65,39 @@ init -6 python:
             super(JumpVN, self).__init__('vn_during_chat', *args, vn_label=label,
                 from_link=True, **kwargs)
 
+    class LinkJump(Call):
+        """
+        A special Action for jumping to a label or menu when clicking on a link,
+        bypassing the answer button at the bottom of the screen.
+        """
+
+        def __init__(self, label=None, is_menu=False):
+            self.label = label
+            self.is_menu = is_menu
+
+        def __call__(self):
+            if self.is_menu:
+                store.answer_shown = True
+            store.choosing = False
+            store.chatbackup = None
+            if self.label is None:
+                # No need to jump anywhere; this is right
+                # after the link
+                if store.chat_stopped:
+                    store.chat_stopped = False
+                    renpy.call('play_after_link')
+                return
+            if not renpy.has_label(self.label):
+                ScriptError("Could not find label \"", self.label, "\".")
+            else:
+                if store.chat_stopped:
+                    store.chat_stopped = False
+                    renpy.call('play_after_link', jump_link=self.label)
+                else:
+                    renpy.jump(self.label)
+
+
+
     class ContinueChat(Call):
         """A special action which continues the chat when called."""
 
