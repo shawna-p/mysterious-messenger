@@ -503,7 +503,13 @@ or alternatively,
 
     show redhack effect
 
-for the red version of the scrolling hack image.
+for the red version of the scrolling hack image. You can reverse the direction of the scrolling with ``reverse`` e.g.
+
+::
+
+    show hack effect reverse
+    exit chatroom u
+    show redhack effect reverse
 
 There is also a "red static" effect which can be shown with::
 
@@ -694,6 +700,7 @@ This will prevent any further messages from being posted and displays the text "
         link_action=JumpVN('unlock_door_password'))
     stop chat "Click the link to continue"
 
+There is also an optional toggle in the **Developer Settings** called **Use pause footer for links** which will show the pause button at the bottom of the screen while waiting for the player to press a link. Note that if you do choose to enable this, it is less clear to the player what they should do to proceed with the story when the chat stops to wait for them to click a link.
 
 .. warning::
     If you use the ``JumpVN`` action, the chat will automatically resume after it returns from the VN label. However, if your action is doing something like viewing a CG or setting a variable, you **must** include the action ``ContinueChat()`` as the final action in your link_action parameter::
