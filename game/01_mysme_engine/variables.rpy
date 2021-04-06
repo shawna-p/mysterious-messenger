@@ -680,7 +680,9 @@ init -6 python:
             return
         # Otherwise, print this to a file for debugging
         try:
-            f = open("cmenu_errors.txt", "a")
+            out_gamedir = renpy.config.gamedir[:-5]
+            filepath = os.path.join( out_gamedir, "email_bug.txt")
+            f = open(filepath, "a")
             print(*args, file=f, **kwargs)
             f.close()
         except:
