@@ -323,24 +323,36 @@ screen hack_screen(hack, flicker_anim=True, bg="black"):
     timer 3.0 action Hide('hack_screen')
 
 
-label hack():
+label hack(reverse=False):
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        $ hack_entry = ("hack", "regular")
+        if reverse:
+            $ hack_entry = ("hack", "reverse")
+        else:
+            $ hack_entry = ("hack", "regular")
         $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
-        show screen hack_screen('hack scroll')
+        if reverse:
+            show screen hack_screen('hack scroll reverse')
+        else:
+            show screen hack_screen('hack scroll')
         with Pause(3.0)
         hide screen hack_screen
     return
 
-label redhack():
+label redhack(reverse=False):
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        $ hack_entry = ("hack", "red")
+        if reverse:
+            $ hack_entry = ("hack", "red_reverse")
+        else:
+            $ hack_entry = ("hack", "red")
         $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
-        show screen hack_screen('redhack scroll')
+        if reverse:
+            show screen hack_screen('redhack scroll reverse')
+        else:
+            show screen hack_screen('redhack scroll')
         with Pause(3.0)
         hide screen hack_screen
     return
