@@ -454,20 +454,20 @@ init python:
             self.continue_chain = continue_chain or []
             self.email_success = email_success
 
-    import re # Import regex
+    import re as regex # Import regex
     def filter_whitespace(s):
         """Filter excess whitespace from a string. Used for emails."""
 
         s = s.strip()
         # Filter out excess leading whitespace
         pattern = "^ +"
-        s = re.sub(pattern, '', s, flags=re.MULTILINE)
+        s = regex.sub(pattern, '', s, flags=regex.MULTILINE)
         # Ensure there are no spaces at the end of any lines
         pattern = ".* +$"
-        s = re.sub(pattern, '', s, flags=re.MULTILINE)
+        s = regex.sub(pattern, '', s, flags=regex.MULTILINE)
         # Remove singular newlines and replace with a space
         pattern = "(?<!\n)(\n)(?!\n)"
-        s = re.sub(pattern, ' ', s, flags=re.MULTILINE)
+        s = regex.sub(pattern, ' ', s, flags=regex.MULTILINE)
         return s
 
     def unread_emails():
