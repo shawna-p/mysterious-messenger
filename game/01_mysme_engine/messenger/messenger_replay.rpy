@@ -205,34 +205,22 @@ label chatroom_replay():
                     renpy.show_screen('screen_crack_overlay_bg')
                 elif first == "hack":
                     if persistent.hacking_effects:
-                        if second == "regular":
-                            renpy.show_screen('hack_screen',
-                                                hack='hack scroll')
+                        if second in ['regular', 'reverse', 'red', 'red_reverse']:
+                            if second == "regular":
+                                renpy.show_screen('hack_screen',
+                                    hack='hack scroll')
+                            elif second == "reverse":
+                                renpy.show_screen('hack_screen',
+                                    hack='hack scroll reverse')
+                            elif second == "red":
+                                renpy.show_screen('hack_screen',
+                                    hack='redhack scroll')
+                            elif second == "red_reverse":
+                                renpy.show_screen('hack_screen',
+                                    hack='redhack scroll reverse')
                             # The program checks to make sure the hack
                             # screen is still showing so that it should
                             # continue to pause
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            renpy.hide_screen('hack_screen')
-                        elif second == "red":
-                            renpy.show_screen('hack_screen',
-                                                hack='redhack scroll')
                             if (not renpy.is_skipping()
                                     and renpy.get_screen("hack_screen")):
                                 renpy.pause(0.5, hard=False)
