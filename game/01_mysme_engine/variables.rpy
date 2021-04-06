@@ -917,13 +917,13 @@ init -6 python:
         if ('hack' in name and 'effect' in name
                 and renpy.get_screen('messenger_screen')
                 and not at_list):
-            renpy.call('hack')
+            renpy.call('hack', reverse=('reverse' in name))
             return
         elif ((('redhack' in name) or ('red' in name and 'hack' in name))
                 and 'effect' in name
                 and renpy.get_screen('messenger_screen')
                 and not at_list):
-            renpy.call('redhack')
+            renpy.call('redhack', reverse=('reverse' in name))
             return
         # The scrolling red static effect
         elif ("red" in name and "static" in name and "effect" in name
