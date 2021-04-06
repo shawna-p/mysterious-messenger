@@ -146,6 +146,16 @@ image hack scroll:
     yalign 0.0
     linear 1.0 yalign 1.0
 
+image hack scroll reverse:
+    "hack_long"
+    subpixel True
+    yalign 1.0
+    linear 1.0 yalign 0.0
+    yalign 1.0
+    linear 1.0 yalign 0.0
+    yalign 1.0
+    linear 1.0 yalign 0.0
+
 image redhack scroll:
     "red_hack_long"
     subpixel True
@@ -155,6 +165,16 @@ image redhack scroll:
     linear 1.0 yalign 1.0
     yalign 0.0
     linear 1.0 yalign 1.0
+
+image redhack scroll reverse:
+    "red_hack_long"
+    subpixel True
+    yalign 1.0
+    linear 1.0 yalign 0.0
+    yalign 1.0
+    linear 1.0 yalign 0.0
+    yalign 1.0
+    linear 1.0 yalign 0.0
 
 image red_static_scroll:
     "Phone UI/red_static_scroll.webp"
