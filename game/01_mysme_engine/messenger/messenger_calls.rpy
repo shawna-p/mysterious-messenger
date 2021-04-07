@@ -140,7 +140,8 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     # At this point the program has returned from the VN section
     # and must set up the chatroom again, unless the chat is supposed
     # to end now
-    if end_after_vn:
+    if end_after_vn or ending is not None:
+        $ renpy.pop_call()
         return
 
     $ reset_story_vars(vn_jump=True)
