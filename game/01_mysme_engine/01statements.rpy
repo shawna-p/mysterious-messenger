@@ -823,14 +823,8 @@ python early hide:
 
 
         ## Pass this off to the character's __call__ method
-        try:
-            who(dialogue, pv, img, bounce, spec_bubble, link_img, link_title,
-                link_text, link_action)
-        except Exception as e:
-            if not e:
-                return
-            ScriptError("Could not recognize msg CDS. Exception:", e,
-                header='Chatrooms', subheader='Using the msg CDS')
+        who(dialogue, pv, img, bounce, spec_bubble, link_img, link_title,
+            link_text, link_action)
 
         return
 
