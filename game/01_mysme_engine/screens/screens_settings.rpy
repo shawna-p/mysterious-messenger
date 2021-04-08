@@ -531,7 +531,7 @@ screen input_popup(prompt=''):
             action [SetField(m, 'name', old_name),
                     SetVariable('name', old_name),
                     SetField(persistent, 'name', old_name),
-                    renpy.retain_after_load, Hide('input_popup')]
+                    Function(renpy.retain_after_load), Hide('input_popup')]
         vbox:
             text prompt
             fixed:
@@ -541,6 +541,55 @@ screen input_popup(prompt=''):
                 text_style 'mode_select'
                 style 'my_input_textbutton'
                 action [Hide('input_popup')]
+
+## Generic input popup to get any information
+screen input_template(the_var, prompt='', default='', length=20,
+        allow=None, exclude=None, can_close=False):
+
+    default the_input = VariableInputValue(the_var, returnable=not can_close)
+    default old_var = getattr(store, the_var, None)
+
+    zorder 100
+    modal True
+
+    add "#0005"
+
+    if can_close:
+        key 'K_RETURN' action Hide('input_template')
+        key 'K_KP_ENTER' action Hide('input_template')
+
+    style_prefix "my_input"
+    frame:
+        if can_close:
+            imagebutton:
+                align (1.0, 0.0)
+                idle 'input_close'
+                hover 'input_close_hover'
+                action [SetVariable(the_var, old_var),
+                        Function(renpy.retain_after_load),
+                        Hide('input_template')]
+        vbox:
+            text prompt
+            fixed:
+                add 'input_square'
+                input:
+                    align (0.5, 0.5)
+                    color "#000"
+                    value the_input
+                    if default:
+                        default default
+                    if length:
+                        length length
+                    if allow:
+                        allow allow
+                    if exclude:
+                        exclude exclude
+
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                style 'my_input_textbutton'
+                action Return()
+
 
 style my_input_frame:
     is empty
