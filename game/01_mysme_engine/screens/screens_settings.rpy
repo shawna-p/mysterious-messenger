@@ -543,6 +543,25 @@ screen input_popup(prompt=''):
                 action [Hide('input_popup')]
 
 ## Generic input popup to get any information
+label get_input(the_var, prompt='', default='', length=20,
+        allow=None, exclude=None, can_close=False, show_answer=True):
+    if (not dialogue_paraphrase and dialogue_picked != ""):
+        $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
+    if show_answer and not vn_choice and not in_phone_call and not email_reply:
+        $ choosing = True
+        if text_msg_reply:
+            call screen text_answer_button
+        else:
+            call screen answer_button
+        $ choosing = False
+        if text_msg_reply:
+            show screen text_pause_button
+        else:
+            show screen pause_button
+    call screen input_template(the_var, prompt, default, length, allow,
+        exclude, can_close)
+    return
+
 screen input_template(the_var, prompt='', default='', length=20,
         allow=None, exclude=None, can_close=False):
 
