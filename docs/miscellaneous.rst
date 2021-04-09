@@ -217,6 +217,53 @@ To add to the existing choices, use ``add_choices``::
     ])
 
 
+Getting Input from the Player
+===============================
+
+In addition to choice menus, you can also prompt the player to enter text to get information such as nicknames, age, and other personalized information about the player, and then use this to shape the story later on. These input prompts work in many areas of the game, including chatrooms, story mode, text messages, and phone calls.
+
+To show an input prompt to the player, you'll use the special label ``get_input``::
+
+    get_input(the_var, prompt="", default="", length=20, allow=None,
+        exclude=None, show_answer=True)
+
+The parameters are explained below:
+
+`the_var`
+    A string corresponding to the name of a variable where the input will be saved to as a string. For example, if you want to save the player's name to a variable called ``nickname`` you might have a line like the following::
+
+        $ nickname = ""
+        call get_input('nickname', "Enter a nickname")
+
+`prompt`
+    Optional. If included, this text will appear above the input box to remind the player what information they're supposed to be entering. See the example above.
+
+`default`
+    Optional. A string that will automatically be filled into the input box as the "default" value, which the player can then delete and change if they wish. By default, this is the empty string (so, no text will be filled in automatically).
+
+`length`
+    By default, 20. An integer equal to the number of characters you will allow in the input box. Depending on where you are using the result, excessively long input values may not display correctly everywhere in the game.
+
+`allow`
+    A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters are allowed (except for ``{}`` which can cause program issues). For example, you can use this to ensure you receive a number as input::
+
+        msg u "How old are you?"
+        $ player_age = "23"
+        call get_input('player_age', "Enter your age", "23", allow="0123456789")
+        if player_age == "":
+            msg u "So you won't tell me, huh?"
+            $ player_age = 0
+        else:
+            $ player_age = int(player_age)
+            msg u "You're [player_age]?"
+
+    The line ``$ player_age = int(player_age)`` ensures that the input, which is always a string, is then converted to an integer value which you can do math on if you so please.
+
+`exclude`
+    Like allow, a string which contains all the letters, numbers, symbols etc which are *not* permitted to be entered as input.
+
+`show_answer`
+    By default, this is True during chatrooms and text messages. It will show the answer button at the bottom of the screen which, when clicked, will display the input prompt. This should always be False for input prompts outside of chatrooms and text messages so that the input prompt appears right away.
 
 
 
