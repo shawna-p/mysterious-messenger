@@ -544,7 +544,7 @@ screen input_popup(prompt=''):
 
 ## Generic input popup to get any information
 label get_input(the_var, prompt='', default='', length=20,
-        allow=None, exclude=None, can_close=False, show_answer=True):
+        allow=None, exclude=None, show_answer=True, can_close=False):
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
     if show_answer and not vn_choice and not in_phone_call and not email_reply:
@@ -565,13 +565,17 @@ label get_input(the_var, prompt='', default='', length=20,
 screen input_template(the_var, prompt='', default='', length=20,
         allow=None, exclude=None, can_close=False):
 
-    default the_input = VariableInputValue(the_var, returnable=not can_close)
     default old_var = getattr(store, the_var, None)
+    default the_input = VariableInputValue(the_var, returnable=not can_close)
+    # For whatever reason the default property on input isn't
+    # working, so we just set the variable here
+    default x = setattr(store, the_var, default)
 
     zorder 100
     modal True
 
     add "#0005"
+    text "old_var [old_var]" color "#f0f"
 
     if can_close:
         key 'K_RETURN' action Hide('input_template')
@@ -595,8 +599,6 @@ screen input_template(the_var, prompt='', default='', length=20,
                     align (0.5, 0.5)
                     color "#000"
                     value the_input
-                    if default:
-                        default default
                     if length:
                         length length
                     if allow:
