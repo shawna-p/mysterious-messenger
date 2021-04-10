@@ -30,7 +30,7 @@ define phone_character = Character(None,
 # The MC's dialogue is a different colour and disappears quicker than
 # the other characters', which is why they have a specific phone character
 # defined here.
-define m_phone = Character("[name]",
+define m_phone = Character("[persistent.name]",
     kind=phone_character, what_color="#a6a6a6",
     what_suffix="{w=0.8}{nw}")
 # vmail_phone is used only for voicemail messages, so it is defined here.
@@ -133,9 +133,10 @@ default ju = ChatCharacter("Jumin Han", file_id='ju',
                 pronunciation_help="jumin han", vn_name="Jumin",
                 window_color="#648EFC", image="jumin",
                 bubble_color="#d2e6f7", voice_tag="ju_voice")
-default m = ChatCharacter("[persistent.name]", file_id='m',
+default m = ChatCharacter("[persistent.chat_name]", file_id='m',
                 prof_pic=persistent.MC_pic, right_msgr=True, phone_char=m_phone,
-                pronunciation_help="you", who_color="#ffffed")
+                pronunciation_help="you", who_color="#ffffed",
+                vn_name="[persistent.name]")
                 # NOTE: The MC's name appears in Story Mode sections in this
                 # program. If you would like it to be blank, add the parameter
                 # `vn_name=None` to the above definition.
