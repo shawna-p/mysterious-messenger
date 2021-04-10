@@ -138,7 +138,8 @@ screen extra_history_hbox(items):
                     scope={'observing': True,
                 'current_timeline_item': None,
                 'starter_story': True,
-                'name': persistent.name})
+                'name': persistent.name,
+                'chat_name': persistent.chat_name})
 
 image history_chat_active = Frame("Menu Screens/History/msgsl_bg_active.webp", 10,10)
 image history_chat_inactive = Frame("Menu Screens/History/msgsl_bg_inactive.webp", 10,10)
@@ -237,14 +238,16 @@ screen timeline_item_history(item):
                             'current_timeline_item': item,
                             'current_day': current_day,
                             'current_day_num': current_day_num,
-                            'name': persistent.name}
+                            'name': persistent.name,
+                            'chat_name': persistent.chat_name}
 
         expired_replay_dictionary = {'expired_replay': True,
                             'observing': True,
                             'current_timeline_item': item,
                             'current_day': current_day,
                             'current_day_num': current_day_num,
-                            'name': persistent.name}
+                            'name': persistent.name,
+                            'chat_name': persistent.chat_name}
 
         replay_dict_story = copy(replay_dictionary)
         replay_dict_story['current_timeline_item'] = story_mode
@@ -442,6 +445,7 @@ screen history_timeline_story_calls(phonecall, item):
                             'current_day': current_day,
                             'current_day_num': current_day_num,
                             'name': persistent.name,
+                            'chat_name': persistent.chat_name,
                             'current_call': phonecall},
                             locked=False)
                 else:
@@ -463,6 +467,7 @@ screen history_timeline_story_calls(phonecall, item):
                         'current_day': current_day,
                         'current_day_num': current_day_num,
                         'name': persistent.name,
+                        'chat_name': persistent.chat_name,
                         'current_call': phonecall},
                         locked=False)
                 else:
@@ -504,6 +509,7 @@ screen history_calls_list(item, call_list, call_icon):
                     'current_day': current_day,
                     'current_day_num': current_day_num,
                     'name': persistent.name,
+                    'chat_name': persistent.chat_name,
                     'current_call': get_caller(c)})
 
 
