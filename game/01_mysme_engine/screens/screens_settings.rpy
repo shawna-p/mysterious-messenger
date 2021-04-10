@@ -545,6 +545,7 @@ screen input_popup(prompt=''):
 ## Generic input popup to get any information
 label get_input(the_var, prompt='', default='', length=20,
         allow=None, exclude=None, show_answer=True, can_close=False):
+    ## Ensure any missed dialogue is posted before the input comes up
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
     if show_answer and not vn_choice and not in_phone_call and not email_reply:
