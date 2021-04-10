@@ -179,6 +179,7 @@ init python:
 
         global name, persistent
         name = persistent.name
+        store.chat_name = persistent.chat_name
         # if m.prof_pic != persistent.MC_pic and isImg(persistent.MC_pic):
         #     m.prof_pic = persistent.MC_pic
         # else:
