@@ -181,8 +181,12 @@ screen pic_and_pronouns():
                 action Show('pick_mc_pfp')
                 # action [Function(MC_pic_change),
                 #         renpy.restart_interaction]
+            null height 3
+            text "Name:" size 28 color "#fff" font gui.serif_1
+            null height 2
             # Edit MC's Name
             fixed:
+                xysize (365, 60)
                 add "name_line" yalign 1.0
                 #text persistent.name style 'profile_pic_text'
                 # Ordinarily the program displayed the text as above, but
@@ -200,6 +204,22 @@ screen pic_and_pronouns():
                     # the player doesn't want to change it
                     action [SetVariable('old_name', persistent.name),
                         Show('input_popup', prompt='Please input a name.')]
+            null height 13
+            text "Chatroom Username:" size 28 color "#fff" font gui.serif_1
+            null height 2
+            # Edit MC's chatroom name
+            fixed:
+                xysize (365, 60)
+                add "name_line" yalign 1.0
+                text persistent.chat_name style 'profile_pic_text'
+
+                imagebutton:
+                    style 'profile_pic_imagebutton'
+                    idle "menu_edit"
+                    hover Transform("menu_edit", zoom=1.03)
+                    # Save the old name so the program can reset it if
+                    # the player doesn't want to change it
+                    action [Show('input_popup', prompt='Please input a name.')]
 
 
         # Pick your pronouns
@@ -388,7 +408,8 @@ screen points_and_saveload():
     hbox:
         xsize 750
         frame:
-            xysize (375, 700)
+            xysize (375, 570)
+            yalign 1.0
             padding (20,20)
             frame:
                 background 'greeting_panel'
