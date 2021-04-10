@@ -78,6 +78,7 @@ default s_verb = ""
 ########################################
 
 default persistent.pronoun = "they/them"
+default persistent.gender = "nonbinary"
 
 default persistent.MC_pic = 'Profile Pics/MC/MC-1.webp'
 default persistent.name = "Rainbow"
