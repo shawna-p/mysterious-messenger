@@ -207,34 +207,47 @@ screen pic_and_pronouns():
             style 'pronoun_frame'
             style_prefix "pronoun_window"
             has vbox
-            text "Pronouns"
-            button:
-                action [SetField(persistent, "pronoun", "she/her"),
-                        Function(set_pronouns)]
-                has hbox
-                spacing 10
-                # This is a slightly unusual way of doing the radio buttons,
-                # but it's the way that makes the radio buttons work in an
-                # odd edge case the first time you start the game
-                add 'she_her_pronoun_radio'
-                text 'she/her' style 'pronoun_radio_text'
+            vbox:
+                xalign 0.5
+                text "Pronouns"
+                button:
+                    action [SetField(persistent, "pronoun", "she/her"),
+                            Function(set_pronouns)]
+                    has hbox
+                    spacing 10
+                    # This is a slightly unusual way of doing the radio buttons,
+                    # but it's the way that makes the radio buttons work in an
+                    # odd edge case the first time you start the game
+                    add 'she_her_pronoun_radio'
+                    text 'she/her' style 'pronoun_radio_text'
 
-            button:
-                action [SetField(persistent, "pronoun", "he/him"),
-                        Function(set_pronouns)]
-                has hbox
-                spacing 10
-                add 'he_him_pronoun_radio'
-                text 'he/him' style 'pronoun_radio_text'
+                button:
+                    action [SetField(persistent, "pronoun", "he/him"),
+                            Function(set_pronouns)]
+                    has hbox
+                    spacing 10
+                    add 'he_him_pronoun_radio'
+                    text 'he/him' style 'pronoun_radio_text'
 
 
-            button:
-                action [SetField(persistent, "pronoun", "they/them"),
-                        Function(set_pronouns)]
-                has hbox
-                spacing 10
-                add 'they_them_pronoun_radio'
-                text 'they/them' style 'pronoun_radio_text'
+                button:
+                    action [SetField(persistent, "pronoun", "they/them"),
+                            Function(set_pronouns)]
+                    has hbox
+                    spacing 10
+                    add 'they_them_pronoun_radio'
+                    text 'they/them' style 'pronoun_radio_text'
+            null height -40
+            # Pick your gender
+            hbox:
+                text "Gender:" size 30 align (0.5, 0.5)
+                textbutton _("[persistent.gender!cl]"):
+                    align (0.5, 0.5)
+                    action If(persistent.gender == "nonbinary",
+                        SetField(persistent, 'gender', 'female'),
+                        If(persistent.gender == 'female',
+                        SetField(persistent, 'gender', 'male'),
+                        SetField(persistent, 'gender', 'nonbinary')))
 
 screen pick_mc_pfp():
     modal True
