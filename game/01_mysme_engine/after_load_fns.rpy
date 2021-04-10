@@ -125,6 +125,13 @@ init python:
             if store.ending == False:
                 store.ending = None
 
+        if store._version < (3, 1, 0):
+            # Update chat_name
+            if store.persistent.chat_name == "Rainbow":
+                store.persistent.chat_name = store.persistent.name
+            store.chat_name = store.persistent.chat_name
+            store.m.name = "[persistent.chat_name]"
+
         # Update to most recent version
         store._version = (3, 0, 1)
 
