@@ -60,6 +60,17 @@ init python:
             xalign =0.06,
             yalign =0.455), None
 
+    def MC_chatname_display(st, at):
+        """Ensure the MC's chatroom username is always up-to-date."""
+
+        return Text(persistent.chat_name,
+            color ="#fff",
+            text_align =0.0,
+            hover_color ="#d7d7d7",
+            font = gui.sans_serif_1,
+            xalign =0.06,
+            yalign =0.455), None
+
 init -6 python:
 
     def isImg(pic):
@@ -179,8 +190,6 @@ screen pic_and_pronouns():
                 xalign 0.055
                 idle 'change_mc_pfp'
                 action Show('pick_mc_pfp')
-                # action [Function(MC_pic_change),
-                #         renpy.restart_interaction]
             null height 3
             text "Name:" size 28 color "#fff" font gui.serif_1
             null height 2
@@ -211,7 +220,7 @@ screen pic_and_pronouns():
             fixed:
                 xysize (365, 60)
                 add "name_line" yalign 1.0
-                text persistent.chat_name style 'profile_pic_text'
+                add 'mc_chatname_switch'
 
                 imagebutton:
                     style 'profile_pic_imagebutton'
@@ -219,7 +228,12 @@ screen pic_and_pronouns():
                     hover Transform("menu_edit", zoom=1.03)
                     # Save the old name so the program can reset it if
                     # the player doesn't want to change it
-                    action [Show('input_popup', prompt='Please input a name.')]
+                    action [Show('input_template',
+                        the_var='persistent.chat_name',
+                        prompt='Please input a username for the chatroom.',
+                        default=persistent.chat_name, length=20,
+                        can_close=True, copypaste=True),
+                        Function(set_name_pfp)]
 
 
         # Pick your pronouns
@@ -382,6 +396,7 @@ image they_them_pronoun_radio = ConditionSwitch(
     'True', "radio_off", predict_all=True)
 image mc_name_switch = DynamicDisplayable(MC_name_display)
 image change_mc_pfp = DynamicDisplayable(MC_pic_display)
+image mc_chatname_switch = DynamicDisplayable(MC_chatname_display)
 
 init python:
 
@@ -420,6 +435,7 @@ screen points_and_saveload():
                 text "Ending Achievement":
                     size 30 font gui.sans_serif_1xb color "#fff"
                 null height 20
+                #for r in [r2 for r2 in all_routes if not r2 in [fan_route, everlasting_party, my_new_route]]:
                 for r in all_routes:
                     $ num_routes = len(r.ending_labels)
                     $ num_completed = completed_branches(r)
@@ -448,7 +464,6 @@ screen points_and_saveload():
                 xfill True
                 for c in heart_point_chars:
                     use heart_point_grid(c)
-
 
             hbox:
                 spacing 20
@@ -598,7 +613,7 @@ label get_input(the_var, prompt='', default='', length=20,
     return
 
 screen input_template(the_var, prompt='', default='', length=20,
-        allow=None, exclude=None, can_close=False):
+        allow=None, exclude=None, can_close=False, copypaste=False):
 
     default old_var = getattr(store, the_var, None)
     default the_input = VariableInputValue(the_var, returnable=not can_close)
@@ -613,8 +628,10 @@ screen input_template(the_var, prompt='', default='', length=20,
     text "old_var [old_var]" color "#f0f"
 
     if can_close:
-        key 'K_RETURN' action Hide('input_template')
-        key 'K_KP_ENTER' action Hide('input_template')
+        key 'K_RETURN' action [SetVariable(the_var, getattr(store, the_var)),
+                        Hide('input_template')]
+        key 'K_KP_ENTER' action [SetVariable(the_var, getattr(store, the_var)),
+                        Hide('input_template')]
 
     style_prefix "my_input"
     frame:
@@ -627,7 +644,7 @@ screen input_template(the_var, prompt='', default='', length=20,
                         Function(renpy.retain_after_load),
                         Hide('input_template')]
         vbox:
-            text prompt
+            text prompt layout "subtitle"
             fixed:
                 add 'input_square'
                 input:
@@ -640,11 +657,16 @@ screen input_template(the_var, prompt='', default='', length=20,
                         allow allow
                     if exclude:
                         exclude exclude
+                    if copypaste:
+                        copypaste True
 
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'my_input_textbutton'
-                action Return()
+                action If(can_close,
+                    [SetVariable(the_var, getattr(store, the_var)),
+                        Hide('input_template')],
+                    Return())
 
 
 style my_input_frame:
