@@ -618,7 +618,11 @@ label get_input(the_var, prompt='', default='', length=20,
 screen input_template(the_var, prompt='', default='', length=20,
         allow=None, exclude=None, can_close=False, copypaste=False):
 
-    default old_var = getattr(store, the_var, None)
+    if 'persistent.' in the_var:
+        default old_var = getattr(persistent, the_var[11:], None)
+    else:
+        default old_var = getattr(store, the_var, None)
+
     default the_input = VariableInputValue(the_var, returnable=not can_close)
     # For whatever reason the default property on input isn't
     # working, so we just set the variable here
