@@ -232,6 +232,7 @@ screen pic_and_pronouns():
                         the_var='persistent.chat_name',
                         prompt='Please input a username for the chatroom.',
                         default=persistent.chat_name, length=20,
+                        allow=allowed_username_chars,
                         can_close=True, copypaste=True),
                         Function(set_name_pfp)]
 
@@ -282,6 +283,8 @@ screen pic_and_pronouns():
                         If(persistent.gender == 'female',
                         SetField(persistent, 'gender', 'male'),
                         SetField(persistent, 'gender', 'nonbinary')))
+
+define allowed_username_chars = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™"
 
 screen pick_mc_pfp():
     modal True
