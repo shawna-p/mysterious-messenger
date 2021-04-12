@@ -632,7 +632,6 @@ screen input_template(the_var, prompt='', default='', length=20,
     modal True
 
     add "#0005"
-    text "old_var [old_var]" color "#f0f"
 
     if can_close:
         key 'K_RETURN' action [SetVariable(the_var, getattr(store, the_var)),
