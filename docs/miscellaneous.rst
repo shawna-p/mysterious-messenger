@@ -11,7 +11,7 @@ Miscellaneous
 Pronoun Integration
 ===================
 
-Mysterious Messenger allows the player to change their pronouns whenever they desire during the game. This means that any reference to the player's gender or use of pronouns to refer to the player must be taken care of via variables.
+Mysterious Messenger allows the player to change their pronouns and gender whenever they desire during the game. This means that any reference to the player's gender or use of pronouns to refer to the player must be taken care of via variables.
 
 At the top of ``variables_editable.rpy`` you will see a function called ``set_pronouns`` and several existing variables defined under the header **PRONOUN VARIABLES**. These can be used in script::
 
@@ -24,6 +24,13 @@ It's important to remember that many verbs conjugate differently for "he/she" th
     ju "I think [name] said [they] [do_does]n't know if [they]'ll be free this weekend."
 
 For a player with they/them pronouns, this displays as "I think [name] said they don't know if they'll be free this weekend", meanwhile, a player with he/him pronouns will see "I think [name] said he doesn't know if he'll be free this weekend." (Note: ``[name]`` is replaced with the player's name)
+
+.. note::
+    In Mysterious Messenger, players can pick their gender separately from their pronouns. This means for example that a player can identify as nonbinary and use she/her pronouns. You are welcome to extend this functionality as well to have the player further clarify how they want to be referred to.
+
+    Note that because a player's pronouns will not necessarily directly correlate to their gender, it may be good to ask the player if they would like to be referred to as a woman, man, person, or something else, if that comes up in your writing. You can use input prompts to get more specific information from the player as well (see :ref:`Getting Input from the Player`).
+
+
 
 Defining Additional Pronoun Variables
 -------------------------------------
