@@ -151,6 +151,9 @@ Finally, there are several settings which are helpful when testing a route. They
 `Prefer local documentation`
     Checking this will cause the script error popup links to open the locally-saved html documentation that comes with the repository, where possible. If a file cannot be found, it will be opened in a web browser instead. This can be useful if you are working offline.
 
+`Use pause footer for links`
+    This will use the pause footer at the bottom of the screen while waiting for the player to click a link in the chatroom. By default, the game shows a customizable message that tells the player to click the link. See :ref:`Stopping the Chat` for more information.
+
 `Fix persistent`
     This is an option primarily intended for users updating Mysterious Messenger from older (<2.0) versions to fix issues with saved persistent values. If Ren'Py is complaining about compatibility issues with persistent variables, you can try using this option to fix it.
 
