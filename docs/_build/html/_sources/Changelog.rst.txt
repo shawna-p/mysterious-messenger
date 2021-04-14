@@ -21,14 +21,14 @@ Major New Features
 
     * - **Feature**
       - **Description**
-    * - Missed calls callback
+    * - :ref:`Missed calls callback<Phone Callbacks>`
       - Phone calls can play out differently depending on whether the player is calling back a missed incoming call or not. Also supported in the History.
-    * - Phone call-only characters
+    * - :ref:`Phone call-only characters<Phone-Only Characters>`
       - Can create a PhoneCharacter specifically for phone calls who won't show up in the player's contacts.
-    * - Input prompts
-      - Can now get typed input from players anywhere in the game.
+    * - :ref:`Input prompts<Getting Input from the Player>`
+      - Can get typed input from players anywhere in the game.
     * - Profile Updates
-      - Players can now choose their gender separately from their pronouns, and enter a chatroom username separately from their regular name.
+      - Players can choose their gender separately from their pronouns, and enter a chatroom username separately from their regular name.
 
 .. _minor-3-1-0:
 
@@ -41,39 +41,35 @@ Minor New Features
 
     * - **Feature**
       - **Description**
-    * - ``reset_participants``
-      - Easy function allows you to easily reset the participants list in the middle of a chatroom.
-    * - Link wait pause button
+    * - :ref:`reset_participants<Resetting Chatroom Participants>`
+      - New function allows you to easily reset the participants list in the middle of a chatroom.
+    * - :ref:`Link wait pause button<Developer Settings>`
       - Dev toggle allows you to toggle the footer while waiting for the player to click a link to just be the pause button.
-    * - Reversable hack effect
+    * - :ref:`Reversable hack effect<Showing the Hacked Scroll Effect>`
       - The scrolling hacked effects can be reversed to scroll in the other direction.
-    * - LinkJump
+    * - :ref:`LinkJump<Link Actions>`
       - New action for links to jump to somewhere else in a chatroom (including menus).
-    * - IfChatStopped
+    * - :ref:`IfChatStopped<Link Actions>`
       - New action for links that changes depending on whether the chat is stopped or not.
 
 
 
-Fixes
-------
-
 .. _fixes-3-1-0:
 
-      Fixes
-      ------
+Fixes
+------
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
 
-      .. list-table::
-          :widths: 15, 85
-          :header-rows: 1
-
-          * - **Fix**
-            - **Description**
-            - Pause button fix
-            - Pausing chatrooms and real-time text messages has been overhauled to cause fewer issues with skipped messages.
-            - Vanderwooo
-            - Fixed Vanderwood's name getting cut off in the phone contacts.
-            - Erroneous msg CDS errors
-            - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
+    * - **Fix**
+      - **Description**
+    * - Pause button fix
+      - Pausing chatrooms and real-time text messages has been overhauled to cause fewer issues with skipped messages.
+    * - Vanderwooo
+      - Fixed Vanderwood's name getting cut off in the phone contacts.
+    * - Erroneous msg CDS errors
+      - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
 
 
 .. _qol-3-1-0:
@@ -87,8 +83,8 @@ QoL Improvements
 
     * - **Feature**
       - **Description**
-    * - Reset Albums
-      - You can now tell the program to forget all seen images and unlocked album entries without losing other persistent variable progress.
+    * - :ref:`Reset Albums<Developer Settings>`
+      - You can tell the program to forget all seen images and unlocked album entries without losing other persistent variable progress.
 
 
 3.0.1
