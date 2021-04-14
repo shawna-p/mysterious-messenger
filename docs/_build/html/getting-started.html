@@ -95,6 +95,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#dialogue-settings">Dialogue Settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#other-settings">Other Settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#developer-settings">Developer Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updates">Updates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#uncategorized">Uncategorized</a></li>
 </ul>
 </li>
@@ -193,6 +194,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#dialogue-settings">Dialogue Settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#other-settings">Other Settings</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#developer-settings">Developer Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updates">Updates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#uncategorized">Uncategorized</a></li>
 </ul>
 </li>
@@ -206,11 +208,10 @@
 <h2>Setting Up<a class="headerlink" href="#setting-up" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>If you want to run this code, you will need to download the Ren’Py engine: <a class="reference external" href="https://www.renpy.org/">https://www.renpy.org/</a></p></li>
-<li><p>As of 2021-01-10 (the time of this update) the version of Ren’Py used is 7.3.5.606. An update to support version 7.4.x is upcoming.</p></li>
+<li><p>As of 2021-03-08 (the time of this update) the version of Ren’Py used is 7.4.2.</p></li>
 <li><p>Download or clone the <a class="reference external" href="https://github.com/shawna-p/mysterious-messenger/releases">most recent release</a> into your Ren’Py Projects Directory and unzip it into its own folder. If you don’t know what it is, you can change it from the Ren’Py launcher via <code class="docutils literal notranslate"><span class="pre">preferences</span> <span class="pre">-&gt;</span> <span class="pre">Projects</span> <span class="pre">Directory</span></code>.</p>
 <ul>
-<li><p>The current stable version is v2.2.</p></li>
-<li><p>v3.0 is currently in prerelease, with a planned full release Jan/Feb 2021</p></li>
+<li><p>The current stable version is 3.0.1</p></li>
 </ul>
 </li>
 <li><p>Refresh your Projects list and you should see <code class="docutils literal notranslate"><span class="pre">mysterious-messenger</span></code> listed</p></li>
@@ -313,7 +314,7 @@
 </dd>
 <dt><cite>Real-Time Mode</cite></dt><dd><p>By default, this is unchecked. Timeline items will appear sequentially one after the other after the previous item is played. However, if Real-Time Mode is checked off, then chatrooms and other content will appear at the scheduled time in real-time.</p>
 </dd>
-<dt><cite>Hacked Effect</cite></dt><dd><p>This turns on/off the messenger “hacked” effects. This particular variable only affects the save file it is activated from. It causes the timeline items to appear “glitchy” and changes the music on the main menu screen. Some of these glitch effects will not appear for players with the <strong>Hacking Effect</strong> option turned off.</p>
+<dt><cite>Hacked Effect</cite></dt><dd><p>This turns on/off the messenger “hacked” effects. This particular variable only affects the save file it is activated from, so it is not available to toggle from the main menu (only the in-game developer menu). It causes the timeline items to appear “glitchy” and changes the music on the main menu screen. Some of these glitch effects will not appear for players with the <strong>Hacking Effect</strong> option turned off.</p>
 </dd>
 <dt><cite>Receive Hourglasses in Chatrooms</cite></dt><dd><p>Unchecking this option will stop awarding the player hourglasses during chatrooms. Currently hourglasses are awarded on a pseudo-random basis when a character posts a special speech bubble from a subset of special bubbles. This option is useful if the chatroom is intended to be seen as a video and not played through, for example.</p>
 </dd>
@@ -321,11 +322,35 @@
 </dd>
 <dt><cite>Prefer local documentation</cite></dt><dd><p>Checking this will cause the script error popup links to open the locally-saved html documentation that comes with the repository, where possible. If a file cannot be found, it will be opened in a web browser instead. This can be useful if you are working offline.</p>
 </dd>
+<dt><cite>Use pause footer for links</cite></dt><dd><p>This will use the pause footer at the bottom of the screen while waiting for the player to click a link in the chatroom. By default, the game shows a customizable message that tells the player to click the link. See <a class="reference internal" href="chatrooms.html#stopping-the-chat"><span class="std std-ref">Stopping the Chat</span></a> for more information.</p>
+</dd>
 <dt><cite>Fix persistent</cite></dt><dd><p>This is an option primarily intended for users updating Mysterious Messenger from older (&lt;2.0) versions to fix issues with saved persistent values. If Ren’Py is complaining about compatibility issues with persistent variables, you can try using this option to fix it.</p>
 </dd>
 <dt><cite>Documentation</cite></dt><dd><p>Clicking this will open the documentation home page for Mysterious Messenger. By default, this opens the documentation in a web browser. However, you can check off <strong>Prefer local documentation</strong> (above) to open the html files that come with the repository instead. Both the online and offline versions contain the same information.</p>
 </dd>
+<dt><cite>Reset Albums</cite></dt><dd><p>This will cause the program to forget all persistent variables associated with albums. This includes all the persistent albums as defined in the <code class="docutils literal notranslate"><span class="pre">all_albums</span></code> variable, and will also clear the program’s memory of images the player has been shown in-game (typically this will only affect CG images shown during Story Mode). Use this if you want to reset the persistent albums to their original, defaulted value.</p>
+<p>This option is only available on the main menu (not in-game).</p>
+</dd>
 </dl>
+</div>
+<div class="section" id="updates">
+<h3>Updates<a class="headerlink" href="#updates" title="Permalink to this headline">¶</a></h3>
+<p>By default, Mysterious Messenger will check for updates to the program once a day. You can customize this in several ways by clicking the update icon in the bottom-right corner of the main menu.</p>
+<dl class="simple">
+<dt><cite>Check for updates (once per day)</cite></dt><dd><p>Unchecking this will stop the program from automatically checking for updates. You can still manually check for them with the <strong>Check for updates</strong> button.</p>
+</dd>
+<dt><cite>Check for prereleases</cite></dt><dd><p>Checking this will include prereleases when the program checks for updates, and will inform the player if a recent prerelease is available. Unchecking this will cause updates to only search for complete releases.</p>
+</dd>
+<dt><cite>Ignored releases</cite></dt><dd><p>Whenever the program finds a release you haven’t updated to yet, you’ll get the option to ignore it. Ignoring a release means that you won’t receive any more popups informing you of this particular update version. If you’ve ignored any versions, they will appear listed under the <strong>Check for prereleases</strong> option. You can uncheck any of these releases to stop ignoring them.</p>
+</dd>
+<dt><cite>Check for updates</cite></dt><dd><p>Clicking this button will cause the program to manually check for any updates that fit the conditions you’ve specified above. You will receive a popup if it finds a new version you can update to.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Mysterious Messenger requires an internet connection to check for updates. If it cannot connect to the internet and automatic updates are turned on, it will simply silently fail to fetch them (with no adverse effects to the rest of the program).</p>
+</div>
+<p>If Mysterious Messenger finds an update for you, you will see information such as the version number, publish date, whether or not it’s a prerelease, and a download link for the new code files. You can also choose to ignore this release. Your current program version will be displayed in the bottom-left corner of the popup.</p>
 </div>
 <div class="section" id="uncategorized">
 <h3>Uncategorized<a class="headerlink" href="#uncategorized" title="Permalink to this headline">¶</a></h3>
@@ -351,6 +376,7 @@
 <li><p>Animated chatroom backgrounds (optional; activated in settings)</p></li>
 <li><p>Heart icons</p></li>
 <li><p>Optional timed menus</p></li>
+<li><p>Messages with clickable links</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -410,10 +436,12 @@
 <li><p>Unlock CG images for a character’s album</p></li>
 <li><p>Profile picture callbacks to have the characters react to the player’s profile picture choices</p></li>
 <li><p>Spaceship thoughts and occasional prizes from the Honey Buddha chip bag</p></li>
-<li><p>Customizable pronouns (she/her, he/him, they/them)</p></li>
+<li><p>Customizable pronouns (she/her, he/him, they/them) and gender (male/female/nonbinary)</p></li>
+<li><p>Select a chatroom username separate from your regular name</p></li>
 <li><p>Custom ringtones</p></li>
 <li><p>Character greetings on the main menu</p></li>
 <li><p>Real-time and sequential mode</p></li>
+<li><p>Get input from the player for more detailed information</p></li>
 </ul>
 </div></blockquote>
 </li>

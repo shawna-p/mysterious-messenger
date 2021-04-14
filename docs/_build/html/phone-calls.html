@@ -104,6 +104,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#writing-a-phone-call">Writing a Phone Call</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changing-a-character-s-voicemail">Changing a Character’s Voicemail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phone-callbacks">Phone Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phone-only-characters">Phone-Only Characters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dialogue-only-phone-characters">Dialogue-Only Phone Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#incoming-call-phone-characters">Incoming Call Phone Characters</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="text-messages.html">Text Messages</a></li>
@@ -195,6 +201,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#writing-a-phone-call">Writing a Phone Call</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changing-a-character-s-voicemail">Changing a Character’s Voicemail</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phone-callbacks">Phone Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phone-only-characters">Phone-Only Characters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dialogue-only-phone-characters">Dialogue-Only Phone Characters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#incoming-call-phone-characters">Incoming Call Phone Characters</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -264,6 +276,7 @@
 <p>If the timer on an incoming phone call runs out, the phone call will be marked as “missed” and moved to the pool of available calls. The player can then call the character back to receive that conversation.</p>
 <p>Phone calls can also be missed if real-time mode is turned on from the Developer settings. If an incoming call is scheduled to occur after a chatroom at 10:20 and the player opens the game after a new chatroom became available at 13:30, then they will receive a notification of a missed call at 13:30 (just before the new chatroom). If not too much time has passed since the missed call, they can then phone the character back to receive that conversation.</p>
 <p>Additionally, if the player is using the game but has not yet played the 10:20 chatroom by 13:30, then if the game is open at 13:30 they will receive an incoming call which they can either accept or reject. This acts the same way as if the incoming call had been received immediately after playing the chatroom.</p>
+<p>You can also change the dialogue of a phone call depending on whether the player picked up when the character first called, or if they are calling the character back. For more on that, see <a class="reference internal" href="#phone-callbacks"><span class="std std-ref">Phone Callbacks</span></a>.</p>
 </div>
 </div>
 <div class="section" id="creating-a-story-call">
@@ -331,6 +344,119 @@
 </pre></div>
 </div>
 <p>As shown above, you can also add voice files to the voicemail, which will be played during the next line of dialogue.</p>
+</div>
+<div class="section" id="phone-callbacks">
+<h2>Phone Callbacks<a class="headerlink" href="#phone-callbacks" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.</p>
+<p>However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix <code class="docutils literal notranslate"><span class="pre">_incoming_z_callback</span></code> where <code class="docutils literal notranslate"><span class="pre">z</span></code> is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_7_chat_4</span><span class="p">():</span>
+
+    <span class="k">scene</span> <span class="n">morning</span>
+    <span class="n">s</span> <span class="s2">&quot;This is some dialogue for the chatroom!&quot;</span>
+    <span class="k">return</span>
+
+<span class="k">label</span> <span class="n">day_7_chat_4_incoming_s</span><span class="p">():</span>
+    <span class="n">s</span> <span class="s2">&quot;Hello [name]!&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;I&#39;m glad you picked up~&quot;</span>
+    <span class="c1"># ...</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>Then you can create the “callback” label for <code class="docutils literal notranslate"><span class="pre">s</span></code>’s incoming call at:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_7_chat_4_incoming_s_callback</span><span class="p">():</span>
+    <span class="n">s</span> <span class="s2">&quot;[name]!!! You called me back, haha.&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;I thought maybe you were busy so I didn&#39;t wanna bother you.&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;But I&#39;m glad you called.&quot;</span>
+    <span class="c1"># ...</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>If this <code class="docutils literal notranslate"><span class="pre">callback</span></code> label is present, the program will jump to it when the player is calling the character back instead of going to the regular <code class="docutils literal notranslate"><span class="pre">incoming_s</span></code> label. In replay, if the player has seen both the callback version of the call as well as the regular version, they will be prompted with a menu that allows them to pick whether they want to replay the regular version or the callback version.</p>
+<p>If you’ll be reusing dialogue between the two phone calls, it might be useful to create a second label that both calls can jump to. For example:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_7_chat_4</span><span class="p">():</span>
+    <span class="k">scene</span> <span class="n">morning</span>
+    <span class="n">s</span> <span class="s2">&quot;This is some dialogue for the chatroom!&quot;</span>
+    <span class="k">return</span>
+
+<span class="k">label</span> <span class="n">day_7_chat_4_incoming_s</span><span class="p">():</span>
+    <span class="n">s</span> <span class="s2">&quot;Hello [name]!&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;I thought maybe you&#39;d be having lunch and wouldn&#39;t pick up.&quot;</span>
+    <span class="k">jump</span> <span class="n">day_7_chat_4_incoming_s_ending</span>
+
+<span class="k">label</span> <span class="n">day_7_chat_4_incoming_s_callback</span><span class="p">():</span>
+    <span class="n">s</span> <span class="s2">&quot;[name]!!! You called me back, haha.&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;I thought maybe you were busy so I didn&#39;t wanna bother you.&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;But I&#39;m glad you called.&quot;</span>
+    <span class="k">jump</span> <span class="n">day_7_chat_4_incoming_s_ending</span>
+
+<span class="k">label</span> <span class="n">day_7_chat_4_incoming_s_ending</span><span class="p">():</span>
+    <span class="n">s</span> <span class="s2">&quot;Are you busy right now?&quot;</span>
+    <span class="k">menu</span><span class="p">:</span>
+        <span class="s2">&quot;No, not particularly.&quot;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="s2">&quot;Great! So I had this idea for a cat cafe I wanted to bring up in the chatroom.&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;Don&#39;t tell Jaehee though, okay? She might get mad.&quot;</span>
+        <span class="s2">&quot;Yeah, I should probably get something done today.&quot;</span><span class="p">:</span>
+            <span class="n">s</span> <span class="s2">&quot;Aw... don&#39;t be like that...&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;But, if you really have to leave, I&#39;ll understand.&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;Just call me back when you&#39;re free!&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;Oh... looks like I actually have to go already. I&#39;m sorry for ditching you!&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;Let&#39;s talk again later in the chatroom. Toodles!&quot;</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>The two calls start differently, but both jump to the <code class="docutils literal notranslate"><span class="pre">day_7_chat_4_incoming_s_ending</span></code> label to finish off the phone call. This can help keep your code more organized so you’re not repeating dialogue in two separate labels.</p>
+</div>
+<div class="section" id="phone-only-characters">
+<h2>Phone-Only Characters<a class="headerlink" href="#phone-only-characters" title="Permalink to this headline">¶</a></h2>
+<p>Like with Story Mode, sometimes you may have a character who only needs to exist for a phone call but doesn’t need all the bells and whistles of a full ChatCharacter definition. There are two ways to define such characters:</p>
+<div class="section" id="dialogue-only-phone-characters">
+<h3>Dialogue-Only Phone Characters<a class="headerlink" href="#dialogue-only-phone-characters" title="Permalink to this headline">¶</a></h3>
+<p>For characters that only need to speak in phone calls, but don’t need a profile picture or any other information, you can create a regular Character and inherit from the <code class="docutils literal notranslate"><span class="pre">phone_char</span></code> object. This applies in situations such as:</p>
+<ul class="simple">
+<li><p>The player can hear the voice of someone else in the background of a call (e.g. the player called Yoosung, but can hear a professor talking in the background on occasion)</p></li>
+<li><p>The player called a regular character, but the person who picked up was not the regular character (e.g. the player phoned Jumin, but his father picked up instead)</p></li>
+<li><p>You are defining a specific voicemail voice</p></li>
+</ul>
+<p>These characters don’t need their own profile picture, but should have their own Character object to speak dialogue with so that the player can properly use the voice tagging system to mute characters they don’t want to listen to.</p>
+<p>To define a dialogue-only phone character, you can do:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">hana_phone</span> <span class="o">=</span> <span class="n">Character</span><span class="p">(</span><span class="s2">&quot;Hana&quot;</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="n">phone_character</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then write dialogue in-game via:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">hana_phone</span> <span class="s2">&quot;This is some dialogue said by Hana.&quot;</span>
+<span class="n">hana_phone</span> <span class="s2">&quot;It uses the other_voice tag.&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="incoming-call-phone-characters">
+<h3>Incoming Call Phone Characters<a class="headerlink" href="#incoming-call-phone-characters" title="Permalink to this headline">¶</a></h3>
+<p>For characters who can call the player, but don’t need a fully-fledged character definition, there’s the special <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code> class you can use to define a character for phone calls.</p>
+<p>PhoneCharacters only need a name, a profile picture, and a file_id. Like with regular characters, the file_id is used to associate them with phone calls, so you can write incoming call labels that are automatically detected by the program. It also helps the program find the phone call to fill out the History.</p>
+<p>A typical PhoneCharacter definition might look as follows:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">hana_phone</span>  <span class="o">=</span> <span class="n">PhoneCharacter</span><span class="p">(</span><span class="s2">&quot;Hana&quot;</span><span class="p">,</span> <span class="s2">&quot;Profile Pics/Other/hana-1.webp&quot;</span><span class="p">,</span> <span class="s1">&#39;ha&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can put this definition anywhere you like, though it’s usually a good idea to keep your character definitions in a central place where you can find them later.</p>
+<p>Then, to write a phone call for this character, you can add a label like you would with the regular cast of characters:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_3_chat_7</span><span class="p">():</span>
+    <span class="k">scene</span> <span class="n">evening</span>
+    <span class="n">y</span> <span class="s2">&quot;Hi [name], sorry to bother you with this!&quot;</span>
+    <span class="n">y</span> <span class="s2">&quot;I&#39;m about to write a test so I gave your number to a friend.&quot;</span>
+    <span class="n">y</span> <span class="s2">&quot;She&#39;ll call you if anything changes.&quot;</span>
+    <span class="n">y</span> <span class="s2">&quot;Wish me luck!&quot;</span>
+    <span class="n">exit</span> <span class="n">chatroom</span> <span class="n">y</span>
+
+<span class="k">label</span> <span class="n">day_3_chat_7_incoming_ha</span><span class="p">():</span>
+    <span class="n">hana_phone</span> <span class="s2">&quot;Hi, this is... um, [name], I think? Yoosung gave me your number.&quot;</span>
+    <span class="n">hana_phone</span> <span class="s2">&quot;Nothing&#39;s wrong, I just wanted to check if the number worked.&quot;</span>
+    <span class="n">hana_phone</span> <span class="s2">&quot;Haha, this is actually pretty awkward, so I think I&#39;ll hang up now.&quot;</span>
+    <span class="n">hana_phone</span> <span class="s2">&quot;Bye.&quot;</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>A <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code> acts the same as a <code class="docutils literal notranslate"><span class="pre">ChatCharacter</span></code> in nearly all respects, including the ability to update their profile picture, name, and more, but they won’t appear in the player’s contact list or on the home screen as a character profile. If you want that functionality, you should define them as a ChatCharacter instead (see <a class="reference internal" href="creating-characters.html#creating-characters"><span class="std std-ref">Creating Characters</span></a>).</p>
+<p>Additionally, if the player misses a call from a <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code>, they will only be able to call the character back if that call is still available. In practice, this means that the player can’t call a <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code> whenever they like; only when an outstanding call is available. Outgoing calls to <code class="docutils literal notranslate"><span class="pre">PhoneCharacter``s</span> <span class="pre">are</span> <span class="pre">technically</span> <span class="pre">supported</span> <span class="pre">if</span> <span class="pre">an</span> <span class="pre">outgoing</span> <span class="pre">call</span> <span class="pre">is</span> <span class="pre">available;</span> <span class="pre">however,</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">wish</span> <span class="pre">to</span> <span class="pre">allow</span> <span class="pre">for</span> <span class="pre">outgoing</span> <span class="pre">calls,</span> <span class="pre">you</span> <span class="pre">should</span> <span class="pre">define</span> <span class="pre">this</span> <span class="pre">character</span> <span class="pre">using</span> <span class="pre">the</span> <span class="pre">``ChatCharacter</span></code> class instead of <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code>, as phone-only characters do not have a contact image which makes it difficult for players to call them.</p>
+</div>
 </div>
 </div>
 

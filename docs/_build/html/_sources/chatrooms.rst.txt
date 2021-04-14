@@ -381,6 +381,22 @@ This will both clear the chat history and remove any existing participants from 
 This isn't typically used outside of using story mode sections in the middle of chatrooms (see :ref:`Including a Story Mode During a Chatroom`) or linking together "separate" chatrooms as part of a scene for something like an After End.
 
 
+
+Resetting Chatroom Participants
+--------------------------------
+
+Similar to the above section on clearing chat participants, there is also a special function provided to reset chat participants even without jumping to Story Mode and back, for example, as part of a montage of chatroom sequences. The function is called ``reset_participants`` and takes one parameter, a list of ChatCharacters to add back to the participants list.
+
+::
+
+    u "This is the end of the first chatroom."
+    $ reset_participants([z, s, m])
+    s "Hey [name], Zen, you haven't seen anything suspicious lately, right?"
+
+.. note::
+    You will need to add ``m`` to the participant list yourself if you would like the player to appear in the participants list after the reset, regardless of whether the chatroom was expired or not.
+
+
 Providing Choices
 -----------------
 
@@ -487,7 +503,13 @@ or alternatively,
 
     show redhack effect
 
-for the red version of the scrolling hack image.
+for the red version of the scrolling hack image. You can reverse the direction of the scrolling with ``reverse`` e.g.
+
+::
+
+    show hack effect reverse
+    exit chatroom u
+    show redhack effect reverse
 
 There is also a "red static" effect which can be shown with::
 
@@ -620,9 +642,45 @@ Some special link actions include:
 
         However, with the link, the player **does not** have to click the link to proceed; the chat will simply continue even if they do nothing. If you want to stop the chat to ensure the player clicks the link, see :ref:`Stopping the Chat`.
 
+`LinkJump(label=None, is_menu=False)`
+    Similar to ``JumpVN``, this action acts as a jump between labels. Unlike ``JumpVN``, however, the jump is intended to be within the same chatroom, rather than jumping to a Story Mode (VN) section.
+
+    ``LinkJump`` takes two optional parameters. The first, ``label``, is the name of a label or menu to jump to when the link is pressed. If left blank, this acts like ``ContinueChat`` if the chat is stopped, or does nothing if the chat is not stopped.
+
+    ``is_menu`` can be set to True if you would like this LinkJump to jump to a menu without showing the answer button at the bottom of the screen. For example::
+
+        u "Click Link" (link_title="Address", link_action=LinkJump('getaddress', is_menu=True))
+        stop chat
+        menu getaddress (paraphrased=True):
+            "(Go to the sent address).":
+                pass
+
+    When the player presses the link, they will immediately see the option to (Go to the sent address) as though they had pressed the answer button on a menu.
+
+
 `ContinueChat`
     This action will cause the chat to continue if it was previously stopped.
 
+`IfChatStopped(true_action, false_action=None)`
+    This is a special action that takes two parameters. The first is the action (or list of actions) to perform if the chat is stopped when this button is clicked. It can also be ``None`` to do nothing if the chat is stopped.
+
+    The second parameter is the action to perform if the chat is not stopped (see the section below for more on stopping the chat). This parameter can also be ``None`` or omitted to do nothing if the chat is not stopped.
+
+    e.g.
+
+    ::
+
+        link_action=IfChatStopped([ShowCG('common_2'), ContinueChat()], ShowCG('common_3'))
+
+    This causes the CG "common_2" to be shown to the player if the chat is paused before continuing the chat. Otherwise, if the chat is not paused, clicking the link will show the "common_3" CG instead.
+
+    This action is useful if you only want the player to be able to proceed by clicking a link once the chat is stopped e.g.
+
+    ::
+
+        link_action=IfChatStopped(JumpVN('drive_scene_2'))
+
+    If used as the link action, the player can only click on the link when the chat is stopped.
 
 
 Stopping the Chat
@@ -642,6 +700,7 @@ This will prevent any further messages from being posted and displays the text "
         link_action=JumpVN('unlock_door_password'))
     stop chat "Click the link to continue"
 
+There is also an optional toggle in the **Developer Settings** called **Use pause footer for links** which will show the pause button at the bottom of the screen while waiting for the player to press a link. Note that if you do choose to enable this, it is less clear to the player what they should do to proceed with the story when the chat stops to wait for them to click a link.
 
 .. warning::
     If you use the ``JumpVN`` action, the chat will automatically resume after it returns from the VN label. However, if your action is doing something like viewing a CG or setting a variable, you **must** include the action ``ContinueChat()`` as the final action in your link_action parameter::

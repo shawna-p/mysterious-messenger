@@ -79,6 +79,8 @@ Phone calls can also be missed if real-time mode is turned on from the Developer
 
 Additionally, if the player is using the game but has not yet played the 10:20 chatroom by 13:30, then if the game is open at 13:30 they will receive an incoming call which they can either accept or reject. This acts the same way as if the incoming call had been received immediately after playing the chatroom.
 
+You can also change the dialogue of a phone call depending on whether the player picked up when the character first called, or if they are calling the character back. For more on that, see :ref:`Phone Callbacks`.
+
 
 Creating a Story Call
 =====================
@@ -166,4 +168,133 @@ You can use a character to say voicemail dialogue, or you can use the "generic" 
         return
 
 As shown above, you can also add voice files to the voicemail, which will be played during the next line of dialogue.
+
+Phone Callbacks
+================
+
+Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.
+
+However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix ``_incoming_z_callback`` where ``z`` is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call::
+
+    label day_7_chat_4():
+
+        scene morning
+        s "This is some dialogue for the chatroom!"
+        return
+
+    label day_7_chat_4_incoming_s():
+        s "Hello [name]!"
+        s "I'm glad you picked up~"
+        # ...
+        return
+
+Then you can create the "callback" label for ``s``'s incoming call at::
+
+    label day_7_chat_4_incoming_s_callback():
+        s "[name]!!! You called me back, haha."
+        s "I thought maybe you were busy so I didn't wanna bother you."
+        s "But I'm glad you called."
+        # ...
+        return
+
+If this ``callback`` label is present, the program will jump to it when the player is calling the character back instead of going to the regular ``incoming_s`` label. In replay, if the player has seen both the callback version of the call as well as the regular version, they will be prompted with a menu that allows them to pick whether they want to replay the regular version or the callback version.
+
+If you'll be reusing dialogue between the two phone calls, it might be useful to create a second label that both calls can jump to. For example::
+
+    label day_7_chat_4():
+        scene morning
+        s "This is some dialogue for the chatroom!"
+        return
+
+    label day_7_chat_4_incoming_s():
+        s "Hello [name]!"
+        s "I thought maybe you'd be having lunch and wouldn't pick up."
+        jump day_7_chat_4_incoming_s_ending
+
+    label day_7_chat_4_incoming_s_callback():
+        s "[name]!!! You called me back, haha."
+        s "I thought maybe you were busy so I didn't wanna bother you."
+        s "But I'm glad you called."
+        jump day_7_chat_4_incoming_s_ending
+
+    label day_7_chat_4_incoming_s_ending():
+        s "Are you busy right now?"
+        menu:
+            "No, not particularly.":
+                s "Great! So I had this idea for a cat cafe I wanted to bring up in the chatroom."
+                s "Don't tell Jaehee though, okay? She might get mad."
+            "Yeah, I should probably get something done today.":
+                s "Aw... don't be like that..."
+                s "But, if you really have to leave, I'll understand."
+                s "Just call me back when you're free!"
+        s "Oh... looks like I actually have to go already. I'm sorry for ditching you!"
+        s "Let's talk again later in the chatroom. Toodles!"
+        return
+
+The two calls start differently, but both jump to the ``day_7_chat_4_incoming_s_ending`` label to finish off the phone call. This can help keep your code more organized so you're not repeating dialogue in two separate labels.
+
+
+
+Phone-Only Characters
+======================
+
+Like with Story Mode, sometimes you may have a character who only needs to exist for a phone call but doesn't need all the bells and whistles of a full ChatCharacter definition. There are two ways to define such characters:
+
+Dialogue-Only Phone Characters
+-------------------------------
+
+For characters that only need to speak in phone calls, but don't need a profile picture or any other information, you can create a regular Character and inherit from the ``phone_char`` object. This applies in situations such as:
+
+* The player can hear the voice of someone else in the background of a call (e.g. the player called Yoosung, but can hear a professor talking in the background on occasion)
+* The player called a regular character, but the person who picked up was not the regular character (e.g. the player phoned Jumin, but his father picked up instead)
+* You are defining a specific voicemail voice
+
+These characters don't need their own profile picture, but should have their own Character object to speak dialogue with so that the player can properly use the voice tagging system to mute characters they don't want to listen to.
+
+To define a dialogue-only phone character, you can do::
+
+    define hana_phone = Character("Hana", kind=phone_character)
+
+You can then write dialogue in-game via::
+
+    hana_phone "This is some dialogue said by Hana."
+    hana_phone "It uses the other_voice tag."
+
+
+
+Incoming Call Phone Characters
+-------------------------------
+
+For characters who can call the player, but don't need a fully-fledged character definition, there's the special ``PhoneCharacter`` class you can use to define a character for phone calls.
+
+PhoneCharacters only need a name, a profile picture, and a file_id. Like with regular characters, the file_id is used to associate them with phone calls, so you can write incoming call labels that are automatically detected by the program. It also helps the program find the phone call to fill out the History.
+
+A typical PhoneCharacter definition might look as follows::
+
+    default hana_phone  = PhoneCharacter("Hana", "Profile Pics/Other/hana-1.webp", 'ha')
+
+You can put this definition anywhere you like, though it's usually a good idea to keep your character definitions in a central place where you can find them later.
+
+Then, to write a phone call for this character, you can add a label like you would with the regular cast of characters::
+
+    label day_3_chat_7():
+        scene evening
+        y "Hi [name], sorry to bother you with this!"
+        y "I'm about to write a test so I gave your number to a friend."
+        y "She'll call you if anything changes."
+        y "Wish me luck!"
+        exit chatroom y
+
+    label day_3_chat_7_incoming_ha():
+        hana_phone "Hi, this is... um, [name], I think? Yoosung gave me your number."
+        hana_phone "Nothing's wrong, I just wanted to check if the number worked."
+        hana_phone "Haha, this is actually pretty awkward, so I think I'll hang up now."
+        hana_phone "Bye."
+        return
+
+A ``PhoneCharacter`` acts the same as a ``ChatCharacter`` in nearly all respects, including the ability to update their profile picture, name, and more, but they won't appear in the player's contact list or on the home screen as a character profile. If you want that functionality, you should define them as a ChatCharacter instead (see :ref:`Creating Characters`).
+
+Additionally, if the player misses a call from a ``PhoneCharacter``, they will only be able to call the character back if that call is still available. In practice, this means that the player can't call a ``PhoneCharacter`` whenever they like; only when an outstanding call is available. Outgoing calls to ``PhoneCharacter``s are technically supported if an outgoing call is available; however, if you wish to allow for outgoing calls, you should define this character using the ``ChatCharacter`` class instead of ``PhoneCharacter``, as phone-only characters do not have a contact image which makes it difficult for players to call them.
+
+
 

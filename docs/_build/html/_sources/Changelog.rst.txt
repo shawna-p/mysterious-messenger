@@ -7,6 +7,89 @@ Full Changelog
 
     changelog
 
+3.1.0
+======
+
+.. _major-3-1-0:
+
+Major New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Missed calls callback
+      - Phone calls can play out differently depending on whether the player is calling back a missed incoming call or not. Also supported in the History.
+    * - Phone call-only characters
+      - Can create a PhoneCharacter specifically for phone calls who won't show up in the player's contacts.
+    * - Input prompts
+      - Can now get typed input from players anywhere in the game.
+    * - Profile Updates
+      - Players can now choose their gender separately from their pronouns, and enter a chatroom username separately from their regular name.
+
+.. _minor-3-1-0:
+
+Minor New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - ``reset_participants``
+      - Easy function allows you to easily reset the participants list in the middle of a chatroom.
+    * - Link wait pause button
+      - Dev toggle allows you to toggle the footer while waiting for the player to click a link to just be the pause button.
+    * - Reversable hack effect
+      - The scrolling hacked effects can be reversed to scroll in the other direction.
+    * - LinkJump
+      - New action for links to jump to somewhere else in a chatroom (including menus).
+    * - IfChatStopped
+      - New action for links that changes depending on whether the chat is stopped or not.
+
+
+
+Fixes
+------
+
+.. _fixes-3-1-0:
+
+      Fixes
+      ------
+
+      .. list-table::
+          :widths: 15, 85
+          :header-rows: 1
+
+          * - **Fix**
+            - **Description**
+            - Pause button fix
+            - Pausing chatrooms and real-time text messages has been overhauled to cause fewer issues with skipped messages.
+            - Vanderwooo
+            - Fixed Vanderwood's name getting cut off in the phone contacts.
+            - Erroneous msg CDS errors
+            - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
+
+
+.. _qol-3-1-0:
+
+QoL Improvements
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Reset Albums
+      - You can now tell the program to forget all seen images and unlocked album entries without losing other persistent variable progress.
+
 
 3.0.1
 ======

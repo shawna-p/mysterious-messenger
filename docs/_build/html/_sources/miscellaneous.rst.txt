@@ -11,7 +11,7 @@ Miscellaneous
 Pronoun Integration
 ===================
 
-Mysterious Messenger allows the player to change their pronouns whenever they desire during the game. This means that any reference to the player's gender or use of pronouns to refer to the player must be taken care of via variables.
+Mysterious Messenger allows the player to change their pronouns and gender whenever they desire during the game. This means that any reference to the player's gender or use of pronouns to refer to the player must be taken care of via variables.
 
 At the top of ``variables_editable.rpy`` you will see a function called ``set_pronouns`` and several existing variables defined under the header **PRONOUN VARIABLES**. These can be used in script::
 
@@ -24,6 +24,13 @@ It's important to remember that many verbs conjugate differently for "he/she" th
     ju "I think [name] said [they] [do_does]n't know if [they]'ll be free this weekend."
 
 For a player with they/them pronouns, this displays as "I think [name] said they don't know if they'll be free this weekend", meanwhile, a player with he/him pronouns will see "I think [name] said he doesn't know if he'll be free this weekend." (Note: ``[name]`` is replaced with the player's name)
+
+.. note::
+    In Mysterious Messenger, players can pick their gender separately from their pronouns. This means for example that a player can identify as nonbinary and use she/her pronouns. You are welcome to extend this functionality as well to have the player further clarify how they want to be referred to.
+
+    Note that because a player's pronouns will not necessarily directly correlate to their gender, it may be good to ask the player if they would like to be referred to as a woman, man, person, or something else, if that comes up in your writing. You can use input prompts to get more specific information from the player as well (see :ref:`Getting Input from the Player`).
+
+
 
 Defining Additional Pronoun Variables
 -------------------------------------
@@ -217,6 +224,53 @@ To add to the existing choices, use ``add_choices``::
     ])
 
 
+Getting Input from the Player
+===============================
+
+In addition to choice menus, you can also prompt the player to enter text to get information such as nicknames, age, and other personalized information about the player, and then use this to shape the story later on. These input prompts work in many areas of the game, including chatrooms, story mode, text messages, and phone calls.
+
+To show an input prompt to the player, you'll use the special label ``get_input``::
+
+    get_input(the_var, prompt="", default="", length=20, allow=None,
+        exclude=None, show_answer=True)
+
+The parameters are explained below:
+
+`the_var`
+    A string corresponding to the name of a variable where the input will be saved to as a string. For example, if you want to save the player's name to a variable called ``nickname`` you might have a line like the following::
+
+        $ nickname = ""
+        call get_input('nickname', "Enter a nickname")
+
+`prompt`
+    Optional. If included, this text will appear above the input box to remind the player what information they're supposed to be entering. See the example above.
+
+`default`
+    Optional. A string that will automatically be filled into the input box as the "default" value, which the player can then delete and change if they wish. By default, this is the empty string (so, no text will be filled in automatically).
+
+`length`
+    By default, 20. An integer equal to the number of characters you will allow in the input box. Depending on where you are using the result, excessively long input values may not display correctly everywhere in the game.
+
+`allow`
+    A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters are allowed (except for ``{}`` which can cause program issues). For example, you can use this to ensure you receive a number as input::
+
+        msg u "How old are you?"
+        $ player_age = "23"
+        call get_input('player_age', "Enter your age", "23", allow="0123456789")
+        if player_age == "":
+            msg u "So you won't tell me, huh?"
+            $ player_age = 0
+        else:
+            $ player_age = int(player_age)
+            msg u "You're [player_age]?"
+
+    The line ``$ player_age = int(player_age)`` ensures that the input, which is always a string, is then converted to an integer value which you can do math on if you so please.
+
+`exclude`
+    Like allow, a string which contains all the letters, numbers, symbols etc which are *not* permitted to be entered as input.
+
+`show_answer`
+    By default, this is True during chatrooms and text messages. It will show the answer button at the bottom of the screen which, when clicked, will display the input prompt. This should always be False for input prompts outside of chatrooms and text messages so that the input prompt appears right away.
 
 
 

@@ -111,6 +111,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#entering-and-exiting-the-chatroom">Entering and Exiting the Chatroom</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-the-chat-history">Clearing the Chat History</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-chatroom-participants">Clearing Chatroom Participants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resetting-chatroom-participants">Resetting Chatroom Participants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-chatroom-banner">Showing a Chatroom Banner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-heart-icon">Showing a Heart Icon</a><ul>
@@ -249,6 +250,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#entering-and-exiting-the-chatroom">Entering and Exiting the Chatroom</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-the-chat-history">Clearing the Chat History</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-chatroom-participants">Clearing Chatroom Participants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resetting-chatroom-participants">Resetting Chatroom Participants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-chatroom-banner">Showing a Chatroom Banner</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-a-heart-icon">Showing a Heart Icon</a><ul>
@@ -648,6 +650,19 @@
 <p>This will both clear the chat history and remove any existing participants from the list at the top of the messenger screen.</p>
 <p>This isn’t typically used outside of using story mode sections in the middle of chatrooms (see <a class="reference internal" href="story-mode.html#including-a-story-mode-during-a-chatroom"><span class="std std-ref">Including a Story Mode During a Chatroom</span></a>) or linking together “separate” chatrooms as part of a scene for something like an After End.</p>
 </div>
+<div class="section" id="resetting-chatroom-participants">
+<h3>Resetting Chatroom Participants<a class="headerlink" href="#resetting-chatroom-participants" title="Permalink to this headline">¶</a></h3>
+<p>Similar to the above section on clearing chat participants, there is also a special function provided to reset chat participants even without jumping to Story Mode and back, for example, as part of a montage of chatroom sequences. The function is called <code class="docutils literal notranslate"><span class="pre">reset_participants</span></code> and takes one parameter, a list of ChatCharacters to add back to the participants list.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;This is the end of the first chatroom.&quot;</span>
+<span class="k">$</span> <span class="n">reset_participants</span><span class="p">([</span><span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+<span class="n">s</span> <span class="s2">&quot;Hey [name], Zen, you haven&#39;t seen anything suspicious lately, right?&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will need to add <code class="docutils literal notranslate"><span class="pre">m</span></code> to the participant list yourself if you would like the player to appear in the participants list after the reset, regardless of whether the chatroom was expired or not.</p>
+</div>
+</div>
 <div class="section" id="providing-choices">
 <h3>Providing Choices<a class="headerlink" href="#providing-choices" title="Permalink to this headline">¶</a></h3>
 <p>During a chatroom, you may want to allow the player to make a choice. This can be accomplished with Ren’Py’s built-in menu system:</p>
@@ -741,7 +756,12 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">redhack</span> <span class="n">effect</span>
 </pre></div>
 </div>
-<p>for the red version of the scrolling hack image.</p>
+<p>for the red version of the scrolling hack image. You can reverse the direction of the scrolling with <code class="docutils literal notranslate"><span class="pre">reverse</span></code> e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">hack</span> <span class="n">effect</span> <span class="n">reverse</span>
+<span class="n">exit</span> <span class="n">chatroom</span> <span class="n">u</span>
+<span class="k">show</span> <span class="n">redhack</span> <span class="n">effect</span> <span class="n">reverse</span>
+</pre></div>
+</div>
 <p>There is also a “red static” effect which can be shown with:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">show</span> <span class="n">red</span> <span class="n">static</span> <span class="n">effect</span>
 </pre></div>
@@ -855,7 +875,32 @@
 <p>However, with the link, the player <strong>does not</strong> have to click the link to proceed; the chat will simply continue even if they do nothing. If you want to stop the chat to ensure the player clicks the link, see <a class="reference internal" href="#stopping-the-chat"><span class="std std-ref">Stopping the Chat</span></a>.</p>
 </div>
 </dd>
+<dt><cite>LinkJump(label=None, is_menu=False)</cite></dt><dd><p>Similar to <code class="docutils literal notranslate"><span class="pre">JumpVN</span></code>, this action acts as a jump between labels. Unlike <code class="docutils literal notranslate"><span class="pre">JumpVN</span></code>, however, the jump is intended to be within the same chatroom, rather than jumping to a Story Mode (VN) section.</p>
+<p><code class="docutils literal notranslate"><span class="pre">LinkJump</span></code> takes two optional parameters. The first, <code class="docutils literal notranslate"><span class="pre">label</span></code>, is the name of a label or menu to jump to when the link is pressed. If left blank, this acts like <code class="docutils literal notranslate"><span class="pre">ContinueChat</span></code> if the chat is stopped, or does nothing if the chat is not stopped.</p>
+<p><code class="docutils literal notranslate"><span class="pre">is_menu</span></code> can be set to True if you would like this LinkJump to jump to a menu without showing the answer button at the bottom of the screen. For example:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="s2">&quot;Click Link&quot;</span> <span class="p">(</span><span class="n">link_title</span><span class="o">=</span><span class="s2">&quot;Address&quot;</span><span class="p">,</span> <span class="n">link_action</span><span class="o">=</span><span class="n">LinkJump</span><span class="p">(</span><span class="s1">&#39;getaddress&#39;</span><span class="p">,</span> <span class="n">is_menu</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="k">stop</span> <span class="n">chat</span>
+<span class="k">menu</span> <span class="n">getaddress</span> <span class="p">(</span><span class="n">paraphrased</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="s2">&quot;(Go to the sent address).&quot;</span><span class="p">:</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>When the player presses the link, they will immediately see the option to (Go to the sent address) as though they had pressed the answer button on a menu.</p>
+</dd>
 <dt><cite>ContinueChat</cite></dt><dd><p>This action will cause the chat to continue if it was previously stopped.</p>
+</dd>
+<dt><cite>IfChatStopped(true_action, false_action=None)</cite></dt><dd><p>This is a special action that takes two parameters. The first is the action (or list of actions) to perform if the chat is stopped when this button is clicked. It can also be <code class="docutils literal notranslate"><span class="pre">None</span></code> to do nothing if the chat is stopped.</p>
+<p>The second parameter is the action to perform if the chat is not stopped (see the section below for more on stopping the chat). This parameter can also be <code class="docutils literal notranslate"><span class="pre">None</span></code> or omitted to do nothing if the chat is not stopped.</p>
+<p>e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">link_action</span><span class="o">=</span><span class="n">IfChatStopped</span><span class="p">([</span><span class="n">ShowCG</span><span class="p">(</span><span class="s1">&#39;common_2&#39;</span><span class="p">),</span> <span class="n">ContinueChat</span><span class="p">()],</span> <span class="n">ShowCG</span><span class="p">(</span><span class="s1">&#39;common_3&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This causes the CG “common_2” to be shown to the player if the chat is paused before continuing the chat. Otherwise, if the chat is not paused, clicking the link will show the “common_3” CG instead.</p>
+<p>This action is useful if you only want the player to be able to proceed by clicking a link once the chat is stopped e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">link_action</span><span class="o">=</span><span class="n">IfChatStopped</span><span class="p">(</span><span class="n">JumpVN</span><span class="p">(</span><span class="s1">&#39;drive_scene_2&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If used as the link action, the player can only click on the link when the chat is stopped.</p>
 </dd>
 </dl>
 </div>
@@ -873,6 +918,7 @@
 <span class="k">stop</span> <span class="n">chat</span> <span class="s2">&quot;Click the link to continue&quot;</span>
 </pre></div>
 </div>
+<p>There is also an optional toggle in the <strong>Developer Settings</strong> called <strong>Use pause footer for links</strong> which will show the pause button at the bottom of the screen while waiting for the player to press a link. Note that if you do choose to enable this, it is less clear to the player what they should do to proceed with the story when the chat stops to wait for them to click a link.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>If you use the <code class="docutils literal notranslate"><span class="pre">JumpVN</span></code> action, the chat will automatically resume after it returns from the VN label. However, if your action is doing something like viewing a CG or setting a variable, you <strong>must</strong> include the action <code class="docutils literal notranslate"><span class="pre">ContinueChat()</span></code> as the final action in your link_action parameter:</p>
