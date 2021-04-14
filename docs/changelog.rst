@@ -53,27 +53,22 @@ Minor New Features
       - New action for links that changes depending on whether the chat is stopped or not.
 
 
+.. _fixes-3-1-0:
 
 Fixes
 ------
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
 
-.. _fixes-3-1-0:
-
-      Fixes
-      ------
-
-      .. list-table::
-          :widths: 15, 85
-          :header-rows: 1
-
-          * - **Fix**
-            - **Description**
-            - Pause button fix
-            - Pausing chatrooms and real-time text messages has been overhauled to cause fewer issues with skipped messages.
-            - Vanderwooo
-            - Fixed Vanderwood's name getting cut off in the phone contacts.
-            - Erroneous msg CDS errors
-            - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
+    * - **Fix**
+      - **Description**
+    * - Pause button fix
+      - Pausing chatrooms and real-time text messages has been overhauled to cause fewer issues with skipped messages.
+    * - Vanderwooo
+      - Fixed Vanderwood's name getting cut off in the phone contacts.
+    * - Erroneous msg CDS errors
+      - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
 
 
 .. _qol-3-1-0:
