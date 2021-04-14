@@ -165,6 +165,30 @@ Finally, there are several settings which are helpful when testing a route. They
 
     This option is only available on the main menu (not in-game).
 
+Updates
+--------
+
+By default, Mysterious Messenger will check for updates to the program once a day. You can customize this in several ways by clicking the update icon in the bottom-right corner of the main menu.
+
+`Check for updates (once per day)`
+    Unchecking this will stop the program from automatically checking for updates. You can still manually check for them with the **Check for updates** button.
+
+`Check for prereleases`
+    Checking this will include prereleases when the program checks for updates, and will inform the player if a recent prerelease is available. Unchecking this will cause updates to only search for complete releases.
+
+`Ignored releases`
+    Whenever the program finds a release you haven't updated to yet, you'll get the option to ignore it. Ignoring a release means that you won't receive any more popups informing you of this particular update version. If you've ignored any versions, they will appear listed under the **Check for prereleases** option. You can uncheck any of these releases to stop ignoring them.
+
+`Check for updates`
+    Clicking this button will cause the program to manually check for any updates that fit the conditions you've specified above. You will receive a popup if it finds a new version you can update to.
+
+.. note::
+    Mysterious Messenger requires an internet connection to check for updates. If it cannot connect to the internet and automatic updates are turned on, it will simply silently fail to fetch them (with no adverse effects to the rest of the program).
+
+If Mysterious Messenger finds an update for you, you will see information such as the version number, publish date, whether or not it's a prerelease, and a download link for the new code files. You can also choose to ignore this release. Your current program version will be displayed in the bottom-left corner of the popup.
+
+
+
 Uncategorized
 ---------------
 
