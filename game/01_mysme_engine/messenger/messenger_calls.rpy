@@ -362,6 +362,9 @@ label skip_intro_setup():
     # Deliver emails and trigger the next chatroom (if applicable)
     $ deliver_emails()
     $ check_and_unlock_story()
+    # Pop the call from begin_intro_mstmg
+    if len(renpy.get_return_stack()) > 0:
+        $ renpy.pop_call()
     pause 0.2
     hide screen loading_screen
     $ renpy.save(mm_auto)
