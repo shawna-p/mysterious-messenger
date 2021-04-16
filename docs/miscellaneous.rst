@@ -252,7 +252,7 @@ The parameters are explained below:
     By default, 20. An integer equal to the number of characters you will allow in the input box. Depending on where you are using the result, excessively long input values may not display correctly everywhere in the game.
 
 `allow`
-    A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters are allowed (except for ``{}`` which can cause program issues). For example, you can use this to ensure you receive a number as input::
+    A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters accepted by the font are allowed (except for ``{}`` which can cause program issues). For example, you can use this to ensure you receive a number as input::
 
         msg u "How old are you?"
         $ player_age = "23"

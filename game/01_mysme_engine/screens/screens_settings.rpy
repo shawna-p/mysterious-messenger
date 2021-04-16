@@ -285,6 +285,7 @@ screen pic_and_pronouns():
                         SetField(persistent, 'gender', 'nonbinary')))
 
 define allowed_username_chars = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™"
+define allowed_alphabet = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 screen pick_mc_pfp():
     modal True
@@ -567,7 +568,7 @@ screen input_popup(prompt=''):
 
         input = Input(value=NameInput(),
                 style="my_input", length=20,
-                allow=" -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+                allow=allowed_alphabet)
 
     zorder 100
     modal True
@@ -596,14 +597,15 @@ screen input_popup(prompt=''):
 
 ## Generic input popup to get any information
 label get_input(the_var, prompt='', default='', length=20,
-        allow=None, exclude=None, show_answer=True, can_close=False):
+        allow=None, exclude=None, accept_blank=True,
+        show_answer=True, can_close=False):
     ## Ensure any missed dialogue is posted before the input comes up
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
     if show_answer and not vn_choice and not in_phone_call and not email_reply:
         $ choosing = True
         if text_msg_reply:
-            call screen text_answer_button
+            call screen text_answer
         else:
             call screen answer_button
         $ choosing = False
@@ -611,8 +613,10 @@ label get_input(the_var, prompt='', default='', length=20,
             show screen text_pause_button
         else:
             show screen pause_button
+    if not allow and not exclude:
+        $ allow = allowed_username_chars
     call screen input_template(the_var, prompt, default, length, allow,
-        exclude, can_close)
+        exclude, accept_blank, can_close)
     return
 
 screen input_template(the_var, prompt='', default='', length=20,
