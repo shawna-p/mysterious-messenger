@@ -129,7 +129,7 @@ label after_example_solo_story_call():
         # some time randomly after the next chatroom, but before the one after
         # that. So, it will be delivered after the 11:28 chatroom, but before
         # the 13:44 one.
-        compose text ja deliver_at next_item:
+        compose text ja deliver_at next_item real_time:
             ja "I'm sorry I had to hang up so suddenly."
             ja "It was good to talk to you."
             # You can add conditional statements in here to modify what
@@ -152,22 +152,44 @@ label after_example_solo_story_call():
     # Don't forget to end with `return`
     return
 
+default player_dog_name = None
 label ja_text_own_dog():
+    $ has_dog = False
     menu:
         "I have a big dog for protection.":
+            $ has_dog = True
             ja "Oh, that's understandable."
             ja "It can be nice to have a dog around, especially if you're living alone."
         "I have a small dog.":
+            $ has_dog = True
             ja "Oh, I see."
         "I don't have a dog, but I want one.":
             ja "Perhaps one day you will be able to get one, then."
             ja "I always hear it's better to adopt from shelters if possible."
         "My dog's a total cuddle bug.":
+            $ has_dog = True
             msg ja "{image=jaehee_happy}"
             ja "That sounds sweet."
         "I like dogs, but don't want to own one right now.":
             ja "It sounds like you've put some thought into it."
             ja "That's a sensible way of approaching things."
+    if has_dog:
+        ja "If you don't mind me asking, what is your dog's name?"
+        # Ensure the name begins as blank
+        $ player_dog_name = ''
+        # accept_blank=False means the game won't allow the player to click
+        # "Confirm" until they've entered at least one character
+        # for the dog's name.
+        call get_input('player_dog_name', "Enter your dog's name", accept_blank=False)
+        msg m "[player_dog_name]" pv 0
+        ja "[player_dog_name]...?"
+        ja "Hmm, thank you for sharing."
+        # You don't normally need to do this; causes the program
+        # to forget the has_dog variable since it's no longer needed.
+        # (Since the dog has a name).
+        $ del has_dog
+
+
     ja "Well, I should return to work."
     ja "Thank you for talking with me."
     return
