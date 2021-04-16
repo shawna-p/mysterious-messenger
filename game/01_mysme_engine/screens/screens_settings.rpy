@@ -628,7 +628,8 @@ screen input_template(the_var, prompt='', default='', length=20,
     else:
         default old_var = getattr(store, the_var, None)
 
-    default the_input = VariableInputValue(the_var, returnable=not can_close)
+    default the_input = VariableInputValue(the_var, returnable=(not can_close
+        and accept_blank))
     # For whatever reason the default property on input isn't
     # working, so we just set the variable here
     default x = setattr(store, the_var, default)
@@ -643,11 +644,6 @@ screen input_template(the_var, prompt='', default='', length=20,
                         Hide('input_template')]
         key 'K_KP_ENTER' action [SetVariable(the_var, getattr(store, the_var)),
                         Hide('input_template')]
-
-    # Absorb the enter button input
-    elif not accept_blank and not getattr(store, the_var):
-        key 'K_RETURN' action NullAction()
-        key 'K_KP_ENTER' action NullAction()
 
     style_prefix "my_input"
     frame:
