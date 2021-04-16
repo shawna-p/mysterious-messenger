@@ -620,7 +620,8 @@ label get_input(the_var, prompt='', default='', length=20,
     return
 
 screen input_template(the_var, prompt='', default='', length=20,
-        allow=None, exclude=None, can_close=False, copypaste=False):
+        allow=None, exclude=None, accept_blank=True,
+        can_close=False, copypaste=False):
 
     if 'persistent.' in the_var:
         default old_var = getattr(persistent, the_var[11:], None)
@@ -642,6 +643,11 @@ screen input_template(the_var, prompt='', default='', length=20,
                         Hide('input_template')]
         key 'K_KP_ENTER' action [SetVariable(the_var, getattr(store, the_var)),
                         Hide('input_template')]
+
+    # Absorb the enter button input
+    elif not accept_blank and not getattr(store, the_var):
+        key 'K_RETURN' action NullAction()
+        key 'K_KP_ENTER' action NullAction()
 
     style_prefix "my_input"
     frame:
@@ -673,6 +679,7 @@ screen input_template(the_var, prompt='', default='', length=20,
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'my_input_textbutton'
+                sensitive (accept_blank or getattr(store, the_var))
                 action If(can_close,
                     [SetVariable(the_var, getattr(store, the_var)),
                         Hide('input_template')],
