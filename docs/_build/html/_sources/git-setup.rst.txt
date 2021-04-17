@@ -51,10 +51,10 @@ You should now have a local copy of the mysterious-messenger repository. Next, y
 
 Now you should make sure you get the most recent released version, which is currently v3.0.1
 
-* Type ``git checkout v3.0.1`` and press Enter
-* Next, type ``git merge tags/v3.0.1`` and press Enter.
+* Type ``git checkout v3.1.0`` and press Enter
+* Next, type ``git merge tags/v3.1.0`` and press Enter.
 
-You should now have v3.0.1 of Mysterious Messenger. In the future, you can use ``git checkout v3.0.1`` and ``git merge tags/v3.0.1`` with future version numbers to update to the latest version of Mysterious Messenger.
+You should now have v3.1.0 of Mysterious Messenger. In the future, you can use ``git checkout v3.1.0`` and ``git merge tags/v3.1.0`` with future version numbers to update to the latest version of Mysterious Messenger.
 
 Further resources
 ==================

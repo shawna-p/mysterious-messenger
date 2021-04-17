@@ -44,14 +44,13 @@ Minor New Features
     * - :ref:`reset_participants<Resetting Chatroom Participants>`
       - New function allows you to easily reset the participants list in the middle of a chatroom.
     * - :ref:`Link wait pause button<Developer Settings>`
-      - Dev toggle allows you to toggle the footer while waiting for the player to click a link to just be the pause button.
+      - Dev toggle allows you to toggle the footer while waiting for the player to click a link to be the pause button.
     * - :ref:`Reversable hack effect<Showing the Hacked Scroll Effect>`
       - The scrolling hacked effects can be reversed to scroll in the other direction.
     * - :ref:`LinkJump<Link Actions>`
       - New action for links to jump to somewhere else in a chatroom (including menus).
     * - :ref:`IfChatStopped<Link Actions>`
       - New action for links that changes depending on whether the chat is stopped or not.
-
 
 
 .. _fixes-3-1-0:
@@ -70,6 +69,8 @@ Fixes
       - Fixed Vanderwood's name getting cut off in the phone contacts.
     * - Erroneous msg CDS errors
       - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
+    * - Skip Intro fix
+      - Skipping the introduction no longer causes real-time text message to prompt you about leaving even though the conversation is over.
 
 
 .. _qol-3-1-0:
@@ -85,6 +86,21 @@ QoL Improvements
       - **Description**
     * - :ref:`Reset Albums<Developer Settings>`
       - You can tell the program to forget all seen images and unlocked album entries without losing other persistent variable progress.
+
+
+.. _other-3-1-0:
+
+Other
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Animated bg relocation
+      - Animated background images have been relocated into their own folder inside of the **Phone UI** image folder for better organization.
 
 
 3.0.1
@@ -155,6 +171,8 @@ QoL Improvements
       - **Description**
     * - Tutorial Day Introduction
       - If you hold Ctrl (Skip) during the introductory phone call on Tutorial Day, you will automatically go directly to the home screen, skipping the introduction.
+    * - :ref:`exclude_suffix<Setting up a Route>`
+      - Can now exclude the automatic "Day" suffix appended to RouteDay objects.
 
 .. _other-3-0-1:
 

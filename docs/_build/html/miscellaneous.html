@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Miscellaneous &mdash; Mysterious Messenger Wiki v3.0.1 documentation</title>
+  <title>Miscellaneous &mdash; Mysterious Messenger Wiki v3.1.0 documentation</title>
   
 
   
@@ -454,7 +454,7 @@
 </dd>
 <dt><cite>length</cite></dt><dd><p>By default, 20. An integer equal to the number of characters you will allow in the input box. Depending on where you are using the result, excessively long input values may not display correctly everywhere in the game.</p>
 </dd>
-<dt><cite>allow</cite></dt><dd><p>A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters are allowed (except for <code class="docutils literal notranslate"><span class="pre">{}</span></code> which can cause program issues). For example, you can use this to ensure you receive a number as input:</p>
+<dt><cite>allow</cite></dt><dd><p>A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters accepted by the font are allowed (except for <code class="docutils literal notranslate"><span class="pre">{}</span></code> which can cause program issues). For example, you can use this to ensure you receive a number as input:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;How old are you?&quot;</span>
 <span class="k">$</span> <span class="n">player_age</span> <span class="o">=</span> <span class="s2">&quot;23&quot;</span>
 <span class="k">call</span> <span class="n">get_input</span><span class="p">(</span><span class="s1">&#39;player_age&#39;</span><span class="p">,</span> <span class="s2">&quot;Enter your age&quot;</span><span class="p">,</span> <span class="s2">&quot;23&quot;</span><span class="p">,</span> <span class="na">allow</span><span class="o">=</span><span class="s2">&quot;0123456789&quot;</span><span class="p">)</span>
@@ -467,8 +467,33 @@
 </pre></div>
 </div>
 <p>The line <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">player_age</span> <span class="pre">=</span> <span class="pre">int(player_age)</span></code> ensures that the input, which is always a string, is then converted to an integer value which you can do math on if you so please.</p>
+<p>There is a pre-defined variable, <code class="docutils literal notranslate"><span class="pre">allowed_alphabet</span></code>, which you can give to <code class="docutils literal notranslate"><span class="pre">allow</span></code> to only accept letters from the alphabet as well as spaces, dashes (-), and apostrophes e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">z</span> <span class="s2">&quot;Do you have any nicknames you want us to use?&quot;</span>
+<span class="k">$</span> <span class="n">nickname</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+<span class="k">menu</span> <span class="p">(</span><span class="n">paraphrased</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="s2">&quot;I do have a nickname (enter nickname)&quot;</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="n">m</span> <span class="s2">&quot;I do have a nickname.&quot;</span> <span class="n">pv</span> <span class="mi">0</span>
+        <span class="k">call</span> <span class="n">get_input</span><span class="p">(</span><span class="s1">&#39;nickname&#39;</span><span class="p">,</span> <span class="s2">&quot;Enter a nickname&quot;</span><span class="p">,</span> <span class="na">allow</span><span class="o">=</span><span class="n">allowed_alphabet</span><span class="p">)</span>
+        <span class="c1"># This loops so long as the player leaves the input blank</span>
+        <span class="k">while</span> <span class="k">not</span> <span class="n">nickname</span><span class="p">:</span>
+            <span class="n">z</span> <span class="s2">&quot;Oh, so you don&#39;t have a nickname then?&quot;</span>
+            <span class="k">menu</span><span class="p">:</span>
+                <span class="s2">&quot;No, I don&#39;t have a nickname.&quot;</span><span class="p">:</span>
+                    <span class="k">jump</span> <span class="n">no_nickname</span>
+                <span class="s2">&quot;Yes, I do. I want to input it again.&quot;</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">call</span> <span class="n">get_input</span><span class="p">(</span><span class="s1">&#39;nickname&#39;</span><span class="p">,</span> <span class="s2">&quot;Enter a nickname&quot;</span><span class="p">,</span> <span class="na">allow</span><span class="o">=</span><span class="n">allowed_alphabet</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="n">m</span> <span class="s2">&quot;Call me [nickname]&quot;</span> <span class="n">pv</span> <span class="mi">0</span>
+        <span class="n">z</span> <span class="s2">&quot;[nickname], huh?&quot;</span>
+        <span class="n">z</span> <span class="s2">&quot;Sounds cute!&quot;</span>
+    <span class="s2">&quot;I don&#39;t have a nickname.&quot;</span> <span class="p">(</span><span class="n">paraphrased</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">z</span> <span class="s2">&quot;That&#39;s fine!&quot;</span>
+</pre></div>
+</div>
 </dd>
 <dt><cite>exclude</cite></dt><dd><p>Like allow, a string which contains all the letters, numbers, symbols etc which are <em>not</em> permitted to be entered as input.</p>
+</dd>
+<dt><cite>accept_blank</cite></dt><dd><p>If True, the default, the prompt will accept the empty string (“”) as input. If False, the player must enter at least one valid character for the Confirm button to be active.</p>
 </dd>
 <dt><cite>show_answer</cite></dt><dd><p>By default, this is True during chatrooms and text messages. It will show the answer button at the bottom of the screen which, when clicked, will display the input prompt. This should always be False for input prompts outside of chatrooms and text messages so that the input prompt appears right away.</p>
 </dd>

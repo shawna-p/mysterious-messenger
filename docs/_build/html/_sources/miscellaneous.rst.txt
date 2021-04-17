@@ -252,7 +252,7 @@ The parameters are explained below:
     By default, 20. An integer equal to the number of characters you will allow in the input box. Depending on where you are using the result, excessively long input values may not display correctly everywhere in the game.
 
 `allow`
-    A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters are allowed (except for ``{}`` which can cause program issues). For example, you can use this to ensure you receive a number as input::
+    A string containing all the letters, numbers, symbols etc that are permitted to be entered as input. By default, all characters accepted by the font are allowed (except for ``{}`` which can cause program issues). For example, you can use this to ensure you receive a number as input::
 
         msg u "How old are you?"
         $ player_age = "23"
@@ -266,8 +266,37 @@ The parameters are explained below:
 
     The line ``$ player_age = int(player_age)`` ensures that the input, which is always a string, is then converted to an integer value which you can do math on if you so please.
 
+    There is a pre-defined variable, ``allowed_alphabet``, which you can give to ``allow`` to only accept letters from the alphabet as well as spaces, dashes (-), and apostrophes e.g.
+
+    ::
+
+        msg z "Do you have any nicknames you want us to use?"
+        $ nickname = ''
+        menu (paraphrased=True):
+            "I do have a nickname (enter nickname)":
+                msg m "I do have a nickname." pv 0
+                call get_input('nickname', "Enter a nickname", allow=allowed_alphabet)
+                # This loops so long as the player leaves the input blank
+                while not nickname:
+                    z "Oh, so you don't have a nickname then?"
+                    menu:
+                        "No, I don't have a nickname.":
+                            jump no_nickname
+                        "Yes, I do. I want to input it again.":
+                            pass
+                    call get_input('nickname', "Enter a nickname", allow=allowed_alphabet)
+                msg m "Call me [nickname]" pv 0
+                z "[nickname], huh?"
+                z "Sounds cute!"
+            "I don't have a nickname." (paraphrased=False):
+                z "That's fine!"
+
+
 `exclude`
     Like allow, a string which contains all the letters, numbers, symbols etc which are *not* permitted to be entered as input.
+
+`accept_blank`
+    If True, the default, the prompt will accept the empty string ("") as input. If False, the player must enter at least one valid character for the Confirm button to be active.
 
 `show_answer`
     By default, this is True during chatrooms and text messages. It will show the answer button at the bottom of the screen which, when clicked, will display the input prompt. This should always be False for input prompts outside of chatrooms and text messages so that the input prompt appears right away.
