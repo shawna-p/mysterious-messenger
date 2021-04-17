@@ -24,7 +24,7 @@ copyright = '2021, Shawna P'
 author = 'Shawna P'
 
 # The full version, including alpha/beta/rc tags
-release = 'v3.0.1'
+release = 'v3.1.0'
 
 
 # -- General configuration ---------------------------------------------------
