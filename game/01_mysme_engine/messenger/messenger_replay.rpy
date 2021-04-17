@@ -221,48 +221,26 @@ label chatroom_replay():
                             # The program checks to make sure the hack
                             # screen is still showing so that it should
                             # continue to pause
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
+                            m_pause_time = 3.0
+                            while m_pause_time > 0.0:
+                                m_pause_time -= 0.1
+                                if (renpy.is_skipping()
+                                        or not renpy.get_screen("hack_screen")):
+                                    break
+                                renpy.pause(0.1)
                             renpy.hide_screen('hack_screen')
                         elif second == "red_static":
                             renpy.show_screen('hack_screen',
                                 hack='red_static_scroll',
                                 flicker_anim=False,
                                 bg='red_static_background')
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
-                            if (not renpy.is_skipping()
-                                    and renpy.get_screen("hack_screen")):
-                                renpy.pause(0.5, hard=False)
+                            m_pause_time = 3.0
+                            while m_pause_time > 0.0:
+                                m_pause_time -= 0.1
+                                if (renpy.is_skipping()
+                                        or not renpy.get_screen("hack_screen")):
+                                    break
+                                renpy.pause(0.1)
                             renpy.hide_screen('hack_screen')
                 elif first == "play music":
                     try:
