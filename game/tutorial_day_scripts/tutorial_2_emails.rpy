@@ -13,7 +13,7 @@ label example_email():
     menu:
         "That sounds great!":
             invite rainbow # Use this to invite your guest
-            z "Great! I'll tell her to send you a message."
+            z "Great! I'll tell them to send you a message."
 
         "I'll pass":
             z "Oh, okay. No problem!"
@@ -84,7 +84,7 @@ default rainbow = Guest(
 
 ## Personal Info section on the guest, shown in the guestbook after the
 ## guest has attended the party.
-"Rainbow started working on this project back in 2018 and she's excited to share it with the world!",
+"Rainbow started working on this project back in 2018 and they're excited to share it with the world!",
 
 ## This is the beginning email that will be sent to the player after the guest
 ## is invited. It is usually easier to write this with triple quotes so you
