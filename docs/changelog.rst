@@ -106,6 +106,8 @@ Other
 3.0.1
 ======
 
+You can find the docs for v3.0.1 here: https://mysterious-messenger.readthedocs.io/en/v3.0.1/
+
 .. _major-3-0-1:
 
 Major New Features
