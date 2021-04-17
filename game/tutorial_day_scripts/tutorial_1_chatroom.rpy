@@ -500,7 +500,7 @@ label screen_shake():
 
 label ending():
     scene hack
-    show hack effect
+    show hack effect reverse
     play music mystic_chat
 
     enter chatroom u
