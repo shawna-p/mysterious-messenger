@@ -603,7 +603,17 @@ python early:
                         "\" for use as a profile picture.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
-                return Transform("#f00", size=(the_size, the_size))
+                self.prof_pic = Solid("#f00")
+
+            # Make sure the pfp is still loadable
+            if (isinstance(self.__prof_pic, basestring)
+                    and not renpy.loadable(self.__prof_pic)):
+                ScriptError("Could not load the image \"", self.__prof_pic,
+                    "\" for use as a profile picture.",
+                    header="Creating Characters",
+                    subheader="Adding a New Character to Chatrooms")
+                self.prof_pic = Solid("#f00")
+
             if the_size <= max_small:
                 return Transform(self.__prof_pic,
                                 size=(the_size, the_size))
@@ -1074,6 +1084,8 @@ init -5 python:
                 str_img = trans.filename
             elif isinstance(trans, renpy.display.imagelike.Solid):
                 color = trans.color
+            elif isinstance(trans, basestring) and trans[0] == "#":
+                color = trans
             # May need to add more statements here
 
             # Check if str_img is already in the set with a different extension
