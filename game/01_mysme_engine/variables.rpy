@@ -740,6 +740,12 @@ init -6 python:
         sys = system().lower()
         if "windows" not in sys and "win" not in sys:
             return False
+        # Does the file picker exist?
+        out_gamedir = renpy.config.gamedir[:-5]
+        filepath = os.path.join( out_gamedir, "file_picker.exe")
+        if not os.path.exists(filepath):
+            return False
+
         return True
 
 
