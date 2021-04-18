@@ -124,6 +124,13 @@ label extra_features_showcase():
             z "If there's something wrong with your script, sometimes you'll get a popup with a link to the documentation."
             z neutral "By default, this opens in a web browser, but if you check this option, it will open the offline version that comes in the repository."
             z happy "It can be good if you're working offline!"
+            hide tut_arrow
+            hide tut_dev_options
+            z neutral "There is another option not shown in the image here, called {b}Use pause footer for links{/b}."
+            z "Checking this will replace the footer at the bottom of the screen when the chat is stopped with the pause button."
+            z thinking "Keep in mind that this makes it less clear to players what they have to do next."
+            show tut_dev_options at tutorial_anim(100)
+            pause 0.5
             show tut_arrow:
                 xpos 345
                 ypos 810
@@ -137,6 +144,9 @@ label extra_features_showcase():
             z "Beside it, there's the \"Documentation\" button, which will open the documentation home page in case you need to look anything up."
             hide tut_arrow
             hide tut_dev_options
+            z "If you click the Developer button from the main menu, you'll also see a button called {b}Reset Albums{/b}."
+            z "This will cause the program to forget all the images you've unlocked in the album."
+            z "It can be good for testing to see if everything unlocks properly without erasing the rest of your progress."
             z happy "And that's all! Is there anything else you want to know about?"
 
         "That's all I wanted to know." (paraphrased=False):
