@@ -688,6 +688,60 @@ init -6 python:
         except:
             print("Print to file did not work:", args)
 
+    def get_img_from_file():
+        """
+        (Windows only) Display a file picker to the player to get an
+        image for use in-game.
+        """
+
+        import subprocess, os
+
+        try:
+            if not can_pick_image():
+                return None
+            # Look for exe in the game dir
+            out_gamedir = renpy.config.gamedir[:-5]
+            filepath = os.path.join( out_gamedir, "file_picker.exe")
+            thevar = subprocess.check_output([filepath])
+            thevar.strip()
+            if ".webp" in thevar:
+                thevar = thevar.split('.webp')[0] + '.webp'
+            elif ".png" in thevar:
+                thevar = thevar.split('.png')[0] + '.png'
+            elif ".jpg" in thevar:
+                thevar = thevar.split('.jpg')[0] + '.jpg'
+            else:
+                thevar = None
+        except:
+            return None
+        # Make sure Ren'Py can load the image
+        if thevar and renpy.loadable(thevar):
+            return thevar
+        return None
+
+    def set_pfp_from_file():
+        """
+        (Windows only) Set the player's profile picture from a file.
+        """
+
+        the_img = get_img_from_file()
+        if the_img is None:
+            # Can't use this as a profile picture
+            renpy.run(CConfirm("This image cannot be used as a profile picture."))
+            return
+        # Otherwise, we're good to go
+        store.m.prof_pic = the_img
+        return
+
+    def can_pick_image():
+        """Return True if a file-picker is available."""
+        from platform import system
+        # Can only use file picker on Windows
+        sys = system().lower()
+        if "windows" not in sys and "win" not in sys:
+            return False
+        return True
+
 
     def ScriptError(*args, **kwargs):
         """
