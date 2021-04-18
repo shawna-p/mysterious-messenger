@@ -258,7 +258,7 @@ python early:
                         "\" for use as a regular bubble.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
-                    reg_bub_img = "#f00"
+                    reg_bub_img = "cannot_find_img"
                 # This person is the messenger; typically MC
                 if self.right_msgr:
                     reg_bub_img = Transform(reg_bub_img, xzoom=-1)
@@ -276,7 +276,7 @@ python early:
                         "\" as a color for a regular speech bubble.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
-                    reg_bub_img = reg_bubble_fn("#f00")
+                    reg_bub_img = reg_bubble_fn("cannot_find_img")
 
                 if self.right_msgr:
                     reg_bub_img = Transform(reg_bub_img, xzoom=-1)
@@ -297,7 +297,7 @@ python early:
                         "\" for use as a glowing bubble.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
-                    glow_bub_img = "#f00"
+                    glow_bub_img = "cannot_find_img"
                 return Frame(glow_bub_img, 25,25)
             else:
                 # Check if the program was given a valid colour
@@ -310,7 +310,7 @@ python early:
                         "\" as a color for a regular speech bubble.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
-                    glow_bub_img = glow_bubble_fn("#f00")
+                    glow_bub_img = glow_bubble_fn("cannot_find_img")
                 return Frame(glow_bub_img, 25, 25)
 
         @property
@@ -524,7 +524,7 @@ python early:
                         "\" for use as a profile picture.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
-                    new_img = "#f00"
+                    new_img = "cannot_find_img"
                     raise
             except:
                 is_transform = True
@@ -603,7 +603,7 @@ python early:
                         "\" for use as a profile picture.",
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
-                self.prof_pic = Solid("#f00")
+                self.prof_pic = "cannot_find_img"
 
             # Make sure the pfp is still loadable
             if (isinstance(self.__prof_pic, basestring)
@@ -612,7 +612,7 @@ python early:
                     "\" for use as a profile picture.",
                     header="Creating Characters",
                     subheader="Adding a New Character to Chatrooms")
-                self.prof_pic = Solid("#f00")
+                self.prof_pic = "cannot_find_img"
 
             if the_size <= max_small:
                 return Transform(self.__prof_pic,
