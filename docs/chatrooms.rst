@@ -342,6 +342,61 @@ where ``s`` is the variable of the character who is exiting the chatroom.
     You can also use ``call exit(s)`` to have a character leave the chatroom.
 
 
+Updating the Characters' Profiles
+----------------------------------
+
+Updating the Profile Picture
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To update a character's profile picture, you just need to write
+
+::
+
+    $ ja.prof_pic = "Profile Pics/Jaehee/jae-2.webp"
+
+where ``ja`` is the ChatCharacter variable of the character whose profile picture you'd like to update. This can be written anywhere during a chatroom, phone call, text message, etc. To have the profile picture show up in the History screen as well as during regular gameplay, it is recommended that you change the profile picture at the beginning of a label and its associated expired version, if applicable e.g.
+
+::
+
+    label day_1_chatroom_1():
+        $ r.prof_pic = "Profile Pics/Ray/ray-1.webp"
+        play music mint_eye
+        enter chatroom r
+        msg r "Good morning!" curly glow
+
+Updating a character's profile picture will automatically change their portrait on the homepage to have an "updated" background.
+
+.. note::
+    There are also bonus profile pictures, which the player can update themselves. For more on that, see :ref:`Bonus Profile Pictures`.
+
+Updating a Character's Status
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To update a character's status, use
+
+::
+
+    $ ju.status = "I wonder what Elizabeth the 3rd is up to..."
+
+where ``ju`` is the ChatCharacter variable of the character whose status you would like to update. Updating a character's status will automatically give their portrait on the homepage an "updated" background to indicate there is new information on their profile page.
+
+You can update a character's status wherever you like inside a label; in the middle of phone calls, at the end of a chatroom, in the ``after_`` label, wherever.
+
+
+Updating the Character's Cover Photo
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To update a character's cover photo, use
+
+::
+
+    $ s.cover_pic = "Cover Photos/rfa_cover.webp"
+
+where ``s`` is the ChatCharacter variable of the character whose cover photo you would like to update. Updating a character's cover photo will automatically give their portrait on the homepage an "updated" background to indicate their is new information on their profile page.
+
+You can update a character's cover photo wherever you like inside a label; during Story Mode, in the middle of an expired chatroom, in a text message, wherever.
+
+
 Clearing the Chat History
 -------------------------
 
