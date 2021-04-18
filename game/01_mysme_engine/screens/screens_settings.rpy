@@ -287,6 +287,8 @@ screen pic_and_pronouns():
 define allowed_username_chars = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™"
 define allowed_alphabet = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
+image cannot_find_img = 'rounded-rectangle-mask.webp'
+
 screen pick_mc_pfp():
     modal True
     python:
@@ -381,7 +383,7 @@ init python:
         except:
             # Couldn't display this profile picture
             ScriptError("Couldn't display given profile picture \"", img, "\".")
-            return Transform(Solid("#f00"), size=(140, 140))
+            return Transform("cannot_find_img"), size=(140, 140))
 
         return Transform(img, size=(140, 140))
 
