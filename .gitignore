@@ -23,3 +23,4 @@ game/z_route_test.rpy
 persistent-char-problem.txt
 game/notifications_mobile.rpy
 game/01_mysme_engine/notifications_mobile.rpy
+file_picker.exe
