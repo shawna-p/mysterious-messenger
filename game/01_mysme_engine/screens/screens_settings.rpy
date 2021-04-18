@@ -297,6 +297,8 @@ screen pick_mc_pfp():
             pfp_list.extend(persistent.unlocked_prof_pics)
         num_rows = -(-(len(pfp_list) ) // 4)
 
+    default can_pick = can_pick_image()
+
     add "#000d"
     frame:
         style_prefix 'pick_pfp'
@@ -313,6 +315,13 @@ screen pick_mc_pfp():
             draggable True
             mousewheel True
             scrollbars "vertical"
+            # Add image picker button, if applicable
+            if can_pick:
+                button:
+                    background 'menu_ringtone_box'
+                    text "Select from file" style 'pick_pfp_text2'
+                    hover_foreground "menu_ringtone_box"
+                    action Function(set_pfp_from_file)
             for img in pfp_list:
                 button:
                     padding (0, 0)
