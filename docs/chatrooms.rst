@@ -354,7 +354,9 @@ To update a character's profile picture, you just need to write
 
     $ ja.prof_pic = "Profile Pics/Jaehee/jae-2.webp"
 
-where ``ja`` is the ChatCharacter variable of the character whose profile picture you'd like to update. This can be written anywhere during a chatroom, phone call, text message, etc. To have the profile picture show up in the History screen as well as during regular gameplay, it is recommended that you change the profile picture at the beginning of a label and its associated expired version, if applicable e.g.
+where ``ja`` is the ChatCharacter variable of the character whose profile picture you'd like to update. Profile pictures should be 110x110 pixels at minimum, and can optionally have a second, larger version supplied that is up to 314x314 pixels and will be used on the character's profile screen. The program looks for the larger version under the same name with the suffix ``-b`` e.g. ``Profile Pics/Jaehee/jae-2-b.webp``.
+
+You can update a profile picture anywhere -- during a chatroom, phone call, text message, etc. To have the profile picture show up in the History screen as well as during regular gameplay, it is recommended that you change the profile picture at the beginning of a label and its associated expired version, if applicable e.g.
 
 ::
 
@@ -392,7 +394,9 @@ To update a character's cover photo, use
 
     $ s.cover_pic = "Cover Photos/rfa_cover.webp"
 
-where ``s`` is the ChatCharacter variable of the character whose cover photo you would like to update. Updating a character's cover photo will automatically give their portrait on the homepage an "updated" background to indicate their is new information on their profile page.
+where ``s`` is the ChatCharacter variable of the character whose cover photo you would like to update. Cover photos should be 750 x 672 pixels in size.
+
+Updating a character's cover photo will automatically give their portrait on the homepage an "updated" background to indicate their is new information on their profile page.
 
 You can update a character's cover photo wherever you like inside a label; during Story Mode, in the middle of an expired chatroom, in a text message, wherever.
 
