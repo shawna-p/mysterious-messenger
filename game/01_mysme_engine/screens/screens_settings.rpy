@@ -307,15 +307,19 @@ screen pic_and_pronouns():
                     text 'they/them' style 'pronoun_radio_text'
             null height -40
             # Pick your gender
-            hbox:
+            frame:
+                background "#0006"
+                padding (5, 2)
+                has hbox:
+                    spacing 4
                 text "Gender:" size 30 align (0.5, 0.5)
-                textbutton _("[persistent.gender!cl]"):
+                imagebutton:
+                    idle 'mc_gender_picker'
+                    hover 'mc_gender_picker_hover'
                     align (0.5, 0.5)
-                    action If(persistent.gender == "nonbinary",
-                        SetField(persistent, 'gender', 'female'),
-                        If(persistent.gender == 'female',
-                        SetField(persistent, 'gender', 'male'),
-                        SetField(persistent, 'gender', 'nonbinary')))
+                    xysize (192, 55)
+                    focus_mask Solid("#f0f8", size=(192, 55))
+                    action Function(toggle_gender)
 
 define allowed_username_chars = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_=+:;/?|.,><~`♥♣♠•○♂♀♪★☆↑↓→←↔↕▲▼©○†✚∞®☎☏℡™"
 define allowed_alphabet = " -'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
