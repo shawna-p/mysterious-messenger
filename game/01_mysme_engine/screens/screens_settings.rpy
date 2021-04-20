@@ -90,6 +90,20 @@ init python:
             yalign=0.5,
             size=32), None
 
+    def toggle_gender():
+        """Toggle betwen the various gender options."""
+
+        current_gender = -1
+        for ind, gen in enumerate(store.gender_options):
+            if gen == store.persistent.gender:
+                current_gender = ind
+
+        if current_gender == len(store.gender_options) - 1:
+            store.persistent.gender = store.gender_options[0]
+        else:
+            store.persistent.gender = store.gender_options[current_gender+1]
+
+
 init -6 python:
 
     def isImg(pic):
