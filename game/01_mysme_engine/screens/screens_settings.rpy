@@ -71,6 +71,25 @@ init python:
             xalign =0.06,
             yalign =0.455), None
 
+    def MC_gender_display(st, at):
+        """Ensure the MC's gender is up-to-date on the profile page."""
+        return Text(store.persistent.gender.capitalize(),
+            color="#5BEEC8",
+            text_align=0.0,
+            font=gui.sans_serif_2xb,
+            xalign=0.0,
+            yalign=0.5,
+            size=32), None
+
+    def MC_gender_display_hover(st, at):
+        return Text(store.persistent.gender.capitalize(),
+            color="#a8d7ce",
+            text_align=0.0,
+            font=gui.sans_serif_2xb,
+            xalign=0.0,
+            yalign=0.5,
+            size=32), None
+
 init -6 python:
 
     def isImg(pic):
@@ -412,6 +431,8 @@ image they_them_pronoun_radio = ConditionSwitch(
 image mc_name_switch = DynamicDisplayable(MC_name_display)
 image change_mc_pfp = DynamicDisplayable(MC_pic_display)
 image mc_chatname_switch = DynamicDisplayable(MC_chatname_display)
+image mc_gender_picker = DynamicDisplayable(MC_gender_display)
+image mc_gender_picker_hover = DynamicDisplayable(MC_gender_display_hover)
 
 init python:
 
