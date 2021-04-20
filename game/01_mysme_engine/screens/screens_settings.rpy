@@ -189,7 +189,7 @@ screen profile_pic():
     if persistent.first_boot:
         use menu_header("Customize your Profile"):
             use pic_and_pronouns()
-            null height 50
+            null height 150
             textbutton _('Confirm'):
                 style 'other_settings_end_button'
                 text_style 'mode_select'
@@ -579,7 +579,7 @@ style pronoun_frame:
     background 'greeting_panel'
     maximum(340,400)
     xalign 0.99
-    yalign 0.32
+    yalign 0.00
     padding (20,20)
     xfill True
     yfill True
