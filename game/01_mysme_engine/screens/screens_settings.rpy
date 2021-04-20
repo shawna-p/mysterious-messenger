@@ -383,7 +383,7 @@ init python:
         except:
             # Couldn't display this profile picture
             ScriptError("Couldn't display given profile picture \"", img, "\".")
-            return Transform("cannot_find_img"), size=(140, 140))
+            return Transform("cannot_find_img", size=(140, 140))
 
         return Transform(img, size=(140, 140))
 
