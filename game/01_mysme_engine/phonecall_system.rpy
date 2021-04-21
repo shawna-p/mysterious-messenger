@@ -361,6 +361,9 @@ init -6 python:
                 if (self not in store.phone_only_characters
                         and self.file_id):
                     store.phone_only_characters.append(self)
+                # Remove self from all_characters, if applicable
+                if self in store.all_characters:
+                    store.all_characters.remove(self)
             except AttributeError:
                 return
 
