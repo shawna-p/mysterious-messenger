@@ -532,8 +532,20 @@ init python:
         # Replace this character object
         chara = new_c
 
+    def update_character_list(new_list):
+        """Update the character_list variable to new_list."""
 
-    def define_variables():
+        store.character_list = new_list
+        for chara in store.character_list:
+            unlock_profile_pics(chara)
+        for chara in store.all_characters:
+            if chara == store.main_character:
+                chara.right_msgr = True
+            else:
+                chara.right_msgr = False
+        return
+
+    def define_variables(unlock_pics=True):
         """Merge albums and set up the player's profile."""
 
         global all_albums
@@ -554,9 +566,9 @@ init python:
 
         set_name_pfp()
 
-        #if not store.persistent.unlocked_prof_pics:
-        for chara in store.all_characters:
-            unlock_profile_pics(chara)
+        if unlock_pics:
+            for chara in store.character_list:
+                unlock_profile_pics(chara)
 
         for chara in store.all_characters:
             if chara == store.main_character:
