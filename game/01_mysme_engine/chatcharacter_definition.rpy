@@ -160,6 +160,8 @@ python early:
                 Mode (VN) sections. If not given, defaults to their chat name.
             """
 
+            self.in_init = True
+
             self.name = name
             self.file_id = file_id
             self.big_prof_pic = prof_pic
@@ -221,6 +223,8 @@ python early:
                 self.p_name = pronunciation_help
             else:
                 self.p_name = self.name
+
+            self.in_init = False
 
             try:
                 # Any initialized character should go in all_characters
@@ -553,6 +557,13 @@ python early:
             if (store.persistent.unlocked_prof_pics is None
                     or not isinstance(store.persistent.unlocked_prof_pics, set)):
                 store.persistent.unlocked_prof_pics = set()
+
+            try:
+                if self.in_init:
+                    # Don't add images during initialization
+                    return
+            except:
+                pass
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
                 add_img_to_set(store.persistent.unlocked_prof_pics,
                         self.__prof_pic)
