@@ -173,6 +173,9 @@ init python:
             print_file("ERROR: Could not add " + who.file_id + "'s album",
                 "pictures to unlock list. Error:", e)
 
+        if who == store.m:
+            # Don't add MC's pictures to the unlockables
+            return
         # Add currently shown profile picture
         if who.prof_pic not in store.persistent.unlocked_prof_pics:
             add_img_to_set(store.persistent.unlocked_prof_pics,
