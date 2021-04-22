@@ -71,6 +71,8 @@ Fixes
       - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
     * - Skip Intro fix
       - Skipping the introduction no longer causes real-time text message to prompt you about leaving even though the conversation is over.
+    * - Participated fix
+      - Fixes a bug so the MC's profile picture shows up in the list of participants after playing a chatroom.
 
 
 .. _qol-3-1-0:
