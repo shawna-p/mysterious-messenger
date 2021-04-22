@@ -337,6 +337,8 @@ label skip_intro_setup():
     $ collected_hp = {'good': [], 'bad': [], 'break': []}
     $ collected_hg = 0
     $ reset_story_vars()
+    # Now we can unlock the profile pictures/albums
+    $ define_variables()
 
     show screen loading_screen
 
