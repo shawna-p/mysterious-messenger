@@ -822,6 +822,8 @@ init -6 python:
             # Otherwise, add the participants to a dictionary
             store.persistent.chatroom_participants[self.title] = [
                 x.file_id for x in self.participants ]
+            if not self.currently_expired:
+                self.participated = True
             return True
 
         def add_participant(self, chara):
