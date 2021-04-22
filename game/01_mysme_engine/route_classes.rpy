@@ -1553,6 +1553,7 @@ label end_route():
     jump restart_game
 
 label end_prologue():
+    $ define_variables()
     if not in_phone_call and not vn_choice:
         # It's a chatroom
         $ chat = True
