@@ -591,7 +591,7 @@ init -6 python:
                 participants = [ ]
             else:
                 participants = [participants]
-        define_variables()
+        define_variables(False)
         try:
             if chatroom_label is None and isinstance(store.mlabel, basestring):
                 chatroom_label = store.mlabel
