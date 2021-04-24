@@ -73,6 +73,8 @@ Fixes
       - Skipping the introduction no longer causes real-time text message to prompt you about leaving even though the conversation is over.
     * - Participated fix
       - Fixes a bug so the MC's profile picture shows up in the list of participants after playing a chatroom.
+    * - Unlocked Profile Pics Fix
+      - Default profile pictures for characters now only unlock after you've seen them as part of the game.
 
 
 .. _qol-3-1-0:
