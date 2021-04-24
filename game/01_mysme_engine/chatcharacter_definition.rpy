@@ -499,6 +499,10 @@ python early:
             if available.
             """
 
+            if self.__prof_pic == new_img:
+                # Don't bother
+                return
+
             if (getattr(store, 'observing', False)
                     and store.current_timeline_item.played
                     and not store._in_replay):
@@ -650,6 +654,9 @@ python early:
         def cover_pic(self, new_img):
             """Set this character's cover photo, if given an image."""
 
+            if self.cover_pic == new_img:
+                # No change
+                return
             if not new_img:
                 self.__cover_pic = False
             elif isImg(new_img):
@@ -666,6 +673,9 @@ python early:
         def status(self, new_status):
             """Set this character's status and set seen_updates to False."""
 
+            if self.status == new_status:
+                # No change
+                return
             self.__status = new_status
             self.seen_updates = False
 
