@@ -78,6 +78,21 @@ Variables are capitalization-sensitive; if you need a capitalized version of a v
 There is no limit to how many pronoun variables you can make, so feel free to create as many as you need to write your script more easily while supporting the different pronoun options.
 
 
+
+Adding Additional Genders
+--------------------------
+
+Mysterious Messenger comes with three possible genders that the player can choose from on the profile page: nonbinary, female, and male. You are welcome to add more options to this list via the ``gender_options`` variable found in ``variables_editable.rpy``. The default list looks like so::
+
+    define gender_options = ["nonbinary", "female", "male"]
+
+The first item in the list is what will appear on the profile page when the player first starts the game. If you would like to add more options, simply add them to this list e.g.
+
+::
+
+    define gender_options = ["nonbinary", "female", "male", "agender", "genderfluid"]
+
+
 Custom Emojis
 =============
 
