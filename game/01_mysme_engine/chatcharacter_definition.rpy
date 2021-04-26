@@ -235,6 +235,14 @@ python early:
                 # Generally expected for a character like name_only
                 return
 
+        @property
+        def vn_name(self):
+            return self.vn_char.name
+
+        @vn_name.setter
+        def vn_name(self, new_name):
+            self.vn_char.name = new_name
+            self.phone_char.name = new_name
 
         def greet_img(self, scale=1.0):
             """
