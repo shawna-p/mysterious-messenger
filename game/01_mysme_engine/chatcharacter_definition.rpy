@@ -662,7 +662,7 @@ python early:
         def cover_pic(self, new_img):
             """Set this character's cover photo, if given an image."""
 
-            if self.cover_pic == new_img:
+            if not self.in_init and self.__cover_pic == new_img:
                 # No change
                 return
             if not new_img:
@@ -681,7 +681,7 @@ python early:
         def status(self, new_status):
             """Set this character's status and set seen_updates to False."""
 
-            if self.status == new_status:
+            if not self.in_init and self.status == new_status:
                 # No change
                 return
             self.__status = new_status
