@@ -927,6 +927,8 @@ init -6 python:
 
     # Don't let the player rollback the game by scrolling.
     config.keymap['rollback'].remove('mousedown_4')
+    config.keymap['rollback'].remove('K_PAGEUP')
+    config.keymap['rollback'].remove('repeat_K_PAGEUP')
     # Allow right clicks for alternate button actions.
     config.keymap['game_menu'].remove('mouseup_3')
 
