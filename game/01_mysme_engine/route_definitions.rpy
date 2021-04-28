@@ -1164,9 +1164,16 @@ init -6 python:
             expiry_day = unlock_24_time[0]
             unlock_time = unlock_24_time[1]
 
+        two_days_prior = []
+        if expiry_day > 1 and len(story_archive) >= expiry_day - 3:
+            two_days_prior = story_archive[expiry_day - 2].archive_list
+        one_day_prior = []
+        if expiry_day > 0 and len(story_archive) >= expiry_day - 2:
+            one_day_prior = story_archive[expiry_day - 1].archive_list
+
         # This functions much like the check_and_unlock_story() function, only
         # here instead of expiring chatrooms, make them available
-        for item in story_archive[expiry_day-2].archive_list:
+        for item in two_days_prior:
             # If this item is already available, don't bother with it
             if item.available and (item.buyahead or item.played):
                 continue
@@ -1178,7 +1185,7 @@ init -6 python:
                 return
 
         # Now check the next day
-        for item in story_archive[expiry_day-1].archive_list:
+        for item in one_day_prior:
             print_file("Next day buy ahead:", item.title, "->", item.trigger_time)
             # Skip already available items
             if item.available and (item.buyahead or item.played):
@@ -1200,8 +1207,7 @@ init -6 python:
                 renpy.retain_after_load()
                 return
 
-        if (story_archive[expiry_day-1].archive_list[-1]
-                and story_archive[expiry_day-1].archive_list[-1].buyahead):
+        if (one_day_prior and one_day_prior[-1] and one_day_prior[-1].buyahead):
             # Reached the end of this day; this is the last day to unlock
             # items on so done unlocking
             unlock_24_time = False
