@@ -98,8 +98,9 @@ label example_chat():
     # paraphrased=True. Paraphrasing is turned off globally, but for this menu
     # in particular the choices *are* paraphrased, so this argument tells the
     # program not to have the MC post the choice dialogue directly.
+    $ tutorial_set = set()
     menu learn (paraphrased=True):
-
+        set tutorial_set
         "Emojis and Images" if not choice_picked == "emojis":
             $ choice_picked = "emojis"
             if first_choice:
@@ -329,9 +330,13 @@ label banners():
         y "{image=yoosung_thankyou}" (img=True)
 
     y "I have one more thing I was going to show you:"
-    y "{=ser1}it's not in the base game, but in this program you can pick your pronouns.{/=ser1}"
+    y "{=ser1}In this program you can pick your pronouns and gender!{/=ser1}"
     y "{=curly}You said you use [they]/[them] pronouns, right?{/=curly}" (bounce=True, specBubble="square_m")
     y "{=sser2}So we'll use [they]/[them] whenever we talk about you.{/=sser2}"  (bounce=True)
+    y "You also said that you identify as [persistent.gender]."
+    msg y "Know that you can change your gender and pronouns separately, too!" square_m curly
+    if they != "she" or persistent.gender != "nonbinary":
+        msg y "So you can use she/her pronouns while identifying as nonbinary, for example." sser2 bold
     y "You can check out {b}Pronoun Variables{/b} in {b}variables_editable.rpy{/b} - at the start there are some variables so you know how to use pronouns when writing a script"
     y "If you want to add any new variables, there's a section in the documentation about doing just that."
     y "And if you ever want to change your pronouns, just go to the profile page (accessed from the main menu)."
