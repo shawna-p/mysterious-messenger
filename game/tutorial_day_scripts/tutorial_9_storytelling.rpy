@@ -1,7 +1,7 @@
 label other_storytelling():
     $ y.prof_pic = "Profile Pics/Yoosung/yoo-13.webp"
 
-    scene evening
+    scene snowy_day
     play music same_old_fresh_air
     y "Hi, [name]!" (bounce=True)
     y "I'm here to show off another feature you can use to tell stories with this program ^^"
@@ -40,7 +40,7 @@ label other_storytelling():
     # participants, just use `clear chat`. `clear chat participants` does both.
     call vn_during_chat('other_storytelling_chat_vn_2')
     clear chat participants
-    scene night
+    scene rainy_day
 
     play music same_old_fresh_air
     # Because the participants were cleared, Yoosung is not in the chatroom
@@ -101,7 +101,7 @@ label other_storytelling_link_vn():
 
 label other_storytelling_expired():
     $ y.prof_pic = "Profile Pics/Yoosung/yoo-13.webp"
-    scene evening
+    scene snowy_day
     play music same_old_fresh_air
 
     y "Aww, I wanted to talk to [name]..."
