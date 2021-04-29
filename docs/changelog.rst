@@ -51,6 +51,8 @@ Minor New Features
       - New action for links to jump to somewhere else in a chatroom (including menus).
     * - :ref:`IfChatStopped<Link Actions>`
       - New action for links that changes depending on whether the chat is stopped or not.
+    * - New backgrounds
+      - Three new backgrounds have been added: ``snowy_day``, ``rainy_day``, and ``snowy_morning``
 
 
 .. _fixes-3-1-0:
