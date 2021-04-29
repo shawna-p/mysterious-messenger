@@ -551,8 +551,6 @@ init python:
         global all_albums
         set_pronouns()
 
-        store.chatlog = []
-
         # This variable keeps track of whether or not the player
         # is making a choice/on a choice menu
         store.choosing = False
