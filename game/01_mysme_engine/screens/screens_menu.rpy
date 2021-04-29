@@ -1633,8 +1633,10 @@ screen developer_settings():
                         ysize 80 xsize 285
                         text_size 28
                         align (0.5, 0.5)
-                        action [Hide('developer_settings'),
-                            Show('chatroom_creator')]
+                        action CConfirm("The chatroom creator is coming soon "
+                            + "in a future release. Stay tuned!")
+                        # [Hide('developer_settings'),
+                        #     Show('chatroom_creator')]
 
 default persistent.open_docs_locally = False
 default persistent.link_wait_pause = False
