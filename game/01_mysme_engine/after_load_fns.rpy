@@ -133,7 +133,7 @@ init python:
             store.m.name = "[persistent.chat_name]"
 
         # Update to most recent version
-        store._version = (3, 0, 1)
+        store._version = (3, 1, 0)
 
         # Turn the version back into a string
         store._version = '.'.join(map(str, store._version))
