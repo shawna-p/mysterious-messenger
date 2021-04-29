@@ -57,6 +57,9 @@ While chatrooms also use Ren'Py's ``scene`` statement to show backgrounds, there
 * redhack
 * redcrack
 * secure
+* rainy_day
+* snowy_day
+* morning_snow
 
 The background names **are** case-sensitive, so you need to get the capitalization correct. The program will automatically clear the chat history when beginning a new chatroom so new messages begin appearing at the bottom.
 
@@ -1042,10 +1045,13 @@ Existing background options are:
 * redhack
 * redcrack
 * secure
+* rainy_day
+* snowy_day
+* morning_snow
 
 The background names **are** case-sensitive, so you need to get the capitalization correct.
 
-For this example, a new background that will be displayed using ``scene rainy_day`` will be added.
+For this example, you'll see how the ``rainy_day`` background was set up.
 
 To add a new background, inside ``variables_editable.rpy`` under the header **CUSTOM MESSENGER ITEMS** are several variables. First, you need to define the image that will be used as the background. This should be ``bg`` + the name of the image as you want to write when displaying it in a chatroom::
 
