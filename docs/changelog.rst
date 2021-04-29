@@ -52,7 +52,7 @@ Minor New Features
     * - :ref:`IfChatStopped<Link Actions>`
       - New action for links that changes depending on whether the chat is stopped or not.
     * - New backgrounds
-      - Three new backgrounds have been added: ``snowy_day``, ``rainy_day``, and ``snowy_morning``
+      - Three new backgrounds have been added: ``snowy_day``, ``rainy_day``, and ``morning_snow``
 
 
 .. _fixes-3-1-0:
