@@ -1440,7 +1440,8 @@ init python:
         # Save variables
         renpy.retain_after_load()
 
-        deliver_next()
+        if not store.starter_story:
+            deliver_next()
         return
 
 
@@ -1568,6 +1569,7 @@ label end_prologue():
     $ finish_timeline_item(current_timeline_item)
     $ starter_story = False
     $ check_and_unlock_story()
+    $ deliver_next()
     call screen chat_home
     return
 
