@@ -671,7 +671,7 @@ init -6 python:
     def print_file(*args, **kwargs):
         """Print statements to a file or to the console for debugging."""
 
-        DEBUG = False
+        DEBUG = None
         if DEBUG is None:
             return
 
@@ -1084,7 +1084,7 @@ init -6 python:
     import requests
     LATEST_UPDATE_URL = "https://api.github.com/repos/shawna-p/mysterious-messenger/releases/latest"
     RELEASES_UPDATE_URL = "https://api.github.com/repos/shawna-p/mysterious-messenger/releases"
-    CHECK_INTERVAL_TIME = 15 #3600*6 # How long to wait before checking for updates
+    CHECK_INTERVAL_TIME = 3600*6 # How long to wait before checking for updates
 
     def check_version(test=False, force=False):
         """
