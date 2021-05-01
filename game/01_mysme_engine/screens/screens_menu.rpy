@@ -1712,8 +1712,8 @@ screen program_updates(update=None):
             idle 'input_close'
             hover 'input_close_hover'
             action [If(clear_update,
-                [Hide('program_updates'),
-                    SetField(persistent, "available_update", [ ])],
+                [SetField(persistent, "available_update", [ ]),
+                    Hide('program_updates')],
                 Hide('program_updates'))]
 
         text "Program Updates" style "settings_style" xpos 55 ypos 5

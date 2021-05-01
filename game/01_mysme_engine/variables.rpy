@@ -1177,7 +1177,6 @@ init -6 python:
             # Check if this release matches the current version; if so,
             # there are no newer updates
             ver_tag = rel['tag_name']
-            print_file("Looking at", ver_tag)
             if ver_tag:
                 ver_tag = ver_tag[1:] # Strip the starting 'v'
                 if rel['prerelease']:
@@ -1187,7 +1186,7 @@ init -6 python:
             # Don't look at prereleases if we only want full releases
             if stable and rel['prerelease']:
                 continue
-            if rel['tag_name'] not in store.persistent.ignored_versions:
+            if ver_tag not in store.persistent.ignored_versions:
                 return rel
         return None
 
