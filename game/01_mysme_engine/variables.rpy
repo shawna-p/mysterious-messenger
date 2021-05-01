@@ -671,7 +671,7 @@ init -6 python:
     def print_file(*args, **kwargs):
         """Print statements to a file or to the console for debugging."""
 
-        DEBUG = None
+        DEBUG = False
         if DEBUG is None:
             return
 
@@ -1174,6 +1174,17 @@ init -6 python:
         response = requests.get(RELEASES_UPDATE_URL)
         releases = response.json()
         for rel in releases:
+            # Check if this release matches the current version; if so,
+            # there are no newer updates
+            ver_tag = rel['tag_name']
+            print_file("Looking at", ver_tag)
+            if ver_tag:
+                ver_tag = ver_tag[1:] # Strip the starting 'v'
+                if rel['prerelease']:
+                    ver_tag = ver_tag[:-5] # Strip the -beta suffix
+                if ver_tag == store.config.version:
+                    return rel
+            # Don't look at prereleases if we only want full releases
             if stable and rel['prerelease']:
                 continue
             if rel['tag_name'] not in store.persistent.ignored_versions:
