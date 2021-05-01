@@ -77,6 +77,12 @@ Fixes
       - Fixes a bug so the MC's profile picture shows up in the list of participants after playing a chatroom.
     * - Unlocked Profile Pics Fix
       - Default profile pictures for characters now only unlock after you've seen them as part of the game.
+    * - Starter story fix
+      - Intro chats can properly have incoming calls and don't boot you out to the main menu.
+    * - Updater fix
+      - Updater properly remembers ignored releases and stops checking for updates when it reaches your current version.
+    * - Skip Intro/Save & Exit
+      - The chatlog no longer clears when finishing the starter story before exiting to the home screen.
 
 
 .. _qol-3-1-0:
