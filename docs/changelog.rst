@@ -98,6 +98,8 @@ QoL Improvements
       - **Description**
     * - :ref:`Reset Albums<Developer Settings>`
       - You can tell the program to forget all seen images and unlocked album entries without losing other persistent variable progress.
+    * - msg CDS underline
+      - The message CDS now takes optional ``underline`` or ``under`` arguments to underline text.
 
 
 .. _other-3-1-0:
