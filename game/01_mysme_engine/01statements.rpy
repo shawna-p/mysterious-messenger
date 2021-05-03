@@ -178,7 +178,7 @@ python early hide:
     ########################################
 
     def parse_message_args(what, ffont, bold, xbold, big, img, spec_bubble,
-            is_text_msg=False):
+            underline, is_text_msg=False):
         """
         Parse the arguments for a message and add them to the dialogue if
         applicable. Also check for errors in ffont and spec_bubble.
@@ -199,6 +199,8 @@ python early hide:
             True if this message contains an image.
         spec_bubble : string
             Contains the name of the special bubble.
+        underline : bool
+            True if this text should be underlined.
 
         Returns:
         --------
@@ -232,6 +234,9 @@ python early hide:
         # First, the size
         if big and (not is_text_msg or ffont != 'curly'):
             dialogue = "{size=+10}" + dialogue + "{/size}"
+        # Any underlines
+        if underline:
+            dialogue = "{u}" + dialogue + "{/u}"
 
         # Next, construct the font
         d_font = ffont
@@ -634,6 +639,7 @@ python early hide:
         big = False
         img = False
         bounce = False
+        underline = False
         spec_bubble = None
         timestamp = False
         arg_dict = dict()
@@ -709,6 +715,12 @@ python early hide:
             if l.keyword('big'):
                 big = True
                 continue
+            if l.keyword('underline'):
+                underline = True
+                continue
+            if l.keyword('under'):
+                underline = True
+                continue
 
             state = l.checkpoint()
 
@@ -740,6 +752,7 @@ python early hide:
                     xbold=xbold,
                     big=big,
                     img=img,
+                    underline=underline,
                     bounce=bounce,
                     spec_bubble=spec_bubble,
                     timestamp=timestamp,
@@ -757,6 +770,7 @@ python early hide:
             big = p["big"]
             img = p["img"]
             bounce = p["bounce"]
+            underline = p.get('underline', False)
             spec_bubble = p["spec_bubble"]
             arg_dict = p['arg_dict']
         except:
@@ -805,7 +819,7 @@ python early hide:
 
         # Correct 'what' into dialogue with the right text tags
         dialogue, img, spec_bubble = parse_message_args(what, ffont, bold,
-            xbold, big, img, spec_bubble, is_text_msg=is_text_msg)
+            xbold, big, img, spec_bubble, underline, is_text_msg=is_text_msg)
 
         # What to do with this dialogue depends on if it's for a chatroom
         # or a text message, or for another CDS
