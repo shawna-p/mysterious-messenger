@@ -163,6 +163,18 @@ You can also combine ``big`` and ``bold`` or ``xbold`` for additional emphasis.
 
     msg s "VERY IMPORTANT MESSAGE!!" sser2 big xbold
 
+Underline
+^^^^^^^^^^
+
+To underline all the text in a bubble, you can use either ``underline`` or ``under`` as part of the msg CDS::
+
+    msg u "This text is underlined!" curly underline
+    msg u "This is also underlined." under
+
+If you just want to underline particular words, the built-in ``{u}`` tag will handle that::
+
+    msg u "This is {u}underlined{/u} for emphasis." glow
+
 Special Bubbles
 ^^^^^^^^^^^^^^^
 
