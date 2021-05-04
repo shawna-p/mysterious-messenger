@@ -220,11 +220,16 @@ init -6 python:
     def call_hang_up(phonecall):
         """
         If the player hangs up during a call, the conversation is no longer
-        available. Remove this call from available_calls.
+        available. Remove this call from available_calls and use the
+        hang up callback, if it exists.
         """
 
         if phonecall in store.available_calls:
             store.available_calls.remove(phonecall)
+
+        if store.phone_hangup_callback:
+            store.phone_hangup_callback(phonecall)
+
 
     def call_available(who):
         """
