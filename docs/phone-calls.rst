@@ -172,6 +172,9 @@ As shown above, you can also add voice files to the voicemail, which will be pla
 Phone Callbacks
 ================
 
+Missed Calls
+------------
+
 Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.
 
 However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix ``_incoming_z_callback`` where ``z`` is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call::
@@ -233,6 +236,27 @@ If you'll be reusing dialogue between the two phone calls, it might be useful to
 
 The two calls start differently, but both jump to the ``day_7_chat_4_incoming_s_ending`` label to finish off the phone call. This can help keep your code more organized so you're not repeating dialogue in two separate labels.
 
+Hanging Up
+-----------
+
+You can also define a callback for when the player hangs up in the middle of a phone call. First, in ``variables_editable.rpy`` scroll down to the header **PHONE HANG UP CALLBACK** and find the variable ``default phone_hangup_callback``. By default, it is set to the example function ``hang_up_callback_fn``, but you can change this to whatever you like or even change it in the middle of a route.
+
+``phone_hangup_callback`` should be given the name of a function which takes one parameter, the call that the player was in the middle of when they hung up the phone. The call is stored as a PhoneCall object, which has several useful fields you can access for more information on the call such as the caller and the label it's attached to. The most relevant fields are:
+
+`caller`
+    The ChatCharacter object of the person the player was on the phone with.
+
+`phone_label`
+    A string with the name of the label where this phone call is found.
+
+`call_status`
+    A string that is one of "incoming", "outgoing", "missed", or "voicemail". Details the status of the phone call.
+
+`voicemail`
+    True if this phone call is a character's voicemail message rather than a proper conversation. Typically if you check this variable, it's to ignore it.
+
+
+You can use as many of these fields to check for details on the phone call as you like, then use that information to narrow down what the program should do.
 
 
 Phone-Only Characters
