@@ -376,7 +376,6 @@ init offset = -5
 # Track characters who only appear in phone calls
 default phone_only_characters = [ ]
 init offset =  0
-default hana_phone = PhoneCharacter("Hana", "Profile Pics/Yoosung/yoo-9.webp", 'ha')
 
 # Number of calls the player missed
 default unseen_calls = 0
