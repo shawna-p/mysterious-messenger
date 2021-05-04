@@ -278,10 +278,12 @@ label ray_test_call_callback():
     r "All of a sudden the call dropped."
     r "I can come over and take a look if you're having trouble. Just let me know!"
     menu:
+        extend ''
         "I didn't mean to hang up! Sorry about that.":
             r "Oh, it's okay! Please don't worry about it."
         "Omg I didn't think you'd know I hung up.":
             r "Oh... haha. Well that's just one of the things you can do with this app, I guess."
+            r "I hope it doesn't freak you out or anything. It's not like I'm monitoring you."
     r "I don't even remember what I was talking about... I guess it wasn't very important."
     r "I hope you like this app! Please let me know if you run into any issues."
     r "Bye for now~"
