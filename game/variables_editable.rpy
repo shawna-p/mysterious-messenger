@@ -268,7 +268,7 @@ init python:
             # More typically your check will look like "day1_chat1_outgoing_z"
             # Anyway, since the player hung up on Ray, he's going to try
             # to call them back.
-            $ create_incoming_call("ray_test_call_callback", who=r)
+            create_incoming_call("ray_test_call_callback", who=r)
 
         # This ends the function; it doesn't need to return any values
         return
