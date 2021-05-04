@@ -683,7 +683,10 @@ screen in_call(who=ja, story_call=False):
                     text "{0:01}".format((countup%60)%10)
             if not starter_story and not story_call:
                 use phone_footer(False, "call_pause",
-                                [Hide('phone_say'), Jump('hang_up')])
+                    CConfirm(("Do you really want to end this phone call? "
+                        + "You may not be able to have this conversation "
+                        + "again if you hang up."),
+                                [Hide('phone_say'), Jump('hang_up')]))
             elif story_call:
                 use phone_footer(answer_action=False,
                     center_item='call_pause',
