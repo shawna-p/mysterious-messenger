@@ -276,7 +276,7 @@ init python:
 label ray_test_call_callback():
     r "[name]... is your phone not working?"
     r "All of a sudden the call dropped."
-    r "I can come over and take a look if you're having trouble. Just let me know!"
+    r "I can come over and take a look if you're having trouble. I wouldn't want you to have a broken app."
     menu:
         extend ''
         "I didn't mean to hang up! Sorry about that.":
