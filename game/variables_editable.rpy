@@ -224,6 +224,69 @@ label ray_pfp_callback_1_menu_1:
             r "Well, I hope you're enjoying yourself."
     return
 
+########################################
+## PHONE HANG UP CALLBACK
+########################################
+# This function is executed with one parameter, the phone call that
+# the player hung up during. Use this to modify dialogue if the player
+# hangs up in the middle of a call.
+default phone_hangup_callback = hang_up_callback_fn
+
+init python:
+
+    def hang_up_callback_fn(phonecall):
+        """
+        A function which is called when the player hangs up an ongoing
+        phone call with a character. It is given one parameter: the call
+        that the player was in the middle of. By default, that call is
+        removed from the list of available calls afterwards.
+
+        Parameters:
+        -----------
+        phonecall : PhoneCall
+            The call the player hung up the phone during. PhoneCall objects
+            have the following useful parameters:
+                caller : ChatCharacter
+                    The person the player was on the phone with.
+                phone_label : string
+                    The label that leads to the phone call.
+                call_status : string
+                    The status of the phone call. One of "incoming", "outgoing",
+                    "missed", or "voicemail".
+                voicemail : bool
+                    True if this phone call is a voicemail message rather than
+                    a proper conversation.
+        """
+
+        if phonecall.voicemail:
+            # It doesn't matter if the player hung up in the middle
+            # a voicemail
+            return
+
+        if phonecall.phone_label == 'test_call':
+            # The special test phone call always available on Tutorial Day.
+            # More typically your check will look like "day1_chat1_outgoing_z"
+            # Anyway, since the player hung up on Ray, he's going to try
+            # to call them back.
+            $ create_incoming_call("ray_test_call_callback", who=r)
+
+        # This ends the function; it doesn't need to return any values
+        return
+
+label ray_test_call_callback():
+    r "[name]... is your phone not working?"
+    r "All of a sudden the call dropped."
+    r "I can come over and take a look if you're having trouble. Just let me know!"
+    menu:
+        "I didn't mean to hang up! Sorry about that.":
+            r "Oh, it's okay! Please don't worry about it."
+        "Omg I didn't think you'd know I hung up.":
+            r "Oh... haha. Well that's just one of the things you can do with this app, I guess."
+    r "I don't even remember what I was talking about... I guess it wasn't very important."
+    r "I hope you like this app! Please let me know if you run into any issues."
+    r "Bye for now~"
+    return
+
 
 ########################################
 ## SPACESHIP THOUGHT IMAGES
