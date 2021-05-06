@@ -228,7 +228,20 @@ init -6 python:
             store.available_calls.remove(phonecall)
 
         if store.phone_hangup_callback:
-            store.phone_hangup_callback(phonecall)
+            try:
+                lbl = store.phone_hangup_callback(phonecall)
+            except:
+                ScriptError("Could not use phone_hangup_callback. Do you",
+                    "have at least one function parameter?",
+                    header="Phone Calls",
+                    subheader="Hanging Up")
+                return
+            if not lbl:
+                return
+            # Otherwise, there's a label to jump to for the callback
+            if renpy.has_label(lbl):
+                renpy.call_in_new_context(lbl)
+        return
 
 
     def call_available(who):
