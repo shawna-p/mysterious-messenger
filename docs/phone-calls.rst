@@ -256,7 +256,51 @@ You can also define a callback for when the player hangs up in the middle of a p
     True if this phone call is a character's voicemail message rather than a proper conversation. Typically if you check this variable, it's to ignore it.
 
 
-You can use as many of these fields to check for details on the phone call as you like, then use that information to narrow down what the program should do.
+You can use as many of these fields to check for details on the phone call as you like, then use that information to narrow down what the program should do. Like the profile picture callback, the function should return the name of a label to jump to. For example, the character might try phoning the player back, or you might lower the character's affection for the player. An example might look like::
+
+    init python:
+        def hang_up_callback(phonecall):
+
+            if phonecall.phone_label == 'day_7_chatroom_10_incoming_s':
+                return 'day_7_chatroom_10_s_hangup'
+            return
+
+    label day_7_chatroom_10_s_hangup():
+        compose text s:
+            s "[name], is your phone's connection okay?"
+            s "The call just dropped T_T"
+            label day_7_chatroom_10_s_hangup_menu1
+        return
+
+This can be as elaborate as you want it to be, including setting conditions that allow the player to pass plot branches or acknowledging that the player hung up at a certain point. A more complex example might be::
+
+    default knows_about_bomb = False
+    label day_7_chatroom_10_incoming_s():
+        s "[name]... I know this might be hard to hear, but I should tell you now."
+        s "I understand if you don't want to be a part of the RFA after this."
+        $ knows_about_bomb = True
+        s "There is a bomb in the apartment. It was supposed to protect sensitive information."
+        # ...
+        return
+
+    # Presuming the same callback function is used as shown above
+    label day_7_chatroom_10_s_hangup():
+        if knows_about_bomb:
+            compose text s:
+                s "Hey... I'm sure that was a lot of information so I get why you hung up."
+                s "You can call me back whenever you're ready to talk."
+            $ create_outgoing_call('day_7_chatroom_10_about_bomb', s)
+        else:
+            compose text s:
+                s "[name], I didn't even get to tell you... you must be really upset."
+                s "I think this is only going to make you more upset, but..."
+                s "..."
+                s "Call me when you get a moment, okay?"
+            $ create_outgoing_call('day_7_chatroom_10_re_explain_issue', s)
+        return
+
+In this way, you can create context-sensitive callbacks so that the characters remember what they talked about with the player and can react to their actions in meaningful ways.
+
 
 
 Phone-Only Characters
