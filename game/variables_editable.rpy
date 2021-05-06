@@ -266,14 +266,20 @@ init python:
         if phonecall.phone_label == 'test_call':
             # The special test phone call always available on Tutorial Day.
             # More typically your check will look like "day1_chat1_outgoing_z"
-            # Anyway, since the player hung up on Ray, he's going to try
-            # to call them back.
-            create_incoming_call("ray_test_call_callback", who=r)
+            return 'ray_test_call_callback'
 
-        # This ends the function; it doesn't need to return any values
+        # This ends the function; it can just return if there is no label
+        # to jump to
         return
 
 label ray_test_call_callback():
+    # Since the player hung up on Ray, he's going to try
+    # to call them back directly.
+    $ create_incoming_call("ray_test_call_callback_phone", who=r)
+    # Return at the end of the label like usual
+    return
+
+label ray_test_call_callback_phone():
     r "[name]... is your phone not working?"
     r "All of a sudden the call dropped."
     r "I can come over and take a look if you're having trouble. I wouldn't want you to have a broken app."
