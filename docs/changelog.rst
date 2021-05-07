@@ -10,9 +10,9 @@ Full Changelog
 3.1.1
 =====
 
-.. _major-3-1-1:
+.. _minor-3-1-1:
 
-Major New Features
+Minor New Features
 -------------------
 
 .. list-table::
@@ -29,6 +29,7 @@ Major New Features
 
 Fixes
 ------
+
 .. list-table::
     :widths: 15, 85
     :header-rows: 1
