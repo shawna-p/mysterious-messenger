@@ -7,6 +7,57 @@ Full Changelog
 
     changelog
 
+3.1.1
+=====
+
+.. _major-3-1-1:
+
+Major New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - :ref:`Phone hang up callback<Hanging Up>`
+      - A special function is called when the player hangs up in the middle of a call, which you can use to alter the game state.
+
+
+.. _fixes-3-1-1:
+
+Fixes
+------
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Fix**
+    - **Description**
+    * - Starter story fix
+    - Intro chats can properly have incoming calls and don't boot you out to the main menu.
+    * - Updater fix
+    - Updater properly remembers ignored releases and stops checking for updates when it reaches your current version.
+    * - Skip Intro/Save & Exit
+    - The chatlog no longer clears when finishing the starter story before exiting to the home screen.
+
+
+.. _qol-3-1-1:
+
+QoL Improvements
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - msg CDS underline
+      - The message CDS now takes optional ``underline`` or ``under`` arguments to underline text.
+
+
 3.1.0
 ======
 
@@ -77,12 +128,6 @@ Fixes
       - Fixes a bug so the MC's profile picture shows up in the list of participants after playing a chatroom.
     * - Unlocked Profile Pics Fix
       - Default profile pictures for characters now only unlock after you've seen them as part of the game.
-    * - Starter story fix
-      - Intro chats can properly have incoming calls and don't boot you out to the main menu.
-    * - Updater fix
-      - Updater properly remembers ignored releases and stops checking for updates when it reaches your current version.
-    * - Skip Intro/Save & Exit
-      - The chatlog no longer clears when finishing the starter story before exiting to the home screen.
 
 
 .. _qol-3-1-0:
@@ -98,8 +143,6 @@ QoL Improvements
       - **Description**
     * - :ref:`Reset Albums<Developer Settings>`
       - You can tell the program to forget all seen images and unlocked album entries without losing other persistent variable progress.
-    * - msg CDS underline
-      - The message CDS now takes optional ``underline`` or ``under`` arguments to underline text.
 
 
 .. _other-3-1-0:
