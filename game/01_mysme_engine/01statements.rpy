@@ -1695,14 +1695,14 @@ python early hide:
             except AttributeError:
                 file_var = p['file']
 
-            the_caption = store.music_dictionary.get(file_var, False)
+            the_caption = store.sfx_dictionary.get(file_var, False)
             if the_caption == False:
                 try:
                     file_var = file_var.split('.')[0] + '.ogg'
-                    the_caption = store.music_dictionary.get(file_var, "")
+                    the_caption = store.sfx_dictionary.get(file_var, "")
                     if the_caption == False:
                         file_var = file_var.split('.')[0] + '.mp3'
-                        the_caption = store.music_dictionary.get(file_var, "")
+                        the_caption = store.sfx_dictionary.get(file_var, "")
                 except:
                     ScriptError("No Audio Caption defined for \"", p["file"], '"',
                         header="Miscellaneous", subheader="Adding New Audio")
@@ -1713,11 +1713,11 @@ python early hide:
                 if store.persistent.audio_captions:
                     renpy.show_screen('notify', notification)
 
-            # if (not store.observing and not store.persistent.testing_mode
-            #         and not store.vn_choice):
-            #     # Add this music to the replay_log
-            #     music_entry = ("play music", file_var)
-            #     store.current_timeline_item.replay_log.append(music_entry)
+            if (not store.observing and not store.persistent.testing_mode
+                    and not store.vn_choice):
+                # Add this music to the replay_log
+                music_entry = ("play sound", file_var)
+                store.current_timeline_item.replay_log.append(music_entry)
 
 
         renpy.sound.play(_audio_eval(p["file"]),
