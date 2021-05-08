@@ -35,13 +35,15 @@ Fixes
     :header-rows: 1
 
     * - **Fix**
-    - **Description**
+      - **Description**
     * - Starter story fix
-    - Intro chats can properly have incoming calls and don't boot you out to the main menu.
+      - Intro chats can properly have incoming calls and don't boot you out to the main menu.
     * - Updater fix
-    - Updater properly remembers ignored releases and stops checking for updates when it reaches your current version.
+      - Updater properly remembers ignored releases and stops checking for updates when it reaches your current version.
     * - Skip Intro/Save & Exit
-    - The chatlog no longer clears when finishing the starter story before exiting to the home screen.
+      - The chatlog no longer clears when finishing the starter story before exiting to the home screen.
+    * - SFX Audio Captions
+      - Sound effects are correctly looked up in the sfx dictionary, not the music dictionary.
 
 
 .. _qol-3-1-1:
@@ -56,7 +58,9 @@ QoL Improvements
     * - **Feature**
       - **Description**
     * - msg CDS underline
-      - The message CDS now takes optional ``underline`` or ``under`` arguments to underline text.
+      - The message CDS takes optional ``underline`` or ``under`` arguments to underline text.
+    * - SFX in replay
+      - Sound effects are included in chatroom replays.
 
 
 3.1.0
