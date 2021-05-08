@@ -254,6 +254,17 @@ label chatroom_replay():
                             subheader="Adding New Audio")
                         print("WARNING: No Audio Caption defined for " + second)
                     renpy.music.play(second, loop=True)
+                elif first == 'play sound':
+                    try:
+                        notification = ("SFX: " + sfx_dictionary[second])
+                        if persistent.audio_captions:
+                            renpy.show_screen('notify', notification)
+                    except (KeyError, AttributeError) as e:
+                        ScriptError("No audio caption defined for", second,
+                            header="Miscellaneous",
+                            subheader="Adding New Audio")
+                        print("WARNING: No Audio Caption defined for " + second)
+                    renpy.sound.play(second, loop=False)
                 elif first == "shake":
                     current_background = second
                     if persistent.screenshake and not persistent.animated_backgrounds:
