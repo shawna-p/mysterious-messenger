@@ -184,7 +184,9 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
 
             if (not (renpy.get_screen('in_call')
                     or renpy.get_screen('incoming_call')
-                    or renpy.get_screen('outgoing call'))):
+                    or renpy.get_screen('outgoing call')
+                    or renpy.get_screen('phone_overlay')
+                    or renpy.get_screen('vn_overlay'))):
                 textbutton _('Go to'):
                     action If ((c.real_time_text and c.text_msg.reply_label),
 
