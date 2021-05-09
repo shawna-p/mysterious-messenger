@@ -835,13 +835,10 @@ init -6 python:
         global incoming_call, available_calls, current_call
         global persistent, all_characters
 
-        delivered_text = False
         shuffled_characters = list(store.all_characters)
         renpy.random.shuffle(shuffled_characters)
 
-        for c in shuffled_characters:
-            if (c.text_msg.msg_queue and not delivered_text):
-                delivered_text = c.text_msg.deliver()
+        check_for_texts(shuffled_characters)
 
         # Deliver the incoming call, if there is one
         if incoming_call:
@@ -850,6 +847,22 @@ init -6 python:
             renpy.music.play(persistent.phone_tone, 'music', loop=True)
             renpy.jump('new_incoming_call')
         return
+
+    def check_for_texts(chara_list=None):
+        """
+        Deliver the next available text message, if available.
+        """
+
+        if chara_list is None:
+            chara_list = store.all_characters
+        elif not isinstance(chara_list, list):
+            chara_list = [ chara_list ]
+        delivered_text = False
+        for chara in chara_list:
+            if (chara.text_msg.msg_queue and not delivered_text):
+                delivered_text = c.text_msg.deliver()
+            elif delivered_text:
+                break
 
 
     def merge_routes(new_route):
