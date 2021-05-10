@@ -865,6 +865,27 @@ init -6 python:
             if delivered_text and not check_all:
                 break
 
+    def send_temp_texts():
+        """
+        Delivery any text messages that were temporarily staged during
+        the last story item.
+        """
+
+        for c in store.all_characters:
+            c.text_msg.deliver_quietly()
+        return
+
+    def purge_temp_texts():
+        """
+        Remove any temporary text information that shouldn't be sent
+        because the story item wasn't completed normally.
+        """
+
+        for c in store.all_characters:
+            c.text_msg.temp_msg_info.clear()
+            c.text_msg.temp_msg_queue = [ ]
+        return
+
     def merge_routes(new_route):
         """Merge new_route with the current route."""
 
