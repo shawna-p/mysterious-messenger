@@ -648,6 +648,7 @@ style call_text:
 label hang_up():
     if not observing:
         $ call_hang_up(phonecall=current_call)
+        $ purge_temp_texts()
     $ end_timeline_item_checks()
     $ reset_story_vars()
     $ renpy.end_replay()
