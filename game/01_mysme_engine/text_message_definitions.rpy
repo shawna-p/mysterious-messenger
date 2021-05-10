@@ -13,6 +13,12 @@ python early:
             List of currently sent messages in the conversation.
         msg_queue : ChatEntry[]
             List of messages waiting to be delivered.
+        temp_msg_queue : ChatEntry[]
+            List of messages that are conditionally sent if the player
+            completes the nearest story item.
+        temp_msg_info : dict
+            A dictionary that holds temporary information on a text message
+            that is applied if the nearest story item is completed.
         reply_label : string
             Reply label to jump to when responding.
         read : bool
@@ -37,6 +43,7 @@ python early:
             self.sender = sender
             self.msg_list = []
             self.msg_queue = []
+            self.temp_msg_queue = []
             self.__reply_label = False
             self.__read = False
             self.heart = False
@@ -92,6 +99,14 @@ python early:
                 self.cg_unlock_list = []
             renpy.retain_after_load()
             renpy.restart_interaction()
+
+        def deliver_quietly(self):
+            """
+            Transfer messages from the temporary message queue to the player's
+            inbox, without a notification.
+            """
+
+
 
         def deliver(self):
             """
