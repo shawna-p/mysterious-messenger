@@ -44,6 +44,7 @@ python early:
             self.msg_list = []
             self.msg_queue = []
             self.temp_msg_queue = []
+            self.temp_msg_info = dict()
             self.__reply_label = False
             self.__read = False
             self.heart = False
