@@ -838,7 +838,7 @@ init -6 python:
         shuffled_characters = list(store.all_characters)
         renpy.random.shuffle(shuffled_characters)
 
-        check_for_texts(shuffled_characters, False)
+        send_texts(shuffled_characters, False)
 
         # Deliver the incoming call, if there is one
         if incoming_call:
@@ -848,7 +848,7 @@ init -6 python:
             renpy.jump('new_incoming_call')
         return
 
-    def check_for_texts(chara_list=None, check_all=True):
+    def send_texts(chara_list=None, check_all=True):
         """
         Deliver the next available text message, if available.
         """
