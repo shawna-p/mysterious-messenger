@@ -1398,6 +1398,9 @@ init python:
         store.persistent.HG += store.collected_hg
         store.collected_hg = 0
 
+        # Silently deliver any temporary text messages
+        send_temp_texts()
+
         # Mark the most recent item as played
         if not item.parent:
             # This is the 'parent' item
@@ -1454,6 +1457,7 @@ label exit_item_early():
     $ end_timeline_item_checks()
     $ reset_story_vars()
     $ renpy.end_replay()
+    $ purge_temp_texts()
     if not observing and (not current_timeline_item.expired
             or current_timeline_item.buyback):
         # Item expires
