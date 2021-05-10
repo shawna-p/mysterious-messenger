@@ -107,6 +107,19 @@ python early:
             inbox, without a notification.
             """
 
+            if not self.temp_msg_queue:
+                self.temp_msg_info = dict()
+                return
+
+            # Otherwise, add this to their text messages
+            self.msg_list.extend(self.temp_msg_queue)
+            self.temp_msg_queue = [ ]
+            self.sender.set_real_time_text = self.temp_msg_info.get('real_time', False)
+            self.read = False
+            self.notified = True
+            self.reply_label = self.temp_msg_info.get('label', False)
+            # Clear the dictionary
+            self.temp_msg_info.clear()
 
 
         def deliver(self):
@@ -426,6 +439,7 @@ label leave_inst_text():
     $ config.skipping = False
     $ choosing = False
     $ textbackup = 'Reset'
+    $ purge_temp_texts()
     hide screen text_play_button
     hide screen text_answer
     hide screen text_pause_button
@@ -463,6 +477,8 @@ label play_text_message():
         # Give the player their hourglasses
         persistent.HG += collected_hg
         collected_hg = 0
+        # Send temporary texts for real
+        send_temp_texts()
         textbackup = ChatEntry(filler,"","")
         who = text_person
         text_person = None
