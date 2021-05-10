@@ -272,7 +272,7 @@ style text_popup_button_text:
 ## Additional screens to allow the program to display multiple popups
 screen text_pop_2(c, last_msg=False):
     zorder 99
-    use text_msg_popup(c, 'text_pop_2')
+    use text_msg_popup(c, last_msg, 'text_pop_2')
 screen text_pop_3(c, last_msg=False):
     zorder 98
     use text_msg_popup(c, last_msg, 'text_pop_3')
