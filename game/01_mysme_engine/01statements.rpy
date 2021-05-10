@@ -998,7 +998,6 @@ python early hide:
             sender.set_real_time_text(real_time)
             sender.text_msg.read = False
         else:
-            sender.text_msg.temp_msg_info['read'] = False
             sender.text_msg.temp_msg_info['real_time'] = real_time
         store.textbackup = 'Reset'
         store.text_person = sender
@@ -1191,9 +1190,10 @@ python early hide:
             sender.text_msg.temp_msg_queue.extend(message_queue)
             print_file("Extended " + sender.file_id + "'s temp msg_queue")
             # Show a popup with the last message
-            renpy.music.play(persistent.text_tone, 'sound')
-            popup_screen = allocate_text_popup()
-            renpy.show_screen(popup_screen, c=sender, last_msg=message_queue[-1])
+            if not store._in_replay and not store.observing:
+                renpy.music.play(persistent.text_tone, 'sound')
+                popup_screen = allocate_text_popup()
+                renpy.show_screen(popup_screen, c=sender, last_msg=message_queue[-1])
         store.text_person = None
         return
 
