@@ -139,15 +139,16 @@ init python:
 ## This screen displays the popups that notify
 ## the user when there is a new text message
 ########################################################
-screen text_msg_popup(c, hide_screen='text_msg_popup'):
+screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
 
     #modal True
     zorder 100
 
-    if len(c.text_msg.msg_list) > 0:
-        $ last_msg = c.text_msg.msg_list[-1]
-    else:
-        $ last_msg = False
+    default send_next = not last_msg
+
+    if not last_msg:
+        if len(c.text_msg.msg_list) > 0:
+            $ last_msg = c.text_msg.msg_list[-1]
 
     frame:
         style_prefix 'text_popup'
@@ -159,7 +160,7 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
             align (1.0, 0.22)
             idle 'input_close'
             hover 'input_close_hover'
-            if not randint(0,3):
+            if not randint(0,3) and send_next:
                 action [Hide(hide_screen), Function(deliver_next)]
             else:
                 action [Hide(hide_screen)]
@@ -211,9 +212,9 @@ screen text_msg_popup(c, hide_screen='text_msg_popup'):
             else:
                 null height 70
     timer 3.25:
-        action If(randint(0,1), [Hide(hide_screen, Dissolve(0.25)),
-                                Function(deliver_next)],
-                                [Hide(hide_screen, Dissolve(0.25))])
+        action If(randint(0,1) and send_next,
+            [Hide(hide_screen, Dissolve(0.25)), Function(deliver_next)],
+            [Hide(hide_screen, Dissolve(0.25))])
 
 
 style text_popup_frame:
@@ -269,12 +270,12 @@ style text_popup_button_text:
     size 28
 
 ## Additional screens to allow the program to display multiple popups
-screen text_pop_2(c):
+screen text_pop_2(c, last_msg=False):
     zorder 99
     use text_msg_popup(c, 'text_pop_2')
-screen text_pop_3(c):
+screen text_pop_3(c, last_msg=False):
     zorder 98
-    use text_msg_popup(c, 'text_pop_3')
+    use text_msg_popup(c, last_msg, 'text_pop_3')
 ########################################################
 ## Includes the 'answer' button at the bottom
 ########################################################
