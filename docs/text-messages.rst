@@ -425,3 +425,20 @@ Finally, after the MC's line there is a pause of 60*2 seconds, so 2 minutes. Thi
 .. note::
     The program will add several seconds to each backlog message's timestamp from the initial start timestamp unless an exact ``time`` argument is given. The exact number of seconds depends on the length of the message. This means that if a character has 10 messages in their text message backlog, there is likely to be at least a minute or more of difference in the timestamps of later messages to simulate the real-life time it would take to type out all 10 messages.
 
+
+
+Manually Sending Text Messages
+================================
+
+Normally, the program will take care of text message delivery after a story item. This allows for consistency across real-time and sequential play styles, as the program can execute an item's ``after_`` label without needing to check through its entire story label. However, there may be some situations where you prefer that a character sends a text message in response to some immediate event. For that, you can use the special function ``send_texts`` to trigger a text message to send immediately.
+
+::
+
+    label day_4_chatroom_5_incoming_y():
+        y "[name]!! I thought of a really funny thing I wanted to share with you."
+        y "Um, one sec, I'll message you the picture."
+        compose text y:
+            y "look at this lolol"
+            y "common_3" img
+        $ send_texts(y)
+        y "It's good, right? I thought it was really creative.
