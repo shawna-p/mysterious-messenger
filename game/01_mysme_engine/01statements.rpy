@@ -954,6 +954,10 @@ python early hide:
                 delivery_time = l.match('next_item')
                 if delivery_time is not None:
                     continue
+                # Try matching it to the word `now`
+                delivery_time = l.match('now')
+                if delivery_time is not None:
+                    continue
                 renpy.error("Could not parse argument for deliver_at")
 
             if l.match(":") and not l.match("\d\d:\d\d"):
@@ -990,8 +994,12 @@ python early hide:
                 header='Creating Characters')
             return
 
-        sender.set_real_time_text(real_time)
-        sender.text_msg.read = False
+        if delivery_time != 'now':
+            sender.set_real_time_text(real_time)
+            sender.text_msg.read = False
+        else:
+            sender.text_msg.temp_msg_info['read'] = False
+            sender.text_msg.temp_msg_info['real_time'] = real_time
         store.textbackup = 'Reset'
         store.text_person = sender
 
@@ -1004,7 +1012,7 @@ python early hide:
         # or it's the current timeline item. The text message can have the
         # real time stamp.
         print_file("Delivery_time is", delivery_time)
-        if store.persistent.real_time:
+        if delivery_time != 'now' and store.persistent.real_time:
             # Determine how many days ago the expiring item or current item was
             if store.expiring_item:
                 check_item = store.expiring_item
@@ -1106,7 +1114,8 @@ python early hide:
 
                 # Add messages to send to a list first
                 message_queue.append(ChatEntry(who, dialogue, deepcopy(when), img))
-                sender.text_msg.notified = False
+                if delivery_time != 'now':
+                    sender.text_msg.notified = False
                 if img and "{image" not in dialogue:
                     # Add the CG to the unlock list
                     cg_helper(what, who, instant_unlock=False)
@@ -1125,7 +1134,10 @@ python early hide:
                     continue
                 if arg == 'label':
                     # It's the label to jump to for the reply
-                    sender.text_label = val
+                    if delivery_time != 'now':
+                        sender.text_label = val
+                    else:
+                        sender.text_msg.temp_msg_info['label'] = val
 
             else:
                 print("WARNING: Could not recognize text message:", d)
@@ -1171,8 +1183,17 @@ python early hide:
             message_queue = new_queue
 
         # Add these messages to the sender's msg_queue
-        sender.text_msg.msg_queue.extend(message_queue)
-        print_file("Extended " + sender.file_id + "'s msg_queue")
+        if delivery_time != 'now':
+            sender.text_msg.msg_queue.extend(message_queue)
+            print_file("Extended " + sender.file_id + "'s msg_queue")
+        else:
+            # This is added to a temporary queue
+            sender.text_msg.temp_msg_queue.extend(message_queue)
+            print_file("Extended " + sender.file_id + "'s temp msg_queue")
+            # Show a popup with the last message
+            renpy.music.play(persistent.text_tone, 'sound')
+            popup_screen = allocate_text_popup()
+            renpy.show_screen(popup_screen, c=sender, last_msg=message_queue[-1])
         store.text_person = None
         return
 
