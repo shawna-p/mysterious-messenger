@@ -23,6 +23,8 @@ Minor New Features
       - **Description**
     * - :ref:`Phone hang up callback<Hanging Up>`
       - A special function is called when the player hangs up in the middle of a call, which you can use to alter the game state.
+    * - Manually send text messages
+      - Manually send text messages during chatrooms, phone calls, Story Mode, or whenever you like.
 
 
 .. _fixes-3-1-1:
