@@ -339,6 +339,7 @@ label skip_intro_setup():
     $ reset_story_vars()
     # Now we can unlock the profile pictures/albums
     $ define_variables()
+    $ purge_temp_texts()
 
     show screen loading_screen
 
