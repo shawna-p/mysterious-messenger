@@ -206,6 +206,7 @@ init -6 python:
 
         global call_history, available_calls
         phonecall.call_status = 'missed'
+        store.in_phone_call = False
         missed_call = copy(phonecall)
         missed_call.call_time = upTime()
         # Can't play this conversation back as it hasn't been viewed
@@ -646,13 +647,13 @@ style call_text:
 ## This label ensures the rest of the phone conversation will
 ## not play out if the player hangs up
 label hang_up():
+    $ in_phone_call = False
     if not observing:
         $ call_hang_up(phonecall=current_call)
         $ purge_temp_texts()
     $ end_timeline_item_checks()
     $ reset_story_vars()
     $ renpy.end_replay()
-    $ in_phone_call = False
     $ current_call = False
     $ _history = True
     $ renpy.retain_after_load()
