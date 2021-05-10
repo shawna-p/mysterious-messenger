@@ -858,12 +858,12 @@ init -6 python:
         elif not isinstance(chara_list, list):
             chara_list = [ chara_list ]
         delivered_text = False
-        for chara in chara_list:
-            if (chara.text_msg.msg_queue and not delivered_text):
-                delivered_text = c.text_msg.deliver()
-            elif delivered_text:
-                break
 
+        for chara in chara_list:
+            if (chara.text_msg.msg_queue):
+                delivered_text = chara.text_msg.deliver()
+            if delivered_text:
+                break
 
     def merge_routes(new_route):
         """Merge new_route with the current route."""
