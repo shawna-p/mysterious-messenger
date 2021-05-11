@@ -98,6 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#using-the-msg-cds">Using the msg CDS</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fonts">Fonts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#emphasis">Emphasis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#underline">Underline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#special-bubbles">Special Bubbles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#images">Images</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modifying-message-speed">Modifying Message Speed</a></li>
@@ -109,6 +110,12 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-chatroom-features">Advanced Chatroom Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entering-and-exiting-the-chatroom">Entering and Exiting the Chatroom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-the-characters-profiles">Updating the Characters’ Profiles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#updating-the-profile-picture">Updating the Profile Picture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-a-character-s-status">Updating a Character’s Status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-the-character-s-cover-photo">Updating the Character’s Cover Photo</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-the-chat-history">Clearing the Chat History</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-chatroom-participants">Clearing Chatroom Participants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#resetting-chatroom-participants">Resetting Chatroom Participants</a></li>
@@ -237,6 +244,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#using-the-msg-cds">Using the msg CDS</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#fonts">Fonts</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#emphasis">Emphasis</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#underline">Underline</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#special-bubbles">Special Bubbles</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#images">Images</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#modifying-message-speed">Modifying Message Speed</a></li>
@@ -248,6 +256,12 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#advanced-chatroom-features">Advanced Chatroom Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#entering-and-exiting-the-chatroom">Entering and Exiting the Chatroom</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#updating-the-characters-profiles">Updating the Characters’ Profiles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#updating-the-profile-picture">Updating the Profile Picture</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-a-character-s-status">Updating a Character’s Status</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#updating-the-character-s-cover-photo">Updating the Character’s Cover Photo</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-the-chat-history">Clearing the Chat History</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#clearing-chatroom-participants">Clearing Chatroom Participants</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#resetting-chatroom-participants">Resetting Chatroom Participants</a></li>
@@ -341,6 +355,9 @@
 <li><p>redhack</p></li>
 <li><p>redcrack</p></li>
 <li><p>secure</p></li>
+<li><p>rainy_day</p></li>
+<li><p>snowy_day</p></li>
+<li><p>morning_snow</p></li>
 </ul>
 <p>The background names <strong>are</strong> case-sensitive, so you need to get the capitalization correct. The program will automatically clear the chat history when beginning a new chatroom so new messages begin appearing at the bottom.</p>
 <p>Now that the background is set up, you probably want some music. Music is played with the line:</p>
@@ -432,6 +449,18 @@
 </div>
 <p>You can also combine <code class="docutils literal notranslate"><span class="pre">big</span></code> and <code class="docutils literal notranslate"><span class="pre">bold</span></code> or <code class="docutils literal notranslate"><span class="pre">xbold</span></code> for additional emphasis.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">s</span> <span class="s2">&quot;VERY IMPORTANT MESSAGE!!&quot;</span> <span class="n">sser2</span> <span class="n">big</span> <span class="n">xbold</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="underline">
+<h4>Underline<a class="headerlink" href="#underline" title="Permalink to this headline">¶</a></h4>
+<p>To underline all the text in a bubble, you can use either <code class="docutils literal notranslate"><span class="pre">underline</span></code> or <code class="docutils literal notranslate"><span class="pre">under</span></code> as part of the msg CDS:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This text is underlined!&quot;</span> <span class="n">curly</span> <span class="na">underline</span>
+<span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This is also underlined.&quot;</span> <span class="n">under</span>
+</pre></div>
+</div>
+<p>If you just want to underline particular words, the built-in <code class="docutils literal notranslate"><span class="pre">{u}</span></code> tag will handle that:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">u</span> <span class="s2">&quot;This is </span><span class="si">{u}</span><span class="s2">underlined{/u} for emphasis.&quot;</span> <span class="n">glow</span>
 </pre></div>
 </div>
 </div>
@@ -611,6 +640,49 @@
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>You can also use <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">exit(s)</span></code> to have a character leave the chatroom.</p>
+</div>
+</div>
+<div class="section" id="updating-the-characters-profiles">
+<h3>Updating the Characters’ Profiles<a class="headerlink" href="#updating-the-characters-profiles" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="updating-the-profile-picture">
+<h4>Updating the Profile Picture<a class="headerlink" href="#updating-the-profile-picture" title="Permalink to this headline">¶</a></h4>
+<p>To update a character’s profile picture, you just need to write</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ja</span><span class="o">.</span><span class="n">prof_pic</span> <span class="o">=</span> <span class="s2">&quot;Profile Pics/Jaehee/jae-2.webp&quot;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ja</span></code> is the ChatCharacter variable of the character whose profile picture you’d like to update. Profile pictures should be 110x110 pixels at minimum, and can optionally have a second, larger version supplied that is up to 314x314 pixels and will be used on the character’s profile screen. The program looks for the larger version under the same name with the suffix <code class="docutils literal notranslate"><span class="pre">-b</span></code> e.g. <code class="docutils literal notranslate"><span class="pre">Profile</span> <span class="pre">Pics/Jaehee/jae-2-b.webp</span></code>.</p>
+<p>You can update a profile picture anywhere – during a chatroom, phone call, text message, etc. To have the profile picture show up in the History screen as well as during regular gameplay, it is recommended that you change the profile picture at the beginning of a label and its associated expired version, if applicable e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_1_chatroom_1</span><span class="p">():</span>
+    <span class="k">$</span> <span class="n">r</span><span class="o">.</span><span class="n">prof_pic</span> <span class="o">=</span> <span class="s2">&quot;Profile Pics/Ray/ray-1.webp&quot;</span>
+    <span class="k">play</span> <span class="k">music</span> <span class="n">mint_eye</span>
+    <span class="n">enter</span> <span class="n">chatroom</span> <span class="n">r</span>
+    <span class="n">msg</span> <span class="n">r</span> <span class="s2">&quot;Good morning!&quot;</span> <span class="n">curly</span> <span class="n">glow</span>
+</pre></div>
+</div>
+<p>Updating a character’s profile picture will automatically change their portrait on the homepage to have an “updated” background.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are also bonus profile pictures, which the player can update themselves. For more on that, see <a class="reference internal" href="miscellaneous.html#bonus-profile-pictures"><span class="std std-ref">Bonus Profile Pictures</span></a>.</p>
+</div>
+</div>
+<div class="section" id="updating-a-character-s-status">
+<h4>Updating a Character’s Status<a class="headerlink" href="#updating-a-character-s-status" title="Permalink to this headline">¶</a></h4>
+<p>To update a character’s status, use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">ju</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;I wonder what Elizabeth the 3rd is up to...&quot;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">ju</span></code> is the ChatCharacter variable of the character whose status you would like to update. Updating a character’s status will automatically give their portrait on the homepage an “updated” background to indicate there is new information on their profile page.</p>
+<p>You can update a character’s status wherever you like inside a label; in the middle of phone calls, at the end of a chatroom, in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label, wherever.</p>
+</div>
+<div class="section" id="updating-the-character-s-cover-photo">
+<h4>Updating the Character’s Cover Photo<a class="headerlink" href="#updating-the-character-s-cover-photo" title="Permalink to this headline">¶</a></h4>
+<p>To update a character’s cover photo, use</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">s</span><span class="o">.</span><span class="n">cover_pic</span> <span class="o">=</span> <span class="s2">&quot;Cover Photos/rfa_cover.webp&quot;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">s</span></code> is the ChatCharacter variable of the character whose cover photo you would like to update. Cover photos should be 750 x 672 pixels in size.</p>
+<p>Updating a character’s cover photo will automatically give their portrait on the homepage an “updated” background to indicate their is new information on their profile page.</p>
+<p>You can update a character’s cover photo wherever you like inside a label; during Story Mode, in the middle of an expired chatroom, in a text message, wherever.</p>
 </div>
 </div>
 <div class="section" id="clearing-the-chat-history">
@@ -1164,9 +1236,12 @@
 <li><p>redhack</p></li>
 <li><p>redcrack</p></li>
 <li><p>secure</p></li>
+<li><p>rainy_day</p></li>
+<li><p>snowy_day</p></li>
+<li><p>morning_snow</p></li>
 </ul>
 <p>The background names <strong>are</strong> case-sensitive, so you need to get the capitalization correct.</p>
-<p>For this example, a new background that will be displayed using <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">rainy_day</span></code> will be added.</p>
+<p>For this example, you’ll see how the <code class="docutils literal notranslate"><span class="pre">rainy_day</span></code> background was set up.</p>
 <p>To add a new background, inside <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the header <strong>CUSTOM MESSENGER ITEMS</strong> are several variables. First, you need to define the image that will be used as the background. This should be <code class="docutils literal notranslate"><span class="pre">bg</span></code> + the name of the image as you want to write when displaying it in a chatroom:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">bg</span> <span class="n">rainy_day</span> <span class="o">=</span> <span class="s2">&quot;center_bg:Phone UI/bg_rainy_day.webp&quot;</span>
 </pre></div>

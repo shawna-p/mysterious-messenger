@@ -57,6 +57,9 @@ While chatrooms also use Ren'Py's ``scene`` statement to show backgrounds, there
 * redhack
 * redcrack
 * secure
+* rainy_day
+* snowy_day
+* morning_snow
 
 The background names **are** case-sensitive, so you need to get the capitalization correct. The program will automatically clear the chat history when beginning a new chatroom so new messages begin appearing at the bottom.
 
@@ -159,6 +162,18 @@ You can also combine ``big`` and ``bold`` or ``xbold`` for additional emphasis.
 ::
 
     msg s "VERY IMPORTANT MESSAGE!!" sser2 big xbold
+
+Underline
+^^^^^^^^^^
+
+To underline all the text in a bubble, you can use either ``underline`` or ``under`` as part of the msg CDS::
+
+    msg u "This text is underlined!" curly underline
+    msg u "This is also underlined." under
+
+If you just want to underline particular words, the built-in ``{u}`` tag will handle that::
+
+    msg u "This is {u}underlined{/u} for emphasis." glow
 
 Special Bubbles
 ^^^^^^^^^^^^^^^
@@ -340,6 +355,65 @@ where ``s`` is the variable of the character who is exiting the chatroom.
 
 .. tip::
     You can also use ``call exit(s)`` to have a character leave the chatroom.
+
+
+Updating the Characters' Profiles
+----------------------------------
+
+Updating the Profile Picture
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To update a character's profile picture, you just need to write
+
+::
+
+    $ ja.prof_pic = "Profile Pics/Jaehee/jae-2.webp"
+
+where ``ja`` is the ChatCharacter variable of the character whose profile picture you'd like to update. Profile pictures should be 110x110 pixels at minimum, and can optionally have a second, larger version supplied that is up to 314x314 pixels and will be used on the character's profile screen. The program looks for the larger version under the same name with the suffix ``-b`` e.g. ``Profile Pics/Jaehee/jae-2-b.webp``.
+
+You can update a profile picture anywhere -- during a chatroom, phone call, text message, etc. To have the profile picture show up in the History screen as well as during regular gameplay, it is recommended that you change the profile picture at the beginning of a label and its associated expired version, if applicable e.g.
+
+::
+
+    label day_1_chatroom_1():
+        $ r.prof_pic = "Profile Pics/Ray/ray-1.webp"
+        play music mint_eye
+        enter chatroom r
+        msg r "Good morning!" curly glow
+
+Updating a character's profile picture will automatically change their portrait on the homepage to have an "updated" background.
+
+.. note::
+    There are also bonus profile pictures, which the player can update themselves. For more on that, see :ref:`Bonus Profile Pictures`.
+
+Updating a Character's Status
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To update a character's status, use
+
+::
+
+    $ ju.status = "I wonder what Elizabeth the 3rd is up to..."
+
+where ``ju`` is the ChatCharacter variable of the character whose status you would like to update. Updating a character's status will automatically give their portrait on the homepage an "updated" background to indicate there is new information on their profile page.
+
+You can update a character's status wherever you like inside a label; in the middle of phone calls, at the end of a chatroom, in the ``after_`` label, wherever.
+
+
+Updating the Character's Cover Photo
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To update a character's cover photo, use
+
+::
+
+    $ s.cover_pic = "Cover Photos/rfa_cover.webp"
+
+where ``s`` is the ChatCharacter variable of the character whose cover photo you would like to update. Cover photos should be 750 x 672 pixels in size.
+
+Updating a character's cover photo will automatically give their portrait on the homepage an "updated" background to indicate their is new information on their profile page.
+
+You can update a character's cover photo wherever you like inside a label; during Story Mode, in the middle of an expired chatroom, in a text message, wherever.
 
 
 Clearing the Chat History
@@ -983,10 +1057,13 @@ Existing background options are:
 * redhack
 * redcrack
 * secure
+* rainy_day
+* snowy_day
+* morning_snow
 
 The background names **are** case-sensitive, so you need to get the capitalization correct.
 
-For this example, a new background that will be displayed using ``scene rainy_day`` will be added.
+For this example, you'll see how the ``rainy_day`` background was set up.
 
 To add a new background, inside ``variables_editable.rpy`` under the header **CUSTOM MESSENGER ITEMS** are several variables. First, you need to define the image that will be used as the background. This should be ``bg`` + the name of the image as you want to write when displaying it in a chatroom::
 

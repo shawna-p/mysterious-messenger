@@ -7,6 +7,64 @@ Full Changelog
 
     changelog
 
+3.1.1
+=====
+
+.. _minor-3-1-1:
+
+Minor New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - :ref:`Phone hang up callback<Hanging Up>`
+      - A special function is called when the player hangs up in the middle of a call, which you can use to alter the game state.
+    * - Manually send text messages
+      - Manually send text messages during chatrooms, phone calls, Story Mode, or whenever you like.
+
+
+.. _fixes-3-1-1:
+
+Fixes
+------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Fix**
+      - **Description**
+    * - Starter story fix
+      - Intro chats can properly have incoming calls and don't boot you out to the main menu.
+    * - Updater fix
+      - Updater properly remembers ignored releases and stops checking for updates when it reaches your current version.
+    * - Skip Intro/Save & Exit
+      - The chatlog no longer clears when finishing the starter story before exiting to the home screen.
+    * - SFX Audio Captions
+      - Sound effects are correctly looked up in the sfx dictionary, not the music dictionary.
+
+
+.. _qol-3-1-1:
+
+QoL Improvements
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - msg CDS underline
+      - The message CDS takes optional ``underline`` or ``under`` arguments to underline text.
+    * - SFX in replay
+      - Sound effects are included in chatroom replays.
+
+
 3.1.0
 ======
 
@@ -51,6 +109,8 @@ Minor New Features
       - New action for links to jump to somewhere else in a chatroom (including menus).
     * - :ref:`IfChatStopped<Link Actions>`
       - New action for links that changes depending on whether the chat is stopped or not.
+    * - New backgrounds
+      - Three new backgrounds have been added: ``snowy_day``, ``rainy_day``, and ``morning_snow``
 
 
 .. _fixes-3-1-0:
@@ -71,6 +131,10 @@ Fixes
       - Skip Intro and Jump to End now work properly with the msg CDS during chatrooms.
     * - Skip Intro fix
       - Skipping the introduction no longer causes real-time text message to prompt you about leaving even though the conversation is over.
+    * - Participated fix
+      - Fixes a bug so the MC's profile picture shows up in the list of participants after playing a chatroom.
+    * - Unlocked Profile Pics Fix
+      - Default profile pictures for characters now only unlock after you've seen them as part of the game.
 
 
 .. _qol-3-1-0:
@@ -105,6 +169,8 @@ Other
 
 3.0.1
 ======
+
+You can find the docs for v3.0.1 here: https://mysterious-messenger.readthedocs.io/en/v3.0.1/
 
 .. _major-3-0-1:
 

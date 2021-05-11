@@ -172,6 +172,9 @@ As shown above, you can also add voice files to the voicemail, which will be pla
 Phone Callbacks
 ================
 
+Missed Calls
+------------
+
 Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.
 
 However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix ``_incoming_z_callback`` where ``z`` is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call::
@@ -232,6 +235,71 @@ If you'll be reusing dialogue between the two phone calls, it might be useful to
         return
 
 The two calls start differently, but both jump to the ``day_7_chat_4_incoming_s_ending`` label to finish off the phone call. This can help keep your code more organized so you're not repeating dialogue in two separate labels.
+
+Hanging Up
+-----------
+
+You can also define a callback for when the player hangs up in the middle of a phone call. First, in ``variables_editable.rpy`` scroll down to the header **PHONE HANG UP CALLBACK** and find the variable ``default phone_hangup_callback``. By default, it is set to the example function ``hang_up_callback_fn``, but you can change this to whatever you like or even change it in the middle of a route.
+
+``phone_hangup_callback`` should be given the name of a function which takes one parameter, the call that the player was in the middle of when they hung up the phone. The call is stored as a PhoneCall object, which has several useful fields you can access for more information on the call such as the caller and the label it's attached to. The most relevant fields are:
+
+`caller`
+    The ChatCharacter object of the person the player was on the phone with.
+
+`phone_label`
+    A string with the name of the label where this phone call is found.
+
+`call_status`
+    A string that is one of "incoming", "outgoing", "missed", or "voicemail". Details the status of the phone call.
+
+`voicemail`
+    True if this phone call is a character's voicemail message rather than a proper conversation. Typically if you check this variable, it's to ignore it.
+
+
+You can use as many of these fields to check for details on the phone call as you like, then use that information to narrow down what the program should do. Like the profile picture callback, the function should return the name of a label to jump to. For example, the character might try phoning the player back, or you might lower the character's affection for the player. An example might look like::
+
+    init python:
+        def hang_up_callback(phonecall):
+
+            if phonecall.phone_label == 'day_7_chatroom_10_incoming_s':
+                return 'day_7_chatroom_10_s_hangup'
+            return
+
+    label day_7_chatroom_10_s_hangup():
+        compose text s:
+            s "[name], is your phone's connection okay?"
+            s "The call just dropped T_T"
+            label day_7_chatroom_10_s_hangup_menu1
+        return
+
+This can be as elaborate as you want it to be, including setting conditions that allow the player to pass plot branches or acknowledging that the player hung up at a certain point. A more complex example might be::
+
+    default knows_about_bomb = False
+    label day_7_chatroom_10_incoming_s():
+        s "[name]... I know this might be hard to hear, but I should tell you now."
+        s "I understand if you don't want to be a part of the RFA after this."
+        $ knows_about_bomb = True
+        s "There is a bomb in the apartment. It was supposed to protect sensitive information."
+        # ...
+        return
+
+    # Presuming the same callback function is used as shown above
+    label day_7_chatroom_10_s_hangup():
+        if knows_about_bomb:
+            compose text s:
+                s "Hey... I'm sure that was a lot of information so I get why you hung up."
+                s "You can call me back whenever you're ready to talk."
+            $ create_outgoing_call('day_7_chatroom_10_about_bomb', s)
+        else:
+            compose text s:
+                s "[name], I didn't even get to tell you... you must be really upset."
+                s "I think this is only going to make you more upset, but..."
+                s "..."
+                s "Call me when you get a moment, okay?"
+            $ create_outgoing_call('day_7_chatroom_10_re_explain_issue', s)
+        return
+
+In this way, you can create context-sensitive callbacks so that the characters remember what they talked about with the player and can react to their actions in meaningful ways.
 
 
 
@@ -294,7 +362,7 @@ Then, to write a phone call for this character, you can add a label like you wou
 
 A ``PhoneCharacter`` acts the same as a ``ChatCharacter`` in nearly all respects, including the ability to update their profile picture, name, and more, but they won't appear in the player's contact list or on the home screen as a character profile. If you want that functionality, you should define them as a ChatCharacter instead (see :ref:`Creating Characters`).
 
-Additionally, if the player misses a call from a ``PhoneCharacter``, they will only be able to call the character back if that call is still available. In practice, this means that the player can't call a ``PhoneCharacter`` whenever they like; only when an outstanding call is available. Outgoing calls to ``PhoneCharacter``s are technically supported if an outgoing call is available; however, if you wish to allow for outgoing calls, you should define this character using the ``ChatCharacter`` class instead of ``PhoneCharacter``, as phone-only characters do not have a contact image which makes it difficult for players to call them.
+Additionally, if the player misses a call from a ``PhoneCharacter``, they will only be able to call the character back if that call is still available. In practice, this means that the player can't call a ``PhoneCharacter`` whenever they like; only when an outstanding call is available. Outgoing calls to ``PhoneCharacter`` are technically supported if an outgoing call is available; however, if you wish to allow for outgoing calls, you should define this character using the ``ChatCharacter`` class instead of ``PhoneCharacter``, as phone-only characters do not have a contact image which makes it difficult for players to call them.
 
 
 

@@ -264,6 +264,14 @@ If you want Emma to show up on the home screen with a clickable profile, or to a
 
     default character_list = [ju, z, s, y, ja, v, m, r, ri, em]
 
+.. note::
+
+    Note that you can also set this on a per-route basis; see :ref:`Setting up a Route` for more information. If you change the ``character_list`` variable during a route to add a new character, you need to use the special function ``update_character_list`` to update it. That looks like this::
+
+        $ update_character_list([ju, z, s, y, ja, r, m])
+
+    This will ensure the game is updated to accommodate the new character.
+
 The second list is
 
 ::

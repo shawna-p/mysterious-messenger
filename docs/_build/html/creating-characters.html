@@ -420,6 +420,14 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">character_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">ri</span><span class="p">,</span> <span class="n">em</span><span class="p">]</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note that you can also set this on a per-route basis; see <a class="reference internal" href="route-setup.html#setting-up-a-route"><span class="std std-ref">Setting up a Route</span></a> for more information. If you change the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> variable during a route to add a new character, you need to use the special function <code class="docutils literal notranslate"><span class="pre">update_character_list</span></code> to update it. That looks like this:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">update_character_list</span><span class="p">([</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This will ensure the game is updated to accommodate the new character.</p>
+</div>
 <p>The second list is</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">heart_point_chars</span> <span class="o">=</span> <span class="p">[</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="k">in</span> <span class="n">character_list</span> <span class="k">if</span> <span class="k">not</span> <span class="n">c</span><span class="o">.</span><span class="n">right_msgr</span> <span class="p">]</span>
 </pre></div>

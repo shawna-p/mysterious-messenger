@@ -362,7 +362,7 @@ Then, to write a phone call for this character, you can add a label like you wou
 
 A ``PhoneCharacter`` acts the same as a ``ChatCharacter`` in nearly all respects, including the ability to update their profile picture, name, and more, but they won't appear in the player's contact list or on the home screen as a character profile. If you want that functionality, you should define them as a ChatCharacter instead (see :ref:`Creating Characters`).
 
-Additionally, if the player misses a call from a ``PhoneCharacter``, they will only be able to call the character back if that call is still available. In practice, this means that the player can't call a ``PhoneCharacter`` whenever they like; only when an outstanding call is available. Outgoing calls to ``PhoneCharacter``s are technically supported if an outgoing call is available; however, if you wish to allow for outgoing calls, you should define this character using the ``ChatCharacter`` class instead of ``PhoneCharacter``, as phone-only characters do not have a contact image which makes it difficult for players to call them.
+Additionally, if the player misses a call from a ``PhoneCharacter``, they will only be able to call the character back if that call is still available. In practice, this means that the player can't call a ``PhoneCharacter`` whenever they like; only when an outstanding call is available. Outgoing calls to ``PhoneCharacter`` are technically supported if an outgoing call is available; however, if you wish to allow for outgoing calls, you should define this character using the ``ChatCharacter`` class instead of ``PhoneCharacter``, as phone-only characters do not have a contact image which makes it difficult for players to call them.
 
 
 

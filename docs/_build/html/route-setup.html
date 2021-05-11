@@ -875,6 +875,14 @@
 </pre></div>
 </div>
 <p>This tells the program which characters are included on the home screen.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you want to update the character list <em>after the game has already begun</em>, you should use the special function <code class="docutils literal notranslate"><span class="pre">update_character_list</span></code> to update it. That looks like this:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">update_character_list</span><span class="p">([</span><span class="n">ju</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ja</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>This will ensure the game is updated to accommodate the new character.</p>
+</div>
 <p>Similarly, you may want to set which characters show up on the Profile screen with an indicator of their collected heart points. Since the New Year’s route only has endings for <code class="docutils literal notranslate"><span class="pre">ja</span></code>, <code class="docutils literal notranslate"><span class="pre">ju</span></code>, <code class="docutils literal notranslate"><span class="pre">s</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, and <code class="docutils literal notranslate"><span class="pre">z</span></code>, you should set up the <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> list to reflect this:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">new_years_intro</span><span class="p">():</span>
 

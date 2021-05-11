@@ -104,7 +104,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#writing-a-phone-call">Writing a Phone Call</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changing-a-character-s-voicemail">Changing a Character’s Voicemail</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#phone-callbacks">Phone Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phone-callbacks">Phone Callbacks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Missed Calls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hanging-up">Hanging Up</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#phone-only-characters">Phone-Only Characters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dialogue-only-phone-characters">Dialogue-Only Phone Characters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#incoming-call-phone-characters">Incoming Call Phone Characters</a></li>
@@ -201,7 +205,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#writing-a-phone-call">Writing a Phone Call</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#providing-choices">Providing Choices</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#changing-a-character-s-voicemail">Changing a Character’s Voicemail</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#phone-callbacks">Phone Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#phone-callbacks">Phone Callbacks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Missed Calls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hanging-up">Hanging Up</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#phone-only-characters">Phone-Only Characters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#dialogue-only-phone-characters">Dialogue-Only Phone Characters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#incoming-call-phone-characters">Incoming Call Phone Characters</a></li>
@@ -347,6 +355,8 @@
 </div>
 <div class="section" id="phone-callbacks">
 <h2>Phone Callbacks<a class="headerlink" href="#phone-callbacks" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Missed Calls<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <p>Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.</p>
 <p>However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix <code class="docutils literal notranslate"><span class="pre">_incoming_z_callback</span></code> where <code class="docutils literal notranslate"><span class="pre">z</span></code> is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_7_chat_4</span><span class="p">():</span>
@@ -406,6 +416,66 @@
 </div>
 <p>The two calls start differently, but both jump to the <code class="docutils literal notranslate"><span class="pre">day_7_chat_4_incoming_s_ending</span></code> label to finish off the phone call. This can help keep your code more organized so you’re not repeating dialogue in two separate labels.</p>
 </div>
+<div class="section" id="hanging-up">
+<h3>Hanging Up<a class="headerlink" href="#hanging-up" title="Permalink to this headline">¶</a></h3>
+<p>You can also define a callback for when the player hangs up in the middle of a phone call. First, in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> scroll down to the header <strong>PHONE HANG UP CALLBACK</strong> and find the variable <code class="docutils literal notranslate"><span class="pre">default</span> <span class="pre">phone_hangup_callback</span></code>. By default, it is set to the example function <code class="docutils literal notranslate"><span class="pre">hang_up_callback_fn</span></code>, but you can change this to whatever you like or even change it in the middle of a route.</p>
+<p><code class="docutils literal notranslate"><span class="pre">phone_hangup_callback</span></code> should be given the name of a function which takes one parameter, the call that the player was in the middle of when they hung up the phone. The call is stored as a PhoneCall object, which has several useful fields you can access for more information on the call such as the caller and the label it’s attached to. The most relevant fields are:</p>
+<dl class="simple">
+<dt><cite>caller</cite></dt><dd><p>The ChatCharacter object of the person the player was on the phone with.</p>
+</dd>
+<dt><cite>phone_label</cite></dt><dd><p>A string with the name of the label where this phone call is found.</p>
+</dd>
+<dt><cite>call_status</cite></dt><dd><p>A string that is one of “incoming”, “outgoing”, “missed”, or “voicemail”. Details the status of the phone call.</p>
+</dd>
+<dt><cite>voicemail</cite></dt><dd><p>True if this phone call is a character’s voicemail message rather than a proper conversation. Typically if you check this variable, it’s to ignore it.</p>
+</dd>
+</dl>
+<p>You can use as many of these fields to check for details on the phone call as you like, then use that information to narrow down what the program should do. Like the profile picture callback, the function should return the name of a label to jump to. For example, the character might try phoning the player back, or you might lower the character’s affection for the player. An example might look like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">init</span> <span class="k">python</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">hang_up_callback</span><span class="p">(</span><span class="n">phonecall</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">phonecall</span><span class="o">.</span><span class="n">phone_label</span> <span class="o">==</span> <span class="s1">&#39;day_7_chatroom_10_incoming_s&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;day_7_chatroom_10_s_hangup&#39;</span>
+        <span class="k">return</span>
+
+<span class="k">label</span> <span class="n">day_7_chatroom_10_s_hangup</span><span class="p">():</span>
+    <span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">s</span> <span class="s2">&quot;[name], is your phone&#39;s connection okay?&quot;</span>
+        <span class="n">s</span> <span class="s2">&quot;The call just dropped T_T&quot;</span>
+        <span class="k">label</span> <span class="n">day_7_chatroom_10_s_hangup_menu1</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>This can be as elaborate as you want it to be, including setting conditions that allow the player to pass plot branches or acknowledging that the player hung up at a certain point. A more complex example might be:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">knows_about_bomb</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">label</span> <span class="n">day_7_chatroom_10_incoming_s</span><span class="p">():</span>
+    <span class="n">s</span> <span class="s2">&quot;[name]... I know this might be hard to hear, but I should tell you now.&quot;</span>
+    <span class="n">s</span> <span class="s2">&quot;I understand if you don&#39;t want to be a part of the RFA after this.&quot;</span>
+    <span class="k">$</span> <span class="n">knows_about_bomb</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">s</span> <span class="s2">&quot;There is a bomb in the apartment. It was supposed to protect sensitive information.&quot;</span>
+    <span class="c1"># ...</span>
+    <span class="k">return</span>
+
+<span class="c1"># Presuming the same callback function is used as shown above</span>
+<span class="k">label</span> <span class="n">day_7_chatroom_10_s_hangup</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">knows_about_bomb</span><span class="p">:</span>
+        <span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
+            <span class="n">s</span> <span class="s2">&quot;Hey... I&#39;m sure that was a lot of information so I get why you hung up.&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;You can call me back whenever you&#39;re ready to talk.&quot;</span>
+        <span class="k">$</span> <span class="n">create_outgoing_call</span><span class="p">(</span><span class="s1">&#39;day_7_chatroom_10_about_bomb&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">compose</span> <span class="k">text</span> <span class="n">s</span><span class="p">:</span>
+            <span class="n">s</span> <span class="s2">&quot;[name], I didn&#39;t even get to tell you... you must be really upset.&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;I think this is only going to make you more upset, but...&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;...&quot;</span>
+            <span class="n">s</span> <span class="s2">&quot;Call me when you get a moment, okay?&quot;</span>
+        <span class="k">$</span> <span class="n">create_outgoing_call</span><span class="p">(</span><span class="s1">&#39;day_7_chatroom_10_re_explain_issue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+<p>In this way, you can create context-sensitive callbacks so that the characters remember what they talked about with the player and can react to their actions in meaningful ways.</p>
+</div>
+</div>
 <div class="section" id="phone-only-characters">
 <h2>Phone-Only Characters<a class="headerlink" href="#phone-only-characters" title="Permalink to this headline">¶</a></h2>
 <p>Like with Story Mode, sometimes you may have a character who only needs to exist for a phone call but doesn’t need all the bells and whistles of a full ChatCharacter definition. There are two ways to define such characters:</p>
@@ -455,7 +525,7 @@
 </pre></div>
 </div>
 <p>A <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code> acts the same as a <code class="docutils literal notranslate"><span class="pre">ChatCharacter</span></code> in nearly all respects, including the ability to update their profile picture, name, and more, but they won’t appear in the player’s contact list or on the home screen as a character profile. If you want that functionality, you should define them as a ChatCharacter instead (see <a class="reference internal" href="creating-characters.html#creating-characters"><span class="std std-ref">Creating Characters</span></a>).</p>
-<p>Additionally, if the player misses a call from a <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code>, they will only be able to call the character back if that call is still available. In practice, this means that the player can’t call a <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code> whenever they like; only when an outstanding call is available. Outgoing calls to <code class="docutils literal notranslate"><span class="pre">PhoneCharacter``s</span> <span class="pre">are</span> <span class="pre">technically</span> <span class="pre">supported</span> <span class="pre">if</span> <span class="pre">an</span> <span class="pre">outgoing</span> <span class="pre">call</span> <span class="pre">is</span> <span class="pre">available;</span> <span class="pre">however,</span> <span class="pre">if</span> <span class="pre">you</span> <span class="pre">wish</span> <span class="pre">to</span> <span class="pre">allow</span> <span class="pre">for</span> <span class="pre">outgoing</span> <span class="pre">calls,</span> <span class="pre">you</span> <span class="pre">should</span> <span class="pre">define</span> <span class="pre">this</span> <span class="pre">character</span> <span class="pre">using</span> <span class="pre">the</span> <span class="pre">``ChatCharacter</span></code> class instead of <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code>, as phone-only characters do not have a contact image which makes it difficult for players to call them.</p>
+<p>Additionally, if the player misses a call from a <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code>, they will only be able to call the character back if that call is still available. In practice, this means that the player can’t call a <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code> whenever they like; only when an outstanding call is available. Outgoing calls to <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code> are technically supported if an outgoing call is available; however, if you wish to allow for outgoing calls, you should define this character using the <code class="docutils literal notranslate"><span class="pre">ChatCharacter</span></code> class instead of <code class="docutils literal notranslate"><span class="pre">PhoneCharacter</span></code>, as phone-only characters do not have a contact image which makes it difficult for players to call them.</p>
 </div>
 </div>
 </div>

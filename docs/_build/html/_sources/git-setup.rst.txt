@@ -49,7 +49,7 @@ You should now have a local copy of the mysterious-messenger repository. Next, y
     > upstream https://github.com/shawna-p/mysterious-messenger.git (fetch)
     > upstream https://github.com/shawna-p/mysterious-messenger.git (push)
 
-Now you should make sure you get the most recent released version, which is currently v3.0.1
+Now you should make sure you get the most recent released version, which is currently v3.1.0
 
 * Type ``git checkout v3.1.0`` and press Enter
 * Next, type ``git merge tags/v3.1.0`` and press Enter.

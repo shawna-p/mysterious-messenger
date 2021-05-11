@@ -778,6 +778,13 @@ Next, you may want to adjust some of the variables for this route. For the New Y
 
 This tells the program which characters are included on the home screen.
 
+.. warning::
+    If you want to update the character list *after the game has already begun*, you should use the special function ``update_character_list`` to update it. That looks like this::
+
+        $ update_character_list([ju, z, s, y, ja, r, m])
+
+    This will ensure the game is updated to accommodate the new character.
+
 Similarly, you may want to set which characters show up on the Profile screen with an indicator of their collected heart points. Since the New Year's route only has endings for ``ja``, ``ju``, ``s``, ``y``, and ``z``, you should set up the ``heart_point_chars`` list to reflect this::
 
     label new_years_intro():
