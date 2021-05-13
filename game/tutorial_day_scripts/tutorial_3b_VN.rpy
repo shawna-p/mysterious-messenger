@@ -1152,6 +1152,15 @@ label vanderwood_showcase():
     with Pause(0.8)
     show vanderwood angry
     with Pause(0.8)
+    va "And thanks to {a=https://twitter.com/RomRom1705}Rom (@RomRom1705 on Twitter){/a}, I have four new expressions as well."
+    show vanderwood smile
+    with Pause(0.8)
+    show vanderwood angry_blush
+    with Pause(0.8)
+    show vanderwood blush
+    with Pause(0.8)
+    show vanderwood thinking
+    with Pause(0.8)
     show vanderwood neutral
     with Pause(0.8)
     va "That's it."
