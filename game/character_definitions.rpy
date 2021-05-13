@@ -932,6 +932,10 @@ layeredimage vanderwood:
         attribute determined "VN Mode/Vanderwood/ven_face_3.webp"
         attribute ouch "VN Mode/Vanderwood/ven_face_4.webp"
         attribute angry "VN Mode/Vanderwood/ven_face_5.webp"
+        attribute smile "VN Mode/Vanderwood/ven_face_6.webp"
+        attribute angry_blush "VN Mode/Vanderwood/ven_face_7.webp"
+        attribute blush "VN Mode/Vanderwood/ven_face_8.webp"
+        attribute thinking "VN Mode/Vanderwood/ven_face_9.webp"
 
 
 
