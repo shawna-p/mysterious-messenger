@@ -648,6 +648,7 @@ style call_text:
 ## not play out if the player hangs up
 label hang_up():
     $ in_phone_call = False
+    $ purge_temp_texts()
     if not observing:
         $ call_hang_up(phonecall=current_call)
         $ purge_temp_texts()
@@ -1033,6 +1034,7 @@ label play_phone_call():
         if not observing:
             $ current_call.finished()
             $ persistent.completed_story.add(current_call.get_label)
+        $ send_temp_texts()
         $ reset_story_vars()
         $ renpy.end_replay()
         $ in_phone_call = False
