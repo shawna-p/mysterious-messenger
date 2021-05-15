@@ -445,3 +445,14 @@ Normally, the program will take care of text message delivery after a story item
 In the above example, Yoosung sends the player a text message during a phone call. After Yoosung says "Um, one sec, I'll message you the picture." the player will see a text message popup with a preview of the last text message (in this case, because Yoosung sent an image, it will say "Yoosung sent an image."). This popup is non-interactive; there will not be a button to take the player to the text message immediately and they will need to wait until the phone call is over.
 
 Note also that text messages sent in this way will only actually be delivered to the player's inbox if they complete the story item where the text message occurs. If they end or jump out of the story item prematurely, such as by hanging up or hitting the back button on chatrooms, the text messages will not be sent even though the player saw a notification during the story item itself. This prevents the player from accumulating a bunch of text messages without properly completing the story item.
+
+.. tip::
+    Only the last message in a ``compose text`` block will be shown as a preview to the player. If you want to show them multiple message popups, you'll need to do so individually like::
+
+        compose text u deliver_at now:
+            u "Ah, I found you."
+        z "Anyway, I've talked about myself so much aha."
+        z "So what are you up to?"
+        compose text u deliver_at now:
+            u "You should log out now. I'll be there soon."
+        return
