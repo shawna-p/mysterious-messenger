@@ -18,8 +18,13 @@ label other_storytelling():
 
     y "{=curly}Well, you can also have Story Mode sections in the middle of chatrooms!{/=curly}" (bounce=True, specBubble="square_l")
     y "I'll show you what I mean in a second."
+    compose text ju deliver_at now:
+        ju "[name], I was hoping for a moment of your time."
     y "{=ser1}When the chatroom is about to switch to a story mode section,{/=ser1}"
     y "{=ser1}you'll get a button at the bottom of the screen kinda like the 'answer' button.{/=ser1}"
+    compose text ju deliver_at now:
+        ju 'ju_1' img
+        label other_storytelling_ju_txt
     y "{=ser1xb}And if you press that, you'll be taken to the story mode section.{/=ser1xb}"
     y "{=curly}Like now!{/=curly}" (bounce=True)
 
@@ -97,6 +102,19 @@ label other_storytelling_link_vn():
     y "Any action you can give to a button, you can give to a link."
     y sparkle "So you could show an image, or toggle a variable, for example!"
     y neutral "Anyway, let's go back to the chat."
+    return
+
+label other_storytelling_ju_txt():
+    menu:
+        "She's so cuuuuuuute~!":
+            award heart ju
+            ju "Ah, thank you."
+            ju "I presume the more 'u's used, the cuter you think she is."
+        "Oof cat hair;;":
+            award heart ja
+            ju "I see you agree with Assistant Kang."
+            ju "I simply do not understand how one can fault a creature as magnificent as Elizabeth the 3rd."
+    ju "I hope the rest of your day is pleasant."
     return
 
 label other_storytelling_expired():
