@@ -18,13 +18,23 @@ label other_storytelling():
 
     y "{=curly}Well, you can also have Story Mode sections in the middle of chatrooms!{/=curly}" (bounce=True, specBubble="square_l")
     y "I'll show you what I mean in a second."
+
+    ## This allows Jumin to send a text in the middle of a chatroom.
+    ## The player will receive a notification and a preview of the last
+    ## sent message.
     compose text ju deliver_at now:
         ju "[name], I was hoping for a moment of your time."
     y "{=ser1}When the chatroom is about to switch to a story mode section,{/=ser1}"
     y "{=ser1}you'll get a button at the bottom of the screen kinda like the 'answer' button.{/=ser1}"
+
+    ## Because the last message is an image, the player will just see
+    ## "Jumin Han sent an image." as the preview text.
+    ## The given label will also be available to continue the
+    ## conversation once this chatroom is over.
     compose text ju deliver_at now:
         ju 'ju_1' img
         label other_storytelling_ju_txt
+
     y "{=ser1xb}And if you press that, you'll be taken to the story mode section.{/=ser1xb}"
     y "{=curly}Like now!{/=curly}" (bounce=True)
 
@@ -104,6 +114,8 @@ label other_storytelling_link_vn():
     y neutral "Anyway, let's go back to the chat."
     return
 
+## This text label proceeds like any other text label.
+## Be sure to end it with `return`.
 label other_storytelling_ju_txt():
     menu:
         "She's so cuuuuuuute~!":
