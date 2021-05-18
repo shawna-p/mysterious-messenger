@@ -129,6 +129,17 @@ label other_storytelling_ju_txt():
     ju "I hope the rest of your day is pleasant."
     return
 
+label after_other_storytelling():
+    if was_expired:
+        # This ensures Jumin still sends the player a text
+        # message even if the chatroom is expired. They receive
+        # it in real-time if they go through the chatroom regularly.
+        compose text ju:
+            ju "[name], I was hoping for a moment of your time."
+            ju 'ju_1' img
+            label other_storytelling_ju_txt
+    return
+
 label other_storytelling_expired():
     $ y.prof_pic = "Profile Pics/Yoosung/yoo-13.webp"
     scene snowy_day
