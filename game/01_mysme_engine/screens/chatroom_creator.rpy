@@ -30,6 +30,7 @@ init python:
                 if not self.edit_action:
                     renpy.run([Function(add_creation_entry),
                         Function(self.set_text, ''),
+                        SetField(yadj, 'value', yadjValue),
                         SetVariable('last_added', [ ])])
                 else:
                     # This is an edit to an existing entry
@@ -473,7 +474,8 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 action [chat_dialogue_input.Disable(),
                     Function(add_creation_entry),
                     Function(chat_dialogue_input.set_text, ''),
-                    SetVariable('last_added', [ ])]
+                    SetVariable('last_added', [ ]),
+                    SetField(yadj, 'value', yadjValue)]
         else:
             textbutton "Update":
                 action [edit_dialogue_input.Disable(),
@@ -597,6 +599,7 @@ screen select_emote():
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
                 action [Function(add_emote, selected_emote),
+                    SetField(yadj, 'value', yadjValue),
                     Hide('select_emote')]
 
 screen select_bubble(editing=False):
@@ -714,6 +717,7 @@ screen select_bubble(editing=False):
                     [chat_dialogue_input.Disable(),
                     Function(add_bubble, bubble_dict),
                     Function(chat_dialogue_input.set_text, ''),
+                    SetField(yadj, 'value', yadjValue),
                     SetVariable('last_added', [ ]),
                     Hide('select_bubble')],
                     [Function(add_bubble, bubble_dict, is_edit=True),
