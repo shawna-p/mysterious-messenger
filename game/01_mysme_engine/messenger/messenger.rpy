@@ -8,7 +8,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
         # This is the infinite value from earlier which
         # tells the viewport to always scroll to
         # the bottom
-        if not _menu or main_menu:
+        if not _menu and not main_menu:
             yadj.value = yadjValue
         finalchat = None
         if len(chatlog) > 0:
@@ -29,10 +29,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             at slide_down(-220)
 
         viewport: # viewport id "VP":
-            if not edit_mode or not main_menu:
-                yadjustment yadj
-            else:
-                yinitial 1.0
+            yadjustment yadj
             draggable True
             mousewheel True
             if not main_menu:
