@@ -528,6 +528,62 @@ screen effects_tab():
         textbutton "Special Bubbles":
             style_prefix "other_settings_end"
             action Show('select_bubble')
+        textbutton "Select Background":
+            style_prefix 'other_settings_end'
+            action Show('select_background')
+
+screen select_background():
+    zorder 100
+    modal True
+
+    default temp_bg = current_background
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_background')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,740)
+                    align (0.5, 0.5)
+                    cols 2
+                    spacing 10
+                    # add Transform("bg morning", size=(187, 333))
+                    # add Transform("bg noon", size=(187, 333))
+                    # add Transform("bg evening", size=(187, 333))
+                    # for ccbg in all_static_backgrounds:
+                    #     add Transform("#f0f", size=(187, 333))
+                        #add Transform('bg ' + ccbg, size=(187, 333))
+                    #     button:
+                    #         xysize (int(750*0.25), int(1334*0.25))
+                    #         add Transform('bg ' + ccbg, zoom=0.25)
+
+
+
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                xalign 0.5
+                xsize 240
+                ysize 80
+                background 'menu_select_btn' padding(20,20)
+                hover_background 'menu_select_btn_hover'
+                action [SetVariable('current_background', temp_bg),
+                    Hide('select_background')]
 
 screen select_emote():
 
