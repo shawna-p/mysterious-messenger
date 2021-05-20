@@ -561,17 +561,27 @@ screen select_background():
                     mousewheel True
                     xysize (590,740)
                     align (0.5, 0.5)
-                    cols 2
+                    cols 3
                     spacing 10
-                    # add Transform("bg morning", size=(187, 333))
-                    # add Transform("bg noon", size=(187, 333))
-                    # add Transform("bg evening", size=(187, 333))
-                    # for ccbg in all_static_backgrounds:
-                    #     add Transform("#f0f", size=(187, 333))
-                        #add Transform('bg ' + ccbg, size=(187, 333))
-                    #     button:
-                    #         xysize (int(750*0.25), int(1334*0.25))
-                    #         add Transform('bg ' + ccbg, zoom=0.25)
+                    for ccbg in all_static_backgrounds:
+                        python:
+                            try:
+                                ccbg2 = renpy.get_registered_image('bg ' + ccbg).child
+                                try:
+                                    ccbg2 = ccbg2.child
+                                except:
+                                    pass
+                            except:
+                                ccbg2 = 'bg ' + ccbg
+
+                        button:
+                            xysize (187, 333)
+                            selected_foreground "#fff3"
+                            add ccbg2:
+                                size (187, 333)
+                            action SetScreenVariable('temp_bg', ccbg)
+
+
 
 
 
