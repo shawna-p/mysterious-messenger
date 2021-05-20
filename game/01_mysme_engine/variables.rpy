@@ -1298,8 +1298,10 @@ image bg morning_snow = "Phone UI/bg-snowy-day.webp"
 image bg hack = "Phone UI/bg-hack.webp"
 image bg redhack = "Phone UI/bg-redhack.webp"
 image bg redcrack = "Phone UI/bg-redhack-crack.webp"
-image bg secure = Fixed("center_bg:Phone UI/bg_secure.webp",
-    Transform("#000", alpha=0.5), xysize=(750, 1334))
+image bg secure = Composite((750, 1334),
+    (0, 0), Transform("#000", alpha=0.5),
+    (0, 200), "Phone UI/bg_secure.webp",
+    xysize=(750, 1334))
 image black = "#000000"
 
 
