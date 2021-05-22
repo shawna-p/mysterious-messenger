@@ -582,9 +582,6 @@ screen select_background():
                             action SetScreenVariable('temp_bg', ccbg)
 
 
-
-
-
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 xalign 0.5
@@ -593,6 +590,9 @@ screen select_background():
                 background 'menu_select_btn' padding(20,20)
                 hover_background 'menu_select_btn_hover'
                 action [SetVariable('current_background', temp_bg),
+                    If(temp_bg in black_text_bgs,
+                        SetVariable('nickColour', black),
+                        SetVariable('nickColour', white)),
                     Hide('select_background')]
 
 screen select_emote():
