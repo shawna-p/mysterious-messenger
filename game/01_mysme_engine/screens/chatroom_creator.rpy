@@ -580,6 +580,9 @@ screen select_background():
                             add ccbg2:
                                 size (187, 333)
                             action SetScreenVariable('temp_bg', ccbg)
+            textbutton "Use cracked overlay":
+                style_prefix 'check'
+                action NullAction()
 
 
             textbutton _('Confirm'):
