@@ -334,6 +334,10 @@ screen chatroom_creator():
     add Transform('bg ' + current_background,
             crop=(0, 315, 750, creator_messenger_ysize)):
         yoffset 150
+    if cc_cracked_overlay:
+        add Transform('screen_crack',
+                crop=(0, 315, 750, creator_messenger_ysize)):
+            yoffset 150
     use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5)),
             hide_bkgr=True):
         use messenger_screen()
@@ -519,6 +523,7 @@ transform slide_in_out():
         easein 0.35 yzoom 0.0
 
 default text_input_yadj = ui.adjustment()
+default cc_cracked_overlay = False
 
 screen effects_tab():
     hbox:
@@ -582,7 +587,7 @@ screen select_background():
                             action SetScreenVariable('temp_bg', ccbg)
             textbutton "Use cracked overlay":
                 style_prefix 'check'
-                action NullAction()
+                action ToggleVariable('cc_cracked_overlay')
 
 
             textbutton _('Confirm'):
