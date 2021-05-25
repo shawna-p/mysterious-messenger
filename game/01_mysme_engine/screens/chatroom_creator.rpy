@@ -942,7 +942,7 @@ screen edit_msg_menu(msg, ind):
     frame:
         at yzoom_in()
         background "#000"
-        xysize (300, 175)
+        xysize (300, 250)
         pos pos
         if too_wide:
             anchor (1.0, 0.5)
@@ -969,6 +969,10 @@ screen edit_msg_menu(msg, ind):
             text_color "#fff"
             action Show('pick_speaker', active_tab="Edit",
                 msg_ind=ind, pos=speaker_pos, anchor=(0.0, 0.0))
+
+        textbutton "Change profile picture":
+            text_color "#fff"
+            action [Hide('edit_msg_menu'), Show('pick_chara_pfp', who=msg.who)]
 
 screen dialogue_edit_popup():
     modal True
