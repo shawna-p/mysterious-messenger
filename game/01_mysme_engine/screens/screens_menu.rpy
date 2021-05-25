@@ -1943,7 +1943,7 @@ screen pick_chara_pfp(who):
                 action SetField(who, 'bonus_pfp', False)
             for img, condition in pfp_list:
                 button:
-                    if is_unlocked_pfp(img, condition):
+                    if is_unlocked_pfp(img, condition) or main_menu:
                         background Transform(img, size=(140, 140))
                         hover_foreground "#fff3"
                         action SetField(who, 'bonus_pfp', img)
@@ -1967,6 +1967,7 @@ screen pick_chara_pfp(who):
                         action CConfirm(("You have not yet "
                             + "unlocked this profile picture."))
 
+    if not main_menu:
     frame:
         background "space_black_box"
         padding (12, 5)
