@@ -972,7 +972,10 @@ screen edit_msg_menu(msg, ind):
 
         textbutton "Change profile picture":
             text_color "#fff"
-            action [Hide('edit_msg_menu'), Show('pick_chara_pfp', who=msg.who)]
+            action [Hide('edit_msg_menu'),
+                If(msg.who == m,
+                    Show('pick_mc_pfp'),
+                    Show('pick_chara_pfp', who=msg.who))]
 
 screen dialogue_edit_popup():
     modal True
