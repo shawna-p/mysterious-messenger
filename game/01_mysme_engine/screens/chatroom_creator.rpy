@@ -21,6 +21,7 @@ init python:
             elif s:
                 entry_update = add_creation_entry(return_entry=True,
                     is_edit=True)
+                store.chatlog[store.edit_msg_index].what = entry_update.what
 
             if s:
                 self.enter(simulate=True)
@@ -180,6 +181,16 @@ init python:
         the_str = "{image=" + emote + "}"
         chatlog.append(ChatEntry(store.the_entry.who,
             the_str, upTime(), img=True))
+        return
+
+    def update_edit_text():
+        if store.edit_msg_index and store.chatlog:
+            try:
+                editmsg = store.chatlog[store.edit_msg_index]
+            except IndexError:
+                return
+            newmsg = add_creation_entry(True, True)
+            editmsg.what = newmsg.what
         return
 
     def add_bubble(bubble_info, is_edit=False):
@@ -379,9 +390,9 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                     text the_entry.who.name size 27
         if not compact_ver:
             use add_enter_exit_msg()
-    if compact_ver:
-        hbox:
-            use add_enter_exit_msg()
+    # if compact_ver:
+    #     hbox:
+    #         use add_enter_exit_msg()
     # button:
     #     xysize (280, 85)
     #     hbox:
@@ -396,7 +407,8 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         button:
             add "#000"
             text "B" font gui.sans_serif_1xb
-            action ToggleDict(styles_dict, 'bold')
+            action [ToggleDict(styles_dict, 'bold'), Function(update_edit_text)]
+
         button:
             add "#000"
             text "I" italic True
