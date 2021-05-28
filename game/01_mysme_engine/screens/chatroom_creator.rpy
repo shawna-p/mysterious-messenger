@@ -44,6 +44,9 @@ init python:
             raise renpy.IgnoreEvent()
 
     def pop_chatlog():
+        """
+        Pop the last entry off the chatlog and add it to our "undo" list.
+        """
         if store.chatlog:
             store.last_added.append(store.chatlog.pop())
             # Cut down on how many entries we remember
@@ -55,11 +58,20 @@ init python:
         return
 
     def redo_chatlog():
+        """
+        Pop the most recent entry off the "undo" list and re-add it to
+        the chatlog.
+        """
         if store.last_added:
             store.chatlog.append(store.last_added.pop())
         return
 
     def add_creation_entry(return_entry=False, is_edit=False):
+        """
+        Adds an entry to the chatlog after parsing out which styles it should
+        have. May also return the created entry or replace an existing
+        entry if it's an edit.
+        """
         global entry_styles, edit_styles
         if is_edit:
             styles_dict = edit_styles
@@ -112,6 +124,10 @@ init python:
         return
 
     def get_styles_from_entry(msg):
+        """
+        Retrieve the appropriate styles from the 'what' part of a ChatEntry
+        and store it in a dictionary format so it can be edited.
+        """
         global edit_styles
         edit_styles = {
             'font' : gui.sans_serif_1,
@@ -162,9 +178,10 @@ init python:
         store.edit_dialogue = dialogue
         store.edit_msg = msg
 
-
-
     def create_enter_exit(who, enter=True):
+        """
+        Add an enter/exit chatroom entry.
+        """
         the_str = ""
         if enter:
             the_str = who.name + " has entered the chatroom."
@@ -175,7 +192,9 @@ init python:
         return
 
     def add_emote(emote):
-
+        """
+        Add the given emoji to the chatlog.
+        """
         if emote is None:
             return
         the_str = "{image=" + emote + "}"
@@ -184,6 +203,9 @@ init python:
         return
 
     def update_edit_text():
+        """
+        Update the text of an entry which is currently being edited.
+        """
         if store.edit_msg_index and store.chatlog:
             try:
                 editmsg = store.chatlog[store.edit_msg_index]
@@ -194,7 +216,10 @@ init python:
         return
 
     def add_bubble(bubble_info, is_edit=False):
-
+        """
+        Add a special bubble to this entry. May also replace an existing
+        entry with an updated one that includes the bubble.
+        """
         if is_edit:
             entry = store.chatlog.pop(store.edit_msg_index)
         else:
@@ -270,6 +295,9 @@ init python:
         return sizes
 
     def update_speaker(ind, chara):
+        """
+        Update the speaker of a message already in the chatlog.
+        """
         the_msg = store.chatlog[ind]
         new_entry = ChatEntry(chara, the_msg.what, the_msg.thetime,
             the_msg.img, the_msg.bounce, the_msg.specBubble)
