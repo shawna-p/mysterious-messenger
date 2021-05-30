@@ -327,6 +327,7 @@ default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
 default last_added = [ ]
 define creator_messenger_ysize = 640
+# Styles which are applied to a fresh entry
 default entry_styles = {
     'font' : gui.sans_serif_1,
     'specBubble' : None,
@@ -336,6 +337,7 @@ default entry_styles = {
     'italics' : False,
     'underline' : False
 }
+# Styles which are applied to an edited entry
 default edit_styles = {
     'font' : gui.sans_serif_1,
     'specBubble' : None,
