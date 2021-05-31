@@ -199,6 +199,7 @@ This section is for tips or program features that don't have a particular catego
 * The left/right arrows will decrease/increase the chat speed during a chatroom.
 * You can swipe photos in a CG album to view the next or previous image without returning to the selection screen. It will automatically skip locked photos.
 * You can see the heart points you've earned with each character on your character's profile screen
+* If you are on Windows, there is a file called ``file_picker.exe`` which is included in the assets. This will allow the game to display a file picker and let the player choose an image from their computer to use as a profile picture. It does not currently work for other platforms.
 
 Program Features
 =================
