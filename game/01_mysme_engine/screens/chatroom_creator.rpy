@@ -653,6 +653,7 @@ screen select_emote():
     default selected_emote = None
 
     frame:
+        style_prefix 'emote_select'
         maximum(680, 1000)
         background 'input_popup_bkgr'
         xalign 0.5
