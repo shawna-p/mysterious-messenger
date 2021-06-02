@@ -709,15 +709,20 @@ screen select_emote():
 
 
             textbutton _('Confirm'):
+                style 'cc_confirm_style'
                 text_style 'mode_select'
-                xalign 0.5
-                xsize 240
-                ysize 80
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
                 action [Function(add_emote, selected_emote),
                     SetField(yadj, 'value', yadjValue),
                     Hide('select_emote')]
+
+style cc_confirm_style:
+    xalign 0.5
+    xsize 240
+    ysize 80
+    background 'menu_select_btn'
+    hover_background 'menu_select_btn_hover'
+    padding (20, 20)
+
 
 screen select_bubble(editing=False):
 
