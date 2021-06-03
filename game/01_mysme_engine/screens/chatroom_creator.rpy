@@ -634,11 +634,7 @@ screen select_background():
 
             textbutton _('Confirm'):
                 text_style 'mode_select'
-                xalign 0.5
-                xsize 240
-                ysize 80
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
+                style 'cc_confirm_style'
                 action [SetVariable('current_background', temp_bg),
                     If(temp_bg in black_text_bgs,
                         SetVariable('nickColour', black),
@@ -830,11 +826,7 @@ screen select_bubble(editing=False):
 
             textbutton _('Confirm'):
                 text_style 'mode_select'
-                xalign 0.5
-                xsize 240
-                ysize 80
-                background 'menu_select_btn' padding(20,20)
-                hover_background 'menu_select_btn_hover'
+                style 'cc_confirm_style'
                 action If(not editing,
                     [chat_dialogue_input.Disable(),
                     Function(add_bubble, bubble_dict),
