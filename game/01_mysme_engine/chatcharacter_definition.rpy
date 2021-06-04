@@ -542,6 +542,8 @@ python early:
                 else:
                     # Couldn't figure out this image! It has to be a string
                     # if the program got to this point.
+                    if new_img == 'cannot_find_img':
+                        raise
                     ScriptError("Could not find the image \"", new_img,
                         "\" for use as a profile picture.",
                         header="Creating Characters",
