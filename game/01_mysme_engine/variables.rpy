@@ -926,11 +926,23 @@ init -6 python:
 
 
     # Don't let the player rollback the game by scrolling.
-    config.keymap['rollback'].remove('mousedown_4')
-    config.keymap['rollback'].remove('K_PAGEUP')
-    config.keymap['rollback'].remove('repeat_K_PAGEUP')
+    try:
+        config.keymap['rollback'].remove('mousedown_4')
+    except ValueError:
+        pass
+    try:
+        config.keymap['rollback'].remove('K_PAGEUP')
+    except ValueError:
+        pass
+    try:
+        config.keymap['rollback'].remove('repeat_K_PAGEUP')
+    except ValueError:
+        pass
     # Allow right clicks for alternate button actions.
-    config.keymap['game_menu'].remove('mouseup_3')
+    try:
+        config.keymap['game_menu'].remove('mouseup_3')
+    except ValueError:
+        pass
 
 
     def custom_show(name, at_list=None, layer='master', what=None,
