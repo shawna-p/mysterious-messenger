@@ -604,6 +604,8 @@ python early:
                 the_pic = self.__bonus_pfp
             except AttributeError:
                 the_pic = False
+            if self.__prof_pic == "cannot_find_img":
+                return Transform('cannot_find_img', size=(the_size, the_size))
 
             # Make sure MC's pic is up to date
             if self == store.m:
