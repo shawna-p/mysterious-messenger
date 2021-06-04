@@ -266,11 +266,13 @@ python early:
                 reg_bub_img = "Bubble/" + self.file_id + "-Bubble.webp"
                 # Can't find the image
                 if not renpy.loadable(reg_bub_img):
-                    ScriptError("Could not find the image \"", reg_bub_img,
-                        "\" for use as a regular bubble.",
-                        header="Creating Characters",
-                        subheader="Adding a New Character to Chatrooms")
+                    if self.bubble_color is not None:
+                        ScriptError("Could not find the image \"", reg_bub_img,
+                            "\" for use as a regular bubble.",
+                            header="Creating Characters",
+                            subheader="Adding a New Character to Chatrooms")
                     reg_bub_img = "cannot_find_img"
+                    self.bubble_color = None
                 # This person is the messenger; typically MC
                 if self.right_msgr:
                     reg_bub_img = Transform(reg_bub_img, xzoom=-1)
@@ -289,6 +291,7 @@ python early:
                         header="Creating Characters",
                         subheader="Adding a New Character to Chatrooms")
                     reg_bub_img = reg_bubble_fn("cannot_find_img")
+                    self.bubble_color = "#f0f"
 
                 if self.right_msgr:
                     reg_bub_img = Transform(reg_bub_img, xzoom=-1)
@@ -305,11 +308,13 @@ python early:
             if not self.glow_color:
                 glow_bub_img = "Bubble/" + self.file_id + "-Glow.webp"
                 if not renpy.loadable(glow_bub_img):
-                    ScriptError("Could not find the image \"", glow_bub_img,
-                        "\" for use as a glowing bubble.",
-                        header="Creating Characters",
-                        subheader="Adding a New Character to Chatrooms")
+                    if self.glow_color is not None:
+                        ScriptError("Could not find the image \"", glow_bub_img,
+                            "\" for use as a glowing bubble.",
+                            header="Creating Characters",
+                            subheader="Adding a New Character to Chatrooms")
                     glow_bub_img = "cannot_find_img"
+                    self.glow_color = None
                 return Frame(glow_bub_img, 25,25)
             else:
                 # Check if the program was given a valid colour
@@ -318,6 +323,7 @@ python early:
                     glow_bub_img = glow_bubble_fn(self.glow_color)
                 except:
                     # Couldn't initialize this as a colour
+                    self.glow_color = "#f0f"
                     ScriptError("Could not recognize \"", self.glow_color,
                         "\" as a color for a regular speech bubble.",
                         header="Creating Characters",
@@ -573,6 +579,8 @@ python early:
             try:
                 if self.in_init:
                     # Don't add images during initialization
+                    return
+                if new_img == 'cannot_find_img':
                     return
             except:
                 pass
