@@ -305,6 +305,13 @@ init python:
         chatlog.remove(the_msg)
         return
 
+    def update_chat_entry():
+        new_entry = add_creation_entry(True, True)
+        the_msg = store.chatlog[store.edit_msg_index]
+        store.chatlog.insert(store.edit_msg_index, new_entry)
+        store.chatlog.remove(the_msg)
+        return
+
 default edit_dialogue = ""
 default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
 default edit_msg = None
@@ -525,6 +532,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         else:
             textbutton "Update":
                 action [edit_dialogue_input.Disable(),
+                    Function(update_chat_entry),
                     Function(edit_dialogue_input.set_text, ''),
                     SetVariable('edit_msg_index', -1),
                     Hide('dialogue_edit_popup')]
