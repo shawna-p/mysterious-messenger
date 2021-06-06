@@ -458,12 +458,14 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 add Solid("#fff") size (30, 1) xalign 0.5
         button:
             xsize 67
+            insensitive_foreground "#5555"
             add "#000"
             add 'text_size_decrease'
-            sensitive styles_dict['size'] > 10
+            sensitive styles_dict['size'] > 0
             action SetDict(styles_dict, 'size', styles_dict['size']-5)
         button:
             xsize 67
+            insensitive_foreground "#ccc5"
             add "#000"
             add 'text_size_increase'
             sensitive styles_dict['size'] < 50
