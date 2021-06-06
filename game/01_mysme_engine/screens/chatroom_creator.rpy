@@ -984,6 +984,7 @@ screen edit_msg_menu(msg, ind):
     default pos = renpy.get_mouse_pos()
     default too_wide = (pos[0] + 300) > config.screen_width
     default speaker_pos = (pos[0], pos[1]+(175//2)) if not too_wide else (pos[0]-300, pos[1]+(175//2))
+    default filter_what = renpy.filter_text_tags(msg.what, allow=['b', 'image'])
     zorder 50
     button:
         xysize (config.screen_width, config.screen_height)
@@ -1002,7 +1003,7 @@ screen edit_msg_menu(msg, ind):
         textbutton "Remove message":
             text_color "#fff"
             action CConfirm(("Are you sure you want to delete the message \""
-                + msg.what + "\"?"), [RemoveFromSet(chatlog, msg),
+                + filter_what + "\"?"), [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu'),
                 SetVariable('edit_msg_index', -1)])
         textbutton "Edit text":
