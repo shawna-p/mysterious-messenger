@@ -993,6 +993,7 @@ screen edit_msg_menu(msg, ind):
     default too_wide = (pos[0] + 300) > config.screen_width
     default speaker_pos = (pos[0], pos[1]+(175//2)) if not too_wide else (pos[0]-300, pos[1]+(175//2))
     default filter_what = renpy.filter_text_tags(msg.what, allow=['b', 'image'])
+    default edit_item = "text" if not msg.img else "emoji"
     zorder 50
     button:
         xysize (config.screen_width, config.screen_height)
@@ -1014,7 +1015,7 @@ screen edit_msg_menu(msg, ind):
                 + filter_what + "\"?"), [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu'),
                 SetVariable('edit_msg_index', -1)])
-        textbutton "Edit text":
+        textbutton "Edit " + edit_item:
             text_color "#fff"
             action If(msg.img,
                 [Hide('edit_msg_menu'),
