@@ -191,15 +191,23 @@ init python:
         chatlog.append(ChatEntry(store.special_msg, the_str, upTime()))
         return
 
-    def add_emote(emote):
+    def add_emote(emote, edit=False):
         """
         Add the given emoji to the chatlog.
         """
         if emote is None:
             return
         the_str = "{image=" + emote + "}"
-        chatlog.append(ChatEntry(store.the_entry.who,
-            the_str, upTime(), img=True))
+        if not edit:
+            chatlog.append(ChatEntry(store.the_entry.who,
+                the_str, upTime(), img=True))
+        else:
+            the_msg = store.chatlog[store.edit_msg_index]
+            new_entry = ChatEntry(the_msg.who, the_str, the_msg.thetime,
+                the_msg.img, the_msg.bounce, the_msg.specBubble)
+            store.chatlog.insert(store.edit_msg_index, new_entry)
+            chatlog.remove(the_msg)
+            store.edit_msg_index = -1
         return
 
     def update_edit_text():
@@ -651,7 +659,7 @@ screen select_background():
                         SetVariable('nickColour', white)),
                     Hide('select_background')]
 
-screen select_emote():
+screen select_emote(edit=False):
 
     zorder 100
     modal True
@@ -717,7 +725,7 @@ screen select_emote():
             textbutton _('Confirm'):
                 style 'cc_confirm_style'
                 text_style 'mode_select'
-                action [Function(add_emote, selected_emote),
+                action [Function(add_emote, selected_emote, edit=edit),
                     SetField(yadj, 'value', yadjValue),
                     Hide('select_emote')]
 
@@ -1008,9 +1016,12 @@ screen edit_msg_menu(msg, ind):
                 SetVariable('edit_msg_index', -1)])
         textbutton "Edit text":
             text_color "#fff"
-            action [Function(get_styles_from_entry, msg),
+            action If(msg.img,
+                [Hide('edit_msg_menu'),
+                Show('select_emote', edit=True)],
+                [Function(get_styles_from_entry, msg),
                 Hide('edit_msg_menu'),
-                Show('dialogue_edit_popup')]
+                Show('dialogue_edit_popup')])
         textbutton "Change bubble":
             text_color "#fff"
             action [Hide('edit_msg_menu'),
