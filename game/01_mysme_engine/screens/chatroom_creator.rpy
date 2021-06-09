@@ -307,8 +307,15 @@ init python:
         Update the speaker of a message already in the chatlog.
         """
         the_msg = store.chatlog[ind]
+        if chara == store.m:
+            # Remove special bubbles
+            new_specBubble = None
+            new_bounce = False
+        else:
+            new_specBubble = the_msg.specBubble
+            new_bounce = the_msg.bounce
         new_entry = ChatEntry(chara, the_msg.what, the_msg.thetime,
-            the_msg.img, the_msg.bounce, the_msg.specBubble)
+            the_msg.img, new_bounce, new_specBubble)
         store.chatlog.insert(ind, new_entry)
         chatlog.remove(the_msg)
         return
@@ -1023,10 +1030,11 @@ screen edit_msg_menu(msg, ind):
                 [Function(get_styles_from_entry, msg),
                 Hide('edit_msg_menu'),
                 Show('dialogue_edit_popup')])
-        textbutton "Change bubble":
-            text_color "#fff"
-            action [Hide('edit_msg_menu'),
-                Show('select_bubble', editing=True)]
+        if msg.who != m:
+            textbutton "Change bubble":
+                text_color "#fff"
+                action [Hide('edit_msg_menu'),
+                    Show('select_bubble', editing=True)]
 
         textbutton "Change speaker":
             text_color "#fff"
