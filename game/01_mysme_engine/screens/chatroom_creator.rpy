@@ -321,6 +321,9 @@ init python:
         return
 
     def update_chat_entry():
+        """
+        Replace a chat entry to update its information.
+        """
         new_entry = add_creation_entry(True, True)
         the_msg = store.chatlog[store.edit_msg_index]
         store.chatlog.insert(store.edit_msg_index, new_entry)
