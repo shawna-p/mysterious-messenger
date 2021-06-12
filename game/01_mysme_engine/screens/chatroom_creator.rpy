@@ -214,13 +214,15 @@ init python:
         """
         Update the text of an entry which is currently being edited.
         """
-        if store.edit_msg_index and store.chatlog:
+        if store.edit_msg_index is not None and store.chatlog:
             try:
                 editmsg = store.chatlog[store.edit_msg_index]
             except IndexError:
                 return
             newmsg = add_creation_entry(True, True)
             editmsg.what = newmsg.what
+            store.chatlog.insert(store.edit_msg_index, editmsg)
+            store.chatlog.remove(editmsg)
         return
 
     def add_bubble(bubble_info, is_edit=False):
@@ -467,10 +469,10 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         button:
             add "#000"
             text "I" italic True
-            action ToggleDict(styles_dict, 'italics')
+            action [ToggleDict(styles_dict, 'italics'), Function(update_edit_text)]
         button:
             add "#000"
-            action ToggleDict(styles_dict, 'underline')
+            action [ToggleDict(styles_dict, 'underline'), Function(update_edit_text)]
             vbox:
                 text "U" underline True
                 add Solid("#fff") size (30, 1) xalign 0.5
@@ -480,19 +482,21 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             add "#000"
             add 'text_size_decrease'
             sensitive styles_dict['size'] >= -5 # allow two size decreases
-            action SetDict(styles_dict, 'size', styles_dict['size']-5)
+            action [SetDict(styles_dict, 'size', styles_dict['size']-5),
+                Function(update_edit_text)]
         button:
             xsize 67
             insensitive_foreground "#ccc5"
             add "#000"
             add 'text_size_increase'
             sensitive styles_dict['size'] < 50
-            action SetDict(styles_dict, 'size', styles_dict['size']+5)
+            action [SetDict(styles_dict, 'size', styles_dict['size']+5),
+                Function(update_edit_text)]
         button:
             xsize 67
             add "#000"
             add 'text_size_reset'
-            action SetDict(styles_dict, 'size', 0)
+            action [SetDict(styles_dict, 'size', 0), Function(update_edit_text)]
         button:
             xsize 105
             xpadding 5
@@ -506,27 +510,33 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             button:
                 add "#000"
                 text "Font 1" font gui.sans_serif_1
-                action SetDict(styles_dict, 'font', gui.sans_serif_1)
+                action [SetDict(styles_dict, 'font', gui.sans_serif_1),
+                Function(update_edit_text)]
             button:
                 add "#000"
                 text "Font 2" font gui.sans_serif_2
-                action SetDict(styles_dict, 'font', gui.sans_serif_2)
+                action [SetDict(styles_dict, 'font', gui.sans_serif_2),
+                Function(update_edit_text)]
             button:
                 add "#000"
                 text "Font 3" font gui.serif_1
-                action SetDict(styles_dict, 'font', gui.serif_1)
+                action [SetDict(styles_dict, 'font', gui.serif_1),
+                Function(update_edit_text)]
             button:
                 add "#000"
                 text "Font 4" font gui.serif_2
-                action SetDict(styles_dict, 'font', gui.serif_2)
+                action [SetDict(styles_dict, 'font', gui.serif_2),
+                Function(update_edit_text)]
             button:
                 add "#000"
                 text "Font 5" font gui.curly_font size 29+5
-                action SetDict(styles_dict, 'font', gui.curly_font)
+                action [SetDict(styles_dict, 'font', gui.curly_font),
+                Function(update_edit_text)]
             button:
                 add "#000"
                 text "Font 6" font gui.blocky_font
-                action SetDict(styles_dict, 'font', gui.blocky_font)
+                action [SetDict(styles_dict, 'font', gui.blocky_font),
+                Function(update_edit_text)]
 
 
     use dialogue_input(compact_ver)
