@@ -1012,7 +1012,8 @@ screen edit_msg_menu(msg, ind):
     frame:
         at yzoom_in()
         background "#000"
-        xysize (300, 250)
+        xsize 300
+        ymaximum 250
         pos pos
         if too_wide:
             anchor (1.0, 0.5)
