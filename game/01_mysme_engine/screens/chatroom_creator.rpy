@@ -332,6 +332,29 @@ init python:
         store.chatlog.remove(the_msg)
         return
 
+    def play_chatlog():
+        """
+        Convert the chatlog into a replay log to play through
+        the replay system.
+        """
+
+        store.current_timeline_item = ChatRoom("Creation",
+            'replay_chat_creator', '00:00', participants=None)
+
+        bg_entry = ('background', store.current_background)
+        store.current_timeline_item.replay_log.append(bg_entry)
+
+        for entry in store.chatlog:
+            store.current_timeline_item.replay_log.append(
+                ReplayEntry(who=entry.who, what=entry.what, pauseVal=None,
+                    img=entry.img, bounce=entry.bounce,
+                    specBubble=entry.specBubble)
+            )
+
+
+
+
+
 default edit_dialogue = ""
 default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
 default edit_msg = None
@@ -616,6 +639,11 @@ screen effects_tab():
         textbutton "Select Background":
             style_prefix 'other_settings_end'
             action Show('select_background')
+    hbox:
+        align (0.5, 1.0)
+        textbutton "Play Chat":
+            style_prefix 'other_settings_end'
+            action [Function(play_chatlog), Start('rewatch_chatroom')]
 
 screen select_background():
     zorder 100
