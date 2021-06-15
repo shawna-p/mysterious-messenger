@@ -345,6 +345,9 @@ init python:
         store.current_timeline_item.replay_log.append(bg_entry)
 
         for entry in store.chatlog:
+            if entry.for_replay:
+                store.current_timeline_item.replay_log.append(entry.for_replay)
+            else:
             store.current_timeline_item.replay_log.append(
                 ReplayEntry(who=entry.who, what=entry.what, pauseVal=None,
                     img=entry.img, bounce=entry.bounce,
