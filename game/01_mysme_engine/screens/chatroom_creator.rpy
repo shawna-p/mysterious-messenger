@@ -348,11 +348,11 @@ init python:
             if entry.for_replay:
                 store.current_timeline_item.replay_log.append(entry.for_replay)
             else:
-            store.current_timeline_item.replay_log.append(
-                ReplayEntry(who=entry.who, what=entry.what, pauseVal=None,
-                    img=entry.img, bounce=entry.bounce,
-                    specBubble=entry.specBubble)
-            )
+                store.current_timeline_item.replay_log.append(
+                    ReplayEntry(who=entry.who, what=entry.what, pauseVal=None,
+                        img=entry.img, bounce=entry.bounce,
+                        specBubble=entry.specBubble)
+                )
 
     def add_replay_direction(text, entry, at_beginning=False):
         """
@@ -688,6 +688,7 @@ screen select_music():
     modal True
 
     default temp_music = None
+    default temp_path = None
     default at_beginning = False
 
     frame:
@@ -721,6 +722,7 @@ screen select_music():
                             selected_background "#ccc"
                             sensitive True selected temp_music == song
                             action [SetScreenVariable('temp_music', song),
+                                SetScreenVariable('temp_path', path),
                                 Play('music', path)]
 
             textbutton "Add to the beginning of the chat":
@@ -731,7 +733,11 @@ screen select_music():
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'cc_confirm_style'
-                action [Hide('select_music')]#Play('music', mystic_chat),
+                action [Function(add_replay_direction,
+                        'Play Music: ' + str(temp_music),
+                        ('play music', temp_path),
+                        at_beginning),
+                    Hide('select_music')]#Play('music', mystic_chat),
 
 screen select_background():
     zorder 100
