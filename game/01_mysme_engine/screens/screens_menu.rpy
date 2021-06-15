@@ -1967,7 +1967,7 @@ screen pick_chara_pfp(who):
                         action CConfirm(("You have not yet "
                             + "unlocked this profile picture."))
 
-    if not main_menu:
+    if not in_chat_creator:
     frame:
         background "space_black_box"
         padding (12, 5)
