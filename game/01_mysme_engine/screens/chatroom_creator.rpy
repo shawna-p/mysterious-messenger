@@ -872,7 +872,9 @@ screen select_emote(edit=False):
                 style 'cc_confirm_style'
                 text_style 'mode_select'
                 action [Function(add_emote, selected_emote, edit=edit),
+                    If(not edit,
                     SetField(yadj, 'value', yadjValue),
+                        NullAction()),
                     Hide('select_emote')]
 
 style cc_confirm_style:
