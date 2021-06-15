@@ -354,15 +354,22 @@ init python:
                     specBubble=entry.specBubble)
             )
 
-    def add_replay_direction():
+    def add_replay_direction(text, entry, at_beginning=False):
         """
         Adds an instruction for the replay, such as setting the music.
         """
 
-
-
-
-
+        if not at_beginning:
+            store.chatlog.append(
+                ChatEntry(store.special_msg, text, upTime(),
+                    for_replay=entry)
+            )
+        else:
+            store.chatlog.insert(0,
+                ChatEntry(store.special_msg, text, upTime(),
+                    for_replay=entry)
+            )
+        return
 
 
 default edit_dialogue = ""
