@@ -663,7 +663,8 @@ screen effects_tab():
             action Show("select_music")
         textbutton "Play Chat":
             style_prefix 'other_settings_end'
-            action [Function(play_chatlog), Start('rewatch_chatroom')]
+            action [Function(play_chatlog),
+                Start('rewatch_chatroom_main_menu')]
 
 init python:
     def get_readable_music():
