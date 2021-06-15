@@ -42,7 +42,8 @@ init -4 python:
 
         def __init__(self, who, what, thetime, img=False,
                     bounce=False, specBubble=None, link_img=None,
-                    link_title=None, link_text=None, link_action=None):
+                    link_title=None, link_text=None, link_action=None,
+                    for_replay=None):
             """
             Creates a ChatEntry object to display a message in the messenger.
 
@@ -71,6 +72,9 @@ init -4 python:
                 The clickable text for a link message.
             link_action : Screen Action
                 The action to be performed when a link message is clicked.
+            for_replay : string
+                A special field used in the chatroom creator to give
+                instructions to the replay log.
             """
 
             self.who = who
@@ -90,6 +94,8 @@ init -4 python:
             self.__link_title = link_title or ""
             self.__link_text = link_text
             self.__link_action = link_action
+
+            self.for_replay = for_replay
 
         @property
         def text_msg_what(self):
