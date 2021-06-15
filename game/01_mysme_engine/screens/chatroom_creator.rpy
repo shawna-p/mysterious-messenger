@@ -344,9 +344,13 @@ init python:
         bg_entry = ('background', store.current_background)
         store.current_timeline_item.replay_log.append(bg_entry)
 
+        store.saved_chatlog = store.chatlog
+
         for entry in store.chatlog:
             if entry.for_replay:
                 store.current_timeline_item.replay_log.append(entry.for_replay)
+            elif entry.who == store.filler:
+                pass # Don't want to bother with filler
             else:
                 store.current_timeline_item.replay_log.append(
                     ReplayEntry(who=entry.who, what=entry.what, pauseVal=None,
