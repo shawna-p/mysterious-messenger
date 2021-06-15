@@ -126,6 +126,10 @@ label remove_entries(num=1):
 default chatroom_replay_index = 0
 default replay_from = 0
 
+label rewatch_chatroom_main_menu:
+    $ is_main_menu_replay = True
+    jump rewatch_chatroom
+
 ## This label is called when you replay a chatroom
 label rewatch_chatroom():
     stop music
