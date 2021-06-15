@@ -351,6 +351,13 @@ init python:
                     specBubble=entry.specBubble)
             )
 
+    def add_replay_direction():
+        """
+        Adds an instruction for the replay, such as setting the music.
+        """
+
+
+
 
 
 
@@ -641,9 +648,79 @@ screen effects_tab():
             action Show('select_background')
     hbox:
         align (0.5, 1.0)
+        textbutton "Add Music":
+            style_prefix 'other_settings_end'
+            action Show("select_music")
         textbutton "Play Chat":
             style_prefix 'other_settings_end'
             action [Function(play_chatlog), Start('rewatch_chatroom')]
+
+init python:
+    def get_readable_music():
+        """Return a human-readable music list, sorted."""
+        the_list = store.music_dictionary.keys()
+        new_list = [ ]
+        for item in the_list:
+            new_item = item.split('audio/music/')[-1]
+            new_item = '.'.join(new_item.split('.')[:-1])
+            # Remove any digits at the start of the name
+            new_item = regex.sub("^[0-9]+ ", "", new_item)
+            new_list.append((new_item, item))
+        new_list = sorted(new_list, key=lambda x: x[0])
+        return new_list
+
+init 10:
+    define readable_music = get_readable_music()
+
+screen select_music():
+    zorder 100
+    modal True
+
+    default temp_music = None
+    default at_beginning = False
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_music')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,740)
+                    align (0.5, 0.5)
+                    cols 1
+                    spacing 10
+                    for song, path in readable_music:
+                        textbutton song:
+                            yalign 0.5 xysize (590, 80)
+                            selected_background "#ccc"
+                            sensitive True selected temp_music == song
+                            action [SetScreenVariable('temp_music', song),
+                                Play('music', path)]
+
+            textbutton "Add to the beginning of the chat":
+                style_prefix 'check'
+                action ToggleScreenVariable('at_beginning')
+
+
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                style 'cc_confirm_style'
+                action [Hide('select_music')]#Play('music', mystic_chat),
 
 screen select_background():
     zorder 100
