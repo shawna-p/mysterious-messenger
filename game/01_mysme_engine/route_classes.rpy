@@ -1375,6 +1375,7 @@ init python:
         elif store.most_recent_item is None:
             store.most_recent_item = ChatRoom('Example Chatroom',
                 'example_chat', '00:01')
+            if not in_chat_creator:
             ScriptError("Could not find any TimelineItems for this route.",
                 link="route-setup", link_text="Setting up a Route")
         return
@@ -1451,6 +1452,8 @@ init python:
 ## The label that is called when the program exits out of a timeline item
 ## early, expiring it
 label exit_item_early():
+    if is_main_menu_replay:
+        jump chatroom_creator_setup
     # This ends replays and resets variables.
     # This item is only set as the most recent item if the player wasn't
     # replaying it.
