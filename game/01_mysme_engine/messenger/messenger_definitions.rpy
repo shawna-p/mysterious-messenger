@@ -869,7 +869,7 @@ init -4 python:
     def messenger_pause(length, actually_wait=False):
         """Pause for length, unless skipping."""
 
-        if main_menu:
+        if in_chat_creator and not is_main_menu_replay:
             return
 
         if actually_wait and renpy.is_skipping():
@@ -913,7 +913,7 @@ init -4 python:
 
         global chatlog
 
-        if main_menu:
+        if in_chat_creator and not is_main_menu_replay:
             return True
 
         if len(chatlog) > 0:
