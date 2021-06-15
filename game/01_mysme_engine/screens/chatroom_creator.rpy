@@ -375,6 +375,32 @@ init python:
             )
         return
 
+default is_main_menu_replay = False
+default in_chat_creator = False
+# Save the chatlog before a replay to restore it
+default saved_chatlog = [ ]
+## Label which begins the chatroom creator! It operates a bit
+## like a game within a game.
+label start_chatroom_creator():
+    if len(renpy.get_return_stack()) > 0:
+        $ renpy.pop_call()
+    # Set this up so we know we're in the chatroom creator
+    $ in_chat_creator = True
+    call screen chatroom_creator
+    if is_main_menu_replay:
+        call screen save_and_exit()
+        call screen signature_screen(True)
+        jump chatroom_creator_setup
+    jump start_chatroom_creator
+
+## Clean up the screens before returning to the chatroom creator
+label chatroom_creator_setup():
+    $ reset_story_vars()
+    $ store.chatlog = store.saved_chatlog
+    $ is_main_menu_replay = False
+    $ store.chatlog = store.saved_chatlog
+    jump start_chatroom_creator
+
 
 default edit_dialogue = ""
 default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
@@ -668,7 +694,7 @@ screen effects_tab():
         textbutton "Play Chat":
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
-                Start('rewatch_chatroom_main_menu')]
+                Call('rewatch_chatroom_main_menu')]
 
 init python:
     def get_readable_music():
@@ -873,7 +899,7 @@ screen select_emote(edit=False):
                 text_style 'mode_select'
                 action [Function(add_emote, selected_emote, edit=edit),
                     If(not edit,
-                    SetField(yadj, 'value', yadjValue),
+                        SetField(yadj, 'value', yadjValue),
                         NullAction()),
                     Hide('select_emote')]
 
