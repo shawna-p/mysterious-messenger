@@ -1376,8 +1376,8 @@ init python:
             store.most_recent_item = ChatRoom('Example Chatroom',
                 'example_chat', '00:01')
             if not in_chat_creator:
-            ScriptError("Could not find any TimelineItems for this route.",
-                link="route-setup", link_text="Setting up a Route")
+                ScriptError("Could not find any TimelineItems for this route.",
+                    link="route-setup", link_text="Setting up a Route")
         return
 
 
