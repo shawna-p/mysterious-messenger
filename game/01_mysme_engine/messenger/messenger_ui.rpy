@@ -352,8 +352,13 @@ screen phone_overlay(is_menu_pause=False):
                 # again while the non-modal confirm screen is showing.
                 if renpy.get_screen('no_modal_confirm'):
                     action None
-                if _in_replay:
+                elif _in_replay:
                     action EndReplay(False)
+                elif (is_main_menu_replay):
+                    action If(is_menu_pause,
+                        Function(renpy.jump_out_of_context,
+                            label='chatroom_creator_setup'),
+                        Jump('chatroom_creator_setup'))
                 elif (observing or current_timeline_item.currently_expired):
                     action If(is_menu_pause,
                         Function(renpy.jump_out_of_context,
