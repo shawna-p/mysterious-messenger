@@ -439,7 +439,8 @@ define all_animated_backgrounds = ['morning', 'noon', 'evening', 'night',
 # This should be the same string as seen in all_static_backgrounds and
 # all_animated_backgrounds. Any backgrounds in here will display chatroom
 # nicknames in black. Otherwise, they are displayed in white.
-define black_text_bgs = ['morning', 'noon', 'evening', 'snowy_day', 'morning_snow']
+define black_text_bgs = ['morning', 'noon', 'evening', 'snowy_day',
+    'morning_snow', 'secure']
 
 
 
