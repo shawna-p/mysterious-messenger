@@ -184,11 +184,14 @@ init python:
         """
         the_str = ""
         if enter:
+            replay_type = 'enter'
             the_str = who.name + " has entered the chatroom."
         else:
+            replay_type = 'exit'
             the_str = who.name + " has left the chatroom."
 
-        chatlog.append(ChatEntry(store.special_msg, the_str, upTime()))
+        chatlog.append(ChatEntry(store.special_msg, the_str, upTime(),
+            for_replay=(replay_type, who)))
         return
 
     def add_emote(emote, edit=False):
@@ -1190,31 +1193,32 @@ screen edit_msg_menu(msg, ind):
                 + filter_what + "\"?"), [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu'),
                 SetVariable('edit_msg_index', -1)])
-        textbutton "Edit " + edit_item:
-            text_color "#fff"
-            action If(msg.img,
-                [Hide('edit_msg_menu'),
-                Show('select_emote', edit=True)],
-                [Function(get_styles_from_entry, msg),
-                Hide('edit_msg_menu'),
-                Show('dialogue_edit_popup')])
-        if msg.who != m:
-            textbutton "Change bubble":
+        if msg.who != special_msg:
+            textbutton "Edit " + edit_item:
+                text_color "#fff"
+                action If(msg.img,
+                    [Hide('edit_msg_menu'),
+                    Show('select_emote', edit=True)],
+                    [Function(get_styles_from_entry, msg),
+                    Hide('edit_msg_menu'),
+                    Show('dialogue_edit_popup')])
+            if msg.who != m:
+                textbutton "Change bubble":
+                    text_color "#fff"
+                    action [Hide('edit_msg_menu'),
+                        Show('select_bubble', editing=True)]
+
+            textbutton "Change speaker":
+                text_color "#fff"
+                action Show('pick_speaker', active_tab="Edit",
+                    msg_ind=ind, pos=speaker_pos, anchor=(0.0, 0.0))
+
+            textbutton "Change profile picture":
                 text_color "#fff"
                 action [Hide('edit_msg_menu'),
-                    Show('select_bubble', editing=True)]
-
-        textbutton "Change speaker":
-            text_color "#fff"
-            action Show('pick_speaker', active_tab="Edit",
-                msg_ind=ind, pos=speaker_pos, anchor=(0.0, 0.0))
-
-        textbutton "Change profile picture":
-            text_color "#fff"
-            action [Hide('edit_msg_menu'),
-                If(msg.who == m,
-                    Show('pick_mc_pfp'),
-                    Show('pick_chara_pfp', who=msg.who))]
+                    If(msg.who == m,
+                        Show('pick_mc_pfp'),
+                        Show('pick_chara_pfp', who=msg.who))]
 
 screen dialogue_edit_popup():
     modal True
