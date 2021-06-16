@@ -887,7 +887,8 @@ init -4 python:
         # Don't give HG when rewatching a chatroom, or not participating,
         # or if receiving hourglasses is turned off
         if (store.observing or store.current_timeline_item.currently_expired
-                or not store.persistent.receive_hg):
+                or not store.persistent.receive_hg
+                or store.is_main_menu_replay):
             return
 
         if store.hourglass_bag.draw():
