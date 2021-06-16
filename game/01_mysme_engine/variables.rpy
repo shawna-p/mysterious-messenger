@@ -1312,7 +1312,7 @@ image bg redhack = "Phone UI/bg-redhack.webp"
 image bg redcrack = "Phone UI/bg-redhack-crack.webp"
 image bg secure = Composite((750, 1334),
     (0, 0), Transform("#000", alpha=0.5),
-    (0, 200), "Phone UI/bg_secure.webp",
+    (0, 120), "Phone UI/bg_secure.webp",
     xysize=(750, 1334))
 image black = "#000000"
 
