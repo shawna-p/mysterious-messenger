@@ -586,6 +586,8 @@ python early:
                     return
             except:
                 pass
+            if in_chat_creator:
+                return
             if not self.__prof_pic in store.persistent.unlocked_prof_pics:
                 add_img_to_set(store.persistent.unlocked_prof_pics,
                         self.__prof_pic)
