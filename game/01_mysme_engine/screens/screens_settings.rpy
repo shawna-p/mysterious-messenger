@@ -429,8 +429,7 @@ init python:
         Return True if this image can be used as a profile picture for the MC.
         """
 
-        if store.persistent.testing_mode or (main_menu
-                and not persistent.first_boot):
+        if store.persistent.testing_mode or in_chat_creator:
             return True
         if (not isinstance(img, tuple)
                 and 'Drop Your Profile Picture Here/' in img):
