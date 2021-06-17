@@ -1057,6 +1057,7 @@ screen dialogue_input(compact_ver=False):
             xysize (730-28, 180-20)
             mousewheel True
             input value the_input:
+                allow allowed_username_chars
                 copypaste True
                 color "#000"
                 line_spacing 1
