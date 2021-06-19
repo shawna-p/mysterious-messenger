@@ -31,7 +31,8 @@ init python:
                 if not self.edit_action:
                     renpy.run([Function(add_creation_entry),
                         Function(self.set_text, ''),
-                        SetField(yadj, 'value', yadjValue),
+                        If(insert_msg_index == -1,
+                            SetField(yadj, 'value', yadjValue)),
                         SetVariable('last_added', [ ])])
                 else:
                     # This is an edit to an existing entry
@@ -362,7 +363,7 @@ init python:
         """
 
         store.current_timeline_item = ChatRoom("Creation",
-            'replay_chat_creator', '00:00', participants=None)
+            'replay_chat_creator', '00:00', participants=store.cc_participants)
 
         bg_entry = ('background', store.current_background)
         store.current_timeline_item.replay_log.append(bg_entry)
@@ -432,6 +433,7 @@ label chatroom_creator_setup():
     jump start_chatroom_creator
 
 
+default cc_participants = [ ]
 default edit_dialogue = ""
 default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
 default edit_msg = None
@@ -659,7 +661,8 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                     Function(add_creation_entry),
                     Function(chat_dialogue_input.set_text, ''),
                     SetVariable('last_added', [ ]),
-                    SetField(yadj, 'value', yadjValue)]
+                    If(insert_msg_index == -1,
+                    SetField(yadj, 'value', yadjValue))]
         else:
             textbutton "Update":
                 action [edit_dialogue_input.Disable(),
@@ -688,7 +691,6 @@ style font_options2_button:
     is font_options_button
     xysize (105, 47)
     padding (5, 2)
-
 
 style font_options2_text:
     is font_options_text
@@ -722,6 +724,9 @@ screen effects_tab():
         textbutton "Add Music":
             style_prefix 'other_settings_end'
             action Show("select_music")
+        textbutton "Add Participants":
+            style_prefix 'other_settings_end'
+            action Show("select_participants")
         textbutton "Play Chat":
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
@@ -862,6 +867,48 @@ screen select_background():
                         SetVariable('nickColour', white)),
                     Hide('select_background')]
 
+screen select_participants():
+    zorder 100
+    modal True
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_participants')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background "#000a"
+                padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,740)
+                    align (0.5, 0.5)
+                    cols 1
+                    spacing 10
+                    for who in all_characters:
+                        if who.name:
+                            textbutton who.name:
+                                style_prefix 'check'
+                                action ToggleSetMembership(cc_participants,
+                                    who)
+
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                style 'cc_confirm_style'
+                action [Hide('select_participants')]
+
 screen select_emote(edit=False):
 
     zorder 100
@@ -929,9 +976,8 @@ screen select_emote(edit=False):
                 style 'cc_confirm_style'
                 text_style 'mode_select'
                 action [Function(add_emote, selected_emote, edit=edit),
-                    If(not edit,
-                        SetField(yadj, 'value', yadjValue),
-                        NullAction()),
+                    If(not edit and insert_msg_index == -1,
+                        SetField(yadj, 'value', yadjValue)),
                     Hide('select_emote')]
 
 style cc_confirm_style:
@@ -1054,7 +1100,8 @@ screen select_bubble(editing=False):
                     [chat_dialogue_input.Disable(),
                     Function(add_bubble, bubble_dict),
                     Function(chat_dialogue_input.set_text, ''),
-                    SetField(yadj, 'value', yadjValue),
+                    If(insert_msg_index == -1,
+                        SetField(yadj, 'value', yadjValue)),
                     SetVariable('last_added', [ ]),
                     Hide('select_bubble')],
                     [Function(add_bubble, bubble_dict, is_edit=True),
