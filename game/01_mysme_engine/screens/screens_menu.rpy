@@ -1943,7 +1943,7 @@ screen pick_chara_pfp(who):
                 action SetField(who, 'bonus_pfp', False)
             for img, condition in pfp_list:
                 button:
-                    if is_unlocked_pfp(img, condition) or main_menu:
+                    if is_unlocked_pfp(img, condition) or in_chat_creator:
                         background Transform(img, size=(140, 140))
                         hover_foreground "#fff3"
                         action SetField(who, 'bonus_pfp', img)
