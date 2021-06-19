@@ -120,7 +120,11 @@ init python:
         entry.what = dialogue
         if return_entry:
             return entry
-        store.chatlog.append(entry)
+        if store.insert_msg_index == -1:
+            store.chatlog.append(entry)
+        else:
+            store.chatlog.insert(store.insert_msg_index, entry)
+            store.insert_msg_index += 1
         return
 
     def get_styles_from_entry(msg):
@@ -190,8 +194,14 @@ init python:
             replay_type = 'exit'
             the_str = who.name + " has left the chatroom."
 
-        chatlog.append(ChatEntry(store.special_msg, the_str, upTime(),
-            for_replay=(replay_type, who)))
+        if store.insert_msg_index == -1:
+            chatlog.append(ChatEntry(store.special_msg, the_str, upTime(),
+                for_replay=(replay_type, who)))
+        else:
+            chatlog.insert(store.insert_msg_index,
+                ChatEntry(store.special_msg, the_str, upTime(),
+                    for_replay=(replay_type, who)))
+            store.insert_msg_index += 1
         return
 
     def add_emote(emote, edit=False):
@@ -202,8 +212,14 @@ init python:
             return
         the_str = "{image=" + emote + "}"
         if not edit:
-            chatlog.append(ChatEntry(store.the_entry.who,
-                the_str, upTime(), img=True))
+            if store.insert_msg_index == -1:
+                store.chatlog.append(ChatEntry(store.the_entry.who,
+                    the_str, upTime(), img=True))
+            else:
+                store.chatlog.insert(store.insert_msg_index,
+                    ChatEntry(store.the_entry.who,
+                        the_str, upTime(), img=True))
+                store.insert_msg_index += 1
         else:
             the_msg = store.chatlog[store.edit_msg_index]
             new_entry = ChatEntry(the_msg.who, the_str, the_msg.thetime,
@@ -275,7 +291,11 @@ init python:
                 ChatEntry(entry.who, entry.what, entry.thetime,
                     entry.img, entry.bounce, entry.specBubble))
         else:
-            store.chatlog.append(entry)
+            if store.insert_msg_index == -1:
+                store.chatlog.append(entry)
+            else:
+                store.chatlog.insert(store.insert_msg_index, entry)
+                store.insert_msg_index += 1
 
         # Reset the bubble dict
         store.bubble_info = {
@@ -367,10 +387,17 @@ init python:
         """
 
         if not at_beginning:
-            store.chatlog.append(
-                ChatEntry(store.special_msg, text, upTime(),
-                    for_replay=entry)
-            )
+            if store.insert_msg_index == -1:
+                store.chatlog.append(
+                    ChatEntry(store.special_msg, text, upTime(),
+                        for_replay=entry)
+                )
+            else:
+                store.chatlog.insert(store.insert_msg_index,
+                    ChatEntry(store.special_msg, text, upTime(),
+                            for_replay=entry)
+                )
+                store.insert_msg_index += 1
         else:
             store.chatlog.insert(0,
                 ChatEntry(store.special_msg, text, upTime(),
@@ -409,6 +436,7 @@ default edit_dialogue = ""
 default edit_dialogue_input = InputDialogue('edit_dialogue', edit_action=True)
 default edit_msg = None
 default edit_msg_index = -1
+default insert_msg_index = -1
 default edit_mode = True
 default chat_dialogue = ""
 default emoji_speaker = s
@@ -1181,7 +1209,7 @@ screen edit_msg_menu(msg, ind):
         at yzoom_in()
         background "#000"
         xsize 300
-        ymaximum 250
+        #ymaximum 250
         pos pos
         if too_wide:
             anchor (1.0, 0.5)
@@ -1194,6 +1222,10 @@ screen edit_msg_menu(msg, ind):
                 + filter_what + "\"?"), [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu'),
                 SetVariable('edit_msg_index', -1)])
+        textbutton "Insert message before":
+            text_color "#fff"
+            action [SetVariable('insert_msg_index', ind),
+                Hide('edit_msg_menu')]
         if msg.who != special_msg:
             textbutton "Edit " + edit_item:
                 text_color "#fff"
