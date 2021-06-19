@@ -168,7 +168,8 @@ label rewatch_chatroom():
         # people in the chat
         if (not current_timeline_item.currently_expired
                 or current_timeline_item.buyahead):
-            in_chat.append(m.name)
+            if not is_main_menu_replay:
+                in_chat.append(m.name)
 
     # Set a generic background just in case
     scene bg black
