@@ -64,6 +64,26 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
                             use chat_animation(i, no_anim=True)
             else:
                 for ind, i index id(i) in enumerate(chatlog):
+                    if ind == insert_msg_index:
+                        button:
+                            padding (20, 20) background "#f003"
+                            xfill True
+                            vbox:
+                                align (0.5, 0.5)
+                                text "Insert Message Here":
+                                    outlines [(1, "#000", 0, 0)]
+                                    color "#fff"
+                                    size 45
+                                    align (0.5, 0.5)
+                                    text_align 0.5
+                                text "(Click to remove)":
+                                    outlines [(1, "#000", 0, 0)]
+                                    color "#fff"
+                                    size 22
+                                    text_align 0.5
+                                    align (0.5, 0.5)
+                            action CConfirm("Stop inserting messages here?",
+                                SetVariable('insert_msg_index', -1))
                     button:
                         padding (0, 0) background None
                         hover_background "#fff6"
