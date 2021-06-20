@@ -123,6 +123,7 @@ init python:
             return entry
         if store.insert_msg_index == -1:
             store.chatlog.append(entry)
+            store.yadj.value = store.yadjValue
         else:
             store.chatlog.insert(store.insert_msg_index, entry)
             store.insert_msg_index += 1
@@ -294,6 +295,7 @@ init python:
         else:
             if store.insert_msg_index == -1:
                 store.chatlog.append(entry)
+                store.yadj.value = store.yadjValue
             else:
                 store.chatlog.insert(store.insert_msg_index, entry)
                 store.insert_msg_index += 1
@@ -567,15 +569,18 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         button:
             add "#000"
             text "B" font gui.sans_serif_1xb
-            action [ToggleDict(styles_dict, 'bold'), Function(update_edit_text)]
+            action [ToggleDict(styles_dict, 'bold'),
+                If(compact_ver, Function(update_edit_text))]
 
         button:
             add "#000"
             text "I" italic True
-            action [ToggleDict(styles_dict, 'italics'), Function(update_edit_text)]
+            action [ToggleDict(styles_dict, 'italics'),
+                If(compact_ver, Function(update_edit_text))]
         button:
             add "#000"
-            action [ToggleDict(styles_dict, 'underline'), Function(update_edit_text)]
+            action [ToggleDict(styles_dict, 'underline'),
+                If(compact_ver, Function(update_edit_text))]
             vbox:
                 text "U" underline True
                 add Solid("#fff") size (30, 1) xalign 0.5
@@ -586,7 +591,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             add 'text_size_decrease'
             sensitive styles_dict['size'] >= -5 # allow two size decreases
             action [SetDict(styles_dict, 'size', styles_dict['size']-5),
-                Function(update_edit_text)]
+                If(compact_ver, Function(update_edit_text))]
         button:
             xsize 67
             insensitive_foreground "#ccc5"
@@ -594,12 +599,13 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             add 'text_size_increase'
             sensitive styles_dict['size'] < 50
             action [SetDict(styles_dict, 'size', styles_dict['size']+5),
-                Function(update_edit_text)]
+                If(compact_ver, Function(update_edit_text))]
         button:
             xsize 67
             add "#000"
             add 'text_size_reset'
-            action [SetDict(styles_dict, 'size', 0), Function(update_edit_text)]
+            action [SetDict(styles_dict, 'size', 0),
+                If(compact_ver, Function(update_edit_text))]
         button:
             xsize 105
             xpadding 5
@@ -614,32 +620,32 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 add "#000"
                 text "Font 1" font gui.sans_serif_1
                 action [SetDict(styles_dict, 'font', gui.sans_serif_1),
-                Function(update_edit_text)]
+                    If(compact_ver, Function(update_edit_text))]
             button:
                 add "#000"
                 text "Font 2" font gui.sans_serif_2
                 action [SetDict(styles_dict, 'font', gui.sans_serif_2),
-                Function(update_edit_text)]
+                    If(compact_ver, Function(update_edit_text))]
             button:
                 add "#000"
                 text "Font 3" font gui.serif_1
                 action [SetDict(styles_dict, 'font', gui.serif_1),
-                Function(update_edit_text)]
+                    If(compact_ver, Function(update_edit_text))]
             button:
                 add "#000"
                 text "Font 4" font gui.serif_2
                 action [SetDict(styles_dict, 'font', gui.serif_2),
-                Function(update_edit_text)]
+                    If(compact_ver, Function(update_edit_text))]
             button:
                 add "#000"
                 text "Font 5" font gui.curly_font size 29+5
                 action [SetDict(styles_dict, 'font', gui.curly_font),
-                Function(update_edit_text)]
+                    If(compact_ver, Function(update_edit_text))]
             button:
                 add "#000"
                 text "Font 6" font gui.blocky_font
                 action [SetDict(styles_dict, 'font', gui.blocky_font),
-                Function(update_edit_text)]
+                    If(compact_ver, Function(update_edit_text))]
 
 
     use dialogue_input(compact_ver)
@@ -660,9 +666,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                 action [chat_dialogue_input.Disable(),
                     Function(add_creation_entry),
                     Function(chat_dialogue_input.set_text, ''),
-                    SetVariable('last_added', [ ]),
-                    If(insert_msg_index == -1,
-                    SetField(yadj, 'value', yadjValue))]
+                    SetVariable('last_added', [ ])]
         else:
             textbutton "Update":
                 action [edit_dialogue_input.Disable(),
@@ -673,12 +677,15 @@ screen dialogue_tab(show_fonts, compact_ver=False):
 
 style font_options_button:
     background "#fff"
+    selected_background "#5beec8"
+    insensitive_foreground "#0003"
     xysize (47, 47)
     padding (2, 2)
 
 style font_options_text:
     align (0.5, 0.5)
     color "#fff"
+    insensitive_color "#bbb"
 
 style font_options_hbox:
     spacing 5
@@ -1100,8 +1107,6 @@ screen select_bubble(editing=False):
                     [chat_dialogue_input.Disable(),
                     Function(add_bubble, bubble_dict),
                     Function(chat_dialogue_input.set_text, ''),
-                    If(insert_msg_index == -1,
-                        SetField(yadj, 'value', yadjValue)),
                     SetVariable('last_added', [ ]),
                     Hide('select_bubble')],
                     [Function(add_bubble, bubble_dict, is_edit=True),
