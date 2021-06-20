@@ -590,6 +590,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             add "#000"
             add 'text_size_decrease'
             sensitive styles_dict['size'] >= -5 # allow two size decreases
+            selected styles_dict['size'] < 0
             action [SetDict(styles_dict, 'size', styles_dict['size']-5),
                 If(compact_ver, Function(update_edit_text))]
         button:
@@ -598,12 +599,14 @@ screen dialogue_tab(show_fonts, compact_ver=False):
             add "#000"
             add 'text_size_increase'
             sensitive styles_dict['size'] < 50
+            selected styles_dict['size'] > 0
             action [SetDict(styles_dict, 'size', styles_dict['size']+5),
                 If(compact_ver, Function(update_edit_text))]
         button:
             xsize 67
             add "#000"
             add 'text_size_reset'
+            sensitive styles_dict['size'] != 0
             action [SetDict(styles_dict, 'size', 0),
                 If(compact_ver, Function(update_edit_text))]
         button:
@@ -720,6 +723,7 @@ default cc_cracked_overlay = False
 
 screen effects_tab():
     hbox:
+        align (0.5, 0.0)
         textbutton "Add Emote":
             style_prefix "other_settings_end"
             action Show('select_emote')
