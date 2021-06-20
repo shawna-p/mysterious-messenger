@@ -651,6 +651,8 @@ screen dialogue_tab(show_fonts, compact_ver=False):
     use dialogue_input(compact_ver)
     hbox:
         spacing 40 xalign 0.5
+        if compact_ver:
+            xsize 680
         if not compact_ver:
             textbutton "Clear Chat":
                 selected False
@@ -669,6 +671,7 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                     SetVariable('last_added', [ ])]
         else:
             textbutton "Update":
+                xalign 0.5
                 action [edit_dialogue_input.Disable(),
                     Function(update_chat_entry),
                     Function(edit_dialogue_input.set_text, ''),
@@ -1131,7 +1134,11 @@ screen dialogue_input(compact_ver=False):
         if not is_focused:
             foreground "#0003"
         padding (14, 10)
-        xalign 0.5 yalign 0.4
+        if compact_ver:
+            xalign 0.0
+        else:
+            xalign 0.5
+        yalign 0.4
         viewport:
             yadjustment text_input_yadj
             xysize (730-28, 180-20)
