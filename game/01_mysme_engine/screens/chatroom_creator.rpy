@@ -31,8 +31,6 @@ init python:
                 if not self.edit_action:
                     renpy.run([Function(add_creation_entry),
                         Function(self.set_text, ''),
-                        If(insert_msg_index == -1,
-                            SetField(yadj, 'value', yadjValue)),
                         SetVariable('last_added', [ ])])
                 else:
                     # This is an edit to an existing entry
@@ -44,27 +42,27 @@ init python:
                 renpy.run(self.Enable())
             raise renpy.IgnoreEvent()
 
-    def pop_chatlog():
+    def record_chatlog():
         """
-        Pop the last entry off the chatlog and add it to our "undo" list.
+        Add the current chatlog to the undo list.
         """
-        if store.chatlog:
-            store.last_added.append(store.chatlog.pop())
-            # Cut down on how many entries we remember
-            store.last_added = store.last_added[-20:]
-        else:
-            # They want to undo clearing the chatlog
-            store.chatlog = store.last_added
-            store.last_added = [ ]
+        new_log = [ ]
+        for entry in store.chatlog:
+            new_log.append(copy(entry))
+        store.undo_list.append(new_log)
+        if len(store.undo_list) > 5:
+            # Keep the size down to 5 entries
+            store.undo_list.pop(0)
+
         return
 
     def redo_chatlog():
         """
-        Pop the most recent entry off the "undo" list and re-add it to
-        the chatlog.
+        Replace the chatlog with the most recent "undone" chatlog entry.
         """
-        if store.last_added:
-            store.chatlog.append(store.last_added.pop())
+        store.redo_list.append(chatlog)
+        store.chatlog = store.undo_list.pop()
+
         return
 
     def add_creation_entry(return_entry=False, is_edit=False):
@@ -457,7 +455,8 @@ default edit_bubble_info = {
 }
 default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
-default last_added = [ ]
+default undo_list = [ ]
+default redo_list = [ ]
 define creator_messenger_ysize = 640
 # Styles which are applied to a fresh entry
 default entry_styles = {
