@@ -31,16 +31,25 @@ init python:
                 if not self.edit_action:
                     renpy.run([Function(add_creation_entry),
                         Function(self.set_text, ''),
-                        SetVariable('last_added', [ ])])
+                        SetVariable('redo_list', [ ])])
                 else:
                     # This is an edit to an existing entry
                     renpy.run([
                         Function(self.set_text, ''),
+                        Function(record_chatlog),
                         Hide('dialogue_edit_popup')
                     ])
             else:
                 renpy.run(self.Enable())
             raise renpy.IgnoreEvent()
+
+    def undo_chatlog():
+        """
+        Replace the chatlog with the most recent "undo" entry.
+        """
+        store.redo_list.append(chatlog)
+        store.chatlog = store.undo_list.pop()
+
 
     def record_chatlog():
         """
@@ -61,8 +70,8 @@ init python:
         """
         Replace the chatlog with the most recent "undone" chatlog entry.
         """
-        store.redo_list.append(chatlog)
-        store.chatlog = store.undo_list.pop()
+        store.undo_list.append(chatlog)
+        store.chatlog = store.redo_list.pop()
 
         return
 
@@ -126,6 +135,7 @@ init python:
         else:
             store.chatlog.insert(store.insert_msg_index, entry)
             store.insert_msg_index += 1
+        record_chatlog()
         return
 
     def get_styles_from_entry(msg):
@@ -203,6 +213,7 @@ init python:
                 ChatEntry(store.special_msg, the_str, upTime(),
                     for_replay=(replay_type, who)))
             store.insert_msg_index += 1
+        record_chatlog()
         return
 
     def add_emote(emote, edit=False):
@@ -228,6 +239,7 @@ init python:
             store.chatlog.insert(store.edit_msg_index, new_entry)
             chatlog.remove(the_msg)
             store.edit_msg_index = -1
+        record_chatlog()
         return
 
     def update_edit_text():
@@ -311,6 +323,8 @@ init python:
             'bubble' : None
         }
 
+        record_chatlog()
+
         return
 
     def find_bubble_sizes(bubble):
@@ -345,6 +359,7 @@ init python:
             the_msg.img, new_bounce, new_specBubble)
         store.chatlog.insert(ind, new_entry)
         chatlog.remove(the_msg)
+        record_chatlog()
         return
 
     def update_chat_entry():
@@ -405,6 +420,7 @@ init python:
                 ChatEntry(store.special_msg, text, upTime(),
                     for_replay=entry)
             )
+        record_chatlog()
         return
 
 default is_main_menu_replay = False
@@ -659,24 +675,26 @@ screen dialogue_tab(show_fonts, compact_ver=False):
         if not compact_ver:
             textbutton "Clear Chat":
                 selected False
-                action [SetVariable('last_added', chatlog),
-                    SetVariable('chatlog', [ ])]
+                action CConfirm("Are you sure you want to clear the chat?",
+                    [AddToSet(undo_list, chatlog),
+                    SetVariable('chatlog', [ ])])
             textbutton "Undo":
-                sensitive chatlog or (last_added and not chatlog)
-                action Function(pop_chatlog)
+                sensitive undo_list
+                action Function(undo_chatlog)
             textbutton "Redo":
-                sensitive last_added
+                sensitive redo_list
                 action Function(redo_chatlog)
             textbutton "Add to Chat":
                 action [chat_dialogue_input.Disable(),
                     Function(add_creation_entry),
                     Function(chat_dialogue_input.set_text, ''),
-                    SetVariable('last_added', [ ])]
+                    SetVariable('redo_list', [ ])]
         else:
             textbutton "Update":
                 xalign 0.5
                 action [edit_dialogue_input.Disable(),
                     Function(update_chat_entry),
+                    Function(record_chatlog),
                     Function(edit_dialogue_input.set_text, ''),
                     SetVariable('edit_msg_index', -1),
                     Hide('dialogue_edit_popup')]
@@ -1114,7 +1132,7 @@ screen select_bubble(editing=False):
                     [chat_dialogue_input.Disable(),
                     Function(add_bubble, bubble_dict),
                     Function(chat_dialogue_input.set_text, ''),
-                    SetVariable('last_added', [ ]),
+                    SetVariable('redo_list', [ ]),
                     Hide('select_bubble')],
                     [Function(add_bubble, bubble_dict, is_edit=True),
                     Hide('select_bubble')])
