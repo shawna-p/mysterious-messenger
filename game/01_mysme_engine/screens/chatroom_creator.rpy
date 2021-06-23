@@ -52,7 +52,8 @@ init python:
         store.undo_list.append(new_log)
         if len(store.undo_list) > 5:
             # Keep the size down to 5 entries
-            store.undo_list.pop(0)
+            item = store.undo_list.pop(0)
+            del item
 
         return
 
