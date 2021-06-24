@@ -58,7 +58,8 @@ init python:
         new_log = [ ]
         for entry in store.chatlog:
             new_log.append(copy(entry))
-        store.undo_list.append(new_log)
+        store.undo_list.append(store.chatlog_copy)
+        store.chatlog_copy = new_log
         if len(store.undo_list) > 5:
             # Keep the size down to 5 entries
             item = store.undo_list.pop(0)
@@ -474,6 +475,7 @@ default the_entry = ChatEntry(s, "None", upTime())
 default chat_dialogue_input = InputDialogue('chat_dialogue')
 default undo_list = [ ]
 default redo_list = [ ]
+default chatlog_copy = [ ]
 define creator_messenger_ysize = 640
 # Styles which are applied to a fresh entry
 default entry_styles = {
