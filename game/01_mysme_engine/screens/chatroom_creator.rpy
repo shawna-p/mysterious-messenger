@@ -58,6 +58,8 @@ init python:
         new_log = [ ]
         for entry in store.chatlog:
             new_log.append(copy(entry))
+        # Keep this in an intermediate variable; otherwise undo would
+        # just pop the copy of the chatlog.
         store.undo_list.append(store.chatlog_copy)
         store.chatlog_copy = new_log
         if len(store.undo_list) > 5:
@@ -425,6 +427,7 @@ init python:
         record_chatlog()
         return
 
+
 default is_main_menu_replay = False
 default in_chat_creator = False
 # Save the chatlog before a replay to restore it
@@ -478,6 +481,7 @@ default chat_dialogue_input = InputDialogue('chat_dialogue')
 default undo_list = [ ]
 default redo_list = [ ]
 default chatlog_copy = [ ]
+default saved_background = "morning"
 define creator_messenger_ysize = 640
 # Styles which are applied to a fresh entry
 default entry_styles = {
@@ -767,6 +771,14 @@ screen effects_tab():
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
                 Call('rewatch_chatroom_main_menu')]
+    hbox:
+        align (0.5, 1.0)
+        textbutton "Add Shake":
+            style_prefix 'other_settings_end'
+            action Function(add_replay_direction,
+                text="Effect: Screen shake",
+                entry=("shake", current_background))
+
 
 init python:
     def get_readable_music():
