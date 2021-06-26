@@ -386,6 +386,7 @@ init python:
         store.current_timeline_item.replay_log.append(bg_entry)
 
         store.saved_chatlog = store.chatlog
+        store.saved_background = store.current_background
 
         for entry in store.chatlog:
             if entry.for_replay:
@@ -446,6 +447,7 @@ label start_chatroom_creator():
 label chatroom_creator_setup():
     $ reset_story_vars()
     $ store.chatlog = store.saved_chatlog
+    $ store.current_background = store.saved_background
     $ is_main_menu_replay = False
     $ store.chatlog = store.saved_chatlog
     jump start_chatroom_creator
