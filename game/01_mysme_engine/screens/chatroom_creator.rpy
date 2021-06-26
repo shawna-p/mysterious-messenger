@@ -386,9 +386,12 @@ init python:
 
         bg_entry = ('background', store.current_background)
         store.current_timeline_item.replay_log.append(bg_entry)
+        if cc_cracked_overlay:
+            crack_entry = ("overlay", "screen_crack")
+            store.current_timeline_item.replay_log.append(crack_entry)
 
         store.saved_chatlog = store.chatlog
-        store.saved_background = store.current_background
+        store.saved_background = (store.current_background, store.cc_cracked_overlay)
 
         for entry in store.chatlog:
             if entry.for_replay:
@@ -449,8 +452,8 @@ label start_chatroom_creator():
 ## Clean up the screens before returning to the chatroom creator
 label chatroom_creator_setup():
     $ reset_story_vars()
-    $ store.chatlog = store.saved_chatlog
-    $ store.current_background = store.saved_background
+    $ chatlog = saved_chatlog
+    $ current_background, cc_cracked_overlay = saved_background
     $ is_main_menu_replay = False
     $ store.chatlog = store.saved_chatlog
     jump start_chatroom_creator
@@ -778,7 +781,59 @@ screen effects_tab():
             action Function(add_replay_direction,
                 text="Effect: Screen shake",
                 entry=("shake", current_background))
+        textbutton "Add Animations":
+            style_prefix 'other_settings_end'
+            action Show('select_anim')
 
+screen select_anim():
+    zorder 100
+    modal True
+
+    default anim_msg = ""
+    default anim_entry = None
+    default anim_reverse = False
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_music')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,740)
+                    align (0.5, 0.5)
+                    cols 1
+                    spacing 10
+
+
+            if "hack" in anim_msg:
+                textbutton "Reverse Animation":
+                    style_prefix 'check'
+                    action ToggleScreenVariable('anim_reverse')
+
+
+            textbutton _('Confirm'):
+                text_style 'mode_select'
+                style 'cc_confirm_style'
+                action [Function(add_replay_direction,
+                        'Play Music: ' + str(temp_music),
+                        ('play music', temp_path),
+                        at_beginning),
+                    Hide('select_music')]#Play('music', mystic_chat),
 
 init python:
     def get_readable_music():
