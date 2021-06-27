@@ -816,8 +816,29 @@ screen select_anim():
                     mousewheel True
                     xysize (590,740)
                     align (0.5, 0.5)
-                    cols 1
+                    cols 2
                     spacing 10
+                    imagebutton:
+                        idle 'hack scroll'
+                        at hack_transform()
+                    imagebutton:
+                        idle 'redhack scroll'
+                        at hack_transform()
+                    imagebutton:
+                        idle Transform('red_static_background',
+                            crop=(0, 200, 750, 1000))
+                        at transform:
+                            zoom 0.3
+                    imagebutton:
+                        idle Transform('secure_chat_intro',
+                            crop=(80, 200, 750, 1000))
+                        at transform:
+                            zoom 0.3
+
+
+
+
+
 
 
             if "hack" in anim_msg:
@@ -829,11 +850,12 @@ screen select_anim():
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'cc_confirm_style'
-                action [Function(add_replay_direction,
-                        'Play Music: ' + str(temp_music),
-                        ('play music', temp_path),
-                        at_beginning),
-                    Hide('select_music')]#Play('music', mystic_chat),
+                action [Hide('select_anim')]
+
+transform hack_transform(end=0.35):
+    zoom 0.3
+    crop_relative True
+    crop (0.0, 0.0, 1.0, end)
 
 init python:
     def get_readable_music():
