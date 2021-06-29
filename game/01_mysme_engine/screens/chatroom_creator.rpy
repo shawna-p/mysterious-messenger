@@ -405,10 +405,17 @@ init python:
                         specBubble=entry.specBubble)
                 )
 
-    def add_replay_direction(text, entry, at_beginning=False):
+    def add_replay_direction(text, entry, at_beginning=False, reverse=False):
         """
         Adds an instruction for the replay, such as setting the music.
         """
+
+        if reverse and entry[1] == 'regular':
+            entry = ('hack', 'reverse')
+            text += " (reversed)"
+        elif reverse and entry[1] == 'red':
+            entry = ('hack', "red_reverse")
+            text += " (reversed)"
 
         if not at_beginning:
             if store.insert_msg_index == -1:
@@ -802,7 +809,7 @@ screen select_anim():
             align (1.0, 0.0)
             idle 'input_close'
             hover 'input_close_hover'
-            action Hide('select_music')
+            action Hide('select_anim')
         vbox:
             spacing 20
             xalign 0.5
@@ -820,28 +827,47 @@ screen select_anim():
                     spacing 10
                     imagebutton:
                         idle 'hack scroll'
+                        hover_foreground "#fff5"
+                        selected_foreground "#fff3"
                         at hack_transform()
+                        action [SetScreenVariable('anim_msg',
+                                "Effect: Green hack scroll"),
+                            SetScreenVariable('anim_entry',
+                                ('hack', 'regular'))]
                     imagebutton:
                         idle 'redhack scroll'
+                        hover_foreground "#fff5"
+                        selected_foreground "#fff3"
                         at hack_transform()
+                        action [SetScreenVariable('anim_msg',
+                                "Effect: Red hack scroll"),
+                            SetScreenVariable('anim_entry',
+                                ('hack', 'red'))]
                     imagebutton:
                         idle Transform('red_static_background',
                             crop=(0, 200, 750, 1000))
+                        hover_foreground "#fff5"
+                        selected_foreground "#fff3"
                         at transform:
                             zoom 0.3
+                        action [SetScreenVariable('anim_msg',
+                                "Effect: Red static scroll"),
+                            SetScreenVariable('anim_entry',
+                                ('hack', 'red_static'))]
                     imagebutton:
                         idle Transform('secure_chat_intro',
                             crop=(80, 200, 750, 1000))
+                        hover_foreground "#fff5"
+                        selected_foreground "#fff3"
                         at transform:
                             zoom 0.3
+                        action [SetScreenVariable('anim_msg',
+                                "Animation: Secure Chat"),
+                            SetScreenVariable('anim_entry',
+                                ('anim', 'secure_anim'))]
 
 
-
-
-
-
-
-            if "hack" in anim_msg:
+            if anim_entry and anim_entry[0] == 'hack':
                 textbutton "Reverse Animation":
                     style_prefix 'check'
                     action ToggleScreenVariable('anim_reverse')
@@ -850,7 +876,9 @@ screen select_anim():
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'cc_confirm_style'
-                action [Hide('select_anim')]
+                action [Hide('select_anim'),
+                    Function(add_replay_direction,
+                        anim_msg, anim_entry, reverse=anim_reverse)]
 
 transform hack_transform(end=0.35):
     zoom 0.3
