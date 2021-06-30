@@ -210,7 +210,7 @@ label chatroom_replay():
                     renpy.show_screen('screen_crack_overlay_bg')
                 elif first == "hack":
                     if persistent.hacking_effects:
-                        if second in ['regular', 'reverse', 'red', 'red_reverse']:
+                        if second in ('regular', 'reverse', 'red', 'red_reverse'):
                             if second == "regular":
                                 renpy.show_screen('hack_screen',
                                     hack='hack scroll')
@@ -234,9 +234,10 @@ label chatroom_replay():
                                     break
                                 renpy.pause(0.1)
                             renpy.hide_screen('hack_screen')
-                        elif second == "red_static":
+                        elif second in ("red_static", 'red_static_reverse'):
+                            rp_img = 'red_static_scroll' if second == 'red_static' else 'red_static_reverse'
                             renpy.show_screen('hack_screen',
-                                hack='red_static_scroll',
+                                hack=rp_img,
                                 flicker_anim=False,
                                 bg='red_static_background')
                             m_pause_time = 3.0
