@@ -357,14 +357,21 @@ label redhack(reverse=False):
         hide screen hack_screen
     return
 
-label red_static():
+label red_static(reverse=False):
     if (not observing and not persistent.testing_mode
             and not vn_choice):
-        $ hack_entry = ("hack", "red_static")
+        if reverse:
+            $ hack_entry = ("hack", "red_static_reverse")
+        else:
+            $ hack_entry = ("hack", "red_static")
         $ current_timeline_item.replay_log.append(hack_entry)
     if persistent.hacking_effects:
-        show screen hack_screen('red_static_scroll', False,
+        if reverse:
+            show screen hack_screen("red_static_reverse", False,
             'red_static_background')
+        else:
+            show screen hack_screen('red_static_scroll', False,
+                'red_static_background')
         with Pause(3.0)
         hide screen hack_screen
     return
