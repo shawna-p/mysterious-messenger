@@ -589,6 +589,10 @@ There is also a "red static" effect which can be shown with::
 
     show red static effect
 
+This can also be reversed by adding the `reverse` tag::
+
+    show red static effect reverse
+
 .. note::
     These effects are not displayed for players who have toggled the **Hacking Effects** setting off.
 
