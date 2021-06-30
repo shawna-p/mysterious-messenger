@@ -416,6 +416,9 @@ init python:
         elif reverse and entry[1] == 'red':
             entry = ('hack', "red_reverse")
             text += " (reversed)"
+        elif reverse and entry[1] == "red_static":
+            entry = ('hack', 'red_static_reverse')
+            text += " (reversed)"
 
         if not at_beginning:
             if store.insert_msg_index == -1:
