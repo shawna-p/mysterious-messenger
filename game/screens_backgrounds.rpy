@@ -2,6 +2,14 @@
 ## They are defined as screens instead of images for additional flexibility
 ## and animations.
 
+screen animated_shake_borders():
+    zorder 1
+    # Add borders for shake
+    add "#000" size (300, config.screen_height) xpos 0.0 xanchor 1.0
+    add "#000" size (300, config.screen_height) xpos 1.0 xanchor 0.0
+    add "#000" size (config.screen_width, 300) ypos 1.0 yanchor 0.0
+    add "#000" size (config.screen_width, 300) ypos 0.0 yanchor 1.0
+
 ###########################################################
 ## Morning background
 ###########################################################
@@ -45,6 +53,8 @@ screen animated_morning():
     add 'Phone UI/animated_bgs/morning/morning_darken.webp':
         at topbottom_pan(180, 160, 30, 0, -1334, 0.8, 0, 0.0, 0.0)
 
+    use animated_shake_borders()
+
 transform colorize_snow_morning():
     alpha 0.45
     linear 80 alpha 1.0
@@ -68,6 +78,9 @@ screen animated_noon():
     add 'animated_noon_clouds_mid' at slow_pan(200, -2250, 2250)
     add 'animated_noon_clouds_front' at slow_pan(110, 0, 2250)
     add 'animated_noon_clouds_front' at slow_pan(110, -2250, 2250)
+
+    use animated_shake_borders()
+
 
 ###########################################################
 ## Evening background
@@ -108,6 +121,8 @@ screen animated_evening():
         at fadein_out(60, 60, 60, 170-90-75, 0.0)
     add 'Phone UI/animated_bgs/evening/evening_clouds_red.webp':
         at fadein_out(120, 60, 10, 10, 0.0, 0.3)
+
+    use animated_shake_borders()
 
 define config.gl2 = True
 transform colorize_snow_evening():
@@ -235,6 +250,8 @@ screen animated_night():
         add 'animated_shooting_star1' at shooting_star
         add 'animated_shooting_star2' at shooting_star
 
+    use animated_shake_borders()
+
 ###########################################################
 ## Early morning background
 ###########################################################
@@ -339,6 +356,8 @@ screen animated_earlyMorn():
 
         add 'aries_constellation' align (0.98, 0.01)
         add 'capricorn_constellation' align (0.95, 0.98)
+
+    use animated_shake_borders()
 
 
 image gemini_constellation:
@@ -733,7 +752,7 @@ screen animated_hack_background(red=False):
         timer random.randint(5, 10) + random.randint(10, 30):
             action Show('white_squares_2', w_timer=0.3) repeat True
 
-
+    use animated_shake_borders()
 
 screen hack_tear(number=10, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10,
                 offsetMax=30, w_timer=0.18, srf=None):
@@ -907,6 +926,8 @@ screen animated_rainy_day():
     add Solid("#000") size (750, 3) yalign 1.0
     add 'front_rain'
 
+    use animated_shake_borders()
+
 # A transform that causes lightning to randomly appear and flash
 transform lightning_cloud_flash():
     block:
@@ -1031,6 +1052,7 @@ screen animated_morning_snow():
     add 'animated_morning_snow_clouds_front' at slow_pan(110, -2250, 2250)
     add 'gentle_snow_front'
 
+    use animated_shake_borders()
 
 
 # Code adapted from SnowBlossom2 code on the lemmasoft forums.
