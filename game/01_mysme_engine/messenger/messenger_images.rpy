@@ -184,6 +184,14 @@ image red_static_scroll:
     yalign 0.0
     linear 1.5 yalign 1.0
 
+image red_static_reverse:
+    "Phone UI/red_static_scroll.webp"
+    subpixel True
+    yalign 1.0
+    linear 1.5 yalign 0.0
+    yalign 1.0
+    linear 1.5 yalign 0.0
+
 image red_static_background = Fixed(
     Transform("center_bg:Phone UI/bg_red_static.webp", zoom=1.19, align=(0.5, 0.5)),
     "Phone UI/red_static_scroll.webp",
