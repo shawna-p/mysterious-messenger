@@ -1003,7 +1003,7 @@ init -6 python:
         elif ("red" in name and "static" in name and "effect" in name
                 and renpy.get_screen('messenger_screen')
                 and not at_list):
-            renpy.call('red_static')
+            renpy.call('red_static', reverse=('reverse' in name))
             return
         ## Banners
         elif ('lightning' in name and 'banner' in name
