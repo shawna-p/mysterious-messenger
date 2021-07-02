@@ -384,8 +384,8 @@ init python:
         store.current_timeline_item = ChatRoom("Creation",
             'replay_chat_creator', '00:00', participants=store.cc_participants)
 
-        bg_entry = ('background', store.current_background)
-        store.current_timeline_item.replay_log.append(bg_entry)
+        #bg_entry = ('background', store.current_background)
+        #store.current_timeline_item.replay_log.append(bg_entry)
         if cc_cracked_overlay:
             crack_entry = ("overlay", "screen_crack")
             store.current_timeline_item.replay_log.append(crack_entry)
@@ -966,6 +966,7 @@ screen select_background():
     modal True
 
     default temp_bg = current_background
+    default at_beginning = False
 
     frame:
         maximum(680, 1000)
@@ -1013,11 +1014,18 @@ screen select_background():
                 style_prefix 'check'
                 action ToggleVariable('cc_cracked_overlay')
 
+            textbutton "Add to the beginning of the chat":
+                style_prefix 'check'
+                action ToggleScreenVariable('at_beginning')
+
 
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'cc_confirm_style'
-                action [SetVariable('current_background', temp_bg),
+                action [Function(add_replay_direction, 'Background: ' + temp_bg,
+                    ('background', temp_bg), at_beginning=at_beginning),
+                    ## Cracked background?
+                    SetVariable('current_background', temp_bg),
                     If(temp_bg in black_text_bgs,
                         SetVariable('nickColour', black),
                         SetVariable('nickColour', white)),
