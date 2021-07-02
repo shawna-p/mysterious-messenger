@@ -532,7 +532,7 @@ screen chat_creator_tabs(active_tab):
 
         textbutton _('Other'):
             sensitive active_tab != "Other"
-            action NullAction()
+            action SetScreenVariable('active_tab', 'Other')
 
 screen chatroom_creator():
 
@@ -556,6 +556,8 @@ screen chatroom_creator():
             use dialogue_tab(show_fonts)
         elif active_tab == "Effects":
             use effects_tab()
+        elif active_tab == "Other":
+            use other_cc_tab()
 
 screen add_enter_exit_msg():
     button:
@@ -760,23 +762,21 @@ transform slide_in_out():
 default text_input_yadj = ui.adjustment()
 default cc_cracked_overlay = False
 
-screen effects_tab():
+screen other_cc_tab():
+    null height 30
     hbox:
+        spacing 50
         align (0.5, 0.0)
-        textbutton "Add Emote":
-            style_prefix "other_settings_end"
-            action Show('select_emote')
-        textbutton "Special Bubbles":
-            style_prefix "other_settings_end"
-            action Show('select_bubble')
         textbutton "Select Background":
             style_prefix 'other_settings_end'
             action Show('select_background')
-    hbox:
-        align (0.5, 1.0)
         textbutton "Add Music":
             style_prefix 'other_settings_end'
             action Show("select_music")
+    null height 20
+    hbox:
+        spacing 50
+        xalign 0.5
         textbutton "Add Participants":
             style_prefix 'other_settings_end'
             action Show("select_participants")
@@ -784,7 +784,21 @@ screen effects_tab():
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
                 Call('rewatch_chatroom_main_menu')]
+
+screen effects_tab():
+    null height 30
     hbox:
+        spacing 50
+        align (0.5, 0.0)
+        textbutton "Add Emote":
+            style_prefix "other_settings_end"
+            action Show('select_emote')
+        textbutton "Special Bubbles":
+            style_prefix "other_settings_end"
+            action Show('select_bubble')
+    null height 20
+    hbox:
+        spacing 50
         align (0.5, 1.0)
         textbutton "Add Shake":
             style_prefix 'other_settings_end'
