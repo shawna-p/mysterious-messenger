@@ -665,6 +665,8 @@ label get_input(the_var, prompt='', default='', length=20,
             show screen pause_button
     if not allow and not exclude:
         $ allow = allowed_username_chars
+    if default:
+        $ setattr(store, the_var, default)
     call screen input_template(the_var, prompt, default, length, allow,
         exclude, accept_blank, can_close)
     return
@@ -682,7 +684,7 @@ screen input_template(the_var, prompt='', default='', length=20,
         and accept_blank))
     # For whatever reason the default property on input isn't
     # working, so we just set the variable here
-    default x = setattr(store, the_var, default)
+    # default x = setattr(store, the_var, default)
 
     zorder 100
     modal True
@@ -713,6 +715,7 @@ screen input_template(the_var, prompt='', default='', length=20,
                     align (0.5, 0.5)
                     color "#000"
                     value the_input
+                    default default
                     if length:
                         length length
                     if allow:
