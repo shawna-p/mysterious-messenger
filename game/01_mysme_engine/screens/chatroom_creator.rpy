@@ -1557,6 +1557,7 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
     on 'replace' action FilePage(2)
 
     default rows = 7
+    default page = 2
 
     python:
         # Determine the beginning/end values
@@ -1586,12 +1587,15 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                 $ slot = i + 1
 
                 button:
-                    action FileAction(slot)
+                    if title == "Load":
+                        action FileLoad(slot, page=page)
+                    else:
+                        action FileSave(slot, page=page)
 
                     has hbox
                     xalign 0.0
 
-                    if FileLoadable(slot):
+                    if FileLoadable(slot, page=page):
                         add 'save_auto' align (0.5, 0.5)
                     else:
                         add 'save_empty' align (0.5, 0.5)
@@ -1600,10 +1604,10 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                         style_prefix 'save_desc'
                         has vbox
                         # Displays the most recent chatroom title + day
-                        if FileLoadable(slot):
+                        if FileLoadable(slot, page=page):
                             fixed:
                                 text "Chatroom Creator"
-                            text "Today: Something Day" yalign 1.0
+                            text "Title: " + FileSaveName(slot, page=page) yalign 1.0
                         else:
                             fixed:
                                 text "Empty Slot"
@@ -1617,15 +1621,16 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                         fixed:
                             text FileTime(slot,
                                     format=_("{#file_time}%m/%d %H:%M"),
-                                    empty=_("empty slot"))
+                                    empty=_("empty slot"),
+                                    page=page)
 
                         imagebutton:
                             hover Transform('save_trash',zoom=1.05)
                             idle 'save_trash'
                             xalign 1.0
-                            action FileDelete(slot)
+                            action FileDelete(slot, page=page)
 
-                    key "save_delete" action FileDelete(slot)
+                    key "save_delete" action FileDelete(slot, page=page)
 
         ## Buttons to access other pages.
         hbox:
@@ -1682,7 +1687,7 @@ screen choose_chat_creator():
                 textbutton _("Load Chat"):
                     xsize 300
                     action [Hide('choose_chat_creator'),
-                        ShowMenu('load_chat')]
+                        Show('load_chat')]
                 textbutton _("Cancel"):
                     xsize 300
                     action Hide('choose_chat_creator')
@@ -1699,6 +1704,6 @@ screen load_chat():
     default slots_per_column = 7
     default begin_page = 0
 
-    use menu_header("Chat Creator Load", Hide('load_chat', Dissolve(0.5))):
-        use chatroom_file_slots(_("Load"), current_page, num_pages,
-            slots_per_column, begin_page)
+    use menu_header("Chat Creator Load", Hide('load_chat', Dissolve(0.5)))
+    use chatroom_file_slots(_("Load"), current_page, num_pages,
+        slots_per_column, begin_page)
