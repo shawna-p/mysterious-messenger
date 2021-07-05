@@ -524,6 +524,9 @@ screen load():
 screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         begin_page=0):
 
+    on 'show' action FilePage(1)
+    on 'replace' action FilePage(1)
+
     python:
         # Retrieve the name and day of the most recently completed
         # chatroom for the save file name
