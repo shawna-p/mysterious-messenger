@@ -479,7 +479,7 @@ label chatroom_creator_setup():
     $ is_main_menu_replay = False
     $ store.chatlog = store.saved_chatlog
     $ renpy.retain_after_load()
-    jump start_chatroom_creator
+    jump main_chatroom_creator
 
 
 default cc_participants = [ ]
@@ -561,7 +561,7 @@ screen chatroom_creator():
         add Transform('screen_crack',
                 crop=(0, 315, 750, creator_messenger_ysize)):
             yoffset 150
-    use menu_header("Chat Creator", Show('main_menu', Dissolve(0.5)),
+    use menu_header("Chat Creator", MainMenu(),
             hide_bkgr=True):
         use messenger_screen()
         use chat_creator_tabs(active_tab)
