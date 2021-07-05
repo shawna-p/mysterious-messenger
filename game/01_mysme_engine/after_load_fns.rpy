@@ -698,6 +698,10 @@ define updated_music_dict = music_dictionary
 init offset = 0
 
 label after_load():
+    if in_chat_creator:
+        # Don't update variables as is usually done
+        return
+
 
     $ renpy.set_return_stack([])
     # Forcibly make sure the game isn't in an interaction so it can
