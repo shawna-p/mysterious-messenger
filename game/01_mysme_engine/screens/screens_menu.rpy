@@ -497,7 +497,8 @@ screen save():
 
     use menu_header("Save", Hide('save', Dissolve(0.5))):
         if in_chat_creator:
-            use chatroom_file_slots(_("Save"))
+            use chatroom_file_slots(_("Save"), current_page, num_pages,
+                slots_per_column, begin_page)
         else:
             use file_slots(_("Save"), current_page, num_pages,
                 slots_per_column, begin_page)
@@ -514,7 +515,8 @@ screen load():
 
     use menu_header("Load", Hide('load', Dissolve(0.5))):
         if in_chat_creator:
-            use chatroom_file_slots(_("Load"))
+            use chatroom_file_slots(_("Load"), current_page, num_pages,
+                slots_per_column, begin_page)
         else:
             use file_slots(_("Load"), current_page, num_pages,
                 slots_per_column, begin_page)
