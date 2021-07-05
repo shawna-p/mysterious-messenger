@@ -8,6 +8,10 @@ init python:
         Update this save file for compatibility with new versions.
         """
 
+        if store.in_chat_creator:
+            # Don't update variables as is usually done
+            return
+
         if not isinstance(store._version, tuple):
             # Turn the version into a tuple like (3, 0, 0)
             tuple_ver = store._version.split('.')
@@ -595,6 +599,10 @@ init python:
     ########################################################
     def advance_day():
         global persistent
+        if store.in_chat_creator:
+            # Don't update variables as is usually done
+            return
+
         persistent.first_boot = False
         persistent.on_route = True
         if persistent.real_time:
