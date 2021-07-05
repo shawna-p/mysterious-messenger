@@ -1540,70 +1540,108 @@ image text_size_reset = Composite(
 
 
 
-screen chatroom_file_slots(title):
+screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
+        begin_page=0):
 
-    default page_name_value = FilePageNameInputValue(pattern=_("Page {}"), auto=_("Automatic saves"), quick=_("Quick saves"))
+    on 'show' action FilePage(2)
+    on 'replace' action FilePage(2)
 
+    default rows = 7
+
+    python:
+        # Determine the beginning/end values
+        begin_range = (current_page*slots_per_column)-1
+        end_range = (current_page*slots_per_column)+slots_per_column-1
+
+        end_page = begin_page + num_pages
 
     fixed:
-
+        xysize (750, 1170)
+        yalign 1.0
         ## This ensures the input will get the enter event before any of the
         ## buttons do.
         order_reverse True
 
-        ## The page name, which can be edited by clicking on a button.
-        button:
-            style "page_label"
-
-            key_events True
-            xalign 0.5
-            action page_name_value.Toggle()
-
-            input:
-                style "page_label_text"
-                value page_name_value
-
         ## The grid of file slots.
-        grid gui.file_slot_cols gui.file_slot_rows:
+        grid 1 rows:
             style_prefix "slot"
 
             xalign 0.5
-            yalign 0.5
+            yalign 0.0
 
             spacing gui.slot_spacing
 
-            for i in range(gui.file_slot_cols * gui.file_slot_rows):
+            for i in range(begin_range, end_range):
 
                 $ slot = i + 1
 
                 button:
                     action FileAction(slot)
 
-                    has vbox
+                    has hbox
+                    xalign 0.0
 
-                    add FileScreenshot(slot) xalign 0.5
+                    if FileLoadable(slot):
+                        add 'save_auto' align (0.5, 0.5)
+                    else:
+                        add 'save_empty' align (0.5, 0.5)
 
-                    text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("empty slot")):
-                        style "slot_time_text"
+                    frame:
+                        style_prefix 'save_desc'
+                        has vbox
+                        # Displays the most recent chatroom title + day
+                        if FileLoadable(slot):
+                            fixed:
+                                text "Chatroom Creator"
+                            text "Today: Something Day" yalign 1.0
+                        else:
+                            fixed:
+                                text "Empty Slot"
+                            text "Tap an empty slot to save" yalign 1.0
 
-                    text FileSaveName(slot):
-                        style "slot_name_text"
+                    frame:
+                        style_prefix 'save_stamp'
+                        has vbox
+                        # Displays the time the save was created
+                        # and the delete button
+                        fixed:
+                            text FileTime(slot,
+                                    format=_("{#file_time}%m/%d %H:%M"),
+                                    empty=_("empty slot"))
+
+                        imagebutton:
+                            hover Transform('save_trash',zoom=1.05)
+                            idle 'save_trash'
+                            xalign 1.0
+                            action FileDelete(slot)
 
                     key "save_delete" action FileDelete(slot)
 
         ## Buttons to access other pages.
         hbox:
-            style_prefix "page"
+            style_prefix 'email_hub'
+            spacing 18
+            if begin_page >= 5:
+                imagebutton:
+                    idle Transform("email_next", xzoom=-1, zoom=1.5)
+                    align (0.5, 0.5)
+                    action [SetScreenVariable('begin_page', begin_page-5)]
+                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
-            xalign 0.5
-            yalign 1.0
-
-            spacing gui.page_spacing
-
-            textbutton _("<") action FilePagePrevious()
-
-            ## range(1, 10) gives the numbers from 1 to 9.
-            for page in range(1, 10):
-                textbutton "[page]" action FilePage(page)
-
-            textbutton _(">") action FilePageNext()
+            for index in range(begin_page, end_page):
+                $ zoomval = 0.7
+                textbutton _(str(index+1)):
+                    xysize (int(130*zoomval), int(149*zoomval))
+                    background Transform('white_hex', zoom=zoomval)
+                    hover_background Transform('white_hex_hover', zoom=zoomval)
+                    selected_background Transform('blue_hex', zoom=zoomval)
+                    text_size 38
+                    text_align (0.5, 0.5)
+                    action [SetScreenVariable('current_page', index)]
+            # Currently there are 10 pages.
+            if begin_page < 5:
+                imagebutton:
+                    idle Transform("email_next", zoom=1.5)
+                    align (0.5, 0.5)
+                    action [SetScreenVariable('begin_page', begin_page+5)]
+                    activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
