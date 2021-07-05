@@ -452,7 +452,9 @@ label start_chatroom_creator():
         $ renpy.pop_call()
     # Set this up so we know we're in the chatroom creator
     $ in_chat_creator = True
+    $ renpy.retain_after_load()
     call screen chatroom_creator
+    $ renpy.retain_after_load()
     if is_main_menu_replay:
         call screen save_and_exit()
         call screen signature_screen(True)
@@ -466,6 +468,7 @@ label chatroom_creator_setup():
     $ current_background, cc_cracked_overlay = saved_background
     $ is_main_menu_replay = False
     $ store.chatlog = store.saved_chatlog
+    $ renpy.retain_after_load()
     jump start_chatroom_creator
 
 
