@@ -461,6 +461,7 @@ label start_chatroom_creator():
         jump chatroom_creator_setup
     jump start_chatroom_creator
 
+
 ## Clean up the screens before returning to the chatroom creator
 label chatroom_creator_setup():
     $ reset_story_vars()
@@ -1645,3 +1646,50 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                     align (0.5, 0.5)
                     action [SetScreenVariable('begin_page', begin_page+5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+
+
+
+screen choose_chat_creator():
+
+    ## Ensure other screens do not get input while this screen is displayed.
+    modal True
+
+    zorder 200
+
+    style_prefix "confirm"
+
+    add "gui/overlay/confirm.png"
+
+    frame:
+        vbox:
+            label _("What would you like to do?"):
+                style "confirm_prompt"
+                xalign 0.5
+
+            vbox:
+                textbutton _("Create New Chat"):
+                    xsize 300
+                    action Start('start_chatroom_creator')
+                textbutton _("Load Chat"):
+                    xsize 300
+                    action [Hide('choose_chat_creator'),
+                        ShowMenu('load_chat')]
+                textbutton _("Cancel"):
+                    xsize 300
+                    action Hide('choose_chat_creator')
+
+    ## Right-click and escape answer "no".
+    key "game_menu" action Hide('choose_chat_creator')
+
+screen load_chat():
+    tag save_load
+    modal True
+
+    default current_page = 0
+    default num_pages = 5
+    default slots_per_column = 7
+    default begin_page = 0
+
+    use menu_header("Chat Creator Load", Hide('load_chat', Dissolve(0.5))):
+        use chatroom_file_slots(_("Load"), current_page, num_pages,
+            slots_per_column, begin_page)
