@@ -453,13 +453,22 @@ label start_chatroom_creator():
     # Set this up so we know we're in the chatroom creator
     $ in_chat_creator = True
     $ renpy.retain_after_load()
+    # Prompt the player for a chatroom name
+    call get_input('save_name', prompt='Enter a title for this chatroom',
+        default='Chat 1', length=25, accept_blank=False,
+        show_answer=False, can_close=False)
+    $ renpy.retain_after_load()
+    jump main_chatroom_creator
+
+label main_chatroom_creator():
+    $ renpy.retain_after_load()
     call screen chatroom_creator
     $ renpy.retain_after_load()
     if is_main_menu_replay:
         call screen save_and_exit()
         call screen signature_screen(True)
         jump chatroom_creator_setup
-    jump start_chatroom_creator
+    jump main_chatroom_creator
 
 
 ## Clean up the screens before returning to the chatroom creator
