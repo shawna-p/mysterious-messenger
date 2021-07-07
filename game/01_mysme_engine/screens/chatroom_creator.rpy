@@ -797,6 +797,38 @@ screen other_cc_tab():
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
                 Call('rewatch_chatroom_main_menu')]
+    null height 35
+    hbox:
+        spacing 20
+        xalign 0.5
+        xysize (161*2, 70)
+        # Save / Load
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("save_btn", align=(0.5, 0.5))
+            hover Transform("save_btn", zoom=1.1)
+            action Show("save", Dissolve(0.5))
+        button:
+            style_prefix 'tone_selection'
+            vbox:
+                align (0.5, 0.5)
+                text "Rename Chat" style 'ringtone_change'
+                text "[save_name]":
+                    style 'ringtone_description'
+            action Show('input_template', None,
+                'save_name', prompt='Enter a chatroom title',
+                default=save_name, length=25,
+                allow=allowed_username_chars, accept_blank=False,
+                can_close=False)
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("load_btn", align=(0.5, 0.5))
+            hover Transform("load_btn", zoom=1.1)
+            action Show("load", Dissolve(0.5))
 
 screen effects_tab():
     null height 30
@@ -1607,7 +1639,8 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                         if FileLoadable(slot, page=page):
                             fixed:
                                 text "Chatroom Creator"
-                            text "Title: " + FileSaveName(slot, page=page) yalign 1.0
+                            text "Title: " + FileSaveName(slot, page=page):
+                                yalign 1.0 layout "nobreak"
                         else:
                             fixed:
                                 text "Empty Slot"
