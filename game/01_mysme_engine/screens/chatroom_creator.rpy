@@ -141,7 +141,7 @@ init python:
         record_chatlog()
         return
 
-    def get_styles_from_entry(msg):
+    def get_styles_from_entry(msg, return_dict=False):
         """
         Retrieve the appropriate styles from the 'what' part of a ChatEntry
         and store it in a dictionary format so it can be edited.
@@ -191,6 +191,9 @@ init python:
                 str_size = str_size[1:]
             int_size = int(str_size)
             edit_styles['size'] = int_size
+
+        if return_dict:
+            return edit_styles, dialogue
 
         dialogue = renpy.filter_text_tags(msg.what, allow="image")
         store.edit_dialogue = dialogue
