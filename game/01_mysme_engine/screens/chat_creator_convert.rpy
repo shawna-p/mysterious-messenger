@@ -37,6 +37,17 @@ init python:
 
         # Get a dictionary of the styles for this dialogue
         style_dict, dialogue = get_styles_from_entry(entry, True)
+        # Is size 10 and font not curly?
+        if style_dict['size'] == 10 and style_dict['font'] != gui.curly_font:
+            style_dict['big'] = True
+        elif style_dict['font'] == gui.curly_font and style_dict['size'] == 20:
+            style_dict['big'] = True
+        else:
+            style_dict['big'] = False
+
+        # Otherwise, if it's not big, we'll need to be more specific
+        # with the size arguments
+
         # Add the dialogue
         line += dialogue
         # End quote
