@@ -193,7 +193,7 @@ init python:
             edit_styles['size'] = int_size
 
         if return_dict:
-            return edit_styles, dialogue
+            return dict(edit_styles), dialogue
 
         dialogue = renpy.filter_text_tags(msg.what, allow="image")
         store.edit_dialogue = dialogue
