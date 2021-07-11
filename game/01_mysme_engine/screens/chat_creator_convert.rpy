@@ -31,9 +31,9 @@ init python:
 
         line = "msg "
         # get the character's variable/name
-        line += entry.file_id
+        line += entry.who.file_id
         # Add the opening quotes
-        line += " \""
+        line += ' "'
 
         # Get a dictionary of the styles for this dialogue
         style_dict, dialogue = get_styles_from_entry(entry, True)
@@ -47,19 +47,68 @@ init python:
 
         # Otherwise, if it's not big, we'll need to be more specific
         # with the size arguments
+        if style_dict['big']:
+            dialogue = renpy.filter_text_tags(entry.what,
+                deny=['size', 'font'])
+        else:
+            dialogue = renpy.filter_text_tags(entry.what,
+                deny=['font'])
+
+        if style_dict['font'] == gui.curly_font and style_dict['size'] in (5, 6):
+            style_dict['size'] = 0
+            dialogue = renpy.filter_text_tags(dialogue, deny='size')
+
+        # Check if we need to filter out {b} tags
+        if style_dict['bold'] and style_dict['font'] not in [gui.blocky_font,
+                gui.curly_font]:
+            # Can filter out {b}
+            dialogue = renpy.filter_text_tags(dialogue, deny=['b'])
+        else:
+            style_dict['bold'] = False
 
         # Add the dialogue
         line += dialogue
         # End quote
-        line += "\""
+        line += ' "'
         # Add font
-        #????????
+        if style_dict['font'] == gui.serif_1 and style_dict['bold']:
+            line += ' ser1xb'
+        elif style_dict['font'] == gui.serif_1:
+            line += ' ser1'
+
+        elif style_dict['font'] == gui.serif_2 and style_dict['bold']:
+            line += ' ser2xb'
+        elif style_dict['font'] == gui.serif_2:
+            line += ' ser2'
+
+        elif style_dict['font'] == gui.sans_serif_1 and style_dict['bold']:
+            line += ' sser1xb'
+        elif style_dict['font'] == gui.sans_serif_1:
+            line += ' sser1'
+
+        elif style_dict['font'] == gui.sans_serif_2 and style_dict['bold']:
+            line += ' sser2xb'
+        elif style_dict['font'] == gui.sans_serif_2:
+            line += ' sser2'
+
+        elif style_dict['font'] == gui.blocky_font:
+            line += ' blocky'
+        elif style_dict['font'] == gui.curly_font:
+            line += ' curly'
+
+        # Add 'big'
+        if style_dict['big']:
+            line += ' big'
+
+
         # add special bubble
-        if style_dict['specBubble']:
-            line += ' ' + style_dict['specBubble']
+        if entry.specBubble:
+            line += ' ' + entry.specBubble
         if style_dict['img']:
             line += ' img'
 
+        if not entry.specBubble and entry.bounce:
+            line += ' glow'
 
 
 
