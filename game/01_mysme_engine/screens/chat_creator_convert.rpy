@@ -17,11 +17,45 @@ init python:
             else:
                 if entry.who == store.special_msg:
                     # An enter/exit entry
-                    # Get who it is and what it is
                     pass
                 else:
                     # Turn this into a msg statement
                     code += get_dialogue_from_entry(entry)
+
+    def parse_replay_entry(entry):
+        """
+        Parse the information in a replay entry to turn it into a line
+        of code.
+        """
+
+        first = entry.for_replay[0]
+        second = entry.for_replay[1]
+
+        if first == "anim":
+            # It's the secure screen animation
+            return "show secure anim"
+        elif first == "overlay":
+            return "show screen_crack"
+        elif first == "hack":
+            if second == "regular":
+                return "show hack effect"
+            elif second == "reverse":
+                return "show hack effect reverse"
+            elif second == "red":
+                return "show redhack effect"
+            elif second == "red_reverse":
+                return "show redhack effect reverse"
+            elif second == "red_static":
+                return "show red static effect"
+            elif second == "red_static_reverse":
+                return "show red static effect reverse"
+
+        elif first == "play music":
+            # We want this to look pretty, so use the
+            # "pretty format" dictionary
+            return "play music " + music_dictionary_prettify.get(second, second)
+
+
 
     def get_dialogue_from_entry(entry):
         """
@@ -122,3 +156,50 @@ init python:
         #     'underline' : False
         # }
         return line
+
+
+define music_dictionary_prettify = {
+    mystic_chat : "mystic_chat",
+    mystic_chat2 : "mystic_chat2",
+    mysterious_clues : "mysterious_clues",
+    urban_night_cityscape : "urban_night_cityscape",
+    urban_night_cityscape_v2 : "urban_night_cityscape_v2",
+    narcissistic_jazz : "narcissistic_jazz",
+    lonely_but_passionate_way : "lonely_but_passionate_way",
+    geniusly_hacked_bebop : "geniusly_hacked_bebop",
+    same_old_fresh_air : "same_old_fresh_air",
+    silly_smile_again : "silly_smile_again",
+    lonesome_practicalism : "lonesome_practicalism",
+    lonesome_practicalism_v2 : "lonesome_practicalism_v2",
+    i_miss_happy_rika : "i_miss_happy_rika",
+    dark_secret : "dark_secret",
+    life_with_masks : "life_with_masks",
+    my_half_is_unknown : "my_half_is_unknown",
+    endless_struggle_guitar : "endless_struggle_guitar",
+    endless_struggle_harp : "endless_struggle_harp",
+    endless_struggle : "endless_struggle",
+    four_seasons_piano : "four_seasons_piano",
+    i_am_the_strongest_harp : "i_am_the_strongest_harp",
+    i_am_the_strongest_piano : "i_am_the_strongest_piano",
+    i_am_the_strongest : "i_am_the_strongest",
+    i_draw_piano : "i_draw_piano",
+    i_draw : "i_draw",
+    light_and_daffodils_piano1 : "light_and_daffodils_piano1",
+    light_and_daffodils_piano2 : "light_and_daffodils_piano2",
+    mint_eye_piano : "mint_eye_piano",
+    mint_eye : "mint_eye",
+    mysterious_clues_v2 : "mysterious_clues_v2",
+    mystic_chat_hacked : "mystic_chat_hacked",
+    suns_love_piano : "suns_love_piano",
+    suns_love : "suns_love",
+    the_compass_piano1 : "the_compass_piano1",
+    the_compass_piano2 : "the_compass_piano2",
+    xmas_life_with_masks : "xmas_life_with_masks",
+    xmas_lonesome_practicalism : "xmas_lonesome_practicalism",
+    xmas_narcissistic_jazz : "xmas_narcissistic_jazz",
+    xmas_same_old_fresh_air : "xmas_same_old_fresh_air",
+    xmas_urban_night_cityscape : "xmas_urban_night_cityscape",
+    april_mystic_chat : "april_mystic_chat",
+    april_mysterious_clues : "april_mysterious_clues",
+    april_dark_secret : "april_dark_secret"
+}
