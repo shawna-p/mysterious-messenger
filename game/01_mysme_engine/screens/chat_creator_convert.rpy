@@ -12,8 +12,7 @@ init python:
             ## Is it a replay entry?
             if entry.for_replay:
                 # There's a replay entry
-                # Do stuff
-                pass
+                code += parse_replay_entry(entry)
             else:
                 if entry.who == store.special_msg:
                     # An enter/exit entry
@@ -21,6 +20,8 @@ init python:
                 else:
                     # Turn this into a msg statement
                     code += get_dialogue_from_entry(entry)
+            code += "\n"
+        return code
 
     def parse_replay_entry(entry):
         """
@@ -54,6 +55,20 @@ init python:
             # We want this to look pretty, so use the
             # "pretty format" dictionary
             return "play music " + music_dictionary_prettify.get(second, second)
+
+        elif first == 'shake':
+            return 'show shake'
+
+        elif first == 'enter':
+            return 'enter chatroom ' + second.file_id
+
+        elif first == 'exit':
+            return 'exit chatroom ' + second.file_id
+
+        elif first == 'background':
+            return 'scene ' + second
+
+        return '# Could not parse entry: ' + first + ' ' + second
 
 
 
@@ -103,7 +118,7 @@ init python:
         # Add the dialogue
         line += dialogue
         # End quote
-        line += ' "'
+        line += '"'
         # Add font
         if style_dict['font'] == gui.serif_1 and style_dict['bold']:
             line += ' ser1xb'
@@ -157,7 +172,7 @@ init python:
         # }
         return line
 
-
+init offset = 5
 define music_dictionary_prettify = {
     mystic_chat : "mystic_chat",
     mystic_chat2 : "mystic_chat2",
@@ -203,3 +218,4 @@ define music_dictionary_prettify = {
     april_mysterious_clues : "april_mysterious_clues",
     april_dark_secret : "april_dark_secret"
 }
+init offset = 0
