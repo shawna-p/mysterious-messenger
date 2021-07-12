@@ -408,6 +408,14 @@ init python:
                         specBubble=entry.specBubble)
                 )
 
+    def chatroom_to_code():
+        """
+        Convert the current chatlog into program-compatible code.
+        """
+        print(convert_chatlog())
+        return
+
+
     def add_replay_direction(text, entry, at_beginning=False, reverse=False):
         """
         Adds an instruction for the replay, such as setting the music.
