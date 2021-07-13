@@ -412,7 +412,23 @@ init python:
         """
         Convert the current chatlog into program-compatible code.
         """
-        print(convert_chatlog())
+
+        try:
+            # Put together the path where the file is
+            out_gamedir = renpy.config.gamedir
+            filepath = os.path.join( out_gamedir, "generated")
+            filepath = os.path.join( filepath, store.save_name + ".rpy")
+            ret = convert_chatlog()
+            # Open the file and print to it
+            f = open(filepath, "a")
+            print(ret, file=f)
+            f.close()
+        except Exception as e:
+            # Tell the user print to file didn't work
+            print("Print to file did not work:", e)
+            renpy.notify("WARNING: Print to file didn't work:" + e)
+            return
+        renpy.notify("Code saved at game/generated/" + save_name + ".rpy")
         return
 
 
