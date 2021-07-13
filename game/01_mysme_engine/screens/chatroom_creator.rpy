@@ -815,7 +815,7 @@ screen other_cc_tab():
             action Show("select_music")
     null height 20
     hbox:
-        spacing 50
+        spacing 12
         xalign 0.5
         textbutton "Add Participants":
             style_prefix 'other_settings_end'
