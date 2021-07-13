@@ -120,23 +120,15 @@ init python:
         # End quote
         line += '"'
         # Add font
-        if style_dict['font'] == gui.serif_1 and style_dict['bold']:
-            line += ' ser1xb'
-        elif style_dict['font'] == gui.serif_1:
+        if style_dict['font'] == gui.serif_1:
             line += ' ser1'
 
-        elif style_dict['font'] == gui.serif_2 and style_dict['bold']:
-            line += ' ser2xb'
         elif style_dict['font'] == gui.serif_2:
             line += ' ser2'
 
-        elif style_dict['font'] == gui.sans_serif_1 and style_dict['bold']:
-            line += ' sser1xb'
         elif style_dict['font'] == gui.sans_serif_1:
             line += ' sser1'
 
-        elif style_dict['font'] == gui.sans_serif_2 and style_dict['bold']:
-            line += ' sser2xb'
         elif style_dict['font'] == gui.sans_serif_2:
             line += ' sser2'
 
@@ -144,6 +136,9 @@ init python:
             line += ' blocky'
         elif style_dict['font'] == gui.curly_font:
             line += ' curly'
+
+        if style_dict['bold']:
+            line += ' xbold'
 
         # Add 'big'
         if style_dict['big']:
