@@ -824,6 +824,9 @@ screen other_cc_tab():
             style_prefix 'other_settings_end'
             action [Function(play_chatlog),
                 Call('rewatch_chatroom_main_menu')]
+        textbutton "Generate Code":
+            style_prefix 'other_settings_end'
+            action [Function(chatroom_to_code)]
     null height 35
     hbox:
         spacing 20
