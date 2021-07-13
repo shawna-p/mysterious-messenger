@@ -6,7 +6,14 @@ init python:
         that can be added to a rpy file and edited.
         """
 
-        code = ""
+        code = "label "
+        label_name = ('_').join(store.save_name.split(' '))
+        # Sanitize the label name (no non-alphanumeric characters)
+        #import re, string
+        pattern = regex.compile('[\W_]+', regex.UNICODE)
+        label_name = pattern.sub('', label_name)
+
+        code += label_name + "():\n"
 
         for entry in store.chatlog:
             ## Is it a replay entry?
