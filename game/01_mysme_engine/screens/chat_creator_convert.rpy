@@ -19,15 +19,16 @@ init python:
             ## Is it a replay entry?
             if entry.for_replay:
                 # There's a replay entry
-                code += parse_replay_entry(entry)
+                code += "    " + parse_replay_entry(entry)
             else:
                 if entry.who == store.special_msg:
                     # An enter/exit entry
                     pass
                 else:
                     # Turn this into a msg statement
-                    code += get_dialogue_from_entry(entry)
+                    code += "    " + get_dialogue_from_entry(entry)
             code += "\n"
+        code += "    return"
         return code
 
     def parse_replay_entry(entry):
