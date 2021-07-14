@@ -10,7 +10,7 @@ init python:
         label_name = ('_').join(store.save_name.split(' '))
         # Sanitize the label name (no non-alphanumeric characters)
         #import re, string
-        pattern = regex.compile('[\W_]+', regex.UNICODE)
+        pattern = regex.compile('[\W]+', regex.UNICODE)
         label_name = pattern.sub('', label_name)
 
         code += label_name + "():\n"
@@ -29,7 +29,7 @@ init python:
                     code += "    " + get_dialogue_from_entry(entry)
             code += "\n"
         code += "    return"
-        return code
+        return code, label_name
 
     def parse_replay_entry(entry):
         """
@@ -127,6 +127,9 @@ init python:
         line += dialogue
         # End quote
         line += '"'
+        if entry.img:
+            # That's it
+            return line
         # Add font
         if style_dict['font'] == gui.serif_1:
             line += ' ser1'
@@ -162,17 +165,6 @@ init python:
         if not entry.specBubble and entry.bounce:
             line += ' glow'
 
-
-
-        # edit_styles = {
-        #     'font' : gui.sans_serif_1,
-        #     'specBubble' : None,
-        #     'img' : False,
-        #     'size' : 0,
-        #     'bold' : False,
-        #     'italics' : False,
-        #     'underline' : False
-        # }
         return line
 
 init offset = 5
