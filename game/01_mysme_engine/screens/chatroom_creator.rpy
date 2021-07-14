@@ -417,8 +417,8 @@ init python:
             # Put together the path where the file is
             out_gamedir = renpy.config.gamedir
             filepath = os.path.join( out_gamedir, "generated")
-            filepath = os.path.join( filepath, store.save_name + ".rpy")
-            ret = convert_chatlog()
+            ret, file_name = convert_chatlog()
+            filepath = os.path.join( filepath, file_name + ".rpy")
             # Open the file and print to it
             f = open(filepath, "a")
             print(ret, file=f)
@@ -428,7 +428,7 @@ init python:
             print("Print to file did not work:", e)
             renpy.notify("WARNING: Print to file didn't work:" + e)
             return
-        renpy.notify("Code saved at game/generated/" + save_name + ".rpy")
+        renpy.notify("Code saved at game/generated/" + file_name + ".rpy")
         return
 
 
