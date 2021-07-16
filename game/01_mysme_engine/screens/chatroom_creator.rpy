@@ -424,17 +424,23 @@ init python:
             renpy.notify("WARNING: Print to file didn't work:" + str(e))
             return
 
-        print('filepath', filepath, 'file_name', file_name)
-        if renpy.loadable('generated/' + file_name + '.rpy'):
+        already_exists = renpy.loadable('generated/' + file_name + '.rpy')
+        if not already_exists:
+            try:
+                f = open(filepath)
+                f.close()
+                already_exists = True
+            except Exception:
+                already_exists = False
+
+        if already_exists:
             # This file already exists
-            print("File", file_name, "already exists")
             is_cancel = renpy.invoke_in_new_context(renpy.call_screen, 'confirm',
                 message=(file_name + '.rpy already exists. Are you sure you '
                     + 'want to overwrite this file?'),
                 yes_action=[Hide('confirm'), Return()],
                 no_action=[Hide('confirm'), Return('cancel')])
             if is_cancel == 'cancel':
-                print("Cancelled")
                 return
 
         try:
