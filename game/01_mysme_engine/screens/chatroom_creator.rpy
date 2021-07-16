@@ -419,8 +419,27 @@ init python:
             filepath = os.path.join( out_gamedir, "generated")
             ret, file_name = convert_chatlog()
             filepath = os.path.join( filepath, file_name + ".rpy")
+        except Exception as e:
+            print("Print to file did not work:", e)
+            renpy.notify("WARNING: Print to file didn't work:" + str(e))
+            return
+
+        print('filepath', filepath, 'file_name', file_name)
+        if renpy.loadable('generated/' + file_name + '.rpy'):
+            # This file already exists
+            print("File", file_name, "already exists")
+            is_cancel = renpy.invoke_in_new_context(renpy.call_screen, 'confirm',
+                message=(file_name + '.rpy already exists. Are you sure you '
+                    + 'want to overwrite this file?'),
+                yes_action=[Hide('confirm'), Return()],
+                no_action=[Hide('confirm'), Return('cancel')])
+            if is_cancel == 'cancel':
+                print("Cancelled")
+                return
+
+        try:
             # Open the file and print to it
-            f = open(filepath, "a")
+            f = open(filepath, "w")
             print(ret, file=f)
             f.close()
         except Exception as e:
