@@ -426,7 +426,7 @@ init python:
         except Exception as e:
             # Tell the user print to file didn't work
             print("Print to file did not work:", e)
-            renpy.notify("WARNING: Print to file didn't work:" + e)
+            renpy.notify("WARNING: Print to file didn't work:" + str(e))
             return
         renpy.notify("Code saved at game/generated/" + file_name + ".rpy")
         return
