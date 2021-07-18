@@ -148,7 +148,7 @@ python early hide:
         eval_who = None
         try:
             eval_who = eval(who)
-        except:
+        except Exception:
             renpy.error("enter and exit functions require a ChatCharacter")
 
         if eval_who is None:
@@ -328,7 +328,7 @@ python early hide:
                     # If that didn't work, assume it's a python conditional
                     messages.append(parse_msg_conditional(l,
                         check_time, is_text_msg))
-                except:
+                except Exception:
                     l.error("Couldn't parse message conditional.")
 
         return messages
@@ -398,7 +398,7 @@ python early hide:
         for condition, block in items:
             try:
                 condition = renpy.python.py_eval(condition)
-            except:
+            except Exception:
                 print("WARNING: something went wrong when evaluating the condition",
                     condition)
                 condition = None
@@ -461,7 +461,7 @@ python early hide:
         for msg_dict in messages:
             try:
                 images.extend(predict_msg_stmt(msg_dict))
-            except:
+            except Exception:
                 print("ERROR: Could not predict images for backlog statement.")
         return images
 
@@ -471,7 +471,7 @@ python early hide:
             sender = eval(p['who'])
             day = eval(p['day'])
             global_timestamp = p.get('timestamp', None)
-        except:
+        except Exception:
             renpy.error("Could not parse arguments of backlog CDS.")
 
         # Double-check 'sender' is a ChatCharacter
@@ -501,7 +501,7 @@ python early hide:
                     who = d2['who']
                     dialogue = d2['what']
                     img = d2['img']
-                except:
+                except Exception:
                     ScriptError("The arguments for dialogue \"", d['what'],
                         "\"could not be evaluated.",
                         header='Text Messages',
@@ -556,7 +556,7 @@ python early hide:
                 try:
                     pause_time = eval(timestamp)
                     total_sec += pause_time
-                except:
+                except Exception:
                     print("ERROR: couldn't evaluate text message pause argument")
 
         sender.text_msg.read = True
@@ -565,12 +565,12 @@ python early hide:
     def lint_backlog_stmt(p):
         try:
             sender = eval(p['who'])
-        except:
+        except Exception:
             renpy.error("ChatCharacter not defined in backlog statement.")
 
         try:
             day = eval(p['day'])
-        except:
+        except Exception:
             renpy.error("Could not determine day in backlog statement.")
 
         if not isinstance(sender, ChatCharacter):
@@ -587,7 +587,7 @@ python early hide:
                     big = d["big"]
                     img = d["img"]
                     timestamp = d['timestamp']
-                except:
+                except Exception:
                     renpy.error("Could not parse arguments of backlog CDS")
 
                 # Check text tags
@@ -602,7 +602,7 @@ python early hide:
                         condition = eval(condition)
                     elif len(d) > 0:
                         condition = eval(d)
-                except:
+                except Exception:
                     renpy.error("Could not evaluate condition for backlog.")
         return
 
@@ -773,7 +773,7 @@ python early hide:
             underline = p.get('underline', False)
             spec_bubble = p["spec_bubble"]
             arg_dict = p['arg_dict']
-        except:
+        except Exception:
             ScriptError("Could not parse msg CDS. Results:", p['who'],
                 p['what'], p['pv'],
                 header='Chatrooms',
@@ -854,7 +854,7 @@ python early hide:
             img = p["img"]
             bounce = p["bounce"]
             spec_bubble = p["spec_bubble"]
-        except:
+        except Exception:
             renpy.error("Could not parse arguments of msg CDS")
 
         # Double-check 'who' is a ChatCharacter
@@ -867,7 +867,7 @@ python early hide:
         # Predict possible images used
         try:
             what = p['what']
-        except:
+        except Exception:
             renpy.error("Could not evaluate what argument of custom say")
             return [ ]
         if p['img'] and "{image" in what:
@@ -890,7 +890,7 @@ python early hide:
         # Get the 'what'
         try:
             what = p['what']
-        except:
+        except Exception:
             return [ ]
 
         if "{image" not in what:
@@ -984,7 +984,7 @@ python early hide:
             real_time = p['real_time']
             delivery_time = p['delivery_time']
             messages = p['messages']
-        except:
+        except Exception:
             renpy.error("Could not parse arguments of compose text CDS.")
 
         # Double-check 'sender' is a ChatCharacter
@@ -1103,7 +1103,7 @@ python early hide:
                     who = d2['who']
                     dialogue = d2['what']
                     img = d2['img']
-                except:
+                except Exception:
                     ScriptError("The arguments for dialogue \"", d['what'],
                         "\" could not be evaluated.",
                         header='Text Messages',
@@ -1128,7 +1128,7 @@ python early hide:
             elif d.startswith('label'):
                 try:
                     arg, val = d.split('|')
-                except:
+                except Exception:
                     print("ERROR: could not split text message argument.")
                     continue
                 if arg == 'label':
@@ -1154,7 +1154,7 @@ python early hide:
                 if not isinstance(msg, ChatEntry):
                     try:
                         arg, val = msg.split('|')
-                    except:
+                    except Exception:
                         print("ERROR: could not split text message argument")
                         continue
                     # It's a pause argument
@@ -1165,7 +1165,7 @@ python early hide:
                                 total_sec -= pause_time
                             else:
                                 total_sec += pause_time
-                        except:
+                        except Exception:
                             print("ERROR: couldn't evaluate text message pause argument")
                         print_file("Adjusted total_sec by", pause_time)
                     continue
@@ -1273,7 +1273,7 @@ python early hide:
                     else:
                         msg = who.name + " +1"
                         renpy.show_screen(allocate_notification_screen(), msg)
-            except:
+            except Exception:
                 ScriptError("Heart could not be awarded for \"", p["who"], '"',
                     header="Chatrooms",
                     subheader="Awarding a heart point")
@@ -1290,7 +1290,7 @@ python early hide:
         if p["who"] is not None:
             try:
                 who = eval(p["who"])
-            except:
+            except Exception:
                 return [ ]
         return [ heart_icon(who) ]
 
@@ -1303,7 +1303,7 @@ python early hide:
         eval_who = None
         try:
             eval_who = eval(p["who"])
-        except:
+        except Exception:
             renpy.error("heart functions require a ChatCharacter the heart belongs to")
 
         if eval_who is None:
@@ -1358,7 +1358,7 @@ python early hide:
         if p["who"] is not None:
             try:
                 who = eval(p["who"])
-            except:
+            except Exception:
                 return [ ]
         return [ heart_break_img("Heart Point/heartbreak_0.webp", who),
                 heart_break_img("Heart Point/heartbreak_1.webp", who),
@@ -1430,7 +1430,7 @@ python early hide:
                 # updated
                 if not store.persistent.guestbook[g.name]:
                     store.persistent.guestbook[g.name] = "seen"
-            except:
+            except Exception:
                 ScriptError("Guest \"", p['guest'], "\" could not be invited.",
                     header='Emails', subheader='Inviting a Guest')
 
@@ -1446,7 +1446,7 @@ python early hide:
 
         try:
             eval_guest = eval(p["guest"])
-        except:
+        except Exception:
             renpy.error("invite requires a guest to invite.")
 
         if eval_guest is None:
@@ -1629,7 +1629,7 @@ python early hide:
                     if the_caption == False:
                         file_var = file_var.split('.')[0] + '.mp3'
                         the_caption = store.music_dictionary.get(file_var, "")
-                except:
+                except Exception:
                     ScriptError("No Audio Caption defined for \"", p["file"], '"',
                         header="Miscellaneous", subheader="Adding New Audio")
 
@@ -1670,7 +1670,7 @@ python early hide:
                 try:
                     if not renpy.music.playable(fn, channel):
                         renpy.error("%r is not loadable" % fn)
-                except:
+                except Exception:
                     pass
 
     renpy.register_statement('play music',
@@ -1724,7 +1724,7 @@ python early hide:
                     if the_caption == False:
                         file_var = file_var.split('.')[0] + '.mp3'
                         the_caption = store.sfx_dictionary.get(file_var, "")
-                except:
+                except Exception:
                     ScriptError("No Audio Caption defined for \"", p["file"], '"',
                         header="Miscellaneous", subheader="Adding New Audio")
 
