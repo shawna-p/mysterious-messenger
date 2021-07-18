@@ -241,7 +241,7 @@ init -6 python:
                 save_img = 'yoosung'
             elif save_img in ['zen', 'z']:
                 save_img = 'zen'
-            elif save_img[:5] == "save_":
+            elif save_img.startswith("save_"):
                 save_img = save_img[5:]
 
 
@@ -460,7 +460,7 @@ init -6 python:
 
             # Add "Route" to the title of the route, unless it ends with
             # " -route" in which case remove that before using it as a title
-            if route_history_title[-7:] == " -route":
+            if route_history_title.endswith(" -route"):
                 self.route_history_title = route_history_title[:-7]
             else:
                 self.route_history_title = route_history_title + " Route"

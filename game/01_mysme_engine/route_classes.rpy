@@ -120,7 +120,7 @@ init -6 python:
                 self.save_img = 'yoosung'
             elif save_img in ['zen', 'z']:
                 self.save_img = 'zen'
-            elif save_img[:5] == "save_":
+            elif save_img.startswith("save_"):
                 self.save_img = save_img[5:]
             else:
                 # e.g. auto / another / april / casual / deep / xmas

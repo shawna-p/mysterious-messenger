@@ -2048,7 +2048,7 @@ init python:
                 return (is_unlocked_pfp(img, condition,
                         store.persistent.bought_prof_pics))
             return True
-        if img[:7] == 'images/' and img[7:] in pfp_list:
+        if img.startswith('images/') and img[7:] in pfp_list:
             if pfp_list != store.persistent.bought_prof_pics:
                 return (is_unlocked_pfp(img, condition,
                         store.persistent.bought_prof_pics))

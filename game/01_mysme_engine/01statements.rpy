@@ -269,10 +269,10 @@ python early hide:
                 dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
 
         # There is a special bubble; check if need to correct it
-        if (spec_bubble and spec_bubble[:7] == "round"
+        if (spec_bubble and spec_bubble.startswith("round")
                 and (who.file_id == 'r' or who.file_id == 'z')):
             # Correct this to the new 'flower' variant if applicable
-            spec_bubble = "flower_" + spec_bubble[-1:]
+            spec_bubble = "flower_" + spec_bubble[-1]
 
         if what in store.emoji_lookup:
             # Automatically set img to True
@@ -516,7 +516,7 @@ python early hide:
                 else:
                     when = upTime(day)
                 backlog.append((ChatEntry(who, dialogue, when, img), timestamp))
-            elif d[:5] == 'pause':
+            elif d.startswith('pause'):
                 backlog.append(d.split('|'))
             else:
                 print("WARNING: Could not recognize text message:", d)
@@ -1119,13 +1119,13 @@ python early hide:
                     # Add the CG to the unlock list
                     cg_helper(what, who, instant_unlock=False)
 
-            elif d[:5] == 'pause':
+            elif d.startswith('pause'):
                 if not generate_timestamps:
                     continue
                 else:
                     message_queue.append(d)
 
-            elif d[:5] == 'label':
+            elif d.startswith('label'):
                 try:
                     arg, val = d.split('|')
                 except:

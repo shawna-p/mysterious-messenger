@@ -18,7 +18,7 @@ init python:
             unlocking CGs sent through text message).
         """
 
-        if what[:3] == "cg ":
+        if what.startswith("cg "):
             # don't need to add cg to the start of this filepath
             filepath = what
         else:
@@ -51,7 +51,7 @@ init python:
     def smallCG(bigCG):
         """Return a downsized version of bigCG."""
 
-        if bigCG[:3] == "cg ":
+        if bigCG.startswith("cg "):
             pass
         else:
             bigCG = "cg " + bigCG

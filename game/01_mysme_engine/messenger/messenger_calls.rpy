@@ -34,7 +34,7 @@ init python:
             store.current_background = 'morning'
             return
 
-        if new_bg[:3] == 'bg ':
+        if new_bg.startswith('bg '):
             new_bg = new_bg[3:]
 
         store.current_background = new_bg
