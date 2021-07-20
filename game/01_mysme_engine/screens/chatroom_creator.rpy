@@ -876,7 +876,7 @@ screen other_cc_tab():
                 'save_name', prompt='Enter a chatroom title',
                 default=save_name, length=25,
                 allow=allowed_username_chars, accept_blank=False,
-                can_close=False)
+                can_close=True)
         imagebutton:
             style_prefix None
             xysize (161, 70)
