@@ -368,7 +368,8 @@ screen pick_mc_pfp():
                     if can_use_mc_pic(img):
                         hover_foreground "#fff3"
                         action [SetField(persistent, 'MC_pic', img),
-                            Function(update_pfp, who=m, img=img)]
+                            Function(update_pfp, who=m, img=img),
+                            Hide('pick_mc_pfp')]
                             #SetField(m, 'prof_pic', persistent.MC_pic)]
                     else:
                         add "#0005" size (140, 140)

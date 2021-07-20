@@ -1955,7 +1955,8 @@ screen pick_chara_pfp(who):
                     if is_unlocked_pfp(img, condition) or in_chat_creator:
                         background Transform(img, size=(140, 140))
                         hover_foreground "#fff3"
-                        action SetField(who, 'bonus_pfp', img)
+                        action [SetField(who, 'bonus_pfp', img),
+                            Hide('pick_chara_pfp')]
                     elif is_unlocked_pfp(img, condition) is None:
                         background Transform(img, size=(140,140))
                         action CConfirm(("Would you like to unlock this "
