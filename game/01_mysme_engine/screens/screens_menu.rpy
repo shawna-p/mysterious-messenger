@@ -957,7 +957,7 @@ screen menu_header(title, return_action=NullAction,
                         action CConfirm(("There are no in-game "
                             + "purchases in this application. However, if "
                             + "you'd like to support its development, you can "),
-                            #+ "{a=https://ko-fi.com/somniarre}check out my Ko-Fi here.{/a}",
+                            #+ "{a=https://ko-fi.com/fen}check out my Ko-Fi here.{/a}",
                             show_link=True)
                     frame:
                         has hbox
@@ -1469,7 +1469,7 @@ screen links():
                 null height 5
                 button:
                     add 'kofi'
-                    action OpenURL('https://ko-fi.com/somniarre')
+                    action OpenURL('https://ko-fi.com/fen')
 
                 null height 20
                 text "Additional Credits"

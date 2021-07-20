@@ -970,7 +970,7 @@ screen confirm(message, yes_action, no_action=False, show_link=False):
                     text_text_align 0.5 xalign 0.5
                     text_hover_underline True
                     text_color "#00b08d"
-                    action OpenURL("https://ko-fi.com/somniarre")
+                    action OpenURL("https://ko-fi.com/fen")
 
             hbox:
                 textbutton _("Confirm") action yes_action
