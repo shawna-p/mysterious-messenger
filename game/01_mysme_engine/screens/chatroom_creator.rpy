@@ -443,6 +443,19 @@ init python:
             if is_cancel == 'cancel':
                 return
 
+        ## Put together the ChatRoom object
+        chat_obj = "## This is the object you'll add to your route\n"
+        chat_obj += "## You can update the time and fields as needed\n"
+        chat_obj += "## ChatRoom(\"" + store.save_name + "\", \""
+        chat_obj += file_name + "\", \"00:00\", ["
+        for chara in store.cc_participants:
+            if chara is not store.m:
+                chat_obj += chara.file_id + ", "
+        if chat_obj.endswith(", "):
+            chat_obj = chat_obj[:-2]
+        chat_obj += "])\n"
+        ret = chat_obj + ret
+
         try:
             # Open the file and print to it
             f = open(filepath, "w")
