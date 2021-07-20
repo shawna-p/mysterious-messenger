@@ -11,7 +11,7 @@ init python:
         # Sanitize the label name (no non-alphanumeric characters)
         #import re, string
         pattern = regex.compile('[\W]+', regex.UNICODE)
-        label_name = pattern.sub('', label_name)
+        label_name = pattern.sub('', label_name).lower()
 
         code += label_name + "():\n"
 
@@ -138,7 +138,9 @@ init python:
             line += ' ser2'
 
         elif style_dict['font'] == gui.sans_serif_1:
-            line += ' sser1'
+            # Only add this (the default font) if there's a modifier
+            if style_dict['bold']:
+                line += ' sser1'
 
         elif style_dict['font'] == gui.sans_serif_2:
             line += ' sser2'
