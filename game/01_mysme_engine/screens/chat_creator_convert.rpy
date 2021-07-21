@@ -12,6 +12,9 @@ init python:
         #import re, string
         pattern = regex.compile('[\W]+', regex.UNICODE)
         label_name = pattern.sub('', label_name).lower()
+        if '0' <= label_name <= '9':
+            # label starts with a number; prepend some text
+            label_name = 'chat_' + label_name
 
         code += label_name + "():\n"
 
