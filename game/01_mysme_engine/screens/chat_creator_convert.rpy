@@ -32,6 +32,15 @@ init python:
                     code += "    " + get_dialogue_from_entry(entry)
             code += "\n"
         code += "    return"
+
+        code += "\n\n## You can use this label for things like text messages"
+        code += "\n## (or get rid of it if you don't need it)"
+        code += "\nlabel after_" + label_name + "():\n"
+        code += "\n    return"
+        code += "\n\n## Similarly, this is the label for the expired version"
+        code += "\n## of this chatroom."
+        code += "\nlabel " + label_name + "_expired():\n"
+        code += "\n    return"
         return code, label_name
 
     def parse_replay_entry(entry):
