@@ -18,6 +18,20 @@ init python:
 
         code += label_name + "():\n"
 
+        # Check if we need to update any profile pictures
+        for chara in store.all_characters:
+            print("Looking at", chara.name, chara.bonus_pfp)
+            if (chara is not store.m and chara.bonus_pfp):
+                print(chara.name, "changed their pfp to", chara.bonus_pfp)
+                # It was changed
+                if not isinstance(chara.bonus_pfp, basestring):
+                    # Can't easily print out Transforms etc
+                    code += "    # Note: You may want to update " + chara.name
+                    code += "'s profile picture (couldn't not update automatically)\n"
+                    continue
+                code += "    $ " + chara.file_id + ".prof_pic = \""
+                code += chara.bonus_pfp + "\"\n"
+
         for entry in store.chatlog:
             ## Is it a replay entry?
             if entry.for_replay:
