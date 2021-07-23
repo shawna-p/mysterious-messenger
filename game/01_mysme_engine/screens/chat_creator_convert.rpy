@@ -20,9 +20,7 @@ init python:
 
         # Check if we need to update any profile pictures
         for chara in store.all_characters:
-            print("Looking at", chara.name, chara.bonus_pfp)
             if (chara is not store.m and chara.bonus_pfp):
-                print(chara.name, "changed their pfp to", chara.bonus_pfp)
                 # It was changed
                 if not isinstance(chara.bonus_pfp, basestring):
                     # Can't easily print out Transforms etc
