@@ -14,7 +14,7 @@ Setting Up
 ============
 
 * If you want to run this code, you will need to download the Ren'Py engine: https://www.renpy.org/
-* As of 2021-05-28 (the time of this update) the version of Ren'Py used is 7.4.5.
+* As of 2021-07-25 (the time of this update) the version of Ren'Py used is 7.4.6.
 * Download or clone the `most recent release <https://github.com/shawna-p/mysterious-messenger/releases>`_ into your Ren'Py Projects Directory and unzip it into its own folder. If you don't know what it is, you can change it from the Ren'Py launcher via ``preferences -> Projects Directory``.
 
   * The current stable version is 3.0.1
@@ -166,6 +166,9 @@ Finally, there are several settings which are helpful when testing a route. They
 
     This option is only available on the main menu (not in-game).
 
+`Chatroom Creator`
+    This will open a sub-menu to create a new chat or load an existing one. You can use the chatroom creator to visually put together chatrooms and then watch them play out in-game or export them as code to put into the program.
+
 Updates
 --------
 
@@ -215,6 +218,7 @@ Finally, below is an overview of the various features available within Mysteriou
     * Heart icons
     * Optional timed menus
     * Messages with clickable links
+    * Create-a-chatroom feature to visually put together chatrooms and watch them play out in-game or export them as code to use in the program
 
 * Phone calls
 
