@@ -13,6 +13,9 @@ Chatrooms
 Creating a Chatroom
 ===================
 
+.. tip::
+    The following section is for creating chatrooms using Ren'Py scripting and additions added for Mysterious Messenger. If you're interested in the visual chatroom creator, see :ref:`Chatroom Creator`.
+
 .. note::
     Example files to look at:
 
@@ -1250,3 +1253,64 @@ There are a few special things to note about timed menus:
     * If the player has never chosen any of the menu choices in a past playthrough, the answer button and choices will not appear at all (since the only option would be to remain silent). The menu dialogue will be posted and the chat will simply move on.
 
 * If all the choices in the menu have a conditional dictating when they should be shown (e.g. ``"I want to visit Seven" if s.heart_points > 10:``) and none of those conditions evaluate to True (that is, none of the choices should be shown to the player because they don't meet the conditions), then the menu dialogue will be shown only if ``show_empty_menus`` is True. This variable can be found in ``variables_editable.rpy`` and is True by default. If set to False, if a menu has no valid choices then the menu dialogue will be skipped altogether and the chat will continue after the menu.
+
+Chatroom Creator
+================
+
+While scripting chatrooms yourself will allow for the greatest flexibility and allow you to create entire routes inside Mysterious Messenger, the program also offers the **Chatroom Creator** to visually put together chatrooms and watch them play out or export them to code.
+
+To access the Chatroom Creator, head to **Developer** options on the main menu and select the **Chatroom Creator** button. You will then see a sub-menu to either create a new chat or load an existing one.
+
+Creating a New Chat
+-------------------
+
+Upon creating a new chat, you will be prompted to enter a title for the chatroom. This will be recorded on the save screen, and is also used to auto-generate the label and title of the chatroom when exporting it to code. You can change this later in the **Other** tab of the creator.
+
+The Dialogue Tab
+-----------------
+
+There are several tabs in the chatroom creator. The first one contains several features for adding basic chat messages.
+
+You can select the person who sends the message by clicking the **Speaker** dropdown. This is also the person who will enter/exit the chatroom if you click the **Add Enter Msg** or **Add Exit Msg** buttons (e.g. if the speaker is 707, **Add Enter Msg** will add the message **707 has entered the chatroom** to the chat).
+
+Next there are several buttons to toggle **Bold**, *Italics*, Underline, decrease/increase or reset the text size, and an additional dropdown for **Fonts**. You will be able to see these changes reflected in the text inside the text box.
+
+To add a message to the chat, choose your speaker and add any font options, then click the text box to enter your dialogue. You can either hit **Enter** on your keyboard or **Add to Chat** in the bottom right corner to add the dialogue to the chat.
+
+If you make a mistake, the **Undo** button at the bottom of the **Dialogue** tab will allow you to undo up to 5 messages. **Redo** will redo messages you previously undid.
+
+Lastly, **Clear Chat** will remove all messages from the chatlog. Use this only if you want to completely start over.
+
+The Effects Tab
+----------------
+
+Emojis
+^^^^^^^
+
+To add emojis to the chat, use the **Add Emoji** button under the **Effects** tab. This will initially bring up all of the emojis available to the current speaker. You can select one of these emojis and click **Confirm** to add it to the chat, or click the **X** in the top-right corner to cancel.
+
+At the top of the Emojis popup are two dropdowns: **Emojis** and **Speaker**.
+
+* **Emojis** changes the set of emojis shown which can be selected to add to the chat
+* **Speaker** changes the character who will send the message
+
+Note that the **Speaker** and **Emojis** do not have to be the same person. If you select a different person's **Emojis** to be shown, the speaker will be updated to that person. However, you can then update the **Speaker** to someone else.
+
+For example, if you wanted 707 to send V's emojis, you would first set **Emojis** to **V** to see V's emojis. Then you would change **Speaker** to **707**, select one of V's emojis, and click **Confirm**.
+
+Special Bubbles
+^^^^^^^^^^^^^^^^
+
+To use special bubbles in the background of a message, use the **Special Bubbles** button under the **Effects** tab.
+
+This will bring up a popup showing the available bubbles to use. At the top of the Special Bubbles popup there are two dropdowns: **Bubbles** and **Speaker**.
+
+* **Bubbles** changes the set of special bubbles that can be selected to add to the chat
+* **Speaker** changes the character who will send the message
+
+As with emojis, the **Speaker** and **Bubbles** do not have to be the same person. If you select a different Speaker, the bubbles will be updated to that person. However, you can then update the **Bubbles** to someone else.
+
+For example, if you wanted 707 to send Jumin's cat bubble, you would select **707** as the speaker, then select **Jumin Han** under the **Bubbles** dropdown and select the appropriate bubble.
+
+When you click a bubble, in most cases you will be given a small popup letting you choose the size of the bubble. After selecting this, you can hit **Confirm** and the current dialogue in the dialogue box will be posted to the chat with the selected background.
+
