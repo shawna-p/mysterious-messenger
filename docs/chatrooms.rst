@@ -1314,3 +1314,15 @@ For example, if you wanted 707 to send Jumin's cat bubble, you would select **70
 
 When you click a bubble, in most cases you will be given a small popup letting you choose the size of the bubble. After selecting this, you can hit **Confirm** and the current dialogue in the dialogue box will be posted to the chat with the selected background.
 
+Screen Shake
+^^^^^^^^^^^^^
+
+To make the screen shake, on the **Effects** tab, you can click **Add Shake**. This will display a message in the chatlog to indicate where the screen shake will occur.
+
+Animations
+^^^^^^^^^^^
+
+To add animations such as the scrolling hack effects or secure chatroom animation, under the **Effects** tab click **Add Animations** and select the animation you would like to add.
+
+For the scrolling hack effects, you will also have the option to *reverse* the animation by checking the **Reverse Animation** box before clicking **Confirm**. A message will appear in the chatlog indicating where this animation will play.
+
