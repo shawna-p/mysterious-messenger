@@ -1326,3 +1326,12 @@ To add animations such as the scrolling hack effects or secure chatroom animatio
 
 For the scrolling hack effects, you will also have the option to *reverse* the animation by checking the **Reverse Animation** box before clicking **Confirm**. A message will appear in the chatlog indicating where this animation will play.
 
+The Other Tab
+--------------
+
+Select Background
+^^^^^^^^^^^^^^^^^^
+
+To change the chat background, go to the **Other** tab and click **Select Background**. You'll also have the option to include the cracked screen overlay by checking that option at the bottom. Note that this applies to all backgrounds for the duration of this chatroom.
+
+By default this background will appear after the last message added to the chatlog, but you can force it to be set up at the start of the chatroom by checking **Add to the beginning of the chat**. A message will be displayed in the chatlog to indicate where the background will be changed.
