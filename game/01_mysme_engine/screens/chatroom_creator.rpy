@@ -903,7 +903,7 @@ screen effects_tab():
     hbox:
         spacing 50
         align (0.5, 0.0)
-        textbutton "Add Emote":
+        textbutton "Add Emoji":
             style_prefix "other_settings_end"
             action Show('select_emote')
         textbutton "Special Bubbles":
@@ -1232,7 +1232,7 @@ screen select_emote(edit=False):
                         pos=(220, 280), anchor=(0.5, 0.0))
                     hbox:
                         xoffset 6
-                        text "Emotes:"
+                        text "Emojis:"
                         text emoji_speaker.name size 27
                 button:
                     style_prefix 'font_options'
@@ -1307,18 +1307,28 @@ screen select_bubble(editing=False):
             xalign 0.5
             yalign 0.6
             null height 10
-            button:
-                style_prefix 'font_options'
-                xysize (320, 47)
-                xalign 0.5
-                add "#000"
-                action Show('pick_speaker', active_tab="Bubble",
-                    pos=(370, 300), anchor=(0.5, 0.0))
-                hbox:
-                    xoffset 6
-                    text "Bubbles:"
-                    text bubble_user.name size 27
-
+            hbox:
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    xalign 0.5
+                    add "#000"
+                    action Show('pick_speaker', active_tab="Bubble",
+                        pos=(370, 300), anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Bubbles:"
+                        text bubble_user.name size 27
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    add "#000"
+                    action Show('pick_speaker', pos=(535, 280),
+                        anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Speaker:"
+                        text the_entry.who.name size 27
             frame:
                 xysize (630,760)
                 xalign 0.5
