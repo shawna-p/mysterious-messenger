@@ -1335,3 +1335,10 @@ Select Background
 To change the chat background, go to the **Other** tab and click **Select Background**. You'll also have the option to include the cracked screen overlay by checking that option at the bottom. Note that this applies to all backgrounds for the duration of this chatroom.
 
 By default this background will appear after the last message added to the chatlog, but you can force it to be set up at the start of the chatroom by checking **Add to the beginning of the chat**. A message will be displayed in the chatlog to indicate where the background will be changed.
+
+Add Music
+^^^^^^^^^^
+
+To add music to the chat, on the **Other** tab select the button **Add Music**. Here you'll see a list of available songs to add to the game.
+
+Select a song and click **Confirm** to add it to the chat. A message will appear indicating when the song will begin playing. You can also force the song to start at the beginning of the chat by checking **Add to the beginning of the chat** above the **Confirm** button.
