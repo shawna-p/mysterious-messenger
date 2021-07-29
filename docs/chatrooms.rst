@@ -1342,3 +1342,10 @@ Add Music
 To add music to the chat, on the **Other** tab select the button **Add Music**. Here you'll see a list of available songs to add to the game.
 
 Select a song and click **Confirm** to add it to the chat. A message will appear indicating when the song will begin playing. You can also force the song to start at the beginning of the chat by checking **Add to the beginning of the chat** above the **Confirm** button.
+
+Add Participants
+^^^^^^^^^^^^^^^^^
+
+To select who begins in the chatroom, on the **Other** tab, select the button **Add Participants**. Here you'll see a list of all characters currently in the game. You can check off who begins in the chatroom and hit **Confirm**.
+
+Note that this only dictates whose name appears as in the chatroom at the top of the screen during a chatroom. If you use the enter/exit messages, characters will still appear/disappear from that list accordingly.
