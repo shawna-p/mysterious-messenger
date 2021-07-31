@@ -1354,3 +1354,12 @@ Play Chat
 ^^^^^^^^^^
 
 Clicking **Play Chat** on the **Other** tab will let you play out the chatroom as if it had been in-game. Any messages like ``Play Music: Mint Eye`` will play as they should in this format (as opposed to it appearing as text). You can use the toggles in the settings at the top-right of the chat creator to turn on/off things like animated backgrounds and the hacking effects as well, which will affect how the chat looks when it's played out.
+
+Generate Code
+^^^^^^^^^^^^^^
+
+Clicking **Generate Code** on the **Other** tab will generate a ``.rpy`` file inside the ``game/generated/`` folder with the chatroom formatted into code you can put into the program. There are several features the program supports which the chatroom creator does not, such as providing choice menus or jumping to story mode in the middle of a chatroom. If you'd like to use these features, you can use the chatroom creator to build the base of your chatroom before exporting it to code to add these additional features.
+
+Note that the name of the file and associated labels will take the name of the chatroom, as provided when you first made the chat. If you click **Generate Code** when a file with the same name exists in the ``generated`` folder, you will be prompted if you would like to **overwrite** this file. Keep this in mind if you've made changes to the code outside of the chatroom creator, as that will not be reflected in the chatroom creator.
+
+You can rename the chatroom using the **Rename Chat** button on the **Other** tab.
