@@ -1349,3 +1349,8 @@ Add Participants
 To select who begins in the chatroom, on the **Other** tab, select the button **Add Participants**. Here you'll see a list of all characters currently in the game. You can check off who begins in the chatroom and hit **Confirm**.
 
 Note that this only dictates whose name appears as in the chatroom at the top of the screen during a chatroom. If you use the enter/exit messages, characters will still appear/disappear from that list accordingly.
+
+Play Chat
+^^^^^^^^^^
+
+Clicking **Play Chat** on the **Other** tab will let you play out the chatroom as if it had been in-game. Any messages like ``Play Music: Mint Eye`` will play as they should in this format (as opposed to it appearing as text). You can use the toggles in the settings at the top-right of the chat creator to turn on/off things like animated backgrounds and the hacking effects as well, which will affect how the chat looks when it's played out.
