@@ -1363,3 +1363,8 @@ Clicking **Generate Code** on the **Other** tab will generate a ``.rpy`` file in
 Note that the name of the file and associated labels will take the name of the chatroom, as provided when you first made the chat. If you click **Generate Code** when a file with the same name exists in the ``generated`` folder, you will be prompted if you would like to **overwrite** this file. Keep this in mind if you've made changes to the code outside of the chatroom creator, as that will not be reflected in the chatroom creator.
 
 You can rename the chatroom using the **Rename Chat** button on the **Other** tab.
+
+Saving & Loading Chats
+^^^^^^^^^^^^^^^^^^^^^^
+
+On the **Other** tab, there are also buttons to **Save** and **Load**. These buttons lead to a different save screen than the main game. You can save chatrooms here and load them later to edit, play, or export to code. They will be saved with the name of the chatroom, which can also be changed on the **Other** tab.
