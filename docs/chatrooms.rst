@@ -1368,3 +1368,8 @@ Saving & Loading Chats
 ^^^^^^^^^^^^^^^^^^^^^^
 
 On the **Other** tab, there are also buttons to **Save** and **Load**. These buttons lead to a different save screen than the main game. You can save chatrooms here and load them later to edit, play, or export to code. They will be saved with the name of the chatroom, which can also be changed on the **Other** tab.
+
+Editing Messages
+-----------------
+
+In the chatroom creator, you can also edit messages by clicking on them in the preview window.
