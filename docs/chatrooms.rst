@@ -1372,4 +1372,23 @@ On the **Other** tab, there are also buttons to **Save** and **Load**. These but
 Editing Messages
 -----------------
 
-In the chatroom creator, you can also edit messages by clicking on them in the preview window.
+In the chatroom creator, you can also edit messages by clicking on them in the preview window. Most messages will have the following options:
+
+`Remove message`
+    Remove this message from the chatlog.
+
+`Insert message before`
+    Creates an overlay above the selected message. Any new messages will then be added at that particular location in the chatlog. Click the overlay to remove it, and new messages will be added to the bottom of the chat as usual.
+
+`Edit text`
+    Update the text and/or speaker of the selected message. You can change the font, size, and the bold/italics/underine of the message.
+
+`Change bubble`
+    Change the bubble used for this message.
+
+`Change speaker`
+    Change the speaker of this message.
+
+`Change profile picture`
+    Update the profile picture of the current speaker.
+
