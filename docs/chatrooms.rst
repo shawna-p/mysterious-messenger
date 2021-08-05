@@ -1392,3 +1392,4 @@ In the chatroom creator, you can also edit messages by clicking on them in the p
 `Change profile picture`
     Update the profile picture of the current speaker.
 
+Note that when editing an emoji, you can only choose another emoji to swap it with. If you'd like to add text instead of an emoji, you can use the message dropdown to remove the emoji, and then click on the line below the one where you'd like to add the new message and click **Insert message before**. Then type your new message and add it to the chatlog.
