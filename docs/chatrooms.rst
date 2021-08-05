@@ -1281,6 +1281,14 @@ If you make a mistake, the **Undo** button at the bottom of the **Dialogue** tab
 
 Lastly, **Clear Chat** will remove all messages from the chatlog. Use this only if you want to completely start over.
 
+
+Undo & Redo
+^^^^^^^^^^^^^
+
+On the **Dialogue** tab beneath the text input box, there are also buttons to **Clear Chat**, **Undo**, and **Redo**. Note that undo & redo only go back **5 changes** in the past - so save often to be safe!
+
+**Clear Chat** will ask for confirmation before clearing all of the messages from the chatlog to start completely from scratch. Note that while this can be undone, it's a good idea to be really sure you want to clear the chat before clicking this option!
+
 The Effects Tab
 ----------------
 
