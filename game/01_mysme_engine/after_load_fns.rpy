@@ -257,7 +257,9 @@ init python:
         # MC name, pronouns, and pfp
         temp_MC_pic = store.persistent.__dict__['MC_pic']
         temp_name = store.persistent.__dict__['name']
+        temp_chat_name = store.persistent.__dict__['chat_name']
         temp_pronoun = store.persistent.__dict__['pronoun']
+        temp_gender = store.persistent.__dict__['gender']
         # Played chatrooms
         temp_completed_chatrooms = store.persistent.__dict__['completed_chatrooms']
         temp_guestbook = store.persistent.__dict__['guestbook']
@@ -280,6 +282,18 @@ init python:
         temp_timed_menu_pv = store.persistent.__dict__['timed_menu_pv']
         temp_animated_icons = store.persistent.__dict__['animated_icons']
 
+        # 3.1+ new vars
+        temp_last_update_check = store.persistent.__dict__['last_update_check']
+        temp_check_for_updates = store.persistent.__dict__['check_for_updates']
+        temp_check_for_prerelease = store.persistent.__dict__['check_for_prerelease']
+        temp_ignored_versions = store.persistent.__dict__['ignored_versions']
+        temp_available_update = store.persistent.__dict__['available_update']
+        temp_persistent.open_docs_locally = store.persistent.__dict__['open_docs_locally']
+        temp_persistent.link_wait_pause = store.persistent.__dict__['link_wait_pause']
+
+
+        all_persistent_albums = [ x for x in persistent.__dict__ if '_album' in x ]
+
         # Reset persistent
         store.persistent._clear()
 
@@ -301,7 +315,9 @@ init python:
         store.persistent.custom_footers = temp_custom_footers
         store.persistent.MC_pic = temp_MC_pic
         store.persistent.name = temp_name
+        store.persistent.chat_name = temp_chat_name
         store.persistent.pronoun = temp_pronoun
+        store.persistent.gender = temp_gender
         store.persistent.completed_chatrooms = temp_completed_chatrooms
         store.persistent.guestbook = temp_guestbook
         store.persistent.real_time = temp_real_time
@@ -310,15 +326,8 @@ init python:
         store.persistent.on_route = False
         store.persistent.animated_backgrounds = temp_animated_backgrounds
 
-        store.persistent.ja_album = []
-        store.persistent.ju_album = []
-        store.persistent.r_album = []
-        store.persistent.s_album = []
-        store.persistent.u_album = []
-        store.persistent.v_album = []
-        store.persistent.y_album = []
-        store.persistent.z_album = []
-        store.persistent.common_album = []
+        for alb in all_persistent_albums:
+            setattr(store.persistent, alb, [ ])
 
         # v3.0 new vars
         store.persistent.mc_unlocked_pfps = temp_mc_unlocked_pfps
@@ -330,6 +339,15 @@ init python:
         store.persistent.completed_chatrooms = temp_completed_chatrooms
         store.persistent.timed_menu_pv = temp_timed_menu_pv
         store.persistent.animated_icons = temp_animated_icons
+
+        # v3.1+ new vars
+        store.persistent.last_update_check = temp_last_update_check
+        store.persistent.check_for_updates = temp_check_for_updates
+        store.persistent.check_for_prerelease = temp_check_for_prerelease
+        store.persistent.ignored_versions = temp_ignored_versions
+        store.persistent.available_update = temp_available_update
+        store.persistent.open_docs_locally = temp_open_docs_locally
+        store.persistent.link_wait_pause = temp_link_wait_pause
 
         store.persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
         store.persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
