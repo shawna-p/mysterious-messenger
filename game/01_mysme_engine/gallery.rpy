@@ -354,12 +354,15 @@ init python:
             album_list = [ album_list ]
 
         for album in album_list:
-            if album[-6:] != "_album":
-                album += "_album"
+            skip_album = False
+            if not album.endswith("_album"):
+                full_alb = album + "_album"
+            else:
+                album = album[:-6]
             try:
-                per_album = getattr(store.persistent, convert_to_file_name(album))
+                per_album = getattr(store.persistent, convert_to_file_name(full_alb))
             except:
-                ScriptError("Couldn't find variable \"", convert_to_file_name(album),
+                ScriptError("Couldn't find variable \"", convert_to_file_name(full_alb),
                     "\" to update albums.", header="CG Albums",
                     subheader="Adding a CG Album")
                 return
@@ -367,7 +370,10 @@ init python:
             for photo in per_album:
                 if photo.unlocked:
                     # This album can remain visible
+                    skip_album = True
                     break
+            if skip_album:
+                continue
 
             # None of the photos in this album are unlocked;
             # it shouldn't be visible in all_albums
