@@ -288,8 +288,8 @@ init python:
         temp_check_for_prerelease = store.persistent.__dict__['check_for_prerelease']
         temp_ignored_versions = store.persistent.__dict__['ignored_versions']
         temp_available_update = store.persistent.__dict__['available_update']
-        temp_persistent.open_docs_locally = store.persistent.__dict__['open_docs_locally']
-        temp_persistent.link_wait_pause = store.persistent.__dict__['link_wait_pause']
+        temp_open_docs_locally = store.persistent.__dict__['open_docs_locally']
+        temp_link_wait_pause = store.persistent.__dict__['link_wait_pause']
 
 
         all_persistent_albums = [ x for x in persistent.__dict__ if '_album' in x ]
