@@ -29,11 +29,12 @@ The ``compose text`` CDS takes several options, which are explained below.
     Indicates that this text message should play out as a real-time text conversation. If this option is not present, the conversation is treated as a regular text message.
 
 `deliver_at`
-    Takes one of three arguments:
+    Takes one of four arguments:
 
     * ``random`` to have the message delivered at a random time after the associated timeline item has been played but before the next one is made available. This is only applicable if the game is being played in real-time mode; otherwise, the message is simply delivered after the timeline item is played.
     * ``next_item`` to have the message delivered at a random time between the timeline item after this one and the item following it. e.g. if there are three items at 11:00, 12:00, and 13:00 and this text is in the ``after_`` label of the 11:00 item, ``deliver_at next_item`` will deliver this message sometime between 12:00 and 13:00, while ``deliver_at random`` would deliver the text message sometime between 11:00 and 12:00. This only works when the player is playing in real-time mode; otherwise, the message is simply delivered after its timeline item has been played.
     * ``00:00`` where ``00:00`` is any time formatted in 24-hour format. For example, ``14:23`` would cause the message to be delivered at ``14:23`` in real-time. This only works when the player is playing in real-time mode; otherwise, the message is delivered after the associated timeline item is played.
+    * ``now`` to show the player a notification for this text message immediately. **This is intended for use during chatrooms, phone calls, and Story Mode**. The message itself will only be sent after the player completes the story item. If they hang up the call or back out of the chatroom and cause it to expire, the text message will not appear in their inbox. See :ref:`Manually Sending Text Messages` for more information.
 
 The dialogue inside the ``compose text`` block also takes options besides dialogue:
 
@@ -426,19 +427,32 @@ Finally, after the MC's line there is a pause of 60*2 seconds, so 2 minutes. Thi
     The program will add several seconds to each backlog message's timestamp from the initial start timestamp unless an exact ``time`` argument is given. The exact number of seconds depends on the length of the message. This means that if a character has 10 messages in their text message backlog, there is likely to be at least a minute or more of difference in the timestamps of later messages to simulate the real-life time it would take to type out all 10 messages.
 
 
-
 Manually Sending Text Messages
 ================================
 
-Normally, the program will take care of text message delivery after a story item. This allows for consistency across real-time and sequential play styles, as the program can execute an item's ``after_`` label without needing to check through its entire story label. However, there may be some situations where you prefer that a character sends a text message in response to some immediate event. For that, you can use the special function ``send_texts`` to trigger a text message to send immediately.
+Normally, the program will take care of text message delivery after a story item. This allows for consistency across real-time and sequential play styles, as the program can execute an item's ``after_`` label without needing to check through its entire story label. However, there may be some situations where you prefer that a character sends a text message in response to some immediate event. For that, you can use the special delivery time ``deliver_at now`` to trigger a text message to send immediately.
 
 ::
 
     label day_4_chatroom_5_incoming_y():
         y "[name]!! I thought of a really funny thing I wanted to share with you."
         y "Um, one sec, I'll message you the picture."
-        compose text y:
+        compose text y deliver_at now:
             y "look at this lolol"
             y "common_3" img
-        $ send_texts(y)
         y "It's good, right? I thought it was really creative.
+
+In the above example, Yoosung sends the player a text message during a phone call. After Yoosung says "Um, one sec, I'll message you the picture." the player will see a text message popup with a preview of the last text message (in this case, because Yoosung sent an image, it will say "Yoosung sent an image."). This popup is non-interactive; there will not be a button to take the player to the text message immediately and they will need to wait until the phone call is over.
+
+Note also that text messages sent in this way will only actually be delivered to the player's inbox if they complete the story item where the text message occurs. If they end or jump out of the story item prematurely, such as by hanging up or hitting the back button on chatrooms, the text messages will not be sent even though the player saw a notification during the story item itself. This prevents the player from accumulating a bunch of text messages without properly completing the story item.
+
+.. tip::
+    Only the last message in a ``compose text`` block will be shown as a preview to the player. If you want to show them multiple message popups, you'll need to do so individually like::
+
+        compose text u deliver_at now:
+            u "Ah, I found you."
+        z "Anyway, I've talked about myself so much aha."
+        z "So what are you up to?"
+        compose text u deliver_at now:
+            u "You should log out now. I'll be there soon."
+        return

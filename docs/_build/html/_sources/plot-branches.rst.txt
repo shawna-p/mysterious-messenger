@@ -219,7 +219,7 @@ Typically, the easiest way to compare heart points between characters is to chec
 However, if you have a complex plot branch in which you want to compare several characters' heart points, you may find the following functions useful::
 
     $ sorted_heart_points = sorted(heart_point_chars,
-        key=lambda c: c.count, reverse=True)
+        key=lambda c: c.good_heart, reverse=True)
     # sorted_heart_points now contains a list of the heart_point_chars, sorted
     # in descending order from most heart points to least
 

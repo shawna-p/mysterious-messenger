@@ -238,11 +238,12 @@
 </dd>
 <dt><cite>real_time</cite></dt><dd><p>Indicates that this text message should play out as a real-time text conversation. If this option is not present, the conversation is treated as a regular text message.</p>
 </dd>
-<dt><cite>deliver_at</cite></dt><dd><p>Takes one of three arguments:</p>
+<dt><cite>deliver_at</cite></dt><dd><p>Takes one of four arguments:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">random</span></code> to have the message delivered at a random time after the associated timeline item has been played but before the next one is made available. This is only applicable if the game is being played in real-time mode; otherwise, the message is simply delivered after the timeline item is played.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">next_item</span></code> to have the message delivered at a random time between the timeline item after this one and the item following it. e.g. if there are three items at 11:00, 12:00, and 13:00 and this text is in the <code class="docutils literal notranslate"><span class="pre">after_</span></code> label of the 11:00 item, <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">next_item</span></code> will deliver this message sometime between 12:00 and 13:00, while <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">random</span></code> would deliver the text message sometime between 11:00 and 12:00. This only works when the player is playing in real-time mode; otherwise, the message is simply delivered after its timeline item has been played.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">00:00</span></code> where <code class="docutils literal notranslate"><span class="pre">00:00</span></code> is any time formatted in 24-hour format. For example, <code class="docutils literal notranslate"><span class="pre">14:23</span></code> would cause the message to be delivered at <code class="docutils literal notranslate"><span class="pre">14:23</span></code> in real-time. This only works when the player is playing in real-time mode; otherwise, the message is delivered after the associated timeline item is played.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">now</span></code> to show the player a notification for this text message immediately. <strong>This is intended for use during chatrooms, phone calls, and Story Mode</strong>. The message itself will only be sent after the player completes the story item. If they hang up the call or back out of the chatroom and cause it to expire, the text message will not appear in their inbox. See <a class="reference internal" href="#manually-sending-text-messages"><span class="std std-ref">Manually Sending Text Messages</span></a> for more information.</p></li>
 </ul>
 </dd>
 </dl>
@@ -619,16 +620,30 @@
 </div>
 <div class="section" id="manually-sending-text-messages">
 <h2>Manually Sending Text Messages<a class="headerlink" href="#manually-sending-text-messages" title="Permalink to this headline">¶</a></h2>
-<p>Normally, the program will take care of text message delivery after a story item. This allows for consistency across real-time and sequential play styles, as the program can execute an item’s <code class="docutils literal notranslate"><span class="pre">after_</span></code> label without needing to check through its entire story label. However, there may be some situations where you prefer that a character sends a text message in response to some immediate event. For that, you can use the special function <code class="docutils literal notranslate"><span class="pre">send_texts</span></code> to trigger a text message to send immediately.</p>
+<p>Normally, the program will take care of text message delivery after a story item. This allows for consistency across real-time and sequential play styles, as the program can execute an item’s <code class="docutils literal notranslate"><span class="pre">after_</span></code> label without needing to check through its entire story label. However, there may be some situations where you prefer that a character sends a text message in response to some immediate event. For that, you can use the special delivery time <code class="docutils literal notranslate"><span class="pre">deliver_at</span> <span class="pre">now</span></code> to trigger a text message to send immediately.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_4_chatroom_5_incoming_y</span><span class="p">():</span>
     <span class="n">y</span> <span class="s2">&quot;[name]!! I thought of a really funny thing I wanted to share with you.&quot;</span>
     <span class="n">y</span> <span class="s2">&quot;Um, one sec, I&#39;ll message you the picture.&quot;</span>
-    <span class="n">compose</span> <span class="k">text</span> <span class="n">y</span><span class="p">:</span>
+    <span class="n">compose</span> <span class="k">text</span> <span class="n">y</span> <span class="n">deliver_at</span> <span class="n">now</span><span class="p">:</span>
         <span class="n">y</span> <span class="s2">&quot;look at this lolol&quot;</span>
         <span class="n">y</span> <span class="s2">&quot;common_3&quot;</span> <span class="n">img</span>
-    <span class="k">$</span> <span class="n">send_texts</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
     <span class="n">y</span> <span class="s2">&quot;It&#39;s good, right? I thought it was really creative.</span>
 </pre></div>
+</div>
+<p>In the above example, Yoosung sends the player a text message during a phone call. After Yoosung says “Um, one sec, I’ll message you the picture.” the player will see a text message popup with a preview of the last text message (in this case, because Yoosung sent an image, it will say “Yoosung sent an image.”). This popup is non-interactive; there will not be a button to take the player to the text message immediately and they will need to wait until the phone call is over.</p>
+<p>Note also that text messages sent in this way will only actually be delivered to the player’s inbox if they complete the story item where the text message occurs. If they end or jump out of the story item prematurely, such as by hanging up or hitting the back button on chatrooms, the text messages will not be sent even though the player saw a notification during the story item itself. This prevents the player from accumulating a bunch of text messages without properly completing the story item.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Only the last message in a <code class="docutils literal notranslate"><span class="pre">compose</span> <span class="pre">text</span></code> block will be shown as a preview to the player. If you want to show them multiple message popups, you’ll need to do so individually like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">compose</span> <span class="k">text</span> <span class="n">u</span> <span class="n">deliver_at</span> <span class="n">now</span><span class="p">:</span>
+    <span class="n">u</span> <span class="s2">&quot;Ah, I found you.&quot;</span>
+<span class="n">z</span> <span class="s2">&quot;Anyway, I&#39;ve talked about myself so much aha.&quot;</span>
+<span class="n">z</span> <span class="s2">&quot;So what are you up to?&quot;</span>
+<span class="n">compose</span> <span class="k">text</span> <span class="n">u</span> <span class="n">deliver_at</span> <span class="n">now</span><span class="p">:</span>
+    <span class="n">u</span> <span class="s2">&quot;You should log out now. I&#39;ll be there soon.&quot;</span>
+<span class="k">return</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>

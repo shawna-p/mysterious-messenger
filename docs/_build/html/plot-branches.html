@@ -376,7 +376,7 @@
 </div>
 <p>However, if you have a complex plot branch in which you want to compare several characters’ heart points, you may find the following functions useful:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">sorted_heart_points</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">heart_point_chars</span><span class="p">,</span>
-    <span class="k">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">c</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">good_heart</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="c1"># sorted_heart_points now contains a list of the heart_point_chars, sorted</span>
 <span class="c1"># in descending order from most heart points to least</span>
 
