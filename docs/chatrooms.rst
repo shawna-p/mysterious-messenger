@@ -1372,6 +1372,8 @@ Note that the name of the file and associated labels will take the name of the c
 
 You can rename the chatroom using the **Rename Chat** button on the **Other** tab.
 
+The generated code will include a label for your chatroom, an ``after_`` label, optionally for adding things like text messages etc, and a ``ChatRoom`` definition for your chatroom that you can use as part of a route definition. Note that you will need to fill in the trigger time yourself; it defaults to ``00:00`` in the generated code.
+
 Saving & Loading Chats
 ^^^^^^^^^^^^^^^^^^^^^^
 
