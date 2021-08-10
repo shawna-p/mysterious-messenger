@@ -103,7 +103,6 @@ init python:
         return '# Could not parse entry: ' + first + ' ' + second
 
 
-
     def get_dialogue_from_entry(entry):
         """
         A helper function which returns a code line with the appropriate
