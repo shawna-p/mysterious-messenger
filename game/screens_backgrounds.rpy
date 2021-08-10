@@ -1157,7 +1157,7 @@ init -100 python:
         def create(self, particles, st):
 
             def ranged(n):
-                if isinstance(n, tuple):
+                if type(n) == tuple:
                     # Return a random float between range n[0] and n[1]
                     return random.uniform(n[0], n[1])
                 else:
