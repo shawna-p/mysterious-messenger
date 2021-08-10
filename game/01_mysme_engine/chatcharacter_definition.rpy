@@ -253,7 +253,8 @@ python early:
             if renpy.get_registered_image('greet ' + self.file_id):
                 return Transform('greet ' + self.file_id, zoom=scale)
             else:
-                return Transform(self.homepage_pic, size=(110*scale, 110*scale))
+                return Transform(self.homepage_pic, fit='contain',
+                    size=(110*scale, 110*scale))
 
 
         @property
@@ -619,18 +620,26 @@ python early:
                 return tuple_to_pic(self.__prof_pic, the_size)
 
             if the_pic and the_size <= max_small:
-                return Transform(the_pic, size=(the_size, the_size))
+                return Transform(Transform(the_pic, fit='cover',
+                    size=(the_size, the_size)), crop=(0, 0, the_size, the_size))
             elif the_pic:
                 # Check for a larger version of the bonus pfp.
                 try:
                     big_name = the_pic.split('.')
                 except:
-                    return Transform(self.__prof_pic, size=(the_size, the_size))
+                    return Transform(Transform(self.__prof_pic, fit='cover',
+                        size=(the_size, the_size)),
+                        crop=(0, 0, the_size, the_size))
                 large_pfp = big_name[0] + '-b.' + big_name[1]
                 if renpy.loadable(large_pfp):
-                    return Transform(large_pfp, size=(the_size, the_size))
+                    return Transform(Transform(large_pfp, fit='cover',
+                        size=(the_size, the_size)),
+                        crop=(0, 0, the_size, the_size))
                 else:
-                    return Transform(the_pic, size=(the_size, the_size))
+                    return Transform(Transform(the_pic, fit='cover',
+                        size=(the_size, the_size)),
+                        crop=(0, 0, the_size, the_size))
+
 
 
             # Regular profile pic is 110x110
