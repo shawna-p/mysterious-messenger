@@ -237,14 +237,14 @@ init -4 python:
 
             if self.link_action:
                 # Return yellow flashing version
-                return Fixed(Frame(im.MatrixColor('Bubble/link_bubble.webp',
-                            im.matrix.colorize('#000', c)), 25, 25),
-                    At(Frame(im.MatrixColor('Bubble/link_bubble.webp',
-                            im.matrix.colorize('#000', "#e2ca53")),
+                return Fixed(Frame(Transform('Bubble/link_bubble.webp',
+                        matrixcolor=ColorizeMatrix('#000', c)), 25, 25),
+                    At(Frame(Transform('Bubble/link_bubble.webp',
+                        matrixcolor=ColorizeMatrix('#000', "#e2ca53")),
                         25, 25), flash_yellow))
             else:
-                return Frame(im.MatrixColor('Bubble/link_bubble.webp',
-                            im.matrix.colorize('#000', c)), 25, 25)
+                return Frame(Transform('Bubble/link_bubble.webp',
+                    matrixcolor=ColorizeMatrix('#000', c)), 25, 25)
 
         @property
         def link_img(self):
