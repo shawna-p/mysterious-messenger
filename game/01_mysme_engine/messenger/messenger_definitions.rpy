@@ -1004,14 +1004,15 @@ init python:
     def glow_bubble_fn(glow_color='#000'):
         """Recolour a generic glowing bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/Special/sa_glow2.webp',
-                            im.matrix.colorize(glow_color, '#fff'))
+        return Transform('Bubble/Special/sa_glow2.webp',
+            matrixcolor=ColorizeMatrix(glow_color, "#fff"))
 
     def reg_bubble_fn(bubble_color='#000'):
         """Recolour a generic message bubble with the given colour."""
 
-        return im.MatrixColor('Bubble/white-Bubble.webp',
-                            im.matrix.colorize('#000', bubble_color))
+        return Transform('Bubble/white-Bubble.webp',
+            matrixcolor=ColorizeMatrix("#000", bubble_color))
+
 
     def reset_participants(participants=None):
         if participants is None:

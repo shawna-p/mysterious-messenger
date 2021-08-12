@@ -84,8 +84,8 @@ init python:
         this character.
         """
         try:
-            return im.MatrixColor("Heart Point/Unknown Heart Point.webp",
-                im.matrix.colorize("#000000", character.heart_color))
+            return Transform("Heart Point/Unknown Heart Point.webp",
+                matrixcolor=ColorizeMatrix("#000", character.heart_color))
         except:
             return "Heart Point/Unknown Heart Point.webp"
 
@@ -96,8 +96,8 @@ init python:
         """
 
         if character.heart_color:
-            return im.MatrixColor(picture,
-                    im.matrix.colorize("#000000", character.heart_color))
+            return Transform(picture,
+                matrixcolor=ColorizeMatrix("#000", character.heart_color))
         else:
             return picture
 

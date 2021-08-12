@@ -45,8 +45,8 @@ init -10 python:
     def colorize_vn_window(c):
         """Colorizes the generic VN window background with colour c."""
 
-        return im.MatrixColor('VN Mode/Chat Bubbles/white_vn.webp',
-            im.matrix.colorize('#000', c))
+        return Transform('VN Mode/Chat Bubbles/white_vn.webp',
+            matrixcolor=ColorizeMatrix('#000', c))
 
     # Essentially copied from renpy.store.adv; a default ADV character
     # to work with the new MyADVCharacter class.
