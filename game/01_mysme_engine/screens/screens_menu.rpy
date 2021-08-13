@@ -560,23 +560,6 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
 
             # This adds the 'backup' save slot to the top when loading
             if title == "Load" and FileLoadable(mm_auto) and current_page == 0:
-                if '|' in FileSaveName(mm_auto):
-                    $ info = FileSaveName(mm_auto).split('|')
-                    $ rt = info[0]
-                    $ dn = info[1]
-                    $ cn = info[2]
-                    if len(info) > 3:
-                        $ dn2 = info[3]
-                    else:
-                        $ dn2 = dn
-                    if len(info) > 4:
-                        $ day_suffix = info[4]
-                    else:
-                        $ day_suffix = " DAY"
-                else:
-                    $ rt, dn, cn, dn2 = 'auto', '1st', 'Example Chatroom', '2nd'
-                    $ day_suffix = " DAY"
-
                 button:
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
@@ -596,13 +579,13 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             add 'save_auto' align (0.5, 0.5)
                         frame:
                             style_prefix 'save_desc'
-
                             has vbox
                             fixed:
                                 text ("This is a backup file that"
                                         + " is auto-generated")
-                            text "Today: [dn]" + day_suffix yalign 1.0
-
+                            text ("Today: " + access_json(mm_auto, 'today')
+                                    + access_json(mm_auto, 'day_suffix')):
+                                yalign 1.0
                         frame:
                             style_prefix 'save_stamp'
                             has vbox
@@ -619,28 +602,9 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
             ## This displays all the regular save slots
             #for i in range(gui.file_slot_cols * gui.file_slot_rows):
             for i in range(begin_range, end_range):
-
                 python:
                     slot = i + 1
-                    if '|' in FileSaveName(slot):
-                        info = FileSaveName(slot).split('|')
-                        rt = info[0]
-                        dn = info[1]
-                        cn = info[2]
-                        if len(info) > 3:
-                            dn2 = info[3]
-                        else:
-                            dn2 = dn
-                        if len(info) > 4:
-                            day_suffix = info[4]
-                        else:
-                            day_suffix = " DAY"
-                    else:
-                        rt, dn, cn, dn2 = 'auto', '1st', 'Example', '2nd'
-                        day_suffix = " DAY"
-
                     file_time = FileTime(slot, empty="00:00")[-5:]
-
 
                 button:
                     if title == "Save":
@@ -648,15 +612,17 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                                 FileAction(slot),
                                 renpy.restart_interaction]
                     else: # title == "Load"
-                        action [Function(load_action, the_day=dn, next_day=dn2,
+                        action [Function(load_action,
+                                the_day=access_json(slot, 'today'),
+                                next_day=access_json(slot, 'tomorrow'),
                                 file_time=FileTime(slot, empty="00:00"),
                                 slot=slot)]
-
                     hbox:
                         fixed:
                             # Adds the correct save image to the left
                             if FileLoadable(slot):
-                                add 'save_' + rt align (0.5, 0.5)
+                                add 'save_' + access_json(slot, 'save_icon'):
+                                    align (0.5, 0.5)
                             else:
                                 add 'save_empty' align (0.5, 0.5)
 
@@ -666,8 +632,10 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                             # Displays the most recent chatroom title + day
                             if FileLoadable(slot):
                                 fixed:
-                                    text "[cn]"
-                                text "Today: [dn]" + day_suffix yalign 1.0
+                                    text access_json(slot, 'title')
+                                text ("Today: " + access_json(slot, 'today')
+                                    + access_json(slot, 'day_suffix')):
+                                    yalign 1.0
                             else:
                                 fixed:
                                     text "Empty Slot"
@@ -754,6 +722,64 @@ init python:
             the_title += "|" + day_suffix
         return the_title
 
+    def save_game_info(d):
+        """
+        A callback which is given a dictionary that is used to create a JSON
+        file that is saved along with the game information. Used to save
+        information on the current game state.
+        """
+
+        old_title = get_save_title()
+        old_title_split = old_title.split('|')
+        d['save_icon'] = old_title_split[0]
+        d['today'] = old_title_split[1]
+        d['title'] = old_title_split[2]
+        d['tomorrow'] = old_title_split[3]
+
+        if len(old_title_split) > 4:
+            d['day_suffix'] = old_title_split[4]
+        else:
+            d['day_suffix'] = " DAY"
+
+        return
+
+    def access_json(slot_name, key):
+        """
+        Return information about the save game using either the save json
+        or the old save_name method.
+        """
+
+        # First, try getting this information from the json
+        result = FileJson(slot_name, key)
+        if result is not None:
+            return result
+
+        # Otherwise, we're back to the old method
+        result = dict()
+        # Get the save name
+        if '|' in FileSaveName(slot_name):
+            info = FileSaveName(slot_name).split('|')
+            result['save_icon'] = info[0]
+            result['today'] = info[1]
+            result['title'] = info[2]
+            if len(info) > 3:
+                result['tomorrow'] = info[3]
+            else:
+                result['tomorrow'] = result['today']
+            if len(info) > 4:
+                result['day_suffix'] = info[4]
+            else:
+                result['day_suffix'] = " DAY"
+        else:
+            result['save_icon'] = 'auto' # rt
+            result['today'] = '1st' # dn
+            result['title'] = 'Example Chatroom' # cn
+            result['tomorrow'] = '2nd' # dn2
+            result['day_suffix'] = " DAY"
+
+        return result[key]
+
+
 
 
     def load_action(the_day, next_day, file_time, slot):
@@ -825,7 +851,7 @@ init python:
             super(AutoSave, self).__call__()
             renpy.retain_after_load()
 
-
+define config.save_json_callbacks = [ save_game_info ]
 
 
 style save_load_vpgrid:
