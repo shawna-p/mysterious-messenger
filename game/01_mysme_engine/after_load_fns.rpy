@@ -722,6 +722,9 @@ label after_load():
 
 
     $ renpy.set_return_stack([])
+    jump reload_game_restart
+
+label reload_game_restart():
     # Forcibly make sure the game isn't in an interaction so it can
     # jump to chat_home again.
     if renpy.game.context().interacting:
