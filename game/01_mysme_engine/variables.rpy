@@ -1202,6 +1202,16 @@ init -6 python:
                 return rel
         return None
 
+    def reorient_game():
+        """
+        A function which is called when the game can't reorient itself
+        on a load.
+        """
+
+        print("WARNING: Failed to recover when loading game.")
+
+        return 'reload_game_restart'
+
 
 
     # Some colour names, mostly for testing
@@ -1254,6 +1264,9 @@ default generic_storymode = StoryMode('Story Mode', 'generic_storymode', '00:00'
 default generic_storycall = StoryCall('Story Call', 'generic_storycall', '00:00', None)
 default generic_timeline_items = [generic_chatroom, generic_storycall, generic_storymode]
 init offset = 0
+
+## A label that's called when a load failed and Ren'Py can't recover
+define config.load_failed_label = reorient_game
 
 # Name of the currently played day, e.g. '1st'
 default current_day = False
