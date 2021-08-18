@@ -698,6 +698,10 @@ init python:
             save_title_item = most_recent_item.parent
         else:
             save_title_item = most_recent_item
+        if save_title_item is None:
+            # Error somewhere perhaps
+            return 'auto|1st|Example Chatroom|2nd|DAY'
+
         # Find today
         today = "1st"
         tomorrow = "2nd"
