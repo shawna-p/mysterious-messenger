@@ -32,7 +32,7 @@ init python:
             try:
                 for r in all_routes:
                     test = r.ending_chatrooms
-            except AttributeError:
+            except (AttributeError, KeyError) as e:
                 for r in all_routes:
                     setattr(r, 'ending_chatrooms', [])
                     # Not 100% accurate, but for most cases
