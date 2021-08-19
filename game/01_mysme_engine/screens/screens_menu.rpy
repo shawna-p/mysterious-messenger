@@ -1672,10 +1672,8 @@ screen developer_settings():
                         ysize 80 xsize 285
                         text_size 28
                         align (0.5, 0.5)
-                        action CConfirm("The chatroom creator is coming soon "
-                            + "in a future release. Stay tuned!")
-                        # [Hide('developer_settings'),
-                        #     Show('chatroom_creator')]
+                        action [Hide('developer_settings'),
+                            Show('choose_chat_creator')]
 
 default persistent.open_docs_locally = False
 default persistent.link_wait_pause = False
@@ -2008,19 +2006,19 @@ screen pick_chara_pfp(who):
                             + "unlocked this profile picture."))
 
     if not in_chat_creator:
-    frame:
-        background "space_black_box"
-        padding (12, 5)
-        align (.5, 0.97)
-        has hbox
-        spacing 5
-        align (0.5, 0.5)
-        add who.greet_img(0.8) align (0.5, 0.5)
-        text str(persistent.spendable_hearts.get(who.file_id, 0)):
-            style "point_indicator"
+        frame:
+            background "space_black_box"
+            padding (12, 5)
+            align (.5, 0.97)
+            has hbox
+            spacing 5
             align (0.5, 0.5)
-        add 'header_heart':
-            align (0.5, 0.52)
+            add who.greet_img(0.8) align (0.5, 0.5)
+            text str(persistent.spendable_hearts.get(who.file_id, 0)):
+                style "point_indicator"
+                align (0.5, 0.5)
+            add 'header_heart':
+                align (0.5, 0.52)
 
 style pick_pfp_frame:
     xysize(675,1000)
