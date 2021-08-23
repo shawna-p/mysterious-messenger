@@ -522,3 +522,53 @@ Then, when defining your route, you could have the ``save_img`` field like::
     ]
 
 Note that the string given to ``save_img`` is "emma" because the image was defined as ``save_emma``, so you drop the ``save_`` prefix and pass the rest of the image name (in this case, "emma").
+
+Adding Greeting Messages
+=========================
+
+To give Emma greeting messages on the main menu, she'll first need a greeting image (if you haven't defined it already). Find instructions here: :ref:`Greeting Images`. You will also need to make sure that Emma's ChatCharacter object **isn't** in the ``no_greet_chars`` list, as she will have greetings.
+
+
+Next, head to ``01_mysme_engine/stable/variables_start_screen.rpy``. Below a few Python and variable definitions are a bunch of constants called ``morning_greeting``, ``afternoon_greeting`` etc.
+
+To add greetings for Emma, you'll need to add to these dictionaries. This example will show how to add greetings to ``morning_greeting``::
+
+    define morning_greeting = {
+        'em' : [ DayGreeting('Emma/Morning/emma-1',
+                "Welcome to Mysterious Messenger!",
+                "제 프로그램으로 환영합니다!"),
+        DayGreeting('Emma/Morning/emma-2',
+                "Welcome to Mysterious Messenger!",
+                "제 프로그램으로 환영합니다!"),
+
+        ],
+
+        'ja': [ DayGreeting('Jaehee/Morning/ja-m-1'),
+                    DayGreeting('Jaehee/Morning/ja-m-2'),
+                    DayGreeting('Jaehee/Morning/ja-m-3'),
+                    DayGreeting('Jaehee/Morning/ja-m-4')],
+
+        # (Rest of the definition omitted for brevity)
+
+First, we start by adding a key for Emma. Her ``file_id`` is "em", so we add that as the key::
+
+    define morning_greeting = {
+        'em' : [
+
+        ],
+
+The value corresponding to this key is a list, hence the ``[]`` square brackets. This list will contain all the possible greetings for Emma during the specified time period (in this case, the morning).
+
+Next, you'll add ``DayGreeting`` objects to the list. A ``DayGreeting`` object consists of three parts: the file where the audio can be found, the English text of the greeting, and the Korean text of the greeting.
+
+`sound_file`
+    The path to the sound file for the greeting. It is automatically prefixed with ``greeting_audio_path`` and then ``greeting_audio_extension`` is appended to it. These values are defined near the beginning of the ``variables_start_screen.rpy`` file. By default, this means that something like ``'Emma/Morning/emma-1'`` will become ``"audio/sfx/Main Menu Greetings/Emma/Morning/emma-1.wav"``. You can provide your own extension as well as one of the arguments.
+
+`english`
+    Optional. The English text of the greeting. If not provided, defaults to ``greet_text_english``.
+
+`korean`
+    Optional. The Korean text of the greeting. If not provided, defaults to ``greet_text_korean``.
+
+`extension`
+    Optional. The sound file extension to use. If not provided, defaults to ``greeting_audio_extension``.
