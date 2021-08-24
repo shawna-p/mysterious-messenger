@@ -57,7 +57,6 @@ Items prefaced with **(May be required)** are dependent on whether or not you ha
 * |uncheck| **(Optional)** Add your character to the ``character_list`` in ``character_definitions.rpy`` if you want their profile to appear on the home screen and allow the player to call them. (:ref:`Showing Your Character on the Home Screen`)
 * |uncheck| **(Optional)** Add your character to the ``heart_point_chars`` list in ``character_definitions.rpy`` if you want the player to see how many heart points they have earned with this character. (:ref:`Showing Your Character on the Home Screen`)
 * |uncheck| **(May be required)** Define a ``greet`` image for your character. This is **required** if you have included the character in ``heart_point_chars`` (see above) AND/OR if you want them to have greetings on the main menu. (:ref:`Greeting Images`)
-* |uncheck| If your character will not have any voiced greetings on the main menu, add them to the ``no_greet_chars`` list in ``variables_editable.rpy`` under the **GREETING IMAGES** header.
 * |uncheck| Define a Character object in ``character_definitions.rpy`` under the heading **Story Mode**. (:ref:`Adding a New Character to Story Mode`)
 
     * This step is NOT required if this character will never appear in a Story Mode section, OR if you've already defined a ChatCharacter object for them.
@@ -293,22 +292,12 @@ A greeting image for Emma might look like::
 
     image greet em = "Menu Screens/Main Menu/em_greeting.webp"
 
-Beneath this image definition, you will also see the line::
-
-    default no_greet_chars = [r, m, va]
-
-If you won't be defining greeting messages for Emma to say on the main menu, then you should add her to this list as well::
-
-    default no_greet_chars = [r, m, va, em]
-
 This image is also used on the character's profile picture screen to indicate how many heart points the player has earned with this character and can spend on bonus profile pictures (if not provided, the character's homepage_pic is used instead).
-
 
 When all is said and done, you should now be able to write dialogue for Emma anywhere in the program. For example, some chatroom dialogue might look like::
 
     em "How are you?"
     msg em "It's a lovely morning~" glow
-
 
 
 
@@ -526,8 +515,7 @@ Note that the string given to ``save_img`` is "emma" because the image was defin
 Adding Greeting Messages
 =========================
 
-To give Emma greeting messages on the main menu, she'll first need a greeting image (if you haven't defined it already). Find instructions here: :ref:`Greeting Images`. You will also need to make sure that Emma's ChatCharacter object **isn't** in the ``no_greet_chars`` list, as she will have greetings.
-
+To give Emma greeting messages on the main menu, she'll first need a greeting image (if you haven't defined it already). Find instructions here: :ref:`Greeting Images`.
 
 Next, head to ``01_mysme_engine/stable/variables_start_screen.rpy``. Below a few Python and variable definitions are a bunch of constants called ``morning_greeting``, ``afternoon_greeting`` etc.
 
@@ -565,10 +553,9 @@ Next, you'll add ``DayGreeting`` objects to the list. A ``DayGreeting`` object c
     The path to the sound file for the greeting. It is automatically prefixed with ``greeting_audio_path`` and then ``greeting_audio_extension`` is appended to it. These values are defined near the beginning of the ``variables_start_screen.rpy`` file. By default, this means that something like ``'Emma/Morning/emma-1'`` will become ``"audio/sfx/Main Menu Greetings/Emma/Morning/emma-1.wav"``. You can provide your own extension as well as one of the arguments.
 
 `english`
-    Optional. The English text of the greeting. If not provided, defaults to ``greet_text_english``.
-
+    Optional. The English text of the greeting. If not provided, defaults to "Welcome to Mysterious Messenger!".
 `korean`
-    Optional. The Korean text of the greeting. If not provided, defaults to ``greet_text_korean``.
+    Optional. The Korean text of the greeting. If not provided, defaults to "제 프로그램으로 환영합니다!".
 
 `extension`
     Optional. The sound file extension to use. If not provided, defaults to ``greeting_audio_extension``.
