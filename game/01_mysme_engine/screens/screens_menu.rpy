@@ -96,82 +96,52 @@ init python:
         Makes use of a DayGreeting class to find sound clips and
         corresponding translations.
         """
-        global greet_text_english, greet_text_korean
-        global greet_char, greet_list
-        greet_char = renpy.random.choice(greet_list)
 
-        # Test that this character is indeed in the greetings lists
-        while greet_list:
-            try:
-                morning_greeting[greet_char]
-                afternoon_greeting[greet_char]
-                evening_greeting[greet_char]
-                night_greeting[greet_char]
-                late_night_greeting[greet_char]
-                break
-            except KeyError:
-                # This means the character doesn't have a greeting available
-                print("WARNING: Character", greet_char,
-                    "does not have greetings, but is included in greet_list.")
-                renpy.show_screen('notify',
-                    "WARNING: Character " + greet_char + " does not have "
-                    + "greetings, but is included in greet_list.")
-                greet_list.remove(greet_char)
-                greet_char = renpy.random.choice(greet_list)
-
-
+        global greet_char, greet_text_english, greet_text_korean
         hour = int(time.strftime('%H', time.localtime()))
 
-        if hour >= 6 and hour < 12:  # morning
-            num_greetings = len(morning_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
+        optional_text = ""
 
-            greet_text_english = ("Good morning! "
-                + morning_greeting[greet_char][the_greeting].english)
-            greet_text_korean = morning_greeting[greet_char][the_greeting].korean
-            renpy.play(morning_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
+        # Figure out the time
+        if hour < 2:
+            # Night
+            greet_dict = night_greeting
+            optional_text = "It's getting late! "
+        elif hour < 6:
+            # Early morning
+            greet_dict = late_night_greeting
+            optional_text = "You're up late! "
+        elif hour < 12:
+            # Morning
+            greet_dict = morning_greeting
+            optional_text = "Good morning! "
+        elif hour < 18:
+            # Afternoon
+            greet_dict = afternoon_greeting
+            optional_text = "Good afternoon! "
+        elif hour < 22:
+            # Evening
+            greet_dict = evening_greeting
+            optional_text = "Good evening! "
+        else:
+            # Night greeting
+            greet_dict = night_greeting
+            optional_text = "It's getting late! "
 
-        elif hour >=12 and hour < 18:    # afternoon
-            num_greetings = len(afternoon_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
+        # Randomly pick a key from the list
+        greet_char = renpy.random.choice(greet_dict.keys())
 
-            greet_text_english = ("Good afternoon! "
-                + afternoon_greeting[greet_char][the_greeting].english)
-            greet_text_korean = afternoon_greeting[greet_char][the_greeting].korean
-            renpy.play(afternoon_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
+        # Randomly pick a greeting
+        the_greeting = renpy.random.choice(greet_dict[greet_char])
 
-        elif hour >= 18 and hour < 22:  # evening
-            num_greetings = len(evening_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
+        if the_greeting.english == "Welcome to Mysterious Messenger!":
+            greet_text_english = optional_text + the_greeting.english
+        else:
+            greet_text_english = the_greeting.english
 
-            greet_text_english = ("Good evening! "
-                + evening_greeting[greet_char][the_greeting].english)
-            greet_text_korean = evening_greeting[greet_char][the_greeting].korean
-            renpy.play(evening_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
+        greet_text_korean = the_greeting.korean
 
-        elif hour >= 22 or hour < 2: # night
-            num_greetings = len(night_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
-
-            greet_text_english = ("It's getting late! "
-                + night_greeting[greet_char][the_greeting].english)
-            greet_text_korean = night_greeting[greet_char][the_greeting].korean
-            renpy.play(night_greeting[greet_char][the_greeting].sound_file,
-                channel="voice_sfx")
-
-        else:   # late night/early morning
-            num_greetings = len(late_night_greeting[greet_char])
-            the_greeting = renpy.random.randint(1, num_greetings) - 1
-
-            greet_text_english = ("You're up late! "
-                + late_night_greeting[greet_char][the_greeting].english)
-            greet_text_korean = late_night_greeting[greet_char][the_greeting].korean
-            renpy.play(late_night_greeting[greet_char][
-                            the_greeting].sound_file, channel="voice_sfx")
-
+        renpy.play(the_greeting.sound_file, channel="voice_sfx")
 
 
     def set_name_pfp():
