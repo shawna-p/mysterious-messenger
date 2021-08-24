@@ -550,7 +550,7 @@ To add greetings for Emma, you'll need to add to these dictionaries. This exampl
 
         # (Rest of the definition omitted for brevity)
 
-First, we start by adding a key for Emma. Her ``file_id`` is "em", so we add that as the key::
+First, start by adding a key for Emma. Her ``file_id`` is "em", so add that as the key::
 
     define morning_greeting = {
         'em' : [
@@ -572,3 +572,5 @@ Next, you'll add ``DayGreeting`` objects to the list. A ``DayGreeting`` object c
 
 `extension`
     Optional. The sound file extension to use. If not provided, defaults to ``greeting_audio_extension``.
+
+Greetings are separated into different definitions for the time of day. Make sure you add the correct greeting to the correct definition so it shows up at the right time on the main menu screen.
