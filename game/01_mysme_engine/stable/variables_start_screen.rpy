@@ -35,7 +35,6 @@ default greet_text_english = "Welcome to Mysterious Messenger!"
 
 ## This lets the program randomly pick a greet
 ## character to display for greetings
-default greet_list = [x.file_id for x in all_characters if x not in no_greet_chars ]
 default greet_char = 's'
 
 # Path where the audio files for greetings are stored

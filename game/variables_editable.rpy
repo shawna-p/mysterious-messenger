@@ -113,9 +113,6 @@ image greet va = "Menu Screens/Main Menu/va_greeting.webp"
 image greet y = "Menu Screens/Main Menu/y_greeting.webp"
 image greet z = "Menu Screens/Main Menu/z_greeting.webp"
 
-# Add a character here if they do not have main menu greeting messages
-default no_greet_chars = [r, m, va]
-
 ########################################
 ## BONUS PROFILE PICTURES
 ########################################
