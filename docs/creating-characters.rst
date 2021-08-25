@@ -554,6 +554,7 @@ Next, you'll add ``DayGreeting`` objects to the list. A ``DayGreeting`` object c
 
 `english`
     Optional. The English text of the greeting. If not provided, defaults to "Welcome to Mysterious Messenger!".
+
 `korean`
     Optional. The Korean text of the greeting. If not provided, defaults to "제 프로그램으로 환영합니다!".
 
@@ -561,3 +562,6 @@ Next, you'll add ``DayGreeting`` objects to the list. A ``DayGreeting`` object c
     Optional. The sound file extension to use. If not provided, defaults to ``greeting_audio_extension``.
 
 Greetings are separated into different definitions for the time of day. Make sure you add the correct greeting to the correct definition so it shows up at the right time on the main menu screen.
+
+.. tip::
+    Any character who has a greeting must have a corresponding greet image to display on the menu along with the greeting text, but they don't need a full ChatCharacter definition.
