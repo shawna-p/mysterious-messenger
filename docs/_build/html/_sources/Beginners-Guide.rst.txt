@@ -200,6 +200,8 @@ Next, you need to define your new chatroom, similar to what you did for the intr
 Creating the First Chatroom
 ----------------------------
 
+There are two main ways of writing chatroom dialogue. The most flexible way is to write the script for the chatroom yourself in an ``.rpy`` file, described below. If you're more of a visual person, though, and some of this is going over your head, you might also try the **Chatroom Creator**, which you can access from the **Developer** button on the main menu. See :ref:`Chatroom Creator` for more detailed information on using this. While you will have fewer options to customize the chatroom using the creator as opposed to creating it yourself in code (for example, the chatroom creator cannot make choice menus), you can export your created chatroom as code and modify it further in the generated ``.rpy`` file to customize it to your needs. However, below we'll explore how you can create chatrooms just from code.
+
 Like before, you should create a new ``.rpy`` file in order to keep things organized. Call this one ``day_1_chatroom_1.rpy``. It doesn't have to be named the same as the chatroom label, but noting the day and chatroom number of this chatroom will help you keep things organized.
 
 Now you need to define the body of the chatroom. First, make a label with the name you wrote earlier for the ``ChatRoom`` object, namely ``day_1_chatroom_1``::

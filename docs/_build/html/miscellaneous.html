@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Miscellaneous &mdash; Mysterious Messenger Wiki v3.1.0 documentation</title>
   
@@ -17,7 +17,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -27,10 +30,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -51,7 +54,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Mysterious Messenger Wiki
+            <a href="index.html" class="icon icon-home"> Mysterious Messenger Wiki
           
 
           
@@ -120,6 +123,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#inverting-the-screen-colours">Inverting the screen colours</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#removing-messages-from-the-chatlog">Removing Messages from the Chatlog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-new-audio">Adding New Audio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-music">Defining New Music</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-sound-effects">Defining New Sound Effects</a></li>
@@ -186,6 +190,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -197,7 +203,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/miscellaneous.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -214,7 +220,7 @@
   <div class="section" id="miscellaneous">
 <h1>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Navigation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Navigation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Miscellaneous</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pronoun-integration">Pronoun Integration</a><ul>
@@ -236,6 +242,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#inverting-the-screen-colours">Inverting the screen colours</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#removing-messages-from-the-chatlog">Removing Messages from the Chatlog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-new-audio">Adding New Audio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-music">Defining New Music</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#defining-new-sound-effects">Defining New Sound Effects</a></li>
@@ -575,6 +582,28 @@
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="removing-messages-from-the-chatlog">
+<h2>Removing Messages from the Chatlog<a class="headerlink" href="#removing-messages-from-the-chatlog" title="Permalink to this headline">¶</a></h2>
+<p>Besides just adding “hacked” effects, above, you may also want to remove entries from the chatlog for dramatic effect. This should typically be used sparingly, as it may be jarring for the reader.</p>
+<p>Here is an example from <code class="docutils literal notranslate"><span class="pre">tutorial_7_hacking.rpy</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">menu</span><span class="p">:</span>
+    <span class="s2">&quot;I don&#39;t want to freak them out exactly...&quot;</span><span class="p">:</span>
+        <span class="n">sa</span> <span class="s2">&quot;You don&#39;t, hmm?&quot;</span>
+        <span class="n">sa</span> <span class="s2">&quot;Just you wait a moment&quot;</span>
+        <span class="n">m</span> <span class="s2">&quot;Show me what to do.&quot;</span>
+        <span class="c1"># This deletes the last three items in the chatlog, discounting</span>
+        <span class="c1"># the most recent message.</span>
+        <span class="c1"># You might have to experiment with how many messages to</span>
+        <span class="c1"># delete/where to put the delete line since the program sometimes</span>
+        <span class="c1"># has &quot;hidden&quot; chatlog entries that aren&#39;t shown to the user</span>
+        <span class="c1"># In general you can put it one message after the last message</span>
+        <span class="c1"># you want to delete</span>
+        <span class="k">call</span> <span class="n">remove_entries</span><span class="p">(</span><span class="n">num</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this case, the automatic message posted by the player (“I don’t want to freak them out exactly…”), as well as Saeran’s next two lines (“You don’t, hmm?” / “Just you wait a moment”) get removed from the chatlog via the line <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">remove_entries(num=4)</span></code>. As can be seen in this case, this number isn’t always precisely the number of message you want to remove, as there are some internal calculations that take place when removing messages. Typically you would put <code class="docutils literal notranslate"><span class="pre">call</span> <span class="pre">remove_entries</span></code> <em>after</em> the first message which you want to remain on-screen due to the order in which messages are posted.</p>
+<p>You may need to experiment with the placement of this line + the number of messages to delete until you get the desired result.</p>
 </div>
 <div class="section" id="adding-new-audio">
 <h2>Adding New Audio<a class="headerlink" href="#adding-new-audio" title="Permalink to this headline">¶</a></h2>
@@ -998,35 +1027,28 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-      
-        <a href="cg-albums.html" class="btn btn-neutral float-left" title="CG Albums" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="cg-albums.html" class="btn btn-neutral float-left" title="CG Albums" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Shawna P
+        &#169; Copyright 2021, Shawna P.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

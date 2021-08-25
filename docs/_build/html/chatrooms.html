@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Chatrooms &mdash; Mysterious Messenger Wiki v3.1.0 documentation</title>
   
@@ -17,7 +17,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -27,10 +30,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -52,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Mysterious Messenger Wiki
+            <a href="index.html" class="icon icon-home"> Mysterious Messenger Wiki
           
 
           
@@ -233,6 +236,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -244,7 +249,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/chatrooms.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -261,7 +266,7 @@
   <div class="section" id="chatrooms">
 <span id="chatrooms-topic"></span><h1>Chatrooms<a class="headerlink" href="#chatrooms" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Navigation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Navigation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Chatrooms</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-chatroom">Creating a Chatroom</a></li>
@@ -1553,6 +1558,7 @@
 <p>Clicking <strong>Generate Code</strong> on the <strong>Other</strong> tab will generate a <code class="docutils literal notranslate"><span class="pre">.rpy</span></code> file inside the <code class="docutils literal notranslate"><span class="pre">game/generated/</span></code> folder with the chatroom formatted into code you can put into the program. There are several features the program supports which the chatroom creator does not, such as providing choice menus or jumping to story mode in the middle of a chatroom. If you’d like to use these features, you can use the chatroom creator to build the base of your chatroom before exporting it to code to add these additional features.</p>
 <p>Note that the name of the file and associated labels will take the name of the chatroom, as provided when you first made the chat. If you click <strong>Generate Code</strong> when a file with the same name exists in the <code class="docutils literal notranslate"><span class="pre">generated</span></code> folder, you will be prompted if you would like to <strong>overwrite</strong> this file. Keep this in mind if you’ve made changes to the code outside of the chatroom creator, as that will not be reflected in the chatroom creator.</p>
 <p>You can rename the chatroom using the <strong>Rename Chat</strong> button on the <strong>Other</strong> tab.</p>
+<p>The generated code will include a label for your chatroom, an <code class="docutils literal notranslate"><span class="pre">after_</span></code> label, optionally for adding things like text messages etc, and a <code class="docutils literal notranslate"><span class="pre">ChatRoom</span></code> definition for your chatroom that you can use as part of a route definition. Note that you will need to fill in the trigger time yourself; it defaults to <code class="docutils literal notranslate"><span class="pre">00:00</span></code> in the generated code.</p>
 </div>
 <div class="section" id="saving-loading-chats">
 <h4>Saving &amp; Loading Chats<a class="headerlink" href="#saving-loading-chats" title="Permalink to this headline">¶</a></h4>
@@ -1586,37 +1592,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="phone-calls.html" class="btn btn-neutral float-right" title="Phone Calls" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="git-setup.html" class="btn btn-neutral float-left" title="Git Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="phone-calls.html" class="btn btn-neutral float-right" title="Phone Calls" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="git-setup.html" class="btn btn-neutral float-left" title="Git Setup" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Shawna P
+        &#169; Copyright 2021, Shawna P.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 

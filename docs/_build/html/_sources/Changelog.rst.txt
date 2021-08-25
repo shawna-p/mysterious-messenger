@@ -7,10 +7,26 @@ Full Changelog
 
     changelog
 
-3.1.1
+3.2.0
 =====
 
-.. _minor-3-1-1:
+.. _major-3-2-0:
+
+Major New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - :ref:`Chatroom Creator`
+      - A visual creator to write chatrooms and export them to code or watch them as played in-game.
+    * - Update to 7.4+
+      - Mysterious Messenger takes advantage of 7.4+ update such as matrixcolor. You will now require Ren'Py 7.4+ to run Mysterious Messenger.
+
+.. _minor-3-2-0:
 
 Minor New Features
 -------------------
@@ -25,9 +41,13 @@ Minor New Features
       - A special function is called when the player hangs up in the middle of a call, which you can use to alter the game state.
     * - Manually send text messages
       - Manually send text messages during chatrooms, phone calls, Story Mode, or whenever you like.
+    * - Vanderwood expressions
+      - Vanderwood has new expressions thanks to `Rom <https://twitter.com/RomRom1705>`_
+    * - Choose profile picture
+      - (Windows only) Choose a profile picture from your computer to use in-game.
 
 
-.. _fixes-3-1-1:
+.. _fixes-3-2-0:
 
 Fixes
 ------
@@ -46,9 +66,17 @@ Fixes
       - The chatlog no longer clears when finishing the starter story before exiting to the home screen.
     * - SFX Audio Captions
       - Sound effects are correctly looked up in the sfx dictionary, not the music dictionary.
+    * - ``hide_albums`` fix
+      - ``hide_albums`` function works correctly again.
+    * - Save file names
+      - Save file names are more reliably saved using json files instead of string separators.
+    * - Fix Persistent button
+      - Fix persistent now works with user-defined albums
+      - Animated background screen shake
+    * - Animated backgrounds now get black bars offscreen to the left and right to improve the appearance of screenshake while animated backgrounds are active.
 
 
-.. _qol-3-1-1:
+.. _qol-3-2-0:
 
 QoL Improvements
 --------------------
@@ -63,6 +91,8 @@ QoL Improvements
       - The message CDS takes optional ``underline`` or ``under`` arguments to underline text.
     * - SFX in replay
       - Sound effects are included in chatroom replays.
+    * - Profile picture scaling
+      - Profile pictures now crop and size themselves to fit the desired dimensions rather than squash/stretching into a square
 
 
 3.1.0

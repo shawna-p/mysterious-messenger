@@ -393,6 +393,30 @@ where ``t=0.19`` is how long to show the screen for (0.19 seconds) and ``p=0.2``
                 offsetMin=-10, offsetMax=30, w_timer=0.18, p=0.01)
     call white_square_screen(t=0.16, p=0.17)
 
+Removing Messages from the Chatlog
+===================================
+
+Besides just adding "hacked" effects, above, you may also want to remove entries from the chatlog for dramatic effect. This should typically be used sparingly, as it may be jarring for the reader.
+
+Here is an example from ``tutorial_7_hacking.rpy``::
+
+    menu:
+        "I don't want to freak them out exactly...":
+            sa "You don't, hmm?"
+            sa "Just you wait a moment"
+            m "Show me what to do."
+            # This deletes the last three items in the chatlog, discounting
+            # the most recent message.
+            # You might have to experiment with how many messages to
+            # delete/where to put the delete line since the program sometimes
+            # has "hidden" chatlog entries that aren't shown to the user
+            # In general you can put it one message after the last message
+            # you want to delete
+            call remove_entries(num=4)
+
+In this case, the automatic message posted by the player ("I don't want to freak them out exactly..."), as well as Saeran's next two lines ("You don't, hmm?" / "Just you wait a moment") get removed from the chatlog via the line ``call remove_entries(num=4)``. As can be seen in this case, this number isn't always precisely the number of message you want to remove, as there are some internal calculations that take place when removing messages. Typically you would put ``call remove_entries`` *after* the first message which you want to remain on-screen due to the order in which messages are posted.
+
+You may need to experiment with the placement of this line + the number of messages to delete until you get the desired result.
 
 Adding New Audio
 =================

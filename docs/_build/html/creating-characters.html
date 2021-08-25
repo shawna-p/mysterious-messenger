@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Creating Characters &mdash; Mysterious Messenger Wiki v3.1.0 documentation</title>
   
@@ -17,7 +17,10 @@
 
   
   
+
   
+  
+
   
 
   
@@ -27,10 +30,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -52,7 +55,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Mysterious Messenger Wiki
+            <a href="index.html" class="icon icon-home"> Mysterious Messenger Wiki
           
 
           
@@ -121,6 +124,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#giving-a-new-character-spaceship-thoughts">Giving a New Character Spaceship Thoughts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-day-select-image">Adding a Day Select Image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-save-load-image">Adding a Save/Load Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-greeting-messages">Adding Greeting Messages</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="cg-albums.html">CG Albums</a></li>
@@ -165,6 +169,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -176,7 +182,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/creating-characters.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -193,7 +199,7 @@
   <div class="section" id="creating-characters">
 <h1>Creating Characters<a class="headerlink" href="#creating-characters" title="Permalink to this headline">¶</a></h1>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Navigation</span></p>
+<p class="caption" role="heading"><span class="caption-text">Navigation</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Creating Characters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#checklist-for-a-new-character">Checklist for a New Character</a></li>
@@ -217,6 +223,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#giving-a-new-character-spaceship-thoughts">Giving a New Character Spaceship Thoughts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-day-select-image">Adding a Day Select Image</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adding-a-save-load-image">Adding a Save/Load Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-greeting-messages">Adding Greeting Messages</a></li>
 </ul>
 </li>
 </ul>
@@ -259,7 +266,6 @@
 <li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">character_list</span></code> in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want their profile to appear on the home screen and allow the player to call them. (<a class="reference internal" href="#showing-your-character-on-the-home-screen"><span class="std std-ref">Showing Your Character on the Home Screen</span></a>)</p></li>
 <li><p><input type="checkbox"> <strong>(Optional)</strong> Add your character to the <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> if you want the player to see how many heart points they have earned with this character. (<a class="reference internal" href="#showing-your-character-on-the-home-screen"><span class="std std-ref">Showing Your Character on the Home Screen</span></a>)</p></li>
 <li><p><input type="checkbox"> <strong>(May be required)</strong> Define a <code class="docutils literal notranslate"><span class="pre">greet</span></code> image for your character. This is <strong>required</strong> if you have included the character in <code class="docutils literal notranslate"><span class="pre">heart_point_chars</span></code> (see above) AND/OR if you want them to have greetings on the main menu. (<a class="reference internal" href="#greeting-images"><span class="std std-ref">Greeting Images</span></a>)</p></li>
-<li><p><input type="checkbox"> If your character will not have any voiced greetings on the main menu, add them to the <code class="docutils literal notranslate"><span class="pre">no_greet_chars</span></code> list in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> under the <strong>GREETING IMAGES</strong> header.</p></li>
 <li><p><input type="checkbox"> Define a Character object in <code class="docutils literal notranslate"><span class="pre">character_definitions.rpy</span></code> under the heading <strong>Story Mode</strong>. (<a class="reference internal" href="#adding-a-new-character-to-story-mode"><span class="std std-ref">Adding a New Character to Story Mode</span></a>)</p>
 <blockquote>
 <div><ul class="simple">
@@ -444,14 +450,6 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">image</span> <span class="n">greet</span> <span class="n">em</span> <span class="o">=</span> <span class="s2">&quot;Menu Screens/Main Menu/em_greeting.webp&quot;</span>
 </pre></div>
 </div>
-<p>Beneath this image definition, you will also see the line:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">no_greet_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">va</span><span class="p">]</span>
-</pre></div>
-</div>
-<p>If you won’t be defining greeting messages for Emma to say on the main menu, then you should add her to this list as well:</p>
-<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">no_greet_chars</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">va</span><span class="p">,</span> <span class="n">em</span><span class="p">]</span>
-</pre></div>
-</div>
 <p>This image is also used on the character’s profile picture screen to indicate how many heart points the player has earned with this character and can spend on bonus profile pictures (if not provided, the character’s homepage_pic is used instead).</p>
 <p>When all is said and done, you should now be able to write dialogue for Emma anywhere in the program. For example, some chatroom dialogue might look like:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">em</span> <span class="s2">&quot;How are you?&quot;</span>
@@ -632,6 +630,54 @@
 </div>
 <p>Note that the string given to <code class="docutils literal notranslate"><span class="pre">save_img</span></code> is “emma” because the image was defined as <code class="docutils literal notranslate"><span class="pre">save_emma</span></code>, so you drop the <code class="docutils literal notranslate"><span class="pre">save_</span></code> prefix and pass the rest of the image name (in this case, “emma”).</p>
 </div>
+<div class="section" id="adding-greeting-messages">
+<h2>Adding Greeting Messages<a class="headerlink" href="#adding-greeting-messages" title="Permalink to this headline">¶</a></h2>
+<p>To give Emma greeting messages on the main menu, she’ll first need a greeting image (if you haven’t defined it already). Find instructions here: <a class="reference internal" href="#greeting-images"><span class="std std-ref">Greeting Images</span></a>.</p>
+<p>Next, head to <code class="docutils literal notranslate"><span class="pre">01_mysme_engine/stable/variables_start_screen.rpy</span></code>. Below a few Python and variable definitions are a bunch of constants called <code class="docutils literal notranslate"><span class="pre">morning_greeting</span></code>, <code class="docutils literal notranslate"><span class="pre">afternoon_greeting</span></code> etc.</p>
+<p>To add greetings for Emma, you’ll need to add to these dictionaries. This example will show how to add greetings to <code class="docutils literal notranslate"><span class="pre">morning_greeting</span></code>:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">morning_greeting</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;em&#39;</span> <span class="p">:</span> <span class="p">[</span> <span class="n">DayGreeting</span><span class="p">(</span><span class="s1">&#39;Emma/Morning/emma-1&#39;</span><span class="p">,</span>
+            <span class="s2">&quot;Welcome to Mysterious Messenger!&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;제 프로그램으로 환영합니다!&quot;</span><span class="p">),</span>
+    <span class="n">DayGreeting</span><span class="p">(</span><span class="s1">&#39;Emma/Morning/emma-2&#39;</span><span class="p">,</span>
+            <span class="s2">&quot;Welcome to Mysterious Messenger!&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;제 프로그램으로 환영합니다!&quot;</span><span class="p">),</span>
+
+    <span class="p">],</span>
+
+    <span class="s1">&#39;ja&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="n">DayGreeting</span><span class="p">(</span><span class="s1">&#39;Jaehee/Morning/ja-m-1&#39;</span><span class="p">),</span>
+                <span class="n">DayGreeting</span><span class="p">(</span><span class="s1">&#39;Jaehee/Morning/ja-m-2&#39;</span><span class="p">),</span>
+                <span class="n">DayGreeting</span><span class="p">(</span><span class="s1">&#39;Jaehee/Morning/ja-m-3&#39;</span><span class="p">),</span>
+                <span class="n">DayGreeting</span><span class="p">(</span><span class="s1">&#39;Jaehee/Morning/ja-m-4&#39;</span><span class="p">)],</span>
+
+    <span class="c1"># (Rest of the definition omitted for brevity)</span>
+</pre></div>
+</div>
+<p>First, start by adding a key for Emma. Her <code class="docutils literal notranslate"><span class="pre">file_id</span></code> is “em”, so add that as the key:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">morning_greeting</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;em&#39;</span> <span class="p">:</span> <span class="p">[</span>
+
+    <span class="p">],</span>
+</pre></div>
+</div>
+<p>The value corresponding to this key is a list, hence the <code class="docutils literal notranslate"><span class="pre">[]</span></code> square brackets. This list will contain all the possible greetings for Emma during the specified time period (in this case, the morning).</p>
+<p>Next, you’ll add <code class="docutils literal notranslate"><span class="pre">DayGreeting</span></code> objects to the list. A <code class="docutils literal notranslate"><span class="pre">DayGreeting</span></code> object consists of three parts: the file where the audio can be found, the English text of the greeting, and the Korean text of the greeting.</p>
+<dl class="simple">
+<dt><cite>sound_file</cite></dt><dd><p>The path to the sound file for the greeting. It is automatically prefixed with <code class="docutils literal notranslate"><span class="pre">greeting_audio_path</span></code> and then <code class="docutils literal notranslate"><span class="pre">greeting_audio_extension</span></code> is appended to it. These values are defined near the beginning of the <code class="docutils literal notranslate"><span class="pre">variables_start_screen.rpy</span></code> file. By default, this means that something like <code class="docutils literal notranslate"><span class="pre">'Emma/Morning/emma-1'</span></code> will become <code class="docutils literal notranslate"><span class="pre">&quot;audio/sfx/Main</span> <span class="pre">Menu</span> <span class="pre">Greetings/Emma/Morning/emma-1.wav&quot;</span></code>. You can provide your own extension as well as one of the arguments.</p>
+</dd>
+<dt><cite>english</cite></dt><dd><p>Optional. The English text of the greeting. If not provided, defaults to “Welcome to Mysterious Messenger!”.</p>
+</dd>
+<dt><cite>korean</cite></dt><dd><p>Optional. The Korean text of the greeting. If not provided, defaults to “제 프로그램으로 환영합니다!”.</p>
+</dd>
+<dt><cite>extension</cite></dt><dd><p>Optional. The sound file extension to use. If not provided, defaults to <code class="docutils literal notranslate"><span class="pre">greeting_audio_extension</span></code>.</p>
+</dd>
+</dl>
+<p>Greetings are separated into different definitions for the time of day. Make sure you add the correct greeting to the correct definition so it shows up at the right time on the main menu screen.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Any character who has a greeting must have a corresponding greet image to display on the menu along with the greeting text, but they don’t need a full ChatCharacter definition.</p>
+</div>
+</div>
 </div>
 
 
@@ -639,37 +685,29 @@
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="cg-albums.html" class="btn btn-neutral float-right" title="CG Albums" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="plot-branches.html" class="btn btn-neutral float-left" title="Plot Branches" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
+        <a href="cg-albums.html" class="btn btn-neutral float-right" title="CG Albums" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="plot-branches.html" class="btn btn-neutral float-left" title="Plot Branches" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2021, Shawna P
+        &#169; Copyright 2021, Shawna P.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
