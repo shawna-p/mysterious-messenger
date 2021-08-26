@@ -1551,15 +1551,14 @@ screen edit_msg_menu(msg, ind):
     default filter_what = renpy.filter_text_tags(msg.what, allow=['b', 'image'])
     default edit_item = "text" if not msg.img else "emoji"
     zorder 50
+
+    style_prefix 'edit_menu'
     button:
         xysize (config.screen_width, config.screen_height)
         background None
         action [SetVariable('edit_msg_index', -1), Hide('edit_msg_menu')]
     frame:
         at yzoom_in()
-        background "#000"
-        xsize 300
-        #ymaximum 250
         pos pos
         if too_wide:
             anchor (1.0, 0.5)
@@ -1567,18 +1566,15 @@ screen edit_msg_menu(msg, ind):
             anchor (0.0, 0.5)
         has vbox
         textbutton "Remove message":
-            text_color "#fff"
             action CConfirm(("Are you sure you want to delete the message \""
                 + filter_what + "\"?"), [RemoveFromSet(chatlog, msg),
                 Hide('edit_msg_menu'),
                 SetVariable('edit_msg_index', -1)])
         textbutton "Insert message before":
-            text_color "#fff"
             action [SetVariable('insert_msg_index', ind),
                 Hide('edit_msg_menu')]
         if msg.who != special_msg:
             textbutton "Edit " + edit_item:
-                text_color "#fff"
                 action If(msg.img,
                     [Hide('edit_msg_menu'),
                     Show('select_emote', edit=True)],
@@ -1587,21 +1583,27 @@ screen edit_msg_menu(msg, ind):
                     Show('dialogue_edit_popup')])
             if msg.who != m:
                 textbutton "Change bubble":
-                    text_color "#fff"
                     action [Hide('edit_msg_menu'),
                         Show('select_bubble', editing=True)]
 
             textbutton "Change speaker":
-                text_color "#fff"
                 action Show('pick_speaker', active_tab="Edit",
                     msg_ind=ind, pos=speaker_pos, anchor=(0.0, 0.0))
 
             textbutton "Change profile picture":
-                text_color "#fff"
                 action [Hide('edit_msg_menu'),
                     If(msg.who == m,
                         Show('pick_mc_pfp'),
                         Show('pick_chara_pfp', who=msg.who))]
+
+style edit_menu_frame:
+    background "#000"
+    xsize 300
+    #ymaximum 250
+style edit_menu_button_text:
+    idle_color "#fff"
+    hover_color "#bff"
+
 
 screen dialogue_edit_popup():
     modal True
