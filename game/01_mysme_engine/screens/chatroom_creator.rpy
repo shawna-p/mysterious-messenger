@@ -1111,12 +1111,12 @@ screen select_background():
             yalign 0.6
             null height 10
             frame:
-                xysize (630,760)
+                xysize (630,710)
                 xalign 0.5
-                background 'input_square' padding(40,40)
+                background 'input_square' padding (40, 20)
                 vpgrid:
                     mousewheel True
-                    xysize (590,740)
+                    xysize (590,710-20*2)
                     align (0.5, 0.5)
                     cols 3
                     spacing 10
