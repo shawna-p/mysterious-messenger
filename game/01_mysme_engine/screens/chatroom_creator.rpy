@@ -1004,8 +1004,7 @@ screen select_anim():
 
 
             textbutton _('Confirm'):
-                text_style 'mode_select'
-                style 'cc_confirm_style'
+                style_prefix 'chatc_confirm'
                 action [Hide('select_anim'),
                     Function(add_replay_direction,
                         anim_msg, anim_entry, reverse=anim_reverse)]
@@ -1080,13 +1079,15 @@ screen select_music():
 
 
             textbutton _('Confirm'):
-                text_style 'mode_select'
-                style 'cc_confirm_style'
+                style_prefix 'chatc_confirm'
                 action [Function(add_replay_direction,
                         'Play Music: ' + str(temp_music),
                         ('play music', temp_path),
                         at_beginning),
                     Hide('select_music')]#Play('music', mystic_chat),
+
+style chatc_confirm_button is cc_confirm_style
+style chatc_confirm_button_text is mode_select
 
 screen select_background():
     zorder 100
@@ -1147,8 +1148,7 @@ screen select_background():
 
 
             textbutton _('Confirm'):
-                text_style 'mode_select'
-                style 'cc_confirm_style'
+                style_prefix 'chatc_confirm'
                 action [Function(add_replay_direction, 'Background: ' + temp_bg,
                     ('background', temp_bg), at_beginning=at_beginning),
                     ## Cracked background?
@@ -1196,8 +1196,7 @@ screen select_participants():
                                     who)
 
             textbutton _('Confirm'):
-                text_style 'mode_select'
-                style 'cc_confirm_style'
+                style_prefix 'chatc_confirm'
                 action [Hide('select_participants')]
 
 screen select_emote(edit=False):
@@ -1264,8 +1263,7 @@ screen select_emote(edit=False):
 
 
             textbutton _('Confirm'):
-                style 'cc_confirm_style'
-                text_style 'mode_select'
+                style_prefix 'chatc_confirm'
                 action [Function(add_emote, selected_emote, edit=edit),
                     If(not edit and insert_msg_index == -1,
                         SetField(yadj, 'value', yadjValue)),
@@ -1395,8 +1393,7 @@ screen select_bubble(editing=False):
                                     add Null(height=100, width=150)
 
             textbutton _('Confirm'):
-                text_style 'mode_select'
-                style 'cc_confirm_style'
+                style_prefix 'chatc_confirm'
                 action If(not editing,
                     [chat_dialogue_input.Disable(),
                     Function(add_bubble, bubble_dict),
