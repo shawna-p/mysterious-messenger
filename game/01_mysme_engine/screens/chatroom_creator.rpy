@@ -637,6 +637,9 @@ screen chatroom_creator():
         elif active_tab == "Other":
             use other_cc_tab()
 
+##############################################
+## DIALOGUE TAB
+##############################################
 screen add_enter_exit_msg():
     button:
         style_prefix 'font_options'
@@ -800,6 +803,60 @@ screen dialogue_tab(show_fonts, compact_ver=False):
                     SetVariable('edit_msg_index', -1),
                     Hide('dialogue_edit_popup')]
 
+screen dialogue_input(compact_ver=False):
+    default box_size = (730, 180) if not compact_ver else (600, 220)
+    default styles_dict = entry_styles if not compact_ver else edit_styles
+    default size_bonus = 5 if styles_dict['font'] == gui.curly_font else 0
+    default the_input = chat_dialogue_input if not compact_ver else edit_dialogue_input
+    $ focus_coord = renpy.focus_coordinates()
+    $ is_focused = (focus_coord[2] == box_size[0] and focus_coord[3] == box_size[1])
+    $ text_input_yadj.value = yadjValue
+
+    button:
+        xysize box_size
+        background 'input_square'
+        if not is_focused:
+            foreground "#0003"
+        padding (14, 10)
+        if compact_ver:
+            xalign 0.0
+        else:
+            xalign 0.5
+        yalign 0.4
+        viewport:
+            yadjustment text_input_yadj
+            xysize (730-28, 180-20)
+            mousewheel True
+            input value the_input:
+                allow allowed_username_chars
+                copypaste True
+                color "#000"
+                line_spacing 1
+                if is_focused:
+                    caret 'text_caret'
+                else:
+                    caret Null()
+                if styles_dict['bold']:
+                    if styles_dict['font'] == gui.sans_serif_1:
+                        font gui.sans_serif_1xb
+                    elif styles_dict['font'] == gui.sans_serif_2:
+                        font gui.sans_serif_2xb
+                    elif styles_dict['font'] == gui.serif_1:
+                        font gui.serif_1xb
+                    elif styles_dict['font'] == gui.serif_2:
+                        font gui.serif_2xb
+                    else:
+                        bold True
+                        font styles_dict['font']
+                else:
+                    font styles_dict['font']
+                align (0.0, 0.5)
+                xmaximum 690
+                italic styles_dict['italics']
+                underline styles_dict['underline']
+                size gui.text_size + styles_dict['size'] + size_bonus
+        action the_input.Enable()
+
 style font_options_button:
     background "#fff"
     selected_background "#5beec8"
@@ -840,64 +897,206 @@ transform slide_in_out():
 default text_input_yadj = ui.adjustment()
 default cc_cracked_overlay = False
 
-screen other_cc_tab():
-    null height 30
-    hbox:
-        spacing 50
-        align (0.5, 0.0)
-        textbutton "Select Background":
-            style_prefix 'other_settings_end'
-            action Show('select_background')
-        textbutton "Add Music":
-            style_prefix 'other_settings_end'
-            action Show("select_music")
-    null height 20
-    hbox:
-        spacing 12
-        xalign 0.5
-        textbutton "Add Participants":
-            style_prefix 'other_settings_end'
-            action Show("select_participants")
-        textbutton "Play Chat":
-            style_prefix 'other_settings_end'
-            action [Function(play_chatlog),
-                Call('rewatch_chatroom_main_menu')]
-        textbutton "Generate Code":
-            style_prefix 'other_settings_end'
-            action [Function(chatroom_to_code)]
-    null height 35
-    hbox:
-        spacing 20
-        xalign 0.5
-        xysize (161*2, 70)
-        # Save / Load
-        imagebutton:
-            style_prefix None
-            xysize (161, 70)
-            align (.5, .5)
-            idle Transform("save_btn", align=(0.5, 0.5))
-            hover Transform("save_btn", zoom=1.1)
-            action Show("save", Dissolve(0.5))
-        button:
-            style_prefix 'tone_selection'
-            vbox:
-                align (0.5, 0.5)
-                text "Rename Chat" style 'ringtone_change'
-                text "[save_name]":
-                    style 'ringtone_description'
-            action Show('input_template', None,
-                'save_name', prompt='Enter a chatroom title',
-                default=save_name, length=25,
-                allow=allowed_username_chars, accept_blank=False,
-                can_close=True)
-        imagebutton:
-            style_prefix None
-            xysize (161, 70)
-            align (.5, .5)
-            idle Transform("load_btn", align=(0.5, 0.5))
-            hover Transform("load_btn", zoom=1.1)
-            action Show("load", Dissolve(0.5))
+##############################################
+## EDITS OPTIONS
+##############################################
 
+screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
+        msg_ind=None):
+
+    zorder 101
+    python:
+        if active_tab == "Emoji":
+            all_chara = [chara for chara in all_characters if chara.emote_list]
+        else:
+            all_chara = all_characters
+
+    button:
+        xysize (config.screen_width, config.screen_height)
+        background None
+        action Hide('pick_speaker')
+    frame:
+        background "#000"
+        padding (2, 2)
+        anchor anchor
+        pos pos
+        has fixed:
+            fit_first True
+        vbox:
+            for chara in all_chara:
+                textbutton chara.name:
+                    if chara.bubble_color:
+                        background chara.bubble_color
+                    else:
+                        background "#fff"
+                    # Add size_group for the buttons
+                    xminimum 200
+                    text_idle_color "#000"
+                    if msg_ind is not None and active_tab == "Edit":
+                        action [Function(update_speaker, msg_ind, chara),
+                            SetVariable('edit_msg_index', -1),
+                            Hide('pick_speaker'), Hide('edit_msg_menu')]
+                    elif msg_ind is not None:
+                        action [Function(update_speaker, msg_ind, chara),
+                            Hide('pick_speaker')]
+                    elif active_tab == "Dialogue":
+                        action [SetField(the_entry, 'who', chara),
+                            SetVariable('bubble_user', chara),
+                            Hide('pick_speaker')]
+                    elif active_tab == "Emoji":
+                        action [SetVariable('emoji_speaker', chara),
+                            SetField(the_entry, 'who', chara),
+                            Hide('pick_speaker')]
+                    elif active_tab == "Bubble":
+                        action [SetVariable('bubble_user', chara),
+                            Hide('pick_speaker')]
+
+screen pick_bubble_size(bubble_sizes, editing=False):
+    default pos = renpy.get_mouse_pos()
+    if editing:
+        default bubble_dict = bubble_info
+    else:
+        default bubble_dict = edit_bubble_info
+
+    zorder 101
+    button:
+        xysize (config.screen_width, config.screen_height)
+        background None
+        action Hide('pick_bubble_size')
+    frame:
+        at yzoom_in()
+        background "#000"
+        xysize (150, 150)
+        pos pos
+        if (pos[0] + 150) > config.screen_width:
+            anchor (1.0, 0.5)
+        else:
+            anchor (0.0, 0.5)
+        has vbox
+        for sz in bubble_sizes:
+            textbutton sz:
+                xsize 150
+                text_color "#fff"
+                action [SetDict(bubble_dict, 'size', sz),
+                    Hide('pick_bubble_size')]
+
+screen edit_msg_menu(msg, ind):
+    default pos = renpy.get_mouse_pos()
+    default too_wide = (pos[0] + 300) > config.screen_width
+    default speaker_pos = (pos[0], pos[1]+(175//2)) if not too_wide else (pos[0]-300, pos[1]+(175//2))
+    default filter_what = renpy.filter_text_tags(msg.what, allow=['b', 'image'])
+    default edit_item = "text" if not msg.img else "emoji"
+    zorder 50
+
+    style_prefix 'edit_menu'
+    button:
+        xysize (config.screen_width, config.screen_height)
+        background None
+        action [SetVariable('edit_msg_index', -1), Hide('edit_msg_menu')]
+    frame:
+        at yzoom_in()
+        pos pos
+        if too_wide:
+            anchor (1.0, 0.5)
+        else:
+            anchor (0.0, 0.5)
+        has vbox
+        textbutton "Remove message":
+            action CConfirm(("Are you sure you want to delete the message \""
+                + filter_what + "\"?"), [RemoveFromSet(chatlog, msg),
+                Hide('edit_msg_menu'),
+                SetVariable('edit_msg_index', -1)])
+        textbutton "Insert message before":
+            action [SetVariable('insert_msg_index', ind),
+                Hide('edit_msg_menu')]
+        if msg.who != special_msg:
+            textbutton "Edit " + edit_item:
+                action If(msg.img,
+                    [Hide('edit_msg_menu'),
+                    Show('select_emote', edit=True)],
+                    [Function(get_styles_from_entry, msg),
+                    Hide('edit_msg_menu'),
+                    Show('dialogue_edit_popup')])
+            if msg.who != m:
+                textbutton "Change bubble":
+                    action [Hide('edit_msg_menu'),
+                        Show('select_bubble', editing=True)]
+
+            textbutton "Change speaker":
+                action Show('pick_speaker', active_tab="Edit",
+                    msg_ind=ind, pos=speaker_pos, anchor=(0.0, 0.0))
+
+            textbutton "Change profile picture":
+                action [Hide('edit_msg_menu'),
+                    If(msg.who == m,
+                        Show('pick_mc_pfp'),
+                        Show('pick_chara_pfp', who=msg.who))]
+
+style edit_menu_frame:
+    background "#000"
+    xsize 300
+    #ymaximum 250
+style edit_menu_button_text:
+    idle_color "#fff"
+    hover_color "#bff"
+
+screen dialogue_edit_popup():
+    modal True
+
+    default show_fonts = False
+
+    frame:
+        maximum(680, 600)
+        background 'input_popup_bkgr'
+        xpadding 20
+        xalign 0.5
+        yalign 0.85
+        imagebutton:
+            align (1.0, 0.0) xoffset 20
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('dialogue_edit_popup')
+        vbox:
+            spacing 10
+            null height 60
+            use dialogue_tab(show_fonts, compact_ver=True)
+
+transform yzoom_in():
+    yzoom 0.0
+    easein 0.2 yzoom 1.0
+    on hide:
+        easeout 0.2 yzoom 0.0
+
+image text_caret:
+    Solid("#000", xmaximum=2)
+    0.5
+    Solid("#0000", xmaximum=2)
+    0.5
+    repeat
+
+image text_size_increase = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+5, 8), Text("+", color="#fff", font=gui.serif_1xb, size=30)
+)
+image text_size_decrease = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+5, 8), Text("-", color="#fff", font=gui.serif_1xb, size=30)
+)
+
+image text_size_reset = Composite(
+    (47+20, 47),
+    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
+    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
+    (30+3, 12), 'Menu Screens/Main Menu/update_arrow.png'
+)
+
+##############################################
+## EFFECTS TAB
+##############################################
 screen effects_tab():
     null height 30
     hbox:
@@ -1014,6 +1213,262 @@ transform hack_transform(end=0.35):
     crop_relative True
     crop (0.0, 0.0, 1.0, end)
 
+screen select_emote(edit=False):
+
+    zorder 100
+    modal True
+
+    default selected_emote = None
+
+    frame:
+        style_prefix 'emote_select'
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_emote')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            hbox:
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    add "#000"
+                    action Show('pick_speaker', active_tab="Emoji",
+                        pos=(220, 280), anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Emojis:"
+                        text emoji_speaker.name size 27
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    add "#000"
+                    action Show('pick_speaker', pos=(535, 280),
+                        anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Speaker:"
+                        text the_entry.who.name size 27
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,740)
+                    align (0.5, 0.5)
+                    cols 3
+                    for emote in emoji_speaker.emote_list:
+                        button:
+                            xysize (int(310*0.63),int(310*0.63))
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            add Transform(emote, zoom=0.63) align (0.5, 0.5)
+                            action ToggleScreenVariable('selected_emote',
+                                emote)
+
+            textbutton _('Confirm'):
+                style_prefix 'chatc_confirm'
+                action [Function(add_emote, selected_emote, edit=edit),
+                    If(not edit and insert_msg_index == -1,
+                        SetField(yadj, 'value', yadjValue)),
+                    Hide('select_emote')]
+
+screen select_bubble(editing=False):
+
+    if editing:
+        default bubble_dict = bubble_info
+        default bubble_who = chatlog[edit_msg_index].who
+    else:
+        default bubble_dict = edit_bubble_info
+        default bubble_who = the_entry.who
+
+    zorder 100
+    modal True
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_bubble')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            hbox:
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    xalign 0.5
+                    add "#000"
+                    action Show('pick_speaker', active_tab="Bubble",
+                        pos=(370, 300), anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Bubbles:"
+                        text bubble_user.name size 27
+                button:
+                    style_prefix 'font_options'
+                    xysize (320, 47)
+                    add "#000"
+                    action Show('pick_speaker', pos=(535, 280),
+                        anchor=(0.5, 0.0))
+                    hbox:
+                        xoffset 6
+                        text "Speaker:"
+                        text the_entry.who.name size 27
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'menu_popup_bkgrd' padding (20,20)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,720)
+                    align (0.5, 0.5)
+                    cols 2
+                    # Add the regular bubble image
+                    if bubble_user is bubble_who:
+                        button:
+                            xysize (580//2, 220)
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            selected not bubble_dict['bounce']
+                            action [SetDict(bubble_dict, 'size', None),
+                                SetDict(bubble_dict, 'bubble', None),
+                                SetDict(bubble_dict, 'bounce', False)]
+                            frame:
+                                background bubble_user.reg_bubble_img
+                                align (0.5, 0.5)
+                                style 'reg_bubble'
+                                add Null(height=100, width=150)
+                        # The glowing bubble image
+                        if bubble_user is not m:
+                            button:
+                                xysize (580//2, 220)
+                                hover_background '#e0e0e0'
+                                selected_background '#a8a8a8'
+                                selected (bubble_dict['bounce']
+                                    and bubble_dict['bubble'] is None)
+                                action [SetDict(bubble_dict, 'size', None),
+                                    SetDict(bubble_dict, 'bubble', None),
+                                    SetDict(bubble_dict, 'bounce', True)]
+                                frame:
+                                    background bubble_user.glow_bubble_img
+                                    align (0.5, 0.5)
+                                    style 'glow_bubble'
+                                    add Null(height=100, width=150)
+
+                    $ bub_list = bubble_user.get_bubbles()
+                    for bub in bub_list:
+                        button:
+                            xysize (580//2, 220)
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            selected (bubble_dict['bubble'] == bub)
+                            if "glow" not in bub:
+                                action [Show('pick_bubble_size',
+                                    bubble_sizes=find_bubble_sizes(bub),
+                                    editing=True),
+                                    SetDict(bubble_dict, 'bubble', bub),
+                                    SetDict(bubble_dict, 'bounce', True)]
+                                add Transform(bub, zoom=0.46) align (0.5, 0.5)
+                            else:
+                                action [SetDict(bubble_dict, 'size', None),
+                                    SetDict(bubble_dict, 'bubble', bub),
+                                    SetDict(bubble_dict, 'bounce', True)]
+                                frame:
+                                    background Frame(bub, 25, 25)
+                                    align (0.5, 0.5)
+                                    style 'glow_bubble'
+                                    add Null(height=100, width=150)
+
+            textbutton _('Confirm'):
+                style_prefix 'chatc_confirm'
+                action If(not editing,
+                    [chat_dialogue_input.Disable(),
+                    Function(add_bubble, bubble_dict),
+                    Function(chat_dialogue_input.set_text, ''),
+                    SetVariable('redo_list', [ ]),
+                    Hide('select_bubble')],
+                    [Function(add_bubble, bubble_dict, is_edit=True),
+                    Hide('select_bubble')])
+
+##############################################
+## OTHER TAB
+##############################################
+screen other_cc_tab():
+    null height 30
+    hbox:
+        spacing 50
+        align (0.5, 0.0)
+        textbutton "Select Background":
+            style_prefix 'other_settings_end'
+            action Show('select_background')
+        textbutton "Add Music":
+            style_prefix 'other_settings_end'
+            action Show("select_music")
+    null height 20
+    hbox:
+        spacing 12
+        xalign 0.5
+        textbutton "Add Participants":
+            style_prefix 'other_settings_end'
+            action Show("select_participants")
+        textbutton "Play Chat":
+            style_prefix 'other_settings_end'
+            action [Function(play_chatlog),
+                Call('rewatch_chatroom_main_menu')]
+        textbutton "Generate Code":
+            style_prefix 'other_settings_end'
+            action [Function(chatroom_to_code)]
+    null height 35
+    hbox:
+        spacing 20
+        xalign 0.5
+        xysize (161*2, 70)
+        # Save / Load
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("save_btn", align=(0.5, 0.5))
+            hover Transform("save_btn", zoom=1.1)
+            action Show("save", Dissolve(0.5))
+        button:
+            style_prefix 'tone_selection'
+            vbox:
+                align (0.5, 0.5)
+                text "Rename Chat" style 'ringtone_change'
+                text "[save_name]":
+                    style 'ringtone_description'
+            action Show('input_template', None,
+                'save_name', prompt='Enter a chatroom title',
+                default=save_name, length=25,
+                allow=allowed_username_chars, accept_blank=False,
+                can_close=True)
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("load_btn", align=(0.5, 0.5))
+            hover Transform("load_btn", zoom=1.1)
+            action Show("load", Dissolve(0.5))
+
+## Get music
 init python:
     def get_readable_music():
         """Return a human-readable music list, sorted."""
@@ -1199,76 +1654,6 @@ screen select_participants():
                 style_prefix 'chatc_confirm'
                 action [Hide('select_participants')]
 
-screen select_emote(edit=False):
-
-    zorder 100
-    modal True
-
-    default selected_emote = None
-
-    frame:
-        style_prefix 'emote_select'
-        maximum(680, 1000)
-        background 'input_popup_bkgr'
-        xalign 0.5
-        yalign 0.6
-        imagebutton:
-            align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
-            action Hide('select_emote')
-        vbox:
-            spacing 20
-            xalign 0.5
-            yalign 0.6
-            null height 10
-            hbox:
-                button:
-                    style_prefix 'font_options'
-                    xysize (320, 47)
-                    add "#000"
-                    action Show('pick_speaker', active_tab="Emoji",
-                        pos=(220, 280), anchor=(0.5, 0.0))
-                    hbox:
-                        xoffset 6
-                        text "Emojis:"
-                        text emoji_speaker.name size 27
-                button:
-                    style_prefix 'font_options'
-                    xysize (320, 47)
-                    add "#000"
-                    action Show('pick_speaker', pos=(535, 280),
-                        anchor=(0.5, 0.0))
-                    hbox:
-                        xoffset 6
-                        text "Speaker:"
-                        text the_entry.who.name size 27
-            frame:
-                xysize (630,760)
-                xalign 0.5
-                background 'input_square' padding(40,40)
-                vpgrid:
-                    mousewheel True
-                    xysize (590,740)
-                    align (0.5, 0.5)
-                    cols 3
-                    for emote in emoji_speaker.emote_list:
-                        button:
-                            xysize (int(310*0.63),int(310*0.63))
-                            hover_background '#e0e0e0'
-                            selected_background '#a8a8a8'
-                            add Transform(emote, zoom=0.63) align (0.5, 0.5)
-                            action ToggleScreenVariable('selected_emote',
-                                emote)
-
-
-            textbutton _('Confirm'):
-                style_prefix 'chatc_confirm'
-                action [Function(add_emote, selected_emote, edit=edit),
-                    If(not edit and insert_msg_index == -1,
-                        SetField(yadj, 'value', yadjValue)),
-                    Hide('select_emote')]
-
 style cc_confirm_style:
     xalign 0.5
     xsize 240
@@ -1277,387 +1662,9 @@ style cc_confirm_style:
     hover_background 'menu_select_btn_hover'
     padding (20, 20)
 
-
-screen select_bubble(editing=False):
-
-    if editing:
-        default bubble_dict = bubble_info
-        default bubble_who = chatlog[edit_msg_index].who
-    else:
-        default bubble_dict = edit_bubble_info
-        default bubble_who = the_entry.who
-
-    zorder 100
-    modal True
-
-    frame:
-        maximum(680, 1000)
-        background 'input_popup_bkgr'
-        xalign 0.5
-        yalign 0.6
-        imagebutton:
-            align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
-            action Hide('select_bubble')
-        vbox:
-            spacing 20
-            xalign 0.5
-            yalign 0.6
-            null height 10
-            hbox:
-                button:
-                    style_prefix 'font_options'
-                    xysize (320, 47)
-                    xalign 0.5
-                    add "#000"
-                    action Show('pick_speaker', active_tab="Bubble",
-                        pos=(370, 300), anchor=(0.5, 0.0))
-                    hbox:
-                        xoffset 6
-                        text "Bubbles:"
-                        text bubble_user.name size 27
-                button:
-                    style_prefix 'font_options'
-                    xysize (320, 47)
-                    add "#000"
-                    action Show('pick_speaker', pos=(535, 280),
-                        anchor=(0.5, 0.0))
-                    hbox:
-                        xoffset 6
-                        text "Speaker:"
-                        text the_entry.who.name size 27
-            frame:
-                xysize (630,760)
-                xalign 0.5
-                background 'menu_popup_bkgrd' padding (20,20)
-                vpgrid:
-                    mousewheel True
-                    xysize (590,720)
-                    align (0.5, 0.5)
-                    cols 2
-                    # Add the regular bubble image
-                    if bubble_user is bubble_who:
-                        button:
-                            xysize (580//2, 220)
-                            hover_background '#e0e0e0'
-                            selected_background '#a8a8a8'
-                            selected not bubble_dict['bounce']
-                            action [SetDict(bubble_dict, 'size', None),
-                                SetDict(bubble_dict, 'bubble', None),
-                                SetDict(bubble_dict, 'bounce', False)]
-                            frame:
-                                background bubble_user.reg_bubble_img
-                                align (0.5, 0.5)
-                                style 'reg_bubble'
-                                add Null(height=100, width=150)
-                        # The glowing bubble image
-                        if bubble_user is not m:
-                            button:
-                                xysize (580//2, 220)
-                                hover_background '#e0e0e0'
-                                selected_background '#a8a8a8'
-                                selected (bubble_dict['bounce']
-                                    and bubble_dict['bubble'] is None)
-                                action [SetDict(bubble_dict, 'size', None),
-                                    SetDict(bubble_dict, 'bubble', None),
-                                    SetDict(bubble_dict, 'bounce', True)]
-                                frame:
-                                    background bubble_user.glow_bubble_img
-                                    align (0.5, 0.5)
-                                    style 'glow_bubble'
-                                    add Null(height=100, width=150)
-
-                    $ bub_list = bubble_user.get_bubbles()
-                    for bub in bub_list:
-                        button:
-                            xysize (580//2, 220)
-                            hover_background '#e0e0e0'
-                            selected_background '#a8a8a8'
-                            selected (bubble_dict['bubble'] == bub)
-                            if "glow" not in bub:
-                                action [Show('pick_bubble_size',
-                                    bubble_sizes=find_bubble_sizes(bub),
-                                    editing=True),
-                                    SetDict(bubble_dict, 'bubble', bub),
-                                    SetDict(bubble_dict, 'bounce', True)]
-                                add Transform(bub, zoom=0.46) align (0.5, 0.5)
-                            else:
-                                action [SetDict(bubble_dict, 'size', None),
-                                    SetDict(bubble_dict, 'bubble', bub),
-                                    SetDict(bubble_dict, 'bounce', True)]
-                                frame:
-                                    background Frame(bub, 25, 25)
-                                    align (0.5, 0.5)
-                                    style 'glow_bubble'
-                                    add Null(height=100, width=150)
-
-            textbutton _('Confirm'):
-                style_prefix 'chatc_confirm'
-                action If(not editing,
-                    [chat_dialogue_input.Disable(),
-                    Function(add_bubble, bubble_dict),
-                    Function(chat_dialogue_input.set_text, ''),
-                    SetVariable('redo_list', [ ]),
-                    Hide('select_bubble')],
-                    [Function(add_bubble, bubble_dict, is_edit=True),
-                    Hide('select_bubble')])
-
-
-
-
-
-screen dialogue_input(compact_ver=False):
-    default box_size = (730, 180) if not compact_ver else (600, 220)
-    default styles_dict = entry_styles if not compact_ver else edit_styles
-    default size_bonus = 5 if styles_dict['font'] == gui.curly_font else 0
-    default the_input = chat_dialogue_input if not compact_ver else edit_dialogue_input
-    $ focus_coord = renpy.focus_coordinates()
-    $ is_focused = (focus_coord[2] == box_size[0] and focus_coord[3] == box_size[1])
-    $ text_input_yadj.value = yadjValue
-
-    button:
-        xysize box_size
-        background 'input_square'
-        if not is_focused:
-            foreground "#0003"
-        padding (14, 10)
-        if compact_ver:
-            xalign 0.0
-        else:
-            xalign 0.5
-        yalign 0.4
-        viewport:
-            yadjustment text_input_yadj
-            xysize (730-28, 180-20)
-            mousewheel True
-            input value the_input:
-                allow allowed_username_chars
-                copypaste True
-                color "#000"
-                line_spacing 1
-                if is_focused:
-                    caret 'text_caret'
-                else:
-                    caret Null()
-                if styles_dict['bold']:
-                    if styles_dict['font'] == gui.sans_serif_1:
-                        font gui.sans_serif_1xb
-                    elif styles_dict['font'] == gui.sans_serif_2:
-                        font gui.sans_serif_2xb
-                    elif styles_dict['font'] == gui.serif_1:
-                        font gui.serif_1xb
-                    elif styles_dict['font'] == gui.serif_2:
-                        font gui.serif_2xb
-                    else:
-                        bold True
-                        font styles_dict['font']
-                else:
-                    font styles_dict['font']
-                align (0.0, 0.5)
-                xmaximum 690
-                italic styles_dict['italics']
-                underline styles_dict['underline']
-                size gui.text_size + styles_dict['size'] + size_bonus
-        action the_input.Enable()
-
-screen pick_speaker(active_tab="Dialogue", pos=(320, 890), anchor=(0.0, 0.5),
-        msg_ind=None):
-
-    zorder 101
-    python:
-        if active_tab == "Emoji":
-            all_chara = [chara for chara in all_characters if chara.emote_list]
-        else:
-            all_chara = all_characters
-
-    button:
-        xysize (config.screen_width, config.screen_height)
-        background None
-        action Hide('pick_speaker')
-    frame:
-        background "#000"
-        padding (2, 2)
-        anchor anchor
-        pos pos
-        has fixed:
-            fit_first True
-        vbox:
-            for chara in all_chara:
-                textbutton chara.name:
-                    if chara.bubble_color:
-                        background chara.bubble_color
-                    else:
-                        background "#fff"
-                    # Add size_group for the buttons
-                    xminimum 200
-                    text_idle_color "#000"
-                    if msg_ind is not None and active_tab == "Edit":
-                        action [Function(update_speaker, msg_ind, chara),
-                            SetVariable('edit_msg_index', -1),
-                            Hide('pick_speaker'), Hide('edit_msg_menu')]
-                    elif msg_ind is not None:
-                        action [Function(update_speaker, msg_ind, chara),
-                            Hide('pick_speaker')]
-                    elif active_tab == "Dialogue":
-                        action [SetField(the_entry, 'who', chara),
-                            SetVariable('bubble_user', chara),
-                            Hide('pick_speaker')]
-                    elif active_tab == "Emoji":
-                        action [SetVariable('emoji_speaker', chara),
-                            SetField(the_entry, 'who', chara),
-                            Hide('pick_speaker')]
-                    elif active_tab == "Bubble":
-                        action [SetVariable('bubble_user', chara),
-                            Hide('pick_speaker')]
-
-
-screen pick_bubble_size(bubble_sizes, editing=False):
-    default pos = renpy.get_mouse_pos()
-    if editing:
-        default bubble_dict = bubble_info
-    else:
-        default bubble_dict = edit_bubble_info
-
-    zorder 101
-    button:
-        xysize (config.screen_width, config.screen_height)
-        background None
-        action Hide('pick_bubble_size')
-    frame:
-        at yzoom_in()
-        background "#000"
-        xysize (150, 150)
-        pos pos
-        if (pos[0] + 150) > config.screen_width:
-            anchor (1.0, 0.5)
-        else:
-            anchor (0.0, 0.5)
-        has vbox
-        for sz in bubble_sizes:
-            textbutton sz:
-                xsize 150
-                text_color "#fff"
-                action [SetDict(bubble_dict, 'size', sz),
-                    Hide('pick_bubble_size')]
-
-screen edit_msg_menu(msg, ind):
-    default pos = renpy.get_mouse_pos()
-    default too_wide = (pos[0] + 300) > config.screen_width
-    default speaker_pos = (pos[0], pos[1]+(175//2)) if not too_wide else (pos[0]-300, pos[1]+(175//2))
-    default filter_what = renpy.filter_text_tags(msg.what, allow=['b', 'image'])
-    default edit_item = "text" if not msg.img else "emoji"
-    zorder 50
-
-    style_prefix 'edit_menu'
-    button:
-        xysize (config.screen_width, config.screen_height)
-        background None
-        action [SetVariable('edit_msg_index', -1), Hide('edit_msg_menu')]
-    frame:
-        at yzoom_in()
-        pos pos
-        if too_wide:
-            anchor (1.0, 0.5)
-        else:
-            anchor (0.0, 0.5)
-        has vbox
-        textbutton "Remove message":
-            action CConfirm(("Are you sure you want to delete the message \""
-                + filter_what + "\"?"), [RemoveFromSet(chatlog, msg),
-                Hide('edit_msg_menu'),
-                SetVariable('edit_msg_index', -1)])
-        textbutton "Insert message before":
-            action [SetVariable('insert_msg_index', ind),
-                Hide('edit_msg_menu')]
-        if msg.who != special_msg:
-            textbutton "Edit " + edit_item:
-                action If(msg.img,
-                    [Hide('edit_msg_menu'),
-                    Show('select_emote', edit=True)],
-                    [Function(get_styles_from_entry, msg),
-                    Hide('edit_msg_menu'),
-                    Show('dialogue_edit_popup')])
-            if msg.who != m:
-                textbutton "Change bubble":
-                    action [Hide('edit_msg_menu'),
-                        Show('select_bubble', editing=True)]
-
-            textbutton "Change speaker":
-                action Show('pick_speaker', active_tab="Edit",
-                    msg_ind=ind, pos=speaker_pos, anchor=(0.0, 0.0))
-
-            textbutton "Change profile picture":
-                action [Hide('edit_msg_menu'),
-                    If(msg.who == m,
-                        Show('pick_mc_pfp'),
-                        Show('pick_chara_pfp', who=msg.who))]
-
-style edit_menu_frame:
-    background "#000"
-    xsize 300
-    #ymaximum 250
-style edit_menu_button_text:
-    idle_color "#fff"
-    hover_color "#bff"
-
-
-screen dialogue_edit_popup():
-    modal True
-
-    default show_fonts = False
-
-    frame:
-        maximum(680, 600)
-        background 'input_popup_bkgr'
-        xpadding 20
-        xalign 0.5
-        yalign 0.85
-        imagebutton:
-            align (1.0, 0.0) xoffset 20
-            idle 'input_close'
-            hover 'input_close_hover'
-            action Hide('dialogue_edit_popup')
-        vbox:
-            spacing 10
-            null height 60
-            use dialogue_tab(show_fonts, compact_ver=True)
-
-
-transform yzoom_in():
-    yzoom 0.0
-    easein 0.2 yzoom 1.0
-    on hide:
-        easeout 0.2 yzoom 0.0
-
-image text_caret:
-    Solid("#000", xmaximum=2)
-    0.5
-    Solid("#0000", xmaximum=2)
-    0.5
-    repeat
-
-image text_size_increase = Composite(
-    (47+20, 47),
-    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
-    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
-    (30+5, 8), Text("+", color="#fff", font=gui.serif_1xb, size=30)
-)
-image text_size_decrease = Composite(
-    (47+20, 47),
-    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
-    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
-    (30+5, 8), Text("-", color="#fff", font=gui.serif_1xb, size=30)
-)
-
-image text_size_reset = Composite(
-    (47+20, 47),
-    (5+5, 18), Text("T", color="#fff", font=gui.serif_1xb, size=14),
-    (12+4, 4), Text("T", color="#fff", font=gui.serif_1xb, size=30),
-    (30+3, 12), 'Menu Screens/Main Menu/update_arrow.png'
-)
-
-
+##############################################
+## CHAT CREATOR SAVE/LOAD
+##############################################
 
 screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         begin_page=0):
@@ -1771,7 +1778,22 @@ screen chatroom_file_slots(title, current_page=0, num_pages=5, slots_per_column=
                     action [SetScreenVariable('begin_page', begin_page+5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
 
+screen load_chat():
+    tag save_load
+    modal True
 
+    default current_page = 0
+    default num_pages = 5
+    default slots_per_column = 7
+    default begin_page = 0
+
+    use menu_header("Chat Creator Load", Hide('load_chat', Dissolve(0.5)))
+    use chatroom_file_slots(_("Load"), current_page, num_pages,
+        slots_per_column, begin_page)
+
+##############################################
+## CHAT CREATOR MAIN MENU HUB
+##############################################
 
 screen choose_chat_creator():
 
@@ -1804,16 +1826,3 @@ screen choose_chat_creator():
 
     ## Right-click and escape answer "no".
     key "game_menu" action Hide('choose_chat_creator')
-
-screen load_chat():
-    tag save_load
-    modal True
-
-    default current_page = 0
-    default num_pages = 5
-    default slots_per_column = 7
-    default begin_page = 0
-
-    use menu_header("Chat Creator Load", Hide('load_chat', Dissolve(0.5)))
-    use chatroom_file_slots(_("Load"), current_page, num_pages,
-        slots_per_column, begin_page)
