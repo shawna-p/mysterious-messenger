@@ -136,8 +136,14 @@ init python:
             store.chat_name = store.persistent.chat_name
             store.m.name = "[persistent.chat_name]"
 
+        if store._version < (3, 2, 0):
+            # Add temp_msg_queue
+            for chara in store.all_characters:
+                if not hasattr(chara.text_msg, 'temp_msg_queue'):
+                    chara.text_msg.temp_msg_queue = [ ]
+
         # Update to most recent version
-        store._version = (3, 1, 0)
+        store._version = (3, 2, 0)
 
         # Turn the version back into a string
         store._version = '.'.join(map(str, store._version))
