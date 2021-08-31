@@ -39,7 +39,7 @@ Minor New Features
       - **Description**
     * - :ref:`Phone hang up callback<Hanging Up>`
       - A special function is called when the player hangs up in the middle of a call, which you can use to alter the game state.
-    * - Manually send text messages
+    * - :ref:`Manually send text messages<Manually Sending Text Messages>`
       - Manually send text messages during chatrooms, phone calls, Story Mode, or whenever you like.
     * - Vanderwood expressions
       - Vanderwood has new expressions thanks to `Rom <https://twitter.com/RomRom1705>`_
