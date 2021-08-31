@@ -676,17 +676,26 @@ label get_input(the_var, prompt='', default='', length=20,
         exclude, accept_blank, can_close)
     return
 
+init python:
+    def fetch_var(the_var):
+        if the_var.startswith('persistent.'):
+            return getattr(store.persistent, the_var[11:])
+        else:
+            return getattr(store, the_var)
+
 screen input_template(the_var, prompt='', default='', length=20,
         allow=None, exclude=None, accept_blank=True,
         can_close=False, copypaste=False):
 
-    if 'persistent.' in the_var:
+    if the_var.startswith('persistent.'):
         default old_var = getattr(persistent, the_var[11:], None)
     else:
         default old_var = getattr(store, the_var, None)
 
-    default the_input = VariableInputValue(the_var, returnable=(not can_close
-        and accept_blank))
+    default the_input = FieldInputValue(persistent, the_var[11:],
+        returnable=(not can_close and accept_blank)) if the_var.startswith(
+            'persistent.') else VariableInputValue(the_var,
+                returnable=(not can_close and accept_blank))
     # For whatever reason the default property on input isn't
     # working, so we just set the variable here
     # default x = setattr(store, the_var, default)
@@ -697,9 +706,9 @@ screen input_template(the_var, prompt='', default='', length=20,
     add "#0005"
 
     if can_close:
-        key 'K_RETURN' action [SetVariable(the_var, getattr(store, the_var)),
+        key 'K_RETURN' action [SetVariable(the_var, fetch_var(the_var)),
                         Hide('input_template')]
-        key 'K_KP_ENTER' action [SetVariable(the_var, getattr(store, the_var)),
+        key 'K_KP_ENTER' action [SetVariable(the_var, fetch_var(the_var)),
                         Hide('input_template')]
 
     style_prefix "my_input"
@@ -733,9 +742,9 @@ screen input_template(the_var, prompt='', default='', length=20,
             textbutton _('Confirm'):
                 text_style 'mode_select'
                 style 'my_input_textbutton'
-                sensitive (accept_blank or getattr(store, the_var))
+                sensitive (accept_blank or fetch_var(the_var))
                 action If(can_close,
-                    [SetVariable(the_var, getattr(store, the_var)),
+                    [SetVariable(the_var, fetch_var(the_var)),
                         Hide('input_template')],
                     Return())
 
