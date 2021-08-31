@@ -14,11 +14,10 @@ Setting Up
 ============
 
 * If you want to run this code, you will need to download the Ren'Py engine: https://www.renpy.org/
-* As of 2021-07-25 (the time of this update) the version of Ren'Py used is 7.4.8.
+* As of 2021-08-31 (the time of this update) the version of Ren'Py used is 7.4.8.
 * Download or clone the `most recent release <https://github.com/shawna-p/mysterious-messenger/releases>`_ into your Ren'Py Projects Directory and unzip it into its own folder. If you don't know what it is, you can change it from the Ren'Py launcher via ``preferences -> Projects Directory``.
 
-  * The current stable version is 3.0.1
-  * Version 3.1.0 is in prerelease
+  * The current stable version is 3.2.0
 
 * Refresh your Projects list and you should see ``mysterious-messenger`` listed
 * Save the Script Generator spreadsheet somewhere you can find it later
