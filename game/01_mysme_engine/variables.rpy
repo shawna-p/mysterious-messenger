@@ -671,7 +671,7 @@ init -6 python:
     def print_file(*args, **kwargs):
         """Print statements to a file or to the console for debugging."""
 
-        DEBUG = False
+        DEBUG = None
         if DEBUG is None:
             return
 
