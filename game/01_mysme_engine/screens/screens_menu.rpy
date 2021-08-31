@@ -664,10 +664,14 @@ init python:
 
         global most_recent_item
 
-        if most_recent_item and most_recent_item.parent:
-            save_title_item = most_recent_item.parent
-        else:
-            save_title_item = most_recent_item
+        try:
+            if most_recent_item and most_recent_item.parent:
+                save_title_item = most_recent_item.parent
+            else:
+                save_title_item = most_recent_item
+        except AttributeError:
+            save_title_item = most_recent_chat
+
         if save_title_item is None:
             # Error somewhere perhaps
             return 'auto|1st|Example Chatroom|2nd|DAY'
