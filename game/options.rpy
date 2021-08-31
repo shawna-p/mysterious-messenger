@@ -17,7 +17,7 @@ define gui.show_name = True
 
 ## The version of the game.
 ## DO NOT MODIFY: This is used to update Mysterious Messenger between versions
-define config.version = "3.1.0"
+define config.version = "3.2.0"
 
 
 ## Text that is placed on the game's about screen. Place the text between the
