@@ -462,7 +462,8 @@ python early hide:
             try:
                 images.extend(predict_msg_stmt(msg_dict))
             except Exception:
-                print("ERROR: Could not predict images for backlog statement.")
+                pass
+                # print_file("ERROR: Could not predict images for backlog statement.")
         return images
 
     def execute_backlog_stmt(p):
