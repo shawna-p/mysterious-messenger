@@ -183,10 +183,14 @@ label chatroom_replay():
             chatroom_replay_index += 1
             if isinstance(entry, ReplayEntry):
                 # pop it through the addchat function
+                temp_link_img = getattr(entry, 'link_img', None)
+                temp_link_title = getattr(entry, 'link_title', None)
+                temp_link_action = getattr(entry, 'link_action', None)
+                temp_link_text = getattr(entry, 'link_text', None)
                 addchat(entry.who, entry.what, entry.pauseVal,
                     entry.img, entry.bounce, entry.specBubble,
-                    entry.link_img, entry.link_title, entry.link_text,
-                    entry.link_action)
+                    temp_link_img, temp_link_title, temp_link_text,
+                    temp_link_action)
             elif isinstance(entry, tuple):
                 # It's some kind of command; determine what to do
                 # based on what the command and given info is
