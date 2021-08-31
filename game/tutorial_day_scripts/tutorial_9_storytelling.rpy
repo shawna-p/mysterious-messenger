@@ -72,6 +72,9 @@ label other_storytelling():
     msg y "now that we're back in the chat" ser1
     msg y "Most links can only be clicked once," ser1
     msg y "But some, like links that show CG images, can be clicked more than once." ser1
+    msg y "And finally, you might have noticed earlier that you got a text message, right?" blocky square_l
+    msg y "You can have characters send text messages while you're still in the chatroom!"
+    msg y "But you can't view them until the chatroom is over." sigh_m sser2
     msg y "There's a lot you can do with these features!" curly glow
     msg y "I hope it inspires you to write some interesting chats~"
     y "Good luck!" (bounce=True, specBubble="cloud_s")
