@@ -12,6 +12,8 @@ init python:
             # Don't update variables as is usually done
             return
 
+        print("version number is", store._version)
+
         if not isinstance(store._version, tuple):
             # Turn the version into a tuple like (3, 0, 0)
             tuple_ver = store._version.split('.')
@@ -161,7 +163,6 @@ init python:
         except Exception as e:
             print_file("ERROR Updating music dictionary:", e)
 
-
     def unlock_profile_pics(who):
         """Ensure seen CGs and profile pictures are unlocked where possible."""
 
@@ -194,8 +195,6 @@ init python:
         if who.default_prof_pic not in store.persistent.unlocked_prof_pics:
             add_img_to_set(store.persistent.unlocked_prof_pics,
                         who.default_prof_pic)
-
-
 
     def find_route_endings(route, chatlist, titles):
         """
@@ -238,7 +237,6 @@ init python:
                     or isinstance(chatlist[i-1], VNMode)):
                 route.ending_labels.append(chatlist[i-1].vn_label)
         return extra_ending_titles
-
 
     def reset_old_persistent():
         """Reset problematic persistent values to their original values."""
@@ -386,7 +384,6 @@ init python:
 
         return new_obj
 
-
     def chathistory_to_chatroom(item, copy_everything=False):
         """Convert item to a ChatRoom object and return it."""
 
@@ -506,7 +503,7 @@ init python:
 
         # print_file("All of chara's fields:", chara.__dict__)
         for key, val in chara.__dict__.items():
-            if "_m1_character_definitions__" in key:
+            if key.startswith("_m1_character_definitions__"):
                 chara.__dict__["_m1_chatcharacter_definition__"
                     + key[27:]] = val
 
@@ -559,6 +556,7 @@ init python:
 
         # Replace this character object
         chara = new_c
+
 
     def update_character_list(new_list):
         """Update the character_list variable to new_list."""
