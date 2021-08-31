@@ -12,8 +12,6 @@ init python:
             # Don't update variables as is usually done
             return
 
-        print("version number is", store._version)
-
         if not isinstance(store._version, tuple):
             # Turn the version into a tuple like (3, 0, 0)
             tuple_ver = store._version.split('.')
