@@ -1110,7 +1110,7 @@ screen effects_tab():
             action Show('select_bubble')
     null height 20
     hbox:
-        spacing 50
+        spacing 12
         align (0.5, 1.0)
         textbutton "Add Shake":
             style_prefix 'other_settings_end'
@@ -1120,6 +1120,9 @@ screen effects_tab():
         textbutton "Add Animations":
             style_prefix 'other_settings_end'
             action Show('select_anim')
+        textbutton "Add Banners":
+            style_prefix 'other_settings_end'
+            action Show('select_banner')
 
 screen select_anim():
     zorder 100
@@ -1407,6 +1410,54 @@ screen select_bubble(editing=False):
                     [Function(add_bubble, bubble_dict, is_edit=True),
                     Hide('select_bubble')])
 
+screen select_banner():
+    zorder 100
+    modal True
+
+    default selected_banner = None
+
+    frame:
+        maximum(680, 1000)
+        background 'input_popup_bkgr'
+        xalign 0.5
+        yalign 0.6
+        imagebutton:
+            align (1.0, 0.0)
+            idle 'input_close'
+            hover 'input_close_hover'
+            action Hide('select_banner')
+        vbox:
+            spacing 20
+            xalign 0.5
+            yalign 0.6
+            null height 10
+            frame:
+                xysize (630,760)
+                xalign 0.5
+                background 'input_square' padding(40,40)
+                vpgrid:
+                    mousewheel True
+                    xysize (590,740)
+                    align (0.5, 0.5)
+                    cols 1
+                    spacing 10
+                    for ban in ('annoy', 'heart', 'lightning', 'well'):
+                        button:
+                            foreground Transform('banner ' + ban, xsize=520, fit='contain')
+                            hover_background '#e0e0e0'
+                            selected_background '#a8a8a8'
+                            xysize (520, 170)
+                            action ToggleScreenVariable('selected_banner', ban, None)
+
+
+
+            textbutton _('Confirm'):
+                style_prefix 'chatc_confirm'
+                sensitive selected_banner is not None
+                action [Hide('select_banner'),
+                    Function(add_replay_direction,
+                        "Banner: " + str(selected_banner),
+                        ("banner", selected_banner))]
 ##############################################
 ## OTHER TAB
 ##############################################
