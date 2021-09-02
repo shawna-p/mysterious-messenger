@@ -340,7 +340,7 @@ image ray_wink:
     repeat
 
 # ******** RIKA ******************
-# Credit to Sakekobomb for the emotes
+# Credit to CheruAngelic for the emotes
 # Used with permission
 
 image rika_happy:

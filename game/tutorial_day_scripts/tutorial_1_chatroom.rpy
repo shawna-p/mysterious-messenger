@@ -720,7 +720,7 @@ label seven_emoji():
     jump emoji
 
 label rika_emoji():
-    s "These rika_emotes were created by {b}Sakekobomb{/b} on Tumblr, used with permission."
+    s "These Rika emojis were created by {b}CheruAngelic{/b} on Tumblr, used with permission."
     ri "{image=rika_happy}" (img=True)
     ri "{image=rika_cry}" (img=True)
     ri "{image=rika_pout}" (img=True)
