@@ -17,7 +17,7 @@ If you've set up everything properly, from the Ren'Py Launcher you should be abl
 
 ### Creating your own chatrooms
 
-Included in the repository is a file called Script Generator.xlsx. The repository also includes a wiki which contains most of the information you'll need to get started. The spreadsheet file has an instruction tab and a several templates to facilitate turning dialogue into readable code for the program. Once you've filled out the template sheet correctly, you can simply copy-paste the code into the program and add in any outstanding features, such as choice menus or background music. 
+Included in the repository is a file called Script Generator.xlsx. The repository also includes a wiki which contains most of the information you'll need to get started. The spreadsheet file has an instruction tab and a several templates to facilitate turning dialogue into readable code for the program. Once you've filled out the template sheet correctly, you can simply copy-paste the code into the program and add in any outstanding features, such as choice menus or background music.
 
 
 ## Built With
@@ -32,7 +32,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 I'd like to thank the following people for their contribution to this project:
-* Sakekobomb for giving me permission to use their art in this program
+* [CheruAngelic](https://cheruangelic.tumblr.com/) for giving me permission to use her art in this program
 * [Manami](https://saeran-sexual.tumblr.com) for letting me use their art edits
 * mvngx.gif for contributing many of the assets used in the program
 * The people of the Lemma Soft forums and Ren’Py Discord for many tutorials, answers, and resources

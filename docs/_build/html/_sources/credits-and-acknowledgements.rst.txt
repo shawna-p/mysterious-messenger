@@ -4,7 +4,7 @@ Credits and Acknowledgements
 
 I'd like to thank the following people for their contributions to this project:
 
-* Sakekobomb for giving me permission to use their art in this program
+* `CheruAngelic <https://cheruangelic.tumblr.com/>`_ for giving me permission to use her art in this program
 * `Manami <https://saeran-sexual.tumblr.com>`_ for letting me use their art edits
 * mvngx.gif for contributing many of the assets used in the program
 * `Rom <https://twitter.com/RomRom1705>`_ for contributing additional art for Vanderwood
