@@ -32,12 +32,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 I'd like to thank the following people for their contribution to this project:
+
 * [CheruAngelic](https://cheruangelic.tumblr.com/) for giving me permission to use her art in this program
 * [Manami](https://saeran-sexual.tumblr.com) for letting me use their art edits
 * mvngx.gif for contributing many of the assets used in the program
 * The people of the Lemma Soft forums and Ren’Py Discord for many tutorials, answers, and resources
 * [RenpyTom](https://github.com/renpytom) for assistance in fixing some of the errors and animation issues I ran into
-
 
 ## Like my work?
 

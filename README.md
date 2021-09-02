@@ -31,7 +31,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 I'd like to thank the following people for their contribution to this project:
 
-* Sakekobomb for giving me permission to use their art in this program
+* [CheruAngelic](https://cheruangelic.tumblr.com/) for giving me permission to use her art in this program
 * [Manami](https://saeran-sexual.tumblr.com) for letting me use their art edits
 * mvngx.gif for contributing many of the assets used in the program
 * [Rom](https://twitter.com/RomRom1705) for contributing additional art for Vanderwood
