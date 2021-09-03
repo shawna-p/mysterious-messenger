@@ -100,6 +100,9 @@ init python:
         elif first == 'background':
             return 'scene ' + second
 
+        elif first == 'banner':
+            return 'show banner ' + second
+
         return '# Could not parse entry: ' + first + ' ' + second
 
 
