@@ -458,7 +458,7 @@ screen save():
     tag save_load
     modal True
 
-    default current_page = 0
+    default current_page = persistent.reg_save_pg
     default num_pages = 5
     default slots_per_column = 7
     default begin_page = 0
@@ -476,7 +476,7 @@ screen load():
     tag save_load
     modal True
 
-    default current_page = 0
+    default current_page = persistent.reg_save_pg
     default num_pages = 5
     default slots_per_column = 7
     default begin_page = 0
@@ -648,7 +648,8 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     selected_background Transform('blue_hex', zoom=zoomval)
                     text_size 38
                     text_align (0.5, 0.5)
-                    action [SetScreenVariable('current_page', index)]
+                    action [SetScreenVariable('current_page', index),
+                        SetField(persistent, 'reg_save_pg', index)]
             # Currently there are 10 pages.
             if begin_page < 5:
                 imagebutton:
@@ -656,6 +657,9 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     align (0.5, 0.5)
                     action [SetScreenVariable('begin_page', begin_page+5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+
+# The current page number
+default persistent.reg_save_pg = 0
 
 init python:
 
