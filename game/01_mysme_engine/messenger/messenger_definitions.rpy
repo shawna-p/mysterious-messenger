@@ -812,7 +812,7 @@ init -4 python:
             show_msg_img(what, who)
 
         # Some special bubbles will award the player with a heart icon
-        award_hourglass(specBubble)
+        award_hourglass_auto(specBubble)
 
         # Add this entry to the chatlog
         chatlog.append(ChatEntry(who, what, upTime(),
@@ -878,7 +878,7 @@ init -4 python:
         if not renpy.is_skipping() and isinstance(length, (int, float)):
             renpy.pause(length)
 
-    def award_hourglass(specBubble):
+    def award_hourglass_auto(specBubble):
         """Show the hourglass icon and award the player a heart point."""
 
         if specBubble not in store.hourglass_bubbles:
@@ -907,6 +907,37 @@ init -4 python:
         if True not in store.hourglass_bag.bag:
             store.hourglass_bag.new_choices([ False for i in range(8) ]
                 + [True for i in range(2) ])
+
+    def award_hourglass(random=False, force=False):
+        """
+        Show the hourglass icon and award the player a heart point.
+        Triggered manually.
+        """
+
+        if force:
+            pass
+        elif (store.observing or store.current_timeline_item.currently_expired
+                or not store.persistent.receive_hg
+                or store.is_main_menu_replay):
+            return
+
+        if force or not random or store.hourglass_bag.draw():
+            # Give the hourglass
+            if not persistent.animated_icons:
+                renpy.show_screen(allocate_notification_screen(),
+                    message="Hourglass +1")
+            else:
+                renpy.show_screen(allocate_hg_screen())
+            renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
+            store.collected_hg += 1
+
+        # Refill the hourglass bag, if needed
+        if True not in store.hourglass_bag.bag:
+            store.hourglass_bag.new_choices([ False for i in range(8) ]
+                + [True for i in range(2) ])
+
+
+
 
 
     def chatbackup_posted():
@@ -966,7 +997,7 @@ init -4 python:
         if chatbackup.img:
             show_msg_img(chatbackup.what, chatbackup.who)
 
-        award_hourglass(chatbackup.specBubble)
+        award_hourglass_auto(chatbackup.specBubble)
 
         chatlog.append(ChatEntry(chatbackup.who, chatbackup.what,
                                     upTime(), chatbackup.img,
