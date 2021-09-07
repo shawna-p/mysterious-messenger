@@ -576,9 +576,17 @@ Hourglasses are randomly awarded to players when certain bubbles (specified in `
     False by default. Set this to True if you would like there to be a random chance of getting an hourglass even when this function is triggered (e.g. you have a specific message you'd like to potentially award an hourglass, but it shouldn't be guaranteed).
 
 `force`
-    False by default. Set this to True if you'd like to force the player to receive an hourglass. Note that this isn't the same as having ``random=False``; ``force`` means that even if the player is viewing an expired chatroom or watching a replay from the History, they will receive an hourglass, *even if* you have ``Receive Hourglasses in Chatrooms`` turned off from the developer settings.
+    False by default. Set this to True if you'd like to force the player to receive an hourglass in all circumstances. Note that this isn't the same as having ``random=False``; ``force`` means that even if the player is viewing an expired chatroom or watching a replay from the History, they will receive an hourglass, *including if* you have ``Receive Hourglasses in Chatrooms`` turned off from the developer settings.
 
     This option is largely intended for non-playable gameplay such that you might record a video of. If you'd simply like to guarantee the player receives an hourglass in the event that it is possible to receive them based on how they're viewing the current story item, then you should leave both ``random`` and ``force`` as False.
+
+In the game, you might use it as follows::
+
+    msg z "I hope I'll see you soon, [name]~" flower_m curly
+    $ award_hourglass(random=True)
+    msg z "I should go get ready."
+
+This will randomly award the player an hourglass when they see the line "I hope I'll see you soon, [name]~" (that is, on some playthroughs they will receive an hourglass, and on others they will not). They won't see this hourglass if they're viewing this chat from the History or on a rewatch.
 
 Showing the Hacked Scroll Effect
 ---------------------------------
