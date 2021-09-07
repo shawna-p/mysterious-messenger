@@ -7,6 +7,66 @@ Full Changelog
 
     changelog
 
+3.3.0
+=====
+
+.. _major-3-3-0:
+
+Major New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * -
+
+.. _minor-3-3-0:
+
+Minor New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - :ref:`Manually award hourglasses<Awarding an Hourglass>`
+      - Convenience function added for more control over when the player is awarded an hourglass.
+
+
+.. _fixes-3-3-0:
+
+Fixes
+------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Fix**
+      - **Description**
+    * -
+
+
+.. _qol-3-3-0:
+
+QoL Improvements
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * -
+
+
+
 3.2.0
 =====
 
