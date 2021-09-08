@@ -178,13 +178,7 @@ label bonus_pfp_showcase():
             z "If you're playing without Testing Mode turned on, unlocking a new profile picture to use will cost 1 hourglass."
             hide tut_player_pfp
             if not observing:
-                if not persistent.animated_icons:
-                    $ renpy.show_screen(allocate_notification_screen(),
-                        message="Hourglass +1")
-                else:
-                    $ renpy.show_screen(allocate_hg_screen())
-                $ renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
-                $ collected_hg += 1
+                $ award_hourglass(force=True)
                 z wink "I'll give you one now so you can try it out later~"
             z neutral "If you have Testing Mode turned on from the Developer settings, it won't cost you any hourglasses."
             z "You don't have to do anything to make sure profile pictures show up here;"

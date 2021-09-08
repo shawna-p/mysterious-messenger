@@ -1449,8 +1449,6 @@ screen select_banner():
                             xysize (520, 170)
                             action ToggleScreenVariable('selected_banner', ban, None)
 
-
-
             textbutton _('Confirm'):
                 style_prefix 'chatc_confirm'
                 sensitive selected_banner is not None
