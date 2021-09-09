@@ -34,8 +34,10 @@ init python:
             subheader="Showing a CG in a Chatroom or Text Message")
             return
 
+        alb_obj = None
         for photo in cg_list:
             if Album(filepath) == photo:
+                alb_obj = photo
                 if instant_unlock or not who or who.right_msgr:
                     photo.unlock()
                 elif who:
@@ -45,6 +47,9 @@ init python:
         # Useful if you've hidden an album until an image in it is unlocked.
         if filepath.split('_')[0].split(' ')[1] not in store.all_albums:
             store.all_albums.append(filepath.split('_')[0].split(' ')[1])
+
+        if alb_obj:
+            return alb_obj.chat_img
 
         return filepath
 

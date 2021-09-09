@@ -24,7 +24,9 @@ python early:
         """
 
         def __init__(self, img, thumbnail=False,
-                    locked_img="CGs/album_unlock.webp"):
+                    locked_img="CGs/album_unlock.webp",
+                    chat_img=None,
+                    chat_thumb=None):
             """
             Creates an Album object to store information about gallery images.
 
@@ -61,6 +63,36 @@ python early:
             self.unlocked = False
             self.__seen_in_album = False
             self.thumbnail_tuple = (self.filename, (0.0, 0.15, 1.0, 0.5625), True)
+            self.__chat_img = chat_img
+            self.__chat_thumb = chat_thumb or chat_img
+
+        @property
+        def chat_thumb(self):
+            """
+            Return the image as it should appear in the chat as a thumbnail.
+            """
+
+            try:
+                if self.__chat_thumb is not None:
+                    return self.__chat_thumb
+                elif self.__chat_img is not None:
+                    return self.__chat_img
+            except Exception:
+                pass
+            return self.img
+
+        @property
+        def chat_img(self):
+            """
+            Return the image as it should appear full-screen in the chat.
+            """
+
+            try:
+                if self.__chat_img is not None:
+                    return self.__chat_img
+            except Exception:
+                pass
+            return self.img
 
         @property
         def filename(self):
