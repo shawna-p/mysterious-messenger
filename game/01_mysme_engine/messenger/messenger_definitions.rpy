@@ -98,6 +98,51 @@ init -4 python:
             self.for_replay = for_replay
 
         @property
+        def album_obj(self):
+            """
+            If this message has an image relating to an in-game CG, return
+            the CG image.
+            """
+
+            if self.what.startswith("cg "):
+                # don't need to add cg to the start of this filepath
+                filepath = self.what
+            else:
+                filepath = "cg " + self.what
+
+            # Name of the album should be the letters before the first _
+            # e.g. "cg common_1" -> common
+            try:
+                album_name = filepath.split('_')[0].split(' ')[1] + '_album'
+                cg_list = getattr(store.persistent, album_name)
+            except:
+                ScriptError("Couldn't get album name from CG image \"", self.what, '"',
+                header="CG Albums",
+                subheader="Showing a CG in a Chatroom or Text Message")
+                return
+
+            alb_obj = None
+            for photo in cg_list:
+                if Album(filepath) == photo:
+                    alb_obj = photo
+                    if instant_unlock or not who or who.right_msgr:
+                        photo.unlock()
+                    elif who:
+                        who.text_msg.cg_unlock_list.append([cg_list, photo])
+
+            # Ensure the album for this photo is visible in the album screen.
+            # Useful if you've hidden an album until an image in it is unlocked.
+            if filepath.split('_')[0].split(' ')[1] not in store.all_albums:
+                store.all_albums.append(filepath.split('_')[0].split(' ')[1])
+
+            if alb_obj:
+                return alb_obj
+
+            return filepath
+
+
+
+        @property
         def text_msg_what(self):
             """Return `what` with the font removed, for text messages."""
 
