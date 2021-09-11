@@ -76,10 +76,10 @@ python early:
                 if self.__chat_thumb is not None:
                     return self.__chat_thumb
                 elif self.__chat_img is not None:
-                    return self.__chat_img
+                    return Transform(self.__chat_img, zoom=0.35)
             except Exception:
                 pass
-            return self.img
+            return Transform(self.img, zoom=0.35)
 
         @property
         def chat_img(self):
