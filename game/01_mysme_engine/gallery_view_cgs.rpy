@@ -56,6 +56,10 @@ init python:
     def smallCG(bigCG):
         """Return a downsized version of bigCG."""
 
+        if isinstance(bigCG, Album):
+            return bigCG.chat_thumb
+
+
         if bigCG.startswith("cg "):
             pass
         else:
@@ -85,7 +89,10 @@ screen viewCG_fullsize(fullsizeCG):
         xysize (750, 1334)
         action ToggleVariable("close_visible", False, True)
 
-    add fullsizeCG align (0.5, 0.5)
+    if isinstance(fullsizeCG, Album):
+        add fullsizeCG.chat_img
+    else:
+        add fullsizeCG align (0.5, 0.5)
 
     if close_visible:
         imagebutton:
