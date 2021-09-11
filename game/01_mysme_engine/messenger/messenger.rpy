@@ -181,9 +181,9 @@ screen chat_animation(i, anti=False, no_anim=False):
                 else: # it's a CG
                     imagebutton:
                         focus_mask True
-                        idle smallCG(cg_helper(i.what))
+                        idle smallCG(i.album_obj)
                         if not choosing:
-                            action [ShowCG(i.what)]
+                            action [ShowCG(i.album_obj)]
                         alt i.alt_text(anti)
 
 
