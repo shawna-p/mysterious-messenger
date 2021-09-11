@@ -125,10 +125,7 @@ init -4 python:
             for photo in cg_list:
                 if Album(filepath) == photo:
                     alb_obj = photo
-                    if instant_unlock or not who or who.right_msgr:
-                        photo.unlock()
-                    elif who:
-                        who.text_msg.cg_unlock_list.append([cg_list, photo])
+                    photo.unlock()
 
             # Ensure the album for this photo is visible in the album screen.
             # Useful if you've hidden an album until an image in it is unlocked.
