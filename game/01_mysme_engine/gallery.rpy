@@ -40,6 +40,12 @@ python early:
             locked_img : string
                 The file path to the image that will be used in the "locked"
                 thumbnail icon. Should be 155x155px.
+            chat_img : Displayable
+                A displayable containing the image to show full-screen in
+                the chatroom (as opposed to in the gallery).
+            chat_thumb : Displayable
+                A displayable containing the image to show as a small thumbnail
+                in the chatroom (as opposed to the gallery).
             """
 
             self.img = img
