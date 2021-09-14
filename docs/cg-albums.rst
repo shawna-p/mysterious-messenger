@@ -184,6 +184,22 @@ Otherwise, you can also manually specify a thumbnail as the second argument to A
 
 Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.
 
+The full list of arguments to the Album definition is below:
+
+`img`
+    A Displayable, typically a string with the name of the image for this CG as it should appear in the album.
+
+`thumbnail`
+    Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels.
+
+`locked_img`
+    Optional. The file path to the image that will be used as the "locked" thumbnail icon in the gallery. Should be 155x155 pixels. Typically has a "?" or a locked symbol somewhere to indicate this gallery image hasn't been unlocked yet.
+
+`chat_img`
+    Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied `img` field will be used when viewing this image full-size in the gallery instead.
+
+    Use this to do things like supply blurry or edited CGs in the chatroom, but provide their regular unedited version in the gallery.
+
 Large Thumbnails
 -----------------
 
