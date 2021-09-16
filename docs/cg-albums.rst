@@ -205,6 +205,15 @@ The full list of arguments to the Album definition is below:
 
     Use this to customize the image preview in the chatroom, such as blurring the thumbnail for "spoilers" or to put the thumbnail focus on a particular part of the image.
 
+So, for example, you could define an Album object like so::
+
+    Album("cg common_1", thumbnail="common_1_thumb",
+          chat_img="cg common_1_edit", chat_thumb="CGs/spoiler_img.png")
+
+(Note that this assumes you have ``image cg common_1 = "..."``, ``image common_1_thumb = "..."``, ``image cg common_1_edit = "..."`` etc.)
+
+You would then still be able to use the CG in the usual manner described below to show in chatrooms or text messages.
+
 Large Thumbnails
 -----------------
 
