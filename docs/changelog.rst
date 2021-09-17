@@ -36,7 +36,7 @@ Minor New Features
       - **Description**
     * - :ref:`Manually award hourglasses<Awarding an Hourglass>`
       - Convenience function added for more control over when the player is awarded an hourglass.
-    * - Chat vs Gallery CGs
+    * - :ref:`Chat vs Gallery CGs<Defining a CG>`
       - Show a different image in chatrooms than in the gallery when sending CGs.
 
 
