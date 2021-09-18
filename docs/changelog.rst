@@ -51,7 +51,8 @@ Fixes
 
     * - **Fix**
       - **Description**
-    * -
+    * - Doc improvements
+      - Added doc pages on :ref:`deleting messages<Removing Messages from the Chatlog>` and :ref:`adding greetings<Adding Greeting Messages>`.
 
 
 .. _qol-3-3-0:
@@ -65,7 +66,8 @@ QoL Improvements
 
     * - **Feature**
       - **Description**
-    * -
+    * - Remember save page
+      - The game remembers which save page you last used.
 
 
 
