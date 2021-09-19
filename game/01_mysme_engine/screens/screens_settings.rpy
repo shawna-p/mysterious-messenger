@@ -201,8 +201,9 @@ screen profile_pic():
                 action [Return()]
 
     else:
-        use menu_header("Profile", [Function(change_mc_pfp_callback),
-                Show('chat_home', Dissolve(0.5))]):
+        on 'replaced' action Function(change_mc_pfp_callback)
+        on 'hide' action Function(change_mc_pfp_callback)
+        use menu_header("Profile", [Show('chat_home', Dissolve(0.5))]):
             use pic_and_pronouns()
             if not in_chat_creator:
                 use points_and_saveload()
