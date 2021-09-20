@@ -614,9 +614,9 @@ init -6 python:
         """Hide all popup screens in-game."""
 
         renpy.hide_screen('text_msg_popup')
-        renpy.hide_screen('hide screen text_pop_2')
-        renpy.hide_screen('hide screen text_pop_3')
-        renpy.hide_screen('hide screen email_popup')
+        renpy.hide_screen('text_pop_2')
+        renpy.hide_screen('text_pop_3')
+        renpy.hide_screen('email_popup')
         hide_stackable_notifications()
         hide_heart_icons()
 
