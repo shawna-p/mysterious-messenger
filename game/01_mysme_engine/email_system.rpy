@@ -544,6 +544,7 @@ screen email_popup(e):
                             or renpy.get_screen('outgoing call')
                             or text_person))),
                         [Hide('email_popup'),
+                            Function(hide_all_popups),
                             Hide('save_load'),
                             Hide('menu'),
                             Hide('chat_footer'),

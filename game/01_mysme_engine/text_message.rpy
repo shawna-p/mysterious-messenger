@@ -192,6 +192,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
                     action If ((c.real_time_text and c.text_msg.reply_label),
 
                         [Function(text_message_begin, text_person=c),
+                            Function(hide_all_popups),
                             Hide('save_load'),
                             Hide('menu'),
                             Hide('chat_footer'),
@@ -201,6 +202,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
                             Jump('play_text_message')],
 
                         [Function(text_message_begin, text_person=c),
+                            Function(hide_all_popups),
                             Hide('save_load'),
                             Hide('menu'),
                             Hide('chat_footer'),
