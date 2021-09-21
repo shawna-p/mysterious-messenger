@@ -53,6 +53,8 @@ Fixes
       - **Description**
     * - Doc improvements
       - Added doc pages on :ref:`deleting messages<Removing Messages from the Chatlog>` and :ref:`adding greetings<Adding Greeting Messages>`.
+    * - Profile picture callback fix
+      - Profile picture callbacks still go off even if you use a text message or email popup notification to leave the profile screen.
 
 
 .. _qol-3-3-0:
