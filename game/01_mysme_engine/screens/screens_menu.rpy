@@ -173,6 +173,42 @@ default hbc_bag = RandomBag([ False, False, False,
 ## Also shows a greeting from a random character
 ##
 
+init python:
+    def MMOriginalStory():
+        """
+        Return the action to be used when clicking Original Story from
+        the main menu.
+        """
+        if persistent.on_route:
+            # This is the auto save that gets loaded every
+            # time you load the game
+            return [SetField(persistent, 'load_instr', 'Auto'),
+                    SetField(persistent, 'just_loaded', True),
+                    FileLoad(mm_auto)]
+        else:
+            # Note: this screen only has a placeholder
+            # but can easily be customized (see below)
+            return Show('route_select_screen')
+
+    def MMSaveLoad():
+        """
+        Return the action used when clicking on the save/load button
+        from the main menu.
+        """
+        return [Hide('load'), Show("load")]
+
+    def MMSettings():
+        """
+        Return the action used when clicking Settings on the main menu.
+        """
+        return [Hide('preferences'), Show('preferences')]
+
+    def MMHistory():
+        """
+        Return the actin used when clicking History from the main menu.
+        """
+        return Show('select_history', Dissolve(0.5))
+
 screen main_menu():
 
     tag menu
@@ -234,17 +270,7 @@ screen main_menu():
             button:
                 xysize(430,400)
                 style_prefix 'left_menu'
-                if persistent.on_route:
-                    # This is the auto save that gets loaded every
-                    # time you load the game
-                    action [SetField(persistent, 'load_instr', 'Auto'),
-                            SetField(persistent, 'just_loaded', True),
-                            FileLoad(mm_auto)]
-                else:
-                    # Note: this screen only has a placeholder
-                    # but can easily be customized (see below)
-                    action Show('route_select_screen')
-
+                action MMOriginalStory()
                 vbox:
                     add "menu_original_story" xpos 20
                     text "Original\nStory"
@@ -256,7 +282,7 @@ screen main_menu():
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action [Hide('load'), Show("load")]
+                    action MMSaveLoad()
                     vbox:
                         add "menu_save_load" xpos 25
                         text "Save & Load"
@@ -266,7 +292,7 @@ screen main_menu():
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action [Hide('preferences'), Show('preferences')]
+                    action MMSettings()
                     vbox:
                         add "menu_after_ending" align (0.5, 0.5)
                         text "Settings"
@@ -277,7 +303,7 @@ screen main_menu():
             button:
                 xysize(430,195)
                 style_prefix 'left_menu'
-                action Show('select_history', Dissolve(0.5))
+                action MMHistory()
                 vbox:
                     add "menu_history" align (0.5, 0.5)
                     text "History"
