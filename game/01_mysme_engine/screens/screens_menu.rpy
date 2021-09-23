@@ -190,7 +190,7 @@ init python:
             # but can easily be customized (see below)
             return Show('route_select_screen')
 
-    def MMSaveLoad():
+    def MMMainLoad():
         """
         Return the action used when clicking on the save/load button
         from the main menu.
@@ -208,6 +208,32 @@ init python:
         Return the actin used when clicking History from the main menu.
         """
         return Show('select_history', Dissolve(0.5))
+
+    def MMLoadAutoSave():
+        """Load the auto save, if available."""
+        return If(persistent.real_time,
+                [SetField(persistent, 'on_route', True),
+                SetField(persistent, 'load_instr', 'Auto'),
+                SetField(persistent, 'just_loaded', True),
+                FileAction(mm_auto),
+                renpy.restart_interaction],
+
+                [SetField(persistent, 'on_route', True),
+                SetField(persistent, 'just_loaded', True),
+                FileAction(mm_auto),
+                renpy.restart_interaction])
+
+    def MMSaveLoad(title, slot):
+        if title == "Save":
+            return [SetVariable('save_name', get_save_title()),
+                    FileAction(slot),
+                    Function(renpy.restart_interaction)]
+        else: # title == "Load"
+            return [Function(load_action,
+                    the_day=access_json(slot, 'today'),
+                    next_day=access_json(slot, 'tomorrow'),
+                    file_time=FileTime(slot, empty="00:00"),
+                    slot=slot)]
 
 screen main_menu():
 
@@ -277,12 +303,12 @@ screen main_menu():
 
             vbox:
                 spacing 15
-                # Save and Load
+                # Save and Load (just load for main  menu)
                 # Top Right
                 button:
                     xysize(205, 195)
                     style_prefix 'right_menu'
-                    action MMSaveLoad()
+                    action MMMainLoad()
                     vbox:
                         add "menu_save_load" xpos 25
                         text "Save & Load"
@@ -559,17 +585,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                 button:
                     background 'save_auto_idle'
                     hover_background 'save_auto_hover'
-                    action If(persistent.real_time,
-                                [SetField(persistent, 'on_route', True),
-                                SetField(persistent, 'load_instr', 'Auto'),
-                                SetField(persistent, 'just_loaded', True),
-                                FileAction(mm_auto),
-                                renpy.restart_interaction],
-
-                                [SetField(persistent, 'on_route', True),
-                                SetField(persistent, 'just_loaded', True),
-                                FileAction(mm_auto),
-                                renpy.restart_interaction])
+                    action MMLoadAutoSave()
                     hbox:
                         fixed:
                             add 'save_auto' align (0.5, 0.5)
@@ -603,16 +619,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     file_time = FileTime(slot, empty="00:00")[-5:]
 
                 button:
-                    if title == "Save":
-                        action [SetVariable('save_name', get_save_title()),
-                                FileAction(slot),
-                                renpy.restart_interaction]
-                    else: # title == "Load"
-                        action [Function(load_action,
-                                the_day=access_json(slot, 'today'),
-                                next_day=access_json(slot, 'tomorrow'),
-                                file_time=FileTime(slot, empty="00:00"),
-                                slot=slot)]
+                    action MMSaveLoad(title, slot)
                     hbox:
                         fixed:
                             # Adds the correct save image to the left
