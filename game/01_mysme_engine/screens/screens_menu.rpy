@@ -1161,6 +1161,22 @@ image exit_hex = "Menu Screens/Chat Hub/exit-pixel-perfect.webp"
 image new_profile_update = Frame("Menu Screens/Chat Hub/main_profile_new_update.webp", 0, 0)
 image no_profile_update = Frame("Menu Screens/Chat Hub/main_profile_normal.webp", 0, 0)
 
+init python:
+    def MMMainChatroom():
+        """Return the action used when clicking Main Chatroom on the chat hub."""
+        if persistent.real_time:
+            return [Function(check_and_unlock_story),
+                    Function(deliver_all_texts),
+                    If(not story_archive
+                        or not story_archive[0].archive_list,
+                        Show('script_error', message="There is no content for this route"),
+                    Show('day_select'))]
+        else:
+            return [Function(deliver_all_texts), If(not story_archive
+                        or not story_archive[0].archive_list,
+                        Show('script_error', message="There is no content for this route"),
+                    Show('day_select'))]
+
 screen chat_home(reshow=False):
 
     tag menu
@@ -1310,18 +1326,7 @@ screen chat_home(reshow=False):
             # Main Chatroom
             button:
                 style 'big_menu_circle'
-                if persistent.real_time:
-                    action [Function(check_and_unlock_story),
-                            Function(deliver_all_texts),
-                            If(not story_archive
-                                or not story_archive[0].archive_list,
-                                Show('script_error', message="There is no content for this route"),
-                            Show('day_select'))]
-                else:
-                    action [Function(deliver_all_texts), If(not story_archive
-                                or not story_archive[0].archive_list,
-                                Show('script_error', message="There is no content for this route"),
-                            Show('day_select'))]
+                action MMMainChatroom()
                 add "rfa_chatcircle" yalign 0.5 xalign 0.5
                 add "blue_chatcircle" xalign 0.5 yalign 0.5
                 add "chat_icon" xalign 0.5 yalign 0.5
