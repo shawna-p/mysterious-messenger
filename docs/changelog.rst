@@ -70,6 +70,8 @@ QoL Improvements
       - **Description**
     * - Remember save page
       - The game remembers which save page you last used.
+    * - Main Menu Screen Actions
+      - Common actions for buttons on the main menu and home screen have been turned into functions for easier UI modification.
 
 
 
