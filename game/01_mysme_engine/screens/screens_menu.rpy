@@ -1177,31 +1177,28 @@ init python:
                         Show('script_error', message="There is no content for this route"),
                     Show('day_select'))]
 
+    def MMRefreshHome():
+        """
+        Return the action used to refresh the home screen. Performs several
+        actions such as auto-saving and checking for Honey Buddha chips.
+        """
+        return If(renpy.get_screen('chip_tap')
+                    or renpy.get_screen('chip_cloud')
+                    or renpy.get_screen('chip_end'),
+                SetField(persistent, 'just_loaded', False),
+                [SetField(persistent, 'just_loaded', False),
+                SetVariable('text_person', None),
+                Hide('chip_end'), Function(renpy.retain_after_load),
+                AutoSave()])
+
 screen chat_home(reshow=False):
 
     tag menu
     modal True
 
     # Every time you go back to this screen, the game will auto-save
-    on 'show':
-        action If(renpy.get_screen('chip_tap')
-                    or renpy.get_screen('chip_cloud')
-                    or renpy.get_screen('chip_end'),
-                SetField(persistent, 'just_loaded', False),
-                [SetField(persistent, 'just_loaded', False),
-                SetVariable('text_person', None),
-                Hide('chip_end'), renpy.retain_after_load,
-                AutoSave()])
-
-    on 'replace':
-        action If(renpy.get_screen('chip_tap')
-                    or renpy.get_screen('chip_cloud')
-                    or renpy.get_screen('chip_end'),
-                SetField(persistent, 'just_loaded', False),
-                [SetField(persistent, 'just_loaded', False),
-                SetVariable('text_person', None),
-                Hide('chip_end'), renpy.retain_after_load,
-                AutoSave()])
+    on 'show' action MMRefreshHome()
+    on 'replace' action MMRefreshHome()
 
     use menu_header("Original Story"):
         # Note that only characters in the list 'character_list' will
