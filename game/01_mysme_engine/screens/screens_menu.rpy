@@ -1191,6 +1191,11 @@ init python:
                 Hide('chip_end'), Function(renpy.retain_after_load),
                 AutoSave()])
 
+    def MMGallery():
+        """Return the action used to open the gallery."""
+        return [Function(check_for_CGs, all_albums=all_albums),
+                Show('photo_album', Dissolve(0.5))]
+
 screen chat_home(reshow=False):
 
     tag menu
@@ -1338,8 +1343,7 @@ screen chat_home(reshow=False):
                     if new_cg > 0:
                         add 'new_text' align (1.0, 0.1) xoffset 15
                     selected new_cg > 0
-                    action [Function(check_for_CGs, all_albums=all_albums),
-                            Show('photo_album', Dissolve(0.5))]
+                    action MMGallery()
                     add "album_icon" xalign 0.5 yalign 0.35
                     text "ALBUM"
 
