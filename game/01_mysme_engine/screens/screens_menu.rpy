@@ -1196,6 +1196,10 @@ init python:
         return [Function(check_for_CGs, all_albums=all_albums),
                 Show('photo_album', Dissolve(0.5))]
 
+    def MMPhoneCalls():
+        """Return the action used to view phone calls."""
+        return [SetVariable('unseen_calls', 0), Show('phone_calls')]
+
 screen chat_home(reshow=False):
 
     tag menu
@@ -1295,7 +1299,7 @@ screen chat_home(reshow=False):
                 else:
                     yalign 0.3
                 selected unseen_calls > 0
-                action [SetVariable('unseen_calls', 0), Show('phone_calls')]
+                action MMPhoneCalls()
                 if unseen_calls > 0:
                     add "blue_maincircle" xalign 0.5 yalign 0.5
                     frame:
