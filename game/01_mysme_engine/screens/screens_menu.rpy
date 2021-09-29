@@ -1200,6 +1200,11 @@ init python:
         """Return the action used to view phone calls."""
         return [SetVariable('unseen_calls', 0), Show('phone_calls')]
 
+    def MMViewProfile(person):
+        """Return the action used to view a character's profile."""
+        return [SetField(person, 'seen_updates', True),
+                Show('chara_profile', who=person)]
+
 screen chat_home(reshow=False):
 
     tag menu
@@ -1250,8 +1255,7 @@ screen chat_home(reshow=False):
                             selected_background Transform('new_profile_update',
                                     size=(pfp_size, pfp_size))
                             selected not person.seen_updates
-                            action [SetField(person, 'seen_updates', True),
-                                Show('chara_profile', who=person)]
+                            action MMViewProfile(person)
                             activate_sound 'audio/sfx/UI/profile_screen_select.mp3'
                 for x in range(num_col*num_row - len(character_list) + sub_num):
                     null
