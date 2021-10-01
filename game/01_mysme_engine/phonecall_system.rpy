@@ -447,10 +447,6 @@ screen phone_calls():
             has vbox
             for i in call_history:
                 $ call_status = 'call_' + i.call_status
-                if i.playback:
-                    $ replay_bkgr = 'call_replay_active'
-                else:
-                    $ replay_bkgr = 'call_replay_inactive'
 
                 frame:
                     style_prefix None
@@ -483,14 +479,16 @@ screen phone_calls():
                         align (0.5, 0.5)
                         spacing 30
                         imagebutton:
-                            idle replay_bkgr
+                            idle 'call_replay_active'
+                            insensitive 'call_replay_inactive'
                             align(0.5, 0.5)
                             xysize(96,85)
-                            hover Transform(replay_bkgr, zoom=1.1)
-                            if i.playback:
-                                action [SetVariable('observing', True),
-                                        SetVariable('current_call', i),
-                                        Jump('play_phone_call')]
+                            sensitive i.playback
+                            hover Transform('call_replay_active', zoom=1.1,
+                                            align=(.5, .5))
+                            action [SetVariable('observing', True),
+                                    SetVariable('current_call', i),
+                                    Jump('play_phone_call')]
 
                         imagebutton:
                             idle 'call_back'
