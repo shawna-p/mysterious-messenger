@@ -1233,7 +1233,6 @@ screen chat_home(reshow=False):
             num_row = -(-(len(character_list)-sub_num) // num_col)
             extra_space = (741-8-8-pfp_size) - (num_col * pfp_size)
 
-
         frame:
             xysize(741, 206)
             xalign 0.5
@@ -1381,7 +1380,7 @@ screen chat_home(reshow=False):
                 # Exit to main menu ("Link")
                 button:
                     selected None
-                    action [Function(renpy.full_restart)]
+                    action MainMenu()
                     add 'exit_hex' align (0.6, 0.38)
                     text "MAIN MENU" size 18
 
