@@ -386,6 +386,25 @@ init -6 python:
             except AttributeError:
                 return
 
+    def MMReplayCall(phonecall):
+        """Return the action for replaying a phone call."""
+        return [SetVariable('observing', True),
+                SetVariable('current_call', phonecall),
+                Jump('play_phone_call')]
+    def MMOutgoingCall(phonecall):
+        """Return the action for making an outgoing phonecall."""
+        if call_available(phonecall.caller):
+            return [Preference("auto-forward", "enable"),
+                Show('outgoing_call',
+                    phonecall=call_available(phonecall.caller))]
+        elif phonecall.caller not in phone_only_characters:
+            return None
+        else:
+            return [Preference("auto-forward", "enable"),
+                    Show('outgoing_call',
+                        phonecall=phonecall.caller.voicemail,
+                        voicemail=True)]
+
 init offset = -5
 # Track characters who only appear in phone calls
 default phone_only_characters = [ ]
@@ -486,9 +505,7 @@ screen phone_calls():
                             sensitive i.playback
                             hover Transform('call_replay_active', zoom=1.1,
                                             align=(.5, .5))
-                            action [SetVariable('observing', True),
-                                    SetVariable('current_call', i),
-                                    Jump('play_phone_call')]
+                            action MMReplayCall(i)
 
                         imagebutton:
                             idle 'call_back'
@@ -497,16 +514,8 @@ screen phone_calls():
                             align(0.5, 0.5)
                             xysize(96,85)
                             hover Transform('call_back', zoom=1.1)
-                            if call_available(i.caller):
-                                action [Preference("auto-forward", "enable"),
-                                Show('outgoing_call',
-                                    phonecall=call_available(i.caller))]
-                            else:
-                                sensitive (i.caller not in phone_only_characters)
-                                action [Preference("auto-forward", "enable"),
-                                Show('outgoing_call',
-                                    phonecall=i.caller.voicemail,
-                                    voicemail=True)]
+                            action MMOutgoingCall(i)
+
 
 style call_display_viewport:
     xalign 0.5
