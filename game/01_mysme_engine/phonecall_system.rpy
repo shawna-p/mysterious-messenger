@@ -391,18 +391,24 @@ init -6 python:
         return [SetVariable('observing', True),
                 SetVariable('current_call', phonecall),
                 Jump('play_phone_call')]
-    def MMOutgoingCall(phonecall):
+    def MMOutgoingCall(phonecall=None, caller=None):
         """Return the action for making an outgoing phonecall."""
-        if call_available(phonecall.caller):
+
+        if phonecall:
+            i = phonecall.caller
+        else:
+            i = caller
+
+        if call_available(i):
             return [Preference("auto-forward", "enable"),
                 Show('outgoing_call',
-                    phonecall=call_available(phonecall.caller))]
-        elif phonecall.caller not in phone_only_characters:
+                    phonecall=call_available(i))]
+        elif i not in phone_only_characters:
             return None
         else:
             return [Preference("auto-forward", "enable"),
                     Show('outgoing_call',
-                        phonecall=phonecall.caller.voicemail,
+                        phonecall=i.voicemail,
                         voicemail=True)]
 
 init offset = -5
@@ -514,7 +520,7 @@ screen phone_calls():
                             align(0.5, 0.5)
                             xysize(96,85)
                             hover Transform('call_back', zoom=1.1)
-                            action MMOutgoingCall(i)
+                            action MMOutgoingCall(phonecall=i)
 
 
 style call_display_viewport:
@@ -611,15 +617,7 @@ screen phone_contact_btn(person):
             background person.file_id + '_contact'
             idle person.file_id + '_contact'
             hover_foreground person.file_id + '_contact'
-            if call_available(person):
-                action [Preference("auto-forward", "enable"),
-                        Show('outgoing_call',
-                            phonecall=call_available(person))]
-            else:
-                action [Preference("auto-forward", "enable"),
-                        Show('outgoing_call',
-                            phonecall=person.voicemail,
-                            voicemail=True)]
+            action MMOutgoingCall(person)
         text person.name style 'contact_text'
 
 style contacts_grid_grid:
