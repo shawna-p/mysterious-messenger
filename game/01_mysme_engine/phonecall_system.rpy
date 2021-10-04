@@ -411,6 +411,17 @@ init -6 python:
                         phonecall=i.voicemail,
                         voicemail=True)]
 
+    def MMStartCall():
+        """Return the action for beginning a phone call (on show)."""
+        return [Stop('music'),
+                SetVariable('in_phone_call', True),
+                Preference('auto-forward after click', 'enable')]
+    def MMEndCall():
+        """Return the action for ending a phone call (on hide)."""
+        return [SetVariable('in_phone_call', False),
+                Preference('auto-forward after click', 'disable')]
+
+
 init offset = -5
 # Track characters who only appear in phone calls
 default phone_only_characters = [ ]
@@ -675,16 +686,10 @@ label hang_up():
 screen in_call(who=ja, story_call=False):
 
     tag menu
-    on 'show' action [renpy.music.stop(),
-                        SetVariable('in_phone_call', True),
-                        Preference('auto-forward after click', 'enable')]
-    on 'hide' action [SetVariable('in_phone_call', False),
-                        Preference('auto-forward after click', 'disable')]
-    on 'replace' action [renpy.music.stop(),
-                        SetVariable('in_phone_call', True),
-                        Preference('auto-forward after click', 'enable')]
-    on 'replaced' action [SetVariable('in_phone_call', False),
-                        Preference('auto-forward after click', 'disable')]
+    on 'show' action MMStartCall()
+    on 'replace' action MMStartCall()
+    on 'hide' action MMEndCall()
+    on 'replaced' action MMEndCall()
 
     default show_timer = True
     default countup = 0
