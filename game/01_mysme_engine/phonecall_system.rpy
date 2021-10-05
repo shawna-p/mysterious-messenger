@@ -420,6 +420,26 @@ init -6 python:
         """Return the action for ending a phone call (on hide)."""
         return [SetVariable('in_phone_call', False),
                 Preference('auto-forward after click', 'disable')]
+    def MMHangupCall(story=False):
+        """Return the action for hanging up the phone."""
+        if story:
+            return If((observing
+                    or current_timeline_item.currently_expired),
+                [Jump('exit_item_early')],
+
+                CConfirm(("Do you really want "
+                + "to hang up this call? Please note that you cannot "
+                + "participate once you leave. If you want to "
+                + "participate in this call again, you will need to "
+                + "buy it back."),
+                [Hide('phone_say'),
+                    Jump('exit_item_early')]
+                ))
+        else:
+            return CConfirm(("Do you really want to end this phone call? "
+                + "You may not be able to have this conversation "
+                + "again if you hang up."),
+                        [Hide('phone_say'), Jump('hang_up')])
 
 
 init offset = -5
@@ -707,26 +727,11 @@ screen in_call(who=ja, story_call=False):
                     text "{0:01}".format((countup%60)//10)
                     text "{0:01}".format((countup%60)%10)
             if not starter_story and not story_call:
-                use phone_footer(False, "call_pause",
-                    CConfirm(("Do you really want to end this phone call? "
-                        + "You may not be able to have this conversation "
-                        + "again if you hang up."),
-                                [Hide('phone_say'), Jump('hang_up')]))
+                use phone_footer(False, "call_pause", MMHangupCall())
             elif story_call:
                 use phone_footer(answer_action=False,
                     center_item='call_pause',
-                    hangup_action=If((observing
-                            or current_timeline_item.currently_expired),
-                        [Jump('exit_item_early')],
-
-                        CConfirm(("Do you really want "
-                        + "to hang up this call? Please note that you cannot "
-                        + "participate once you leave. If you want to "
-                        + "participate in this call again, you will need to "
-                        + "buy it back."),
-                        [Hide('phone_say'),
-                            Jump('exit_item_early')]
-                        )))
+                    hangup_action=MMHangupCall(story=True))
             else:
                 use phone_footer(False, "call_pause", False)
 
