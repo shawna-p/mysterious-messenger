@@ -420,8 +420,12 @@ init -6 python:
         """Return the action for ending a phone call (on hide)."""
         return [SetVariable('in_phone_call', False),
                 Preference('auto-forward after click', 'disable')]
-    def MMHangupCall(story=False):
+    def MMHangupCall(story=False, incoming=False):
         """Return the action for hanging up the phone."""
+        if incoming:
+            return [Stop('music'),
+                Function(call_hang_up_incoming, current_call),
+                Show('chat_home')]
         if story:
             return If((observing
                     or current_timeline_item.currently_expired),
@@ -440,6 +444,16 @@ init -6 python:
                 + "You may not be able to have this conversation "
                 + "again if you hang up."),
                         [Hide('phone_say'), Jump('hang_up')])
+    def MMIncomingCall(phonecall, starter=False):
+        if starter:
+            return [Stop('music'),
+                SetVariable('current_call', phonecall),
+                Return()]
+        else:
+            return [Stop('music'),
+                        Preference("auto-forward", "enable"),
+                        SetVariable('current_call', phonecall),
+                        Jump('play_phone_call')]
 
 
 init offset = -5
@@ -814,23 +828,16 @@ screen incoming_call(phonecall, countdown_time=10):
                     text "[call_countdown]" xalign 0.5  color '#fff' size 80
 
             if starter_story:
-                use phone_footer([Stop('music'),
-                                SetVariable('current_call', phonecall),
-                                Return()],
+                use phone_footer(MMIncomingCall(phonecall, True),
                                     "headphones", False)
             elif isinstance(phonecall, StoryCall):
                 use phone_footer(Return(),
                                 "headphones",
                                 False)
             else:
-                use phone_footer([Stop('music'),
-                                Preference("auto-forward", "enable"),
-                                SetVariable('current_call', phonecall),
-                                Jump('play_phone_call')],
+                use phone_footer(MMIncomingCall(phonecall, False),
                                 "headphones",
-                                [Stop('music'),
-                                Function(call_hang_up_incoming, current_call),
-                                Show('chat_home')])
+                                MMHangupCall(incoming=True))
 
 
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
