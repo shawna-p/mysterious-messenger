@@ -455,6 +455,13 @@ init -6 python:
                         SetVariable('current_call', phonecall),
                         Jump('play_phone_call')]
 
+    def MMIncomingCountdown(call_countdown):
+        return If(call_countdown>1,
+                SetScreenVariable("call_countdown",
+                call_countdown-1),
+                [Function(call_hang_up_incoming, current_call),
+                Show('chat_home')])
+
 
 init offset = -5
 # Track characters who only appear in phone calls
@@ -843,11 +850,7 @@ screen incoming_call(phonecall, countdown_time=10):
     on 'show' action SetScreenVariable('call_countdown', countdown_time)
     on 'replace' action SetScreenVariable('call_countdown', countdown_time)
     if not starter_story and not isinstance(phonecall, StoryCall):
-        timer 1.0 action If(call_countdown>1,
-                            SetScreenVariable("call_countdown",
-                            call_countdown-1),
-                            [Function(call_hang_up_incoming, current_call),
-                            Show('chat_home')]) repeat True
+        timer 1.0 action MMIncomingCountdown(call_countdown) repeat True
 
 
 ## Screen that shows the pick up/answer buttons at the bottom
