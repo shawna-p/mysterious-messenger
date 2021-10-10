@@ -268,12 +268,6 @@ python early hide:
             if d_font != 'sser1':
                 dialogue = "{=" + d_font + "}" + dialogue + "{/=" + d_font + "}"
 
-        # There is a special bubble; check if need to correct it
-        if (spec_bubble and spec_bubble.startswith("round")
-                and (who.file_id == 'r' or who.file_id == 'z')):
-            # Correct this to the new 'flower' variant if applicable
-            spec_bubble = "flower_" + spec_bubble[-1]
-
         if what in store.emoji_lookup:
             # Automatically set img to True
             img = True
@@ -821,6 +815,12 @@ python early hide:
         # Correct 'what' into dialogue with the right text tags
         dialogue, img, spec_bubble = parse_message_args(what, ffont, bold,
             xbold, big, img, spec_bubble, underline, is_text_msg=is_text_msg)
+
+        # There is a special bubble; check if need to correct it
+        if (spec_bubble and spec_bubble.startswith("round")
+                and (who.file_id == 'r' or who.file_id == 'z')):
+            # Correct this to the new 'flower' variant if applicable
+            spec_bubble = "flower_" + spec_bubble[-1]
 
         # What to do with this dialogue depends on if it's for a chatroom
         # or a text message, or for another CDS
