@@ -445,6 +445,7 @@ init -6 python:
                 + "again if you hang up."),
                         [Hide('phone_say'), Jump('hang_up')])
     def MMIncomingCall(phonecall, starter=False):
+        """Return the action for an incoming call."""
         if starter:
             return [Stop('music'),
                 SetVariable('current_call', phonecall),
@@ -456,11 +457,29 @@ init -6 python:
                         Jump('play_phone_call')]
 
     def MMIncomingCountdown(call_countdown):
+        """
+        Return the action which occurs as the timer counts down on an
+        incoming call.
+        """
         return If(call_countdown>1,
                 SetScreenVariable("call_countdown",
                 call_countdown-1),
                 [Function(call_hang_up_incoming, current_call),
                 Show('chat_home')])
+
+    def MMPauseCall():
+        """
+        Return the action which pauses/unpauses a phone call in-progress.
+        """
+        if _preferences.afm_enable: #preferences.afm_time > 0:
+            return [SetScreenVariable('show_timer', False),
+                    PauseAudio('voice', value=True),
+                    Function(toggle_afm)]
+        else:
+            return [SetScreenVariable('show_timer', True),
+                    PauseAudio('voice', value=False),
+                    Function(toggle_afm)]
+
 
 
 init offset = -5
@@ -669,7 +688,7 @@ screen phone_contact_btn(person):
             background person.file_id + '_contact'
             idle person.file_id + '_contact'
             hover_foreground person.file_id + '_contact'
-            action MMOutgoingCall(person)
+            action MMOutgoingCall(caller=person)
         text person.name style 'contact_text'
 
 style contacts_grid_grid:
@@ -880,18 +899,12 @@ screen phone_footer(answer_action=False,
             elif center_item == "call_pause":
                  imagebutton:
                     align (0.5, 0.5)
-                    if _preferences.afm_enable: #preferences.afm_time > 0:
-                        idle 'call_pause'
-                        action [SetScreenVariable('show_timer', False),
-                                PauseAudio('voice', value=True),
-                                Function(toggle_afm)]
-                                #Preference("auto-forward", "toggle")
-                    else:
-                        idle 'call_play'
-                        action [SetScreenVariable('show_timer', True),
-                                PauseAudio('voice', value=False),
-                                Function(toggle_afm)]
-                                #Preference("auto-forward", "toggle"
+                    selected _preferences.afm_enable
+                    selected_idle 'call_pause'
+                    selected_hover 'call_pause'
+                    idle 'call_play'
+                    hover 'call_play'
+                    action MMPauseCall()
 
         frame:
             xysize(160,160)

@@ -256,7 +256,7 @@ init python:
         """
 
         if phonecall.voicemail:
-            # It doesn't matter if the player hung up in the middle
+            # It doesn't matter if the player hung up in the middle of
             # a voicemail
             return
 
