@@ -923,14 +923,18 @@ screen phone_footer(answer_action=False,
 
 define phone_dial_sfx = "audio/sfx/phone ring.mp3"
 
+init python:
+    def MMPlayDialtone():
+        """Return the action for playing the phone ringing sound effect."""
+        return Function(renpy.music.play, ["<silence 1.5>",
+                phone_dial_sfx, "<silence 1.5>"], loop=True)
+
 screen outgoing_call(phonecall, voicemail=False):
     tag menu
 
 
-    on 'show' action Function(renpy.music.play, ["<silence 1.5>",
-                        phone_dial_sfx, "<silence 1.5>"], loop=True)
-    on 'replace' action Function(renpy.music.play, ["<silence 1.5>",
-                        phone_dial_sfx, "<silence 1.5>"], loop=True)
+    on 'show' action MMPlayDialtone()
+    on 'replace' action MMPlayDialtone()
 
     use menu_header("In Call"):
         frame:
