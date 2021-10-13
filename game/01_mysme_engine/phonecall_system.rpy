@@ -929,9 +929,21 @@ init python:
         return Function(renpy.music.play, ["<silence 1.5>",
                 phone_dial_sfx, "<silence 1.5>"], loop=True)
 
+    def MMVoicemail():
+        """Return the action which triggers a voicemail."""
+        return If(phonecall, [Stop('music'),
+                SetVariable('current_call', phonecall),
+                Jump('play_phone_call')],
+                Show('phone_calls'))
+
+    def MMCallPickup():
+        """Return the action when a character picks up a call."""
+        return [Stop('music'),
+                SetVariable('current_call', phonecall),
+                Jump('play_phone_call')]
+
 screen outgoing_call(phonecall, voicemail=False):
     tag menu
-
 
     on 'show' action MMPlayDialtone()
     on 'replace' action MMPlayDialtone()
@@ -976,14 +988,9 @@ screen outgoing_call(phonecall, voicemail=False):
                             [Stop('music'), Show('phone_calls')])
 
     if voicemail:
-        timer randint(8, 10) action If(phonecall, [Stop('music'),
-                                        SetVariable('current_call', phonecall),
-                                        Jump('play_phone_call')],
-                                        Show('phone_calls'))
+        timer randint(8, 10) action MMVoicemail()
     else:
-        timer randint(2, 7) action [Stop('music'),
-                                    SetVariable('current_call', phonecall),
-                                    Jump('play_phone_call')]
+        timer randint(2, 7) action MMCallPickup()
 
 ## Screen used to say dialogue for phone characters
 screen phone_say(who, what):
