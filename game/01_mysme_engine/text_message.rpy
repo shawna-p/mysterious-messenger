@@ -212,8 +212,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
                     or renpy.get_screen('outgoing call')
                     or renpy.get_screen('phone_overlay')
                     or renpy.get_screen('vn_overlay'))):
-                textbutton _('Go to'):
-                    action MMGoToText(c)
+                textbutton _('Go to') action MMGoToText(c)
             else:
                 null height 70
     timer 3.25:
