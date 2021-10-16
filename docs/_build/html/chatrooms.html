@@ -129,6 +129,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#removing-a-heart-point">Removing a heart point</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#awarding-an-hourglass">Awarding an Hourglass</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-the-hacked-scroll-effect">Showing the Hacked Scroll Effect</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-the-secure-chatroom-animation">Showing the Secure Chatroom Animation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
@@ -302,6 +303,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#removing-a-heart-point">Removing a heart point</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#awarding-an-hourglass">Awarding an Hourglass</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-the-hacked-scroll-effect">Showing the Hacked Scroll Effect</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#showing-the-secure-chatroom-animation">Showing the Secure Chatroom Animation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#shaking-the-screen">Shaking the Screen</a></li>
@@ -876,6 +878,24 @@
 <p>Both <code class="docutils literal notranslate"><span class="pre">break</span> <span class="pre">heart</span> <span class="pre">ju</span></code> and <code class="docutils literal notranslate"><span class="pre">heart</span> <span class="pre">break</span> <span class="pre">ju</span></code> will show the heart break animation for the character <code class="docutils literal notranslate"><span class="pre">ju</span></code>. You can’t switch the word order for <code class="docutils literal notranslate"><span class="pre">award</span> <span class="pre">heart</span></code> though!</p>
 </div>
 </div>
+</div>
+<div class="section" id="awarding-an-hourglass">
+<h3>Awarding an Hourglass<a class="headerlink" href="#awarding-an-hourglass" title="Permalink to this headline">¶</a></h3>
+<p>Hourglasses are randomly awarded to players when certain bubbles (specified in <code class="docutils literal notranslate"><span class="pre">hourglass_bubbles</span></code> in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>) are used in chatroom dialogue so long as <code class="docutils literal notranslate"><span class="pre">Receive</span> <span class="pre">Hourglasses</span> <span class="pre">in</span> <span class="pre">Chatrooms</span></code> is active from the Developer options. However, you can also manually award the player hourglasses with a special function, <code class="docutils literal notranslate"><span class="pre">award_hourglass</span></code>. The function takes two fields:</p>
+<dl>
+<dt><cite>random</cite></dt><dd><p>False by default. Set this to True if you would like there to be a random chance of getting an hourglass even when this function is triggered (e.g. you have a specific message you’d like to potentially award an hourglass, but it shouldn’t be guaranteed).</p>
+</dd>
+<dt><cite>force</cite></dt><dd><p>False by default. Set this to True if you’d like to force the player to receive an hourglass in all circumstances. Note that this isn’t the same as having <code class="docutils literal notranslate"><span class="pre">random=False</span></code>; <code class="docutils literal notranslate"><span class="pre">force</span></code> means that even if the player is viewing an expired chatroom or watching a replay from the History, they will receive an hourglass, <em>including if</em> you have <code class="docutils literal notranslate"><span class="pre">Receive</span> <span class="pre">Hourglasses</span> <span class="pre">in</span> <span class="pre">Chatrooms</span></code> turned off from the developer settings.</p>
+<p>This option is largely intended for non-playable gameplay such that you might record a video of. If you’d simply like to guarantee the player receives an hourglass in the event that it is possible to receive them based on how they’re viewing the current story item, then you should leave both <code class="docutils literal notranslate"><span class="pre">random</span></code> and <code class="docutils literal notranslate"><span class="pre">force</span></code> as False.</p>
+</dd>
+</dl>
+<p>In the game, you might use it as follows:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="n">z</span> <span class="s2">&quot;I hope I&#39;ll see you soon, [name]~&quot;</span> <span class="n">flower_m</span> <span class="n">curly</span>
+<span class="k">$</span> <span class="n">award_hourglass</span><span class="p">(</span><span class="n">random</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">msg</span> <span class="n">z</span> <span class="s2">&quot;I should go get ready.&quot;</span>
+</pre></div>
+</div>
+<p>This will randomly award the player an hourglass when they see the line “I hope I’ll see you soon, [name]~” (that is, on some playthroughs they will receive an hourglass, and on others they will not). They won’t see this hourglass if they’re viewing this chat from the History or on a rewatch.</p>
 </div>
 <div class="section" id="showing-the-hacked-scroll-effect">
 <h3>Showing the Hacked Scroll Effect<a class="headerlink" href="#showing-the-hacked-scroll-effect" title="Permalink to this headline">¶</a></h3>

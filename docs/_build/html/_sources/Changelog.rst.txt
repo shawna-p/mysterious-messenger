@@ -7,6 +7,74 @@ Full Changelog
 
     changelog
 
+3.3.0
+=====
+
+.. _major-3-3-0:
+
+Major New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * -
+
+.. _minor-3-3-0:
+
+Minor New Features
+-------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - :ref:`Manually award hourglasses<Awarding an Hourglass>`
+      - Convenience function added for more control over when the player is awarded an hourglass.
+    * - :ref:`Chat vs Gallery CGs<Defining a CG>`
+      - Show a different image in chatrooms than in the gallery when sending CGs.
+
+
+.. _fixes-3-3-0:
+
+Fixes
+------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Fix**
+      - **Description**
+    * - Doc improvements
+      - Added doc pages on :ref:`deleting messages<Removing Messages from the Chatlog>` and :ref:`adding greetings<Adding Greeting Messages>`.
+    * - Profile picture callback fix
+      - Profile picture callbacks still go off even if you use a text message or email popup notification to leave the profile screen.
+
+
+.. _qol-3-3-0:
+
+QoL Improvements
+--------------------
+
+.. list-table::
+    :widths: 15, 85
+    :header-rows: 1
+
+    * - **Feature**
+      - **Description**
+    * - Remember save page
+      - The game remembers which save page you last used.
+    * - Main Menu Screen Actions
+      - Common actions for buttons on the main menu and home screen have been turned into functions for easier UI modification.
+
+
+
 3.2.0
 =====
 

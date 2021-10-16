@@ -337,6 +337,28 @@
 </pre></div>
 </div>
 <p>Typically thumbnails are 150x150 px. If one is not provided, the given CG is cropped and resized to the appropriate size.</p>
+<p>The full list of arguments to the Album definition is below:</p>
+<dl>
+<dt><cite>img</cite></dt><dd><p>A Displayable, typically a string with the name of the image for this CG as it should appear in the album.</p>
+</dd>
+<dt><cite>thumbnail</cite></dt><dd><p>Optional. An image path or displayable for the thumbnail as it should appear in the Gallery. Should be 155x155 pixels.</p>
+</dd>
+<dt><cite>locked_img</cite></dt><dd><p>Optional. The file path to the image that will be used as the “locked” thumbnail icon in the gallery. Should be 155x155 pixels. Typically has a “?” or a locked symbol somewhere to indicate this gallery image hasn’t been unlocked yet.</p>
+</dd>
+<dt><cite>chat_img</cite></dt><dd><p>Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player at full-size in the chatroom only. The supplied <cite>img</cite> field will be used when viewing this image full-size in the gallery instead.</p>
+<p>Use this to do things like supply blurry or edited CGs in the chatroom, but provide their regular unedited version in the gallery.</p>
+</dd>
+<dt><cite>chat_thumb</cite></dt><dd><p>Optional. A Displayable (typically an image path or string containing the name of a defined image) which will be shown to the player in the chatroom only. Clicking this image will show either <code class="docutils literal notranslate"><span class="pre">chat_img</span></code> (if available) or <code class="docutils literal notranslate"><span class="pre">img</span></code> (if not) full-screen. Typically this is about 35% of the full screen size, or 263x467 pixels, but can be whatever dimensions you like.</p>
+<p>Use this to customize the image preview in the chatroom, such as blurring the thumbnail for “spoilers” or to put the thumbnail focus on a particular part of the image.</p>
+</dd>
+</dl>
+<p>So, for example, you could define an Album object like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="n">Album</span><span class="p">(</span><span class="s2">&quot;cg common_1&quot;</span><span class="p">,</span> <span class="n">thumbnail</span><span class="o">=</span><span class="s2">&quot;common_1_thumb&quot;</span><span class="p">,</span>
+      <span class="n">chat_img</span><span class="o">=</span><span class="s2">&quot;cg common_1_edit&quot;</span><span class="p">,</span> <span class="n">chat_thumb</span><span class="o">=</span><span class="s2">&quot;CGs/spoiler_img.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>(Note that this assumes you have <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">cg</span> <span class="pre">common_1</span> <span class="pre">=</span> <span class="pre">&quot;...&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">common_1_thumb</span> <span class="pre">=</span> <span class="pre">&quot;...&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">cg</span> <span class="pre">common_1_edit</span> <span class="pre">=</span> <span class="pre">&quot;...&quot;</span></code> etc.)</p>
+<p>You would then still be able to use the CG in the usual manner described below to show in chatrooms or text messages.</p>
 <div class="section" id="large-thumbnails">
 <h3>Large Thumbnails<a class="headerlink" href="#large-thumbnails" title="Permalink to this headline">¶</a></h3>
 <p>For better compatibility with the new profile picture system, you may also want to provide a “larger” version of a thumbnail for use in profile pictures on the profile screen. The program will search for an image with the name of the thumbnail + the suffix <code class="docutils literal notranslate"><span class="pre">-b</span></code> before the file extension. So, if our “cg common_4” isn’t given a different thumbnail, it will look for the large version of the thumbnail at “CGs/common_album/cg-4-thumb-b.webp”.</p>
