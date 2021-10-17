@@ -516,7 +516,7 @@ screen phone_calls():
     on 'replace' action [AutoSave()]
 
     use menu_header("Call History", [Show('chat_home', Dissolve(0.5)),
-                                     AutoSave()]):
+                                    AutoSave()]):
 
         frame:
             style_prefix "phone_contacts"
@@ -897,7 +897,7 @@ screen phone_footer(answer_action=False,
             if center_item == "headphones":
                 add 'call_headphones' yalign 1.0 xalign 0.5
             elif center_item == "call_pause":
-                 imagebutton:
+                imagebutton:
                     align (0.5, 0.5)
                     selected _preferences.afm_enable
                     selected_idle 'call_pause'
