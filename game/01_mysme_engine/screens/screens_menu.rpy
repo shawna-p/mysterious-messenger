@@ -164,7 +164,7 @@ init python:
 ## Variable to help determine when there should be Honey Buddha
 ## Chips available
 default hbc_bag = RandomBag([ False, False, False,
-                              False, False, True, True ])
+                            False, False, True, True ])
 
 
 ## Main Menu screen ############################################################

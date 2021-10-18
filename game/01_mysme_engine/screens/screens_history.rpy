@@ -3,9 +3,10 @@
 ## of chatrooms and phone calls you've already
 ## seen in-game
 ###############################################
-
-image history_button = Frame('Menu Screens/History/main02_button_01.webp',
-                                49, 52, 270, 53)
+image history_button = Frame(
+    'Menu Screens/History/main02_button_01.webp',
+    49, 52, 270, 53
+)
 image history_button_hover = 'btn_hover:history_button'
 image history_icon_album = 'Menu Screens/History/history_icon_album.webp'
 image history_icon_chat = 'Menu Screens/History/history_icon_chat.webp'

@@ -31,7 +31,7 @@ screen animated_morning():
     # Add a bunch of stars
     for x in [0, 375]:
         for star_type in ['med', 'tiny', 'big', 'med', 'tiny', 'big',
-                          'med', 'tiny', 'big', 'med', 'tiny', 'big']:
+                        'med', 'tiny', 'big', 'med', 'tiny', 'big']:
             add 'animated_' + star_type + '_star':
                 at star_twinkle_out(100, x, x+375, 200, 200+350)
             add 'animated_' + star_type + '_star':
@@ -1171,15 +1171,15 @@ init -100 python:
 
                 for _i in xrange(0, self.count):
                     rv.append(SnowBlossomParticle2(self.image,
-                                                  ranged(self.xspeed),
-                                                  ranged(self.yspeed),
-                                                  self.border,
-                                                  st,
-                                                  self.fluttering,
-                                                  self.flutteringspeed,
-                                                  random.uniform(0, 100),
-                                                  fast=True,
-                                                  rotate=self.rotate))
+                                                ranged(self.xspeed),
+                                                ranged(self.yspeed),
+                                                self.border,
+                                                st,
+                                                self.fluttering,
+                                                self.flutteringspeed,
+                                                random.uniform(0, 100),
+                                                fast=True,
+                                                rotate=self.rotate))
                 return rv
 
             # Otherwise, wait to display particles until their start time
@@ -1191,15 +1191,15 @@ init -100 python:
                     return None
 
                 return [ SnowBlossomParticle2(self.image,
-                                             ranged(self.xspeed),
-                                             ranged(self.yspeed),
-                                             self.border,
-                                             st,
-                                             self.fluttering,
-                                             self.flutteringspeed,
-                                             random.uniform(0, 100),
-                                             fast=False,
-                                             rotate=self.rotate) ]
+                                            ranged(self.xspeed),
+                                            ranged(self.yspeed),
+                                            self.border,
+                                            st,
+                                            self.fluttering,
+                                            self.flutteringspeed,
+                                            random.uniform(0, 100),
+                                            fast=False,
+                                            rotate=self.rotate) ]
 
         def predict(self):
             return [ self.image ]

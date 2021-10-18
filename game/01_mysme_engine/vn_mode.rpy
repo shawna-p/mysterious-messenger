@@ -50,41 +50,42 @@ init -10 python:
 
     # Essentially copied from renpy.store.adv; a default ADV character
     # to work with the new MyADVCharacter class.
-    my_adv = MyADVCharacter(None,
-                   who_prefix='',
-                   who_suffix='',
-                   what_prefix='',
-                   what_suffix='',
+    my_adv = MyADVCharacter(
+                None,
+                who_prefix='',
+                who_suffix='',
+                what_prefix='',
+                what_suffix='',
 
-                   show_function=renpy.show_display_say,
-                   predict_function=renpy.predict_show_display_say,
+                show_function=renpy.show_display_say,
+                predict_function=renpy.predict_show_display_say,
 
-                   condition=None,
-                   dynamic=False,
-                   image=None,
+                condition=None,
+                dynamic=False,
+                image=None,
 
-                   interact=True,
-                   slow=True,
-                   slow_abortable=True,
-                   afm=True,
-                   ctc=None,
-                   ctc_pause=None,
-                   ctc_timedpause=None,
-                   ctc_position="nestled",
-                   all_at_once=False,
-                   with_none=None,
-                   callback=None,
-                   type='say',
-                   advance=True,
+                interact=True,
+                slow=True,
+                slow_abortable=True,
+                afm=True,
+                ctc=None,
+                ctc_pause=None,
+                ctc_timedpause=None,
+                ctc_position="nestled",
+                all_at_once=False,
+                with_none=None,
+                callback=None,
+                type='say',
+                advance=True,
 
-                   who_style='say_label',
-                   what_style='say_dialogue',
-                   window_style='say_window',
-                   screen='say',
-                   mode='say',
-                   voice_tag=None,
+                who_style='say_label',
+                what_style='say_dialogue',
+                window_style='say_window',
+                screen='say',
+                mode='say',
+                voice_tag=None,
 
-                   kind=False)
+                kind=False)
 
     def Character(name=renpy.character.NotSet, kind=None, **properties):
         """

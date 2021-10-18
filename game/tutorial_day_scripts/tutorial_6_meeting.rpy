@@ -113,8 +113,8 @@ label popcorn_chat_expired():
     # This is an alternative way of writing chatroom dialogue.
     # It's a little easier to write, though you need to use the right keywords.
     msg ju "Zen's written some strange things."
-    msg ja "{image=jaehee_happy}" # Note this is automatically recognized as
-                                  # an image because of the {image=
+    msg ja "{image=jaehee_happy}"   # Note this is automatically recognized as
+                                    # an image because of the {image=
     msg ja "There is a meeting with the Women Artists group today."
     msg ja "I'm telling you this before you come to the office..."
     msg ja "The meeting's agenda will be about the \"Loss of the Muse\" exhibition... Please choose a more artistic tie that will suit today's meeting."

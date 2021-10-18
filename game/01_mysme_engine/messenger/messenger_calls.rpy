@@ -98,8 +98,8 @@ label chat_end_route():
 ## you to show a VN section in the middle of a chatroom
 ## The VN section needs to be defined in its own separate label
 label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
-                     reset_participants=False, end_after_vn=False,
-                     from_link=False):
+                    reset_participants=False, end_after_vn=False,
+                    from_link=False):
 
     # Add an instruction for the replay log
     if (not observing and not persistent.testing_mode):

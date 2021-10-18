@@ -54,7 +54,7 @@ init python:
             if not self.bag:
                 # Replace it with a copy of choices,
                 self.bag = list(self.choices)
-                 # Then randomize those choices.
+                # Then randomize those choices.
                 renpy.random.shuffle(self.bag)
 
             # Return something from the bag.
