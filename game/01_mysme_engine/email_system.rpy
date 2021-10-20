@@ -499,6 +499,7 @@ init python:
         return num_guests
 
     def MMGoToEmail():
+        """Return the action to Go To the email screen from a popup."""
         return If (((not (renpy.get_screen('in_call')
                 or renpy.get_screen('incoming_call')
                 or renpy.get_screen('outgoing call')
@@ -511,6 +512,12 @@ init python:
                 Hide('phone_overlay'),
                 Hide('settings_screen'),
                 Show('email_hub')], None)
+
+    def MMOpenEmail(e):
+        """Return the action to open the email e."""
+        return [SetVariable("current_email", e),
+                SetField(e, 'read', True),
+                Show('open_email', e=e)]
 
 default email_list = []
 default email_reply = False
@@ -688,9 +695,7 @@ screen email_button(e):
         else:
             background 'email_mint'
 
-        action [SetVariable("current_email", e),
-                SetField(e, 'read', True),
-                Show('open_email', e=e)]
+        action MMOpenEmail(e)
 
         hbox:
             fixed:
