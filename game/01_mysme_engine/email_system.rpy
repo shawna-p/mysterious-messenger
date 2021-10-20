@@ -498,6 +498,20 @@ init python:
                 num_guests += 1
         return num_guests
 
+    def MMGoToEmail():
+        return If (((not (renpy.get_screen('in_call')
+                or renpy.get_screen('incoming_call')
+                or renpy.get_screen('outgoing call')
+                or text_person))),
+            [Hide('email_popup'),
+                Function(hide_all_popups),
+                Hide('save_load'),
+                Hide('menu'),
+                Hide('chat_footer'),
+                Hide('phone_overlay'),
+                Hide('settings_screen'),
+                Show('email_hub')], None)
+
 default email_list = []
 default email_reply = False
 # List of all the guests the player has successfully
@@ -539,18 +553,7 @@ screen email_popup(e):
                         or renpy.get_screen('incoming_call')
                         or renpy.get_screen('outgoing call')
                         or text_person)):
-                    action If (((not (renpy.get_screen('in_call')
-                            or renpy.get_screen('incoming_call')
-                            or renpy.get_screen('outgoing call')
-                            or text_person))),
-                        [Hide('email_popup'),
-                            Function(hide_all_popups),
-                            Hide('save_load'),
-                            Hide('menu'),
-                            Hide('chat_footer'),
-                            Hide('phone_overlay'),
-                            Hide('settings_screen'),
-                            Show('email_hub')], None)
+                    action MMGoToEmail()
 
     timer 3.25 action Hide('email_popup', Dissolve(0.25))
 
