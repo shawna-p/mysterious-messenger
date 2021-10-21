@@ -498,19 +498,18 @@ screen continue_answer_button(themenu):
     # they either forfeit the ability to pick an answer or
     # the program auto-selects the answer button for them
     if renpy.is_skipping() and not observing:
-        timer 0.01 action If(persistent.use_timed_menus,
+        timer 0.01:
+            action [
+                Hide('answer_countdown'),
+                Hide('continue_answer_button'),
+                Show('pause_button'),
+                If(persistent.use_timed_menus,
+                    [SetVariable('choosing', True),
+                    SetVariable('timed_choose', True),
+                    Jump(themenu)],
 
-                            [ Hide('answer_countdown'),
-                            Hide('continue_answer_button'),
-                            Show('pause_button'),
-                            SetVariable("timed_choose", False) ],
-
-                            [ Hide('answer_countdown'),
-                            Hide('continue_answer_button'),
-                            Show('pause_button'),
-                            SetVariable('choosing', True),
-                            SetVariable('timed_choose', True),
-                            Jump(themenu) ])
+                    SetVariable('timed_choose', False))
+            ]
 
 style answer_bar:
     bar_invert True
