@@ -135,7 +135,7 @@ init python:
 
         return allocate_screen(["text_msg_popup", "text_pop_2", "text_pop_3"])
 
-    def MMGoToText(c):
+    def MMGoToText(c, hide_screen):
         """Action which occurs when Go To is pressed on a text popup."""
         return If ((c.real_time_text and c.text_msg.reply_label),
                 [Function(text_message_begin, text_person=c),
@@ -212,7 +212,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
                     or renpy.get_screen('outgoing call')
                     or renpy.get_screen('phone_overlay')
                     or renpy.get_screen('vn_overlay'))):
-                textbutton _('Go to') action MMGoToText(c)
+                textbutton _('Go to') action MMGoToText(c, hide_screen)
             else:
                 null height 70
     timer 3.25:
