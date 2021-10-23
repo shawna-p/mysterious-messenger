@@ -54,6 +54,52 @@ label example_email_expired():
     exit chatroom z
     return
 
+
+## A label which triggers an incoming call from 707 after
+## this chatroom completes.
+label example_email_incoming_s():
+    s "Hello [name]!"
+    s "I thought maybe you weren't awake yet and wouldn't pick up."
+    jump example_email_incoming_s_ending
+
+## A label which changes the dialogue for the incoming call if the player
+## missed the incoming call and is calling back.
+label example_email_incoming_s_callback():
+    s "[name]!!! You called me back, haha."
+    s "I figured you were sleeping in so I didn't wanna bother you."
+    s "But I'm glad you called."
+    jump example_email_incoming_s_ending
+
+## A label which contains the common dialogue between the "regular"
+## phone call and the "called back" phone call
+label example_email_incoming_s_ending():
+    s "Are you busy right now?"
+    menu:
+        "No, not particularly.":
+            s "Great! So I had this idea for a cat cafe I wanted to bring up in the chatroom."
+            s "Don't tell Jaehee though, okay? She might get mad."
+            s "I need some input on what to call it."
+            s "Do you like the sound of \"Elly's Delightful Kitty Extravaganza\" or \"The A-meow-zing Cat Cafe\"?"
+            menu:
+                "Uh... whatever one you like more?":
+                    s "Hmm.... that's no help though. I can't decide if I like the a-meow-zing pun more or if the word \"extravaganza!\" really has the oomph I need."
+                "\"Elly's Delightful Kitty Extravaganza\"!":
+                    s "I see~! An excellent choice."
+                "\"The A-meow-zing Cat Cafe\"!":
+                    s "I see~! An a-meow-zing choice."
+                "They're both kinda tacky lol":
+                    s "Hmm... maybe I'll go back to the drawing board, then."
+        "Yeah, I should probably get something done today.":
+            s "Aw... don't be like that..."
+            s "But, if you really have to leave, I'll understand."
+            s "Just call me back when you're free!"
+            s "Look at you being all responsible haha. Well, toodles!"
+            return
+    s "Oh... looks like I actually have to go already. I'm sorry for ditching you!"
+    s "Let's talk again later in the chatroom. Toodles!"
+    return
+
+
 ## This is how you will set up guests for the party. A template can be found
 ## in email_template.rpy along with more detailed explanations of the fields.
 default rainbow = Guest(
