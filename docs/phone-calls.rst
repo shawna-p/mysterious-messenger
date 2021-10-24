@@ -175,6 +175,10 @@ Phone Callbacks
 Missed Calls
 ------------
 
+.. tip::
+
+    You can see an example of a missed incoming call callback if you miss Seven's call after the 'Inviting Guests' chatroom at 6:11am and call him back before 9:30am (in real-time) or by letting the call time out/hanging up before answering and then phoning him back (in sequential mode). The code is near the top of ``tutorial_2_emails.rpy`` in the ``tutorial_day_scripts`` folder.
+
 Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.
 
 However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix ``_incoming_z_callback`` where ``z`` is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call::
