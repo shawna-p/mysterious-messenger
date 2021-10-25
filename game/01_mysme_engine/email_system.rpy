@@ -540,8 +540,7 @@ screen email_popup(e):
         style_prefix 'email_popup'
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('email_popup')
         hbox:
             add 'new_text_envelope'
@@ -770,8 +769,7 @@ screen open_email(e):
     frame:
         style_prefix 'open_email'
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('open_email')
         vbox:
             hbox:
@@ -954,8 +952,7 @@ screen guest_info_popup(guest, unlocked):
         has fixed
         yfit True
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [Hide('guest_info_popup')]
         vbox:
             text '@[guest.name]':

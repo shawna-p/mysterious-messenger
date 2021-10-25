@@ -1053,8 +1053,7 @@ screen dialogue_edit_popup():
         yalign 0.85
         imagebutton:
             align (1.0, 0.0) xoffset 20
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('dialogue_edit_popup')
         vbox:
             spacing 10
@@ -1139,8 +1138,7 @@ screen select_anim():
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('select_anim')
         vbox:
             spacing 20
@@ -1231,8 +1229,7 @@ screen select_emote(edit=False):
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('select_emote')
         vbox:
             spacing 20
@@ -1304,8 +1301,7 @@ screen select_bubble(editing=False):
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('select_bubble')
         vbox:
             spacing 20
@@ -1423,8 +1419,7 @@ screen select_banner():
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('select_banner')
         vbox:
             spacing 20
@@ -1550,8 +1545,7 @@ screen select_music():
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('select_music')
         vbox:
             spacing 20
@@ -1607,8 +1601,7 @@ screen select_background():
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('select_background')
         vbox:
             spacing 20
@@ -1673,8 +1666,7 @@ screen select_participants():
         yalign 0.6
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('select_participants')
         vbox:
             spacing 20

@@ -1569,7 +1569,7 @@ image loading_circle_stationary = "Menu Screens/Main Menu/loading_circle.webp"
 image profile_outline = Frame('#fff', 5, 5)
 image profile_cover_photo = "Cover Photos/profile_cover_photo.webp"
 
-image input_close = "Menu Screens/Main Menu/main02_close_button.webp"
+image input_close_idle = "Menu Screens/Main Menu/main02_close_button.webp"
 image input_close_hover = "Menu Screens/Main Menu/main02_close_button_hover.webp"
 image input_square = Frame("Menu Screens/Main Menu/main02_text_input.webp",40,40)
 image input_popup_bkgr = Frame("Menu Screens/Main Menu/menu_popup_bkgrd.webp",70,70)

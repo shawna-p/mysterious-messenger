@@ -182,8 +182,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
             xoffset -20 yoffset -20
         imagebutton:
             align (1.0, 0.22)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             if not randint(0,3) and send_next:
                 action [Hide(hide_screen), Function(deliver_next)]
             else:

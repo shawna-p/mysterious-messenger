@@ -347,8 +347,7 @@ screen pick_mc_pfp():
     frame:
         style_prefix 'pick_pfp'
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [Hide('pick_mc_pfp')]
 
         text "Choose your profile picture"
@@ -635,8 +634,7 @@ screen input_popup(prompt=''):
     frame:
         imagebutton:
             align (1.0, 0.0)
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [SetField(m, 'name', old_name),
                     SetVariable('name', old_name),
                     SetField(persistent, 'name', old_name),
@@ -717,8 +715,7 @@ screen input_template(the_var, prompt='', default='', length=20,
         if can_close:
             imagebutton:
                 align (1.0, 0.0)
-                idle 'input_close'
-                hover 'input_close_hover'
+            auto 'input_close_%s'
                 action [SetVariable(the_var, old_var),
                         Function(renpy.retain_after_load),
                         Hide('input_template')]
@@ -1454,8 +1451,7 @@ screen ringtone_dropdown(title):
         imagebutton:
             align (1.0, 0.0)
             xoffset 3 yoffset -3
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [Stop('sound'), Hide('ringtone_dropdown')]
 
         text title style "settings_style" xpos 55 ypos 5

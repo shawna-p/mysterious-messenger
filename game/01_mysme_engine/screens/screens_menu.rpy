@@ -1601,8 +1601,7 @@ screen developer_settings():
         imagebutton:
             align (1.0, 0.0)
             xoffset 3 yoffset -3
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('developer_settings')
 
         text "Developer Settings" style "settings_style" xpos 55 ypos 5
@@ -1770,8 +1769,7 @@ screen program_updates(update=None):
         # text 'Ignored: ' + ', '.join(persistent.ignored_versions)
 
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [If(clear_update,
                 [SetField(persistent, "available_update", [ ]),
                     Hide('program_updates')],
@@ -1881,8 +1879,7 @@ screen update_preferences():
         text "Your program version: v[config.version]"
 
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action Hide('update_preferences')
 
         text "Update Preferences" style "settings_style" xpos 55 ypos 5
@@ -1985,8 +1982,7 @@ screen pick_chara_pfp(who):
     frame:
         style_prefix 'pick_pfp'
         imagebutton:
-            idle 'input_close'
-            hover 'input_close_hover'
+            auto 'input_close_%s'
             action [Hide('pick_chara_pfp')]
 
         text "Choose " + who.name + "'s profile picture"
