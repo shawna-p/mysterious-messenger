@@ -25,17 +25,19 @@ label chat_begin(background=None, clearchat=True, resetHP=True):
 ## It takes the name of a background and shows the corresponding
 ## static or animated background
 init python:
+
     def set_chatroom_background(new_bg):
         """Set the correct background and nickname colour."""
 
         if new_bg is None:
             renpy.scene()
-            renpy.show('bg black')
-            store.current_background = 'morning'
-            return
+            new_bg = store.current_timeline_item.time_of_day
 
         if new_bg.startswith('bg '):
             new_bg = new_bg[3:]
+
+        if new_bg == "autobackground":
+            new_bg = store.current_timeline_item.time_of_day
 
         store.current_background = new_bg
         if new_bg in store.all_static_backgrounds:
