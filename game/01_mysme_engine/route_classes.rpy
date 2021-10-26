@@ -426,6 +426,37 @@ init -6 python:
             return
 
         @property
+        def time_of_day(self):
+            """
+            Return the time of day which corresponds to this timeline item's
+            trigger time.
+            """
+
+            trig = self.trigger_time
+            hour = trig[:2]
+            try:
+                hour = int(hour)
+            except Exception as e:
+                return 'black'
+
+            if hour < 6:
+                # Early Morning 0:00-5:59
+                return 'earlyMorn'
+            elif hour < 10:
+                # Morning 6:00 - 9:59
+                return 'morning'
+            elif hour < 17:
+                # Afternoon 10:00 - 16:59
+                return 'noon'
+            elif hour < 20:
+                # Evening 17:00 - 19:59
+                return 'evening'
+            else:
+                # Night greeting 20:00 - 23:59
+                return 'night'
+
+
+        @property
         def trigger_time(self):
             """Return the trigger time of this item or its parent."""
 
