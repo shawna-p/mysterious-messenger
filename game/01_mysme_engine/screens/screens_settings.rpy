@@ -715,7 +715,7 @@ screen input_template(the_var, prompt='', default='', length=20,
         if can_close:
             imagebutton:
                 align (1.0, 0.0)
-            auto 'input_close_%s'
+                auto 'input_close_%s'
                 action [SetVariable(the_var, old_var),
                         Function(renpy.retain_after_load),
                         Hide('input_template')]
@@ -1449,9 +1449,9 @@ screen ringtone_dropdown(title):
         align (0.5, 0.5)
 
         imagebutton:
+            auto 'input_close_%s'
             align (1.0, 0.0)
             xoffset 3 yoffset -3
-            auto 'input_close_%s'
             action [Stop('sound'), Hide('ringtone_dropdown')]
 
         text title style "settings_style" xpos 55 ypos 5
