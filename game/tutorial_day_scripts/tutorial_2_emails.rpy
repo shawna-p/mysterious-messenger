@@ -1,7 +1,14 @@
 
 label example_email():
     $ z.prof_pic = 'Profile Pics/Zen/zen-6.webp'
-    scene evening
+    ## Note that if you don't include a line like "scene evening" here,
+    ## the game will set up a background based on what time the chatroom
+    ## is supposed to trigger at.
+    ## So, since this chatroom happens at 6:11AM, it will automatically
+    ## get the "morning" background.
+    ## You can un-comment this next line to change the background to 'evening'
+    ## instead.
+    # scene evening
     play music narcissistic_jazz
 
     z 'Hey, [name], I had an idea for a guest we should invite.'
@@ -44,7 +51,6 @@ label example_email():
 ## This is the 'expired' version of the chatroom
 label example_email_expired():
     $ z.prof_pic = 'Profile Pics/Zen/zen-6.webp'
-    scene evening
     play music narcissistic_jazz
     z "Hey, [name], I had an idea for a guest we should invite."
     z "Oh... [they_re] not here."  (bounce=True, specBubble="sigh_m")
@@ -75,12 +81,14 @@ label example_email_incoming_s_callback():
 label example_email_incoming_s_ending():
     s "Are you busy right now?"
     menu:
+        extend ''
         "No, not particularly.":
             s "Great! So I had this idea for a cat cafe I wanted to bring up in the chatroom."
             s "Don't tell Jaehee though, okay? She might get mad."
             s "I need some input on what to call it."
             s "Do you like the sound of \"Elly's Delightful Kitty Extravaganza\" or \"The A-meow-zing Cat Cafe\"?"
             menu:
+                extend ''
                 "Uh... whatever one you like more?":
                     s "Hmm.... that's no help though. I can't decide if I like the a-meow-zing pun more or if the word \"extravaganza!\" really has the oomph I need."
                 "\"Elly's Delightful Kitty Extravaganza\"!":
