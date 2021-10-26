@@ -272,7 +272,7 @@ init -6 python:
                 self.deliver_calls()
 
             for phonecall in self.story_calls_list:
-               phonecall.deliver_next_after_content()
+                phonecall.deliver_next_after_content()
 
 
         def expire_all(self):
@@ -1163,6 +1163,10 @@ label play_timeline_item():
     if isinstance(current_timeline_item, ChatRoom):
         if skip_story_item:
             pass
+        elif (_in_replay and current_timeline_item.expired):
+            $ renpy.call(current_timeline_item.expired_label)
+        elif (_in_replay):
+            $ renpy.call(current_timeline_item.item_label)
         elif (current_timeline_item.expired
                 and not current_timeline_item.played
                 and not current_timeline_item.buyback):
@@ -1195,6 +1199,14 @@ label play_timeline_item():
     elif isinstance(current_timeline_item, StoryCall):
         if skip_story_item:
             pass
+        elif (_in_replay and current_timeline_item.expired):
+            $ renpy.show_screen('in_call', who=current_timeline_item.caller,
+                story_call=True)
+            $ renpy.call(current_timeline_item.expired_label)
+        elif (_in_replay):
+            $ renpy.show_screen('in_call',
+                who=current_timeline_item.caller, story_call=True)
+            $ renpy.call(current_timeline_item.item_label)
         elif (current_timeline_item.expired
                 and not current_timeline_item.buyback):
             $ renpy.show_screen('in_call', who=current_timeline_item.caller,
@@ -1299,6 +1311,8 @@ init python:
                 c.reset_pfp()
             if store.expired_replay:
                 item.expired = True
+            else:
+                item.expired = False
 
         # Only allow the player to pick choices they've seen on this playthrough
         if (store.observing and not store._in_replay
@@ -1318,6 +1332,8 @@ init python:
                 # Fill the beginning of the chat with 'empty space' so messages
                 # appear at the bottom of the screen
                 addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
+                # Set up the "automatic" background (which can be replaced)
+                set_chatroom_background('autobackground')
 
             store.text_person = None
             store._window_hide()
