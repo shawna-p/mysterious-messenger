@@ -2,6 +2,9 @@
 ## Backgrounds
 #####################################
 
+image bg door = "VN Mode/Backgrounds/rika_door_closed.webp"
+image bg door_open = "VN Mode/Backgrounds/rika_door_open.webp"
+image bg stair = "VN Mode/Backgrounds/rika_apartment_elevator.webp"
 image bg mint_eye_room = "VN Mode/Backgrounds/mint_eye_room.webp"
 image bg rika_apartment = "VN Mode/Backgrounds/rika_apartment.webp"
 image bg cr_meeting_room = "VN Mode/Backgrounds/cr_meeting_room.webp"
