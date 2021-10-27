@@ -21,7 +21,8 @@ Major New Features
 
     * - **Feature**
       - **Description**
-    * -
+    * - Automatic chatroom backgrounds
+      - The game will automatically set up chatroom backgrounds based on the time of day the chatroom occurs at. You can override this automatic background by providing your own e.g. ``scene morning``.
 
 .. _minor-3-3-0:
 
@@ -55,6 +56,8 @@ Fixes
       - Added doc pages on :ref:`deleting messages<Removing Messages from the Chatlog>` and :ref:`adding greetings<Adding Greeting Messages>`.
     * - Profile picture callback fix
       - Profile picture callbacks still go off even if you use a text message or email popup notification to leave the profile screen.
+    * - History fix
+      - Fix an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.
 
 
 .. _qol-3-3-0:
