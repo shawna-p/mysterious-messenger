@@ -275,21 +275,19 @@ init -6 python:
         # Add available calls
         for c in all_call_list:
             # Add available outgoing calls to the list
-            if renpy.has_label(lbl + '_outgoing_' + c.file_id):
-                available_calls.append(PhoneCall(c,
-                    lbl + '_outgoing_' + c.file_id, 'outgoing'))
+            og_call = "{}_outgoing_{}".format(lbl, c.file_id)
+            if renpy.has_label(og_call):
+                available_calls.append(PhoneCall(c, og_call, 'outgoing'))
 
+            ic_call = "{}_incoming_{}".format(lbl, c.file_id)
             # Update the incoming call, or move it if the call has expired
-            if renpy.has_label(lbl + '_incoming_' + c.file_id):
+            if renpy.has_label(ic_call):
                 if expired:
-                    phonecall = PhoneCall(c, lbl + '_incoming_' + c.file_id,
-                                    'outgoing')
+                    phonecall = PhoneCall(c, ic_call, 'outgoing')
                     phonecall.callback = True
-                    missed_call = PhoneCall(c, lbl + '_incoming_' + c.file_id,
-                                    'missed')
+                    missed_call = PhoneCall(c, ic_call, 'missed')
                 else:
-                    incoming_call = PhoneCall(c, lbl + '_incoming_'
-                                    + c.file_id, 'incoming')
+                    incoming_call = PhoneCall(c, ic_call, 'incoming')
 
         # The player backed out of the item; no missed call but should
         # add it to the outgoing calls list
