@@ -222,9 +222,11 @@ Finally, below is an overview of the various features available within Mysteriou
 * Phone calls
 
     * Calls can become available after each timeline item for the player to call the characters
+        * The dialogue can change depending on whether the player is calling back a missed phone call or not
     * Characters can call the player
     * Story Calls, which are a mandatory part of the story on the timeline
     * Voicemail for when a character doesn't pick up
+    * Special callbacks that trigger when the player hangs up in the middle of a call
 
 * Text messages
 
