@@ -151,7 +151,7 @@ python early:
             """
 
             global available_calls
-            if self.avail_timeout == 'test':
+            if self.avail_timeout is None or self.avail_timeout == 'test':
                 # You generally shouldn't mess with this, but it
                 # lets you make a call 'infinitely' available for testing
                 pass
@@ -171,8 +171,9 @@ python early:
             else:
                 # You shouldn't be able to call a character back and get the
                 # same conversation, so remove the call from available_calls
-                if self in available_calls and self.avail_timeout != 'test':
-                        available_calls.remove(self)
+                if (self in available_calls
+                        and self.avail_timeout not in ('test', None)):
+                    available_calls.remove(self)
 
             # If you are calling back someone after missing their
             # call, it shows up in the history as an outgoing call
@@ -272,22 +273,29 @@ init -6 python:
         phonecall = False
         all_call_list = list(all_characters)
         all_call_list.extend(store.phone_only_characters)
+
         # Add available calls
         for c in all_call_list:
             # Add available outgoing calls to the list
             og_call = "{}_outgoing_{}".format(lbl, c.file_id)
             if renpy.has_label(og_call):
-                available_calls.append(PhoneCall(c, og_call, 'outgoing'))
+                # Check if there's a more specific timeout defined
+                avail_timeout = phone_timeout_dict.get(og_call, 2)
+                available_calls.append(
+                    PhoneCall(c, og_call, 'outgoing', avail_timeout)
+                )
 
             ic_call = "{}_incoming_{}".format(lbl, c.file_id)
             # Update the incoming call, or move it if the call has expired
             if renpy.has_label(ic_call):
+                # Check if there's a more specific timeout defined
+                avail_timeout = phone_timeout_dict.get(ic_call, 2)
                 if expired:
-                    phonecall = PhoneCall(c, ic_call, 'outgoing')
+                    phonecall = PhoneCall(c, ic_call, 'outgoing', avail_timeout)
                     phonecall.callback = True
-                    missed_call = PhoneCall(c, ic_call, 'missed')
+                    missed_call = PhoneCall(c, ic_call, 'missed', avail_timeout)
                 else:
-                    incoming_call = PhoneCall(c, ic_call, 'incoming')
+                    incoming_call = PhoneCall(c, ic_call, 'incoming', avail_timeout)
 
         # The player backed out of the item; no missed call but should
         # add it to the outgoing calls list
