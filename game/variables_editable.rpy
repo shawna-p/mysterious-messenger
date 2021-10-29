@@ -292,6 +292,24 @@ label ray_test_call_callback_phone():
     r "Bye for now~"
     return
 
+########################################
+## PHONE EXPIRY DICTIONARY
+########################################
+# This is a dictionary where you can give more specific "availability timeouts"
+# to phone calls. To add a new entry, the format is just
+# name_of_phone_call_label=4
+# where `4` is the number of timeline items after which the phone call expires.
+# For example, tutorial_chat_outgoing_y=1 means that if the player doesn't call
+# yoosung right after the tutorial_chat chatroom, by the time the next timeline
+# item has appeared, the call will no longer be available. In contrast, the
+# player can call back the missed call from Zen up to 3 timeline items later.
+define phone_timeout_dict = dict(
+    # TUTORIAL DAY
+    tutorial_chat_incoming_z=3,
+    tutorial_chat_outgoing_y=1,
+    # Feel free to add more below
+)
+
 
 ########################################
 ## SPACESHIP THOUGHT IMAGES
