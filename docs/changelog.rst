@@ -39,6 +39,8 @@ Minor New Features
       - Convenience function added for more control over when the player is awarded an hourglass.
     * - :ref:`Chat vs Gallery CGs<Defining a CG>`
       - Show a different image in chatrooms than in the gallery when sending CGs.
+    * - Phone call expiry dict
+      - A convenience dictionary to easily customize how long phone calls should be availlable for.
 
 
 .. _fixes-3-3-0:
