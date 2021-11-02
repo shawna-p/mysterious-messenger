@@ -86,28 +86,28 @@ Phone Call Expiry
 
 As mentioned, both incoming and outgoing phone calls will become unavailable after a period of time has passed. In-game, this time is tracked via the availability of timeline items.
 
-By default, a phone call will "expire" or become unavailable two timeline items after it first became available. In practice, this means if there are timeline items set up at the following trigger times:
+By default, a phone call will "expire" or become unavailable one additional timeline item after it first became available. In practice, this means if there are timeline items set up at the following trigger times:
 
 * 10:20 - Chatroom
 * 11:40 - Chatroom + Story Call (Yoosung)
 * 13:52 - Solo Story Mode
 * 16:00 - Chatroom + Story Mode
 
-Say that the player can call Yoosung after the 10:20 AM chatroom. The "two timeline item" default timeout means that the player will be able to call Yoosung and get that particular outgoing call any time between 10:20 (after they've played the chatroom) and 13:51 (before they've played the 13:52 chatroom (sequential mode)/before it's become available (real-time)).
+Say that the player can call Yoosung after the 10:20 AM chatroom. The "one timeline item" default timeout means that the player will be able to call Yoosung and get that particular outgoing call any time between 10:20 (after they've played the chatroom) and 13:51 (before they've played the 13:52 chatroom (sequential mode)/before it's become available (real-time)).
 
 .. note::
     Note also that the fact that there's a story call with Yoosung at 11:40 does not affect the availability of his outgoing phone call. Each outgoing/incoming phone call is treated independently of any other phone calls, so it's even possible for the character to have more than one outgoing phone call "queued" at the same time.
 
     e.g. if there's an incoming call from Yoosung at 10:20 which the player misses, and then an outgoing call will become available after the 11:40 chatroom, then at 13:00 the player can call Yoosung once to receive the missed incoming call, and then call again to receive the outgoing call.
 
-You can adjust the number of timeline items after which a phone call will expire through the ``phone_timeout_dict`` found in ``variables_editable.rpy``. This dictionary takes the name of a phone call label and an integer (whole number) representing the number of timeline items after which this phone call should expire. The lowest valid number for this field is 1, which means that if the player doesn't play the phone call before the timeline item immediately after it becomes available, then it will expire. So, if a phone call with an expiry of 1 becomes available at 10:20 using the above timeline, then the player must call the character before 11:40 to see that call.
+You can adjust the number of timeline items after which a phone call will expire through the ``phone_timeout_dict`` found in ``variables_editable.rpy``. This dictionary takes the name of a phone call label and an integer (whole number) representing the number of timeline items after which this phone call should expire. The lowest valid number for this field is 0, which means that if the player doesn't play the phone call before the timeline item immediately after it becomes available, then it will expire. So, if a phone call with an expiry of 0 becomes available at 10:20 using the above timeline, then the player must call the character before 11:40 to see that call.
 
 ::
 
     define phone_timeout_dict = dict(
         # TUTORIAL DAY
-        tutorial_chat_incoming_z=3,
-        tutorial_chat_outgoing_y=1,
+        tutorial_chat_incoming_z=2,
+        tutorial_chat_outgoing_y=0,
         # Feel free to add more below
     )
 
