@@ -268,7 +268,7 @@ init -6 python:
         """
 
         global available_calls, incoming_call, call_history
-        global unseen_calls, all_characters
+        global unseen_calls, all_characters, phone_timeout_dict
         missed_call = False
         phonecall = False
         all_call_list = list(all_characters)
@@ -280,7 +280,7 @@ init -6 python:
             og_call = "{}_outgoing_{}".format(lbl, c.file_id)
             if renpy.has_label(og_call):
                 # Check if there's a more specific timeout defined
-                avail_timeout = phone_timeout_dict.get(og_call, 2)
+                avail_timeout = phone_timeout_dict.get(og_call, 1) + 1
                 available_calls.append(
                     PhoneCall(c, og_call, 'outgoing', avail_timeout)
                 )
@@ -289,7 +289,7 @@ init -6 python:
             # Update the incoming call, or move it if the call has expired
             if renpy.has_label(ic_call):
                 # Check if there's a more specific timeout defined
-                avail_timeout = phone_timeout_dict.get(ic_call, 2)
+                avail_timeout = phone_timeout_dict.get(ic_call, 1) + 1
                 if expired:
                     phonecall = PhoneCall(c, ic_call, 'outgoing', avail_timeout)
                     phonecall.callback = True
