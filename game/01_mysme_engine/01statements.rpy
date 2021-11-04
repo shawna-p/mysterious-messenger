@@ -414,6 +414,7 @@ python early hide:
 
 
     def parse_backlog_stmt(l):
+        """Parse the text message backlog statement."""
         # First, find the person whose text message backlog this is
         who = l.simple_expression()
         # For whatever reason negative numbers get stored with "who", so
