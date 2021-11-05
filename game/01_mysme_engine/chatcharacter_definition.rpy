@@ -1209,7 +1209,7 @@ init -5 python:
             img = [ i for i, cond in img ]
 
         for i in img:
-            add_img_to_set(store.unlocked_prof_pics, i)
+            add_img_to_set(store.persistent.unlocked_prof_pics, i)
             if unlocked:
                 add_img_to_set(store.persistent.mc_unlocked_pfps, i)
         return
