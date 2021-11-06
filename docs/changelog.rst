@@ -60,6 +60,8 @@ Fixes
       - Profile picture callbacks still go off even if you use a text message or email popup notification to leave the profile screen.
     * - History fix
       - Fix an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.
+    * - MC Profile Picture bug
+      - Fix a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
 
 
 .. _qol-3-3-0:
