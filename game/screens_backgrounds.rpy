@@ -53,9 +53,9 @@ screen animated_morning():
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_morning()
-    add 'animated_morning_clouds_back' at slow_pan2(300, 250)
-    add 'animated_morning_clouds_mid' at slow_pan2(220, 230)
-    add 'animated_morning_clouds_front' at slow_pan2(150, 210)
+    add 'animated_morning_clouds_back' at slow_pan(300, 250)
+    add 'animated_morning_clouds_mid' at slow_pan(220, 230)
+    add 'animated_morning_clouds_front' at slow_pan(150, 210)
     # add 'gentle_snow_front' at colorize_snow_morning()
 
     # A gradient overlay to ease the transition from night into morning
@@ -93,25 +93,11 @@ screen animated_noon():
     tag animated_bg
     add 'Phone UI/animated_bgs/noon/noon_background.webp'
     # Clouds
-    add 'animated_noon_clouds_back' at slow_pan2(300)
-    add 'animated_noon_clouds_mid' at slow_pan2(200)
-    add 'animated_noon_clouds_front' at slow_pan2(110)
+    add 'animated_noon_clouds_back' at slow_pan(300)
+    add 'animated_noon_clouds_mid' at slow_pan(200)
+    add 'animated_noon_clouds_front' at slow_pan(110)
 
     use animated_shake_borders()
-
-transform slow_pan2(timing=0, y_timing=0):
-    subpixel True
-    parallel:
-        block:
-            xpos 1.0 xanchor 1.0
-            linear timing xpos 1.0 xanchor 0.5
-            repeat
-    parallel:
-        block:
-            yalign 0.0
-            easein y_timing yalign 1.0
-
-
 
 ###########################################################
 ## Evening background
@@ -151,9 +137,9 @@ screen animated_evening():
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_evening()
-    add 'animated_evening_clouds_back' at slow_pan2(300)
-    add 'animated_evening_clouds_mid' at slow_pan2(200)
-    add 'animated_evening_clouds_front' at slow_pan2(110)
+    add 'animated_evening_clouds_back' at slow_pan(300)
+    add 'animated_evening_clouds_mid' at slow_pan(200)
+    add 'animated_evening_clouds_front' at slow_pan(110)
     # add 'gentle_snow_front' at colorize_snow_evening()
 
     # These gradients help blend the sun colours with the sky and clouds
@@ -505,15 +491,19 @@ image capricorn_constellation:
 # Slowly pan an image across the screen for timing seconds. Optionally,
 # also pan it in the y direction. The x direction repeats but the y
 # direction does not.
-transform slow_pan(timing, init_x=0, x_move=0, y_timing=0, init_y=0, y_move=0):
+transform slow_pan(timing=0, y_timing=0):
+    subpixel True
     parallel:
         block:
-            xalign 0.0 xoffset init_x
-            linear timing xoffset x_move + init_x subpixel True
+            xpos 1.0 xanchor 1.0
+            linear timing xpos 1.0 xanchor 0.5
             repeat
     parallel:
-        yalign 0.0 yoffset init_y
-        easein y_timing yoffset y_move + init_y subpixel True
+        block:
+            yalign 0.0
+            easein y_timing yalign 1.0
+
+
 
 # Slowly pan an image from the top of the screen to the bottom. Optionally,
 # includes an alpha transform.
@@ -967,12 +957,12 @@ screen animated_rainy_day():
     tag animated_bg
     add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp'
     # Clouds
-    add 'animated_rainy_clouds_underlay' at slow_pan2(400)
-    add 'lightning_clouds' at slow_pan2(200), lightning_cloud_flash()
-    add 'animated_rainy_clouds_back' at slow_pan2(300)
-    add 'animated_rainy_clouds_mid' at slow_pan2(200)
+    add 'animated_rainy_clouds_underlay' at slow_pan(400)
+    add 'lightning_clouds' at slow_pan(200), lightning_cloud_flash()
+    add 'animated_rainy_clouds_back' at slow_pan(300)
+    add 'animated_rainy_clouds_mid' at slow_pan(200)
     add 'simulated_rain'
-    add 'animated_rainy_clouds_front' at slow_pan2(110)
+    add 'animated_rainy_clouds_front' at slow_pan(110)
     add Solid("#000") size (750, 3) yalign 1.0
     add 'front_rain'
 
@@ -1062,13 +1052,10 @@ screen animated_snowy_day():
     add "Phone UI/animated_bgs/snow/snow_bg2.webp"
 
     # Clouds
-    add 'animated_snow_clouds_back' at slow_pan(300, 0, 2250)
-    add 'animated_snow_clouds_back' at slow_pan(300, -2250, 2250)
+    add 'animated_snow_clouds_back' at slow_pan(300)
     add 'gentle_snow_back'
-    add 'animated_snow_clouds_mid' at slow_pan(200, 0, 2250)
-    add 'animated_snow_clouds_mid' at slow_pan(200, -2250, 2250)
-    add 'animated_snow_clouds_front' at slow_pan(110, 0, 2250)
-    add 'animated_snow_clouds_front' at slow_pan(110, -2250, 2250)
+    add 'animated_snow_clouds_mid' at slow_pan(200)
+    add 'animated_snow_clouds_front' at slow_pan(110)
     add 'gentle_snow_front'
 
 image animated_morning_snow_clouds_back = Transform('animated_noon_clouds_back', alpha=0.8)
@@ -1083,13 +1070,10 @@ screen animated_morning_snow():
     add "Phone UI/animated_bgs/snow/snow_bg1.webp"
 
     # Clouds
-    add 'animated_morning_snow_clouds_back' at slow_pan(300, 0, 2250)
-    add 'animated_morning_snow_clouds_back' at slow_pan(300, -2250, 2250)
+    add 'animated_morning_snow_clouds_back' at slow_pan(300)
     add 'gentle_snow_back'
-    add 'animated_morning_snow_clouds_mid' at slow_pan(200, 0, 2250)
-    add 'animated_morning_snow_clouds_mid' at slow_pan(200, -2250, 2250)
-    add 'animated_morning_snow_clouds_front' at slow_pan(110, 0, 2250)
-    add 'animated_morning_snow_clouds_front' at slow_pan(110, -2250, 2250)
+    add 'animated_morning_snow_clouds_mid' at slow_pan(200)
+    add 'animated_morning_snow_clouds_front' at slow_pan(110)
     add 'gentle_snow_front'
 
     use animated_shake_borders()
