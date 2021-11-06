@@ -62,6 +62,8 @@ Fixes
       - Fix an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.
     * - MC Profile Picture bug
       - Fix a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
+    * - Animated Backgrounds
+      - Animated backgrounds now move more smoothly and don't have any stuttering lines when looping.
 
 
 .. _qol-3-3-0:
