@@ -18,9 +18,21 @@ image animated_big_star = "Phone UI/animated_bgs/morning/big_star.webp"
 image animated_med_star = "Phone UI/animated_bgs/morning/med_star.webp"
 image animated_tiny_star = "Phone UI/animated_bgs/morning/tiny_star.webp"
 
-image animated_morning_clouds_back = 'Phone UI/animated_bgs/morning/morning_clouds_back.webp'
-image animated_morning_clouds_mid = 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp'
-image animated_morning_clouds_front = 'Phone UI/animated_bgs/morning/morning_clouds_front.webp'
+image animated_morning_clouds_back = Composite(
+    (2250*2, 1692),
+    (0, 0), 'Phone UI/animated_bgs/morning/morning_clouds_back.webp',
+    (2250, 0), 'Phone UI/animated_bgs/morning/morning_clouds_back.webp'
+)
+image animated_morning_clouds_mid = Composite(
+    (2250*2, 1692),
+    (0, 0), 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp',
+    (2250, 0), 'Phone UI/animated_bgs/morning/morning_clouds_mid.webp'
+)
+image animated_morning_clouds_front = Composite(
+    (2250*2, 1692),
+    (0, 0), 'Phone UI/animated_bgs/morning/morning_clouds_front.webp',
+    (2250, 0), 'Phone UI/animated_bgs/morning/morning_clouds_front.webp'
+)
 
 screen animated_morning():
     zorder 0
@@ -41,12 +53,9 @@ screen animated_morning():
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_morning()
-    add 'animated_morning_clouds_back' at slow_pan(300, 0, 2250, 250, 0, -400)
-    add 'animated_morning_clouds_back' at slow_pan(300, -2250, 2250, 250, 0, -400)
-    add 'animated_morning_clouds_mid' at slow_pan(220, 0, 2250, 230, 0, -400)
-    add 'animated_morning_clouds_mid' at slow_pan(220, -2250, 2250, 230, 0, -400)
-    add 'animated_morning_clouds_front' at slow_pan(150, 0, 2250, 210, 0, -400)
-    add 'animated_morning_clouds_front' at slow_pan(150, -2250, 2250, 210, 0, -400)
+    add 'animated_morning_clouds_back' at slow_pan2(300, 250)
+    add 'animated_morning_clouds_mid' at slow_pan2(220, 230)
+    add 'animated_morning_clouds_front' at slow_pan2(150, 210)
     # add 'gentle_snow_front' at colorize_snow_morning()
 
     # A gradient overlay to ease the transition from night into morning
@@ -63,32 +72,66 @@ transform colorize_snow_morning():
 ## Noon background
 ###########################################################
 
-image animated_noon_clouds_back = 'Phone UI/animated_bgs/noon/noon_clouds_back.webp'
-image animated_noon_clouds_mid = 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp'
-image animated_noon_clouds_front = 'Phone UI/animated_bgs/noon/noon_clouds_front.webp'
+image animated_noon_clouds_back = Composite(
+    (2250*2, 1334),
+    (0, 0), 'Phone UI/animated_bgs/noon/noon_clouds_back.webp',
+    (2250, 0), 'Phone UI/animated_bgs/noon/noon_clouds_back.webp'
+)
+image animated_noon_clouds_mid = Composite(
+    (2250*2, 1334),
+    (0, 0), 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp',
+    (2250, 0), 'Phone UI/animated_bgs/noon/noon_clouds_mid.webp'
+)
+image animated_noon_clouds_front = Composite(
+    (2250*2, 1334),
+    (0, 0), 'Phone UI/animated_bgs/noon/noon_clouds_front.webp',
+    (2250, 0), 'Phone UI/animated_bgs/noon/noon_clouds_front.webp'
+)
 
 screen animated_noon():
     zorder 0
     tag animated_bg
     add 'Phone UI/animated_bgs/noon/noon_background.webp'
     # Clouds
-    add 'animated_noon_clouds_back' at slow_pan(300, 0, 2250)
-    add 'animated_noon_clouds_back' at slow_pan(300, -2250, 2250)
-    add 'animated_noon_clouds_mid' at slow_pan(200, 0, 2250)
-    add 'animated_noon_clouds_mid' at slow_pan(200, -2250, 2250)
-    add 'animated_noon_clouds_front' at slow_pan(110, 0, 2250)
-    add 'animated_noon_clouds_front' at slow_pan(110, -2250, 2250)
+    add 'animated_noon_clouds_back' at slow_pan2(300)
+    add 'animated_noon_clouds_mid' at slow_pan2(200)
+    add 'animated_noon_clouds_front' at slow_pan2(110)
 
     use animated_shake_borders()
+
+transform slow_pan2(timing=0, y_timing=0):
+    subpixel True
+    parallel:
+        block:
+            xpos 1.0 xanchor 1.0
+            linear timing xpos 1.0 xanchor 0.5
+            repeat
+    parallel:
+        block:
+            yalign 0.0
+            easein y_timing yalign 1.0
+
 
 
 ###########################################################
 ## Evening background
 ###########################################################
 
-image animated_evening_clouds_back = "Phone UI/animated_bgs/evening/evening_clouds_back.webp"
-image animated_evening_clouds_mid = "Phone UI/animated_bgs/evening/evening_clouds_mid.webp"
-image animated_evening_clouds_front = "Phone UI/animated_bgs/evening/evening_clouds_front.webp"
+image animated_evening_clouds_back = Composite(
+    (2208*2, 1334),
+    (0, 0), "Phone UI/animated_bgs/evening/evening_clouds_back.webp",
+    (2208, 0), "Phone UI/animated_bgs/evening/evening_clouds_back.webp"
+)
+image animated_evening_clouds_mid = Composite(
+    (2208*2, 1334),
+    (0, 0), "Phone UI/animated_bgs/evening/evening_clouds_mid.webp",
+    (2208, 0), "Phone UI/animated_bgs/evening/evening_clouds_mid.webp"
+)
+image animated_evening_clouds_front = Composite(
+    (2208*2, 1334),
+    (0, 0), "Phone UI/animated_bgs/evening/evening_clouds_front.webp",
+    (2208, 0), "Phone UI/animated_bgs/evening/evening_clouds_front.webp"
+)
 
 screen animated_evening():
     zorder 0
@@ -108,12 +151,9 @@ screen animated_evening():
 
     # Clouds
     # add 'gentle_snow_back' at colorize_snow_evening()
-    add 'animated_evening_clouds_back' at slow_pan(300, 0, 2208)
-    add 'animated_evening_clouds_back' at slow_pan(300, -2208, 2208)
-    add 'animated_evening_clouds_mid' at slow_pan(200, 0, 2208)
-    add 'animated_evening_clouds_mid' at slow_pan(200, -2208, 2208)
-    add 'animated_evening_clouds_front' at slow_pan(110, 0, 2208)
-    add 'animated_evening_clouds_front' at slow_pan(110, -2208, 2208)
+    add 'animated_evening_clouds_back' at slow_pan2(300)
+    add 'animated_evening_clouds_mid' at slow_pan2(200)
+    add 'animated_evening_clouds_front' at slow_pan2(110)
     # add 'gentle_snow_front' at colorize_snow_evening()
 
     # These gradients help blend the sun colours with the sky and clouds
@@ -123,6 +163,7 @@ screen animated_evening():
         at fadein_out(120, 60, 10, 10, 0.0, 0.3)
 
     use animated_shake_borders()
+
 
 define config.gl2 = True
 transform colorize_snow_evening():
@@ -464,7 +505,7 @@ image capricorn_constellation:
 # Slowly pan an image across the screen for timing seconds. Optionally,
 # also pan it in the y direction. The x direction repeats but the y
 # direction does not.
-transform slow_pan(timing, init_x, x_move, y_timing=0, init_y=0, y_move=0):
+transform slow_pan(timing, init_x=0, x_move=0, y_timing=0, init_y=0, y_move=0):
     parallel:
         block:
             xalign 0.0 xoffset init_x
@@ -895,34 +936,43 @@ image front_rain = Fixed(
 )
 
 image lightning_clouds = Composite(
-    (750, 1334),
-    (0, 0), At('Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
-        slow_pan_lightning),
-    (-2250, 0), At('Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
-        slow_pan_lightning)
+    (2250*2, 1334),
+    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
+    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_lightning.webp',
 )
 
-image animated_rainy_clouds_back = 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp'
-image animated_rainy_clouds_mid = 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp'
-image animated_rainy_clouds_front = 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp'
+image animated_rainy_clouds_back = Composite(
+    (2250*2, 1334),
+    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp',
+    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_back.webp'
+)
+image animated_rainy_clouds_mid = Composite(
+    (2250*2, 1334),
+    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp',
+    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_mid.webp'
+)
+image animated_rainy_clouds_front = Composite(
+    (2250*2, 1334),
+    (0, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp',
+    (2250, 0), 'Phone UI/animated_bgs/rainy_day/rainy_clouds_front.webp'
+)
+image animated_rainy_clouds_underlay = Composite(
+    (2250*2, 1334),
+    (0, 0), Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1),
+    (2250, 0), Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1)
+)
 
 screen animated_rainy_day():
     zorder 0
     tag animated_bg
     add 'Phone UI/animated_bgs/rainy_day/rainy_clouds_gradient.webp'
     # Clouds
-    add Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, 1125, 2250)
-    add Transform('Phone UI/animated_bgs/rainy_day/rainy_clouds_cloud_underlay.webp', xzoom=-1) at slow_pan(400, -1125, 2250)
-
-    add 'lightning_clouds' at lightning_cloud_flash()
-
-    add 'animated_rainy_clouds_back' at slow_pan(300, 0, 2250)
-    add 'animated_rainy_clouds_back' at slow_pan(300, -2250, 2250)
-    add 'animated_rainy_clouds_mid' at slow_pan(200, 0, 2250)
-    add 'animated_rainy_clouds_mid' at slow_pan(200, -2250, 2250)
+    add 'animated_rainy_clouds_underlay' at slow_pan2(400)
+    add 'lightning_clouds' at slow_pan2(200), lightning_cloud_flash()
+    add 'animated_rainy_clouds_back' at slow_pan2(300)
+    add 'animated_rainy_clouds_mid' at slow_pan2(200)
     add 'simulated_rain'
-    add 'animated_rainy_clouds_front' at slow_pan(110, 0, 2250)
-    add 'animated_rainy_clouds_front' at slow_pan(110, -2250, 2250)
+    add 'animated_rainy_clouds_front' at slow_pan2(110)
     add Solid("#000") size (750, 3) yalign 1.0
     add 'front_rain'
 
@@ -947,19 +997,9 @@ transform lightning_cloud_flash():
         linear 0.08 alpha 0.0
         repeat
 
-# Moves the lightning clouds slowly across the screen uniformly
-transform slow_pan_lightning(timing=200, init_x=0, x_move=2250):
-    # The pan
-    block:
-        xalign 0.0 xoffset init_x
-        linear timing xoffset x_move + init_x subpixel True
-        repeat
-
-
 ###########################################################
 ## Snow background
 ###########################################################
-
 
 image snow_giant = "Phone UI/animated_bgs/snow/snow_giant.webp"
 image snow_med = "Phone UI/animated_bgs/snow/snow_med.webp"
