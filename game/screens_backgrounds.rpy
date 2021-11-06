@@ -509,10 +509,10 @@ transform slow_pan(timing=0, y_timing=0):
 # includes an alpha transform.
 transform topbottom_pan(movetime, delay1, fadetime, init_y, y_move,
         start_alpha, delay_2, disappear=0.0, fadein_alpha=1.0):
-    yalign 0.0 yoffset init_y alpha start_alpha
+    yalign 0.0 yoffset init_y alpha start_alpha subpixel True
     # Total distance to move is y_move + init_y
     parallel:
-        linear movetime yoffset (y_move + init_y) subpixel True
+        linear movetime yoffset (y_move + init_y)
     parallel:
         delay1
         linear fadetime alpha fadein_alpha
@@ -544,15 +544,15 @@ transform moon_pan():
 
 # Currently unused; used to rotate the whole star field around the screen
 transform star_rotate(speed):
-    rotate 0
+    rotate 0 subpixel True
     block:
         rotate 0
-        linear speed rotate 360 subpixel True
+        linear speed rotate 360
         repeat
 
 # Randomly chooses a direction and origin point to spawn a shooting star
 transform shooting_star():
-    rotate 0 xzoom 1 xoffset 0 yoffset 0 alpha 0.0
+    rotate 0 xzoom 1 xoffset 0 yoffset 0 alpha 0.0 subpixel True
     (renpy.random.randint(20, 70) + renpy.random.random())
     choice:
         rotate 40 xpos renpy.random.randint(0, 600) ypos renpy.random.randint(190, 900)
@@ -561,7 +561,7 @@ transform shooting_star():
             linear 0.1
             ease 0.2 alpha 0.0
         parallel:
-            easeout_quad 0.5 xoffset 525 yoffset 667 subpixel True
+            easeout_quad 0.5 xoffset 525 yoffset 667
         parallel:
             linear 0.5 rotate 70
     choice:
@@ -571,7 +571,7 @@ transform shooting_star():
             linear 0.1
             ease 0.2 alpha 0.0
         parallel:
-            easeout_quad 0.5 xoffset -600 yoffset 133 subpixel True
+            easeout_quad 0.5 xoffset -600 yoffset 133
         parallel:
             linear 0.5 rotate -20
     choice:
@@ -581,7 +581,7 @@ transform shooting_star():
             linear 0.1
             ease 0.2 alpha 0.0
         parallel:
-            easeout_quad 0.5 xoffset -300 yoffset 534 subpixel True
+            easeout_quad 0.5 xoffset -300 yoffset 534
         parallel:
             linear 0.5 rotate -80
     choice:
@@ -591,7 +591,7 @@ transform shooting_star():
             linear 0.1
             ease 0.2 alpha 0.0
         parallel:
-            easeout_quad 0.5 xoffset -375 yoffset 133 subpixel True
+            easeout_quad 0.5 xoffset -375 yoffset 133
         parallel:
             linear 0.5 rotate -20
     choice:
@@ -601,7 +601,7 @@ transform shooting_star():
             linear 0.1
             ease 0.2 alpha 0.0
         parallel:
-            easeout_quad 0.5 xoffset -375 yoffset 667 subpixel True
+            easeout_quad 0.5 xoffset -375 yoffset 667
         parallel:
             linear 0.5 rotate -80
     choice:
@@ -611,7 +611,7 @@ transform shooting_star():
             linear 0.1
             ease 0.2 alpha 0.0
         parallel:
-            easeout_quad 0.5 xoffset 600 yoffset 133 subpixel True
+            easeout_quad 0.5 xoffset 600 yoffset 133
         parallel:
             linear 0.5 rotate 20
     choice:
@@ -621,7 +621,7 @@ transform shooting_star():
             linear 0.1
             ease 0.2 alpha 0.0
         parallel:
-            easeout_quad 0.5 xoffset 225 yoffset 400 subpixel True
+            easeout_quad 0.5 xoffset 225 yoffset 400
         parallel:
             linear 0.5 rotate 80
     repeat
