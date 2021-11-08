@@ -1319,7 +1319,7 @@ image bg earlyMorn = "center_bg:Phone UI/bg-earlyMorn.webp"
 image bg noon = "center_bg:Phone UI/bg-noon.webp"
 image bg rainy_day = "center_bg:Phone UI/bg-rainy-day.webp"
 image bg snowy_day = "Phone UI/bg-snowy-day.webp"
-image bg morning_snow = "Phone UI/bg-snowy-day.webp"
+image bg morning_snow = "Phone UI/bg-morning-snow.webp"
 
 image bg hack = "Phone UI/bg-hack.webp"
 image bg redhack = "Phone UI/bg-redhack.webp"
