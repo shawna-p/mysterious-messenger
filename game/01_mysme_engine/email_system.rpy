@@ -988,12 +988,16 @@ screen guest_info_popup(guest, unlocked):
                                 hover Transform('guest_story', zoom=1.1)
                                 action [Preference('auto-forward',
                                         'disable'),
+                                    SetVariable('config.enter_replay_transition', dissolve),
+                                    SetVariable('config.exit_replay_transition', dissolve),
                                     Replay('guest_info',
                                     {'guest_replay_info' :
                                         guest}, False),
                                     SetDict(persistent.guestbook,
                                         guest.name, 'viewed'),
-                                    Function(renpy.retain_after_load)]
+                                    Function(renpy.retain_after_load),
+                                    SetVariable('config.enter_replay_transition', None),
+                                    SetVariable('config.exit_replay_transition', None)]
                             else:
                                 idle 'guest_story_locked'
 
