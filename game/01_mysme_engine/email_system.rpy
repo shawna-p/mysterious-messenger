@@ -1019,12 +1019,15 @@ label guest_info():
                 renpy.show_screen(allocate_hg_screen())
             renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
             persistent.HG += 1
+        # Set up the player's name and profile pic in case it's used
+        set_name_pfp()
+        set_pronouns()
 
     $ begin_timeline_item(StoryMode("Guest", "guest_info", "00:00"))
     $ viewing_guest = True
     scene bg rfa_party_3
     show expression expr
-    who "[what]"
+    who "[what!i]"
     $ viewing_guest = False
     $ renpy.end_replay()
     return
