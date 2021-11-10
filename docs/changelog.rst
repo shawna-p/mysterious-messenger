@@ -64,6 +64,8 @@ Fixes
       - Fix a bug with the ``add_mc_pfp`` function to properly unlock profile pictures as seen.
     * - Animated Backgrounds
       - Animated backgrounds now move more smoothly and don't have any stuttering lines when looping.
+    * - Guest Comment Interpolation
+      - Guest comments in the guestbook can now properly interpolate variables like ``[name]`` or pronouns like ``[they]``. There is also a dissolve transition in/out of viewing the comment.
 
 
 .. _qol-3-3-0:
