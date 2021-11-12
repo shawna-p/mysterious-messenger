@@ -500,6 +500,7 @@ init python:
 
     def MMGoToEmail():
         """Return the action to Go To the email screen from a popup."""
+
         return If (((not (renpy.get_screen('in_call')
                 or renpy.get_screen('incoming_call')
                 or renpy.get_screen('outgoing call')
@@ -554,12 +555,7 @@ screen email_popup(e):
             # This button takes you directly to the email. It is
             # included so long as the email popup is not shown
             # during phone calls or chatrooms.
-            textbutton _('Go to'):
-                if (not (renpy.get_screen('in_call')
-                        or renpy.get_screen('incoming_call')
-                        or renpy.get_screen('outgoing call')
-                        or text_person)):
-                    action MMGoToEmail()
+            textbutton _('Go to') action MMGoToEmail()
 
     timer 3.25 action Hide('email_popup', Dissolve(0.25))
 
