@@ -520,6 +520,23 @@ init python:
                 SetField(e, 'read', True),
                 Show('open_email', e=e)]
 
+    def MMGuestStory(guest):
+        """Return the action to view a guest's story."""
+        return [Preference('auto-forward', 'disable'),
+                # Set up a dissolve transition
+                SetVariable('config.enter_replay_transition', dissolve),
+                SetVariable('config.exit_replay_transition', dissolve),
+                # Ensure the replay info is set up
+                Replay('guest_info',
+                {'guest_replay_info' :
+                    guest}, False),
+                SetDict(persistent.guestbook,
+                    guest.name, 'viewed'),
+                Function(renpy.retain_after_load),
+                # Reset the dissolve transition
+                SetVariable('config.enter_replay_transition', None),
+                SetVariable('config.exit_replay_transition', None)]
+
 default email_list = []
 default email_reply = False
 # List of all the guests the player has successfully
@@ -982,18 +999,7 @@ screen guest_info_popup(guest, unlocked):
                             if unlocked:
                                 idle 'guest_story'
                                 hover Transform('guest_story', zoom=1.1)
-                                action [Preference('auto-forward',
-                                        'disable'),
-                                    SetVariable('config.enter_replay_transition', dissolve),
-                                    SetVariable('config.exit_replay_transition', dissolve),
-                                    Replay('guest_info',
-                                    {'guest_replay_info' :
-                                        guest}, False),
-                                    SetDict(persistent.guestbook,
-                                        guest.name, 'viewed'),
-                                    Function(renpy.retain_after_load),
-                                    SetVariable('config.enter_replay_transition', None),
-                                    SetVariable('config.exit_replay_transition', None)]
+                                action MMGuestStory(guest)
                             else:
                                 idle 'guest_story_locked'
 
