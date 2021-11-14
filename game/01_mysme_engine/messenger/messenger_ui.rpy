@@ -263,12 +263,9 @@ screen phone_overlay(is_menu_pause=False):
             xoffset -85
         imagebutton:
             align (0.5, 0.5)
+            auto 'maxSpeed_%s'
             focus_mask True
-            idle 'max_speed_inactive'
-            hover "noMaxSpeed"
             selected renpy.is_skipping()
-            selected_idle 'max_speed_active'
-            selected_hover "maxSpeed"
             if not choosing and not renpy.get_screen('no_modal_confirm'):
                 action Skip()
     if starter_story or persistent.testing_mode or persistent.unlock_all_story:
