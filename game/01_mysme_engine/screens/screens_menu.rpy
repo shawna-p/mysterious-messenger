@@ -348,7 +348,7 @@ screen main_menu():
     # The update button. Only checks for and shows updates if this
     # is a developer version (not a full release).
     if config.developer:
-        on 'show' action Function(check_version)
+        on 'show' action Function(renpy.invoke_in_thread, fn=check_version)
         button:
             style 'update_button'
             selected persistent.available_update
