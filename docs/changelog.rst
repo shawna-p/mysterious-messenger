@@ -83,6 +83,8 @@ QoL Improvements
       - The game remembers which save page you last used.
     * - Main Menu Screen Actions
       - Common actions for buttons on the main menu and home screen have been turned into functions for easier UI modification.
+    * - Check for updates in thread
+      - The updater now launches a separate thread to check for updates so the UI is not paused/frozen while waiting for the results of the check.
 
 
 
