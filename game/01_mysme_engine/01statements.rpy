@@ -1012,7 +1012,6 @@ python early hide:
         # This is either being expired from check_and_unlock_story in real-time,
         # or it's the current timeline item. The text message can have the
         # real time stamp.
-        print_file("Delivery_time is", delivery_time)
         if delivery_time != 'now' and store.persistent.real_time:
             # Determine how many days ago the expiring item or current item was
             if store.expiring_item:
@@ -1023,17 +1022,13 @@ python early hide:
                 check_item = store.current_timeline_item
                 day_index = store.today_day_num
                 day_diff = 0
-            print_file("For the timestamp: check_item", check_item.item_label,
-                "day_index", day_index, "day_diff", day_diff, "days_to_expire",
-                store.days_to_expire)
+
             # Create the timestamp
             if (delivery_time and delivery_time != 'random'
                     and delivery_time != 'next_item'):
                 when = upTime(day=day_diff, thetime=delivery_time)
-                print_file("1. we've got a timestamp that looks like", when.get_text_msg_time())
             elif not delivery_time:
                 when = upTime(day=day_diff, thetime=check_item.trigger_time)
-                print_file("2. we've got a timestamp that looks like", when.get_text_msg_time())
             else:
                 # Need to generate a random delivery time
                 begin = check_item.trigger_time
@@ -1046,13 +1041,9 @@ python early hide:
                     begin = begin.trigger_time
                     day_diff2 += day_diff3
                 end = end.trigger_time
-                print_file("begin is", begin, "and day_diff is", day_diff)
                 # day_diff2 is the difference between the checked item
                 # and its closest item
-                print_file("end is", end, "and day_diff2 is", day_diff2)
-                random_time, final_day_diff = get_random_time(
-                    begin=begin, end=end, day_diff=day_diff2
-                )
+
                 # final_day_diff is the difference between the checked
                 # item and the new generated random time
                 # Set day_diff equal to the difference between the
@@ -1065,8 +1056,7 @@ python early hide:
             # future, and this message shouldn't be sent now
             send_now = when.has_occurred()
             generate_timestamps = True
-            print_file('send_now is', send_now, "and we've got a timestamp that looks like",
-                when.get_text_msg_time())
+
         # CASE 2:
         # Program is running sequentially OR player has bought
         # the next 24 hours in advance
@@ -1169,7 +1159,6 @@ python early hide:
                                 total_sec += pause_time
                         except Exception:
                             print("ERROR: couldn't evaluate text message pause argument")
-                        print_file("Adjusted total_sec by", pause_time)
                     continue
 
                 msg.thetime.adjust_time(timedelta(seconds=total_sec))
@@ -1180,17 +1169,14 @@ python early hide:
                 else:
                     total_sec += typeTime
                     new_queue.append(msg)
-                print_file("Added message", msg.what, "time", msg.thetime.stopwatch_time)
             message_queue = new_queue
 
         # Add these messages to the sender's msg_queue
         if delivery_time != 'now':
             sender.text_msg.msg_queue.extend(message_queue)
-            print_file("Extended " + sender.file_id + "'s msg_queue")
         else:
             # This is added to a temporary queue
             sender.text_msg.temp_msg_queue.extend(message_queue)
-            print_file("Extended " + sender.file_id + "'s temp msg_queue")
             # Show a popup with the last message
             if not store._in_replay and not store.observing:
                 renpy.music.play(persistent.text_tone, 'sound')

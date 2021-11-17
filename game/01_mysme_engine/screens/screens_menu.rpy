@@ -963,8 +963,8 @@ screen menu_header(title, return_action=NullAction,
                             Show('chat_home')]
         on 'replace' action [SetField(persistent, 'just_loaded', False),
                             Show('chat_home')]
-    # # If the game is running on real-time, check once a minute
-    # # if it's time for the next chatroom
+    ## If the game is running on real-time, check once a minute
+    ## if it's time for the next chatroom
     if persistent.real_time and not main_menu and not starter_story:
         timer 60 action Function(check_and_unlock_story) repeat True
         on 'show' action Function(check_and_unlock_story)
