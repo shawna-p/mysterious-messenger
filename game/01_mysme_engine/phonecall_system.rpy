@@ -409,7 +409,7 @@ init -6 python:
             return [Preference("auto-forward", "enable"),
                 Show('outgoing_call',
                     phonecall=call_available(i))]
-        elif i not in phone_only_characters:
+        elif i in phone_only_characters:
             return None
         else:
             return [Preference("auto-forward", "enable"),
@@ -935,14 +935,14 @@ init python:
         return Function(renpy.music.play, ["<silence 1.5>",
                 phone_dial_sfx, "<silence 1.5>"], loop=True)
 
-    def MMVoicemail():
+    def MMVoicemail(phonecall):
         """Return the action which triggers a voicemail."""
         return If(phonecall, [Stop('music'),
                 SetVariable('current_call', phonecall),
                 Jump('play_phone_call')],
                 Show('phone_calls'))
 
-    def MMCallPickup():
+    def MMCallPickup(phonecall):
         """Return the action when a character picks up a call."""
         return [Stop('music'),
                 SetVariable('current_call', phonecall),
@@ -994,9 +994,9 @@ screen outgoing_call(phonecall, voicemail=False):
                             [Stop('music'), Show('phone_calls')])
 
     if voicemail:
-        timer randint(8, 10) action MMVoicemail()
+        timer randint(8, 10) action MMVoicemail(phonecall)
     else:
-        timer randint(2, 7) action MMCallPickup()
+        timer randint(2, 7) action MMCallPickup(phonecall)
 
 ## Screen used to say dialogue for phone characters
 screen phone_say(who, what):
