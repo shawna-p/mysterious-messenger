@@ -205,7 +205,7 @@ init python:
 
     def MMHistory():
         """
-        Return the actin used when clicking History from the main menu.
+        Return the action used when clicking History from the main menu.
         """
         return Show('select_history', Dissolve(0.5))
 
