@@ -504,6 +504,7 @@ init python:
         return If (((not (renpy.get_screen('in_call')
                 or renpy.get_screen('incoming_call')
                 or renpy.get_screen('outgoing call')
+                or renpy.get_screen('messenger_screen')
                 or text_person))),
             [Hide('email_popup'),
                 Function(hide_all_popups),
