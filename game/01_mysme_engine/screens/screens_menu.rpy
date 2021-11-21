@@ -671,6 +671,8 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     align (0.5, 0.5)
                     action [SetScreenVariable('begin_page', begin_page-5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+            else:
+                null width 65 height 68
 
             for index in range(begin_page, end_page):
                 $ zoomval = 0.7
@@ -684,12 +686,14 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
                     action [SetScreenVariable('current_page', index),
                         SetField(persistent, 'reg_save_pg', index)]
             # Currently there are 10 pages.
-            if begin_page < 5:
+            if begin_page < 10:
                 imagebutton:
                     idle Transform("email_next", zoom=1.5)
                     align (0.5, 0.5)
                     action [SetScreenVariable('begin_page', begin_page+5)]
                     activate_sound 'audio/sfx/UI/email_next_arrow.mp3'
+            else:
+                null width 65 height 68
 
 # The current page number
 default persistent.reg_save_pg = 0
