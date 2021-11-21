@@ -137,7 +137,11 @@ init python:
 
     def MMGoToText(c, hide_screen):
         """Action which occurs when Go To is pressed on a text popup."""
-        return If ((c.real_time_text and c.text_msg.reply_label),
+        return If(not (renpy.get_screen('in_call')
+                or renpy.get_screen('incoming_call')
+                or renpy.get_screen('outgoing call')
+                or renpy.get_screen('messenger_screen')),
+            If ((c.real_time_text and c.text_msg.reply_label),
                 [Function(text_message_begin, text_person=c),
                     Function(hide_all_popups),
                     Hide('save_load'),
@@ -157,7 +161,7 @@ init python:
                     Hide('settings_screen'),
                     Hide(hide_screen),
                     Show('text_message_screen', sender=c,
-                        animate=False)])
+                        animate=False)]))
 
 ########################################################
 ## This screen displays the popups that notify
