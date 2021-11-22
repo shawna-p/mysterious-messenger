@@ -36,6 +36,7 @@ init -6 python:
         return StoryMode(title="The Party", vn_label=vn_label,
             trigger_time=trigger_time, party=True, save_img=save_img)
 
+
     class PlotBranch(renpy.store.object):
         """
         Class that stores information so the program can handle a plot branch.
@@ -97,6 +98,7 @@ init -6 python:
                 self.branch_story_mode = new_bool
             except AttributeError:
                 self.__dict__['vn_after_branch'] = new_bool
+
 
     class RouteDay(renpy.store.object):
         """
@@ -351,7 +353,6 @@ init -6 python:
             return self.branch_vn
 
 
-
     class Route(renpy.store.object):
         """
         A class that stores an entire route, including good, bad, normal
@@ -541,6 +542,7 @@ init -6 python:
                 self.ending_labels = newitem
             except AttributeError:
                 self.__dict__['ending_chatrooms'] = newitem
+
 
     def check_and_unlock_story():
         """
@@ -738,7 +740,7 @@ init -6 python:
             renpy.music.play('audio/sfx/Ringtones etc/text_basic_1.wav',
                                 'sound')
             renpy.show_screen('confirm',  message=cur_item.on_available_message,
-                              yes_action=Hide('confirm'))
+                                yes_action=Hide('confirm'))
 
             return True
 
@@ -747,6 +749,7 @@ init -6 python:
             return True
 
         return False
+
 
     def expire_item(prev_item, cur_item, deliver_incoming=False, day_diff=0):
         """
@@ -788,7 +791,6 @@ init -6 python:
         deliver_all_texts()
 
         return
-
 
 
     def num_future_timeline_items(break_for_branch=False, check_all=True):
@@ -848,6 +850,7 @@ init -6 python:
             renpy.jump('new_incoming_call')
         return
 
+
     def send_texts(chara_list=None, check_all=True):
         """
         Deliver the next available text message, if available.
@@ -865,6 +868,7 @@ init -6 python:
             if delivered_text and not check_all:
                 break
 
+
     def send_temp_texts():
         """
         Delivery any text messages that were temporarily staged during
@@ -874,6 +878,7 @@ init -6 python:
         for c in store.all_characters:
             c.text_msg.deliver_quietly()
         return
+
 
     def purge_temp_texts():
         """
@@ -885,6 +890,7 @@ init -6 python:
             c.text_msg.temp_msg_info.clear()
             c.text_msg.temp_msg_queue = [ ]
         return
+
 
     def merge_routes(new_route):
         """Merge new_route with the current route."""
@@ -987,6 +993,7 @@ init -6 python:
         # Remove the plot branch indicator
         most_recent_item.plot_branch = None
 
+
     def participated_percentage(first_day=1, last_day=None):
         """
         Return the percentage of story items the player has participated in,
@@ -1050,6 +1057,7 @@ init -6 python:
                         return True
         return False
 
+
     def closest_item_time(compare_from=None):
         """
         Return the time of the next TimelineItem, regardless of availability.
@@ -1087,6 +1095,7 @@ init -6 python:
                     item_index = day_i
         return None, 0
 
+
     def get_item_day(item):
         """Return the index number of the day this item is on."""
 
@@ -1099,6 +1108,7 @@ init -6 python:
                     return day_i
         print("ERROR: Couldn't find item in story_archive")
         return store.today_day_num
+
 
     def get_random_time(begin, end, day_diff=0):
         """
@@ -1154,6 +1164,7 @@ init -6 python:
         return ("{:02d}".format(random_hour) + ":"
             + "{:02d}".format(random_min), new_day_diff)
 
+
     def played_all_available():
         """Return True if the player has played all available story items."""
 
@@ -1164,6 +1175,7 @@ init -6 python:
                 elif not item.available:
                     return True
         return True
+
 
     def next_story_time():
         """Return the time the next timeline item should be available at."""
@@ -1176,6 +1188,7 @@ init -6 python:
                 if not item.available:
                     return item.trigger_time
         return 'Unknown Time'
+
 
     def make_24h_available():
         """Make the chatrooms for the next 24 hours available."""
