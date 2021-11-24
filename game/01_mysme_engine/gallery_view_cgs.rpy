@@ -86,7 +86,7 @@ screen viewCG_fullsize(fullsizeCG):
     zorder 5
 
     button:
-        xysize (750, 1334)
+        xysize (config.screen_width, config.screen_height)
         action ToggleVariable("close_visible", False, True)
 
     if isinstance(fullsizeCG, Album):
