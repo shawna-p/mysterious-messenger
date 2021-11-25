@@ -735,7 +735,7 @@ init python:
 screen animated_hack_background(red=False):
     zorder 0
     tag animated_bg
-    add 'Phone UI/hacking_bg.webp' yalign 0.75 size(750, 1334)
+    add 'Phone UI/hacking_bg.webp' yalign 0.75 xysize (config.screen_width, config.screen_height)
     default hacking_text_to_scramble = hacking_text
     frame:
         ysize 1080
