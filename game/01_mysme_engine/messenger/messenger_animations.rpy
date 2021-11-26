@@ -315,7 +315,7 @@ screen hack_screen(hack, flicker_anim=True, bg="black"):
     imagebutton:
         if flicker_anim:
             at flicker()
-        xysize (750,1334)
+        xysize (config.screen_width, config.screen_height)
         idle hack
         if observing and not _in_replay:
             action Hide('hack_screen')

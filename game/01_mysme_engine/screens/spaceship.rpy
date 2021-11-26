@@ -114,7 +114,7 @@ screen spaceship_thoughts():
 
     button:
         background "choice_darken"
-        xysize (750, 1334)
+        xysize (config.screen_width, config.screen_height)
         activate_sound 'audio/sfx/UI/select_6.mp3'
         action Hide('spaceship_thoughts', Dissolve(0.5))
 
