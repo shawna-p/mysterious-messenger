@@ -1,10 +1,7 @@
 #************************************
 # Heart Icons
 #************************************
-
 init python:
-
-
 
     def allocate_heart_screen():
         """Allocate a screen to display a heart icon."""
@@ -89,17 +86,6 @@ init python:
         except:
             return "Heart Point/Unknown Heart Point.webp"
 
-    def heart_break_img(picture, character):
-        """
-        Dynamically recolour the heartbreak icon to the colour associated
-        with this character.
-        """
-
-        if character.heart_color:
-            return Transform(picture,
-                matrixcolor=ColorizeMatrix("#000", character.heart_color))
-        else:
-            return picture
 
 # Display the heart icon on-screen
 screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
@@ -160,31 +146,30 @@ transform stack_notify_appear:
     on hide:
         linear .5 alpha 0.0 yoffset -310
 
+image heart_break_anim:
+    "Heart Point/heartbreak_0.webp"
+    0.12
+    "Heart Point/heartbreak_1.webp"
+    0.12
+    "Heart Point/heartbreak_2.webp"
+    0.12
+    "Heart Point/heartbreak_3.webp"
+    0.12
+    "Heart Point/heartbreak_4.webp"
+    0.12
+    Null()
+
 
 # Display the heartbreak on-screen
 screen heart_break_screen(character):
     zorder 20
 
-    fixed at heartbreak(0.0):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_0.webp", character)
-    fixed at heartbreak(0.12):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_1.webp", character)
-    fixed at heartbreak(0.24):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_2.webp", character)
-    fixed at heartbreak(0.36):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_3.webp", character)
-    fixed at heartbreak(0.48):
-        yfit True
-        xfit True
-        add heart_break_img("Heart Point/heartbreak_4.webp", character)
+    fixed:
+        align (0.5, 0.5) xfit True yfit True
+        at transform:
+            zoom 2.0
+        add 'heart_break_anim':
+            matrixcolor ColorizeMatrix("#000", character.heart_color)
 
     timer 0.6 action [Hide('heart_break_screen')]
 

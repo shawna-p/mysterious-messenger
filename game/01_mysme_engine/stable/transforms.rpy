@@ -287,9 +287,7 @@ init 5:
     transform heartbreak(wait_time):
         alpha 0.0
         pause wait_time
-        alpha 0.7
-        align (0.5, 0.5)
-        zoom 2.0
+        alpha 0.7 align (0.5, 0.5) zoom 2.0
         pause 0.12
         alpha 0
 

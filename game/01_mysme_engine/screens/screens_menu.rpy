@@ -334,7 +334,6 @@ screen main_menu():
                     add "menu_history" align (0.5, 0.5)
                     text "History"
 
-
             # DLC
             # Bottom Right
             button:

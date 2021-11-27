@@ -1348,11 +1348,11 @@ python early hide:
                 who = eval(p["who"])
             except Exception:
                 return [ ]
-        return [ heart_break_img("Heart Point/heartbreak_0.webp", who),
-                heart_break_img("Heart Point/heartbreak_1.webp", who),
-                heart_break_img("Heart Point/heartbreak_2.webp", who),
-                heart_break_img("Heart Point/heartbreak_3.webp", who),
-                heart_break_img("Heart Point/heartbreak_4.webp", who) ]
+        return [ "Heart Point/heartbreak_0.webp",
+                "Heart Point/heartbreak_1.webp",
+                "Heart Point/heartbreak_2.webp",
+                "Heart Point/heartbreak_3.webp",
+                "Heart Point/heartbreak_4.webp"]
 
     renpy.register_statement('break heart',
         parse=parse_break_heart,
