@@ -1,7 +1,6 @@
-
 init python:
 
-    def spaceship_xalign_func(trans,st,at):
+    def spaceship_xalign_func(trans, st, at):
         """Make the spaceship float to a random location on the line."""
 
         global spaceship_xalign
@@ -15,6 +14,7 @@ init python:
         trans.xalign = spaceship_xalign
         return None
 
+
     def spaceship_get_xalign(new_num=False):
         """
         Return a random position along the spaceship line at the bottom
@@ -26,6 +26,7 @@ init python:
             spaceship_xalign = renpy.random.random()
             spaceship_xalign = spaceship_xalign * 0.8 + 0.04
         return spaceship_xalign
+
 
     class RandomBag(object):
         """
@@ -78,6 +79,7 @@ init python:
                 self.bag.append(choices)
             # Shuffle the choices again
             renpy.random.shuffle(self.bag)
+
 
     class SpaceThought(renpy.store.object):
         """
