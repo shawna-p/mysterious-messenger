@@ -96,7 +96,7 @@ screen heart_icon_screen(character, hide_screen='heart_icon_screen'):
         xfit True
         add heart_icon(character)
 
-    timer 0.62 action [Hide('heart_icon_screen')]
+    timer 0.62 action [Hide(hide_screen)]
 
 # Additional screens for allocation
 screen hicon2(character):
