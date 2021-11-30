@@ -722,7 +722,6 @@ label after_load():
         # Don't update variables as is usually done
         return
 
-
     $ renpy.set_return_stack([])
     jump reload_game_restart
 
