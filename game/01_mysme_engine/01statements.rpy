@@ -1634,11 +1634,11 @@ python early hide:
                 store.current_timeline_item.replay_log.append(music_entry)
 
         renpy.music.play(_audio_eval(p["file"]),
-                         fadeout=eval(p["fadeout"]),
-                         fadein=eval(p["fadein"]),
-                         channel=channel,
-                         loop=p.get("loop", None),
-                         if_changed=p.get("if_changed", False))
+                        fadeout=eval(p["fadeout"]),
+                        fadein=eval(p["fadein"]),
+                        channel=channel,
+                        loop=p.get("loop", None),
+                        if_changed=p.get("if_changed", False))
 
     def predict_play_music(p):
         return [ ]
@@ -1730,17 +1730,17 @@ python early hide:
 
 
         renpy.sound.play(_audio_eval(p["file"]),
-                         fadeout=fadeout,
-                         fadein=eval(p["fadein"]),
-                         loop=loop,
-                         channel=channel)
+                        fadeout=fadeout,
+                        fadein=eval(p["fadein"]),
+                        loop=loop,
+                        channel=channel)
 
 
     renpy.register_statement('play sound',
-                              parse=parse_play_music,
-                              execute=execute_play_c_sound,
-                              lint=lint_play_sound,
-                              warp=warp_sound)
+                            parse=parse_play_music,
+                            execute=execute_play_c_sound,
+                            lint=lint_play_sound,
+                            warp=warp_sound)
 
 
 
