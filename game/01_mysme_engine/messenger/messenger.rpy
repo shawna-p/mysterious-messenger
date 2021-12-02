@@ -65,6 +65,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             else:
                 for ind, i index id(i) in enumerate(chatlog):
                     if ind == insert_msg_index:
+                        ## A helper "message" for the chat creator which
+                        ## indicates where messages will be inserted.
                         button:
                             padding (20, 20) background "#f003"
                             xfill True
