@@ -1365,6 +1365,16 @@ image transparent_img = '#0000'
 # Short forms/Startup Variables
 # ********************************
 
+# What state the game is in
+default gamestate = None
+define REPLAY = 0
+define CHAT = 1
+# Replaces in_phone_call
+define PHONE = 2
+define TEXTMSG = 3
+# Replaces vn_choice
+define VNMODE = 4
+
 # Displays all the messages in a chatroom
 default chatlog = []
 # A list of the characters currently in the chatroom
