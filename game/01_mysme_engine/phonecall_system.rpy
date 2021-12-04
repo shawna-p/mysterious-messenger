@@ -207,7 +207,7 @@ init -6 python:
 
         global call_history, available_calls
         phonecall.call_status = 'missed'
-        store.in_phone_call = False
+        store.gamestate = None
         missed_call = copy(phonecall)
         missed_call.call_time = upTime()
         # Can't play this conversation back as it hasn't been viewed
@@ -420,11 +420,11 @@ init -6 python:
     def MMStartCall():
         """Return the action for beginning a phone call (on show)."""
         return [Stop('music'),
-                SetVariable('in_phone_call', True),
+                SetVariable('gamestate', PHONE),
                 Preference('auto-forward after click', 'enable')]
     def MMEndCall():
         """Return the action for ending a phone call (on hide)."""
-        return [SetVariable('in_phone_call', False),
+        return [SetVariable('gamestate', None),
                 Preference('auto-forward after click', 'disable')]
     def MMHangupCall(story=False, incoming=False):
         """Return the action for hanging up the phone."""
@@ -729,7 +729,7 @@ style call_text:
 ## This label ensures the rest of the phone conversation will
 ## not play out if the player hangs up
 label hang_up():
-    $ in_phone_call = False
+    $ gamestate = None
     $ purge_temp_texts()
     if not observing:
         $ call_hang_up(phonecall=current_call)
@@ -1050,7 +1050,7 @@ label play_phone_call():
     # This stops it from recording the dialogue
     # from the phone call in the history log
     $ _history = False
-    $ in_phone_call = True
+    $ gamestate = PHONE
     $ preferences.afm_enable = True
     hide screen incoming_call
     hide screen outgoing_call
@@ -1092,7 +1092,7 @@ label play_phone_call():
         $ send_temp_texts()
         $ reset_story_vars()
         $ renpy.end_replay()
-        $ in_phone_call = False
+        $ gamestate = None
         $ current_call = False
         $ observing = False
         $ _history = True
