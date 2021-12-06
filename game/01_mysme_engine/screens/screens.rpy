@@ -105,7 +105,7 @@ transform NullTransform:
 screen say(who, what):
 
     # In Story Mode
-    if not in_phone_call and not text_person and vn_choice:
+    if gamestate != PHONE and not text_person and vn_choice:
         style_prefix "vn_mode"
         if _in_replay and not viewing_guest:
             textbutton _("End Replay"):
@@ -332,10 +332,10 @@ init python:
 
         # First, this item gets saved to the timelineitem's choices,
         # if applicable
-        if save_choices and (not store.in_phone_call
+        if save_choices and (gamestate != PHONE
                 or isinstance(store.current_call, TimelineItem)):
             store.current_timeline_item.add_to_choices(store.dialogue_picked)
-        elif save_choices and store.in_phone_call:
+        elif save_choices and gamestate == PHONE:
             # This is a regular phone call
             store.current_call.add_to_choices(store.dialogue_picked)
 
@@ -366,13 +366,13 @@ init python:
     def menu_args_callback(*args, **kwargs):
 
         # Check if we're in a chatroom
-        if not (store.text_msg_reply or store.in_phone_call
+        if not (store.text_msg_reply or gamestate == PHONE
                 or store.vn_choice or store.email_reply
                 or store.answer_shown):
             screen_dict = {'screen' : 'answer_choice'}
             kwargs.update(screen_dict)
         if (store.text_person and store.text_person.real_time_text
-                and not (store.in_phone_call
+                and not (gamestate == PHONE
                 or store.vn_choice or store.email_reply
                 or store.answer_shown)):
             screen_dict = {'screen' : 'answer_choice_text'}
@@ -475,7 +475,7 @@ screen choice(items, paraphrased=None):
                             ])
 
     # For Story Mode and phone calls
-    elif in_phone_call or vn_choice:
+    elif gamestate == PHONE or vn_choice:
         vbox:
             style_prefix 'phone_vn_choice'
             for num, i in enumerate(items):

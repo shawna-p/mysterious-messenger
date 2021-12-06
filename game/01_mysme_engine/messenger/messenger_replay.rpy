@@ -147,6 +147,7 @@ label rewatch_chatroom():
     $ text_person = None
     window hide
     $ text_msg_reply = False
+    $ gamestate = None
     $ in_phone_call = False
     $ vn_choice = False
     $ email_reply = False

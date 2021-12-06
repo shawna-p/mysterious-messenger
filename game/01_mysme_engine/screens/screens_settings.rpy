@@ -656,7 +656,7 @@ label get_input(the_var, prompt='', default='', length=20,
     ## Ensure any missed dialogue is posted before the input comes up
     if (not dialogue_paraphrase and dialogue_picked != ""):
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
-    if show_answer and not vn_choice and not in_phone_call and not email_reply:
+    if show_answer and gamestate not in (PHONE, VNMODE) and not email_reply:
         $ choosing = True
         if text_msg_reply:
             call screen text_answer
