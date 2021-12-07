@@ -1229,11 +1229,11 @@ label play_timeline_item():
     $ end_timeline_item_checks()
 
     if not skip_story_item:
-        if isinstance(current_timeline_item, ChatRoom) and not vn_choice:
+        if isinstance(current_timeline_item, ChatRoom) and gamestate != VNMODE:
             call screen save_and_exit()
             if not observing:
                 call screen signature_screen(True)
-        elif isinstance(current_timeline_item, StoryMode) or vn_choice:
+        elif isinstance(current_timeline_item, StoryMode) or gamestate == VNMODE:
             call screen signature_screen(False)
 
         if observing and not _in_replay:
@@ -1283,6 +1283,7 @@ init python:
         store.in_phone_call = False
         store.vn_choice = False
         store.email_reply = False
+        store.gamestate = None
         if item not in store.generic_timeline_items:
             store.current_choices = []
             store.current_call = None
@@ -1369,7 +1370,7 @@ init python:
             else:
                 renpy.show_screen('vn_overlay')
 
-            store.vn_choice = True
+            store.gamestate = VNMODE
             # Clear the history log screen
             store._history_list = []
             store.history = True
@@ -1386,7 +1387,7 @@ init python:
             renpy.hide_screen('pause_button')
 
             store._history = False
-            store.in_phone_call = True
+            store.gamestate = PHONE
             preferences.afm_enable = True
             if not starter_story and not item == generic_storycall:
                 store.current_call = item
@@ -1585,8 +1586,8 @@ label execute_plot_branch():
 ## to the main menu
 label end_route():
     $ is_chat = False
-    if isinstance(current_timeline_item, ChatRoom) and not (vn_choice
-            or in_phone_call):
+    if (isinstance(current_timeline_item, ChatRoom)
+            and not (gamestate in (PHONE, VNMODE))):
         call screen save_and_exit()
         $ is_chat = True
     if not isinstance(current_timeline_item, StoryCall):
@@ -1609,7 +1610,7 @@ label end_route():
 
 label end_prologue():
     $ define_variables()
-    if not in_phone_call and not vn_choice:
+    if gamestate not in (PHONE, VNMODE):
         # It's a chatroom
         $ chat = True
     else:
@@ -1683,6 +1684,7 @@ init python:
         # Switch off variables
         store.vn_choice = False
         store.in_phone_call = False
+        store.gamestate = None
         store.current_call = False
         store._history = True
         store.block_interrupts = False

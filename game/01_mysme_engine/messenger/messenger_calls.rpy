@@ -188,6 +188,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     # main menu)
     if (observing and not vn_choice and not text_msg_reply
             and not in_phone_call and not email_reply
+            and gamestate not in (PHONE, VNMODE)
             and not _in_replay):
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
