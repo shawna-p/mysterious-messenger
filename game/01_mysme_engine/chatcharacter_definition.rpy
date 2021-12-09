@@ -809,10 +809,11 @@ python early:
             Allow this ChatCharacter object to act as a proxy for the
             VN and phone call Character objects.
             """
+            global gamestate
 
-            if store.in_phone_call:
+            if gamestate == PHONE:
                 self.phone_char.do_extend()
-            elif store.vn_choice:
+            elif gamestate == VNMODE:
                 self.vn_char.do_extend()
 
         def __call__(self, what, pauseVal=None, img=False,
@@ -882,11 +883,11 @@ python early:
 
             # Allows you to still use this object even in phone
             # calls and Story Mode
-            if store.in_phone_call:
+            if gamestate == PHONE:
                 # If in phone call, use the phone_call character
                 self.phone_char(what, **kwargs)
                 return
-            elif store.vn_choice:
+            elif gamestate == VNMODE:
                 # If in Story Mode, use VN character
                 self.vn_char(what, **kwargs)
                 return
