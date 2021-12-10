@@ -9,9 +9,7 @@ label shake():
                             at_list=[shake])
     elif persistent.screenshake:
         show layer animated_bg at shake
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this shake to the replay_log
         $ shake_entry = ("shake", current_background)
         $ current_timeline_item.replay_log.append(shake_entry)
@@ -28,9 +26,7 @@ label invert_screen(t=0, p=0):
             show screen invert(t)
         else:
             show screen invert()
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -50,9 +46,7 @@ label white_square_screen(t=0, p=0):
             show screen white_squares(t)
         else:
             show screen white_squares()
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -72,9 +66,7 @@ label hack_rectangle_screen(t=0, p=0):
             show screen hack_rectangle(t)
         else:
             show screen hack_rectangle()
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         if t == 0:
             $ tlen = False
@@ -96,9 +88,7 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
                         ontimeMult=ontimeMult, offsetMin=offsetMin,
                         offsetMax=offsetMax, w_timer=w_timer)
 
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         $ effect_entry = ("tear", [number, offtimeMult, ontimeMult, offsetMin,
                                     offsetMax, w_timer])
@@ -111,9 +101,7 @@ label tear_screen(number=40, offtimeMult=0.4, ontimeMult=0.2,
 
 label remove_entries(num=1):
     $ num *= -1
-    if (not observing and not persistent.testing_mode
-            and not vn_choice
-            and renpy.get_screen('phone_overlay')):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         # Add this to the replay_log
         $ remove_entry = ("remove", num)
         $ current_timeline_item.replay_log.append(remove_entry)
