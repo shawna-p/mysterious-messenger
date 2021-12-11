@@ -94,8 +94,7 @@ python early hide:
 
         enter_string = who.name + " has entered the chatroom."
         if (not store.observing and not store.persistent.testing_mode
-                and gamestate != VNMODE
-                and renpy.get_screen('phone_overlay')):
+                and gamestate == CHAT):
             # Add this as a replay entry
             enter_entry = ("enter", who)
             store.current_timeline_item.replay_log.append(enter_entry)
@@ -130,8 +129,7 @@ python early hide:
 
         exit_string = who.name + " has left the chatroom."
         if (not store.observing and not store.persistent.testing_mode
-                and gamestate != VNMODE
-                and renpy.get_screen('phone_overlay')):
+                and gamestate == CHAT):
             # Add this as a replay entry
             exit_entry = ("exit", who)
             store.current_timeline_item.replay_log.append(exit_entry)

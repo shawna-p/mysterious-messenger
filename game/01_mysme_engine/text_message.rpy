@@ -137,10 +137,7 @@ init python:
 
     def MMGoToText(c, hide_screen):
         """Action which occurs when Go To is pressed on a text popup."""
-        return If(not (renpy.get_screen('in_call')
-                or renpy.get_screen('incoming_call')
-                or renpy.get_screen('outgoing call')
-                or renpy.get_screen('messenger_screen')),
+        return If(gamestate is None,
             If ((c.real_time_text and c.text_msg.reply_label),
                 [Function(text_message_begin, text_person=c),
                     Function(hide_all_popups),
@@ -210,11 +207,7 @@ screen text_msg_popup(c, last_msg=False, hide_screen='text_msg_popup'):
                         style_prefix 'text_popup_preview'
                         text text_popup_preview(last_msg)
 
-            if (not (renpy.get_screen('in_call')
-                    or renpy.get_screen('incoming_call')
-                    or renpy.get_screen('outgoing call')
-                    or renpy.get_screen('phone_overlay')
-                    or renpy.get_screen('vn_overlay'))):
+            if (gamestate is None):
                 textbutton _('Go to') action MMGoToText(c, hide_screen)
             else:
                 null height 70

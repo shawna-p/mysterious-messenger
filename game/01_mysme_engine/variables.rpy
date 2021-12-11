@@ -990,66 +990,64 @@ init -6 python:
 
         # The scrolling hack effect should be shown
         if ('hack' in name and 'effect' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('hack', reverse=('reverse' in name))
             return
         elif ((('redhack' in name) or ('red' in name and 'hack' in name))
                 and 'effect' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('redhack', reverse=('reverse' in name))
             return
         # The scrolling red static effect
         elif ("red" in name and "static" in name and "effect" in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('red_static', reverse=('reverse' in name))
             return
         ## Banners
         elif ('lightning' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('banner', banner='lightning')
             return
         elif ('well' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('banner', banner='well')
             return
         elif ('annoy' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('banner', banner='annoy')
             return
         elif ('heart' in name and 'banner' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('banner', banner='heart')
             return
         ## The shake effect
         elif ( name == ('shake',)
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('shake')
             return
         ## The secure chat animation
         elif ('secure' in name and 'anim' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('secure_anim')
             return
         ## The screen crack overlay
         elif ('screen_crack' in name
-                and renpy.get_screen('messenger_screen')
+                and gamestate == CHAT
                 and not at_list):
             renpy.call('screen_crack_overlay')
             return
         ## Chatroom backgrounds
         elif (not ('bg' in name and 'black' in name)
-                and renpy.get_screen('messenger_screen')
-                gamestate not in (PHONE, VNMODE)
-                and not at_list):
+                and gamestate == CHAT and not at_list):
             # The messenger screen is showing, therefore this statement is
             # likely being used in conjunction with `scene` to display a
             # chatroom background
@@ -1368,7 +1366,7 @@ image transparent_img = '#0000'
 default gamestate = None
 define REPLAY = 0
 define CHAT = 1
-# Replaces in_phone_call
+# Replaces in_phone_call TODO: Set this during incoming/outgoing calls too
 define PHONE = 2
 define TEXTMSG = 3
 # Replaces vn_choice
