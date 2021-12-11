@@ -501,11 +501,7 @@ init python:
     def MMGoToEmail():
         """Return the action to Go To the email screen from a popup."""
 
-        return If (((not (renpy.get_screen('in_call')
-                or renpy.get_screen('incoming_call')
-                or renpy.get_screen('outgoing call')
-                or renpy.get_screen('messenger_screen')
-                or text_person))),
+        return If(gamestate is None,
             [Hide('email_popup'),
                 Function(hide_all_popups),
                 Hide('save_load'),

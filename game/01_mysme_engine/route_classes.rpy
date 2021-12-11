@@ -1322,6 +1322,7 @@ init python:
 
         # Chatroom setup
         if isinstance(item, ChatRoom):
+            store.gamestate = CHAT
             # Make sure messenger screens are showing
             renpy.show_screen('phone_overlay')
             renpy.show_screen('messenger_screen')
@@ -1406,6 +1407,8 @@ init python:
         Perform additional logic to finish off a TimelineItem, like resetting
         story variables to return to the menu screens.
         """
+
+        store.gamestate = None
 
         if store._in_replay:
             return
