@@ -142,8 +142,9 @@ init python:
                 if not hasattr(chara.text_msg, 'temp_msg_queue'):
                     chara.text_msg.temp_msg_queue = [ ]
 
+
         # Update to most recent version
-        store._version = (3, 2, 0)
+        store._version = (3, 3, 0)
 
         # Turn the version back into a string
         store._version = '.'.join(map(str, store._version))
