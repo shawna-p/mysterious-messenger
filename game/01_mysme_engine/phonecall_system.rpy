@@ -407,12 +407,14 @@ init -6 python:
 
         if call_available(i):
             return [Preference("auto-forward", "enable"),
-                Show('outgoing_call',
-                    phonecall=call_available(i))]
+                    SetVariable('gamestate', PHONE),
+                    Show('outgoing_call',
+                        phonecall=call_available(i))]
         elif i in phone_only_characters:
             return None
         else:
             return [Preference("auto-forward", "enable"),
+                    SetVariable('gamestate', PHONE),
                     Show('outgoing_call',
                         phonecall=i.voicemail,
                         voicemail=True)]
@@ -1037,6 +1039,7 @@ label phone_begin(resetHP=True):
 ## This label sets the appropriate variables/actions when you finish
 ## a phone call. Now largely moot.
 label phone_end():
+    $ gamestate = None
     if starter_story and not renpy.get_return_stack():
         jump end_prologue
     return
