@@ -1364,7 +1364,6 @@ image transparent_img = '#0000'
 
 # What state the game is in
 default gamestate = None
-define REPLAY = 0
 define CHAT = 1
 # Replaces in_phone_call TODO: Set this during incoming/outgoing calls too
 define PHONE = 2
