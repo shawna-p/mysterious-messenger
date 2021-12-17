@@ -237,8 +237,7 @@ init -6 python:
         sender = store.text_person
         # If the MC sent this message, deliver it immediately
         if who.right_msgr:
-            sender.text_msg.msg_list.append(ChatEntry(who, what,
-                                                      upTime(), img))
+            sender.text_msg.msg_list.append(ChatEntry(who, what, upTime(), img))
             sender.text_msg.read = True
             sender.text_msg.notified = True
             sender.text_msg.reply_label = False
