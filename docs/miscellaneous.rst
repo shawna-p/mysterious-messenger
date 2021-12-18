@@ -92,6 +92,16 @@ The first item in the list is what will appear on the profile page when the play
 
     define gender_options = ["nonbinary", "female", "male", "agender", "genderfluid"]
 
+If you ever want to change dialogue based on the player's gender, you can write statements like::
+
+    if persistent.gender == "female":
+        s "I'm sure Jaehee appreciates not being the only lady lol"
+    elif persistent.gender == "male":
+        s "It's nice to have a guy around here who understands my jokes lolol"
+    # Can add more elif clauses in here as needed
+    else:
+        s "It's been so much fun having you here since Day 1, [name] ^^"
+
 
 Custom Emojis
 =============
