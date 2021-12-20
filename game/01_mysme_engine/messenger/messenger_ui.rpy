@@ -324,11 +324,13 @@ screen phone_overlay(is_menu_pause=False):
         spacing 15
         fixed:
             xysize (20, 48)
+            # Use the actual battery information
             if battery.state >= 1 and battery.state != 2:
                 bar:
                     value StaticValue(value=float(battery.percent)/100.0,
                         range=1.0)
                     style 'battery_bar'
+            # No battery information available; use 75%
             else:
                 bar:
                     value StaticValue(value=float(75)/100.0,
