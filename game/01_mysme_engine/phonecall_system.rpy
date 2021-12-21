@@ -688,16 +688,26 @@ style phone_contacts_button:
     hover_background "menu_tab_inactive_hover"
     activate_sound 'audio/sfx/UI/phone_tab_switch.mp3'
 
+
+image contact_available = Transform(
+    'Text Messages/main02_new_icon.webp',
+    zoom=0.7
+)
+
 ## A small screen which contains a single contact button
 screen phone_contact_btn(person):
-    vbox:
-        style_prefix 'contacts_grid'
-        imagebutton:
-            background person.file_id + '_contact'
-            idle person.file_id + '_contact'
-            hover_foreground person.file_id + '_contact'
-            action MMOutgoingCall(caller=person)
-        text person.name style 'contact_text'
+    fixed:
+        fit_first True
+        vbox:
+            style_prefix 'contacts_grid'
+            imagebutton:
+                background person.file_id + '_contact'
+                idle person.file_id + '_contact'
+                hover_foreground person.file_id + '_contact'
+                action MMOutgoingCall(caller=person)
+            text person.name style 'contact_text'
+        if persistent.available_call_indicator and call_available(person):
+            add 'contact_available' align (0.5, 0.0) yoffset 185
 
 style contacts_grid_grid:
     align (0.5, 0.3)

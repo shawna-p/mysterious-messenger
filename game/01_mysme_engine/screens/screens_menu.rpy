@@ -1595,7 +1595,7 @@ screen developer_settings():
     add "#000a"
 
     frame:
-        xysize (675, 700)
+        xysize (675, 780)
         background Fixed('menu_settings_panel_light',
             'menu_settings_panel_bright')
         align (0.5, 0.5)
@@ -1643,6 +1643,8 @@ screen developer_settings():
                     action ToggleField(persistent, 'open_docs_locally')
                 textbutton _("Use pause footer for links"):
                     action ToggleField(persistent, 'link_wait_pause')
+                textbutton _("Available call indicator"):
+                    action ToggleField(persistent, 'available_call_indicator')
 
             hbox:
                 align (0.5, 0.5)
@@ -1703,6 +1705,7 @@ screen developer_settings():
 
 default persistent.open_docs_locally = False
 default persistent.link_wait_pause = False
+default persistent.available_call_indicator = False
 
 init python:
 
