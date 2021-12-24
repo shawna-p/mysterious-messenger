@@ -70,6 +70,9 @@ An outgoing call is typically available immediately after its associated timelin
 .. note::
     There can be up to one outgoing call per character available after each timeline item. If a player misses an incoming call from a character who also has an outgoing call, both conversations will be added to the pool of available calls. The player can then call the character back multiple times to receive both conversations.
 
+.. note::
+    For development, there is an option to show an indicator underneath a character's contact image when there is a call available for them. You can find it in the Developer options titled **Available call indicator**.
+
 Missed Calls
 ------------
 
