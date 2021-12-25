@@ -293,6 +293,7 @@ init python:
         temp_available_update = store.persistent.__dict__['available_update']
         temp_open_docs_locally = store.persistent.__dict__['open_docs_locally']
         temp_link_wait_pause = store.persistent.__dict__['link_wait_pause']
+        temp_available_call_indicator = store.persistent.__dict__['available_call_indicator']
 
 
         all_persistent_albums = [ x for x in persistent.__dict__ if '_album' in x ]
@@ -351,6 +352,7 @@ init python:
         store.persistent.available_update = temp_available_update
         store.persistent.open_docs_locally = temp_open_docs_locally
         store.persistent.link_wait_pause = temp_link_wait_pause
+        store.persistent.available_call_indicator = temp_available_call_indicator
 
         store.persistent.phone_tone = 'audio/sfx/Ringtones etc/phone_basic_1.wav'
         store.persistent.text_tone = "audio/sfx/Ringtones etc/text_basic_1.wav"
