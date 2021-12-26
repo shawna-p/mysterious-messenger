@@ -134,6 +134,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     $ _history_list = []
     $ _history = True
     $ _preferences.afm_enable = False
+    $ gamestate = VNMODE
 
     # Don't worry about setting `observing` as it should
     # still be set from the connected chatroom
@@ -147,6 +148,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
         return
 
     $ reset_story_vars(vn_jump=True)
+    $ gamestate = CHAT
     if clearchat_on_return:
         $ chatlog = []
         $ addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
@@ -186,10 +188,7 @@ label vn_during_chat(vn_label, clearchat_on_return=False, new_bg=False,
     # If this is part of a replayed chatroom, go back to
     # the replay log (NOT replayed from the History in the
     # main menu)
-    if (observing and not vn_choice and not text_msg_reply
-            and not in_phone_call and not email_reply
-            and gamestate not in (PHONE, VNMODE)
-            and not _in_replay):
+    if (observing and gamestate == CHAT and not _in_replay):
         $ replay_from = chatroom_replay_index
         jump chatroom_replay
     return
