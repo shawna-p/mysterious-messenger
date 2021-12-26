@@ -105,7 +105,7 @@ transform NullTransform:
 screen say(who, what):
 
     # In Story Mode
-    if gamestate != PHONE and not text_person and vn_choice:
+    if gamestate == VNMODE:
         style_prefix "vn_mode"
         if _in_replay and not viewing_guest:
             textbutton _("End Replay"):
@@ -372,9 +372,8 @@ init python:
             screen_dict = {'screen' : 'answer_choice'}
             kwargs.update(screen_dict)
         if (store.text_person and store.text_person.real_time_text
-                and not (gamestate == PHONE
-                or store.vn_choice or store.email_reply
-                or store.answer_shown)):
+                and not (gamestate in (PHONE, VNMODE)
+                    or store.email_reply or store.answer_shown)):
             screen_dict = {'screen' : 'answer_choice_text'}
             kwargs.update(screen_dict)
         #elif store.answer_shown:
@@ -475,7 +474,7 @@ screen choice(items, paraphrased=None):
                             ])
 
     # For Story Mode and phone calls
-    elif gamestate == PHONE or vn_choice:
+    elif gamestate in (PHONE, VNMODE):
         vbox:
             style_prefix 'phone_vn_choice'
             for num, i in enumerate(items):
