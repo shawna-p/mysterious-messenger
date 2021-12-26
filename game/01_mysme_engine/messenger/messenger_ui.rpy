@@ -284,6 +284,7 @@ screen phone_overlay(is_menu_pause=False):
                             SetField(persistent, 'first_boot', False),
                             SetField(persistent, 'on_route', True),
                             SetVariable('vn_choice', True),
+                            SetVariable('gamestate', VNMODE),
                             Function(purge_temp_texts),
                             If(is_menu_pause,
                                 Function(renpy.jump_out_of_context,
