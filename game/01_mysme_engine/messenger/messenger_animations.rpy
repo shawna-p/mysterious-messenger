@@ -280,6 +280,8 @@ image speed_num_img = DynamicDisplayable(speed_num_fn)
 
 screen speed_num():
 
+    zorder 200
+
     add 'speed_num_img' align(0.98, 0.2)
 
     timer 0.4 action Hide('speed_num', Dissolve(0.4))
@@ -310,7 +312,7 @@ screen hack_screen(hack, flicker_anim=True, bg="black"):
 
 label hack(reverse=False):
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and gamestate == CHAT):
         if reverse:
             $ hack_entry = ("hack", "reverse")
         else:
@@ -327,7 +329,7 @@ label hack(reverse=False):
 
 label redhack(reverse=False):
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and gamestate == CHAT):
         if reverse:
             $ hack_entry = ("hack", "red_reverse")
         else:
@@ -344,7 +346,7 @@ label redhack(reverse=False):
 
 label red_static(reverse=False):
     if (not observing and not persistent.testing_mode
-            and not vn_choice):
+            and gamestate == CHAT):
         if reverse:
             $ hack_entry = ("hack", "red_static_reverse")
         else:
@@ -363,7 +365,8 @@ label red_static(reverse=False):
 
 # Shows the "cracked" phone screen overlay
 label screen_crack_overlay():
-    if (not observing and not persistent.testing_mode):
+    if (not observing and not persistent.testing_mode
+            and gamestate == CHAT):
         $ entry = ("overlay", "screen_crack")
         $ current_timeline_item.replay_log.append(entry)
     $ renpy.show_screen('screen_crack_overlay_bg')
