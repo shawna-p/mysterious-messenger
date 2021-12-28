@@ -384,8 +384,7 @@ screen screen_crack_overlay_bg():
 # Call them using "call banner('well')" etc
 
 label banner(banner):
-    if (not observing and not persistent.testing_mode
-            and not vn_choice):
+    if (not observing and not persistent.testing_mode and gamestate == CHAT):
         $ banner_entry = ("banner", banner)
         $ current_timeline_item.replay_log.append(banner_entry)
     if persistent.banners:

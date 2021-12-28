@@ -366,9 +366,7 @@ init python:
     def menu_args_callback(*args, **kwargs):
 
         # Check if we're in a chatroom
-        if not (store.text_msg_reply or gamestate == PHONE
-                or store.vn_choice or store.email_reply
-                or store.answer_shown):
+        if gamestate == CHAT and not store.answer_shown:
             screen_dict = {'screen' : 'answer_choice'}
             kwargs.update(screen_dict)
         if (store.text_person and store.text_person.real_time_text

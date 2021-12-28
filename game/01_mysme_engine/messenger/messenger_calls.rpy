@@ -332,8 +332,7 @@ label skip_intro_setup():
     $ persistent.first_boot = False
     $ persistent.on_route = True
 
-    if vn_choice:
-        $ vn_choice = False
+    if gamestate == VNMODE:
         $ phone = False
     $ most_recent_item = story_archive[0].archive_list[0]
     $ collected_hp = {'good': [], 'bad': [], 'break': []}
