@@ -49,6 +49,18 @@ init python:
         # Save all variables
         renpy.retain_after_load()
 
+    def get_term(fem, masc, neutral):
+        """
+        A function which will return a term based on the player's pronouns
+        and gender. Generally prefers returning the neutral term.
+        """
+        if persistent.gender == "female" and persistent.pronoun == "she/her":
+            return fem
+        elif persistent.gender == "male" and persistent.pronoun == "he/him":
+            return masc
+        else:
+            return neutral
+
 init offset = -1
 
 ########################################
