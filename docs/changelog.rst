@@ -85,10 +85,12 @@ QoL Improvements
       - Common actions for buttons on the main menu and home screen have been turned into functions for easier UI modification.
     * - Check for updates in thread
       - The updater now launches a separate thread to check for updates so the UI is not paused/frozen while waiting for the results of the check.
-    * - `gamestate`
+    * - ``gamestate``
       - Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is now tracked via a consistent `gamestate` variable.
     * - Available call indicator
       - A new dev option will add a "NEW" sign under a contact's icon when there is a call available for them.
+    * - ``get_terms``
+      - Convenience function for using gendered terms to refer to the player.
 
 
 
