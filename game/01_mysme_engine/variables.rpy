@@ -19,6 +19,7 @@ init -6 python:
             super(CConfirm, self).__init__('confirm', None, *args, message=msg,
                 yes_action=yes, no_action=no, **kwargs)
 
+
     class Start(Action, DictEquality):
         """
         Causes Ren'Py to jump out of the menu context to the named
@@ -40,6 +41,7 @@ init -6 python:
             store.starter_story = self.label
             renpy.jump_out_of_context("begin_intro_mstmg")
 
+
     class ShowCG(ShowMenu):
         """A special Action for displaying a CG to the player."""
 
@@ -48,6 +50,7 @@ init -6 python:
                 img = cg_helper(img)
             super(ShowCG, self).__init__('viewCG_fullsize', *args,
                 fullsizeCG=img, **kwargs)
+
 
     class JumpVN(Call):
         """
@@ -65,6 +68,7 @@ init -6 python:
 
             super(JumpVN, self).__init__('vn_during_chat', *args, vn_label=label,
                 from_link=True, **kwargs)
+
 
     class LinkJump(Call):
         """
@@ -98,7 +102,6 @@ init -6 python:
                     renpy.jump(self.label)
 
 
-
     class ContinueChat(Call):
         """A special action which continues the chat when called."""
 
@@ -110,6 +113,7 @@ init -6 python:
             store.chat_stopped = False
             # If observing?
             super(ContinueChat, self).__call__()
+
 
     def IfChatStopped(true_list, false_list=None):
         """
@@ -478,6 +482,7 @@ init -6 python:
         def __ne__(self, other):
             return not self.__eq__(other)
 
+
     def upTime(day=None, thetime=None):
         """
         Return a MyTime object with the current time, or a time based
@@ -510,6 +515,7 @@ init -6 python:
             return MyTime(day, thehour, themin)
         else:
             return MyTime()
+
 
     class MyTimeDelta(store.object):
         """
@@ -610,6 +616,7 @@ init -6 python:
         begin_timeline_item(generic_chatroom)
         return
 
+
     def hide_all_popups():
         """Hide all popup screens in-game."""
 
@@ -620,10 +627,12 @@ init -6 python:
         hide_stackable_notifications()
         hide_heart_icons()
 
+
     def btn_hover_img(s):
         """A displayable prefix function to make button hover images."""
 
         return Fixed(s, Transform(s, alpha=0.5))
+
 
     def center_bg_img(s):
         """
@@ -632,6 +641,7 @@ init -6 python:
         """
 
         return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
+
 
     def center_crop_bg_img(s):
         """
@@ -651,6 +661,7 @@ init -6 python:
         """Return the width of text with a certain style applied."""
         return int(Text(the_text, style=the_style).size()[0])
 
+
     def get_char_from_file_id(file_id):
         """
         Return the ChatCharacter associated with the given file_id, or None
@@ -668,6 +679,7 @@ init -6 python:
                 if char.file_id == file_id:
                     return char
         return None
+
 
     def print_file(*args, **kwargs):
         """Print statements to a file or to the console for debugging."""
@@ -688,6 +700,7 @@ init -6 python:
             f.close()
         except:
             print("Print to file did not work:", args)
+
 
     def get_img_from_file():
         """
@@ -720,6 +733,7 @@ init -6 python:
             return thevar
         return None
 
+
     def set_pfp_from_file():
         """
         (Windows only) Set the player's profile picture from a file.
@@ -733,6 +747,7 @@ init -6 python:
         # Otherwise, we're good to go
         store.m.prof_pic = the_img
         return
+
 
     def can_pick_image():
         """Return True if a file-picker is available."""
@@ -819,7 +834,6 @@ init -6 python:
             link_text=link_text)
 
 
-
     def combine_lists(*args):
         """
         Combine args into one giant list and return it. Removes duplicates.
@@ -835,6 +849,7 @@ init -6 python:
                 if arg not in result:
                     result.append(arg)
         return result
+
 
     def handle_missing_image(img):
         """Give a generic image to use when an image cannot be found."""
@@ -1181,6 +1196,7 @@ init -6 python:
                 return rel
         return None
 
+
     def reorient_game():
         """
         A function which is called when the game can't reorient itself
@@ -1190,7 +1206,6 @@ init -6 python:
         print("WARNING: Failed to recover when loading game.")
 
         return 'reload_game_restart'
-
 
 
     # Some colour names, mostly for testing
