@@ -1955,11 +1955,13 @@ screen chara_profile(who):
                                 Transform('menu_pencil', align=(0.95, 0.05)))
                 padding (7, 5)
                 action Show('pick_chara_pfp', who=who)
-            fixed:
+            vbox:
                 xysize (350,75)
                 xalign 0.96
-                yalign 0.645
+                yalign 0.645 spacing 8
                 text who.name style "profile_header_text"
+                if persistent.available_call_indicator and call_available(who):
+                    text "Online" color "#fff" text_align 0.5 size 22 xalign 0.5
             fixed:
                 xysize (700, 260)
                 yalign 0.95
