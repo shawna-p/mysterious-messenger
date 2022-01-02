@@ -88,7 +88,7 @@ QoL Improvements
     * - ``gamestate``
       - Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is now tracked via a consistent `gamestate` variable.
     * - Available call indicator
-      - A new dev option will add a "NEW" sign under a contact's icon when there is a call available for them.
+      - A new dev option will add a "NEW" sign under a contact's icon when there is a call available for them and add an ``Online`` indicator on their profile screen.
     * - ``get_terms``
       - Convenience function for using gendered terms to refer to the player.
 
