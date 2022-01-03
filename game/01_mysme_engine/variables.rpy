@@ -1363,9 +1363,12 @@ default gamestate = None
 define CHAT = 1
 # Replaces in_phone_call TODO: Set this during incoming/outgoing calls too
 define PHONE = 2
+# Replaces text_msg_reply
 define TEXTMSG = 3
 # Replaces vn_choice
 define VNMODE = 4
+# Replaces email_reply
+define EMAIL = 5
 
 # Displays all the messages in a chatroom
 default chatlog = []
