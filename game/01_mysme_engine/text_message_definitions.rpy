@@ -164,7 +164,7 @@ python early:
         def reply(self):
             """Mark the message as read and jump to the reply label."""
 
-            store.text_msg_reply = True
+            store.gamestate = TEXTMSG
             old_reply = self.reply_label
             renpy.call_in_new_context(self.reply_label)
             # If the reply label was updated, then don't
@@ -172,7 +172,7 @@ python early:
             # to reply twice
             if self.reply_label == old_reply:
                 self.reply_label = False
-            store.text_msg_reply = False
+            store.gamestate = None
 
         def heart_point(self, person=None, bad=False):
             """Award a heart point to the correct character."""
@@ -419,7 +419,7 @@ init -6 python:
         store.text_person = text_person
         store.CG_who = store.text_person
         if text_person.text_msg.reply_label:
-            store.text_msg_reply = True
+            store.gamestate = TEXTMSG
         store.text_person.text_msg.read = True
         renpy.retain_after_load()
         return
@@ -434,7 +434,7 @@ default CG_who = None
 ## A label that lets the player leave instant text message
 ## conversations. The conversation is then lost
 label leave_inst_text():
-    $ text_msg_reply = False
+    $ gamestate = None
     $ config.skipping = False
     $ choosing = False
     $ textbackup = 'Reset'
@@ -469,7 +469,7 @@ label play_text_message():
                 dialogue_paraphrase, dialogue_pv)
         if text_person is not None and text_person.real_time_text:
             text_pauseFailsafe(text_person.text_msg.msg_list)
-        text_msg_reply = False
+        gamestate = None
         # Determine collected heart points (HP)
         persistent.HP += get_collected_hp()
         collected_hp = {'good': [], 'bad': [], 'break': []}

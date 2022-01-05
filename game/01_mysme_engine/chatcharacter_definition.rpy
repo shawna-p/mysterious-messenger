@@ -902,7 +902,7 @@ python early:
             if store.text_person is not None:
                 # If they're on the text message screen, show the
                 # message real-time
-                if store.text_person.real_time_text and store.text_msg_reply:
+                if store.text_person.real_time_text and store.gamestate == TEXTMSG:
                     addtext_realtime(self, what, pauseVal=pauseVal, img=img)
                 # If they're not in the midst of a text conversation,
                 # this is "backlog"
