@@ -439,7 +439,7 @@ screen choice(items, paraphrased=None):
     add "choice_darken"
 
     # For text messages
-    if text_msg_reply:
+    if gamestate == TEXTMSG:
         if not text_person or not text_person.real_time_text:
             use text_message_screen(text_person)
             add "choice_darken"

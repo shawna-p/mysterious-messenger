@@ -658,12 +658,12 @@ label get_input(the_var, prompt='', default='', length=20,
         $ say_choice_caption(dialogue_picked, dialogue_paraphrase, dialogue_pv)
     if show_answer and gamestate not in (PHONE, VNMODE) and not email_reply:
         $ choosing = True
-        if text_msg_reply:
+        if gamestate == TEXTMSG:
             call screen text_answer
         else:
             call screen answer_button
         $ choosing = False
-        if text_msg_reply:
+        if gamestate == TEXTMSG:
             show screen text_pause_button
         else:
             show screen pause_button
