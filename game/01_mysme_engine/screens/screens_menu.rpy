@@ -235,25 +235,22 @@ init python:
                     file_time=FileTime(slot, empty="00:00"),
                     slot=slot)]
 
+    def MMMainMenuMusic():
+        if store.persistent.first_boot:
+            return [SetField(persistent, 'first_boot', False),
+                    Play('music', mystic_chat, if_changed=True),
+                    Show('route_select_screen')]
+        else:
+            return [Play('music', mystic_chat, if_changed=True),
+                    Function(chat_greet)]
+
+
 screen main_menu():
 
     tag menu
 
-    if persistent.first_boot:
-        on 'show' action [SetField(persistent, 'first_boot', False),
-                            Show('route_select_screen')]
-        on 'replace' action [SetField(persistent, 'first_boot', False),
-                            Show('route_select_screen')]
-    else:
-        # Greet the player, and play the title music if not already
-        on 'show' action [If(renpy.music.get_playing(channel='music')
-                            != mystic_chat,
-                            Queue('music', mystic_chat)),
-                            Function(chat_greet)]
-        on 'replace' action [If(renpy.music.get_playing(channel='music')
-                            != mystic_chat,
-                            Queue('music', mystic_chat)),
-                            Function(chat_greet)]
+    on 'show' action MMMainMenuMusic()
+    on 'replace' action MMMainMenuMusic()
 
     # This adds the 'starry night' background with a few animated stars
     # It is defined in 'screens_starry_night.rpy'

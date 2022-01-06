@@ -734,5 +734,12 @@ label reload_game_restart():
     if renpy.game.context().interacting:
         $ renpy.game.context().interacting = False
         # show screen messenger_error
+
+    # Ensures the background music is playing
+    if hacked_effect:
+        $ renpy.music.play(mystic_chat_hacked, loop=True, if_changed=True)
+    else:
+        $ renpy.music.play(mystic_chat, loop=True, if_changed=True)
+
     call screen chat_home
     return
