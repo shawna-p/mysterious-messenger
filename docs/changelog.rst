@@ -66,6 +66,8 @@ Fixes
       - Animated backgrounds now move more smoothly and don't have any stuttering lines when looping.
     * - Guest Comment Interpolation
       - Guest comments in the guestbook can now properly interpolate variables like ``[name]`` or pronouns like ``[they]``. There is also a dissolve transition in/out of viewing the comment.
+    * - Guest Hourglasses
+      - Fixed an issue where players weren't awarded an hourglass upon first viewing a guest's information in the guestbook.
 
 
 .. _qol-3-3-0:

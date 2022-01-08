@@ -527,8 +527,6 @@ init python:
                 Replay('guest_info',
                 {'guest_replay_info' :
                     guest}, False),
-                # SetDict(persistent.guestbook,
-                #     guest.name, 'viewed'),
                 Function(renpy.retain_after_load),
                 # Reset the dissolve transition
                 SetVariable('config.enter_replay_transition', None),
