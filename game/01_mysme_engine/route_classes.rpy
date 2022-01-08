@@ -1327,6 +1327,7 @@ init python:
             renpy.show_screen('phone_overlay')
             renpy.show_screen('messenger_screen')
             renpy.show_screen('pause_button')
+            store.gamestate = CHAT
 
             # Clear the chatlog
             if clearchat:
@@ -1336,7 +1337,6 @@ init python:
                 addchat(filler, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", 0)
                 # Set up the "automatic" background (which can be replaced)
                 set_chatroom_background('autobackground')
-
             store.text_person = None
             store._window_hide()
 
@@ -1348,13 +1348,11 @@ init python:
                 for person in item.original_participants:
                     if person.name not in store.in_chat:
                         store.in_chat.append(person.name)
-
                 # If the player is participating, add them to the
                 # participants list
                 if ((not item.expired or item.buyback or item.buyahead)
                         and not store.expired_replay):
                     store.in_chat.append(store.main_character.name)
-
 
         # Story Mode/VN setup
         elif isinstance(item, StoryMode):
