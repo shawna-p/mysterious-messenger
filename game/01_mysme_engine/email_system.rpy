@@ -527,8 +527,8 @@ init python:
                 Replay('guest_info',
                 {'guest_replay_info' :
                     guest}, False),
-                SetDict(persistent.guestbook,
-                    guest.name, 'viewed'),
+                # SetDict(persistent.guestbook,
+                #     guest.name, 'viewed'),
                 Function(renpy.retain_after_load),
                 # Reset the dissolve transition
                 SetVariable('config.enter_replay_transition', None),
@@ -1008,23 +1008,24 @@ label guest_info():
         what = guest_replay_info.comment_what
         expr = guest_replay_info.comment_img
 
-        # Award an hourglass if this is the first time
-        # the player has seen this guest's guestbook
-        if persistent.guestbook[guest_replay_info.name] == 'attended':
-            persistent.guestbook[guest_replay_info.name] = 'viewed'
-            if not persistent.animated_icons:
-                renpy.show_screen(allocate_notification_screen(),
-                    message="Hourglass +1")
-            else:
-                renpy.show_screen(allocate_hg_screen())
-            renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
-            persistent.HG += 1
         # Set up the player's name and profile pic in case it's used
         set_name_pfp()
         set_pronouns()
 
     $ begin_timeline_item(StoryMode("Guest", "guest_info", "00:00"))
     $ viewing_guest = True
+
+    # Award an hourglass if this is the first time
+    # the player has seen this guest's guestbook
+    if persistent.guestbook[guest_replay_info.name] == 'attended':
+        $ persistent.guestbook[guest_replay_info.name] = 'viewed'
+        if not persistent.animated_icons:
+            $ renpy.show_screen(allocate_notification_screen(), message="Hourglass +1")
+        else:
+            $ renpy.show_screen(allocate_hg_screen())
+        $ renpy.music.play("audio/sfx/UI/select_4.mp3", channel='sound')
+        $ persistent.HG += 1
+
     scene bg rfa_party_3
     show expression expr
     who "[what!i]"
