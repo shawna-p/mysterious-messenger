@@ -73,11 +73,6 @@ init 100 python:
         $ persistent.unlock_all_story = False
         ## Whether the player can get hourglasses in chatrooms randomly
         $ persistent.receive_hg = True
-        ## Whether the game plays in real-time or sequentially
-        ## YOU MAY WANT TO CHANGE THIS or provide a button to toggle it
-        ## If you provide a button toggle, you MUST remove this line to prevent
-        ## modifying the player's preferences every launch
-        $ persistent.real_time = False
         ## Whether an online indicator is shown next to characters who
         ## have an available phone call
         $ persistent.available_call_indicator = False
@@ -88,6 +83,11 @@ init 100 python:
         ## Whether the game uses the custom route select screen or the
         ## built-in default one with Tutorial day
         $ persistent.custom_route_select = True
+        ## Whether the game plays in real-time or sequentially
+        ## YOU MAY WANT TO CHANGE THIS or provide a button to toggle it
+        ## If you provide a button toggle, you MUST remove this line to prevent
+        ## modifying the player's preferences every launch
+        $ persistent.real_time = False
 
 init offset = -1
 
