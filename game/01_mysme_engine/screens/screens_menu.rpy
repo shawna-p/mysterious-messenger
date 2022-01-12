@@ -336,10 +336,16 @@ screen main_menu():
             button:
                 xysize (205,195)
                 style_prefix 'right_menu'
-                action Show('developer_settings')
+                if config.developer:
+                    action Show('developer_settings')
+                else:
+                    action Show('game_extras')
                 vbox:
                     add "menu_dlc" align (0.5, 0.5)
-                    text "Developer"
+                    if config.developer:
+                        text "Developer"
+                    else:
+                        text "Extras"
 
     # The update button. Only checks for and shows updates if this
     # is a developer version (not a full release).
@@ -1366,9 +1372,15 @@ screen chat_home(reshow=False):
                     background "red_hex"
                     hover_background "red_hex_hover"
                     selected None
-                    action Show('developer_settings')
+                    if config.developer:
+                        action Show('developer_settings')
+                    else:
+                        action Show('game_extras')
                     add "developer_settings" xalign 0.55 yalign 0.35
-                    text "DEVELOPER" size 18
+                    if config.developer:
+                        text "DEVELOPER" size 18
+                    else:
+                        text "EXTRAS"
 
                 # Link ("Notice")
                 button:
