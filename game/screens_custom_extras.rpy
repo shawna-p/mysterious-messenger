@@ -15,7 +15,7 @@ screen game_extras():
             align (1.0, 0.0)
             xoffset 3 yoffset -3
             auto 'input_close_%s'
-            action Hide('developer_settings')
+            action Hide('game_extras')
 
         text "Extras" style "settings_style" xpos 55 ypos 5
 
