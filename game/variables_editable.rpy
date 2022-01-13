@@ -68,26 +68,26 @@ init 100 python:
     # certain gameplay styles or appearances
     if not config.developer:
         ## Dev option; should almost always be False for a release
-        $ persistent.testing_mode = False
+        persistent.testing_mode = False
         ## Dev option; should almost always be False for a release
-        $ persistent.unlock_all_story = False
+        persistent.unlock_all_story = False
         ## Whether the player can get hourglasses in chatrooms randomly
-        $ persistent.receive_hg = True
+        persistent.receive_hg = True
         ## Whether an online indicator is shown next to characters who
         ## have an available phone call
-        $ persistent.available_call_indicator = False
+        persistent.available_call_indicator = False
         ## Whether the footer at the bottom of the screen when the player
         ## must click a link in the chat is the pause button or some text
         ## with a customizable message
-        $ persistent.link_wait_pause = False
+        persistent.link_wait_pause = False
         ## Whether the game uses the custom route select screen or the
         ## built-in default one with Tutorial day
-        $ persistent.custom_route_select = True
+        persistent.custom_route_select = True
         ## Whether the game plays in real-time or sequentially
         ## YOU MAY WANT TO CHANGE THIS or provide a button to toggle it
         ## If you provide a button toggle, you MUST remove this line to prevent
         ## modifying the player's preferences every launch
-        $ persistent.real_time = False
+        persistent.real_time = False
 
 init offset = -1
 
