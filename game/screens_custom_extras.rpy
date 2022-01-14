@@ -5,15 +5,17 @@ screen game_extras():
     add "#000a"
 
     frame:
-        xysize (675, 780)
+        xsize 675
+        ysize 200
         background Fixed('menu_settings_panel_light',
-            'menu_settings_panel_bright')
+            'menu_settings_panel_bright', yfit=True)
         align (0.5, 0.5)
         bottom_padding 20
+        xpadding 18
 
         imagebutton:
             align (1.0, 0.0)
-            xoffset 3 yoffset -3
+            xoffset 18
             auto 'input_close_%s'
             action Hide('game_extras')
 
@@ -21,17 +23,8 @@ screen game_extras():
 
         vbox:
             style_prefix "other_settings"
-            yalign 0.5
+            yalign 0.5 xalign 0.0
             null height 30
-
-            frame:
-                xsize 680
-                background "menu_settings_panel"
-                has vbox
-                spacing 6
-                first_spacing 15
-                text "Variables for testing":
-                    style "settings_style" xpos 45 ypos -3
+            textbutton _("Real-Time Mode"):
                 style_prefix "check"
-                textbutton _("Real-Time Mode"):
-                    action ToggleField(persistent, "real_time")
+                action ToggleField(persistent, "real_time")
