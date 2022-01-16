@@ -93,6 +93,8 @@ QoL Improvements
       - A new dev option will add a "NEW" sign under a contact's icon when there is a call available for them and add an ``Online`` indicator on their profile screen.
     * - ``get_terms``
       - Convenience function for using gendered terms to refer to the player.
+    * - Developer Release Options
+      - Added a section to ``variables_editable.rpy`` which can be customized for sharing a program distribution with others.
 
 
 
