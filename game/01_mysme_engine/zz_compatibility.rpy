@@ -297,6 +297,13 @@ init python:
             except AttributeError:
                 return None
 
+        @property
+        def attending(self):
+            try:
+                return self.v3_guest.attending
+            except AttributeError:
+                return None
+
         def create_old_guest(self, name, thumbnail, start_msg,
                         msg1_good, reply1_good, msg1_bad, reply1_bad,
                         msg2_good, reply2_good, msg2_bad, reply2_bad,
