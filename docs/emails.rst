@@ -257,6 +257,17 @@ The odds of a guest attending the party are calculated after the email is answer
 
 A guest will be unlocked in the guest book as soon as the player invites them to the party, but further information will only be unlocked if the guest actually attends the party.
 
+Checking in-game if a Guest Will Attend
+--------------------------------
+
+Once an email chain is completed, you can check whether or not a particular guest is attending via the ``attending`` field e.g.
+
+::
+
+    if rainbow.attending:
+        ja "It's so good to see Rainbow here!"
+
+
 Inviting a Guest
 ================
 
