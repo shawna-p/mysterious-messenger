@@ -126,6 +126,11 @@ init python:
                     and self.deliver_reply <= 0
                     and self.reply):
                 self.read = False
+                try:
+                    if self.callback is not None:
+                        self.callback(self, self.reply)
+                except AttributeError:
+                    pass
                 self.reply += "\n\n------------------------------------------------\n\n"
                 self.msg = self.reply + self.msg
                 self.reply = None
