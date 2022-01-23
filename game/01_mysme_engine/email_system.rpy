@@ -52,6 +52,10 @@ init python:
             self.notified = False
             self.sent_time = upTime()
             self.success_list = list()
+            try:
+                self.callback = guest.callback
+            except AttributeError:
+                self.callback = None
 
 
         def __eq__(self, other):
