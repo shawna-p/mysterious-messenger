@@ -384,12 +384,15 @@ init python:
         reply_icons : string[]
             A list of the types of icons that should be used to display
             whether a particular email in the chain was passed or failed.
+        callback : function
+            A function which will be called after the guest's reply is
+            delivered to the player.
         """
 
         def __init__(self, name, dialogue_name, thumbnail, large_img,
                 short_desc, personal_info, start_msg, choices,
                 dialogue_what=None, comment_who=None, comment_what=None,
-                comment_img=None, num_emails=3):
+                comment_img=None, num_emails=3, callback=None):
 
             self.name = name
             self.dialogue_name = dialogue_name
@@ -409,6 +412,7 @@ init python:
 
             self.attending = None
             self.reply_icons = []
+            self.callback = callback
 
             if self.name not in store.persistent.guestbook:
                 store.persistent.guestbook[self.name] = None
