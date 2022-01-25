@@ -81,12 +81,25 @@ init python:
 
         @read.setter
         def read(self, new_status):
+            """Mark this email as read and optionally trigger a callback."""
+
             old_status = self.__read
             self.__read = new_status
+
+            # Set the guest's likelihood of attending the party
             self.set_attendance()
+
+            # Move this email to the back of the list if it's completed now
             if not old_status and new_status and self.completed:
                 store.email_list.remove(self)
                 store.email_list.append(self)
+
+            # Trigger a callback
+            try:
+                if self.callback is not None:
+                    self.callback(self, self.reply)
+            except AttributeError:
+                pass
 
 
         @property
@@ -130,11 +143,6 @@ init python:
                     and self.deliver_reply <= 0
                     and self.reply):
                 self.read = False
-                try:
-                    if self.callback is not None:
-                        self.callback(self, self.reply)
-                except AttributeError:
-                    pass
                 self.reply += "\n\n------------------------------------------------\n\n"
                 self.msg = self.reply + self.msg
                 self.reply = None
@@ -240,7 +248,6 @@ init python:
             # The email chain has been completed. Calculate probability for
             # the guest to attend
             self.guest.attending = renpy.random.choice(self.success_list)
-
 
         @property
         def completed(self):
