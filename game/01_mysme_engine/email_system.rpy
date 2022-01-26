@@ -97,7 +97,7 @@ init python:
             # Trigger a callback
             try:
                 if self.callback is not None:
-                    self.callback(self, self.reply)
+                    self.callback(self)
             except AttributeError:
                 pass
 
