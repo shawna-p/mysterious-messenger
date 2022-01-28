@@ -468,3 +468,8 @@ z,
 num_emails=3
 
 )
+
+init python:
+    def example_email_callback(email):
+        print("The callback works")
+        return
