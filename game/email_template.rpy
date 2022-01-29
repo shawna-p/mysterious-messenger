@@ -465,7 +465,9 @@ z,
 
 "zen front party happy",
 
-num_emails=3
+num_emails=3,
+
+callback=example_email_callback
 
 )
 
