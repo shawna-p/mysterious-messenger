@@ -465,13 +465,6 @@ z,
 
 "zen front party happy",
 
-num_emails=3,
-
-callback=example_email_callback
+num_emails=3
 
 )
-
-init python:
-    def example_email_callback(email):
-        print("The callback works")
-        return

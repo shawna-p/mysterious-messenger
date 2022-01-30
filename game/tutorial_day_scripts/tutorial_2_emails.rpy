@@ -357,6 +357,14 @@ z,
 ## This indicates the maximum number of emails the player can exchange with
 ## this guest. Getting every email correct will guarantee their presence at
 ## the party. By default this is 3 but you may change it here like so.
-num_emails=3
+num_emails=3,
+
+callback=example_email_callback
 
 ) # Don't forget a closing bracket at the end
+
+
+init python:
+    def example_email_callback(email):
+        print("The callback works")
+        return
