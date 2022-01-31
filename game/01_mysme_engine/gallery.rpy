@@ -269,7 +269,10 @@ init python:
                 # Ensure thumbnails are updated
                 for p_photo in p_album:
                     if photo == p_photo:
+                        try:
                         p_photo.thumbnail = photo.get_thumb()
+                        except:
+                            pass
                         break
         # Remove photos in p_album that aren't in update
         remove_list = [ ]
