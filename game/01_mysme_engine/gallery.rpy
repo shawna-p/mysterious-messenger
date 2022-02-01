@@ -683,7 +683,7 @@ screen char_album(caption, name=None, album=None, cover=None):
             frame:
                 xysize (241, 64)
                 background caption
-                hover_foreground caption
+                hover_background Fixed(caption, caption)
                 if len(name) > 6:
                     text name + ' (' + str(len(album)) + ')':
                         style 'album_text_long'
