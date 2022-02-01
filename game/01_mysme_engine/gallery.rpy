@@ -88,6 +88,10 @@ python early:
             return Transform(self.img, zoom=0.35)
 
         @property
+        def chat_preview(self):
+            return self.chat_thumb
+
+        @property
         def chat_img(self):
             """
             Return the image as it should appear full-screen in the chat.
@@ -154,6 +158,10 @@ python early:
                 self.__thumbnail_tuple = new_thumb
             except:
                 pass
+
+        @property
+        def locked(self):
+            return not self.unlocked
 
         @property
         def thumbnail(self):
