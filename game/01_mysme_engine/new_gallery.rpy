@@ -25,11 +25,15 @@ init python:
             in the chatroom (as opposed to in the gallery).
         """
 
-        def __init__(self, name, img, thumbnail=None,
+        def __init__(self, name, img=None, thumbnail=None,
                 locked_img="CGs/album_unlock.webp", chat_img=None,
                 chat_preview=None):
 
             self.name = name
+            # The image name and image itself are the same
+            if img is None:
+                self.img = name
+            else:
             self.img = img
             self.locked_img = locked_img
 
@@ -172,7 +176,10 @@ init python:
             else:
                 return False
 
-
+    def update_albums_v3_3():
+        """
+        Convert old-style albums to new-style albums.
+        """
 
 
 default persistent.gallery_unlocked = set()
