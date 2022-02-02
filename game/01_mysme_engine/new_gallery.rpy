@@ -176,10 +176,28 @@ init python:
             else:
                 return False
 
-    def update_albums_v3_3():
+    def unlock_albums_v3_3():
         """
-        Convert old-style albums to new-style albums.
+        Unlock images associated with old-style albums.
         """
+        global persistent
+
+        # TODO: I assume we're passing in the albums somehow
+        for p_album in albums:
+            if p_album.unlocked:
+                img = p_album.img
+                try:
+                    if isinstance(img, Transform):
+                        print("WARNING: Could not add gallery image to unlocked list.")
+                    elif isinstance(img, str):
+                        persistent.gallery_unlocked.add(p_album.img)
+                    else:
+                        print("Could not identify type of image", img)
+                except Exception as e:
+                    print("WARNING: Error in processing album image:", e)
+
+
+
 
 
 default persistent.gallery_unlocked = set()
