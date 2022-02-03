@@ -176,6 +176,39 @@ init python:
             else:
                 return False
 
+    def check_for_old_albums():
+        """Check if we need to update old albums to the new style."""
+
+        albums = [ ]
+        if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
+            for p, a in all_albums:
+                # Only need to go through persistent albums
+                if p:
+                    for img in p:
+                        if isinstance(img, GalleryImage):
+                            store.persistent.new_gallery_popup = True
+                            return False
+                        else:
+                            return True
+        else:
+            for alb in all_albums:
+                a = alb
+                if not alb.endswith("_album"):
+                    a += "_album"
+                try:
+                    per_album = getattr(store.persistent, convert_to_file_name(a))
+                except:
+                    pass
+                if per_album:
+                    for img in per_album:
+                        if isinstance(img, GalleryImage):
+                            store.persistent.new_gallery_popup = True
+                            return False
+                        else:
+                            return True
+        store.persistent.new_gallery_popup = True
+        return False
+
     def unlock_albums_v3_3():
         """
         Unlock images associated with old-style albums.
