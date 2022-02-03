@@ -258,8 +258,25 @@ init python:
                     print_file("Image", p.img, "was not unlocked")
 
 
+screen gallery_popup():
 
+    default gal_close = [
+        SetField(persistent, 'new_gallery_popup', True),
+        Function(unlock_albums_v3_3),
+        Hide('gallery_popup')
+    ]
 
+    button:
+        background "#0008" xysize (config.screen_width, config.screen_height)
+        action gal_close
+
+    use confirm(
+        ("Thanks for downloading Mysterious Messenger! The gallery system "
+        + "has updated since the last version, so we'll take a moment now to "
+        + "ensure your images remain unlocked. See the documentation for more "
+        + "on how to update your gallery to the new definition style."
+        ), gal_close
+    )
 
 
 default persistent.gallery_unlocked = set()
