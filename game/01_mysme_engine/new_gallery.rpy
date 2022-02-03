@@ -213,21 +213,50 @@ init python:
         """
         Unlock images associated with old-style albums.
         """
-        global persistent
+        global persistent, all_albums
 
-        # TODO: I assume we're passing in the albums somehow
+        check_for_CGs(all_albums)
+
+        # Get the persistent album names
+        albums = [ ]
+        for p in all_albums:
+            try:
+                if not p.endswith("_album"):
+                    x = getattr(persistent, "{}_album".format(p))
+                else:
+                    x = getattr(persistent, p)
+                if x is not None:
+                    albums.append(x)
+                continue
+            except:
+                pass
+            try:
+                # It's a list or tuple of [persistent, regular]
+                x = p[0]
+                if x is not None:
+                    albums.append(x)
+            except:
+                pass
+
+        print("Resulting albums list:", albums)
+
         for p_album in albums:
-            if p_album.unlocked:
-                img = p_album.img
+            for p in p_album:
+                if p.unlocked:
+                    img = p.img
                 try:
                     if isinstance(img, Transform):
                         print("WARNING: Could not add gallery image to unlocked list.")
                     elif isinstance(img, str):
-                        persistent.gallery_unlocked.add(p_album.img)
+                            persistent.gallery_unlocked.add(p.img)
                     else:
                         print("Could not identify type of image", img)
+                        print_file("Successfully updated", img)
                 except Exception as e:
                     print("WARNING: Error in processing album image:", e)
+                else:
+                    print_file("Image", p.img, "was not unlocked")
+
 
 
 
