@@ -120,6 +120,10 @@ init python:
             return self.name in store.persistent.gallery_unlocked
 
         @property
+        def unlocked(self):
+            return not self.locked
+
+        @property
         def thumbnail(self):
             """Return the correct thumbnail for this image."""
 
@@ -279,5 +283,8 @@ screen gallery_popup():
     )
 
 
+default persistent.new_gallery_popup = False
+# Set of images unlocked in the gallery
 default persistent.gallery_unlocked = set()
+# Set of images which have been viewed in the gallery
 default persistent.seen_in_gallery = set()
