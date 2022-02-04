@@ -647,6 +647,10 @@ define show_empty_menus = True
 init offset = -1
 default use_2_2_guest = False
 init offset = 0
+# This changes single newlines to become a space for emails, so you can split
+# them up for readability. Switch this to False if you want single newlines
+# to be preserved as-is.
+define email_newline_to_space = True
 
 # Add tips here to appear on the loading screen
 default loading_tips = [

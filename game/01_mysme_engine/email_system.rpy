@@ -485,9 +485,10 @@ init python:
         # Ensure there are no spaces at the end of any lines
         pattern = " +$"
         s = regex.sub(pattern, '', s, flags=regex.MULTILINE)
-        # Remove singular newlines and replace with a space
-        pattern = "(?<!\n)(\n)(?!\n)"
-        s = regex.sub(pattern, ' ', s, flags=regex.MULTILINE)
+        if store.email_newline_to_space:
+            # Remove singular newlines and replace with a space
+            pattern = "(?<!\n)(\n)(?!\n)"
+            s = regex.sub(pattern, ' ', s, flags=regex.MULTILINE)
         return s
 
     def unread_emails():
