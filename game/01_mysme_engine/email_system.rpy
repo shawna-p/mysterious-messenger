@@ -483,7 +483,7 @@ init python:
         pattern = "^ +"
         s = regex.sub(pattern, '', s, flags=regex.MULTILINE)
         # Ensure there are no spaces at the end of any lines
-        pattern = ".* +$"
+        pattern = " +$"
         s = regex.sub(pattern, '', s, flags=regex.MULTILINE)
         # Remove singular newlines and replace with a space
         pattern = "(?<!\n)(\n)(?!\n)"
