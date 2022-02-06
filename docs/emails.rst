@@ -53,6 +53,8 @@ Both the ``player_msg`` and ``guest_reply`` fields use a special helper function
 
 In practice, this means you can use line breaks to keep your email messages readable inside your code editing program, and can use indentation to better show a chain of emails.
 
+If you want to preserve single newlines exactly as written, there is a variable in ``variables_editable.rpy`` called ``email_newline_to_space``. By default, this value is ``True`` (aka it will convert single newlines to a space), but you can set it to ``False`` in order to have newlines remain exactly as written. Note that you'll need to start a new game in order to see changes in email display.
+
 In order to have "branching paths" for emails, you must use the ``continue_chain`` field. The example below demonstrates how to write an email chain with three initial responses that each lead to a different second email::
 
     default longcat = Guest(

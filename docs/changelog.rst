@@ -95,6 +95,8 @@ QoL Improvements
       - Convenience function for using gendered terms to refer to the player.
     * - Developer Release Options
       - Added a section to ``variables_editable.rpy`` which can be customized for sharing a program distribution with others.
+    * - Email newlines
+      - You can now turn off the parser that turns email single newlines into a space.
 
 
 
