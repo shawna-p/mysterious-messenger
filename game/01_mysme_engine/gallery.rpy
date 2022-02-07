@@ -319,7 +319,7 @@ init python:
         else:
             for alb in all_albums:
                 a = alb
-                if alb[-6:] != "_album":
+                if not alb.endswith("_album"):
                     a += "_album"
                 try:
                     per_album = getattr(store.persistent, convert_to_file_name(a))
