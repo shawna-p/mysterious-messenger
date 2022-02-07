@@ -582,12 +582,17 @@ init python:
         # is making a choice/on a choice menu
         store.choosing = False
 
-        if isinstance(all_albums[0], tuple) or isinstance(all_albums[0], list):
-            for p_album, reg_album in all_albums:
-                merge_albums(p_album, reg_album)
-        else: # Should be a string
-            for alb in all_albums:
-                merge_albums_string(alb)
+        ## Test for album type
+        if check_for_old_albums(False):
+            print_file("Old albums detected")
+            if isinstance(all_albums[0], tuple) or isinstance(all_albums[0], list):
+                for p_album, reg_album in all_albums:
+                    merge_albums(p_album, reg_album)
+            else: # Should be a string
+                for alb in all_albums:
+                    merge_albums_string(alb)
+        else:
+            print_file("Albums have been updated")
 
         set_name_pfp()
 
