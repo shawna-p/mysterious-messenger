@@ -180,19 +180,22 @@ init python:
             else:
                 return False
 
-    def check_for_old_albums():
+    def check_for_old_albums(set_popup=True):
         """Check if we need to update old albums to the new style."""
+
+        if store.persistent.seen_new_gallery_popup is not None:
+            set_popup = False
 
         albums = [ ]
         if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
             for p, a in all_albums:
-                # Only need to go through persistent albums
-                if p:
-                    for img in p:
+                if a:
+                    for img in a:
                         if isinstance(img, GalleryImage):
-                            store.persistent.new_gallery_popup = True
                             return False
                         else:
+                            if set_popup:
+                                store.persistent.seen_new_gallery_popup = True
                             return True
         else:
             for alb in all_albums:
@@ -200,17 +203,17 @@ init python:
                 if not alb.endswith("_album"):
                     a += "_album"
                 try:
-                    per_album = getattr(store.persistent, convert_to_file_name(a))
+                    a_album = getattr(store, convert_to_file_name(a))
                 except:
                     pass
-                if per_album:
-                    for img in per_album:
+                if a_album:
+                    for img in a_album:
                         if isinstance(img, GalleryImage):
-                            store.persistent.new_gallery_popup = True
                             return False
                         else:
+                            if set_popup:
+                                store.persistent.seen_new_gallery_popup = True
                             return True
-        store.persistent.new_gallery_popup = True
         return False
 
     def unlock_albums_v3_3():
@@ -242,8 +245,6 @@ init python:
             except:
                 pass
 
-        print("Resulting albums list:", albums)
-
         for p_album in albums:
             for p in p_album:
                 if p.unlocked:
@@ -265,7 +266,7 @@ init python:
 screen gallery_popup():
 
     default gal_close = [
-        SetField(persistent, 'new_gallery_popup', True),
+        SetField(persistent, 'seen_new_gallery_popup', True),
         Function(unlock_albums_v3_3),
         Hide('gallery_popup')
     ]
@@ -283,7 +284,7 @@ screen gallery_popup():
     )
 
 
-default persistent.new_gallery_popup = False
+default persistent.seen_new_gallery_popup = None
 # Set of images unlocked in the gallery
 default persistent.gallery_unlocked = set()
 # Set of images which have been viewed in the gallery

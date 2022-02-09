@@ -360,7 +360,7 @@ screen main_menu():
                     and len(persistent.available_update) > 4),
                 Show('program_updates', update=persistent.available_update),
                 Show('update_preferences'))
-        if not persistent.new_gallery_popup and check_for_old_albums():
+        if persistent.seen_new_gallery_popup is None and check_for_old_albums():
             use gallery_popup()
 
 style update_button:
