@@ -53,6 +53,8 @@ Both the ``player_msg`` and ``guest_reply`` fields use a special helper function
 
 In practice, this means you can use line breaks to keep your email messages readable inside your code editing program, and can use indentation to better show a chain of emails.
 
+If you want to preserve single newlines exactly as written, there is a variable in ``variables_editable.rpy`` called ``email_newline_to_space``. By default, this value is ``True`` (aka it will convert single newlines to a space), but you can set it to ``False`` in order to have newlines remain exactly as written. Note that you'll need to start a new game in order to see changes in email display.
+
 In order to have "branching paths" for emails, you must use the ``continue_chain`` field. The example below demonstrates how to write an email chain with three initial responses that each lead to a different second email::
 
     default longcat = Guest(
@@ -216,7 +218,7 @@ Though the example above is long, it functions as follows:
 Incorrect answers decrease the guest's odds of attending the party, while correct answers will increase the odds. A "perfect" email chain (one where ``num_emails`` emails are replied to correctly) will guarantee the guest's attendance at the party.
 
 .. warning::
-    As of Ren'Py v7.4.9, there continues to be a bug with how Ren'Py handles quotes within triple-quoted strings that causes emails to display oddly (usually without the whitespace preserved). To circumvent this, you can "escape" apostrophes and quotes (``'`` and ``"`` respectively) with a backslash ``\`` e.g.
+    As of Ren'Py v7.4.10, there continues to be a bug with how Ren'Py handles quotes within triple-quoted strings that causes emails to display oddly (usually without the whitespace preserved). To circumvent this, you can "escape" apostrophes and quotes (``'`` and ``"`` respectively) with a backslash ``\`` e.g.
 
     ::
 
@@ -256,6 +258,17 @@ If the player answers "Meow meow meow!" then Long Cat will have a 50% chance of 
 The odds of a guest attending the party are calculated after the email is answered. In other words, if a guest has a 50% chance of attending the party, reloading a save just before playing the party will not change whether they attend or not.
 
 A guest will be unlocked in the guest book as soon as the player invites them to the party, but further information will only be unlocked if the guest actually attends the party.
+
+Checking in-game if a Guest Will Attend
+--------------------------------
+
+Once an email chain is completed, you can check whether or not a particular guest is attending via the ``attending`` field e.g.
+
+::
+
+    if rainbow.attending:
+        ja "It's so good to see Rainbow here!"
+
 
 Inviting a Guest
 ================

@@ -101,7 +101,10 @@
 <li class="toctree-l1"><a class="reference internal" href="story-mode.html">Story Mode (VN)</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Emails</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#writing-an-email-chain">Writing an Email Chain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#checking-in-game-if-a-guest-will-attend">Checking in-game if a Guest Will Attend</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-guestbook">The Guestbook</a></li>
@@ -186,7 +189,10 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Emails</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#writing-an-email-chain">Writing an Email Chain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#calculating-if-a-guest-will-attend">Calculating if a Guest Will Attend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#checking-in-game-if-a-guest-will-attend">Checking in-game if a Guest Will Attend</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#inviting-a-guest">Inviting a Guest</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-emails-are-sent">How Emails are Sent</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-guestbook">The Guestbook</a></li>
@@ -236,6 +242,7 @@
 </div></blockquote>
 <p>Both the <code class="docutils literal notranslate"><span class="pre">player_msg</span></code> and <code class="docutils literal notranslate"><span class="pre">guest_reply</span></code> fields use a special helper function called <code class="docutils literal notranslate"><span class="pre">filter_whitespace</span></code>, which removes leading and trailing whitespace (mostly the “space” character) from the string and turns a single newline into a space. Double newlines are preserved.</p>
 <p>In practice, this means you can use line breaks to keep your email messages readable inside your code editing program, and can use indentation to better show a chain of emails.</p>
+<p>If you want to preserve single newlines exactly as written, there is a variable in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> called <code class="docutils literal notranslate"><span class="pre">email_newline_to_space</span></code>. By default, this value is <code class="docutils literal notranslate"><span class="pre">True</span></code> (aka it will convert single newlines to a space), but you can set it to <code class="docutils literal notranslate"><span class="pre">False</span></code> in order to have newlines remain exactly as written. Note that you’ll need to start a new game in order to see changes in email display.</p>
 <p>In order to have “branching paths” for emails, you must use the <code class="docutils literal notranslate"><span class="pre">continue_chain</span></code> field. The example below demonstrates how to write an email chain with three initial responses that each lead to a different second email:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">default</span> <span class="n">longcat</span> <span class="o">=</span> <span class="n">Guest</span><span class="p">(</span>
 <span class="s2">&quot;longcat&quot;</span><span class="p">,</span>
@@ -407,7 +414,7 @@
 <p>Incorrect answers decrease the guest’s odds of attending the party, while correct answers will increase the odds. A “perfect” email chain (one where <code class="docutils literal notranslate"><span class="pre">num_emails</span></code> emails are replied to correctly) will guarantee the guest’s attendance at the party.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>As of Ren’Py v7.4.9, there continues to be a bug with how Ren’Py handles quotes within triple-quoted strings that causes emails to display oddly (usually without the whitespace preserved). To circumvent this, you can “escape” apostrophes and quotes (<code class="docutils literal notranslate"><span class="pre">'</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> respectively) with a backslash <code class="docutils literal notranslate"><span class="pre">\</span></code> e.g.</p>
+<p>As of Ren’Py v7.4.10, there continues to be a bug with how Ren’Py handles quotes within triple-quoted strings that causes emails to display oddly (usually without the whitespace preserved). To circumvent this, you can “escape” apostrophes and quotes (<code class="docutils literal notranslate"><span class="pre">'</span></code> and <code class="docutils literal notranslate"><span class="pre">&quot;</span></code> respectively) with a backslash <code class="docutils literal notranslate"><span class="pre">\</span></code> e.g.</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;Dear guest,</span>
 
 <span class="sd">Thanks for your concern. There isn\&#39;t any need to bring your own beverages or \&quot;wine\&quot;, as we will have refreshments at the party.</span>
@@ -440,6 +447,14 @@
 <p>If the player answers “Meow meow meow!” then Long Cat will have a 50% chance of attending the party, even though there are no further emails, since <code class="docutils literal notranslate"><span class="pre">num_emails</span></code> is 2 and the player only got 1 answer correct.</p>
 <p>The odds of a guest attending the party are calculated after the email is answered. In other words, if a guest has a 50% chance of attending the party, reloading a save just before playing the party will not change whether they attend or not.</p>
 <p>A guest will be unlocked in the guest book as soon as the player invites them to the party, but further information will only be unlocked if the guest actually attends the party.</p>
+<div class="section" id="checking-in-game-if-a-guest-will-attend">
+<h3>Checking in-game if a Guest Will Attend<a class="headerlink" href="#checking-in-game-if-a-guest-will-attend" title="Permalink to this headline">¶</a></h3>
+<p>Once an email chain is completed, you can check whether or not a particular guest is attending via the <code class="docutils literal notranslate"><span class="pre">attending</span></code> field e.g.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">rainbow</span><span class="o">.</span><span class="n">attending</span><span class="p">:</span>
+    <span class="n">ja</span> <span class="s2">&quot;It&#39;s so good to see Rainbow here!&quot;</span>
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="inviting-a-guest">
 <h2>Inviting a Guest<a class="headerlink" href="#inviting-a-guest" title="Permalink to this headline">¶</a></h2>

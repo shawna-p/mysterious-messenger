@@ -26,7 +26,7 @@ Creating a Chatroom
 
     #. Create a new ``.rpy`` file (Optional, but recommended)
     #. Create a new label for the chatroom.
-    #. Set the background with ``scene morning`` where ``morning`` is replaced by whatever time of day/background you want to use.
+    #. (Optional) Set the background with ``scene morning`` where ``morning`` is replaced by whatever time of day/background you want to use.
     #. Add background music with ``play music mystic_chat`` where ``mystic_chat`` is replaced by the desired music variable.
     #. Write the chatroom dialogue.
 
@@ -44,7 +44,7 @@ Don't forget the colon after the label name. Your label name also can't have any
 
 Next, it's time to set up the chatroom background. Note that everything under the label name **should be indented at least one level to the right**. You can look at the example files mentioned above if you're not sure what this means.
 
-You need to give the chatroom a background to show::
+New to v3.3.0 is the "autobackground" feature, where Mysterious Messenger will automatically set the background for a chatroom based on the time of day it should trigger at. If you don't set a background, the automatic one will be used instead. If you want the program to set up the background for you, you can skip over this next section. Otherwise, you can manually set up the background like so::
 
     label day_1_1:
         scene morning
@@ -65,6 +65,16 @@ While chatrooms also use Ren'Py's ``scene`` statement to show backgrounds, there
 * morning_snow
 
 The background names **are** case-sensitive, so you need to get the capitalization correct. The program will automatically clear the chat history when beginning a new chatroom so new messages begin appearing at the bottom.
+
+.. tip::
+    If you're using Mysterious Messenger's autobackground feature to set up the background for you, but you need to change the background manually during a chatroom (e.g. to show the hacked background), if you want to change it back according to the time-of-day rules, you can use the special line::
+
+        scene autobackground
+
+    When this line is encountered, the program will automatically switch to whatever background should be used based on the time-of-day this chatroom triggers at.
+
+.. note::
+    The autobackground feature is based off of the **trigger time** of the chatroom where it is used, **not** what real-life time the player plays the chatroom at. So, for example, if the player buys back a chatroom that had expired, and that chatroom's trigger time is 8:00am, whether it is 8:00am now or 10:00pm, autobackground will show the ``morning`` background to the player for that chatroom, since it was set to trigger at 8:00am and that's within the range of the "morning" background time.
 
 Now that the background is set up, you probably want some music. Music is played with the line::
 

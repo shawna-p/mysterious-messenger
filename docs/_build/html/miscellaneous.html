@@ -107,6 +107,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#pronoun-integration">Pronoun Integration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#defining-additional-pronoun-variables">Defining Additional Pronoun Variables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#adding-additional-genders">Adding Additional Genders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-gendered-terms">Using Gendered Terms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-emojis">Custom Emojis</a></li>
@@ -226,6 +227,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#pronoun-integration">Pronoun Integration</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#defining-additional-pronoun-variables">Defining Additional Pronoun Variables</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#adding-additional-genders">Adding Additional Genders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-gendered-terms">Using Gendered Terms</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#custom-emojis">Custom Emojis</a></li>
@@ -328,6 +330,36 @@
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">gender_options</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;nonbinary&quot;</span><span class="p">,</span> <span class="s2">&quot;female&quot;</span><span class="p">,</span> <span class="s2">&quot;male&quot;</span><span class="p">,</span> <span class="s2">&quot;agender&quot;</span><span class="p">,</span> <span class="s2">&quot;genderfluid&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
+<p>If you ever want to change dialogue based on the player’s gender, you can write statements like:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">persistent</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;female&quot;</span><span class="p">:</span>
+    <span class="n">s</span> <span class="s2">&quot;I&#39;m sure Jaehee appreciates not being the only lady lol&quot;</span>
+<span class="k">elif</span> <span class="n">persistent</span><span class="o">.</span><span class="n">gender</span> <span class="o">==</span> <span class="s2">&quot;male&quot;</span><span class="p">:</span>
+    <span class="n">s</span> <span class="s2">&quot;It&#39;s nice to have a guy around here who understands my jokes lolol&quot;</span>
+<span class="c1"># Can add more elif clauses in here as needed</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">s</span> <span class="s2">&quot;It&#39;s been so much fun having you here since Day 1, [name] ^^&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-gendered-terms">
+<h3>Using Gendered Terms<a class="headerlink" href="#using-gendered-terms" title="Permalink to this headline">¶</a></h3>
+<p>Since the program allows players to choose their gender and pronouns, you may need to consider these factors when writing dialogue. Luckily, there is a built-in function, <code class="docutils literal notranslate"><span class="pre">get_term</span></code>, which is designed to assist with this.</p>
+<p>The function can be found in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> and currently functions as follows:</p>
+<ul class="simple">
+<li><p>If the player has she/her pronouns <em>and</em> identifies as female, the “feminine” term will be used</p></li>
+<li><p>If the player has he/him pronouns <em>and</em> identifies as male, the “masculine” term will be used</p></li>
+<li><p>Otherwise, the neutral term is used</p></li>
+</ul>
+<p>To use it, you will call the function like so:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">cutie</span> <span class="o">=</span> <span class="n">get_term</span><span class="p">(</span><span class="s2">&quot;cute girl&quot;</span><span class="p">,</span> <span class="s2">&quot;cute boy&quot;</span><span class="p">,</span> <span class="s2">&quot;cutie&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>in which the first argument (“cute girl”) is the term that should be used for female players, the second argument (“cute boy”) for male players, and the final argument for a neutral term. A similar use-case might be:</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">$</span> <span class="n">datefriend</span> <span class="o">=</span> <span class="n">get_term</span><span class="p">(</span><span class="s2">&quot;girlfriend&quot;</span><span class="p">,</span> <span class="s2">&quot;boyfriend&quot;</span><span class="p">,</span> <span class="s2">&quot;datefriend&quot;</span><span class="p">)</span>
+<span class="n">s</span> <span class="s2">&quot;So... can I call u my [datefriend] lol&quot;</span>
+</pre></div>
+</div>
+<p>You can use this function anywhere you might need to refer to the player with a term that can be considered gendered.</p>
 </div>
 </div>
 <div class="section" id="custom-emojis">

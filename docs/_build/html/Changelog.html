@@ -266,6 +266,22 @@
 <h2>3.3.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="major-new-features">
 <span id="major-3-3-0"></span><h3>Major New Features<a class="headerlink" href="#major-new-features" title="Permalink to this headline">¶</a></h3>
+<table class="colwidths-given docutils align-default">
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 85%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Feature</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Automatic chatroom backgrounds</p></td>
+<td><p>The game will automatically set up chatroom backgrounds based on the time of day the chatroom occurs at. You can override this automatic background by providing your own e.g. <code class="docutils literal notranslate"><span class="pre">scene</span> <span class="pre">morning</span></code>.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="minor-new-features">
 <span id="minor-3-3-0"></span><h3>Minor New Features<a class="headerlink" href="#minor-new-features" title="Permalink to this headline">¶</a></h3>
@@ -285,6 +301,9 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="cg-albums.html#defining-a-cg"><span class="std std-ref">Chat vs Gallery CGs</span></a></p></td>
 <td><p>Show a different image in chatrooms than in the gallery when sending CGs.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="phone-calls.html#phone-call-expiry"><span class="std std-ref">Phone call expiry dict</span></a></p></td>
+<td><p>A convenience dictionary to easily customize how long phone calls should be availlable for.</p></td>
 </tr>
 </tbody>
 </table>
@@ -308,6 +327,21 @@
 <tr class="row-odd"><td><p>Profile picture callback fix</p></td>
 <td><p>Profile picture callbacks still go off even if you use a text message or email popup notification to leave the profile screen.</p></td>
 </tr>
+<tr class="row-even"><td><p>History fix</p></td>
+<td><p>Fix an issue when rewatching chatrooms in the history after buying back that same chatroom during the story.</p></td>
+</tr>
+<tr class="row-odd"><td><p>MC Profile Picture bug</p></td>
+<td><p>Fix a bug with the <code class="docutils literal notranslate"><span class="pre">add_mc_pfp</span></code> function to properly unlock profile pictures as seen.</p></td>
+</tr>
+<tr class="row-even"><td><p>Animated Backgrounds</p></td>
+<td><p>Animated backgrounds now move more smoothly and don’t have any stuttering lines when looping.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Guest Comment Interpolation</p></td>
+<td><p>Guest comments in the guestbook can now properly interpolate variables like <code class="docutils literal notranslate"><span class="pre">[name]</span></code> or pronouns like <code class="docutils literal notranslate"><span class="pre">[they]</span></code>. There is also a dissolve transition in/out of viewing the comment.</p></td>
+</tr>
+<tr class="row-even"><td><p>Guest Hourglasses</p></td>
+<td><p>Fixed an issue where players weren’t awarded an hourglass upon first viewing a guest’s information in the guestbook.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -329,6 +363,27 @@
 </tr>
 <tr class="row-odd"><td><p>Main Menu Screen Actions</p></td>
 <td><p>Common actions for buttons on the main menu and home screen have been turned into functions for easier UI modification.</p></td>
+</tr>
+<tr class="row-even"><td><p>Check for updates in thread</p></td>
+<td><p>The updater now launches a separate thread to check for updates so the UI is not paused/frozen while waiting for the results of the check.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gamestate</span></code></p></td>
+<td><p>Whether the program is in a chatroom, phone call, VN/Story Mode, or text message is now tracked via a consistent <cite>gamestate</cite> variable.</p></td>
+</tr>
+<tr class="row-even"><td><p>Available call indicator</p></td>
+<td><p>A new dev option will add a “NEW” sign under a contact’s icon when there is a call available for them and add an <code class="docutils literal notranslate"><span class="pre">Online</span></code> indicator on their profile screen.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">get_terms</span></code></p></td>
+<td><p>Convenience function for using gendered terms to refer to the player.</p></td>
+</tr>
+<tr class="row-even"><td><p>Developer Release Options</p></td>
+<td><p>Added a section to <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code> which can be customized for sharing a program distribution with others.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Email newlines</p></td>
+<td><p>You can now turn off the parser that turns email single newlines into a space.</p></td>
+</tr>
+<tr class="row-even"><td><p>Gallery update</p></td>
+<td><p>The gallery has been redone to cause fewer headaches overall and requires one definition instead of two.</p></td>
 </tr>
 </tbody>
 </table>

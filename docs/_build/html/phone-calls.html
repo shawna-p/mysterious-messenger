@@ -101,6 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#incoming-calls">Incoming Calls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outgoing-calls">Outgoing Calls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#missed-calls">Missed Calls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phone-call-expiry">Phone Call Expiry</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-story-call">Creating a Story Call</a></li>
@@ -204,6 +205,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#incoming-calls">Incoming Calls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outgoing-calls">Outgoing Calls</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#missed-calls">Missed Calls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#phone-call-expiry">Phone Call Expiry</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#creating-a-story-call">Creating a Story Call</a></li>
@@ -283,6 +285,10 @@
 <p class="admonition-title">Note</p>
 <p>There can be up to one outgoing call per character available after each timeline item. If a player misses an incoming call from a character who also has an outgoing call, both conversations will be added to the pool of available calls. The player can then call the character back multiple times to receive both conversations.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For development, there is an option to show an indicator underneath a character’s contact image when there is a call available for them. You can find it in the Developer options titled <strong>Available call indicator</strong>.</p>
+</div>
 </div>
 <div class="section" id="missed-calls">
 <h3>Missed Calls<a class="headerlink" href="#missed-calls" title="Permalink to this headline">¶</a></h3>
@@ -290,6 +296,32 @@
 <p>Phone calls can also be missed if real-time mode is turned on from the Developer settings. If an incoming call is scheduled to occur after a chatroom at 10:20 and the player opens the game after a new chatroom became available at 13:30, then they will receive a notification of a missed call at 13:30 (just before the new chatroom). If not too much time has passed since the missed call, they can then phone the character back to receive that conversation.</p>
 <p>Additionally, if the player is using the game but has not yet played the 10:20 chatroom by 13:30, then if the game is open at 13:30 they will receive an incoming call which they can either accept or reject. This acts the same way as if the incoming call had been received immediately after playing the chatroom.</p>
 <p>You can also change the dialogue of a phone call depending on whether the player picked up when the character first called, or if they are calling the character back. For more on that, see <a class="reference internal" href="#phone-callbacks"><span class="std std-ref">Phone Callbacks</span></a>.</p>
+</div>
+<div class="section" id="phone-call-expiry">
+<h3>Phone Call Expiry<a class="headerlink" href="#phone-call-expiry" title="Permalink to this headline">¶</a></h3>
+<p>As mentioned, both incoming and outgoing phone calls will become unavailable after a period of time has passed. In-game, this time is tracked via the availability of timeline items.</p>
+<p>By default, a phone call will “expire” or become unavailable one additional timeline item after it first became available. In practice, this means if there are timeline items set up at the following trigger times:</p>
+<ul class="simple">
+<li><p>10:20 - Chatroom</p></li>
+<li><p>11:40 - Chatroom + Story Call (Yoosung)</p></li>
+<li><p>13:52 - Solo Story Mode</p></li>
+<li><p>16:00 - Chatroom + Story Mode</p></li>
+</ul>
+<p>Say that the player can call Yoosung after the 10:20 AM chatroom. The “one timeline item” default timeout means that the player will be able to call Yoosung and get that particular outgoing call any time between 10:20 (after they’ve played the chatroom) and 13:51 (before they’ve played the 13:52 chatroom (sequential mode)/before it’s become available (real-time)).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note also that the fact that there’s a story call with Yoosung at 11:40 does not affect the availability of his outgoing phone call. Each outgoing/incoming phone call is treated independently of any other phone calls, so it’s even possible for the character to have more than one outgoing phone call “queued” at the same time.</p>
+<p>e.g. if there’s an incoming call from Yoosung at 10:20 which the player misses, and then an outgoing call will become available after the 11:40 chatroom, then at 13:00 the player can call Yoosung once to receive the missed incoming call, and then call again to receive the outgoing call.</p>
+</div>
+<p>You can adjust the number of timeline items after which a phone call will expire through the <code class="docutils literal notranslate"><span class="pre">phone_timeout_dict</span></code> found in <code class="docutils literal notranslate"><span class="pre">variables_editable.rpy</span></code>. This dictionary takes the name of a phone call label and an integer (whole number) representing the number of timeline items after which this phone call should expire. The lowest valid number for this field is 0, which means that if the player doesn’t play the phone call before the timeline item immediately after it becomes available, then it will expire. So, if a phone call with an expiry of 0 becomes available at 10:20 using the above timeline, then the player must call the character before 11:40 to see that call.</p>
+<div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">define</span> <span class="n">phone_timeout_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="c1"># TUTORIAL DAY</span>
+    <span class="n">tutorial_chat_incoming_z</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">tutorial_chat_outgoing_y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="c1"># Feel free to add more below</span>
+<span class="p">)</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="creating-a-story-call">
@@ -362,6 +394,10 @@
 <h2>Phone Callbacks<a class="headerlink" href="#phone-callbacks" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="id1">
 <h3>Missed Calls<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>You can see an example of a missed incoming call callback if you miss Seven’s call after the ‘Inviting Guests’ chatroom at 6:11am and call him back before 9:30am (in real-time) or by letting the call time out/hanging up before answering and then phoning him back (in sequential mode). The code is near the top of <code class="docutils literal notranslate"><span class="pre">tutorial_2_emails.rpy</span></code> in the <code class="docutils literal notranslate"><span class="pre">tutorial_day_scripts</span></code> folder.</p>
+</div>
 <p>Sometimes the player will miss a call from a character, either from playing in real-time or by ignoring the call when it comes up. By default, when the player calls the character back, if that call is available then the player will receive the exact same conversation they would have had with the character if they had picked up the phone when they initially called.</p>
 <p>However, you can also alter the dialogue to account for the player calling the character back. The program will look for this alternate dialogue under a special label with the suffix <code class="docutils literal notranslate"><span class="pre">_incoming_z_callback</span></code> where <code class="docutils literal notranslate"><span class="pre">z</span></code> is the file_id of the character whom the player is phoning back. More specifically, if you had the following chatroom and incoming call:</p>
 <div class="highlight-renpy notranslate"><div class="highlight"><pre><span></span><span class="k">label</span> <span class="n">day_7_chat_4</span><span class="p">():</span>
