@@ -1603,6 +1603,7 @@ style link_btn_fixed:
 
 screen developer_settings():
     modal True
+    tag dev
     add "#000a"
 
     frame:
@@ -1713,10 +1714,48 @@ screen developer_settings():
                         align (0.5, 0.5)
                         action [Hide('developer_settings'),
                             Show('choose_chat_creator')]
+            else:
+                hbox:
+                    align (0.5, 0.5)
+                    spacing 40
+                    textbutton _("Test Emails"):
+                        style_prefix "other_settings_end"
+                        align (0.5, 0.5)
+                        xysize (285, 80)
+                        action Show('email_testing')
 
 default persistent.open_docs_locally = False
 default persistent.link_wait_pause = False
 default persistent.available_call_indicator = False
+
+##########################################################
+## Email Testing Screen
+##########################################################
+screen email_testing():
+    modal True
+    tag dev
+    add "#000a"
+
+    frame:
+        xysize (675, 780)
+        background Fixed('menu_settings_panel_light',
+            'menu_settings_panel_bright')
+        align (0.5, 0.5)
+        bottom_padding 20
+
+        imagebutton:
+            align (1.0, 0.0)
+            xoffset 3 yoffset -3
+            auto 'input_close_%s'
+            action Hide('email_testing')
+
+        text "Test Emails" style "settings_style" xpos 55 ypos 5
+
+        vbox:
+            style_prefix "other_settings"
+            yalign 0.5
+            null height 30
+
 
 init python:
 
