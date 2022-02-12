@@ -337,7 +337,7 @@ screen main_menu():
                 xysize (205,195)
                 style_prefix 'right_menu'
                 if config.developer:
-                    action Show('developer_settings')
+                    action [Hide('developer_settings'), Show('developer_settings')]
                 else:
                     action Show('game_extras')
                 vbox:
@@ -1375,7 +1375,7 @@ screen chat_home(reshow=False):
                     hover_background "red_hex_hover"
                     selected None
                     if config.developer:
-                        action Show('developer_settings')
+                        action [Hide('developer_settings'), Show('developer_settings')]
                     else:
                         action Show('game_extras')
                     add "developer_settings" xalign 0.55 yalign 0.35
@@ -1751,10 +1751,25 @@ screen email_testing():
 
         text "Test Emails" style "settings_style" xpos 55 ypos 5
 
-        vbox:
-            style_prefix "other_settings"
+        viewport:
+            xysize (630, 600) yoffset -100
+            yalign 1.0 xalign 0.5
+            has vbox
             yalign 0.5
-            null height 30
+            style_prefix "other_settings"
+            for guest in all_guests:
+                textbutton "Invite {} (@{})".format(guest.dialogue_name, guest.name):
+                    text_idle_color "#fff"
+                    action [Function(execute_invite_guest, guest),
+                        CConfirm("Invited guest {}".format(guest.name))]
+
+        textbutton "Force email replies":
+            style_prefix "other_settings_end"
+            align (0.5, 1.0)
+            xysize (350, 80)
+            action [Function(send_emails_now),
+                CConfirm("Outstanding email replies delivered.")]
+
 
 
 init python:

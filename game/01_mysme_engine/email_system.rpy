@@ -341,6 +341,21 @@ init python:
                 self.deliver_reply -= 5
             self.timeout -= 5
 
+        def send_now(self):
+            """Ensure the email is delivered immediately."""
+
+            if self.deliver_reply is not None:
+                self.deliver_reply = 0
+
+    def send_emails_sooner():
+        for email in store.email_list:
+            email.send_sooner()
+
+    def send_emails_now():
+        for email in store.email_list:
+            email.send_now()
+        deliver_emails()
+
 
     class Guestv3(renpy.store.object):
         """

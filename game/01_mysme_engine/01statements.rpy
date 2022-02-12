@@ -62,7 +62,7 @@ python early:
                     wait=wait)
 
 
-python early hide:
+python early:
 
     ########################################
     ## ENTER AND EXIT CHATROOM CDS
@@ -1381,7 +1381,9 @@ python early hide:
 
     def execute_invite_guest(p):
 
-        if p["guest"] is not None:
+        if isinstance(p, Guestv3) or isinstance(p, Guest):
+            guest = p
+        elif p["guest"] is not None:
             guest = eval(p["guest"])
         else:
             renpy.error("invite requires a guest to invite.")
