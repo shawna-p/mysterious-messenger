@@ -906,6 +906,7 @@ init -6 python:
         # to the main TimelineItem that contained the branch
         if len(new_route) > 1 and new_route[1].branch_vn:
             most_recent_item.story_mode = new_route[1].get_branch_item
+            most_recent_item.story_mode.parent = most_recent_item
 
         plot_branch_party = False
         try:
