@@ -1762,13 +1762,20 @@ screen email_testing():
                     text_idle_color "#fff"
                     action [Function(execute_invite_guest, guest),
                         CConfirm("Invited guest {}".format(guest.name))]
-
-        textbutton "Force email replies":
-            style_prefix "other_settings_end"
+        hbox:
             align (0.5, 1.0)
-            xysize (350, 80)
-            action [Function(send_emails_now),
-                CConfirm("Outstanding email replies delivered.")]
+            spacing 40
+            textbutton "Force email replies":
+                style_prefix "other_settings_end"
+                align (0.5, 0.5)
+                xysize (350, 80)
+                action [Function(send_emails_now),
+                    CConfirm("Outstanding email replies delivered.")]
+            textbutton "Start Party":
+                style_prefix 'other_settings_end'
+                align (0.5, 0.5)
+                xysize (270, 80)
+                action NullAction()
 
 
 
