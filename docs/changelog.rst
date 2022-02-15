@@ -68,6 +68,8 @@ Fixes
       - Guest comments in the guestbook can now properly interpolate variables like ``[name]`` or pronouns like ``[they]``. There is also a dissolve transition in/out of viewing the comment.
     * - Guest Hourglasses
       - Fixed an issue where players weren't awarded an hourglass upon first viewing a guest's information in the guestbook.
+    * - Branch VNs
+      - Fix an issue with branch VNs that would cause a script error dialogue for trigger times.
 
 
 .. _qol-3-3-0:

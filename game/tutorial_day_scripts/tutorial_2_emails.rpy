@@ -30,9 +30,7 @@ label example_email():
         # guest to email you, it makes them reply more quickly.
         "I'd like to deliver my email replies more quickly." if email_list:
             z "Sure, I can take care of that."
-            python:
-                for email in email_list:
-                    email.send_sooner()
+            $ send_emails_sooner()
             z "So what this does is decreases both the timeout countdown by 5,"
             z "And also decreases the number of chatrooms you need to go through to deliver the next email by 5."
             z "They'll decrease by an additional 1 when you exit this chatroom."
