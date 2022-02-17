@@ -1775,9 +1775,19 @@ screen email_testing():
                 style_prefix 'other_settings_end'
                 align (0.5, 0.5)
                 xysize (270, 80)
-                action NullAction()
+                action [SetVariable('testing_emails', True),
+                        Jump('simulate_party')]
 
+label simulate_party:
+    hide screen email_testing
+    $ begin_timeline_item(generic_storymode)
+    call guest_party_showcase
+    $ gamestate = None
+    $ testing_emails = False
+    call screen chat_home
+    return
 
+default testing_emails = False
 
 init python:
 

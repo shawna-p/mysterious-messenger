@@ -819,6 +819,9 @@ label guest_party_showcase():
     hide screen guest_count
     $ viewing_guest = False
 
+    if testing_emails:
+        return
+
     # Now jump to the actual party
     if (isinstance(current_timeline_item, StoryMode) and current_timeline_item.party):
         $ print_file("1. Jumping to", current_timeline_item.item_label)
