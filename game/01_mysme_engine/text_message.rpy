@@ -449,7 +449,7 @@ screen text_animation(i, animate=False, anti=False):
             if i.who.right_msgr:
                 xalign 1.0
                 box_reverse True
-            xmaximum 750
+            xmaximum config.screen_width
             style i.reg_text_style
             null width 18
             frame:

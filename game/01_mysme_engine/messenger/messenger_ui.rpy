@@ -63,11 +63,11 @@ screen pause_button():
             # can't click to mess up the timed answer timing.
             draggable True
             align (0.5, 1.0)
-            xysize (750, 113)
+            xysize (config.screen_width, 113)
             frame:
                 align (0.5, 1.0)
                 background "#282828"
-                xysize (750, 113)
+                xysize (config.screen_width, 113)
                 text "Choose a reply":
                     color "#fff" text_align 0.5 align (0.5, 0.5)
     else:
@@ -133,14 +133,14 @@ screen stop_chat_screen(wait_for_interact=False):
         # can't click to proceed without going through a link.
         draggable True
         align (0.5, 1.0)
-        xysize (750, 113)
+        xysize (config.screen_width, 113)
         if persistent.link_wait_pause:
             add 'phone_pause' align (0.5, 1.0)
         else:
             frame:
                 align (0.5, 1.0)
                 background "#282828"
-                xysize (750, 113)
+                xysize (config.screen_width, 113)
                 text wait_text:
                     color "#fff" text_align 0.5 align (0.5, 0.5)
 

@@ -55,7 +55,7 @@ style special_bubble:
 ## Regular Speech Bubble Style
 style reg_bubble_MC:
     padding (20, 15, 20, 9)
-    pos (750-138-5,38)
+    pos (config.screen_width-138-5,38)
     xanchor 1.0
 
 style reg_bubble:

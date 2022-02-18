@@ -574,7 +574,7 @@ screen photo_album():
         if isinstance(all_albums[0], list) or isinstance(all_albums[0], tuple):
             # Retained for backwards compatibility. Displays the albums.
             frame:
-                xysize (750, 1170)
+                xysize (config.screen_width, 1170)
                 align (0.5, 0.5)
                 has vbox
                 align (0.5, 0.4)
@@ -610,7 +610,7 @@ screen photo_album():
                 mousewheel True
                 scrollbars "vertical"
                 align (0.5, 0.5)
-                xysize(750, 1170)
+                xysize(config.screen_width, 1170)
                 if null_height > 0:
                     yoffset null_height
                 # Negative xspacing allows the program to center
@@ -804,7 +804,7 @@ screen viewCG_fullsize_album(album, caption, name):
             xalign 1.0
         drag:
             drag_name "the_CG"
-            drag_handle (0, 0, 750, 1334)
+            drag_handle (0, 0, config.screen_width, 1334)
             child 'translucent_img'
             dragged drag_box
             droppable False

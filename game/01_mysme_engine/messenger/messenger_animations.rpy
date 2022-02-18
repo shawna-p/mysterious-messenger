@@ -395,7 +395,7 @@ label banner(banner):
 screen banner_screen(banner):
     zorder 10
     fixed:
-        xysize (750, 230)
+        xysize (config.screen_width, 230)
         align (.5, .5)
         add 'banner ' + banner align (0.5, 1.0)
 

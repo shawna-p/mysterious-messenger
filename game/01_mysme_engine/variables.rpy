@@ -640,7 +640,7 @@ init -6 python:
         their shake counterparts.
         """
 
-        return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(750,1334))
+        return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(config.screen_width,1334))
 
 
     def center_crop_bg_img(s):
@@ -649,8 +649,8 @@ init -6 python:
         image to display as 'shake'.
         """
 
-        return Fixed(Crop((0, (1334-1125)//2, 750, 1125), s,
-                    xalign=0.5, yalign=0.5), size=(750,1334))
+        return Fixed(Crop((0, (1334-1125)//2, config.screen_width, 1125), s,
+                    xalign=0.5, yalign=0.5), size=(config.screen_width,1334))
 
     ## Displayable prefix definitions
     config.displayable_prefix["btn_hover"] = btn_hover_img
@@ -1317,10 +1317,10 @@ image bg morning_snow = "Phone UI/bg-morning-snow.webp"
 image bg hack = "Phone UI/bg-hack.webp"
 image bg redhack = "Phone UI/bg-redhack.webp"
 image bg redcrack = "Phone UI/bg-redhack-crack.webp"
-image bg secure = Composite((750, 1334),
+image bg secure = Composite((config.screen_width, 1334),
     (0, 0), Transform("#000", alpha=0.5),
     (0, 120), "Phone UI/bg_secure.webp",
-    xysize=(750, 1334))
+    xysize=(config.screen_width, 1334))
 image black = "#000000"
 
 

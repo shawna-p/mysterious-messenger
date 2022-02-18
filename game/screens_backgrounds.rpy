@@ -181,7 +181,7 @@ screen animated_night():
     fixed:
         # at star_rotate(250) # originally the whole sky rotated
         #xysize (1524, 1524)
-        xysize (750, 1134) # Don't bother adding stars behind the UI
+        xysize (config.screen_width, 1134) # Don't bother adding stars behind the UI
         align (0.5, 0.6)
         # Stars
         for x in [0, 250, 500]:#[0, 381, 762, 1143]:
@@ -291,7 +291,7 @@ screen animated_earlyMorn():
 
     fixed:
         # Stars
-        xysize (750, 1134)
+        xysize (config.screen_width, 1134)
         align (0.5, 0.6)
         for x in [0, 250, 500]:
             for y in [0, 333, 666, 999]:
@@ -371,7 +371,7 @@ screen animated_earlyMorn():
 
     frame:
         # Constellations
-        xysize (750, 1050)
+        xysize (config.screen_width, 1050)
         xalign 0.5
         yoffset 170
         add 'gemini_constellation' align (0.1, 0.05)
@@ -789,7 +789,7 @@ screen hack_tear(number=10, offtimeMult=0.4, ontimeMult=0.2, offsetMin=-10,
                 offsetMax=30, w_timer=0.18, srf=None):
     zorder 1
     add Tear(number, offtimeMult, ontimeMult, offsetMin,
-                                offsetMax, srf) size (750,1334)
+                                offsetMax, srf) size (config.screen_width,1334)
     timer w_timer action Hide('hack_tear')
 
 screen white_squares_2(w_timer=0.5):
@@ -963,7 +963,7 @@ screen animated_rainy_day():
     add 'animated_rainy_clouds_mid' at slow_pan(200)
     add 'simulated_rain'
     add 'animated_rainy_clouds_front' at slow_pan(110)
-    add Solid("#000") size (750, 3) yalign 1.0
+    add Solid("#000") size (config.screen_width, 3) yalign 1.0
     add 'front_rain'
 
     use animated_shake_borders()

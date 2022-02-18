@@ -121,13 +121,13 @@ init 5:
     style img_message:
         padding (5, 10)
         xoffset 138 yoffset 38
-        xmaximum 750
+        xmaximum config.screen_width
         align (0.0, 0.0)
 
     style mc_img_message:
         padding (5, 10)
         xoffset -138 yoffset 38
-        xmaximum 750
+        xmaximum config.screen_width
         xalign 1.0
         yalign 0.0
 
@@ -135,7 +135,7 @@ init 5:
     style phone_dialogue:
         pos (138, 0)
         xanchor 0.0
-        xsize 750
+        xsize config.screen_width
         text_align 0.0
 
 
@@ -164,12 +164,12 @@ init 5:
     style img_text_message:
         padding (5, 10)
         pos (10, 0)
-        xmaximum 750
+        xmaximum config.screen_width
 
     style mc_img_text_message:
         padding (5, 10)
         pos (270, 0)
-        xmaximum 750
+        xmaximum config.screen_width
         xalign 1.0
 
     style text_msg_npc_fixed:
