@@ -209,10 +209,7 @@ screen save_and_exit():
     zorder 4
     tag chat_footer
     imagebutton:
-        xanchor 0.0
-        yanchor 0.0
-        xpos 0
-        ypos 1220
+        yalign 1.0
         focus_mask True
         idle "save_exit"
         keysym "K_SPACE"
@@ -229,7 +226,7 @@ screen signature_screen(phone=True):
     modal True
     style_prefix "sig_screen"
     if phone:
-        add "save_exit" ypos 1220
+        add "save_exit" yalign 1.0
     add "choice_darken"
     frame:
         has vbox

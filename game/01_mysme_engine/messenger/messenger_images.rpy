@@ -59,8 +59,8 @@ image custom_pausebutton:
     repeat
 
 image pause_square = ConditionSwitch(
-    "persistent.custom_footers", "Phone UI/custom-pause-square.webp",
-    "True", "Phone UI/pause_square.webp"
+    "persistent.custom_footers", Frame("Phone UI/custom-pause-square.webp", 15, 15),
+    "True", Frame("Phone UI/pause_square.webp", 15, 15)
 )
 
 image phone_pause = ConditionSwitch(

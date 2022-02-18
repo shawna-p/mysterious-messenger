@@ -5,16 +5,16 @@
 screen answer_button(act=None):
     zorder 4
     tag chat_footer
-    add 'pause_square' yalign 0.59
+    add 'pause_square' ysize config.screen_height-113-165 yalign 0.0 yoffset 165
     if persistent.custom_footers:
-        add 'custom_pausebutton' xalign 0.96 yalign 0.16
-        add 'custom_answerbutton' ypos 1220
+        add 'custom_pausebutton' xalign 0.96 yoffset 190
+        add 'custom_answerbutton' yalign 1.0
     else:
-        add "pausebutton" xalign 0.96 yalign 0.16
-        add "answerbutton" ypos 1220
+        add "pausebutton" xalign 0.96 yoffset 190
+        add "answerbutton" yalign 1.0
 
     imagebutton:
-        ypos 1220
+        yalign 1.0
         focus_mask None
         idle 'transparent_answer'
         activate_sound "audio/sfx/UI/answer_screen.mp3"
@@ -36,11 +36,11 @@ screen continue_button():
     zorder 4
     tag chat_footer
     if persistent.custom_footers:
-        add 'custom_darklight_continue_button' ypos 1220
+        add 'custom_darklight_continue_button' yalign 1.0
     else:
-        add 'darklight_continue_button' ypos 1220
+        add 'darklight_continue_button' yalign 1.0
     imagebutton:
-        ypos 1220
+        yalign 1.0
         focus_mask None
         idle 'transparent_answer'
         action Return()
@@ -72,7 +72,7 @@ screen pause_button():
                     color "#fff" text_align 0.5 align (0.5, 0.5)
     else:
         imagebutton:
-            ypos 1220
+            yalign 1.0
             focus_mask True
             idle 'phone_pause'
             if (not choosing and not block_interrupts and
@@ -104,15 +104,14 @@ screen play_button_pause_chat():
     use messenger_screen(no_anim_list=chatlog[-bubbles_to_keep:])
     use phone_overlay(is_menu_pause=True)
     if persistent.custom_footers:
-        add 'custom_pausebutton' xalign 0.96 yalign 0.16
+        add 'custom_pausebutton' xalign 0.96 yoffset 190
     else:
-        add "pausebutton" xalign 0.96 yalign 0.16
-    add "pause_square" yalign 0.59
+        add "pausebutton" xalign 0.96 yoffset 190
+    add "pause_square" ysize config.screen_height-113-165 yalign 0.0 yoffset 165
     imagebutton:
         xanchor 0.0
-        yanchor 0.0
         xpos 0
-        ypos 1220
+        yalign 1.0
         focus_mask True
         idle 'phone_play'
         keysym "K_SPACE"
@@ -149,7 +148,7 @@ screen fast_slow_buttons():
     # Fast button
     imagebutton:
         xalign 0.985
-        yalign 0.997
+        yalign 1.0 yoffset -12
         focus_mask None
         idle "fast_slow_button"
         keysym "K_RIGHT"
@@ -160,7 +159,7 @@ screen fast_slow_buttons():
     # Slow button
     imagebutton:
         xalign 0.015
-        yalign 0.997
+        yalign 1.0 yoffset -12
         focus_mask None
         idle "fast_slow_button"
         keysym "K_LEFT"
@@ -258,7 +257,8 @@ screen phone_overlay(is_menu_pause=False):
 
     fixed:
         xysize(150,80)
-        align (0.16, 0.055)
+        pos (105, 105)
+        yanchor 0.5
         if starter_story:
             xoffset -85
         imagebutton:
@@ -271,7 +271,7 @@ screen phone_overlay(is_menu_pause=False):
     if starter_story or persistent.testing_mode or persistent.unlock_all_story:
         fixed:
             xysize (150, 80)
-            align (0.99, 0.055)
+            pos (config.screen_width-15, 105) xanchor 1.0 yanchor 0.5
             imagebutton:
                 align (0.5, 0.5)
                 focus_mask True
@@ -306,7 +306,7 @@ screen phone_overlay(is_menu_pause=False):
                                         label='just_return')])
 
     frame:
-        yalign 0.04
+        ypos 105 yalign 0.5
         if starter_story:
             xalign 0.5
         else:
@@ -341,7 +341,8 @@ screen phone_overlay(is_menu_pause=False):
     if not starter_story:
         fixed:
             xysize (50,50)
-            align (0.045, 0.065)
+            yanchor 0.5
+            pos (25, 105)
             imagebutton:
                 align (0.5, 0.5)
                 idle 'back_arrow_btn'
@@ -481,12 +482,12 @@ screen continue_answer_button(themenu):
     zorder 4
     tag chat_footer
     if persistent.custom_footers:
-        add "custom_answerbutton" ypos 1220
+        add "custom_answerbutton" yalign 1.0
     else:
-        add "answerbutton" ypos 1220
+        add "answerbutton" yalign 1.0
 
     imagebutton:
-        ypos 1220
+        yalign 1.0
         focus_mask None
         idle "transparent_answer"
         activate_sound "audio/sfx/UI/answer_screen.mp3"
