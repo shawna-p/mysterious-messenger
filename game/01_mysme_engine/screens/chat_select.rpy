@@ -32,7 +32,7 @@ screen day_select(days=story_archive):
                 for day_num, day in enumerate(days):
                     if len(days) < 2:
                         # Center a single day in the middle of the screen
-                        null width (750//2)-(263//2)-3
+                        null width (config.screen_width//2)-(263//2)-3
                     use day_display(day, day_num)
                     if (main_menu and day_num < len(days) -1):
                         null width -6
@@ -228,7 +228,7 @@ screen timeline(day, day_num):
     use menu_header(day.day, return_action):
         fixed:
             style_prefix 'timeline2'
-            add 'day_vlink' size (15,1180) xalign 0.15
+            add 'day_vlink' size (15, config.screen_height-144-10) xalign 0.15
             viewport:
                 yadjustment timeline_yadj
                 mousewheel True
@@ -273,12 +273,12 @@ screen timeline(day, day_num):
                         Show('white_squares', w_timer=1.0)] repeat False
 
 style timeline2_fixed:
-    xysize (720, 1190)
+    xysize (720, config.screen_height-144)
     yalign 0.0
     xalign 0.5
 
 style timeline2_viewport:
-    ysize 1190
+    ysize config.screen_height-144
 
 style timeline2_vbox:
     xsize 700
@@ -844,7 +844,7 @@ screen guest_count():
     frame:
         has vbox
         hbox:
-            xsize 750
+            xsize config.screen_width
             add 'text_msg_line' size (250, 30) yalign 0.5
             add 'rfa_logo'
             add 'text_msg_line' size (250, 30) yalign 0.5
@@ -864,7 +864,7 @@ screen guest_count():
             text " )" font gui.serif_2xb
 
 style guest_display_frame:
-    xysize (750, 280)
+    xysize (config.screen_width, 280)
     align (0.5, 0.01)
 
 style guest_display_vbox:
