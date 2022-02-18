@@ -661,7 +661,8 @@ screen email_hub():
     tag menu
 
     default current_page = 0
-    default num_pages = (len(email_list) + 7 - 1) // 7
+    default emails_per_page = (config.screen_height-245-40) // 150
+    default num_pages = (len(email_list) + emails_per_page - 1) // emails_per_page
 
     on 'replace' action [AutoSave()]
     on 'show' action [AutoSave()]
@@ -674,7 +675,7 @@ screen email_hub():
             null height -15
             if len(email_list) == 0:
                 text "Inbox is empty"
-            for e in email_list[current_page*7:current_page*7+7]:
+            for e in email_list[current_page*emails_per_page:current_page*emails_per_page+emails_per_page]:
                 use email_button(e)
 
         hbox:
@@ -700,7 +701,7 @@ screen email_hub():
 style email_hub_frame:
     background 'left_corner_menu'
     padding (20,20)
-    xysize (685, 1100)
+    xysize (685, config.screen_height-245)
     align (0.5, 0.75)
 
 style email_hub_vbox:
