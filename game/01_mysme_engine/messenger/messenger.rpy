@@ -22,7 +22,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
         xfill True
         if (not in_chat_creator) or is_main_menu_replay:
             yoffset -114
-            ysize 1080
+            ysize config.screen_height-113-165
         else:
             ysize creator_messenger_ysize-5
         if animate_down:
@@ -33,7 +33,7 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             draggable True
             mousewheel True
             if (not in_chat_creator) or is_main_menu_replay:
-                ysize 1080
+                ysize config.screen_height-113-165
             else:
                 ysize creator_messenger_ysize-5
             xfill True
@@ -41,6 +41,8 @@ screen messenger_screen(no_anim_list=None, animate_down=False):
             has vbox
             spacing 10
             xfill True
+            if len(chatlog) < 20:
+                null height config.screen_height
             if not in_chat_creator or is_main_menu_replay:
                 for i index id(i) in chatlog[-bubbles_to_keep:]:
                     fixed:
