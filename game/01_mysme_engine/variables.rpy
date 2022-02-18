@@ -640,8 +640,23 @@ init -6 python:
         their shake counterparts.
         """
 
-        return Fixed(Image(s, xalign=0.5, yalign=0.5), size=(config.screen_width,1334))
+        return Fixed(Transform(s,
+            align=(0.5, 1.0), yoffset=-113,
+            ysize=config.screen_height-113-165, fit="cover"),
+            xysize=(config.screen_width, config.screen_height)
+        )
 
+    def center_full_img(s):
+        """
+        A displayable prefix function to display backgrounds and
+        their shake counterparts.
+        """
+
+        return Fixed(Transform(s,
+            align=(0.5, 1.0),
+            ysize=config.screen_height-113-165, fit="cover"),
+            xysize=(config.screen_width, config.screen_height)
+        )
 
     def center_crop_bg_img(s):
         """
@@ -649,12 +664,19 @@ init -6 python:
         image to display as 'shake'.
         """
 
-        return Fixed(Crop((0, (1334-1125)//2, config.screen_width, 1125), s,
-                    xalign=0.5, yalign=0.5), size=(config.screen_width,1334))
+        s = Transform(s, crop=(0, (1334-1125)//2, config.screen_width, 1125))
+
+        return Fixed(
+            Transform(s, align=(0.5, 1.0), yoffset=-113,
+            ysize=config.screen_height-113-165, fit="cover"),
+            xysize=(config.screen_width, config.screen_height)
+        )
+
 
     ## Displayable prefix definitions
     config.displayable_prefix["btn_hover"] = btn_hover_img
     config.displayable_prefix["center_bg"] = center_bg_img
+    config.displayable_prefix["center_full"] = center_full_img
     config.displayable_prefix["center_crop_bg"] = center_crop_bg_img
 
     def get_text_width(the_text, the_style='default'):
@@ -1311,12 +1333,12 @@ image bg night = "center_bg:Phone UI/bg-night.webp"
 image bg earlyMorn = "center_bg:Phone UI/bg-earlyMorn.webp"
 image bg noon = "center_bg:Phone UI/bg-noon.webp"
 image bg rainy_day = "center_bg:Phone UI/bg-rainy-day.webp"
-image bg snowy_day = "Phone UI/bg-snowy-day.webp"
-image bg morning_snow = "Phone UI/bg-morning-snow.webp"
+image bg snowy_day = "center_full:Phone UI/bg-snowy-day.webp"
+image bg morning_snow = "center_full:Phone UI/bg-morning-snow.webp"
 
-image bg hack = "Phone UI/bg-hack.webp"
-image bg redhack = "Phone UI/bg-redhack.webp"
-image bg redcrack = "Phone UI/bg-redhack-crack.webp"
+image bg hack = "center_crop_bg:Phone UI/bg-hack.webp"
+image bg redhack = "center_crop_bg:Phone UI/bg-redhack.webp"
+image bg redcrack = "center_crop_bg:Phone UI/bg-redhack-crack.webp"
 image bg secure = Composite((config.screen_width, 1334),
     (0, 0), Transform("#000", alpha=0.5),
     (0, 120), "Phone UI/bg_secure.webp",
