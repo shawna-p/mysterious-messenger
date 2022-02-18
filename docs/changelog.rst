@@ -41,6 +41,8 @@ Minor New Features
       - Show a different image in chatrooms than in the gallery when sending CGs.
     * - :ref:`Phone call expiry dict<Phone Call Expiry>`
       - A convenience dictionary to easily customize how long phone calls should be availlable for.
+    * - Email testing hub
+      - An email testing hub from the Developer settings in-game allows you to quickly invite guests, send replies, and test the party.
 
 
 .. _fixes-3-3-0:
