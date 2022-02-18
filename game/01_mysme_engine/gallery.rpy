@@ -862,3 +862,7 @@ screen viewCG_fullsize_album(album, caption, name):
                             absolute(0), absolute(0)) ]
                 font gui.sans_serif_1b
 
+
+init python:
+
+    import pygame
