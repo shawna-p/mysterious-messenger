@@ -480,7 +480,7 @@ init python:
 # is ja, for example
 screen points_and_saveload():
     hbox:
-        xsize 750
+        xsize config.screen_width
         frame:
             xysize (375, 570)
             yalign 1.0
@@ -824,27 +824,27 @@ screen other_settings():
                         + " start over? You'll be unable to return to this"
                         + " point except through a save file."),
                         [Jump("restart_game")])
-        null height 459
-        hbox:
-            spacing 20
-            xalign 1.0
-            xysize (161*2, 70)
-            # Save / Load
-            imagebutton:
-                style_prefix None
-                xysize (161, 70)
-                align (.5, .5)
-                idle Transform("save_btn", align=(0.5, 0.5))
-                hover Transform("save_btn", zoom=1.1)
-                action Show("save", Dissolve(0.5))
+        # null height 459
+    hbox:
+        spacing 20
+        xalign 1.0 yalign 1.0 yoffset -25
+        xysize (161*2, 70)
+        # Save / Load
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("save_btn", align=(0.5, 0.5))
+            hover Transform("save_btn", zoom=1.1)
+            action Show("save", Dissolve(0.5))
 
-            imagebutton:
-                style_prefix None
-                xysize (161, 70)
-                align (.5, .5)
-                idle Transform("load_btn", align=(0.5, 0.5))
-                hover Transform("load_btn", zoom=1.1)
-                action Show("load", Dissolve(0.5))
+        imagebutton:
+            style_prefix None
+            xysize (161, 70)
+            align (.5, .5)
+            idle Transform("load_btn", align=(0.5, 0.5))
+            hover Transform("load_btn", zoom=1.1)
+            action Show("load", Dissolve(0.5))
 
 style bubble_select_frame:
     is tone_selection_frame
@@ -1105,7 +1105,8 @@ style toggle_panel_hbox:
 
 style other_settings_viewport:
     is empty
-    xysize(700, 1110)
+    xsize config.screen_width-50
+    ysize config.screen_height-172-60
     xalign 0.5
     yalign 1.0
 
@@ -1115,6 +1116,7 @@ style vscrollbar:
 style other_settings_vbox:
     spacing 30
     xalign 0.5
+    xsize config.screen_width-50
 
 style other_settings_frame is default
 style other_settings_window is default

@@ -577,7 +577,7 @@ screen file_slots(title, current_page=0, num_pages=5, slots_per_column=7,
         # This ensures the input will get the enter event before any of the
         # buttons do.
         order_reverse True
-
+        ysize config.screen_height-172 yalign 1.0
         # Contains the save slots.
         vpgrid id 'save_load_vp':
             style_prefix "save_load"
@@ -879,7 +879,7 @@ define config.save_json_callbacks = [ save_game_info ]
 
 style save_load_vpgrid:
     is slot_vpgrid
-    yalign 1.0
+    yalign 0.0
 
 style save_load_side:
     spacing 12
@@ -1108,9 +1108,9 @@ screen menu_header(title, return_action=NullAction,
     else:
         frame:
             if title != "Original Story" and title != "In Call":
-                xysize (750, 1180)
+                xysize (config.screen_width, config.screen_height-172)
             else:
-                xysize (750, 1180+80)
+                xysize (config.screen_width, config.screen_height-172+80)
             yalign 1.0
             has vbox
             align (0.5, 0.0)
@@ -1237,12 +1237,12 @@ screen chat_home(reshow=False):
                 pfp_size = 105
             else:
                 pfp_size = 115
-            num_col = (741-8-16-pfp_size) // pfp_size
+            num_col = (config.screen_width-9-8-16-pfp_size) // pfp_size
             num_row = -(-(len(character_list)-sub_num) // num_col)
-            extra_space = (741-8-8-pfp_size) - (num_col * pfp_size)
+            extra_space = (config.screen_width-9-8-8-pfp_size) - (num_col * pfp_size)
 
         frame:
-            xysize(741, 206)
+            xysize(config.screen_width-9, 206)
             xalign 0.5
             yalign 0.08
             xoffset 8
@@ -1278,187 +1278,187 @@ screen chat_home(reshow=False):
                 xoffset -8
                 yalign 0.0
 
-        frame:
-            xysize (750, 1170)
-            yoffset -140
-            # Text Messages
-            button:
-                style_prefix 'small_menu_circle'
-                xalign 0.62
-                if char_list_len > 10:
-                    yalign 0.2
-                else:
-                    yalign 0.1
-                selected new_message_count() > 0
-                action Show('text_message_hub', Dissolve(0.5))
-                if new_message_count() > 0:
-                    add 'blue_maincircle' xalign 0.5 yalign 0.5
-                    frame:
-                        text str(new_message_count())
-                else:
-                    add "gray_maincircle" xalign 0.5 yalign 0.5
-                add "msg_mainicon" xalign 0.5 yalign 0.5
-                text "MESSAGE" style 'hex_text' yalign 0.85
-
-
-            # Calls
-            button:
-                style_prefix 'small_menu_circle'
-                xalign 0.91
-                if char_list_len > 10:
-                    yalign 0.4
-                else:
-                    yalign 0.3
-                selected unseen_calls > 0
-                action MMPhoneCalls()
-                if unseen_calls > 0:
-                    add "blue_maincircle" xalign 0.5 yalign 0.5
-                    frame:
-                        text str(unseen_calls)
-                else:
-                    add "gray_maincircle" xalign 0.5 yalign 0.5
-
-                add "call_mainicon" xalign 0.5 yalign 0.5
-                text "CALL" style 'hex_text' yalign 0.85
-
-            # Emails
-            button:
-                style_prefix 'small_menu_circle'
-                xalign 0.342
-                if char_list_len > 10:
-                    yalign 0.4
-                else:
-                    yalign 0.3
-                selected unread_emails() > 0
-                action Show('email_hub', Dissolve(0.5))
-                if unread_emails() > 0:
-                    add "blue_maincircle" xalign 0.5 yalign 0.5
-                    frame:
-                        text str(unread_emails())
-                else:
-                    add "gray_maincircle" xalign 0.5 yalign 0.5
-                add "email_mainicon" xalign 0.5 yalign 0.5
-                text "EMAIL" style 'hex_text' yalign 0.85
-
-            # Main Chatroom
-            button:
-                style 'big_menu_circle'
-                action MMMainChatroom()
-                add "rfa_chatcircle" yalign 0.5 xalign 0.5
-                add "blue_chatcircle" xalign 0.5 yalign 0.5
-                add "chat_icon" xalign 0.5 yalign 0.5
-                text "CHATROOM" style 'hex_text' size 34
-
-
-            # Links/etc on the left side of the screen
-            vbox:
-                style_prefix 'hex'
-                # Album
-                button:
-                    if new_cg > 0:
-                        add 'new_text' align (1.0, 0.1) xoffset 15
-                    selected new_cg > 0
-                    action MMGallery()
-                    add "album_icon" xalign 0.5 yalign 0.35
-                    text "ALBUM"
-
-                # Guest
-                button:
-                    selected None
-                    action Show('guestbook')
-                    add "guest_icon" xalign 0.5 yalign 0.3
-                    text "GUEST"
-
-                # Developer Settings ("Shop")
-                button:
-                    background "red_hex"
-                    hover_background "red_hex_hover"
-                    selected None
-                    if config.developer:
-                        action [Hide('developer_settings'), Show('developer_settings')]
-                    else:
-                        action Show('game_extras')
-                    add "developer_settings" xalign 0.55 yalign 0.35
-                    if config.developer:
-                        text "DEVELOPER" size 18
-                    else:
-                        text "EXTRAS"
-
-                # Link ("Notice")
-                button:
-                    selected None
-                    action Show('links')
-                    add 'link_hex' align (0.5, 0.35)
-                    text "LINKS"
-
-                # Exit to main menu ("Link")
-                button:
-                    selected None
-                    action MainMenu()
-                    add 'exit_hex' align (0.6, 0.38)
-                    text "MAIN MENU" size 18
-
-            ## Spaceship
-            add "dot_line" xalign 0.5 yalign .97
-
-            if chips_available:
-
-                if not reshow:
-                    fixed at chip_anim:
-                        xysize(90,70)
-                        xalign 0.93
-                        yalign 0.942
-                        add "space_chip_explode"
-
-                    add "space_chip_active" xalign 0.92 yalign 0.98
-
-                    fixed at spaceship_chips(1.0):
-                        xysize (100,110)
-                        xalign 0.96
-                        yalign 1.0
-                        add "space_flame" xalign 0.5 yalign 1.0
-                        add "spaceship" xalign 0.5 yalign 0.0
-                        imagebutton:
-                            idle "space_transparent_btn"
-                            focus_mask None
-                            activate_sound 'audio/sfx/UI/select_6.mp3'
-                            action Show('chip_tap')
-
-                else:
-                    fixed at chip_anim(0):
-                        xysize(90,70)
-                        xalign 0.93
-                        yalign 0.942
-                        add "space_chip_explode"
-
-                    add "space_chip_active2" xalign 0.92 yalign 0.98
-
-                    fixed at spaceship_chips:
-                        xysize (100,110)
-                        xalign 0.96
-                        yalign 1.0
-                        add "space_flame" xalign 0.5 yalign 1.0
-                        add "spaceship" xalign 0.5 yalign 0.0
-                        imagebutton:
-                            idle "space_transparent_btn"
-                            focus_mask None
-                            activate_sound 'audio/sfx/UI/select_6.mp3'
-                            action Show('chip_tap')
-
+    frame:
+        xysize (config.screen_width, config.screen_height-172)
+        yalign 1.0
+        # Text Messages
+        button:
+            style_prefix 'small_menu_circle'
+            xalign 0.62
+            if char_list_len > 10:
+                yalign 0.2
             else:
-                add "space_chip_inactive" xalign 0.92 yalign 0.98
+                yalign 0.1
+            selected new_message_count() > 0
+            action Show('text_message_hub', Dissolve(0.5))
+            if new_message_count() > 0:
+                add 'blue_maincircle' xalign 0.5 yalign 0.5
+                frame:
+                    text str(new_message_count())
+            else:
+                add "gray_maincircle" xalign 0.5 yalign 0.5
+            add "msg_mainicon" xalign 0.5 yalign 0.5
+            text "MESSAGE" style 'hex_text' yalign 0.85
 
-                fixed at spaceship_flight:
+
+        # Calls
+        button:
+            style_prefix 'small_menu_circle'
+            xalign 0.91
+            if char_list_len > 10:
+                yalign 0.4
+            else:
+                yalign 0.3
+            selected unseen_calls > 0
+            action MMPhoneCalls()
+            if unseen_calls > 0:
+                add "blue_maincircle" xalign 0.5 yalign 0.5
+                frame:
+                    text str(unseen_calls)
+            else:
+                add "gray_maincircle" xalign 0.5 yalign 0.5
+
+            add "call_mainicon" xalign 0.5 yalign 0.5
+            text "CALL" style 'hex_text' yalign 0.85
+
+        # Emails
+        button:
+            style_prefix 'small_menu_circle'
+            xalign 0.342
+            if char_list_len > 10:
+                yalign 0.4
+            else:
+                yalign 0.3
+            selected unread_emails() > 0
+            action Show('email_hub', Dissolve(0.5))
+            if unread_emails() > 0:
+                add "blue_maincircle" xalign 0.5 yalign 0.5
+                frame:
+                    text str(unread_emails())
+            else:
+                add "gray_maincircle" xalign 0.5 yalign 0.5
+            add "email_mainicon" xalign 0.5 yalign 0.5
+            text "EMAIL" style 'hex_text' yalign 0.85
+
+        # Main Chatroom
+        button:
+            style 'big_menu_circle'
+            action MMMainChatroom()
+            add "rfa_chatcircle" yalign 0.5 xalign 0.5
+            add "blue_chatcircle" xalign 0.5 yalign 0.5
+            add "chat_icon" xalign 0.5 yalign 0.5
+            text "CHATROOM" style 'hex_text' size 34
+
+
+        # Links/etc on the left side of the screen
+        vbox:
+            style_prefix 'hex'
+            # Album
+            button:
+                if new_cg > 0:
+                    add 'new_text' align (1.0, 0.1) xoffset 15
+                selected new_cg > 0
+                action MMGallery()
+                add "album_icon" xalign 0.5 yalign 0.35
+                text "ALBUM"
+
+            # Guest
+            button:
+                selected None
+                action Show('guestbook')
+                add "guest_icon" xalign 0.5 yalign 0.3
+                text "GUEST"
+
+            # Developer Settings ("Shop")
+            button:
+                background "red_hex"
+                hover_background "red_hex_hover"
+                selected None
+                if config.developer:
+                    action [Hide('developer_settings'), Show('developer_settings')]
+                else:
+                    action Show('game_extras')
+                add "developer_settings" xalign 0.55 yalign 0.35
+                if config.developer:
+                    text "DEVELOPER" size 18
+                else:
+                    text "EXTRAS"
+
+            # Link ("Notice")
+            button:
+                selected None
+                action Show('links')
+                add 'link_hex' align (0.5, 0.35)
+                text "LINKS"
+
+            # Exit to main menu ("Link")
+            button:
+                selected None
+                action MainMenu()
+                add 'exit_hex' align (0.6, 0.38)
+                text "MAIN MENU" size 18
+
+        ## Spaceship
+        add "dot_line" xalign 0.5 yalign .97
+
+        if chips_available:
+
+            if not reshow:
+                fixed at chip_anim:
+                    xysize(90,70)
+                    xalign 0.93
+                    yalign 0.942
+                    add "space_chip_explode"
+
+                add "space_chip_active" xalign 0.92 yalign 0.98
+
+                fixed at spaceship_chips(1.0):
                     xysize (100,110)
-                    xalign 0.04
+                    xalign 0.96
                     yalign 1.0
                     add "space_flame" xalign 0.5 yalign 1.0
                     add "spaceship" xalign 0.5 yalign 0.0
                     imagebutton:
-                            idle "space_transparent_btn"
-                            focus_mask None
-                            activate_sound 'audio/sfx/UI/select_6.mp3'
-                            action Show('spaceship_thoughts', Dissolve(0.5))
+                        idle "space_transparent_btn"
+                        focus_mask None
+                        activate_sound 'audio/sfx/UI/select_6.mp3'
+                        action Show('chip_tap')
+
+            else:
+                fixed at chip_anim(0):
+                    xysize(90,70)
+                    xalign 0.93
+                    yalign 0.942
+                    add "space_chip_explode"
+
+                add "space_chip_active2" xalign 0.92 yalign 0.98
+
+                fixed at spaceship_chips:
+                    xysize (100,110)
+                    xalign 0.96
+                    yalign 1.0
+                    add "space_flame" xalign 0.5 yalign 1.0
+                    add "spaceship" xalign 0.5 yalign 0.0
+                    imagebutton:
+                        idle "space_transparent_btn"
+                        focus_mask None
+                        activate_sound 'audio/sfx/UI/select_6.mp3'
+                        action Show('chip_tap')
+
+        else:
+            add "space_chip_inactive" xalign 0.92 yalign 0.98
+
+            fixed at spaceship_flight:
+                xysize (100,110)
+                xalign 0.04
+                yalign 1.0
+                add "space_flame" xalign 0.5 yalign 1.0
+                add "spaceship" xalign 0.5 yalign 0.0
+                imagebutton:
+                        idle "space_transparent_btn"
+                        focus_mask None
+                        activate_sound 'audio/sfx/UI/select_6.mp3'
+                        action Show('spaceship_thoughts', Dissolve(0.5))
 
 
 style small_menu_circle_button:
@@ -1566,7 +1566,7 @@ style link_menu_frame:
     background "#000a"
 
 style link_menu_vbox:
-    xsize 750
+    xsize config.screen_width
     xalign 0.5
     spacing 20
     yalign 0.2
@@ -1627,7 +1627,7 @@ screen developer_settings():
             null height 30
 
             frame:
-                xsize 680
+                xsize 680 xalign 0.5
                 background "menu_settings_panel"
                 has vbox
                 spacing 6
@@ -2025,7 +2025,7 @@ screen chara_profile(who):
 
     use menu_header("Profile", Hide('chara_profile', Dissolve(0.5))):
         frame:
-            xysize (750, 1170)
+            xysize (config.screen_width, 1170)
 
             add who.cover_pic yoffset -10
 

@@ -207,7 +207,7 @@ screen chip_cloud():
         action Show('chip_end')
 
     button at hide_dissolve:
-        xysize (750, 640)
+        xysize (config.screen_width, 640)
         xalign 0.5
         yalign 0.6
         add 'cloud_1' xpos 735 ypos 500 at cloud_shuffle1

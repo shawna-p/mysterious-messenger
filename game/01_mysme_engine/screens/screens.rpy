@@ -189,7 +189,7 @@ style namebox_label is say_label
 
 
 style window:
-    xysize (750,324)
+    xysize (config.screen_width,324)
     align (0.5, 1.0)
 
 style namebox:
@@ -216,7 +216,7 @@ style vn_mode_button:
     align (0.98, 0.01)
 
 style vn_mode_window:
-    xysize (750,324)
+    xysize (config.screen_width,324)
     align (0.5, 1.0)
 
 style vn_mode_button_text:

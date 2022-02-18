@@ -69,7 +69,7 @@ style select_history_text:
 
 style select_history_frame:
     is default
-    xysize (740, 1100)
+    xysize (740, config.screen_height-172)
     align (0.5, 0.5)
 
 
@@ -81,10 +81,13 @@ screen select_history_route():
     tag menu
 
     use menu_header("History", Show('main_menu', Dissolve(0.5))):
-        frame:
-            xysize (750, 1070)
+        viewport:
+            xysize (config.screen_width, config.screen_height-172)
+            mousewheel True draggable True
             style_prefix 'history_route'
             has vbox
+            xsize config.screen_width
+            null height 10
             if extra_history_items:
                 $ full_items = (len(extra_history_items) // 3) * 3
                 $ leftovers = len(extra_history_items) % 3
@@ -109,12 +112,17 @@ screen select_history_route():
                         foreground 'menu_select_btn_clear'
                     action [SetVariable('which_history_route', route.route),
                             Show('day_select', days=route.route)]
+            null height 50
+
+style history_route_viewport:
+    is history_route_frame
 
 style history_route_button:
     is other_settings_end_button
     padding (30,30)
     xsize 650
     ysize 120
+    align (0.5, 0.5)
 
 style history_route_button_text:
     is mode_select
